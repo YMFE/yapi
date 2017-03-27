@@ -1,13 +1,13 @@
 #### ***文中链接各位根据自己项目对应修改***
 --------------------------------------------------------------------------------
 #### **项目管理**：
-#### *sp*:(http://sp.corp.qunar.com/default.aspx)<br />
-
-#### *jira*:(http://task.corp.qunar.com/browse/)<br />
+#### *PMO*:(http://pmo.corp.qunar.com)<br />
 --------------------------------------------------------------------------------
-#### **发布相关**:
-#### *devbds*:(http://devbds.corp.qunar.com/jenkins/)<br />
-#### *bds*:(http://bds.corp.qunar.com/jenkins/)<br />
+#### **CI/CD**:
+#### *QDR*:(http://qdr.corp.qunar.com/)<br />
+#### *QCI*:(http://qci.corp.qunar.com/)<br />
+#### *CABLE*:(http://wanshiwu.corp.qunar.com/qualitycheck/index/)<br />
+
 --------------------------------------------------------------------------------
 #### **质量管理**:
 #### *bugfree*:(http://svn.corp.qunar.com/bugfree)<br />
