@@ -1,0 +1,8 @@
+{
+  "port": "3000",
+  "db": {
+    "servername": "localhost",
+    "DATABASE":  "yapi",
+    "port": 27017
+  }
+}
