@@ -3,6 +3,5 @@
 #### 后台server如何启动和热更新？
 
 1. npm install
-2. gulp
-3. npm run dev-server
+2. npm run dev-server
 
