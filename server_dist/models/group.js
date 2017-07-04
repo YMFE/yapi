@@ -16,23 +16,31 @@ var groupSchema = {
 
 var groupModel = _yapi2.default.db('group', groupSchema);
 
-function save(data) {
-    var m = new groupModel(data);
-    return m.save();
-}
-
-function checkRepeat(name) {
-    return groupModel.count({
-        group_name: name
-    });
-}
-
-function list() {
-    return groupModel.list().exec();
-}
-
 module.exports = {
-    save: save,
-    checkRepeat: checkRepeat,
-    list: list
+    save: function save(data) {
+        var m = new groupModel(data);
+        return m.save();
+    },
+    checkRepeat: function checkRepeat(name) {
+        return groupModel.count({
+            group_name: name
+        });
+    },
+    list: function list() {
+        return groupModel.find().select("group_name _id group_desc add_time up_time").exec();
+    },
+    del: function del(id) {
+        return groupModel.deleteOne({
+            _id: id
+        });
+    },
+    up: function up(id, data) {
+        return groupModel.update({
+            _id: id
+        }, {
+            group_name: data.group_name,
+            group_desc: data.group_desc,
+            up_time: _yapi2.default.commons.time()
+        });
+    }
 };

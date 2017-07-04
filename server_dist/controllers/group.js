@@ -1,5 +1,9 @@
 'use strict';
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -35,7 +39,7 @@ module.exports = {
                                 break;
                             }
 
-                            return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Group不能为空'));
+                            return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '组名不能为空'));
 
                         case 3:
                             _context.next = 5;
@@ -44,9 +48,14 @@ module.exports = {
                         case 5:
                             checkRepeat = _context.sent;
 
-                            // if(checkRepeat > 0){
-                            //     return ctx.body =  yapi.commons.resReturn(null, 401, 'group已存在');
-                            // }
+                            if (!(checkRepeat > 0)) {
+                                _context.next = 8;
+                                break;
+                            }
+
+                            return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '组名已存在'));
+
+                        case 8:
                             data = {
                                 group_name: params.group_name,
                                 group_desc: params.group_desc,
@@ -54,79 +63,141 @@ module.exports = {
                                 add_time: _yapi2.default.commons.time(),
                                 up_time: _yapi2.default.commons.time()
                             };
-                            _context.prev = 7;
-                            _context.next = 10;
+                            _context.prev = 9;
+                            _context.next = 12;
                             return _group2.default.save(data);
 
-                        case 10:
+                        case 12:
                             result = _context.sent;
 
                             result = _yapi2.default.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid']);
                             ctx.body = _yapi2.default.commons.resReturn(result);
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
 
-                        case 15:
-                            _context.prev = 15;
-                            _context.t0 = _context['catch'](7);
+                        case 17:
+                            _context.prev = 17;
+                            _context.t0 = _context['catch'](9);
 
                             ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                        case 18:
+                        case 20:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[7, 15]]);
+            }, _callee, _this, [[9, 17]]);
         }))();
     },
     list: function list(ctx) {
         var _this2 = this;
 
         return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+            var result;
             return _regenerator2.default.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
                         case 0:
-                            console.log(_yapi2.default);
-                            ctx.body = 1;
+                            _context2.prev = 0;
+                            _context2.next = 3;
+                            return _group2.default.list();
 
-                        case 2:
+                        case 3:
+                            result = _context2.sent;
+
+                            ctx.body = _yapi2.default.commons.resReturn(result);
+                            _context2.next = 10;
+                            break;
+
+                        case 7:
+                            _context2.prev = 7;
+                            _context2.t0 = _context2['catch'](0);
+
+                            ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+
+                        case 10:
                         case 'end':
                             return _context2.stop();
                     }
                 }
-            }, _callee2, _this2);
+            }, _callee2, _this2, [[0, 7]]);
         }))();
     },
     del: function del(ctx) {
         var _this3 = this;
 
         return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+            var id, result;
             return _regenerator2.default.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
                         case 0:
+                            _context3.prev = 0;
+                            id = ctx.request.body.id;
+                            _context3.next = 4;
+                            return _group2.default.del(id);
+
+                        case 4:
+                            result = _context3.sent;
+
+                            ctx.body = _yapi2.default.commons.resReturn(result);
+                            _context3.next = 11;
+                            break;
+
+                        case 8:
+                            _context3.prev = 8;
+                            _context3.t0 = _context3['catch'](0);
+
+                            ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+
+                        case 11:
                         case 'end':
                             return _context3.stop();
                     }
                 }
-            }, _callee3, _this3);
+            }, _callee3, _this3, [[0, 8]]);
         }))();
     },
     up: function up(ctx) {
         var _this4 = this;
 
         return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+            var id, data, result;
             return _regenerator2.default.wrap(function _callee4$(_context4) {
                 while (1) {
                     switch (_context4.prev = _context4.next) {
                         case 0:
+                            _context4.prev = 0;
+                            id = ctx.request.body.id;
+                            data = {};
+
+                            ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name);
+                            ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc);
+                            if ((0, _keys2.default)(data).length === 0) {
+                                ctx.body = _yapi2.default.commons.resReturn(null, 404, '分组名和分组描述都为空');
+                            }
+                            _context4.next = 8;
+                            return _group2.default.up(id, data);
+
+                        case 8:
+                            result = _context4.sent;
+
+                            ctx.body = _yapi2.default.commons.resReturn(result);
+                            _context4.next = 15;
+                            break;
+
+                        case 12:
+                            _context4.prev = 12;
+                            _context4.t0 = _context4['catch'](0);
+
+                            ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+
+                        case 15:
                         case 'end':
                             return _context4.stop();
                     }
                 }
-            }, _callee4, _this4);
+            }, _callee4, _this4, [[0, 12]]);
         }))();
     }
 };
