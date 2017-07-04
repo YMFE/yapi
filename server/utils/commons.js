@@ -1,6 +1,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import yapi from '../yapi.js'
 
 exports.resReturn = (data, num, errmsg)=> {
     num = num || 0;
@@ -32,7 +33,7 @@ exports.log =  (msg, type) => {
     let year = date.getFullYear();
     let month = date.getMonth();
     
-    let logfile = path.join(WEBROOT_LOG, year + '-' + month + '.log');
+    let logfile = path.join(yapi.WEBROOT_LOG, year + '-' + month + '.log');
 
     if(typeof msg === 'object'){
         if(msg instanceof Error) msg = msg.message;
@@ -55,3 +56,15 @@ exports.fileExist =  (filePath) =>{
     }
 }
 
+exports.time = () => {
+    return Date.parse(new Date())/1000;
+}
+
+exports.fieldSelect = (data, field)=>{
+    if(!data || !field || !Array.isArray(field)) return null;
+    var arr = {};
+    field.forEach( (f) => {
+        data[f] && (arr[f] = data[f]);
+    } )
+    return arr;
+}

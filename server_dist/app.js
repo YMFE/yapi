@@ -1,35 +1,49 @@
 'use strict';
 
-var _path = require('path');
+var _yapi = require('./yapi.js');
 
-var _path2 = _interopRequireDefault(_path);
+var _yapi2 = _interopRequireDefault(_yapi);
 
-var _init = require('./init.js');
+var _commons = require('./utils/commons');
 
-var _init2 = _interopRequireDefault(_init);
+var _commons2 = _interopRequireDefault(_commons);
 
-var _fsExtra = require('fs-extra');
+var _db = require('./utils/db.js');
 
-var _fsExtra2 = _interopRequireDefault(_fsExtra);
+var _db2 = _interopRequireDefault(_db);
 
-var _config = require('./config.json');
+var _koa = require('koa');
 
-var _config2 = _interopRequireDefault(_config);
+var _koa2 = _interopRequireDefault(_koa);
 
-var _configDev = require('./config.dev.json');
+var _koaConvert = require('koa-convert');
 
-var _configDev2 = _interopRequireDefault(_configDev);
+var _koaConvert2 = _interopRequireDefault(_koaConvert);
+
+var _koaStatic = require('koa-static');
+
+var _koaStatic2 = _interopRequireDefault(_koaStatic);
+
+var _koaBodyparser = require('koa-bodyparser');
+
+var _koaBodyparser2 = _interopRequireDefault(_koaBodyparser);
+
+var _router = require('./router.js');
+
+var _router2 = _interopRequireDefault(_router);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var args = process.argv.splice(2);
-var isDev = args[0] === 'dev' ? true : false;
-var config = isDev ? _configDev2.default : _config2.default;
+_yapi2.default.commons = _commons2.default;
 
-global.WEBROOT = _path2.default.resolve(__dirname, '..');
-global.WEBROOT_SERVER = __dirname;
-global.WEBROOT_RUNTIME = _path2.default.join(WEBROOT, 'runtime');
-global.WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
-global.WEBCONFIG = config;
+var app = new _koa2.default();
+app.use((0, _koaBodyparser2.default)());
+app.use(_router2.default.routes());
+app.use(_router2.default.allowedMethods());
+app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static')));
+app.listen(_yapi2.default.WEBCONFIG.port);
+_commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.port);
 
-(0, _init2.default)();
+_yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_RUNTIME);
+_yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_LOG);
+_db2.default.connect();

@@ -1,17 +1,20 @@
-import koaRouter from 'koa-router'   
-import interfaceController from './controllers/interface'
+import koaRouter from 'koa-router'
+import interfaceController from './controllers/interface.js'
+import groupController from './controllers/group.js'
 
-let router = koaRouter();
+const router = koaRouter();
 
-const interface_PREFIX = {
+const INTERFACE_PREFIX = {
     interface: '/interface/',
-    user: '/user/'
+    user: '/user/',
+    group: '/group/'
 };
 
-router.get ( interface_PREFIX.interface + 'add', interfaceController.add)
-      .get ( interface_PREFIX.interface + 'list', interfaceController.list)
-
-
-
+router.post ( INTERFACE_PREFIX.interface + 'add', interfaceController.add)
+      .get ( INTERFACE_PREFIX.interface + 'list', interfaceController.list)
+      .get ( INTERFACE_PREFIX.group + 'list', groupController.list)
+      .post ( INTERFACE_PREFIX.group + 'add', groupController.add)
+      .post ( INTERFACE_PREFIX.group + 'up', groupController.up)
+      .post ( INTERFACE_PREFIX.group + 'del', groupController.del)
 
 module.exports = router
