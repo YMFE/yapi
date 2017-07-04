@@ -16,6 +16,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _yapi = require('../yapi.js');
+
+var _yapi2 = _interopRequireDefault(_yapi);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.resReturn = function (data, num, errmsg) {
@@ -52,7 +56,7 @@ exports.log = function (msg, type) {
     var year = date.getFullYear();
     var month = date.getMonth();
 
-    var logfile = _path2.default.join(WEBROOT_LOG, year + '-' + month + '.log');
+    var logfile = _path2.default.join(_yapi2.default.WEBROOT_LOG, year + '-' + month + '.log');
 
     if ((typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object') {
         if (msg instanceof Error) msg = msg.message;else msg = (0, _stringify2.default)(msg);
@@ -69,4 +73,17 @@ exports.fileExist = function (filePath) {
     } catch (err) {
         return false;
     }
+};
+
+exports.time = function () {
+    return Date.parse(new Date()) / 1000;
+};
+
+exports.fieldSelect = function (data, field) {
+    if (!data || !field || !Array.isArray(field)) return null;
+    var arr = {};
+    field.forEach(function (f) {
+        data[f] && (arr[f] = data[f]);
+    });
+    return arr;
 };
