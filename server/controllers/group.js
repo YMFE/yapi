@@ -1,9 +1,11 @@
 import  groupModel from '../models/group.js'
 import yapi from '../yapi.js'
+import baseController from './base.js'
 
 
-class groupController{
+class groupController extends baseController{
     constructor(){
+        super()
         console.log('constructor....')
     }
 

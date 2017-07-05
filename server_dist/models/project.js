@@ -7,11 +7,11 @@ var _yapi2 = _interopRequireDefault(_yapi);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var projectSchema = {
-    uid: String,
+    uid: Number,
     name: String,
     basepath: String,
     desc: String,
-    group_id: String,
+    group_id: Number,
     members: Array,
     prd_host: String,
     env: Object,

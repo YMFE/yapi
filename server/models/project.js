@@ -1,10 +1,10 @@
 import yapi from '../yapi.js'
 const projectSchema = {
-    uid: String,
+    uid: Number,
     name: String,
     basepath: String,
     desc: String,
-    group_id: String,
+    group_id: Number,
     members: Array,
     prd_host: String,
     env: Object,
