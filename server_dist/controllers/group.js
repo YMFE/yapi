@@ -56,7 +56,7 @@ var groupController = function () {
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '组名不能为空'));
 
                             case 3:
-                                groupInst = new _group2.default();
+                                groupInst = _yapi2.default.getInst(_group2.default);
                                 _context.next = 6;
                                 return groupInst.checkRepeat(params.group_name);
 
@@ -120,7 +120,7 @@ var groupController = function () {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.prev = 0;
-                                groupInst = new _group2.default();
+                                groupInst = _yapi2.default.getInst(_group2.default);
                                 _context2.next = 4;
                                 return groupInst.list();
 
@@ -161,7 +161,7 @@ var groupController = function () {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.prev = 0;
-                                groupInst = new _group2.default();
+                                groupInst = _yapi2.default.getInst(_group2.default);
                                 id = ctx.request.body.id;
                                 _context3.next = 5;
                                 return groupInst.del(id);
@@ -203,7 +203,7 @@ var groupController = function () {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 _context4.prev = 0;
-                                groupInst = new _group2.default();
+                                groupInst = _yapi2.default.getInst(_group2.default);
                                 id = ctx.request.body.id;
                                 data = {};
 
