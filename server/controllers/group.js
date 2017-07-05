@@ -12,7 +12,7 @@ class groupController{
         if(!params.group_name){
             return ctx.body = yapi.commons.resReturn(null, 400, '组名不能为空');
         }
-        var groupInst = new groupModel();
+        var groupInst = yapi.getInst(groupModel);
         
         var checkRepeat = await groupInst.checkRepeat(params.group_name);
         if(checkRepeat > 0){
@@ -37,7 +37,7 @@ class groupController{
 
     async list(ctx) {
         try{
-            var groupInst = new groupModel();
+            var groupInst = yapi.getInst(groupModel);
             let result = await groupInst.list();
             ctx.body = yapi.commons.resReturn(result)
         }catch(e){
@@ -47,7 +47,7 @@ class groupController{
 
     async del(ctx){   
         try{
-            var groupInst = new groupModel();
+            var groupInst = yapi.getInst(groupModel);
             let id = ctx.request.body.id;
             let result = await groupInst.del(id);
             ctx.body = yapi.commons.resReturn(result)
@@ -58,7 +58,7 @@ class groupController{
 
     async up(ctx){
         try{
-            var groupInst = new groupModel();
+            var groupInst = yapi.getInst(groupModel);
             let id = ctx.request.body.id;
             let data = {};
             ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name)
