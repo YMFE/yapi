@@ -8,10 +8,19 @@ var _yapi = require('../yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
 
+var _mongooseAutoIncrement = require('mongoose-auto-increment');
+
+var _mongooseAutoIncrement2 = _interopRequireDefault(_mongooseAutoIncrement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function model(model, schema) {
-    return _mongoose2.default.model(model, schema, model);
+    if (schema instanceof _mongoose2.default.Schema === false) {
+        schema = new _mongoose2.default.Schema(schema);
+    }
+
+    schema.set('autoIndex', false);
+    return _yapi2.default.connect.model(model, schema, model);
 }
 
 function connect() {
@@ -25,6 +34,8 @@ function connect() {
     }, function (err) {
         _yapi2.default.commons.log(err, 'Mongo connect error');
     });
+
+    _mongooseAutoIncrement2.default.initialize(db);
 
     checkDatabase();
     return db;
