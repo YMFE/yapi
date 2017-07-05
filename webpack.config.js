@@ -20,6 +20,9 @@ module.exports = {
     // 包存放的目录
     path: path.resolve('./build'),
   },
+  devServer:{
+        contentBase:'./'
+    },
   // target: 'node',
   // externals: [nodeExternals()],
   module: {
