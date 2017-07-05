@@ -112,7 +112,7 @@ module.exports = {
                         case 7:
                             _context2.prev = 7;
                             _context2.t0 = _context2['catch'](0);
-
+                            //会不会有问题 err   e.message
                             ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
                         case 10:

@@ -32,7 +32,7 @@ module.exports = {
         try{
             let result = await groupModel.list();
             ctx.body = yapi.commons.resReturn(result)
-        }catch(err){
+        }catch(err){            //会不会有问题 err   e.message
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     },

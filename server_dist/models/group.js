@@ -27,7 +27,7 @@ module.exports = {
         });
     },
     list: function list() {
-        return groupModel.find().select("group_name _id group_desc add_time up_time").exec();
+        return groupModel.find().select("group_name _id group_name group_desc add_time up_time").exec(); //增加了group_name
     },
     del: function del(id) {
         return groupModel.deleteOne({

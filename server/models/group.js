@@ -7,7 +7,6 @@ const groupSchema = {
     up_time: Number
 }
 
-
 var groupModel = yapi.db('group', groupSchema);
 
 
@@ -22,7 +21,7 @@ module.exports = {
         })
     },
     list: () => {
-        return groupModel.find().select("group_name _id group_desc add_time up_time").exec()
+        return groupModel.find().select("group_name _id group_name group_desc add_time up_time").exec() //增加了group_name
     },
     del: (id) => {
         return groupModel.deleteOne({

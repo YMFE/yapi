@@ -22,7 +22,7 @@ var args = process.argv.splice(2);
 var isDev = args[0] === 'dev' ? true : false;
 var config = isDev ? _configDev2.default : _config2.default;
 
-var WEBROOT = _path2.default.resolve(__dirname, '..');
+var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
 var WEBROOT_RUNTIME = _path2.default.join(WEBROOT, 'runtime');
 var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
