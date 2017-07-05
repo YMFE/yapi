@@ -1,7 +1,7 @@
 {
   "name": "yapi",
   "version": "1.0.0",
-  "description": "-------------------------------------------------------------------------------- #### **项目管理**： #### *PMO*:(http://pmo.corp.qunar.com)<br /> -------------------------------------------------------------------------------- #### **CI/CD**: #### *QDR*:(http://qdr.corp.qunar.com/)<br /> #### *QCI*:(http://qci.corp.qunar.com/)<br /> #### *CABLE*:(http://wanshiwu.corp.qunar.com/qualitycheck/index/)<br />",
+  "description": "YAPI",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server"
@@ -24,7 +24,10 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.0",
     "mongoose": "4.10.8",
-    "mongoose-auto-increment": "^5.0.1"
+    "mongoose-auto-increment": "^5.0.1",
+    "ykit-config-antd": "^0.1.3",
+    "ykit-config-es6": "^0.4.0",
+    "ykit-config-react": "^0.4.4"
   },
   "devDependencies": {
     "axios": "^0.16.2",
