@@ -1,11 +1,12 @@
 import React from 'react'
+import { Button } from 'antd';
 import Header from '../../components/Header.js'
 
 export default _ => {
   return (
     <acticle>
       <Header />
-      <h3>首页3333</h3>
+      <Button type="primary">Primary</Button>
     </acticle>
   )
 }

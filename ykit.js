@@ -1,15 +1,22 @@
+var path = require('path');
+
 module.exports = {
     plugins: ['react', 'es6', 'antd'],
     devtool:  'cheap-source-map',
     config: {
         exports: [
-            './scripts/index.js',
-            './styles/index.css'
+            './index.js'
         ],
         modifyWebpackConfig: function(baseConfig) {
-            // edit ykit's Webpack configs 
+            // edit ykit's Webpack configs
+            baseConfig.context = path.resolve(__dirname, "client");
+
+            baseConfig.module.loaders.push({
+                test: /\.(sass|scss)$/,
+                loader: 'style-loader!css-loader!sass-loader'
+            });
+
             baseConfig.watch = true;
-            console.log(baseConfig)
             return baseConfig;
         }
     },

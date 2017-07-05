@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Routes from './routes'
-import './styles/cs.scss'
-// import './styles/cs.less'
-console.log(55555)
+import './styles/index.scss'
 
 class App extends Component {
   render() {
