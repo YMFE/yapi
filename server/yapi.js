@@ -6,7 +6,7 @@ let args = process.argv.splice(2);
 let isDev = args[0] === 'dev' ? true : false;
 const config = isDev ? devConfig : prdConfig;
 
-const WEBROOT = path.resolve(__dirname, '..');
+const WEBROOT = path.resolve(__dirname, '..'); //路径
 const WEBROOT_SERVER = __dirname;
 const WEBROOT_RUNTIME = path.join(WEBROOT, 'runtime');
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
