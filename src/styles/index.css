@@ -1,0 +1,13 @@
+body {
+    background-color: #f2f2f2;
+}
+
+.app{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    color: #444;
+    text-align: center;
+    margin: -70px 0 0;
+}
