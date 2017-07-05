@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from 'antd';
-import Header from '../../components/Header.js'
+import Header from '../../components/Header/Header.js'
 
-export default _ => {
+export default function Home() {
   return (
     <acticle>
       <Header />

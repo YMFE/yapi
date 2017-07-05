@@ -27,7 +27,7 @@ createAction('group', 'del', 'post', 'del')
 
 
 /**
- * 
+ *
  * @param {*} controller controller_name
  * @param {*} path  request_path
  * @param {*} method request_method , post get put delete ...
@@ -38,10 +38,6 @@ function createAction(controller, path, method, action){
         let inst = new INTERFACE_CONFIG[controller].controller(ctx);
         await inst[action].call(inst, ctx);
     })
-}      
+}
 
 module.exports = router
-
-
-
-
