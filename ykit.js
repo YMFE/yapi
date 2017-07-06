@@ -1,6 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
+// var extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
 
 module.exports = {
     plugins: ['react', 'es6', 'antd'],
@@ -15,10 +15,11 @@ module.exports = {
 
             baseConfig.module.loaders.push({
               test: /\.scss$/,
-              loader: extractCSS.extract(['css','sass'])
+              // loader: extractCSS.extract(['css','sass'])
+              loader: 'style-loader!css-loader!sass-loader'
             });
 
-            baseConfig.plugins = baseConfig.plugins.concat([extractCSS])
+            // baseConfig.plugins = baseConfig.plugins.concat([extractCSS])
 
             // baseConfig.watch = true;
             // console.log(baseConfig)
