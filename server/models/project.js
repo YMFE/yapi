@@ -15,7 +15,7 @@ class projectModel extends baseModel{
             group_id: {type: Number, required: true},
             members: Array,
             prd_host: {type: String, required: true},
-            env: Array,
+            env: Object,
             add_time: Number,
             up_time: Number
         }
@@ -62,7 +62,7 @@ class projectModel extends baseModel{
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id,
-        }, data)
+        }, data, { runValidators: true })
     }
 
     addMember(id, uid){
