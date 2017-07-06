@@ -9,6 +9,11 @@ class baseController{
     }
 
     getLoginStatus(){
+        let token = getCookie('_yapi_token');
+        let uid   = getCookie('_yapi_uid');
+        let usermodel
+
+        usermode.token === token
         return true
     }
 

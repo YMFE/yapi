@@ -10,7 +10,18 @@ class userModel extends baseModel{
     getSchema(){
         return{
            username: String,
-           password: String,  
+           password: {
+            type: String,
+            required: true,
+            validate: {
+                validator: function(v) {
+                    if(typeof v !== 'string') return false;
+                    if(v.length < 6 || v.length > 64) return false;
+                    return true;
+                },
+            message: '{VALUE} is not a valid password!'
+            },
+           },  
            passsalt: String,
            email: String,
            role: String,
