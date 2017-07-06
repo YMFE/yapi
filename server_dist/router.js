@@ -20,9 +20,14 @@ var _group = require('./controllers/group.js');
 
 var _group2 = _interopRequireDefault(_group);
 
-var _user = require('./controllers/user.js');
+var _yapi = require('./yapi.js');
 
-var _user2 = _interopRequireDefault(_user);
+var _yapi2 = _interopRequireDefault(_yapi);
+
+var _project = require('./controllers/project.js');
+
+var _project2 = _interopRequireDefault(_project);
+
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,17 +45,24 @@ var INTERFACE_CONFIG = {
     group: {
         prefix: '/group/',
         controller: _group2.default
+    },
+    project: {
+        prefix: '/project/',
+        controller: _project2.default
     }
 };
-
-<<<<<<< HEAD
-router.post(INTERFACE_PREFIX.interface + 'add', _interface2.default.add).get(INTERFACE_PREFIX.interface + 'list', _interface2.default.list).get(INTERFACE_PREFIX.group + 'list', _group2.default.list).post(INTERFACE_PREFIX.group + 'add', _group2.default.add).post(INTERFACE_PREFIX.group + 'up', _group2.default.up).post(INTERFACE_PREFIX.group + 'del', _group2.default.del).get(INTERFACE_PREFIX.user + 'list', _user2.default.list).post(INTERFACE_PREFIX.user + 'add', _user2.default.add).post(INTERFACE_PREFIX.user + 'up', _user2.default.up).post(INTERFACE_PREFIX.user + 'del', _user2.default.del);
-=======
 //group
 createAction('group', 'list', 'get', 'list');
 createAction('group', 'add', 'post', 'add');
 createAction('group', 'up', 'post', 'up');
 createAction('group', 'del', 'post', 'del');
+
+//project
+createAction('project', 'add', 'post', 'add');
+createAction('project', 'list', 'get', 'list');
+createAction('project', 'get', 'get', 'get');
+createAction('project', 'up', 'post', 'up');
+createAction('project', 'del', 'post', 'del');
 
 /**
  * 
@@ -69,7 +81,7 @@ function createAction(controller, path, method, action) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            inst = new INTERFACE_CONFIG[controller].controller(ctx);
+                            inst = _yapi2.default.getInst(INTERFACE_CONFIG[controller].controller, ctx);
                             _context.next = 3;
                             return inst[action].call(inst, ctx);
 
@@ -86,6 +98,5 @@ function createAction(controller, path, method, action) {
         };
     }());
 }
->>>>>>> dev
 
 module.exports = router;
