@@ -12,25 +12,26 @@ class Home extends Component {
     return (
       <acticle>
         <Header />
-
-        <h3>YAPI</h3>
-
         <div className="home-box">
-          <Input
-            size="large"
-            placeholder="Username"
-            prefix={<Icon type="user" style={{ fontSize: 14 }} />} />
+          <h3>YAPI</h3>
 
-          <Input
-            size="large"
-            type="password"
-            placeholder="Password"
-            prefix={<Icon type="lock" style={{ fontSize: 14 }} />} />
+          <div className="form">
+            <Input
+              size="large"
+              placeholder="Username"
+              prefix={<Icon type="user" style={{ fontSize: 14 }} />} />
 
-          <Button type="primary">登录</Button>
+            <Input
+              size="large"
+              type="password"
+              placeholder="Password"
+              prefix={<Icon type="lock" style={{ fontSize: 14 }} />} />
+
+            <Button type="primary">登录</Button>
+          </div>
+
+          <Checkbox>记住密码</Checkbox>
         </div>
-
-        <Checkbox>记住密码</Checkbox>
       </acticle>
     )
   }
