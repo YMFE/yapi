@@ -135,11 +135,12 @@ class projectController extends baseController {
     }
 
     async list(ctx) {
-        if(!ctx.request.query.group_id){
+        let group_id = ctx.request.query.group_id;
+        if(!group_id){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
         try{
-            let result = await this.Model.list();
+            let result = await this.Model.list(group_id);
             ctx.body = yapi.commons.resReturn(result)
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
@@ -162,14 +163,43 @@ class projectController extends baseController {
     async up(ctx){
         try{            
             let id = ctx.request.body.id;
+            let params = ctx.request.body;
+
             if(this.jungeMemberAuth(id, this.getUid()) !== true){
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
-            let data = {};
-            ctx.request.body.project_name && (data.project_name = ctx.request.body.project_name)
-            ctx.request.body.project_desc && (data.project_desc = ctx.request.body.project_desc)
-            if(Object.keys(data).length ===0){
-                ctx.body = yapi.commons.resReturn(null, 404, '分组名和分组描述都为空');
+
+            if(!params.name){
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目名不能为空');
+            }
+
+            let checkRepeat = await this.Model.checkNameRepeat(params.name);
+            if(checkRepeat > 0){
+                return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的项目名');
+            }
+
+            if(!params.basepath){
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目basepath不能为空');
+            }
+            if(!params.prd_host){
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
+            }
+
+            let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
+            if(checkRepeatDomain > 0){
+                return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
+            }
+        
+
+
+            let data= {
+                name: params.name,
+                desc: params.desc,
+                prd_host: params.prd_host,
+                basepath: params.basepath,
+                uid: this.getUid(),
+                up_time: yapi.commons.time(),
+                env: params.env
             }
             let result = await this.Model.up(id, data);
             ctx.body = yapi.commons.resReturn(result)
