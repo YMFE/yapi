@@ -1,6 +1,7 @@
 import koaRouter from 'koa-router'
 import interfaceController from './controllers/interface.js'
 import groupController from './controllers/group.js'
+import userController from './controllers/user.js'
 
 import yapi from './yapi.js'
 import projectController from './controllers/project.js'
@@ -32,6 +33,14 @@ createAction('group', 'list', 'get', 'list')
 createAction('group', 'add', 'post', 'add')
 createAction('group', 'up', 'post', 'up')
 createAction('group', 'del', 'post', 'del')
+
+//user
+createAction('user', 'login', 'post', 'login')
+createAction('user', 'reg', 'post', 'reg')
+createAction('user', 'list', 'get', 'list')
+createAction('user', 'getUser', 'get', 'getUser')
+createAction('user', 'update', 'post', 'update')
+createAction('user', 'del', 'post', 'del')
 
 
 //project
