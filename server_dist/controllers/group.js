@@ -146,7 +146,6 @@ var groupController = function (_baseController) {
                                 return _context.stop();
                         }
                     }
-
                 }, _callee, this, [[10, 18]]);
             }));
 
@@ -187,7 +186,6 @@ var groupController = function (_baseController) {
                             case 'end':
                                 return _context2.stop();
                         }
-
                     }
                 }, _callee2, this, [[0, 8]]);
             }));

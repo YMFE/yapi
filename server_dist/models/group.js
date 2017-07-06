@@ -34,15 +34,12 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-
 var groupModel = function (_baseModel) {
     (0, _inherits3.default)(groupModel, _baseModel);
 
     function groupModel() {
         (0, _classCallCheck3.default)(this, groupModel);
         return (0, _possibleConstructorReturn3.default)(this, (groupModel.__proto__ || (0, _getPrototypeOf2.default)(groupModel)).apply(this, arguments));
-
-
     }
 
     (0, _createClass3.default)(groupModel, [{

@@ -3,8 +3,8 @@ import yapi from '../yapi.js'
 import baseController from './base.js'
 
 class userController extends baseController{
-    constructor(){
-        super()
+    constructor(ctx){
+        super(ctx)
         console.log('constructor...')
     }
     async login(ctx){   //登录
@@ -25,11 +25,16 @@ class userController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,404,'该用户不存在');  //返回的错误码对吗？？？？
         }else if(result.password===password){    //用户名存在，判断密码是否正确，正确则可以登录
             console.log('密码一致');   //是不是还需要把用户名密码一些东西写到session
-            
+            setCookie('token', sha1(username+password));
+            userInst.update({_id, result._id}, {token: sha1(username+password)})
+            return ctx.body = {username: ''}
         }else{
              return ctx.body = yapi.commons.resReturn(null,400,'密码错误'); 
         }
     }
+
+
+
     async reg(ctx){  //注册
         var userInst = yapi.getInst(userModel); 
         let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
@@ -51,6 +56,7 @@ class userController extends baseController{
         if(checkRepeat>0){
             return ctx.body = yapi.commons.resReturn(null,401,'该邮箱已经注册');
         }
+        
         let data = {
             username: params.username,
             password: sha1(params.password),//加密
@@ -64,7 +70,7 @@ class userController extends baseController{
             user = yapi.commons.fieldSelect(user,['id','username','password','email','role'])
             ctx.body = yapi.commons.resReturn(user);
         }catch(e){
-            ctx.body = yapi.commons.resReturn(e.message);
+            ctx.body = yapi.commons.resReturn(null, 401, e.message);
         }
     }
     async list(ctx){  //获取用户列表并分页 

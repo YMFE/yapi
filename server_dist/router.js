@@ -20,6 +20,10 @@ var _group = require('./controllers/group.js');
 
 var _group2 = _interopRequireDefault(_group);
 
+var _user = require('./controllers/user.js');
+
+var _user2 = _interopRequireDefault(_user);
+
 var _yapi = require('./yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
@@ -27,7 +31,6 @@ var _yapi2 = _interopRequireDefault(_yapi);
 var _project = require('./controllers/project.js');
 
 var _project2 = _interopRequireDefault(_project);
-
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,7 +43,7 @@ var INTERFACE_CONFIG = {
     },
     user: {
         prefix: '/user/',
-        controller: null
+        controller: _user2.default
     },
     group: {
         prefix: '/group/',
@@ -51,11 +54,20 @@ var INTERFACE_CONFIG = {
         controller: _project2.default
     }
 };
+
 //group
 createAction('group', 'list', 'get', 'list');
 createAction('group', 'add', 'post', 'add');
 createAction('group', 'up', 'post', 'up');
 createAction('group', 'del', 'post', 'del');
+
+//user
+createAction('user', 'login', 'post', 'login');
+createAction('user', 'reg', 'post', 'reg');
+createAction('user', 'list', 'get', 'list');
+createAction('user', 'getUser', 'get', 'getUser');
+createAction('user', 'update', 'post', 'update');
+createAction('user', 'del', 'post', 'del');
 
 //project
 createAction('project', 'add', 'post', 'add');
