@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+    <title>yapi : ./server/controllers/base.js</title>
+    <link type="text/css" rel="stylesheet" href="../../../source/code.css"/>
+    <script type="text/javascript" src="../../../source/shCore.js"></script>
+    <script type="text/javascript" src="../../../source/shBrush-js.js"></script>
+    <style>
+        .syntaxhighlighter .number1 .spaces,.syntaxhighlighter .toolbar{ display: none;}
+        .syntaxhighlighter table td.gutter .line.highlight { background-color: #6ce26c !important; color: white; }
+    </style>
+</head>
+<body>
+<div class="ydoc">
+    <div class="ydoc-banner-bg">
+        <div class="ydoc-banner" id="content" tabindex="-1">
+            <div class="ydoc-banner-area">
+                <h1>yapi : ./server/controllers/base.js</h1>
+                <p>源代码</p>
+            </div>
+        </div>
+        <div class="ydoc-container">
+            <div class="ydoc-container-content">
+                <div class="static-code-content" role="main">
+                <pre class="brush: js;">
+                import yapi from '../yapi.js'
+class baseController{
+    constructor(ctx){
+        console.log('baseControler init...')
+    }
+
+    getUid(){
+        return 0
+    }
+
+    getLoginStatus(){
+        return true
+    }
+
+    getRole(){
+        return 'admin'
+    }
+}
+
+module.exports = baseController
+                </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="docs-header" id="content" tabindex="-1">
+        <div class="container">
+            <h1>yapi : ./server/controllers/base.js</h1>
+            <p>源代码</p>
+        </div>
+    </div> -->
+
+    <footer class="docs-footer" role="contentinfo">
+        <div class="container">
+            <p></p>
+        </div>
+    </footer>
+</div>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+
+    function getTop(node){
+        return node.offsetTop + (node.offsetParent ? getTop(node.offsetParent) : 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            try {
+                var lineNum = (parseInt(location.hash.replace(/#/g, '')) - 1) || 0,
+                    node = document.querySelectorAll('div.line')[lineNum];
+                document.body.scrollTop = getTop(node);
+                node.className += ' highlight';
+            } catch(e) {}
+        }, 500);
+    }, false);
+</script>
+</body>
+</html>

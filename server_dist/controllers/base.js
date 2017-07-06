@@ -31,6 +31,11 @@ var baseController = function () {
         value: function getLoginStatus() {
             return true;
         }
+    }, {
+        key: 'getRole',
+        value: function getRole() {
+            return 'admin';
+        }
     }]);
     return baseController;
 }();
