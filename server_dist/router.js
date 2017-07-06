@@ -20,6 +20,14 @@ var _group = require('./controllers/group.js');
 
 var _group2 = _interopRequireDefault(_group);
 
+var _yapi = require('./yapi.js');
+
+var _yapi2 = _interopRequireDefault(_yapi);
+
+var _project = require('./controllers/project.js');
+
+var _project2 = _interopRequireDefault(_project);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _koaRouter2.default)();
@@ -36,6 +44,10 @@ var INTERFACE_CONFIG = {
     group: {
         prefix: '/group/',
         controller: _group2.default
+    },
+    project: {
+        prefix: '/project/',
+        controller: _project2.default
     }
 };
 
@@ -44,6 +56,13 @@ createAction('group', 'list', 'get', 'list');
 createAction('group', 'add', 'post', 'add');
 createAction('group', 'up', 'post', 'up');
 createAction('group', 'del', 'post', 'del');
+
+//project
+createAction('project', 'add', 'post', 'add');
+createAction('project', 'list', 'get', 'list');
+createAction('project', 'get', 'get', 'get');
+createAction('project', 'up', 'post', 'up');
+createAction('project', 'del', 'post', 'del');
 
 /**
  * 
@@ -62,7 +81,7 @@ function createAction(controller, path, method, action) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            inst = new INTERFACE_CONFIG[controller].controller(ctx);
+                            inst = _yapi2.default.getInst(INTERFACE_CONFIG[controller].controller, ctx);
                             _context.next = 3;
                             return inst[action].call(inst, ctx);
 

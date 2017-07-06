@@ -51,7 +51,7 @@ var groupModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                uid: String,
+                uid: Number,
                 group_name: String,
                 group_desc: String,
                 add_time: Number,
