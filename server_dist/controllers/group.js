@@ -146,41 +146,7 @@ var groupController = function (_baseController) {
                                 return _context.stop();
                         }
                     }
-<<<<<<< HEAD
-                }
-            }, _callee, _this, [[9, 17]]);
-        }))();
-    },
-    list: function list(ctx) {
-        var _this2 = this;
 
-        return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-            var result;
-            return _regenerator2.default.wrap(function _callee2$(_context2) {
-                while (1) {
-                    switch (_context2.prev = _context2.next) {
-                        case 0:
-                            _context2.prev = 0;
-                            _context2.next = 3;
-                            return _group2.default.list();
-
-                        case 3:
-                            result = _context2.sent;
-
-                            ctx.body = _yapi2.default.commons.resReturn(result);
-                            _context2.next = 10;
-                            break;
-
-                        case 7:
-                            _context2.prev = 7;
-                            _context2.t0 = _context2['catch'](0);
-                            //会不会有问题 err   e.message
-                            ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
-
-                        case 10:
-                        case 'end':
-                            return _context2.stop();
-=======
                 }, _callee, this, [[10, 18]]);
             }));
 
@@ -221,7 +187,7 @@ var groupController = function (_baseController) {
                             case 'end':
                                 return _context2.stop();
                         }
->>>>>>> dev
+
                     }
                 }, _callee2, this, [[0, 8]]);
             }));
