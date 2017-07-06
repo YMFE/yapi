@@ -1,38 +1,57 @@
 import yapi from '../yapi.js'
-const userSchema = {
-    user_name: String,
-    user_pwd: String,  
-    add_time: Number,
-    up_time: Number
-}
+import mongoose  from 'mongoose'
+import baseModel from './base.js'
 
-var userModel = yapi.db('user',userSchema);
+class userModel extends baseModel{
+    getName(){
+        return 'user'
+    }
 
-module.exports = {
-    save: (data)=>{
-        let user = new userModel(data);
+    getSchema(){
+        return{
+           username: String,
+           password: String,  
+           passsalt: String,
+           email: String,
+           role: String,
+           add_time: Number,
+           up_time: Number 
+        }
+    }
+    save(data){
+        let user = new this.model(data);
         return user.save();
-    },
-    checkRepeat:(name)=>{
-        return userModel.count({
-            user_name: name
+    }
+    checkRepeat(name){
+        return this.model.count({
+            username: name
         })
-    },
-    list:()=>{
-        return userModel.find().select("user_name_id user_name user_pwd add_time up_time").exec()
-    },
-    del:(name)=>{
-        return userModel.find({"user_name":name}).remove()
-    },
-    up:(id,data)=>{
-        return userModel.update({
+    }
+    list(){
+        return this.model.find().select("username_id username email role  add_time up_time").exec()  //显示id name email role 
+    }
+    getUser(id){
+        return this.model.findById({
+            _id: id
+        })
+    }
+    del (id) {
+        return this.model.deleteOne({
+            _id: id
+        })
+    }
+    update(id,data){
+        return this.model.update({
             _id: id,
         },{
-            user_name: data.user_name,
-            user_pwd: data.user_pwd,
+            username: data.username,
+            password: data.password,
+            email: data.email,
+            role: data.role,
             up_time: yapi.commons.time()
         })
     }
 
 }
 
+module.exports = userModel

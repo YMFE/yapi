@@ -12,6 +12,10 @@ var _db = require('./utils/db.js');
 
 var _db2 = _interopRequireDefault(_db);
 
+var _userauth = require('./middleware/userauth.js');
+
+var _userauth2 = _interopRequireDefault(_userauth);
+
 var _koa = require('koa');
 
 var _koa2 = _interopRequireDefault(_koa);
@@ -36,7 +40,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _yapi2.default.commons = _commons2.default;
 
+_yapi2.default.connect = _db2.default.connect();
+
 var app = new _koa2.default();
+app.use(_userauth2.default);
 app.use((0, _koaBodyparser2.default)());
 app.use(_router2.default.routes());
 app.use(_router2.default.allowedMethods());
@@ -46,4 +53,3 @@ _commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.
 
 _yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_RUNTIME);
 _yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_LOG);
-_db2.default.connect();
