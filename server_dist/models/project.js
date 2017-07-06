@@ -54,7 +54,7 @@ var projectModel = function (_baseModel) {
                 group_id: { type: Number, required: true },
                 members: Array,
                 prd_host: { type: String, required: true },
-                env: Array,
+                env: Object,
                 add_time: Number,
                 up_time: Number
             };
@@ -107,7 +107,7 @@ var projectModel = function (_baseModel) {
             data.up_time = _yapi2.default.commons.time();
             return this.model.update({
                 _id: id
-            }, data);
+            }, data, { runValidators: true });
         }
     }, {
         key: 'addMember',

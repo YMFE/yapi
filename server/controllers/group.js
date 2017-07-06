@@ -2,7 +2,7 @@ import  groupModel from '../models/group.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 
-
+// 
 class groupController extends baseController{
     constructor(ctx){
         super(ctx)
@@ -19,18 +19,7 @@ class groupController extends baseController{
      * @param {String} group_name 项目分组名称，不能为空
      * @param  {String} [group_desc] 项目分组描述 
      * @returns {Object} 
-     * @example 
-     * {
-     *  "errcode": 0,
-     *  "errmsg": 'success',
-     *  "data":{
-     *       "_id": 3,
-     *      "group_name": "大数据4",
-     *      "group_desc": "大数据4",
-     *      "uid": "0"
-     *  }
-     * }
-     *
+     * @example ./api/group/add.json
      */
     async add(ctx) {
         let params = ctx.request.body;
@@ -59,6 +48,16 @@ class groupController extends baseController{
         }
         
     }
+
+    /**
+     * 添加项目分组
+     * @interface /group/list
+     * @method get
+     * @category group
+     * @foldnumber 10
+     * @returns {Object} 
+     * @example 
+     */
 
     async list(ctx) {
         try{
