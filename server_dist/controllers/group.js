@@ -46,6 +46,7 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// 
 var groupController = function (_baseController) {
     (0, _inherits3.default)(groupController, _baseController);
 
@@ -67,18 +68,7 @@ var groupController = function (_baseController) {
      * @param {String} group_name 项目分组名称，不能为空
      * @param  {String} [group_desc] 项目分组描述 
      * @returns {Object} 
-     * @example 
-     * {
-     *  "errcode": 0,
-     *  "errmsg": 'success',
-     *  "data":{
-     *       "_id": 3,
-     *      "group_name": "大数据4",
-     *      "group_desc": "大数据4",
-     *      "uid": "0"
-     *  }
-     * }
-     *
+     * @example ./api/group/add.json
      */
 
 
@@ -155,6 +145,17 @@ var groupController = function (_baseController) {
 
             return add;
         }()
+
+        /**
+         * 添加项目分组
+         * @interface /group/list
+         * @method get
+         * @category group
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'list',
         value: function () {
