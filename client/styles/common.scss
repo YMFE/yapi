@@ -1,0 +1,27 @@
+@import '~antd/dist/antd.css';
+
+html, body {
+  font-family: 'Microsoft Yahei';
+  margin: 0;
+  padding: 0;
+  height: 100;
+  font-size: 62.5%;
+}
+
+div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #636363;
+}
