@@ -1,44 +1,93 @@
 import yapi from '../yapi.js'
-const projectSchema = {
-    uid: Number,
-    name: String,
-    basepath: String,
-    desc: String,
-    group_id: Number,
-    members: Array,
-    prd_host: String,
-    env: Object,
-    add_time: Number,
-    up_time: Number
-}
+import baseModel from './base.js'
 
+class projectModel extends baseModel{
+    getName(){
+        return 'project'
+    }
 
-var projectModel = yapi.db('project', projectSchema);
+    getSchema(){
+        return {
+            uid: {type: Number, required: true},
+            name: {type: String, required: true},
+            basepath: {type: String, required: true},
+            desc: String,
+            group_id: {type: Number, required: true},
+            members: Array,
+            prd_host: {type: String, required: true},
+            env: Array,
+            add_time: Number,
+            up_time: Number
+        }
+    }
 
-
-module.exports = {
-    save: (data) => {
-        let m = new projectModel(data);
+    save(data) {
+        let m = new this.model(data);
         return m.save();
-    },
-    checkRepeat: (name, basepath) => {
-        return projectModel.count({
-            project_name: name,
+    }
+
+
+    get(id){
+        return this.model.findOne({
+            _id: id
+        }).exec()
+    }
+
+    checkNameRepeat(name){
+        return this.model.count({
+            name: name
+        })
+    }
+
+    checkDomainRepeat(domain, basepath){
+        return this.model.count({
+            prd_host: domain,
             basepath: basepath
         })
-    },
-    list: () => {
-        return projectModel.find().exec()
-    },
-    del: (id) => {
-        return projectModel.deleteOne({
+    }
+
+
+    list (group_id){
+        return this.model.find({
+            group_id: group_id
+        }).exec()
+    }
+
+    del(id){
+        return this.model.deleteOne({
             _id: id
         })
-    },
-    up: (id, data) => {
+    }
+    up(id, data){
         data.up_time = yapi.commons.time();
-        return projectModel.update({
+        return this.model.update({
             _id: id,
         }, data)
     }
-}   
+
+    addMember(id, uid){
+        return this.model.update({
+            _id, id
+        }, {
+            $push: {members: uid}
+        })
+    }
+
+    delMember(id, uid){
+        return this.model.update({
+            _id: id
+        }, {
+            $pull: {members: uid}
+        })
+    }
+
+    checkMemberRepeat(id, uid){
+        return this.model.count({
+            _id: id,
+            members:[uid]
+        })
+    }
+
+}
+
+module.exports = projectModel;

@@ -49,14 +49,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var groupController = function (_baseController) {
     (0, _inherits3.default)(groupController, _baseController);
 
-    function groupController() {
+    function groupController(ctx) {
         (0, _classCallCheck3.default)(this, groupController);
 
-        var _this = (0, _possibleConstructorReturn3.default)(this, (groupController.__proto__ || (0, _getPrototypeOf2.default)(groupController)).call(this));
+        var _this = (0, _possibleConstructorReturn3.default)(this, (groupController.__proto__ || (0, _getPrototypeOf2.default)(groupController)).call(this, ctx));
 
         console.log('constructor....');
         return _this;
     }
+
+    /**
+     * 添加项目分组
+     * @interface /group/add
+     * @method POST
+     * @category group
+     * @foldnumber 10
+     * @param {String} group_name 项目分组名称，不能为空
+     * @param  {String} [group_desc] 项目分组描述 
+     * @returns {Object} 
+     * @example 
+     * {
+     *  "errcode": 0,
+     *  "errmsg": 'success',
+     *  "data":{
+     *       "_id": 3,
+     *      "group_name": "大数据4",
+     *      "group_desc": "大数据4",
+     *      "uid": "0"
+     *  }
+     * }
+     *
+     */
+
 
     (0, _createClass3.default)(groupController, [{
         key: 'add',
@@ -74,7 +98,7 @@ var groupController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '组名不能为空'));
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组名不能为空'));
 
                             case 3:
                                 groupInst = _yapi2.default.getInst(_group2.default);
@@ -89,7 +113,7 @@ var groupController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '组名已存在'));
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目分组名已存在'));
 
                             case 9:
                                 data = {
@@ -231,7 +255,7 @@ var groupController = function (_baseController) {
                                 ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name);
                                 ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc);
                                 if ((0, _keys2.default)(data).length === 0) {
-                                    ctx.body = _yapi2.default.commons.resReturn(null, 404, '分组名和分组描述都为空');
+                                    ctx.body = _yapi2.default.commons.resReturn(null, 404, '分组名和分组描述不能为空');
                                 }
                                 _context4.next = 9;
                                 return groupInst.up(id, data);

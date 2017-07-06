@@ -15,7 +15,7 @@ class baseModel{
         this.schema.plugin(autoIncrement.plugin, this.name)
         this.model = yapi.db(this.name, this.schema);
     }
-
+    
     /**
      * 获取collection的schema结构
      */

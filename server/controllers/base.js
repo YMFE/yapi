@@ -11,6 +11,10 @@ class baseController{
     getLoginStatus(){
         return true
     }
+
+    getRole(){
+        return 'admin'
+    }
 }
 
 module.exports = baseController
