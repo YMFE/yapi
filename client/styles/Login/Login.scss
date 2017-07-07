@@ -1,0 +1,45 @@
+@import '../common.scss';
+
+/* .login-main.css */
+.login-main {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  height: 100%;
+  -webkit-box-flex: 1;
+}
+
+/* .login-box.css */
+.login-box {
+  font-size: 0.14rem;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-flex: 1;
+
+  .content {
+    max-width: 5rem;
+    min-width: 3rem;
+    zoom: 1;
+    overflow: hidden;
+    margin: -70px 0 0 0;
+  }
+
+  h3 {
+    font-size: 0.2rem;
+  }
+
+  a {
+    font-size: 0.14rem;
+  }
+  
+  // ant 元素样式
+  .ant-input-affix-wrapper {
+    margin: 0 0 20px 0;
+    height: 35px;
+  }
+
+  .login {
+    float: right;
+  }
+}
+
