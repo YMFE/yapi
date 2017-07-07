@@ -10,7 +10,6 @@ module.exports = {
     ],
     modifyWebpackConfig: function(baseConfig) {
       baseConfig.context = path.resolve(__dirname, "client");
-      baseConfig.watch = true;
       return baseConfig;
     }
   },

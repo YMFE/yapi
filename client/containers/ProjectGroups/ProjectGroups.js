@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default function () {
-  return <p>分组页面</p>
+export default _ => {
+  return <p>fadsfads</p>
 }

@@ -1,11 +1,14 @@
+@charset "utf-8";
 @import '~antd/dist/antd.css';
 
+html {
+  font-size:625%
+}
 html, body {
-  font-family: 'Microsoft Yahei';
+  font-family: tahoma, 'Microsoft Yahei';
   margin: 0;
   padding: 0;
-  height: 100;
-  font-size: 62.5%;
+  height: 100%;
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -24,4 +27,15 @@ a {
 
 a:hover {
   color: #636363;
+}
+
+em {
+  font-style: normal;
+}
+
+// 页面最外层元素 样式
+.router-main {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;  
+  height: 100%;
 }
