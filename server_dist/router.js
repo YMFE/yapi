@@ -65,7 +65,7 @@ createAction('group', 'del', 'post', 'del');
 createAction('user', 'login', 'post', 'login');
 createAction('user', 'reg', 'post', 'reg');
 createAction('user', 'list', 'get', 'list');
-createAction('user', 'getUser', 'get', 'getUser');
+createAction('user', 'findById', 'post', 'findById');
 createAction('user', 'update', 'post', 'update');
 createAction('user', 'del', 'post', 'del');
 

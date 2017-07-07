@@ -52,18 +52,7 @@ var userModel = function (_baseModel) {
         value: function getSchema() {
             return {
                 username: String,
-                password: {
-                    type: String,
-                    required: true,
-                    validate: {
-                        validator: function validator(v) {
-                            if (typeof v !== 'string') return false;
-                            if (v.length < 6 || v.length > 64) return false;
-                            return true;
-                        },
-                        message: '{VALUE} is not a valid password!'
-                    }
-                },
+                password: String,
                 passsalt: String,
                 email: String,
                 role: String,
@@ -90,8 +79,13 @@ var userModel = function (_baseModel) {
             return this.model.find().select("username_id username email role  add_time up_time").exec(); //显示id name email role 
         }
     }, {
-        key: 'getUser',
-        value: function getUser(id) {
+        key: 'findByName',
+        value: function findByName(name) {
+            return this.model.find({ "username": name });
+        }
+    }, {
+        key: 'findById',
+        value: function findById(id) {
             return this.model.findById({
                 _id: id
             });
