@@ -2,6 +2,8 @@ import userModel from '../models/user.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 
+const sha1 = require('sha1');
+
 class userController extends baseController{
     constructor(ctx){
         super(ctx)
@@ -11,8 +13,9 @@ class userController extends baseController{
         var userInst = yapi.getInst(userModel); //创建user实体
         let username = ctx.request.body.username;
         let password = sha1(ctx.request.body.password);
-        let id = ctx.request.body.id;
-        let result = await userInst.getUser(id);  //获取登录用户的id
+        let user = await userInst.findByName(username);
+        let id = user.id;
+        let result = await userInst.findById(id);  //获取登录用户的id
         if(!username){
             return ctx.body = yapi.commons.resReturn(null,400,'用户名不能为空');
         }
@@ -25,9 +28,9 @@ class userController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,404,'该用户不存在');  //返回的错误码对吗？？？？
         }else if(result.password===password){    //用户名存在，判断密码是否正确，正确则可以登录
             console.log('密码一致');   //是不是还需要把用户名密码一些东西写到session
-            setCookie('token', sha1(username+password));
-            userInst.update({_id, result._id}, {token: sha1(username+password)})
-            return ctx.body = {username: ''}
+            // setCookie('token', sha1(username+password));
+            // userInst.update({_id, result._id}, {token: sha1(username+password)})
+            // return ctx.body = {username: ''}
         }else{
              return ctx.body = yapi.commons.resReturn(null,400,'密码错误'); 
         }
@@ -82,11 +85,11 @@ class userController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
     }
-    async getUser(ctx){    //根据id获取用户信息
+    async findById(ctx){    //根据id获取用户信息
          try{
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
-            let result = await userInst.getUser(id);
+            let result = await userInst.findById(id);
             return ctx.body = yapi.commons.resReturn(result);
         }catch(e){
             return ctx.body = yapi.commons.resReturn(null,402,e.message);

@@ -10,18 +10,7 @@ class userModel extends baseModel{
     getSchema(){
         return{
            username: String,
-           password: {
-            type: String,
-            required: true,
-            validate: {
-                validator: function(v) {
-                    if(typeof v !== 'string') return false;
-                    if(v.length < 6 || v.length > 64) return false;
-                    return true;
-                },
-            message: '{VALUE} is not a valid password!'
-            },
-           },  
+           password: String,
            passsalt: String,
            email: String,
            role: String,
@@ -41,7 +30,10 @@ class userModel extends baseModel{
     list(){
         return this.model.find().select("username_id username email role  add_time up_time").exec()  //显示id name email role 
     }
-    getUser(id){
+    findByName(name){
+        return this.model.find({"username":name})
+    }
+    findById(id){
         return this.model.findById({
             _id: id
         })

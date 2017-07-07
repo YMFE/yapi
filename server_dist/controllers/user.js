@@ -46,6 +46,8 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var sha1 = require('sha1');
+
 var userController = function (_baseController) {
     (0, _inherits3.default)(userController, _baseController);
 
@@ -62,7 +64,7 @@ var userController = function (_baseController) {
         key: 'login',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var userInst, username, password, id, result, checkRepeat;
+                var userInst, username, password, user, id, result, checkRepeat;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -72,57 +74,65 @@ var userController = function (_baseController) {
 
                                 username = ctx.request.body.username;
                                 password = sha1(ctx.request.body.password);
-                                id = ctx.request.body.id;
-                                _context.next = 6;
-                                return userInst.getUser(id);
+                                _context.next = 5;
+                                return userInst.findByName(username);
 
-                            case 6:
+                            case 5:
+                                user = _context.sent;
+                                id = user.id;
+                                _context.next = 9;
+                                return userInst.findById(id);
+
+                            case 9:
                                 result = _context.sent;
 
                                 if (username) {
-                                    _context.next = 9;
+                                    _context.next = 12;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用户名不能为空'));
 
-                            case 9:
+                            case 12:
                                 if (password) {
-                                    _context.next = 11;
+                                    _context.next = 14;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
 
-                            case 11:
-                                _context.next = 13;
+                            case 14:
+                                _context.next = 16;
                                 return userInst.checkRepeat(username);
 
-                            case 13:
+                            case 16:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat == 0)) {
-                                    _context.next = 18;
+                                    _context.next = 21;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 404, '该用户不存在'));
 
-                            case 18:
+                            case 21:
                                 if (!(result.password === password)) {
-                                    _context.next = 24;
+                                    _context.next = 25;
                                     break;
                                 }
 
                                 //用户名存在，判断密码是否正确，正确则可以登录
                                 console.log('密码一致'); //是不是还需要把用户名密码一些东西写到session
-                                setCookie('token', sha1(username + password));
-                                return _context.abrupt('return', ctx.body = { username: '' });
-
-                            case 24:
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码错误'));
+                                // setCookie('token', sha1(username+password));
+                                // userInst.update({_id, result._id}, {token: sha1(username+password)})
+                                // return ctx.body = {username: ''}
+                                _context.next = 26;
+                                break;
 
                             case 25:
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码错误'));
+
+                            case 26:
                             case 'end':
                                 return _context.stop();
                         }
@@ -280,7 +290,7 @@ var userController = function (_baseController) {
             return list;
         }()
     }, {
-        key: 'getUser',
+        key: 'findById',
         value: function () {
             var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
                 var userInst, id, result;
@@ -292,7 +302,7 @@ var userController = function (_baseController) {
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 id = ctx.request.body.id;
                                 _context4.next = 5;
-                                return userInst.getUser(id);
+                                return userInst.findById(id);
 
                             case 5:
                                 result = _context4.sent;
@@ -311,11 +321,11 @@ var userController = function (_baseController) {
                 }, _callee4, this, [[0, 9]]);
             }));
 
-            function getUser(_x4) {
+            function findById(_x4) {
                 return _ref4.apply(this, arguments);
             }
 
-            return getUser;
+            return findById;
         }()
     }, {
         key: 'del',

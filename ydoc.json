@@ -33,7 +33,7 @@
         "options": {
             "type": "interface", // 类型，可选 component 和 lib，默认 component
             "source": true, // 是否生成源文件预览，默认 false
-            "categories":["group"]
+            "categories":["group", "user"]
         }
     }]
 }
