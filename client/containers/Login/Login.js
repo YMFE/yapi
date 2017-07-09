@@ -10,8 +10,10 @@ class Login extends Component {
   }
 
   render () {
+    console.log(this.props)
     return (
       <acticle className="login-main">
+        <span>{this.props.value}{this.props.per}</span>
         <section className="login-box">
           <div className="content">
             <Input
