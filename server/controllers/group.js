@@ -1,6 +1,7 @@
 import  groupModel from '../models/group.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
+import  projectModel from '../models/project.js'
 
 // 
 class groupController extends baseController{
@@ -83,7 +84,16 @@ class groupController extends baseController{
     async del(ctx){   
         try{
             var groupInst = yapi.getInst(groupModel);
-            let id = ctx.request.body.id;
+            var projectInst = yapi.getInst(projectModel);
+            let id = ctx.request.body.id;            
+            if(!id){
+                return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
+            }
+            let count = projectInst.countByGroupId(id);
+            if(count > 0){
+                return ctx.body = yapi.commons.resReturn(null, 403, '请先删除该分组下的项目');
+            }
+
             let result = await groupInst.del(id);
             ctx.body = yapi.commons.resReturn(result)
         }catch(err){

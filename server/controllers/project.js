@@ -1,6 +1,7 @@
 import  projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
+import interfaceModel from '../models/interface.js'
 
 class projectController extends baseController {
 
@@ -200,11 +201,17 @@ class projectController extends baseController {
             if(!id){
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
+            let interfaceInst = yapi.getInst(interfaceModel);
+            let count = await interfaceInst.countByProjectId(id);
+            if(count > 0){
+                return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
+            }
+
             if(await this.jungeProjectAuth(id) !== true){
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
             let result = await this.Model.del(id);
-            ctx.body = yapi.commons.resReturn(result)
+            ctx.body = yapi.commons.resReturn(result);
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
@@ -221,7 +228,9 @@ class projectController extends baseController {
      * @param {String} basepath 项目基本路径，不能为空
      * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
      * @param {String} [desc] 项目描述 
-     * @param {String} [env] JSON字符串,例如{"local": "http://www.api.com"}
+     * @param {Array} [env] 项目环境配置
+     * @param {String} [env[].name] 环境名称
+     * @param {String} [env[].host] 环境域名
      * @returns {Object} 
      * @example ./api/project/up.json
      */

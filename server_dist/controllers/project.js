@@ -40,6 +40,10 @@ var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
+var _interface = require('../models/interface.js');
+
+var _interface2 = _interopRequireDefault(_interface);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var projectController = function (_baseController) {
@@ -490,7 +494,7 @@ var projectController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var id, result;
+                var id, interfaceInst, count, result;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
@@ -506,42 +510,57 @@ var projectController = function (_baseController) {
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
                             case 4:
-                                _context6.next = 6;
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                _context6.next = 7;
+                                return interfaceInst.countByProjectId(id);
+
+                            case 7:
+                                count = _context6.sent;
+
+                                if (!(count > 0)) {
+                                    _context6.next = 10;
+                                    break;
+                                }
+
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '请先删除该项目下所有接口'));
+
+                            case 10:
+                                _context6.next = 12;
                                 return this.jungeProjectAuth(id);
 
-                            case 6:
+                            case 12:
                                 _context6.t0 = _context6.sent;
 
                                 if (!(_context6.t0 !== true)) {
-                                    _context6.next = 9;
+                                    _context6.next = 15;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 9:
-                                _context6.next = 11;
+                            case 15:
+                                _context6.next = 17;
                                 return this.Model.del(id);
 
-                            case 11:
+                            case 17:
                                 result = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 18;
+                                _context6.next = 24;
                                 break;
 
-                            case 15:
-                                _context6.prev = 15;
+                            case 21:
+                                _context6.prev = 21;
                                 _context6.t1 = _context6['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 18:
+                            case 24:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[0, 15]]);
+                }, _callee6, this, [[0, 21]]);
             }));
 
             function del(_x6) {
@@ -562,7 +581,9 @@ var projectController = function (_baseController) {
          * @param {String} basepath 项目基本路径，不能为空
          * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
          * @param {String} [desc] 项目描述 
-         * @param {String} [env] JSON字符串,例如{"local": "http://www.api.com"}
+         * @param {Array} [env] 项目环境配置
+         * @param {String} [env[].name] 环境名称
+         * @param {String} [env[].host] 环境域名
          * @returns {Object} 
          * @example ./api/project/up.json
          */

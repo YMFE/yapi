@@ -1131,8 +1131,28 @@
             
             <tr>
                 <td>env</td>
+                <td>Array</td>
+                <td>项目环境配置</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>env[].name</td>
                 <td>String</td>
-                <td>JSON字符串,例如{"local": "http://www.api.com"}</td>
+                <td>环境名称</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>env[].host</td>
+                <td>String</td>
+                <td>环境域名</td>
                 <td>
                     
                 </td>
@@ -1144,7 +1164,19 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code>
+<span class="token comment" spellcheck="true">//请求示例</span>
+<span class="token punctuation">{</span>
+    <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+    <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"本地开发环境"</span><span class="token punctuation">,</span>
+        <span class="token string">"domain"</span><span class="token punctuation">:</span> <span class="token string">"http://api.quar.com"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"yapi项目"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//返回示例</span>
+<span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
