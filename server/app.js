@@ -6,7 +6,7 @@ yapi.commons = commons;
 
 import dbModule from './utils/db.js';
 
-import userauth from './middleware/userauth.js'
+import mockServer from './middleware/mockServer.js'
 
 import Koa from 'koa'
 import convert from 'koa-convert'
@@ -17,7 +17,7 @@ import router from './router.js'
 yapi.connect = dbModule.connect()    
 
 const app = new Koa()
-app.use(userauth)
+app.use(mockServer)
 app.use(bodyParser())
 app.use(router.routes())
 app.use(router.allowedMethods())

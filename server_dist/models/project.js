@@ -49,12 +49,17 @@ var projectModel = function (_baseModel) {
             return {
                 uid: { type: Number, required: true },
                 name: { type: String, required: true },
-                basepath: { type: String, required: true },
+                basepath: { type: String, required: true, validate: {
+                        validator: function validator(v) {
+                            return v && v[v.length - 1] === '/';
+                        },
+                        message: 'basepath字符串结尾必须是/'
+                    } },
                 desc: String,
                 group_id: { type: Number, required: true },
                 members: Array,
                 prd_host: { type: String, required: true },
-                env: Object,
+                env: [{ name: String, domain: String }],
                 add_time: Number,
                 up_time: Number
             };
@@ -70,6 +75,13 @@ var projectModel = function (_baseModel) {
         value: function get(id) {
             return this.model.findOne({
                 _id: id
+            }).exec();
+        }
+    }, {
+        key: 'getByDomain',
+        value: function getByDomain(domain) {
+            return this.model.find({
+                prd_host: domain
             }).exec();
         }
     }, {
@@ -95,6 +107,13 @@ var projectModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'countByGroupId',
+        value: function countByGroupId(group_id) {
+            return this.model.count({
+                group_id: group_id
+            });
+        }
+    }, {
         key: 'del',
         value: function del(id) {
             return this.model.deleteOne({
@@ -112,7 +131,6 @@ var projectModel = function (_baseModel) {
     }, {
         key: 'addMember',
         value: function addMember(id, uid) {
-            console.log(id, uid);
             return this.model.update({
                 _id: id
             }, {
