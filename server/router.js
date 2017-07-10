@@ -56,7 +56,7 @@ createAction('interface', 'del', 'post', 'del')
  */
 function createAction(controller, path, method, action){
     router[method](INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
-        let inst = yapi.getInst(INTERFACE_CONFIG[controller].controller, ctx);
+        let inst = new INTERFACE_CONFIG[controller].controller(ctx);
         await inst[action].call(inst, ctx);
     })
 }      

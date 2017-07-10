@@ -90,7 +90,7 @@ function createAction(controller, path, method, action) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            inst = _yapi2.default.getInst(INTERFACE_CONFIG[controller].controller, ctx);
+                            inst = new INTERFACE_CONFIG[controller].controller(ctx);
                             _context.next = 3;
                             return inst[action].call(inst, ctx);
 
