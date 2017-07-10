@@ -1,4 +1,4 @@
-import '../../styles/Header/Header.scss'
+import './Header.scss'
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
