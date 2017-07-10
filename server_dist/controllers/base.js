@@ -16,9 +16,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var baseController = function () {
     function baseController(ctx) {
-        (0, _classCallCheck3.default)(this, baseController);
+        // console.log('baseControler init...')
+        // let router;
+        // if(router === 'user/reg' || 'router/login'){
 
-        console.log('baseControler init...');
+        // }else{
+        //     var a = this.getLoginStatus()
+        //     if(a === false){
+        //         return ctx.body = {};
+
+        //     }
+        // }
+        // this.auth = false;
+
+        (0, _classCallCheck3.default)(this, baseController);
     }
 
     (0, _createClass3.default)(baseController, [{

@@ -51,10 +51,19 @@ var userModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                username: String,
-                password: String,
+                username: {
+                    type: String,
+                    required: true
+                },
+                password: {
+                    type: String,
+                    required: true
+                },
+                email: {
+                    type: String,
+                    required: true
+                },
                 passsalt: String,
-                email: String,
                 role: String,
                 add_time: Number,
                 up_time: Number
@@ -80,8 +89,8 @@ var userModel = function (_baseModel) {
         }
     }, {
         key: 'findByName',
-        value: function findByName(name) {
-            return this.model.find({ "username": name });
+        value: function findByName(username) {
+            return this.model.findOne({ username: username });
         }
     }, {
         key: 'findById',

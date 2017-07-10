@@ -44,6 +44,10 @@ var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var sha1 = require('sha1');
@@ -59,12 +63,24 @@ var userController = function (_baseController) {
         console.log('constructor...');
         return _this;
     }
+    /**
+     * 添加项目分组
+     * @interface /user/login
+     * @method POST
+     * @category user
+     * @foldnumber 10
+     * @param {String} username 用户名称，不能为空
+     * @param  {String} password 密码，不能为空
+     * @returns {Object} 
+     * @example ./api/user/login.json
+     */
+
 
     (0, _createClass3.default)(userController, [{
         key: 'login',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var userInst, username, password, user, id, result, checkRepeat;
+                var userInst, username, password, result, checkRepeat;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -73,51 +89,45 @@ var userController = function (_baseController) {
                                 userInst = _yapi2.default.getInst(_user2.default); //创建user实体
 
                                 username = ctx.request.body.username;
-                                password = sha1(ctx.request.body.password);
+                                password = ctx.request.body.password;
                                 _context.next = 5;
                                 return userInst.findByName(username);
 
                             case 5:
-                                user = _context.sent;
-                                id = user.id;
-                                _context.next = 9;
-                                return userInst.findById(id);
-
-                            case 9:
                                 result = _context.sent;
 
+                                console.log(password);
+
+                                userInst.save(function (error) {
+                                    console.log(111);
+                                    var error = userInst.validateSync();
+                                    assert.equal(error.errors['password'].message, 'password required');
+                                });
+
                                 if (username) {
-                                    _context.next = 12;
+                                    _context.next = 10;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用户名不能为空'));
 
-                            case 12:
-                                if (password) {
-                                    _context.next = 14;
-                                    break;
-                                }
-
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
-
-                            case 14:
-                                _context.next = 16;
+                            case 10:
+                                _context.next = 12;
                                 return userInst.checkRepeat(username);
 
-                            case 16:
+                            case 12:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat == 0)) {
-                                    _context.next = 21;
+                                    _context.next = 17;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 404, '该用户不存在'));
 
-                            case 21:
-                                if (!(result.password === password)) {
-                                    _context.next = 25;
+                            case 17:
+                                if (!(sha1(result.password) === password)) {
+                                    _context.next = 22;
                                     break;
                                 }
 
@@ -126,13 +136,12 @@ var userController = function (_baseController) {
                                 // setCookie('token', sha1(username+password));
                                 // userInst.update({_id, result._id}, {token: sha1(username+password)})
                                 // return ctx.body = {username: ''}
-                                _context.next = 26;
-                                break;
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 200, 'ok'));
 
-                            case 25:
+                            case 22:
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码错误'));
 
-                            case 26:
+                            case 23:
                             case 'end':
                                 return _context.stop();
                         }
@@ -150,7 +159,7 @@ var userController = function (_baseController) {
         key: 'reg',
         value: function () {
             var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
-                var userInst, params, checkRepeat, data, user;
+                var userInst, params, data, user;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -158,59 +167,25 @@ var userController = function (_baseController) {
                                 //注册
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
+                                // if(!params.username){
+                                //     return ctx.body = yapi.commons.resReturn(null,400,'用户名不能为空');
+                                // }
+                                // if(!params.password){
+                                //     return ctx.body = yapi.commons.resReturn(null,400,'密码不能为空'); 
+                                // }
+                                // if(!params.email){
+                                //     return ctx.body = yapi.commons.resReturn(null,400,'邮箱不能为空'); 
+                                // }
 
-                                if (params.username) {
-                                    _context2.next = 4;
-                                    break;
-                                }
+                                // var checkRepeat = await userInst.checkRepeat(params.username);//然后检查是否已经存在该用户
+                                // if(checkRepeat>0){
+                                //     return ctx.body = yapi.commons.resReturn(null,401,'该用户名已经注册');
+                                // }
+                                // var checkRepeat = await userInst.checkRepeat(params.email);//然后检查是否已经存在该用户
+                                // if(checkRepeat>0){
+                                //     return ctx.body = yapi.commons.resReturn(null,401,'该邮箱已经注册');
+                                // }
 
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用户名不能为空'));
-
-                            case 4:
-                                if (params.password) {
-                                    _context2.next = 6;
-                                    break;
-                                }
-
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
-
-                            case 6:
-                                if (params.email) {
-                                    _context2.next = 8;
-                                    break;
-                                }
-
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '邮箱不能为空'));
-
-                            case 8:
-                                _context2.next = 10;
-                                return userInst.checkRepeat(params.username);
-
-                            case 10:
-                                checkRepeat = _context2.sent;
-
-                                if (!(checkRepeat > 0)) {
-                                    _context2.next = 13;
-                                    break;
-                                }
-
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该用户名已经注册'));
-
-                            case 13:
-                                _context2.next = 15;
-                                return userInst.checkRepeat(params.email);
-
-                            case 15:
-                                checkRepeat = _context2.sent;
-
-                                if (!(checkRepeat > 0)) {
-                                    _context2.next = 18;
-                                    break;
-                                }
-
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该邮箱已经注册'));
-
-                            case 18:
                                 data = {
                                     username: params.username,
                                     password: sha1(params.password), //加密
@@ -219,30 +194,30 @@ var userController = function (_baseController) {
                                     add_time: _yapi2.default.commons.time(),
                                     up_time: _yapi2.default.commons.time()
                                 };
-                                _context2.prev = 19;
-                                _context2.next = 22;
+                                _context2.prev = 3;
+                                _context2.next = 6;
                                 return userInst.save(data);
 
-                            case 22:
+                            case 6:
                                 user = _context2.sent;
 
                                 user = _yapi2.default.commons.fieldSelect(user, ['id', 'username', 'password', 'email', 'role']);
                                 ctx.body = _yapi2.default.commons.resReturn(user);
-                                _context2.next = 30;
+                                _context2.next = 14;
                                 break;
 
-                            case 27:
-                                _context2.prev = 27;
-                                _context2.t0 = _context2['catch'](19);
+                            case 11:
+                                _context2.prev = 11;
+                                _context2.t0 = _context2['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 401, _context2.t0.message);
 
-                            case 30:
+                            case 14:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[19, 27]]);
+                }, _callee2, this, [[3, 11]]);
             }));
 
             function reg(_x2) {
