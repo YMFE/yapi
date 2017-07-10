@@ -9,10 +9,19 @@ class userModel extends baseModel{
 
     getSchema(){
         return{
-           username: String,
-           password: String,
+           username: {
+               type: String,
+               required: true
+           },
+           password:{
+               type:String,
+               required: true
+          },
+           email: {
+               type: String,
+               required: true
+           },
            passsalt: String,
-           email: String,
            role: String,
            add_time: Number,
            up_time: Number 
@@ -30,8 +39,8 @@ class userModel extends baseModel{
     list(){
         return this.model.find().select("username_id username email role  add_time up_time").exec()  //显示id name email role 
     }
-    findByName(name){
-        return this.model.find({"username":name})
+    findByName(username){
+        return this.model.findOne({username})
     }
     findById(id){
         return this.model.findById({
