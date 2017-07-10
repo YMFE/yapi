@@ -75,6 +75,15 @@ createAction('project', 'list', 'get', 'list');
 createAction('project', 'get', 'get', 'get');
 createAction('project', 'up', 'post', 'up');
 createAction('project', 'del', 'post', 'del');
+createAction('project', 'add_member', 'post', 'addMember');
+createAction('project', 'del_member', 'post', 'delMember');
+
+//interface
+createAction('interface', 'add', 'post', 'add');
+createAction('interface', 'list', 'get', 'list');
+createAction('interface', 'get', 'get', 'get');
+createAction('interface', 'up', 'post', 'up');
+createAction('interface', 'del', 'post', 'del');
 
 /**
  * 
@@ -93,7 +102,7 @@ function createAction(controller, path, method, action) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            inst = _yapi2.default.getInst(INTERFACE_CONFIG[controller].controller, ctx);
+                            inst = new INTERFACE_CONFIG[controller].controller(ctx);
                             _context.next = 3;
                             return inst[action].call(inst, ctx);
 

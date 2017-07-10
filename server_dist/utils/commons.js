@@ -87,3 +87,15 @@ exports.fieldSelect = function (data, field) {
     });
     return arr;
 };
+
+exports.rand = function (min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+};
+
+exports.json_parse = function (json) {
+    try {
+        return JSON.parse(json);
+    } catch (e) {
+        return json;
+    }
+};

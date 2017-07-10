@@ -1,0 +1,19 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "__v": 0,
+        "_id": 8,
+        "name": "project_a2",
+        "desc": "tttttt",
+        "prd_host": "project.a2.cc",
+        "basepath": "/a1",
+        "uid": 0,
+        "group_id": 1,
+        "add_time": 1499331387,
+        "up_time": 1499331387,
+        "members": [
+            0
+        ]
+    }
+}

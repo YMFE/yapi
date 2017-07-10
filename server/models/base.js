@@ -12,8 +12,27 @@ class baseModel{
     constructor(){
         this.schema = new mongoose.Schema(this.getSchema())
         this.name = this.getName()
-        this.schema.plugin(autoIncrement.plugin, this.name)
+        if(this.isNeedAutoIncrement() === true){
+            this.schema.plugin(autoIncrement.plugin, {
+                model: this.name,
+                field: this.getPrimaryKey(),
+                startAt: 101,
+                incrementBy: yapi.commons.rand(1, 100)
+            })
+        }
+        
         this.model = yapi.db(this.name, this.schema);
+    }
+
+    isNeedAutoIncrement(){
+        return true;
+    }
+
+    /**
+     * 可通过覆盖此方法生成其他自增字段
+     */
+    getPrimaryKey(){
+        return '_id'
     }
     
     /**

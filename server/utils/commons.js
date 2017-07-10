@@ -68,3 +68,15 @@ exports.fieldSelect = (data, field)=>{
     } )
     return arr;
 }
+
+exports.rand =(min, max)=>{
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+exports.json_parse = (json)=>{
+    try{
+        return JSON.parse(json);
+    }catch(e){
+        return json
+    }
+}

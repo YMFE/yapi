@@ -44,6 +44,10 @@ var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
+var _project = require('../models/project.js');
+
+var _project2 = _interopRequireDefault(_project);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // 
@@ -147,13 +151,13 @@ var groupController = function (_baseController) {
         }()
 
         /**
-         * 添加项目分组
+         * 获取项目分组列表
          * @interface /group/list
          * @method get
          * @category group
          * @foldnumber 10
          * @returns {Object} 
-         * @example 
+         * @example ./api/group/list.json
          */
 
     }, {
@@ -197,40 +201,72 @@ var groupController = function (_baseController) {
 
             return list;
         }()
+
+        /**
+         * 删除项目分组
+         * @interface /group/del
+         * @method post
+         * @param {String} id 项目分组id
+         * @category group
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example ./api/group/del.json
+         */
+
     }, {
         key: 'del',
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
-                var groupInst, id, result;
+                var groupInst, projectInst, id, count, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.prev = 0;
                                 groupInst = _yapi2.default.getInst(_group2.default);
+                                projectInst = _yapi2.default.getInst(_project2.default);
                                 id = ctx.request.body.id;
-                                _context3.next = 5;
+
+                                if (id) {
+                                    _context3.next = 6;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'id不能为空'));
+
+                            case 6:
+                                count = projectInst.countByGroupId(id);
+
+                                if (!(count > 0)) {
+                                    _context3.next = 9;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 403, '请先删除该分组下的项目'));
+
+                            case 9:
+                                _context3.next = 11;
                                 return groupInst.del(id);
 
-                            case 5:
+                            case 11:
                                 result = _context3.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 12;
+                                _context3.next = 18;
                                 break;
 
-                            case 9:
-                                _context3.prev = 9;
+                            case 15:
+                                _context3.prev = 15;
                                 _context3.t0 = _context3['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 12:
+                            case 18:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[0, 9]]);
+                }, _callee3, this, [[0, 15]]);
             }));
 
             function del(_x3) {
@@ -239,6 +275,20 @@ var groupController = function (_baseController) {
 
             return del;
         }()
+
+        /**
+         * 更新项目分组
+         * @interface /group/up
+         * @method post
+         * @param {String} id 项目分组id
+         * @param {String} group_name 项目分组名称
+         * @param {String} group_desc 项目分组描述
+         * @category group
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example ./api/group/up.json
+         */
+
     }, {
         key: 'up',
         value: function () {

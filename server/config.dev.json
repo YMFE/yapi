@@ -1,5 +1,6 @@
 {
   "port": "3000",
+  "webhost": "127.0.0.1",
   "db": {
     "servername": "127.0.0.1",
     "DATABASE":  "yapi",

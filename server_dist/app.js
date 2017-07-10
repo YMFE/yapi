@@ -12,9 +12,9 @@ var _db = require('./utils/db.js');
 
 var _db2 = _interopRequireDefault(_db);
 
-var _userauth = require('./middleware/userauth.js');
+var _mockServer = require('./middleware/mockServer.js');
 
-var _userauth2 = _interopRequireDefault(_userauth);
+var _mockServer2 = _interopRequireDefault(_mockServer);
 
 var _checkToken = require('./middleware/checkToken.js');
 
@@ -49,7 +49,7 @@ _yapi2.default.commons = _commons2.default;
 _yapi2.default.connect = _db2.default.connect();
 
 var app = new _koa2.default();
-app.use(_userauth2.default);
+app.use(_mockServer2.default);
 app.use((0, _koaBodyparser2.default)());
 app.use(_router2.default.routes());
 app.use(_router2.default.allowedMethods());
