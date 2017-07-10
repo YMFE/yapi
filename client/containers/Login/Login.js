@@ -1,16 +1,19 @@
-// import { React, Component } from '../../base.js'
-import './Login.scss'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Button, Input, Icon, Checkbox } from 'antd'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import './Login.scss'
 
 class Login extends Component {
   constructor(props) {
     super(props)
   }
 
+  static propTypes = {
+    value: PropTypes.string,
+    per: PropTypes.string,
+  }
+
   render () {
-    console.log(this.props)
     return (
       <acticle className="login-main">
         <span>{this.props.value}{this.props.per}</span>
@@ -29,7 +32,7 @@ class Login extends Component {
 
             <div className="login">
               <Checkbox>记住密码</Checkbox>
-              <Button type="primary">登录</Button>              
+              <Button type="primary">登录</Button>
             </div>
           </div>
         </section>
