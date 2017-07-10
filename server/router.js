@@ -49,6 +49,15 @@ createAction('project', 'list', 'get', 'list')
 createAction('project', 'get', 'get', 'get')
 createAction('project', 'up', 'post', 'up')
 createAction('project', 'del', 'post', 'del')
+createAction('project', 'add_member', 'post', 'addMember')
+createAction('project', 'del_member', 'post', 'delMember')
+
+//interface
+createAction('interface', 'add', 'post', 'add')
+createAction('interface', 'list', 'get', 'list')
+createAction('interface', 'get', 'get', 'get')
+createAction('interface', 'up', 'post', 'up')
+createAction('interface', 'del', 'post', 'del')
 
 
 /**
@@ -60,7 +69,7 @@ createAction('project', 'del', 'post', 'del')
  */
 function createAction(controller, path, method, action){
     router[method](INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
-        let inst = yapi.getInst(INTERFACE_CONFIG[controller].controller, ctx);
+        let inst = new INTERFACE_CONFIG[controller].controller(ctx);
         await inst[action].call(inst, ctx);
     })
 }      

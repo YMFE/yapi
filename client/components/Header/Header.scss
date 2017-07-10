@@ -1,0 +1,46 @@
+@import '../../styles/common.scss';
+
+/* .header-box.css */
+.header-box {
+  display: block;
+  line-height: 64px;
+  background: #000c15;
+  font-size: 0.14rem;
+  
+  // 内容宽度
+  .content {
+    max-width: 11rem;
+    margin: 0 auto;
+    zoom: 1;
+    overflow: hidden;    
+  }
+
+  h1 {
+    font-size: 0.25rem;
+    float: left;
+    color: #FFF;
+    margin: 0 20px;
+  }
+  
+  ul {
+    float: left;
+
+    li {
+      float: left;
+      margin: 0 10px;
+      a {
+        color: #FFF;
+      }
+    }
+
+    li:hover {
+      color: #FFF;
+    }
+  }
+
+  em {
+    float: right;
+    color: #929aac;
+    margin: 0 20px 0 0;
+  }
+}

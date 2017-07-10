@@ -32,15 +32,39 @@ var baseModel = function () {
 
         this.schema = new _mongoose2.default.Schema(this.getSchema());
         this.name = this.getName();
-        this.schema.plugin(_mongooseAutoIncrement2.default.plugin, this.name);
+        if (this.isNeedAutoIncrement() === true) {
+            this.schema.plugin(_mongooseAutoIncrement2.default.plugin, {
+                model: this.name,
+                field: this.getPrimaryKey(),
+                startAt: 101,
+                incrementBy: _yapi2.default.commons.rand(1, 100)
+            });
+        }
+
         this.model = _yapi2.default.db(this.name, this.schema);
     }
 
-    /**
-     * 获取collection的schema结构
-     */
-
     (0, _createClass3.default)(baseModel, [{
+        key: 'isNeedAutoIncrement',
+        value: function isNeedAutoIncrement() {
+            return true;
+        }
+
+        /**
+         * 可通过覆盖此方法生成其他自增字段
+         */
+
+    }, {
+        key: 'getPrimaryKey',
+        value: function getPrimaryKey() {
+            return '_id';
+        }
+
+        /**
+         * 获取collection的schema结构
+         */
+
+    }, {
         key: 'getSchema',
         value: function getSchema() {
             _yapi2.default.commons.log('Model Class need getSchema function', 'error');
