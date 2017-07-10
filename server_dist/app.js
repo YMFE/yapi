@@ -16,6 +16,10 @@ var _userauth = require('./middleware/userauth.js');
 
 var _userauth2 = _interopRequireDefault(_userauth);
 
+var _checkToken = require('./middleware/checkToken.js');
+
+var _checkToken2 = _interopRequireDefault(_checkToken);
+
 var _koa = require('koa');
 
 var _koa2 = _interopRequireDefault(_koa);
@@ -39,6 +43,8 @@ var _router2 = _interopRequireDefault(_router);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _yapi2.default.commons = _commons2.default;
+//checkToken作为中间件存在
+
 
 _yapi2.default.connect = _db2.default.connect();
 
@@ -48,6 +54,7 @@ app.use((0, _koaBodyparser2.default)());
 app.use(_router2.default.routes());
 app.use(_router2.default.allowedMethods());
 app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static')));
+app.use(_checkToken2.default); //不是注册和登录，才需要检查token
 app.listen(_yapi2.default.WEBCONFIG.port);
 _commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.port);
 

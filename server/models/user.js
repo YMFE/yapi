@@ -21,6 +21,7 @@ class userModel extends baseModel{
                type: String,
                required: true
            },
+           token: String,
            passsalt: String,
            role: String,
            add_time: Number,

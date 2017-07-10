@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^3.0.1",
+    "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-logger": "^3.0.0",
