@@ -66,8 +66,9 @@ class projectModel extends baseModel{
     }
 
     addMember(id, uid){
+        console.log(id, uid)
         return this.model.update({
-            _id, id
+            _id: id
         }, {
             $push: {members: uid}
         })

@@ -63,6 +63,15 @@ createAction('project', 'list', 'get', 'list');
 createAction('project', 'get', 'get', 'get');
 createAction('project', 'up', 'post', 'up');
 createAction('project', 'del', 'post', 'del');
+createAction('project', 'add_member', 'post', 'addMember');
+createAction('project', 'del_member', 'post', 'delMember');
+
+//interface
+createAction('interface', 'add', 'post', 'add');
+createAction('interface', 'list', 'get', 'list');
+createAction('interface', 'get', 'get', 'get');
+createAction('interface', 'up', 'post', 'up');
+createAction('interface', 'del', 'post', 'del');
 
 /**
  * 

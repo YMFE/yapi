@@ -147,13 +147,13 @@ var groupController = function (_baseController) {
         }()
 
         /**
-         * 添加项目分组
+         * 获取项目分组列表
          * @interface /group/list
          * @method get
          * @category group
          * @foldnumber 10
          * @returns {Object} 
-         * @example 
+         * @example ./api/group/list.json
          */
 
     }, {
@@ -197,6 +197,18 @@ var groupController = function (_baseController) {
 
             return list;
         }()
+
+        /**
+         * 删除项目分组
+         * @interface /group/del
+         * @method post
+         * @param {String} id 项目分组id
+         * @category group
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example ./api/group/del.json
+         */
+
     }, {
         key: 'del',
         value: function () {
@@ -239,6 +251,20 @@ var groupController = function (_baseController) {
 
             return del;
         }()
+
+        /**
+         * 更新项目分组
+         * @interface /group/up
+         * @method post
+         * @param {String} id 项目分组id
+         * @param {String} group_name 项目分组名称
+         * @param {String} group_desc 项目分组描述
+         * @category group
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example ./api/group/up.json
+         */
+
     }, {
         key: 'up',
         value: function () {
