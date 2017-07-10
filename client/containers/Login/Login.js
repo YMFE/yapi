@@ -7,7 +7,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
   }
-  
+
   static propTypes = {
     value: PropTypes.string,
     per: PropTypes.string,
