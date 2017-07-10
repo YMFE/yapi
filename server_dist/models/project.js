@@ -112,8 +112,9 @@ var projectModel = function (_baseModel) {
     }, {
         key: 'addMember',
         value: function addMember(id, uid) {
+            console.log(id, uid);
             return this.model.update({
-                _id: _id, id: id
+                _id: id
             }, {
                 $push: { members: uid }
             });
