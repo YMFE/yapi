@@ -1,5 +1,5 @@
 // import { React, Component } from '../../base.js'
-import '../../styles/Login/Login.scss'
+import './Login.scss'
 import React, { Component } from 'react'
 import { Button, Input, Icon, Checkbox } from 'antd'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'

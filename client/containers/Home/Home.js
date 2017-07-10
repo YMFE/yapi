@@ -1,5 +1,5 @@
 // import { React, Component } from '../../base.js'
-import '../../styles/Home/Home.scss'
+import './Home.scss'
 import React, { Component } from 'react'
 import { Button, Input, Icon, Checkbox } from 'antd'
 import Header from '../../components/Header/Header.js'
