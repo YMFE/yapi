@@ -63,6 +63,7 @@ var userModel = function (_baseModel) {
                     type: String,
                     required: true
                 },
+                token: String,
                 passsalt: String,
                 role: String,
                 add_time: Number,
