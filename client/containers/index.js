@@ -5,5 +5,5 @@ import ProjectGroups from './ProjectGroups/ProjectGroups.js'
 export {
   Home,
   Login,
-  ProjectGroups
+  ProjectGroups,
 }

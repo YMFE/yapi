@@ -16,6 +16,7 @@ module.exports = {
     rules: {
         "indent": ["error", 2, { "SwitchCase": 1 }],
         "react/display-name": ["off"],
-        "react/jsx-indent": ["error", 2]
+        "react/jsx-indent": ["error", 2],
+        "comma-dangle": ["error", "only-multiline"],
     }
 }
