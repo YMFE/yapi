@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import GroupList from '../../components/GroupList/GroupList.js'
 
+import './ProjectGroups.scss'
+
 export default class ProjectGroups extends Component {
   constructor(props) {
     super(props)
@@ -9,7 +11,9 @@ export default class ProjectGroups extends Component {
   render () {
     return (
       <div>
-        <GroupList></GroupList>
+        <div className="groups-left">
+          <GroupList></GroupList>
+        </div>
       </div>
     )
   }
