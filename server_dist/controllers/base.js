@@ -28,9 +28,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var baseController = function () {
     function baseController(ctx) {
-        (0, _classCallCheck3.default)(this, baseController);
+        // console.log('baseControler init...')
+        // let router;
+        // if(router === 'user/reg' || 'router/login'){
 
-        console.log('baseControler init...');
+        // }else{
+        //     var a = this.getLoginStatus()
+        //     if(a === false){
+        //         return ctx.body = {};
+
+        //     }
+        // }
+        // this.auth = false;
+
+        (0, _classCallCheck3.default)(this, baseController);
     }
 
     (0, _createClass3.default)(baseController, [{
@@ -41,6 +52,12 @@ var baseController = function () {
     }, {
         key: 'getLoginStatus',
         value: function getLoginStatus() {
+            // let token = getCookie('_yapi_token');
+            // let uid   = getCookie('_yapi_uid');
+            // let usermodel
+
+            // usermode.token === token
+            // return true
             return true;
         }
     }, {
