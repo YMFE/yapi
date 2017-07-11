@@ -6,7 +6,7 @@ const increaseAction = { type: 'increase' }
 
 function mapStateToProps() {
   return {
-    per: '测试数据',
+    per: '测试数据'
   }
 }
 
