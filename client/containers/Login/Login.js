@@ -1,14 +1,23 @@
-import './Login.scss';
-import React, { Component } from 'react';
-import { Form, Button, Input, Icon, Checkbox } from 'antd';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './Login.scss'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Form, Button, Input, Icon, Checkbox } from 'antd'
 const FormItem = Form.Item;
 
+@connect(
+  () => ({
+    per: '测试数据',
+  })
+)
 class Login extends Component {
+  static propTypes = {
+    form: PropTypes.object,
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const form = this.props.form;
-
     // 获取全部组件的值
     // console.log(form.getFieldsValue());
     form.validateFields((err, values) => {
@@ -17,6 +26,7 @@ class Login extends Component {
       }
     });
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
