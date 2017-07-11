@@ -8,7 +8,7 @@ const increaseAction = { type: 'increase' }
 
 function mapStateToProps(state) {
   return {
-    per: '测试数据',
+    per: '测试数据'
   }
 }
 
@@ -24,4 +24,3 @@ const App = connect(
 )(Login)
 
 export default App
-

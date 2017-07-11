@@ -23,14 +23,14 @@ class Login extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入用户名!' }],
+            rules: [{ required: true, message: '请输入用户名!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
         </FormItem>
         <FormItem>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: '请输入密码!' }],
+            rules: [{ required: true, message: '请输入密码!' }]
           })(
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
@@ -38,7 +38,7 @@ class Login extends Component {
         <FormItem>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: true
           })(
             <Checkbox>记住密码</Checkbox>
           )}
