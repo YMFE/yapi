@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Button, Input, Icon, Checkbox } from 'antd'
 import './Login.scss'
 
+@connect(
+  () => ({
+    per: '测试数据',
+  })
+)
 class Login extends Component {
   constructor(props) {
     super(props)

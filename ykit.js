@@ -8,7 +8,15 @@ module.exports = {
       eslint: true,
       configFile: path.resolve(__dirname, "./client/.eslintrc.js")
     }
-  }, 'antd'],
+  }, {
+    name: 'antd',
+    options: {
+      modifyQuery: function(defaultQuery) { // 可查看和编辑 defaultQuery
+        defaultQuery.plugins.push('transform-decorators-legacy');
+        return defaultQuery;
+      }
+    }
+  }],
   devtool:  'cheap-source-map',
   config: {
     exports: [

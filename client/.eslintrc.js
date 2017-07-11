@@ -18,5 +18,6 @@ module.exports = {
         "react/display-name": ["off"],
         "react/jsx-indent": ["error", 2],
         "comma-dangle": ["error", "only-multiline"],
+        "no-console": ["off"]
     }
 }
