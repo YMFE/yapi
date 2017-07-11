@@ -42,6 +42,7 @@ createAction('user', 'findById', 'post', 'findById')
 createAction('user', 'update', 'post', 'update')
 createAction('user', 'del', 'post', 'del')
 createAction('user', 'status', 'get', 'getLoginStatus')
+createAction('user', 'logout', 'get', 'logout')
 
 
 //project
@@ -72,7 +73,6 @@ function createAction(controller, path, method, action){
     router[method](INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
         let inst = new INTERFACE_CONFIG[controller].controller(ctx);
         await inst.init(ctx);
-        console.log(22222)
         if(inst.$auth === true){
             await inst[action].call(inst, ctx);
         }else{
