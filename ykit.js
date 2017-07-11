@@ -2,7 +2,21 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  plugins: ['qunar', 'antd'],
+  plugins: [{
+    name: 'qunar',
+    options: {
+      eslint: true,
+      configFile: path.resolve(__dirname, "./client/.eslintrc.js")
+    }
+  }, {
+    name: 'antd',
+    options: {
+      modifyQuery: function(defaultQuery) { // 可查看和编辑 defaultQuery
+        defaultQuery.plugins.push('transform-decorators-legacy');
+        return defaultQuery;
+      }
+    }
+  }],
   devtool:  'cheap-source-map',
   config: {
     exports: [
@@ -17,7 +31,7 @@ module.exports = {
     // true/false，默认 false，效果相当于 ykit server --hot
     hot: true,
     // true/false，默认 false，开启后可在当前打开的页面提示打包错误
-    overlay: true 
+    overlay: true
   },
   hooks: {},
   commands: []
