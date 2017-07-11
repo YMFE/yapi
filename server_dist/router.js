@@ -88,7 +88,7 @@ createAction('interface', 'up', 'post', 'up');
 createAction('interface', 'del', 'post', 'del');
 
 /**
- * 
+ *
  * @param {*} controller controller_name
  * @param {*} path  request_path
  * @param {*} method request_method , post get put delete ...
