@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
     yapi.commons.log('mock Server running...')
     let hostname = ctx.protocol + "://" + ctx.hostname;
     let config = yapi.WEBCONFIG;
-    if(hostname === config.webhost){
+    if(ctx.hostname === config.webhost){
         if(next) await next();
         return true;
     }
