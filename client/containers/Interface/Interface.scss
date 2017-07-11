@@ -1,0 +1,38 @@
+/* .interface-box.css */
+.interface-box {
+  max-width: 11rem;
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  margin: 15px auto 0 auto;
+  font-size: 0.14rem;
+
+  .interface-list {
+    width: 216px;
+    line-height: 45px;
+    background: #f9fafe;
+    
+    li {
+      padding: 0 0 0 30px;
+      color: #344562;
+      cursor: pointer;
+      
+      &:hover, &.active {
+        background: #657289;
+        color: #FFF;
+      }
+    }
+  }
+
+  .interface-table {
+    -webkit-box-flex: 1;
+    margin: 0 0 0 20px;
+
+    .ant-table-wrapper table {
+      font-size: .14rem;
+
+      button {
+        margin: 0 10px 0 0;
+      }
+    }
+  }
+}
