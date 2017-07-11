@@ -1,12 +1,11 @@
 import React from 'react'
-import { Route, HashRouter, Redirect } from 'react-router-dom'
+import { Route, HashRouter } from 'react-router-dom'
 import { Home, Login, ProjectGroups } from './containers/index'
 
 export default () => {
   return (
     <HashRouter>
       <div className="router-main">
-        <Redirect from="/" to="/ProjectGroups" />
         <Route path="/" component={ Home } />
         <Route path="/Login" component={ Login } />
         <Route path="/ProjectGroups" component={ ProjectGroups } />
