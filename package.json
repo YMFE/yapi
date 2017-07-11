@@ -31,6 +31,7 @@
     "mongoose": "4.10.8",
     "mongoose-auto-increment": "^5.0.1",
     "node-sass-china": "^4.5.0",
+    "sha1": "^1.1.1",
     "redux": "^3.7.1",
     "sha1": "^1.1.1",
     "ykit-config-antd": "^0.1.3",
