@@ -9,10 +9,7 @@ class userModel extends baseModel{
 
     getSchema(){
         return{
-           username: {
-               type: String,
-               required: true
-           },
+           username: String,
            password:{
                type:String,
                required: true
@@ -21,7 +18,6 @@ class userModel extends baseModel{
                type: String,
                required: true
            },
-           token: String,
            passsalt: String,
            role: String,
            add_time: Number,
@@ -32,16 +28,16 @@ class userModel extends baseModel{
         let user = new this.model(data);
         return user.save();
     }
-    checkRepeat(name){
+    checkRepeat(email){
         return this.model.count({
-            username: name
+            email: email
         })
     }
     list(){
         return this.model.find().select("username_id username email role  add_time up_time").exec()  //显示id name email role 
     }
-    findByName(username){
-        return this.model.findOne({username})
+    findByEmail(email){
+        return this.model.findOne({email: email})
     }
     findById(id){
         return this.model.findById({
