@@ -1,0 +1,34 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": [
+        {
+            "_id": 1,
+            "group_name": "大数据2",
+            "group_desc": "大数据2",
+            "add_time": 1499244581,
+            "up_time": 1499244581
+        },
+        {
+            "_id": 2,
+            "group_name": "大数据3",
+            "group_desc": "大数据3",
+            "add_time": 1499244588,
+            "up_time": 1499244588
+        },
+        {
+            "_id": 3,
+            "group_name": "大数据4",
+            "group_desc": "大数据4",
+            "add_time": 1499244652,
+            "up_time": 1499244652
+        },
+        {
+            "_id": 4,
+            "group_name": "大数据5",
+            "group_desc": "大数据5",
+            "add_time": 1499328065,
+            "up_time": 1499328065
+        }
+    ]
+}

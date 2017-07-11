@@ -1,6 +1,8 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import yapi from '../yapi.js'
+import sha1 from 'sha1'
 
 exports.resReturn = (data, num, errmsg)=> {
     num = num || 0;
@@ -32,7 +34,7 @@ exports.log =  (msg, type) => {
     let year = date.getFullYear();
     let month = date.getMonth();
     
-    let logfile = path.join(WEBROOT_LOG, year + '-' + month + '.log');
+    let logfile = path.join(yapi.WEBROOT_LOG, year + '-' + month + '.log');
 
     if(typeof msg === 'object'){
         if(msg instanceof Error) msg = msg.message;
@@ -55,3 +57,60 @@ exports.fileExist =  (filePath) =>{
     }
 }
 
+exports.time = () => {
+    return Date.parse(new Date())/1000;
+}
+
+exports.fieldSelect = (data, field)=>{
+    if(!data || !field || !Array.isArray(field)) return null;
+    var arr = {};
+    field.forEach( (f) => {
+        data[f] && (arr[f] = data[f]);
+    } )
+    return arr;
+}
+
+exports.rand =(min, max)=>{
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+exports.json_parse = (json)=>{
+    try{
+        return JSON.parse(json);
+    }catch(e){
+        return json
+    }
+}
+
+exports.randStr = ()=> {
+    return Math.random().toString(36).substr(2)
+}
+
+exports.generatePassword = (password, passsalt) => {
+    return sha1(password + sha1(passsalt));
+}
+
+exports.expireDate = (day) => {
+    let date = new Date();
+    date.setTime(date.getTime() + day * 86400000);
+    return date;
+}
+
+exports.sendMail = (options,cb) => {
+    if(!yapi.mail) return false;
+    options.subject = options.subject? options.subject + '-yapi平台' : 'ypai平台';
+    cb = cb || function(err, info){
+        if(err){
+            yapi.commons.log('send mail ' + options.to +' error,'+ err.message, 'error');
+        }else{
+            yapi.commons.log('send mail ' + options.to +' success');
+        }
+        
+    }
+    yapi.mail.sendMail({
+        from: yapi.WEBCONFIG.mail.auth.user,
+        to  : options.to,
+        subject: 'yapi平台',
+        html: options.contents
+    }, cb)
+}

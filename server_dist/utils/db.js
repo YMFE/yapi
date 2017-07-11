@@ -1,41 +1,48 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
 var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _commons = require('./commons.js');
+var _yapi = require('../yapi.js');
+
+var _yapi2 = _interopRequireDefault(_yapi);
+
+var _mongooseAutoIncrement = require('mongoose-auto-increment');
+
+var _mongooseAutoIncrement2 = _interopRequireDefault(_mongooseAutoIncrement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function init() {
+function model(model, schema) {
+    if (schema instanceof _mongoose2.default.Schema === false) {
+        schema = new _mongoose2.default.Schema(schema);
+    }
+
+    schema.set('autoIndex', false);
+    return _yapi2.default.connect.model(model, schema, model);
+}
+
+function connect() {
     _mongoose2.default.Promise = global.Promise;
-    var config = WEBCONFIG;
+    var config = _yapi2.default.WEBCONFIG;
+
     var db = _mongoose2.default.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE);
 
     db.then(function (res) {
-        (0, _commons.log)('mongodb load success...');
+        _yapi2.default.commons.log('mongodb load success...');
     }, function (err) {
-        (0, _commons.log)(err, 'Mongo connect error');
+        _yapi2.default.commons.log(err, 'Mongo connect error');
     });
 
-    checkDatabase();
+    _mongooseAutoIncrement2.default.initialize(db);
+
     return db;
 }
 
-function checkDatabase() {
-    var exist = (0, _commons.fileExist)(_path2.default.join(WEBROOT_RUNTIME, 'init.lock'));
-    if (!exist) {
-        (0, _commons.log)('lock is not exist');
-    }
-}
+_yapi2.default.db = model;
 
-exports.default = init;
+module.exports = {
+    model: model,
+    connect: connect
+};

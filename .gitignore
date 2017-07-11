@@ -34,3 +34,8 @@ Thumbs.db
 # *.tar.gz
 
 node_modules/
+runtime/init.lock
+runtime/log
+prd/
+dev/
+
