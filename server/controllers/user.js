@@ -61,7 +61,7 @@ class userController extends baseController{
     async reg(ctx){  //注册
         var userInst = yapi.getInst(userModel); 
         let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
-        let result = await userInst.findByName(params.username);
+        //let result = await userInst.findByName(params.username);
         if(!params.username){
             return ctx.body = yapi.commons.resReturn(null,400,'用户名不能为空');
         }
