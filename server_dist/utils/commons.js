@@ -20,6 +20,10 @@ var _yapi = require('../yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
 
+var _sha = require('sha1');
+
+var _sha2 = _interopRequireDefault(_sha);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.resReturn = function (data, num, errmsg) {
@@ -98,4 +102,18 @@ exports.json_parse = function (json) {
     } catch (e) {
         return json;
     }
+};
+
+exports.randStr = function () {
+    return Math.random().toString(36).substr(2);
+};
+
+exports.generatePassword = function (password, passsalt) {
+    return (0, _sha2.default)(password + (0, _sha2.default)(passsalt));
+};
+
+exports.expireDate = function (day) {
+    var date = new Date();
+    date.setTime(date.getTime() + day * 86400000);
+    return date;
 };

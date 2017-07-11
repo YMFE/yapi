@@ -2,6 +2,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import yapi from '../yapi.js'
+import sha1 from 'sha1'
 
 exports.resReturn = (data, num, errmsg)=> {
     num = num || 0;
@@ -79,4 +80,18 @@ exports.json_parse = (json)=>{
     }catch(e){
         return json
     }
+}
+
+exports.randStr = ()=> {
+    return Math.random().toString(36).substr(2)
+}
+
+exports.generatePassword = (password, passsalt) => {
+    return sha1(password + sha1(passsalt));
+}
+
+exports.expireDate = (day) => {
+    let date = new Date();
+    date.setTime(date.getTime() + day * 86400000);
+    return date;
 }

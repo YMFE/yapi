@@ -38,7 +38,7 @@ module.exports = function () {
                         hostname = ctx.protocol + "://" + ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
 
-                        if (!(hostname === config.webhost)) {
+                        if (!(ctx.hostname === config.webhost)) {
                             _context.next = 8;
                             break;
                         }

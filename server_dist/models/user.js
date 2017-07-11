@@ -51,10 +51,7 @@ var userModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                username: {
-                    type: String,
-                    required: true
-                },
+                username: String,
                 password: {
                     type: String,
                     required: true
@@ -63,7 +60,6 @@ var userModel = function (_baseModel) {
                     type: String,
                     required: true
                 },
-                token: String,
                 passsalt: String,
                 role: String,
                 add_time: Number,
@@ -78,9 +74,9 @@ var userModel = function (_baseModel) {
         }
     }, {
         key: 'checkRepeat',
-        value: function checkRepeat(name) {
+        value: function checkRepeat(email) {
             return this.model.count({
-                username: name
+                email: email
             });
         }
     }, {
@@ -89,9 +85,9 @@ var userModel = function (_baseModel) {
             return this.model.find().select("username_id username email role  add_time up_time").exec(); //显示id name email role 
         }
     }, {
-        key: 'findByName',
-        value: function findByName(username) {
-            return this.model.findOne({ username: username });
+        key: 'findByEmail',
+        value: function findByEmail(email) {
+            return this.model.findOne({ email: email });
         }
     }, {
         key: 'findById',
