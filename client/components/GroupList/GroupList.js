@@ -7,9 +7,11 @@ export default class GroupList extends Component {
     super(props)
   }
 
+  
+
   render () {
     return (
-      <Card title="卡片标题">
+      <Card title="Groups">
         <div>MFE</div>
         <div>Hotel</div>
         <div>Train</div>
