@@ -1,0 +1,20 @@
+
+//请求示例
+{
+    "id": 8,
+    "env": [{
+        "name": "本地开发环境",
+        "domain": "http://api.quar.com"
+    }],
+    "desc": "yapi项目"
+}
+
+//返回示例
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "n": 1,
+        "ok": 1
+    }
+}

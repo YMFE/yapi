@@ -1,22 +1,37 @@
+import yapi from './yapi.js';
+import commons from './utils/commons';
+yapi.commons = commons;
+import dbModule from './utils/db.js';
+import mockServer from './middleware/mockServer.js'
+import Koa from 'koa'
+import convert from 'koa-convert'
+import koaStatic from 'koa-static'
+import bodyParser from 'koa-bodyparser'
+import router from './router.js'
 
-import path from 'path'
-import init from'./init.js'
-import fs from 'fs-extra'
+yapi.connect = dbModule.connect()    
 
-import prdConfig from './config.json'
-import devConfig from './config.dev.json'
+const app = new Koa()
+app.use(mockServer)
+app.use(bodyParser())
+app.use(router.routes())
+app.use(router.allowedMethods())
+app.use(koaStatic(
+    yapi.path.join(yapi.WEBROOT, 'static')
+))
+app.listen(yapi.WEBCONFIG.port)
+commons.log(`the server is start at port ${yapi.WEBCONFIG.port}`)
 
-let args = process.argv.splice(2);
-let isDev = args[0] === 'dev' ? true : false;
-const config = isDev ? devConfig : prdConfig;
 
 
-global.WEBROOT = path.resolve(__dirname, '..');
-global.WEBROOT_SERVER = __dirname;
-global.WEBROOT_RUNTIME = path.join(WEBROOT, 'runtime');
-global.WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
-global.WEBCONFIG  = config;
 
-init();
+
+
+
+
+
+
+
+
 
 

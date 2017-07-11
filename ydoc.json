@@ -1,0 +1,39 @@
+{
+    "name": "yapi",
+    "dest": "doc/build",
+    "examplePath": "./exampleCode",
+    "defaultGrammar": "json",
+    "instructionsInfoPath": "", //使用说明 内容路径 (需要配合JS-Component注释的@instructions使用)
+    "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
+    "common": { // 通用默认配置，包括主页配置等
+        "title": "yapi", //page title
+        "footer": "&copy; 2016 <a href=\"http://ued.qunar.com/ymfe/\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>.", // 通用尾
+        "home": "YMFE", // logo
+        "homeUrl": "http://ued.qunar.com/ymfe/" // logourl
+    },
+    "options": {
+        "foldcode": true
+    },
+    "pages": [{
+        "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
+        "title": "首页", // Page Title
+        "banner": { // Banner 配置
+            "title": "index",
+            "description": "首页说明文字"
+        },
+        "content": "./README.md" // 内容(这里以markdown文件举例)
+    },{
+        "name": "api",
+        "title": "api文档",
+        "banner": {
+            "title": "api",
+            "description": "api文档"
+        },
+        "content": "./server/controllers/*.js",
+        "options": {
+            "type": "interface", // 类型，可选 component 和 lib，默认 component
+            "source": true, // 是否生成源文件预览，默认 false
+            "categories":["group","user","project", "interface"]
+        }
+    }]
+}

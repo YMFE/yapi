@@ -1,29 +1,42 @@
-import path from 'path'
 import mongoose from 'mongoose'
-import {fileExist, log} from './commons.js'
+import yapi from '../yapi.js'
+import autoIncrement from 'mongoose-auto-increment'
 
+function model(model, schema){
+    if(schema instanceof mongoose.Schema === false){
+        schema = new mongoose.Schema(schema);
+    }
 
+    
+    schema.set('autoIndex', false);
+    return yapi.connect.model(model, schema, model)
+}
 
-function init(){
+function connect(){
     mongoose.Promise = global.Promise;
-    let config = WEBCONFIG;
+    let config = yapi.WEBCONFIG;
+    
     let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`);
 
     db.then(function (res) {
-        log('mongodb load success...')
+        yapi.commons.log('mongodb load success...')
     }, function (err) {
-        log(err, 'Mongo connect error');
+        yapi.commons.log(err, 'Mongo connect error');
     })
 
-    checkDatabase();
+    autoIncrement.initialize(db);
+
     return db;
 }
 
-function checkDatabase(){
-    let exist = fileExist(path.join(WEBROOT_RUNTIME, 'init.lock'))
-    if(!exist){
-        log('lock is not exist')
-    }
-}
+yapi.db = model;
 
-export default init;
+
+module.exports =   {
+    model: model,
+    connect: connect
+};
+
+
+
+

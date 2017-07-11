@@ -1,8 +1,0 @@
-{
-  "port":"80",
-  "db": {
-    "servername": "localhost",
-    "DATABASE":  "yapi",
-    "port": "27017"
-  }
-}

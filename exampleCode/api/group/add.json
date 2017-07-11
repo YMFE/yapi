@@ -1,0 +1,9 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "_id": 4,
+        "group_name": "大数据5",
+        "group_desc": "大数据5"
+    }
+}
