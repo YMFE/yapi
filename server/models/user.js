@@ -50,12 +50,12 @@ class userModel extends baseModel{
     }
     del (id) {
         return this.model.deleteOne({
-            _id: id
+            _id: id 
         })
     }
     update(id,data){
         return this.model.update({
-            _id: id,
+            _id: id
         },{
             username: data.username,
             password: data.password,
