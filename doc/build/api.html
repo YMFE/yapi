@@ -93,6 +93,7 @@
                                     
                                     <a href="#user">user</a> 
                                 </li>
+
                                   
                                 <!-- <li  > -->
                                 <li >
@@ -137,11 +138,14 @@
                                     
                                     <a href="#interface">interface</a> 
                                 </li>
+
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
+
                                         <a href="#-interface-add">/interface/add</a>
+
                                     </li>
                                  
                                 </ul>
@@ -1472,6 +1476,88 @@
                 <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcc1"</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+
+<h2 id="user" class="page-header subject">user<a class="hashlink" href="#user">#</a></h2>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-login" class="page-header subject">
+            /user/login
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-user-login">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        添加项目分组
+    </p>
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>username</td>
+                <td>String</td>
+                <td>用户名称，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>password</td>
+                <td>String</td>
+                <td>密码，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>返回示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"testuser"</span><span class="token punctuation">,</span>
+        <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"testpassword"</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     

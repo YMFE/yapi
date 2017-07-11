@@ -15,7 +15,7 @@ function model(model, schema){
 function connect(){
     mongoose.Promise = global.Promise;
     let config = yapi.WEBCONFIG;
-
+    
     let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`);
 
     db.then(function (res) {
