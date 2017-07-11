@@ -9,7 +9,12 @@ class interfaceModel extends baseModel{
     getSchema(){
         return {
             uid: {type: Number, required: true},
-            path: {type: String, required: true},
+            path: {type: String, required: true, validate: {
+                validator: (v) => {
+                    return v && v[0] !== '/';
+                },
+                message: '接口路径第一位不能是/'
+            }},
             method: {type: String, required: true},
             project_id: {type: Number, required: true},
             desc: String,
@@ -46,6 +51,13 @@ class interfaceModel extends baseModel{
         }).exec()
     }
 
+    getByPath(project_id, path){
+        return this.model.find({
+            project_id: project_id,
+            path: path
+        }).exec()
+    }
+
     checkRepeat(path, method){
         return this.model.count({
             path: path,
@@ -53,7 +65,11 @@ class interfaceModel extends baseModel{
         })
     }
 
-
+    countByProjectId(id){
+        return this.model.count({
+            project_id: id
+        })
+    }
 
     list (group_id){
         return this.model.find({

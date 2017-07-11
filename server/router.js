@@ -1,8 +1,11 @@
 import koaRouter from 'koa-router'
 import interfaceController from './controllers/interface.js'
 import groupController from './controllers/group.js'
+import userController from './controllers/user.js'
+
 import yapi from './yapi.js'
 import projectController from './controllers/project.js'
+
 
 const router = koaRouter();
 
@@ -13,7 +16,7 @@ const INTERFACE_CONFIG = {
     },
     user: {
         prefix: '/user/',
-        controller: null
+        controller: userController
     },
     group: {
         prefix: '/group/',
@@ -31,6 +34,15 @@ createAction('group', 'add', 'post', 'add')
 createAction('group', 'up', 'post', 'up')
 createAction('group', 'del', 'post', 'del')
 
+//user
+createAction('user', 'login', 'post', 'login')
+createAction('user', 'reg', 'post', 'reg')
+createAction('user', 'list', 'get', 'list')
+createAction('user', 'findById', 'post', 'findById')
+createAction('user', 'update', 'post', 'update')
+createAction('user', 'del', 'post', 'del')
+
+
 //project
 createAction('project', 'add', 'post', 'add')
 createAction('project', 'list', 'get', 'list')
@@ -46,6 +58,7 @@ createAction('interface', 'list', 'get', 'list')
 createAction('interface', 'get', 'get', 'get')
 createAction('interface', 'up', 'post', 'up')
 createAction('interface', 'del', 'post', 'del')
+
 
 /**
  *

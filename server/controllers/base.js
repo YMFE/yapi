@@ -2,7 +2,18 @@ import yapi from '../yapi.js'
 import  projectModel from '../models/project.js'
 class baseController{
     constructor(ctx){
-        console.log('baseControler init...')
+        // console.log('baseControler init...')
+        // let router;
+        // if(router === 'user/reg' || 'router/login'){
+
+        // }else{
+        //     var a = this.getLoginStatus()
+        //     if(a === false){
+        //         return ctx.body = {};
+
+        //     }
+        // }
+        // this.auth = false;
     }
 
     getUid(){
@@ -10,6 +21,12 @@ class baseController{
     }
 
     getLoginStatus(){
+        // let token = getCookie('_yapi_token');
+        // let uid   = getCookie('_yapi_uid');
+        // let usermodel
+
+        // usermode.token === token
+        // return true
         return true
     }
 
