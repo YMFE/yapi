@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
-import { createStore, combineReducers } from 'redux'
 import { connect } from 'react-redux'
 import Login from './Login.js'
 
 // Action
 const increaseAction = { type: 'increase' }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
     per: '测试数据'
   }

@@ -81,6 +81,5 @@ var r = {
     delInst: delInst,
     getInsts: insts
 };
-
 if (mail) r.mail = mail;
 module.exports = r;

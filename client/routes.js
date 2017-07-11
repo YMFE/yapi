@@ -1,8 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, HashRouter } from 'react-router-dom'
+import { Route, HashRouter } from 'react-router-dom'
 import { Home, Login, ProjectGroups } from './containers/index'
 
-export default store => {
+export default () => {
   return (
     <HashRouter>
       <div className="router-main">
