@@ -56,12 +56,12 @@ var userController = function (_baseController) {
         return (0, _possibleConstructorReturn3.default)(this, (userController.__proto__ || (0, _getPrototypeOf2.default)(userController)).call(this, ctx));
     }
     /**
-     * 添加项目分组
+     * 用户登录接口
      * @interface /user/login
      * @method POST
      * @category user
      * @foldnumber 10
-     * @param {String} username 用户名称，不能为空
+     * @param {String} email email名称，不能为空
      * @param  {String} password 密码，不能为空
      * @returns {Object} 
      * @example ./api/user/login.json
@@ -128,7 +128,14 @@ var userController = function (_baseController) {
                                     expires: _yapi2.default.commons.expireDate(7),
                                     httpOnly: true
                                 });
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 0, 'logout success...'));
+
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                    uid: result._id,
+                                    email: result.email,
+                                    add_time: result.add_time,
+                                    up_time: result.up_time
+
+                                }, 0, 'logout success...'));
 
                             case 21:
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '密码错误'));
@@ -147,6 +154,17 @@ var userController = function (_baseController) {
 
             return login;
         }()
+
+        /**
+         * 退出登录接口
+         * @interface /user/logout
+         * @method GET
+         * @category user
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example ./api/user/logout.json
+         */
+
     }, {
         key: 'logout',
         value: function () {
@@ -173,6 +191,20 @@ var userController = function (_baseController) {
 
             return logout;
         }()
+
+        /**
+         * 用户注册接口
+         * @interface /user/reg
+         * @method POST
+         * @category user
+         * @foldnumber 10
+         * @param {String} email email名称，不能为空
+         * @param  {String} password 密码，不能为空
+         * @param {String} [username] 用户名
+         * @returns {Object} 
+         * @example ./api/user/login.json
+         */
+
     }, {
         key: 'reg',
         value: function () {
@@ -233,27 +265,33 @@ var userController = function (_baseController) {
                             case 16:
                                 user = _context3.sent;
 
-                                user = _yapi2.default.commons.fieldSelect(user, ['id', 'username', 'email']);
-                                ctx.body = _yapi2.default.commons.resReturn(user);
+
+                                ctx.body = _yapi2.default.commons.resReturn({
+                                    uid: user._id,
+                                    email: user.email,
+                                    add_time: user.add_time,
+                                    up_time: user.up_time,
+                                    role: 'member'
+                                });
                                 _yapi2.default.commons.sendMail({
                                     to: params.email,
                                     contents: '\u6B22\u8FCE\u6CE8\u518C\uFF0C\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F'
                                 });
-                                _context3.next = 25;
+                                _context3.next = 24;
                                 break;
 
-                            case 22:
-                                _context3.prev = 22;
+                            case 21:
+                                _context3.prev = 21;
                                 _context3.t0 = _context3['catch'](13);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 401, _context3.t0.message);
 
-                            case 25:
+                            case 24:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[13, 22]]);
+                }, _callee3, this, [[13, 21]]);
             }));
 
             function reg(_x3) {
@@ -262,6 +300,17 @@ var userController = function (_baseController) {
 
             return reg;
         }()
+
+        /**
+         * 获取用户列表
+         * @interface /user/list
+         * @method GET
+         * @category user
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'list',
         value: function () {
@@ -271,26 +320,34 @@ var userController = function (_baseController) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
+                                if (!(this.getRole() !== 'admin')) {
+                                    _context4.next = 2;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'Without permission.'));
+
+                            case 2:
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _context4.prev = 1;
-                                _context4.next = 4;
+                                _context4.prev = 3;
+                                _context4.next = 6;
                                 return userInst.list();
 
-                            case 4:
+                            case 6:
                                 user = _context4.sent;
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(user));
 
-                            case 8:
-                                _context4.prev = 8;
-                                _context4.t0 = _context4['catch'](1);
+                            case 10:
+                                _context4.prev = 10;
+                                _context4.t0 = _context4['catch'](3);
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message));
 
-                            case 11:
+                            case 13:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[1, 8]]);
+                }, _callee4, this, [[3, 10]]);
             }));
 
             function list(_x4) {
@@ -299,6 +356,18 @@ var userController = function (_baseController) {
 
             return list;
         }()
+
+        /**
+         * 获取用户列表
+         * @interface /user/list
+         * @method GET
+         * @param id 用户uid
+         * @category user
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'findById',
         value: function () {
@@ -346,6 +415,18 @@ var userController = function (_baseController) {
 
             return findById;
         }()
+
+        /**
+         * 获取用户列表,只有admin用户才有此权限
+         * @interface /user/del
+         * @method POST
+         * @param id 用户uid
+         * @category user
+         * @foldnumber 10
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'del',
         value: function () {
