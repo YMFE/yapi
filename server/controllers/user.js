@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 class userController extends baseController{
     constructor(ctx){
         super(ctx)
-        console.log('user constructor...')
     }
     /**
      * 添加项目分组
@@ -27,7 +26,7 @@ class userController extends baseController{
         let password = ctx.request.body.password;
         
         if(!email){
-            return ctx.body = yapi.commons.resReturn(null,400,'用户名不能为空');
+            return ctx.body = yapi.commons.resReturn(null,400,'email不能为空');
         }
          if(!password){
             return ctx.body = yapi.commons.resReturn(null,400,'密码不能为空');
@@ -41,15 +40,23 @@ class userController extends baseController{
         }else if(yapi.commons.generatePassword(password, result.passsalt) === result.password){ 
             let token = jwt.sign({uid: result._id},result.passsalt,{expiresIn: '7 days'});            
             ctx.cookies.set('_yapi_token', token, {
-                expires: yapi.commons.expireDate(7)
+                expires: yapi.commons.expireDate(7),
+                httpOnly: true
             })
             ctx.cookies.set('_yapi_uid', result._id, {
-                expires: yapi.commons.expireDate(7)
+                expires: yapi.commons.expireDate(7),
+                httpOnly: true
             })
-            return ctx.body = yapi.commons.resReturn(null,200,'ok'); 
+            return ctx.body = yapi.commons.resReturn(null, 0, 'logout success...'); 
         }else{
             return ctx.body = yapi.commons.resReturn(null, 405, '密码错误');
         }
+    }
+
+    async logout(ctx){
+        ctx.cookies.set('_yapi_token', null);
+        ctx.cookies.set('_yapi_uid', null);
+        ctx.body = yapi.commons.resReturn('ok');
     }
 
 
@@ -75,7 +82,7 @@ class userController extends baseController{
             password: yapi.commons.generatePassword(params.password, passsalt),//加密
             email: params.email,
             passsalt: passsalt,
-            role: params.role,
+            role: 'member',
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
         }
@@ -83,11 +90,15 @@ class userController extends baseController{
             let user = await userInst.save(data);
             user = yapi.commons.fieldSelect(user,['id','username','email'])
             ctx.body = yapi.commons.resReturn(user);
+            yapi.commons.sendMail({
+                to: params.email,
+                contents: `欢迎注册，您的账号 ${params.email} 已经注册成功`
+            })
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 401, e.message);
         }
     }
-    async list(ctx){  //获取用户列表并分页 
+    async list(ctx){  
         var userInst = yapi.getInst(userModel);
         try{
             let user = await  userInst.list();
@@ -97,9 +108,12 @@ class userController extends baseController{
         }
     }
     async findById(ctx){    //根据id获取用户信息
-         try{
+         try{             
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
+            if(this.getUid() != id){
+                return ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.');
+            }
             let result = await userInst.findById(id);
             return ctx.body = yapi.commons.resReturn(result);
         }catch(e){
@@ -108,6 +122,9 @@ class userController extends baseController{
     }
     async del(ctx){   //根据id删除一个用户
         try{
+            if(this.getRole() !== 'admin'){
+                return ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.');
+            }
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
             let result = await userInst.del(id);
@@ -119,15 +136,10 @@ class userController extends baseController{
     async update(ctx){    //更新用户信息
         try{
             var userInst = yapi.getInst(userModel);
-            let id = ctx.request.body.id;
+            let id = this.getUid();
             let data ={};
             ctx.request.body.username && (data.username = ctx.request.body.username)
-            ctx.request.body.password && (data.password = ctx.request.body.password)
             ctx.request.body.email && (data.email = ctx.request.body.email)
-            ctx.request.body.role && (data.role = ctx.request.body.role)
-            if (Object.keys(data).length===0){
-                 ctx.body = yapi.commons.resReturn(null,404,'用户名、密码、Email、role都为空');
-            }
             let result = await userInst.update(id,data);
             ctx.body = yapi.commons.resReturn(result);
         }catch(e){

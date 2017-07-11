@@ -35,6 +35,13 @@ var jwt = require('jsonwebtoken');
 var baseController = function () {
     function baseController(ctx) {
         (0, _classCallCheck3.default)(this, baseController);
+
+
+        //网站上线后，role对象key是不能修改的，value可以修改
+        this.roles = {
+            admin: 'Admin',
+            member: '网站会员'
+        };
     }
 
     (0, _createClass3.default)(baseController, [{
@@ -47,7 +54,7 @@ var baseController = function () {
                             case 0:
                                 this.$user = null;
 
-                                if (!(ctx.path === '/user/login' || ctx.path === '/user/reg' || ctx.path === '/user/status')) {
+                                if (!(ctx.path === '/user/login' || ctx.path === '/user/reg' || ctx.path === '/user/status' || ctx.path === '/user/logout')) {
                                     _context.next = 5;
                                     break;
                                 }
@@ -110,30 +117,29 @@ var baseController = function () {
                                 decoded = jwt.verify(token, result.passsalt);
 
                                 if (!(decoded.uid == uid)) {
-                                    _context2.next = 16;
+                                    _context2.next = 15;
                                     break;
                                 }
 
                                 this.$uid = uid;
                                 this.$auth = true;
-                                console.log(11111);
                                 this.$user = result;
                                 return _context2.abrupt('return', true);
 
-                            case 16:
+                            case 15:
                                 return _context2.abrupt('return', false);
 
-                            case 19:
-                                _context2.prev = 19;
+                            case 18:
+                                _context2.prev = 18;
                                 _context2.t0 = _context2['catch'](2);
                                 return _context2.abrupt('return', false);
 
-                            case 22:
+                            case 21:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[2, 19]]);
+                }, _callee2, this, [[2, 18]]);
             }));
 
             function checkLogin(_x2) {
@@ -164,7 +170,7 @@ var baseController = function () {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(_yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time'])));
 
                             case 5:
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Please login.'));
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 300, 'Please login.'));
 
                             case 6:
                             case 'end':
@@ -183,7 +189,7 @@ var baseController = function () {
     }, {
         key: 'getRole',
         value: function getRole() {
-            return 'admin';
+            return this.$user.role;
         }
     }, {
         key: 'jungeProjectAuth',

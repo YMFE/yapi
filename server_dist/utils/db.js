@@ -37,15 +37,7 @@ function connect() {
 
     _mongooseAutoIncrement2.default.initialize(db);
 
-    checkDatabase();
     return db;
-}
-
-function checkDatabase() {
-    var exist = _yapi2.default.commons.fileExist(_yapi2.default.path.join(_yapi2.default.WEBROOT_RUNTIME, 'init.lock'));
-    if (!exist) {
-        _yapi2.default.commons.log('lock is not exist');
-    }
 }
 
 _yapi2.default.db = model;

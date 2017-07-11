@@ -1,10 +1,12 @@
 import path from 'path'
 import fs from 'fs-extra'
-import prdConfig from './config.json'
-import devConfig from './config.dev.json'
+import nodemailer from 'nodemailer';
+import prdConfig from '../runtime/config.json'
+import devConfig from '../runtime/config.dev.json'
 let args = process.argv.splice(2);
 let isDev = args[0] === 'dev' ? true : false;
 var insts = new Map();
+let mail;
 const config = isDev ? devConfig : prdConfig;
 
 const WEBROOT = path.resolve(__dirname, '..'); //路径
@@ -12,6 +14,14 @@ const WEBROOT_SERVER = __dirname;
 const WEBROOT_RUNTIME = path.join(WEBROOT, 'runtime');
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
 const WEBCONFIG  = config;
+
+fs.ensureDirSync(WEBROOT_LOG);
+
+
+
+if(WEBCONFIG.mail){
+    mail = nodemailer.createTransport(WEBCONFIG.mail)
+}
 
 /**
  * 获取一个model实例，如果不存在则创建一个新的返回
@@ -34,7 +44,7 @@ function delInst(m){
     }
 }
 
-module.exports = {
+let r = {
     fs: fs,
     path: path,
     WEBROOT: WEBROOT,
@@ -46,3 +56,6 @@ module.exports = {
     delInst: delInst,
     getInsts: insts
 }
+
+if(mail) r.mail = mail;
+module.exports = r;

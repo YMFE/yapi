@@ -26,15 +26,7 @@ function connect(){
 
     autoIncrement.initialize(db);
 
-    checkDatabase();
     return db;
-}
-
-function checkDatabase(){
-    let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'))
-    if(!exist){
-        yapi.commons.log('lock is not exist')
-    }
 }
 
 yapi.db = model;

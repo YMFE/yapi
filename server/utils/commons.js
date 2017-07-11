@@ -95,3 +95,22 @@ exports.expireDate = (day) => {
     date.setTime(date.getTime() + day * 86400000);
     return date;
 }
+
+exports.sendMail = (options,cb) => {
+    if(!yapi.mail) return false;
+    options.subject = options.subject? options.subject + '-yapi平台' : 'ypai平台';
+    cb = cb || function(err, info){
+        if(err){
+            yapi.commons.log('send mail ' + options.to +' error,'+ err.message, 'error');
+        }else{
+            yapi.commons.log('send mail ' + options.to +' success');
+        }
+        
+    }
+    yapi.mail.sendMail({
+        from: yapi.WEBCONFIG.mail.auth.user,
+        to  : options.to,
+        subject: 'yapi平台',
+        html: options.contents
+    }, cb)
+}
