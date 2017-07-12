@@ -1,6 +1,6 @@
 import {
   FETCH_INTERFACE_DATA,
-} from '../../actionTypes.js'
+} from '../../constants/action-types.js'
 
 export default (state = 3333, action) => {
   switch (action.type) {
