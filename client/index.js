@@ -8,9 +8,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxContainer from './ReduxContainer.js'
 
-console.log('thunkMiddleware', thunkMiddleware)
-console.log('promiseMiddleware', promiseMiddleware)
-
 // 合并 redux 创建stroe
 const store = createStore(combineReducers( ReduxContainer ), applyMiddleware(
   thunkMiddleware.default,
