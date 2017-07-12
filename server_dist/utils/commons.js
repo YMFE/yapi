@@ -117,3 +117,21 @@ exports.expireDate = function (day) {
     date.setTime(date.getTime() + day * 86400000);
     return date;
 };
+
+exports.sendMail = function (options, cb) {
+    if (!_yapi2.default.mail) return false;
+    options.subject = options.subject ? options.subject + '-yapi平台' : 'ypai平台';
+    cb = cb || function (err, info) {
+        if (err) {
+            _yapi2.default.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
+        } else {
+            _yapi2.default.commons.log('send mail ' + options.to + ' success');
+        }
+    };
+    _yapi2.default.mail.sendMail({
+        from: _yapi2.default.WEBCONFIG.mail.auth.user,
+        to: options.to,
+        subject: 'yapi平台',
+        html: options.contents
+    }, cb);
+};

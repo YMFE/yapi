@@ -40,6 +40,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _yapi2.default.commons = _commons2.default;
 
+
 _yapi2.default.connect = _db2.default.connect();
 
 var app = new _koa2.default();
@@ -50,6 +51,3 @@ app.use(_router2.default.allowedMethods());
 app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static')));
 app.listen(_yapi2.default.WEBCONFIG.port);
 _commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.port);
-
-_yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_RUNTIME);
-_yapi2.default.fs.ensureDirSync(_yapi2.default.WEBROOT_LOG);

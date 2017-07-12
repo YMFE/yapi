@@ -12,11 +12,15 @@ var _fsExtra = require('fs-extra');
 
 var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
-var _config = require('./config.json');
+var _nodemailer = require('nodemailer');
+
+var _nodemailer2 = _interopRequireDefault(_nodemailer);
+
+var _config = require('../runtime/config.json');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _configDev = require('./config.dev.json');
+var _configDev = require('../runtime/config.dev.json');
 
 var _configDev2 = _interopRequireDefault(_configDev);
 
@@ -25,6 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var args = process.argv.splice(2);
 var isDev = args[0] === 'dev' ? true : false;
 var insts = new _map2.default();
+var mail = void 0;
 var config = isDev ? _configDev2.default : _config2.default;
 
 var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
@@ -32,6 +37,12 @@ var WEBROOT_SERVER = __dirname;
 var WEBROOT_RUNTIME = _path2.default.join(WEBROOT, 'runtime');
 var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
 var WEBCONFIG = config;
+
+_fsExtra2.default.ensureDirSync(WEBROOT_LOG);
+
+if (WEBCONFIG.mail) {
+    mail = _nodemailer2.default.createTransport(WEBCONFIG.mail);
+}
 
 /**
  * 获取一个model实例，如果不存在则创建一个新的返回
@@ -58,7 +69,7 @@ function delInst(m) {
     }
 }
 
-module.exports = {
+var r = {
     fs: _fsExtra2.default,
     path: _path2.default,
     WEBROOT: WEBROOT,
@@ -70,3 +81,5 @@ module.exports = {
     delInst: delInst,
     getInsts: insts
 };
+if (mail) r.mail = mail;
+module.exports = r;
