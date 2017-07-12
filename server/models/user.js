@@ -34,7 +34,7 @@ class userModel extends baseModel{
         })
     }
     list(){
-        return this.model.find().select("username_id username email role  add_time up_time").exec()  //显示id name email role 
+        return this.model.find().select("_id username email role  add_time up_time").exec()  //显示id name email role 
     }
     findByEmail(email){
         return this.model.findOne({email: email})
@@ -54,7 +54,6 @@ class userModel extends baseModel{
             _id: id
         },{
             username: data.username,
-            password: data.password,
             email: data.email,
             role: data.role,
             up_time: yapi.commons.time()

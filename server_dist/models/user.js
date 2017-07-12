@@ -82,7 +82,7 @@ var userModel = function (_baseModel) {
     }, {
         key: 'list',
         value: function list() {
-            return this.model.find().select("username_id username email role  add_time up_time").exec(); //显示id name email role 
+            return this.model.find().select("_id username email role  add_time up_time").exec(); //显示id name email role 
         }
     }, {
         key: 'findByEmail',
@@ -110,7 +110,6 @@ var userModel = function (_baseModel) {
                 _id: id
             }, {
                 username: data.username,
-                password: data.password,
                 email: data.email,
                 role: data.role,
                 up_time: _yapi2.default.commons.time()

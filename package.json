@@ -4,6 +4,8 @@
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
+    "build-server": "babel  server -d server_dist",
+    "dev-server": "nodemon server_dist/app.js dev",
     "start": "webpack-dev-server"
   },
   "repository": {
@@ -30,6 +32,7 @@
     "mongoose": "4.10.8",
     "mongoose-auto-increment": "^5.0.1",
     "node-sass-china": "^4.5.0",
+    "nodemailer": "^4.0.1",
     "prop-types": "^15.5.10",
     "redux": "^3.7.1",
     "redux-promise": "^0.5.3",

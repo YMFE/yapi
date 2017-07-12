@@ -6,12 +6,17 @@ const jwt = require('jsonwebtoken');
 
 class baseController{
     constructor(ctx){
-        
+
+        //网站上线后，role对象key是不能修改的，value可以修改
+        this.roles = {
+            admin: 'Admin',
+            member: '网站会员'
+        }
     }
 
     async init(ctx){
         this.$user = null;
-        if(ctx.path === '/user/login' || ctx.path === '/user/reg' || ctx.path === '/user/status'){
+        if(ctx.path === '/user/login' || ctx.path === '/user/reg' || ctx.path === '/user/status' || ctx.path === '/user/logout'){
             this.$auth = true;
         }else{
             await this.checkLogin(ctx)
@@ -34,7 +39,6 @@ class baseController{
             if(decoded.uid == uid){
                 this.$uid = uid;
                 this.$auth = true;
-                console.log(11111)  
                 this.$user = result;             
                 return true;
             }
@@ -49,12 +53,12 @@ class baseController{
         if(await this.checkLogin(ctx) === true){
             return ctx.body = yapi.commons.resReturn(yapi.commons.fieldSelect(this.$user,['_id','username','email', 'up_time', 'add_time']));
         }
-        return ctx.body = yapi.commons.resReturn(null, 400 , 'Please login.');
+        return ctx.body = yapi.commons.resReturn(null, 300 , 'Please login.');
 
     }
 
     getRole(){
-        return 'admin'
+        return this.$user.role;
     }
 
     async jungeProjectAuth(id){

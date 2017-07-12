@@ -69,6 +69,7 @@ createAction('user', 'findById', 'post', 'findById');
 createAction('user', 'update', 'post', 'update');
 createAction('user', 'del', 'post', 'del');
 createAction('user', 'status', 'get', 'getLoginStatus');
+createAction('user', 'logout', 'get', 'logout');
 
 //project
 createAction('project', 'add', 'post', 'add');
@@ -87,7 +88,7 @@ createAction('interface', 'up', 'post', 'up');
 createAction('interface', 'del', 'post', 'del');
 
 /**
- * 
+ *
  * @param {*} controller controller_name
  * @param {*} path  request_path
  * @param {*} method request_method , post get put delete ...
@@ -108,24 +109,22 @@ function createAction(controller, path, method, action) {
                             return inst.init(ctx);
 
                         case 3:
-                            console.log(22222);
-
                             if (!(inst.$auth === true)) {
-                                _context.next = 9;
+                                _context.next = 8;
                                 break;
                             }
 
-                            _context.next = 7;
+                            _context.next = 6;
                             return inst[action].call(inst, ctx);
 
-                        case 7:
-                            _context.next = 10;
+                        case 6:
+                            _context.next = 9;
                             break;
 
-                        case 9:
+                        case 8:
                             ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Without Permission.');
 
-                        case 10:
+                        case 9:
                         case 'end':
                             return _context.stop();
                     }
