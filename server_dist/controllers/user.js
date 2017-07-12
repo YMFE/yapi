@@ -129,6 +129,7 @@ var userController = function (_baseController) {
                                 this.setLoginCookie(result._id, result.passsalt);
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                    username: username,
                                     uid: result._id,
                                     email: result.email,
                                     add_time: result.add_time,
@@ -518,11 +519,15 @@ var userController = function (_baseController) {
                                     add_time: _yapi2.default.commons.time(),
                                     up_time: _yapi2.default.commons.time()
                                 };
-                                _context8.prev = 13;
-                                _context8.next = 16;
+
+                                if (!data.username) {
+                                    data.username = data.email.substr(0, data.email.indexOf('@'));
+                                }
+                                _context8.prev = 14;
+                                _context8.next = 17;
                                 return userInst.save(data);
 
-                            case 16:
+                            case 17:
                                 user = _context8.sent;
 
                                 this.setLoginCookie(user._id, user.passsalt);
@@ -530,6 +535,7 @@ var userController = function (_baseController) {
                                 ctx.body = _yapi2.default.commons.resReturn({
                                     uid: user._id,
                                     email: user.email,
+                                    username: user.username,
                                     add_time: user.add_time,
                                     up_time: user.up_time,
                                     role: 'member'
@@ -538,21 +544,21 @@ var userController = function (_baseController) {
                                     to: params.email,
                                     contents: '\u6B22\u8FCE\u6CE8\u518C\uFF0C\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F'
                                 });
-                                _context8.next = 25;
+                                _context8.next = 26;
                                 break;
 
-                            case 22:
-                                _context8.prev = 22;
-                                _context8.t0 = _context8['catch'](13);
+                            case 23:
+                                _context8.prev = 23;
+                                _context8.t0 = _context8['catch'](14);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 401, _context8.t0.message);
 
-                            case 25:
+                            case 26:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[13, 22]]);
+                }, _callee8, this, [[14, 23]]);
             }));
 
             function reg(_x9) {

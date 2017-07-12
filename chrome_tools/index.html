@@ -1,0 +1,75 @@
+<html>
+
+<body>
+    <h1>hello!!!</h1>
+     <input id="file" type="file" name="file" />
+     <button id="upload">upload</button>
+    <script src="yRequest.js"></script>
+
+    <script>
+        yRequest({
+            url: 'http://caibaojian.com/ajax-jsonp.html',
+            method: 'GET',
+            data: {
+                a:1
+            },
+            success: function(res, header){
+                console.log(header)
+            }
+        })
+
+
+        //test get
+        yRequest({
+            url: 'http://127.0.0.1:3000/api',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                a: 1,
+                b:2,
+                c: {
+                    t:1
+                }
+            },
+            success: function(res){
+                console.log(arguments)
+            }
+        })
+
+        //test error get
+        yRequest({
+            url: 'http://127.0.0.1:3000/error_get',
+            method: 'GET',
+            error: function(err, header){
+                console.log(err)
+            }
+        })
+
+        //test upload
+        var file = document.getElementById('file');
+        document.getElementById('upload').addEventListener('click', function(){
+            yRequest({
+                url: 'http://127.0.0.1:3000/upload',
+                method: 'POST',
+                data: {
+                    name: 'hello',
+                    id: '19'
+                },
+                files: {
+                    file: 'file'
+                },
+                success: function(res){
+                    alert(res)
+                }
+            })
+        })
+        
+
+    </script>
+
+   
+</body>
+
+</html>
