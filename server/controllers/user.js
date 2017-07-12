@@ -10,12 +10,12 @@ class userController extends baseController{
         super(ctx)
     }
     /**
-     * 添加项目分组
+     * 用户登录接口
      * @interface /user/login
      * @method POST
      * @category user
      * @foldnumber 10
-     * @param {String} username 用户名称，不能为空
+     * @param {String} email email名称，不能为空
      * @param  {String} password 密码，不能为空
      * @returns {Object} 
      * @example ./api/user/login.json
@@ -47,11 +47,28 @@ class userController extends baseController{
                 expires: yapi.commons.expireDate(7),
                 httpOnly: true
             })
-            return ctx.body = yapi.commons.resReturn(null, 0, 'logout success...'); 
+            
+            return ctx.body = yapi.commons.resReturn({
+                uid: result._id,
+                email: result.email,
+                add_time: result.add_time,
+                up_time: result.up_time
+
+            }, 0, 'logout success...'); 
         }else{
             return ctx.body = yapi.commons.resReturn(null, 405, '密码错误');
         }
     }
+
+    /**
+     * 退出登录接口
+     * @interface /user/logout
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @returns {Object} 
+     * @example ./api/user/logout.json
+     */
 
     async logout(ctx){
         ctx.cookies.set('_yapi_token', null);
@@ -60,7 +77,18 @@ class userController extends baseController{
     }
 
 
-
+    /**
+     * 用户注册接口
+     * @interface /user/reg
+     * @method POST
+     * @category user
+     * @foldnumber 10
+     * @param {String} email email名称，不能为空
+     * @param  {String} password 密码，不能为空
+     * @param {String} [username] 用户名
+     * @returns {Object} 
+     * @example ./api/user/login.json
+     */
     async reg(ctx){  //注册
         var userInst = yapi.getInst(userModel); 
         let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
@@ -88,8 +116,14 @@ class userController extends baseController{
         }
         try{
             let user = await userInst.save(data);
-            user = yapi.commons.fieldSelect(user,['id','username','email'])
-            ctx.body = yapi.commons.resReturn(user);
+            
+            ctx.body = yapi.commons.resReturn({
+                uid: user._id,
+                email: user.email,
+                add_time: user.add_time,
+                up_time: user.up_time,
+                role: 'member',
+            });
             yapi.commons.sendMail({
                 to: params.email,
                 contents: `欢迎注册，您的账号 ${params.email} 已经注册成功`
@@ -98,7 +132,22 @@ class userController extends baseController{
             ctx.body = yapi.commons.resReturn(null, 401, e.message);
         }
     }
-    async list(ctx){  
+
+
+    /**
+     * 获取用户列表
+     * @interface /user/list
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @returns {Object} 
+     * @example 
+     */
+
+    async list(ctx){
+        if(this.getRole() !== 'admin'){
+                return ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.');
+            }
         var userInst = yapi.getInst(userModel);
         try{
             let user = await  userInst.list();
@@ -107,6 +156,18 @@ class userController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
     }
+
+    /**
+     * 获取用户列表
+     * @interface /user/list
+     * @method GET
+     * @param id 用户uid
+     * @category user
+     * @foldnumber 10
+     * @returns {Object} 
+     * @example 
+     */
+
     async findById(ctx){    //根据id获取用户信息
          try{             
             var userInst = yapi.getInst(userModel);
@@ -120,6 +181,17 @@ class userController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
     }
+
+    /**
+     * 获取用户列表,只有admin用户才有此权限
+     * @interface /user/del
+     * @method POST
+     * @param id 用户uid
+     * @category user
+     * @foldnumber 10
+     * @returns {Object} 
+     * @example 
+     */
     async del(ctx){   //根据id删除一个用户
         try{
             if(this.getRole() !== 'admin'){
@@ -133,6 +205,8 @@ class userController extends baseController{
             ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
     }
+
+    
     async update(ctx){    //更新用户信息
         try{
             var userInst = yapi.getInst(userModel);
