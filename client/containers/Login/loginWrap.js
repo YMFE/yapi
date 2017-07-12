@@ -1,19 +1,27 @@
 import './Login.scss'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Tabs } from 'antd';
 import LoginForm from './login';
 import RegForm from './reg';
 const TabPane = Tabs.TabPane;
 
+
 class LoginWrap extends Component {
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
-    form: PropTypes.object
+    form: PropTypes.object,
+    loginWrapActiveKey:PropTypes.string
   }
 
   render() {
+    const { loginWrapActiveKey } = this.props;
     return (
-      <Tabs defaultActiveKey="1" className="login-form">
+      <Tabs defaultActiveKey={loginWrapActiveKey} className="login-form">
         <TabPane tab="登录" key="1">
           <LoginForm/>
         </TabPane>
@@ -25,4 +33,8 @@ class LoginWrap extends Component {
   }
 }
 
-export default LoginWrap;
+export default connect(
+  state =>({
+    loginWrapActiveKey: state.login.loginWrapActiveKey
+  })
+)(LoginWrap)

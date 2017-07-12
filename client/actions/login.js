@@ -1,7 +1,8 @@
 import {
   LOGIN,
-  REGISTER
-} from '../actionTypes.js';
+  REGISTER,
+  LOGIN_TYPE
+} from '../constants/action-types.js';
 // import Server from '../server/listRequest';
 
 const loginActions = (data) => {
@@ -20,7 +21,15 @@ const regActions = (data) => {
   }
 }
 
+const loginTypeAction = (index) => {
+  return{
+    type: LOGIN_TYPE,
+    index
+  }
+}
+
 export default {
   loginActions,
-  regActions
+  regActions,
+  loginTypeAction
 }
