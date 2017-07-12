@@ -1,6 +1,6 @@
 import {
   FETCH_INTERFACE_DATA,
-} from '../actionTypes.js';
+} from '../constants/action-types.js';
 
 export function fetchAuditIcons () {
   const data = [{
