@@ -34,8 +34,8 @@ class InterfaceTable extends Component {
       render: () => {
         return (
           <span>
-            <Button type="primary">Primary</Button>
-            <Button type="primary">Primary</Button>
+            <Button type="primary">编辑</Button>
+            <Button type="danger">删除</Button>
           </span>
         )
       }
