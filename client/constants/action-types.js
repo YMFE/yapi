@@ -7,3 +7,7 @@ export const FETCH_CURR_GROUP = 'FETCH_CURR_GROUP'
 
 // login
 export const LOGIN = 'LOGIN';
+export const REGISTER = 'REGISTER';
+
+//header
+export const LOGIN_TYPE = 'LOGIN_TYPE';
