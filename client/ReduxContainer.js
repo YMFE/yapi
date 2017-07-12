@@ -5,5 +5,5 @@ import Interface from './reducer/Interface/Interface.js'
 export default {
   group,
   LoginRedux,
-  Interface,
+  Interface
 }
