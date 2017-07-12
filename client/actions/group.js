@@ -20,3 +20,18 @@ export function fetchCurrGroup() {
     }
   }
 }
+
+export function addGroup(groupName) {
+  return function(dispatch, getState) {
+    const group = getState().group;
+    const groupList = group.groupList || [];
+    const newGroupList = groupList.concat([groupName + groupList.length]);
+    dispatch({
+      type: FETCH_GROUP_LIST,
+      payload: {
+        data: newGroupList,
+        res: true
+      }
+    });
+  }
+}
