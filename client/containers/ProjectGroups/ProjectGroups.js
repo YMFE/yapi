@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GroupList from '../../components/GroupList/GroupList.js';
+import GroupList from './GroupList/GroupList.js';
 import ProjectList from './ProjectList';
 import { Row, Col } from 'antd';
 
