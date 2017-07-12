@@ -4,6 +4,7 @@
     "data": {
         "uid": 101,
         "email": "admin@admin.com",
+        "username": "admin",
         "add_time": 1499762848,
         "up_time": 1499762848
     }

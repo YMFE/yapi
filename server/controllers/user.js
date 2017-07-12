@@ -42,6 +42,7 @@ class userController extends baseController{
             this.setLoginCookie(result._id, result.passsalt)
             
             return ctx.body = yapi.commons.resReturn({
+                username: username,
                 uid: result._id,
                 email: result.email,
                 add_time: result.add_time,
@@ -172,7 +173,7 @@ class userController extends baseController{
     }
 
     async resetPassword(ctx){
-        
+
     }
 
     setLoginCookie(uid, passsalt){
@@ -225,6 +226,9 @@ class userController extends baseController{
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
         }
+        if(!data.username){
+            data.username = data.email.substr(0, data.email.indexOf('@'));
+        }
         try{
             let user = await userInst.save(data);
             this.setLoginCookie(user._id, user.passsalt)
@@ -232,6 +236,7 @@ class userController extends baseController{
             ctx.body = yapi.commons.resReturn({
                 uid: user._id,
                 email: user.email,
+                username: user.username,
                 add_time: user.add_time,
                 up_time: user.up_time,
                 role: 'member'
