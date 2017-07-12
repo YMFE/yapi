@@ -173,6 +173,18 @@ var interfaceController = function (_baseController) {
 
             return add;
         }()
+
+        /**
+         * 添加项目分组
+         * @interface /interface/get
+         * @method GET
+         * @category interface
+         * @foldnumber 10
+         * @param {Number}   id 接口id，不能为空
+         * @returns {Object} 
+         * @example ./api/interface/get.json
+         */
+
     }, {
         key: 'get',
         value: function () {
@@ -223,6 +235,18 @@ var interfaceController = function (_baseController) {
 
             return get;
         }()
+
+        /**
+         * 添加项目分组
+         * @interface /interface/list
+         * @method GET
+         * @category interface
+         * @foldnumber 10
+         * @param {Number}   project_id 项目id，不能为空
+         * @returns {Object} 
+         * @example ./api/interface/list.json
+         */
+
     }, {
         key: 'list',
         value: function () {
@@ -273,6 +297,33 @@ var interfaceController = function (_baseController) {
 
             return list;
         }()
+
+        /**
+         * 添加项目分组
+         * @interface /interface/up
+         * @method POST
+         * @category interface
+         * @foldnumber 10
+         * @param {Number}   id 接口id，不能为空
+         * @param {String}   [path] 接口请求路径
+         * @param {String}   [method] 请求方式
+         * @param {Array}  [req_headers] 请求的header信息
+         * @param {String}  [req_headers[].name] 请求的header信息名
+         * @param {String}  [req_headers[].value] 请求的header信息值
+         * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
+         * @param {String}  [req_headers[].desc] header描述
+         * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+         * @param {Mixed}  [req_params] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+         * @param {String} [req_params[].name] 请求参数名
+         * @param {String} [req_params[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+         * @param {String} [req_params[].type] 请求参数类型，有["text", "file"]两种
+         * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
+         * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
+         * @param  {String} [desc] 接口描述 
+         * @returns {Object} 
+         * @example ./api/interface/up.json
+         */
+
     }, {
         key: 'up',
         value: function () {
@@ -361,11 +412,23 @@ var interfaceController = function (_baseController) {
 
             return up;
         }()
+
+        /**
+         * 删除接口
+         * @interface /interface/del
+         * @method GET
+         * @category interface
+         * @foldnumber 10
+         * @param {Number}   id 接口id，不能为空
+         * @returns {Object} 
+         * @example ./api/interface/del.json
+         */
+
     }, {
         key: 'del',
         value: function () {
             var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
-                var id, result;
+                var id, data, result;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
@@ -382,41 +445,52 @@ var interfaceController = function (_baseController) {
 
                             case 4:
                                 _context5.next = 6;
-                                return this.jungeMemberAuth(id);
+                                return this.Model.get(params.id);
 
                             case 6:
+                                data = _context5.sent;
+
+                                if (!(data.uid != this.getUid())) {
+                                    _context5.next = 13;
+                                    break;
+                                }
+
+                                _context5.next = 10;
+                                return this.jungeProjectAuth(data.project_id);
+
+                            case 10:
                                 _context5.t0 = _context5.sent;
 
                                 if (!(_context5.t0 !== true)) {
-                                    _context5.next = 9;
+                                    _context5.next = 13;
                                     break;
                                 }
 
                                 return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 9:
-                                _context5.next = 11;
+                            case 13:
+                                _context5.next = 15;
                                 return this.Model.del(id);
 
-                            case 11:
+                            case 15:
                                 result = _context5.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context5.next = 18;
+                                _context5.next = 22;
                                 break;
 
-                            case 15:
-                                _context5.prev = 15;
+                            case 19:
+                                _context5.prev = 19;
                                 _context5.t1 = _context5['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 18:
+                            case 22:
                             case 'end':
                                 return _context5.stop();
                         }
                     }
-                }, _callee5, this, [[0, 15]]);
+                }, _callee5, this, [[0, 19]]);
             }));
 
             function del(_x5) {

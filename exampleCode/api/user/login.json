@@ -1,9 +1,10 @@
 {
     "errcode": 0,
-    "errmsg": "success",
+    "errmsg": "logout success...",
     "data": {
-        "_id": 4,
-        "username": "testuser",
-        "password": "testpassword"
+        "uid": 101,
+        "email": "admin@admin.com",
+        "add_time": 1499762848,
+        "up_time": 1499762848
     }
 }
