@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 class InterfaceTable extends Component {
   static propTypes = {
-    data: PropTypes.array,
+    data: PropTypes.array
   }
 
   constructor(props) {
@@ -15,27 +15,27 @@ class InterfaceTable extends Component {
     const columns = [{
       title: '接口名称',
       dataIndex: 'name',
-      key: 'name',
+      key: 'name'
     }, {
       title: '接口URL',
       dataIndex: 'age',
-      key: 'age',
+      key: 'age'
     }, {
       title: '操作者',
       dataIndex: 'address',
-      key: 'address',
+      key: 'address'
     }, {
       title: '更新日期',
       dataIndex: 'date',
-      key: 'date',
+      key: 'date'
     }, {
       title: '功能',
       'key': 'action',
       render: () => {
         return (
           <span>
-            <Button type="primary">Primary</Button>
-            <Button type="primary">Primary</Button>
+            <Button type="primary">编辑</Button>
+            <Button type="danger">删除</Button>
           </span>
         )
       }

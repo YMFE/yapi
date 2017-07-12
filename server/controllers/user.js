@@ -158,8 +158,8 @@ class userController extends baseController{
     }
 
     /**
-     * 获取用户列表
-     * @interface /user/list
+     * 根据用户个人信息
+     * @interface /user/find
      * @method GET
      * @param id 用户uid
      * @category user
@@ -183,7 +183,7 @@ class userController extends baseController{
     }
 
     /**
-     * 获取用户列表,只有admin用户才有此权限
+     * 删除用户,只有admin用户才有此权限
      * @interface /user/del
      * @method POST
      * @param id 用户uid
