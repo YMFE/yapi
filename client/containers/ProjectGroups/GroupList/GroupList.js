@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Card } from 'antd'
+import { Card, Button } from 'antd'
+import { autobind } from 'core-decorators';
 
 import {
   fetchGroupList,
-  fetchCurrGroup
-} from '../../actions/group.js'
+  fetchCurrGroup,
+  addGroup
+} from '../../../actions/group.js'
 
 import './GroupList.scss'
 
 @connect(
   state => ({
     groupList: state.group.groupList,
-    currGroup: state.group.currGroup,
+    currGroup: state.group.currGroup
   }),
   {
     fetchGroupList,
-    fetchCurrGroup
+    fetchCurrGroup,
+    addGroup
   }
 )
 export default class GroupList extends Component {
@@ -27,7 +30,13 @@ export default class GroupList extends Component {
 
   static propTypes = {
     groupList: PropTypes.array,
-    currGroup: PropTypes.string
+    currGroup: PropTypes.string,
+    addGroup: PropTypes.func
+  }
+
+  @autobind
+  addGroup() {
+    this.props.addGroup('group');
   }
 
   render () {
@@ -35,6 +44,7 @@ export default class GroupList extends Component {
 
     return (
       <Card title="Groups">
+        <Button type="primary" onClick={this.addGroup}>添加分组</Button>
         <div>{currGroup}</div>
         {
           groupList.map((group, index) => (

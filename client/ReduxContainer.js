@@ -7,5 +7,5 @@ export default {
   group,
   login,
   LoginRedux,
-  Interface,
+  Interface
 }
