@@ -13,7 +13,7 @@ import './GroupList.scss'
 @connect(
   state => ({
     groupList: state.group.groupList,
-    currGroup: state.group.currGroup,
+    currGroup: state.group.currGroup
   }),
   {
     fetchGroupList,

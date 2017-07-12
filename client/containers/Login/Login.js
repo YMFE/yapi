@@ -7,12 +7,12 @@ const FormItem = Form.Item;
 
 @connect(
   () => ({
-    per: '测试数据',
+    per: '测试数据'
   })
 )
 class Login extends Component {
   static propTypes = {
-    form: PropTypes.object,
+    form: PropTypes.object
   }
 
   handleSubmit = (e) => {

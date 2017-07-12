@@ -1,5 +1,5 @@
 import {
-  FETCH_INTERFACE_DATA,
+  FETCH_INTERFACE_DATA
 } from '../../constants/action-types.js'
 
 export default (state = 3333, action) => {
@@ -7,7 +7,7 @@ export default (state = 3333, action) => {
     case FETCH_INTERFACE_DATA: {
       return {
         ...state,
-        icons: action.payload.data,
+        icons: action.payload.data
       };
     }
     default:

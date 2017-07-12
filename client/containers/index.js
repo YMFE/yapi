@@ -7,5 +7,5 @@ export {
   Home,
   Login,
   ProjectGroups,
-  Interface,
+  Interface
 }

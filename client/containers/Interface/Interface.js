@@ -9,17 +9,17 @@ import { fetchAuditIcons } from '../../actions/interface.js'
 @connect(
   state => {
     return {
-      interfaceData: state.data,
+      interfaceData: state.data
     }
   },
   {
-    fetchAuditIcons,
+    fetchAuditIcons
   }
 )
 //
 class Interface extends Component {
   static propTypes = {
-    fetchAuditIcons: PropTypes.func,
+    fetchAuditIcons: PropTypes.func
   }
 
   constructor(props) {

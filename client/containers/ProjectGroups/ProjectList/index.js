@@ -7,11 +7,11 @@ const columns = [{
   title: 'Name',
   dataIndex: 'name',
   key: 'name',
-  render: text => <a href="#">{text}</a>,
+  render: text => <a href="#">{text}</a>
 }, {
   title: 'Age',
   dataIndex: 'age',
-  key: 'age',
+  key: 'age'
 }, {
   title: 'Action',
   key: 'action',
@@ -21,7 +21,7 @@ const columns = [{
       <span className="ant-divider" />
       <a href="#">删除</a>
     </span>
-  ),
+  )
 }];
 
 const data = [{
