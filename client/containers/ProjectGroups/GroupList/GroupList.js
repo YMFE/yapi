@@ -24,14 +24,20 @@ import './GroupList.scss'
   }
 )
 export default class GroupList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   static propTypes = {
     groupList: PropTypes.array,
     currGroup: PropTypes.string,
-    addGroup: PropTypes.func
+    addGroup: PropTypes.func,
+    fetchGroupList: PropTypes.func
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  componentWillMount() {
+    this.props.fetchGroupList();
   }
 
   @autobind

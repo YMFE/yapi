@@ -4,7 +4,7 @@ import {
 } from '../../constants/action-types';
 
 const initialState = {
-  groupList: ['Hotel', 'Vacation', 'Flight', 'Pay'],
+  groupList: [],
   currGroup: 'MFE'
 };
 
