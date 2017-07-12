@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
       if (action.payload.res) {
         return {
           ...state,
-          groupList: action.payload.data,
+          groupList: action.payload.data
         };
       }
       return state;
@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
       if (action.payload.res) {
         return {
           ...state,
-          currGroup: action.payload.data,
+          currGroup: action.payload.data
         };
       }
       return state;
