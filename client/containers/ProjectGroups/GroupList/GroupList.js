@@ -6,7 +6,7 @@ import { Card } from 'antd'
 import {
   fetchGroupList,
   fetchCurrGroup
-} from '../../actions/group.js'
+} from '../../../actions/group.js'
 
 import './GroupList.scss'
 
