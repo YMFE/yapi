@@ -39,6 +39,7 @@
     "redux": "^3.7.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
+    "request": "^2.81.0",
     "sha1": "^1.1.1",
     "ykit-config-antd": "^0.1.3",
     "ykit-config-react": "^0.4.4"

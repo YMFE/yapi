@@ -36,7 +36,7 @@ var baseController = function () {
     function baseController(ctx) {
         (0, _classCallCheck3.default)(this, baseController);
 
-
+        this.ctx = ctx;
         //网站上线后，role对象key是不能修改的，value可以修改
         this.roles = {
             admin: 'Admin',
@@ -48,26 +48,28 @@ var baseController = function () {
         key: 'init',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+                var ignoreRouter;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 this.$user = null;
+                                ignoreRouter = ['/user/login_by_token', '/user/login', '/user/reg', '/user/status', '/user/logout'];
 
-                                if (!(ctx.path === '/user/login' || ctx.path === '/user/reg' || ctx.path === '/user/status' || ctx.path === '/user/logout')) {
-                                    _context.next = 5;
+                                if (!(ignoreRouter.indexOf(ctx.path) > -1)) {
+                                    _context.next = 6;
                                     break;
                                 }
 
                                 this.$auth = true;
-                                _context.next = 7;
+                                _context.next = 8;
                                 break;
 
-                            case 5:
-                                _context.next = 7;
+                            case 6:
+                                _context.next = 8;
                                 return this.checkLogin(ctx);
 
-                            case 7:
+                            case 8:
                             case 'end':
                                 return _context.stop();
                         }
