@@ -1,46 +1,63 @@
 @import '../../styles/common.scss';
-
+$color-white : #fff;
+$color-blue : #30a1f2;
+$color-grey-deep : #929aac;
 /* .header-box.css */
 .header-box {
   display: block;
-  line-height: 64px;
+  line-height: .64rem;
   background: #000c15;
   font-size: 0.14rem;
-  
+  color: $color-white;
+
   // 内容宽度
   .content {
     max-width: 11rem;
     margin: 0 auto;
     zoom: 1;
-    overflow: hidden;    
+    overflow: hidden;
   }
 
   h1 {
-    font-size: 0.25rem;
+    font-size: .25rem;
     float: left;
-    color: #FFF;
-    margin: 0 20px;
+    margin: 0 .2rem;
+    color: $color-white;
   }
-  
-  ul {
-    float: left;
 
+  .nav-toolbar {
+    float: left;
     li {
       float: left;
-      margin: 0 10px;
-      a {
-        color: #FFF;
+      margin: 0 .2rem;
+      a{
+        color: $color-white;
+        &:hover {
+          color: $color-blue;
+        }
       }
-    }
-
-    li:hover {
-      color: #FFF;
     }
   }
 
-  em {
+  .user-toolbar{
     float: right;
-    color: #929aac;
-    margin: 0 20px 0 0;
+    line-height: .12rem;
+    li{
+      float: left;
+      height: .12rem;
+      margin: .26rem 0;
+      padding: 0 .1rem;
+      font-size: .12rem;
+      cursor: pointer;
+      a{
+        color: $color-white;
+        &:hover{
+          color: $color-blue;
+        }
+      }
+      &:not(:last-child){
+        border-right: .01rem solid $color-white;
+      }
+    }
   }
 }
