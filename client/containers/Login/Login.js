@@ -53,7 +53,6 @@ class Login extends Component {
         <FormItem>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入email!' }],
-            initialValue: 'test',
             onChange(e) {
               that.handleChange(e.target.value);
             }
