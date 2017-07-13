@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon } from 'antd'
-import { loginTypeAction } from  '../../actions/login';
+import loginTypeAction from '../../actions/login';
 
 const ToolUser = (props)=> (
   <ul>
@@ -58,7 +58,6 @@ class Header extends Component {
   }
   render () {
     const { login, user, msg } = this.props;
-    console.log(this.state.guestToolShow);
     return (
       <acticle className="header-box">
         <div className="content">
