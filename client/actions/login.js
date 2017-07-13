@@ -4,20 +4,23 @@ import {
   LOGIN_TYPE
 } from '../constants/action-types.js';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const loginActions = (data) => {
-  axios.get('/user/login', data).then((res) => {
-    return (dispatch) => {
+  return (dispatch) => {
+    axios.get('/user/login', data).then((res) => {
+      cookies.set(data.email, data.password);
       dispatch({
         type: LOGIN,
         payload: {
           data: res
         }
       });
-    }
-  }).catch((err) => {
-    console.log(err);
-  });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 }
 
 const regActions = (data) => {
