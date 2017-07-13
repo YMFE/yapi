@@ -42,7 +42,7 @@ class userController extends baseController{
             this.setLoginCookie(result._id, result.passsalt)
             
             return ctx.body = yapi.commons.resReturn({
-                username: username,
+                username: result.username,
                 uid: result._id,
                 email: result.email,
                 add_time: result.add_time,
@@ -83,7 +83,6 @@ class userController extends baseController{
                         if (!error && response.statusCode == 200) {
                             let result = JSON.parse(body);
                             if(result && result.ret === true){
-                                console.log(result)
                                 let ret = {
                                     email: result.userId + '@qunar.com',
                                     username: result.data.userInfo.name
@@ -148,6 +147,10 @@ class userController extends baseController{
         }
     }
 
+    /**
+     * 修改用户密码
+     * @param {*} ctx 
+     */
     async changePassword(ctx){
         let params = ctx.request.body;
         var userInst = yapi.getInst(userModel); 

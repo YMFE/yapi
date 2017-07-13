@@ -129,7 +129,7 @@ var userController = function (_baseController) {
                                 this.setLoginCookie(result._id, result.passsalt);
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
-                                    username: username,
+                                    username: result.username,
                                     uid: result._id,
                                     email: result.email,
                                     add_time: result.add_time,
@@ -207,7 +207,6 @@ var userController = function (_baseController) {
                             if (!error && response.statusCode == 200) {
                                 var result = JSON.parse(body);
                                 if (result && result.ret === true) {
-                                    console.log(result);
                                     var ret = {
                                         email: result.userId + '@qunar.com',
                                         username: result.data.userInfo.name
@@ -340,6 +339,12 @@ var userController = function (_baseController) {
 
             return handleThirdLogin;
         }()
+
+        /**
+         * 修改用户密码
+         * @param {*} ctx 
+         */
+
     }, {
         key: 'changePassword',
         value: function () {
