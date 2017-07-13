@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, Checkbox } from 'antd';
 import { loginActions } from  '../../actions/login';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 const FormItem = Form.Item;
 @connect(
   state => {
@@ -36,13 +37,26 @@ class Login extends Component {
     });
   }
 
+  handleChange = (value) => {
+    if (cookies.get(value)) {
+      this.props.form.setFieldsValue({
+        password: cookies.get(value)
+      });
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const that = this;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem>
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: '请输入email!' }]
+            rules: [{ required: true, message: '请输入email!' }],
+            initialValue: 'test',
+            onChange(e) {
+              that.handleChange(e.target.value);
+            }
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}

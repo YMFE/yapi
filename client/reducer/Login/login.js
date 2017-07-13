@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: true,
-        userName: action.userName
+        userName: action.payload.data.userName
       };
     }
     case LOGIN_TYPE: {
