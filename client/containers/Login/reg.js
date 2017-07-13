@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button, Input, Icon, Checkbox } from 'antd';
-import { loginActions } from  '../../actions/login';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import { Form, Button, Input, Icon } from 'antd';
+import { regActions } from  '../../actions/login';
+
 const FormItem = Form.Item;
 @connect(
   state => {
@@ -13,18 +12,18 @@ const FormItem = Form.Item;
     }
   },
   {
-    loginActions
+    regActions
   }
 )
 
-class Login extends Component {
+class Reg extends Component {
   constructor(props) {
     super(props)
   }
 
   static propTypes = {
     form: PropTypes.object,
-    loginActions: PropTypes.func
+    regActions: PropTypes.func
   }
 
   handleSubmit = (e) => {
@@ -32,30 +31,25 @@ class Login extends Component {
     const form = this.props.form;
     form.validateFields((err, values) => {
       if (!err) {
-        this.props.loginActions(values);
+        this.props.regActions(values);
       }
     });
   }
 
-  handleChange = (value) => {
-    if (cookies.get(value)) {
-      this.props.form.setFieldsValue({
-        password: cookies.get(value)
-      });
-    }
-  }
-
   render() {
     const { getFieldDecorator } = this.props.form;
-    const that = this;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem>
+          {getFieldDecorator('userName', {
+            rules: [{ required: true, message: '请输入用户名!' }]
+          })(
+            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+          )}
+        </FormItem>
+        <FormItem>
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: '请输入email!' }],
-            onChange(e) {
-              that.handleChange(e.target.value);
-            }
+            rules: [{ required: true, message: '请输入email!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
@@ -68,18 +62,11 @@ class Login extends Component {
           )}
         </FormItem>
         <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
+          <Button type="primary" htmlType="submit" className="login-form-button">注册</Button>
         </FormItem>
-        {getFieldDecorator('remember', {
-          valuePropName: 'checked',
-          initialValue: true
-        })(
-          <Checkbox>记住密码</Checkbox>
-        )}
-        <span>忘记密码</span>
       </Form>
     )
   }
 }
-const LoginForm = Form.create()(Login);
-export default LoginForm;
+const RegForm = Form.create()(Reg);
+export default RegForm;

@@ -1,0 +1,54 @@
+@import '../../styles/common.scss';
+
+.footer{
+    // max-width: 12rem;
+    margin: 20px auto;
+    clear: both;
+    font-size: 12px;
+    background: #000c15;
+    position: relative;
+    z-index: 1;
+    color: rgba(255,255,255,.65);
+    box-shadow: 0 1000px 0 1000px #fff;
+    
+    h4{
+        margin-bottom: 20px;
+        color: #FFF;
+        i{
+            margin-left: -20px;
+        }
+    }
+}
+.footContent{
+    max-width: 11rem;
+    width:90%;
+    margin:0px auto;
+    overflow: hidden;
+}
+.footItem{
+    padding: 24px 2%;
+    width: 25%;
+    float: left;
+
+    a{
+        margin: 6px 0px;
+        display: block;
+        font-weight: 200;
+        color: #108ee9;
+    }
+}
+.copyRight{
+    padding: 24px 2%;
+    width: 25%;
+    float: left;
+    font-size: 12px;
+    text-indent: 1em;
+
+    h4{
+        font-size: 14px;
+        margin: 0 auto 12px;
+        font-weight: 500;
+        position: relative;
+        text-indent: 0em;
+    }
+}
