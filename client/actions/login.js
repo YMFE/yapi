@@ -3,18 +3,24 @@ import {
   REGISTER,
   LOGIN_TYPE
 } from '../constants/action-types.js';
-// import Server from '../server/listRequest';
+import axios from 'axios';
 
 const loginActions = (data) => {
-  console.log(data);
-  return {
-    type: LOGIN,
-    data
-  };
+  axios.get('/user/login', data).then((res) => {
+    return (dispatch) => {
+      dispatch({
+        type: LOGIN,
+        payload: {
+          data: res
+        }
+      });
+    }
+  }).catch((err) => {
+    console.log(err);
+  });
 }
 
 const regActions = (data) => {
-  console.log(data);
   return {
     type: REGISTER,
     data
