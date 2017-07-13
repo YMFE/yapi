@@ -38,11 +38,12 @@ createAction('group', 'del', 'post', 'del')
 createAction('user', 'login', 'post', 'login')
 createAction('user', 'reg', 'post', 'reg')
 createAction('user', 'list', 'get', 'list')
-createAction('user', 'findById', 'post', 'findById')
+createAction('user', 'find', 'post', 'findById')
 createAction('user', 'update', 'post', 'update')
 createAction('user', 'del', 'post', 'del')
 createAction('user', 'status', 'get', 'getLoginStatus')
 createAction('user', 'logout', 'get', 'logout')
+createAction('user', 'login_by_token', 'post', 'loginByToken')
 
 
 //project

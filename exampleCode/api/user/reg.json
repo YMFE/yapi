@@ -1,0 +1,12 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "uid": 139,
+        "email": "18500803805@163.com",
+        "username": "18500803805",
+        "add_time": 1499768413,
+        "up_time": 1499768413,
+        "role": "member"
+    }
+}

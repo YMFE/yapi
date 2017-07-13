@@ -75,6 +75,16 @@ class interfaceController extends baseController{
         }
     }
 
+    /**
+     * 添加项目分组
+     * @interface /interface/get
+     * @method GET
+     * @category interface
+     * @foldnumber 10
+     * @param {Number}   id 接口id，不能为空
+     * @returns {Object} 
+     * @example ./api/interface/get.json
+     */
     async get(ctx){
         let params = ctx.request.query;
         if(!params.id){
@@ -88,6 +98,17 @@ class interfaceController extends baseController{
         }
     }
 
+    /**
+     * 添加项目分组
+     * @interface /interface/list
+     * @method GET
+     * @category interface
+     * @foldnumber 10
+     * @param {Number}   project_id 项目id，不能为空
+     * @returns {Object} 
+     * @example ./api/interface/list.json
+     */
+
     async list(ctx){
         let project_id = ctx.request.query.project_id;
         if(!project_id){
@@ -100,6 +121,32 @@ class interfaceController extends baseController{
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
+
+    /**
+     * 添加项目分组
+     * @interface /interface/up
+     * @method POST
+     * @category interface
+     * @foldnumber 10
+     * @param {Number}   id 接口id，不能为空
+     * @param {String}   [path] 接口请求路径
+     * @param {String}   [method] 请求方式
+     * @param {Array}  [req_headers] 请求的header信息
+     * @param {String}  [req_headers[].name] 请求的header信息名
+     * @param {String}  [req_headers[].value] 请求的header信息值
+     * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
+     * @param {String}  [req_headers[].desc] header描述
+     * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+     * @param {Mixed}  [req_params] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+     * @param {String} [req_params[].name] 请求参数名
+     * @param {String} [req_params[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+     * @param {String} [req_params[].type] 请求参数类型，有["text", "file"]两种
+     * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
+     * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
+     * @param  {String} [desc] 接口描述 
+     * @returns {Object} 
+     * @example ./api/interface/up.json
+     */
 
     async up(ctx){
         let params = ctx.request.body;
@@ -140,15 +187,34 @@ class interfaceController extends baseController{
 
     }
 
+    /**
+     * 删除接口
+     * @interface /interface/del
+     * @method GET
+     * @category interface
+     * @foldnumber 10
+     * @param {Number}   id 接口id，不能为空
+     * @returns {Object} 
+     * @example ./api/interface/del.json
+     */
+
     async del(ctx){
         try{
-            let id = ctx.request.body.id;
+            let id = ctx.request.body.id;            
+            
             if(!id){
                 return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
             }
-            if(await this.jungeMemberAuth(id) !== true){
-                return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+
+            let data = await this.Model.get(params.id);
+
+            if(data.uid != this.getUid()){
+                if(await this.jungeProjectAuth(data.project_id) !== true){
+                    return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+                }
             }
+
+            
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result)
         }catch(err){

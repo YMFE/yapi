@@ -2,7 +2,8 @@ module.exports = {
     parser: 'babel-eslint',
     extends: ["eslint:recommended", "plugin:react/recommended"],
     "env": {
-      "browser": true
+      "browser": true,
+      "es6": true
     },
     parserOptions: {
         "sourceType": 'module',
@@ -11,13 +12,15 @@ module.exports = {
         }
     },
     plugins: [
-        "react"
+        "react",
+        "import"
     ],
     rules: {
         "indent": ["error", 2, { "SwitchCase": 1 }],
         "react/display-name": ["off"],
         "react/jsx-indent": ["error", 2],
-        "comma-dangle": ["error", "only-multiline"],
-        "no-console": ["off"]
+        "comma-dangle": ["error", "never"],
+        "no-console": ["off"],
+        "import/no-unresolved": ["error"]
     }
 }
