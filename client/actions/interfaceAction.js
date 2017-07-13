@@ -1,8 +1,10 @@
 import {
   FETCH_INTERFACE_DATA,
-} from '../constants/action-types.js';
+  LIST_INTERFACE_CLICK,
+  PROJECT_MEMBER_INTERFACE,
+} from '../constants/action-types.js'
 
-export function fetchAuditIcons () {
+export function fetchInterfaceData () {
   const data = [{
     key: '1',
     name: 'John Brown',
@@ -30,4 +32,16 @@ export function fetchAuditIcons () {
     type: FETCH_INTERFACE_DATA,
     payload: data,
   };
+}
+
+export function projectMember () {
+  return {
+    type: LIST_INTERFACE_CLICK
+  }
+}
+
+export function closeProjectMember () {
+  return {
+    type: PROJECT_MEMBER_INTERFACE,
+  }
 }
