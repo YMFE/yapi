@@ -1,0 +1,88 @@
+$ball-color:#30a1f2;
+$ball-size:.15rem;
+$ball-margin:.02rem;
+$loader-radius:.25rem;
+
+@function delay($interval, $count, $index) {
+  @return ($index * $interval) - ($interval * $count);
+}
+
+@keyframes ball-spin-fade-loader {
+  50% {
+    opacity: 0.3;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@mixin ball-spin-fade-loader($n:8,$start:1){
+  @for $i from $start through $n {
+    > div:nth-child(#{$i}) {
+      $quarter: ($loader-radius/2) + ($loader-radius/5.5);
+
+      @if $i == 1 {
+        top: $loader-radius;
+        left: 0;
+      } @else if $i == 2 {
+        top: $quarter;
+        left: $quarter;
+      } @else if $i == 3 {
+        top: 0;
+        left: $loader-radius;
+      } @else if $i == 4 {
+        top: -$quarter;
+        left: $quarter;
+      } @else if $i == 5 {
+        top: -$loader-radius;
+        left: 0;
+      } @else if $i == 6 {
+        top: -$quarter;
+        left: -$quarter;
+      } @else if $i == 7 {
+        top: 0;
+        left: -$loader-radius;
+      } @else if $i == 8 {
+        top: $quarter;
+        left: -$quarter;
+      }
+      animation: ball-spin-fade-loader 1s delay(0.12s, $n, $i - 1) infinite linear;
+    }
+  }
+}
+
+.loading-box{
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  &-bg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,.7);
+  }
+  &-inner{
+    @include ball-spin-fade-loader();
+    position: relative;
+    >div{
+      position: absolute;
+      width: $ball-size;
+      height: $ball-size;
+      border-radius: 50%;
+      margin: $ball-margin;
+      background-color: $ball-color;
+      animation-fill-mode: both;
+    }
+  }
+}
+
+
+
