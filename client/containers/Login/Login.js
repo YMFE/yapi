@@ -50,6 +50,8 @@ class Login extends Component {
     const that = this;
     return (
       <Form onSubmit={this.handleSubmit}>
+
+        {/* 用户名 (Email) */}
         <FormItem>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入email!' }],
@@ -60,6 +62,8 @@ class Login extends Component {
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
         </FormItem>
+
+        {/* 密码 */}
         <FormItem>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: '请输入密码!' }]
@@ -67,16 +71,21 @@ class Login extends Component {
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
+
+
+        {/* 登录按钮 */}
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
+
+        {/* 记住密码 */}
         {getFieldDecorator('remember', {
           valuePropName: 'checked',
           initialValue: true
         })(
           <Checkbox>记住密码</Checkbox>
         )}
-        <span>忘记密码</span>
+
       </Form>
     )
   }
