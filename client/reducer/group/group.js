@@ -11,10 +11,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_GROUP_LIST: {
-      if (action.payload.res) {
+      if (!action.payload.data.errcode) {
         return {
           ...state,
-          groupList: action.payload.data
+          groupList: action.payload.data.data
         };
       }
       return state;
