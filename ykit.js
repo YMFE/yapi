@@ -22,6 +22,7 @@ module.exports = {
       './index.js'
     ],
     modifyWebpackConfig: function(baseConfig) {
+      baseConfig.devtool = 'cheap-module-eval-source-map'
       baseConfig.context = path.resolve(__dirname, "client");
       return baseConfig;
     }
