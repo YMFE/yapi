@@ -710,7 +710,7 @@ var projectController = function (_baseController) {
          * @foldnumber 10
          * @param {String} q
          * @return {Object}
-         * @example
+         * @example ./api/project/search.json
         */
 
     }, {

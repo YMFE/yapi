@@ -1,4 +1,4 @@
-import  projectModel from '../models/project.js'
+import projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
@@ -288,7 +288,7 @@ class projectController extends baseController {
      * @foldnumber 10
      * @param {String} q
      * @return {Object}
-     * @example
+     * @example ./api/project/search.json
     */
     async search(ctx) {
         const { q } = ctx.request.query;

@@ -838,7 +838,7 @@ var userController = function (_baseController) {
          * @foldnumber 10
          * @param {String} q
          * @return {Object}
-         * @example
+         * @example ./api/user/search.json
         */
 
     }, {
