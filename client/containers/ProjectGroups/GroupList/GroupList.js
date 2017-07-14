@@ -54,7 +54,7 @@ export default class GroupList extends Component {
         <div>{currGroup}</div>
         {
           groupList.map((group, index) => (
-            <div key={index}>{group}</div>
+            <div key={index}>{group.group_name}</div>
           ))
         }
       </Card>
