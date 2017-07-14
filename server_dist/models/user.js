@@ -108,12 +108,7 @@ var userModel = function (_baseModel) {
         value: function update(id, data) {
             return this.model.update({
                 _id: id
-            }, {
-                username: data.username,
-                email: data.email,
-                role: data.role,
-                up_time: _yapi2.default.commons.time()
-            });
+            }, data);
         }
     }]);
     return userModel;

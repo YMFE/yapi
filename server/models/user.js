@@ -52,12 +52,7 @@ class userModel extends baseModel{
     update(id,data){
         return this.model.update({
             _id: id
-        },{
-            username: data.username,
-            email: data.email,
-            role: data.role,
-            up_time: yapi.commons.time()
-        })
+        }, data)
     }
 
 }
