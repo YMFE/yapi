@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 class userController extends baseController{
     constructor(ctx){
         super(ctx)
+        this.Model = yapi.getInst(userModel);
     }
     /**
      * 用户登录接口
@@ -357,6 +358,31 @@ class userController extends baseController{
         }catch(e){
             ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
+    }
+
+    /**
+     * 模糊搜索用户名或者email
+     * @interface /user/search
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @param {String} q
+     * @return {Object}
+     * @example
+    */
+    async search(ctx) {
+        const { q } = ctx.request.query;
+
+        if (!q) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.')
+        }
+
+        if (!yapi.commons.validateSearchKeyword(q)) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
+        }
+        
+        let queryList = await this.Model.search(q);
+        return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
     }
 }
 
