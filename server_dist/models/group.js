@@ -98,7 +98,7 @@ var groupModel = function (_baseModel) {
         key: 'search',
         value: function search(keyword) {
             return this.model.find({
-                name: new RegExp(keyword, 'ig')
+                group_name: new RegExp(keyword, 'i')
             }).limit(10);
         }
     }]);
