@@ -115,6 +115,13 @@ var userModel = function (_baseModel) {
                 up_time: _yapi2.default.commons.time()
             });
         }
+    }, {
+        key: 'search',
+        value: function search(keyword) {
+            return this.model.find({
+                $or: [{ email: new RegExp(keyword, 'i') }, { username: new RegExp(keyword, 'i') }]
+            }).limit(10);
+        }
     }]);
     return userModel;
 }(_base2.default);

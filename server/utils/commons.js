@@ -114,3 +114,10 @@ exports.sendMail = (options,cb) => {
         html: options.contents
     }, cb)
 }
+
+exports.validateSearchKeyword = keyword => {
+    if (/^\*|\?|\+|\$|\^|\\|\.$/.test(keyword)) {
+        return false;
+    }
+    return true;
+}

@@ -44,6 +44,10 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
+var _group = require('../models/group');
+
+var _group2 = _interopRequireDefault(_group);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var projectController = function (_baseController) {
@@ -55,6 +59,7 @@ var projectController = function (_baseController) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (projectController.__proto__ || (0, _getPrototypeOf2.default)(projectController)).call(this, ctx));
 
         _this.Model = _yapi2.default.getInst(_project2.default);
+        _this.groupModel = _yapi2.default.getInst(_group2.default);
         return _this;
     }
 
@@ -194,7 +199,7 @@ var projectController = function (_baseController) {
         * @category project
         * @foldnumber 10
         * @param {Number} id 项目id，不能为空
-        * @param {member_uid} uid 项目成员uid,不能为空
+        * @param {String} member_uid 项目成员uid,不能为空
         * @returns {Object} 
         * @example ./api/project/add_member.json
         */
@@ -695,6 +700,75 @@ var projectController = function (_baseController) {
             }
 
             return up;
+        }()
+
+        /**
+         * 模糊搜索项目名称或者组名称
+         * @interface /project/search
+         * @method GET
+         * @category project
+         * @foldnumber 10
+         * @param {String} q
+         * @return {Object}
+         * @example
+        */
+
+    }, {
+        key: 'search',
+        value: function () {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+                var q, queryList;
+                return _regenerator2.default.wrap(function _callee8$(_context8) {
+                    while (1) {
+                        switch (_context8.prev = _context8.next) {
+                            case 0:
+                                q = ctx.request.query.q;
+
+                                if (q) {
+                                    _context8.next = 3;
+                                    break;
+                                }
+
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'No keyword.'));
+
+                            case 3:
+                                if (_yapi2.default.commons.validateSearchKeyword(q)) {
+                                    _context8.next = 5;
+                                    break;
+                                }
+
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'Bad query.'));
+
+                            case 5:
+                                _context8.next = 7;
+                                return this.Model.search(q);
+
+                            case 7:
+                                _context8.t0 = _context8.sent;
+                                _context8.next = 10;
+                                return this.groupModel.search(q);
+
+                            case 10:
+                                _context8.t1 = _context8.sent;
+                                queryList = {
+                                    project: _context8.t0,
+                                    group: _context8.t1
+                                };
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+
+                            case 13:
+                            case 'end':
+                                return _context8.stop();
+                        }
+                    }
+                }, _callee8, this);
+            }));
+
+            function search(_x8) {
+                return _ref8.apply(this, arguments);
+            }
+
+            return search;
         }()
     }]);
     return projectController;

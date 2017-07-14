@@ -59,6 +59,14 @@ class userModel extends baseModel{
             up_time: yapi.commons.time()
         })
     }
+    search(keyword) {
+        return this.model.find({
+            $or: [
+                { email: new RegExp(keyword, 'i') },
+                { username: new RegExp(keyword, 'i')}
+            ]
+        }).limit(10)
+    }
 
 }
 
