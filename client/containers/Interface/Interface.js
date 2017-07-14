@@ -4,22 +4,36 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import InterfaceList from './InterfaceList/InterfaceList.js'
 import InterfaceTable from './InterfaceTable/InterfaceTable.js'
-import { fetchAuditIcons } from '../../actions/interface.js'
+import InterfaceMode from './InterfaceMode/InterfaceMode.js'
+import Header from '../../components/Header/Header.js'
+import { 
+  fetchInterfaceData, 
+  projectMember,
+  closeProjectMember
+} from '../../actions/interfaceAction.js'
 
 @connect(
   state => {
     return {
-      interfaceData: state.data
+      interfaceData: state.Interface.interfaceData,
+      modalVisible: state.Interface.modalVisible,
+      closeProjectMember: state.Interface.closeProjectMember
     }
   },
   {
-    fetchAuditIcons
+    fetchInterfaceData,
+    projectMember,
+    closeProjectMember
   }
 )
-//
+
 class Interface extends Component {
   static propTypes = {
-    fetchAuditIcons: PropTypes.func
+    fetchInterfaceData: PropTypes.func,
+    interfaceData: PropTypes.array,
+    projectMember: PropTypes.func,
+    closeProjectMember: PropTypes.func,
+    modalVisible: PropTypes.bool
   }
 
   constructor(props) {
@@ -27,17 +41,22 @@ class Interface extends Component {
   }
 
   componentWillMount () {
-    this.props.fetchAuditIcons()
+    this.props.fetchInterfaceData()
   }
 
   render () {
-    const data = this.props.fetchAuditIcons().payload
+    const { interfaceData, projectMember, modalVisible } = this.props
 
     return (
-      <section className="interface-box">
-        <InterfaceList />
-        <InterfaceTable data={data} />
-      </section>
+      <div>
+        <Header />
+
+        <section className="interface-box">
+          <InterfaceList projectMember={projectMember} />
+          <InterfaceMode modalVisible={modalVisible} closeProjectMember={this.props.closeProjectMember} />
+          <InterfaceTable data={interfaceData} />
+        </section>
+      </div>
     )
   }
 }

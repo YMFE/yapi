@@ -42,7 +42,6 @@ class InterfaceTable extends Component {
     }]
 
     const data = this.props.data;
-    console.log(this.props.data)
 
     return (
       <section className="interface-table">
