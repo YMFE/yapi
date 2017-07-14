@@ -1,0 +1,16 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": [
+        {
+            "_id": 101,
+            "email": "admin@admin.com",
+            "password": "e00084747ecba89837affe8a048e83c751e44209",
+            "passsalt": "fmf3kytyysc4swwuqc15rk9",
+            "role": "admin",
+            "add_time": 1499932673,
+            "up_time": 1499932673,
+            "__v": 0
+        }
+    ]
+}

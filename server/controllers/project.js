@@ -76,7 +76,7 @@ class projectController extends baseController {
         
     }
      /**
-     * 添加项目
+     * 添加项目成员
      * @interface /project/add_member
      * @method POST
      * @category project
@@ -108,7 +108,7 @@ class projectController extends baseController {
 
     }
      /**
-     * 添加项目
+     * 删除项目成员
      * @interface /project/del_member
      * @method POST
      * @category project
@@ -142,7 +142,7 @@ class projectController extends baseController {
 
     /**
      * 获取项目成员列表
-     * @interface /project/get_member_list
+     * @interface /project/get_member_list.json
      * @method GET
      * @category project
      * @foldnumber 10
