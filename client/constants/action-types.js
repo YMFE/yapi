@@ -7,6 +7,9 @@ export const PROJECT_MEMBER_INTERFACE = 'PROJECT_MEMBER_INTERFACE'
 export const FETCH_GROUP_LIST = 'FETCH_GROUP_LIST'
 export const FETCH_CURR_GROUP = 'FETCH_CURR_GROUP'
 
+// project
+export const PROJECT_ADD = 'PROJECT_ADD'
+
 // login
 export const LOGIN = 'LOGIN';
 export const REGISTER = 'REGISTER';

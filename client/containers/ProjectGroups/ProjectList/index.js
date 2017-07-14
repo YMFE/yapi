@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip } from 'antd';
+import { addProject } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
@@ -47,6 +48,18 @@ const formItemLayout = {
     sm: { span: 14 }
   }
 };
+
+@connect(
+  state => {
+    return {
+      loginData: state.login
+    }
+  },
+  {
+    addProject
+  }
+)
+
 class ProjectList extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +68,8 @@ class ProjectList extends Component {
     }
   }
   static propTypes = {
-    form: PropTypes.object
+    form: PropTypes.object,
+    addProject: PropTypes.func
   }
   addProject = () => {
     this.setState({
@@ -70,6 +84,7 @@ class ProjectList extends Component {
         this.setState({
           visible: false
         });
+        this.props.addProject(values);
       }
     });
   }
