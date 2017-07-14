@@ -61,7 +61,11 @@ var userController = function (_baseController) {
 
     function userController(ctx) {
         (0, _classCallCheck3.default)(this, userController);
-        return (0, _possibleConstructorReturn3.default)(this, (userController.__proto__ || (0, _getPrototypeOf2.default)(userController)).call(this, ctx));
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (userController.__proto__ || (0, _getPrototypeOf2.default)(userController)).call(this, ctx));
+
+        _this.Model = _yapi2.default.getInst(_user2.default);
+        return _this;
     }
     /**
      * 用户登录接口
@@ -856,6 +860,66 @@ var userController = function (_baseController) {
             }
 
             return update;
+        }()
+
+        /**
+         * 模糊搜索用户名或者email
+         * @interface /user/search
+         * @method GET
+         * @category user
+         * @foldnumber 10
+         * @param {String} q
+         * @return {Object}
+         * @example ./api/user/search.json
+        */
+
+    }, {
+        key: 'search',
+        value: function () {
+            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
+                var q, queryList;
+                return _regenerator2.default.wrap(function _callee13$(_context13) {
+                    while (1) {
+                        switch (_context13.prev = _context13.next) {
+                            case 0:
+                                q = ctx.request.query.q;
+
+                                if (q) {
+                                    _context13.next = 3;
+                                    break;
+                                }
+
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'No keyword.'));
+
+                            case 3:
+                                if (_yapi2.default.commons.validateSearchKeyword(q)) {
+                                    _context13.next = 5;
+                                    break;
+                                }
+
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'Bad query.'));
+
+                            case 5:
+                                _context13.next = 7;
+                                return this.Model.search(q);
+
+                            case 7:
+                                queryList = _context13.sent;
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+
+                            case 9:
+                            case 'end':
+                                return _context13.stop();
+                        }
+                    }
+                }, _callee13, this);
+            }));
+
+            function search(_x14) {
+                return _ref13.apply(this, arguments);
+            }
+
+            return search;
         }()
     }]);
     return userController;

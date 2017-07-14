@@ -54,6 +54,14 @@ class userModel extends baseModel{
             _id: id
         }, data)
     }
+    search(keyword) {
+        return this.model.find({
+            $or: [
+                { email: new RegExp(keyword, 'i') },
+                { username: new RegExp(keyword, 'i')}
+            ]
+        }).limit(10)
+    }
 
 }
 

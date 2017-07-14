@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 // import { connect } from 'react-redux'
-import { Table } from 'antd'
+import { Table, Button, Modal, Form, Input, Icon, Tooltip } from 'antd';
+const { TextArea } = Input;
+const FormItem = Form.Item;
 
 const columns = [{
   title: 'Name',
@@ -35,12 +37,133 @@ const data = [{
   age: 32
 }];
 
-
-
-export default class GroupList extends Component {
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 14 }
+  }
+};
+class ProjectList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false
+    }
+  }
+  static propTypes = {
+    form: PropTypes.object
+  }
+  addProject = () => {
+    this.setState({
+      visible: true
+    });
+  }
+  handleOk = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        this.setState({
+          visible: false
+        });
+      }
+    });
+  }
+  handleCancel = () => {
+    this.props.form.resetFields();
+    this.setState({
+      visible: false
+    });
+  }
+  handleSubmit = (e) => {
+    console.log(e);
+  }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
-      <Table columns={columns} dataSource={data} />
+      <div>
+        <Modal
+          title="创建项目"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Form onSubmit={this.handleSubmit}>
+
+            <FormItem
+              {...formItemLayout}
+              label="项目名称"
+            >
+              {getFieldDecorator('name', {
+                rules: [{
+                  required: true, message: '请输入项目名称!'
+                }]
+              })(
+                <Input />
+              )}
+            </FormItem>
+
+            <FormItem
+              {...formItemLayout}
+              label={(
+                <span>
+                  线上域名&nbsp;
+                  <Tooltip title="将根据配置的线上域名访问mock数据">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              )}
+            >
+              {getFieldDecorator('prd_host', {
+                rules: [{
+                  required: true, message: '请输入项目线上域名!'
+                }]
+              })(
+                <Input />
+              )}
+            </FormItem>
+
+            <FormItem
+              {...formItemLayout}
+              label="URL"
+            >
+              {getFieldDecorator('basepath', {
+                rules: [{
+                  required: true, message: '请输入项目基本路径!'
+                }]
+              })(
+                <Input />
+              )}
+            </FormItem>
+
+            <FormItem
+              {...formItemLayout}
+              label="描述"
+            >
+              {getFieldDecorator('desc', {
+                rules: [{
+                  required: true, message: '请输入描述!'
+                }]
+              })(
+                <TextArea rows={4} />
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
+
+        <Table
+          columns={columns}
+          dataSource={data}
+          title={() => <Button type="primary" onClick={this.addProject}>创建项目</Button>}
+        />
+
+      </div>
     );
   }
 }
+
+export default Form.create()(ProjectList);

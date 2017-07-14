@@ -44,7 +44,8 @@ createAction('user', 'del', 'post', 'del')
 createAction('user', 'status', 'get', 'getLoginStatus')
 createAction('user', 'logout', 'get', 'logout')
 createAction('user', 'login_by_token', 'post', 'loginByToken')
-createAction('user', 'change_password', 'post', 'changePassword');
+createAction('user', 'change_password', 'post', 'changePassword')
+createAction('user', 'search', 'get', 'search')
 
 
 //project
@@ -56,7 +57,7 @@ createAction('project', 'del', 'post', 'del')
 createAction('project', 'add_member', 'post', 'addMember')
 createAction('project', 'del_member', 'post', 'delMember')
 createAction('project', 'get_member_list', 'get', 'getMemberList')
-
+createAction('project', 'search', 'get', 'search')
 
 //interface
 createAction('interface', 'add', 'post', 'add')

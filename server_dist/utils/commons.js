@@ -135,3 +135,10 @@ exports.sendMail = function (options, cb) {
         html: options.contents
     }, cb);
 };
+
+exports.validateSearchKeyword = function (keyword) {
+    if (/^\*|\?|\+|\$|\^|\\|\.$/.test(keyword)) {
+        return false;
+    }
+    return true;
+};
