@@ -56,11 +56,7 @@ var groupController = function (_baseController) {
 
     function groupController(ctx) {
         (0, _classCallCheck3.default)(this, groupController);
-
-        var _this = (0, _possibleConstructorReturn3.default)(this, (groupController.__proto__ || (0, _getPrototypeOf2.default)(groupController)).call(this, ctx));
-
-        console.log('constructor....');
-        return _this;
+        return (0, _possibleConstructorReturn3.default)(this, (groupController.__proto__ || (0, _getPrototypeOf2.default)(groupController)).call(this, ctx));
     }
 
     /**

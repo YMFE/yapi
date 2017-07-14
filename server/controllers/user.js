@@ -368,7 +368,7 @@ class userController extends baseController{
      * @foldnumber 10
      * @param {String} q
      * @return {Object}
-     * @example
+     * @example ./api/user/search.json
     */
     async search(ctx) {
         const { q } = ctx.request.query;
