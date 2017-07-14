@@ -6,7 +6,7 @@ export default () => {
   return (
     <HashRouter>
       <div className="router-main">
-        <Route path="/" component={ Home } />
+        <Route path="/" component={ Home } exact />
         <Route path="/Login" component={ Login } />
         <Route path="/ProjectGroups" component={ ProjectGroups } />
         <Route path="/Interface" component={ Interface } />
