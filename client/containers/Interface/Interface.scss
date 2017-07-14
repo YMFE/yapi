@@ -37,3 +37,30 @@
     }
   }
 }
+
+/* .interface-mode-box.css 管理项目成员弹层 */
+.interface-mode-box {
+  .add-user {
+    display: -webkit-box;
+    .ant-input {
+      width: 70%;
+      display: block;
+    }
+    .ant-btn {
+      margin: 0 0 0 15px;
+      height: 32px;
+    }
+  }
+
+  .users {
+    margin: 10px 0 0 0;
+    font-size: 0.14rem;
+    p {
+      line-height: 0.21rem;
+    }
+    .tags {
+      margin: 10px 0 0 0;
+    }
+  }
+}
+
