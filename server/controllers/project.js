@@ -2,6 +2,7 @@ import  projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
+import userModel from '../models/user.js'
 
 class projectController extends baseController {
 
@@ -136,6 +137,41 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
+
+    /**
+     * 获取项目成员列表
+     * @interface /project/get_member_list
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {Number} id 项目id，不能为空
+     * @return {Object}
+     * @example ./api/project/get_member_list.json
+     */
+
+    async getMemberList(ctx) {
+        let params = ctx.request.query;
+        if(!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+
+        try {
+            let project = await this.Model.get(params.id);
+            let userInst = yapi.getInst(userModel);
+            let result = [];
+
+            for(let i of project.members) {
+                let user = await userInst.findById(i);
+                result.push(user);
+            }
+
+            ctx.body = yapi.commons.resReturn(result);
+        } catch(e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+
      /**
      * 添加项目
      * @interface /project/get

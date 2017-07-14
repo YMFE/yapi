@@ -3,7 +3,7 @@
   "webhost": "127.0.0.1",
   "adminAccount": "admin@admin.com",
   "db": {
-    "servername": "192.168.237.71",
+    "servername": "127.0.0.1",
     "DATABASE":  "yapi",
     "port": 27017
   },

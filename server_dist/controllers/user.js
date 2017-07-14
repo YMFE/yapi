@@ -342,14 +342,21 @@ var userController = function (_baseController) {
 
         /**
          * 修改用户密码
-         * @param {*} ctx 
+         * @interface /user/change_password
+         * @method POST
+         * @category user
+         * @param {Number} uid 用户ID
+         * @param {Number} [old_password] 旧密码, 非admin用户必须传
+         * @param {Number} password 新密码
+         * @return {Object}
+         * @example ./api/user/change_password
          */
 
     }, {
         key: 'changePassword',
         value: function () {
             var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
-                var params, userInst, passsalt, data, result;
+                var params, userInst, user, passsalt, data, result;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
@@ -358,42 +365,70 @@ var userController = function (_baseController) {
                                 userInst = _yapi2.default.getInst(_user2.default);
 
                                 if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
-                                    _context5.next = 4;
+                                    _context5.next = 5;
                                     break;
                                 }
 
+                                console.log(this.getRole(), this.getUid());
                                 return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '没有权限'));
 
-                            case 4:
+                            case 5:
+                                if (!(this.getRole() !== 'admin')) {
+                                    _context5.next = 13;
+                                    break;
+                                }
+
+                                if (params.old_password) {
+                                    _context5.next = 8;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '旧密码不能为空'));
+
+                            case 8:
+                                _context5.next = 10;
+                                return userInst.findById(params.uid);
+
+                            case 10:
+                                user = _context5.sent;
+
+                                if (!(_yapi2.default.commons.generatePassword(params.old_password, user.passsalt) !== user.password)) {
+                                    _context5.next = 13;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '旧密码错误'));
+
+                            case 13:
                                 passsalt = _yapi2.default.commons.randStr();
                                 data = {
                                     up_time: _yapi2.default.commons.time(),
-                                    password: _yapi2.default.commons.generatePassword(passsalt, passsalt),
+                                    password: _yapi2.default.commons.generatePassword(params.password, passsalt),
                                     passsalt: passsalt
                                 };
-                                _context5.prev = 6;
-                                _context5.next = 9;
-                                return userInst.update(id, data);
+                                _context5.prev = 15;
+                                _context5.next = 18;
+                                return userInst.update(params.uid, data);
 
-                            case 9:
+                            case 18:
                                 result = _context5.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context5.next = 16;
+                                _context5.next = 25;
                                 break;
 
-                            case 13:
-                                _context5.prev = 13;
-                                _context5.t0 = _context5['catch'](6);
+                            case 22:
+                                _context5.prev = 22;
+                                _context5.t0 = _context5['catch'](15);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 401, _context5.t0.message);
 
-                            case 16:
+                            case 25:
                             case 'end':
                                 return _context5.stop();
                         }
                     }
-                }, _callee5, this, [[6, 13]]);
+                }, _callee5, this, [[15, 22]]);
             }));
 
             function changePassword(_x6) {
@@ -644,17 +679,16 @@ var userController = function (_baseController) {
         key: 'findById',
         value: function () {
             var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
-                var userInst, _id, result;
-
+                var userInst, id, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
                             case 0:
                                 _context10.prev = 0;
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _id = ctx.request.body.id;
+                                id = ctx.request.body.id;
                                 _context10.next = 5;
-                                return userInst.findById(_id);
+                                return userInst.findById(id);
 
                             case 5:
                                 result = _context10.sent;
@@ -695,8 +729,7 @@ var userController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
-                var userInst, _id2, result;
-
+                var userInst, id, result;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
@@ -712,9 +745,9 @@ var userController = function (_baseController) {
 
                             case 3:
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _id2 = ctx.request.body.id;
+                                id = ctx.request.body.id;
                                 _context11.next = 7;
-                                return userInst.del(_id2);
+                                return userInst.del(id);
 
                             case 7:
                                 result = _context11.sent;
@@ -760,15 +793,14 @@ var userController = function (_baseController) {
         key: 'update',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var userInst, _id3, data, checkRepeat, result;
-
+                var userInst, id, data, checkRepeat, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.prev = 0;
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _id3 = this.getUid();
+                                id = this.getUid();
                                 data = {
                                     up_time: _yapi2.default.commons.time()
                                 };
@@ -796,7 +828,7 @@ var userController = function (_baseController) {
 
                             case 12:
                                 _context12.next = 14;
-                                return userInst.update(_id3, data);
+                                return userInst.update(id, data);
 
                             case 14:
                                 result = _context12.sent;
