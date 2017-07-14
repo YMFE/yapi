@@ -4,7 +4,7 @@ import {
 } from '../../constants/action-types';
 
 const initialState = {
-  isLogin: false,
+  isLogin: true,
   userName: null,
   uid: null,
   loginWrapActiveKey:"1"
