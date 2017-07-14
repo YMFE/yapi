@@ -16,7 +16,7 @@ module.exports = {
       }
     }
   }],
-  devtool:  'cheap-source-map',
+  // devtool:  'cheap-source-map',
   config: {
     exports: [
       './index.js'
