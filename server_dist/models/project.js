@@ -154,6 +154,13 @@ var projectModel = function (_baseModel) {
                 members: [uid]
             });
         }
+    }, {
+        key: 'search',
+        value: function search(keyword) {
+            return this.model.find({
+                name: new RegExp(keyword, 'ig')
+            }).limit(10);
+        }
     }]);
     return projectModel;
 }(_base2.default);

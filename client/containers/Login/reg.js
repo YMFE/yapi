@@ -18,7 +18,10 @@ const FormItem = Form.Item;
 
 class Reg extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      confirmDirty: false
+    }
   }
 
   static propTypes = {
@@ -29,17 +32,41 @@ class Reg extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const form = this.props.form;
-    form.validateFields((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.regActions(values);
       }
     });
   }
 
+  handleConfirmBlur = (e) => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+
+  checkPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
+  }
+
+  checkConfirm = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
+
+        {/* 用户名 */}
         <FormItem>
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: '请输入用户名!' }]
@@ -47,6 +74,8 @@ class Reg extends Component {
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
         </FormItem>
+
+        {/* Emaiil */}
         <FormItem>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入email!' }]
@@ -54,13 +83,36 @@ class Reg extends Component {
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
         </FormItem>
+
+        {/* 密码 */}
         <FormItem>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: '请输入密码!' }]
+            rules: [{
+              required: true,
+              message: '请输入密码!'
+            }, {
+              validator: this.checkConfirm
+            }]
           })(
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
+
+        {/* 密码二次确认 */}
+        <FormItem>
+          {getFieldDecorator('confirm', {
+            rules: [{
+              required: true,
+              message: '请再次输入密码密码!'
+            }, {
+              validator: this.checkPassword
+            }]
+          })(
+            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Confirm Password" />
+          )}
+        </FormItem>
+
+        {/* 注册按钮 */}
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">注册</Button>
         </FormItem>

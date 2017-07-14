@@ -44,6 +44,12 @@ class groupModel extends baseModel{
         })
     }
 
+    search(keyword) {
+        return this.model.find({
+            group_name: new RegExp(keyword, 'i')
+        })
+        .limit(10)
+    }
 
 }
 
