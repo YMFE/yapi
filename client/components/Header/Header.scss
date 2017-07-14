@@ -21,8 +21,18 @@ $color-grey-deep : #929aac;
   h1 {
     font-size: .25rem;
     float: left;
-    margin: 0 .2rem;
+    margin: 0 .2rem 0 0;
     color: $color-white;
+    cursor: pointer;
+    a{
+      color: $color-white;
+      &:hover {
+        color: $color-white;
+      }
+      &:focus{
+        text-decoration: none;
+      }
+    }
   }
 
   .nav-toolbar {
