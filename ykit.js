@@ -16,12 +16,13 @@ module.exports = {
       }
     }
   }],
-  devtool:  'cheap-source-map',
+  // devtool:  'cheap-source-map',
   config: {
     exports: [
       './index.js'
     ],
     modifyWebpackConfig: function(baseConfig) {
+      baseConfig.devtool = 'cheap-module-eval-source-map'
       baseConfig.context = path.resolve(__dirname, "client");
       return baseConfig;
     }
