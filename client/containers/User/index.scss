@@ -6,6 +6,30 @@
   margin: 15px auto 0 auto;
   font-size: 0.14rem;
   background: #FFF;
+  min-height:500px;
+
+  .search{
+    height: 40px;
+    padding: 5px;
+    background: #f9f9f9;
+
+    input{
+      background: #f9f9f9;
+      line-height: 40px;
+      height: 40px;
+      border: 0;
+      font-size: 14px;
+    }
+
+    input:focus{
+      outline:0;
+      border-color:0;
+      box-shadow: none
+    }
+
+
+
+  }
 
   .user-list {
     width: 216px;
@@ -14,13 +38,16 @@
     
     li {
       padding: 0 0 0 30px;
-      color: #344562;
-      cursor: pointer;
+      a{
+        color: #344562;
+      }
       
-      &:hover, &.active {
+      &.active,&.active a {
         background: #657289;
         color: #FFF;
+        text-decoration: none;
       }
+
     }
   }
 
@@ -36,4 +63,33 @@
       }
     }
   }
+
+  .user-profile {
+    -webkit-box-flex: 1;
+    margin-top: 15px;
+    margin-left: 15px;
+
+    .user-item {
+      min-height:35px;
+      line-height:35px;
+      margin: 5px;
+      margin-bottom:10px;
+
+      .text-button{
+        font-size: 12px;
+        color: #657289;
+        cursor: pointer
+      }
+
+      .edit-buttons{
+        margin:10px;
+      }
+
+      .edit-button{
+        margin: 5px;
+      }
+    }
+  }
+
+
 }
