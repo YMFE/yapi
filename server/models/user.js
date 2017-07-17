@@ -52,12 +52,15 @@ class userModel extends baseModel{
     update(id,data){
         return this.model.update({
             _id: id
-        },{
-            username: data.username,
-            email: data.email,
-            role: data.role,
-            up_time: yapi.commons.time()
-        })
+        }, data)
+    }
+    search(keyword) {
+        return this.model.find({
+            $or: [
+                { email: new RegExp(keyword, 'i') },
+                { username: new RegExp(keyword, 'i')}
+            ]
+        }).limit(10)
     }
 
 }

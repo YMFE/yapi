@@ -7,7 +7,6 @@ import  projectModel from '../models/project.js'
 class groupController extends baseController{
     constructor(ctx){
         super(ctx)
-        console.log('constructor....')
     }
   
 

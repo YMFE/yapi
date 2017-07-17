@@ -1,6 +1,5 @@
 import {
   LOGIN,
-  REGISTER,
   LOGIN_TYPE
 } from '../constants/action-types.js';
 import axios from 'axios';
@@ -24,9 +23,18 @@ const loginActions = (data) => {
 }
 
 const regActions = (data) => {
-  return {
-    type: REGISTER,
-    data
+  console.log(data);
+  const param = {
+    email: data.email,
+    password: data.password,
+    username: data.userName
+  }
+  return () => {
+    axios.get('/user/login', param).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 }
 
