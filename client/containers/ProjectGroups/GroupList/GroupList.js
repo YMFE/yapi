@@ -39,7 +39,7 @@ export default class GroupList extends Component {
 
   componentWillMount() {
     this.props.fetchGroupList().then(() => {
-      const currGroup = this.props.groupList[0];
+      const currGroup = this.props.groupList[0] || { group_name: '' };
       this.props.setCurrGroup(currGroup)
     });
   }
