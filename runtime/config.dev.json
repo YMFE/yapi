@@ -3,9 +3,11 @@
   "webhost": "127.0.0.1",
   "adminAccount": "admin@admin.com",
   "db": {
-    "servername": "127.0.0.1",
+    "servername": "10.86.40.194",
     "DATABASE":  "yapi",
-    "port": 27017
+    "port": 27017,
+    "user": "admin",
+    "pass": "qunar.com"
   },
   "mail": {
     "host": "smtp.163.com",
