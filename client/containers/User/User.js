@@ -30,9 +30,8 @@ class User extends Component {
          
           <LeftMenu  />
           
-          <Route path={this.props.match.path + '/list'} component={List} />
-          <Route path={this.props.match.path + '/profile'} component={Profile
-          } />
+          <Route path={this.props.match.path + '/list/:uid'} component={List} />
+          <Route path={this.props.match.path + '/profile'} component={Profile} />
         </section>
       </div>
     )   
