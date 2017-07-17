@@ -1,0 +1,31 @@
+/* .interface-box.css */
+.news-box {
+  max-width: 11rem;
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  margin: 15px auto 0 auto;
+  font-size: 0.14rem;
+  background: #FFF;
+
+  .news-list {
+    width: 216px;
+    line-height: 45px;
+    background: #f9fafe;
+    
+    li {
+      padding: 0 0 0 30px;
+      color: #344562;
+      cursor: pointer;
+      
+      &:hover, &.active {
+        background: #657289;
+        color: #FFF;
+      }
+    }
+  }
+
+}
+.news-timeline{
+  margin-left: 30px;
+  margin-top: 30px;
+}

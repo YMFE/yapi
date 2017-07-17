@@ -26,6 +26,9 @@ ul {
 
 a {
   text-decoration: none;
+  &:active, &:hover, &:visited{
+    text-decoration: none
+  }
 }
 
 a:hover {
