@@ -36,6 +36,7 @@ function setupSql() {
     var userInst = _yapi2.default.getInst(_user2.default);
     var passsalt = _yapi2.default.commons.randStr();
     var result = userInst.save({
+        username: _yapi2.default.WEBCONFIG.adminAccount.substr(0, _yapi2.default.WEBCONFIG.adminAccount.indexOf('@')),
         email: _yapi2.default.WEBCONFIG.adminAccount,
         password: _yapi2.default.commons.generatePassword('qunar.com', passsalt),
         passsalt: passsalt,
