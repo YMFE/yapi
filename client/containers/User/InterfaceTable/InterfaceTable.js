@@ -13,21 +13,21 @@ class InterfaceTable extends Component {
 
   render () {
     const columns = [{
-      title: 'Uid',
-      dataIndex: 'uid',
-      key: 'uid'
+      title: '接口名称',
+      dataIndex: 'name',
+      key: 'name'
     }, {
-      title: '用户名',
-      dataIndex: 'username',
-      key: 'username'
+      title: '接口URL',
+      dataIndex: 'age',
+      key: 'age'
     }, {
-      title: 'email',
-      dataIndex: 'email',
-      key: 'email'
+      title: '操作者',
+      dataIndex: 'address',
+      key: 'address'
     }, {
       title: '更新日期',
-      dataIndex: 'up_time',
-      key: 'up_time'
+      dataIndex: 'date',
+      key: 'date'
     }, {
       title: '功能',
       'key': 'action',
@@ -41,9 +41,7 @@ class InterfaceTable extends Component {
       }
     }]
 
-    const data = [
-      {uid: 1, username: 'admin', email: 'admin@admin.com', up_time: '2017.07.01'}
-    ];
+    const data = this.props.data;
 
     return (
       <section className="interface-table">

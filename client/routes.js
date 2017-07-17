@@ -1,6 +1,9 @@
 import React from 'react'
-import { Route, HashRouter } from 'react-router-dom'
+import { Route, HashRouter} from 'react-router-dom'
 import { Home, ProjectGroups, Interface } from './containers/index'
+import User from './containers/User/User.js'
+// import UserProfile from './containers/User/Profile.js'
+
 import Header from './components/Header/Header'
 
 export default () => {
@@ -11,7 +14,9 @@ export default () => {
         <Route path="/" component={ Home } exact />
         <Route path="/ProjectGroups" component={ ProjectGroups } />
         <Route path="/Interface" component={ Interface } />
-      </div>
+        <Route path="/user" component={User} />
+      </div>    
     </HashRouter>
   )
 }
+   
