@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   groupList: [],
-  currGroup: 'MFE'
+  currGroup: { group_name: '' }
 };
 
 export default (state = initialState, action) => {
