@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 class userController extends baseController{
     constructor(ctx){
         super(ctx)
+        this.Model = yapi.getInst(userModel);
     }
     /**
      * 用户登录接口
@@ -149,22 +150,41 @@ class userController extends baseController{
 
     /**
      * 修改用户密码
-     * @param {*} ctx 
+     * @interface /user/change_password
+     * @method POST
+     * @category user
+     * @param {Number} uid 用户ID
+     * @param {Number} [old_password] 旧密码, 非admin用户必须传
+     * @param {Number} password 新密码
+     * @return {Object}
+     * @example ./api/user/change_password
      */
     async changePassword(ctx){
         let params = ctx.request.body;
-        var userInst = yapi.getInst(userModel); 
+        let userInst = yapi.getInst(userModel);
         if(this.getRole() !== 'admin' && params.uid != this.getUid()){
+            console.log(this.getRole(), this.getUid());
             return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
         }
+        if(this.getRole() !== 'admin') {
+            if(!params.old_password) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '旧密码不能为空');
+            }
+
+            let user = await userInst.findById(params.uid);
+            if(yapi.commons.generatePassword(params.old_password, user.passsalt) !== user.password) {
+                return ctx.body = yapi.commons.resReturn(null, 402, '旧密码错误');
+            }
+        }
+
         let passsalt = yapi.commons.randStr();
         let data = {
             up_time: yapi.commons.time(),
-            password: yapi.commons.generatePassword(passsalt, passsalt),
+            password: yapi.commons.generatePassword(params.password, passsalt),
             passsalt: passsalt
-        }
+        };
         try{
-            let result = await userInst.update(id, data);
+            let result = await userInst.update(params.uid, data);
             ctx.body = yapi.commons.resReturn(result);
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 401, e.message);
@@ -357,6 +377,31 @@ class userController extends baseController{
         }catch(e){
             ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
+    }
+
+    /**
+     * 模糊搜索用户名或者email
+     * @interface /user/search
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @param {String} q
+     * @return {Object}
+     * @example ./api/user/search.json
+    */
+    async search(ctx) {
+        const { q } = ctx.request.query;
+
+        if (!q) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.')
+        }
+
+        if (!yapi.commons.validateSearchKeyword(q)) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
+        }
+        
+        let queryList = await this.Model.search(q);
+        return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
     }
 }
 

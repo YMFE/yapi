@@ -1,13 +1,16 @@
-import  projectModel from '../models/project.js'
+import projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
+import userModel from '../models/user.js'
+import groupModel from '../models/group'
 
 class projectController extends baseController {
 
     constructor(ctx){
         super(ctx)
         this.Model = yapi.getInst(projectModel);
+        this.groupModel = yapi.getInst(groupModel);
     }
 
     /**
@@ -73,13 +76,13 @@ class projectController extends baseController {
         
     }
      /**
-     * 添加项目
+     * 添加项目成员
      * @interface /project/add_member
      * @method POST
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
-     * @param {member_uid} uid 项目成员uid,不能为空
+     * @param {String} member_uid 项目成员uid,不能为空
      * @returns {Object} 
      * @example ./api/project/add_member.json
      */
@@ -105,7 +108,7 @@ class projectController extends baseController {
 
     }
      /**
-     * 添加项目
+     * 删除项目成员
      * @interface /project/del_member
      * @method POST
      * @category project
@@ -136,6 +139,41 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
+
+    /**
+     * 获取项目成员列表
+     * @interface /project/get_member_list.json
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {Number} id 项目id，不能为空
+     * @return {Object}
+     * @example ./api/project/get_member_list.json
+     */
+
+    async getMemberList(ctx) {
+        let params = ctx.request.query;
+        if(!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+
+        try {
+            let project = await this.Model.get(params.id);
+            let userInst = yapi.getInst(userModel);
+            let result = [];
+
+            for(let i of project.members) {
+                let user = await userInst.findById(i);
+                result.push(user);
+            }
+
+            ctx.body = yapi.commons.resReturn(result);
+        } catch(e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+
      /**
      * 添加项目
      * @interface /project/get
@@ -276,6 +314,35 @@ class projectController extends baseController {
         }catch(e){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
+    }
+
+    /**
+     * 模糊搜索项目名称或者组名称
+     * @interface /project/search
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {String} q
+     * @return {Object}
+     * @example ./api/project/search.json
+    */
+    async search(ctx) {
+        const { q } = ctx.request.query;
+
+        if (!q) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.')
+        }
+
+        if (!yapi.commons.validateSearchKeyword(q)) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
+        }
+
+        let queryList = {
+            project: await this.Model.search(q),
+            group: await this.groupModel.search(q)
+        }
+        
+        return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
     }
 }
 

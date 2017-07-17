@@ -32,49 +32,36 @@ ToolGuest.propTypes={
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      guestToolShow:true
-    }
   }
   handleLogin = (e) => {
     e.preventDefault();
     this.props.loginTypeAction("1");
-    this.setState({
-      guestToolShow:false
-    })
   }
   handleReg = (e)=>{
     e.preventDefault();
     this.props.loginTypeAction("2");
-    this.setState({
-      guestToolShow:false
-    })
-  }
-  hideGuestTool = (e)=>{
-    e.preventDefault();
-    this.setState({
-      guestToolShow:true
-    })
   }
   render () {
     const { login, user, msg } = this.props;
     return (
       <acticle className="header-box">
         <div className="content">
-          <h1>YAPI</h1>
+          <h1>
+            <Link to={`/`}>YAPI</Link>
+          </h1>
           <ul className="nav-toolbar">
-            <li onClick={this.hideGuestTool}>
+            <li>
               <Link to={`/ProjectGroups`}>分组</Link>
             </li>
-            <li onClick={this.hideGuestTool}>
+            <li>
               <a>我的项目</a>
             </li>
-            <li onClick={this.hideGuestTool}>
+            <li>
               <a>文档</a>
             </li>
           </ul>
           <ul className="user-toolbar">
-            {login?<ToolUser user={user} msg={msg}/>:(this.state.guestToolShow?<ToolGuest onLogin={this.handleLogin} onReg={this.handleReg}/>:'')}
+            {login?<ToolUser user={user} msg={msg}/>:''}
           </ul>
         </div>
       </acticle>
