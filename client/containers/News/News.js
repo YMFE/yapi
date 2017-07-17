@@ -30,7 +30,7 @@ class News extends Component {
     this.props.fetchNewsData()
   }
   render () {
-    const data = this.props.newsData;
+    const data = this.props.newsData
     return (
       <section className="news-box">
         <NewsList />
