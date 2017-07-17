@@ -6,8 +6,8 @@
     "servername": "10.86.40.194",
     "DATABASE":  "yapi",
     "port": 27017,
-    "user": "admin",
-    "pass": "qunar.com"
+    "user": "yapi",
+    "pass": "yapi"
   },
   "mail": {
     "host": "smtp.163.com",

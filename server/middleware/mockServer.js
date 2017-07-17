@@ -18,24 +18,23 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 403, e.message);
     }
     
-    let matchProject = [];
+    let matchProject = false, maxBasepath = 0;
     for(let i=0, l = projects.length; i< l; i++){
         let project = projects[i];
         if(ctx.path && ctx.path.indexOf(project.basepath) === 0 && project.basepath[project.basepath.length -1] === '/'){
-            matchProject.push(project);            
+            matchProject.push(project);
+            if(project.basepath.length > maxBasepath){
+                maxBasepath = project.basepath.length;
+                matchProject = project;
+            }
         }
     }
 
-
-    if(matchProject.length === 0){
+    if(matchProject === false){
         return ctx.body = yapi.commons.resReturn(null, 400, '不存在的domain');
     }
 
-    if(matchProject.length > 1){
-        return ctx.body = yapi.commons.resReturn(null, 401, '存在多个project,请检查数据库');
-    }
-
-    let project = matchProject[0], interfaceData;
+    let project = matchProject, interfaceData;
     let interfaceInst = yapi.getInst(interfaceModel);
     try{
         interfaceData = await  interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length));

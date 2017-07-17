@@ -26,7 +26,7 @@ class LeftMenu extends Component {
       title: '个人资料',
       path: '/user/profile'
     }, {
-      title: '用户管理11',
+      title: '用户管理',
       path: '/user/list'
     }
     ]
