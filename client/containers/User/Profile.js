@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon , Input, Button, Select} from 'antd'
+import axios from 'axios';
 
 class Profile extends Component {
 
@@ -11,12 +12,21 @@ class Profile extends Component {
       secureEdit: false,
       roleEdit: false
     }
+    this.getUserInfo(101)
   }
 
   handleEdit = (key, val) =>{
     var s = {};
     s[key] = val ;
     this.setState(s)
+  }
+
+  getUserInfo = (id) => {
+    axios.get('/user/find', {
+      id: id 
+    }).then((res) =>{
+      console.log(res)
+    })
   }
 
   render() {

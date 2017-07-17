@@ -6,8 +6,8 @@
     "servername": "10.86.40.194",
     "DATABASE":  "yapi",
     "port": 27017,
-    "user": "yapi",
-    "pass": "yapi"
+    "user": "test1",
+    "pass": "test1"
   },
   "mail": {
     "host": "smtp.163.com",
