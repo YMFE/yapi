@@ -1,11 +1,11 @@
 import {
   FETCH_GROUP_LIST,
-  FETCH_CURR_GROUP
+  SET_CURR_GROUP
 } from '../../constants/action-types';
 
 const initialState = {
   groupList: [],
-  currGroup: 'MFE'
+  currGroup: { group_name: '' }
 };
 
 export default (state = initialState, action) => {
@@ -19,14 +19,11 @@ export default (state = initialState, action) => {
       }
       return state;
     }
-    case FETCH_CURR_GROUP: {
-      if (action.payload.res) {
-        return {
-          ...state,
-          currGroup: action.payload.data
-        };
-      }
-      return state;
+    case SET_CURR_GROUP: {
+      return {
+        ...state,
+        currGroup: action.payload
+      };
     }
 
     default:

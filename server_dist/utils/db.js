@@ -27,7 +27,10 @@ function connect() {
     _mongoose2.default.Promise = global.Promise;
     var config = _yapi2.default.WEBCONFIG;
 
-    var db = _mongoose2.default.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE);
+    var db = _mongoose2.default.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE, {
+        user: config.db.user,
+        pass: config.db.pass
+    });
 
     db.then(function (res) {
         _yapi2.default.commons.log('mongodb load success...');
