@@ -8,7 +8,7 @@ class NewsTimeline extends Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render () {
@@ -19,7 +19,13 @@ class NewsTimeline extends Component {
           { 
             data.map(function(item,i){
               return (
-                <Timeline.Item color = 'green' key = {i} >{ item.date + item.desc + item.name }</Timeline.Item>
+                <Timeline.Item color = 'green' key = {i} >
+                  <div>
+                    <span className='timelineDate'>{item.date}</span>
+                    <span className='timelineName'>{item.name}</span>
+                  </div>
+                  <p>{item.desc}</p>
+                </Timeline.Item>
               )
             })
            }
