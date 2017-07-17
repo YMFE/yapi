@@ -1,8 +1,8 @@
 import React from 'react'
-import { Route, HashRouter} from 'react-router-dom'
-import { Home, ProjectGroups, Interface } from './containers/index'
+
+import { Route, HashRouter } from 'react-router-dom'
+import { Home, ProjectGroups, Interface, News } from './containers/index'
 import User from './containers/User/User.js'
-// import UserProfile from './containers/User/Profile.js'
 
 import Header from './components/Header/Header'
 
@@ -14,8 +14,10 @@ export default () => {
         <Route path="/" component={ Home } exact />
         <Route path="/ProjectGroups" component={ ProjectGroups } />
         <Route path="/Interface" component={ Interface } />
-        <Route path="/user" component={User} />
-      </div>    
+        <Route path="/user" component={User} />  
+        <Route path="/News" component={ News } />
+      </div>
+
     </HashRouter>
   )
 }
