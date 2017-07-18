@@ -179,7 +179,6 @@ class projectController extends baseController {
         }
     }
 
-
      /**
      * 添加项目
      * @interface /project/get
@@ -278,7 +277,7 @@ class projectController extends baseController {
     /**
      * 编辑项目
      * @interface /project/up
-     * @method GET
+     * @method POST
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
