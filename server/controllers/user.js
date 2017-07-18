@@ -157,7 +157,7 @@ class userController extends baseController{
      * @param {Number} [old_password] 旧密码, 非admin用户必须传
      * @param {Number} password 新密码
      * @return {Object}
-     * @example ./api/user/change_password
+     * @example ./api/user/change_password.json
      */
     async changePassword(ctx){
         let params = ctx.request.body;
@@ -311,9 +311,16 @@ class userController extends baseController{
     async findById(ctx){    //根据id获取用户信息
          try{
             var userInst = yapi.getInst(userModel);
-            let id = ctx.request.body.id;
+            let id = ctx.request.query.id;
             let result = await userInst.findById(id);
-            return ctx.body = yapi.commons.resReturn(result);
+            return ctx.body = yapi.commons.resReturn({                
+                uid: result._id,
+                username: result.username,
+                email: result.email,
+                role: result.role,
+                add_time: result.add_time,
+                up_time: result.up_time
+            });
         }catch(e){
             return ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
@@ -347,8 +354,10 @@ class userController extends baseController{
      * 更新用户个人信息
      * @interface /user/update
      * @method POST
-     * @param username String
-     * @param email String
+     * @param uid  用户uid
+     * @param [role] 用户角色,只有管理员有权限修改
+     * @param [username] String
+     * @param [email] String
      * @category user
      * @foldnumber 10
      * @returns {Object} 
@@ -356,13 +365,20 @@ class userController extends baseController{
      */
     async update(ctx){    //更新用户信息
         try{
+            let params = ctx.request.body;
+            if(this.getRole() !== 'admin' && params.uid != this.getUid()){
+                return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
+            }
             var userInst = yapi.getInst(userModel);
-            let id = this.getUid();
+            let id = params.uid;
             let data ={
                 up_time: yapi.commons.time()
             };
-            ctx.request.body.username && (data.username = ctx.request.body.username)
-            ctx.request.body.email && (data.email = ctx.request.body.email)
+            if(this.getRole() === 'admin'){
+                params.role && (data.role = params.role)
+            }
+            params.username && (data.username = params.username)
+            params.email && (data.email = params.email)
 
             if(data.email){
                 var checkRepeat = await userInst.checkRepeat(data.email);//然后检查是否已经存在该用户

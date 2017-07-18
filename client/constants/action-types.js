@@ -20,3 +20,6 @@ export const LOGIN_TYPE = 'LOGIN_TYPE';
 //  News
 export const FETCH_NEWS_DATA = 'FETCH_NEWS_DATA'
 
+// User
+export const CHANGE_CUR_UID = 'CHANGE_CUR_UID'
+
