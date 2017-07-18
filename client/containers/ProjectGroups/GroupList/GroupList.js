@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Card, Button, Icon, Modal, Input, message } from 'antd'
+import { Button, Icon, Modal, Input, message, Menu } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 
@@ -90,17 +90,26 @@ export default class GroupList extends Component {
     const { groupList, currGroup } = this.props;
 
     return (
-      <Card title="Groups">
-        <Button type="primary" onClick={this.showModal}>添加分组</Button>
-        <div className="curr-group">{currGroup.group_name}</div>
-        {
-          groupList.map((group, index) => (
-            <div key={index}>
-              <div className="group-name">{group.group_name}</div>
-              <Icon type="edit" />
-            </div>
-          ))
-        }
+      <div>
+        <div className="group-bar">
+          <div className="curr-group">
+            <div className="curr-group-name">{currGroup.group_name}</div>
+            <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
+          </div>
+          <div className="group-operate">
+            <Button type="primary" onClick={this.showModal}>添加分组</Button>
+          </div>
+          <Menu className="group-list" mode="inline">
+            {
+              groupList.map((group, index) => (
+                <Menu.Item key={index} className="group-item">
+                  <div className="group-name">{group.group_name}</div>
+                  <div className="group-edit"><Icon type="edit" /></div>
+                </Menu.Item>
+              ))
+            }
+          </Menu>
+        </div>
         <Modal
           title="添加分组"
           visible={this.state.addGroupModalVisible}
@@ -110,7 +119,7 @@ export default class GroupList extends Component {
           <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
           <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
         </Modal>
-      </Card>
+      </div>
     )
   }
 }
