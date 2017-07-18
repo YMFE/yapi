@@ -7,6 +7,7 @@
   font-size: 0.14rem;
   background: #FFF;
   min-height:500px;
+  margin-top: 64px;
 
   .search{
     height: 40px;
@@ -53,7 +54,7 @@
 
   .user-table {
     -webkit-box-flex: 1;
-    margin: 0 0 0 20px;
+    padding-right: 15px;
 
     .ant-table-wrapper table {
       font-size: .14rem;
