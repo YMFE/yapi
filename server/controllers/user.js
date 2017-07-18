@@ -291,9 +291,9 @@ class userController extends baseController {
         let pageNo = ctx.request.query.pageNo || 1,
             pageSize = ctx.request.query.pageSize || 10;
 
-        if(this.getRole() !== 'admin'){
-            return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
-        }
+        // if(this.getRole() !== 'admin'){
+        //     return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
+        // }
         var userInst = yapi.getInst(userModel);
         try{
             let user = await  userInst.list();
@@ -329,6 +329,9 @@ class userController extends baseController {
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.query.id;
             let result = await userInst.findById(id);
+            if(!result){
+                return ctx.body = yapi.commons.resReturn(null,402,"不存在的用户");
+            }
             return ctx.body = yapi.commons.resReturn({                
                 uid: result._id,
                 username: result.username,
