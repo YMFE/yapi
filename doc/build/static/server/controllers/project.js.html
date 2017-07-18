@@ -169,7 +169,7 @@ class projectController extends baseController {
 
     /**
      * 获取项目成员列表
-     * @interface /project/get_member_list.json
+     * @interface /project/get_member_list
      * @method GET
      * @category project
      * @foldnumber 10
@@ -191,7 +191,13 @@ class projectController extends baseController {
 
             for(let i of project.members) {
                 let user = await userInst.findById(i);
-                result.push(user);
+                result.push({
+                    _id: user._id,
+                    email: user.email,
+                    role: user.role,
+                    add_time: user.add_time,
+                    up_time: user.up_time
+                });
             }
 
             ctx.body = yapi.commons.resReturn(result);
@@ -232,18 +238,32 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
+     * @param {Number} [pageNo] 分页页码
+     * @param {Number} [pageSize] 分页大小
      * @returns {Object} 
      * @example ./api/project/list.json
      */
 
     async list(ctx) {
-        let group_id = ctx.request.query.group_id;
+        let group_id = ctx.request.query.group_id,
+            pageNo = ctx.request.query.pageNo || 1,
+            pageSize = ctx.request.query.pageSize || 10;
+
         if(!group_id){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
+
         try{
             let result = await this.Model.list(group_id);
-            ctx.body = yapi.commons.resReturn(result)
+            let resResult = [];
+            for(let i = (pageNo - 1) * pageSize; i < pageNo * pageSize; i++) {
+                if(!result[i]) break;
+                resResult.push(result[i]);
+            }
+            ctx.body = yapi.commons.resReturn({
+                total: result.length,
+                list: resResult
+            })
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }

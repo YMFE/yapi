@@ -1,27 +1,61 @@
 @import '../../styles/common.scss';
-/* .home-main.css */
+
+$color-white : #fff;
+$color-blue-lighter : #f1f5ff;
+$color-grey-lighter : #F7F7F7;
+$color-blue-light: #5dade2;
+$color-black-lighter: #404040;
+
+
 .home-main {
   display: -webkit-box;
-  max-width: 11rem;
-  margin: 0 auto;
+  margin-top: .64rem;
   -webkit-box-orient: vertical;
+  background: $color-grey-lighter;
   .main-one{
     height:calc(100% - .64rem);
-    padding: .5rem 0;
+    padding: .5rem .5rem 0 .5rem;
+    //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
-      padding: .3rem 0;
+      padding: 0 .3rem .3rem 0;
       .title{
         font-size: .6rem;
       }
       .detail{
-        font-size: .23rem;
+        font-size: .2rem;
       }
     }
     .login-form{
-
+    }
+    .img-container{
+      margin-bottom: -.2rem;
+      img{
+        width: 100%;
+        height: 100%;
+        box-shadow : 0 0 3px 0 $color-black-lighter;
+        border-radius: .03rem;
+      }
+    }
+    .main-one-left{
+      padding-right: .15rem;
+    }
+    .main-one-right{
+      padding-left: .15rem;
     }
   }
-
+  .main-part{
+    padding: .9rem .5rem;
+    &:nth-child(odd){
+      background-color: $color-blue-lighter;
+    }
+    &:nth-child(even){
+      background-color: $color-white;
+    }
+  }
+  .container{
+    max-width: 10.3rem;
+    margin: 0 auto;
+  }
 }
 
 

@@ -1,36 +1,35 @@
 {
     "errcode": 0,
     "errmsg": "success",
-    "data": [
-        {
-            "_id": 7,
-            "name": "project_a1",
-            "desc": "tttttt",
-            "prd_host": "project.a1.cc",
-            "basepath": "/a1",
-            "uid": 0,
-            "group_id": 1,
-            "add_time": 1499331378,
-            "up_time": 1499331378,
-            "__v": 0,
-            "members": [
-                0
-            ]
-        },
-        {
-            "_id": 8,
-            "name": "project_a2",
-            "desc": "tttttt",
-            "prd_host": "project.a2.cc",
-            "basepath": "/a1",
-            "uid": 0,
-            "group_id": 1,
-            "add_time": 1499331387,
-            "up_time": 1499331387,
-            "__v": 0,
-            "members": [
-                0
-            ]
-        }
-    ]
+    "data": {
+        "total": 2,
+        "list": [
+            {
+                "_id": 133,
+                "name": "project_a1",
+                "prd_host": "project.a2.cc",
+                "basepath": "/a1/",
+                "uid": 101,
+                "group_id": 101,
+                "add_time": 1500004234,
+                "up_time": 1500004234,
+                "__v": 0,
+                "env":[],
+                "members":["101"]
+            },
+            {
+                "_id": 163,
+                "name": "project_a2",
+                "prd_host": "project.a2.cc",
+                "basepath": "/a2/",
+                "uid": 101,
+                "group_id": 101,
+                "add_time": 1500006397,
+                "up_time": 1500006397,
+                "__v": 0,
+                "env":[],
+                "members":["101"]
+            }
+        ]
+    }
 }
