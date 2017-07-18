@@ -1,23 +1,20 @@
 import {
-  FETCH_PROJECT_LIST,
-  PROJECT_ADD
+  CHANGE_CUR_UID
 } from '../../constants/action-types';
 
 const initialState = {
-  projectList: []
+  curUid: "0"
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_PROJECT_LIST: {
+    case CHANGE_CUR_UID: {
       return {
         ...state,
-        projectList: action.payload.data.data
+        curUid: action.data
       };
     }
-    case PROJECT_ADD: {
-      return state;
-    }
+
     default:
       return state;
   }

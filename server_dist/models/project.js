@@ -107,6 +107,20 @@ var projectModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'listWithPaging',
+        value: function listWithPaging(group_id, page, limit) {
+            page = parseInt(page);
+            limit = parseInt(limit);
+            return this.model.find({
+                group_id: group_id
+            }).skip((page - 1) * limit).limit(limit).exec();
+        }
+    }, {
+        key: 'listCount',
+        value: function listCount() {
+            return this.model.count();
+        }
+    }, {
         key: 'countByGroupId',
         value: function countByGroupId(group_id) {
             return this.model.count({

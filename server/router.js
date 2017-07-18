@@ -56,7 +56,7 @@ createAction('project', 'up', 'post', 'up')
 createAction('project', 'del', 'post', 'del')
 createAction('project', 'add_member', 'post', 'addMember')
 createAction('project', 'del_member', 'post', 'delMember')
-createAction('project', 'get_member_list.json', 'get', 'getMemberList')
+createAction('project', 'get_member_list', 'get', 'getMemberList')
 createAction('project', 'search', 'get', 'search')
 
 //interface
