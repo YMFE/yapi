@@ -238,31 +238,27 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
-     * @param {Number} [pageNo] 分页页码
-     * @param {Number} [pageSize] 分页大小
+     * @param {Number} [page] 分页页码
+     * @param {Number} [limit] 分页大小
      * @returns {Object} 
      * @example ./api/project/list.json
      */
 
     async list(ctx) {
         let group_id = ctx.request.query.group_id,
-            pageNo = ctx.request.query.pageNo || 1,
-            pageSize = ctx.request.query.pageSize || 10;
+            page = ctx.request.query.page || 1,
+            limit = ctx.request.query.limit || 10;
 
         if(!group_id){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
         try{
-            let result = await this.Model.list(group_id);
-            let resResult = [];
-            for(let i = (pageNo - 1) * pageSize; i < pageNo * pageSize; i++) {
-                if(!result[i]) break;
-                resResult.push(result[i]);
-            }
+            let result = await this.Model.listWithPaging(group_id, page, limit);
+            let count = await this.Model.listCount();
             ctx.body = yapi.commons.resReturn({
-                total: result.length,
-                list: resResult
+                total: count,
+                list: result
             })
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)

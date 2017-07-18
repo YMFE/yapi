@@ -36,6 +36,14 @@ class userModel extends baseModel{
     list(){
         return this.model.find().select("_id username email role  add_time up_time").exec()  //显示id name email role 
     }
+    listWithPaging(page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+        return this.model.find().skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+    }
+    listCount() {
+        return this.model.count();
+    }
     findByEmail(email){
         return this.model.findOne({email: email})
     }

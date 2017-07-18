@@ -618,8 +618,8 @@ var userController = function (_baseController) {
          * @method GET
          * @category user
          * @foldnumber 10
-         * @param {Number} [pageNo] 分页页码
-         * @param {Number} [pageSize] 分页大小
+         * @param {Number} [page] 分页页码
+         * @param {Number} [limit] 分页大小
          * @returns {Object} 
          * @example 
          */
@@ -628,12 +628,12 @@ var userController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var pageNo, pageSize, userInst, user, result, i;
+                var page, limit, userInst, user, count;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
-                                pageNo = ctx.request.query.pageNo || 1, pageSize = ctx.request.query.pageSize || 10;
+                                page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
 
                                 if (!(this.getRole() !== 'admin')) {
                                     _context9.next = 3;
@@ -646,51 +646,31 @@ var userController = function (_baseController) {
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 _context9.prev = 4;
                                 _context9.next = 7;
-                                return userInst.list();
+                                return userInst.listWithPaging(page, limit);
 
                             case 7:
                                 user = _context9.sent;
-                                result = [];
-                                i = (pageNo - 1) * pageSize;
+                                _context9.next = 10;
+                                return userInst.listCount();
 
                             case 10:
-                                if (!(i < pageNo * pageSize)) {
-                                    _context9.next = 17;
-                                    break;
-                                }
-
-                                if (user[i]) {
-                                    _context9.next = 13;
-                                    break;
-                                }
-
-                                return _context9.abrupt('break', 17);
-
-                            case 13:
-                                result.push(user[i]);
-
-                            case 14:
-                                i++;
-                                _context9.next = 10;
-                                break;
-
-                            case 17:
+                                count = _context9.sent;
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
-                                    total: user.length,
-                                    list: result
+                                    total: count,
+                                    list: user
                                 }));
 
-                            case 20:
-                                _context9.prev = 20;
+                            case 14:
+                                _context9.prev = 14;
                                 _context9.t0 = _context9['catch'](4);
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message));
 
-                            case 23:
+                            case 17:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[4, 20]]);
+                }, _callee9, this, [[4, 14]]);
             }));
 
             function list(_x10) {
