@@ -379,11 +379,16 @@ class userController extends baseController {
      * @returns {Object} 
      * @example 
      */
-    async update(ctx) {    //更新用户信息
-        try {
+    async update(ctx){    //更新用户信息
+        try{
+            let params = ctx.request.body;
+            if(this.getRole() !== 'admin' && params.uid != this.getUid()){
+                return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
+            }
             var userInst = yapi.getInst(userModel);
-            let id = this.getUid();
-            let data = {
+            let id = params.uid;
+            let data ={
+
                 up_time: yapi.commons.time()
             };
             if(this.getRole() === 'admin'){
