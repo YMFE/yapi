@@ -1,0 +1,24 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data":{
+        "total": 2,
+        "list":[
+            {
+                "_id": 101,
+                "email": "admin@admin.com",
+                "role": "admin",
+                "add_time": 1499932673,
+                "up_time": 1499932673
+            },
+            {
+                "_id": 263,
+                "username": "2515418556",
+                "email": "2515418556@qq.com",
+                "role": "member",
+                "add_time": 1500023432,
+                "up_time": 1500024967
+            }
+        ]
+    }
+}
