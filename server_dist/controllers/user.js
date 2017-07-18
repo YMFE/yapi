@@ -52,6 +52,10 @@ var _request2 = require('request');
 
 var _request3 = _interopRequireDefault(_request2);
 
+var _commons = require('../utils/commons.js');
+
+var _commons2 = _interopRequireDefault(_commons);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwt = require('jsonwebtoken');
@@ -353,7 +357,7 @@ var userController = function (_baseController) {
          * @param {Number} [old_password] 旧密码, 非admin用户必须传
          * @param {Number} password 新密码
          * @return {Object}
-         * @example ./api/user/change_password
+         * @example ./api/user/change_password.json
          */
 
     }, {
@@ -702,13 +706,20 @@ var userController = function (_baseController) {
                             case 0:
                                 _context10.prev = 0;
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                id = ctx.request.body.id;
+                                id = ctx.request.query.id;
                                 _context10.next = 5;
                                 return userInst.findById(id);
 
                             case 5:
                                 result = _context10.sent;
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                    uid: result._id,
+                                    username: result.username,
+                                    email: result.email,
+                                    role: result.role,
+                                    add_time: result.add_time,
+                                    up_time: result.up_time
+                                }));
 
                             case 9:
                                 _context10.prev = 9;
@@ -797,8 +808,10 @@ var userController = function (_baseController) {
          * 更新用户个人信息
          * @interface /user/update
          * @method POST
-         * @param username String
-         * @param email String
+         * @param uid  用户uid
+         * @param [role] 用户角色,只有管理员有权限修改
+         * @param [username] String
+         * @param [email] String
          * @category user
          * @foldnumber 10
          * @returns {Object} 
@@ -809,62 +822,76 @@ var userController = function (_baseController) {
         key: 'update',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var userInst, id, data, checkRepeat, result;
+                var params, userInst, id, data, checkRepeat, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.prev = 0;
-                                userInst = _yapi2.default.getInst(_user2.default);
-                                id = this.getUid();
-                                data = {
-                                    up_time: _yapi2.default.commons.time()
-                                };
+                                params = ctx.request.body;
 
-                                ctx.request.body.username && (data.username = ctx.request.body.username);
-                                ctx.request.body.email && (data.email = ctx.request.body.email);
-
-                                if (!data.email) {
-                                    _context12.next = 12;
+                                if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
+                                    _context12.next = 4;
                                     break;
                                 }
 
-                                _context12.next = 9;
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
+
+                            case 4:
+                                userInst = _yapi2.default.getInst(_user2.default);
+                                id = params.uid;
+                                data = {
+
+                                    up_time: _yapi2.default.commons.time()
+                                };
+
+                                if (this.getRole() === 'admin') {
+                                    params.role && (data.role = params.role);
+                                }
+                                params.username && (data.username = params.username);
+                                params.email && (data.email = params.email);
+
+                                if (!data.email) {
+                                    _context12.next = 16;
+                                    break;
+                                }
+
+                                _context12.next = 13;
                                 return userInst.checkRepeat(data.email);
 
-                            case 9:
+                            case 13:
                                 checkRepeat = _context12.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context12.next = 12;
+                                    _context12.next = 16;
                                     break;
                                 }
 
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
 
-                            case 12:
-                                _context12.next = 14;
+                            case 16:
+                                _context12.next = 18;
                                 return userInst.update(id, data);
 
-                            case 14:
+                            case 18:
                                 result = _context12.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context12.next = 21;
+                                _context12.next = 25;
                                 break;
 
-                            case 18:
-                                _context12.prev = 18;
+                            case 22:
+                                _context12.prev = 22;
                                 _context12.t0 = _context12['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context12.t0.message);
 
-                            case 21:
+                            case 25:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[0, 18]]);
+                }, _callee12, this, [[0, 22]]);
             }));
 
             function update(_x13) {
@@ -889,7 +916,7 @@ var userController = function (_baseController) {
         key: 'search',
         value: function () {
             var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
-                var q, queryList;
+                var q, queryList, rules, filteredRes;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
                         switch (_context13.prev = _context13.next) {
@@ -917,9 +944,23 @@ var userController = function (_baseController) {
 
                             case 7:
                                 queryList = _context13.sent;
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+                                rules = [{
+                                    key: '_id',
+                                    alias: 'uid'
+                                }, 'email', 'role', {
+                                    key: 'add_time',
+                                    alias: 'addTime'
+                                }, {
+                                    key: 'up_time',
+                                    alias: 'upTime'
+                                }];
+                                filteredRes = _commons2.default.filterRes(queryList, rules);
 
-                            case 9:
+                                console.log(queryList);
+
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 200, 'ok'));
+
+                            case 12:
                             case 'end':
                                 return _context13.stop();
                         }

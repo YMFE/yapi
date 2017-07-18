@@ -51,7 +51,10 @@ var userModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                username: String,
+                username: {
+                    type: String,
+                    required: true
+                },
                 password: {
                     type: String,
                     required: true
@@ -127,6 +130,9 @@ var userModel = function (_baseModel) {
         value: function search(keyword) {
             return this.model.find({
                 $or: [{ email: new RegExp(keyword, 'i') }, { username: new RegExp(keyword, 'i') }]
+            }, {
+                passsalt: 0,
+                password: 0
             }).limit(10);
         }
     }]);

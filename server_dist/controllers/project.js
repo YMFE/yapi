@@ -48,13 +48,13 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _user = require('../models/user.js');
-
-var _user2 = _interopRequireDefault(_user);
-
 var _group = require('../models/group');
 
 var _group2 = _interopRequireDefault(_group);
+
+var _commons = require('../utils/commons.js');
+
+var _commons2 = _interopRequireDefault(_commons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -201,7 +201,7 @@ var projectController = function (_baseController) {
             return add;
         }()
         /**
-        * 添加项目成员
+        * 添加项目
         * @interface /project/add_member
         * @method POST
         * @category project
@@ -285,7 +285,7 @@ var projectController = function (_baseController) {
             return addMember;
         }()
         /**
-        * 删除项目成员
+        * 添加项目
         * @interface /project/del_member
         * @method POST
         * @category project
@@ -406,7 +406,7 @@ var projectController = function (_baseController) {
 
                             case 6:
                                 project = _context4.sent;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = _yapi2.default.getInst(userModel);
                                 result = [];
                                 _iteratorNormalCompletion = true;
                                 _didIteratorError = false;
@@ -729,7 +729,7 @@ var projectController = function (_baseController) {
         /**
          * 编辑项目
          * @interface /project/up
-         * @method GET
+         * @method POST
          * @category project
          * @foldnumber 10
          * @param {Number} id 项目id，不能为空
@@ -868,7 +868,7 @@ var projectController = function (_baseController) {
         key: 'search',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var q, queryList;
+                var q, projectList, groupList, projectRules, groupRules, queryList;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
@@ -895,19 +895,26 @@ var projectController = function (_baseController) {
                                 return this.Model.search(q);
 
                             case 7:
-                                _context9.t0 = _context9.sent;
+                                projectList = _context9.sent;
                                 _context9.next = 10;
                                 return this.groupModel.search(q);
 
                             case 10:
-                                _context9.t1 = _context9.sent;
+                                groupList = _context9.sent;
+                                projectRules = ['_id', 'name', 'basepath', 'uid', 'env', 'members', { key: 'group_id', alias: 'groupId' }, { key: 'up_time', alias: 'upTime' }, { key: 'prd_host', alias: 'prdHost' }, { key: 'add_time', alias: 'addTime' }];
+                                groupRules = ['_id', 'uid', { key: 'group_name', alias: 'groupName' }, { key: 'group_desc', alias: 'groupDesc' }, { key: 'add_time', alias: 'addTime' }, { key: 'up_time', alias: 'upTime' }];
+
+
+                                projectList = _commons2.default.filterRes(projectList, projectRules);
+                                groupList = _commons2.default.filterRes(groupList, groupRules);
+
                                 queryList = {
-                                    project: _context9.t0,
-                                    group: _context9.t1
+                                    project: projectList,
+                                    group: groupList
                                 };
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
 
-                            case 13:
+                            case 17:
                             case 'end':
                                 return _context9.stop();
                         }
