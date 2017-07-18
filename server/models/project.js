@@ -66,6 +66,18 @@ class projectModel extends baseModel{
         }).exec()
     }
 
+    listWithPaging(group_id, page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+        return this.model.find({
+            group_id: group_id
+        }).skip((page - 1) * limit).limit(limit).exec();
+    }
+
+    listCount() {
+        return this.model.count();
+    }
+
     countByGroupId(group_id){
         return this.model.count({
             group_id: group_id

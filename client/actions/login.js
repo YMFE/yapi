@@ -8,14 +8,18 @@ const cookies = new Cookies();
 
 const loginActions = (data) => {
   return (dispatch) => {
-    axios.get('/user/login', data).then((res) => {
-      cookies.set(data.email, data.password);
-      dispatch({
-        type: LOGIN,
-        payload: {
-          data: res
-        }
-      });
+    axios.post('/user/login', data).then((res) => {
+      if (res.data.errcode === 0) {
+        cookies.set(data.email, data.password);
+        dispatch({
+          type: LOGIN,
+          payload: {
+            data: res
+          }
+        });
+      } else {
+        console.log('登录失败,errcode不为0');
+      }
     }).catch((err) => {
       console.log(err);
     });
@@ -30,7 +34,7 @@ const regActions = (data) => {
     username: data.userName
   }
   return () => {
-    axios.get('/user/login', param).then((res) => {
+    axios.post('/user/login', param).then((res) => {
       console.log(res);
     }).catch((err) => {
       console.log(err);
