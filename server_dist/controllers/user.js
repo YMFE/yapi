@@ -52,6 +52,10 @@ var _request2 = require('request');
 
 var _request3 = _interopRequireDefault(_request2);
 
+var _commons = require('../utils/commons.js');
+
+var _commons2 = _interopRequireDefault(_commons);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwt = require('jsonwebtoken');
@@ -877,7 +881,7 @@ var userController = function (_baseController) {
         key: 'search',
         value: function () {
             var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
-                var q, queryList;
+                var q, queryList, rules, filteredRes;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
                         switch (_context13.prev = _context13.next) {
@@ -905,9 +909,23 @@ var userController = function (_baseController) {
 
                             case 7:
                                 queryList = _context13.sent;
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+                                rules = [{
+                                    key: '_id',
+                                    alias: 'uid'
+                                }, 'email', 'role', {
+                                    key: 'add_time',
+                                    alias: 'addTime'
+                                }, {
+                                    key: 'up_time',
+                                    alias: 'upTime'
+                                }];
+                                filteredRes = _commons2.default.filterRes(queryList, rules);
 
-                            case 9:
+                                console.log(queryList);
+
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 200, 'ok'));
+
+                            case 12:
                             case 'end':
                                 return _context13.stop();
                         }
