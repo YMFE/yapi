@@ -885,7 +885,7 @@
             </thead>
             
             <tr>
-                <td>pageNo</td>
+                <td>page</td>
                 <td>Number</td>
                 <td>分页页码</td>
                 <td>
@@ -895,7 +895,7 @@
             </tr>
             
             <tr>
-                <td>pageSize</td>
+                <td>limit</td>
                 <td>Number</td>
                 <td>分页大小</td>
                 <td>
@@ -929,7 +929,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#314" target="_blank">./server/controllers/user.js:314</a>
+        <a href="./static/server/controllers/user.js.html#308" target="_blank">./server/controllers/user.js:308</a>
     </p>
     
     
@@ -991,7 +991,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#336" target="_blank">./server/controllers/user.js:336</a>
+        <a href="./static/server/controllers/user.js.html#330" target="_blank">./server/controllers/user.js:330</a>
     </p>
     
     
@@ -1053,7 +1053,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#360" target="_blank">./server/controllers/user.js:360</a>
+        <a href="./static/server/controllers/user.js.html#354" target="_blank">./server/controllers/user.js:354</a>
     </p>
     
     
@@ -1127,7 +1127,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#396" target="_blank">./server/controllers/user.js:396</a>
+        <a href="./static/server/controllers/user.js.html#390" target="_blank">./server/controllers/user.js:390</a>
     </p>
     
     
@@ -1706,7 +1706,7 @@
             </tr>
             
             <tr>
-                <td>pageNo</td>
+                <td>page</td>
                 <td>Number</td>
                 <td>分页页码</td>
                 <td>
@@ -1716,7 +1716,7 @@
             </tr>
             
             <tr>
-                <td>pageSize</td>
+                <td>limit</td>
                 <td>Number</td>
                 <td>分页大小</td>
                 <td>
@@ -1733,38 +1733,37 @@
     <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
-    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
-            <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"tttttt"</span><span class="token punctuation">,</span>
-            <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a1.cc"</span><span class="token punctuation">,</span>
-            <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499331378</span><span class="token punctuation">,</span>
-            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499331378</span><span class="token punctuation">,</span>
-            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token number">0</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-            <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a2"</span><span class="token punctuation">,</span>
-            <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"tttttt"</span><span class="token punctuation">,</span>
-            <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
-            <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499331387</span><span class="token punctuation">,</span>
-            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499331387</span><span class="token punctuation">,</span>
-            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token number">0</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"total"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token string">"list"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">133</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a1"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">163</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a2"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a2/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
     
@@ -1788,7 +1787,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#244" target="_blank">./server/controllers/project.js:244</a>
+        <a href="./static/server/controllers/project.js.html#240" target="_blank">./server/controllers/project.js:240</a>
     </p>
     
     
@@ -1860,7 +1859,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#277" target="_blank">./server/controllers/project.js:277</a>
+        <a href="./static/server/controllers/project.js.html#273" target="_blank">./server/controllers/project.js:273</a>
     </p>
     
     
@@ -2020,7 +2019,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#338" target="_blank">./server/controllers/project.js:338</a>
+        <a href="./static/server/controllers/project.js.html#334" target="_blank">./server/controllers/project.js:334</a>
     </p>
     
     
