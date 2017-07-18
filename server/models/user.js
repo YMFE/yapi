@@ -60,6 +60,9 @@ class userModel extends baseModel{
                 { email: new RegExp(keyword, 'i') },
                 { username: new RegExp(keyword, 'i')}
             ]
+        }, {
+            passsalt: 0,
+            password: 0
         }).limit(10)
     }
 
