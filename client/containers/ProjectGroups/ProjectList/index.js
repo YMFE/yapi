@@ -55,7 +55,8 @@ const formItemLayout = {
 @connect(
   state => {
     return {
-      loginData: state.login
+      loginData: state.login,
+      currGroup: state.group.currGroup
     }
   },
   {
@@ -84,11 +85,16 @@ class ProjectList extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.prd_host = this.state.protocol + values.prd_host;
+
+        // 获取当前分组id传入values
+        values.group_id = this.props.currGroup.id;
+
         console.log('Received values of form: ', values);
         this.setState({
           visible: false
         });
         this.props.addProject(values);
+        this.props.form.resetFields();
       }
     });
   }
