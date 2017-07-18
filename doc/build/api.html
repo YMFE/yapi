@@ -105,6 +105,10 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-user-change_password">/user/change_password</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-user-reg">/user/reg</a>
                                     </li>
                                      
@@ -113,11 +117,19 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#-user-list">/user/list</a>
+                                        <a href="#-user-find">/user/find</a>
                                     </li>
                                      
                                     <li >
                                         <a href="#-user-del">/user/del</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-user-update">/user/update</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-user-search">/user/search</a>
                                     </li>
                                 
                                 </ul>
@@ -143,6 +155,10 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-project-get_member_list-json">/project/get_member_list.json</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-project-get">/project/get</a>
                                     </li>
                                      
@@ -156,6 +172,10 @@
                                      
                                     <li >
                                         <a href="#-project-up">/project/up</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-project-search">/project/search</a>
                                     </li>
                                 
                                 </ul>
@@ -218,7 +238,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#13" target="_blank">./server/controllers/group.js:13</a>
+        <a href="./static/server/controllers/group.js.html#12" target="_blank">./server/controllers/group.js:12</a>
     </p>
     
     
@@ -301,7 +321,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#52" target="_blank">./server/controllers/group.js:52</a>
+        <a href="./static/server/controllers/group.js.html#51" target="_blank">./server/controllers/group.js:51</a>
     </p>
     
     
@@ -363,7 +383,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#72" target="_blank">./server/controllers/group.js:72</a>
+        <a href="./static/server/controllers/group.js.html#71" target="_blank">./server/controllers/group.js:71</a>
     </p>
     
     
@@ -435,7 +455,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#103" target="_blank">./server/controllers/group.js:103</a>
+        <a href="./static/server/controllers/group.js.html#102" target="_blank">./server/controllers/group.js:102</a>
     </p>
     
     
@@ -535,7 +555,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#11" target="_blank">./server/controllers/user.js:11</a>
+        <a href="./static/server/controllers/user.js.html#13" target="_blank">./server/controllers/user.js:13</a>
     </p>
     
     
@@ -595,6 +615,7 @@
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
         <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
         <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499762848</span><span class="token punctuation">,</span>
         <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499762848</span>
     <span class="token punctuation">}</span>
@@ -621,7 +642,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#62" target="_blank">./server/controllers/user.js:62</a>
+        <a href="./static/server/controllers/user.js.html#57" target="_blank">./server/controllers/user.js:57</a>
     </p>
     
     
@@ -632,6 +653,102 @@
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span>
 <span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-change_password" class="page-header subject">
+            /user/change_password
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-user-change_password">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        修改用户密码
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#150" target="_blank">./server/controllers/user.js:150</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>uid</td>
+                <td>Number</td>
+                <td>用户ID</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>old_password</td>
+                <td>Number</td>
+                <td>旧密码, 非admin用户必须传</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>password</td>
+                <td>Number</td>
+                <td>新密码</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" ><code><span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"nModified"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
     
     
 </div>
@@ -654,7 +771,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#79" target="_blank">./server/controllers/user.js:79</a>
+        <a href="./static/server/controllers/user.js.html#214" target="_blank">./server/controllers/user.js:214</a>
     </p>
     
     
@@ -724,6 +841,7 @@
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
         <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
         <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499762848</span><span class="token punctuation">,</span>
         <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499762848</span>
     <span class="token punctuation">}</span>
@@ -750,7 +868,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#136" target="_blank">./server/controllers/user.js:136</a>
+        <a href="./static/server/controllers/user.js.html#276" target="_blank">./server/controllers/user.js:276</a>
     </p>
     
     
@@ -760,23 +878,23 @@
 
 <div class="con-list-item">
     <blockquote class="api">
-        <h3 id="-user-list" class="page-header subject">
-            /user/list
+        <h3 id="-user-find" class="page-header subject">
+            /user/find
             
             <span class="ui-badge">GET</span>
             
             
-            <a class="hashlink" href="#-user-list">#</a>
+            <a class="hashlink" href="#-user-find">#</a>
         </h3>
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        获取用户列表
+        获取用户个人信息
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#159" target="_blank">./server/controllers/user.js:159</a>
+        <a href="./static/server/controllers/user.js.html#299" target="_blank">./server/controllers/user.js:299</a>
     </p>
     
     
@@ -833,12 +951,12 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        获取用户列表,只有admin用户才有此权限
+        删除用户,只有admin用户才有此权限
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#184" target="_blank">./server/controllers/user.js:184</a>
+        <a href="./static/server/controllers/user.js.html#328" target="_blank">./server/controllers/user.js:328</a>
     </p>
     
     
@@ -882,6 +1000,160 @@
     
 </div>
 
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-update" class="page-header subject">
+            /user/update
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-user-update">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        更新用户个人信息
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#352" target="_blank">./server/controllers/user.js:352</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>username</td>
+                <td></td>
+                <td>String</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>email</td>
+                <td></td>
+                <td>String</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-search" class="page-header subject">
+            /user/search
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-user-search">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        模糊搜索用户名或者email
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#388" target="_blank">./server/controllers/user.js:388</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>q</td>
+                <td>String</td>
+                <td></td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+            <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
+            <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"3d078af947521bb4a99c93f5e089fc2ac601fa09"</span><span class="token punctuation">,</span>
+            <span class="token string">"passsalt"</span><span class="token punctuation">:</span> <span class="token string">"qc8lnjpnbs9z1vodz4ynfjemi"</span><span class="token punctuation">,</span>
+            <span class="token string">"role"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
+            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499936103</span><span class="token punctuation">,</span>
+            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499936103</span><span class="token punctuation">,</span>
+            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
 
 <h2 id="project" class="page-header subject">project<a class="hashlink" href="#project">#</a></h2>
 
@@ -903,7 +1175,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#12" target="_blank">./server/controllers/project.js:12</a>
+        <a href="./static/server/controllers/project.js.html#15" target="_blank">./server/controllers/project.js:15</a>
     </p>
     
     
@@ -1027,12 +1299,12 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        添加项目
+        添加项目成员
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#74" target="_blank">./server/controllers/project.js:74</a>
+        <a href="./static/server/controllers/project.js.html#77" target="_blank">./server/controllers/project.js:77</a>
     </p>
     
     
@@ -1070,8 +1342,8 @@
             </tr>
             
             <tr>
-                <td>uid</td>
                 <td>member_uid</td>
+                <td>String</td>
                 <td>项目成员uid,不能为空</td>
                 <td>
                     
@@ -1111,12 +1383,12 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        添加项目
+        删除项目成员
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#106" target="_blank">./server/controllers/project.js:106</a>
+        <a href="./static/server/controllers/project.js.html#109" target="_blank">./server/controllers/project.js:109</a>
     </p>
     
     
@@ -1184,6 +1456,87 @@
 
 <div class="con-list-item">
     <blockquote class="api">
+        <h3 id="-project-get_member_list-json" class="page-header subject">
+            /project/get_member_list.json
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-project-get_member_list-json">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        获取项目成员列表
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/project.js.html#142" target="_blank">./server/controllers/project.js:142</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>Number</td>
+                <td>项目id，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+            <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
+            <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"e00084747ecba89837affe8a048e83c751e44209"</span><span class="token punctuation">,</span>
+            <span class="token string">"passsalt"</span><span class="token punctuation">:</span> <span class="token string">"fmf3kytyysc4swwuqc15rk9"</span><span class="token punctuation">,</span>
+            <span class="token string">"role"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
+            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499932673</span><span class="token punctuation">,</span>
+            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499932673</span><span class="token punctuation">,</span>
+            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
         <h3 id="-project-get" class="page-header subject">
             /project/get
             
@@ -1200,7 +1553,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#138" target="_blank">./server/controllers/project.js:138</a>
+        <a href="./static/server/controllers/project.js.html#176" target="_blank">./server/controllers/project.js:176</a>
     </p>
     
     
@@ -1283,7 +1636,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#162" target="_blank">./server/controllers/project.js:162</a>
+        <a href="./static/server/controllers/project.js.html#200" target="_blank">./server/controllers/project.js:200</a>
     </p>
     
     
@@ -1383,7 +1736,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#186" target="_blank">./server/controllers/project.js:186</a>
+        <a href="./static/server/controllers/project.js.html#224" target="_blank">./server/controllers/project.js:224</a>
     </p>
     
     
@@ -1455,7 +1808,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#219" target="_blank">./server/controllers/project.js:219</a>
+        <a href="./static/server/controllers/project.js.html#257" target="_blank">./server/controllers/project.js:257</a>
     </p>
     
     
@@ -1592,6 +1945,104 @@
         <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
         <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
     <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-project-search" class="page-header subject">
+            /project/search
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-project-search">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        模糊搜索项目名称或者组名称
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/project.js.html#318" target="_blank">./server/controllers/project.js:318</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>q</td>
+                <td>String</td>
+                <td></td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
+  <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
+  <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"project"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project yapi"</span><span class="token punctuation">,</span>
+        <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"yapi.qunar.com"</span><span class="token punctuation">,</span>
+        <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/yapi/"</span><span class="token punctuation">,</span>
+        <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+        <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">193</span><span class="token punctuation">,</span>
+        <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500013365</span><span class="token punctuation">,</span>
+        <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500013365</span><span class="token punctuation">,</span>
+        <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+          <span class="token string">"101"</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"group"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">193</span><span class="token punctuation">,</span>
+        <span class="token string">"group_name"</span><span class="token punctuation">:</span> <span class="token string">"yapi"</span><span class="token punctuation">,</span>
+        <span class="token string">"group_desc"</span><span class="token punctuation">:</span> <span class="token string">"group yapi"</span><span class="token punctuation">,</span>
+        <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500013066</span><span class="token punctuation">,</span>
+        <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500013066</span><span class="token punctuation">,</span>
+        <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
     

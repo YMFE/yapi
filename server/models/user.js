@@ -9,7 +9,10 @@ class userModel extends baseModel{
 
     getSchema(){
         return{
-           username: String,
+           username: {
+                type: String,
+                required: true   
+           },
            password:{
                type:String,
                required: true
