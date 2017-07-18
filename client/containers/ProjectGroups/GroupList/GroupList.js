@@ -5,6 +5,8 @@ import { Button, Icon, Modal, Input, message, Menu } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 
+const Search = Input.Search;
+
 import {
   fetchGroupList,
   setCurrGroup,
@@ -93,18 +95,23 @@ export default class GroupList extends Component {
       <div>
         <div className="group-bar">
           <div className="curr-group">
-            <div className="curr-group-name">{currGroup.group_name}</div>
+            <div className="curr-group-name">{currGroup.group_name}<Icon className="edit-group" type="edit"/></div>
             <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
           </div>
           <div className="group-operate">
+            <div className="search">
+              <Search
+                placeholder="input search text"
+                onSearch={value => console.log(value)}
+              />
+            </div>
             <Button type="primary" onClick={this.showModal}>添加分组</Button>
           </div>
           <Menu className="group-list" mode="inline">
             {
               groupList.map((group, index) => (
                 <Menu.Item key={index} className="group-item">
-                  <div className="group-name">{group.group_name}</div>
-                  <div className="group-edit"><Icon type="edit" /></div>
+                  <Icon type="folder-open" />{group.group_name}
                 </Menu.Item>
               ))
             }
@@ -116,8 +123,12 @@ export default class GroupList extends Component {
           onOk={this.addGroup}
           onCancel={this.handleCancel}
         >
-          <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
-          <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
+          <div className="modal-input">
+            分组名：<Input placeholder="请输入分组名称" onChange={this.inputNewGroupName} style={{display: 'inline-block'}}></Input>
+          </div>
+          <div className="modal-input">
+            简介：<Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc} style={{display: 'inline-block'}}></Input>
+          </div>
         </Modal>
       </div>
     )
