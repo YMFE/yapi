@@ -10,19 +10,20 @@ const { Header } = Layout;
 const ToolUser = (props)=> (
   <ul>
     <li><Icon type="question-circle-o" />帮助</li>
-    <li><Icon type="user" />{ props.user }</li>
+    <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
+    <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
     <li>退出</li>
   </ul>
 );
 ToolUser.propTypes={
   user:PropTypes.string,
-  msg:PropTypes.string
+  msg:PropTypes.string,
+  relieveLink:PropTypes.func
 };
 
-const ToolGuest = (props)=> (
+const ToolGuest = ()=> (
   <ul>
-    <li onClick={e => props.onLogin(e)}><Link to={`/Login`}>登录</Link></li>
-    <li onClick={e => props.onReg(e)}><Link to={`/Login`}>注册</Link></li>
+    <li><Icon type="question-circle-o" />帮助</li>
   </ul>
 );
 ToolGuest.propTypes={
@@ -33,6 +34,19 @@ ToolGuest.propTypes={
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      current : window.location.hash.split("#")[1]
+    }
+  }
+  linkTo = (e) =>{
+    this.setState({
+      current : e.key
+    })
+  }
+  relieveLink = () =>{
+    this.setState({
+      current : ""
+    })
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -57,20 +71,21 @@ class HeaderCom extends Component {
                 className="nav-toolbar"
                 theme="dark"
                 style={{ lineHeight : '.64rem'}}
-                defaultSelectedKeys={['1']}
+                onClick={this.linkTo}
+                selectedKeys={[this.state.current]}
               >
-                <Menu.Item key="1">
-                  <Link to={`/`}>首页</Link>
+                <Menu.Item key="/">
+                  <Link to="/">首页</Link>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to={`/ProjectGroups`}>分组</Link>
+                <Menu.Item key="/ProjectGroups">
+                  <Link to="/ProjectGroups">分组</Link>
                 </Menu.Item>
-                <Menu.Item key="3">
-                  文档
+                <Menu.Item key="/Interface">
+                  <Link to="/Interface">接口</Link>
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg}/>:''}
+                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink}/>:<ToolGuest/>}
               </div>
             </div>
           </Header>
@@ -84,6 +99,7 @@ HeaderCom.propTypes={
   user: PropTypes.string,
   msg: PropTypes.string,
   login:PropTypes.bool,
+  relieveLink:PropTypes.func,
   loginTypeAction:PropTypes.func
 };
 
@@ -91,7 +107,7 @@ export default connect(
   (state) => {
     return{
       user: state.login.userName,
-      msg: "暂无消息",
+      msg: null,
       login:state.login.isLogin
     }
   },

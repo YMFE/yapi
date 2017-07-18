@@ -8,6 +8,7 @@ export const FETCH_GROUP_LIST = 'FETCH_GROUP_LIST'
 export const SET_CURR_GROUP = 'SET_CURR_GROUP'
 
 // project
+export const FETCH_PROJECT_LIST = 'FETCH_PROJECT_LIST'
 export const PROJECT_ADD = 'PROJECT_ADD'
 
 // login
@@ -23,4 +24,3 @@ export const FETCH_MORE_NEWS = 'FETCH_MORE_NEWS';
 
 // User
 export const CHANGE_CUR_UID = 'CHANGE_CUR_UID'
-

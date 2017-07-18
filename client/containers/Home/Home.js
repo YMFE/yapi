@@ -32,7 +32,7 @@ class Home extends Component {
               </Col>
               <Col span={16} className="main-one-right">
                 <div className="img-container">
-                  <img src="./static/image/demo-img.png"/>
+                  <img src="./image/demo-img.png"/>
                 </div>
               </Col>
             </Row>
@@ -61,7 +61,7 @@ Home.defaultProps={
       {title:"接口管理",des:"强大的接口文档"},
       {title:"接口管理",des:"强大的接口文档"}
     ],
-    img:"./static/image/demo-img.png"
+    img:"./image/demo-img.png"
   },{
     title:"接口管理",
     des:"yapi将满足你的所有接口管理需求。不再需要 为每个项目搭建独立的接口管理平台和编写离线的接口文档",
@@ -69,7 +69,7 @@ Home.defaultProps={
       {title:"接口管理",des:"强大的接口文档"},
       {title:"接口管理",des:"强大的接口文档"}
     ],
-    img:"./static/image/demo-img.png"
+    img:"./image/demo-img.png"
   }
   ]
 };
