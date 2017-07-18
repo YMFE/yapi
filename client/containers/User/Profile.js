@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Row, Col, Icon, Input, Button, Select, Message } from 'antd'
 import axios from 'axios';
 import { connect } from 'react-redux'
-
+import {formatTime} from '../../common.js'
 import {
   changeCurUid
 } from '../../actions/user.js'
@@ -203,11 +203,16 @@ class Profile extends Component {
 
     return <div className="user-profile">
       <Row className="user-item" type="flex" justify="start">
+        <Col span={4}>用户id</Col>
+        <Col span={12}>
+          {userinfo.uid}
+        </Col>
+      </Row>
+      <Row className="user-item" type="flex" justify="start">
         <Col span={4}>用户名</Col>
         <Col span={12}>
           {userNameEditHtml}
         </Col>
-
       </Row>
       <Row className="user-item"  type="flex" justify="start">
         <Col span={4}>Email</Col>
@@ -221,6 +226,19 @@ class Profile extends Component {
           {roleEditHtml}
         </Col>
       </Row>
+      <Row className="user-item" type="flex" justify="start">
+        <Col span={4}>创建账号时间</Col>
+        <Col span={12}>
+          {formatTime(userinfo.add_time)}
+        </Col>
+      </Row>
+      <Row className="user-item" type="flex" justify="start">
+        <Col span={4}>更新账号时间</Col>
+        <Col span={12}>
+          {formatTime(userinfo.up_time)}
+        </Col>
+      </Row>
+
       <Row className="user-item" type="flex" justify="start">
         <Col span={4}>安全</Col>
         <Col span={12}>

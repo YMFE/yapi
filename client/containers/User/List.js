@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {formatTime} from '../../common.js'
+import { Link } from 'react-router-dom'
 //import PropTypes from 'prop-types'
 import {
   Table,
@@ -7,10 +9,11 @@ import {
 import axios from 'axios';
 
 
+
 const columns = [{
   title: 'UID',
-  dataIndex: 'uid',
-  key: 'uid'
+  dataIndex: '_id',
+  key: '_id'
 }, {
   title: '用户名',
   dataIndex: 'username',
@@ -30,10 +33,10 @@ const columns = [{
 }, {
   title: '功能',
   key: 'action',
-  render: () => {
+  render: (item) => {
     return (
       <span>
-        <Button type="primary">查看</Button>
+        <Button type="primary"><Link to={"/user/profile/"+item._id} > 查看 </Link></Button>
         <Button type="danger">删除</Button>
       </span>
     )
@@ -51,9 +54,17 @@ class List extends Component {
 
   getUserList() {
     axios.get('/user/list').then((res) => {
-      let data = res.data;
-      if (res.errno === 0) {
-        this.setState('data', data.data);
+      let result = res.data;
+
+      if (result.errcode === 0) {    
+        let list = result.data.list;
+        list.map( (item, index) => {
+          item.key = index;
+          item.up_time = formatTime(item.up_time)
+        } )
+        this.setState({
+          data: list
+        });
       }
     })
   }

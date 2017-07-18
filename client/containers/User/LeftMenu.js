@@ -29,7 +29,7 @@ class LeftMenu extends Component {
   render() {
     const menus = [{
       title: '个人资料',
-      path: "/user/profile/107"
+      path: "/user/profile/" + this.props.curUid
     }, {
       title: '用户管理',
       path: '/user/list',
