@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select } from 'antd';
-import { addProject } from  '../../../actions/project';
+import { addProject, fetchProjectList } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -10,16 +10,20 @@ const Option = Select.Option;
 import './ProjectList.scss'
 
 const columns = [{
-  title: 'Name',
+  title: '项目名称',
   dataIndex: 'name',
   key: 'name',
   render: text => <a href="#">{text}</a>
 }, {
-  title: 'Age',
-  dataIndex: 'age',
-  key: 'age'
+  title: '创建人',
+  dataIndex: 'owner',
+  key: 'owner'
 }, {
-  title: 'Action',
+  title: '创建时间',
+  dataIndex: 'add_time',
+  key: 'add_time'
+}, {
+  title: '操作',
   key: 'action',
   render: () => (
     <span>
@@ -28,17 +32,6 @@ const columns = [{
       <a href="#">删除</a>
     </span>
   )
-}];
-
-const data = [{
-  key: '1',
-  age: 32
-}, {
-  key: '2',
-  age: 42
-}, {
-  key: '3',
-  age: 32
 }];
 
 const formItemLayout = {
@@ -55,11 +48,12 @@ const formItemLayout = {
 @connect(
   state => {
     return {
-      loginData: state.login,
+      projectList: state.project.projectList,
       currGroup: state.group.currGroup
     }
   },
   {
+    fetchProjectList,
     addProject
   }
 )
@@ -68,12 +62,17 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       visible: false,
-      protocol: 'http:\/\/'
+      tabelLoading: true,
+      protocol: 'http:\/\/',
+      projectData: []
     }
   }
   static propTypes = {
     form: PropTypes.object,
-    addProject: PropTypes.func
+    fetchProjectList: PropTypes.func,
+    addProject: PropTypes.func,
+    projectList: PropTypes.array,
+    currGroup: PropTypes.object
   }
   addProject = () => {
     this.setState({
@@ -87,17 +86,36 @@ class ProjectList extends Component {
         values.prd_host = this.state.protocol + values.prd_host;
 
         // 获取当前分组id传入values
-        values.group_id = this.props.currGroup.id;
+        values.group_id = this.props.currGroup._id;
 
         console.log('Received values of form: ', values);
         this.setState({
-          visible: false
+          visible: false,
+          tabelLoading: true
         });
-        this.props.addProject(values);
+        this.props.addProject(values).then((res) => {
+          console.log(res);
+          // 添加项目成功后再次请求列表
+          this.props.fetchProjectList({
+            group_id: this.props.currGroup._id
+          }).then((res) => {
+            this.setState({
+              tabelLoading: false
+            });
+            console.log(117,res);
+          });
+        }).catch((err) => {
+          console.log(err);
+          this.setState({
+            tabelLoading: false
+          });
+        });
         this.props.form.resetFields();
       }
     });
   }
+
+  // 取消修改
   handleCancel = () => {
     this.props.form.resetFields();
     this.setState({
@@ -110,6 +128,33 @@ class ProjectList extends Component {
     this.setState({
       protocol: value
     })
+  }
+
+  componentWillReceiveProps(nextProps){
+    // 切换分组
+    if (this.props.currGroup !== nextProps.currGroup) {
+      const param = {
+        group_id: nextProps.currGroup._id
+      };
+      this.props.fetchProjectList(param).then((res) => {
+        this.setState({
+          tabelLoading: false
+        });
+        console.log(res);
+      });
+    }
+
+    // 切换项目列表
+    if (this.props.projectList !== nextProps.projectList) {
+      // console.log(nextProps.projectList);
+      const data = nextProps.projectList.map((item, index) => {
+        item.key = index;
+        return item;
+      });
+      this.setState({
+        projectData: data
+      });
+    }
   }
 
   render() {
@@ -190,8 +235,9 @@ class ProjectList extends Component {
         </Modal>
 
         <Table
+          loading={this.state.tabelLoading}
           columns={columns}
-          dataSource={data}
+          dataSource={this.state.projectData}
           title={() => <Button type="primary" onClick={this.addProject}>创建项目</Button>}
         />
 
