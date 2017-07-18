@@ -32,13 +32,7 @@ class LeftMenu extends Component {
       path: "/user/profile/" + this.props.curUid
     }, {
       title: '用户管理',
-      path: '/user/list',
-      auth: (role) => {
-        if (role === 'admin') {
-          return true;
-        }
-        return false;
-      }
+      path: '/user/list'
     }
     ]
 
