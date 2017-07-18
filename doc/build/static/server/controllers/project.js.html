@@ -25,16 +25,19 @@
             <div class="ydoc-container-content">
                 <div class="static-code-content" role="main">
                 <pre class="brush: js;">
-                import  projectModel from '../models/project.js'
+                import projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
+import groupModel from '../models/group'
+import commons from '../utils/commons.js'
 
 class projectController extends baseController {
 
     constructor(ctx){
         super(ctx)
         this.Model = yapi.getInst(projectModel);
+        this.groupModel = yapi.getInst(groupModel);
     }
 
     /**
@@ -106,7 +109,7 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
-     * @param {member_uid} uid 项目成员uid,不能为空
+     * @param {String} member_uid 项目成员uid,不能为空
      * @returns {Object} 
      * @example ./api/project/add_member.json
      */
@@ -163,6 +166,46 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
+
+    /**
+     * 获取项目成员列表
+     * @interface /project/get_member_list
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {Number} id 项目id，不能为空
+     * @return {Object}
+     * @example ./api/project/get_member_list.json
+     */
+
+    async getMemberList(ctx) {
+        let params = ctx.request.query;
+        if(!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+
+        try {
+            let project = await this.Model.get(params.id);
+            let userInst = yapi.getInst(userModel);
+            let result = [];
+
+            for(let i of project.members) {
+                let user = await userInst.findById(i);
+                result.push({
+                    _id: user._id,
+                    email: user.email,
+                    role: user.role,
+                    add_time: user.add_time,
+                    up_time: user.up_time
+                });
+            }
+
+            ctx.body = yapi.commons.resReturn(result);
+        } catch(e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
      /**
      * 添加项目
      * @interface /project/get
@@ -194,18 +237,28 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
+     * @param {Number} [page] 分页页码
+     * @param {Number} [limit] 分页大小
      * @returns {Object} 
      * @example ./api/project/list.json
      */
 
     async list(ctx) {
-        let group_id = ctx.request.query.group_id;
+        let group_id = ctx.request.query.group_id,
+            page = ctx.request.query.page || 1,
+            limit = ctx.request.query.limit || 10;
+
         if(!group_id){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
+
         try{
-            let result = await this.Model.list(group_id);
-            ctx.body = yapi.commons.resReturn(result)
+            let result = await this.Model.listWithPaging(group_id, page, limit);
+            let count = await this.Model.listCount();
+            ctx.body = yapi.commons.resReturn({
+                total: count,
+                list: result
+            })
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
@@ -247,7 +300,7 @@ class projectController extends baseController {
     /**
      * 编辑项目
      * @interface /project/up
-     * @method GET
+     * @method POST
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
@@ -303,6 +356,61 @@ class projectController extends baseController {
         }catch(e){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
+    }
+
+    /**
+     * 模糊搜索项目名称或者组名称
+     * @interface /project/search
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {String} q
+     * @return {Object}
+     * @example ./api/project/search.json
+    */
+    async search(ctx) {
+        const { q } = ctx.request.query;
+
+        if (!q) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.')
+        }
+
+        if (!yapi.commons.validateSearchKeyword(q)) {
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
+        }
+
+        let projectList = await this.Model.search(q);
+        let groupList = await this.groupModel.search(q);
+        let projectRules = [
+            '_id',
+            'name',
+            'basepath',
+            'uid',
+            'env',
+            'members',
+            { key: 'group_id', alias: 'groupId' },
+            { key: 'up_time', alias: 'upTime' },
+            { key: 'prd_host', alias: 'prdHost' },
+            { key: 'add_time', alias: 'addTime' }
+        ];
+        let groupRules = [
+            '_id',
+            'uid',
+            { key: 'group_name', alias: 'groupName'},
+            { key: 'group_desc', alias: 'groupDesc' },
+            { key: 'add_time', alias: 'addTime' },
+            { key: 'up_time', alias: 'upTime' }
+        ];
+        
+        projectList = commons.filterRes(projectList, projectRules);
+        groupList = commons.filterRes(groupList, groupRules);
+
+        let queryList = {
+            project: projectList,
+            group: groupList
+        };
+        
+        return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
     }
 }
 
