@@ -17,18 +17,3 @@ export function setCurrGroup(group) {
     payload: group
   }
 }
-
-export function addGroup(groupName) {
-  return function(dispatch, getState) {
-    const group = getState().group;
-    const groupList = group.groupList || [];
-    const newGroupList = groupList.concat([{ group_name: groupName + groupList.length }]);
-    dispatch({
-      type: FETCH_GROUP_LIST,
-      payload: { data: {
-        data: newGroupList,
-        errcode: 0
-      }}
-    });
-  }
-}
