@@ -1,7 +1,15 @@
 import {
+  FETCH_PROJECT_LIST,
   PROJECT_ADD
 } from '../constants/action-types.js';
 import axios from 'axios';
+
+const fetchProjectList = (data) => {
+  return {
+    type: FETCH_PROJECT_LIST,
+    payload: axios.get('/project/list', {params: data})
+  }
+}
 
 const addProject = (data) => {
   const { name, prd_host, basepath, desc, group_id } = data;
@@ -20,5 +28,6 @@ const addProject = (data) => {
 }
 
 export default {
+  fetchProjectList,
   addProject
 }
