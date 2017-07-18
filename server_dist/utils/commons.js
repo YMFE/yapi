@@ -142,3 +142,17 @@ exports.validateSearchKeyword = function (keyword) {
     }
     return true;
 };
+
+exports.filterRes = function (list, rules) {
+    return list.map(function (item) {
+        var filteredRes = {};
+        rules.forEach(function (rule) {
+            if (typeof rule == 'string') {
+                filteredRes[rule] = item[rule];
+            } else if ((typeof rule === 'undefined' ? 'undefined' : (0, _typeof3.default)(rule)) == 'object') {
+                filteredRes[rule.alias] = item[rule.key];
+            }
+        });
+        return filteredRes;
+    });
+};
