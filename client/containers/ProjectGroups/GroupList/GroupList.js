@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators';
 
 import {
   fetchGroupList,
-  fetchCurrGroup,
+  setCurrGroup,
   addGroup
 } from '../../../actions/group.js'
 
@@ -19,7 +19,7 @@ import './GroupList.scss'
   }),
   {
     fetchGroupList,
-    fetchCurrGroup,
+    setCurrGroup,
     addGroup
   }
 )
@@ -27,9 +27,10 @@ export default class GroupList extends Component {
 
   static propTypes = {
     groupList: PropTypes.array,
-    currGroup: PropTypes.string,
+    currGroup: PropTypes.object,
     addGroup: PropTypes.func,
-    fetchGroupList: PropTypes.func
+    fetchGroupList: PropTypes.func,
+    setCurrGroup: PropTypes.func
   }
 
   constructor(props) {
@@ -37,7 +38,10 @@ export default class GroupList extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchGroupList();
+    this.props.fetchGroupList().then(() => {
+      const currGroup = this.props.groupList[0] || { group_name: '' };
+      this.props.setCurrGroup(currGroup)
+    });
   }
 
   @autobind
@@ -51,7 +55,7 @@ export default class GroupList extends Component {
     return (
       <Card title="Groups">
         <Button type="primary" onClick={this.addGroup}>添加分组</Button>
-        <div>{currGroup}</div>
+        <div>{currGroup.group_name}</div>
         {
           groupList.map((group, index) => (
             <div key={index}>{group.group_name}</div>

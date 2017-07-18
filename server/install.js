@@ -22,6 +22,7 @@ function setupSql(){
     let userInst  = yapi.getInst(userModel);
     let passsalt = yapi.commons.randStr();
     let result = userInst.save({
+        username: yapi.WEBCONFIG.adminAccount.substr(0, yapi.WEBCONFIG.adminAccount.indexOf('@')),
         email: yapi.WEBCONFIG.adminAccount,
         password: yapi.commons.generatePassword('qunar.com', passsalt),
         passsalt: passsalt,

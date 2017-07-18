@@ -16,7 +16,10 @@ function connect(){
     mongoose.Promise = global.Promise;
     let config = yapi.WEBCONFIG;
     
-    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`);
+    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, {
+        user: config.db.user,
+        pass: config.db.pass    
+    });
 
     db.then(function (res) {
         yapi.commons.log('mongodb load success...')

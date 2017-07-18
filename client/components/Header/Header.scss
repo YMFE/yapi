@@ -1,29 +1,35 @@
 @import '../../styles/common.scss';
 $color-white : #fff;
-$color-blue : #30a1f2;
+$color-blue : #108ee9;
+$color-blue-deeper: #34495E;
 $color-grey-deep : #929aac;
+$color-black-light : #404040;
 /* .header-box.css */
 .header-box {
   display: block;
-  line-height: .64rem;
-  background: #000c15;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  //line-height: .64rem;
   font-size: 0.14rem;
   color: $color-white;
+  z-index: 9999;
 
   // 内容宽度
   .content {
-    max-width: 11rem;
+    max-width: 10.3rem;
     margin: 0 auto;
     zoom: 1;
     overflow: hidden;
   }
 
-  h1 {
-    font-size: .25rem;
+  .logo {
+    font-size: .3rem;
     float: left;
     margin: 0 .2rem 0 0;
     color: $color-white;
-    cursor: pointer;
+    //cursor: pointer;
     a{
       color: $color-white;
       &:hover {
@@ -36,37 +42,30 @@ $color-grey-deep : #929aac;
   }
 
   .nav-toolbar {
+    font-size: .15rem;
+    box-sizing: border-box;
     float: left;
-    li {
-      float: left;
-      margin: 0 .2rem;
-      a{
-        color: $color-white;
-        &:hover {
-          color: $color-blue;
-        }
-      }
-    }
   }
 
   .user-toolbar{
     float: right;
-    line-height: .12rem;
+    line-height: .14rem;
     li{
       float: left;
-      height: .12rem;
       margin: .26rem 0;
-      padding: 0 .1rem;
-      font-size: .12rem;
+      padding: 0 0 0 .12rem;
+      font-size: .14rem;
       cursor: pointer;
-      a{
-        color: $color-white;
-        &:hover{
-          color: $color-blue;
-        }
-      }
+      color: $color-white;
       &:not(:last-child){
         border-right: .01rem solid $color-white;
+        padding: 0 .12rem;
+      }
+      &:hover{
+        color: $color-blue;
+      }
+      i{
+        margin-right: .09rem;
       }
     }
   }
