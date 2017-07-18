@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon } from 'antd'
+import { Icon, Layout, Menu} from 'antd'
 import loginTypeAction from '../../actions/login';
 
+const { Header } = Layout;
 const ToolUser = (props)=> (
   <ul>
+    <li><Icon type="question-circle-o" />帮助</li>
     <li><Icon type="user" />{ props.user }</li>
-    <li>消息{ props.msg.length }</li>
     <li>退出</li>
   </ul>
 );
@@ -29,7 +30,7 @@ ToolGuest.propTypes={
   onReg:PropTypes.func
 }
 
-class Header extends Component {
+class HeaderCom extends Component {
   constructor(props) {
     super(props);
   }
@@ -45,31 +46,41 @@ class Header extends Component {
     const { login, user, msg } = this.props;
     return (
       <acticle className="header-box">
-        <div className="content">
-          <h1>
-            <Link to={`/`}>YAPI</Link>
-          </h1>
-          <ul className="nav-toolbar">
-            <li>
-              <Link to={`/ProjectGroups`}>分组</Link>
-            </li>
-            <li>
-              <a>我的项目</a>
-            </li>
-            <li>
-              <a>文档</a>
-            </li>
-          </ul>
-          <ul className="user-toolbar">
-            {login?<ToolUser user={user} msg={msg}/>:''}
-          </ul>
-        </div>
+        <Layout className="'layout">
+          <Header>
+            <div className="content">
+              <div className="logo">
+                YAPI
+              </div>
+              <Menu
+                mode="horizontal"
+                className="nav-toolbar"
+                theme="dark"
+                style={{ lineHeight : '.64rem'}}
+                defaultSelectedKeys={['1']}
+              >
+                <Menu.Item key="1">
+                  <Link to={`/`}>首页</Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <Link to={`/ProjectGroups`}>分组</Link>
+                </Menu.Item>
+                <Menu.Item key="3">
+                  文档
+                </Menu.Item>
+              </Menu>
+              <div className="user-toolbar">
+                {login?<ToolUser user={user} msg={msg}/>:''}
+              </div>
+            </div>
+          </Header>
+        </Layout>
       </acticle>
     )
   }
 }
 
-Header.propTypes={
+HeaderCom.propTypes={
   user: PropTypes.string,
   msg: PropTypes.string,
   login:PropTypes.bool,
@@ -85,5 +96,5 @@ export default connect(
     }
   },
   {loginTypeAction}
-)(Header)
+)(HeaderCom)
 

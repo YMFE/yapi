@@ -14,11 +14,10 @@ export default () => {
         <Route path="/" component={ Home } exact />
         <Route path="/ProjectGroups" component={ ProjectGroups } />
         <Route path="/Interface" component={ Interface } />
-        <Route path="/user" component={User} />  
+        <Route path="/user" component={User} />
         <Route path="/News" component={ News } />
       </div>
 
     </HashRouter>
   )
 }
-   

@@ -618,6 +618,8 @@ var userController = function (_baseController) {
          * @method GET
          * @category user
          * @foldnumber 10
+         * @param {Number} [pageNo] 分页页码
+         * @param {Number} [pageSize] 分页大小
          * @returns {Object} 
          * @example 
          */
@@ -626,39 +628,69 @@ var userController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var userInst, user;
+                var pageNo, pageSize, userInst, user, result, i;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
+                                pageNo = ctx.request.query.pageNo || 1, pageSize = ctx.request.query.pageSize || 10;
+
                                 if (!(this.getRole() !== 'admin')) {
-                                    _context9.next = 2;
+                                    _context9.next = 3;
                                     break;
                                 }
 
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '没有权限'));
 
-                            case 2:
+                            case 3:
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _context9.prev = 3;
-                                _context9.next = 6;
+                                _context9.prev = 4;
+                                _context9.next = 7;
                                 return userInst.list();
 
-                            case 6:
+                            case 7:
                                 user = _context9.sent;
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(user));
+                                result = [];
+                                i = (pageNo - 1) * pageSize;
 
                             case 10:
-                                _context9.prev = 10;
-                                _context9.t0 = _context9['catch'](3);
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message));
+                                if (!(i < pageNo * pageSize)) {
+                                    _context9.next = 17;
+                                    break;
+                                }
+
+                                if (user[i]) {
+                                    _context9.next = 13;
+                                    break;
+                                }
+
+                                return _context9.abrupt('break', 17);
 
                             case 13:
+                                result.push(user[i]);
+
+                            case 14:
+                                i++;
+                                _context9.next = 10;
+                                break;
+
+                            case 17:
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                    total: user.length,
+                                    list: result
+                                }));
+
+                            case 20:
+                                _context9.prev = 20;
+                                _context9.t0 = _context9['catch'](4);
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message));
+
+                            case 23:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[3, 10]]);
+                }, _callee9, this, [[4, 20]]);
             }));
 
             function list(_x10) {
