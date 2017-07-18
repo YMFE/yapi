@@ -34,7 +34,7 @@ class News extends Component {
     return (
       <section className="news-box">
         <NewsList />
-        <NewsTimeline data = {data} />
+        <NewsTimeline newsData = {data} />
       </section>
     )
   }

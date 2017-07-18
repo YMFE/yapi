@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Button, Modal, Form, Input, Icon, Tooltip } from 'antd';
+import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select } from 'antd';
 import { addProject } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
+const Option = Select.Option;
+
+import './ProjectList.scss'
 
 const columns = [{
   title: 'Name',
@@ -59,12 +62,12 @@ const formItemLayout = {
     addProject
   }
 )
-
 class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      protocol: 'http:\/\/'
     }
   }
   static propTypes = {
@@ -80,6 +83,7 @@ class ProjectList extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        values.prd_host = this.state.protocol + values.prd_host;
         console.log('Received values of form: ', values);
         this.setState({
           visible: false
@@ -94,9 +98,14 @@ class ProjectList extends Component {
       visible: false
     });
   }
-  handleSubmit = (e) => {
-    console.log(e);
+
+  // 修改线上域名的协议类型 (http/https)
+  protocolChange = (value) => {
+    this.setState({
+      protocol: value
+    })
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -107,7 +116,7 @@ class ProjectList extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
 
             <FormItem
               {...formItemLayout}
@@ -138,7 +147,11 @@ class ProjectList extends Component {
                   required: true, message: '请输入项目线上域名!'
                 }]
               })(
-                <Input />
+                <Input addonBefore={(
+                  <Select defaultValue="http://" onChange={this.protocolChange}>
+                    <Option value="http://">{'http:\/\/'}</Option>
+                    <Option value="https://">{'https:\/\/'}</Option>
+                  </Select>)} />
               )}
             </FormItem>
 
