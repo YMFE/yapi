@@ -364,16 +364,17 @@ var projectController = function (_baseController) {
 
             return delMember;
         }()
+
         /**
-        * 添加项目
-        * @interface /project/get
-        * @method GET
-        * @category project
-        * @foldnumber 10
-        * @param {Number} id 项目id，不能为空
-        * @returns {Object} 
-        * @example ./api/project/get.json
-        */
+         * 获取项目成员列表
+         * @interface /project/get_member_list.json
+         * @method GET
+         * @category project
+         * @foldnumber 10
+         * @param {Number} id 项目id，不能为空
+         * @return {Object}
+         * @example ./api/project/get_member_list.json
+         */
 
     }, {
         key: 'get',
@@ -401,6 +402,13 @@ var projectController = function (_baseController) {
                             case 6:
                                 result = _context4.sent;
 
+                                result.push(user);
+                                    _id: user._id,
+                                    email: user.email,
+                                    role: user.role,
+                                    add_time: user.add_time,
+                                    up_time: user.up_time
+                                });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context4.next = 13;
                                 break;
@@ -433,6 +441,8 @@ var projectController = function (_baseController) {
          * @category project
          * @foldnumber 10
          * @param {Number} group_id 项目group_id，不能为空
+         * @param {Number} [pageNo] 分页页码
+         * @param {Number} [pageSize] 分页大小
          * @returns {Object} 
          * @example ./api/project/list.json
          */
@@ -441,12 +451,12 @@ var projectController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
-                var group_id, result;
+                var group_id, pageNo, pageSize, result, resResult, i;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
-                                group_id = ctx.request.query.group_id;
+                                group_id = ctx.request.query.group_id, pageNo = ctx.request.query.pageNo || 1, pageSize = ctx.request.query.pageSize || 10;
 
                                 if (group_id) {
                                     _context5.next = 3;
@@ -462,23 +472,50 @@ var projectController = function (_baseController) {
 
                             case 6:
                                 result = _context5.sent;
+                                resResult = [];
+                                i = (pageNo - 1) * pageSize;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context5.next = 13;
+                            case 9:
+                                if (!(i < pageNo * pageSize)) {
+                                    _context6.next = 16;
+                                    break;
+                                }
+
+                                if (result[i]) {
+                                    _context6.next = 12;
+                                    break;
+                                }
+
+                                return _context6.abrupt('break', 16);
+
+                            case 12:
+                                resResult.push(result[i]);
+
+                            case 13:
+                                i++;
+                                _context6.next = 9;
                                 break;
 
-                            case 10:
-                                _context5.prev = 10;
+                            case 16:
+                                ctx.body = _yapi2.default.commons.resReturn({
+                                    total: result.length,
+                                    list: resResult
+                                });
+                                _context6.next = 13;
+                                break;
+
+                            case 19:
+                                _context6.prev = 10;
                                 _context5.t0 = _context5['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 13:
+                            case 22:
                             case 'end':
                                 return _context5.stop();
                         }
                     }
-                }, _callee5, this, [[3, 10]]);
+                }, _callee6, this, [[3, 10]]);
             }));
 
             function list(_x5) {
