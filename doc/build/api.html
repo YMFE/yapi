@@ -739,7 +739,16 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" ><code><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span>user<span class="token operator">/</span>change_password</code></pre>
+    <pre class="ydoc-example" ><code><span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"nModified"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
     
     
 </div>
@@ -991,7 +1000,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#336" target="_blank">./server/controllers/user.js:336</a>
+        <a href="./static/server/controllers/user.js.html#343" target="_blank">./server/controllers/user.js:343</a>
     </p>
     
     
@@ -1053,7 +1062,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#360" target="_blank">./server/controllers/user.js:360</a>
+        <a href="./static/server/controllers/user.js.html#367" target="_blank">./server/controllers/user.js:367</a>
     </p>
     
     
@@ -1079,12 +1088,32 @@
             </thead>
             
             <tr>
+                <td>uid</td>
+                <td></td>
+                <td>用户uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>role</td>
+                <td></td>
+                <td>用户角色,只有管理员有权限修改</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
                 <td>username</td>
                 <td></td>
                 <td>String</td>
                 <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
                     
                 </td>
                 <td></td>
@@ -1095,8 +1124,6 @@
                 <td></td>
                 <td>String</td>
                 <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
                     
                 </td>
                 <td></td>
@@ -1127,7 +1154,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#396" target="_blank">./server/controllers/user.js:396</a>
+        <a href="./static/server/controllers/user.js.html#412" target="_blank">./server/controllers/user.js:412</a>
     </p>
     
     
@@ -1733,38 +1760,37 @@
     <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
-    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
-            <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"tttttt"</span><span class="token punctuation">,</span>
-            <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a1.cc"</span><span class="token punctuation">,</span>
-            <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499331378</span><span class="token punctuation">,</span>
-            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499331378</span><span class="token punctuation">,</span>
-            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token number">0</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-            <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-            <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a2"</span><span class="token punctuation">,</span>
-            <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"tttttt"</span><span class="token punctuation">,</span>
-            <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
-            <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1"</span><span class="token punctuation">,</span>
-            <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-            <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499331387</span><span class="token punctuation">,</span>
-            <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499331387</span><span class="token punctuation">,</span>
-            <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-            <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token number">0</span>
-            <span class="token punctuation">]</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"total"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token string">"list"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">133</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a1"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">163</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a2"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a2/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
     

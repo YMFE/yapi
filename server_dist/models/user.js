@@ -51,7 +51,10 @@ var userModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                username: String,
+                username: {
+                    type: String,
+                    required: true
+                },
                 password: {
                     type: String,
                     required: true
