@@ -1,10 +1,12 @@
 import {
   FETCH_PROJECT_LIST,
-  PROJECT_ADD
+  PROJECT_ADD,
+  PROJECT_DEL
 } from '../../constants/action-types';
 
 const initialState = {
-  projectList: []
+  projectList: [],
+  total: null
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +19,9 @@ export default (state = initialState, action) => {
       };
     }
     case PROJECT_ADD: {
+      return state;
+    }
+    case PROJECT_DEL: {
       return state;
     }
     default:
