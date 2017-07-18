@@ -281,20 +281,35 @@ class userController extends baseController {
      * @method GET
      * @category user
      * @foldnumber 10
+     * @param {Number} [pageNo] 分页页码
+     * @param {Number} [pageSize] 分页大小
      * @returns {Object} 
      * @example 
      */
 
-    async list(ctx) {
-        if (this.getRole() !== 'admin') {
+    async list(ctx){
+        let pageNo = ctx.request.query.pageNo || 1,
+            pageSize = ctx.request.query.pageSize || 10;
+
+        if(this.getRole() !== 'admin'){
             return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
         }
         var userInst = yapi.getInst(userModel);
-        try {
-            let user = await userInst.list();
-            return ctx.body = yapi.commons.resReturn(user);
-        } catch (e) {
-            return ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        try{
+            let user = await  userInst.list();
+            let result = [];
+
+            for(let i = (pageNo - 1) * pageSize; i < pageNo * pageSize; i++) {
+                if(!user[i]) break;
+                result.push(user[i]);
+            }
+
+            return ctx.body = yapi.commons.resReturn({
+                total: user.length,
+                list: result
+            });
+        }catch(e){
+            return ctx.body = yapi.commons.resReturn(null,402,e.message);
         }
     }
 
