@@ -38,4 +38,3 @@ runtime/init.lock
 runtime/log
 prd/
 dev/
-server_dist/
