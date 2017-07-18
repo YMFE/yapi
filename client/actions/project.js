@@ -4,14 +4,14 @@ import {
 import axios from 'axios';
 
 const addProject = (data) => {
-  const { name, prd_host, basepath, desc } = data;
+  const { name, prd_host, basepath, desc, group_id } = data;
   const param = {
     name,
     prd_host,
     basepath,
-    desc
+    desc,
+    group_id
   }
-  console.log(param);
   return {
     type: PROJECT_ADD,
     // payload 可以返回 Promise，异步请求使用 axios 即可
