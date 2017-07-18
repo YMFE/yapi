@@ -12,11 +12,22 @@
       color: #fff;
       font-size: 12px;
     }
+    .edit-group {
+      margin-left: 12px;
+      cursor: pointer;
+    }
+    .edit-group:hover {
+      color: #ccc;
+    }
   }
   .group-operate {
     height: 48px;
     padding: 10px 6px;
     background: #fff;
+    .search {
+      display: inline-block;
+      margin-right: 6px;
+    }
   }
   .group-list {
     // background: #fff;
@@ -44,4 +55,7 @@
       font-size: 18px;
     }
   }
+}
+.modal-input {
+  margin: 24px;
 }
