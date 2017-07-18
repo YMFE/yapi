@@ -379,7 +379,7 @@ class userController extends baseController {
      * @returns {Object} 
      * @example 
      */
-<<<<<<< HEAD
+
     async update(ctx){    //更新用户信息
         try{
             let params = ctx.request.body;
@@ -389,13 +389,6 @@ class userController extends baseController {
             var userInst = yapi.getInst(userModel);
             let id = params.uid;
             let data ={
-=======
-    async update(ctx) {    //更新用户信息
-        try {
-            var userInst = yapi.getInst(userModel);
-            let id = this.getUid();
-            let data = {
->>>>>>> 0eba4c285454eb4e4175c228d959f917a3685aac
                 up_time: yapi.commons.time()
             };
             if(this.getRole() === 'admin'){
