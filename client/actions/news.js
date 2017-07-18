@@ -1,5 +1,6 @@
 import {
-  FETCH_NEWS_DATA
+  FETCH_NEWS_DATA,
+  FETCH_MORE_NEWS
 } from '../constants/action-types.js';
 
 export function fetchNewsData () {
@@ -63,4 +64,28 @@ export function fetchNotVieweNews () {
     type: FETCH_NEWS_DATA,
     payload: data
   }
+}
+
+export function fetchMoreNews () {
+  return (dispatch)=>{
+    const data = [{
+      name: 'John Brown2212',
+      date: '2015-11-11 13:00:15',
+      desc: '创建服务现场'
+    }, {
+      name: 'John Brown1132',
+      date: '2015-11-11 13:00:15',
+      desc: '技术测试异常'
+    }, {
+      name: 'John Brown23212',
+      date: '2015-11-11 13:00:15',
+      desc: '网络异常正在修复'
+    }]
+
+    dispatch({
+      type: FETCH_MORE_NEWS,
+      payload: data
+    })
+  }
+  
 }
