@@ -15,7 +15,7 @@ const addProject = (data) => {
   return {
     type: PROJECT_ADD,
     // payload 可以返回 Promise，异步请求使用 axios 即可
-    payload: axios.get('/project/add', param)
+    payload: axios.post('/project/add', param)
   }
 }
 
