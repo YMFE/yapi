@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select } from 'antd';
+import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm } from 'antd';
 import { addProject, fetchProjectList } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import './ProjectList.scss'
-
+const confirm = (e) => {
+  console.log(e);
+}
 const columns = [{
   title: '项目名称',
   dataIndex: 'name',
@@ -29,7 +31,9 @@ const columns = [{
     <span>
       <a href="#">修改</a>
       <span className="ant-divider" />
-      <a href="#">删除</a>
+      <Popconfirm title="你确定要删除项目吗?" onConfirm={confirm} okText="删除" cancelText="取消">
+        <a href="#">删除</a>
+      </Popconfirm>
     </span>
   )
 }];

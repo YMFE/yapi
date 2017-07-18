@@ -12,7 +12,8 @@ export default (state = initialState, action) => {
     case FETCH_PROJECT_LIST: {
       return {
         ...state,
-        projectList: action.payload.data.data
+        projectList: action.payload.data.data.list,
+        total: action.payload.data.data.total
       };
     }
     case PROJECT_ADD: {
