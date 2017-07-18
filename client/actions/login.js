@@ -9,7 +9,7 @@ const cookies = new Cookies();
 const loginActions = (data) => {
   return (dispatch) => {
     axios.post('/user/login', data).then((res) => {
-      if (res.data.data.errcode === 0) {
+      if (res.data.errcode === 0) {
         cookies.set(data.email, data.password);
         dispatch({
           type: LOGIN,
@@ -18,7 +18,7 @@ const loginActions = (data) => {
           }
         });
       } else {
-        console.log('登录失败');
+        console.log('登录失败,errcode不为0');
       }
     }).catch((err) => {
       console.log(err);
