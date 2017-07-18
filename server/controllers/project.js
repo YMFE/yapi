@@ -2,8 +2,8 @@ import projectModel from '../models/project.js'
 import yapi from '../yapi.js'
 import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
-import userModel from '../models/user.js'
 import groupModel from '../models/group'
+import commons from '../utils/commons.js'
 
 class projectController extends baseController {
 
@@ -76,7 +76,7 @@ class projectController extends baseController {
         
     }
      /**
-     * 添加项目成员
+     * 添加项目
      * @interface /project/add_member
      * @method POST
      * @category project
@@ -108,7 +108,7 @@ class projectController extends baseController {
 
     }
      /**
-     * 删除项目成员
+     * 添加项目
      * @interface /project/del_member
      * @method POST
      * @category project
@@ -178,7 +178,6 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
-
 
      /**
      * 添加项目
@@ -274,7 +273,7 @@ class projectController extends baseController {
     /**
      * 编辑项目
      * @interface /project/up
-     * @method GET
+     * @method POST
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
@@ -353,10 +352,36 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
         }
 
+        let projectList = await this.Model.search(q);
+        let groupList = await this.groupModel.search(q);
+        let projectRules = [
+            '_id',
+            'name',
+            'basepath',
+            'uid',
+            'env',
+            'members',
+            { key: 'group_id', alias: 'groupId' },
+            { key: 'up_time', alias: 'upTime' },
+            { key: 'prd_host', alias: 'prdHost' },
+            { key: 'add_time', alias: 'addTime' }
+        ];
+        let groupRules = [
+            '_id',
+            'uid',
+            { key: 'group_name', alias: 'groupName'},
+            { key: 'group_desc', alias: 'groupDesc' },
+            { key: 'add_time', alias: 'addTime' },
+            { key: 'up_time', alias: 'upTime' }
+        ];
+        
+        projectList = commons.filterRes(projectList, projectRules);
+        groupList = commons.filterRes(groupList, groupRules);
+
         let queryList = {
-            project: await this.Model.search(q),
-            group: await this.groupModel.search(q)
-        }
+            project: projectList,
+            group: groupList
+        };
         
         return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
     }

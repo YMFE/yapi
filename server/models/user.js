@@ -9,7 +9,10 @@ class userModel extends baseModel{
 
     getSchema(){
         return{
-           username: String,
+           username: {
+                type: String,
+                required: true   
+           },
            password:{
                type:String,
                required: true
@@ -68,6 +71,9 @@ class userModel extends baseModel{
                 { email: new RegExp(keyword, 'i') },
                 { username: new RegExp(keyword, 'i')}
             ]
+        }, {
+            passsalt: 0,
+            password: 0
         }).limit(10)
     }
 
