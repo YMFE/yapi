@@ -139,8 +139,6 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * 获取项目成员列表
@@ -182,7 +180,6 @@ class projectController extends baseController {
     }
 
 
->>>>>>> 2467556d35eca929c40a1ffd1e5d64d047a9fc77
      /**
      * 添加项目
      * @interface /project/get
