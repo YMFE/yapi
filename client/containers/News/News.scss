@@ -1,0 +1,81 @@
+/* .interface-box.css */
+.news-box {
+  max-width: 11rem;
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  margin: 15px auto 0 auto;
+  font-size: 0.14rem;
+  background: #FFF;
+
+  .news-list {
+    width: 216px;
+    line-height: 45px;
+    background: #f9fafe;
+    
+    li {
+      padding: 0 0 0 30px;
+      color: #344562;
+      cursor: pointer;
+      
+      &:hover, &.active {
+        background: #657289;
+        color: #FFF;
+      }
+    }
+  }
+
+}
+
+.news-timeline{
+  margin-left: 30px;
+  margin-top: 30px;
+}
+
+.ant-timeline-item-content{
+  background-color: #ececec;
+  margin-left: 30px;
+  border-radius: 4px;
+  border-left:4px solid #ececec;
+  min-width: 350px;
+  max-width: 450px;
+  padding: 10px;
+
+  .timelineDate{
+    display: block;
+    float: left;
+   }
+
+   .timelineName{
+    float: right;
+   }
+
+   p{
+     display: block;
+     width: 100%;
+   }
+
+   div{
+     overflow: hidden
+   }
+
+}
+
+.ant-timeline-item-content:before{
+  content:'';
+  display: block;
+  margin-left: -40px;
+  width: 0px;
+  height: 0px;
+  float: left;
+  border-width: 10px 13px;
+  border-style: solid;
+  border-color: transparent #ececec transparent transparent;
+}
+
+.ant-timeline-item-tail{
+  top: 16px;
+}
+
+.ant-timeline-item-head{
+  margin-top: 10px;
+}
