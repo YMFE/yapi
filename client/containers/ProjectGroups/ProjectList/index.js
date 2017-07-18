@@ -1,42 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm } from 'antd';
-import { addProject, fetchProjectList } from  '../../../actions/project';
+import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
+import { addProject, fetchProjectList, delProject } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import './ProjectList.scss'
-const confirm = (e) => {
-  console.log(e);
+
+const confirm = (id, handleDelete, currGroupId, handleFetchList) => {
+  const test = () => {
+    handleDelete(id).then((res) => {
+      console.log(res);
+      console.log(handleFetchList, currGroupId);
+      handleFetchList(currGroupId).then((res) => {
+        console.log(res);
+      });
+    });
+  }
+  return test;
+};
+
+const getColumns = (data, handleDelete, currGroupId, handleFetchList) => {
+  return [{
+    title: '项目名称',
+    dataIndex: 'name',
+    key: 'name',
+    render: text => <a href="#">{text}</a>
+  }, {
+    title: '创建人',
+    dataIndex: 'owner',
+    key: 'owner'
+  }, {
+    title: '创建时间',
+    dataIndex: 'add_time',
+    key: 'add_time'
+  }, {
+    title: '操作',
+    key: 'action',
+    render: (text, record) => {
+      const id = record._id;
+      return (
+        <span>
+          <a href="#">修改</a>
+          <span className="ant-divider" />
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={confirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
+            <a href="#">删除</a>
+          </Popconfirm>
+        </span>
+      )}
+  }];
 }
-const columns = [{
-  title: '项目名称',
-  dataIndex: 'name',
-  key: 'name',
-  render: text => <a href="#">{text}</a>
-}, {
-  title: '创建人',
-  dataIndex: 'owner',
-  key: 'owner'
-}, {
-  title: '创建时间',
-  dataIndex: 'add_time',
-  key: 'add_time'
-}, {
-  title: '操作',
-  key: 'action',
-  render: () => (
-    <span>
-      <a href="#">修改</a>
-      <span className="ant-divider" />
-      <Popconfirm title="你确定要删除项目吗?" onConfirm={confirm} okText="删除" cancelText="取消">
-        <a href="#">删除</a>
-      </Popconfirm>
-    </span>
-  )
-}];
 
 const formItemLayout = {
   labelCol: {
@@ -58,7 +73,8 @@ const formItemLayout = {
   },
   {
     fetchProjectList,
-    addProject
+    addProject,
+    delProject
   }
 )
 class ProjectList extends Component {
@@ -75,10 +91,11 @@ class ProjectList extends Component {
     form: PropTypes.object,
     fetchProjectList: PropTypes.func,
     addProject: PropTypes.func,
+    delProject: PropTypes.func,
     projectList: PropTypes.array,
     currGroup: PropTypes.object
   }
-  addProject = () => {
+  showAddProjectModal = () => {
     this.setState({
       visible: true
     });
@@ -100,9 +117,7 @@ class ProjectList extends Component {
         this.props.addProject(values).then((res) => {
           console.log(res);
           // 添加项目成功后再次请求列表
-          this.props.fetchProjectList({
-            group_id: this.props.currGroup._id
-          }).then((res) => {
+          this.props.fetchProjectList(this.props.currGroup._id).then((res) => {
             this.setState({
               tabelLoading: false
             });
@@ -137,14 +152,17 @@ class ProjectList extends Component {
   componentWillReceiveProps(nextProps){
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      const param = {
-        group_id: nextProps.currGroup._id
-      };
-      this.props.fetchProjectList(param).then((res) => {
-        this.setState({
-          tabelLoading: false
-        });
-        console.log(res);
+      // const param = {
+      //   group_id: nextProps.currGroup._id
+      // };
+      this.props.fetchProjectList(nextProps.currGroup._id).then((res) => {
+        if (res.payload.data.errcode) {
+          message.error(res.payload.data.errmsg);
+        } else {
+          this.setState({
+            tabelLoading: false
+          });
+        }
       });
     }
 
@@ -240,9 +258,9 @@ class ProjectList extends Component {
 
         <Table
           loading={this.state.tabelLoading}
-          columns={columns}
+          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList)}
           dataSource={this.state.projectData}
-          title={() => <Button type="primary" onClick={this.addProject}>创建项目</Button>}
+          title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
 
       </div>
