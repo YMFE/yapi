@@ -7,11 +7,18 @@ import {
   CHANGE_TABLE_LOADING
 } from '../constants/action-types.js';
 import axios from 'axios';
+import variable from '../constants/variable';
 
-const fetchProjectList = (id) => {
+const fetchProjectList = (id, pageNum) => {
   return {
     type: FETCH_PROJECT_LIST,
-    payload: axios.get('/project/list', {params: { group_id: id }})
+    payload: axios.get('/project/list', {
+      params: {
+        group_id: id,
+        page: pageNum,
+        limit: variable.PAGE_LIMIT
+      }
+    })
   };
 };
 

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 import UpDateModal from './UpDateModal';
+import variable from '../../../constants/variable';
+import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -70,7 +72,9 @@ const formItemLayout = {
     return {
       projectList: state.project.projectList,
       tableLoading: state.project.tableLoading,
-      currGroup: state.group.currGroup
+      currGroup: state.group.currGroup,
+      total: state.project.total,
+      currPage: state.project.currPage
     }
   },
   {
@@ -99,14 +103,21 @@ class ProjectList extends Component {
     changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
     tableLoading: PropTypes.bool,
-    currGroup: PropTypes.object
+    currGroup: PropTypes.object,
+    total: PropTypes.number,
+    currPage: PropTypes.number
   }
-  showAddProjectModal = () => {
+
+  // 显示模态框 - 创建项目
+  @autobind
+  showAddProjectModal() {
     this.setState({
       visible: true
     });
   }
-  handleOk = (e) => {
+
+  @autobind
+  handleOk(e) {
     const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
     const that = this;
     e.preventDefault();
@@ -126,7 +137,7 @@ class ProjectList extends Component {
             });
             form.resetFields();
             message.success('创建成功! ');
-            fetchProjectList(currGroup._id).then((res) => {
+            fetchProjectList(currGroup._id, this.props.currPage).then((res) => {
               changeTableLoading(false);
               console.log(131,res);
             });
@@ -143,7 +154,8 @@ class ProjectList extends Component {
   }
 
   // 取消修改
-  handleCancel = () => {
+  @autobind
+  handleCancel() {
     this.props.form.resetFields();
     this.setState({
       visible: false
@@ -151,16 +163,29 @@ class ProjectList extends Component {
   }
 
   // 修改线上域名的协议类型 (http/https)
-  protocolChange = (value) => {
+  @autobind
+  protocolChange(value) {
     this.setState({
       protocol: value
     })
   }
 
-  componentWillReceiveProps(nextProps){
+  // 分页逻辑
+  @autobind
+  paginationChange(pageNum) {
+    this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
+      if (res.payload.data.errcode) {
+        message.error(res.payload.data.errmsg);
+      } else {
+        this.props.changeTableLoading(false);
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      this.props.fetchProjectList(nextProps.currGroup._id).then((res) => {
+      this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
         if (res.payload.data.errcode) {
           message.error(res.payload.data.errmsg);
         } else {
@@ -263,6 +288,11 @@ class ProjectList extends Component {
           loading={this.props.tableLoading}
           columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
           dataSource={this.state.projectData}
+          pagination={{
+            total: this.props.total * variable.PAGE_LIMIT,
+            defaultPageSize: variable.PAGE_LIMIT,
+            onChange: this.paginationChange
+          }}
           title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
 
