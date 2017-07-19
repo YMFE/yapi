@@ -3,25 +3,24 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Select, Input } from 'antd'
 import { 
-  pushInputVal
-} from '../../../actions/addInterFace.js'
+  pushInputValue
+} from '../../../actions/addInterface.js'
 
 @connect(
-  () => {
+  state => {
     return {
-      // reqInputVal: state.Interface.interfaceData
-      reqInputVal: ''
+      reqInputVal: state.addInterface.inputValue
     }
   },
   {
-    pushInputVal
+    pushInputValue
   }
 )
 
 class ReqMethod extends Component {
   static propTypes = {
-    pushInputVal: PropTypes.func,
-    reqInputVal: PropTypes.string
+    pushInputValue: PropTypes.func,
+    inputValue: PropTypes.string
   }
 
   constructor(props) {
@@ -34,19 +33,20 @@ class ReqMethod extends Component {
 
   getInputVal (e) {
     const inputVal = e.target.value
-    this.props.pushInputVal(inputVal)
+    this.props.pushInputValue(inputVal)
   }
 
   render () {
     const { Option } = Select
     const getInputVal = this.getInputVal.bind(this)
+
     return (
       <table>
         <tbody>
           <tr>
             <th>协议 :</th>
             <td>
-              <span className="h3">请求协议 {this.props.reqInputVal}</span>
+              <span className="h3">请求协议 {this.props.inputValue}</span>
               <Select defaultValue="HTTP" style={{ width: 220}} onChange={this.handleChange} size="large">
                 <Option value="HTTP">HTTP</Option>
                 <Option value="HTTPS">HTTPS</Option>

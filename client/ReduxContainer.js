@@ -4,6 +4,7 @@ import group from './reducer/group/group.js'
 import project from './reducer/group/project.js'
 import Interface from './reducer/interface/InterfaceReducer.js'
 import news from './reducer/news/news.js'
+import addInterface from './reducer/addInterface/addInterface.js'
 
 export default {
   group,
@@ -11,5 +12,6 @@ export default {
   LoginRedux,
   Interface,
   project,
-  news
+  news,
+  addInterface
 }

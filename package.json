@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@qnpm/ykit-config-qunar": "^0.8.1",
+    "@qnpm/ykit-config-qunar": "^0.8.2",
     "axios": "^0.16.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "core-decorators": "^0.17.0",
@@ -89,26 +89,26 @@
     "webpack-node-externals": "^1.6.0"
   },
   "config": {
-      "ghooks": {
-        "commit-msg": "validate-commit-msg"
-      },
-      "validate-commit-msg": {
-        "types": [
-          "feat",
-          "fix",
-          "docs",
-          "test",
-          "chore",
-          "refactor",
-          "opti"
-        ],
-        "warnOnFail": false,
-        "maxSubjectLength": 100,
-        "subjectPattern": ".+",
-        "subjectPatternErrorMsg": "请输入message信息!",
-        "helpMessage": "Commit message 格式错误, \n请查看规范: http://wiki.corp.qunar.com/pages/viewpage.action?pageId=159698767"
-      }
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
     },
+    "validate-commit-msg": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "test",
+        "chore",
+        "refactor",
+        "opti"
+      ],
+      "warnOnFail": false,
+      "maxSubjectLength": 100,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "请输入message信息!",
+      "helpMessage": "Commit message 格式错误, \n请查看规范: http://wiki.corp.qunar.com/pages/viewpage.action?pageId=159698767"
+    }
+  },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
