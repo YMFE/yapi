@@ -1,52 +1,79 @@
 import './Home.scss'
 import React, { Component } from 'react'
-import { Row, Col } from 'antd'
+import { connect } from 'react-redux'
+import { Row, Col, Button } from 'antd'
 import PropTypes from "prop-types"
 import Login from '../Login/login-wrap'
 import Intro from '../../components/Intro/Intro'
+import Footer from "../../components/Footer/Footer";
 
+const HomeGuest = (props) => (
+  <div>
+    <div className="main-one">
+      <div className="container">
+        <Row>
+          <Col span={24}>
+            <div className="home-des">
+              <p className="title">YAPI</p>
+              <div className="detail">一个高效，易用，功能强大的api管理系统</div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8} className="main-one-left">
+            <Login/>
+          </Col>
+          <Col span={16} className="main-one-right">
+            <div className="img-container">
+              <img src="./image/demo-img.png"/>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </div>
+    { props.introList.map(function(intro,i){
+      return (
+        <div className="main-part" key={i}>
+          <div className="container">
+            <Intro intro={intro}/>
+          </div>
+        </div>
+      )
+    })}
+  </div>
+);
+HomeGuest.propTypes ={
+  introList: PropTypes.array
+}
+
+@connect(
+  state => ({
+    login: state.login.isLogin
+  })
+)
 
 class Home extends Component {
   constructor(props) {
     super(props)
   }
   static propTypes = {
-    introList:PropTypes.array
+    introList: PropTypes.array,
+    login : PropTypes.bool
   }
   render () {
+    const { login } = this.props;
     return (
       <div className="home-main">
-        <div className="main-one">
-          <div className="container">
-            <Row>
-              <Col span={24}>
-                <div className="home-des">
-                  <p className="title">YAPI</p>
-                  <div className="detail">一个高效，易用，功能强大的api管理系统</div>
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8} className="main-one-left">
-                <Login/>
-              </Col>
-              <Col span={16} className="main-one-right">
-                <div className="img-container">
-                  <img src="./image/demo-img.png"/>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </div>
-        { this.props.introList.map(function(intro,i){
-          return (
-            <div className="main-part" key={i}>
-              <div className="container">
-                <Intro intro={intro}/>
+        {login?
+          (
+            <div className="main-one">
+              <div>
+                登录以后的首页
               </div>
-            </div>
-          )
-        })}
+              <Button type="primary" size="large">开始</Button>
+            </div>)
+          : <HomeGuest introList={this.props.introList}/>}
+        <Footer/>
       </div>
     )
   }

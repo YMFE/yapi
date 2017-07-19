@@ -2,14 +2,13 @@ import './Header.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Icon, Layout, Menu} from 'antd'
 import { logoutActions, loginTypeAction} from '../../actions/login'
 
 const { Header } = Layout;
 const ToolUser = (props)=> (
   <ul>
-    <li><Icon type="question-circle-o" />帮助</li>
     <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
     <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
     <li onClick={props.logout}>退出</li>
@@ -22,16 +21,7 @@ ToolUser.propTypes={
   logout:PropTypes.func
 };
 
-const ToolGuest = ()=> (
-  <ul>
-    <li><Icon type="question-circle-o" />帮助</li>
-  </ul>
-);
-ToolGuest.propTypes={
-  onLogin:PropTypes.func,
-  onReg:PropTypes.func
-}
-
+@withRouter
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
@@ -43,9 +33,14 @@ class HeaderCom extends Component {
     user: PropTypes.string,
     msg: PropTypes.string,
     login:PropTypes.bool,
+    router: PropTypes.object,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
     loginTypeAction:PropTypes.func
+  }
+  componentDidMount() {
+    const { router } = this.props;
+    console.log(router);
   }
   linkTo = (e) =>{
     this.setState({
@@ -96,9 +91,12 @@ class HeaderCom extends Component {
                 <Menu.Item key="/Interface">
                   <Link to="/Interface">接口</Link>
                 </Menu.Item>
+                <Menu.Item key="/doc">
+                  <a>文档</a>
+                </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:<ToolGuest/>}
+                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:""}
               </div>
             </div>
           </Header>
