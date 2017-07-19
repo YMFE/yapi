@@ -10,7 +10,6 @@ import { withRouter } from 'react-router';
 const { Header } = Layout;
 const ToolUser = (props)=> (
   <ul>
-    <li><Icon type="question-circle-o" />帮助</li>
     <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
     <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
     <li onClick={props.logout}>退出</li>
@@ -22,16 +21,6 @@ ToolUser.propTypes={
   relieveLink:PropTypes.func,
   logout:PropTypes.func
 };
-
-const ToolGuest = ()=> (
-  <ul>
-    <li><Icon type="question-circle-o" />帮助</li>
-  </ul>
-);
-ToolGuest.propTypes={
-  onLogin:PropTypes.func,
-  onReg:PropTypes.func
-}
 
 @withRouter
 class HeaderCom extends Component {
@@ -52,6 +41,10 @@ class HeaderCom extends Component {
     loginTypeAction:PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object
+  }
+  componentDidMount() {
+    const { router } = this.props;
+    console.log(router);
   }
   linkTo = (e) =>{
     this.setState({
@@ -112,9 +105,12 @@ class HeaderCom extends Component {
                 <Menu.Item key="/Interface">
                   <Link to="/Interface">接口</Link>
                 </Menu.Item>
+                <Menu.Item key="/doc">
+                  <a>文档</a>
+                </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:<ToolGuest/>}
+                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:""}
               </div>
             </div>
           </Header>
