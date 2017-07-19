@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
-import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../actions/project';
+import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 import UpDateModal from './UpDateModal';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -69,6 +69,7 @@ const formItemLayout = {
   state => {
     return {
       projectList: state.project.projectList,
+      tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup
     }
   },
@@ -76,7 +77,8 @@ const formItemLayout = {
     fetchProjectList,
     addProject,
     delProject,
-    changeUpdateModal
+    changeUpdateModal,
+    changeTableLoading
   }
 )
 class ProjectList extends Component {
@@ -84,7 +86,6 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       visible: false,
-      tabelLoading: true,
       protocol: 'http:\/\/',
       projectData: []
     }
@@ -95,7 +96,9 @@ class ProjectList extends Component {
     addProject: PropTypes.func,
     delProject: PropTypes.func,
     changeUpdateModal: PropTypes.func,
+    changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
+    tableLoading: PropTypes.bool,
     currGroup: PropTypes.object
   }
   showAddProjectModal = () => {
@@ -114,23 +117,19 @@ class ProjectList extends Component {
 
         console.log('Received values of form: ', values);
         this.setState({
-          visible: false,
-          tabelLoading: true
+          visible: false
         });
+        this.props.changeTableLoading(true);
         this.props.addProject(values).then((res) => {
           console.log(res);
           // 添加项目成功后再次请求列表
           this.props.fetchProjectList(this.props.currGroup._id).then((res) => {
-            this.setState({
-              tabelLoading: false
-            });
-            console.log(117,res);
+            this.props.changeTableLoading(false);
+            console.log(129,res);
           });
         }).catch((err) => {
           console.log(err);
-          this.setState({
-            tabelLoading: false
-          });
+          this.props.changeTableLoading(false);
         });
         this.props.form.resetFields();
       }
@@ -159,9 +158,7 @@ class ProjectList extends Component {
         if (res.payload.data.errcode) {
           message.error(res.payload.data.errmsg);
         } else {
-          this.setState({
-            tabelLoading: false
-          });
+          this.props.changeTableLoading(false);
         }
       });
     }
@@ -257,7 +254,7 @@ class ProjectList extends Component {
         </Modal>
         <UpDateModal/>
         <Table
-          loading={this.state.tabelLoading}
+          loading={this.props.tableLoading}
           columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
           dataSource={this.state.projectData}
           title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}

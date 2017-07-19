@@ -2,24 +2,32 @@ import {
   FETCH_PROJECT_LIST,
   PROJECT_ADD,
   PROJECT_DEL,
-  OPRATE_UPDATE_MODAL
+  CHANGE_UPDATE_MODAL,
+  CHANGE_TABLE_LOADING
 } from '../../constants/action-types';
 
 const initialState = {
   isUpdateModalShow: false,
   handleUpdateIndex: -1,
   projectList: [],
+  tableLoading: true,
   total: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case OPRATE_UPDATE_MODAL: {
+    case CHANGE_UPDATE_MODAL: {
       return {
         ...state,
         isUpdateModalShow: action.payload.data,
         handleUpdateIndex: action.payload.index
       };
+    }
+    case CHANGE_TABLE_LOADING: {
+      return {
+        ...state,
+        tableLoading: action.payload
+      }
     }
     case FETCH_PROJECT_LIST: {
       return {
