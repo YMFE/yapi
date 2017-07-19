@@ -152,9 +152,6 @@ class ProjectList extends Component {
   componentWillReceiveProps(nextProps){
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      // const param = {
-      //   group_id: nextProps.currGroup._id
-      // };
       this.props.fetchProjectList(nextProps.currGroup._id).then((res) => {
         if (res.payload.data.errcode) {
           message.error(res.payload.data.errmsg);
@@ -182,7 +179,7 @@ class ProjectList extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div className="m-container">
         <Modal
           title="创建项目"
           visible={this.state.visible}
