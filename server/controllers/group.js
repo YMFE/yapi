@@ -23,6 +23,9 @@ class groupController extends baseController{
      */
     async add(ctx) {
         let params = ctx.request.body;
+        if(this.getRole() !== 'admin'){
+            return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
+        }
         if(!params.group_name){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组名不能为空');
         }
@@ -80,7 +83,10 @@ class groupController extends baseController{
      * @example ./api/group/del.json
      */
 
-    async del(ctx){   
+    async del(ctx){
+        if(this.getRole() !== 'admin'){
+            return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
+        }   
         try{
             var groupInst = yapi.getInst(groupModel);
             var projectInst = yapi.getInst(projectModel);
@@ -114,13 +120,16 @@ class groupController extends baseController{
      */
 
     async up(ctx){
+        if(this.getRole() !== 'admin'){
+            return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
+        }
         try{
             var groupInst = yapi.getInst(groupModel);
             let id = ctx.request.body.id;
             let data = {};
             ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name)
             ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc)
-            if(Object.keys(data).length ===0){
+            if(Object.keys(data).length === 0 ){
                 ctx.body = yapi.commons.resReturn(null, 404, '分组名和分组描述不能为空');
             }
             let result = await groupInst.up(id, data);
