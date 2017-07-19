@@ -122,11 +122,11 @@ export default class GroupList extends Component {
             className="group-list"
             mode="inline"
             onClick={this.selectGroup}
-            selectedKeys={[currGroup._id]}
+            selectedKeys={[`${currGroup._id}`]}
           >
             {
               groupList.map((group) => (
-                <Menu.Item key={group._id} className="group-item">
+                <Menu.Item key={`${group._id}`} className="group-item">
                   <Icon type="folder-open" />{group.group_name}
                 </Menu.Item>
               ))
