@@ -190,8 +190,17 @@ class userController extends baseController {
     async changePassword(ctx) {
         let params = ctx.request.body;
         let userInst = yapi.getInst(userModel);
+
+        if (!params.uid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+        }
+
+        if (!params.password) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空');
+        }
+
+
         if (this.getRole() !== 'admin' && params.uid != this.getUid()) {
-            console.log(this.getRole(), this.getUid());
             return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
         }
         if (this.getRole() !== 'admin') {
@@ -317,10 +326,7 @@ class userController extends baseController {
     async list(ctx){
         let page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10;
-
-        if(this.getRole() !== 'admin'){
-            return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
-        }
+            
         const userInst = yapi.getInst(userModel);
         try {
             let user = await userInst.listWithPaging(page, limit);
@@ -349,7 +355,13 @@ class userController extends baseController {
         try {
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.query.id;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let result = await userInst.findById(id);
+            if(!result){
+                return ctx.body = yapi.commons.resReturn(null,402,"不存在的用户");
+            }
             return ctx.body = yapi.commons.resReturn({                
                 uid: result._id,
                 username: result.username,
@@ -374,12 +386,15 @@ class userController extends baseController {
      * @example 
      */
     async del(ctx) {   //根据id删除一个用户
-        try {
+        try {            
             if (this.getRole() !== 'admin') {
                 return ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.');
             }
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let result = await userInst.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -408,6 +423,9 @@ class userController extends baseController {
             }
             var userInst = yapi.getInst(userModel);
             let id = params.uid;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let data ={
 
                 up_time: yapi.commons.time()
@@ -460,6 +478,7 @@ class userController extends baseController {
                 key: '_id',
                 alias: 'uid'
             },
+            'username',
             'email',
             'role',
             {
@@ -475,7 +494,7 @@ class userController extends baseController {
         let filteredRes = common.filterRes(queryList, rules);
         console.log(queryList)
 
-        return ctx.body = yapi.commons.resReturn(filteredRes, 200, 'ok');
+        return ctx.body = yapi.commons.resReturn(filteredRes, 0, 'ok');
     }
 }
 
