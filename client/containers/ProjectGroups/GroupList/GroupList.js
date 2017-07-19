@@ -6,6 +6,7 @@ import { autobind } from 'core-decorators';
 import axios from 'axios';
 
 const Search = Input.Search;
+const confirm = Modal.confirm;
 const TYPE_EDIT = 'edit';
 
 import {
@@ -95,6 +96,7 @@ export default class GroupList extends Component {
           addGroupModalVisible: false
         });
         this.props.fetchGroupList()
+        this.props.setCurrGroup(res.data.data)
       }
     });
   }
@@ -137,6 +139,29 @@ export default class GroupList extends Component {
     this.props.setCurrGroup(currGroup);
   }
 
+  @autobind
+  deleteGroup() {
+    const self = this;
+    const { currGroup } = self.props;
+    confirm({
+      title: `你确定要删除分组 ${currGroup.group_name}？`,
+      content: `分组简介：${currGroup.group_desc}`,
+      onOk() {
+        axios.post('/group/del', {id: currGroup._id}).then(res => {
+          if (res.data.errcode) {
+            message.error(res.data.errmsg);
+          } else {
+            message.success('删除成功');
+            self.props.fetchGroupList().then(() => {
+              const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
+              self.props.setCurrGroup(currGroup)
+            });
+          }
+        });
+      }
+    });
+  }
+
   render () {
     const { groupList, currGroup } = this.props;
 
@@ -146,7 +171,8 @@ export default class GroupList extends Component {
           <div className="curr-group">
             <div className="curr-group-name">
               {currGroup.group_name}
-              <Icon className="edit-group" type="edit" onClick={() => this.showModal(TYPE_EDIT)}/>
+              <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
+              <Icon className="delete-group" type="delete" title="删除分组" onClick={this.deleteGroup}/>
             </div>
             <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
           </div>
