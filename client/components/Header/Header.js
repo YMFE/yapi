@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu} from 'antd'
-import { logoutActions, loginTypeAction} from '../../actions/login'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
+import { withRouter } from 'react-router';
 
 const { Header } = Layout;
 const ToolUser = (props)=> (
@@ -32,6 +33,7 @@ ToolGuest.propTypes={
   onReg:PropTypes.func
 }
 
+@withRouter
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
@@ -40,12 +42,16 @@ class HeaderCom extends Component {
     }
   }
   static propTypes ={
+    router: PropTypes.object,
     user: PropTypes.string,
     msg: PropTypes.string,
     login:PropTypes.bool,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
-    loginTypeAction:PropTypes.func
+    checkLoginState:PropTypes.func,
+    loginTypeAction:PropTypes.func,
+    history: PropTypes.object,
+    location: PropTypes.object
   }
   linkTo = (e) =>{
     this.setState({
@@ -69,7 +75,17 @@ class HeaderCom extends Component {
     e.preventDefault();
     this.props.loginTypeAction("2");
   }
+  checkLoginState = () => {
+    this.props.checkLoginState().then((res) => {
+      if (res.payload.data.errcode !== 0) {
+        this.props.history.push('/');
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
   render () {
+    this.checkLoginState();
     const { login, user, msg } = this.props;
     return (
       <acticle className="header-box">
@@ -118,7 +134,7 @@ export default connect(
   },
   {
     loginTypeAction,
-    logoutActions
+    logoutActions,
+    checkLoginState
   }
 )(HeaderCom)
-

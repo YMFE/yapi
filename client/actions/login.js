@@ -1,11 +1,20 @@
 import {
   LOGIN,
   LOGIN_OUT,
-  LOGIN_TYPE
+  LOGIN_TYPE,
+  GET_LOGIN_STATE
 } from '../constants/action-types.js';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+
+const checkLoginState = () => {
+  return {
+    type: GET_LOGIN_STATE,
+    // payload 可以返回 Promise，异步请求使用 axios 即可
+    payload: axios.get('/user/status')
+  };
+}
 
 const loginActions = (data) => {
   return (dispatch) => {
@@ -69,5 +78,6 @@ export default {
   loginActions,
   regActions,
   logoutActions,
-  loginTypeAction
+  loginTypeAction,
+  checkLoginState
 }
