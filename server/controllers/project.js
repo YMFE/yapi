@@ -229,7 +229,7 @@ class projectController extends baseController {
             let result = await this.Model.listWithPaging(group_id, page, limit);
             let count = await this.Model.listCount();
             ctx.body = yapi.commons.resReturn({
-                total: count,
+                total: Math.ceil(count / limit),
                 list: result
             })
         }catch(err){

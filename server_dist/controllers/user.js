@@ -666,7 +666,7 @@ var userController = function (_baseController) {
                             case 8:
                                 count = _context9.sent;
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
-                                    total: count,
+                                    total: Math.ceil(count / limit),
                                     list: user
                                 }));
 
