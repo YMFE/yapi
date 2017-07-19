@@ -10,6 +10,7 @@ export const SET_CURR_GROUP = 'SET_CURR_GROUP'
 // project
 export const FETCH_PROJECT_LIST = 'FETCH_PROJECT_LIST'
 export const PROJECT_ADD = 'PROJECT_ADD'
+export const PROJECT_DEL = 'PROJECT_DEL'
 
 // login
 export const LOGIN = 'LOGIN';
