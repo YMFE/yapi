@@ -608,7 +608,7 @@ var projectController = function (_baseController) {
                                 count = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn({
-                                    total: count,
+                                    total: Math.ceil(count / limit),
                                     list: result
                                 });
                                 _context6.next = 16;

@@ -1,6 +1,7 @@
 import './Home.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Row, Col, Button } from 'antd'
 import PropTypes from "prop-types"
 import Login from '../Login/login-wrap'
@@ -66,12 +67,18 @@ class Home extends Component {
       <div className="home-main">
         {login?
           (
-            <div className="main-one">
-              <div>
-                登录以后的首页
+            <div className="user-home">
+              <div className="user-des">
+                <p className="title">YAPI</p>
+                <p className="des">一个高效，易用，功能强大的api管理系统</p>
+                <div className="btn">
+                  <Button type="primary" size="large">
+                    <Link to="/ProjectGroups" onClick={this.toStart}>开始</Link>
+                  </Button>
+                </div>
               </div>
-              <Button type="primary" size="large">开始</Button>
-            </div>)
+            </div>
+          )
           : <HomeGuest introList={this.props.introList}/>}
         <Footer/>
       </div>

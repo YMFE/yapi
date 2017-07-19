@@ -12,11 +12,12 @@
       color: #fff;
       font-size: 12px;
     }
-    .edit-group {
+    .delete-group, .edit-group {
+      font-size: 18px;
       margin-left: 12px;
       cursor: pointer;
     }
-    .edit-group:hover {
+    .delete-group:hover, .edit-group:hover {
       color: #ccc;
     }
   }
@@ -30,7 +31,8 @@
     }
   }
   .group-list {
-    // background: #fff;
+    max-height: 650px;
+    overflow: scroll;
     border-bottom: 1px solid #e9e9e9;
     padding-bottom: 24px;
     border-radius: 0 0 6px 6px;
