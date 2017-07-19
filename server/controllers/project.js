@@ -383,7 +383,7 @@ class projectController extends baseController {
             group: groupList
         };
         
-        return ctx.body = yapi.commons.resReturn(queryList, 200, 'ok')
+        return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok')
     }
 }
 
