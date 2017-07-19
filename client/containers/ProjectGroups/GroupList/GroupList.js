@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Icon, Modal, Input, message, Menu } from 'antd'
+import { Button, Icon, Modal, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 
@@ -10,7 +10,8 @@ const Search = Input.Search;
 import {
   fetchGroupList,
   setCurrGroup,
-  addGroup
+  addGroup,
+  fetchProjectList
 } from '../../../actions/group.js'
 
 import './GroupList.scss'
@@ -23,7 +24,8 @@ import './GroupList.scss'
   {
     fetchGroupList,
     setCurrGroup,
-    addGroup
+    addGroup,
+    fetchProjectList
   }
 )
 export default class GroupList extends Component {
@@ -32,7 +34,8 @@ export default class GroupList extends Component {
     groupList: PropTypes.array,
     currGroup: PropTypes.object,
     fetchGroupList: PropTypes.func,
-    setCurrGroup: PropTypes.func
+    setCurrGroup: PropTypes.func,
+    fetchProjectList: PropTypes.func
   }
 
   state = {
@@ -88,6 +91,12 @@ export default class GroupList extends Component {
     this.setState({newGroupDesc: e.target.value});
   }
 
+  @autobind
+  selectGroup(e) {
+    const groupId = e.key;
+    this.props.fetchProjectList(groupId);
+  }
+
   render () {
     const { groupList, currGroup } = this.props;
 
@@ -107,10 +116,14 @@ export default class GroupList extends Component {
             </div>
             <Button type="primary" onClick={this.showModal}>添加分组</Button>
           </div>
-          <Menu className="group-list" mode="inline">
+          <Menu
+            className="group-list"
+            mode="inline"
+            onClick={this.selectGroup}
+          >
             {
-              groupList.map((group, index) => (
-                <Menu.Item key={index} className="group-item">
+              groupList.map((group) => (
+                <Menu.Item key={group._id} className="group-item">
                   <Icon type="folder-open" />{group.group_name}
                 </Menu.Item>
               ))
@@ -122,13 +135,20 @@ export default class GroupList extends Component {
           visible={this.state.addGroupModalVisible}
           onOk={this.addGroup}
           onCancel={this.handleCancel}
+          className="add-group-modal"
         >
-          <div className="modal-input">
-            分组名：<Input placeholder="请输入分组名称" onChange={this.inputNewGroupName} style={{display: 'inline-block'}}></Input>
-          </div>
-          <div className="modal-input">
-            简介：<Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc} style={{display: 'inline-block'}}></Input>
-          </div>
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">分组名：</div></Col>
+            <Col span="15">
+              <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
+            </Col>
+          </Row>
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">简介：</div></Col>
+            <Col span="15">
+              <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
+            </Col>
+          </Row>
         </Modal>
       </div>
     )
