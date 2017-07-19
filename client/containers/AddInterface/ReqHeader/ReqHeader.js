@@ -69,3 +69,34 @@ class ReqHeader extends Component {
 }
 
 export default ReqHeader
+
+
+
+
+{
+  "desc": "api",
+  "method": "post",
+  "path": "/testapi",
+  "project_id": 8,
+  "req_headers": [
+    {
+       "key": "h",
+       "value": "t"
+    }
+  ],
+  "req_params_type": "json",
+  "req_params": [
+    {
+       "name": "uid",
+       "value": 100,
+       "type": "text"
+    },
+   {
+       "name": "gid",
+       "value": 1001,
+       "type": "text"
+    }
+  ],
+  "res_body_type": "json",
+  "res_body": "{\"tt\": 222}"
+}

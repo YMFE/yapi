@@ -4,7 +4,10 @@ import {
   FETCH_ADD_INTERFACE_HEADER_VALUE,
   ADD_INTERFACE_SEQ_HEADER,
   DELETE_INTERFACE_SEQ_HEADER,
-  ADD_INTERFACE_REQ_PARAMS
+  ADD_INTERFACE_REQ_PARAMS,
+  DELETE_INTERFACE_REQ_PARAMS,
+  ADD_INTERFACE_RES_PARAMS,
+  DELETE_INTERFACE_RES_PARAMS
 } from '../../constants/action-types.js'
 
 const initialState = {
@@ -19,7 +22,14 @@ const initialState = {
       content: ''
     }
   ],
-  seqParams: [
+  reqParams: [
+    {
+      id: 0,
+      paramsName: '',
+      describe: ''
+    }
+  ],
+  resParams: [
     {
       id: 0,
       paramsName: '',
@@ -58,7 +68,22 @@ export default (state = initialState, action) => {
     case ADD_INTERFACE_REQ_PARAMS:
       return {
         ...state,
-        seqParams: action.payload
+        reqParams: action.payload
+      }
+    case DELETE_INTERFACE_REQ_PARAMS:
+      return {
+        ...state,
+        reqParams: action.payload
+      }
+    case ADD_INTERFACE_RES_PARAMS:
+      return {
+        ...state,
+        reqParams: action.payload
+      }
+    case DELETE_INTERFACE_RES_PARAMS:
+      return {
+        ...state,
+        reqParams: action.payload
       }
     default:
       return state

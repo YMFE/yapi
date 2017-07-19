@@ -8,10 +8,19 @@ import {
   addReqParams
 } from '../../../actions/addInterface.js'
 
+// 重新渲染页面
+const getReqList = function (self) {
+  const [reqList, reqParams] = [[], self.props.reqParams]
+  reqParams.map((value, key) => {
+    reqList.push(<ParamsList key={key} dataNum={value.id} />)
+  })
+  return reqList
+}
+
 @connect(
   state => {
     return {
-      seqParams: state.addInterface.seqParams
+      reqParams: state.addInterface.reqParams
     }
   },
   {
@@ -22,7 +31,7 @@ import {
 class ReqParams extends Component {
   static propTypes = {
     addReqParams: PropTypes.func,
-    seqParams: PropTypes.array
+    reqParams: PropTypes.array
   }
 
   constructor(props) {
@@ -31,17 +40,19 @@ class ReqParams extends Component {
 
   @autobind
   addSeqParams () {
+    console.log(1)
     let newSeqParams= []
-    let seqParams = this.props.seqParams
-    let id = seqParams[seqParams.length-1].id
+    let reqParams = this.props.reqParams
+    let id = reqParams[reqParams.length-1].id
     let list = {
       id: ++id,
       paramsName: '',
       describe: ''
     }
-    seqParams.push(list)
-    newSeqParams.push(...seqParams)
-    // this.props.addReqParams(newSeqParams)
+    reqParams.push(list)
+    newSeqParams.push(...reqParams)
+    console.log(newSeqParams)
+    this.props.addReqParams(newSeqParams)
   }
 
   render () {
@@ -50,7 +61,7 @@ class ReqParams extends Component {
         <div className="req-params">
           <strong className="req-h3">请求参数 :</strong>
           <ul>
-            <ParamsList />
+            { getReqList(this) }
           </ul>
         </div>
 

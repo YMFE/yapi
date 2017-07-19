@@ -41,10 +41,12 @@ class ReqList extends Component {
     super(props)
   }
 
+  @autobind
   handleChange (value) {
     this.props.reqTagValue(value)
   }
 
+  @autobind
   handleBlur (e) {
     const value = e.target.value
     this.props.reqHeaderValue(value)
@@ -65,14 +67,12 @@ class ReqList extends Component {
 
   render () {
     const Option = Select.Option
-    const handleChange = this.handleChange.bind(this)
-    const handleBlur = this.handleBlur.bind(this)
     const dataNum = this.props.dataNum
 
     return (
       <li>
         <em className="title">头部标签 {this.props.tagValue} {this.props.headerValue}</em>
-        <Select defaultValue="HTTP" style={{ width: 220 }} onChange={handleChange} size="large">
+        <Select defaultValue="HTTP" style={{ width: 220 }} onChange={this.handleChange} size="large">
           <Option value="HTTP">Accept</Option>
           <Option value="Accept-Charset">Accept-Charset</Option>
           <Option value="Accept-Encoding">Accept-Encoding</Option>
@@ -80,7 +80,7 @@ class ReqList extends Component {
           <Option value="Accept-Ranges">Accept-Ranges</Option>
         </Select>
         <em className="title">头部内容</em>
-        <Input placeholder="Basic usage" className="req-content" size="large" onBlur={handleBlur} />
+        <Input placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
         <span className="close" onClick={this.deleteReqHeader} data-num={dataNum}>×</span>
       </li>
     )

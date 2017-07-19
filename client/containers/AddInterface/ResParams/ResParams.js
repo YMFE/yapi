@@ -1,10 +1,45 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { autobind } from 'core-decorators'
 import ParamsList from './ParamsList.js'
+import { addResParams } from '../../../actions/addInterface.js'
+
+@connect(
+  state => {
+    return {
+      resParams: state.addInterface.resParams
+    }
+  },
+  {
+    addResParams
+  }
+)
 
 class ResParams extends Component {
+  static propTypes = {
+    resParams: PropTypes.array,
+    addResParams: PropTypes.func
+  }
+
   constructor(props) {
     super(props)
+  }
+
+  @autobind
+  addResParams () {
+    let newResParams = []
+    let resParams = this.props.resParams
+    let id = resParams[resParams.length-1].id    
+    let list = {
+      id: ++id,
+      tag: '',
+      content: ''
+    }
+    resParams.push(list)
+    newResParams.push(...resParams)
+    this.props.addResParams(newResParams)
   }
 
   render () {
@@ -17,7 +52,7 @@ class ResParams extends Component {
           </ul>
         </div>
 
-        <Button type="primary" className="res-save">添加</Button>
+        <Button type="primary" className="res-save" onClick={this.addResParams}>添加</Button>
       </section>
     )
   }
