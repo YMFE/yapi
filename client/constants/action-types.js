@@ -14,10 +14,12 @@ export const PROJECT_DEL = 'PROJECT_DEL'
 
 // login
 export const LOGIN = 'LOGIN';
+export const GET_LOGIN_STATE = 'GET_LOGIN_STATE';
 export const REGISTER = 'REGISTER';
 
 //header
 export const LOGIN_TYPE = 'LOGIN_TYPE';
+export const LOGIN_OUT = 'LOGIN_OUT';
 
 //  News
 export const FETCH_NEWS_DATA = 'FETCH_NEWS_DATA';
