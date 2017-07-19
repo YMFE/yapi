@@ -305,7 +305,7 @@ class userController extends baseController {
             let user = await userInst.listWithPaging(page, limit);
             let count = await userInst.listCount();
             return ctx.body = yapi.commons.resReturn({
-                total: count,
+                total: Math.ceil(count / limit),
                 list: user
             });
         } catch(e) {
