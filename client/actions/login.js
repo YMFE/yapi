@@ -1,5 +1,6 @@
 import {
   LOGIN,
+  LOGIN_OUT,
   LOGIN_TYPE
 } from '../constants/action-types.js';
 import axios from 'axios';
@@ -42,6 +43,21 @@ const regActions = (data) => {
   }
 }
 
+const logoutActions = () => {
+  return(dispatch)=>{
+    axios.get('./user/logout').then((res) => {
+      console.log(res);
+      if(res.data.errcode === 0){
+        dispatch({
+          type: LOGIN_OUT
+        })
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+}
+
 const loginTypeAction = (index) => {
   return{
     type: LOGIN_TYPE,
@@ -52,5 +68,6 @@ const loginTypeAction = (index) => {
 export default {
   loginActions,
   regActions,
+  logoutActions,
   loginTypeAction
 }
