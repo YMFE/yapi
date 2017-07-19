@@ -12,11 +12,12 @@
       color: #fff;
       font-size: 12px;
     }
-    .edit-group {
+    .delete-group, .edit-group {
+      font-size: 18px;
       margin-left: 12px;
       cursor: pointer;
     }
-    .edit-group:hover {
+    .delete-group:hover, .edit-group:hover {
       color: #ccc;
     }
   }
