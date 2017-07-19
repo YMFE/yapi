@@ -66,9 +66,9 @@ class NewsList extends Component {
   render () {
     return (
       <ul onClick = {this.fetchData.bind(this)} className="news-list">
-        <li className="active allnews">全部消息</li>
+        {/*<li className="allnews">全部消息</li>*/}
+        <li className='active notview'>未读消息</li>
         <li className='viewednews'>已读消息</li>
-        <li className='notview'>未读消息</li>
       </ul>
     )
   }
