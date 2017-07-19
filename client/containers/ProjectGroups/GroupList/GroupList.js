@@ -6,6 +6,8 @@ import { autobind } from 'core-decorators';
 import axios from 'axios';
 
 const Search = Input.Search;
+const confirm = Modal.confirm;
+const TYPE_EDIT = 'edit';
 
 import {
   fetchGroupList,
@@ -40,6 +42,7 @@ export default class GroupList extends Component {
 
   state = {
     addGroupModalVisible: false,
+    editGroupModalVisible: false,
     newGroupName: '',
     newGroupDesc: ''
   }
@@ -56,10 +59,31 @@ export default class GroupList extends Component {
   }
 
   @autobind
-  showModal() {
-    this.setState({
-      addGroupModalVisible: true
-    });
+  showModal(type) {
+    if (type === 'edit') {
+      const { currGroup } = this.props;
+      this.setState({
+        currGroupName: currGroup.group_name,
+        currGroupDesc: currGroup.group_desc,
+        editGroupModalVisible: true
+      });
+    } else {
+      this.setState({
+        addGroupModalVisible: true
+      });
+    }
+  }
+  @autobind
+  hideModal(type) {
+    if (type === TYPE_EDIT) {
+      this.setState({
+        editGroupModalVisible: false
+      });
+    } else {
+      this.setState({
+        addGroupModalVisible: false
+      });
+    }
   }
   @autobind
   addGroup() {
@@ -72,23 +96,40 @@ export default class GroupList extends Component {
           addGroupModalVisible: false
         });
         this.props.fetchGroupList()
+        this.props.setCurrGroup(res.data.data)
       }
     });
   }
   @autobind
-  handleCancel(e) {
-    console.log(e);
-    this.setState({
-      addGroupModalVisible: false
+  editGroup() {
+    const { currGroupName: group_name, currGroupDesc: group_desc } = this.state;
+    const id = this.props.currGroup._id;
+    axios.post('/group/up', { group_name, group_desc, id }).then(res => {
+      if (res.data.errcode) {
+        message.error(res.data.errmsg);
+      } else {
+        this.setState({
+          editGroupModalVisible: false
+        });
+        this.props.setCurrGroup({ group_name, group_desc, _id: id });
+      }
     });
   }
   @autobind
-  inputNewGroupName(e) {
-    this.setState({newGroupName: e.target.value});
+  inputNewGroupName(e, type) {
+    if (type === TYPE_EDIT) {
+      this.setState({ currGroupName: e.target.value})
+    } else {
+      this.setState({newGroupName: e.target.value});
+    }
   }
   @autobind
-  inputNewGroupDesc(e) {
-    this.setState({newGroupDesc: e.target.value});
+  inputNewGroupDesc(e, type) {
+    if (type === TYPE_EDIT) {
+      this.setState({ currGroupDesc: e.target.value})
+    } else {
+      this.setState({newGroupDesc: e.target.value});
+    }
   }
 
   @autobind
@@ -96,7 +137,29 @@ export default class GroupList extends Component {
     const groupId = e.key;
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
-    // this.props.fetchProjectList(groupId);
+  }
+
+  @autobind
+  deleteGroup() {
+    const self = this;
+    const { currGroup } = self.props;
+    confirm({
+      title: `你确定要删除分组 ${currGroup.group_name}？`,
+      content: `分组简介：${currGroup.group_desc}`,
+      onOk() {
+        axios.post('/group/del', {id: currGroup._id}).then(res => {
+          if (res.data.errcode) {
+            message.error(res.data.errmsg);
+          } else {
+            message.success('删除成功');
+            self.props.fetchGroupList().then(() => {
+              const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
+              self.props.setCurrGroup(currGroup)
+            });
+          }
+        });
+      }
+    });
   }
 
   render () {
@@ -106,7 +169,11 @@ export default class GroupList extends Component {
       <div>
         <div className="group-bar">
           <div className="curr-group">
-            <div className="curr-group-name">{currGroup.group_name}<Icon className="edit-group" type="edit"/></div>
+            <div className="curr-group-name">
+              {currGroup.group_name}
+              <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
+              <Icon className="delete-group" type="delete" title="删除分组" onClick={this.deleteGroup}/>
+            </div>
             <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
           </div>
           <div className="group-operate">
@@ -137,7 +204,7 @@ export default class GroupList extends Component {
           title="添加分组"
           visible={this.state.addGroupModalVisible}
           onOk={this.addGroup}
-          onCancel={this.handleCancel}
+          onCancel={this.hideModal}
           className="add-group-modal"
         >
           <Row gutter={6} className="modal-input">
@@ -150,6 +217,26 @@ export default class GroupList extends Component {
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
               <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
+            </Col>
+          </Row>
+        </Modal>
+        <Modal
+          title="编辑分组"
+          visible={this.state.editGroupModalVisible}
+          onOk={this.editGroup}
+          onCancel={() => this.hideModal(TYPE_EDIT)}
+          className="add-group-modal"
+        >
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">分组名：</div></Col>
+            <Col span="15">
+              <Input placeholder="请输入分组名称" value={this.state.currGroupName} onChange={(e) => this.inputNewGroupName(e, TYPE_EDIT)}></Input>
+            </Col>
+          </Row>
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">简介：</div></Col>
+            <Col span="15">
+              <Input placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={(e) => this.inputNewGroupDesc(e, TYPE_EDIT)}></Input>
             </Col>
           </Row>
         </Modal>
