@@ -1,5 +1,6 @@
 import {
   LOGIN,
+  LOGIN_OUT,
   LOGIN_TYPE
 } from '../../constants/action-types';
 
@@ -19,6 +20,14 @@ export default (state = initialState, action) => {
         isLogin: true,
         userName: action.payload.data.userName
       };
+    }
+    case LOGIN_OUT: {
+      return{
+        ...state,
+        isLogin: false,
+        userName: null,
+        uid: null
+      }
     }
     case LOGIN_TYPE: {
       return {
