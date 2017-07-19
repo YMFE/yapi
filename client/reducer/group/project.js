@@ -11,7 +11,8 @@ const initialState = {
   handleUpdateIndex: -1,
   projectList: [],
   tableLoading: true,
-  total: null
+  total: 0,
+  currPage: 1
 };
 
 export default (state = initialState, action) => {
