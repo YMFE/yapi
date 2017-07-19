@@ -912,7 +912,7 @@ var projectController = function (_baseController) {
                                     project: projectList,
                                     group: groupList
                                 };
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 0, 'ok'));
 
                             case 17:
                             case 'end':

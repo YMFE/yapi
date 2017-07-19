@@ -1,7 +1,8 @@
 import {
   LOGIN,
   LOGIN_OUT,
-  LOGIN_TYPE
+  LOGIN_TYPE,
+  GET_LOGIN_STATE
 } from '../../constants/action-types';
 
 const initialState = {
@@ -13,8 +14,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case GET_LOGIN_STATE: {
+      return {
+        ...state,
+        isLogin: (action.payload.data.errcode == 0),
+        userName: action.payload.data.data ? action.payload.data.data.username : null
+      };
+    }
     case LOGIN: {
-      console.log(action);
       return {
         ...state,
         isLogin: true,

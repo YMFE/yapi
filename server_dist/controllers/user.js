@@ -989,7 +989,7 @@ var userController = function (_baseController) {
                                 rules = [{
                                     key: '_id',
                                     alias: 'uid'
-                                }, 'email', 'role', {
+                                }, 'username', 'email', 'role', {
                                     key: 'add_time',
                                     alias: 'addTime'
                                 }, {
@@ -1000,7 +1000,7 @@ var userController = function (_baseController) {
 
                                 console.log(queryList);
 
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 200, 'ok'));
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 0, 'ok'));
 
                             case 12:
                             case 'end':
