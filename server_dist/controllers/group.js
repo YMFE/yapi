@@ -247,38 +247,42 @@ var groupController = function (_baseController) {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'id不能为空'));
 
                             case 8:
-                                count = projectInst.countByGroupId(id);
+                                _context3.next = 10;
+                                return projectInst.countByGroupId(id);
+
+                            case 10:
+                                count = _context3.sent;
 
                                 if (!(count > 0)) {
-                                    _context3.next = 11;
+                                    _context3.next = 13;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 403, '请先删除该分组下的项目'));
 
-                            case 11:
-                                _context3.next = 13;
+                            case 13:
+                                _context3.next = 15;
                                 return groupInst.del(id);
 
-                            case 13:
+                            case 15:
                                 result = _context3.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 20;
+                                _context3.next = 22;
                                 break;
 
-                            case 17:
-                                _context3.prev = 17;
+                            case 19:
+                                _context3.prev = 19;
                                 _context3.t0 = _context3['catch'](2);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 20:
+                            case 22:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[2, 17]]);
+                }, _callee3, this, [[2, 19]]);
             }));
 
             function del(_x3) {

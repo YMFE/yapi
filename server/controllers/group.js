@@ -94,7 +94,7 @@ class groupController extends baseController{
             if(!id){
                 return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
             }
-            let count = projectInst.countByGroupId(id);
+            let count = await  projectInst.countByGroupId(id);
             if(count > 0){
                 return ctx.body = yapi.commons.resReturn(null, 403, '请先删除该分组下的项目');
             }
