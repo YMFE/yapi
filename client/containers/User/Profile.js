@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon, Input, Button, Select, Message } from 'antd'
+import { Row, Col, Icon, Input, Button, Select, message } from 'antd'
 import axios from 'axios';
 import { connect } from 'react-redux'
 import {formatTime} from '../../common.js'
@@ -77,13 +77,13 @@ class Profile extends Component {
         })
 
         this.handleEdit(name + 'Edit', false)
-        Message.success('更新用户信息成功');
+        message.success('更新用户信息成功');
       }else{
-        Message.error(data.errmsg)
+        message.error(data.errmsg)
       }
       
     }, (err) => {
-      Message.error(err.message)
+      message.error(err.message)
     } )
   }
 
@@ -112,7 +112,7 @@ class Profile extends Component {
     let password = document.getElementById('password').value;
     let verify_pass = document.getElementById('verify_pass').value;
     if(password != verify_pass){
-      return Message.error('两次输入的密码不一样');
+      return message.error('两次输入的密码不一样');
     }
     let params = {
       uid: this.state.userinfo.uid,
@@ -125,13 +125,13 @@ class Profile extends Component {
       let data = res.data;
       if(data.errcode === 0){
         this.handleEdit('secureEdit', false)
-        Message.success('修改密码成功');
+        message.success('修改密码成功');
       }else{
-        Message.error(data.errmsg)
+        message.error(data.errmsg)
       }
       
     }, (err) => {
-      Message.error(err.message)
+      message.error(err.message)
     } )
     
   }
