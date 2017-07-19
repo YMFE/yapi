@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
-import { addProject, fetchProjectList, delProject } from  '../../../actions/project';
+import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../actions/project';
+import UpDateModal from './UpDateModal';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import './ProjectList.scss'
 
-const confirm = (id, handleDelete, currGroupId, handleFetchList) => {
+const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
   const test = () => {
     handleDelete(id).then((res) => {
       console.log(res);
@@ -22,7 +23,7 @@ const confirm = (id, handleDelete, currGroupId, handleFetchList) => {
   return test;
 };
 
-const getColumns = (data, handleDelete, currGroupId, handleFetchList) => {
+const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpdateModal) => {
   return [{
     title: '项目名称',
     dataIndex: 'name',
@@ -39,13 +40,13 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList) => {
   }, {
     title: '操作',
     key: 'action',
-    render: (text, record) => {
+    render: (text, record, index) => {
       const id = record._id;
       return (
         <span>
-          <a href="#">修改</a>
+          <a onClick={() => handleUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={confirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
@@ -74,7 +75,8 @@ const formItemLayout = {
   {
     fetchProjectList,
     addProject,
-    delProject
+    delProject,
+    changeUpdateModal
   }
 )
 class ProjectList extends Component {
@@ -92,6 +94,7 @@ class ProjectList extends Component {
     fetchProjectList: PropTypes.func,
     addProject: PropTypes.func,
     delProject: PropTypes.func,
+    changeUpdateModal: PropTypes.func,
     projectList: PropTypes.array,
     currGroup: PropTypes.object
   }
@@ -227,7 +230,7 @@ class ProjectList extends Component {
 
             <FormItem
               {...formItemLayout}
-              label="URL"
+              label="基本路径"
             >
               {getFieldDecorator('basepath', {
                 rules: [{
@@ -252,10 +255,10 @@ class ProjectList extends Component {
             </FormItem>
           </Form>
         </Modal>
-
+        <UpDateModal/>
         <Table
           loading={this.state.tabelLoading}
-          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList)}
+          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
           dataSource={this.state.projectData}
           title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
