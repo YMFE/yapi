@@ -17,6 +17,7 @@ export const REGISTER = 'REGISTER';
 
 //header
 export const LOGIN_TYPE = 'LOGIN_TYPE';
+export const LOGIN_OUT = 'LOGIN_OUT';
 
 //  News
 export const FETCH_NEWS_DATA = 'FETCH_NEWS_DATA';
