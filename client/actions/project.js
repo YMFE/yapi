@@ -2,8 +2,9 @@ import {
   FETCH_PROJECT_LIST,
   PROJECT_ADD,
   PROJECT_DEL,
-  OPRATE_UPDATE_MODAL,
-  PROJECT_UPDATE
+  CHANGE_UPDATE_MODAL,
+  PROJECT_UPDATE,
+  CHANGE_TABLE_LOADING
 } from '../constants/action-types.js';
 import axios from 'axios';
 
@@ -16,8 +17,15 @@ const fetchProjectList = (id) => {
 
 const changeUpdateModal = (data, index) => {
   return {
-    type: OPRATE_UPDATE_MODAL,
+    type: CHANGE_UPDATE_MODAL,
     payload: { data, index }
+  };
+};
+
+const changeTableLoading = (data) => {
+  return {
+    type: CHANGE_TABLE_LOADING,
+    payload: data
   };
 };
 
@@ -67,5 +75,6 @@ export default {
   addProject,
   delProject,
   changeUpdateModal,
-  updateProject
+  updateProject,
+  changeTableLoading
 };

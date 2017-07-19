@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Icon, Tooltip, Select, message } from 'antd';
-import { updateProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../actions/project';
+import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -26,6 +26,7 @@ const formItemLayout = {
       projectList: state.project.projectList,
       isUpdateModalShow: state.project.isUpdateModalShow,
       handleUpdateIndex: state.project.handleUpdateIndex,
+      tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup
     }
   },
@@ -33,15 +34,14 @@ const formItemLayout = {
     fetchProjectList,
     updateProject,
     delProject,
-    changeUpdateModal
+    changeUpdateModal,
+    changeTableLoading
   }
 )
 class UpDateModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      tabelLoading: true,
       protocol: 'http:\/\/'
     }
   }
@@ -51,6 +51,7 @@ class UpDateModal extends Component {
     updateProject: PropTypes.func,
     delProject: PropTypes.func,
     changeUpdateModal: PropTypes.func,
+    changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
     currGroup: PropTypes.object,
     isUpdateModalShow: PropTypes.bool,
@@ -71,33 +72,28 @@ class UpDateModal extends Component {
 
   handleOk = (e) => {
     e.preventDefault();
-    const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList } = this.props;
+    const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
         assignValue.prd_host = this.state.protocol + assignValue.prd_host;
 
-        this.setState({
-          tabelLoading: true
-        });
+        changeTableLoading(true);
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
             changeUpdateModal(false, -1);
             message.success('修改成功! ');
             fetchProjectList(currGroup._id).then((res) => {
-              this.setState({
-                tabelLoading: false
-              });
               console.log(res);
+              changeTableLoading(false);
             });
           } else {
+            changeTableLoading(false);
             message.error(res.payload.data.errmsg);
           }
         }).catch((err) => {
           console.log(err);
-          this.setState({
-            tabelLoading: false
-          });
+          changeTableLoading(false);
         });
         form.resetFields();
       }
