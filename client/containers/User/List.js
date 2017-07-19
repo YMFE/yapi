@@ -91,7 +91,7 @@ class List extends Component {
         return (
           <span>            
             <Button type="primary"><Link to={"/user/profile/" + item._id} > 查看 </Link></Button>
-            <Popconfirm placement="leftTop" title="Are you sure delete this task?"  onConfirm={() => {this.confirm(item._id)}} okText="Yes" cancelText="No">
+            <Popconfirm placement="leftTop" title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="Yes" cancelText="No">
               <Button type="danger">删除</Button>
             </Popconfirm>
           </span>
