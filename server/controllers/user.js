@@ -451,6 +451,7 @@ class userController extends baseController {
                 key: '_id',
                 alias: 'uid'
             },
+            'username',
             'email',
             'role',
             {
@@ -466,7 +467,7 @@ class userController extends baseController {
         let filteredRes = common.filterRes(queryList, rules);
         console.log(queryList)
 
-        return ctx.body = yapi.commons.resReturn(filteredRes, 200, 'ok');
+        return ctx.body = yapi.commons.resReturn(filteredRes, 0, 'ok');
     }
 }
 
