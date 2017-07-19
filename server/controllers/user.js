@@ -163,8 +163,17 @@ class userController extends baseController {
     async changePassword(ctx) {
         let params = ctx.request.body;
         let userInst = yapi.getInst(userModel);
+
+        if (!params.uid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+        }
+
+        if (!params.password) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空');
+        }
+
+
         if (this.getRole() !== 'admin' && params.uid != this.getUid()) {
-            console.log(this.getRole(), this.getUid());
             return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
         }
         if (this.getRole() !== 'admin') {
@@ -319,6 +328,9 @@ class userController extends baseController {
         try {
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.query.id;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let result = await userInst.findById(id);
             if(!result){
                 return ctx.body = yapi.commons.resReturn(null,402,"不存在的用户");
@@ -347,12 +359,15 @@ class userController extends baseController {
      * @example 
      */
     async del(ctx) {   //根据id删除一个用户
-        try {
+        try {            
             if (this.getRole() !== 'admin') {
                 return ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.');
             }
             var userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let result = await userInst.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -381,6 +396,9 @@ class userController extends baseController {
             }
             var userInst = yapi.getInst(userModel);
             let id = params.uid;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
+            }
             let data ={
 
                 up_time: yapi.commons.time()
