@@ -107,31 +107,37 @@ class ProjectList extends Component {
     });
   }
   handleOk = (e) => {
+    const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
+    const that = this;
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         values.prd_host = this.state.protocol + values.prd_host;
-
         // 获取当前分组id传入values
-        values.group_id = this.props.currGroup._id;
+        values.group_id = currGroup._id;
 
-        console.log('Received values of form: ', values);
-        this.setState({
-          visible: false
-        });
-        this.props.changeTableLoading(true);
-        this.props.addProject(values).then((res) => {
+        changeTableLoading(true);
+        addProject(values).then((res) => {
           console.log(res);
           // 添加项目成功后再次请求列表
-          this.props.fetchProjectList(this.props.currGroup._id).then((res) => {
-            this.props.changeTableLoading(false);
-            console.log(129,res);
-          });
+          if (res.payload.data.errcode == 0) {
+            that.setState({
+              visible: false
+            });
+            form.resetFields();
+            message.success('创建成功! ');
+            fetchProjectList(currGroup._id).then((res) => {
+              changeTableLoading(false);
+              console.log(131,res);
+            });
+          } else {
+            changeTableLoading(false);
+            message.error(res.payload.data.errmsg);
+          }
         }).catch((err) => {
           console.log(err);
-          this.props.changeTableLoading(false);
+          changeTableLoading(false);
         });
-        this.props.form.resetFields();
       }
     });
   }
