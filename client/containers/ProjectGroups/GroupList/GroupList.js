@@ -94,7 +94,9 @@ export default class GroupList extends Component {
   @autobind
   selectGroup(e) {
     const groupId = e.key;
-    this.props.fetchProjectList(groupId);
+    const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
+    this.props.setCurrGroup(currGroup);
+    // this.props.fetchProjectList(groupId);
   }
 
   render () {
@@ -120,6 +122,7 @@ export default class GroupList extends Component {
             className="group-list"
             mode="inline"
             onClick={this.selectGroup}
+            selectedKeys={[currGroup._id]}
           >
             {
               groupList.map((group) => (
