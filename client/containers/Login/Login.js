@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, Checkbox } from 'antd';
 import { loginActions } from  '../../actions/login';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 const FormItem = Form.Item;
 @connect(
   state => {
@@ -37,14 +35,6 @@ class Login extends Component {
     });
   }
 
-  handleChange = (value) => {
-    if (cookies.get(value)) {
-      this.props.form.setFieldsValue({
-        password: cookies.get(value)
-      });
-    }
-  }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const that = this;
@@ -54,10 +44,7 @@ class Login extends Component {
         {/* 用户名 (Email) */}
         <FormItem>
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: '请输入email!' }],
-            onChange(e) {
-              that.handleChange(e.target.value);
-            }
+            rules: [{ required: true, message: '请输入email!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
@@ -77,14 +64,6 @@ class Login extends Component {
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
-
-        {/* 记住密码 */}
-        {getFieldDecorator('remember', {
-          valuePropName: 'checked',
-          initialValue: true
-        })(
-          <Checkbox>记住密码</Checkbox>
-        )}
 
       </Form>
     )
