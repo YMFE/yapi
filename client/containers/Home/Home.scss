@@ -43,6 +43,31 @@ $color-black-lighter: #404040;
       padding-left: .15rem;
     }
   }
+  .user-home{
+    height:calc(100% - .64rem);
+    padding: .5rem .5rem 0 .5rem;
+    .user-des{
+      max-width: 11rem;
+      margin: 0 auto .5rem;
+      text-align: center;
+      .title{
+        font-size: .8rem;
+        margin-bottom: .2rem;
+      }
+      .des{
+        font-size: .25rem;
+        margin-bottom: .3rem;
+      }
+      .btn{
+        button{
+          font-size: .2rem;
+          line-height: .2rem;
+          height: .5rem;
+          padding: .15rem .5rem;
+        }
+      }
+    }
+  }
   .main-part{
     padding: .9rem .5rem;
     &:nth-child(odd){
