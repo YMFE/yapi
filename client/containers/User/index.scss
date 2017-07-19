@@ -7,55 +7,21 @@
   font-size: 0.14rem;
   background: #FFF;
   min-height:500px;
-  margin-top: 64px;
+  margin-top: 84px;
 
-  .search{
-    height: 40px;
-    padding: 5px;
-    background: #f9f9f9;
-
-    input{
-      background: #f9f9f9;
-      line-height: 40px;
-      height: 40px;
-      border: 0;
-      font-size: 14px;
-    }
-
-    input:focus{
-      outline:0;
-      border-color:0;
-      box-shadow: none
-    }
-
-
-
-  }
+  ul{border:none}
 
   .user-list {
     width: 216px;
-    line-height: 45px;
-    background: #f9fafe;
-    
-    li {
-      padding: 0 0 0 30px;
-      a{
-        color: #344562;
-      }
-      
-      &.active,&.active a {
-        background: #657289;
-        color: #FFF;
-        text-decoration: none;
-      }
-
+    .search{
+      margin: 5px;    
     }
   }
 
   .user-table {
     -webkit-box-flex: 1;
     padding-right: 15px;
-
+    margin-left: 15px;   
     .ant-table-wrapper table {
       font-size: .14rem;
 

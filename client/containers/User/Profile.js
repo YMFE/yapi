@@ -1,27 +1,13 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon, Input, Button, Select, message } from 'antd'
 import axios from 'axios';
-import { connect } from 'react-redux'
 import {formatTime} from '../../common.js'
-import {
-  changeCurUid
-} from '../../actions/user.js'
 import PropTypes from 'prop-types'
 
-@connect(
-  state => ({
-    curUid: state.user.curUid
-  }),
-  {
-    changeCurUid
-  }
-)
 
 class Profile extends Component {
 
   static propTypes = {
-    curUid: PropTypes.string,
-    changeCurUid: PropTypes.func,
     match: PropTypes.object
   }
 
@@ -41,7 +27,6 @@ class Profile extends Component {
 
   componentDidMount(){
     const uid = this.props.match.params.uid;
-    this.props.changeCurUid(uid)
     this.getUserInfo(uid)
   }
 
