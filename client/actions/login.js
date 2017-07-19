@@ -5,8 +5,6 @@ import {
   GET_LOGIN_STATE
 } from '../constants/action-types.js';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 const checkLoginState = () => {
   return {
@@ -20,7 +18,6 @@ const loginActions = (data) => {
   return (dispatch) => {
     axios.post('/user/login', data).then((res) => {
       if (res.data.errcode === 0) {
-        cookies.set(data.email, data.password);
         dispatch({
           type: LOGIN,
           payload: {
