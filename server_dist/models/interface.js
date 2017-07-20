@@ -47,13 +47,9 @@ var interfaceModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
+                title: { type: String, required: true },
                 uid: { type: Number, required: true },
-                path: { type: String, required: true, validate: {
-                        validator: function validator(v) {
-                            return v && v[0] !== '/';
-                        },
-                        message: '接口路径第一位不能是/'
-                    } },
+                path: { type: String, required: true },
                 method: { type: String, required: true },
                 project_id: { type: Number, required: true },
                 desc: String,
@@ -115,9 +111,9 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(group_id) {
+        value: function list(project_id) {
             return this.model.find({
-                group_id: group_id
+                project_id: project_id
             }).exec();
         }
     }, {

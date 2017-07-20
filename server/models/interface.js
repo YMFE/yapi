@@ -67,9 +67,9 @@ class interfaceModel extends baseModel{
         })
     }
 
-    list (group_id){
+    list (project_id){
         return this.model.find({
-            group_id: group_id
+            project_id: project_id
         }).exec()
     }
 
