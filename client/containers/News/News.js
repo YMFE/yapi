@@ -4,7 +4,7 @@ import NewsTimeline from './NewsTimeline/NewsTimeline'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import NewsList from './NewsList/NewsList.js'
-import { fetchNewsData } from '../../actions/news.js'
+import { fetchNotVieweNews } from '../../actions/news.js'
 
 
 @connect(
@@ -14,7 +14,7 @@ import { fetchNewsData } from '../../actions/news.js'
     }
   },
   {
-    fetchNewsData: fetchNewsData
+    fetchNotVieweNews: fetchNotVieweNews
   }
 )
 
@@ -24,10 +24,10 @@ class News extends Component {
   }
   static propTypes = {
     newsData: PropTypes.array,
-    fetchNewsData: PropTypes.func
+    fetchNotVieweNews: PropTypes.func
   }
   componentWillMount(){
-    this.props.fetchNewsData()
+    this.props.fetchNotVieweNews()
   }
   render () {
     const data = this.props.newsData

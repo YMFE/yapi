@@ -31,6 +31,7 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.0",
     "mockjs": "^1.0.1-beta3",
+    "moment": "^2.18.1",
     "mongoose": "4.10.8",
     "mongoose-auto-increment": "^5.0.1",
     "node-sass-china": "^4.5.0",

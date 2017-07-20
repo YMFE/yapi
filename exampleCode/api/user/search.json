@@ -1,16 +1,14 @@
 {
-    "errcode": 200,
+    "errcode": 0,
     "errmsg": "ok",
     "data": [
         {
-            "_id": 101,
+            "uid": 101,
             "email": "admin@admin.com",
-            "password": "3d078af947521bb4a99c93f5e089fc2ac601fa09",
-            "passsalt": "qc8lnjpnbs9z1vodz4ynfjemi",
             "role": "admin",
-            "add_time": 1499936103,
-            "up_time": 1499936103,
-            "__v": 0
+            "username": "admin",
+            "addTime": 1499936103,
+            "upTime": 1499936103
         }
     ]
 }

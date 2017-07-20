@@ -4,35 +4,61 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu} from 'antd'
-import loginTypeAction from '../../actions/login';
+import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
+import { withRouter } from 'react-router';
 
 const { Header } = Layout;
 const ToolUser = (props)=> (
   <ul>
-    <li><Icon type="question-circle-o" />帮助</li>
-    <li><Icon type="user" />{ props.user }</li>
-    <li>退出</li>
+    <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
+    <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
+    <li onClick={props.logout}>退出</li>
   </ul>
 );
 ToolUser.propTypes={
   user:PropTypes.string,
-  msg:PropTypes.string
+  msg:PropTypes.string,
+  relieveLink:PropTypes.func,
+  logout:PropTypes.func
 };
 
-const ToolGuest = (props)=> (
-  <ul>
-    <li onClick={e => props.onLogin(e)}><Link to={`/Login`}>登录</Link></li>
-    <li onClick={e => props.onReg(e)}><Link to={`/Login`}>注册</Link></li>
-  </ul>
-);
-ToolGuest.propTypes={
-  onLogin:PropTypes.func,
-  onReg:PropTypes.func
-}
-
+@withRouter
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      current : window.location.hash.split("#")[1]
+    }
+  }
+  static propTypes ={
+    router: PropTypes.object,
+    user: PropTypes.string,
+    msg: PropTypes.string,
+    login:PropTypes.bool,
+    relieveLink:PropTypes.func,
+    logoutActions:PropTypes.func,
+    checkLoginState:PropTypes.func,
+    loginTypeAction:PropTypes.func,
+    history: PropTypes.object,
+    location: PropTypes.object
+  }
+  componentDidMount() {
+    const { router } = this.props;
+    console.log(router);
+  }
+  linkTo = (e) =>{
+    this.setState({
+      current : e.key
+    })
+  }
+  relieveLink = () => {
+    this.setState({
+      current : ""
+    })
+  }
+  logout = (e) => {
+    e.preventDefault();
+    this.props.logoutActions();
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -42,7 +68,17 @@ class HeaderCom extends Component {
     e.preventDefault();
     this.props.loginTypeAction("2");
   }
+  checkLoginState = () => {
+    this.props.checkLoginState().then((res) => {
+      if (res.payload.data.errcode !== 0) {
+        this.props.history.push('/');
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
   render () {
+    this.checkLoginState();
     const { login, user, msg } = this.props;
     return (
       <acticle className="header-box">
@@ -57,20 +93,24 @@ class HeaderCom extends Component {
                 className="nav-toolbar"
                 theme="dark"
                 style={{ lineHeight : '.64rem'}}
-                defaultSelectedKeys={['1']}
+                onClick={this.linkTo}
+                selectedKeys={[this.state.current]}
               >
-                <Menu.Item key="1">
-                  <Link to={`/`}>首页</Link>
+                <Menu.Item key="/">
+                  <Link to="/">首页</Link>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to={`/ProjectGroups`}>分组</Link>
+                <Menu.Item key="/ProjectGroups">
+                  <Link to="/ProjectGroups">分组</Link>
                 </Menu.Item>
-                <Menu.Item key="3">
-                  文档
+                <Menu.Item key="/Interface">
+                  <Link to="/Interface">接口</Link>
+                </Menu.Item>
+                <Menu.Item key="/doc">
+                  <a>文档</a>
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg}/>:''}
+                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:""}
               </div>
             </div>
           </Header>
@@ -80,21 +120,17 @@ class HeaderCom extends Component {
   }
 }
 
-HeaderCom.propTypes={
-  user: PropTypes.string,
-  msg: PropTypes.string,
-  login:PropTypes.bool,
-  loginTypeAction:PropTypes.func
-};
-
 export default connect(
   (state) => {
     return{
       user: state.login.userName,
-      msg: "暂无消息",
+      msg: null,
       login:state.login.isLogin
     }
   },
-  {loginTypeAction}
+  {
+    loginTypeAction,
+    logoutActions,
+    checkLoginState
+  }
 )(HeaderCom)
-

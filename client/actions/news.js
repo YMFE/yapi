@@ -4,19 +4,11 @@ import {
 } from '../constants/action-types.js';
 
 export function fetchNewsData () {
-  const data = [{
-    name: 'John Brown',
-    date: '2015-11-11 13:00:15',
-    desc: '创建服务现场'
-  }, {
-    name: 'John Brown1',
-    date: '2015-11-11 13:00:15',
-    desc: '技术测试异常'
-  }, {
-    name: 'John Brown2',
-    date: '2015-11-11 13:00:15',
-    desc: '网络异常正在修复'
-  }]
+  const data = [
+    { key: 1, type: 'John Brown', news: '您好！亲爱的用户：您已成功申请接口：实时空气质量数据查询，请于两个月内进行应用验证，逾期接口将不能正常使用。如果您在使用的过程中遇到任何问题，欢迎前往交流社区反馈意见，谢谢！',time: '2014-12-01' },
+    { key: 2, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
+    { key: 3, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' }
+  ];
 
   return {
     type: FETCH_NEWS_DATA,
@@ -25,19 +17,11 @@ export function fetchNewsData () {
 }
 
 export function fetchViewedNews () {
-  const data = [{
-    name: 'John Brown21',
-    date: '2015-11-11 13:00:15',
-    desc: '创建服务现场'
-  }, {
-    name: 'John Brown12',
-    date: '2015-11-11 13:00:15',
-    desc: '技术测试异常'
-  }, {
-    name: 'John Brown22',
-    date: '2015-11-11 13:00:15',
-    desc: '网络异常正在修复'
-  }]
+  const data = [
+    { key: 1, type: 'John Brown1', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
+    { key: 2, type: 'John Brown2', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
+    { key: 3, type: 'John Brown3å', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' }
+  ];
 
   return {
     type: FETCH_NEWS_DATA,
@@ -46,19 +30,11 @@ export function fetchViewedNews () {
 }
 
 export function fetchNotVieweNews () {
-  const data = [{
-    name: 'John Brown22',
-    date: '2015-11-11 13:00:15',
-    desc: '创建服务现场'
-  }, {
-    name: 'John Brown12',
-    date: '2015-11-11 13:00:15',
-    desc: '技术测试异常'
-  }, {
-    name: 'John Brown22',
-    date: '2015-11-11 13:00:15',
-    desc: '网络异常正在修复'
-  }]
+  const data = [
+    { key: 1, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2015-11-11 13:00:15' },
+    { key: 2, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2015-11-11 13:00:15' },
+    { key: 3, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2015-11-11 13:00:15' }
+  ];
 
   return {
     type: FETCH_NEWS_DATA,
@@ -68,19 +44,11 @@ export function fetchNotVieweNews () {
 
 export function fetchMoreNews () {
   return (dispatch)=>{
-    const data = [{
-      name: 'John Brown2212',
-      date: '2015-11-11 13:00:15',
-      desc: '创建服务现场'
-    }, {
-      name: 'John Brown1132',
-      date: '2015-11-11 13:00:15',
-      desc: '技术测试异常'
-    }, {
-      name: 'John Brown23212',
-      date: '2015-11-11 13:00:15',
-      desc: '网络异常正在修复'
-    }]
+    const data = [
+      { key: 1, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
+      { key: 2, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
+      { key: 3, type: 'John Brown', news: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' }
+    ];
 
     dispatch({
       type: FETCH_MORE_NEWS,

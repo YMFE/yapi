@@ -3,7 +3,7 @@
   max-width: 11rem;
   display: -webkit-box;
   -webkit-box-flex: 1;
-  margin: 15px auto 0 auto;
+  margin: .88rem auto 0 auto;
   font-size: 0.14rem;
   background: #FFF;
 
@@ -29,6 +29,50 @@
 .news-timeline{
   margin-left: 30px;
   margin-top: 30px;
+  .removeAllNews{
+    background-color: #f7f7f7;
+    padding: 7px;
+    display: inline-block;
+    overflow: hidden;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #a09f9f;
+
+    &:hover,&:active{
+      background-color: #333;
+      color: white;
+    }
+  }
+  .ant-table-wrapper{
+    width: 822px;
+  }
+  .ant-table-row{
+    max-width: 80%;
+  }
+  .newsDesc{
+    padding-right: 15px;
+
+    p{
+      text-indent: 2em;
+      color: #333;
+      font-size: 14px;
+      line-height: 30px;;
+    }
+    span{
+      font-size: 14px;
+      margin-top: 15px;
+      display: inline-block;
+      color: #999;
+      cursor: pointer;
+      i{
+        margin-right: 5px;
+      }
+      &:hover, &.active {
+        color: #333;
+      }
+    }
+  }
 }
 
 .ant-timeline-item-content{
