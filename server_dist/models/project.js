@@ -58,6 +58,7 @@ var projectModel = function (_baseModel) {
                 desc: String,
                 group_id: { type: Number, required: true },
                 members: Array,
+                protocol: { type: String, required: true },
                 prd_host: { type: String, required: true },
                 env: [{ name: String, domain: String }],
                 add_time: Number,
