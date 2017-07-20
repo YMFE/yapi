@@ -70,10 +70,11 @@ var interfaceController = function (_baseController) {
      * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
      * @param {String}  [req_headers[].desc] header描述
      * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-     * @param {Mixed}  [req_params] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
-     * @param {String} [req_params[].name] 请求参数名
-     * @param {String} [req_params[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
-     * @param {String} [req_params[].type] 请求参数类型，有["text", "file"]两种
+     * @param {Mixed}  [req_params_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+     * @param {String} [req_params_form[].name] 请求参数名
+     * @param {String} [req_params_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+     * @param {String} [req_params_form[].type] 请求参数类型，有["text", "file"]两种
+     * @param {String} [req_params_other]  非form类型的请求参数可保存到此字段
      * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
      * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
      * @param  {String} [desc] 接口描述 
@@ -94,39 +95,40 @@ var interfaceController = function (_baseController) {
                                 params = ctx.request.body;
 
                                 params.method = params.method || 'GET';
+                                params.method = params.method.toUpperCase();
                                 params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
                                 if (params.project_id) {
-                                    _context.next = 5;
+                                    _context.next = 6;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
-                            case 5:
+                            case 6:
                                 if (params.path) {
-                                    _context.next = 7;
+                                    _context.next = 8;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口请求路径不能为空'));
 
-                            case 7:
-                                _context.next = 9;
+                            case 8:
+                                _context.next = 10;
                                 return this.Model.checkRepeat(params.path, params.method);
 
-                            case 9:
+                            case 10:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context.next = 12;
+                                    _context.next = 13;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 12:
-                                _context.prev = 12;
+                            case 13:
+                                _context.prev = 13;
                                 data = {
                                     project_id: params.project_id,
                                     title: params.title,
@@ -146,28 +148,28 @@ var interfaceController = function (_baseController) {
                                 if (params.req_params_form) data.req_params_form = params.req_params_form;
                                 if (params.req_params_other) data.req_params_other = params.req_params_other;
 
-                                _context.next = 18;
+                                _context.next = 19;
                                 return this.Model.save(data);
 
-                            case 18:
+                            case 19:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 25;
+                                _context.next = 26;
                                 break;
 
-                            case 22:
-                                _context.prev = 22;
-                                _context.t0 = _context['catch'](12);
+                            case 23:
+                                _context.prev = 23;
+                                _context.t0 = _context['catch'](13);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 25:
+                            case 26:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[12, 22]]);
+                }, _callee, this, [[13, 23]]);
             }));
 
             function add(_x) {
@@ -240,7 +242,7 @@ var interfaceController = function (_baseController) {
         }()
 
         /**
-         * 添加项目分组
+         * 接口列表
          * @interface /interface/list
          * @method GET
          * @category interface
@@ -316,10 +318,11 @@ var interfaceController = function (_baseController) {
          * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
          * @param {String}  [req_headers[].desc] header描述
          * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-         * @param {Mixed}  [req_params] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
-         * @param {String} [req_params[].name] 请求参数名
-         * @param {String} [req_params[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
-         * @param {String} [req_params[].type] 请求参数类型，有["text", "file"]两种
+         * @param {Mixed}  [req_params_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+         * @param {String} [req_params_form[].name] 请求参数名
+         * @param {String} [req_params_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+         * @param {String} [req_params_form[].type] 请求参数类型，有["text", "file"]两种
+         * @param {String} [req_params_other]  非form类型的请求参数可保存到此字段
          * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
          * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
          * @param  {String} [desc] 接口描述 
@@ -331,7 +334,7 @@ var interfaceController = function (_baseController) {
         key: 'up',
         value: function () {
             var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
-                var params, id, checkRepeat, data, result;
+                var params, id, interfaceData, checkRepeat, data, result;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
@@ -339,35 +342,42 @@ var interfaceController = function (_baseController) {
                                 params = ctx.request.body;
 
                                 params.method = params.method || 'GET';
+                                params.method = params.method.toUpperCase();
                                 id = ctx.request.body.id;
 
                                 if (id) {
-                                    _context4.next = 5;
+                                    _context4.next = 6;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
 
-                            case 5:
-                                if (!params.path) {
-                                    _context4.next = 11;
+                            case 6:
+                                _context4.next = 8;
+                                return this.Model.get(id);
+
+                            case 8:
+                                interfaceData = _context4.sent;
+
+                                if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
+                                    _context4.next = 15;
                                     break;
                                 }
 
-                                _context4.next = 8;
+                                _context4.next = 12;
                                 return this.Model.checkRepeat(params.path, params.method);
 
-                            case 8:
+                            case 12:
                                 checkRepeat = _context4.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context4.next = 11;
+                                    _context4.next = 15;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 11:
+                            case 15:
                                 data = {
                                     up_time: _yapi2.default.commons.time()
                                 };
@@ -386,29 +396,29 @@ var interfaceController = function (_baseController) {
                                 if (params.res_body_type) data.res_body_type = params.res_body_type;
                                 if (params.res_body) data.res_body = params.res_body;
 
-                                _context4.prev = 21;
-                                _context4.next = 24;
+                                _context4.prev = 25;
+                                _context4.next = 28;
                                 return this.Model.up(id, data);
 
-                            case 24:
+                            case 28:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 31;
+                                _context4.next = 35;
                                 break;
 
-                            case 28:
-                                _context4.prev = 28;
-                                _context4.t0 = _context4['catch'](21);
+                            case 32:
+                                _context4.prev = 32;
+                                _context4.t0 = _context4['catch'](25);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 31:
+                            case 35:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[21, 28]]);
+                }, _callee4, this, [[25, 32]]);
             }));
 
             function up(_x4) {
