@@ -29,9 +29,9 @@ module.exports = {
   },
   server: {
     // true/false，默认 false，效果相当于 ykit server --hot
-    hot: true,
+    hot: true
     // true/false，默认 false，开启后可在当前打开的页面提示打包错误
-    overlay: true
+    // overlay: true
   },
   hooks: {},
   commands: []
