@@ -15,6 +15,7 @@ class interfaceController extends baseController{
      * @category interface
      * @foldnumber 10
      * @param {Number}   project_id 项目id，不能为空
+     * @param {String}   title 接口标题，不能为空
      * @param {String}   path 接口请求路径，不能为空
      * @param {String}   method 请求方式
      * @param {Array}  [req_headers] 请求的header信息
@@ -65,8 +66,8 @@ class interfaceController extends baseController{
                 up_time: yapi.commons.time()
             }
 
-            if(data.req_params_type === 'form') data.req_params_form = params.req_params;
-            else data.req_params_other = params.req_params;
+            if(params.req_params_form) data.req_params_form = params.req_params_form;
+            if(params.req_params_other) data.req_params_other = params.req_params_other;
             
             let result = await this.Model.save(data);
             ctx.body = yapi.commons.resReturn(result);
@@ -167,13 +168,14 @@ class interfaceController extends baseController{
         }
 
         if(params.path) data.path = params.path;
+        if(params.title) data.title = params.title;
         if(params.desc) data.desc = params.desc;
         if(params.method) data.method = params.method;
 
         if(params.req_headers) data.req_headers = params.req_headers;
 
-        if(params.req_params_type === 'form') data.req_params_form = params.req_params;
-        else data.req_params_other = params.req_params;
+        if(params.req_params_form) data.req_params_form = params.req_params_form;
+        if(params.req_params_other) data.req_params_other = params.req_params_other;
         
         if(params.res_body_type) data.res_body_type = params.res_body_type;
         if(params.res_body) data.res_body = params.res_body;

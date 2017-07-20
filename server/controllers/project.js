@@ -14,6 +14,32 @@ class projectController extends baseController {
         this.groupModel = yapi.getInst(groupModel);
     }
 
+    handleBasepath(basepath){
+        if(!basepath) return false;
+        if(basepath[0] !== '/') basepath = '/' + basepath;
+        if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
+        if(!this.verifyPath(basepath)){
+            return false;
+        }
+        return basepath;
+    }
+
+    verifyPath(path){
+        if(/^[a-zA-Z0-9\-\/_:]+$/.test(basepath)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    verifyDomain(domain){
+        if(!domain) return false;
+        if(/^[a-zA-Z0-9\-_\.]+[a-zA-Z]{2,6}$/.test(domain)){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 添加项目分组
      * @interface /project/add
@@ -52,10 +78,19 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
 
+        if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+            return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+        }
+
+        if(!this.verifyDomain(params.prd_host)){
+            return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+        }
+
         let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
         if(checkRepeatDomain > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
+
         
         let data = {
             name: params.name,
@@ -306,6 +341,15 @@ class projectController extends baseController {
             }
             
             let projectData = await this.Model.get(id);
+
+            if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+                return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+            }
+
+            if(!this.verifyDomain(params.prd_host)){
+                return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+            }
+            
             if(projectData.name === params.name){
                 delete params.name;
             }
