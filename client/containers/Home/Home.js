@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button } from 'antd'
 import PropTypes from "prop-types"
-import Login from '../Login/Login-wrap'
+import Login from '../Login/LoginWrap'
 import Intro from '../../components/Intro/Intro'
 import Footer from "../../components/Footer/Footer";
 

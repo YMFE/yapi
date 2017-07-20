@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 class InterfaceList extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class InterfaceList extends Component {
 
     return (
       <ul className="interface-list">
-        <li className="active">添加接口</li>
+        <li><Link to="/AddInterface">添加接口</Link></li>
         <li onClick={projectMember}>管理项目成员</li>
       </ul>
     )

@@ -29,7 +29,6 @@ class User extends Component {
         <section className="user-box">
          
           <LeftMenu  />
-          
           <Route path={this.props.match.path + '/list'} component={List} />
           <Route path={this.props.match.path + '/profile/:uid'} component={Profile} />
         </section>
