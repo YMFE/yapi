@@ -542,7 +542,7 @@ var projectController = function (_baseController) {
                             case 6:
                                 result = _context6.sent;
                                 _context6.next = 9;
-                                return this.Model.listCount();
+                                return this.Model.listCount(group_id);
 
                             case 9:
                                 count = _context6.sent;
@@ -564,7 +564,6 @@ var projectController = function (_baseController) {
                                 users.forEach(function (item) {
                                     _users[item._id] = item;
                                 });
-
                                 ctx.body = _yapi2.default.commons.resReturn({
                                     total: Math.ceil(count / limit),
                                     list: result,

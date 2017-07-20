@@ -118,8 +118,10 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'listCount',
-        value: function listCount() {
-            return this.model.count();
+        value: function listCount(group_id) {
+            return this.model.count({
+                group_id: group_id
+            });
         }
     }, {
         key: 'countByGroupId',
