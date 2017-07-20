@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GroupList from './GroupList/GroupList.js';
-import ProjectList from './ProjectList';
+import ProjectList from './ProjectList/ProjectList.js';
 import { Row, Col } from 'antd';
 
 import './ProjectGroups.scss'
