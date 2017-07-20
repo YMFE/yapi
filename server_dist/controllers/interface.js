@@ -129,6 +129,7 @@ var interfaceController = function (_baseController) {
                                 _context.prev = 12;
                                 data = {
                                     project_id: params.project_id,
+                                    title: params.title,
                                     path: params.path,
                                     desc: params.desc,
                                     method: params.method,
@@ -301,7 +302,7 @@ var interfaceController = function (_baseController) {
         }()
 
         /**
-         * 添加项目分组
+         * 编辑接口
          * @interface /interface/up
          * @method POST
          * @category interface

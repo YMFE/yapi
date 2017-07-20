@@ -54,6 +54,7 @@ class interfaceController extends baseController{
         try{
             let data = {
                 project_id: params.project_id,
+                title: params.title,
                 path: params.path,
                 desc: params.desc,
                 method: params.method,
@@ -124,7 +125,7 @@ class interfaceController extends baseController{
     }
 
     /**
-     * 添加项目分组
+     * 编辑接口
      * @interface /interface/up
      * @method POST
      * @category interface
