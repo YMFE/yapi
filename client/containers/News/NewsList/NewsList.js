@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Menu } from 'antd'
 import { 
-  fetchNewsData, 
-  fetchViewedNews, 
-  fetchNotVieweNews } from '../../../actions/news.js'
+  fetchNewsData
+  } from '../../../actions/news.js'
 
 
+const logList = [{
+  name: '用户'
+},{
+  name: '分组'
+},{
+  name: '接口'
+},{
+  name: '项目'
+}];
 @connect(
   state => {
     return {
@@ -14,9 +23,7 @@ import {
     }
   },
   {
-    fetchNewsData,
-    fetchViewedNews,
-    fetchNotVieweNews
+    fetchNewsData
   }
 )
 
@@ -24,52 +31,46 @@ class NewsList extends Component {
 
   static propTypes = {
     fetchNewsData: PropTypes.func,
-    fetchViewedNews: PropTypes.func,
-    fetchNotVieweNews: PropTypes.func
+    setLoading: PropTypes.func
   }
 
   constructor(props) {
     super(props)
-  }
-
-  
-
-  fetchData(e){
-    const mark = e.target.className;
-    if(mark.indexOf('allnews')>-1){
-      this.props.fetchNewsData()
-      this.switchColor(mark.indexOf('allnews'),e.target)
-    }else if(mark.indexOf('viewednews')>-1){
-      this.props.fetchViewedNews();
-      this.switchColor(mark.indexOf('viewednews'),e.target)
-    }else if(mark.indexOf('notview')>-1){
-      this.props.fetchNotVieweNews();
-      this.switchColor(mark.indexOf('notview'),e.target)
+    this.state = {
+      selectedKeys: 0
     }
-
   }
-  switchColor(index,e){
-    let childNodes = e.parentNode.childNodes;
-    if(e.className.indexOf('active')> -1) return;
-    for(let j = 0;j<childNodes.length;j++){
-      const i = childNodes[j].className.indexOf('active');
-      if(i> -1){
-        // console.log( childNodes[i].className.splice);
-        let className = childNodes[j].className;
-        className = className.split('');
-        className.splice(i,6);
-        childNodes[j].className = className.join('');
-      }
-    }
-    e.className = e.className + ' active';
+  getLogData(e){
+    // page,size,logId
+    // console.log(e.key);
+    this.setState({
+      selectedKeys: +e.key
+    })
+    const that = this;
+    this.props.setLoading(true);
+    this.props.fetchNewsData(+e.key).then(function(){
+      that.props.setLoading(false);
+    })
   }
   render () {
     return (
-      <ul onClick = {this.fetchData.bind(this)} className="news-list">
-        {/*<li className="allnews">全部消息</li>*/}
-        <li className='active notview'>未读消息</li>
-        <li className='viewednews'>已读消息</li>
-      </ul>
+      <div className='logList'>
+        <h3>日志类型</h3>
+        <Menu
+          mode='inline'
+          selectedKeys = {[`${this.state.selectedKeys}`]}
+          onClick = {this.getLogData.bind(this)}
+        >
+          {logList.map((item,i)=>{
+            return (
+              <Menu.Item key={i} className="log-item">
+                {item.name}
+              </Menu.Item>
+            )
+          })}
+          
+        </Menu>
+      </div>
     )
   }
 }
