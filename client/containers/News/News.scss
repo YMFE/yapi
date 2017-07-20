@@ -7,20 +7,12 @@
   font-size: 0.14rem;
   background: #FFF;
 
-  .news-list {
+  .logList {
     width: 216px;
     line-height: 45px;
     background: #f9fafe;
-    
-    li {
-      padding: 0 0 0 30px;
-      color: #344562;
-      cursor: pointer;
-      
-      &:hover, &.active {
-        background: #657289;
-        color: #FFF;
-      }
+    h3{
+      text-indent: 1em;
     }
   }
 
