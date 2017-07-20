@@ -5,7 +5,7 @@ import Mock from 'mockjs'
 
 module.exports = async (ctx, next) => {
     yapi.commons.log('mock Server running...')
-    let hostname = ctx.protocol + "://" + ctx.hostname;
+    let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
     if(ctx.hostname === config.webhost){
         if(next) await next();

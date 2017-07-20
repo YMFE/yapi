@@ -39,6 +39,11 @@ class userModel extends baseModel{
     list(){
         return this.model.find().select("_id username email role  add_time up_time").exec()  //显示id name email role 
     }
+    findByUids(uids){
+        return this.model.find({
+            _id: {$in: [107]}
+        }).select("_id username email role  add_time up_time").exec()
+    }
     listWithPaging(page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);

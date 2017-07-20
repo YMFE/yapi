@@ -18,7 +18,8 @@ class projectModel extends baseModel{
             }},
             desc: String,
             group_id: {type: Number, required: true},
-            members: Array,
+            members: Array,            
+            protocol: {type: String, required: true},        
             prd_host: {type: String, required: true},
             env: [
                 {name: String, domain: String}
