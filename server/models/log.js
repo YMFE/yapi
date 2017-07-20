@@ -1,30 +1,36 @@
 import yapi from '../yapi.js';
 import baseModel from './base.js';
+import userModel from '../models/user.js';
 
-class nodeModel extends baseModel {
+class logModel extends baseModel {
     getName() {
-        return 'node';
+        return 'log';
     }
 
     getSchema() {
         return {
             uid: {type: Number, required: true},
             title: {type: String, required: true},
+            type: {type: String, enum:['user', 'group', 'interface', 'project', 'other'], required: true},
             content: {type: String, required: true},
-            is_read: {type: Boolean, required: true},
+            username: {type: String, required: true},
             add_time: Number
         }
     }
 
-    save(data) {
-        let node = new this.model(data);
-        return node.save();
-    }
-
-    get(id){
-        return this.model.findOne({
-            _id: id
-        }).exec()
+    async save(data) {
+        let userInst = yapi.getInst(userModel);
+        let username = await userInst.findById(data.uid);
+        let saveData = {
+            title: data.title,
+            content: data.content,
+            type: data.type,
+            uid: data.uid,
+            username: username,
+            add_time: yapi.commons.time()
+        };
+        let log = new this.model(saveData);
+        return log.save();
     }
 
     list (uid){
@@ -46,18 +52,6 @@ class nodeModel extends baseModel {
             uid: uid
         });
     }
-
-    del(id){
-        return this.model.deleteOne({
-            _id: id
-        })
-    }
-    up(id, data){
-        data.up_time = yapi.commons.time();
-        return this.model.update({
-            _id: id,
-        }, data, { runValidators: true })
-    }
 }
 
-module.exports = nodeModel;
+module.exports = logModel;
