@@ -3,24 +3,64 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu} from 'antd'
+import { Icon, Layout, Menu, Dropdown } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
 import { withRouter } from 'react-router';
-
+import Srch from './Search/Search'
 const { Header } = Layout;
+
+const MenuUser = (props) => (
+  <Menu>
+    <Menu.Item key="0">
+      <Link to={`/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
+    </Menu.Item>
+    <Menu.Item key="1">
+      <Link to="/news" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link>
+    </Menu.Item>
+    <Menu.Item key="2">
+      <a onClick={props.logout}>退出</a>
+    </Menu.Item>
+  </Menu>
+);
+MenuUser.propTypes={
+  user:PropTypes.string,
+  msg:PropTypes.string,
+  uid: PropTypes.number,
+  relieveLink:PropTypes.func,
+  logout:PropTypes.func
+}
+
 const ToolUser = (props)=> (
   <ul>
-    <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
-    <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
-    <li onClick={props.logout}>退出</li>
+    <li className="toolbar-li">
+      <Srch groupList={props.groupList}/>
+    </li>
+    <li className="toolbar-li">
+      <Dropdown overlay={
+        <MenuUser
+          user={props.user}
+          msg={props.msg}
+          uid={props.uid}
+          relieveLink={props.relieveLink}
+          logout={props.logout}
+        />
+      }>
+        <a className="dropdown-link">
+          <Icon type="user"/>
+        </a>
+      </Dropdown>
+    </li>
   </ul>
 );
 ToolUser.propTypes={
   user:PropTypes.string,
   msg:PropTypes.string,
+  uid: PropTypes.number,
   relieveLink:PropTypes.func,
-  logout:PropTypes.func
+  logout:PropTypes.func,
+  groupList: PropTypes.array
 };
+
 
 @withRouter
 class HeaderCom extends Component {
@@ -34,6 +74,7 @@ class HeaderCom extends Component {
     router: PropTypes.object,
     user: PropTypes.string,
     msg: PropTypes.string,
+    uid: PropTypes.number,
     login:PropTypes.bool,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
@@ -41,10 +82,6 @@ class HeaderCom extends Component {
     loginTypeAction:PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object
-  }
-  componentDidMount() {
-    const { router } = this.props;
-    console.log(router);
   }
   linkTo = (e) =>{
     this.setState({
@@ -59,6 +96,10 @@ class HeaderCom extends Component {
   logout = (e) => {
     e.preventDefault();
     this.props.logoutActions();
+    this.props.history.push('/');
+    this.setState({
+      current : "/"
+    })
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -78,8 +119,7 @@ class HeaderCom extends Component {
     })
   }
   render () {
-    this.checkLoginState();
-    const { login, user, msg } = this.props;
+    const { login, user, msg, uid } = this.props;
     return (
       <acticle className="header-box">
         <Layout className="'layout">
@@ -110,7 +150,15 @@ class HeaderCom extends Component {
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:""}
+                {login?
+                  <ToolUser
+                    user = { user }
+                    msg = { msg }
+                    uid = { uid }
+                    relieveLink = { this.relieveLink }
+                    logout = { this.logout }
+                  />
+                  :""}
               </div>
             </div>
           </Header>
@@ -124,6 +172,7 @@ export default connect(
   (state) => {
     return{
       user: state.login.userName,
+      uid: state.login.uid,
       msg: null,
       login:state.login.isLogin
     }
