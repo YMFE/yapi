@@ -32,6 +32,10 @@ var _project = require('./controllers/project.js');
 
 var _project2 = _interopRequireDefault(_project);
 
+var _node = require('./controllers/node.js');
+
+var _node2 = _interopRequireDefault(_node);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _koaRouter2.default)();
@@ -52,6 +56,10 @@ var INTERFACE_CONFIG = {
     project: {
         prefix: '/project/',
         controller: _project2.default
+    },
+    node: {
+        prefix: '/node/',
+        controller: _node2.default
     }
 };
 
@@ -91,6 +99,13 @@ createAction('interface', 'list', 'get', 'list');
 createAction('interface', 'get', 'get', 'get');
 createAction('interface', 'up', 'post', 'up');
 createAction('interface', 'del', 'post', 'del');
+
+//node
+createAction('node', 'add', 'post', 'add');
+createAction('node', 'get', 'get', 'get');
+createAction('node', 'list', 'get', 'list');
+createAction('node', 'del', 'post', 'del');
+createAction('node', 'up', 'post', 'up');
 
 /**
  *
