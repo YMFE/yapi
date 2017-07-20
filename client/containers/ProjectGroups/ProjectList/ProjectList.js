@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 import UpDateModal from './UpDateModal';
+import { Link } from 'react-router-dom'
 import variable from '../../../constants/variable';
 import common from '../../../common';
 import { autobind } from 'core-decorators';
@@ -32,7 +33,9 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpda
     title: '项目名称',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a href="#">{text}</a>
+    render: (text, record) => {
+      return <Link to={`Interface/${record._id}`}>{text}</Link>
+    }
   }, {
     title: '创建人',
     dataIndex: 'owner',
