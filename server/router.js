@@ -5,6 +5,7 @@ import userController from './controllers/user.js'
 
 import yapi from './yapi.js'
 import projectController from './controllers/project.js'
+import nodeController from './controllers/node.js'
 
 
 const router = koaRouter();
@@ -25,6 +26,10 @@ const INTERFACE_CONFIG = {
     project: {
         prefix: '/project/',
         controller: projectController
+    },
+    node: {
+        prefix: '/node/',
+        controller: nodeController
     }
 };
 
@@ -65,6 +70,13 @@ createAction('interface', 'list', 'get', 'list')
 createAction('interface', 'get', 'get', 'get')
 createAction('interface', 'up', 'post', 'up')
 createAction('interface', 'del', 'post', 'del')
+
+//node
+createAction('node', 'add', 'post', 'add');
+createAction('node', 'get', 'get', 'get');
+createAction('node', 'list', 'get', 'list');
+createAction('node', 'del', 'post', 'del');
+createAction('node', 'up', 'post', 'up');
 
 
 /**
