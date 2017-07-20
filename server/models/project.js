@@ -75,8 +75,10 @@ class projectModel extends baseModel{
         }).skip((page - 1) * limit).limit(limit).exec();
     }
 
-    listCount() {
-        return this.model.count();
+    listCount(group_id) {
+        return this.model.count({
+            group_id: group_id
+        });
     }
 
     countByGroupId(group_id){

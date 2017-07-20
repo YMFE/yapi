@@ -219,7 +219,7 @@ class projectController extends baseController {
 
         try{
             let result = await this.Model.listWithPaging(group_id, page, limit);
-            let count = await this.Model.listCount();
+            let count = await this.Model.listCount(group_id);
             let uids = [];
             result.forEach( (item)=> {
                 if(uids.indexOf(item.uid) !== -1){
@@ -232,7 +232,6 @@ class projectController extends baseController {
             users.forEach((item)=> {
                 _users[item._id] = item;
             } )
-
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
                 list: result,
