@@ -13,6 +13,7 @@ const Option = Select.Option;
 
 import './ProjectList.scss'
 
+// 确认删除项目
 const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
   const test = () => {
     handleDelete(id).then((res) => {
