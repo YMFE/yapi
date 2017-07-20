@@ -78,12 +78,13 @@ class UpDateModal extends Component {
     this.props.changeUpdateModal(false, -1);
   }
 
+  // 确认修改
   handleOk = (e) => {
     e.preventDefault();
     const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
+        console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
         assignValue.prd_host = this.state.protocol + assignValue.prd_host;
         assignValue.env = assignValue.envs.map((item) => {

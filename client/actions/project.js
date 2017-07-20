@@ -53,13 +53,13 @@ const addProject = (data) => {
 };
 
 const updateProject = (data) => {
-  const { name, prd_host, basepath, desc, group_id } = data;
+  const { name, prd_host, basepath, desc, _id } = data;
   const param = {
     name,
     prd_host,
     basepath,
     desc,
-    group_id
+    id: _id
   };
   return {
     type: PROJECT_UPDATE,
