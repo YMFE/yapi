@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu, Dropdown } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
+import { changeMenuItem } from '../../actions/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
@@ -66,9 +67,6 @@ ToolUser.propTypes={
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      current : window.location.hash.split("#")[1]
-    }
   }
   static propTypes ={
     router: PropTypes.object,
@@ -76,30 +74,36 @@ class HeaderCom extends Component {
     msg: PropTypes.string,
     uid: PropTypes.number,
     login:PropTypes.bool,
+    curKey:PropTypes.string,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
     checkLoginState:PropTypes.func,
     loginTypeAction:PropTypes.func,
+    changeMenuItem:PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object
   }
   linkTo = (e) =>{
-    this.setState({
-      current : e.key
-    })
+    this.props.changeMenuItem(e.key);
+    // this.props.curKey = e.key;
+    // this.setState({
+    //   current : e.key
+    // })
   }
   relieveLink = () => {
-    this.setState({
-      current : ""
-    })
+    this.props.changeMenuItem("");
+    // this.setState({
+    //   current : ""
+    // })
   }
   logout = (e) => {
     e.preventDefault();
     this.props.logoutActions();
     this.props.history.push('/');
-    this.setState({
-      current : "/"
-    })
+    this.props.changeMenuItem("/");
+    // this.setState({
+    //   current : "/"
+    // })
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -119,7 +123,8 @@ class HeaderCom extends Component {
     })
   }
   render () {
-    const { login, user, msg, uid } = this.props;
+    const { login, user, msg, uid, curKey } = this.props;
+    console.log(curKey);
     return (
       <acticle className="header-box">
         <Layout className="'layout">
@@ -134,7 +139,7 @@ class HeaderCom extends Component {
                 theme="dark"
                 style={{ lineHeight : '.64rem'}}
                 onClick={this.linkTo}
-                selectedKeys={[this.state.current]}
+                selectedKeys={[curKey]}
               >
                 <Menu.Item key="/">
                   <Link to="/">首页</Link>
@@ -174,12 +179,14 @@ export default connect(
       user: state.login.userName,
       uid: state.login.uid,
       msg: null,
-      login:state.login.isLogin
+      login:state.login.isLogin,
+      curKey: state.menu.curKey
     }
   },
   {
     loginTypeAction,
     logoutActions,
-    checkLoginState
+    checkLoginState,
+    changeMenuItem
   }
 )(HeaderCom)

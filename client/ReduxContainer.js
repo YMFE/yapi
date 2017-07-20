@@ -6,6 +6,7 @@ import Interface from './reducer/Interface/InterfaceReducer.js'
 import news from './reducer/news/news.js'
 import addInterface from './reducer/addInterface/addInterface.js'
 import user from './reducer/user/user.js'
+import menu from './reducer/menu/menu.js'
 
 export default {
   group,
@@ -15,5 +16,6 @@ export default {
   user,
   project,
   news,
-  addInterface
+  addInterface,
+  menu
 }
