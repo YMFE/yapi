@@ -27,8 +27,9 @@ const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
   }
   return test;
 };
-
-const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpdateModal) => {
+//  this.props.fetchProjectList, this.props.changeUpdateModal
+const getColumns = (data, props) => {
+  const { handleDelete, currGroup, fetchProjectList, changeUpdateModal, userInfo } = props;
   return [{
     title: '项目名称',
     dataIndex: 'name',
@@ -39,7 +40,12 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpda
   }, {
     title: '创建人',
     dataIndex: 'owner',
-    key: 'owner'
+    key: 'owner',
+    render: (text, record, index) => {
+      // data是projectList的列表值
+      // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
+      return <span>{userInfo[data[index].uid].username}</span>;
+    }
   }, {
     title: '创建时间',
     dataIndex: 'add_time',
@@ -52,9 +58,9 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpda
       const id = record._id;
       return (
         <span>
-          <a onClick={() => handleUpdateModal(true, index)}>修改</a>
+          <a onClick={() => changeUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroup._id, fetchProjectList)} okText="删除" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
@@ -77,6 +83,7 @@ const formItemLayout = {
   state => {
     return {
       projectList: state.project.projectList,
+      userInfo: state.project.userInfo,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup,
       total: state.project.total,
@@ -108,6 +115,7 @@ class ProjectList extends Component {
     changeUpdateModal: PropTypes.func,
     changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
+    userInfo: PropTypes.object,
     tableLoading: PropTypes.bool,
     currGroup: PropTypes.object,
     total: PropTypes.number,
@@ -253,8 +261,7 @@ class ProjectList extends Component {
               {getFieldDecorator('prd_host', {
                 rules: [{
                   required: true,
-                  message: '请输入项目线上域名，不允许出现‘\/’!',
-                  pattern: /.+\w$/
+                  message: '请输入项目线上域名!'
                 }]
               })(
                 <Input addonBefore={(
@@ -271,8 +278,7 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('basepath', {
                 rules: [{
-                  required: true, message: '基本路径应以\'\/\'开头，以\'\/\'结尾! ',
-                  pattern: /^\/.+\/$/
+                  required: true, message: '请输入项目基本路径'
                 }]
               })(
                 <Input />
@@ -296,7 +302,7 @@ class ProjectList extends Component {
         <UpDateModal/>
         <Table
           loading={this.props.tableLoading}
-          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
+          columns={getColumns(this.state.projectData, this.props)}
           dataSource={this.state.projectData}
           pagination={{
             total: this.props.total * variable.PAGE_LIMIT,
