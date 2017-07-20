@@ -111,9 +111,9 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(group_id) {
+        value: function list(project_id) {
             return this.model.find({
-                group_id: group_id
+                project_id: project_id
             }).exec();
         }
     }, {
