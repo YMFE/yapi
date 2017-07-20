@@ -5,23 +5,30 @@
   -webkit-box-flex: 1;
   margin: .88rem auto 0 auto;
   font-size: 0.14rem;
-  background: #FFF;
+  
   min-height:500px;
   margin-top: 84px;
 
-  ul{border:none}
+  
 
   .user-list {
     width: 216px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    background: #FFF;
+    border-radius:5px;
     .search{
       margin: 5px;    
     }
+    ul{border:none}
   }
 
   .user-table {
     -webkit-box-flex: 1;
-    padding-right: 15px;
+    padding: 15px;
     margin-left: 15px;   
+    border-radius:5px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    background: #FFF;
     .ant-table-wrapper table {
       font-size: .14rem;
 
@@ -35,7 +42,9 @@
     -webkit-box-flex: 1;
     margin-top: 15px;
     margin-left: 15px;
-
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    background: #FFF;
+    border-radius:5px;
     .user-item {
       min-height:35px;
       line-height:35px;
