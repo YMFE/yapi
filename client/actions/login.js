@@ -24,6 +24,7 @@ const loginActions = (data) => {
             data: res
           }
         });
+        location.reload();
       } else {
         console.log('登录失败,errcode不为0');
       }
@@ -57,6 +58,7 @@ const logoutActions = () => {
         dispatch({
           type: LOGIN_OUT
         })
+        location.reload();
       }
     }).catch((err) => {
       console.log(err);
