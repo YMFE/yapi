@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button, Input, Icon, Checkbox } from 'antd';
+import { Form, Button, Input, Icon } from 'antd';
 import { loginActions } from  '../../actions/login';
 const FormItem = Form.Item;
 @connect(
@@ -37,7 +37,6 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const that = this;
     return (
       <Form onSubmit={this.handleSubmit}>
 
