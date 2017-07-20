@@ -602,7 +602,7 @@ var projectController = function (_baseController) {
                             case 6:
                                 result = _context6.sent;
                                 _context6.next = 9;
-                                return this.Model.listCount();
+                                return this.Model.listCount(group_id);
 
                             case 9:
                                 count = _context6.sent;
