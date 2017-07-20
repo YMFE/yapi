@@ -1,0 +1,202 @@
+.add-interface-box {
+  -webkit-box-flex: 1;
+  font-size: .14rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .content {
+    max-width: 11rem;
+    margin: 0 auto;
+    background: #FFF;
+    padding: 10px 20px;
+
+    .save {
+      float: right;
+      margin: 0 0 10px 0;
+    }
+    
+    table {
+      width: 100%;
+      border-top: 1px #EEE solid;
+
+      th {
+        padding:0 10px;
+      }
+      
+      td {
+        padding: 10px 0;
+      }
+
+      .select {
+        height: 32px;
+      }
+
+      .h3 {
+        font-size: .14rem;
+        margin: 0 10px 0 15px;
+      }
+
+      .url {
+        margin: 0 0 0 15px;
+        width: 57.8%;
+      }
+    }
+
+    .close {
+      font-size: .25rem;
+      color: #C44;
+      display: block;
+      margin: 0 0 0 10px;
+      cursor: pointer;
+    }
+  
+    /* .req-header.css */
+    .req-header {
+      display: -webkit-box;
+      line-height: 32px;
+      margin: 10px 0 0 0;
+      border-top: 1px #EEE solid;
+      padding: 15px 0 0 0;
+
+      .req-h3 {
+        line-height: 32px;
+      }
+
+      ul {
+        -webkit-box-flex: 1;
+        margin: 0 0 0 24px;
+
+        li {
+          display: -webkit-box;
+          margin: 0 0 10px 0;
+        }
+
+        .title {
+          margin: 0 10px 0 20px;
+          display: block;
+        }
+
+        .req-content {
+          width: 220px;
+        }
+      }
+    }
+
+    .req-save, .res-save {
+      margin: 5px 0 0 107px;
+    }
+    
+    /* .req-params.css */
+    .req-params {
+      display: -webkit-box;
+      padding: 20px 0 0 0;
+      margin: 20px 0 0 0;
+      border-top: 1px #EEE solid;
+    }
+
+    /* .req-save.css */
+    .res-params {
+      display: -webkit-box;
+      line-height: 32px;
+      padding: 20px 0 0 0;
+      border-top: 1px #EEE solid;
+      margin: 20px 0 0 0;
+
+      ul {
+        -webkit-box-flex: 1;
+        margin: 0 0 0 24px;
+
+        li {
+          display: -webkit-box;
+        }
+
+        .required {
+          margin: 0 10px 0 20px;
+        }
+
+        .title {
+          margin: 0 10px;
+          display: block;
+        }
+      }
+    }
+
+    .result {
+      display: -webkit-box;
+      line-height: 32px;
+      padding: 20px 0 0 0;
+      border-top: 1px #EEE solid;
+      margin: 20px 0 0 0;
+
+      textarea {
+        width: 100%;
+        border: 1px #CCC solid;
+        height: 200px;
+      }
+      
+      .ant-tabs {
+        -webkit-box-flex: 1;
+      }
+    }
+  }
+}
+
+#container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+body {
+  .w-e-text {
+    p, h1, h2, h3, h4, h5, table, pre {
+      line-height: auto;
+      margin: 0;
+      font-size: .14rem;
+      color: #777;
+      font-family: 'Microsoft Yahei';
+      font-weight: normal;
+    }
+  }
+  .w-e-toolbar {
+    // display: none;
+    height: 1px;
+    overflow: hidden;
+    border: none;
+  }
+  .w-e-text {
+    padding: 15px;
+  }
+}
+#toolbar-container {
+  border: 1px solid #EEE;
+  background-color: #fff;
+}
+#toolbar-container:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+#editor-toolbar {
+  float: left;
+}
+#btn-container {
+  float: right;
+  text-align: right;
+}
+#editor-text {
+  border: 1px solid #EEE;
+  border-top: 0;
+  height: 300px;
+  background-color: #fff;
+}
+#req-cover {
+  height: 330px;
+  padding: 0 20px;
+  background-color: #FFF;
+  -webkit-box-flex: 1;
+}
+#res-cover {
+  height: 330px;
+  padding: 0 20px;
+  background-color: #FFF;
+  -webkit-box-flex: 1;
+}

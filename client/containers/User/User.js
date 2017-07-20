@@ -1,7 +1,7 @@
 import './index.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route} from 'react-router-dom'
+import { Route, Redirect} from 'react-router-dom'
 import LeftMenu from './LeftMenu.js'
 import List from './List.js'
 import PropTypes from 'prop-types'
@@ -29,7 +29,6 @@ class User extends Component {
         <section className="user-box">
          
           <LeftMenu  />
-          
           <Route path={this.props.match.path + '/list'} component={List} />
           <Route path={this.props.match.path + '/profile/:uid'} component={Profile} />
         </section>

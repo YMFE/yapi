@@ -3,7 +3,7 @@
   max-width: 11rem;
   display: -webkit-box;
   -webkit-box-flex: 1;
-  margin: .88rem auto 0 auto;
+  margin: 15px auto 0 auto;
   font-size: 0.14rem;
   background: #FFF;
 
@@ -17,9 +17,15 @@
       color: #344562;
       cursor: pointer;
       
-      &:hover, &.active {
-        background: #657289;
-        color: #FFF;
+      &:hover {
+        color: #29f;
+      }
+      
+      a {
+        color: #344562;
+        &:hover {
+          color: #29f;
+        }
       }
     }
   }
