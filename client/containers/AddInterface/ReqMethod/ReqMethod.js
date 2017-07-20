@@ -5,19 +5,22 @@ import { Select, Input } from 'antd'
 import { autobind } from 'core-decorators'
 import { 
   pushInputValue,
-  pushInterfaceName
+  pushInterfaceName,
+  pushInterfaceMethod
 } from '../../../actions/addInterface.js'
 
 @connect(
   state => {
     return {
+      method: state.addInterface.method,
       reqInputVal: state.addInterface.inputValue,
       interfaceName: state.addInterface.interfaceName
     }
   },
   {
     pushInputValue,
-    pushInterfaceName
+    pushInterfaceName,
+    pushInterfaceMethod
   }
 )
 
@@ -25,7 +28,9 @@ class ReqMethod extends Component {
   static propTypes = {
     pushInputValue: PropTypes.func,
     pushInterfaceName: PropTypes.func,
+    pushInterfaceMethod: PropTypes.func,
     inputValue: PropTypes.string,
+    method: PropTypes.string,
     interfaceName: PropTypes.string
   }
 
@@ -33,8 +38,10 @@ class ReqMethod extends Component {
     super(props)
   }
 
+  @autobind
   handleChange (value) {
-    console.log(`selected ${value}`)
+    
+    this.props.pushInterfaceMethod(value)
   }
 
   @autobind
@@ -45,15 +52,14 @@ class ReqMethod extends Component {
   }
 
   @autobind
-  getInterfaceValue () {
-    // const name = e.target.value
-    console.log(this.props.pushInterfaceName)
-    // this.props.pushInterfaceName(name)
+  getInterfaceValue (e) {
+    const name = e.target.value
+    this.props.pushInterfaceName(name)
   }
 
   render () {
     const { Option } = Select
-    console.log(this.props.interfaceName)
+    console.log(this.props.method)
     return (
       <table>
         <tbody>

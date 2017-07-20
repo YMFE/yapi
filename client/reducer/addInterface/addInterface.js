@@ -7,13 +7,15 @@ import {
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
   SAVE_INTERFACE_FORMS,
-  PUSH_INTERFACE_NAME
+  PUSH_INTERFACE_NAME,
+  PUSH_INTERFACE_METHOD
 } from '../../constants/action-types.js'
 
 const initialState = {
   inputValue: '',
   tagValue: '',
   headerValue: '',
+  methode: '',
   // 默认请求头部有一条数据
   seqGroup: [
     {
@@ -72,6 +74,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         resParams: action.payload
+      }
+    case PUSH_INTERFACE_METHOD:
+      return {
+        ...state,
+        methode: action.payload
       }
     default:
       return state

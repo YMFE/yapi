@@ -7,9 +7,8 @@ import {
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
   SAVE_INTERFACE_FORMS,
-  PUSH_INTERFACE_NAME
-  // ADD_INTERFACE_RES_PARAMS,
-  // DELETE_INTERFACE_RES_PARAMS
+  PUSH_INTERFACE_NAME,
+  PUSH_INTERFACE_METHOD
 } from '../constants/action-types.js'
 
 export function pushInputValue (value) {
@@ -69,9 +68,15 @@ export function saveForms (value) {
 }
 
 export function pushInterfaceName (value) {
-  console.log(value)
   return {
     type: PUSH_INTERFACE_NAME,
+    payload: value
+  }
+}
+
+export function pushInterfaceMethod (value) {
+  return {
+    type: PUSH_INTERFACE_METHOD,
     payload: value
   }
 }
