@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Icon, Popconfirm } from 'antd'
+import { Table, Popconfirm } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchMoreNews } from '../../../actions/news.js'
@@ -20,25 +20,39 @@ const removeConfirm = function(e){
 
 class NewsTimeline extends Component {
   static propTypes = {
-    newsData: PropTypes.array,
-    fetchMoreNews: PropTypes.func
+    newsData: PropTypes.object,
+    fetchMoreNews: PropTypes.func,
+    setLoading: PropTypes.func,
+    loading: PropTypes.bool
   }
   
   constructor(props) {
     super(props);
+    this.state = {
+      pagination: {
+        pageSize: 10,
+        total: 34
+      }
+    };
   }
-  removeOneNews(id){
-    return ()=>{
-      console.log(id);
-    }
+
+  handleChange(pagination){
+    const pager = { ...this.state.pagination };
+    pager.current = pagination.current;
+    this.props.setLoading(true); 
+    const that = this;
+    this.props.fetchMoreNews(pagination.current,pagination.pageSize).then(function(){
+      that.props.setLoading(false); 
+    })
   }
   render () {
     const columns = [
-      { title: '类型',width:100, dataIndex: 'type', key: 'type' },
-      { title: '消息', dataIndex: 'news', key: 'news' },
-      { title: '发布时间',width:150, dataIndex: 'time', key: 'time' }
+      { title: '操作用户',width:100, dataIndex: 'username', key: 'username' },
+      { title: '日志标题',width: 200,  dataIndex: 'title', key: 'title' },
+      { title: '具体改动描述', dataIndex: 'content', key: 'content' },
+      { title: '时间',width: 150, dataIndex: 'time', key: 'time' }
     ];
-    const data = this.props.newsData;
+    const data = this.props.newsData.newsList;
     return (
       <section className="news-timeline">
         <span className='removeAllNews'>
@@ -47,9 +61,12 @@ class NewsTimeline extends Component {
           </Popconfirm>
         </span>
         <Table
+          loading={this.props.loading}
           columns={columns}
-          expandedRowRender={record => <div className='newsDesc'><p>{record.news}</p><span onClick = {this.removeOneNews(record.key)} ><Icon type="delete" />删除</span></div>}
+          expandedRowRender={record => <div className='newsDesc'><p>{record.content}</p></div>}
           dataSource={data}
+          pagination={{...this.state.pagination,total:this.props.newsData.totalPage}}
+          onChange={this.handleChange.bind(this)}
         />
       </section>
     )
