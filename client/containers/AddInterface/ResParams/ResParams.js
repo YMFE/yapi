@@ -26,10 +26,12 @@ class ResParams extends Component {
   }
 
   componentDidMount () {
-    var E = wangEditor
-    var editor = new E('#res-cover')
+    const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
+    const E = wangEditor
+    const editor = new E('#res-cover')
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
+      html = html.replace(reg, '')
       this.props.getResParams(html)
     }
     editor.create()
