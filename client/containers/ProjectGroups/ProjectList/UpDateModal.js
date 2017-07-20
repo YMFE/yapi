@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Form, Input, Icon, Tooltip, Select, message, Button } from 'antd';
+import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';
 import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -23,7 +23,7 @@ const formItemLayout = {
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 }
+    sm: { span: 20, offset: 6 }
   }
 };
 let uuid = 0;
@@ -87,14 +87,10 @@ class UpDateModal extends Component {
         console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
         values.protocol = this.state.protocol.split(':')[0];
-        assignValue.env = assignValue.envs.map((item) => {
-          console.log(assignValue);
-          const arr = assignValue['envs-'+item].split(',');
-          if (arr.length === 2) {
-            return {
-              host: arr[0],
-              name: arr[1]
-            }
+        assignValue.env = assignValue.envs.map((item, index) => {
+          return {
+            name: values['envs-name-'+index],
+            host: values['envs-host-'+index]
           }
         });
         console.log(assignValue);
@@ -163,57 +159,78 @@ class UpDateModal extends Component {
     // const that = this;
     const { isUpdateModalShow, projectList, handleUpdateIndex } = this.props;
     let initFormValues = {};
-    let envMessage = [];
+    let envMessage = [{name:'name1',host:'host1'}, {name:'name2',host:'host2'}];
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
     if (projectList.length !== 0 && handleUpdateIndex !== -1 ) {
       // console.log(projectList[handleUpdateIndex]);
-      const { name, basepath, desc, env } = projectList[handleUpdateIndex];
+      const { name, basepath, desc , env} = projectList[handleUpdateIndex];
       initFormValues = { name, basepath, desc, env };
-      if (env) {
-        envMessage = env.map((item) => {
-          return item.host + ',' + item.name;
-        })
+      if (env.length !== 0) {
+        envMessage = env;
       }
       initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
       initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\/\/';
-      console.log(projectList);
+
     }
 
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
+      // console.log(k);
+      const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
-        <FormItem
-          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? (
-            <span>环境配置&nbsp;
-              <Tooltip title="依次输入环境域名(host)与环境名称，以英文逗号分隔">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>) : ''}
-          required={false}
-          key={k}
-        >
-          {getFieldDecorator(`envs-${k}`, {
-            validateTrigger: ['onChange', 'onBlur'],
-            initialValue: envMessage.length !== 0 ? k : '',
-            rules: [{
-              required: false,
-              whitespace: true,
-              message: "请输入环境配置，放弃配置请清空输入框"
-            }]
-          })(
-            <Input placeholder="请输入环境配置" style={{ width: '60%', marginRight: 8 }} />
-          )}
-          {envs.length > 1 ? (
-            <Icon
-              className="dynamic-delete-button"
-              type="minus-circle-o"
-              disabled={envs.length === 1}
-              onClick={() => this.remove(k)}
-            />
-          ) : null}
-        </FormItem>
+        <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
+          <Col span={10} offset={2}>
+            <FormItem
+              label={index === 0 ? (
+                <span>环境名称</span>) : ''}
+              required={false}
+              key={index}
+            >
+              {getFieldDecorator(`envs-name-${index}`, {
+                validateTrigger: ['onChange', 'onBlur'],
+                initialValue: envMessage.length !== 0 ? k.name : '',
+                rules: [{
+                  required: false,
+                  whitespace: true,
+                  message: "请输入环境名称"
+                }]
+              })(
+                <Input placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={10}>
+            <FormItem
+              label={index === 0 ? (
+                <span>环境域名</span>) : ''}
+              required={false}
+              key={secondIndex}
+            >
+              {getFieldDecorator(`envs-host-${index}`, {
+                validateTrigger: ['onChange', 'onBlur'],
+                initialValue: envMessage.length !== 0 ? k.host : '',
+                rules: [{
+                  required: false,
+                  whitespace: true,
+                  message: "请输入环境域名"
+                }]
+              })(
+                <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={2}>
+            {envs.length > 1 ? (
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                disabled={envs.length === 1}
+                onClick={() => this.remove(k)}
+              />
+            ) : null}
+          </Col>
+        </Row>
       );
     });
     return (
