@@ -8,13 +8,9 @@ class interfaceModel extends baseModel{
 
     getSchema(){
         return {
+            title: {type: String, required: true},
             uid: {type: Number, required: true},
-            path: {type: String, required: true, validate: {
-                validator: (v) => {
-                    return v && v[0] !== '/';
-                },
-                message: '接口路径第一位不能是/'
-            }},
+            path: {type: String, required: true},
             method: {type: String, required: true},
             project_id: {type: Number, required: true},
             desc: String,

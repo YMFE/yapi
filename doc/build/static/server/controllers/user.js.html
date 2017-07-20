@@ -318,7 +318,7 @@ class userController extends baseController {
      * @category user
      * @foldnumber 10
      * @param {Number} [page] 分页页码
-     * @param {Number} [limit] 分页大小
+     * @param {Number} [limit] 分页大小,默认为10条
      * @returns {Object} 
      * @example 
      */
@@ -332,7 +332,7 @@ class userController extends baseController {
             let user = await userInst.listWithPaging(page, limit);
             let count = await userInst.listCount();
             return ctx.body = yapi.commons.resReturn({
-                total: count,
+                total: Math.ceil(count / limit),
                 list: user
             });
         } catch(e) {
