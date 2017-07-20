@@ -76,7 +76,7 @@ class AddInterface extends Component {
 
     return (
       <Tabs defaultActiveKey="1">
-        <TabPane tab="Tab 1" key="1">
+        <TabPane tab="接口详情" key="1">
           <section className="add-interface-box">
             <div className="content">
               <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
@@ -88,8 +88,8 @@ class AddInterface extends Component {
             </div>
           </section>
         </TabPane>
-        <TabPane tab="Tab 2" key="2">mock</TabPane>
-        <TabPane tab="Tab 3" key="3">测试</TabPane>
+        <TabPane tab="Mock" key="2">mock</TabPane>
+        <TabPane tab="测试" key="3">测试</TabPane>
       </Tabs>
     )
   }
