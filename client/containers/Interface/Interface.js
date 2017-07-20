@@ -2,6 +2,7 @@ import './Interface.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import InterfaceList from './InterfaceList/InterfaceList.js'
 import InterfaceTable from './InterfaceTable/InterfaceTable.js'
 import InterfaceMode from './InterfaceMode/InterfaceMode.js'
@@ -42,6 +43,17 @@ class Interface extends Component {
 
   componentWillMount () {
     this.props.fetchInterfaceData()
+    const params = {
+      project_id: 8
+    }
+
+    axios.get('/interface/list', params)
+      .then(data => {
+        console.log(data)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   render () {

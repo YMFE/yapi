@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Route, HashRouter, Redirect } from 'react-router-dom'
-import { Home, ProjectGroups, Interface, News } from './containers/index'
+import { Header, Home, ProjectGroups, Interface, News, AddInterface } from './containers/index'
 import User from './containers/User/User.js'
-import Header from './components/Header/Header'
 
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
@@ -45,6 +44,7 @@ class App extends Component {
             <Route path="/Interface" component={Interface} />
             <Route path="/user" component={User} />
             <Route path="/News" component={News} />
+            <Route path="/AddInterface" component={ AddInterface } />
           </div>
 
         </HashRouter>
