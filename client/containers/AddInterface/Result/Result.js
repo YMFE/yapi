@@ -20,9 +20,6 @@ class Result extends Component {
           <TabPane tab="成功结果" key="1">
             <textarea></textarea>
           </TabPane>
-          <TabPane tab="失败结果" key="2">
-            <textarea></textarea>
-          </TabPane>
         </Tabs>
       </div>
     )

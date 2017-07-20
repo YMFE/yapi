@@ -4,10 +4,11 @@ import {
   FETCH_ADD_INTERFACE_HEADER_VALUE,
   ADD_INTERFACE_SEQ_HEADER,
   DELETE_INTERFACE_SEQ_HEADER,
-  ADD_INTERFACE_REQ_PARAMS,
-  DELETE_INTERFACE_REQ_PARAMS,
-  ADD_INTERFACE_RES_PARAMS,
-  DELETE_INTERFACE_RES_PARAMS
+  GET_INTERFACE_REQ_PARAMS,
+  GET_INTERFACE_RES_PARAMS,
+  SAVE_INTERFACE_FORMS
+  // ADD_INTERFACE_RES_PARAMS,
+  // DELETE_INTERFACE_RES_PARAMS
 } from '../../constants/action-types.js'
 
 const initialState = {
@@ -22,20 +23,8 @@ const initialState = {
       content: ''
     }
   ],
-  reqParams: [
-    {
-      id: 0,
-      paramsName: '',
-      describe: ''
-    }
-  ],
-  resParams: [
-    {
-      id: 0,
-      paramsName: '',
-      describe: ''
-    }
-  ]
+  reqParams: '',
+  resParams: ''
 }
 
 export default (state = initialState, action) => {
@@ -65,26 +54,31 @@ export default (state = initialState, action) => {
         ...state,
         seqGroup: action.payload
       }
-    case ADD_INTERFACE_REQ_PARAMS:
+    case GET_INTERFACE_REQ_PARAMS:
       return {
         ...state,
         reqParams: action.payload
       }
-    case DELETE_INTERFACE_REQ_PARAMS:
+    case GET_INTERFACE_RES_PARAMS:
       return {
         ...state,
-        reqParams: action.payload
+        resParams: action.payload
       }
-    case ADD_INTERFACE_RES_PARAMS:
+    case SAVE_INTERFACE_FORMS:
       return {
         ...state,
-        reqParams: action.payload
+        resParams: action.payload
       }
-    case DELETE_INTERFACE_RES_PARAMS:
-      return {
-        ...state,
-        reqParams: action.payload
-      }
+    // case ADD_INTERFACE_RES_PARAMS:
+    //   return {
+    //     ...state,
+    //     reqParams: action.payload
+    //   }
+    // case DELETE_INTERFACE_RES_PARAMS:
+    //   return {
+    //     ...state,
+    //     reqParams: action.payload
+    //   }
     default:
       return state
   }
