@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
-import { addProject, fetchProjectList, delProject } from  '../../../actions/project';
+import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
+import UpDateModal from './UpDateModal';
+import variable from '../../../constants/variable';
+import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import './ProjectList.scss'
 
-const confirm = (id, handleDelete, currGroupId, handleFetchList) => {
+const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
   const test = () => {
     handleDelete(id).then((res) => {
       console.log(res);
@@ -22,7 +25,7 @@ const confirm = (id, handleDelete, currGroupId, handleFetchList) => {
   return test;
 };
 
-const getColumns = (data, handleDelete, currGroupId, handleFetchList) => {
+const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpdateModal) => {
   return [{
     title: '项目名称',
     dataIndex: 'name',
@@ -39,13 +42,13 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList) => {
   }, {
     title: '操作',
     key: 'action',
-    render: (text, record) => {
+    render: (text, record, index) => {
       const id = record._id;
       return (
         <span>
-          <a href="#">修改</a>
+          <a onClick={() => handleUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={confirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
@@ -68,13 +71,18 @@ const formItemLayout = {
   state => {
     return {
       projectList: state.project.projectList,
-      currGroup: state.group.currGroup
+      tableLoading: state.project.tableLoading,
+      currGroup: state.group.currGroup,
+      total: state.project.total,
+      currPage: state.project.currPage
     }
   },
   {
     fetchProjectList,
     addProject,
-    delProject
+    delProject,
+    changeUpdateModal,
+    changeTableLoading
   }
 )
 class ProjectList extends Component {
@@ -82,7 +90,6 @@ class ProjectList extends Component {
     super(props);
     this.state = {
       visible: false,
-      tabelLoading: true,
       protocol: 'http:\/\/',
       projectData: []
     }
@@ -92,50 +99,64 @@ class ProjectList extends Component {
     fetchProjectList: PropTypes.func,
     addProject: PropTypes.func,
     delProject: PropTypes.func,
+    changeUpdateModal: PropTypes.func,
+    changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
-    currGroup: PropTypes.object
+    tableLoading: PropTypes.bool,
+    currGroup: PropTypes.object,
+    total: PropTypes.number,
+    currPage: PropTypes.number
   }
-  showAddProjectModal = () => {
+
+  // 显示模态框 - 创建项目
+  @autobind
+  showAddProjectModal() {
     this.setState({
       visible: true
     });
   }
-  handleOk = (e) => {
+
+  // 确认修改
+  @autobind
+  handleOk(e) {
+    const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
+    const that = this;
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         values.prd_host = this.state.protocol + values.prd_host;
-
         // 获取当前分组id传入values
-        values.group_id = this.props.currGroup._id;
+        values.group_id = currGroup._id;
 
-        console.log('Received values of form: ', values);
-        this.setState({
-          visible: false,
-          tabelLoading: true
-        });
-        this.props.addProject(values).then((res) => {
+        changeTableLoading(true);
+        addProject(values).then((res) => {
           console.log(res);
           // 添加项目成功后再次请求列表
-          this.props.fetchProjectList(this.props.currGroup._id).then((res) => {
-            this.setState({
-              tabelLoading: false
+          if (res.payload.data.errcode == 0) {
+            that.setState({
+              visible: false
             });
-            console.log(117,res);
-          });
+            form.resetFields();
+            message.success('创建成功! ');
+            fetchProjectList(currGroup._id, this.props.currPage).then((res) => {
+              changeTableLoading(false);
+              console.log(131,res);
+            });
+          } else {
+            changeTableLoading(false);
+            message.error(res.payload.data.errmsg);
+          }
         }).catch((err) => {
           console.log(err);
-          this.setState({
-            tabelLoading: false
-          });
+          changeTableLoading(false);
         });
-        this.props.form.resetFields();
       }
     });
   }
 
   // 取消修改
-  handleCancel = () => {
+  @autobind
+  handleCancel() {
     this.props.form.resetFields();
     this.setState({
       visible: false
@@ -143,25 +164,33 @@ class ProjectList extends Component {
   }
 
   // 修改线上域名的协议类型 (http/https)
-  protocolChange = (value) => {
+  @autobind
+  protocolChange(value) {
     this.setState({
       protocol: value
     })
   }
 
-  componentWillReceiveProps(nextProps){
+  // 分页逻辑
+  @autobind
+  paginationChange(pageNum) {
+    this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
+      if (res.payload.data.errcode) {
+        message.error(res.payload.data.errmsg);
+      } else {
+        this.props.changeTableLoading(false);
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      // const param = {
-      //   group_id: nextProps.currGroup._id
-      // };
-      this.props.fetchProjectList(nextProps.currGroup._id).then((res) => {
+      this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
         if (res.payload.data.errcode) {
           message.error(res.payload.data.errmsg);
         } else {
-          this.setState({
-            tabelLoading: false
-          });
+          this.props.changeTableLoading(false);
         }
       });
     }
@@ -182,7 +211,7 @@ class ProjectList extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div className="m-container">
         <Modal
           title="创建项目"
           visible={this.state.visible}
@@ -230,7 +259,7 @@ class ProjectList extends Component {
 
             <FormItem
               {...formItemLayout}
-              label="URL"
+              label="基本路径"
             >
               {getFieldDecorator('basepath', {
                 rules: [{
@@ -255,11 +284,16 @@ class ProjectList extends Component {
             </FormItem>
           </Form>
         </Modal>
-
+        <UpDateModal/>
         <Table
-          loading={this.state.tabelLoading}
-          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList)}
+          loading={this.props.tableLoading}
+          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
           dataSource={this.state.projectData}
+          pagination={{
+            total: this.props.total * variable.PAGE_LIMIT,
+            defaultPageSize: variable.PAGE_LIMIT,
+            onChange: this.paginationChange
+          }}
           title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
 

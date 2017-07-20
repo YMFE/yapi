@@ -321,7 +321,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#51" target="_blank">./server/controllers/group.js:51</a>
+        <a href="./static/server/controllers/group.js.html#54" target="_blank">./server/controllers/group.js:54</a>
     </p>
     
     
@@ -383,7 +383,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#71" target="_blank">./server/controllers/group.js:71</a>
+        <a href="./static/server/controllers/group.js.html#74" target="_blank">./server/controllers/group.js:74</a>
     </p>
     
     
@@ -455,7 +455,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#102" target="_blank">./server/controllers/group.js:102</a>
+        <a href="./static/server/controllers/group.js.html#108" target="_blank">./server/controllers/group.js:108</a>
     </p>
     
     
@@ -906,7 +906,7 @@
             <tr>
                 <td>limit</td>
                 <td>Number</td>
-                <td>分页大小</td>
+                <td>分页大小,默认为10条</td>
                 <td>
                     
                 </td>
@@ -1235,7 +1235,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#15" target="_blank">./server/controllers/project.js:15</a>
+        <a href="./static/server/controllers/project.js.html#16" target="_blank">./server/controllers/project.js:16</a>
     </p>
     
     
@@ -1288,6 +1288,18 @@
                 <td>prd_host</td>
                 <td>String</td>
                 <td>项目线上域名，不能为空。可通过配置的域名访问到mock数据</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>protocol</td>
+                <td>String</td>
+                <td>线上域名协议，不能为空</td>
                 <td>
                     
                     <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
@@ -1364,7 +1376,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#77" target="_blank">./server/controllers/project.js:77</a>
+        <a href="./static/server/controllers/project.js.html#80" target="_blank">./server/controllers/project.js:80</a>
     </p>
     
     
@@ -1448,7 +1460,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#109" target="_blank">./server/controllers/project.js:109</a>
+        <a href="./static/server/controllers/project.js.html#112" target="_blank">./server/controllers/project.js:112</a>
     </p>
     
     
@@ -1532,7 +1544,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#142" target="_blank">./server/controllers/project.js:142</a>
+        <a href="./static/server/controllers/project.js.html#145" target="_blank">./server/controllers/project.js:145</a>
     </p>
     
     
@@ -1610,7 +1622,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#181" target="_blank">./server/controllers/project.js:181</a>
+        <a href="./static/server/controllers/project.js.html#173" target="_blank">./server/controllers/project.js:173</a>
     </p>
     
     
@@ -1693,7 +1705,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#205" target="_blank">./server/controllers/project.js:205</a>
+        <a href="./static/server/controllers/project.js.html#197" target="_blank">./server/controllers/project.js:197</a>
     </p>
     
     
@@ -1743,7 +1755,7 @@
             <tr>
                 <td>limit</td>
                 <td>Number</td>
-                <td>分页大小</td>
+                <td>每页数据条目，默认为10</td>
                 <td>
                     
                 </td>
@@ -1762,32 +1774,160 @@
         <span class="token string">"total"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
         <span class="token string">"list"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
             <span class="token punctuation">{</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">133</span><span class="token punctuation">,</span>
-                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a1"</span><span class="token punctuation">,</span>
-                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
-                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a1/"</span><span class="token punctuation">,</span>
-                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
-                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
-                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
-                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500004234</span><span class="token punctuation">,</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">529</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"yapi"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"aaa"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://www.yapi.com"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500465369</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500522419</span><span class="token punctuation">,</span>
                 <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
             <span class="token punctuation">}</span><span class="token punctuation">,</span>
             <span class="token punctuation">{</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">163</span><span class="token punctuation">,</span>
-                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"project_a2"</span><span class="token punctuation">,</span>
-                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"project.a2.cc"</span><span class="token punctuation">,</span>
-                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"/a2/"</span><span class="token punctuation">,</span>
-                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
-                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span>
-                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
-                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500006397</span><span class="token punctuation">,</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">558</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"12"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"21\n"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://11/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"12/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500466250</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500466250</span><span class="token punctuation">,</span>
                 <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-                <span class="token string">"env"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                <span class="token string">"members"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"101"</span><span class="token punctuation">]</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">626</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"1233"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"123"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://1234/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"1234/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500471230</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500471230</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">665</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"222"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"222"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://222/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"222/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500471668</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500471668</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">704</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"333"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"222333"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://333/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"333/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500471674</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500471674</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">743</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"444"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"444"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"https://444/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"444/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500471695</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500471695</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">763</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"122333"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"3/"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://33/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"33/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500481743</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500481743</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">778</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"555"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"555"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"https://555/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"555/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500519203</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500519203</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">823</span><span class="token punctuation">,</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"5"</span><span class="token punctuation">,</span>
+                <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"5"</span><span class="token punctuation">,</span>
+                <span class="token string">"prd_host"</span><span class="token punctuation">:</span> <span class="token string">"http://5/"</span><span class="token punctuation">,</span>
+                <span class="token string">"basepath"</span><span class="token punctuation">:</span> <span class="token string">"5/"</span><span class="token punctuation">,</span>
+                <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500519769</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500519769</span><span class="token punctuation">,</span>
+                <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"members"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"107"</span>
+                <span class="token punctuation">]</span>
             <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"userinfo"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token string">"107"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
+                <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
+                <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
+                <span class="token string">"role"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
+                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500280333</span><span class="token punctuation">,</span>
+                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500373530</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
@@ -1812,7 +1952,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#239" target="_blank">./server/controllers/project.js:239</a>
+        <a href="./static/server/controllers/project.js.html#244" target="_blank">./server/controllers/project.js:244</a>
     </p>
     
     
@@ -1884,7 +2024,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#272" target="_blank">./server/controllers/project.js:272</a>
+        <a href="./static/server/controllers/project.js.html#277" target="_blank">./server/controllers/project.js:277</a>
     </p>
     
     
@@ -2044,7 +2184,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#333" target="_blank">./server/controllers/project.js:333</a>
+        <a href="./static/server/controllers/project.js.html#351" target="_blank">./server/controllers/project.js:351</a>
     </p>
     
     

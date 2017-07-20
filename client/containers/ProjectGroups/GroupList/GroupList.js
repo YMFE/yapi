@@ -12,8 +12,7 @@ const TYPE_EDIT = 'edit';
 import {
   fetchGroupList,
   setCurrGroup,
-  addGroup,
-  fetchProjectList
+  setGroupList
 } from '../../../actions/group.js'
 
 import './GroupList.scss'
@@ -26,8 +25,7 @@ import './GroupList.scss'
   {
     fetchGroupList,
     setCurrGroup,
-    addGroup,
-    fetchProjectList
+    setGroupList
   }
 )
 export default class GroupList extends Component {
@@ -37,14 +35,17 @@ export default class GroupList extends Component {
     currGroup: PropTypes.object,
     fetchGroupList: PropTypes.func,
     setCurrGroup: PropTypes.func,
-    fetchProjectList: PropTypes.func
+    setGroupList: PropTypes.func
   }
 
   state = {
     addGroupModalVisible: false,
     editGroupModalVisible: false,
     newGroupName: '',
-    newGroupDesc: ''
+    newGroupDesc: '',
+    currGroupName: '',
+    currGroupDesc: '',
+    groupList: []
   }
 
   constructor(props) {
@@ -54,6 +55,7 @@ export default class GroupList extends Component {
   componentWillMount() {
     this.props.fetchGroupList().then(() => {
       const currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
+      this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(currGroup)
     });
   }
@@ -95,7 +97,9 @@ export default class GroupList extends Component {
         this.setState({
           addGroupModalVisible: false
         });
-        this.props.fetchGroupList()
+        this.props.fetchGroupList().then(() => {
+          this.setState({groupList: this.props.groupList});
+        })
         this.props.setCurrGroup(res.data.data)
       }
     });
@@ -154,6 +158,7 @@ export default class GroupList extends Component {
             message.success('删除成功');
             self.props.fetchGroupList().then(() => {
               const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
+              self.setState({groupList: self.props.groupList});
               self.props.setCurrGroup(currGroup)
             });
           }
@@ -162,8 +167,19 @@ export default class GroupList extends Component {
     });
   }
 
+  @autobind
+  searchGroup(e, value) {
+    const v = value || e.target.value;
+    const { groupList } = this.props;
+    if (v === '') {
+      this.setState({groupList})
+    } else {
+      this.setState({groupList: groupList.filter(group => new RegExp(v, 'i').test(group.group_name))})
+    }
+  }
+
   render () {
-    const { groupList, currGroup } = this.props;
+    const { currGroup } = this.props;
 
     return (
       <div>
@@ -178,10 +194,7 @@ export default class GroupList extends Component {
           </div>
           <div className="group-operate">
             <div className="search">
-              <Search
-                placeholder="input search text"
-                onSearch={value => console.log(value)}
-              />
+              <Search onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)}/>
             </div>
             <Button type="primary" onClick={this.showModal}>添加分组</Button>
           </div>
@@ -192,7 +205,7 @@ export default class GroupList extends Component {
             selectedKeys={[`${currGroup._id}`]}
           >
             {
-              groupList.map((group) => (
+              this.state.groupList.map((group) => (
                 <Menu.Item key={`${group._id}`} className="group-item">
                   <Icon type="folder-open" />{group.group_name}
                 </Menu.Item>

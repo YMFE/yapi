@@ -1,10 +1,10 @@
-import './login.scss'
+import './Login.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Tabs } from 'antd';
-import LoginForm from './login';
-import RegForm from './reg';
+import LoginForm from './Login';
+import RegForm from './Reg';
 const TabPane = Tabs.TabPane;
 
 
