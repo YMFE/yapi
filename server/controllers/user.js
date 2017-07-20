@@ -291,7 +291,7 @@ class userController extends baseController {
      * @category user
      * @foldnumber 10
      * @param {Number} [page] 分页页码
-     * @param {Number} [limit] 分页大小
+     * @param {Number} [limit] 分页大小,默认为10条
      * @returns {Object} 
      * @example 
      */
