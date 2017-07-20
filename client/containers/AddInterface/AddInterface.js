@@ -75,22 +75,22 @@ class AddInterface extends Component {
     const TabPane = Tabs.TabPane
 
     return (
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="接口详情" key="1">
-          <section className="add-interface-box">
-            <div className="content">
+      <section className="add-interface-box">
+        <div className="content">
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="接口详情" key="1">
               <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
               <ReqMethod />
               <ReqHeader />
               <ReqParams />
               <ResParams />
               <Result />
-            </div>
-          </section>
-        </TabPane>
-        <TabPane tab="Mock" key="2">mock</TabPane>
-        <TabPane tab="测试" key="3">测试</TabPane>
-      </Tabs>
+            </TabPane>
+            <TabPane tab="Mock" key="2">mock</TabPane>
+            <TabPane tab="测试" key="3">测试</TabPane>
+          </Tabs>
+        </div>
+      </section>
     )
   }
 }
