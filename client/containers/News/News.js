@@ -4,7 +4,7 @@ import NewsTimeline from './NewsTimeline/NewsTimeline'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import NewsList from './NewsList/NewsList.js'
-import { fetchNotVieweNews } from '../../actions/news.js'
+import { fetchNewsData } from '../../actions/news.js'
 
 
 @connect(
@@ -14,27 +14,35 @@ import { fetchNotVieweNews } from '../../actions/news.js'
     }
   },
   {
-    fetchNotVieweNews: fetchNotVieweNews
+    fetchNewsData: fetchNewsData
   }
 )
 
 class News extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      loading: false
+    }
   }
   static propTypes = {
-    newsData: PropTypes.array,
-    fetchNotVieweNews: PropTypes.func
+    newsData: PropTypes.object,
+    fetchNewsData: PropTypes.func
+  }
+  setLoading(bool){
+    this.setState({
+      loading: bool
+    })
   }
   componentWillMount(){
-    this.props.fetchNotVieweNews()
+    this.props.fetchNewsData()
   }
   render () {
     const data = this.props.newsData
     return (
       <section className="news-box">
-        <NewsList />
-        <NewsTimeline newsData = {data} />
+        <NewsList loading={this.state.loading} setLoading={this.setLoading.bind(this)} />
+        <NewsTimeline loading={this.state.loading} setLoading={this.setLoading.bind(this)} newsData = {data} />
       </section>
     )
   }

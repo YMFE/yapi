@@ -35,7 +35,7 @@ module.exports = function () {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _yapi2.default.commons.log('mock Server running...');
-                        hostname = ctx.protocol + "://" + ctx.hostname;
+                        hostname = ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
 
                         if (!(ctx.hostname === config.webhost)) {

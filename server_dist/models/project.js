@@ -51,13 +51,14 @@ var projectModel = function (_baseModel) {
                 name: { type: String, required: true },
                 basepath: { type: String, required: true, validate: {
                         validator: function validator(v) {
-                            return v && v[v.length - 1] === '/';
+                            return v && v[0] === '/';
                         },
-                        message: 'basepath字符串结尾必须是/'
+                        message: 'basepath必须是/开头'
                     } },
                 desc: String,
                 group_id: { type: Number, required: true },
                 members: Array,
+                protocol: { type: String, required: true },
                 prd_host: { type: String, required: true },
                 env: [{ name: String, domain: String }],
                 add_time: Number,
