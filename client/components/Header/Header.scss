@@ -7,18 +7,12 @@ $color-black-light : #404040;
 /* .header-box.css */
 .header-box {
   display: block;
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // right: 0;
-  //line-height: .64rem;
   font-size: 0.14rem;
   color: $color-white;
-  z-index: 9999;
-
+  z-index: 99;
   // 内容宽度
   .content {
-    max-width: 10.3rem;
+    max-width: 11rem;
     margin: 0 auto;
     zoom: 1;
     overflow: hidden;
@@ -43,7 +37,6 @@ $color-black-light : #404040;
 
   .nav-toolbar {
     font-size: .15rem;
-    box-sizing: border-box;
     float: left;
   }
 
@@ -63,9 +56,21 @@ $color-black-light : #404040;
       }
       &:hover{
         color: $color-blue;
+        a{
+          color: $color-blue;
+        }
+      }
+      a{
+        color: $color-white;
+        &:hover{
+          color: $color-blue;
+        }
+        &:focus{
+          text-decoration: none;
+        }
       }
       i{
-        margin-right: .09rem;
+        margin-right: .03rem;
       }
     }
   }

@@ -48,13 +48,13 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _user = require('../models/user.js');
-
-var _user2 = _interopRequireDefault(_user);
-
 var _group = require('../models/group');
 
 var _group2 = _interopRequireDefault(_group);
+
+var _commons = require('../utils/commons.js');
+
+var _commons2 = _interopRequireDefault(_commons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -201,7 +201,7 @@ var projectController = function (_baseController) {
             return add;
         }()
         /**
-        * 添加项目成员
+        * 添加项目
         * @interface /project/add_member
         * @method POST
         * @category project
@@ -285,7 +285,7 @@ var projectController = function (_baseController) {
             return addMember;
         }()
         /**
-        * 删除项目成员
+        * 添加项目
         * @interface /project/del_member
         * @method POST
         * @category project
@@ -371,7 +371,7 @@ var projectController = function (_baseController) {
 
         /**
          * 获取项目成员列表
-         * @interface /project/get_member_list.json
+         * @interface /project/get_member_list
          * @method GET
          * @category project
          * @foldnumber 10
@@ -406,7 +406,7 @@ var projectController = function (_baseController) {
 
                             case 6:
                                 project = _context4.sent;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = _yapi2.default.getInst(userModel);
                                 result = [];
                                 _iteratorNormalCompletion = true;
                                 _didIteratorError = false;
@@ -427,7 +427,13 @@ var projectController = function (_baseController) {
                             case 18:
                                 user = _context4.sent;
 
-                                result.push(user);
+                                result.push({
+                                    _id: user._id,
+                                    email: user.email,
+                                    role: user.role,
+                                    add_time: user.add_time,
+                                    up_time: user.up_time
+                                });
 
                             case 20:
                                 _iteratorNormalCompletion = true;
@@ -564,6 +570,8 @@ var projectController = function (_baseController) {
          * @category project
          * @foldnumber 10
          * @param {Number} group_id 项目group_id，不能为空
+         * @param {Number} [page] 分页页码
+         * @param {Number} [limit] 分页大小
          * @returns {Object} 
          * @example ./api/project/list.json
          */
@@ -572,12 +580,12 @@ var projectController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var group_id, result;
+                var group_id, page, limit, result, count;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
-                                group_id = ctx.request.query.group_id;
+                                group_id = ctx.request.query.group_id, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
 
                                 if (group_id) {
                                     _context6.next = 3;
@@ -589,27 +597,35 @@ var projectController = function (_baseController) {
                             case 3:
                                 _context6.prev = 3;
                                 _context6.next = 6;
-                                return this.Model.list(group_id);
+                                return this.Model.listWithPaging(group_id, page, limit);
 
                             case 6:
                                 result = _context6.sent;
+                                _context6.next = 9;
+                                return this.Model.listCount(group_id);
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 13;
+                            case 9:
+                                count = _context6.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn({
+                                    total: Math.ceil(count / limit),
+                                    list: result
+                                });
+                                _context6.next = 16;
                                 break;
 
-                            case 10:
-                                _context6.prev = 10;
+                            case 13:
+                                _context6.prev = 13;
                                 _context6.t0 = _context6['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
 
-                            case 13:
+                            case 16:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[3, 10]]);
+                }, _callee6, this, [[3, 13]]);
             }));
 
             function list(_x6) {
@@ -713,7 +729,7 @@ var projectController = function (_baseController) {
         /**
          * 编辑项目
          * @interface /project/up
-         * @method GET
+         * @method POST
          * @category project
          * @foldnumber 10
          * @param {Number} id 项目id，不能为空
@@ -852,7 +868,7 @@ var projectController = function (_baseController) {
         key: 'search',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var q, queryList;
+                var q, projectList, groupList, projectRules, groupRules, queryList;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
@@ -879,19 +895,26 @@ var projectController = function (_baseController) {
                                 return this.Model.search(q);
 
                             case 7:
-                                _context9.t0 = _context9.sent;
+                                projectList = _context9.sent;
                                 _context9.next = 10;
                                 return this.groupModel.search(q);
 
                             case 10:
-                                _context9.t1 = _context9.sent;
-                                queryList = {
-                                    project: _context9.t0,
-                                    group: _context9.t1
-                                };
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 200, 'ok'));
+                                groupList = _context9.sent;
+                                projectRules = ['_id', 'name', 'basepath', 'uid', 'env', 'members', { key: 'group_id', alias: 'groupId' }, { key: 'up_time', alias: 'upTime' }, { key: 'prd_host', alias: 'prdHost' }, { key: 'add_time', alias: 'addTime' }];
+                                groupRules = ['_id', 'uid', { key: 'group_name', alias: 'groupName' }, { key: 'group_desc', alias: 'groupDesc' }, { key: 'add_time', alias: 'addTime' }, { key: 'up_time', alias: 'upTime' }];
 
-                            case 13:
+
+                                projectList = _commons2.default.filterRes(projectList, projectRules);
+                                groupList = _commons2.default.filterRes(groupList, groupRules);
+
+                                queryList = {
+                                    project: projectList,
+                                    group: groupList
+                                };
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 0, 'ok'));
+
+                            case 17:
                             case 'end':
                                 return _context9.stop();
                         }
