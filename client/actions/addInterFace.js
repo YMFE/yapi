@@ -4,10 +4,11 @@ import {
   FETCH_ADD_INTERFACE_HEADER_VALUE,
   ADD_INTERFACE_SEQ_HEADER,
   DELETE_INTERFACE_SEQ_HEADER,
-  ADD_INTERFACE_REQ_PARAMS,
-  DELETE_INTERFACE_REQ_PARAMS,
-  ADD_INTERFACE_RES_PARAMS,
-  DELETE_INTERFACE_RES_PARAMS
+  GET_INTERFACE_REQ_PARAMS,
+  GET_INTERFACE_RES_PARAMS,
+  SAVE_INTERFACE_FORMS
+  // ADD_INTERFACE_RES_PARAMS,
+  // DELETE_INTERFACE_RES_PARAMS
 } from '../constants/action-types.js'
 
 export function pushInputValue (value) {
@@ -45,31 +46,45 @@ export function deleteReqHeader (value) {
   };
 }
 
-export function addReqParams (value) {
+export function getReqParams (value) {
   return {
-    type: ADD_INTERFACE_REQ_PARAMS,
+    type: GET_INTERFACE_REQ_PARAMS,
     payload: value
   };
 }
 
-export function deleteReqParams (value) {
+export function getResParams (value) {
   return {
-    type: DELETE_INTERFACE_REQ_PARAMS,
+    type: GET_INTERFACE_RES_PARAMS,
     payload: value
   };
 }
 
-export function addResParams (value) {
+export function saveForms (value) {
   return {
-    type: ADD_INTERFACE_RES_PARAMS,
+    type: SAVE_INTERFACE_FORMS,
     payload: value
   };
 }
 
-export function deleteResParams (value) {
-  return {
-    type: DELETE_INTERFACE_RES_PARAMS,
-    payload: value
-  };
-}
+// export function deleteReqParams (value) {
+//   return {
+//     type: DELETE_INTERFACE_REQ_PARAMS,
+//     payload: value
+//   };
+// }
+
+// export function addResParams (value) {
+//   return {
+//     type: ADD_INTERFACE_RES_PARAMS,
+//     payload: value
+//   };
+// }
+
+// export function deleteResParams (value) {
+//   return {
+//     type: DELETE_INTERFACE_RES_PARAMS,
+//     payload: value
+//   };
+// }
 

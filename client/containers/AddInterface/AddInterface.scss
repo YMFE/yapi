@@ -89,29 +89,9 @@
     /* .req-params.css */
     .req-params {
       display: -webkit-box;
-      line-height: 32px;
       padding: 20px 0 0 0;
-      border-top: 1px #EEE solid;
       margin: 20px 0 0 0;
-
-      ul {
-        -webkit-box-flex: 1;
-        margin: 0 0 0 24px;
-
-        li {
-          display: -webkit-box;
-          margin: 0 0 10px 0;
-        }
-
-        .required {
-          margin: 0 10px 0 20px;
-        }
-
-        .title {
-          margin: 0 10px;
-          display: block;
-        }
-      }
+      border-top: 1px #EEE solid;
     }
 
     /* .req-save.css */
@@ -147,19 +127,76 @@
       padding: 20px 0 0 0;
       border-top: 1px #EEE solid;
       margin: 20px 0 0 0;
+
+      textarea {
+        width: 100%;
+        border: 1px #CCC solid;
+        height: 200px;
+      }
       
       .ant-tabs {
         -webkit-box-flex: 1;
       }
-
-      textarea {
-        width: 100%;
-        border: 1px #DDD solid;
-        border-radius: 3px;
-        padding: 10px;
-        font-size: .14rem;
-        height: 150px;
-      }
     }
   }
+}
+
+#container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+body {
+  .w-e-text {
+    p, h1, h2, h3, h4, h5, table, pre {
+      line-height: auto;
+      margin: 0;
+      font-size: .14rem;
+      color: #777;
+      font-family: 'Microsoft Yahei';
+      font-weight: normal;
+    }
+  }
+  .w-e-toolbar {
+    // display: none;
+    height: 1px;
+    overflow: hidden;
+    border: none;
+  }
+  .w-e-text {
+    padding: 15px;
+  }
+}
+#toolbar-container {
+  border: 1px solid #EEE;
+  background-color: #fff;
+}
+#toolbar-container:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+#editor-toolbar {
+  float: left;
+}
+#btn-container {
+  float: right;
+  text-align: right;
+}
+#editor-text {
+  border: 1px solid #EEE;
+  border-top: 0;
+  height: 300px;
+  background-color: #fff;
+}
+#req-cover {
+  height: 330px;
+  padding: 0 20px;
+  background-color: #FFF;
+  -webkit-box-flex: 1;
+}
+#res-cover {
+  height: 330px;
+  padding: 0 20px;
+  background-color: #FFF;
+  -webkit-box-flex: 1;
 }

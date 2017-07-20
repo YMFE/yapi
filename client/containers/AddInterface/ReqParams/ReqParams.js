@@ -1,21 +1,9 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ParamsList from './ParamsList.js'
-import { autobind } from 'core-decorators'
-import { 
-  addReqParams
-} from '../../../actions/addInterface.js'
-
-// 重新渲染页面
-const getReqList = function (self) {
-  const [reqList, reqParams] = [[], self.props.reqParams]
-  reqParams.map((value, key) => {
-    reqList.push(<ParamsList key={key} dataNum={value.id} />)
-  })
-  return reqList
-}
+// import { autobind } from 'core-decorators'
+import wangEditor from 'wangeditor'
+import { getReqParams } from '../../../actions/addInterface.js'
 
 @connect(
   state => {
@@ -24,48 +12,39 @@ const getReqList = function (self) {
     }
   },
   {
-    addReqParams
+    getReqParams
   }
 )
 
 class ReqParams extends Component {
   static propTypes = {
-    addReqParams: PropTypes.func,
-    reqParams: PropTypes.array
+    reqParams: PropTypes.string,
+    getReqParams: PropTypes.func
   }
 
   constructor(props) {
     super(props)
   }
 
-  @autobind
-  addSeqParams () {
-    console.log(1)
-    let newSeqParams= []
-    let reqParams = this.props.reqParams
-    let id = reqParams[reqParams.length-1].id
-    let list = {
-      id: ++id,
-      paramsName: '',
-      describe: ''
+  componentDidMount () {
+    const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
+    const E = wangEditor
+    const editor = new E('#req-cover')
+    editor.customConfig.menus = []
+    editor.customConfig.onchange = html => {
+      html = html.replace(reg, '')
+      this.props.getReqParams(html)
     }
-    reqParams.push(list)
-    newSeqParams.push(...reqParams)
-    console.log(newSeqParams)
-    this.props.addReqParams(newSeqParams)
+    editor.create()
   }
-
+  
   render () {
     return (
       <section>
         <div className="req-params">
           <strong className="req-h3">请求参数 :</strong>
-          <ul>
-            { getReqList(this) }
-          </ul>
+          <div id="req-cover"></div>
         </div>
-
-        <Button type="primary" className="req-save" onClick={this.addSeqParams}>添加</Button>
       </section>
     )
   }
