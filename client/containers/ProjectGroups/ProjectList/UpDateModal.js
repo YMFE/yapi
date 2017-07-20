@@ -159,7 +159,7 @@ class UpDateModal extends Component {
     // const that = this;
     const { isUpdateModalShow, projectList, handleUpdateIndex } = this.props;
     let initFormValues = {};
-    let envMessage = [{name:'name1',host:'host1'}, {name:'name2',host:'host2'}];
+    let envMessage = [];
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
     if (projectList.length !== 0 && handleUpdateIndex !== -1 ) {
       // console.log(projectList[handleUpdateIndex]);
