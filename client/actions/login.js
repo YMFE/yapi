@@ -24,7 +24,6 @@ const loginActions = (data) => {
             data: res
           }
         });
-        location.reload()
       } else {
         console.log('登录失败,errcode不为0');
       }
