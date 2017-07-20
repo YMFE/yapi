@@ -36,6 +36,7 @@ export const REGISTER = 'REGISTER';                         // 注册
 //header
 export const LOGIN_TYPE = 'LOGIN_TYPE';
 export const LOGIN_OUT = 'LOGIN_OUT';
+export const CHANGE_MENU_ITEM = 'CHANGE_MENU_ITEM';
 
 //  News
 export const FETCH_NEWS_DATA = 'FETCH_NEWS_DATA';

@@ -32,9 +32,9 @@ var _project = require('./controllers/project.js');
 
 var _project2 = _interopRequireDefault(_project);
 
-var _node = require('./controllers/node.js');
+var _log = require('./controllers/log.js');
 
-var _node2 = _interopRequireDefault(_node);
+var _log2 = _interopRequireDefault(_log);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,9 +57,9 @@ var INTERFACE_CONFIG = {
         prefix: '/project/',
         controller: _project2.default
     },
-    node: {
-        prefix: '/node/',
-        controller: _node2.default
+    log: {
+        prefix: '/log/',
+        controller: _log2.default
     }
 };
 
@@ -101,11 +101,7 @@ createAction('interface', 'up', 'post', 'up');
 createAction('interface', 'del', 'post', 'del');
 
 //node
-createAction('node', 'add', 'post', 'add');
-createAction('node', 'get', 'get', 'get');
-createAction('node', 'list', 'get', 'list');
-createAction('node', 'del', 'post', 'del');
-createAction('node', 'up', 'post', 'up');
+createAction('log', 'list', 'get', 'list');
 
 /**
  *

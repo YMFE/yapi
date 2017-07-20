@@ -25,6 +25,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: true,
+        uid: action.payload.data.uid,
         userName: action.payload.data.userName
       };
     }
