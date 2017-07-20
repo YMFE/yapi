@@ -174,8 +174,9 @@ class UpDateModal extends Component {
           return item.host + ',' + item.name;
         })
       }
-      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host.split('\/\/')[1];
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].prd_host.split('\/\/')[0] + '\/\/';
+      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
+      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\/\/';
+      console.log(projectList);
     }
 
     getFieldDecorator('envs', { initialValue: envMessage });

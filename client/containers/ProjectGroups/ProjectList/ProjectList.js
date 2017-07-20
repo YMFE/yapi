@@ -14,22 +14,28 @@ const Option = Select.Option;
 
 import './ProjectList.scss'
 
-// 确认删除项目
-const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
-  const test = () => {
-    handleDelete(id).then((res) => {
+// 确认删除项目 handleDelete, currGroup._id, fetchProjectList
+const deleteConfirm = (id, props) => {
+  const { delProject, currGroup, fetchProjectList } = props;
+  const handle = () => {
+    delProject(id).then((res) => {
       console.log(res);
-      console.log(handleFetchList, currGroupId);
-      handleFetchList(currGroupId).then((res) => {
-        console.log(res);
-      });
+      console.log(fetchProjectList, currGroup._id);
+      if (res.payload.data.errcode == 0) {
+        message.success('删除成功!')
+        fetchProjectList(currGroup._id).then((res) => {
+          console.log(res);
+        });
+      } else {
+        message.error(res.payload.data.errmsg);
+      }
     });
   }
-  return test;
+  return handle;
 };
 
 const getColumns = (data, props) => {
-  const { handleDelete, currGroup, fetchProjectList, changeUpdateModal, userInfo } = props;
+  const { changeUpdateModal, userInfo } = props;
   return [{
     title: '项目名称',
     dataIndex: 'name',
@@ -44,7 +50,7 @@ const getColumns = (data, props) => {
     render: (text, record, index) => {
       // data是projectList的列表值
       // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
-      return <span>{userInfo[data[index].uid].username}</span>;
+      return <span>{userInfo[data[index].uid] ? userInfo[data[index].uid].username : ''}</span>;
     }
   }, {
     title: '创建时间',
@@ -60,7 +66,7 @@ const getColumns = (data, props) => {
         <span>
           <a onClick={() => changeUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroup._id, fetchProjectList)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="删除" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
