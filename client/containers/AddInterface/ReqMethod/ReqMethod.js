@@ -2,25 +2,31 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Select, Input } from 'antd'
+import { autobind } from 'core-decorators'
 import { 
-  pushInputValue
+  pushInputValue,
+  pushInterfaceName
 } from '../../../actions/addInterface.js'
 
 @connect(
   state => {
     return {
-      reqInputVal: state.addInterface.inputValue
+      reqInputVal: state.addInterface.inputValue,
+      interfaceName: state.addInterface.interfaceName
     }
   },
   {
-    pushInputValue
+    pushInputValue,
+    pushInterfaceName
   }
 )
 
 class ReqMethod extends Component {
   static propTypes = {
     pushInputValue: PropTypes.func,
-    inputValue: PropTypes.string
+    pushInterfaceName: PropTypes.func,
+    inputValue: PropTypes.string,
+    interfaceName: PropTypes.string
   }
 
   constructor(props) {
@@ -31,15 +37,23 @@ class ReqMethod extends Component {
     console.log(`selected ${value}`)
   }
 
+  @autobind
   getInputVal (e) {
     const inputVal = e.target.value
+    console.log(this.props.pushInputValue)
     this.props.pushInputValue(inputVal)
+  }
+
+  @autobind
+  getInterfaceValue () {
+    // const name = e.target.value
+    console.log(this.props.pushInterfaceName)
+    // this.props.pushInterfaceName(name)
   }
 
   render () {
     const { Option } = Select
-    const getInputVal = this.getInputVal.bind(this)
-
+    console.log(this.props.interfaceName)
     return (
       <table>
         <tbody>
@@ -62,7 +76,11 @@ class ReqMethod extends Component {
           </tr>
           <tr>
             <th>URL :</th>
-            <td><Input placeholder="Basic usage" className="url" size="large" onBlur={getInputVal} /></td>
+            <td><Input placeholder="填写 URL" className="url" size="large" onBlur={this.getInputVal} /></td>
+          </tr>
+          <tr>
+            <th>名称 :</th>
+            <td><Input placeholder="接口名称" className="url" size="large" onBlur={this.getInterfaceValue} /></td>
           </tr>
         </tbody>
       </table>

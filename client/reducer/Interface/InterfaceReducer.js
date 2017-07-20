@@ -6,7 +6,8 @@ import {
 
 const initialState = {
   interfaceData: null,
-  modalVisible: false
+  modalVisible: false,
+  interfaceName: ''
 }
 
 export default (state = initialState, action) => {

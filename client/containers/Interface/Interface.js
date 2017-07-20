@@ -42,9 +42,12 @@ class Interface extends Component {
   }
 
   componentWillMount () {
+    // 558 665 704 743
     this.props.fetchInterfaceData()
     const params = {
-      project_id: 8
+      params: {
+        project_id: 558
+      }
     }
 
     axios.get('/interface/list', params)

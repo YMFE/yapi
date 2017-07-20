@@ -6,9 +6,8 @@ import {
   DELETE_INTERFACE_SEQ_HEADER,
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
-  SAVE_INTERFACE_FORMS
-  // ADD_INTERFACE_RES_PARAMS,
-  // DELETE_INTERFACE_RES_PARAMS
+  SAVE_INTERFACE_FORMS,
+  PUSH_INTERFACE_NAME
 } from '../../constants/action-types.js'
 
 const initialState = {
@@ -69,16 +68,11 @@ export default (state = initialState, action) => {
         ...state,
         resParams: action.payload
       }
-    // case ADD_INTERFACE_RES_PARAMS:
-    //   return {
-    //     ...state,
-    //     reqParams: action.payload
-    //   }
-    // case DELETE_INTERFACE_RES_PARAMS:
-    //   return {
-    //     ...state,
-    //     reqParams: action.payload
-    //   }
+    case PUSH_INTERFACE_NAME:
+      return {
+        ...state,
+        resParams: action.payload
+      }
     default:
       return state
   }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Button } from 'antd'
+import { Button, Tabs } from 'antd'
 import ReqMethod from './ReqMethod/ReqMethod.js'
 import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
@@ -52,10 +52,11 @@ class AddInterface extends Component {
       method: 'POST',
       params: {
         method: 'POST',
-        project_id: 8,
+        project_id: 558,
         req_headers: [],
         req_params_type: 'json',
-        req_params: this.props.reqParams
+        req_params: this.props.reqParams,
+        title: '接口文档1'
       }
     }
 
@@ -71,17 +72,25 @@ class AddInterface extends Component {
   }
 
   render () {
+    const TabPane = Tabs.TabPane
+
     return (
-      <section className="add-interface-box">
-        <div className="content">
-          <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
-          <ReqMethod />
-          <ReqHeader />
-          <ReqParams />
-          <ResParams />
-          <Result />
-        </div>
-      </section>
+      <Tabs defaultActiveKey="1">
+        <TabPane tab="Tab 1" key="1">
+          <section className="add-interface-box">
+            <div className="content">
+              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
+              <ReqMethod />
+              <ReqHeader />
+              <ReqParams />
+              <ResParams />
+              <Result />
+            </div>
+          </section>
+        </TabPane>
+        <TabPane tab="Tab 2" key="2">mock</TabPane>
+        <TabPane tab="Tab 3" key="3">测试</TabPane>
+      </Tabs>
     )
   }
 }
