@@ -5,6 +5,7 @@ import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, m
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 import UpDateModal from './UpDateModal';
 import variable from '../../../constants/variable';
+import common from '../../../common';
 import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -38,7 +39,8 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpda
   }, {
     title: '创建时间',
     dataIndex: 'add_time',
-    key: 'add_time'
+    key: 'add_time',
+    render: time => <span>{common.formatTime(time)}</span>
   }, {
     title: '操作',
     key: 'action',
