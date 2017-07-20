@@ -88,6 +88,13 @@ var userModel = function (_baseModel) {
             return this.model.find().select("_id username email role  add_time up_time").exec(); //显示id name email role 
         }
     }, {
+        key: 'findByUids',
+        value: function findByUids(uids) {
+            return this.model.find({
+                _id: { $in: [107] }
+            }).select("_id username email role  add_time up_time").exec();
+        }
+    }, {
         key: 'listWithPaging',
         value: function listWithPaging(page, limit) {
             page = parseInt(page);

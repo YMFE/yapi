@@ -10,27 +10,39 @@ import {
 } from 'antd'
 import axios from 'axios';
 
+const limit = 10;
+
 class List extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      data: []
+      data: [],
+      total: null,
+      current: 1
     }
   }
 
-  getUserList() {
-    axios.get('/user/list').then((res) => {
-      let result = res.data;
+  changePage =(current)=>{
+    this.setState({
+      current: current
+    }, this.getUserList)
+  }
 
+  getUserList() {
+    axios.get('/user/list?page=' + this.state.current).then((res) => {
+      let result = res.data;
+      
       if (result.errcode === 0) {
         let list = result.data.list;
+        let total = result.data.total * limit;
         list.map((item, index) => {
           item.key = index;
           item.up_time = formatTime(item.up_time)
         })
         this.setState({
-          data: list
+          data: list,
+          total: total
         });
       }
     })
@@ -106,10 +118,17 @@ class List extends Component {
       return true;
     } )
 
+    const pageConfig = {
+      total: this.state.total,
+      pageSize: limit,
+      current: this.state.current,
+      onChange: this.changePage
+    }
+
     return (
       <section className="user-table">
 
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} pagination={pageConfig} dataSource={data} />
 
       </section>
     )

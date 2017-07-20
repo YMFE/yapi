@@ -4,6 +4,7 @@ import baseController from './base.js'
 import interfaceModel from '../models/interface.js'
 import groupModel from '../models/group'
 import commons from '../utils/commons.js'
+import userModel from '../models/user.js'
 
 class projectController extends baseController {
 
@@ -11,6 +12,32 @@ class projectController extends baseController {
         super(ctx)
         this.Model = yapi.getInst(projectModel);
         this.groupModel = yapi.getInst(groupModel);
+    }
+
+    handleBasepath(basepath){
+        if(!basepath) return false;
+        if(basepath[0] !== '/') basepath = '/' + basepath;
+        if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
+        if(!this.verifyPath(basepath)){
+            return false;
+        }
+        return basepath;
+    }
+
+    verifyPath(path){
+        if(/^[a-zA-Z0-9\-\/_:]+$/.test(basepath)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    verifyDomain(domain){
+        if(!domain) return false;
+        if(/^[a-zA-Z0-9\-_\.]+[a-zA-Z]{2,6}$/.test(domain)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -22,6 +49,7 @@ class projectController extends baseController {
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
      * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
+     * @param {String} protocol 线上域名协议，不能为空
      * @param {Number} group_id 项目分组id，不能为空
      * @param  {String} [desc] 项目描述 
      * @returns {Object} 
@@ -50,16 +78,26 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
 
+        if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+            return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+        }
+
+        if(!this.verifyDomain(params.prd_host)){
+            return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+        }
+
         let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
         if(checkRepeatDomain > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
+
         
         let data = {
             name: params.name,
             desc: params.desc,
             prd_host: params.prd_host,
             basepath: params.basepath,
+            protocol: params.protocol || 'http',
             members: [this.getUid()],
             uid: this.getUid(),
             group_id: params.group_id,
@@ -160,18 +198,7 @@ class projectController extends baseController {
         try {
             let project = await this.Model.get(params.id);
             let userInst = yapi.getInst(userModel);
-            let result = [];
-
-            for(let i of project.members) {
-                let user = await userInst.findById(i);
-                result.push({
-                    _id: user._id,
-                    email: user.email,
-                    role: user.role,
-                    add_time: user.add_time,
-                    up_time: user.up_time
-                });
-            }
+            let result = await userInst.findByUids(project.members);
 
             ctx.body = yapi.commons.resReturn(result);
         } catch(e) {
@@ -211,7 +238,7 @@ class projectController extends baseController {
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
      * @param {Number} [page] 分页页码
-     * @param {Number} [limit] 分页大小
+     * @param {Number} [limit] 每页数据条目，默认为10
      * @returns {Object} 
      * @example ./api/project/list.json
      */
@@ -227,10 +254,23 @@ class projectController extends baseController {
 
         try{
             let result = await this.Model.listWithPaging(group_id, page, limit);
-            let count = await this.Model.listCount();
+            let count = await this.Model.listCount(group_id);
+            let uids = [];
+            result.forEach( (item)=> {
+                if(uids.indexOf(item.uid) !== -1){
+                    uids.push(item.uid)
+                }
+                
+            } )
+
+            let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
+            users.forEach((item)=> {
+                _users[item._id] = item;
+            } )
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
-                list: result
+                list: result,
+                userinfo: _users
             })
         }catch(err){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
@@ -292,9 +332,30 @@ class projectController extends baseController {
         try{            
             let id = ctx.request.body.id;
             let params = ctx.request.body;
+            if(!id){
+                return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+            }
 
             if(await this.jungeMemberAuth(id, this.getUid()) !== true){
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+            }
+            
+            let projectData = await this.Model.get(id);
+
+            if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+                return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+            }
+
+            if(!this.verifyDomain(params.prd_host)){
+                return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+            }
+            
+            if(projectData.name === params.name){
+                delete params.name;
+            }
+            if(projectData.basepath === params.basepath && projectData.prd_host === params.prd_host){
+                delete params.basepath
+                delete params.prd_host
             }
 
             if(params.name){
@@ -322,6 +383,7 @@ class projectController extends baseController {
                 data.prd_host = params.prd_host;
                 data.basepath = params.basepath;
             }
+            if(params.protocol) data.protocol = params.protocol;
             if(params.env) data.env = params.env;
 
             let result = await this.Model.up(id, data);
