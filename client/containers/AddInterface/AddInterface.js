@@ -15,7 +15,8 @@ import { saveForms } from '../../actions/addInterface.js'
 @connect(
   state => {
     return {
-      reqParams: state.addInterface.reqParams
+      reqParams: state.addInterface.reqParams,
+      methode: state.addInterface.method
     }
   },
   {
@@ -26,6 +27,7 @@ import { saveForms } from '../../actions/addInterface.js'
 class AddInterface extends Component {
   static propTypes = {
     reqParams: PropTypes.string,
+    methode: PropTypes.string,
     saveForms: PropTypes.func
   }
 
@@ -63,12 +65,11 @@ class AddInterface extends Component {
     axios.post('/interface/add', params)
       .then(data => {
         console.log(data)
+        console.log(this.props.methode)
       })
       .catch(e => {
         console.log(e)
       })
-
-    console.log(this.props.reqParams)
   }
 
   render () {
