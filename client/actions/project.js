@@ -37,10 +37,11 @@ const changeTableLoading = (data) => {
 };
 
 const addProject = (data) => {
-  const { name, prd_host, basepath, desc, group_id } = data;
+  const { name, prd_host, basepath, desc, group_id, protocol } = data;
   const param = {
     name,
     prd_host,
+    protocol,
     basepath,
     desc,
     group_id
@@ -53,10 +54,11 @@ const addProject = (data) => {
 };
 
 const updateProject = (data) => {
-  const { name, prd_host, basepath, desc, _id } = data;
+  const { name, prd_host, basepath, desc, _id, protocol } = data;
   const param = {
     name,
     prd_host,
+    protocol,
     basepath,
     desc,
     id: _id
