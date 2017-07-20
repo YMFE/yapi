@@ -6,7 +6,8 @@ import {
   DELETE_INTERFACE_SEQ_HEADER,
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
-  SAVE_INTERFACE_FORMS
+  SAVE_INTERFACE_FORMS,
+  PUSH_INTERFACE_NAME
   // ADD_INTERFACE_RES_PARAMS,
   // DELETE_INTERFACE_RES_PARAMS
 } from '../constants/action-types.js'
@@ -67,24 +68,12 @@ export function saveForms (value) {
   };
 }
 
-// export function deleteReqParams (value) {
-//   return {
-//     type: DELETE_INTERFACE_REQ_PARAMS,
-//     payload: value
-//   };
-// }
+export function pushInterfaceName (value) {
+  console.log(value)
+  return {
+    type: PUSH_INTERFACE_NAME,
+    payload: value
+  }
+}
 
-// export function addResParams (value) {
-//   return {
-//     type: ADD_INTERFACE_RES_PARAMS,
-//     payload: value
-//   };
-// }
-
-// export function deleteResParams (value) {
-//   return {
-//     type: DELETE_INTERFACE_RES_PARAMS,
-//     payload: value
-//   };
-// }
 
