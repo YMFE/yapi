@@ -27,7 +27,7 @@ const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
   }
   return test;
 };
-//  this.props.fetchProjectList, this.props.changeUpdateModal
+
 const getColumns = (data, props) => {
   const { handleDelete, currGroup, fetchProjectList, changeUpdateModal, userInfo } = props;
   return [{
@@ -130,7 +130,7 @@ class ProjectList extends Component {
     });
   }
 
-  // 确认修改
+  // 确认添加项目
   @autobind
   handleOk(e) {
     const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
@@ -138,7 +138,7 @@ class ProjectList extends Component {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        values.prd_host = this.state.protocol + values.prd_host;
+        values.protocol = this.state.protocol.split(':')[0];
         // 获取当前分组id传入values
         values.group_id = currGroup._id;
 

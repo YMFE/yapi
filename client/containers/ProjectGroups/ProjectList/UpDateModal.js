@@ -86,7 +86,7 @@ class UpDateModal extends Component {
       if (!err) {
         console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
-        assignValue.prd_host = this.state.protocol + assignValue.prd_host;
+        values.protocol = this.state.protocol.split(':')[0];
         assignValue.env = assignValue.envs.map((item) => {
           console.log(assignValue);
           const arr = assignValue['envs-'+item].split(',');
