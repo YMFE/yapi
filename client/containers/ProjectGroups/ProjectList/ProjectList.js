@@ -248,7 +248,9 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('prd_host', {
                 rules: [{
-                  required: true, message: '请输入项目线上域名!'
+                  required: true,
+                  message: '请输入项目线上域名，不允许出现‘\/’!',
+                  pattern: /.+\w$/
                 }]
               })(
                 <Input addonBefore={(
@@ -265,7 +267,8 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('basepath', {
                 rules: [{
-                  required: true, message: '请输入项目基本路径!'
+                  required: true, message: '基本路径应以\'\/\'开头，以\'\/\'结尾! ',
+                  pattern: /^\/.+\/$/
                 }]
               })(
                 <Input />
