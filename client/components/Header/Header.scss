@@ -46,17 +46,20 @@ $color-black-light : #404040;
 
   .user-toolbar{
     float: right;
-    line-height: .14rem;
-    li{
+    height: .64rem;
+    display: flex;
+    align-items: center;
+    .toolbar-li{
+      &:first-child{
+        width: 2rem;
+      }
       float: left;
-      margin: .26rem 0;
-      padding: 0 0 0 .12rem;
+      margin: 0 0 0 .12rem;
       font-size: .14rem;
       cursor: pointer;
       color: $color-white;
       &:not(:last-child){
-        border-right: .01rem solid $color-white;
-        padding: 0 .12rem;
+        margin: 0 .12rem;
       }
       &:hover{
         color: $color-blue;
@@ -75,6 +78,11 @@ $color-black-light : #404040;
       }
       i{
         margin-right: .03rem;
+      }
+      .dropdown-link{
+        i{
+          font-size: .2rem;
+        }
       }
     }
   }
