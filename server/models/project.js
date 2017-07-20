@@ -12,9 +12,9 @@ class projectModel extends baseModel{
             name: {type: String, required: true},
             basepath: {type: String, required: true, validate: {
                 validator: (v) => {
-                    return v && v[v.length - 1] === '/'
+                    return v && v[0] === '/'
                 },
-                message: 'basepath字符串结尾必须是/'
+                message: 'basepath必须是/开头'
             }},
             desc: String,
             group_id: {type: Number, required: true},
