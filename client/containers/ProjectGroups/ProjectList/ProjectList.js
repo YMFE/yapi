@@ -306,7 +306,10 @@ class ProjectList extends Component {
           </Form>
         </Modal>
         <UpDateModal/>
+        <Button className="m-btn" icon="plus" type="primary" onClick={this.showAddProjectModal}>创建项目</Button>
         <Table
+          className="m-table"
+          bordered={true}
           loading={this.props.tableLoading}
           columns={getColumns(this.state.projectData, this.props)}
           dataSource={this.state.projectData}
@@ -315,7 +318,6 @@ class ProjectList extends Component {
             defaultPageSize: variable.PAGE_LIMIT,
             onChange: this.paginationChange
           }}
-          title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
 
       </div>
