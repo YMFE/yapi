@@ -251,7 +251,8 @@ class UpDateModal extends Component {
             {getFieldDecorator('prd_host', {
               initialValue: initFormValues.prd_host,
               rules: [{
-                required: true, message: '请输入项目线上域名!'
+                required: true, message: '格式错误!',
+                pattern: /.+\w$/
               }]
             })(
               <Input addonBefore={(
@@ -269,7 +270,8 @@ class UpDateModal extends Component {
             {getFieldDecorator('basepath', {
               initialValue: initFormValues.basepath,
               rules: [{
-                required: true, message: '请输入项目基本路径!'
+                required: true, message: '基本路径应以\'\/\'开头，以\'\/\'结尾! ',
+                pattern: /^\/.+\/$/
               }]
             })(
               <Input />
