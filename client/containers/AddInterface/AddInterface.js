@@ -16,7 +16,10 @@ import { saveForms } from '../../actions/addInterface.js'
   state => {
     return {
       reqParams: state.addInterface.reqParams,
-      methode: state.addInterface.method
+      resParams: state.addInterface.resParams,
+      method: state.addInterface.method,
+      url: state.addInterface.url,
+      interfaceName: state.addInterface.interfaceName
     }
   },
   {
@@ -27,7 +30,10 @@ import { saveForms } from '../../actions/addInterface.js'
 class AddInterface extends Component {
   static propTypes = {
     reqParams: PropTypes.string,
-    methode: PropTypes.string,
+    resParams: PropTypes.string,
+    method: PropTypes.string,
+    url: PropTypes.string,
+    interfaceName: PropTypes.string,
     saveForms: PropTypes.func
   }
 
@@ -37,35 +43,21 @@ class AddInterface extends Component {
 
   @autobind
   saveForms () {
-    // const config = {
-    //   url: '/interface/add',
-    //   method: 'POST',
-    //   headers: {'Content-Type': 'application/json'},
-    //   params: {
-    //     method: 'POST',
-    //     project_id: 8,
-    //     req_headers: [],
-    //     req_params_type: 'json',
-    //     req_params: this.props.reqParams
-    //   }
-    // }
+    const { interfaceName, url, reqParams, resParams } = this.props
     const params = {
-      url: '/interface/add',
+      title: interfaceName,
+      path: url,
       method: 'POST',
-      params: {
-        method: 'POST',
-        project_id: 558,
-        req_headers: [],
-        req_params_type: 'json',
-        req_params: this.props.reqParams,
-        title: '接口文档1'
-      }
+      project_id: 558,
+      req_params_type: 'json',
+      req_params_other: reqParams,
+      res_body_type: 'json',
+      res_body: resParams
     }
 
     axios.post('/interface/add', params)
       .then(data => {
-        console.log(data)
-        console.log(this.props.methode)
+        console.log('data', data)
       })
       .catch(e => {
         console.log(e)

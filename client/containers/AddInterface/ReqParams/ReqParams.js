@@ -32,6 +32,7 @@ class ReqParams extends Component {
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
       html = html.replace(reg, '')
+      console.log(html)
       this.props.getReqParams(html)
     }
     editor.create()

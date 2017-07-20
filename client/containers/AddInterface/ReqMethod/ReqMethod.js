@@ -13,7 +13,7 @@ import {
   state => {
     return {
       method: state.addInterface.method,
-      reqInputVal: state.addInterface.inputValue,
+      url: state.addInterface.url,
       interfaceName: state.addInterface.interfaceName
     }
   },
@@ -29,7 +29,7 @@ class ReqMethod extends Component {
     pushInputValue: PropTypes.func,
     pushInterfaceName: PropTypes.func,
     pushInterfaceMethod: PropTypes.func,
-    inputValue: PropTypes.string,
+    url: PropTypes.string,
     method: PropTypes.string,
     interfaceName: PropTypes.string
   }
@@ -45,8 +45,8 @@ class ReqMethod extends Component {
 
   @autobind
   getInputVal (e) {
-    const inputVal = e.target.value
-    this.props.pushInputValue(inputVal)
+    const url = e.target.value
+    this.props.pushInputValue(url)
   }
 
   @autobind
@@ -57,14 +57,14 @@ class ReqMethod extends Component {
 
   render () {
     const { Option } = Select
-    console.log(this.props.method)
+
     return (
       <table>
         <tbody>
           <tr>
             <th>协议 :</th>
             <td>
-              <span className="h3">请求协议 {this.props.inputValue}</span>
+              <span className="h3">请求协议</span>
               <Select defaultValue="HTTP" style={{ width: 220}} onChange={this.handleChange} size="large">
                 <Option value="HTTP">HTTP</Option>
                 <Option value="HTTPS">HTTPS</Option>
