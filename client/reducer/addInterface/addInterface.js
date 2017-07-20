@@ -15,7 +15,7 @@ const initialState = {
   inputValue: '',
   tagValue: '',
   headerValue: '',
-  methode: '',
+  method: '',
   // 默认请求头部有一条数据
   seqGroup: [
     {
@@ -78,7 +78,7 @@ export default (state = initialState, action) => {
     case PUSH_INTERFACE_METHOD:
       return {
         ...state,
-        methode: action.payload
+        method: action.payload
       }
     default:
       return state

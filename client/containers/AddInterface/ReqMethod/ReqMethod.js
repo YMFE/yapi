@@ -40,14 +40,12 @@ class ReqMethod extends Component {
 
   @autobind
   handleChange (value) {
-    
     this.props.pushInterfaceMethod(value)
   }
 
   @autobind
   getInputVal (e) {
     const inputVal = e.target.value
-    console.log(this.props.pushInputValue)
     this.props.pushInputValue(inputVal)
   }
 
