@@ -12,6 +12,7 @@ class projectModel extends baseModel{
             name: {type: String, required: true},
             basepath: {type: String, required: true, validate: {
                 validator: (v) => {
+                    console.log('basepath: ', v)
                     return v && v[0] === '/'
                 },
                 message: 'basepath必须是/开头'
