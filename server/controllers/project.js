@@ -322,7 +322,7 @@ class projectController extends baseController {
      * @param {String} [desc] 项目描述 
      * @param {Array} [env] 项目环境配置
      * @param {String} [env[].name] 环境名称
-     * @param {String} [env[].host] 环境域名
+     * @param {String} [env[].domain] 环境域名
      * @returns {Object} 
      * @example ./api/project/up.json
      */

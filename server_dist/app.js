@@ -42,7 +42,6 @@ _yapi2.default.commons = _commons2.default;
 
 
 _yapi2.default.connect = _db2.default.connect();
-
 var app = new _koa2.default();
 app.use(_mockServer2.default);
 app.use((0, _koaBodyparser2.default)());
