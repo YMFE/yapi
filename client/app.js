@@ -9,7 +9,7 @@ import { checkLoginState } from './actions/login'
 
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
-const MEMBER_STATUS = 2;
+// const MEMBER_STATUS = 2;
 
 
 class App extends Component {
@@ -21,7 +21,8 @@ class App extends Component {
     }
   }
   static propTypes = {
-    checkLoginState:PropTypes.func
+    checkLoginState:PropTypes.func,
+    loginState:PropTypes.number
   }
   route = (status) => {
     let r;
@@ -61,34 +62,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.checkLoginState().then((res) => {
-      console.log(res);
-      if (res.payload.data.errcode === 0 && res.payload.data.data._id > 0) {
-        this.setState({
-          login: MEMBER_STATUS
-        })
-      } else {
-        this.setState({
-          login: GUEST_STATUS
-        })
-      }
-    }).catch((err) => {
-      this.setState({
-        login: GUEST_STATUS
-      });
-      console.log(err)
-    });
+    this.props.checkLoginState();
   }
 
   render() {
-    return this.route(this.state.login)
+    return this.route(this.props.loginState)
   }
 }
 
 export default connect(
   state => {
     return{
-      login:state.login.isLogin
+      loginState:state.login.loginState
     }
   },
   {
