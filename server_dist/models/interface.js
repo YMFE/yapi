@@ -114,7 +114,7 @@ var interfaceModel = function (_baseModel) {
         value: function list(project_id) {
             return this.model.find({
                 project_id: project_id
-            }).exec();
+            }).sort({ _id: -1 }).exec();
         }
     }, {
         key: 'del',
