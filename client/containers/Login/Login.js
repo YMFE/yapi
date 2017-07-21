@@ -63,8 +63,9 @@ class Login extends Component {
         <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
-
+        <Button id="qsso-login" type="primary" className="login-form-button" onClick={() => window.QSSO.attach('qsso-login','/user/login_by_token')}>QSSO登录</Button>
       </Form>
+
     )
   }
 }

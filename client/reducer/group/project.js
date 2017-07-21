@@ -10,6 +10,7 @@ const initialState = {
   isUpdateModalShow: false,
   handleUpdateIndex: -1,
   projectList: [],
+  userInfo: {},
   tableLoading: true,
   total: 0,
   currPage: 1
@@ -34,7 +35,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         projectList: action.payload.data.data.list,
-        total: action.payload.data.data.total
+        total: action.payload.data.data.total,
+        userInfo: action.payload.data.data.userinfo
       };
     }
     case PROJECT_ADD: {
