@@ -51,6 +51,7 @@ var projectModel = function (_baseModel) {
                 name: { type: String, required: true },
                 basepath: { type: String, required: true, validate: {
                         validator: function validator(v) {
+                            console.log('basepath: ', v);
                             return v && v[0] === '/';
                         },
                         message: 'basepath必须是/开头'

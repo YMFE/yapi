@@ -25,7 +25,7 @@ class projectController extends baseController {
     }
 
     verifyPath(path){
-        if(/^[a-zA-Z0-9\-\/_:]+$/.test(basepath)){
+        if(/^[a-zA-Z0-9\-\/_:]+$/.test(path)){
             return true;
         }else{
             return false;
@@ -78,7 +78,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
 
-        if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+        if((params.basepath = this.handleBasepath(params.basepath)) === false){
             return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
         }
 
@@ -90,7 +90,6 @@ class projectController extends baseController {
         if(checkRepeatDomain > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
-
         
         let data = {
             name: params.name,
