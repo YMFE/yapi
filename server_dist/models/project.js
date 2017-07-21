@@ -106,7 +106,7 @@ var projectModel = function (_baseModel) {
         value: function list(group_id) {
             return this.model.find({
                 group_id: group_id
-            }).exec();
+            }).sort({ _id: -1 }).exec();
         }
     }, {
         key: 'listWithPaging',
@@ -115,7 +115,7 @@ var projectModel = function (_baseModel) {
             limit = parseInt(limit);
             return this.model.find({
                 group_id: group_id
-            }).skip((page - 1) * limit).limit(limit).exec();
+            }).sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).exec();
         }
     }, {
         key: 'listCount',
