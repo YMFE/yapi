@@ -124,7 +124,6 @@ class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
-    console.log(curKey);
     return (
       <acticle className="header-box">
         <Layout className="'layout">

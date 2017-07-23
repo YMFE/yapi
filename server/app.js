@@ -10,7 +10,6 @@ import bodyParser from 'koa-bodyparser'
 import router from './router.js'
 
 yapi.connect = dbModule.connect()    
-
 const app = new Koa()
 app.use(mockServer)
 app.use(bodyParser())

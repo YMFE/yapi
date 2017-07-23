@@ -6,12 +6,19 @@ import {
 } from '../constants/action-types.js';
 import axios from 'axios';
 
+
 const checkLoginState = () => {
-  return {
-    type: GET_LOGIN_STATE,
-    // payload 可以返回 Promise，异步请求使用 axios 即可
-    payload: axios.get('/user/status')
-  };
+  return(dispatch)=> {
+    axios.get('/user/status').then((res) => {
+      console.log(res);
+      dispatch({
+        type: GET_LOGIN_STATE,
+        payload: res
+      });
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
 }
 
 const loginActions = (data) => {
@@ -24,7 +31,6 @@ const loginActions = (data) => {
             data: res
           }
         });
-        location.reload();
       } else {
         console.log('登录失败,errcode不为0');
       }
@@ -58,7 +64,6 @@ const logoutActions = () => {
         dispatch({
           type: LOGIN_OUT
         })
-        location.reload();
       }
     }).catch((err) => {
       console.log(err);
