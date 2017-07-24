@@ -18,18 +18,10 @@ class projectController extends baseController {
         if(!basepath) return false;
         if(basepath[0] !== '/') basepath = '/' + basepath;
         if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
-        if(!this.verifyPath(basepath)){
+        if(yapi.commons.verifyPath(basepath)){
             return false;
         }
         return basepath;
-    }
-
-    verifyPath(path){
-        if(/^[a-zA-Z0-9\-\/_:]+$/.test(path)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     verifyDomain(domain){
