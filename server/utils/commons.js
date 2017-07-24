@@ -135,3 +135,15 @@ exports.filterRes = (list, rules) => {
         return filteredRes;
     })
 }
+
+exports.verifyPath = (path) => {
+    if (/^\/[a-zA-Z0-9\-\/_:]+$/.test(path)) {
+        if (path[path.length - 1] === '/') {
+            return false;
+        } else {
+            return true
+        }
+    } else {
+        return false;
+    }
+}

@@ -18,18 +18,10 @@ class projectController extends baseController {
         if(!basepath) return false;
         if(basepath[0] !== '/') basepath = '/' + basepath;
         if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
-        if(!this.verifyPath(basepath)){
+        if(yapi.commons.verifyPath(basepath)){
             return false;
         }
         return basepath;
-    }
-
-    verifyPath(path){
-        if(/^[a-zA-Z0-9\-\/_:]+$/.test(basepath)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     verifyDomain(domain){
@@ -78,7 +70,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
 
-        if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+        if((params.basepath = this.handleBasepath(params.basepath)) === false){
             return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
         }
 
@@ -90,7 +82,6 @@ class projectController extends baseController {
         if(checkRepeatDomain > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
-
         
         let data = {
             name: params.name,
@@ -323,7 +314,7 @@ class projectController extends baseController {
      * @param {String} [desc] 项目描述 
      * @param {Array} [env] 项目环境配置
      * @param {String} [env[].name] 环境名称
-     * @param {String} [env[].host] 环境域名
+     * @param {String} [env[].domain] 环境域名
      * @returns {Object} 
      * @example ./api/project/up.json
      */

@@ -8,12 +8,11 @@ $color-black-lighter: #404040;
 
 
 .home-main {
+  height:calc(100% - .64rem);
   display: -webkit-box;
-  margin-top: .64rem;
   -webkit-box-orient: vertical;
   background: $color-grey-lighter;
   .main-one{
-    height:calc(100% - .64rem);
     padding: .5rem .5rem 0 .5rem;
     //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
@@ -44,8 +43,11 @@ $color-black-lighter: #404040;
     }
   }
   .user-home{
-    height:calc(100% - .64rem);
-    padding: .5rem .5rem 0 .5rem;
+    display: flex;
+    align-items: center;
+    height:calc(100% - 2rem);
+    max-width: 11rem;
+    margin: 0 auto;
     .user-des{
       max-width: 11rem;
       margin: 0 auto .5rem;

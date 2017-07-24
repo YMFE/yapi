@@ -11,7 +11,6 @@ class Footer extends Component {
     footList: PropTypes.array
   }
   render () {
-    console.log(this.props);
     return (
       <div className = 'footer'>
         <div className = 'footContent'>

@@ -1,0 +1,11 @@
+$color-grey:#979DA7;
+
+.search-wrapper{
+  .search-input{
+    border:1px solid #AAA;
+    background-color: rgba(255,255,255,0.5);
+  }
+  .srch-icon{
+    color: $color-grey;
+  }
+}

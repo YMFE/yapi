@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Table, Button, Modal, Form, Input, Icon, Tooltip, Select, Popconfirm, message } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 import UpDateModal from './UpDateModal';
+import { Link } from 'react-router-dom'
 import variable from '../../../constants/variable';
+import common from '../../../common';
 import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -12,33 +14,49 @@ const Option = Select.Option;
 
 import './ProjectList.scss'
 
-const deleteConfirm = (id, handleDelete, currGroupId, handleFetchList) => {
-  const test = () => {
-    handleDelete(id).then((res) => {
+// 确认删除项目 handleDelete, currGroup._id, fetchProjectList
+const deleteConfirm = (id, props) => {
+  const { delProject, currGroup, fetchProjectList } = props;
+  const handle = () => {
+    delProject(id).then((res) => {
       console.log(res);
-      console.log(handleFetchList, currGroupId);
-      handleFetchList(currGroupId).then((res) => {
-        console.log(res);
-      });
+      console.log(fetchProjectList, currGroup._id);
+      if (res.payload.data.errcode == 0) {
+        message.success('删除成功!')
+        fetchProjectList(currGroup._id).then((res) => {
+          console.log(res);
+        });
+      } else {
+        message.error(res.payload.data.errmsg);
+      }
     });
   }
-  return test;
+  return handle;
 };
 
-const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpdateModal) => {
+const getColumns = (data, props) => {
+  const { changeUpdateModal, userInfo } = props;
   return [{
     title: '项目名称',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a href="#">{text}</a>
+    render: (text, record) => {
+      return <Link to={`Interface/${record._id}`}>{text}</Link>
+    }
   }, {
     title: '创建人',
     dataIndex: 'owner',
-    key: 'owner'
+    key: 'owner',
+    render: (text, record, index) => {
+      // data是projectList的列表值
+      // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
+      return <span>{userInfo[data[index].uid] ? userInfo[data[index].uid].username : ''}</span>;
+    }
   }, {
     title: '创建时间',
     dataIndex: 'add_time',
-    key: 'add_time'
+    key: 'add_time',
+    render: time => <span>{common.formatTime(time)}</span>
   }, {
     title: '操作',
     key: 'action',
@@ -46,9 +64,9 @@ const getColumns = (data, handleDelete, currGroupId, handleFetchList, handleUpda
       const id = record._id;
       return (
         <span>
-          <a onClick={() => handleUpdateModal(true, index)}>修改</a>
+          <a onClick={() => changeUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, handleDelete, currGroupId, handleFetchList)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="删除" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
@@ -71,6 +89,7 @@ const formItemLayout = {
   state => {
     return {
       projectList: state.project.projectList,
+      userInfo: state.project.userInfo,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup,
       total: state.project.total,
@@ -102,6 +121,7 @@ class ProjectList extends Component {
     changeUpdateModal: PropTypes.func,
     changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
+    userInfo: PropTypes.object,
     tableLoading: PropTypes.bool,
     currGroup: PropTypes.object,
     total: PropTypes.number,
@@ -116,7 +136,7 @@ class ProjectList extends Component {
     });
   }
 
-  // 确认修改
+  // 确认添加项目
   @autobind
   handleOk(e) {
     const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
@@ -124,7 +144,7 @@ class ProjectList extends Component {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        values.prd_host = this.state.protocol + values.prd_host;
+        values.protocol = this.state.protocol.split(':')[0];
         // 获取当前分组id传入values
         values.group_id = currGroup._id;
 
@@ -246,7 +266,8 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('prd_host', {
                 rules: [{
-                  required: true, message: '请输入项目线上域名!'
+                  required: true,
+                  message: '请输入项目线上域名!'
                 }]
               })(
                 <Input addonBefore={(
@@ -263,7 +284,7 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('basepath', {
                 rules: [{
-                  required: true, message: '请输入项目基本路径!'
+                  required: true, message: '请输入项目基本路径'
                 }]
               })(
                 <Input />
@@ -285,16 +306,18 @@ class ProjectList extends Component {
           </Form>
         </Modal>
         <UpDateModal/>
+        <Button className="m-btn" icon="plus" type="primary" onClick={this.showAddProjectModal}>创建项目</Button>
         <Table
+          className="m-table"
+          bordered={true}
           loading={this.props.tableLoading}
-          columns={getColumns(this.state.projectData, this.props.delProject, this.props.currGroup._id, this.props.fetchProjectList, this.props.changeUpdateModal)}
+          columns={getColumns(this.state.projectData, this.props)}
           dataSource={this.state.projectData}
           pagination={{
             total: this.props.total * variable.PAGE_LIMIT,
             defaultPageSize: variable.PAGE_LIMIT,
             onChange: this.paginationChange
           }}
-          title={() => <Button type="primary" onClick={this.showAddProjectModal}>创建项目</Button>}
         />
 
       </div>

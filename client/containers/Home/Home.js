@@ -7,6 +7,7 @@ import PropTypes from "prop-types"
 import Login from '../Login/LoginWrap'
 import Intro from '../../components/Intro/Intro'
 import Footer from "../../components/Footer/Footer";
+import { changeMenuItem } from '../../actions/menu'
 
 const HomeGuest = (props) => (
   <div>
@@ -50,7 +51,10 @@ HomeGuest.propTypes ={
 @connect(
   state => ({
     login: state.login.isLogin
-  })
+  }),
+  {
+    changeMenuItem
+  }
 )
 
 class Home extends Component {
@@ -59,7 +63,11 @@ class Home extends Component {
   }
   static propTypes = {
     introList: PropTypes.array,
-    login : PropTypes.bool
+    login : PropTypes.bool,
+    changeMenuItem : PropTypes.func
+  }
+  toStart = () =>{
+    this.props.changeMenuItem('/ProjectGroups');
   }
   render () {
     const { login } = this.props;
