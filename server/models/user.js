@@ -41,7 +41,7 @@ class userModel extends baseModel{
     }
     findByUids(uids){
         return this.model.find({
-            _id: {$in: [107]}
+            _id: {$in: $uids}
         }).select("_id username email role  add_time up_time").exec()
     }
     listWithPaging(page, limit) {
