@@ -2,7 +2,6 @@ import './Footer.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from 'antd'
-
 class Footer extends Component {
   constructor(props) {
     super(props)
@@ -11,8 +10,12 @@ class Footer extends Component {
     footList: PropTypes.array
   }
   render () {
+    const style = {
+      'background': 'url(./image/footer-bac.jpg)'
+    }
     return (
-      <div className = 'footer'>
+      <div className = 'footer' style = {style}>
+       
         <div className = 'footContent'>
           { this.props.footList.map(function(item,i){
             return <FootItem key = { i } linkList = { item.linkList } title = { item.title } iconType = { item.iconType } ></FootItem>
@@ -22,6 +25,7 @@ class Footer extends Component {
             YMFF出品 @ YMFF
           </div>
         </div>
+        <div className='footerMask'></div>
       </div>
     )
   }
