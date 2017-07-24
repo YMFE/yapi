@@ -60,14 +60,7 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: '源码仓库',
-          itemLink: 'http://www.baidu.com'
-        },
-        {
-          itemTitle: '源码仓库1',
-          itemLink: 'http://www.baidu.com'
-        },{
-          itemTitle: '源码仓库2',
-          itemLink: 'www.baidu.com'
+          itemLink: 'http://gitlab.corp.qunar.com/mfe/yapi.git'
         }
       ]
 
@@ -77,33 +70,36 @@ Footer.defaultProps = {
       iconType: 'link',
       linkList: [
         {
-          itemTitle: '源码仓库',
-          itemLink: 'www.baidu.com'
+          itemTitle: 'YMFE',
+          itemLink: 'http://ued.qunar.com/ymfe/about'
         },
         {
-          itemTitle: '源码仓库1',
-          itemLink: 'www.baidu.com'
+          itemTitle: 'UED',
+          itemLink: 'http://ued.qunar.com/'
         },{
-          itemTitle: '源码仓库2',
-          itemLink: 'www.baidu.com'
+          itemTitle: '去哪儿网',
+          itemLink: 'http://www.qunar.com/'
         }
       ]
 
     },
     {
-      title: '社区',
-      iconType: 'customer-service',
+      title: '其他项目',
+      iconType: 'layout',
       linkList: [
         {
-          itemTitle: '源码仓库',
-          itemLink: 'www.baidu.com'
+          itemTitle: 'Yo',
+          itemLink: 'http://ued.qunar.com/hy2/yo/'
         },
         {
-          itemTitle: '源码仓库1',
-          itemLink: 'www.baidu.com'
+          itemTitle: 'YIcon',
+          itemLink: 'http://ued.qunar.com/yicon/'
         },{
-          itemTitle: '源码仓库2',
-          itemLink: 'www.baidu.com'
+          itemTitle: 'YKit',
+          itemLink: 'http://ued.qunar.com/ykit/'
+        },{
+          itemTitle: 'YDoc',
+          itemLink: 'http://ued.qunar.com/ydoc/'
         }
       ]
 
