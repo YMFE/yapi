@@ -248,12 +248,11 @@ class projectController extends baseController {
             let count = await this.Model.listCount(group_id);
             let uids = [];
             result.forEach( (item)=> {
-                if(uids.indexOf(item.uid) !== -1){
+                if(uids.indexOf(item.uid) === -1){
                     uids.push(item.uid)
                 }
                 
             } )
-
             let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
             users.forEach((item)=> {
                 _users[item._id] = item;
@@ -263,7 +262,7 @@ class projectController extends baseController {
                 list: result,
                 userinfo: _users
             })
-        }catch(err){
+        }catch(e){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
