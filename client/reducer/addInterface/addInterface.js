@@ -6,7 +6,6 @@ import {
   DELETE_INTERFACE_SEQ_HEADER,
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
-  // SAVE_INTERFACE_FORMS,
   PUSH_INTERFACE_NAME,
   PUSH_INTERFACE_METHOD
 } from '../../constants/action-types.js'
@@ -14,15 +13,13 @@ import {
 const initialState = {
   interfaceName: '',
   url: '',
-  tagValue: '',
-  headerValue: '',
   method: '',
   // 默认请求头部有一条数据
   seqGroup: [
     {
       id: 0,
-      tag: '',
-      content: ''
+      name: '',
+      value: ''
     }
   ],
   reqParams: '',
@@ -66,11 +63,6 @@ export default (state = initialState, action) => {
         ...state,
         resParams: action.payload
       }
-    // case SAVE_INTERFACE_FORMS:
-    //   return {
-    //     ...state,
-    //     resParams: action.payload
-    //   }
     case PUSH_INTERFACE_NAME:
       return {
         ...state,

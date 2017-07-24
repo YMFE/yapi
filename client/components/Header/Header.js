@@ -43,8 +43,7 @@ class HeaderCom extends Component {
     location: PropTypes.object
   }
   componentDidMount() {
-    const { router } = this.props;
-    console.log(router);
+    // const { router } = this.props;
   }
   linkTo = (e) =>{
     this.setState({

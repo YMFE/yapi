@@ -13,8 +13,6 @@ import {
   state => {
     return {
       seqGroup: state.addInterface.seqGroup,
-      tagValue: state.addInterface.tagValue,
-      headerValue: state.addInterface.headerValue,
       reqTagValue: state.addInterface.reqTagValue,
       reqHeaderValue: state.addInterface.reqHeaderValue
     }
@@ -28,13 +26,13 @@ import {
 
 class ReqList extends Component {
   static propTypes = {
-    headerValue: PropTypes.string,
     seqGroup: PropTypes.array,
-    tagValue: PropTypes.string,
     reqTagValue: PropTypes.func,
     reqHeaderValue: PropTypes.func,
     deleteReqHeader: PropTypes.func,
-    dataNum: PropTypes.number
+    _id: PropTypes.number,
+    dataNum: PropTypes.number,
+    value: PropTypes.object
   }
 
   constructor(props) {
@@ -43,22 +41,32 @@ class ReqList extends Component {
 
   @autobind
   handleChange (value) {
-    this.props.reqTagValue(value)
+    const dir = 'AddInterface/edit'
+    const url = location.href
+    if (url.includes(dir)) {
+      const { seqGroup, value: { id } } = this.props
+      seqGroup[id].name = value
+    } else {
+      const { seqGroup, dataNum } = this.props
+      seqGroup[dataNum].name = value
+    }
   }
 
   @autobind
   handleBlur (e) {
     const value = e.target.value
-    this.props.reqHeaderValue(value)
+    const { seqGroup, value: { id } } = this.props
+    seqGroup[id].value = value
   }
 
   @autobind
-  deleteReqHeader (e) {
+  deleteReqHeader () {
     let newSeqGroup = []
     let seqGroup = this.props.seqGroup
-    let dataNum = e.target.getAttribute('data-num')
+    let id = this.props.value.id
+    console.log(this.props)
     seqGroup.map(value => {
-      if (+dataNum !== value.id) {
+      if (+id !== value.id) {
         newSeqGroup.push(value)
       }
     })
@@ -66,22 +74,24 @@ class ReqList extends Component {
   }
 
   render () {
+    const propsValue = this.props.value
     const Option = Select.Option
-    const dataNum = this.props.dataNum
+    const value = propsValue.value
+    const name = propsValue.name || 'Accept'
 
     return (
       <li>
-        <em className="title">头部标签 {this.props.tagValue} {this.props.headerValue}</em>
-        <Select defaultValue="HTTP" style={{ width: 220 }} onChange={this.handleChange} size="large">
-          <Option value="HTTP">Accept</Option>
+        <em className="title">头部标签</em>
+        <Select defaultValue={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
+          <Option value="Accept">Accept</Option>
           <Option value="Accept-Charset">Accept-Charset</Option>
           <Option value="Accept-Encoding">Accept-Encoding</Option>
           <Option value="Accept-Language">Accept-Language</Option>
           <Option value="Accept-Ranges">Accept-Ranges</Option>
         </Select>
         <em className="title">头部内容</em>
-        <Input placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
-        <span className="close" onClick={this.deleteReqHeader} data-num={dataNum}>×</span>
+        <Input defaultValue={value} placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
+        <span className="close" onClick={this.deleteReqHeader}>×</span>
       </li>
     )
   }

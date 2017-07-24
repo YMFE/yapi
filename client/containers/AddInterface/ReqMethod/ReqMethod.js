@@ -57,7 +57,7 @@ class ReqMethod extends Component {
 
   render () {
     const { Option } = Select
-
+    const { url, interfaceName } = this.props
     return (
       <table>
         <tbody>
@@ -80,11 +80,27 @@ class ReqMethod extends Component {
           </tr>
           <tr>
             <th>URL :</th>
-            <td><Input placeholder="填写 URL" className="url" size="large" onBlur={this.getInputVal} /></td>
+            <td>
+              <Input 
+                placeholder="填写 URL" 
+                className="url" 
+                size="large" 
+                onInput={this.getInputVal} 
+                value={url}
+              />
+            </td>
           </tr>
           <tr>
             <th>名称 :</th>
-            <td><Input placeholder="接口名称" className="url" size="large" onBlur={this.getInterfaceValue} /></td>
+            <td>
+              <Input 
+                placeholder="接口名称" 
+                className="url" 
+                size="large"
+                value={interfaceName}
+                onInput={this.getInterfaceValue} 
+              />
+            </td>
           </tr>
         </tbody>
       </table>

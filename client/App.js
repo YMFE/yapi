@@ -55,7 +55,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('app.js init')
     axios.get('/user/status').then((res) => {
       if (res.data.errcode === 0 && res.data.data._id > 0) {
         this.setState({
@@ -70,17 +69,13 @@ class App extends Component {
       this.setState({
         login: GUEST_STATUS
       })
-      console.log(err.message)
+      console.log(err)
     })
 
   }
 
   render() {
-    console.log(MEMBER_STATUS)
-    console.log(this.route(this.state.login))
     return this.route(this.state.login)
-
-
   }
 }
 
