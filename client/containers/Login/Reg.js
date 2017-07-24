@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button, Input, Icon } from 'antd';
+import { Form, Button, Input, Icon, message } from 'antd';
 import { regActions } from  '../../actions/login';
 
 const FormItem = Form.Item;
@@ -34,7 +34,15 @@ class Reg extends Component {
     const form = this.props.form;
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.regActions(values);
+        this.props.regActions(values).then((res) => {
+          if (res.payload.data.errcode == 0) {
+            message.success('注册成功! ');
+          } else {
+            message.error(res.payload.data.errmsg);
+          }
+        }).catch((err) => {
+          message.error(err);
+        });
       }
     });
   }

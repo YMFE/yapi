@@ -47,7 +47,7 @@ class userModel extends baseModel{
     listWithPaging(page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find().skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+        return this.model.find().sort({_id: -1}).skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
     }
     listCount() {
         return this.model.count();
