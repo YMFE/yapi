@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import wangEditor from 'wangeditor'
 import { getResParams } from '../../../actions/addInterface.js'
 
+const editor = new wangEditor('#res-cover')
+
 @connect(
   state => {
     return {
@@ -25,15 +27,23 @@ class ResParams extends Component {
     super(props)
   }
 
+  initResParams () {
+    const { resParams } = this.props
+    if (resParams) {
+      editor.txt.html(resParams)
+    }
+  }
+
   componentDidMount () {
     const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
-    const E = wangEditor
-    const editor = new E('#res-cover')
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
       html = html.replace(reg, '')
       this.props.getResParams(html)
     }
+    setTimeout(() => {
+      this.initResParams()
+    }, 200)
     editor.create()
   }
 

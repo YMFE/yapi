@@ -6,7 +6,6 @@ import {
   DELETE_INTERFACE_SEQ_HEADER,
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
-  // SAVE_INTERFACE_FORMS,
   PUSH_INTERFACE_NAME,
   PUSH_INTERFACE_METHOD
 } from '../constants/action-types.js'
@@ -60,13 +59,6 @@ export function getResParams (value) {
   };
 }
 
-// export function saveForms (value) {
-//   return {
-//     type: SAVE_INTERFACE_FORMS,
-//     payload: value
-//   };
-// }
-
 export function pushInterfaceName (value) {
   return {
     type: PUSH_INTERFACE_NAME,
@@ -80,5 +72,3 @@ export function pushInterfaceMethod (value) {
     payload: value
   }
 }
-
-

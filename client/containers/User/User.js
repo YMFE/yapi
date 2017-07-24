@@ -1,7 +1,7 @@
 import './index.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect} from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import LeftMenu from './LeftMenu.js'
 import List from './List.js'
 import PropTypes from 'prop-types'

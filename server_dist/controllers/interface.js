@@ -450,7 +450,7 @@ var interfaceController = function (_baseController) {
 
                             case 4:
                                 _context5.next = 6;
-                                return this.Model.get(params.id);
+                                return this.Model.get(ctx.request.body.id);
 
                             case 6:
                                 data = _context5.sent;
@@ -488,7 +488,7 @@ var interfaceController = function (_baseController) {
                                 _context5.prev = 19;
                                 _context5.t1 = _context5['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context5.t1.message);
 
                             case 22:
                             case 'end':
