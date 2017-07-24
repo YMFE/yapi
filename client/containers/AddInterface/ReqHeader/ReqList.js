@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Select, Input } from 'antd'
+import { Select, Input, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
@@ -64,7 +64,7 @@ class ReqList extends Component {
     let newSeqGroup = []
     let seqGroup = this.props.seqGroup
     let id = this.props.value.id
-    console.log(this.props)
+
     seqGroup.map(value => {
       if (+id !== value.id) {
         newSeqGroup.push(value)
@@ -91,7 +91,7 @@ class ReqList extends Component {
         </Select>
         <em className="title">头部内容</em>
         <Input defaultValue={value} placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
-        <span className="close" onClick={this.deleteReqHeader}>×</span>
+        <Icon className="dynamic-delete-button" type="minus-circle-o" onClick={this.deleteReqHeader} />
       </li>
     )
   }
