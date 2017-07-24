@@ -114,21 +114,29 @@ var interfaceController = function (_baseController) {
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口请求路径不能为空'));
 
                             case 8:
-                                _context.next = 10;
-                                return this.Model.checkRepeat(params.path, params.method);
+                                if (_yapi2.default.commons.verifyPath(params.path)) {
+                                    _context.next = 10;
+                                    break;
+                                }
+
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
                             case 10:
+                                _context.next = 12;
+                                return this.Model.checkRepeat(params.path, params.method);
+
+                            case 12:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context.next = 13;
+                                    _context.next = 15;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 13:
-                                _context.prev = 13;
+                            case 15:
+                                _context.prev = 15;
                                 data = {
                                     project_id: params.project_id,
                                     title: params.title,
@@ -148,28 +156,28 @@ var interfaceController = function (_baseController) {
                                 if (params.req_params_form) data.req_params_form = params.req_params_form;
                                 if (params.req_params_other) data.req_params_other = params.req_params_other;
 
-                                _context.next = 19;
+                                _context.next = 21;
                                 return this.Model.save(data);
 
-                            case 19:
+                            case 21:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 26;
+                                _context.next = 28;
                                 break;
 
-                            case 23:
-                                _context.prev = 23;
-                                _context.t0 = _context['catch'](13);
+                            case 25:
+                                _context.prev = 25;
+                                _context.t0 = _context['catch'](15);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 26:
+                            case 28:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[13, 23]]);
+                }, _callee, this, [[15, 25]]);
             }));
 
             function add(_x) {
@@ -359,25 +367,33 @@ var interfaceController = function (_baseController) {
                             case 8:
                                 interfaceData = _context4.sent;
 
-                                if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
-                                    _context4.next = 15;
+                                if (!(params.path && !_yapi2.default.commons.verifyPath(params.path))) {
+                                    _context4.next = 11;
                                     break;
                                 }
 
-                                _context4.next = 12;
+                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
+
+                            case 11:
+                                if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
+                                    _context4.next = 17;
+                                    break;
+                                }
+
+                                _context4.next = 14;
                                 return this.Model.checkRepeat(params.path, params.method);
 
-                            case 12:
+                            case 14:
                                 checkRepeat = _context4.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context4.next = 15;
+                                    _context4.next = 17;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 15:
+                            case 17:
                                 data = {
                                     up_time: _yapi2.default.commons.time()
                                 };
@@ -396,29 +412,29 @@ var interfaceController = function (_baseController) {
                                 if (params.res_body_type) data.res_body_type = params.res_body_type;
                                 if (params.res_body) data.res_body = params.res_body;
 
-                                _context4.prev = 25;
-                                _context4.next = 28;
+                                _context4.prev = 27;
+                                _context4.next = 30;
                                 return this.Model.up(id, data);
 
-                            case 28:
+                            case 30:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 35;
+                                _context4.next = 37;
                                 break;
 
-                            case 32:
-                                _context4.prev = 32;
-                                _context4.t0 = _context4['catch'](25);
+                            case 34:
+                                _context4.prev = 34;
+                                _context4.t0 = _context4['catch'](27);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 35:
+                            case 37:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[25, 32]]);
+                }, _callee4, this, [[27, 34]]);
             }));
 
             function up(_x4) {

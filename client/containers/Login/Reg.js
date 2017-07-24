@@ -5,6 +5,14 @@ import { Form, Button, Input, Icon, message } from 'antd';
 import { regActions } from  '../../actions/login';
 
 const FormItem = Form.Item;
+const formItemStyle = {
+  marginBottom: '.16rem'
+}
+
+const changeHeight = {
+  height: '.42rem'
+}
+
 @connect(
   state => {
     return {
@@ -75,25 +83,25 @@ class Reg extends Component {
       <Form onSubmit={this.handleSubmit}>
 
         {/* 用户名 */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: '请输入用户名!' }]
           })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+            <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
         </FormItem>
 
         {/* Emaiil */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入email!' }]
           })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
+            <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
         </FormItem>
 
         {/* 密码 */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('password', {
             rules: [{
               required: true,
@@ -102,12 +110,12 @@ class Reg extends Component {
               validator: this.checkConfirm
             }]
           })(
-            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+            <Input style={changeHeight} prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
 
         {/* 密码二次确认 */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('confirm', {
             rules: [{
               required: true,
@@ -116,13 +124,13 @@ class Reg extends Component {
               validator: this.checkPassword
             }]
           })(
-            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Confirm Password" />
+            <Input style={changeHeight} prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Confirm Password" />
           )}
         </FormItem>
 
         {/* 注册按钮 */}
-        <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">注册</Button>
+        <FormItem style={formItemStyle}>
+          <Button style={changeHeight} type="primary" htmlType="submit" className="login-form-button">注册</Button>
         </FormItem>
       </Form>
     )
