@@ -67,6 +67,14 @@ var logModel = function (_baseModel) {
                 add_time: Number
             };
         }
+
+        /**
+         * @param {String} title log标题
+         * @param {String} content log内容
+         * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
+         * @param {Number} uid 用户id
+         */
+
     }, {
         key: 'save',
         value: function () {
