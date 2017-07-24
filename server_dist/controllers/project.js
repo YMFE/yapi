@@ -77,19 +77,10 @@ var projectController = function (_baseController) {
             if (!basepath) return false;
             if (basepath[0] !== '/') basepath = '/' + basepath;
             if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
-            if (!this.verifyPath(basepath)) {
+            if (_yapi2.default.commons.verifyPath(basepath)) {
                 return false;
             }
             return basepath;
-        }
-    }, {
-        key: 'verifyPath',
-        value: function verifyPath(path) {
-            if (/^[a-zA-Z0-9\-\/_:]+$/.test(path)) {
-                return true;
-            } else {
-                return false;
-            }
         }
     }, {
         key: 'verifyDomain',
@@ -594,11 +585,10 @@ var projectController = function (_baseController) {
                                 uids = [];
 
                                 result.forEach(function (item) {
-                                    if (uids.indexOf(item.uid) !== -1) {
+                                    if (uids.indexOf(item.uid) === -1) {
                                         uids.push(item.uid);
                                     }
                                 });
-
                                 _users = {};
                                 _context6.next = 15;
                                 return _yapi2.default.getInst(_user2.default).findByUids(uids);
@@ -621,7 +611,7 @@ var projectController = function (_baseController) {
                                 _context6.prev = 20;
                                 _context6.t0 = _context6['catch'](3);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
                             case 23:
                             case 'end':
@@ -742,7 +732,7 @@ var projectController = function (_baseController) {
          * @param {String} [desc] 项目描述 
          * @param {Array} [env] 项目环境配置
          * @param {String} [env[].name] 环境名称
-         * @param {String} [env[].host] 环境域名
+         * @param {String} [env[].domain] 环境域名
          * @returns {Object} 
          * @example ./api/project/up.json
          */

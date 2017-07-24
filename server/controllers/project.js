@@ -18,18 +18,10 @@ class projectController extends baseController {
         if(!basepath) return false;
         if(basepath[0] !== '/') basepath = '/' + basepath;
         if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
-        if(!this.verifyPath(basepath)){
+        if(yapi.commons.verifyPath(basepath)){
             return false;
         }
         return basepath;
-    }
-
-    verifyPath(path){
-        if(/^[a-zA-Z0-9\-\/_:]+$/.test(path)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     verifyDomain(domain){
@@ -256,12 +248,11 @@ class projectController extends baseController {
             let count = await this.Model.listCount(group_id);
             let uids = [];
             result.forEach( (item)=> {
-                if(uids.indexOf(item.uid) !== -1){
+                if(uids.indexOf(item.uid) === -1){
                     uids.push(item.uid)
                 }
                 
             } )
-
             let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
             users.forEach((item)=> {
                 _users[item._id] = item;
@@ -271,7 +262,7 @@ class projectController extends baseController {
                 list: result,
                 userinfo: _users
             })
-        }catch(err){
+        }catch(e){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }

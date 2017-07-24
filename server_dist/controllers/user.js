@@ -301,7 +301,7 @@ var userController = function (_baseController) {
                                 user = _context4.sent;
 
                                 if (!(!user || !user._id)) {
-                                    _context4.next = 12;
+                                    _context4.next = 13;
                                     break;
                                 }
 
@@ -321,24 +321,29 @@ var userController = function (_baseController) {
                             case 11:
                                 user = _context4.sent;
 
-                            case 12:
+                                _yapi2.default.commons.sendMail({
+                                    to: params.email,
+                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u7CFB\u7EDF\u68C0\u6D4B\u60A8\u662F\u7B2C\u4E00\u6B21\u7528Qsso\u8D26\u53F7\u767B\u5F55YApi\u670D\u52A1,\u60A8\u7684Email\u662F\uFF1A ' + params.email + ' \uFF0C\u521D\u59CB\u5316\u5BC6\u7801\u4E3A\uFF1A' + passsalt + '</p>'
+                                });
+
+                            case 13:
 
                                 this.setLoginCookie(user._id, user.passsalt);
                                 return _context4.abrupt('return', true);
 
-                            case 16:
-                                _context4.prev = 16;
+                            case 17:
+                                _context4.prev = 17;
                                 _context4.t0 = _context4['catch'](2);
 
                                 console.error(_context4.t0.message);
                                 return _context4.abrupt('return', false);
 
-                            case 20:
+                            case 21:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[2, 16]]);
+                }, _callee4, this, [[2, 17]]);
             }));
 
             function handleThirdLogin(_x4, _x5) {
@@ -605,7 +610,7 @@ var userController = function (_baseController) {
                                 });
                                 _yapi2.default.commons.sendMail({
                                     to: params.email,
-                                    contents: '\u6B22\u8FCE\u6CE8\u518C\uFF0C\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F'
+                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F</p>'
                                 });
                                 _context8.next = 26;
                                 break;
@@ -855,15 +860,16 @@ var userController = function (_baseController) {
         key: 'update',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var params, userInst, id, data, checkRepeat, result;
+                var _params, userInst, id, data, checkRepeat, result;
+
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.prev = 0;
-                                params = ctx.request.body;
+                                _params = ctx.request.body;
 
-                                if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
+                                if (!(this.getRole() !== 'admin' && _params.uid != this.getUid())) {
                                     _context12.next = 4;
                                     break;
                                 }
@@ -872,7 +878,7 @@ var userController = function (_baseController) {
 
                             case 4:
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                id = params.uid;
+                                id = _params.uid;
 
                                 if (id) {
                                     _context12.next = 8;
@@ -888,10 +894,10 @@ var userController = function (_baseController) {
                                 };
 
                                 if (this.getRole() === 'admin') {
-                                    params.role && (data.role = params.role);
+                                    _params.role && (data.role = _params.role);
                                 }
-                                params.username && (data.username = params.username);
-                                params.email && (data.email = params.email);
+                                _params.username && (data.username = _params.username);
+                                _params.email && (data.email = _params.email);
 
                                 if (!data.email) {
                                     _context12.next = 18;

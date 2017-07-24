@@ -48,6 +48,10 @@ class interfaceController extends baseController{
             return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
         }
 
+        if(!yapi.commons.verifyPath(params.path)){
+            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/')
+        }
+
         let checkRepeat = await this.Model.checkRepeat(params.path, params.method);
         if(checkRepeat > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
@@ -162,12 +166,17 @@ class interfaceController extends baseController{
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
         let interfaceData = await this.Model.get(id);
+
+        if(params.path && !yapi.commons.verifyPath(params.path)){
+            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/')
+        }
+        
         if(params.path && params.path !== interfaceData.path  && params.method !== interfaceData.method){
             let checkRepeat = await this.Model.checkRepeat(params.path, params.method);
             if(checkRepeat > 0){
                 return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
             }
-        }       
+        }        
 
         let data = {
             up_time: yapi.commons.time()
