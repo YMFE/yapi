@@ -5,10 +5,15 @@ import {
   GET_LOGIN_STATE
 } from '../../constants/action-types';
 
+const LOADING_STATUS = 0;
+const GUEST_STATUS = 1;
+const MEMBER_STATUS = 2;
+
 const initialState = {
   isLogin: false,
   userName: null,
   uid: null,
+  loginState:LOADING_STATUS,
   loginWrapActiveKey:"1"
 };
 
@@ -18,6 +23,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: (action.payload.data.errcode == 0),
+        loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null
       };
     }
@@ -25,13 +31,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: true,
-        userName: action.payload.data.userName
+        loginState: MEMBER_STATUS,
+        uid: action.payload.data.data.uid,
+        userName: action.payload.data.data.username
       };
     }
     case LOGIN_OUT: {
       return{
         ...state,
         isLogin: false,
+        loginState: GUEST_STATUS,
         userName: null,
         uid: null
       }

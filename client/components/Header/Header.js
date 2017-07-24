@@ -3,62 +3,105 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu} from 'antd'
+import { Icon, Layout, Menu, Dropdown, message } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
+import { changeMenuItem } from '../../actions/menu'
 import { withRouter } from 'react-router';
-
+import Srch from './Search/Search'
 const { Header } = Layout;
+
+const MenuUser = (props) => (
+  <Menu>
+    <Menu.Item key="0">
+      <Link to={`/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
+    </Menu.Item>
+    <Menu.Item key="1">
+      <Link to="/news" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link>
+    </Menu.Item>
+    <Menu.Item key="2">
+      <a onClick={props.logout}>退出</a>
+    </Menu.Item>
+  </Menu>
+);
+MenuUser.propTypes={
+  user:PropTypes.string,
+  msg:PropTypes.string,
+  uid: PropTypes.number,
+  relieveLink:PropTypes.func,
+  logout:PropTypes.func
+}
+
 const ToolUser = (props)=> (
   <ul>
-    <li><Link to="/user" onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link></li>
-    <li><Link to="/News" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link></li>
-    <li onClick={props.logout}>退出</li>
+    <li className="toolbar-li">
+      <Srch groupList={props.groupList}/>
+    </li>
+    <li className="toolbar-li">
+      <Dropdown overlay={
+        <MenuUser
+          user={props.user}
+          msg={props.msg}
+          uid={props.uid}
+          relieveLink={props.relieveLink}
+          logout={props.logout}
+        />
+      }>
+        <a className="dropdown-link">
+          <Icon type="user"/>
+        </a>
+      </Dropdown>
+    </li>
   </ul>
 );
 ToolUser.propTypes={
   user:PropTypes.string,
   msg:PropTypes.string,
+  uid: PropTypes.number,
   relieveLink:PropTypes.func,
-  logout:PropTypes.func
+  logout:PropTypes.func,
+  groupList: PropTypes.array
 };
+
 
 @withRouter
 class HeaderCom extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      current : window.location.hash.split("#")[1]
-    }
   }
   static propTypes ={
     router: PropTypes.object,
     user: PropTypes.string,
     msg: PropTypes.string,
+    uid: PropTypes.number,
     login:PropTypes.bool,
+    curKey:PropTypes.string,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
     checkLoginState:PropTypes.func,
     loginTypeAction:PropTypes.func,
+    changeMenuItem:PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object
   }
-  componentDidMount() {
-    const { router } = this.props;
-    console.log(router);
-  }
   linkTo = (e) =>{
-    this.setState({
-      current : e.key
-    })
+    this.props.changeMenuItem(e.key);
   }
   relieveLink = () => {
-    this.setState({
-      current : ""
-    })
+    this.props.changeMenuItem("");
   }
   logout = (e) => {
     e.preventDefault();
-    this.props.logoutActions();
+    this.props.logoutActions().then((res) => {
+      if (res.payload.data.errcode == 0) {
+        this.props.history.push('/');
+        this.props.changeMenuItem("/");
+        message.success('退出成功! ');
+      } else {
+        message.error(res.payload.data.errmsg);
+      }
+    }).catch((err) => {
+      message.error(err);
+    });
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -69,7 +112,7 @@ class HeaderCom extends Component {
     this.props.loginTypeAction("2");
   }
   checkLoginState = () => {
-    this.props.checkLoginState().then((res) => {
+    this.props.checkLoginState.then((res) => {
       if (res.payload.data.errcode !== 0) {
         this.props.history.push('/');
       }
@@ -78,11 +121,11 @@ class HeaderCom extends Component {
     })
   }
   render () {
-    this.checkLoginState();
-    const { login, user, msg } = this.props;
+    const { login, user, msg, uid, curKey } = this.props;
+    console.log(curKey);
     return (
       <acticle className="header-box">
-        <Layout className="'layout">
+        <Layout className="layout">
           <Header>
             <div className="content">
               <div className="logo">
@@ -94,7 +137,7 @@ class HeaderCom extends Component {
                 theme="dark"
                 style={{ lineHeight : '.64rem'}}
                 onClick={this.linkTo}
-                selectedKeys={[this.state.current]}
+                selectedKeys={[curKey]}
               >
                 <Menu.Item key="/">
                   <Link to="/">首页</Link>
@@ -110,7 +153,15 @@ class HeaderCom extends Component {
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
-                {login?<ToolUser user={user} msg={msg} relieveLink={this.relieveLink} logout={this.logout}/>:""}
+                {login?
+                  <ToolUser
+                    user = { user }
+                    msg = { msg }
+                    uid = { uid }
+                    relieveLink = { this.relieveLink }
+                    logout = { this.logout }
+                  />
+                  :""}
               </div>
             </div>
           </Header>
@@ -124,13 +175,16 @@ export default connect(
   (state) => {
     return{
       user: state.login.userName,
+      uid: state.login.uid,
       msg: null,
-      login:state.login.isLogin
+      login:state.login.isLogin,
+      curKey: state.menu.curKey
     }
   },
   {
     loginTypeAction,
     logoutActions,
-    checkLoginState
+    checkLoginState,
+    changeMenuItem
   }
 )(HeaderCom)
