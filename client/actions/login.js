@@ -2,7 +2,8 @@ import {
   LOGIN,
   LOGIN_OUT,
   LOGIN_TYPE,
-  GET_LOGIN_STATE
+  GET_LOGIN_STATE,
+  REGISTER
 } from '../constants/action-types.js';
 import axios from 'axios';
 
@@ -22,52 +23,29 @@ const checkLoginState = () => {
 }
 
 const loginActions = (data) => {
-  return (dispatch) => {
-    axios.post('/user/login', data).then((res) => {
-      if (res.data.errcode === 0) {
-        dispatch({
-          type: LOGIN,
-          payload: {
-            data: res
-          }
-        });
-      } else {
-        console.log('登录失败,errcode不为0');
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-}
+  return {
+    type: LOGIN,
+    payload: axios.post('/user/login', data)
+  };
+};
 
 const regActions = (data) => {
-  console.log(data);
+  const { email, password, userName } = data;
   const param = {
-    email: data.email,
-    password: data.password,
-    username: data.userName
-  }
-  return () => {
-    axios.post('/user/login', param).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-}
+    email,
+    password,
+    username: userName
+  };
+  return {
+    type: REGISTER,
+    payload: axios.post('/user/reg', param)
+  };
+};
 
 const logoutActions = () => {
-  return(dispatch)=>{
-    axios.get('./user/logout').then((res) => {
-      console.log(res);
-      if(res.data.errcode === 0){
-        dispatch({
-          type: LOGIN_OUT
-        })
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
+  return {
+    type: LOGIN_OUT,
+    payload: axios.get('./user/logout')
   }
 }
 
