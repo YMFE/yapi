@@ -12,6 +12,7 @@ class projectModel extends baseModel{
             name: {type: String, required: true},
             basepath: {type: String, required: true, validate: {
                 validator: (v) => {
+                    console.log('basepath: ', v)
                     return v && v[0] === '/'
                 },
                 message: 'basepath必须是/开头'
@@ -64,7 +65,7 @@ class projectModel extends baseModel{
     list (group_id){
         return this.model.find({
             group_id: group_id
-        }).exec()
+        }).sort({_id: -1}).exec()
     }
 
     listWithPaging(group_id, page, limit) {
@@ -72,7 +73,7 @@ class projectModel extends baseModel{
         limit = parseInt(limit);
         return this.model.find({
             group_id: group_id
-        }).skip((page - 1) * limit).limit(limit).exec();
+        }).sort({_id: -1}).skip((page - 1) * limit).limit(limit).exec();
     }
 
     listCount(group_id) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Form, Input, Icon, Tooltip, Select, message, Button } from 'antd';
+import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';
 import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -23,7 +23,7 @@ const formItemLayout = {
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 }
+    sm: { span: 20, offset: 6 }
   }
 };
 let uuid = 0;
@@ -78,22 +78,21 @@ class UpDateModal extends Component {
     this.props.changeUpdateModal(false, -1);
   }
 
+  // 确认修改
   handleOk = (e) => {
+    console.log('in');
     e.preventDefault();
     const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
+      console.log(err);
       if (!err) {
-        console.log(values);
+        console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
-        assignValue.prd_host = this.state.protocol + assignValue.prd_host;
-        assignValue.env = assignValue.envs.map((item) => {
-          console.log(assignValue);
-          const arr = assignValue['envs-'+item].split(',');
-          if (arr.length === 2) {
-            return {
-              host: arr[0],
-              name: arr[1]
-            }
+        values.protocol = this.state.protocol.split(':')[0];
+        assignValue.env = assignValue.envs.map((item, index) => {
+          return {
+            name: values['envs-name-'+index],
+            domain: values['envs-domain-'+index]
           }
         });
         console.log(assignValue);
@@ -120,21 +119,26 @@ class UpDateModal extends Component {
     });
   }
 
-  remove = (k) => {
+  // 项目的修改操作 - 删除一项环境配置
+  remove = (id) => {
     const { form } = this.props;
     // can use data-binding to get
     const envs = form.getFieldValue('envs');
     // We need at least one passenger
-    if (envs.length === 1) {
+    if (envs.length === 0) {
       return;
     }
 
     // can use data-binding to set
     form.setFieldsValue({
-      envs: envs.filter(key => key !== k)
+      envs: envs.filter(key => {
+        console.log(key);
+        return key._id !== id;
+      })
     });
   }
 
+  // 项目的修改操作 - 添加一项环境配置
   add = () => {
     uuid++;
     const { form } = this.props;
@@ -148,15 +152,6 @@ class UpDateModal extends Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  }
-
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     // const that = this;
@@ -166,52 +161,99 @@ class UpDateModal extends Component {
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
     if (projectList.length !== 0 && handleUpdateIndex !== -1 ) {
       // console.log(projectList[handleUpdateIndex]);
-      const { name, basepath, desc, env } = projectList[handleUpdateIndex];
+      const { name, basepath, desc , env} = projectList[handleUpdateIndex];
       initFormValues = { name, basepath, desc, env };
-      if (env) {
-        envMessage = env.map((item) => {
-          return item.host + ',' + item.name;
-        })
+      if (env.length !== 0) {
+        envMessage = env;
       }
-      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host.split('\/\/')[1];
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].prd_host.split('\/\/')[0] + '\/\/';
+      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
+      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\/\/';
+
     }
 
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
+      console.log(k);
+      const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
-        <FormItem
-          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? (
-            <span>环境配置&nbsp;
-              <Tooltip title="依次输入环境域名(host)与环境名称，以英文逗号分隔">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>) : ''}
-          required={false}
-          key={k}
-        >
-          {getFieldDecorator(`envs-${k}`, {
-            validateTrigger: ['onChange', 'onBlur'],
-            initialValue: envMessage.length !== 0 ? k : '',
-            rules: [{
-              required: false,
-              whitespace: true,
-              message: "请输入环境配置，放弃配置请清空输入框"
-            }]
-          })(
-            <Input placeholder="请输入环境配置" style={{ width: '60%', marginRight: 8 }} />
-          )}
-          {envs.length > 1 ? (
-            <Icon
-              className="dynamic-delete-button"
-              type="minus-circle-o"
-              disabled={envs.length === 1}
-              onClick={() => this.remove(k)}
-            />
-          ) : null}
-        </FormItem>
+        <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
+          <Col span={10} offset={2}>
+            <FormItem
+              label={index === 0 ? (
+                <span>环境名称</span>) : ''}
+              required={false}
+              key={index}
+            >
+              {getFieldDecorator(`envs-name-${index}`, {
+                validateTrigger: ['onChange', 'onBlur'],
+                initialValue: envMessage.length !== 0 ? k.name : '',
+                rules: [{
+                  required: false,
+                  whitespace: true,
+                  message: "请输入环境名称",
+                  validator(rule, value, callback) {
+                    if (value) {
+                      if (value.length === 0) {
+                        callback('请输入环境域名');
+                      } else if (!/\S/.test(value)) {
+                        callback('请输入环境域名');
+                      } else {
+                        return callback();
+                      }
+                    } else {
+                      callback('请输入环境域名');
+                    }
+                  }
+                }]
+              })(
+                <Input placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={10}>
+            <FormItem
+              label={index === 0 ? (
+                <span>环境域名</span>) : ''}
+              required={false}
+              key={secondIndex}
+            >
+              {getFieldDecorator(`envs-domain-${index}`, {
+                validateTrigger: ['onChange', 'onBlur'],
+                initialValue: envMessage.length !== 0 ? k.domain : '',
+                rules: [{
+                  required: false,
+                  whitespace: true,
+                  message: "请输入环境域名",
+                  validator(rule, value, callback) {
+                    if (value) {
+                      if (value.length === 0) {
+                        callback('请输入环境域名');
+                      } else if (!/\S/.test(value)) {
+                        callback('请输入环境域名');
+                      } else {
+                        return callback();
+                      }
+                    } else {
+                      callback('请输入环境域名');
+                    }
+                  }
+                }]
+              })(
+                <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={2}>
+            {envs.length > 0 ? (
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(k._id)}
+              />
+            ) : null}
+          </Col>
+        </Row>
       );
     });
     return (
@@ -269,7 +311,7 @@ class UpDateModal extends Component {
             {getFieldDecorator('basepath', {
               initialValue: initFormValues.basepath,
               rules: [{
-                required: true, message: '请输入项目基本路径!'
+                required: true, message: '请输入项目基本路径! '
               }]
             })(
               <Input />

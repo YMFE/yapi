@@ -85,7 +85,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'verifyPath',
         value: function verifyPath(path) {
-            if (/^[a-zA-Z0-9\-\/_:]+$/.test(basepath)) {
+            if (/^[a-zA-Z0-9\-\/_:]+$/.test(path)) {
                 return true;
             } else {
                 return false;
@@ -174,7 +174,7 @@ var projectController = function (_baseController) {
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目domain不能为空'));
 
                             case 14:
-                                if (!(params.basepath = this.handleBasepath(params.basepath) === false)) {
+                                if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
                                     _context.next = 16;
                                     break;
                                 }
@@ -742,7 +742,7 @@ var projectController = function (_baseController) {
          * @param {String} [desc] 项目描述 
          * @param {Array} [env] 项目环境配置
          * @param {String} [env[].name] 环境名称
-         * @param {String} [env[].host] 环境域名
+         * @param {String} [env[].domain] 环境域名
          * @returns {Object} 
          * @example ./api/project/up.json
          */
