@@ -108,6 +108,15 @@ class AddInterface extends Component {
     props.addReqHeader(req_headers)
   }
 
+  editState2 () {
+    const props = this.props
+    props.pushInputValue(props.url)
+    // props.pushInterfaceName(title)
+    // props.getReqParams(req_params_other)
+    props.getResParams(props.resParams)
+    // props.addReqHeader(req_headers)
+  }
+
   initInterfaceData (interfaceId) {
     const params = { id: interfaceId }
 
@@ -165,9 +174,11 @@ class AddInterface extends Component {
     this.setLoading(true)
 
     axios.post(postURL, params)
-      .then(() => {
+      .then(data => {
+        console.log(data)
         this.setLoading()
-        this.routerPage()
+        this.editState2()
+        // this.routerPage()
       })
       .catch(e => {
         console.log(e)

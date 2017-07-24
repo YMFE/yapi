@@ -35,15 +35,17 @@ class ResParams extends Component {
   }
 
   componentDidMount () {
-    const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
+    const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+|<div>|<\/div>/g
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
+      html = html.match(/{.*}/g)[0]
       html = html.replace(reg, '')
+      console.log(html)
       this.props.getResParams(html)
     }
     setTimeout(() => {
       this.initResParams()
-    }, 200)
+    }, 400)
     editor.create()
   }
 
