@@ -18,7 +18,9 @@ const logList = [{
 }];
 @connect(
   state => {
+    // console.log(state);
     return {
+      uid: state.user.curUid,
       newsData: state.news.newsData
     }
   },
@@ -31,7 +33,8 @@ class NewsList extends Component {
 
   static propTypes = {
     fetchNewsData: PropTypes.func,
-    setLoading: PropTypes.func
+    setLoading: PropTypes.func,
+    uid: PropTypes.string
   }
 
   constructor(props) {
@@ -48,7 +51,8 @@ class NewsList extends Component {
     })
     const that = this;
     this.props.setLoading(true);
-    this.props.fetchNewsData(+e.key).then(function(){
+    this.props.fetchNewsData(+this.props.uid,0,5).then(function(data){
+      console.log(data.data);
       that.props.setLoading(false);
     })
   }

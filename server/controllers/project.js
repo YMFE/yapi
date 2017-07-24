@@ -18,18 +18,10 @@ class projectController extends baseController {
         if(!basepath) return false;
         if(basepath[0] !== '/') basepath = '/' + basepath;
         if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
-        if(!this.verifyPath(basepath)){
+        if(!yapi.commons.verifyPath(basepath)){
             return false;
         }
         return basepath;
-    }
-
-    verifyPath(path){
-        if(/^[a-zA-Z0-9\-\/_:]+$/.test(path)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     verifyDomain(domain){
@@ -51,8 +43,8 @@ class projectController extends baseController {
      * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
      * @param {String} protocol 线上域名协议，不能为空
      * @param {Number} group_id 项目分组id，不能为空
-     * @param  {String} [desc] 项目描述 
-     * @returns {Object} 
+     * @param  {String} [desc] 项目描述
+     * @returns {Object}
      * @example ./api/project/add.json
      */
     async add(ctx) {
@@ -90,7 +82,7 @@ class projectController extends baseController {
         if(checkRepeatDomain > 0){
             return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
-        
+
         let data = {
             name: params.name,
             desc: params.desc,
@@ -105,12 +97,12 @@ class projectController extends baseController {
         }
 
         try{
-            let result = await this.Model.save(data);           
+            let result = await this.Model.save(data);
             ctx.body = yapi.commons.resReturn(result);
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
-        
+
     }
      /**
      * 添加项目
@@ -120,7 +112,7 @@ class projectController extends baseController {
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
      * @param {String} member_uid 项目成员uid,不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/add_member.json
      */
     async addMember(ctx){
@@ -152,7 +144,7 @@ class projectController extends baseController {
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
      * @param {member_uid} uid 项目成员uid,不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/del_member.json
      */
 
@@ -212,7 +204,7 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/get.json
      */
 
@@ -238,7 +230,7 @@ class projectController extends baseController {
      * @param {Number} group_id 项目group_id，不能为空
      * @param {Number} [page] 分页页码
      * @param {Number} [limit] 每页数据条目，默认为10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/list.json
      */
 
@@ -256,12 +248,11 @@ class projectController extends baseController {
             let count = await this.Model.listCount(group_id);
             let uids = [];
             result.forEach( (item)=> {
-                if(uids.indexOf(item.uid) !== -1){
+                if(uids.indexOf(item.uid) === -1){
                     uids.push(item.uid)
                 }
-                
-            } )
 
+            } )
             let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
             users.forEach((item)=> {
                 _users[item._id] = item;
@@ -271,7 +262,7 @@ class projectController extends baseController {
                 list: result,
                 userinfo: _users
             })
-        }catch(err){
+        }catch(e){
              ctx.body = yapi.commons.resReturn(null, 402, e.message)
         }
     }
@@ -283,11 +274,11 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} id 项目id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/del.json
      */
 
-    async del(ctx){   
+    async del(ctx){
         try{
             let id = ctx.request.body.id;
             if(!id){
@@ -319,16 +310,16 @@ class projectController extends baseController {
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
      * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
-     * @param {String} [desc] 项目描述 
+     * @param {String} [desc] 项目描述
      * @param {Array} [env] 项目环境配置
      * @param {String} [env[].name] 环境名称
      * @param {String} [env[].domain] 环境域名
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/project/up.json
      */
 
     async up(ctx){
-        try{            
+        try{
             let id = ctx.request.body.id;
             let params = ctx.request.body;
             if(!id){
@@ -338,7 +329,7 @@ class projectController extends baseController {
             if(await this.jungeMemberAuth(id, this.getUid()) !== true){
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
-            
+
             let projectData = await this.Model.get(id);
 
             if(params.basepath = (this.handleBasepath(params.basepath)) === false){
@@ -348,7 +339,7 @@ class projectController extends baseController {
             if(!this.verifyDomain(params.prd_host)){
                 return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
             }
-            
+
             if(projectData.name === params.name){
                 delete params.name;
             }
@@ -435,7 +426,7 @@ class projectController extends baseController {
             { key: 'add_time', alias: 'addTime' },
             { key: 'up_time', alias: 'upTime' }
         ];
-        
+
         projectList = commons.filterRes(projectList, projectRules);
         groupList = commons.filterRes(groupList, groupRules);
 
@@ -443,7 +434,7 @@ class projectController extends baseController {
             project: projectList,
             group: groupList
         };
-        
+
         return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok')
     }
 }

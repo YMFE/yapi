@@ -1,4 +1,16 @@
 @import '../../styles/common.scss';
 
-/* .login-main.css */
+.ant-tabs-nav-wrap {
+  font-size: .16rem;
+  text-align: center;
+}
 
+.login-form-button {
+  // background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  // border: none !important;
+  width: 100%;
+}
+
+.ant-form-item{
+  margin-bottom: .1rem;
+}

@@ -10,6 +10,7 @@ import { fetchNewsData } from '../../actions/news.js'
 @connect(
   state => {
     return {
+      uid: state.user.curUid,
       newsData: state.news.newsData?state.news.newsData:[]
     }
   },
@@ -27,7 +28,8 @@ class News extends Component {
   }
   static propTypes = {
     newsData: PropTypes.object,
-    fetchNewsData: PropTypes.func
+    fetchNewsData: PropTypes.func,
+    uid: PropTypes.string
   }
   setLoading(bool){
     this.setState({
@@ -35,7 +37,10 @@ class News extends Component {
     })
   }
   componentWillMount(){
-    this.props.fetchNewsData()
+    console.log(this.props.uid);
+    this.props.fetchNewsData(1,1,10).then(function(data){
+      console.log(data);
+    })
   }
   render () {
     const data = this.props.newsData

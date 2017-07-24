@@ -18,6 +18,12 @@ class logModel extends baseModel {
         }
     }
 
+    /**
+     * @param {String} title log标题
+     * @param {String} content log内容
+     * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
+     * @param {Number} uid 用户id
+     */
     async save(data) {
         let userInst = yapi.getInst(userModel);
         let username = await userInst.findById(data.uid);

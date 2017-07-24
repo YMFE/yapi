@@ -85,16 +85,9 @@ class HeaderCom extends Component {
   }
   linkTo = (e) =>{
     this.props.changeMenuItem(e.key);
-    // this.props.curKey = e.key;
-    // this.setState({
-    //   current : e.key
-    // })
   }
   relieveLink = () => {
     this.props.changeMenuItem("");
-    // this.setState({
-    //   current : ""
-    // })
   }
   logout = (e) => {
     e.preventDefault();
@@ -129,9 +122,10 @@ class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
+    console.log(curKey);
     return (
       <acticle className="header-box">
-        <Layout className="'layout">
+        <Layout className="layout">
           <Header>
             <div className="content">
               <div className="logo">
