@@ -1,10 +1,10 @@
-import './Login.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Tabs } from 'antd';
 import LoginForm from './Login';
 import RegForm from './Reg';
+import './Login.scss';
 const TabPane = Tabs.TabPane;
 
 
@@ -21,7 +21,7 @@ class LoginWrap extends Component {
   render() {
     const { loginWrapActiveKey } = this.props;
     return (
-      <Tabs defaultActiveKey={loginWrapActiveKey} className="login-form">
+      <Tabs defaultActiveKey={loginWrapActiveKey} className="login-form" tabBarStyle={{border: 'none'}}>
         <TabPane tab="登录" key="1">
           <LoginForm/>
         </TabPane>
