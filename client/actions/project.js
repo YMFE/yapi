@@ -15,7 +15,7 @@ const fetchProjectList = (id, pageNum) => {
     payload: axios.get('/project/list', {
       params: {
         group_id: id,
-        page: pageNum,
+        page: pageNum || 1,
         limit: variable.PAGE_LIMIT
       }
     })
@@ -54,14 +54,15 @@ const addProject = (data) => {
 };
 
 const updateProject = (data) => {
-  const { name, prd_host, basepath, desc, _id, protocol } = data;
+  const { name, prd_host, basepath, desc, _id, protocol, env } = data;
   const param = {
     name,
     prd_host,
     protocol,
     basepath,
     desc,
-    id: _id
+    id: _id,
+    env
   };
   return {
     type: PROJECT_UPDATE,

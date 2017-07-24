@@ -80,9 +80,11 @@ class UpDateModal extends Component {
 
   // 确认修改
   handleOk = (e) => {
+    console.log('in');
     e.preventDefault();
     const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
+      console.log(err);
       if (!err) {
         console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
@@ -90,7 +92,7 @@ class UpDateModal extends Component {
         assignValue.env = assignValue.envs.map((item, index) => {
           return {
             name: values['envs-name-'+index],
-            host: values['envs-host-'+index]
+            domain: values['envs-domain-'+index]
           }
         });
         console.log(assignValue);
@@ -117,21 +119,26 @@ class UpDateModal extends Component {
     });
   }
 
-  remove = (k) => {
+  // 项目的修改操作 - 删除一项环境配置
+  remove = (id) => {
     const { form } = this.props;
     // can use data-binding to get
     const envs = form.getFieldValue('envs');
     // We need at least one passenger
-    if (envs.length === 1) {
+    if (envs.length === 0) {
       return;
     }
 
     // can use data-binding to set
     form.setFieldsValue({
-      envs: envs.filter(key => key !== k)
+      envs: envs.filter(key => {
+        console.log(key);
+        return key._id !== id;
+      })
     });
   }
 
+  // 项目的修改操作 - 添加一项环境配置
   add = () => {
     uuid++;
     const { form } = this.props;
@@ -142,15 +149,6 @@ class UpDateModal extends Component {
     // important! notify form to detect changes
     form.setFieldsValue({
       envs: nextKeys
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
     });
   }
 
@@ -176,7 +174,7 @@ class UpDateModal extends Component {
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
-      // console.log(k);
+      console.log(k);
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
@@ -193,7 +191,20 @@ class UpDateModal extends Component {
                 rules: [{
                   required: false,
                   whitespace: true,
-                  message: "请输入环境名称"
+                  message: "请输入环境名称",
+                  validator(rule, value, callback) {
+                    if (value) {
+                      if (value.length === 0) {
+                        callback('请输入环境域名');
+                      } else if (!/\S/.test(value)) {
+                        callback('请输入环境域名');
+                      } else {
+                        return callback();
+                      }
+                    } else {
+                      callback('请输入环境域名');
+                    }
+                  }
                 }]
               })(
                 <Input placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
@@ -207,13 +218,26 @@ class UpDateModal extends Component {
               required={false}
               key={secondIndex}
             >
-              {getFieldDecorator(`envs-host-${index}`, {
+              {getFieldDecorator(`envs-domain-${index}`, {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: envMessage.length !== 0 ? k.host : '',
+                initialValue: envMessage.length !== 0 ? k.domain : '',
                 rules: [{
                   required: false,
                   whitespace: true,
-                  message: "请输入环境域名"
+                  message: "请输入环境域名",
+                  validator(rule, value, callback) {
+                    if (value) {
+                      if (value.length === 0) {
+                        callback('请输入环境域名');
+                      } else if (!/\S/.test(value)) {
+                        callback('请输入环境域名');
+                      } else {
+                        return callback();
+                      }
+                    } else {
+                      callback('请输入环境域名');
+                    }
+                  }
                 }]
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} />
@@ -221,12 +245,11 @@ class UpDateModal extends Component {
             </FormItem>
           </Col>
           <Col span={2}>
-            {envs.length > 1 ? (
+            {envs.length > 0 ? (
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                disabled={envs.length === 1}
-                onClick={() => this.remove(k)}
+                onClick={() => this.remove(k._id)}
               />
             ) : null}
           </Col>

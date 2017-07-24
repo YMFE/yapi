@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
 import { changeMenuItem } from '../../actions/menu'
 import { withRouter } from 'react-router';
@@ -98,12 +98,17 @@ class HeaderCom extends Component {
   }
   logout = (e) => {
     e.preventDefault();
-    this.props.logoutActions();
-    this.props.history.push('/');
-    this.props.changeMenuItem("/");
-    // this.setState({
-    //   current : "/"
-    // })
+    this.props.logoutActions().then((res) => {
+      if (res.payload.data.errcode == 0) {
+        this.props.history.push('/');
+        this.props.changeMenuItem("/");
+        message.success('退出成功! ');
+      } else {
+        message.error(res.payload.data.errmsg);
+      }
+    }).catch((err) => {
+      message.error(err);
+    });
   }
   handleLogin = (e) => {
     e.preventDefault();
@@ -114,7 +119,7 @@ class HeaderCom extends Component {
     this.props.loginTypeAction("2");
   }
   checkLoginState = () => {
-    this.props.checkLoginState().then((res) => {
+    this.props.checkLoginState.then((res) => {
       if (res.payload.data.errcode !== 0) {
         this.props.history.push('/');
       }

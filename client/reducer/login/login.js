@@ -32,8 +32,8 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: true,
         loginState: MEMBER_STATUS,
-        uid: action.payload.data.uid,
-        userName: action.payload.data.userName
+        uid: action.payload.data.data.uid,
+        userName: action.payload.data.data.username
       };
     }
     case LOGIN_OUT: {
