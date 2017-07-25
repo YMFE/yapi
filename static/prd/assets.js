@@ -1,1 +1,0 @@
-window.WEBPACK_ASSETS = {"index.js":{"js":"index.js","css":"index.css"}}
