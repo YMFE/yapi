@@ -2,18 +2,20 @@
 
 $color-white : #fff;
 $color-blue-lighter : #f1f5ff;
+$color-blue-grey-lighter : #f7fafc;
 $color-grey-lighter : #F7F7F7;
 $color-blue-light: #5dade2;
 $color-black-lighter: #404040;
 
 
 .home-main {
-  height:calc(100% - .64rem);
+  min-height:calc(100% - 2.23rem);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  background: $color-grey-lighter;
+  background: $color-blue-grey-lighter;
   .main-one{
     padding: .5rem .5rem 0 .5rem;
+    //height: 7.16rem;
     //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
       padding: 0 .3rem .3rem 0;
@@ -45,9 +47,9 @@ $color-black-lighter: #404040;
   .user-home{
     display: flex;
     align-items: center;
-    height:calc(100% - 2rem);
+    height: 100%;
     max-width: 11rem;
-    margin: 0 auto;
+    margin: 1rem auto 0;
     .user-des{
       max-width: 11rem;
       margin: 0 auto .5rem;
@@ -72,6 +74,7 @@ $color-black-lighter: #404040;
   }
   .main-part{
     padding: .9rem .5rem;
+    height: 5.8rem;
     &:nth-child(odd){
       background-color: $color-blue-lighter;
     }
@@ -79,9 +82,73 @@ $color-black-lighter: #404040;
       background-color: $color-white;
     }
   }
+  .feat-part{
+    padding: .9rem .5rem;
+    background-color: $color-white;
+    h3{
+      display: flex;
+      height: .3rem;
+      align-items: center;
+      padding: 0 .1rem;
+      margin-bottom: .2rem;
+      color: #333;
+      &:before, &:after{
+        content: "";
+        display: inline-block;
+        height: .02rem;
+        flex: 1;
+        border-top: .01rem solid #e6e6e6;
+      }
+      span{
+        font-size: .24rem;
+        padding: 0 .1rem;
+        font-weight: normal;
+      }
+    }
+  }
   .container{
     max-width: 11rem;
     margin: 0 auto;
+    height:100%;
+    position: relative;
+  }
+  .feat-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    .feat-img{
+      height: 1.2rem;
+      width: 1.2rem;
+      border-radius: 100%;
+      margin-bottom: .2rem;
+      color: $color-white;
+      i{
+        line-height: 1.2rem;
+        font-size: .6rem;
+      }
+    }
+    .feat-title{
+      font-size: .16rem;
+      line-height: .3rem;
+      color: #333;
+    }
+    &:first-child{
+      .feat-img{
+        background-color: rgb(248, 88, 96);
+      }
+    }
+    &:nth-child(2){
+      .feat-img{
+        background-color: #f9bb13;
+      }
+    }
+    &:nth-child(3){
+      .feat-img{
+        background-color: #20ab8e;
+      }
+    }
   }
 }
 

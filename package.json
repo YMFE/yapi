@@ -37,6 +37,8 @@
     "node-sass-china": "^4.5.0",
     "nodemailer": "^4.0.1",
     "prop-types": "^15.5.10",
+    "rc-queue-anim": "^1.2.0",
+    "rc-scroll-anim": "^1.0.7",
     "redux": "^3.7.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
