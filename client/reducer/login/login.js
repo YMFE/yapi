@@ -29,13 +29,17 @@ export default (state = initialState, action) => {
       };
     }
     case LOGIN: {
-      return {
-        ...state,
-        isLogin: true,
-        loginState: MEMBER_STATUS,
-        uid: action.payload.data.data.uid,
-        userName: action.payload.data.data.username
-      };
+      if (action.payload.data.errcode === 0) {
+        return {
+          ...state,
+          isLogin: true,
+          loginState: MEMBER_STATUS,
+          uid: action.payload.data.data.uid,
+          userName: action.payload.data.data.username
+        };
+      } else {
+        return state;
+      }
     }
     case LOGIN_OUT: {
       return{
