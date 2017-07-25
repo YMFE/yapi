@@ -1,41 +1,81 @@
 import React, { Component } from 'react'
 import { Table, Button } from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { deleteInterfaceData } from '../../../actions/interfaceAction.js'
+
+@connect(
+  state => {
+    return {
+      interfaceData: state.Interface.interfaceData
+    }
+  },
+  {
+    deleteInterfaceData
+  }
+)
 
 class InterfaceTable extends Component {
   static propTypes = {
-    data: PropTypes.array
+    interfaceData: PropTypes.array,
+    data: PropTypes.array,
+    deleteInterfaceData: PropTypes.func
   }
 
   constructor(props) {
     super(props)
   }
 
+  deleteInterfaceData (interfaceId) {
+    let interfaceArr = []
+    let { interfaceData } = this.props
+    interfaceData.forEach(value => {
+      if (value._id !== interfaceId) {
+        interfaceArr.push(value)
+      }
+    })
+    this.props.deleteInterfaceData(interfaceArr)
+  }
+
+  deleteInterface (interfaceId) {
+    const params = {
+      id: interfaceId
+    }
+    axios.post('/interface/del', params)
+      .then(() => {
+        this.deleteInterfaceData(interfaceId)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   render () {
     const columns = [{
       title: '接口名称',
-      dataIndex: 'name',
-      key: 'name'
+      dataIndex: 'title',
+      key: 'title'
     }, {
       title: '接口URL',
-      dataIndex: 'age',
-      key: 'age'
-    }, {
-      title: '操作者',
-      dataIndex: 'address',
-      key: 'address'
-    }, {
+      dataIndex: 'path',
+      key: 'path'
+    },{
       title: '更新日期',
-      dataIndex: 'date',
-      key: 'date'
+      dataIndex: 'add_time',
+      key: 'add_time'
     }, {
       title: '功能',
       'key': 'action',
-      render: () => {
+      render: (data) => {
+        const deleteInterface = this.deleteInterface.bind(this, data._id)
         return (
           <span>
-            <Button type="primary">编辑</Button>
-            <Button type="danger">删除</Button>
+            <Button type="primary">
+              <Link to={`/AddInterface/edit/${data._id}`}>编辑</Link>
+            </Button>
+            <Button type="danger" onClick={deleteInterface}>删除</Button>
           </span>
         )
       }

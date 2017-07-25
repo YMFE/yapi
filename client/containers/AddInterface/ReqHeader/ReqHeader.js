@@ -11,8 +11,9 @@ import {
 // 重新渲染页面
 const getReqList = function (self) {
   const [reqList, seqGroup] = [[], self.props.seqGroup]
+  console.log('seqGroup', seqGroup)
   seqGroup.map((value, key) => {
-    reqList.push(<ReqList key={key} dataNum={value.id} />)
+    reqList.push(<ReqList key={key} value={value} dataNum={value.id} />)
   })
   return reqList
 }
@@ -45,8 +46,8 @@ class ReqHeader extends Component {
     let id = seqGroup[seqGroup.length-1].id    
     let list = {
       id: ++id,
-      tag: '',
-      content: ''
+      value: '',
+      name: ''
     }
     seqGroup.push(list)
     newSeqGroup.push(...seqGroup)
