@@ -5,6 +5,7 @@ import { Button, Icon, Modal, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 
+const { TextArea } = Input;
 const Search = Input.Search;
 const confirm = Modal.confirm;
 const TYPE_EDIT = 'edit';
@@ -229,7 +230,7 @@ export default class GroupList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
-              <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
+              <TextArea rows = {3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
             </Col>
           </Row>
         </Modal>
