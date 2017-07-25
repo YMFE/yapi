@@ -94,7 +94,8 @@ class Reg extends Component {
         {/* Emaiil */}
         <FormItem style={formItemStyle}>
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: '请输入email!' }]
+            rules: [{ required: true, message: '请输入email!',
+            pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ }]
           })(
             <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
