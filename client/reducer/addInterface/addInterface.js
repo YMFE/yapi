@@ -6,22 +6,20 @@ import {
   DELETE_INTERFACE_SEQ_HEADER,
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
-  SAVE_INTERFACE_FORMS,
   PUSH_INTERFACE_NAME,
   PUSH_INTERFACE_METHOD
 } from '../../constants/action-types.js'
 
 const initialState = {
-  inputValue: '',
-  tagValue: '',
-  headerValue: '',
-  methode: '',
+  interfaceName: '',
+  url: '',
+  method: '',
   // 默认请求头部有一条数据
   seqGroup: [
     {
       id: 0,
-      tag: '',
-      content: ''
+      name: '',
+      value: ''
     }
   ],
   reqParams: '',
@@ -33,7 +31,7 @@ export default (state = initialState, action) => {
     case FETCH_ADD_INTERFACE_INPUT:
       return {
         ...state,
-        inputValue: action.payload
+        url: action.payload
       }
     case FETCH_ADD_INTERFACE_TAG_VALUE:
       return {
@@ -65,20 +63,15 @@ export default (state = initialState, action) => {
         ...state,
         resParams: action.payload
       }
-    case SAVE_INTERFACE_FORMS:
-      return {
-        ...state,
-        resParams: action.payload
-      }
     case PUSH_INTERFACE_NAME:
       return {
         ...state,
-        resParams: action.payload
+        interfaceName: action.payload
       }
     case PUSH_INTERFACE_METHOD:
       return {
         ...state,
-        methode: action.payload
+        method: action.payload
       }
     default:
       return state

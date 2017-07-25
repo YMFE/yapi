@@ -6,7 +6,7 @@ import axios from 'axios'
 import InterfaceList from './InterfaceList/InterfaceList.js'
 import InterfaceTable from './InterfaceTable/InterfaceTable.js'
 import InterfaceMode from './InterfaceMode/InterfaceMode.js'
-
+import moment from 'moment'
 import {
   fetchInterfaceData, 
   projectMember,
@@ -43,7 +43,6 @@ class Interface extends Component {
 
   componentWillMount () {
     // 558 665 704 743
-    this.props.fetchInterfaceData()
     const params = {
       params: {
         project_id: 558
@@ -51,8 +50,13 @@ class Interface extends Component {
     }
 
     axios.get('/interface/list', params)
-      .then(data => {
-        console.log(data)
+      .then(result => {
+        result = result.data.data
+        result.map(value => {
+          value.add_time = moment(value.add_time).format('YYYY-MM-DD HH:mm:ss')
+          return value
+        })
+        this.props.fetchInterfaceData(result)
       })
       .catch(e => {
         console.log(e)
@@ -61,7 +65,6 @@ class Interface extends Component {
 
   render () {
     const { interfaceData, projectMember, modalVisible } = this.props
-
     return (
       <div>
         <section className="interface-box">

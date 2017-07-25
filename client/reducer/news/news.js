@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
       };
     }
     case FETCH_MORE_NEWS: {
-      // console.log(action.payload);
       return {
         newsData: {
           ...state.newsData,
