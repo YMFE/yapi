@@ -11,7 +11,6 @@ import axios from 'axios';
 const checkLoginState = () => {
   return(dispatch)=> {
     axios.get('/user/status').then((res) => {
-      console.log(res);
       dispatch({
         type: GET_LOGIN_STATE,
         payload: res
