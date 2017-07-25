@@ -13,7 +13,7 @@ import {
   state => {
     return {
       method: state.addInterface.method,
-      reqInputVal: state.addInterface.inputValue,
+      url: state.addInterface.url,
       interfaceName: state.addInterface.interfaceName
     }
   },
@@ -29,7 +29,7 @@ class ReqMethod extends Component {
     pushInputValue: PropTypes.func,
     pushInterfaceName: PropTypes.func,
     pushInterfaceMethod: PropTypes.func,
-    inputValue: PropTypes.string,
+    url: PropTypes.string,
     method: PropTypes.string,
     interfaceName: PropTypes.string
   }
@@ -40,15 +40,13 @@ class ReqMethod extends Component {
 
   @autobind
   handleChange (value) {
-    
     this.props.pushInterfaceMethod(value)
   }
 
   @autobind
   getInputVal (e) {
-    const inputVal = e.target.value
-    console.log(this.props.pushInputValue)
-    this.props.pushInputValue(inputVal)
+    const url = e.target.value
+    this.props.pushInputValue(url)
   }
 
   @autobind
@@ -59,14 +57,14 @@ class ReqMethod extends Component {
 
   render () {
     const { Option } = Select
-    console.log(this.props.method)
+    const { url, interfaceName } = this.props
     return (
       <table>
         <tbody>
           <tr>
             <th>协议 :</th>
             <td>
-              <span className="h3">请求协议 {this.props.inputValue}</span>
+              <span className="h3">请求协议</span>
               <Select defaultValue="HTTP" style={{ width: 220}} onChange={this.handleChange} size="large">
                 <Option value="HTTP">HTTP</Option>
                 <Option value="HTTPS">HTTPS</Option>
@@ -82,11 +80,27 @@ class ReqMethod extends Component {
           </tr>
           <tr>
             <th>URL :</th>
-            <td><Input placeholder="填写 URL" className="url" size="large" onBlur={this.getInputVal} /></td>
+            <td>
+              <Input 
+                placeholder="填写 URL" 
+                className="url" 
+                size="large" 
+                onInput={this.getInputVal} 
+                value={url}
+              />
+            </td>
           </tr>
           <tr>
             <th>名称 :</th>
-            <td><Input placeholder="接口名称" className="url" size="large" onBlur={this.getInterfaceValue} /></td>
+            <td>
+              <Input 
+                placeholder="接口名称" 
+                className="url" 
+                size="large"
+                value={interfaceName}
+                onInput={this.getInterfaceValue} 
+              />
+            </td>
           </tr>
         </tbody>
       </table>

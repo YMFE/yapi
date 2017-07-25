@@ -8,7 +8,7 @@
     max-width: 11rem;
     margin: 0 auto;
     background: #FFF;
-    padding: 10px 20px;
+    padding: 10px 20px 50px 20px;
 
     .save {
       float: right;
@@ -131,13 +131,45 @@
       textarea {
         width: 100%;
         border: 1px #CCC solid;
-        height: 200px;
+        height: 300px;
+      }
+
+      pre {
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px #CCC solid;
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto; 
+        line-height: 1.2;
       }
       
       .ant-tabs {
         -webkit-box-flex: 1;
       }
     }
+
+    .dynamic-delete-button {
+      margin: 0 0 0 10px;
+      color: #CCC;
+    }
+  }
+
+  .loading {
+    display: none;
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    background-size: 30%;
+    z-index: 10000;
+  }
+  .is-loading {
+    display: block;
   }
 }
 

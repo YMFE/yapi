@@ -10,13 +10,13 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_NEWS_DATA: {
+      // console.log(action.payload);
       return {
         ...state,
         newsData: action.payload
       };
     }
     case FETCH_MORE_NEWS: {
-      // console.log(action.payload);
       return {
         newsData: {
           ...state.newsData,

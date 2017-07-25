@@ -2,7 +2,8 @@ import {
   LOGIN,
   LOGIN_OUT,
   LOGIN_TYPE,
-  GET_LOGIN_STATE
+  GET_LOGIN_STATE,
+  REGISTER
 } from '../../constants/action-types';
 
 const LOADING_STATUS = 0;
@@ -13,8 +14,8 @@ const initialState = {
   isLogin: false,
   userName: null,
   uid: null,
-  loginState:LOADING_STATUS,
-  loginWrapActiveKey:"1"
+  loginState: LOADING_STATUS,
+  loginWrapActiveKey: "1"
 };
 
 export default (state = initialState, action) => {
@@ -49,6 +50,15 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loginWrapActiveKey: action.index
+      };
+    }
+    case REGISTER: {
+      return {
+        ...state,
+        isLogin: true,
+        loginState: MEMBER_STATUS,
+        uid: action.payload.data.data.uid,
+        userName: action.payload.data.data.username
       };
     }
     default:
