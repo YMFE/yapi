@@ -13,7 +13,7 @@ const { Header } = Layout;
 const MenuUser = (props) => (
   <Menu>
     <Menu.Item key="0">
-      <Link to={`/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
+      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
     </Menu.Item>
     <Menu.Item key="1">
       <Link to="/news" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link>
