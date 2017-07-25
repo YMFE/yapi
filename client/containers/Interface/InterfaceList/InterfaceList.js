@@ -11,12 +11,20 @@ class InterfaceList extends Component {
     super(props)
   }
 
+  getInterfaceId () {
+    const reg = /Interface\/(\d+)/g
+    const url = location.href
+    url.match(reg)
+    return RegExp.$1
+  }
+
   render () {
     const { projectMember } = this.props
-
+    const getInterfaceId = this.getInterfaceId()
+    console.log(`/AddInterface/${getInterfaceId}`)
     return (
       <ul className="interface-list">
-        <li><Link to="/AddInterface">添加接口</Link></li>
+        <li><Link to={`/AddInterface/${getInterfaceId}`}>添加接口</Link></li>
         <li onClick={projectMember}>管理项目成员</li>
       </ul>
     )

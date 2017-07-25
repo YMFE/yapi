@@ -42,10 +42,10 @@ class Interface extends Component {
   }
 
   componentWillMount () {
-    // 558 665 704 743
+    const interfaceId = this.getInterfaceId()
     const params = {
       params: {
-        project_id: 558
+        project_id: interfaceId
       }
     }
 
@@ -61,6 +61,13 @@ class Interface extends Component {
       .catch(e => {
         console.log(e)
       })
+  }
+
+  getInterfaceId () {
+    const reg = /Interface\/(\d+)/g
+    const url = location.href
+    url.match(reg)
+    return RegExp.$1
   }
 
   render () {

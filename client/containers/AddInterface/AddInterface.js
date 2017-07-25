@@ -73,6 +73,7 @@ class AddInterface extends Component {
     let interfaceId = undefined
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
+      console.log('interfaceId', interfaceId)
       this.initInterfaceData(interfaceId)
     } else {
       const props = this.props
@@ -91,8 +92,10 @@ class AddInterface extends Component {
   }
 
   getInterfaceId () {
-    const value = location.hash.match(/\d+/g)
-    return value ? value[0] : ''
+    const reg = /AddInterface\/edit\/(\d+)/g
+    const url = location.href
+    url.match(reg)
+    return RegExp.$1
   }
 
   verificationURL () {
@@ -159,7 +162,7 @@ class AddInterface extends Component {
       path: url,
       method: 'POST',
       req_headers: seqGroup,
-      project_id: 558,
+      project_id: interfaceId,
       req_params_type: 'json',
       req_params_other: reqParams,
       res_body_type: 'json',
@@ -180,7 +183,6 @@ class AddInterface extends Component {
         this.setLoading()
         success()
         this.changeState(true)
-        // this.routerPage()
       })
       .catch(e => {
         console.log(e)
