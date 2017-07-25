@@ -11,6 +11,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: #f1f3f6;
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -42,5 +43,5 @@ em {
 .router-main {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  background: #f1f3f6;
+  height: 100%;
 }
