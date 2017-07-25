@@ -53,6 +53,11 @@ class Login extends Component {
     });
   }
 
+  componentDidMount() {
+    window.QSSO.attach('qsso-login','/user/login_by_token')
+  }
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -81,7 +86,10 @@ class Login extends Component {
         <FormItem style={formItemStyle}>
           <Button style={changeHeight} type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
-        <Button style={changeHeight} id="qsso-login" type="primary" className="login-form-button" size="large" onClick={() => window.QSSO.attach('qsso-login','/user/login_by_token')} ghost>QSSO登录</Button>
+        <div className="qsso-breakline">
+          <span className="qsso-breakword">或</span>
+        </div>
+        <Button style={changeHeight} id="qsso-login" type="primary" className="login-form-button" size="large" ghost>QSSO登录</Button>
       </Form>
 
     )

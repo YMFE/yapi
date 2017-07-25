@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { Button, Icon, Modal, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-
+import { withRouter } from 'react-router';
+const { TextArea } = Input;
 const Search = Input.Search;
 const confirm = Modal.confirm;
 const TYPE_EDIT = 'edit';
@@ -28,6 +29,7 @@ import './GroupList.scss'
     setGroupList
   }
 )
+@withRouter
 export default class GroupList extends Component {
 
   static propTypes = {
@@ -35,7 +37,9 @@ export default class GroupList extends Component {
     currGroup: PropTypes.object,
     fetchGroupList: PropTypes.func,
     setCurrGroup: PropTypes.func,
-    setGroupList: PropTypes.func
+    setGroupList: PropTypes.func,
+    match: PropTypes.object,
+    history: PropTypes.object
   }
 
   state = {
@@ -53,8 +57,19 @@ export default class GroupList extends Component {
   }
 
   componentWillMount() {
+    const groupName = this.props.match.params.groupName;
     this.props.fetchGroupList().then(() => {
-      const currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
+      let currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
+      if(this.props.groupList.length && groupName){
+        for(let i = 0;i<this.props.groupList.length;i++){
+          if(this.props.groupList[i].group_name === groupName){
+            currGroup = this.props.groupList[i];
+          }else{
+            this.props.history.replace(`${currGroup.group_name}`);
+          }
+        }
+      }
+      console.log(currGroup);
       this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(currGroup)
     });
@@ -141,6 +156,7 @@ export default class GroupList extends Component {
     const groupId = e.key;
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
+    this.props.history.replace(`${currGroup.group_name}`);
   }
 
   @autobind
@@ -229,7 +245,7 @@ export default class GroupList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
-              <Input placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></Input>
+              <TextArea rows = {3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
             </Col>
           </Row>
         </Modal>
