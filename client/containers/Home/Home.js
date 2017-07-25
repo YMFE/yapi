@@ -2,13 +2,17 @@ import './Home.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Row, Col, Button } from 'antd'
+import { Row, Col, Button, Icon } from 'antd'
 import PropTypes from "prop-types"
 import Login from '../Login/LoginWrap'
 import Intro from '../../components/Intro/Intro'
-import Footer from "../../components/Footer/Footer";
 import { changeMenuItem } from '../../actions/menu'
+import { OverPack } from 'rc-scroll-anim'
+import TweenOne from 'rc-tween-one'
 
+
+const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
+const queueAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad','delay':200 };
 const HomeGuest = (props) => (
   <div>
     <div className="main-one">
@@ -17,7 +21,7 @@ const HomeGuest = (props) => (
           <Col span={24}>
             <div className="home-des">
               <p className="title">YAPI</p>
-              <div className="detail">一个高效，易用，功能强大的api管理系统</div>
+              <div className="detail">一个高效，易用，可部署的Api管理系统</div>
             </div>
           </Col>
         </Row>
@@ -33,9 +37,55 @@ const HomeGuest = (props) => (
         </Row>
       </div>
     </div>
+    <div className="feat-part">
+      <div className="container">
+        <OverPack
+          playScale="0.3"
+        >
+          <TweenOne
+            key="h3"
+            animation={oneAnim}
+            component="h3"
+          >
+            <span>特性</span>
+          </TweenOne>
+          <TweenOne
+            animation={queueAnim}
+            reverseDelay={200}
+          >
+            <Row>
+              <Col span={8} className="feat-wrapper">
+                <div className="feat-img">
+                  <Icon type="api" />
+                </div>
+                <p className="feat-title">
+                  接口管理
+                </p>
+              </Col>
+              <Col span={8} className="feat-wrapper">
+                <div className="feat-img">
+                  <Icon type="link" />
+                </div>
+                <p className="feat-title">
+                  支持Mock
+                </p>
+              </Col>
+              <Col span={8} className="feat-wrapper">
+                <div className="feat-img">
+                  <Icon type="team" />
+                </div>
+                <p className="feat-title">
+                  团队协作
+                </p>
+              </Col>
+            </Row>
+          </TweenOne>
+        </OverPack>
+      </div>
+    </div>
     { props.introList.map(function(intro,i){
       return (
-        <div className="main-part" key={i}>
+        <div className="main-part" key={i} id={`main-part-${i}`}>
           <div className="container">
             <Intro intro={intro}/>
           </div>
@@ -88,7 +138,6 @@ class Home extends Component {
             </div>
           )
           : <HomeGuest introList={this.props.introList}/>}
-        <Footer/>
       </div>
     )
   }
