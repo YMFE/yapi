@@ -5,6 +5,7 @@ import { Route, HashRouter } from 'react-router-dom'
 import { Home, ProjectGroups, Interface, News, AddInterface } from './containers/index'
 import User from './containers/User/User.js'
 import Header from './components/Header/Header'
+import Loading from './components/Loading/Loading'
 import { checkLoginState } from './actions/login'
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
@@ -38,14 +39,16 @@ export default class App extends Component {
   route = (status) => {
     let r;
     if (status === LOADING_STATUS) {
-      return <span>loading...</span>
+      return <Loading visible/>
     } else {
       r = (
         <HashRouter>
           <div className="router-main">
             <Header />
             <Route path="/" component={Home} exact />
-            <Route path="/group/:groupName" component={requireAuthentication(ProjectGroups)} />
+            <Route path="/group" component={ ProjectGroups } >
+              <Route  exact={false} path="/group/:groupName" component={ ProjectGroups } />
+            </Route>
             <Route path="/Interface" component={requireAuthentication(Interface)} />
             <Route path="/user" component={requireAuthentication(User)} />
             <Route path="/News" component={requireAuthentication(News)} />

@@ -4,6 +4,22 @@ $color-blue : #108ee9;
 $color-white: #fff;
 
 .intro-container{
+  .imgWrapper{
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+  }
+  .textWrapper{
+    display: block;
+    width: 50%;
+    height: 150px;
+    vertical-align: top;
+    position: absolute;
+    margin: auto;
+    right: 0;
+  }
   .des-container{
     padding-left: .15rem;
     .des-title{
