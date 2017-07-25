@@ -3,7 +3,7 @@ import { Tabs } from 'antd'
 import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+console.log('测试')
 @connect(
   state => {
     return {
