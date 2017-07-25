@@ -38,7 +38,7 @@ class News extends Component {
   }
   componentWillMount(){
     console.log(this.props.uid);
-    this.props.fetchNewsData(1,1,10).then(function(data){
+    this.props.fetchNewsData(107,1,10).then(function(data){
       console.log(data);
     })
   }

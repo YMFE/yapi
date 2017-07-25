@@ -21,10 +21,12 @@ export function fetchNewsData (uid,page,limit) {
     page: page,
     limit: variable.PAGE_LIMIT?variable.PAGE_LIMIT:limit
   }
-  console.log(param);
+  // console.log(param);
   return {
     type: FETCH_NEWS_DATA,
-    payload: axios.get('/log/list',param)
+    payload: axios.get('/log/list',{
+      params: param
+    })
   };
 }
 
