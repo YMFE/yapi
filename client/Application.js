@@ -47,7 +47,7 @@ export default class App extends Component {
             <Header />
             <Route path="/" component={Home} exact />
             <Route path="/group" component={ ProjectGroups } >
-              <Route  exact={false} path="/group/:groupName" component={ ProjectGroups } />
+              <Route  exact path="/group/:groupName" component={ ProjectGroups } />
             </Route>
             <Route path="/Interface" component={requireAuthentication(Interface)} />
             <Route path="/user" component={requireAuthentication(User)} />
