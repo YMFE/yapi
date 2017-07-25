@@ -9,7 +9,7 @@ import QueueAnim from 'rc-queue-anim';
 const IntroPart = (props) =>(
   <Col span={12} className="switch-content">
     <div className="icon-switch">
-      <Icon type="smile-o" />
+      <Icon type={props.iconType} />
     </div>
     <div>
       <p><b>{props.title}</b></p>
@@ -20,7 +20,8 @@ const IntroPart = (props) =>(
 
 IntroPart.propTypes = {
   title : PropTypes.string,
-  des : PropTypes.string
+  des : PropTypes.string,
+  iconType : PropTypes.string
 }
 
 class Intro extends React.Component{
@@ -81,7 +82,7 @@ class Intro extends React.Component{
             </div>
             <div className="des-switch" key={`${id}-des-switch`}>
               {intro.detail.map(function(item,i){
-                return(<IntroPart key={i} title={item.title} des={item.des}/>)
+                return(<IntroPart key={i} title={item.title} des={item.des} iconType={item.iconType}/>)
               })}
             </div>
           </QueueAnim>
