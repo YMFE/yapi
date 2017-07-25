@@ -9,7 +9,10 @@ export default () => {
       <div className="router-main">
         <Header/>
         <Route path="/" component={ Home } exact />
-        <Route path="/group/:groupName" component={ ProjectGroups } />
+        
+        <Route path="/group" component={ ProjectGroups } >
+          <Route  exact={false} path="/group/:groupName" component={ ProjectGroups } />
+        </Route>
         <Route path="/Interface" component={ Interface } />
         <Route path="/user" component={User} />
         <Route path="/News" component={ News } />
