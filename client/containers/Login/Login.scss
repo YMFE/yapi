@@ -11,6 +11,21 @@
   width: 100%;
 }
 
-.ant-form-item{
+.ant-form-item {
   margin-bottom: .1rem;
+}
+
+.qsso-breakline {
+  position: relative;
+  text-align: center;
+  margin: .24rem auto;
+  height: 1px;
+  background-color: #bbb;
+  .qsso-breakword {
+    display: inline-block;
+    transform: translateY(-50%);
+    background-color: #f7f7f7;
+    padding: 0 .08rem;
+    color: #999;
+  }
 }

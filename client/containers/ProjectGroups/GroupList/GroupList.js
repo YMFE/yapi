@@ -65,7 +65,7 @@ export default class GroupList extends Component {
           if(this.props.groupList[i].group_name === groupName){
             currGroup = this.props.groupList[i];
           }else{
-            this.props.history.push(`${currGroup.group_name}`);
+            this.props.history.replace(`${currGroup.group_name}`);
           }
         }
       }
@@ -156,7 +156,7 @@ export default class GroupList extends Component {
     const groupId = e.key;
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
-    this.props.history.push(`${currGroup.group_name}`);
+    this.props.history.replace(`${currGroup.group_name}`);
   }
 
   @autobind

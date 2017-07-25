@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Button, Tabs } from 'antd'
+import { Button, Tabs, message } from 'antd'
 import ReqMethod from './ReqMethod/ReqMethod.js'
 import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
@@ -19,6 +19,10 @@ import {
   pushInputValue,
   pushInterfaceName
 } from '../../actions/addInterface.js'
+
+const success = () => {
+  message.success('保存成功!')
+}
 
 @connect(
   state => {
@@ -60,7 +64,8 @@ class AddInterface extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isLoading: ''
+      isLoading: '',
+      isSave: false
     }
   }
 
@@ -109,15 +114,6 @@ class AddInterface extends Component {
     props.addReqHeader(req_headers)
   }
 
-  editState2 () {
-    const props = this.props
-    props.pushInputValue(props.url)
-    // props.pushInterfaceName(title)
-    // props.getReqParams(req_params_other)
-    props.getResParams(props.resParams)
-    // props.addReqHeader(req_headers)
-  }
-
   initInterfaceData (interfaceId) {
     const params = { id: interfaceId }
 
@@ -145,6 +141,12 @@ class AddInterface extends Component {
     const origin = location.origin
     const pathname = location.pathname
     location.href = `${origin}${pathname}#/interface`
+  }
+
+  changeState (ifTrue) {
+    this.setState({
+      isSave: ifTrue
+    })
   }
 
   @autobind
@@ -175,10 +177,10 @@ class AddInterface extends Component {
     this.setLoading(true)
 
     axios.post(postURL, params)
-      .then(data => {
-        console.log(data)
+      .then(() => {
         this.setLoading()
-        this.editState2()
+        success()
+        this.changeState(true)
         // this.routerPage()
       })
       .catch(e => {
@@ -188,7 +190,7 @@ class AddInterface extends Component {
 
   render () {
     const TabPane = Tabs.TabPane
-    const isLoading = this.state.isLoading
+    const { isLoading, isSave } = this.state
 
     return (
       <section className="add-interface-box">
@@ -200,7 +202,7 @@ class AddInterface extends Component {
               <ReqHeader />
               <ReqParams data={this.props} />
               <ResParams />
-              <Result />
+              <Result isSave={isSave} />
             </TabPane>
             <TabPane tab="Mock" key="2">mock</TabPane>
             <TabPane tab="测试" key="3">
