@@ -140,15 +140,15 @@ class userController extends baseController {
                 }
                 user = await userInst.save(data);
                 yapi.commons.sendMail({
-                    to: params.email,
-                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi,系统检测您是第一次用Qsso账号登录YApi服务,您的Email是： ${params.email} ，初始化密码为：${passsalt}</p>`
+                    to: email,
+                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi,系统检测您是第一次用Qsso账号登录YApi服务,您的Email是： ${email} ，初始化密码为：${passsalt}</p>`
                 })
             }
 
             this.setLoginCookie(user._id, user.passsalt)
             return true;
         } catch (e) {
-            console.error(e.message)
+            console.error("third_login:", e.message)
             return false;
         }
     }
@@ -279,7 +279,7 @@ class userController extends baseController {
                 role: 'member'
             });
             yapi.commons.sendMail({
-                to: params.email,
+                to: user.email,
                 contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi,您的账号 ${params.email} 已经注册成功</p>`
             })
         } catch (e) {
