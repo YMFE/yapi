@@ -50,7 +50,8 @@ class UpDateModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      protocol: 'http:\/\/'
+      protocol: 'http:\/\/',
+      envProtocolChange: 'http:\/\/'
     }
   }
   static propTypes = {
@@ -84,18 +85,19 @@ class UpDateModal extends Component {
     e.preventDefault();
     const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
-      console.log(err);
+      console.log(values);
       if (!err) {
-        console.log(projectList[handleUpdateIndex]);
+        // console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
         values.protocol = this.state.protocol.split(':')[0];
         assignValue.env = assignValue.envs.map((item, index) => {
+          console.log(values['envs-protocol-'+index]);
           return {
             name: values['envs-name-'+index],
-            domain: values['envs-domain-'+index]
+            domain: values['envs-protocol-'+index] + values['envs-domain-'+index]
           }
         });
-        console.log(assignValue);
+        // console.log(assignValue);
 
         changeTableLoading(true);
         updateProject(assignValue).then((res) => {
@@ -117,6 +119,13 @@ class UpDateModal extends Component {
         form.resetFields();
       }
     });
+  }
+
+  envProtocolChange = (value) => {
+    console.log(value);
+    // this.setState({
+    //   envProtocolChange: value
+    // })
   }
 
   // 项目的修改操作 - 删除一项环境配置
@@ -174,7 +183,7 @@ class UpDateModal extends Component {
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
-      console.log(k);
+      // console.log(k);
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
@@ -220,7 +229,7 @@ class UpDateModal extends Component {
             >
               {getFieldDecorator(`envs-domain-${index}`, {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: envMessage.length !== 0 ? k.domain : '',
+                initialValue: envMessage.length !== 0 ? k.domain.split('\/\/')[1] : '',
                 rules: [{
                   required: false,
                   whitespace: true,
@@ -240,7 +249,18 @@ class UpDateModal extends Component {
                   }
                 }]
               })(
-                <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} />
+                <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
+                  getFieldDecorator(`envs-protocol-${index}`, {
+                    initialValue: 'http:\/\/',
+                    rules: [{
+                      required: true
+                    }]
+                  })(
+                    <Select>
+                      <Option value="http://">{'http:\/\/'}</Option>
+                      <Option value="https://">{'https:\/\/'}</Option>
+                    </Select>
+                  )}/>
               )}
             </FormItem>
           </Col>
