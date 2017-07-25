@@ -9,16 +9,14 @@ $color-black-lighter: #404040;
 
 
 .home-main {
-  min-height:calc(100% - 2.23rem);
+  min-height:calc(100% - 2.47rem);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   background: $color-blue-grey-lighter;
   .main-one{
     padding: .5rem .5rem 0 .5rem;
-    //height: 7.16rem;
     //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
-      padding: 0 .3rem .3rem 0;
       .title{
         font-size: .6rem;
       }
@@ -39,6 +37,7 @@ $color-black-lighter: #404040;
     }
     .main-one-left{
       padding-right: .15rem;
+      margin-top: .2rem;
     }
     .main-one-right{
       padding-left: .15rem;
