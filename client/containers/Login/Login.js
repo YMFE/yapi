@@ -66,7 +66,11 @@ class Login extends Component {
         {/* 用户名 (Email) */}
         <FormItem style={formItemStyle}>
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: '请输入email!' }]
+            rules: [{
+              required: true,
+              message: '请输入正确的email!',
+              pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            }]
           })(
             <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
