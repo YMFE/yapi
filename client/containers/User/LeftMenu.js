@@ -2,9 +2,18 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Menu, AutoComplete, Input, Icon } from 'antd'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 const Option = AutoComplete.Option;
-
+@connect(
+  state => {
+    console.log(state);
+    return {
+      curUid: state.user.curUid
+    }
+  }
+)
 class LeftMenu extends Component {
   constructor(props) {
     super(props)
@@ -16,6 +25,9 @@ class LeftMenu extends Component {
     this.interval = null;
   }
 
+  static propTypes = {
+    curUid: PropTypes.string
+  }
 
   //延迟搜索
   handleSearch = (value) => {
@@ -51,7 +63,7 @@ class LeftMenu extends Component {
   render() {
     const menus = [{
       title: '个人资料',
-      path: "/user/profile/" + 107
+      path: `/user/profile/${this.props.curUid}`
     }, {
       title: '用户管理',
       path: '/user/list'

@@ -68,6 +68,8 @@ export default class GroupList extends Component {
             this.props.history.replace(`${currGroup.group_name}`);
           }
         }
+      }else if(!groupName && this.props.groupList.length){
+        this.props.history.replace(`group/${this.props.groupList[0].group_name}`);
       }
       console.log(currGroup);
       this.setState({groupList: this.props.groupList});
