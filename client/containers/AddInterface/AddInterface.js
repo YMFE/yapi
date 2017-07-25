@@ -10,7 +10,8 @@ import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
 import ResParams from './ResParams/ResParams.js'
 import Result from './Result/Result.js'
-import { 
+import InterfaceTest from './InterfaceTest/InterfaceTest.js'
+import {
   saveForms,
   getResParams,
   getReqParams,
@@ -202,7 +203,9 @@ class AddInterface extends Component {
               <Result />
             </TabPane>
             <TabPane tab="Mock" key="2">mock</TabPane>
-            <TabPane tab="测试" key="3">测试</TabPane>
+            <TabPane tab="测试" key="3">
+              <InterfaceTest />
+            </TabPane>
           </Tabs>
         </div>
         <div className={`loading ${isLoading}`}></div>
@@ -212,5 +215,3 @@ class AddInterface extends Component {
 }
 
 export default AddInterface
-
-    
