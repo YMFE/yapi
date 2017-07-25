@@ -26,12 +26,9 @@ module.exports = {
 
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, "client");
-
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
-        baseConfig.plugins.push(assetsPluginInstance)
-
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -41,11 +38,14 @@ module.exports = {
           )
         })
         baseConfig.module.preLoaders.push({
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: "eslint-loader"
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          loader: "eslint-loader"
         });
 
+        if (this.env == 'prd') {
+          baseConfig.plugins.push(assetsPluginInstance)
+        }
         return baseConfig;
       }
     }
