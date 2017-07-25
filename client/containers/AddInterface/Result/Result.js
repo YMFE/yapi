@@ -16,7 +16,8 @@ import PropTypes from 'prop-types'
 class Result extends Component {
   static propTypes = {
     resParams: PropTypes.string,
-    reqParams: PropTypes.string
+    reqParams: PropTypes.string,
+    isSave: PropTypes.bool
   }
 
   constructor(props) {
@@ -24,16 +25,15 @@ class Result extends Component {
   }
 
   render () { 
-    console.log(1)
     let TabPane = Tabs.TabPane
     let resParams = ''
     let json = ''
     
     if(this.props.resParams){
-      console.log(this.props.resParams)
       resParams = JSON.parse(this.props.resParams)
       json = JSON.stringify(Mock.mock(resParams), null, 2)
     }
+
     return (
       <div className="result">
         <strong className="res-h3">返回示例 :</strong>
