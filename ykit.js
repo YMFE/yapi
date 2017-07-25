@@ -29,7 +29,7 @@ module.exports = {
 
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
-        baseConfig.output.prd.filename = '[name][ext]'
+        baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
         baseConfig.plugins.push(assetsPluginInstance)
 
         baseConfig.module.loaders.push({

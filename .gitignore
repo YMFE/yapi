@@ -36,5 +36,5 @@ Thumbs.db
 node_modules/
 runtime/init.lock
 runtime/log
-./prd/
+prd/
 dev/
