@@ -7,8 +7,10 @@ import {
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
   PUSH_INTERFACE_NAME,
-  PUSH_INTERFACE_METHOD
+  PUSH_INTERFACE_METHOD,
+  FETCH_INTERFACE_PROJECT
 } from '../constants/action-types.js'
+import axios from 'axios'
 
 export function pushInputValue (value) {
   return {
@@ -70,5 +72,12 @@ export function pushInterfaceMethod (value) {
   return {
     type: PUSH_INTERFACE_METHOD,
     payload: value
+  }
+}
+
+export function fetchInterfaceProject(id) {
+  return {
+    type: FETCH_INTERFACE_PROJECT,
+    payload: axios.get('/project/get', { params: {id}})
   }
 }
