@@ -2,10 +2,14 @@ $color-grey:#979DA7;
 
 .search-wrapper{
   .search-input{
-    border:1px solid #AAA;
-    background-color: rgba(255,255,255,0.5);
+    border:1px solid $color-grey;
+    color: $color-grey;
+    width: 2rem;
+    transition: width 2s;
+    //background-color:rgba(0,0,0,0.5);
   }
   .srch-icon{
     color: $color-grey;
+    font-weight: bold;
   }
 }
