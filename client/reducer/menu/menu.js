@@ -3,7 +3,7 @@ import {
 } from '../../constants/action-types.js'
 
 const initialState = {
-  curKey: window.location.hash.split("#")[1] || '/'
+  curKey: window.location.hash.split("#")[1] || ''
 }
 
 export default (state = initialState, action) => {

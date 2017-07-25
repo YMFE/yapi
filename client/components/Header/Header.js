@@ -13,7 +13,7 @@ const { Header } = Layout;
 const MenuUser = (props) => (
   <Menu>
     <Menu.Item key="0">
-      <Link to={`/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
+      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
     </Menu.Item>
     <Menu.Item key="1">
       <Link to="/news" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link>
@@ -129,7 +129,7 @@ class HeaderCom extends Component {
           <Header>
             <div className="content">
               <div className="logo">
-                YAPI
+                <Link to="/" onClick={this.relieveLink}>YAPI</Link>
               </div>
               <Menu
                 mode="horizontal"
@@ -139,17 +139,8 @@ class HeaderCom extends Component {
                 onClick={this.linkTo}
                 selectedKeys={[curKey]}
               >
-                <Menu.Item key="/">
-                  <Link to="/">首页</Link>
-                </Menu.Item>
-                <Menu.Item key="/ProjectGroups">
-                  <Link to="/ProjectGroups">分组</Link>
-                </Menu.Item>
-                <Menu.Item key="/Interface">
-                  <Link to="/Interface">接口</Link>
-                </Menu.Item>
-                <Menu.Item key="/doc">
-                  <a>文档</a>
+                <Menu.Item key="/group">
+                  <Link to="/group">项目广场</Link>
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
