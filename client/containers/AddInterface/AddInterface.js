@@ -17,7 +17,9 @@ import {
   getReqParams,
   addReqHeader,
   pushInputValue,
-  pushInterfaceName
+  pushInterfaceName,
+  fetchInterfaceProject,
+  pushInterfaceMethod
 } from '../../actions/addInterface.js'
 
 const success = () => {
@@ -41,7 +43,9 @@ const success = () => {
     getResParams,
     addReqHeader,
     pushInputValue,
-    pushInterfaceName
+    pushInterfaceName,
+    fetchInterfaceProject,
+    pushInterfaceMethod
   }
 )
 
@@ -106,12 +110,14 @@ class AddInterface extends Component {
 
   editState (data) {
     const props = this.props
-    const { path, title, req_params_other, res_body, req_headers} = data
+    const { path, title, req_params_other, res_body, req_headers, project_id, method } = data
     props.pushInputValue(path)
+    props.pushInterfaceMethod(method)
     props.pushInterfaceName(title)
     props.getReqParams(req_params_other)
     props.getResParams(res_body)
     props.addReqHeader(req_headers)
+    props.fetchInterfaceProject(project_id)
   }
 
   initInterfaceData (interfaceId) {
