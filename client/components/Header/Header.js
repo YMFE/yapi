@@ -139,8 +139,8 @@ class HeaderCom extends Component {
                 onClick={this.linkTo}
                 selectedKeys={[curKey]}
               >
-                <Menu.Item key="/ProjectGroups">
-                  <Link to="/ProjectGroups">项目广场</Link>
+                <Menu.Item key="/group">
+                  <Link to="/group">项目广场</Link>
                 </Menu.Item>
               </Menu>
               <div className="user-toolbar">
