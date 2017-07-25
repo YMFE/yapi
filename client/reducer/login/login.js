@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
           userName: action.payload.data.data.username
         };
       } else {
-        break;
+        return state;
       }
     }
     case LOGIN_OUT: {
