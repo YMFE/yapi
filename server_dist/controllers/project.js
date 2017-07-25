@@ -77,7 +77,7 @@ var projectController = function (_baseController) {
             if (!basepath) return false;
             if (basepath[0] !== '/') basepath = '/' + basepath;
             if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
-            if (_yapi2.default.commons.verifyPath(basepath)) {
+            if (!_yapi2.default.commons.verifyPath(basepath)) {
                 return false;
             }
             return basepath;
@@ -103,8 +103,8 @@ var projectController = function (_baseController) {
          * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
          * @param {String} protocol 线上域名协议，不能为空
          * @param {Number} group_id 项目分组id，不能为空
-         * @param  {String} [desc] 项目描述 
-         * @returns {Object} 
+         * @param  {String} [desc] 项目描述
+         * @returns {Object}
          * @example ./api/project/add.json
          */
 
@@ -246,7 +246,7 @@ var projectController = function (_baseController) {
         * @foldnumber 10
         * @param {Number} id 项目id，不能为空
         * @param {String} member_uid 项目成员uid,不能为空
-        * @returns {Object} 
+        * @returns {Object}
         * @example ./api/project/add_member.json
         */
 
@@ -330,7 +330,7 @@ var projectController = function (_baseController) {
         * @foldnumber 10
         * @param {Number} id 项目id，不能为空
         * @param {member_uid} uid 项目成员uid,不能为空
-        * @returns {Object} 
+        * @returns {Object}
         * @example ./api/project/del_member.json
         */
 
@@ -483,7 +483,7 @@ var projectController = function (_baseController) {
         * @category project
         * @foldnumber 10
         * @param {Number} id 项目id，不能为空
-        * @returns {Object} 
+        * @returns {Object}
         * @example ./api/project/get.json
         */
 
@@ -547,7 +547,7 @@ var projectController = function (_baseController) {
          * @param {Number} group_id 项目group_id，不能为空
          * @param {Number} [page] 分页页码
          * @param {Number} [limit] 每页数据条目，默认为10
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/project/list.json
          */
 
@@ -585,11 +585,10 @@ var projectController = function (_baseController) {
                                 uids = [];
 
                                 result.forEach(function (item) {
-                                    if (uids.indexOf(item.uid) !== -1) {
+                                    if (uids.indexOf(item.uid) === -1) {
                                         uids.push(item.uid);
                                     }
                                 });
-
                                 _users = {};
                                 _context6.next = 15;
                                 return _yapi2.default.getInst(_user2.default).findByUids(uids);
@@ -612,7 +611,7 @@ var projectController = function (_baseController) {
                                 _context6.prev = 20;
                                 _context6.t0 = _context6['catch'](3);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
                             case 23:
                             case 'end':
@@ -636,7 +635,7 @@ var projectController = function (_baseController) {
          * @category project
          * @foldnumber 10
          * @param {Number} id 项目id，不能为空
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/project/del.json
          */
 
@@ -730,11 +729,11 @@ var projectController = function (_baseController) {
          * @param {String} name 项目名称，不能为空
          * @param {String} basepath 项目基本路径，不能为空
          * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
-         * @param {String} [desc] 项目描述 
+         * @param {String} [desc] 项目描述
          * @param {Array} [env] 项目环境配置
          * @param {String} [env[].name] 环境名称
          * @param {String} [env[].domain] 环境域名
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/project/up.json
          */
 

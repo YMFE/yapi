@@ -4,33 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>my yApi</title>
-<link rel="stylesheet" href="http://127.0.0.1:4000/yapi/prd/index@dev.css">
+<script>
+    document.write('<script src="prd/assets.js?v=' + Math.random() + '"><\/script>');
+</script>
+<script>
+    document.write('<link rel="stylesheet"  href="/prd/' + window.WEBPACK_ASSETS['index.js'].css + '" />');
+</script>
+
 <script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
 </head>
 <body>
 <div id="yapi" style="height: 100%;"></div>
-<script src="http://127.0.0.1:4000/yapi/prd/index@dev.js"></script>
-
-<!--
-<button id="qsso-login">qsso登录</button>
-<script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
-
 <script>
-QSSO.attach('qsso-login','/user/login_by_token');
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/user/status')
-xhr.onload = function(e){
-    if(this.status == 200){
-        alert(this.responseText)
-    }
-}
-xhr.send()
-
+    document.write('<script src="/prd/' + window.WEBPACK_ASSETS['index.js'].js + '"><\/script>');
 </script>
-
-
-<html>
-
--->
 </body>
 </html>

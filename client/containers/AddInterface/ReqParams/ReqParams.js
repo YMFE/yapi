@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import wangEditor from 'wangeditor'
 import { getReqParams } from '../../../actions/addInterface.js'
-
+const editor = new wangEditor('#req-cover')
 @connect(
   state => {
     return {
@@ -25,15 +25,23 @@ class ReqParams extends Component {
     super(props)
   }
 
+  initParams () {
+    const { reqParams } = this.props
+    if (reqParams) {
+      editor.txt.html(reqParams)
+    }
+  }
+
   componentDidMount () {
     const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
-    const E = wangEditor
-    const editor = new E('#req-cover')
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
       html = html.replace(reg, '')
       this.props.getReqParams(html)
     }
+    setTimeout(() => {
+      this.initParams()
+    }, 200)
     editor.create()
   }
   

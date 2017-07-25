@@ -57,7 +57,7 @@ class NewsTimeline extends Component {
       <section className="news-timeline">
         <span className='removeAllNews'>
           <Popconfirm title="你确定要清空所有消息吗?" onConfirm={removeConfirm} okText="删除" cancelText="取消">
-            清空消息
+            项目日志
           </Popconfirm>
         </span>
         <Table

@@ -4,6 +4,16 @@ import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
 import { loginActions } from  '../../actions/login';
 const FormItem = Form.Item;
+import './Login.scss'
+
+const formItemStyle = {
+  marginBottom: '.16rem'
+}
+
+const changeHeight = {
+  height: '.42rem'
+}
+
 @connect(
   state => {
     return {
@@ -43,35 +53,43 @@ class Login extends Component {
     });
   }
 
+  componentDidMount() {
+    window.QSSO.attach('qsso-login','/user/login_by_token')
+  }
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
 
         {/* 用户名 (Email) */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入email!' }]
           })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
+            <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
         </FormItem>
 
         {/* 密码 */}
-        <FormItem>
+        <FormItem style={formItemStyle}>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: '请输入密码!' }]
           })(
-            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+            <Input style={changeHeight} prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
 
 
         {/* 登录按钮 */}
-        <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
+        <FormItem style={formItemStyle}>
+          <Button style={changeHeight} type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
-        <Button id="qsso-login" type="primary" className="login-form-button" onClick={() => window.QSSO.attach('qsso-login','/user/login_by_token')}>QSSO登录</Button>
+        <div className="qsso-breakline">
+          <span className="qsso-breakword">或</span>
+        </div>
+        <Button style={changeHeight} id="qsso-login" type="primary" className="login-form-button" size="large" ghost>QSSO登录</Button>
       </Form>
 
     )

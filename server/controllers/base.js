@@ -32,7 +32,7 @@ class baseController{
     }
 
     getUid(ctx){
-        return this.$uid;
+        return parseInt(this.$uid, 10);
     }
 
     async checkLogin(ctx){
