@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Route, HashRouter } from 'react-router-dom'
+import { Route, HashRouter, Redirect, Switch } from 'react-router-dom'
 import { Home, ProjectGroups, Interface, News, AddInterface } from './containers/index'
 import User from './containers/User/User.js'
 import Header from './components/Header/Header'
@@ -46,9 +46,11 @@ export default class App extends Component {
           <div className="router-main">
             <Header />
             <Route path="/" component={Home} exact />
-            <Route path="/group" component={ requireAuthentication(ProjectGroups) } >
-              <Route  exact path="/group/:groupName" component={ ProjectGroups } />
-            </Route>
+            {/*<Route exact path="/group" component={ requireAuthentication(ProjectGroups) } ></Route>*/}
+            <Switch>
+              <Redirect exact from='/group' to='/group/1' />
+              <Route exact path="/group/:groupName" component={ requireAuthentication(ProjectGroups) } />
+            </Switch>
             <Route path="/Interface" component={requireAuthentication(Interface)} />
             <Route path="/user" component={requireAuthentication(User)} />
             <Route path="/News" component={requireAuthentication(News)} />
