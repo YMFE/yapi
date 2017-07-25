@@ -223,7 +223,7 @@ class interfaceController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
             }
 
-            let data = await this.Model.get(params.id);
+            let data = await this.Model.get(ctx.request.body.id);
 
             if(data.uid != this.getUid()){
                 if(await this.jungeProjectAuth(data.project_id) !== true){
@@ -235,7 +235,7 @@ class interfaceController extends baseController{
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result)
         }catch(err){
-             ctx.body = yapi.commons.resReturn(null, 402, e.message)
+             ctx.body = yapi.commons.resReturn(null, 402, err.message)
         }
     }
 }
