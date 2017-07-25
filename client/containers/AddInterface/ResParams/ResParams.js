@@ -38,10 +38,8 @@ class ResParams extends Component {
     const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+|<div>|<\/div>/g
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
-      console.log(html)
-      html = html.match(/{.*}/g)[0]
+      // html = html.match(/{.*}/g)[0]
       html = html.replace(reg, '')
-      console.log(html)
       this.props.getResParams(html)
     }
     setTimeout(() => {

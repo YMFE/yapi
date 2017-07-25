@@ -41,7 +41,7 @@ const getColumns = (data, props) => {
     dataIndex: 'name',
     key: 'name',
     render: (text, record) => {
-      return <Link to={`Interface/${record._id}`}>{text}</Link>
+      return <Link to={`../Interface/${record._id}`}>{text}</Link>
     }
   }, {
     title: '创建人',

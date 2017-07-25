@@ -142,8 +142,8 @@ class HeaderCom extends Component {
                 <Menu.Item key="/">
                   <Link to="/">首页</Link>
                 </Menu.Item>
-                <Menu.Item key="/ProjectGroups">
-                  <Link to="/ProjectGroups">分组</Link>
+                <Menu.Item key="group/ProjectGroups">
+                  <Link to="group/ProjectGroups">分组</Link>
                 </Menu.Item>
                 <Menu.Item key="/Interface">
                   <Link to="/Interface">接口</Link>
