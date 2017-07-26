@@ -86,7 +86,7 @@ var projectController = function (_baseController) {
         key: 'verifyDomain',
         value: function verifyDomain(domain) {
             if (!domain) return false;
-            if (/^[a-zA-Z0-9\-_\.]+[a-zA-Z]{2,6}$/.test(domain)) {
+            if (/^[a-zA-Z0-9\-_\.]+?\.[a-zA-Z0-9\-_\.]*?[a-zA-Z]{2,6}$/.test(domain)) {
                 return true;
             }
             return false;
@@ -778,7 +778,7 @@ var projectController = function (_baseController) {
                             case 12:
                                 projectData = _context8.sent;
 
-                                if (!(params.basepath = this.handleBasepath(params.basepath) === false)) {
+                                if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
                                     _context8.next = 15;
                                     break;
                                 }
