@@ -20,4 +20,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var configPath = _path2.default.join(_path2.default.resolve(__dirname, '../../'), 'runtime', 'config.json');
 
-_fsExtra2.default.writeFileSync(configPath, (0, _stringify2.default)(_config2.default, null, "\t"), { encoding: 'utf8' });
+_fsExtra2.default.writeFileSync(configPath, (0, _stringify2.default)(_config2.default, null, '\t'), { encoding: 'utf8' });

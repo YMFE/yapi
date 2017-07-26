@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.resReturn = function (data, num, errmsg) {
     num = num || 0;
+
     return {
         errcode: num,
         errmsg: errmsg || 'success',
@@ -35,16 +36,15 @@ exports.resReturn = function (data, num, errmsg) {
     };
 };
 
-var MSGTYPE = {
-    'log': 'Log',
-    'warn': 'warning',
-    'error': 'Error'
-};
-
 exports.log = function (msg, type) {
-    if (!msg) return;
+    if (!msg) {
+        return;
+    }
+
     type = type || 'log';
+
     var f = void 0;
+
     switch (type) {
         case 'log':
             f = console.log;break;
@@ -55,7 +55,9 @@ exports.log = function (msg, type) {
         default:
             f = console.log;break;
     }
+
     f(type + ':', msg);
+
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth();
@@ -65,7 +67,9 @@ exports.log = function (msg, type) {
     if ((typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object') {
         if (msg instanceof Error) msg = msg.message;else msg = (0, _stringify2.default)(msg);
     }
-    var data = new Date().toLocaleTimeString() + "\t|\t" + type + "\t|\t" + msg;
+
+    var data = new Date().toLocaleTimeString() + '\t|\t' + type + '\t|\t' + msg;
+
     _fsExtra2.default.writeFileSync(logfile, data, {
         flag: 'w+'
     });
@@ -84,11 +88,16 @@ exports.time = function () {
 };
 
 exports.fieldSelect = function (data, field) {
-    if (!data || !field || !Array.isArray(field)) return null;
+    if (!data || !field || !Array.isArray(field)) {
+        return null;
+    }
+
     var arr = {};
+
     field.forEach(function (f) {
         data[f] && (arr[f] = data[f]);
     });
+
     return arr;
 };
 
@@ -121,13 +130,15 @@ exports.expireDate = function (day) {
 exports.sendMail = function (options, cb) {
     if (!_yapi2.default.mail) return false;
     options.subject = options.subject ? options.subject + '-yapi平台' : 'ypai平台';
-    cb = cb || function (err, info) {
+
+    cb = cb || function (err) {
         if (err) {
             _yapi2.default.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
         } else {
             _yapi2.default.commons.log('send mail ' + options.to + ' success');
         }
     };
+
     try {
         _yapi2.default.mail.sendMail({
             from: _yapi2.default.WEBCONFIG.mail.auth.user,
@@ -144,12 +155,14 @@ exports.validateSearchKeyword = function (keyword) {
     if (/^\*|\?|\+|\$|\^|\\|\.$/.test(keyword)) {
         return false;
     }
+
     return true;
 };
 
 exports.filterRes = function (list, rules) {
     return list.map(function (item) {
         var filteredRes = {};
+
         rules.forEach(function (rule) {
             if (typeof rule == 'string') {
                 filteredRes[rule] = item[rule];
@@ -157,6 +170,7 @@ exports.filterRes = function (list, rules) {
                 filteredRes[rule.alias] = item[rule.key];
             }
         });
+
         return filteredRes;
     });
 };
@@ -174,21 +188,33 @@ exports.verifyPath = function (path) {
 };
 
 function trim(str) {
-    if (!str) return str;
+    if (!str) {
+        return str;
+    }
+
     str = str + '';
-    return str.replace(/(^\s*)|(\s*$)/g, "");
+
+    return str.replace(/(^\s*)|(\s*$)/g, '');
 }
 
 function ltrim(str) {
-    if (!str) return str;
+    if (!str) {
+        return str;
+    }
+
     str = str + '';
-    return str.replace(/(^\s*)/g, "");
+
+    return str.replace(/(^\s*)/g, '');
 }
 
 function rtrim(str) {
-    if (!str) return str;
+    if (!str) {
+        return str;
+    }
+
     str = str + '';
-    return str.replace(/(\s*$)/g, "");
+
+    return str.replace(/(\s*$)/g, '');
 }
 
 exports.trim = trim;
@@ -196,7 +222,10 @@ exports.ltrim = ltrim;
 exports.rtrim = rtrim;
 
 exports.handleParams = function (params, keys) {
-    if (!params || (typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) !== 'object' || !keys || (typeof keys === 'undefined' ? 'undefined' : (0, _typeof3.default)(keys)) !== 'object') return false;
+    if (!params || (typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) !== 'object' || !keys || (typeof keys === 'undefined' ? 'undefined' : (0, _typeof3.default)(keys)) !== 'object') {
+        return false;
+    }
+
     for (var key in keys) {
         var filter = keys[key];
         if (params[key]) {
@@ -210,5 +239,6 @@ exports.handleParams = function (params, keys) {
             }
         }
     }
+
     return params;
 };

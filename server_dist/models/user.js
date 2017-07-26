@@ -20,14 +20,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -85,21 +77,21 @@ var userModel = function (_baseModel) {
     }, {
         key: 'list',
         value: function list() {
-            return this.model.find().select("_id username email role  add_time up_time").exec(); //显示id name email role 
+            return this.model.find().select('_id username email role  add_time up_time').exec(); //显示id name email role 
         }
     }, {
         key: 'findByUids',
         value: function findByUids(uids) {
             return this.model.find({
                 _id: { $in: uids }
-            }).select("_id username email role  add_time up_time").exec();
+            }).select('_id username email role  add_time up_time').exec();
         }
     }, {
         key: 'listWithPaging',
         value: function listWithPaging(page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
-            return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+            return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role  add_time up_time').exec();
         }
     }, {
         key: 'listCount',
