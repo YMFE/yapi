@@ -13,34 +13,42 @@ import QueueAnim from 'rc-queue-anim';
 
 
 const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
+const style = {
+  'height':'100%',
+  'width':'100%',
+  'background': 'url(./image/bg-img.jpg) no-repeat center',
+  'backgroundSize':'cover'
+}
 const HomeGuest = (props) => (
   <div>
-    <div className="main-one">
-      <div className="container">
-        <Row>
-          <Col span={24}>
-            <div className="home-des">
-              <p className="title">YAPI</p>
-              <div className="detail">一个高效，易用，可部署的Api管理系统</div>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} className="main-one-left">
-            <Login/>
-          </Col>
-          <Col span={16} className="main-one-right">
-            <div className="img-container">
-              <img src="./image/demo-img.png"/>
-            </div>
-          </Col>
-        </Row>
+    <div className="main-one" style = {style}>
+      <div style={{ background: "linear-gradient(to bottom,rgba(64,64,64,0.9),rgba(64,64,64,0.5))"}}>
+        <div className="container">
+          <Row>
+            <Col span={24}>
+              <div className="home-des">
+                <p className="title">YAPI</p>
+                <div className="detail">一个高效，易用，可部署的Api管理系统</div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8} className="main-one-left">
+              <Login/>
+            </Col>
+            <Col span={16} className="main-one-right">
+              <div className="img-container">
+                <img src="./image/demo-img.png"/>
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     </div>
     <div className="feat-part">
       <div className="container">
         <OverPack
-          playScale={[0.3,0.1]}
+          playScale={[0.2,0.1]}
         >
           <TweenOne
             key="feat-motion-one"

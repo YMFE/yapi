@@ -11,12 +11,16 @@ import Srch from './Search/Search'
 const { Header } = Layout;
 
 const MenuUser = (props) => (
-  <Menu>
-    <Menu.Item key="0">
-      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
+  <Menu
+  style={{
+    "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
+  }}
+  >
+    <Menu.Item key="0" style={{"fontSize": ".14rem"}}>
+      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item key="1">
-      <a onClick={props.logout}>退出</a>
+    <Menu.Item key="1" style={{"fontSize": ".14rem"}}>
+      <a onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
 );
@@ -34,17 +38,19 @@ const ToolUser = (props)=> (
       <Srch groupList={props.groupList}/>
     </li>
     <li className="toolbar-li">
-      <Dropdown overlay={
-        <MenuUser
-          user={props.user}
-          msg={props.msg}
-          uid={props.uid}
-          relieveLink={props.relieveLink}
-          logout={props.logout}
-        />
+      <Dropdown
+        placement = "bottomRight"
+        overlay={
+          <MenuUser
+            user={props.user}
+            msg={props.msg}
+            uid={props.uid}
+            relieveLink={props.relieveLink}
+            logout={props.logout}
+          />
       }>
         <a className="dropdown-link">
-          <Icon type="user"/>
+          <Icon type="solution" />
         </a>
       </Dropdown>
     </li>
@@ -119,40 +125,48 @@ class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
+    const headerStyle = {
+      'background': 'url(./image/bg-img.jpg) no-repeat center',
+      'backgroundSize':'cover'
+    }
     return (
-      <acticle className="header-box">
-        <Layout className="layout">
-          <Header>
-            <div className="content">
-              <div className="logo">
-                <Link to="/" onClick={this.relieveLink}>YAPI</Link>
-              </div>
-              <Menu
-                mode="horizontal"
-                className="nav-toolbar"
-                theme="dark"
-                style={{ lineHeight : '.64rem'}}
-                onClick={this.linkTo}
-                selectedKeys={[curKey]}
-              >
-                <Menu.Item key="/group">
-                  <Link to="/group">项目广场</Link>
-                </Menu.Item>
-              </Menu>
-              <div className="user-toolbar">
-                {login?
-                  <ToolUser
-                    user = { user }
-                    msg = { msg }
-                    uid = { uid }
-                    relieveLink = { this.relieveLink }
-                    logout = { this.logout }
-                  />
-                  :""}
-              </div>
+      <acticle className={`header-box`} style={headerStyle}>
+        <Header style={{
+          background: "linear-gradient(to bottom,rgba(64,64,64,1),rgba(64,64,64,0.8))"
+        }}>
+          <div className="content">
+            <div className="logo">
+              <Link to="/" onClick={this.relieveLink}>YAPI</Link>
             </div>
-          </Header>
-        </Layout>
+            <Menu
+              mode="horizontal"
+              className="nav-toolbar"
+              theme="dark"
+              style={{
+                lineHeight : '.64rem',
+                backgroundColor:"transparent",
+                borderColor:"transparent"
+              }}
+              onClick={this.linkTo}
+              selectedKeys={[curKey]}
+            >
+              <Menu.Item key="/group">
+                <Link to="/group">项目广场</Link>
+              </Menu.Item>
+            </Menu>
+            <div className="user-toolbar">
+              {login?
+                <ToolUser
+                  user = { user }
+                  msg = { msg }
+                  uid = { uid }
+                  relieveLink = { this.relieveLink }
+                  logout = { this.logout }
+                />
+                :""}
+            </div>
+          </div>
+        </Header>
       </acticle>
     )
   }

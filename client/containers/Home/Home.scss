@@ -14,9 +14,11 @@ $color-black-lighter: #404040;
   -webkit-box-orient: vertical;
   background: $color-blue-grey-lighter;
   .main-one{
-    padding: .5rem .5rem 0 .5rem;
+    //padding: .5rem .5rem 0 .5rem;
     //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
+      color: $color-white;
+      padding: .5rem 0 0;
       .title{
         font-size: .6rem;
       }
@@ -25,6 +27,7 @@ $color-black-lighter: #404040;
       }
     }
     .login-form{
+      color: $color-white;
     }
     .img-container{
       margin-bottom: -.2rem;
@@ -40,7 +43,7 @@ $color-black-lighter: #404040;
       margin-top: .2rem;
     }
     .main-one-right{
-      padding-left: .15rem;
+      padding-left: .5rem;
     }
   }
   .user-home{

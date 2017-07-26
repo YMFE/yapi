@@ -15,17 +15,19 @@
   margin-bottom: .1rem;
 }
 
-.qsso-breakline {
-  position: relative;
-  text-align: center;
-  margin: .24rem auto;
-  height: 1px;
-  background-color: #bbb;
-  .qsso-breakword {
+.qsso-breakline{
+  display: flex;
+  align-items: center;
+  color: #999;
+  margin: .2rem auto;
+  &:before, &:after{
+    content: "";
     display: inline-block;
-    transform: translateY(-50%);
-    background-color: #f7f7f7;
-    padding: 0 .08rem;
-    color: #999;
+    height: .02rem;
+    flex: 1;
+    border-top: .01rem solid #bbb;
+  }
+  .qsso-breakword{
+    padding: 0 .1rem;
   }
 }
