@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select } from 'antd'
+import { Button, Input, Select, Card } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
@@ -90,8 +90,8 @@ export default class InterfaceTest extends Component {
         a:1
       },
       success: (res, header) => {
-        this.setState({res})
         console.log(header)
+        this.setState({res})
       }
     })
   }
@@ -116,6 +116,12 @@ export default class InterfaceTest extends Component {
       })
     }
 
+    const headers = {}
+    seqGroup.forEach((headerItem) => {
+      if (headerItem.name) {
+        headers[headerItem.name] = headerItem.value;
+      }
+    })
 
     const search = URL.format({
       query
@@ -138,40 +144,50 @@ export default class InterfaceTest extends Component {
             </InputGroup>
             <Button onClick={this.testInterface} type="primary" style={{marginLeft: 10}}>发送</Button>
           </div>
-          <div className="req-row headers">
-            HEADERS：
-            {
-              seqGroup.map((headerItem, index) => {
-                return (
-                  headerItem.name ? (<div key={index}>
-                    <Input disabled value={headerItem.name} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
-                    <Input value={headerItem.value} style={{display: 'inline-block', width: 200, margin: 10}} />
-                  </div>) : ''
-                )
-              })
-            }
-          </div>
-          <div className="req-row params">
-            请求参数：
-            {
-              Object.keys(reqParams).map((key, index) => {
-                const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
-                return (
-                  <div key={index}>
-                    <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
-                    <Input value={value} style={{display: 'inline-block', width: 200, margin: 10}} />
-                  </div>
-                )
-              })
-            }
-          </div>
+          <Card noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
+            <div className="req-row headers">
+              HEADERS：
+              {
+                Object.keys(headers).map((key, index) => {
+                  return (
+                    <div key={index}>
+                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={headers[key]} style={{display: 'inline-block', width: 200, margin: 10}} />
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Card>
+          <Card noHovering style={{marginTop: 10}} className={Object.keys(reqParams).length ? '' : 'hidden'}>
+            <div className="req-row params">
+              请求参数：
+              {
+                Object.keys(reqParams).map((key, index) => {
+                  const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
+                  return (
+                    <div key={index}>
+                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={value} style={{display: 'inline-block', width: 200, margin: 10}} />
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Card>
         </div>
-        <div className="res-part">
-          返回结果：
-          <div>
-            <TextArea value={this.state.res ? JSON.stringify(this.state.res, 2) : ''} style={{marginTop: 10}}></TextArea>
+        <Card noHovering style={{marginTop: 10}}>
+          <div className="res-part">
+            返回结果：
+            <div>
+              <TextArea
+                value={this.state.res ? JSON.stringify(this.state.res, 2) : ''}
+                style={{margin: 10}}
+                autosize={{ minRows: 2, maxRows: 6 }}
+              ></TextArea>
+            </div>
           </div>
-        </div>
+        </Card>
       </div>
     )
   }

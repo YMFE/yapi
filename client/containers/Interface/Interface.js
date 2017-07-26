@@ -10,7 +10,8 @@ import moment from 'moment'
 import {
   fetchInterfaceData,
   projectMember,
-  closeProjectMember
+  closeProjectMember,
+  saveInterfaceProjectId
 } from '../../actions/interfaceAction.js'
 
 @connect(
@@ -24,7 +25,8 @@ import {
   {
     fetchInterfaceData,
     projectMember,
-    closeProjectMember
+    closeProjectMember,
+    saveInterfaceProjectId
   }
 )
 
@@ -33,6 +35,7 @@ class Interface extends Component {
     fetchInterfaceData: PropTypes.func,
     interfaceData: PropTypes.array,
     projectMember: PropTypes.func,
+    saveInterfaceProjectId: PropTypes.func,
     closeProjectMember: PropTypes.func,
     modalVisible: PropTypes.bool
   }
@@ -48,6 +51,8 @@ class Interface extends Component {
         project_id: interfaceId
       }
     }
+
+    this.props.saveInterfaceProjectId(interfaceId)
 
     axios.get('/interface/list', params)
       .then(result => {
