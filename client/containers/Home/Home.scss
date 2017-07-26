@@ -7,15 +7,10 @@ $color-grey-lighter : #F7F7F7;
 $color-blue-light: #5dade2;
 $color-black-lighter: #404040;
 
-
 .home-main {
-  min-height:calc(100% - 2.47rem);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  background: $color-blue-grey-lighter;
   .main-one{
-    //padding: .5rem .5rem 0 .5rem;
-    //background: radial-gradient(ellipse at center,#45484d 0%,#000 100%);
     .home-des{
       color: $color-white;
       padding: .5rem 0 0;
