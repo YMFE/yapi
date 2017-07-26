@@ -111,6 +111,7 @@ export default class InterfaceTest extends Component {
         </div>
         <Button onClick={this.testInterface}>发送跨域请求</Button>
         <div>
+          返回结果：
           {JSON.stringify(this.state.res, 2)}
         </div>
       </div>

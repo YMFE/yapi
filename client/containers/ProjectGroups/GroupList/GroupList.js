@@ -203,11 +203,11 @@ export default class GroupList extends Component {
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
-              {currGroup.group_name}
+              <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
               <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
               <Icon className="delete-group" type="delete" title="删除分组" onClick={this.deleteGroup}/>
             </div>
-            <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
+            <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
           </div>
           <div className="group-operate">
             <div className="search">
