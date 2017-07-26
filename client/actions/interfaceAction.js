@@ -2,7 +2,8 @@ import {
   FETCH_INTERFACE_DATA,
   LIST_INTERFACE_CLICK,
   PROJECT_MEMBER_INTERFACE,
-  DELETE_INTERFACE_DATA
+  DELETE_INTERFACE_DATA,
+  SAVE_INTERFACE_PROJECT_ID
 } from '../constants/action-types.js'
 
 export function fetchInterfaceData (value) {
@@ -27,6 +28,13 @@ export function closeProjectMember () {
 export function deleteInterfaceData (value) {
   return {
     type: DELETE_INTERFACE_DATA,
+    payload: value
+  }
+}
+
+export function saveInterfaceProjectId (value) {
+  return {
+    type: SAVE_INTERFACE_PROJECT_ID,
     payload: value
   }
 }
