@@ -13,6 +13,7 @@ import QueueAnim from 'rc-queue-anim';
 
 
 const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
+const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};
 const style = {
   'height':'100%',
   'width':'100%',
@@ -36,11 +37,19 @@ const HomeGuest = (props) => (
             <Col span={8} className="main-one-left">
               <Login/>
             </Col>
-            <Col span={16} className="main-one-right">
-              <div className="img-container">
-                <img src="./image/demo-img.png"/>
-              </div>
-            </Col>
+            <OverPack>
+              <TweenOne
+                key="feat-motion-one"
+                animation={imgAnim}
+              >
+                <Col span={16} className="main-one-right">
+
+                  <div className="img-container">
+                    <img src="./image/demo-img.png"/>
+                  </div>
+                </Col>
+              </TweenOne>
+            </OverPack>
           </Row>
         </div>
       </div>
