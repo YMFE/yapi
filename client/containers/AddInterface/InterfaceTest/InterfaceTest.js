@@ -100,7 +100,7 @@ export default class InterfaceTest extends Component {
   render () {
     const { method, url, seqGroup, interfaceName, interfaceProject } = this.props;
     const { prd_host, basepath, protocol, env } = interfaceProject;
-    const reqParams = JSON.parse(this.props.reqParams);
+    const reqParams = this.props.reqParams ? JSON.parse(this.props.reqParams) : [];
     const pathname = (basepath + url).replace(/\/+/g, '/');
 
     const domains = [{name: 'prd', domain: protocol + '://' + prd_host}];
