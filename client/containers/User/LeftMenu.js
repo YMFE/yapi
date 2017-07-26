@@ -10,7 +10,7 @@ const Option = AutoComplete.Option;
   state => {
     console.log(state);
     return {
-      curUid: state.user.curUid
+      curUid: state.login.uid + ''
     }
   }
 )

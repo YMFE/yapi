@@ -4,10 +4,11 @@
   display: -webkit-box;
   -webkit-box-flex: 1;
   margin: .88rem auto 0 auto;
-  font-size: 0.14rem;
+  // font-size: 0.14rem;
   
-  min-height:500px;
-  margin-top: 84px;
+  min-height:433px;
+  margin-top: 40px;
+  margin-bottom: 55px;
 
   
 
@@ -16,6 +17,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
+    margin-top: 15px;
     .search{
       margin: 5px;    
     }
@@ -29,20 +31,22 @@
     border-radius:5px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
+    margin-top: 15px;
     .ant-table-wrapper table {
-      font-size: .14rem;
+      // font-size: .14rem;
 
-      button {
-        margin: 0 10px 0 0;
+      a {
+        // font-size: 12px;
       }
     }
+
   }
 
   .user-profile {
     -webkit-box-flex: 1;
     margin-top: 15px;
     margin-left: 15px;
-    padding: 10px;
+    padding: 10px 30px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
@@ -51,9 +55,21 @@
       line-height:35px;
       margin: 5px;
       margin-bottom:10px;
-
+      border-bottom: 1px solid #f1f3f6;
+      padding-bottom: 10px;
+      .ant-col-4{
+        color: black;
+        padding: 0px 10px;
+        text-indent: .7em;
+        // background-color: #f1f3f6;
+        border-left: 5px solid #f1f3f6;
+        margin-right: 30px;
+      }
+      .text{
+        padding-right: 15px;
+      }
       .text-button{
-        font-size: 12px;
+        // font-size: 12px;
         color: #657289;
         cursor: pointer
       }
