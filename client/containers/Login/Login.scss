@@ -18,14 +18,14 @@
 .qsso-breakline{
   display: flex;
   align-items: center;
-  color: #999;
+  color: #f7fafc;
   margin: .2rem auto;
   &:before, &:after{
     content: "";
     display: inline-block;
     height: .02rem;
     flex: 1;
-    border-top: .01rem solid #bbb;
+    border-top: .01rem solid #f7fafc;
   }
   .qsso-breakword{
     padding: 0 .1rem;
