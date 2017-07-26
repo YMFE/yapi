@@ -172,3 +172,43 @@ exports.verifyPath = function (path) {
         return false;
     }
 };
+
+function trim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function ltrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)/g, "");
+}
+
+function rtrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(\s*$)/g, "");
+}
+
+exports.trim = trim;
+exports.ltrim = ltrim;
+exports.rtrim = rtrim;
+
+exports.handleParams = function (params, keys) {
+    if (!params || (typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) !== 'object' || !keys || (typeof keys === 'undefined' ? 'undefined' : (0, _typeof3.default)(keys)) !== 'object') return false;
+    for (var key in keys) {
+        var filter = keys[key];
+        if (params[key]) {
+            switch (filter) {
+                case 'string':
+                    params[key] = trim(params[key] + '');break;
+                case 'number':
+                    params[key] = parseInt(params[key], 10);break;
+                default:
+                    params[key] = trim(params + '');
+            }
+        }
+    }
+    return params;
+};

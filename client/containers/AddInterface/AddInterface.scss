@@ -6,10 +6,12 @@
 
   .content {
     max-width: 11rem;
-    margin: 0 auto;
+    margin: 24px auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     padding: 10px 20px 50px 20px;
-  
+
     .save {
       float: right;
       margin: 0 0 10px 0;
@@ -19,7 +21,7 @@
       float: right;
       margin: 0 15px 0 0;
     }
-    
+
     table {
       width: 100%;
       border-top: 1px #EEE solid;
@@ -27,7 +29,7 @@
       th {
         padding:0 10px;
       }
-      
+
       td {
         padding: 10px 0;
       }
@@ -54,7 +56,7 @@
       margin: 0 0 0 10px;
       cursor: pointer;
     }
-  
+
     /* .req-header.css */
     .req-header {
       display: -webkit-box;
@@ -90,7 +92,7 @@
     .req-save, .res-save {
       margin: 5px 0 0 107px;
     }
-    
+
     /* .req-params.css */
     .req-params {
       display: -webkit-box;
@@ -98,12 +100,12 @@
       margin: 20px 0 0 0;
       border-top: 1px #EEE solid;
     }
-    
+
     .res-params-box {
       display: inline-block;
       width: 530px;
       float: left;
-    
+
       /* .req-save.css */
       .res-params {
         display: -webkit-box;
@@ -131,7 +133,7 @@
         }
       }
     }
-    
+
     /* Result.css */
     .result {
       display: inline-block;
@@ -153,10 +155,10 @@
         border: 1px #CCC solid;
         height: 300px;
         overflow-x: hidden;
-        overflow-y: auto; 
+        overflow-y: auto;
         line-height: 1.2;
       }
-      
+
       .ant-tabs {
         -webkit-box-flex: 1;
       }
@@ -165,6 +167,23 @@
     .dynamic-delete-button {
       margin: 0 0 0 10px;
       color: #CCC;
+    }
+  }
+  
+  /* .mock-url-box.css */
+  .mock-url-box {
+    clear: both;
+    padding: 10px 0 0 0;
+    margin: 0 0 0 20px;
+    p {
+      width: 70%;
+      height: 35px;
+      line-height: 35px;
+      border: 1px #DDD solid;
+      display: inline-block;
+      vertical-align: -4px;
+      margin: 0 10px 0 0;
+      padding: 0 0 0 10px;
     }
   }
 

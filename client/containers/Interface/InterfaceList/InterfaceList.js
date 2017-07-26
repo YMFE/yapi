@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 
 class InterfaceList extends Component {
   static propTypes = {
@@ -21,12 +22,12 @@ class InterfaceList extends Component {
   render () {
     const { projectMember } = this.props
     const getInterfaceId = this.getInterfaceId()
-    console.log(`/AddInterface/${getInterfaceId}`)
+
     return (
-      <ul className="interface-list">
-        <li><Link to={`/AddInterface/${getInterfaceId}`}>添加接口</Link></li>
-        <li onClick={projectMember}>管理项目成员</li>
-      </ul>
+      <div className="interface-btngroup">
+        <Link to={`/AddInterface/${getInterfaceId}`}><Button className="interface-btn" type="primary" icon="plus">添加接口</Button></Link>
+        <Button className="interface-btn" type="primary" onClick={projectMember} icon="user">管理成员</Button>
+      </div>
     )
   }
 }

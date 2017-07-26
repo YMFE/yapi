@@ -23,6 +23,10 @@ class groupController extends baseController{
      */
     async add(ctx) {
         let params = ctx.request.body;
+        params = yapi.commons.handleParams(params, {
+            group_name: 'string',
+            group_desc: 'string'
+        })
         if(this.getRole() !== 'admin'){
             return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
         }
@@ -38,7 +42,7 @@ class groupController extends baseController{
         let data = {
             group_name: params.group_name,
             group_desc: params.group_desc,
-            uid: '0',
+            uid: this.getUid(),
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
         }
@@ -124,6 +128,12 @@ class groupController extends baseController{
             return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
         }
         try{
+            
+            ctx.request.body = yapi.commons.handleParams(ctx.request.body, {
+                id: 'number',
+                group_name: 'string',
+                group_desc: 'string'
+            })
             var groupInst = yapi.getInst(groupModel);
             let id = ctx.request.body.id;
             let data = {};
