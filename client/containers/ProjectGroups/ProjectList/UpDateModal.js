@@ -252,7 +252,7 @@ class UpDateModal extends Component {
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
                   getFieldDecorator(`envs-protocol-${index}`, {
-                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0]+'\/\/' : '',
+                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0]+'\/\/' : 'http\:\/\/',
                     rules: [{
                       required: true
                     }]
@@ -266,11 +266,14 @@ class UpDateModal extends Component {
             </FormItem>
           </Col>
           <Col span={2}>
-            {envs.length > 0 ? (
+            {/* 新增的项中，只有最后一项有删除按钮 */}
+            { (envs.length > 0 && k._id) || (envs.length == index + 1) ? (
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                onClick={() => this.remove(k._id ? k._id : k)}
+                onClick={() => {
+                  return this.remove(k._id ? k._id : k);
+                }}
               />
             ) : null}
           </Col>
