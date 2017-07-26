@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input } from 'antd'
+import { Button, Input, Select } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
@@ -13,6 +13,8 @@ import {
 import './InterfaceTest.scss'
 
 const { TextArea } = Input;
+const InputGroup = Input.Group;
+const Option = Select.Option;
 
 @connect(
   state => ({
@@ -40,7 +42,7 @@ export default class InterfaceTest extends Component {
   }
 
   state = {
-    res: {},
+    res: '',
     header: {}
   }
 
@@ -57,9 +59,8 @@ export default class InterfaceTest extends Component {
     const { method, url, seqGroup, interfaceProject } = this.props;
     const { prd_host, basepath, protocol } = interfaceProject;
     const reqParams = JSON.parse(this.props.reqParams);
-    const headers = {}
-    let query = {};
 
+    const query = {};
     if (method === 'GET') {
       Object.keys(reqParams).forEach(key => {
         const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams) : reqParams.toString();
@@ -67,8 +68,11 @@ export default class InterfaceTest extends Component {
       })
     }
 
+    const headers = {}
     seqGroup.forEach((headerItem) => {
-      headers[headerItem.name] = headerItem.value;
+      if (headerItem.name) {
+        headers[headerItem.name] = headerItem.value;
+      }
     })
 
     const href = URL.format({
@@ -95,10 +99,16 @@ export default class InterfaceTest extends Component {
 
   render () {
     const { method, url, seqGroup, interfaceName, interfaceProject } = this.props;
-    const { prd_host, basepath, protocol } = interfaceProject;
+    const { prd_host, basepath, protocol, env } = interfaceProject;
     const reqParams = JSON.parse(this.props.reqParams);
-    let query = {};
+    const pathname = (basepath + url).replace(/\/+/g, '/');
 
+    const domains = [{name: 'prd', domain: protocol + '://' + prd_host}];
+    env.forEach(item => {
+      domains.push({name: item.name, domain: item.domain});
+    })
+
+    const query = {};
     if (method === 'GET') {
       Object.keys(reqParams).forEach(key => {
         const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
@@ -106,10 +116,8 @@ export default class InterfaceTest extends Component {
       })
     }
 
-    const href = URL.format({
-      protocol: protocol || 'http',
-      host: prd_host,
-      pathname: (basepath + url).replace(/\/+/g, '/'),
+
+    const search = URL.format({
       query
     });
 
@@ -118,22 +126,27 @@ export default class InterfaceTest extends Component {
       <div className="interface-test">
         <div className="interface-name">{interfaceName}</div>
         <div className="req-part">
-          <div className="req-row method">
-            METHOD：<Input value={method} disabled style={{display: 'inline-block', width: 200}} />
-          </div>
-          <div className="req-row url">
-            URL：<Input value={href} style={{display: 'inline-block', width: 800, margin: 10}} />
-            <Button onClick={this.testInterface} type="primary">发送</Button>
+          <div className="req-row href">
+            <InputGroup compact style={{display: 'inline-block', width: 680}}>
+              <Input value={method} disabled style={{display: 'inline-block', width: 80}} />
+              <Select defaultValue="prd" style={{display: 'inline-block', width: 300}}>
+                {
+                  domains.map((item, index) => (<Option value={item.name} key={index}>{item.domain}</Option>))
+                }
+              </Select>
+              <Input value={pathname+search} style={{display: 'inline-block', width: 300}} />
+            </InputGroup>
+            <Button onClick={this.testInterface} type="primary" style={{marginLeft: 10}}>发送</Button>
           </div>
           <div className="req-row headers">
             HEADERS：
             {
               seqGroup.map((headerItem, index) => {
                 return (
-                  <div key={index}>
+                  headerItem.name ? (<div key={index}>
                     <Input disabled value={headerItem.name} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                     <Input value={headerItem.value} style={{display: 'inline-block', width: 200, margin: 10}} />
-                  </div>
+                  </div>) : ''
                 )
               })
             }
@@ -155,7 +168,9 @@ export default class InterfaceTest extends Component {
         </div>
         <div className="res-part">
           返回结果：
-          <TextArea value={JSON.stringify(this.state.res, 2)}></TextArea>
+          <div>
+            <TextArea value={this.state.res ? JSON.stringify(this.state.res, 2) : ''} style={{marginTop: 10}}></TextArea>
+          </div>
         </div>
       </div>
     )
