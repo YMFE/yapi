@@ -95,6 +95,7 @@ var interfaceController = function (_baseController) {
                                 params = ctx.request.body;
 
                                 params = _yapi2.default.commons.handleParams(params, {
+                                    project_id: 'number',
                                     title: 'string',
                                     path: 'string',
                                     method: 'string',
@@ -129,7 +130,7 @@ var interfaceController = function (_baseController) {
 
                             case 11:
                                 _context.next = 13;
-                                return this.Model.checkRepeat(params.path, params.method);
+                                return this.Model.checkRepeat(params.project_id, params.path, params.method);
 
                             case 13:
                                 checkRepeat = _context.sent;
@@ -393,7 +394,7 @@ var interfaceController = function (_baseController) {
                                 }
 
                                 _context4.next = 15;
-                                return this.Model.checkRepeat(params.path, params.method);
+                                return this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
 
                             case 15:
                                 checkRepeat = _context4.sent;

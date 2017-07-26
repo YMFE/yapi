@@ -54,8 +54,9 @@ class interfaceModel extends baseModel{
         }).exec()
     }
 
-    checkRepeat(path, method){
+    checkRepeat(id, path, method){
         return this.model.count({
+            project_id: id,
             path: path,
             method: method
         })
