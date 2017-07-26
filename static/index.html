@@ -1,39 +1,22 @@
+<!DOCTYPE html>
 <html>
-<!-- 将原来的输入用户名和密码表单去掉
-<form>
-<input name="username">
-<input name="password">
-</form>
--->
-
-<!-- 添加一个登录按钮 -->
-
-
-
-
-<button id="qsso-login">qsso登录</button>
-
-<!-- 引入qsso auth js库 -->
-<script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
-
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>my yApi</title>
 <script>
-// 调用QSSO.attach进行登录参数的设置，如：设置绑定登录事件的HTML元素，接收token的登录接口URI。
-QSSO.attach('qsso-login','/user/login_by_token');
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/user/status')
-xhr.onload = function(e){
-    if(this.status == 200){
-        alert(this.responseText)
-    }
-}
-xhr.send()
-
-
-
-
-// attach函数会将HTMLid为qsso-login的元素onclick时自动去qsso登录，当用户用户点击上面的button，会跳到qsso登录页面,用户在qsso登录后将会把token值post到http://xxx.qunar.com/login.php上。
-
+    document.write('<script src="prd/assets.js?v=' + Math.random() + '"><\/script>');
 </script>
-<!-- 结束 -->
+<script>
+    document.write('<link rel="stylesheet"  href="/prd/' + window.WEBPACK_ASSETS['index.js'].css + '" />');
+</script>
 
-<html>
+<script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
+</head>
+<body>
+<div id="yapi" style="height: 100%;"></div>
+<script>
+    document.write('<script src="/prd/' + window.WEBPACK_ASSETS['index.js'].js + '"><\/script>');
+</script>
+</body>
+</html>

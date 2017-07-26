@@ -3,100 +3,192 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon } from 'antd'
-import loginTypeAction from '../../actions/login';
+import { Icon, Layout, Menu, Dropdown, message } from 'antd'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
+import { changeMenuItem } from '../../actions/menu'
+import { withRouter } from 'react-router';
+import Srch from './Search/Search'
+const { Header } = Layout;
+
+const MenuUser = (props) => (
+  <Menu
+  style={{
+    "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
+  }}
+  >
+    <Menu.Item key="0" style={{"fontSize": ".14rem"}}>
+      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
+    </Menu.Item>
+    <Menu.Item key="1" style={{"fontSize": ".14rem"}}>
+      <a onClick={props.logout}><Icon type="logout" />退出</a>
+    </Menu.Item>
+  </Menu>
+);
+MenuUser.propTypes={
+  user:PropTypes.string,
+  msg:PropTypes.string,
+  uid: PropTypes.number,
+  relieveLink:PropTypes.func,
+  logout:PropTypes.func
+}
 
 const ToolUser = (props)=> (
   <ul>
-    <li><Icon type="user" />{ props.user }</li>
-    <li>消息{ props.msg.length }</li>
-    <li>退出</li>
+    <li className="toolbar-li">
+      <Srch groupList={props.groupList}/>
+    </li>
+    <li className="toolbar-li">
+      <Dropdown
+        placement = "bottomRight"
+        overlay={
+          <MenuUser
+            user={props.user}
+            msg={props.msg}
+            uid={props.uid}
+            relieveLink={props.relieveLink}
+            logout={props.logout}
+          />
+      }>
+        <a className="dropdown-link">
+          <Icon type="solution" />
+        </a>
+      </Dropdown>
+    </li>
   </ul>
 );
 ToolUser.propTypes={
   user:PropTypes.string,
-  msg:PropTypes.string
+  msg:PropTypes.string,
+  uid: PropTypes.number,
+  relieveLink:PropTypes.func,
+  logout:PropTypes.func,
+  groupList: PropTypes.array
 };
 
-const ToolGuest = (props)=> (
-  <ul>
-    <li onClick={e => props.onLogin(e)}><Link to={`/Login`}>登录</Link></li>
-    <li onClick={e => props.onReg(e)}><Link to={`/Login`}>注册</Link></li>
-  </ul>
-);
-ToolGuest.propTypes={
-  onLogin:PropTypes.func,
-  onReg:PropTypes.func
-}
 
-class Header extends Component {
+@withRouter
+class HeaderCom extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      guestToolShow:true
+  }
+  static propTypes ={
+    router: PropTypes.object,
+    user: PropTypes.string,
+    msg: PropTypes.string,
+    uid: PropTypes.number,
+    login:PropTypes.bool,
+    curKey:PropTypes.string,
+    relieveLink:PropTypes.func,
+    logoutActions:PropTypes.func,
+    checkLoginState:PropTypes.func,
+    loginTypeAction:PropTypes.func,
+    changeMenuItem:PropTypes.func,
+    history: PropTypes.object,
+    location: PropTypes.object
+  }
+  linkTo = (e) =>{
+    this.props.changeMenuItem(e.key);
+    if(!this.props.login){
+      message.info('请先登录',1);
     }
+  }
+  relieveLink = () => {
+    this.props.changeMenuItem("");
+  }
+  logout = (e) => {
+    e.preventDefault();
+    this.props.logoutActions().then((res) => {
+      if (res.payload.data.errcode == 0) {
+        this.props.history.push('/');
+        this.props.changeMenuItem("/");
+        message.success('退出成功! ');
+      } else {
+        message.error(res.payload.data.errmsg);
+      }
+    }).catch((err) => {
+      message.error(err);
+    });
   }
   handleLogin = (e) => {
     e.preventDefault();
     this.props.loginTypeAction("1");
-    this.setState({
-      guestToolShow:false
-    })
   }
   handleReg = (e)=>{
     e.preventDefault();
     this.props.loginTypeAction("2");
-    this.setState({
-      guestToolShow:false
-    })
   }
-  hideGuestTool = (e)=>{
-    e.preventDefault();
-    this.setState({
-      guestToolShow:true
+  checkLoginState = () => {
+    this.props.checkLoginState.then((res) => {
+      if (res.payload.data.errcode !== 0) {
+        this.props.history.push('/');
+      }
+    }).catch((err) => {
+      console.log(err);
     })
   }
   render () {
-    const { login, user, msg } = this.props;
+    const { login, user, msg, uid, curKey } = this.props;
+    const headerStyle = {
+      'background': 'url(./image/bg-img.jpg) no-repeat center',
+      'backgroundSize':'cover'
+    }
     return (
-      <acticle className="header-box">
-        <div className="content">
-          <h1>YAPI</h1>
-          <ul className="nav-toolbar">
-            <li onClick={this.hideGuestTool}>
-              <Link to={`/ProjectGroups`}>分组</Link>
-            </li>
-            <li onClick={this.hideGuestTool}>
-              <a>我的项目</a>
-            </li>
-            <li onClick={this.hideGuestTool}>
-              <a>文档</a>
-            </li>
-          </ul>
-          <ul className="user-toolbar">
-            {login?<ToolUser user={user} msg={msg}/>:(this.state.guestToolShow?<ToolGuest onLogin={this.handleLogin} onReg={this.handleReg}/>:'')}
-          </ul>
-        </div>
+      <acticle className={`header-box`} style={headerStyle}>
+        <Header style={{
+          background: "linear-gradient(to bottom,rgba(64,64,64,1),rgba(64,64,64,0.9))"
+        }}>
+          <div className="content">
+            <div className="logo">
+              <Link to="/" onClick={this.relieveLink}>YAPI</Link>
+            </div>
+            <Menu
+              mode="horizontal"
+              className="nav-toolbar"
+              theme="dark"
+              style={{
+                lineHeight : '.64rem',
+                backgroundColor:"transparent",
+                borderColor:"transparent"
+              }}
+              onClick={this.linkTo}
+              selectedKeys={[curKey]}
+            >
+              <Menu.Item key="/group">
+                <Link to="/group">项目广场</Link>
+              </Menu.Item>
+            </Menu>
+            <div className="user-toolbar">
+              {login?
+                <ToolUser
+                  user = { user }
+                  msg = { msg }
+                  uid = { uid }
+                  relieveLink = { this.relieveLink }
+                  logout = { this.logout }
+                />
+                :""}
+            </div>
+          </div>
+        </Header>
       </acticle>
     )
   }
 }
 
-Header.propTypes={
-  user: PropTypes.string,
-  msg: PropTypes.string,
-  login:PropTypes.bool,
-  loginTypeAction:PropTypes.func
-};
-
 export default connect(
   (state) => {
     return{
       user: state.login.userName,
-      msg: "暂无消息",
-      login:state.login.isLogin
+      uid: state.login.uid,
+      msg: null,
+      login:state.login.isLogin,
+      curKey: state.menu.curKey
     }
   },
-  {loginTypeAction}
-)(Header)
-
+  {
+    loginTypeAction,
+    logoutActions,
+    checkLoginState,
+    changeMenuItem
+  }
+)(HeaderCom)

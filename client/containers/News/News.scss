@@ -1,0 +1,117 @@
+/* .interface-box.css */
+.news-box {
+  max-width: 11rem;
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  margin: .88rem auto 0 auto;
+  font-size: 0.14rem;
+  background: #FFF;
+
+  .logList {
+    width: 216px;
+    line-height: 45px;
+    background: #f9fafe;
+    h3{
+      text-indent: 1em;
+    }
+  }
+
+}
+
+.news-timeline{
+  margin-left: 30px;
+  margin-top: 30px;
+  .removeAllNews{
+    background-color: #f7f7f7;
+    padding: 7px;
+    display: inline-block;
+    overflow: hidden;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #a09f9f;
+
+    &:hover,&:active{
+      background-color: #333;
+      color: white;
+    }
+  }
+  .ant-table-wrapper{
+    width: 822px;
+  }
+  .ant-table-row{
+    max-width: 80%;
+  }
+  .newsDesc{
+    padding-right: 15px;
+
+    p{
+      text-indent: 2em;
+      color: #333;
+      font-size: 14px;
+      line-height: 30px;;
+    }
+    span{
+      font-size: 14px;
+      margin-top: 15px;
+      display: inline-block;
+      color: #999;
+      cursor: pointer;
+      i{
+        margin-right: 5px;
+      }
+      &:hover, &.active {
+        color: #333;
+      }
+    }
+  }
+}
+
+.ant-timeline-item-content{
+  background-color: #ececec;
+  margin-left: 30px;
+  border-radius: 4px;
+  border-left:4px solid #ececec;
+  min-width: 350px;
+  max-width: 450px;
+  padding: 10px;
+
+  .timelineDate{
+    display: block;
+    float: left;
+   }
+
+   .timelineName{
+    float: right;
+   }
+
+   p{
+     display: block;
+     width: 100%;
+   }
+
+   div{
+     overflow: hidden
+   }
+
+}
+
+.ant-timeline-item-content:before{
+  content:'';
+  display: block;
+  margin-left: -40px;
+  width: 0px;
+  height: 0px;
+  float: left;
+  border-width: 10px 13px;
+  border-style: solid;
+  border-color: transparent #ececec transparent transparent;
+}
+
+.ant-timeline-item-tail{
+  top: 16px;
+}
+
+.ant-timeline-item-head{
+  margin-top: 10px;
+}

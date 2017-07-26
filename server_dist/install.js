@@ -1,5 +1,17 @@
 'use strict';
 
+var _fsExtra = require('fs-extra');
+
+var _fsExtra2 = _interopRequireDefault(_fsExtra);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _initConfig = require('./utils/initConfig.js');
+
+var _initConfig2 = _interopRequireDefault(_initConfig);
+
 var _yapi = require('./yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
@@ -19,8 +31,6 @@ var _user2 = _interopRequireDefault(_user);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _yapi2.default.commons = _commons2.default;
-
-
 _yapi2.default.connect = _db2.default.connect();
 
 function install() {
@@ -36,6 +46,7 @@ function setupSql() {
     var userInst = _yapi2.default.getInst(_user2.default);
     var passsalt = _yapi2.default.commons.randStr();
     var result = userInst.save({
+        username: _yapi2.default.WEBCONFIG.adminAccount.substr(0, _yapi2.default.WEBCONFIG.adminAccount.indexOf('@')),
         email: _yapi2.default.WEBCONFIG.adminAccount,
         password: _yapi2.default.commons.generatePassword('qunar.com', passsalt),
         passsalt: passsalt,

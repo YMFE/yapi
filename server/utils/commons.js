@@ -4,7 +4,7 @@ import path from 'path'
 import yapi from '../yapi.js'
 import sha1 from 'sha1'
 
-exports.resReturn = (data, num, errmsg)=> {
+exports.resReturn = (data, num, errmsg) => {
     num = num || 0;
     return {
         errcode: num,
@@ -14,42 +14,42 @@ exports.resReturn = (data, num, errmsg)=> {
 }
 
 const MSGTYPE = {
-    'log' : 'Log',
-    'warn' : 'warning',
+    'log': 'Log',
+    'warn': 'warning',
     'error': 'Error'
 }
 
-exports.log =  (msg, type) => {
-    if(!msg) return;
+exports.log = (msg, type) => {
+    if (!msg) return;
     type = type || 'log';
     let f;
-    switch(type){
+    switch (type) {
         case 'log': f = console.log; break;
         case 'warn': f = console.warn; break;
-        case 'error': f= console.error; break;
-        default : f = console.log; break;
+        case 'error': f = console.error; break;
+        default: f = console.log; break;
     }
     f(type + ':', msg);
     let date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth();
-    
+
     let logfile = path.join(yapi.WEBROOT_LOG, year + '-' + month + '.log');
 
-    if(typeof msg === 'object'){
-        if(msg instanceof Error) msg = msg.message;
+    if (typeof msg === 'object') {
+        if (msg instanceof Error) msg = msg.message;
         else msg = JSON.stringify(msg);
     }
-    let data= (new Date).toLocaleTimeString() + "\t|\t" + type + "\t|\t" + msg;
+    let data = (new Date).toLocaleTimeString() + "\t|\t" + type + "\t|\t" + msg;
     fs.writeFileSync(logfile, data, {
         flag: 'w+'
     });
 
-    
+
 }
 
 
-exports.fileExist =  (filePath) =>{
+exports.fileExist = (filePath) => {
     try {
         return fs.statSync(filePath).isFile();
     } catch (err) {
@@ -58,31 +58,31 @@ exports.fileExist =  (filePath) =>{
 }
 
 exports.time = () => {
-    return Date.parse(new Date())/1000;
+    return Date.parse(new Date()) / 1000;
 }
 
-exports.fieldSelect = (data, field)=>{
-    if(!data || !field || !Array.isArray(field)) return null;
+exports.fieldSelect = (data, field) => {
+    if (!data || !field || !Array.isArray(field)) return null;
     var arr = {};
-    field.forEach( (f) => {
+    field.forEach((f) => {
         data[f] && (arr[f] = data[f]);
-    } )
+    })
     return arr;
 }
 
-exports.rand =(min, max)=>{
+exports.rand = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-exports.json_parse = (json)=>{
-    try{
+exports.json_parse = (json) => {
+    try {
         return JSON.parse(json);
-    }catch(e){
+    } catch (e) {
         return json
     }
 }
 
-exports.randStr = ()=> {
+exports.randStr = () => {
     return Math.random().toString(36).substr(2)
 }
 
@@ -96,21 +96,95 @@ exports.expireDate = (day) => {
     return date;
 }
 
-exports.sendMail = (options,cb) => {
-    if(!yapi.mail) return false;
-    options.subject = options.subject? options.subject + '-yapi平台' : 'ypai平台';
-    cb = cb || function(err, info){
-        if(err){
-            yapi.commons.log('send mail ' + options.to +' error,'+ err.message, 'error');
-        }else{
-            yapi.commons.log('send mail ' + options.to +' success');
+exports.sendMail = (options, cb) => {
+    if (!yapi.mail) return false;
+    options.subject = options.subject ? options.subject + '-yapi平台' : 'ypai平台';
+    cb = cb || function (err, info) {
+        if (err) {
+            yapi.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
+        } else {
+            yapi.commons.log('send mail ' + options.to + ' success');
         }
-        
+
     }
-    yapi.mail.sendMail({
-        from: yapi.WEBCONFIG.mail.auth.user,
-        to  : options.to,
-        subject: 'yapi平台',
-        html: options.contents
-    }, cb)
+    try {
+        yapi.mail.sendMail({
+            from: yapi.WEBCONFIG.mail.auth.user,
+            to: options.to,
+            subject: 'yapi平台',
+            html: options.contents
+        }, cb)
+    } catch (e) {
+        console.error(e.message)
+    }
+}
+
+exports.validateSearchKeyword = keyword => {
+    if (/^\*|\?|\+|\$|\^|\\|\.$/.test(keyword)) {
+        return false;
+    }
+    return true;
+}
+
+exports.filterRes = (list, rules) => {
+    return list.map(item => {
+        let filteredRes = {};
+        rules.forEach(rule => {
+            if (typeof rule == 'string') {
+                filteredRes[rule] = item[rule];
+            } else if (typeof rule == 'object') {
+                filteredRes[rule.alias] = item[rule.key];
+            }
+        });
+        return filteredRes;
+    })
+}
+
+exports.verifyPath = (path) => {
+    if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
+        if (path[path.length - 1] === '/') {
+            return false;
+        } else {
+            return true
+        }
+    } else {
+        return false;
+    }
+}
+
+function trim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function ltrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)/g, "");
+}
+
+function rtrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(\s*$)/g, "");
+}
+
+exports.trim = trim;
+exports.ltrim = ltrim;
+exports.rtrim = rtrim;
+
+exports.handleParams = (params, keys) => {
+    if (!params || typeof params !== 'object' || !keys || typeof keys !== 'object') return false;
+    for (var key in keys) {
+        var filter = keys[key];
+        if (params[key]) {
+            switch (filter) {
+                case 'string': params[key] = trim(params[key] + ''); break;
+                case 'number': params[key] = parseInt(params[key], 10); break;
+                default: params[key] = trim(params + '');
+            }
+        }
+    }
+    return params;
 }

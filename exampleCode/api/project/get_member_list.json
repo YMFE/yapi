@@ -1,0 +1,13 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": [
+        {
+            "_id": 101,
+            "email": "admin@admin.com",
+            "role": "admin",
+            "add_time": 1499932673,
+            "up_time": 1499932673
+        }
+    ]
+}

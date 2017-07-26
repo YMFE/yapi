@@ -1,32 +1,32 @@
 import {
   FETCH_GROUP_LIST,
-  FETCH_CURR_GROUP
+  SET_CURR_GROUP
 } from '../../constants/action-types';
+import { message } from 'antd'
 
 const initialState = {
   groupList: [],
-  currGroup: 'MFE'
+  currGroup: { group_name: '' }
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_GROUP_LIST: {
-      if (action.payload.res) {
+      if (action.payload.data.errcode) {
+        message.error(action.payload.data.errmsg);
+      } else {
         return {
           ...state,
-          groupList: action.payload.data
+          groupList: action.payload.data.data
         };
       }
       return state;
     }
-    case FETCH_CURR_GROUP: {
-      if (action.payload.res) {
-        return {
-          ...state,
-          currGroup: action.payload.data
-        };
-      }
-      return state;
+    case SET_CURR_GROUP: {
+      return {
+        ...state,
+        currGroup: action.payload
+      };
     }
 
     default:

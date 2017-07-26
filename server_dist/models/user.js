@@ -51,7 +51,10 @@ var userModel = function (_baseModel) {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                username: String,
+                username: {
+                    type: String,
+                    required: true
+                },
                 password: {
                     type: String,
                     required: true
@@ -85,6 +88,25 @@ var userModel = function (_baseModel) {
             return this.model.find().select("_id username email role  add_time up_time").exec(); //显示id name email role 
         }
     }, {
+        key: 'findByUids',
+        value: function findByUids(uids) {
+            return this.model.find({
+                _id: { $in: uids }
+            }).select("_id username email role  add_time up_time").exec();
+        }
+    }, {
+        key: 'listWithPaging',
+        value: function listWithPaging(page, limit) {
+            page = parseInt(page);
+            limit = parseInt(limit);
+            return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+        }
+    }, {
+        key: 'listCount',
+        value: function listCount() {
+            return this.model.count();
+        }
+    }, {
         key: 'findByEmail',
         value: function findByEmail(email) {
             return this.model.findOne({ email: email });
@@ -108,12 +130,17 @@ var userModel = function (_baseModel) {
         value: function update(id, data) {
             return this.model.update({
                 _id: id
+            }, data);
+        }
+    }, {
+        key: 'search',
+        value: function search(keyword) {
+            return this.model.find({
+                $or: [{ email: new RegExp(keyword, 'i') }, { username: new RegExp(keyword, 'i') }]
             }, {
-                username: data.username,
-                email: data.email,
-                role: data.role,
-                up_time: _yapi2.default.commons.time()
-            });
+                passsalt: 0,
+                password: 0
+            }).limit(10);
         }
     }]);
     return userModel;

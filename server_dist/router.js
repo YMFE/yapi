@@ -32,6 +32,10 @@ var _project = require('./controllers/project.js');
 
 var _project2 = _interopRequireDefault(_project);
 
+var _log = require('./controllers/log.js');
+
+var _log2 = _interopRequireDefault(_log);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _koaRouter2.default)();
@@ -52,6 +56,10 @@ var INTERFACE_CONFIG = {
     project: {
         prefix: '/project/',
         controller: _project2.default
+    },
+    log: {
+        prefix: '/log/',
+        controller: _log2.default
     }
 };
 
@@ -65,12 +73,14 @@ createAction('group', 'del', 'post', 'del');
 createAction('user', 'login', 'post', 'login');
 createAction('user', 'reg', 'post', 'reg');
 createAction('user', 'list', 'get', 'list');
-createAction('user', 'find', 'post', 'findById');
+createAction('user', 'find', 'get', 'findById');
 createAction('user', 'update', 'post', 'update');
 createAction('user', 'del', 'post', 'del');
 createAction('user', 'status', 'get', 'getLoginStatus');
 createAction('user', 'logout', 'get', 'logout');
 createAction('user', 'login_by_token', 'post', 'loginByToken');
+createAction('user', 'change_password', 'post', 'changePassword');
+createAction('user', 'search', 'get', 'search');
 
 //project
 createAction('project', 'add', 'post', 'add');
@@ -80,6 +90,8 @@ createAction('project', 'up', 'post', 'up');
 createAction('project', 'del', 'post', 'del');
 createAction('project', 'add_member', 'post', 'addMember');
 createAction('project', 'del_member', 'post', 'delMember');
+createAction('project', 'get_member_list', 'get', 'getMemberList');
+createAction('project', 'search', 'get', 'search');
 
 //interface
 createAction('interface', 'add', 'post', 'add');
@@ -87,6 +99,9 @@ createAction('interface', 'list', 'get', 'list');
 createAction('interface', 'get', 'get', 'get');
 createAction('interface', 'up', 'post', 'up');
 createAction('interface', 'del', 'post', 'del');
+
+//node
+createAction('log', 'list', 'get', 'list');
 
 /**
  *

@@ -12,13 +12,15 @@ class projectModel extends baseModel{
             name: {type: String, required: true},
             basepath: {type: String, required: true, validate: {
                 validator: (v) => {
-                    return v && v[v.length - 1] === '/'
+                    console.log('basepath: ', v)
+                    return v && v[0] === '/'
                 },
-                message: 'basepath字符串结尾必须是/'
+                message: 'basepath必须是/开头'
             }},
             desc: String,
             group_id: {type: Number, required: true},
-            members: Array,
+            members: Array,            
+            protocol: {type: String, required: true},        
             prd_host: {type: String, required: true},
             env: [
                 {name: String, domain: String}
@@ -63,7 +65,21 @@ class projectModel extends baseModel{
     list (group_id){
         return this.model.find({
             group_id: group_id
-        }).exec()
+        }).sort({_id: -1}).exec()
+    }
+
+    listWithPaging(group_id, page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+        return this.model.find({
+            group_id: group_id
+        }).sort({_id: -1}).skip((page - 1) * limit).limit(limit).exec();
+    }
+
+    listCount(group_id) {
+        return this.model.count({
+            group_id: group_id
+        });
     }
 
     countByGroupId(group_id){
@@ -105,6 +121,13 @@ class projectModel extends baseModel{
             _id: id,
             members:[uid]
         })
+    }
+
+    search(keyword) {
+        return this.model.find({
+            name: new RegExp(keyword, 'ig')
+        })
+        .limit(10)
     }
 
 }

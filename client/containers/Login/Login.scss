@@ -1,7 +1,33 @@
 @import '../../styles/common.scss';
 
-/* .login-main.css */
-.login-form {
-  width: 4rem;
-  margin: 1rem auto;
+.ant-tabs-nav-wrap {
+  font-size: .16rem;
+  text-align: center;
+}
+
+.login-form-button {
+  // background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  // border: none !important;
+  width: 100%;
+}
+
+.ant-form-item {
+  margin-bottom: .1rem;
+}
+
+.qsso-breakline{
+  display: flex;
+  align-items: center;
+  color: #999;
+  margin: .2rem auto;
+  &:before, &:after{
+    content: "";
+    display: inline-block;
+    height: .02rem;
+    flex: 1;
+    border-top: .01rem solid #bbb;
+  }
+  .qsso-breakword{
+    padding: 0 .1rem;
+  }
 }

@@ -1,39 +1,44 @@
 /* .interface-box.css */
 .interface-box {
   max-width: 11rem;
-  display: -webkit-box;
-  -webkit-box-flex: 1;
-  margin: 15px auto 0 auto;
-  font-size: 0.14rem;
+  margin: 24px auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
   background: #FFF;
+  overflow: hidden;
+  .interface-btngroup {
+    margin: .24rem .24rem 0;
+  }
+  .interface-btn {
+    margin-right: .16rem;
+  }
+  .interface-table {
+    margin: .24rem;
+  }
+}
 
-  .interface-list {
-    width: 216px;
-    line-height: 45px;
-    background: #f9fafe;
-    
-    li {
-      padding: 0 0 0 30px;
-      color: #344562;
-      cursor: pointer;
-      
-      &:hover, &.active {
-        background: #657289;
-        color: #FFF;
-      }
+/* .interface-mode-box.css 管理项目成员弹层 */
+.interface-mode-box {
+  .add-user {
+    display: -webkit-box;
+    .ant-input {
+      width: 70%;
+      display: block;
+    }
+    .ant-btn {
+      margin: 0 0 0 15px;
+      height: 32px;
     }
   }
 
-  .interface-table {
-    -webkit-box-flex: 1;
-    margin: 0 0 0 20px;
-
-    .ant-table-wrapper table {
-      font-size: .14rem;
-
-      button {
-        margin: 0 10px 0 0;
-      }
+  .users {
+    margin: 10px 0 0 0;
+    font-size: 0.14rem;
+    p {
+      line-height: 0.21rem;
+    }
+    .tags {
+      margin: 10px 0 0 0;
     }
   }
 }

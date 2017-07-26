@@ -1,15 +1,17 @@
+import fs from 'fs-extra'
+import path from 'path'
+import initConfig from './utils/initConfig.js'
 import yapi from './yapi.js';
 import commons from './utils/commons';
-yapi.commons = commons;
-import dbModule from './utils/db.js';
 
+import dbModule from './utils/db.js';
 import userModel from './models/user.js'
 
-
+yapi.commons = commons;
 yapi.connect = dbModule.connect()
 
 
-function install(){
+function install(){   
     let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'))
     if(exist){
         return yapi.commons.log('runtime/init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉runtime/init.lock文件');
@@ -22,6 +24,7 @@ function setupSql(){
     let userInst  = yapi.getInst(userModel);
     let passsalt = yapi.commons.randStr();
     let result = userInst.save({
+        username: yapi.WEBCONFIG.adminAccount.substr(0, yapi.WEBCONFIG.adminAccount.indexOf('@')),
         email: yapi.WEBCONFIG.adminAccount,
         password: yapi.commons.generatePassword('qunar.com', passsalt),
         passsalt: passsalt,
@@ -39,4 +42,4 @@ function setupSql(){
     })
 }
 
-install();
+install()
