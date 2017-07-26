@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Tabs } from 'antd'
-import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -17,7 +16,8 @@ class Result extends Component {
   static propTypes = {
     resParams: PropTypes.string,
     reqParams: PropTypes.string,
-    isSave: PropTypes.bool
+    isSave: PropTypes.bool,
+    mockJson: PropTypes.string
   }
 
   constructor(props) {
@@ -25,21 +25,14 @@ class Result extends Component {
   }
 
   render () { 
-    let TabPane = Tabs.TabPane
-    let resParams = ''
-    let json = ''
-    
-    if(this.props.resParams){
-      resParams = JSON.parse(this.props.resParams)
-      json = JSON.stringify(Mock.mock(resParams), null, 2)
-    }
-
+    const TabPane = Tabs.TabPane
+    const { mockJson } = this.props
+    console.log('mockJson', typeof mockJson, mockJson)
     return (
       <div className="result">
-        <strong className="res-h3">返回示例 :</strong>
         <Tabs defaultActiveKey="1">
           <TabPane tab="成功结果" key="1">
-            <pre>{json}</pre>
+            <pre>{mockJson}</pre>
           </TabPane>
         </Tabs>
       </div>

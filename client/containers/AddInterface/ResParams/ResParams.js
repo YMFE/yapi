@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import wangEditor from 'wangeditor'
+import { Tabs } from 'antd'
 import { getResParams } from '../../../actions/addInterface.js'
 
 const editor = new wangEditor('#res-cover')
@@ -38,10 +39,7 @@ class ResParams extends Component {
     const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+|<div>|<\/div>/g
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
-      console.log(html)
-      html = html.match(/{.*}/g)[0]
       html = html.replace(reg, '')
-      console.log(html)
       this.props.getResParams(html)
     }
     setTimeout(() => {
@@ -51,12 +49,14 @@ class ResParams extends Component {
   }
 
   render () {
+    const TabPane = Tabs.TabPane
     return (
-      <section>
-        <div className="res-params">
-          <strong className="res-h3">返回参数 :</strong>
-          <div id="res-cover"></div>
-        </div>
+      <section className="res-params-box">
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="返回参数" key="1">
+            <div id="res-cover"></div>
+          </TabPane>
+        </Tabs>
       </section>
     )
   }

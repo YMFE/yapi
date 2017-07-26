@@ -12,6 +12,8 @@ import {
 
 import './InterfaceTest.scss'
 
+const { TextArea } = Input;
+
 @connect(
   state => ({
     reqParams: state.addInterface.reqParams,
@@ -52,9 +54,34 @@ export default class InterfaceTest extends Component {
 
   @autobind
   testInterface() {
+    const { method, url, seqGroup, interfaceProject } = this.props;
+    const { prd_host, basepath, protocol } = interfaceProject;
+    const reqParams = JSON.parse(this.props.reqParams);
+    const headers = {}
+    let query = {};
+
+    if (method === 'GET') {
+      Object.keys(reqParams).forEach(key => {
+        const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams) : reqParams.toString();
+        query[key] = value;
+      })
+    }
+
+    seqGroup.forEach((headerItem) => {
+      headers[headerItem.name] = headerItem.value;
+    })
+
+    const href = URL.format({
+      protocol: protocol || 'http',
+      host: prd_host,
+      pathname: (basepath + url).replace(/\/+/g, '/'),
+      query
+    });
+
     crossRequest({
-      url: 'http://petstore.swagger.io/v2/swagger.json',
-      method: 'GET',
+      url: href,
+      method,
+      headers,
       data: {
         a:1
       },
@@ -74,7 +101,7 @@ export default class InterfaceTest extends Component {
 
     if (method === 'GET') {
       Object.keys(reqParams).forEach(key => {
-        const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams) : reqParams.toString();
+        const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
         query[key] = value;
       })
     }
@@ -82,37 +109,53 @@ export default class InterfaceTest extends Component {
     const href = URL.format({
       protocol: protocol || 'http',
       host: prd_host,
-      pathname: URL.resolve(basepath, url),
+      pathname: (basepath + url).replace(/\/+/g, '/'),
       query
     });
 
 
     return (
-      <div>
-        <div>接口名：{interfaceName}</div>
-        <div>
-          METHOD: <Input value={method} disabled />
-          URL: <Input value={href} />
-          HEADERS: <Input value={JSON.stringify(seqGroup, 2)} />
-          请求参数：
-          <div>
+      <div className="interface-test">
+        <div className="interface-name">{interfaceName}</div>
+        <div className="req-part">
+          <div className="req-row method">
+            METHOD：<Input value={method} disabled style={{display: 'inline-block', width: 200}} />
+          </div>
+          <div className="req-row url">
+            URL：<Input value={href} style={{display: 'inline-block', width: 800, margin: 10}} />
+            <Button onClick={this.testInterface} type="primary">发送</Button>
+          </div>
+          <div className="req-row headers">
+            HEADERS：
             {
-              Object.keys(reqParams).map((key, index) => {
-                const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams) : reqParams.toString();
+              seqGroup.map((headerItem, index) => {
                 return (
                   <div key={index}>
-                    <Input value={key} style={{display: 'inline-block', width: 200}} />{' = '}
-                    <Input value={value} style={{display: 'inline-block', width: 200}} />
+                    <Input disabled value={headerItem.name} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                    <Input value={headerItem.value} style={{display: 'inline-block', width: 200, margin: 10}} />
+                  </div>
+                )
+              })
+            }
+          </div>
+          <div className="req-row params">
+            请求参数：
+            {
+              Object.keys(reqParams).map((key, index) => {
+                const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
+                return (
+                  <div key={index}>
+                    <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                    <Input value={value} style={{display: 'inline-block', width: 200, margin: 10}} />
                   </div>
                 )
               })
             }
           </div>
         </div>
-        <Button onClick={this.testInterface}>发送跨域请求</Button>
-        <div>
+        <div className="res-part">
           返回结果：
-          {JSON.stringify(this.state.res, 2)}
+          <TextArea value={JSON.stringify(this.state.res, 2)}></TextArea>
         </div>
       </div>
     )

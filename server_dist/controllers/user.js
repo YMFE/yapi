@@ -547,36 +547,42 @@ var userController = function (_baseController) {
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
 
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    username: 'string',
+                                    password: 'string',
+                                    email: 'string'
+                                });
+
                                 if (params.email) {
-                                    _context8.next = 4;
+                                    _context8.next = 5;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '邮箱不能为空'));
 
-                            case 4:
+                            case 5:
                                 if (params.password) {
-                                    _context8.next = 6;
+                                    _context8.next = 7;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
 
-                            case 6:
-                                _context8.next = 8;
+                            case 7:
+                                _context8.next = 9;
                                 return userInst.checkRepeat(params.email);
 
-                            case 8:
+                            case 9:
                                 checkRepeat = _context8.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context8.next = 11;
+                                    _context8.next = 12;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
 
-                            case 11:
+                            case 12:
                                 passsalt = _yapi2.default.commons.randStr();
                                 data = {
                                     username: params.username,
@@ -591,11 +597,11 @@ var userController = function (_baseController) {
                                 if (!data.username) {
                                     data.username = data.email.substr(0, data.email.indexOf('@'));
                                 }
-                                _context8.prev = 14;
-                                _context8.next = 17;
+                                _context8.prev = 15;
+                                _context8.next = 18;
                                 return userInst.save(data);
 
-                            case 17:
+                            case 18:
                                 user = _context8.sent;
 
                                 this.setLoginCookie(user._id, user.passsalt);
@@ -612,21 +618,21 @@ var userController = function (_baseController) {
                                     to: user.email,
                                     contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F</p>'
                                 });
-                                _context8.next = 26;
+                                _context8.next = 27;
                                 break;
 
-                            case 23:
-                                _context8.prev = 23;
-                                _context8.t0 = _context8['catch'](14);
+                            case 24:
+                                _context8.prev = 24;
+                                _context8.t0 = _context8['catch'](15);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 401, _context8.t0.message);
 
-                            case 26:
+                            case 27:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[14, 23]]);
+                }, _callee8, this, [[15, 24]]);
             }));
 
             function reg(_x9) {
@@ -868,25 +874,30 @@ var userController = function (_baseController) {
                                 _context12.prev = 0;
                                 params = ctx.request.body;
 
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    username: 'string',
+                                    email: 'string'
+                                });
+
                                 if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
-                                    _context12.next = 4;
+                                    _context12.next = 5;
                                     break;
                                 }
 
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
 
-                            case 4:
+                            case 5:
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 id = params.uid;
 
                                 if (id) {
-                                    _context12.next = 8;
+                                    _context12.next = 9;
                                     break;
                                 }
 
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
 
-                            case 8:
+                            case 9:
                                 data = {
 
                                     up_time: _yapi2.default.commons.time()
@@ -899,46 +910,46 @@ var userController = function (_baseController) {
                                 params.email && (data.email = params.email);
 
                                 if (!data.email) {
-                                    _context12.next = 18;
+                                    _context12.next = 19;
                                     break;
                                 }
 
-                                _context12.next = 15;
+                                _context12.next = 16;
                                 return userInst.checkRepeat(data.email);
 
-                            case 15:
+                            case 16:
                                 checkRepeat = _context12.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context12.next = 18;
+                                    _context12.next = 19;
                                     break;
                                 }
 
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
 
-                            case 18:
-                                _context12.next = 20;
+                            case 19:
+                                _context12.next = 21;
                                 return userInst.update(id, data);
 
-                            case 20:
+                            case 21:
                                 result = _context12.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context12.next = 27;
+                                _context12.next = 28;
                                 break;
 
-                            case 24:
-                                _context12.prev = 24;
+                            case 25:
+                                _context12.prev = 25;
                                 _context12.t0 = _context12['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context12.t0.message);
 
-                            case 27:
+                            case 28:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[0, 24]]);
+                }, _callee12, this, [[0, 25]]);
             }));
 
             function update(_x13) {

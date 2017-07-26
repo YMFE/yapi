@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import wangEditor from 'wangeditor'
 import { getReqParams } from '../../../actions/addInterface.js'
+
 const editor = new wangEditor('#req-cover')
+
 @connect(
   state => {
     return {
@@ -34,20 +36,21 @@ class ReqParams extends Component {
 
   componentDidMount () {
     const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
+    let json = ''
     editor.customConfig.menus = []
     editor.customConfig.onchange = html => {
-      html = html.replace(reg, '')
-      this.props.getReqParams(html)
+      json = html.replace(reg, '')
+      this.props.getReqParams(json)
     }
     setTimeout(() => {
       this.initParams()
-    }, 200)
+    }, 500)
     editor.create()
   }
   
   render () {
     return (
-      <section>
+      <section className="req-params-box">
         <div className="req-params">
           <strong className="req-h3">请求参数 :</strong>
           <div id="req-cover"></div>
