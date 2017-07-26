@@ -65,10 +65,14 @@ class InterfaceTable extends Component {
       title: '接口名称',
       dataIndex: 'title',
       key: 'title'
-    }, {
+    },{
       title: '接口URL',
       dataIndex: 'path',
       key: 'path'
+    },{
+      title: '请求方式',
+      dataIndex: 'method',
+      key: 'method'
     },{
       title: '更新日期',
       dataIndex: 'add_time',
