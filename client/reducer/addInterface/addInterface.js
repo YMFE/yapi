@@ -7,7 +7,8 @@ import {
   GET_INTERFACE_REQ_PARAMS,
   GET_INTERFACE_RES_PARAMS,
   PUSH_INTERFACE_NAME,
-  PUSH_INTERFACE_METHOD
+  PUSH_INTERFACE_METHOD,
+  FETCH_INTERFACE_PROJECT
 } from '../../constants/action-types.js'
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     }
   ],
   reqParams: '',
-  resParams: ''
+  resParams: '',
+  project: {}
 }
 
 export default (state = initialState, action) => {
@@ -72,6 +74,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         method: action.payload
+      }
+    case FETCH_INTERFACE_PROJECT:
+      return {
+        ...state,
+        project: action.payload.data.data
       }
     default:
       return state
