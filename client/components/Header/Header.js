@@ -88,6 +88,9 @@ class HeaderCom extends Component {
   }
   linkTo = (e) =>{
     this.props.changeMenuItem(e.key);
+    if(!this.props.login){
+      message.info('请先登录',1);
+    }
   }
   relieveLink = () => {
     this.props.changeMenuItem("");

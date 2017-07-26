@@ -86,8 +86,8 @@ export default class InterfaceTest extends Component {
         a:1
       },
       success: (res, header) => {
-        this.setState({res})
         console.log(header)
+        this.setState({res})
       }
     })
   }
