@@ -22,7 +22,7 @@ class InterfaceList extends Component {
   render () {
     const { projectMember } = this.props
     const getInterfaceId = this.getInterfaceId()
-    console.log(`/AddInterface/${getInterfaceId}`)
+
     return (
       <div className="interface-btngroup">
         <Link to={`/AddInterface/${getInterfaceId}`}><Button className="interface-btn" type="primary" icon="plus">添加接口</Button></Link>
