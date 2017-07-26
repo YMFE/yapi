@@ -86,8 +86,6 @@ class InterfaceTable extends Component {
           <span>
             <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
             <span className="ant-divider" />
-            <Link to={`/AddInterface/edit/${data._id}`}><span>测试</span></Link>
-            <span className="ant-divider" />
             <Popconfirm title="是否删除接口!" onConfirm={confirm} okText="Yes" cancelText="No">
               <a href="">删除</a>
             </Popconfirm>
