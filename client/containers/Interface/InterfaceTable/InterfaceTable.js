@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -74,13 +74,11 @@ class InterfaceTable extends Component {
         console.log(data)
         return (
           <span>
-            <Button type="primary">
-              <Link to={`/AddInterface/edit/${data._id}`}>编辑</Link>
-            </Button>
-            <Button type="primary">
-              <Link to={`/AddInterface/edit/${data._id}`}>测试</Link>
-            </Button>
-            <Button type="danger" onClick={deleteInterface}>删除</Button>
+            <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
+            <span className="ant-divider" />
+            <Link to={`/AddInterface/edit/${data._id}`}><span>测试</span></Link>
+            <span className="ant-divider" />
+            <a onClick={deleteInterface}>删除</a>
           </span>
         )
       }
@@ -90,7 +88,7 @@ class InterfaceTable extends Component {
 
     return (
       <section className="interface-table">
-        <Table columns={columns} dataSource={data} />
+        <Table bordered={true} columns={columns} dataSource={data} />
       </section>
     )
   }

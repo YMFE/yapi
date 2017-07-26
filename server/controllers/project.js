@@ -49,7 +49,14 @@ class projectController extends baseController {
      */
     async add(ctx) {
         let params = ctx.request.body;
-
+        params = yapi.commons.handleParams(params, {
+            name: 'string',
+            basepath: 'string',
+            prd_host: 'string',
+            protocol: 'string',
+            group_id: 'number',
+            desc: 'string'
+        })
         if(!params.group_id){
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
@@ -322,6 +329,14 @@ class projectController extends baseController {
         try{
             let id = ctx.request.body.id;
             let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                name: 'string',
+                basepath: 'string',
+                prd_host: 'string',
+                protocol: 'string',
+                group_id: 'number',
+                desc: 'string'
+            })
             if(!id){
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
             }

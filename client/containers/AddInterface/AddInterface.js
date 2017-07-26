@@ -84,7 +84,7 @@ class AddInterface extends Component {
       id: 0,
       name: '',
       value: ''
-    }] 
+    }]
     let interfaceId = undefined
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
@@ -188,7 +188,7 @@ class AddInterface extends Component {
   mockData () { // mock 数据
     let resParams = ''
     let json = ''
-    
+
     if(this.props.resParams){
       resParams = JSON.parse(this.props.resParams)
       json = JSON.stringify(Mock.mock(resParams), null, 2)
@@ -254,8 +254,10 @@ class AddInterface extends Component {
               <Result isSave={isSave} mockJson={mockJson} />
               <MockUrl mockURL={mockURL} />
             </TabPane>
-            <TabPane tab="Mock" key="2">mock</TabPane>
-            <TabPane tab="测试" key="3">
+            {
+            // <TabPane tab="Mock" key="2">mock</TabPane>
+            }
+            <TabPane tab="请求接口" key="3">
               <InterfaceTest />
             </TabPane>
           </Tabs>

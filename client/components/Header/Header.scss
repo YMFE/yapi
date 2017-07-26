@@ -5,10 +5,18 @@ $color-blue-deeper: #34495E;
 $color-grey-deep : #929aac;
 $color-black-light : #404040;
 /* .header-box.css */
+
+//.light{
+//  background-color: #f7fafc;
+//  color: $color-blue;
+//}
+//.dark {
+//  background-color: $color-black-light;
+//  color: $color-white;
+//}
 .header-box {
   display: block;
   font-size: 0.14rem;
-  color: $color-white;
   z-index: 99;
   // 内容宽度
   .content {
@@ -17,7 +25,6 @@ $color-black-light : #404040;
     zoom: 1;
     overflow: hidden;
   }
-
   .logo {
     font-size: .3rem;
     float: left;
@@ -51,7 +58,7 @@ $color-black-light : #404040;
       }
       float: left;
       margin: 0 0 0 .12rem;
-      font-size: .14rem;
+      font-size: .2rem;
       cursor: pointer;
       color: $color-white;
       &:not(:last-child){
@@ -75,11 +82,7 @@ $color-black-light : #404040;
       i{
         margin-right: .03rem;
       }
-      .dropdown-link{
-        i{
-          font-size: .2rem;
-        }
-      }
     }
   }
 }
+
