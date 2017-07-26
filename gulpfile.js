@@ -1,11 +1,12 @@
 const fs = require('fs-extra');
 const path = require('path');
 const gulp = require('gulp');
+const watch = require('gulp-watch');
 const babel = require('gulp-babel');
 const ora = require('ora');
 const chalk = require('chalk');
 const { spawn } = require('child_process');
-let spinner = ora('请稍等...').start();
+let spinner = null;
 const DIST = 'server_dist/';
 const SRC = 'server/**/*.js';
 
@@ -30,21 +31,18 @@ function generateBabel(status) {
 }
 
 function excuteCmd(cmd, args, opts) {
-    const command = spawn(cmd, args, opts);
+    const NAME = cmd === 'ykit' ? chalk.cyan('[ykit]') : chalk.blue('[dev-server]');
+    let command = spawn(cmd, args, opts);
 
     command.stdout.on('data', data => {
-        output('log', `${cmd}: ${data.toString()}`, true);
+        output('log', `${NAME} ${data.toString()}`, true);
     });
 
     command.stderr.on('data', data => {
-        output('log', `${cmd}: ${data.toString()}`, true);
+        output('log', `${NAME} ${data.toString()}`, true);
     });
 
-    command.on('close', code => {
-        if (code !== 0) {
-            output('log', `${cmd}: ${data.toString()}`);
-        }
-    });
+    return command;
 }
 
 function output(type, message, restart = false) {
@@ -64,25 +62,29 @@ function output(type, message, restart = false) {
     }
 }
 
+function waitingSpinner() {
+    spinner = ora({
+        text: '等待文件变更...',
+        spinner: 'circleQuarters',
+        color: 'cyan'
+    }).start();
+}
+
 gulp.task('removeDist', [], function () {
     return fs.removeSync(DIST)
 });
 
 gulp.task('initialBuild', ['removeDist'], () => {
-    spinner.text = '初始编译...';
+    spinner = ora('初始编译...').start();
 
     return gulp.src(SRC)
         .pipe(generateBabel())
         .pipe(gulp.dest(DIST))
         .on('end', () => {
             output('success', '初始编译成功！');
-            spinner = ora({
-                text: '等待文件变更...',
-                spinner: 'pong',
-                color: 'green'
-            }).start();
+            waitingSpinner();
 
-            excuteCmd('node_modules/.bin/nodemon', ['-q', 'server_dist/app.js', 'dev'], {
+            excuteCmd('node_modules/.bin/nodemon', ['-q', 'server_dist/app.js'], {
                 cwd: __dirname
             });
 
@@ -94,19 +96,32 @@ gulp.task('initialBuild', ['removeDist'], () => {
 
 gulp.task('default', ['initialBuild'], () => {
     gulp.watch(SRC, (event) => {
+        let originFilePath = path.relative(path.join(__dirname, 'server'), event.path)
+        let distPath = path.resolve(DIST, path.join(originFilePath))
         spinner.text = `正在编译 ${event.path}...`;
 
         gulp.src(event.path).pipe(generateBabel())
-            .pipe(gulp.dest(DIST)).on('end', () => {
-                output('success', `成功编译 ${event.path}`);
-                spinner = ora({
-                    text: 'waiting changes...',
-                    spinner: 'pong',
-                    color: 'green'
-                });
-                spinner.start();
+            .pipe(gulp.dest(path.parse(distPath).dir)).on('end', () => {
+                output('success', `成功编译 ${originFilePath}`);
+                output('success', '正在重启服务器...');
+                waitingSpinner();
             });
     });
+});
+
+gulp.task('buildNode', () => {
+    return gulp.src(SRC)
+        .pipe(generateBabel())
+        .pipe(gulp.dest(DIST));
+});
+
+gulp.task('watchNode', ['buildNode'], () => {
+    return watch(SRC, {
+        verbose: true,
+        ignoreInitial: false
+    })
+        .pipe(generateBabel())
+        .pipe(gulp.dest(DIST));
 });
 
 gulp.task('build', () => {
@@ -115,7 +130,7 @@ gulp.task('build', () => {
     };
     let ykitOutput = '';
 
-    spinner.text = '正在编译...';
+    spinner = ora('请稍等...').start();
 
     gulp.src(SRC)
         .pipe(generateBabel(status))
