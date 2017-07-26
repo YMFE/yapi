@@ -96,8 +96,9 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'checkRepeat',
-        value: function checkRepeat(path, method) {
+        value: function checkRepeat(id, path, method) {
             return this.model.count({
+                project_id: id,
                 path: path,
                 method: method
             });
