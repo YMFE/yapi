@@ -311,7 +311,9 @@ class ProjectList extends Component {
           </Form>
         </Modal>
         <UpDateModal/>
-        <Button className="m-btn" icon="plus" type="primary" onClick={this.showAddProjectModal}>创建项目</Button>
+        <Button className="m-btn" icon="plus" type="primary"
+          onClick={this.showAddProjectModal}
+          disabled={this.props.currGroup._id ? false : true}>创建项目</Button>
         <Table
           className="m-table"
           bordered={true}
