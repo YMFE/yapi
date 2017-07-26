@@ -2,24 +2,42 @@ import './Interface.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import InterfaceList from './InterfaceList/InterfaceList.js'
 import InterfaceTable from './InterfaceTable/InterfaceTable.js'
-import { fetchAuditIcons } from '../../actions/interface.js'
+import InterfaceMode from './InterfaceMode/InterfaceMode.js'
+import moment from 'moment'
+import {
+  fetchInterfaceData,
+  projectMember,
+  closeProjectMember,
+  saveInterfaceProjectId
+} from '../../actions/interfaceAction.js'
 
 @connect(
   state => {
     return {
-      interfaceData: state.data
+      interfaceData: state.Interface.interfaceData,
+      modalVisible: state.Interface.modalVisible,
+      closeProjectMember: state.Interface.closeProjectMember
     }
   },
   {
-    fetchAuditIcons
+    fetchInterfaceData,
+    projectMember,
+    closeProjectMember,
+    saveInterfaceProjectId
   }
 )
-//
+
 class Interface extends Component {
   static propTypes = {
-    fetchAuditIcons: PropTypes.func
+    fetchInterfaceData: PropTypes.func,
+    interfaceData: PropTypes.array,
+    projectMember: PropTypes.func,
+    saveInterfaceProjectId: PropTypes.func,
+    closeProjectMember: PropTypes.func,
+    modalVisible: PropTypes.bool
   }
 
   constructor(props) {
@@ -27,17 +45,46 @@ class Interface extends Component {
   }
 
   componentWillMount () {
-    this.props.fetchAuditIcons()
+    const interfaceId = this.getInterfaceId()
+    const params = {
+      params: {
+        project_id: interfaceId
+      }
+    }
+
+    this.props.saveInterfaceProjectId(interfaceId)
+
+    axios.get('/interface/list', params)
+      .then(result => {
+        result = result.data.data
+        result.map(value => {
+          value.add_time = moment(value.add_time).format('YYYY-MM-DD HH:mm:ss')
+          return value
+        })
+        this.props.fetchInterfaceData(result)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  getInterfaceId () {
+    const reg = /Interface\/(\d+)/g
+    const url = location.href
+    url.match(reg)
+    return RegExp.$1
   }
 
   render () {
-    const data = this.props.fetchAuditIcons().payload
-
+    const { interfaceData, projectMember, modalVisible } = this.props
     return (
-      <section className="interface-box">
-        <InterfaceList />
-        <InterfaceTable data={data} />
-      </section>
+      <div>
+        <section className="interface-box">
+          <InterfaceList projectMember={projectMember} />
+          <InterfaceMode modalVisible={modalVisible} closeProjectMember={this.props.closeProjectMember} />
+          <InterfaceTable data={interfaceData} />
+        </section>
+      </div>
     )
   }
 }

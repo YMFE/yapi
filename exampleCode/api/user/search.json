@@ -1,0 +1,14 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "data": [
+        {
+            "uid": 101,
+            "email": "admin@admin.com",
+            "role": "admin",
+            "username": "admin",
+            "addTime": 1499936103,
+            "upTime": 1499936103
+        }
+    ]
+}

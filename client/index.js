@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import thunkMiddleware from 'redux-thunk'
 import promiseMiddleware from 'redux-promise';
 import ReactDOM from 'react-dom'
-import App from './App'
+import App from './Application'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxContainer from './ReduxContainer.js'

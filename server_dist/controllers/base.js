@@ -86,7 +86,7 @@ var baseController = function () {
     }, {
         key: 'getUid',
         value: function getUid(ctx) {
-            return this.$uid;
+            return parseInt(this.$uid, 10);
         }
     }, {
         key: 'checkLogin',

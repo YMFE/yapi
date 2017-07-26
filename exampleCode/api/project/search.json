@@ -1,0 +1,31 @@
+{
+    "errcode": 0,
+    "errmsg": "ok",
+    "data": {
+        "project": [
+            {
+                "_id": 101,
+                "name": "qav_project",
+                "prdHost": "xxx.qunar.com:8080",
+                "basepath": "/qav/",
+                "addTime": 1500013365,
+                "uid": 101,
+                "upTime": 1500013365,
+                "env": [],
+                "members": [
+                    "101"
+                ]
+            }
+        ],
+        "group": [
+            {
+                "_id": 193,
+                "groupName": "qav",
+                "groupDesc": "project qav",
+                "uid": 0,
+                "addTime": 1500013066,
+                "upTime": 1500013066
+            }
+        ]
+    }
+}

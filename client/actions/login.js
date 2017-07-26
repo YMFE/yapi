@@ -1,32 +1,50 @@
 import {
   LOGIN,
-  REGISTER,
-  LOGIN_TYPE
+  LOGIN_OUT,
+  LOGIN_TYPE,
+  GET_LOGIN_STATE,
+  REGISTER
 } from '../constants/action-types.js';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
-const loginActions = (data) => {
-  return (dispatch) => {
-    axios.get('/user/login', data).then((res) => {
-      cookies.set(data.email, data.password);
+
+const checkLoginState = () => {
+  return(dispatch)=> {
+    axios.get('/user/status').then((res) => {
       dispatch({
-        type: LOGIN,
-        payload: {
-          data: res
-        }
+        type: GET_LOGIN_STATE,
+        payload: res
       });
     }).catch((err) => {
       console.log(err);
-    });
+    })
   }
 }
 
+const loginActions = (data) => {
+  return {
+    type: LOGIN,
+    payload: axios.post('/user/login', data)
+  };
+};
+
 const regActions = (data) => {
+  const { email, password, userName } = data;
+  const param = {
+    email,
+    password,
+    username: userName
+  };
   return {
     type: REGISTER,
-    data
+    payload: axios.post('/user/reg', param)
+  };
+};
+
+const logoutActions = () => {
+  return {
+    type: LOGIN_OUT,
+    payload: axios.get('./user/logout')
   }
 }
 
@@ -40,5 +58,7 @@ const loginTypeAction = (index) => {
 export default {
   loginActions,
   regActions,
-  loginTypeAction
+  logoutActions,
+  loginTypeAction,
+  checkLoginState
 }

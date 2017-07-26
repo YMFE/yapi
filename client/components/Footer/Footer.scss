@@ -2,7 +2,7 @@
 
 .footer{
     // max-width: 12rem;
-    margin: 20px auto;
+    margin: 0px auto;
     clear: both;
     font-size: 12px;
     background: #000c15;
@@ -10,7 +10,9 @@
     z-index: 1;
     color: rgba(255,255,255,.65);
     box-shadow: 0 1000px 0 1000px #fff;
-    
+    // background-image: url('image/footer-bac.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
     h4{
         margin-bottom: 20px;
         color: #FFF;
@@ -19,23 +21,38 @@
         }
     }
 }
+.footerMask{
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: #404040;
+    opacity: .65;
+    z-index: 1;
+}
 .footContent{
     max-width: 11rem;
     width:90%;
     margin:0px auto;
     overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 .footItem{
     padding: 24px 2%;
     width: 25%;
     float: left;
-
-    a{
+    div{
         margin: 6px 0px;
-        display: block;
+    }
+    a{
         font-weight: 200;
         color: #108ee9;
+        &:hover{
+            color: white;
+        }
     }
+    
 }
 .copyRight{
     padding: 24px 2%;

@@ -9,7 +9,10 @@ class userModel extends baseModel{
 
     getSchema(){
         return{
-           username: String,
+           username: {
+                type: String,
+                required: true   
+           },
            password:{
                type:String,
                required: true
@@ -36,6 +39,19 @@ class userModel extends baseModel{
     list(){
         return this.model.find().select("_id username email role  add_time up_time").exec()  //显示id name email role 
     }
+    findByUids(uids){
+        return this.model.find({
+            _id: {$in: uids}
+        }).select("_id username email role  add_time up_time").exec()
+    }
+    listWithPaging(page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+        return this.model.find().sort({_id: -1}).skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+    }
+    listCount() {
+        return this.model.count();
+    }
     findByEmail(email){
         return this.model.findOne({email: email})
     }
@@ -52,12 +68,18 @@ class userModel extends baseModel{
     update(id,data){
         return this.model.update({
             _id: id
-        },{
-            username: data.username,
-            email: data.email,
-            role: data.role,
-            up_time: yapi.commons.time()
-        })
+        }, data)
+    }
+    search(keyword) {
+        return this.model.find({
+            $or: [
+                { email: new RegExp(keyword, 'i') },
+                { username: new RegExp(keyword, 'i')}
+            ]
+        }, {
+            passsalt: 0,
+            password: 0
+        }).limit(10)
     }
 
 }

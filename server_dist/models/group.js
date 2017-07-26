@@ -94,6 +94,13 @@ var groupModel = function (_baseModel) {
                 up_time: _yapi2.default.commons.time()
             });
         }
+    }, {
+        key: 'search',
+        value: function search(keyword) {
+            return this.model.find({
+                group_name: new RegExp(keyword, 'i')
+            }).limit(10);
+        }
     }]);
     return groupModel;
 }(_base2.default);

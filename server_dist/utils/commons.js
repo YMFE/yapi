@@ -128,10 +128,87 @@ exports.sendMail = function (options, cb) {
             _yapi2.default.commons.log('send mail ' + options.to + ' success');
         }
     };
-    _yapi2.default.mail.sendMail({
-        from: _yapi2.default.WEBCONFIG.mail.auth.user,
-        to: options.to,
-        subject: 'yapi平台',
-        html: options.contents
-    }, cb);
+    try {
+        _yapi2.default.mail.sendMail({
+            from: _yapi2.default.WEBCONFIG.mail.auth.user,
+            to: options.to,
+            subject: 'yapi平台',
+            html: options.contents
+        }, cb);
+    } catch (e) {
+        console.error(e.message);
+    }
+};
+
+exports.validateSearchKeyword = function (keyword) {
+    if (/^\*|\?|\+|\$|\^|\\|\.$/.test(keyword)) {
+        return false;
+    }
+    return true;
+};
+
+exports.filterRes = function (list, rules) {
+    return list.map(function (item) {
+        var filteredRes = {};
+        rules.forEach(function (rule) {
+            if (typeof rule == 'string') {
+                filteredRes[rule] = item[rule];
+            } else if ((typeof rule === 'undefined' ? 'undefined' : (0, _typeof3.default)(rule)) == 'object') {
+                filteredRes[rule.alias] = item[rule.key];
+            }
+        });
+        return filteredRes;
+    });
+};
+
+exports.verifyPath = function (path) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
+        if (path[path.length - 1] === '/') {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+};
+
+function trim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function ltrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)/g, "");
+}
+
+function rtrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(\s*$)/g, "");
+}
+
+exports.trim = trim;
+exports.ltrim = ltrim;
+exports.rtrim = rtrim;
+
+exports.handleParams = function (params, keys) {
+    if (!params || (typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) !== 'object' || !keys || (typeof keys === 'undefined' ? 'undefined' : (0, _typeof3.default)(keys)) !== 'object') return false;
+    for (var key in keys) {
+        var filter = keys[key];
+        if (params[key]) {
+            switch (filter) {
+                case 'string':
+                    params[key] = trim(params[key] + '');break;
+                case 'number':
+                    params[key] = parseInt(params[key], 10);break;
+                default:
+                    params[key] = trim(params + '');
+            }
+        }
+    }
+    return params;
 };
