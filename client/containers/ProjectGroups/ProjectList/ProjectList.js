@@ -206,13 +206,18 @@ class ProjectList extends Component {
   componentWillReceiveProps(nextProps) {
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
-        if (res.payload.data.errcode) {
-          message.error(res.payload.data.errmsg);
-        } else {
-          this.props.changeTableLoading(false);
-        }
-      });
+      if (nextProps.currGroup._id) {
+        this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
+          if (res.payload.data.errcode) {
+            message.error(res.payload.data.errmsg);
+          } else {
+            this.props.changeTableLoading(false);
+          }
+        });
+      } else {
+        // 无分组的时候停止loading状态
+        this.props.changeTableLoading(false);
+      }
     }
 
     // 切换项目列表
