@@ -75,9 +75,6 @@ class InterfaceTable extends Component {
             <Button type="primary">
               <Link to={`/AddInterface/edit/${data._id}`}>编辑</Link>
             </Button>
-            <Button type="primary">
-              <Link to={`/AddInterface/edit/${data._id}`}>测试</Link>
-            </Button>
             <Button type="danger" onClick={deleteInterface}>删除</Button>
           </span>
         )
