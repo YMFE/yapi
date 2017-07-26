@@ -85,7 +85,7 @@ class InterfaceTable extends Component {
 
     return (
       <section className="interface-table">
-        <Table columns={columns} dataSource={data} />
+        <Table bordered={true} columns={columns} dataSource={data} />
       </section>
     )
   }
