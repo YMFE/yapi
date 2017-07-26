@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon, Input, Button, Select, message } from 'antd'
+import { Row, Col, Input, Button, Select, message } from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
@@ -131,7 +131,8 @@ class Profile extends Component {
     if (this.state.usernameEdit === false) {
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
-        <span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>
+        {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
+        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>
       </div>
     } else {
       userNameEditHtml = <div>
@@ -146,7 +147,8 @@ class Profile extends Component {
     if (this.state.emailEdit === false) {
       emailEditHtml = <div >
         <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
-        <span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>
+        {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
+        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
       </div>
     } else {
       emailEditHtml = <div>
@@ -161,7 +163,8 @@ class Profile extends Component {
     if (this.state.roleEdit === false) {
       roleEditHtml = <div>
         <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
-        <span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>
+        {/*<span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>*/}
+        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>
       </div>
     } else {
       roleEditHtml = <Select defaultValue={_userinfo.role} onChange={ this.changeRole} style={{ width: 150 }} >
