@@ -23,6 +23,7 @@
     "core-decorators": "^0.17.0",
     "fast-sass-loader": "^1.2.5",
     "fs-extra": "^3.0.1",
+    "json2html": "0.0.8",
     "jsoneditor": "^5.9.3",
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",
