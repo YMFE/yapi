@@ -8,7 +8,7 @@ import InterfaceTable from './InterfaceTable/InterfaceTable.js'
 import InterfaceMode from './InterfaceMode/InterfaceMode.js'
 import moment from 'moment'
 import {
-  fetchInterfaceData, 
+  fetchInterfaceData,
   projectMember,
   closeProjectMember,
   saveInterfaceProjectId

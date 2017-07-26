@@ -46,16 +46,17 @@ export default class App extends Component {
         <HashRouter>
           <div className="router-main">
             <Header />
-            <Route path="/" component={Home} exact />
-            {/*<Route exact path="/group" component={ requireAuthentication(ProjectGroups) } ></Route>*/}
-            <Switch>
-              <Redirect exact from='/group' to='/group/1' />
-              <Route exact path="/group/:groupName" component={ requireAuthentication(ProjectGroups) } />
-            </Switch>
-            <Route path="/Interface" component={requireAuthentication(Interface)} />
-            <Route path="/user" component={requireAuthentication(User)} />
-            <Route path="/News" component={requireAuthentication(News)} />
-            <Route path="/AddInterface" component={ requireAuthentication(AddInterface) } />
+            <div className="router-container">
+              <Route path="/" component={Home} exact />
+              <Switch>
+                <Redirect exact from='/group' to='/group/1' />
+                <Route exact path="/group/:groupName" component={ requireAuthentication(ProjectGroups) } />
+              </Switch>
+              <Route path="/Interface" component={requireAuthentication(Interface)} />
+              <Route path="/user" component={requireAuthentication(User)} />
+              <Route path="/News" component={requireAuthentication(News)} />
+              <Route path="/AddInterface" component={ requireAuthentication(AddInterface) } />
+            </div>
             <Footer/>
           </div>
         </HashRouter>

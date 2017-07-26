@@ -107,14 +107,14 @@ exports.sendMail = (options, cb) => {
         }
 
     }
-    try{
+    try {
         yapi.mail.sendMail({
-        from: yapi.WEBCONFIG.mail.auth.user,
-        to: options.to,
-        subject: 'yapi平台',
-        html: options.contents
+            from: yapi.WEBCONFIG.mail.auth.user,
+            to: options.to,
+            subject: 'yapi平台',
+            html: options.contents
         }, cb)
-    }catch(e){
+    } catch (e) {
         console.error(e.message)
     }
 }
@@ -150,4 +150,41 @@ exports.verifyPath = (path) => {
     } else {
         return false;
     }
+}
+
+function trim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function ltrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(^\s*)/g, "");
+}
+
+function rtrim(str) {
+    if (!str) return str;
+    str = str + '';
+    return str.replace(/(\s*$)/g, "");
+}
+
+exports.trim = trim;
+exports.ltrim = ltrim;
+exports.rtrim = rtrim;
+
+exports.handleParams = (params, keys) => {
+    if (!params || typeof params !== 'object' || !keys || typeof keys !== 'object') return false;
+    for (var key in keys) {
+        var filter = keys[key];
+        if (params[key]) {
+            switch (filter) {
+                case 'string': params[key] = trim(params[key] + ''); break;
+                case 'number': params[key] = parseInt(params[key], 10); break;
+                default: params[key] = trim(params + '');
+            }
+        }
+    }
+    return params;
 }

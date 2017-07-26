@@ -1,7 +1,8 @@
 .group-bar {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+  border-radius: 4px;
   .curr-group {
     background: #34495E;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     border-radius: 4px 4px 0 0;
     padding: 32px 24px;
     .curr-group-name {
@@ -38,7 +39,7 @@
     height: 48px;
     min-width: 263px;
     padding: 10px 6px;
-    background: #fff;
+    background: #eee;
     .search {
       display: inline-block;
       margin-right: 6px;
@@ -51,7 +52,7 @@
     overflow-x: hidden;
     border-bottom: 1px solid #e9e9e9;
     padding-bottom: 24px;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 4px 4px;
     .group-item {
       // height: 48px;
       // line-height: 48px;

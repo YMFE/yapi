@@ -37,6 +37,12 @@ class interfaceController extends baseController{
      */
     async add(ctx){
         let params = ctx.request.body;
+        params = yapi.commons.handleParams(params, {
+            title: 'string',
+            path: 'string',
+            method: 'string',
+            desc: 'string'
+        })
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase()
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
@@ -159,6 +165,12 @@ class interfaceController extends baseController{
 
     async up(ctx){
         let params = ctx.request.body;
+        params = yapi.commons.handleParams(params, {
+            title: 'string',
+            path: 'string',
+            method: 'string',
+            desc: 'string'
+        })
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase()
         let id = ctx.request.body.id;
