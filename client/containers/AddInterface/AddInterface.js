@@ -11,6 +11,7 @@ import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
 import ResParams from './ResParams/ResParams.js'
 import Result from './Result/Result.js'
+import MockUrl from './MockUrl/MockUrl.js'
 import InterfaceTest from './InterfaceTest/InterfaceTest.js'
 import {
   saveForms,
@@ -23,6 +24,7 @@ import {
   pushInterfaceMethod
 } from '../../actions/addInterface.js'
 
+let projectId = ''
 const success = () => {
   message.success('保存成功!')
 }
@@ -71,7 +73,8 @@ class AddInterface extends Component {
     this.state = {
       isLoading: '',
       isSave: false,
-      mockJson: ''
+      mockJson: '',
+      mockURL: ''
     }
   }
 
@@ -81,7 +84,7 @@ class AddInterface extends Component {
       id: 0,
       name: '',
       value: ''
-    }] 
+    }]
     let interfaceId = undefined
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
@@ -106,7 +109,6 @@ class AddInterface extends Component {
       url.match(regTwo)
       return RegExp.$1
     }
-    
   }
 
   verificationURL () {
@@ -117,9 +119,22 @@ class AddInterface extends Component {
     }
   }
 
+  getMockURL (project_id, result) {
+    const params = {id: project_id}
+    axios.get('/project/get', {params: params}).
+      then( data => {
+        const { protocol, prd_host, basepath } = data.data.data
+        const mockURL = `${protocol}://${prd_host}${basepath}${result.path}`
+        this.setState({
+          mockURL: mockURL
+        })
+      })
+  }
+
   editState (data) {
     const props = this.props
     const { path, title, req_params_other, res_body, req_headers, project_id, method } = data
+
     props.pushInputValue(path)
     props.pushInterfaceMethod(method)
     props.pushInterfaceName(title)
@@ -127,6 +142,7 @@ class AddInterface extends Component {
     props.getResParams(res_body)
     props.addReqHeader(req_headers)
     props.fetchInterfaceProject(project_id)
+    projectId = project_id
   }
 
   initInterfaceData (interfaceId) {
@@ -142,6 +158,8 @@ class AddInterface extends Component {
         this.editState(result)
         // 初始化 mock
         this.mockData()
+
+        this.getMockURL(projectId, result)
       })
       .catch(e => {
         console.log(e)
@@ -170,12 +188,11 @@ class AddInterface extends Component {
   mockData () { // mock 数据
     let resParams = ''
     let json = ''
-    
+
     if(this.props.resParams){
       resParams = JSON.parse(this.props.resParams)
       json = JSON.stringify(Mock.mock(resParams), null, 2)
     }
-    console.log('json', json)
     this.setState({
       mockJson: json
     })
@@ -184,13 +201,13 @@ class AddInterface extends Component {
   @autobind
   saveForms () {
     let postURL = undefined
-    const { interfaceName, url, seqGroup, reqParams, resParams } = this.props
+    const { interfaceName, url, seqGroup, reqParams, resParams, method } = this.props
     const ifTrue = this.verificationURL()
     const interfaceId = this.getInterfaceId()
     const params = {
       title: interfaceName,
       path: url,
-      method: 'POST',
+      method: method,
       req_headers: seqGroup,
       project_id: interfaceId,
       req_params_type: 'json',
@@ -221,8 +238,8 @@ class AddInterface extends Component {
 
   render () {
     const TabPane = Tabs.TabPane
-    const { isLoading, isSave, mockJson='' } = this.state
-    console.log('mockJson', mockJson)
+    const { isLoading, isSave, mockJson='', mockURL } = this.state
+    console.log(mockURL)
     return (
       <section className="add-interface-box">
         <div className="content">
@@ -235,9 +252,12 @@ class AddInterface extends Component {
               <ReqParams data={this.props} />
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
+              <MockUrl mockURL={mockURL} />
             </TabPane>
-            <TabPane tab="Mock" key="2">mock</TabPane>
-            <TabPane tab="测试" key="3">
+            {
+            // <TabPane tab="Mock" key="2">mock</TabPane>
+            }
+            <TabPane tab="请求接口" key="3">
               <InterfaceTest />
             </TabPane>
           </Tabs>

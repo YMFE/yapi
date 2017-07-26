@@ -241,6 +241,13 @@ class userController extends baseController {
     async reg(ctx) {  //注册
         var userInst = yapi.getInst(userModel);
         let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
+
+        params = yapi.commons.handleParams(params, {
+            username: 'string',
+            password: 'string',
+            email: 'string'
+        })
+
         if (!params.email) {
             return ctx.body = yapi.commons.resReturn(null, 400, '邮箱不能为空');
         }
@@ -395,6 +402,10 @@ class userController extends baseController {
     async update(ctx){    //更新用户信息
         try{
             let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                username: 'string',
+                email: 'string'
+            })
             if(this.getRole() !== 'admin' && params.uid != this.getUid()){
                 return ctx.body = yapi.commons.resReturn(null,401,'没有权限');
             }
