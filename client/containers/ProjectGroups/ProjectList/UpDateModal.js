@@ -141,8 +141,9 @@ class UpDateModal extends Component {
     // can use data-binding to set
     form.setFieldsValue({
       envs: envs.filter(key => {
+        const realKey = key._id ? key._id : key
         console.log(key);
-        return key._id !== id;
+        return realKey !== id;
       })
     });
   }
@@ -176,14 +177,14 @@ class UpDateModal extends Component {
         envMessage = env;
       }
       initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\/\/';
+      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\:\/\/';
 
     }
 
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
-      // console.log(k);
+      console.log(k);
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
@@ -229,7 +230,7 @@ class UpDateModal extends Component {
             >
               {getFieldDecorator(`envs-domain-${index}`, {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: envMessage.length !== 0 ? k.domain.split('\/\/')[1] : '',
+                initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[1] : '',
                 rules: [{
                   required: false,
                   whitespace: true,
@@ -251,7 +252,7 @@ class UpDateModal extends Component {
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
                   getFieldDecorator(`envs-protocol-${index}`, {
-                    initialValue: 'http:\/\/',
+                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0]+'\/\/' : '',
                     rules: [{
                       required: true
                     }]
@@ -269,7 +270,7 @@ class UpDateModal extends Component {
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                onClick={() => this.remove(k._id)}
+                onClick={() => this.remove(k._id ? k._id : k)}
               />
             ) : null}
           </Col>

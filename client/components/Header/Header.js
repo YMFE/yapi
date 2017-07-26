@@ -16,9 +16,6 @@ const MenuUser = (props) => (
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user" />{ props.user }</Link>
     </Menu.Item>
     <Menu.Item key="1">
-      <Link to="/news" onClick={props.relieveLink}><Icon type="mail" />{ props.msg }</Link>
-    </Menu.Item>
-    <Menu.Item key="2">
       <a onClick={props.logout}>退出</a>
     </Menu.Item>
   </Menu>
@@ -122,7 +119,6 @@ class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
-    console.log(curKey);
     return (
       <acticle className="header-box">
         <Layout className="layout">

@@ -11,13 +11,16 @@ import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
 import ResParams from './ResParams/ResParams.js'
 import Result from './Result/Result.js'
-import { 
+import InterfaceTest from './InterfaceTest/InterfaceTest.js'
+import {
   saveForms,
   getResParams,
   getReqParams,
   addReqHeader,
   pushInputValue,
-  pushInterfaceName
+  pushInterfaceName,
+  fetchInterfaceProject,
+  pushInterfaceMethod
 } from '../../actions/addInterface.js'
 
 const success = () => {
@@ -41,7 +44,9 @@ const success = () => {
     getResParams,
     addReqHeader,
     pushInputValue,
-    pushInterfaceName
+    pushInterfaceName,
+    fetchInterfaceProject,
+    pushInterfaceMethod
   }
 )
 
@@ -114,12 +119,14 @@ class AddInterface extends Component {
 
   editState (data) {
     const props = this.props
-    const { path, title, req_params_other, res_body, req_headers} = data
+    const { path, title, req_params_other, res_body, req_headers, project_id, method } = data
     props.pushInputValue(path)
+    props.pushInterfaceMethod(method)
     props.pushInterfaceName(title)
     props.getReqParams(req_params_other)
     props.getResParams(res_body)
     props.addReqHeader(req_headers)
+    props.fetchInterfaceProject(project_id)
   }
 
   initInterfaceData (interfaceId) {
@@ -229,7 +236,10 @@ class AddInterface extends Component {
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
             </TabPane>
-            <TabPane tab="测试" key="3">测试</TabPane>
+            <TabPane tab="Mock" key="2">mock</TabPane>
+            <TabPane tab="测试" key="3">
+              <InterfaceTest />
+            </TabPane>
           </Tabs>
         </div>
         <div className={`loading ${isLoading}`}></div>

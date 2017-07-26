@@ -107,12 +107,16 @@ exports.sendMail = (options, cb) => {
         }
 
     }
-    yapi.mail.sendMail({
+    try{
+        yapi.mail.sendMail({
         from: yapi.WEBCONFIG.mail.auth.user,
         to: options.to,
         subject: 'yapi平台',
         html: options.contents
-    }, cb)
+        }, cb)
+    }catch(e){
+        console.error(e.message)
+    }
 }
 
 exports.validateSearchKeyword = keyword => {
@@ -137,7 +141,7 @@ exports.filterRes = (list, rules) => {
 }
 
 exports.verifyPath = (path) => {
-    if (/^\/[a-zA-Z0-9\-\/_:]+$/.test(path)) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
         if (path[path.length - 1] === '/') {
             return false;
         } else {

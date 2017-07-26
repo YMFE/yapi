@@ -68,11 +68,9 @@ export default class GroupList extends Component {
             this.props.history.replace(`${currGroup.group_name}`);
           }
         }
-        console.log(groupName);
       }else if(!groupName && this.props.groupList.length){
         this.props.history.push(`/group/${this.props.groupList[0].group_name}`);
       }
-      console.log(currGroup);
       this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(currGroup)
     });
@@ -205,11 +203,11 @@ export default class GroupList extends Component {
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
-              {currGroup.group_name}
+              <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
               <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
               <Icon className="delete-group" type="delete" title="删除分组" onClick={this.deleteGroup}/>
             </div>
-            <div className="curr-group-desc">简介：{currGroup.group_desc}</div>
+            <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
           </div>
           <div className="group-operate">
             <div className="search">
@@ -268,7 +266,7 @@ export default class GroupList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
-              <Input placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={(e) => this.inputNewGroupDesc(e, TYPE_EDIT)}></Input>
+              <TextArea rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={(e) => this.inputNewGroupDesc(e, TYPE_EDIT)}></TextArea>
             </Col>
           </Row>
         </Modal>

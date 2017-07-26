@@ -5,12 +5,25 @@
     border-radius: 4px 4px 0 0;
     padding: 32px 24px;
     .curr-group-name {
+      .text {
+        display: inline-block;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        max-width: 150px;
+      }
       color: #fff;
       font-size: 24px;
     }
     .curr-group-desc {
       color: #fff;
       font-size: 12px;
+      max-height: 54px;
+      text-overflow:ellipsis;
+      overflow:hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
     }
     .delete-group, .edit-group {
       font-size: 18px;
