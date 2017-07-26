@@ -12,7 +12,7 @@ $color-black-lighter: #404040;
   -webkit-box-orient: vertical;
   .main-one{
     .home-des{
-      color: $color-white;
+      color: $color-blue-grey-lighter;
       padding: .5rem 0 0;
       .title{
         font-size: .6rem;
@@ -29,7 +29,8 @@ $color-black-lighter: #404040;
       img{
         width: 100%;
         height: 100%;
-        box-shadow : 0 0 3px 0 $color-black-lighter;
+        //box-shadow : 0 0 3px 0 $color-black-lighter;
+        box-shadow : 0 30px 60px rgba(0,0,0,0.2);
         border-radius: .03rem;
       }
     }
@@ -39,6 +40,7 @@ $color-black-lighter: #404040;
     }
     .main-one-right{
       padding-left: .5rem;
+      padding-top: .3rem;
     }
   }
   .user-home{
@@ -82,13 +84,13 @@ $color-black-lighter: #404040;
   .feat-part{
     padding: .9rem .5rem;
     background-color: $color-white;
-    h3{
+    p{
       display: flex;
       height: .3rem;
       align-items: center;
       padding: 0 .1rem;
       margin-bottom: .2rem;
-      color: #333;
+      //color: #333;
       &:before, &:after{
         content: "";
         display: inline-block;
@@ -129,7 +131,6 @@ $color-black-lighter: #404040;
     .feat-title {
       font-size: .16rem;
       line-height: .3rem;
-      color: #333;
     }
     &:first-child {
       .feat-img {
