@@ -162,7 +162,7 @@ exports.filterRes = function (list, rules) {
 };
 
 exports.verifyPath = function (path) {
-    if (/^\/[a-zA-Z0-9\-\/_:]+$/.test(path)) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
         if (path[path.length - 1] === '/') {
             return false;
         } else {
