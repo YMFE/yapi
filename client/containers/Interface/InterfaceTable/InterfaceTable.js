@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -21,6 +21,7 @@ class InterfaceTable extends Component {
   static propTypes = {
     interfaceData: PropTypes.array,
     data: PropTypes.array,
+    projectId: PropTypes.string,
     deleteInterfaceData: PropTypes.func
   }
 
@@ -70,6 +71,7 @@ class InterfaceTable extends Component {
       'key': 'action',
       render: (data) => {
         const deleteInterface = this.deleteInterface.bind(this, data._id)
+        console.log(data)
         return (
           <span>
             <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
