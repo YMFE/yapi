@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Popconfirm, message } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteInterfaceData } from '../../../actions/interfaceAction.js'
@@ -27,6 +28,12 @@ class InterfaceTable extends Component {
 
   constructor(props) {
     super(props)
+  }
+
+  @autobind
+  confirm (interfaceId) {
+    this.deleteInterface(interfaceId)
+    message.success('删除成功!');
   }
 
   deleteInterfaceData (interfaceId) {
@@ -70,15 +77,17 @@ class InterfaceTable extends Component {
       title: '功能',
       'key': 'action',
       render: (data) => {
-        const deleteInterface = this.deleteInterface.bind(this, data._id)
-        console.log(data)
+        // const deleteInterface = this.deleteInterface.bind(this, data._id)
+        const confirm = this.confirm.bind(this, data._id)
         return (
           <span>
             <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
             <span className="ant-divider" />
             <Link to={`/AddInterface/edit/${data._id}`}><span>测试</span></Link>
             <span className="ant-divider" />
-            <a onClick={deleteInterface}>删除</a>
+            <Popconfirm title="是否删除接口!" onConfirm={confirm} okText="Yes" cancelText="No">
+              <a href="">删除</a>
+            </Popconfirm>
           </span>
         )
       }
