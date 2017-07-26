@@ -2,6 +2,7 @@ import './AddInterface.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
 import { Button, Tabs, message } from 'antd'
@@ -69,12 +70,18 @@ class AddInterface extends Component {
     super(props)
     this.state = {
       isLoading: '',
-      isSave: false
+      isSave: false,
+      mockJson: ''
     }
   }
 
   componentDidMount () {
     const ifTrue = this.verificationURL()
+    const initData = [{
+      id: 0,
+      name: '',
+      value: ''
+    }]
     let interfaceId = undefined
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
@@ -85,19 +92,21 @@ class AddInterface extends Component {
       props.pushInterfaceName('')
       props.getReqParams('')
       props.getResParams('')
-      props.addReqHeader([
-        {
-          id: 0,
-          name: '',
-          value: ''
-        }
-      ])
+      props.addReqHeader(initData)
     }
   }
 
   getInterfaceId () {
-    const value = location.hash.match(/\d+/g)
-    return value ? value[0] : ''
+    const reg = /AddInterface\/edit\/(\d+)/g
+    const regTwo = /AddInterface\/(\d+)/g
+    const url = location.href
+    if ( url.match(reg) ) {
+      return RegExp.$1
+    } else {
+      url.match(regTwo)
+      return RegExp.$1
+    }
+
   }
 
   verificationURL () {
@@ -131,6 +140,8 @@ class AddInterface extends Component {
           return value
         })
         this.editState(result)
+        // 初始化 mock
+        this.mockData()
       })
       .catch(e => {
         console.log(e)
@@ -156,6 +167,21 @@ class AddInterface extends Component {
   }
 
   @autobind
+  mockData () { // mock 数据
+    let resParams = ''
+    let json = ''
+
+    if(this.props.resParams){
+      resParams = JSON.parse(this.props.resParams)
+      json = JSON.stringify(Mock.mock(resParams), null, 2)
+    }
+    console.log('json', json)
+    this.setState({
+      mockJson: json
+    })
+  }
+
+  @autobind
   saveForms () {
     let postURL = undefined
     const { interfaceName, url, seqGroup, reqParams, resParams } = this.props
@@ -166,7 +192,7 @@ class AddInterface extends Component {
       path: url,
       method: 'POST',
       req_headers: seqGroup,
-      project_id: 558,
+      project_id: interfaceId,
       req_params_type: 'json',
       req_params_other: reqParams,
       res_body_type: 'json',
@@ -187,7 +213,6 @@ class AddInterface extends Component {
         this.setLoading()
         success()
         this.changeState(true)
-        // this.routerPage()
       })
       .catch(e => {
         console.log(e)
@@ -196,22 +221,25 @@ class AddInterface extends Component {
 
   render () {
     const TabPane = Tabs.TabPane
-    const { isLoading, isSave } = this.state
-
+    const { isLoading, isSave, mockJson='' } = this.state
+    console.log('mockJson', mockJson)
     return (
       <section className="add-interface-box">
         <div className="content">
           <Tabs defaultActiveKey="1">
             <TabPane tab="接口详情" key="1">
               <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
+              <Button className="mock" onClick={this.mockData}>Mock</Button>
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
               <ResParams />
-              <Result isSave={isSave} />
+              <Result isSave={isSave} mockJson={mockJson} />
             </TabPane>
-            <TabPane tab="Mock" key="2">mock</TabPane>
-            <TabPane tab="测试" key="3">
+            {
+            // <TabPane tab="Mock" key="2">mock</TabPane>
+            }
+            <TabPane tab="请求接口" key="3">
               <InterfaceTest />
             </TabPane>
           </Tabs>

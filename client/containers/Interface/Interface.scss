@@ -3,7 +3,9 @@
   max-width: 11rem;
   display: -webkit-box;
   -webkit-box-flex: 1;
-  margin: 15px auto 0 auto;
+  margin: 24px auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
   font-size: 0.14rem;
   background: #FFF;
 
@@ -11,16 +13,16 @@
     width: 216px;
     line-height: 45px;
     background: #f9fafe;
-    
+
     li {
       padding: 0 0 0 30px;
       color: #344562;
       cursor: pointer;
-      
+
       &:hover {
         color: #29f;
       }
-      
+
       a {
         color: #344562;
         &:hover {
@@ -32,8 +34,8 @@
 
   .interface-table {
     -webkit-box-flex: 1;
-    margin: 0 0 0 20px;
-
+    margin: 0 20px;
+    min-height: 740px;
     .ant-table-wrapper table {
       font-size: .14rem;
 
@@ -69,4 +71,3 @@
     }
   }
 }
-
