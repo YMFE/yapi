@@ -10,7 +10,8 @@ const Option = AutoComplete.Option;
   state => {
     console.log(state);
     return {
-      curUid: state.login.uid + ''
+      curUid: state.login.uid + '',
+      curUserName: state.login.userName
     }
   }
 )
@@ -26,7 +27,8 @@ class LeftMenu extends Component {
   }
 
   static propTypes = {
-    curUid: PropTypes.string
+    curUid: PropTypes.string,
+    curUserName: PropTypes.string
   }
 
   //延迟搜索
@@ -80,6 +82,9 @@ class LeftMenu extends Component {
 
     const { dataSource } = this.state;
     return (<div className="user-list">
+      <div className='cur-user'>
+        <div className='user-name'><span>用户名 : </span>{`${this.props.curUserName}`}</div>
+      </div>
       <Row type="flex" justify="start" className="search">
         <Col span="24">
           <div className="certain-category-search-wrapper" style={{ width: "100%" }}>
@@ -98,7 +103,7 @@ class LeftMenu extends Component {
           </div>
         </Col>
       </Row>
-      <Menu defaultSelectedKeys={[location.hash]}>
+      <Menu mode='inline' defaultSelectedKeys={[location.hash]}>
         {content}
       </Menu>
     </div>
