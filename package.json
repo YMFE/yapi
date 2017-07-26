@@ -6,7 +6,7 @@
   "scripts": {
     "build-server": "babel  server -d server_dist",
     "dev-server": "nodemon server_dist/app.js",
-    "install" : "node server_dist/install.js",
+    "install-server" : "node server_dist/install.js",
     "dev": "gulp --silent",
     "build": "gulp build --silent"
   },
