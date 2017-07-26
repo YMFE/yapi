@@ -6,7 +6,7 @@
   margin: .88rem auto 0 auto;
   // font-size: 0.14rem;
   
-  min-height:433px;
+  
   margin-top: 40px;
   margin-bottom: 55px;
 
@@ -23,10 +23,21 @@
     }
     ul{border:none}
   }
-
+  .user-name{
+    padding: 10px 0px;
+    text-align: center;
+    background-color: #34495e;
+    color: white;
+    span{
+      margin-right: 10px;
+    }
+  }
+  .router-content{
+    min-height:calc(100% - 2.47rem);
+  }
   .user-table {
     -webkit-box-flex: 1;
-    padding: 15px;
+    padding: 24px;
     margin-left: 15px;   
     border-radius:5px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);

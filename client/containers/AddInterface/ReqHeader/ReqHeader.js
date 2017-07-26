@@ -11,7 +11,6 @@ import {
 // 重新渲染页面
 const getReqList = function (self) {
   const [reqList, seqGroup] = [[], self.props.seqGroup]
-  console.log('seqGroup', seqGroup)
   seqGroup.map((value, key) => {
     reqList.push(<ReqList key={key} value={value} dataNum={value.id} />)
   })
