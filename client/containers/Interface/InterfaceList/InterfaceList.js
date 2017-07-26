@@ -21,7 +21,7 @@ class InterfaceList extends Component {
   render () {
     const { projectMember } = this.props
     const getInterfaceId = this.getInterfaceId()
-    console.log(`/AddInterface/${getInterfaceId}`)
+
     return (
       <ul className="interface-list">
         <li><Link to={`/AddInterface/${getInterfaceId}`}>添加接口</Link></li>

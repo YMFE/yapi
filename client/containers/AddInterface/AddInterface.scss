@@ -167,6 +167,23 @@
       color: #CCC;
     }
   }
+  
+  /* .mock-url-box.css */
+  .mock-url-box {
+    clear: both;
+    padding: 10px 0 0 0;
+    margin: 0 0 0 20px;
+    p {
+      width: 70%;
+      height: 35px;
+      line-height: 35px;
+      border: 1px #DDD solid;
+      display: inline-block;
+      vertical-align: -4px;
+      margin: 0 10px 0 0;
+      padding: 0 0 0 10px;
+    }
+  }
 
   .loading {
     display: none;
