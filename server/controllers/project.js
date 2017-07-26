@@ -26,7 +26,7 @@ class projectController extends baseController {
 
     verifyDomain(domain){
         if(!domain) return false;
-        if(/^[a-zA-Z0-9\-_\.]+[a-zA-Z]{2,6}$/.test(domain)){
+        if(/^[a-zA-Z0-9\-_\.]+?\.[a-zA-Z0-9\-_\.]*?[a-zA-Z]{2,6}$/.test(domain)){
             return true;
         }
         return false;
@@ -332,7 +332,7 @@ class projectController extends baseController {
 
             let projectData = await this.Model.get(id);
 
-            if(params.basepath = (this.handleBasepath(params.basepath)) === false){
+            if((params.basepath = this.handleBasepath(params.basepath)) === false){
                 return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
             }
 

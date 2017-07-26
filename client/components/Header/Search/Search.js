@@ -31,7 +31,7 @@ export default class Srch extends Component{
   }
 
   onSelect = (value) => {
-    if( value.split(":")[0] == "group" ){
+    if( value.split(":")[0] == "分组" ){
       this.props.history.push('/group/'+value.split(":")[1].trim());
     } else {
       this.props.history.push('/project/'+value.split("(")[1].slice(0,-1));
@@ -45,7 +45,7 @@ export default class Srch extends Component{
           const dataSource = [];
           for(let title in res.data.data){
             res.data.data[title].map(item => {
-              title == "group" ? dataSource.push( title+": "+item.groupName ): dataSource.push( title+": "+item.name+"("+item._id+")" );
+              title == "group" ? dataSource.push( "分组"+": "+item.groupName ): dataSource.push( "项目"+": "+item.name+"("+item._id+")" );
             })
           }
           this.setState({
@@ -84,8 +84,13 @@ export default class Srch extends Component{
         >
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
-            size="large" style={{ width: 200 }}
-            placeholder="search group/project"
+            size="large"
+            style={{
+              // width: 200,
+              // borderColor:"#AAA",
+              // borderWidth:"1px",
+            }}
+            placeholder="搜索分组/项目"
             className="search-input"
           />
         </AutoComplete>

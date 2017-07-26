@@ -40,7 +40,7 @@ const HomeGuest = (props) => (
     <div className="feat-part">
       <div className="container">
         <OverPack
-          playScale="0.3"
+          playScale={[0.3,0.1]}
         >
           <TweenOne
             key="feat-motion-one"
@@ -52,13 +52,13 @@ const HomeGuest = (props) => (
           <Row key="feat-motion-row">
             <QueueAnim
               delay = {200}
-              interval ={100}
-              type = "bottom"
+              interval ={200}
+              leaveReverse={true}
               ease = 'easeOutQuad'
               animConfig ={{ opacity:[1,0],y: '+=30' }}
               key="feat-motion-queue"
             >
-              <Col span={8} className="feat-wrapper" key="feat-wrapper-1">
+              <Col span={6} className="feat-wrapper" key="feat-wrapper-1">
                 <div className="feat-img">
                   <Icon type="api" />
                 </div>
@@ -66,7 +66,7 @@ const HomeGuest = (props) => (
                   接口管理
                 </p>
               </Col>
-              <Col span={8} className="feat-wrapper" key="feat-wrapper-2">
+              <Col span={6} className="feat-wrapper" key="feat-wrapper-2">
                 <div className="feat-img">
                   <Icon type="link" />
                 </div>
@@ -74,12 +74,20 @@ const HomeGuest = (props) => (
                   支持Mock
                 </p>
               </Col>
-              <Col span={8} className="feat-wrapper" key="feat-wrapper-3">
+              <Col span={6} className="feat-wrapper" key="feat-wrapper-3">
                 <div className="feat-img">
                   <Icon type="team" />
                 </div>
                 <p className="feat-title">
                   团队协作
+                </p>
+              </Col>
+              <Col span={6} className="feat-wrapper" key="feat-wrapper-4">
+                <div className="feat-img">
+                  <Icon type="desktop" />
+                </div>
+                <p className="feat-title">
+                  可部署
                 </p>
               </Col>
             </QueueAnim>
@@ -132,7 +140,7 @@ class Home extends Component {
             <div className="user-home">
               <div className="user-des">
                 <p className="title">YAPI</p>
-                <p className="des">一个高效，易用，功能强大的api管理系统</p>
+                <p className="des">一个高效，易用，可部署的Api管理系统</p>
                 <div className="btn">
                   <Button type="primary" size="large">
                     <Link to="/group" onClick={this.toStart}>开始</Link>
