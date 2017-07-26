@@ -17,19 +17,19 @@ const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', dura
 const style = {
   'height':'100%',
   'width':'100%',
-  'background': 'url(./image/bg-img.jpg) no-repeat center',
-  'backgroundSize':'cover'
+  'background': 'url(./image/bg-img.jpg) no-repeat',
+  'backgroundSize':'100% 100%'
 }
 const HomeGuest = (props) => (
   <div>
     <div className="main-one" style = {style}>
-      <div style={{ background: "linear-gradient(to bottom,rgba(64,64,64,0.9),rgba(64,64,64,0.5))"}}>
+      <div style={{ background: "linear-gradient(to bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.2))"}}>
         <div className="container">
           <Row>
             <Col span={24}>
               <div className="home-des">
                 <p className="title">YAPI</p>
-                <div className="detail">一个高效，易用，可部署的Api管理系统</div>
+                <div className="detail">高效、易用、可部署的API管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务</div>
               </div>
             </Col>
           </Row>
@@ -62,7 +62,7 @@ const HomeGuest = (props) => (
           <TweenOne
             key="feat-motion-one"
             animation={oneAnim}
-            component="h3"
+            component="p"
           >
             <span>特性</span>
           </TweenOne>
