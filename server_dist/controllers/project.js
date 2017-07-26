@@ -119,82 +119,91 @@ var projectController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    name: 'string',
+                                    basepath: 'string',
+                                    prd_host: 'string',
+                                    protocol: 'string',
+                                    group_id: 'number',
+                                    desc: 'string'
+                                });
+
                                 if (params.group_id) {
-                                    _context.next = 3;
+                                    _context.next = 4;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组id不能为空'));
 
-                            case 3:
+                            case 4:
                                 if (params.name) {
-                                    _context.next = 5;
+                                    _context.next = 6;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目名不能为空'));
 
-                            case 5:
-                                _context.next = 7;
+                            case 6:
+                                _context.next = 8;
                                 return this.Model.checkNameRepeat(params.name);
 
-                            case 7:
+                            case 8:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context.next = 10;
+                                    _context.next = 11;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
 
-                            case 10:
+                            case 11:
                                 if (params.basepath) {
-                                    _context.next = 12;
+                                    _context.next = 13;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目basepath不能为空'));
 
-                            case 12:
+                            case 13:
                                 if (params.prd_host) {
-                                    _context.next = 14;
+                                    _context.next = 15;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目domain不能为空'));
 
-                            case 14:
+                            case 15:
                                 if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
-                                    _context.next = 16;
+                                    _context.next = 17;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
 
-                            case 16:
+                            case 17:
                                 if (this.verifyDomain(params.prd_host)) {
-                                    _context.next = 18;
+                                    _context.next = 19;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '线上域名格式有误'));
 
-                            case 18:
-                                _context.next = 20;
+                            case 19:
+                                _context.next = 21;
                                 return this.Model.checkDomainRepeat(params.prd_host, params.basepath);
 
-                            case 20:
+                            case 21:
                                 checkRepeatDomain = _context.sent;
 
                                 if (!(checkRepeatDomain > 0)) {
-                                    _context.next = 23;
+                                    _context.next = 24;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在domain和basepath'));
 
-                            case 23:
+                            case 24:
                                 data = {
                                     name: params.name,
                                     desc: params.desc,
@@ -207,29 +216,29 @@ var projectController = function (_baseController) {
                                     add_time: _yapi2.default.commons.time(),
                                     up_time: _yapi2.default.commons.time()
                                 };
-                                _context.prev = 24;
-                                _context.next = 27;
+                                _context.prev = 25;
+                                _context.next = 28;
                                 return this.Model.save(data);
 
-                            case 27:
+                            case 28:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 34;
+                                _context.next = 35;
                                 break;
 
-                            case 31:
-                                _context.prev = 31;
-                                _context.t0 = _context['catch'](24);
+                            case 32:
+                                _context.prev = 32;
+                                _context.t0 = _context['catch'](25);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 34:
+                            case 35:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[24, 31]]);
+                }, _callee, this, [[25, 32]]);
             }));
 
             function add(_x) {
@@ -750,50 +759,59 @@ var projectController = function (_baseController) {
                                 id = ctx.request.body.id;
                                 params = ctx.request.body;
 
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    name: 'string',
+                                    basepath: 'string',
+                                    prd_host: 'string',
+                                    protocol: 'string',
+                                    group_id: 'number',
+                                    desc: 'string'
+                                });
+
                                 if (id) {
-                                    _context8.next = 5;
+                                    _context8.next = 6;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
-                            case 5:
-                                _context8.next = 7;
+                            case 6:
+                                _context8.next = 8;
                                 return this.jungeMemberAuth(id, this.getUid());
 
-                            case 7:
+                            case 8:
                                 _context8.t0 = _context8.sent;
 
                                 if (!(_context8.t0 !== true)) {
-                                    _context8.next = 10;
+                                    _context8.next = 11;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 10:
-                                _context8.next = 12;
+                            case 11:
+                                _context8.next = 13;
                                 return this.Model.get(id);
 
-                            case 12:
+                            case 13:
                                 projectData = _context8.sent;
 
                                 if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
-                                    _context8.next = 15;
+                                    _context8.next = 16;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
 
-                            case 15:
+                            case 16:
                                 if (this.verifyDomain(params.prd_host)) {
-                                    _context8.next = 17;
+                                    _context8.next = 18;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '线上域名格式有误'));
 
-                            case 17:
+                            case 18:
 
                                 if (projectData.name === params.name) {
                                     delete params.name;
@@ -804,43 +822,43 @@ var projectController = function (_baseController) {
                                 }
 
                                 if (!params.name) {
-                                    _context8.next = 25;
+                                    _context8.next = 26;
                                     break;
                                 }
 
-                                _context8.next = 22;
+                                _context8.next = 23;
                                 return this.Model.checkNameRepeat(params.name);
 
-                            case 22:
+                            case 23:
                                 checkRepeat = _context8.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context8.next = 25;
+                                    _context8.next = 26;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
 
-                            case 25:
+                            case 26:
                                 if (!(params.basepath && params.prd_host)) {
-                                    _context8.next = 31;
+                                    _context8.next = 32;
                                     break;
                                 }
 
-                                _context8.next = 28;
+                                _context8.next = 29;
                                 return this.Model.checkDomainRepeat(params.prd_host, params.basepath);
 
-                            case 28:
+                            case 29:
                                 checkRepeatDomain = _context8.sent;
 
                                 if (!(checkRepeatDomain > 0)) {
-                                    _context8.next = 31;
+                                    _context8.next = 32;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在domain和basepath'));
 
-                            case 31:
+                            case 32:
                                 data = {
                                     uid: this.getUid(),
                                     up_time: _yapi2.default.commons.time()
@@ -856,28 +874,28 @@ var projectController = function (_baseController) {
                                 if (params.protocol) data.protocol = params.protocol;
                                 if (params.env) data.env = params.env;
 
-                                _context8.next = 39;
+                                _context8.next = 40;
                                 return this.Model.up(id, data);
 
-                            case 39:
+                            case 40:
                                 result = _context8.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context8.next = 46;
+                                _context8.next = 47;
                                 break;
 
-                            case 43:
-                                _context8.prev = 43;
+                            case 44:
+                                _context8.prev = 44;
                                 _context8.t1 = _context8['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context8.t1.message);
 
-                            case 46:
+                            case 47:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[0, 43]]);
+                }, _callee8, this, [[0, 44]]);
             }));
 
             function up(_x8) {

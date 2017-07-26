@@ -72,13 +72,11 @@ class InterfaceTable extends Component {
         const deleteInterface = this.deleteInterface.bind(this, data._id)
         return (
           <span>
-            <Button type="primary">
-              <Link to={`/AddInterface/edit/${data._id}`}>编辑</Link>
-            </Button>
-            <Button type="primary">
-              <Link to={`/AddInterface/edit/${data._id}`}>测试</Link>
-            </Button>
-            <Button type="danger" onClick={deleteInterface}>删除</Button>
+            <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
+            <span className="ant-divider" />
+            <Link to={`/AddInterface/edit/${data._id}`}><span>测试</span></Link>
+            <span className="ant-divider" />
+            <a onClick={deleteInterface}>删除</a>
           </span>
         )
       }
@@ -88,7 +86,7 @@ class InterfaceTable extends Component {
 
     return (
       <section className="interface-table">
-        <Table columns={columns} dataSource={data} />
+        <Table bordered={true} columns={columns} dataSource={data} />
       </section>
     )
   }
