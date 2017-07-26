@@ -1,3 +1,5 @@
+@import '../../styles/mixin.scss';
+
 .add-interface-box {
   -webkit-box-flex: 1;
   font-size: .14rem;
@@ -5,7 +7,7 @@
   overflow-y: auto;
 
   .content {
-    max-width: 11rem;
+    @include row-width-limit;
     margin: 24px auto;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
@@ -169,7 +171,7 @@
       color: #CCC;
     }
   }
-  
+
   /* .mock-url-box.css */
   .mock-url-box {
     clear: both;
