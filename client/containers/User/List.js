@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 //import PropTypes from 'prop-types'
 import {
   Table,
-  Button,
   Popconfirm,
   message
 } from 'antd'
@@ -79,11 +78,13 @@ class List extends Component {
     let columns = [{
       title: 'UID',
       dataIndex: '_id',
-      key: '_id'
+      key: '_id',
+      width: 70
     }, {
       title: '用户名',
       dataIndex: 'username',
-      key: 'username'
+      key: 'username',
+      width: 150
     }, {
       title: 'Email',
       dataIndex: 'email',
@@ -91,20 +92,24 @@ class List extends Component {
     }, {
       title: '用户角色',
       dataIndex: 'role',
-      key: 'role'
+      key: 'role',
+      width:110
     }, {
       title: '更新日期',
       dataIndex: 'up_time',
-      key: 'up_time'
+      key: 'up_time',
+      width: 180
     }, {
       title: '功能',
       key: 'action',
+      width:80,
       render: (item) => {
         return (
           <span>            
-            <Button type="primary"><Link to={"/user/profile/" + item._id} > 查看 </Link></Button>
+            <Link to={"/user/profile/" + item._id} >查看</Link>
+            <span className="ant-divider" />
             <Popconfirm placement="leftTop" title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="Yes" cancelText="No">
-              <Button type="danger">删除</Button>
+              <a href="#">删除</a>
             </Popconfirm>
           </span>
         )
@@ -128,7 +133,7 @@ class List extends Component {
     return (
       <section className="user-table">
 
-        <Table columns={columns} pagination={pageConfig} dataSource={data} />
+        <Table bordered={true} columns={columns} pagination={pageConfig} dataSource={data} />
 
       </section>
     )

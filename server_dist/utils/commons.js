@@ -128,12 +128,16 @@ exports.sendMail = function (options, cb) {
             _yapi2.default.commons.log('send mail ' + options.to + ' success');
         }
     };
-    _yapi2.default.mail.sendMail({
-        from: _yapi2.default.WEBCONFIG.mail.auth.user,
-        to: options.to,
-        subject: 'yapi平台',
-        html: options.contents
-    }, cb);
+    try {
+        _yapi2.default.mail.sendMail({
+            from: _yapi2.default.WEBCONFIG.mail.auth.user,
+            to: options.to,
+            subject: 'yapi平台',
+            html: options.contents
+        }, cb);
+    } catch (e) {
+        console.error(e.message);
+    }
 };
 
 exports.validateSearchKeyword = function (keyword) {
@@ -158,7 +162,7 @@ exports.filterRes = function (list, rules) {
 };
 
 exports.verifyPath = function (path) {
-    if (/^\/[a-zA-Z0-9\-\/_:]+$/.test(path)) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
         if (path[path.length - 1] === '/') {
             return false;
         } else {
