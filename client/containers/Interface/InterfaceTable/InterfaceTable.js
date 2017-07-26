@@ -21,6 +21,7 @@ class InterfaceTable extends Component {
   static propTypes = {
     interfaceData: PropTypes.array,
     data: PropTypes.array,
+    projectId: PropTypes.string,
     deleteInterfaceData: PropTypes.func
   }
 
@@ -70,6 +71,7 @@ class InterfaceTable extends Component {
       'key': 'action',
       render: (data) => {
         const deleteInterface = this.deleteInterface.bind(this, data._id)
+        console.log(data)
         return (
           <span>
             <Button type="primary">

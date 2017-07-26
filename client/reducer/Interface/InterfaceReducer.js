@@ -2,13 +2,15 @@ import {
   FETCH_INTERFACE_DATA,
   LIST_INTERFACE_CLICK,
   PROJECT_MEMBER_INTERFACE,
-  DELETE_INTERFACE_DATA
+  DELETE_INTERFACE_DATA,
+  SAVE_INTERFACE_PROJECT_ID
 } from '../../constants/action-types.js'
 
 const initialState = {
   interfaceData: [],
   modalVisible: false,
-  interfaceName: ''
+  interfaceName: '',
+  projectId: ''
 }
 
 export default (state = initialState, action) => {
@@ -32,6 +34,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         interfaceData: action.payload
+      }
+    case SAVE_INTERFACE_PROJECT_ID:
+      return {
+        ...state,
+        projectId: action.payload
       }
     default:
       return state
