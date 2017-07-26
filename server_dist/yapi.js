@@ -20,24 +20,18 @@ var _config = require('../runtime/config.json');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _configDev = require('../runtime/config.dev.json');
-
-var _configDev2 = _interopRequireDefault(_configDev);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var args = process.argv.splice(2);
-var isDev = args[0] === 'dev' ? true : false;
 var insts = new _map2.default();
 var mail = void 0;
-var config = isDev ? _configDev2.default : _config2.default;
 
 var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
 var WEBROOT_RUNTIME = _path2.default.join(WEBROOT, 'runtime');
 var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
-var WEBCONFIG = config;
+var WEBCONFIG = _config2.default;
 
+_fsExtra2.default.ensureDirSync(WEBROOT_RUNTIME);
 _fsExtra2.default.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail) {
