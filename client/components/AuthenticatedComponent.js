@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { changeMenuItem } from '../actions/menu'
+import { message } from 'antd'
 
 
 export function requireAuthentication(Component) {
@@ -26,6 +27,7 @@ export function requireAuthentication(Component) {
       if( !this.props.isAuthenticated ){
         this.props.history.push('/');
         this.props.changeMenuItem('/');
+        message.info('请先登录',1);
       }
     }
     render() {
