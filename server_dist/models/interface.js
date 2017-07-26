@@ -60,15 +60,15 @@ var interfaceModel = function (_baseModel) {
                 }],
                 req_params_type: {
                     type: String,
-                    enum: ["form", "json", "text", "xml"]
+                    enum: ['form', 'json', 'text', 'xml']
                 },
                 req_params_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ["text", "file"] }, desc: String, required: Boolean
+                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
                 }],
                 req_params_other: String,
                 res_body_type: {
                     type: String,
-                    enum: ["json", "text", "xml"]
+                    enum: ['json', 'text', 'xml']
                 },
                 res_body: String
             };

@@ -1,38 +1,38 @@
-import yapi from '../yapi.js'
-import baseModel from './base.js'
+import yapi from '../yapi.js';
+import baseModel from './base.js';
 
-class interfaceModel extends baseModel{
-    getName(){
-        return 'interface'
+class interfaceModel extends baseModel {
+    getName() {
+        return 'interface';
     }
 
-    getSchema(){
+    getSchema() {
         return {
-            title: {type: String, required: true},
-            uid: {type: Number, required: true},
-            path: {type: String, required: true},
-            method: {type: String, required: true},
-            project_id: {type: Number, required: true},
+            title: { type: String, required: true },
+            uid: { type: Number, required: true },
+            path: { type: String, required: true },
+            method: { type: String, required: true },
+            project_id: { type: Number, required: true },
             desc: String,
             add_time: Number,
             up_time: Number,
             req_headers: [{
-                name: String, value: String,  desc: String, required: Boolean
+                name: String, value: String, desc: String, required: Boolean
             }],
             req_params_type: {
                 type: String,
-                enum: ["form", "json", "text", "xml"]
+                enum: ['form', 'json', 'text', 'xml']
             },
             req_params_form: [{
-                name: String, value: String,value_type: {type: String, enum: ["text", "file"]}, desc: String, required: Boolean
+                name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
             }],
             req_params_other: String,
             res_body_type: {
                 type: String,
-                enum: ["json", "text", "xml"]
+                enum: ['json', 'text', 'xml']
             },
             res_body: String
-        }
+        };
     }
 
     save(data) {
@@ -40,50 +40,53 @@ class interfaceModel extends baseModel{
         return m.save();
     }
 
-
-    get(id){
+    get(id) {
         return this.model.findOne({
             _id: id
-        }).exec()
+        })
+            .exec();
     }
 
-    getByPath(project_id, path){
+    getByPath(project_id, path) {
         return this.model.find({
             project_id: project_id,
             path: path
-        }).exec()
+        })
+            .exec();
     }
 
-    checkRepeat(id, path, method){
+    checkRepeat(id, path, method) {
         return this.model.count({
             project_id: id,
             path: path,
             method: method
-        })
+        });
     }
 
-    countByProjectId(id){
+    countByProjectId(id) {
         return this.model.count({
             project_id: id
-        })
+        });
     }
 
-    list (project_id){
+    list(project_id) {
         return this.model.find({
             project_id: project_id
-        }).sort({_id: -1}).exec()
+        })
+            .sort({ _id: -1 })
+            .exec();
     }
 
-    del(id){
+    del(id) {
         return this.model.deleteOne({
             _id: id
-        })
+        });
     }
-    up(id, data){
+    up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id,
-        }, data, { runValidators: true })
+        }, data, { runValidators: true });
     }
 }
 
