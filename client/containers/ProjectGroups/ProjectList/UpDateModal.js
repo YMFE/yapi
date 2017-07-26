@@ -177,7 +177,7 @@ class UpDateModal extends Component {
         envMessage = env;
       }
       initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\/\/';
+      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\:\/\/';
 
     }
 
@@ -252,7 +252,7 @@ class UpDateModal extends Component {
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
                   getFieldDecorator(`envs-protocol-${index}`, {
-                    initialValue: 'http:\/\/',
+                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0]+'\/\/' : '',
                     rules: [{
                       required: true
                     }]
