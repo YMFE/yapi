@@ -4,13 +4,14 @@ import interfaceModel from '../models/interface.js'
 import Mock from 'mockjs'
 
 module.exports = async (ctx, next) => {
-    yapi.commons.log('mock Server running...')
+    yapi.commons.log('Server Recevie Request...')
     let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
     if(ctx.hostname === config.webhost){
         if(next) await next();
         return true;
     }
+    yapi.commons.log('MockServer Running...')
     let projectInst = yapi.getInst(projectModel), projects;
     try{
         projects = await projectInst.getByDomain(hostname);
@@ -18,10 +19,12 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 403, e.message);
     }
     
-    let matchProject = false, maxBasepath = 0;
+    let matchProject = [], maxBasepath = 0;
+    
     for(let i=0, l = projects.length; i< l; i++){
         let project = projects[i];
-        if(ctx.path && ctx.path.indexOf(project.basepath) === 0 && project.basepath[project.basepath.length -1] === '/'){
+        
+        if(ctx.path && ctx.path.indexOf(project.basepath) === 0){
             matchProject.push(project);
             if(project.basepath.length > maxBasepath){
                 maxBasepath = project.basepath.length;

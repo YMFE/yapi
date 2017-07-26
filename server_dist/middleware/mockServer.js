@@ -34,7 +34,7 @@ module.exports = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        _yapi2.default.commons.log('mock Server running...');
+                        _yapi2.default.commons.log('Server Recevie Request...');
                         hostname = ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
 
@@ -55,28 +55,31 @@ module.exports = function () {
                         return _context.abrupt('return', true);
 
                     case 8:
+                        _yapi2.default.commons.log('MockServer Running...');
                         projectInst = _yapi2.default.getInst(_project3.default), projects = void 0;
-                        _context.prev = 9;
-                        _context.next = 12;
+                        _context.prev = 10;
+                        _context.next = 13;
                         return projectInst.getByDomain(hostname);
 
-                    case 12:
+                    case 13:
                         projects = _context.sent;
-                        _context.next = 18;
+                        _context.next = 19;
                         break;
 
-                    case 15:
-                        _context.prev = 15;
-                        _context.t0 = _context['catch'](9);
+                    case 16:
+                        _context.prev = 16;
+                        _context.t0 = _context['catch'](10);
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 403, _context.t0.message));
 
-                    case 18:
-                        matchProject = false, maxBasepath = 0;
+                    case 19:
+                        matchProject = [], maxBasepath = 0;
+
 
                         for (i = 0, l = projects.length; i < l; i++) {
                             _project = projects[i];
 
-                            if (ctx.path && ctx.path.indexOf(_project.basepath) === 0 && _project.basepath[_project.basepath.length - 1] === '/') {
+
+                            if (ctx.path && ctx.path.indexOf(_project.basepath) === 0) {
                                 matchProject.push(_project);
                                 if (_project.basepath.length > maxBasepath) {
                                     maxBasepath = _project.basepath.length;
@@ -86,62 +89,62 @@ module.exports = function () {
                         }
 
                         if (!(matchProject === false)) {
-                            _context.next = 22;
+                            _context.next = 23;
                             break;
                         }
 
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '不存在的domain'));
 
-                    case 22:
+                    case 23:
                         project = matchProject, interfaceData = void 0;
                         interfaceInst = _yapi2.default.getInst(_interface2.default);
-                        _context.prev = 24;
-                        _context.next = 27;
+                        _context.prev = 25;
+                        _context.next = 28;
                         return interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length));
 
-                    case 27:
+                    case 28:
                         interfaceData = _context.sent;
 
                         if (!(!interfaceData || interfaceData.length === 0)) {
-                            _context.next = 30;
+                            _context.next = 31;
                             break;
                         }
 
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 404, '不存在的api'));
 
-                    case 30:
+                    case 31:
                         if (!(interfaceData.length > 1)) {
-                            _context.next = 32;
+                            _context.next = 33;
                             break;
                         }
 
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '存在多个api，请检查数据库'));
 
-                    case 32:
+                    case 33:
 
                         interfaceData = interfaceData[0];
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 35;
+                            _context.next = 36;
                             break;
                         }
 
                         return _context.abrupt('return', ctx.body = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body)));
 
-                    case 35:
+                    case 36:
                         return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
-                    case 38:
-                        _context.prev = 38;
-                        _context.t1 = _context['catch'](24);
+                    case 39:
+                        _context.prev = 39;
+                        _context.t1 = _context['catch'](25);
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t1.message));
 
-                    case 41:
+                    case 42:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[9, 15], [24, 38]]);
+        }, _callee, undefined, [[10, 16], [25, 39]]);
     }));
 
     return function (_x, _x2) {
