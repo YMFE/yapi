@@ -81,7 +81,6 @@ class InterfaceTable extends Component {
       title: '功能',
       'key': 'action',
       render: (data) => {
-        // const deleteInterface = this.deleteInterface.bind(this, data._id)
         const confirm = this.confirm.bind(this, data._id)
         return (
           <span>

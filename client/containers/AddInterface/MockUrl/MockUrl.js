@@ -24,7 +24,7 @@ class MockUrl extends Component {
   clipboard () {
     const btn = document.querySelector('#mock-clipboard')
     const txt = document.querySelector('#mock-p').innerHTML
-    console.log('txt', txt)
+
     new Clipboard(btn, {
       text: () => txt,
       target () {
