@@ -58,7 +58,7 @@ class Interface extends Component {
       .then(result => {
         result = result.data.data
         result.map(value => {
-          value.add_time = moment(value.add_time).format('YYYY-MM-DD HH:mm:ss')
+          value.add_time = moment(value.add_time*1000).format('YYYY-MM-DD HH:mm:ss')
           return value
         })
         this.props.fetchInterfaceData(result)
