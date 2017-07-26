@@ -40,6 +40,7 @@ class ReqMethod extends Component {
 
   @autobind
   handleChange (value) {
+    console.log('value', value)
     this.props.pushInterfaceMethod(value)
   }
 
@@ -57,20 +58,15 @@ class ReqMethod extends Component {
 
   render () {
     const { Option } = Select
-    const { url, interfaceName } = this.props
+    const { url, interfaceName, method } = this.props
     return (
       <table>
         <tbody>
           <tr>
             <th>协议 :</th>
             <td>
-              <span className="h3">请求协议</span>
-              <Select defaultValue="HTTP" style={{ width: 220}} onChange={this.handleChange} size="large">
-                <Option value="HTTP">HTTP</Option>
-                <Option value="HTTPS">HTTPS</Option>
-              </Select>
               <span className="h3">请求方式</span>
-              <Select defaultValue="POST" style={{ width: 220 }} onChange={this.handleChange} size="large">
+              <Select defaultValue={method} style={{ width: 220 }} onChange={this.handleChange} size="large">
                 <Option value="POST">POST</Option>
                 <Option value="GET">GET</Option>
                 <Option value="PUT">PUT</Option>
