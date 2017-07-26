@@ -9,10 +9,15 @@
     margin: 0 auto;
     background: #FFF;
     padding: 10px 20px 50px 20px;
-
+  
     .save {
       float: right;
       margin: 0 0 10px 0;
+    }
+
+    .mock {
+      float: right;
+      margin: 0 15px 0 0;
     }
     
     table {
@@ -38,7 +43,7 @@
 
       .url {
         margin: 0 0 0 15px;
-        width: 57.8%;
+        width: 61.2%;
       }
     }
 
@@ -93,40 +98,47 @@
       margin: 20px 0 0 0;
       border-top: 1px #EEE solid;
     }
+    
+    .res-params-box {
+      display: inline-block;
+      width: 530px;
+      float: left;
+    
+      /* .req-save.css */
+      .res-params {
+        display: -webkit-box;
+        line-height: 32px;
+        padding: 20px 0 0 0;
+        border-top: 1px #EEE solid;
+        margin: 20px 0 0 0;
 
-    /* .req-save.css */
-    .res-params {
-      display: -webkit-box;
-      line-height: 32px;
-      padding: 20px 0 0 0;
-      border-top: 1px #EEE solid;
-      margin: 20px 0 0 0;
+        ul {
+          -webkit-box-flex: 1;
+          margin: 0 0 0 24px;
 
-      ul {
-        -webkit-box-flex: 1;
-        margin: 0 0 0 24px;
+          li {
+            display: -webkit-box;
+          }
 
-        li {
-          display: -webkit-box;
-        }
+          .required {
+            margin: 0 10px 0 20px;
+          }
 
-        .required {
-          margin: 0 10px 0 20px;
-        }
-
-        .title {
-          margin: 0 10px;
-          display: block;
+          .title {
+            margin: 0 10px;
+            display: block;
+          }
         }
       }
     }
-
+    
+    /* Result.css */
     .result {
-      display: -webkit-box;
+      display: inline-block;
       line-height: 32px;
-      padding: 20px 0 0 0;
-      border-top: 1px #EEE solid;
-      margin: 20px 0 0 0;
+      margin: 0 0 0 20px;
+      width: 500px;
+      float: left;
 
       textarea {
         width: 100%;

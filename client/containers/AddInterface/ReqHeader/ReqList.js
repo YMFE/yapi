@@ -77,12 +77,13 @@ class ReqList extends Component {
     const propsValue = this.props.value
     const Option = Select.Option
     const value = propsValue.value
-    const name = propsValue.name || 'Accept'
+    const name = propsValue.name || ''
 
     return (
       <li>
         <em className="title">头部标签</em>
         <Select defaultValue={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
+          <Option value="">选择请求头</Option>
           <Option value="Accept">Accept</Option>
           <Option value="Accept-Charset">Accept-Charset</Option>
           <Option value="Accept-Encoding">Accept-Encoding</Option>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import { deleteReqParams } from '../../../actions/addInterface.js'
+import json2html from 'json2html'
 
 @connect(
   state => {
@@ -55,7 +56,7 @@ class ParamsList extends Component {
         <em className="title">参数说明</em>
         <Input placeholder="参数说明" className="name" size="large" />
         <span className="close" onClick={this.deleteReqParams} data-num={dataNum}>×</span>
-      </li>      
+      </li>  
     )
   }
 }
