@@ -50,7 +50,11 @@ class ReqList extends Component {
 
     if (url.includes(dir)) {
       const { seqGroup, value: { id } } = this.props
-      seqGroup[id].name = value
+      seqGroup.forEach(v => {
+        if (id == v.id) {
+          v.name = value
+        }
+      })
       seqGroup.forEach(v => {
         const {id, name, value} = v
         newObject.push({id, name, value})
@@ -58,8 +62,16 @@ class ReqList extends Component {
       this.props.addReqHeader( newObject )
     } else {
       const { seqGroup, dataNum } = this.props
-      seqGroup[dataNum].name = value
-      this.props.addReqHeader(Object.create(seqGroup))
+      seqGroup.forEach(v => {
+        if (dataNum == v.id) {
+          v.name = value
+        }
+      })
+      seqGroup.forEach(v => {
+        const {id, name, value} = v
+        newObject.push({id, name, value})
+      })      
+      this.props.addReqHeader(newObject)
     }
   }
 
@@ -68,7 +80,11 @@ class ReqList extends Component {
     const value = e.target.value
     const { seqGroup, value: { id } } = this.props
     const newObject = []
-    seqGroup[id].value = value
+    seqGroup.forEach(v => {
+      if (id == v.id) {
+        v.value = value
+      }
+    })    
     seqGroup.forEach(v => {
       const {id, name, value} = v
       newObject.push({id, name, value})
@@ -93,9 +109,9 @@ class ReqList extends Component {
   render () {
     const propsValue = this.props.value
     const Option = Select.Option
-    const value = propsValue.value
+    const value = propsValue.value || ''
     const name = propsValue.name || ''
-
+    console.log(name)
     return (
       <li>
         <em className="title">头部标签</em>
@@ -108,7 +124,7 @@ class ReqList extends Component {
           <Option value="Accept-Ranges">Accept-Ranges</Option>
         </Select>
         <em className="title">头部内容</em>
-        <Input defaultValue={value} placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
+        <Input value={value} placeholder="Basic usage" className="req-content" size="large" onInput={this.handleBlur} />
         <Icon className="dynamic-delete-button" type="minus-circle-o" onClick={this.deleteReqHeader} />
       </li>
     )
