@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-server": "babel  server -d server_dist",
-    "dev-server": "nodemon server_dist/app.js dev",
-    "start": "webpack-dev-server"
+    "dev-server": "nodemon server_dist/app.js"
   },
   "repository": {
     "type": "git",

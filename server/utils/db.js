@@ -6,8 +6,6 @@ function model(model, schema){
     if(schema instanceof mongoose.Schema === false){
         schema = new mongoose.Schema(schema);
     }
-
-    
     schema.set('autoIndex', false);
     return yapi.connect.model(model, schema, model)
 }
@@ -15,11 +13,13 @@ function model(model, schema){
 function connect(){
     mongoose.Promise = global.Promise;
     let config = yapi.WEBCONFIG;
+    let options = {};
+    if(config.user){
+        options.user = config.db.user,
+        options.pass = config.db.pass
+    }
     
-    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, {
-        user: config.db.user,
-        pass: config.db.pass    
-    });
+    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options);
 
     db.then(function (res) {
         yapi.commons.log('mongodb load success...')
@@ -28,7 +28,6 @@ function connect(){
     })
 
     autoIncrement.initialize(db);
-
     return db;
 }
 
