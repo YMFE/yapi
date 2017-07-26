@@ -132,7 +132,7 @@ class HeaderCom extends Component {
     return (
       <acticle className={`header-box`} style={headerStyle}>
         <Header style={{
-          background: "linear-gradient(to bottom,rgba(64,64,64,1),rgba(64,64,64,0.8))"
+          background: "linear-gradient(to bottom,rgba(64,64,64,1),rgba(64,64,64,0.9))"
         }}>
           <div className="content">
             <div className="logo">
