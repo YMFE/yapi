@@ -50,7 +50,6 @@ var _project2 = _interopRequireDefault(_project);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// 
 var groupController = function (_baseController) {
     (0, _inherits3.default)(groupController, _baseController);
 
@@ -82,6 +81,7 @@ var groupController = function (_baseController) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 params = ctx.request.body;
+
 
                                 params = _yapi2.default.commons.handleParams(params, {
                                     group_name: 'string',
@@ -132,6 +132,7 @@ var groupController = function (_baseController) {
 
                             case 16:
                                 result = _context.sent;
+
 
                                 result = _yapi2.default.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid']);
                                 ctx.body = _yapi2.default.commons.resReturn(result);
@@ -280,7 +281,7 @@ var groupController = function (_baseController) {
                                 _context3.prev = 19;
                                 _context3.t0 = _context3['catch'](2);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
                             case 22:
                             case 'end':
@@ -358,7 +359,7 @@ var groupController = function (_baseController) {
                                 _context4.prev = 16;
                                 _context4.t0 = _context4['catch'](2);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
                             case 19:
                             case 'end':

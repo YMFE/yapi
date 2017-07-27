@@ -1,10 +1,10 @@
-import interfaceModel from '../models/interface.js'
-import baseController from './base.js'
-import yapi from '../yapi.js'
+import interfaceModel from '../models/interface.js';
+import baseController from './base.js';
+import yapi from '../yapi.js';
 
-class interfaceController extends baseController{
-    constructor(ctx){
-        super(ctx)
+class interfaceController extends baseController {
+    constructor(ctx) {
+        super(ctx);
         this.Model = yapi.getInst(interfaceModel);
     }
 
@@ -35,37 +35,39 @@ class interfaceController extends baseController{
      * @returns {Object} 
      * @example ./api/interface/add.json
      */
-    async add(ctx){
+    async add(ctx) {
         let params = ctx.request.body;
+
         params = yapi.commons.handleParams(params, {
             project_id: 'number',
             title: 'string',
             path: 'string',
             method: 'string',
             desc: 'string'
-        })
+        });
         params.method = params.method || 'GET';
-        params.method = params.method.toUpperCase()
+        params.method = params.method.toUpperCase();
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
-        if(!params.project_id){
+
+        if (!params.project_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
-        if(!params.path){
+        if (!params.path) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
         }
 
-        if(!yapi.commons.verifyPath(params.path)){
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/')
+        if (!yapi.commons.verifyPath(params.path)) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
-        
+
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 
-        if(checkRepeat > 0){
-            return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
-        }       
+        if (checkRepeat > 0) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
+        }
 
-        try{
+        try {
             let data = {
                 project_id: params.project_id,
                 title: params.title,
@@ -74,20 +76,24 @@ class interfaceController extends baseController{
                 method: params.method,
                 req_headers: params.req_headers,
                 req_params_type: params.req_params_type,
-                res_body:  params.res_body,
+                res_body: params.res_body,
                 res_body_type: params.res_body_type,
                 uid: this.getUid(),
                 add_time: yapi.commons.time(),
                 up_time: yapi.commons.time()
+            };
+
+            if (params.req_params_form) {
+                data.req_params_form = params.req_params_form;
+            }
+            if (params.req_params_other) {
+                data.req_params_other = params.req_params_other;
             }
 
-            if(params.req_params_form) data.req_params_form = params.req_params_form;
-            if(params.req_params_other) data.req_params_other = params.req_params_other;
-            
             let result = await this.Model.save(data);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -101,16 +107,18 @@ class interfaceController extends baseController{
      * @returns {Object} 
      * @example ./api/interface/get.json
      */
-    async get(ctx){
+    async get(ctx) {
         let params = ctx.request.query;
-        if(!params.id){
+
+        if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
-        try{
+
+        try {
             let result = await this.Model.get(params.id);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -124,17 +132,18 @@ class interfaceController extends baseController{
      * @returns {Object} 
      * @example ./api/interface/list.json
      */
-
-    async list(ctx){
+    async list(ctx) {
         let project_id = ctx.request.query.project_id;
-        if(!project_id){
+
+        if (!project_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        try{
+
+        try {
             let result = await this.Model.list(project_id);
-            ctx.body = yapi.commons.resReturn(result)
-        }catch(err){
-             ctx.body = yapi.commons.resReturn(null, 402, e.message)
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
 
@@ -165,55 +174,76 @@ class interfaceController extends baseController{
      * @example ./api/interface/up.json
      */
 
-    async up(ctx){
+    async up(ctx) {
         let params = ctx.request.body;
+
         params = yapi.commons.handleParams(params, {
             title: 'string',
             path: 'string',
             method: 'string',
             desc: 'string'
-        })
+        });
         params.method = params.method || 'GET';
-        params.method = params.method.toUpperCase()
+        params.method = params.method.toUpperCase();
+
         let id = ctx.request.body.id;
-        if(!id){
+        
+        if (!id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
         let interfaceData = await this.Model.get(id);
 
-        if(params.path && !yapi.commons.verifyPath(params.path)){
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/')
+        if (params.path && !yapi.commons.verifyPath(params.path)) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
-        
-        if(params.path && params.path !== interfaceData.path  && params.method !== interfaceData.method){
-            let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id,params.path, params.method);
-            if(checkRepeat > 0){
-                return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
+
+        if (params.path && params.path !== interfaceData.path && params.method !== interfaceData.method) {
+            let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
+            if (checkRepeat > 0) {
+                return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
             }
-        }        
+        }
 
         let data = {
             up_time: yapi.commons.time()
+        };
+
+        if (params.path) {
+            data.path = params.path;
+        }
+        if (params.title) {
+            data.title = params.title;
+        }
+        if (params.desc) {
+            data.desc = params.desc;
+        }
+        if (params.method) {
+            data.method = params.method;
         }
 
-        if(params.path) data.path = params.path;
-        if(params.title) data.title = params.title;
-        if(params.desc) data.desc = params.desc;
-        if(params.method) data.method = params.method;
+        if (params.req_headers) {
+            data.req_headers = params.req_headers;
+        }
 
-        if(params.req_headers) data.req_headers = params.req_headers;
+        if (params.req_params_form) {
+            data.req_params_form = params.req_params_form;
+        }
+        if (params.req_params_other) {
+            data.req_params_other = params.req_params_other;
+        }
 
-        if(params.req_params_form) data.req_params_form = params.req_params_form;
-        if(params.req_params_other) data.req_params_other = params.req_params_other;
-        
-        if(params.res_body_type) data.res_body_type = params.res_body_type;
-        if(params.res_body) data.res_body = params.res_body;
+        if (params.res_body_type) {
+            data.res_body_type = params.res_body_type;
+        }
+        if (params.res_body) {
+            data.res_body = params.res_body;
+        }
 
-        try{
+        try {
             let result = await this.Model.up(id, data);
-            ctx.body = yapi.commons.resReturn(result)
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
 
     }
@@ -229,27 +259,27 @@ class interfaceController extends baseController{
      * @example ./api/interface/del.json
      */
 
-    async del(ctx){
-        try{
-            let id = ctx.request.body.id;            
-            
-            if(!id){
+    async del(ctx) {
+        try {
+            let id = ctx.request.body.id;
+
+            if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
             }
 
             let data = await this.Model.get(ctx.request.body.id);
 
-            if(data.uid != this.getUid()){
-                if(await this.jungeProjectAuth(data.project_id) !== true){
+            if (data.uid != this.getUid()) {
+                if (await this.jungeProjectAuth(data.project_id) !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
                 }
             }
 
-            
+
             let result = await this.Model.del(id);
-            ctx.body = yapi.commons.resReturn(result)
-        }catch(err){
-             ctx.body = yapi.commons.resReturn(null, 402, err.message)
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
 }
