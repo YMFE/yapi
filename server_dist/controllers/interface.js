@@ -94,6 +94,7 @@ var interfaceController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
+
                                 params = _yapi2.default.commons.handleParams(params, {
                                     project_id: 'number',
                                     title: 'string',
@@ -160,8 +161,12 @@ var interfaceController = function (_baseController) {
                                 };
 
 
-                                if (params.req_params_form) data.req_params_form = params.req_params_form;
-                                if (params.req_params_other) data.req_params_other = params.req_params_other;
+                                if (params.req_params_form) {
+                                    data.req_params_form = params.req_params_form;
+                                }
+                                if (params.req_params_other) {
+                                    data.req_params_other = params.req_params_other;
+                                }
 
                                 _context.next = 22;
                                 return this.Model.save(data);
@@ -301,7 +306,7 @@ var interfaceController = function (_baseController) {
                                 _context3.prev = 10;
                                 _context3.t0 = _context3['catch'](3);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
                             case 13:
                             case 'end':
@@ -356,6 +361,7 @@ var interfaceController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
+
                                 params = _yapi2.default.commons.handleParams(params, {
                                     title: 'string',
                                     path: 'string',
@@ -364,6 +370,7 @@ var interfaceController = function (_baseController) {
                                 });
                                 params.method = params.method || 'GET';
                                 params.method = params.method.toUpperCase();
+
                                 id = ctx.request.body.id;
 
                                 if (id) {
@@ -412,18 +419,36 @@ var interfaceController = function (_baseController) {
                                 };
 
 
-                                if (params.path) data.path = params.path;
-                                if (params.title) data.title = params.title;
-                                if (params.desc) data.desc = params.desc;
-                                if (params.method) data.method = params.method;
+                                if (params.path) {
+                                    data.path = params.path;
+                                }
+                                if (params.title) {
+                                    data.title = params.title;
+                                }
+                                if (params.desc) {
+                                    data.desc = params.desc;
+                                }
+                                if (params.method) {
+                                    data.method = params.method;
+                                }
 
-                                if (params.req_headers) data.req_headers = params.req_headers;
+                                if (params.req_headers) {
+                                    data.req_headers = params.req_headers;
+                                }
 
-                                if (params.req_params_form) data.req_params_form = params.req_params_form;
-                                if (params.req_params_other) data.req_params_other = params.req_params_other;
+                                if (params.req_params_form) {
+                                    data.req_params_form = params.req_params_form;
+                                }
+                                if (params.req_params_other) {
+                                    data.req_params_other = params.req_params_other;
+                                }
 
-                                if (params.res_body_type) data.res_body_type = params.res_body_type;
-                                if (params.res_body) data.res_body = params.res_body;
+                                if (params.res_body_type) {
+                                    data.res_body_type = params.res_body_type;
+                                }
+                                if (params.res_body) {
+                                    data.res_body = params.res_body;
+                                }
 
                                 _context4.prev = 28;
                                 _context4.next = 31;
