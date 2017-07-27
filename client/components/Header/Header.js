@@ -16,10 +16,10 @@ const MenuUser = (props) => (
     "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
   }}
   >
-    <Menu.Item key="0" style={{"fontSize": ".14rem"}}>
+    <Menu.Item key="0">
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item key="1" style={{"fontSize": ".14rem"}}>
+    <Menu.Item key="1">
       <a onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
