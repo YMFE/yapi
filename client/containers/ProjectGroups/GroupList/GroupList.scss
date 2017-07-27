@@ -36,15 +36,32 @@
     }
   }
   .group-operate {
-    height: 48px;
-    min-width: 263px;
     padding: 10px 6px;
     background: #eee;
-    .search {
-      display: inline-block;
-      margin-right: 6px;
-      width: 162px;
+
+    @media screen and (min-width:1100px){
+      .search {
+        display: inline-block;
+        margin-right: 6px;
+        width: 162px;
+      }
     }
+    @media screen and (max-width:1100px){
+      .search {
+        display: inline-block;
+        margin-right: 6px;
+        width: 80%;
+        margin: 0px auto;
+        display: block;
+      }
+      button{
+        width: 80%;
+        margin: 0px auto;
+        display: block;
+        margin-top: 10px;
+      }
+    }
+    
   }
   .group-list {
     max-height: 650px;

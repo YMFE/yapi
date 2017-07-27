@@ -43,9 +43,9 @@ class FootItem extends Component {
   render () {
     return (
       <div className = 'footItem'>
-        <h4><Icon type= { this.props.iconType } style={{ fontSize: 16 }} /> { this.props.title } </h4>
+        <h4><Icon type= { this.props.iconType } style={{ fontSize: 16 }} />&nbsp;&nbsp; { this.props.title } </h4>
         { this.props.linkList.map(function(item,i){
-          return (<div key = {i}><a href = { item.itemLink }><span>{ item.itemTitle }</span></a></div>);
+          return (<div key = {i}>&nbsp;&nbsp;<a href = { item.itemLink }><span>{ item.itemTitle }</span></a></div>);
         }) }
       </div>
     );
