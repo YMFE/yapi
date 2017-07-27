@@ -141,7 +141,8 @@ var userController = function (_baseController) {
                                     uid: result._id,
                                     email: result.email,
                                     add_time: result.add_time,
-                                    up_time: result.up_time
+                                    up_time: result.up_time,
+                                    server_ip: _yapi2.default.WEBCONFIG.server_ip
 
                                 }, 0, 'logout success...'));
 
