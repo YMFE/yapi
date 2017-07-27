@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs } from 'antd'
+import { Card } from 'antd'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -25,16 +25,13 @@ class Result extends Component {
   }
 
   render () { 
-    const TabPane = Tabs.TabPane
     const { mockJson } = this.props
 
     return (
       <div className="result">
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="成功结果" key="1">
-            <pre>{mockJson}</pre>
-          </TabPane>
-        </Tabs>
+        <Card title="Mock 结果" style={{ width: 500 }}>
+          <pre>{mockJson}</pre>
+        </Card>
       </div>
     )
   }

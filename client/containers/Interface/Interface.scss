@@ -1,5 +1,9 @@
 @import '../../styles/mixin.scss';
 
+.g-doc {
+  min-height: 5rem;
+}
+
 /* .interface-box.css */
 .interface-box {
   @include row-width-limit;
@@ -41,6 +45,16 @@
     }
     .tags {
       margin: 10px 0 0 0;
+      span {
+        border-radius: 4px;
+        padding: 4px 11px;
+        margin: 0 10px 0 0;
+      }
+      .anticon {
+        font-size: 17px;
+        margin: 0 0 0 6px;
+        vertical-align: 3px;
+      }
     }
   }
 }

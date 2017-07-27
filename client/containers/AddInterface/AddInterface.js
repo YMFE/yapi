@@ -37,7 +37,8 @@ const success = () => {
       method: state.addInterface.method,
       url: state.addInterface.url,
       seqGroup: state.addInterface.seqGroup,
-      interfaceName: state.addInterface.interfaceName
+      interfaceName: state.addInterface.interfaceName,
+      server_ip: state.login.server_ip
     }
   },
   {
@@ -56,6 +57,7 @@ class AddInterface extends Component {
   static propTypes = {
     url: PropTypes.string,
     method: PropTypes.string,
+    server_ip: PropTypes.string,
     reqParams: PropTypes.string,
     resParams: PropTypes.string,
     seqGroup: PropTypes.array,
@@ -230,6 +232,8 @@ class AddInterface extends Component {
         this.setLoading()
         success()
         this.changeState(true)
+        // 初始化 mock
+        this.mockData()   
       })
       .catch(e => {
         console.log(e)
@@ -238,21 +242,23 @@ class AddInterface extends Component {
 
   render () {
     const TabPane = Tabs.TabPane
+    const { server_ip } = this.props
     const { isLoading, isSave, mockJson='', mockURL } = this.state
 
     return (
       <section className="add-interface-box">
         <div className="content">
-          <Tabs defaultActiveKey="1">
+          <Tabs type="card">
             <TabPane tab="接口详情" key="1">
-              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
-              <Button className="mock" onClick={this.mockData}>Mock</Button>
+              <h3 className="req-title">请求部分</h3>
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
+              <MockUrl mockURL={mockURL} serverIp={server_ip} />
+              <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
-              <MockUrl mockURL={mockURL} />
+              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
             </TabPane>
             <TabPane tab="请求接口" key="3">
               <InterfaceTest />

@@ -19,8 +19,6 @@ const deleteConfirm = (id, props) => {
   const { delProject, currGroup, fetchProjectList } = props;
   const handle = () => {
     delProject(id).then((res) => {
-      console.log(res);
-      console.log(fetchProjectList, currGroup._id);
       if (res.payload.data.errcode == 0) {
         message.success('删除成功!')
         fetchProjectList(currGroup._id).then((res) => {
@@ -43,6 +41,13 @@ const getColumns = (data, props) => {
     render: (text, record) => {
       return <Link to={`/Interface/${record._id}`}>{text}</Link>
     }
+  },{
+    title: 'Mock链接',
+    key: 'domain',
+    render: (item) => {
+      return 'http://'+ item.prd_host + item.basepath;
+    }
+    
   }, {
     title: '创建人',
     dataIndex: 'owner',
@@ -66,7 +71,7 @@ const getColumns = (data, props) => {
         <span>
           <a onClick={() => changeUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="确定" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>

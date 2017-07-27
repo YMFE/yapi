@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import yapi from '../yapi.js';
 import autoIncrement from 'mongoose-auto-increment';
 
-function model(model, schema){
-    if(schema instanceof mongoose.Schema === false){
+function model(model, schema) {
+    if (schema instanceof mongoose.Schema === false) {
         schema = new mongoose.Schema(schema);
     }
 
@@ -12,20 +12,20 @@ function model(model, schema){
     return yapi.connect.model(model, schema, model);
 }
 
-function connect(){
+function connect() {
     mongoose.Promise = global.Promise;
 
     let config = yapi.WEBCONFIG;
     let options = {};
 
-    if(config.user){
-        options.user = config.db.user,
+    if (config.user) {
+        options.user = config.db.user;
         options.pass = config.db.pass;
     }
-    
+
     let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options);
 
-    db.then(function (res) {
+    db.then(function () {
         yapi.commons.log('mongodb load success...');
     }, function (err) {
         yapi.commons.log(err, 'Mongo connect error');
@@ -37,7 +37,7 @@ function connect(){
 
 yapi.db = model;
 
-module.exports =   {
+module.exports = {
     model: model,
     connect: connect
 };
