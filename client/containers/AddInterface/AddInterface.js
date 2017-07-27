@@ -230,6 +230,8 @@ class AddInterface extends Component {
         this.setLoading()
         success()
         this.changeState(true)
+        // 初始化 mock
+        this.mockData()   
       })
       .catch(e => {
         console.log(e)
