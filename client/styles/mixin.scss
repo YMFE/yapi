@@ -2,3 +2,7 @@
   max-width: 11.7rem;
   min-width: 9.7rem;
 }
+
+@mixin wrap-width-limit {
+  min-width: 10.7rem;
+}

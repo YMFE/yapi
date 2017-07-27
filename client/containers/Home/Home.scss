@@ -12,9 +12,10 @@ $color-black-lighter: #404040;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   .main-one{
+    @include wrap-width-limit;
     .home-des{
       color: $color-blue-grey-lighter;
-      padding: .5rem 0 0;
+      padding: .4rem 0 0;
       .title{
         font-size: .6rem;
       }
@@ -26,7 +27,7 @@ $color-black-lighter: #404040;
       color: $color-white;
     }
     .img-container{
-      margin-bottom: -.2rem;
+      margin-bottom: -.3rem;
       img{
         width: 100%;
         height: 100%;
@@ -75,6 +76,7 @@ $color-black-lighter: #404040;
   .main-part{
     padding: .9rem .5rem;
     height: 5.8rem;
+    @include wrap-width-limit;
     &:nth-child(odd){
       background-color: $color-blue-lighter;
     }
@@ -83,6 +85,7 @@ $color-black-lighter: #404040;
     }
   }
   .feat-part{
+    @include wrap-width-limit;
     padding: .9rem .5rem;
     background-color: $color-white;
     p{

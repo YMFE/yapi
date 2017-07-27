@@ -11,7 +11,7 @@ $color-black-light : #404040;
   display: block;
   font-size: 0.14rem;
   z-index: 99;
-  // 内容宽度
+  @include wrap-width-limit;
   .content {
     @include row-width-limit;
     margin: 0 auto;
