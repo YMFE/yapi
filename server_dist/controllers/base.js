@@ -85,7 +85,7 @@ var baseController = function () {
         }()
     }, {
         key: 'getUid',
-        value: function getUid(ctx) {
+        value: function getUid() {
             return parseInt(this.$uid, 10);
         }
     }, {
