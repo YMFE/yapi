@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import wangEditor from 'wangeditor'
+// import wangEditor from 'wangeditor'
 import { getReqParams } from '../../../actions/addInterface.js'
 
-const editor = new wangEditor('#req-cover')
+//const editor = new wangEditor('#req-cover')
 
 @connect(
   state => {
@@ -27,25 +27,41 @@ class ReqParams extends Component {
     super(props)
   }
 
-  initParams () {
-    const { reqParams } = this.props
-    if (reqParams) {
-      editor.txt.html(reqParams)
-    }
-  }
+  // initParams () {
+  //   const { reqParams } = this.props
+  //   if (reqParams) {
+  //     editor.txt.html(reqParams)
+  //   }
+  // }
 
   componentDidMount () {
-    const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
-    let json = ''
-    editor.customConfig.menus = []
-    editor.customConfig.onchange = html => {
-      json = html.replace(reg, '')
-      this.props.getReqParams(json)
+    function json_parse(json){
+      try{
+        return JSON.stringify(JSON.parse(json), null, "\t");
+      }catch(e){
+        return json
+      }
     }
-    setTimeout(() => {
-      this.initParams()
-    }, 500)
-    editor.create()
+    let editor2 = this.editor = window.ace.edit("req-cover")
+    editor2.getSession().setMode("ace/mode/json");
+    setTimeout( () => {
+      editor2.setValue(json_parse(this.props.reqParams))
+    } ,400)
+
+    editor2.getSession().on('change', ()=> {
+      this.props.getReqParams(editor2.getValue())
+    });
+    // const reg = /(<p>)|(<\/p>)|&nbsp;|(<br>)|\s+/g
+    // let json = ''
+    // editor.customConfig.menus = []
+    // editor.customConfig.onchange = html => {
+    //   json = html.replace(reg, '')
+    //   this.props.getReqParams(json)
+    // }
+    // setTimeout(() => {
+    //   this.initParams()
+    // }, 500)
+    // editor.create()
   }
   
   render () {

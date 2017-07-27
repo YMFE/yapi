@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import nodemailer from 'nodemailer';
-import config from '../../config.json';
+import config from '../config.json';
 
 let insts = new Map();
 let mail;
@@ -35,7 +35,7 @@ function delInst(m) {
     try {
         insts.delete(m);
     } catch (err) {
-        console.error(err);
+        console.error(err); // eslint-disable-line
     }
 }
 

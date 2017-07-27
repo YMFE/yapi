@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-var _regenerator = require('babel-runtime/regenerator');
+var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 //检查token是否过期
 
 module.exports = function () {
@@ -23,7 +23,7 @@ module.exports = function () {
                         return next();
 
                     case 2:
-                    case 'end':
+                    case "end":
                         return _context.stop();
                 }
             }
