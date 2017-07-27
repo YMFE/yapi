@@ -19,8 +19,6 @@ const deleteConfirm = (id, props) => {
   const { delProject, currGroup, fetchProjectList } = props;
   const handle = () => {
     delProject(id).then((res) => {
-      console.log(res);
-      console.log(fetchProjectList, currGroup._id);
       if (res.payload.data.errcode == 0) {
         message.success('删除成功!')
         fetchProjectList(currGroup._id).then((res) => {
@@ -43,6 +41,13 @@ const getColumns = (data, props) => {
     render: (text, record) => {
       return <Link to={`/Interface/${record._id}`}>{text}</Link>
     }
+  },{
+    title: 'Mock链接',
+    key: 'domain',
+    render: (item) => {
+      return 'http://'+ item.prd_host + item.basepath;
+    }
+    
   }, {
     title: '创建人',
     dataIndex: 'owner',
