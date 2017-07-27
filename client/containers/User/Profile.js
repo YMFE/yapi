@@ -138,8 +138,8 @@ class Profile extends Component {
       userNameEditHtml = <div>
         <Input value={_userinfo.username} name="username" onChange={this.changeUserinfo} placeholder="用户名"  />
         <ButtonGroup className="edit-buttons" >
-          <Button className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >Cancel</Button>
-          <Button className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">OK</Button>
+          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >Cancel</Button>
+          <Button size={'small'} className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">OK</Button>
         </ButtonGroup>
       </div>
     }
@@ -154,8 +154,8 @@ class Profile extends Component {
       emailEditHtml = <div>
         <Input placeholder="Email" value={_userinfo.email} name="email" onChange={this.changeUserinfo} />
         <ButtonGroup className="edit-buttons" >
-          <Button className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >Cancel</Button>
-          <Button className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>OK</Button>
+          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >Cancel</Button>
+          <Button size={'small'} className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>OK</Button>
         </ButtonGroup>
       </div>
     }
@@ -175,15 +175,15 @@ class Profile extends Component {
     }
 
     if (this.state.secureEdit === false) {
-      secureEditHtml = <Button type="primary" onClick={() => { this.handleEdit('secureEdit', true) }}>密码修改</Button>
+      secureEditHtml = <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
     } else {
       secureEditHtml = <div>
         <Input style={{display: this.state.userinfo.role === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
-          <Button className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>Cancel</Button>
-          <Button className="edit-button" onClick={this.updatePassword} type="primary">OK</Button>
+          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>Cancel</Button>
+          <Button size={'small'} className="edit-button" onClick={this.updatePassword} type="primary">OK</Button>
         </ButtonGroup>
       </div>
     }
@@ -228,7 +228,7 @@ class Profile extends Component {
       </Row>
 
       <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>安全</Col>
+        <Col span={4}>密码</Col>
         <Col span={12}>
           {secureEditHtml}
         </Col>
