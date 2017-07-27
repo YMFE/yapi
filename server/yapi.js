@@ -1,22 +1,17 @@
 import path from 'path';
 import fs from 'fs-extra';
 import nodemailer from 'nodemailer';
-import config from '../runtime/config.json';
+import config from '../../config.json';
 
 let insts = new Map();
 let mail;
 
-if(!config.runtime_path){
-    config.runtime_path = path.join(path.resolve(__dirname, '../'), 'runtime')
-}
-
 const WEBROOT = path.resolve(__dirname, '..'); //路径
 const WEBROOT_SERVER = __dirname;
-const WEBROOT_RUNTIME = config.runtime_path;
+const WEBROOT_RUNTIME = path.resolve(__dirname, '../..');
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
 const WEBCONFIG = config;
 
-fs.ensureDirSync(WEBROOT_RUNTIME);
 fs.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail) {
