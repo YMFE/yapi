@@ -12,14 +12,14 @@ const SRC = 'server/**/*.js';
 
 function generateBabel(status) {
     const babelProcess = babel({
-        presets: ['es2015', "stage-3"],
+        presets: ['es2015', 'stage-3'],
         plugins: ['transform-runtime']
     });
 
     babelProcess.on('error', function (e) {
         const restart = status ? status.count < 2 : true;
 
-        console.error(e);
+        console.error(e);  // eslint-disable-line
         output('error', 'babel 编译失败！', restart);
 
         if (status) {
@@ -39,7 +39,13 @@ function excuteCmd(cmd, args, opts) {
     });
 
     command.stderr.on('data', data => {
-        output('log', `${NAME} ${data.toString()}`, true);
+        const message = data.toString();
+
+        output('log', `${NAME} ${message}`, true);
+
+        if (~message.indexOf('building complete')) {
+            waitingSpinner();
+        }
     });
 
     return command;
@@ -50,12 +56,12 @@ function output(type, message, restart = false) {
 
     if (type === 'success') {
         message = '✔ ' + message;
-        console.log(chalk.green(message));
+        console.log(chalk.green(message));  // eslint-disable-line
     } else if (type === 'error') {
         message = '✖ ' + message;
-        console.log(chalk.red(message));
+        console.log(chalk.red(message));  // eslint-disable-line
     } else {
-        console.log(message);
+        console.log(message);  // eslint-disable-line
     }
     if (restart) {
         spinner.start();
@@ -63,6 +69,7 @@ function output(type, message, restart = false) {
 }
 
 function waitingSpinner() {
+    spinner.stop();
     spinner = ora({
         text: '等待文件变更...',
         spinner: 'circleQuarters',
@@ -71,7 +78,7 @@ function waitingSpinner() {
 }
 
 gulp.task('removeDist', [], function () {
-    return fs.removeSync(DIST)
+    return fs.removeSync(DIST);
 });
 
 gulp.task('initialBuild', ['removeDist'], () => {
@@ -95,9 +102,14 @@ gulp.task('initialBuild', ['removeDist'], () => {
 });
 
 gulp.task('default', ['initialBuild'], () => {
-    gulp.watch(SRC, (event) => {
-        let originFilePath = path.relative(path.join(__dirname, 'server'), event.path)
-        let distPath = path.resolve(DIST, path.join(originFilePath))
+    gulp.watch('client/**/*', event => {
+        spinner.stop();
+        spinner = ora(`正在编译 ${event.path}`).start();
+    });
+
+    gulp.watch(SRC, event => {
+        let originFilePath = path.relative(path.join(__dirname, 'server'), event.path);
+        let distPath = path.resolve(DIST, path.join(originFilePath));
         spinner.text = `正在编译 ${event.path}...`;
 
         gulp.src(event.path).pipe(generateBabel())
