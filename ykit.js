@@ -22,6 +22,23 @@ module.exports = {
       exports: [
         './index.js'
       ],
+      commonsChunk: {
+        //filename: 'scripts/[name]@[chunkhash][ext]',
+        vendors: {
+          lib: ['react', 'redux',
+            'redux-thunk',
+            'react-dom',
+            'redux-promise',
+            'react-router-dom',
+            'prop-types',
+            'axios',
+            'moment'
+          ],
+          lib2: [
+            'antd'
+          ]
+        }
+      },
       modifyWebpackConfig: function (baseConfig) {
 
         baseConfig.devtool = 'cheap-module-eval-source-map'

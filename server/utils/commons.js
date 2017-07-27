@@ -23,10 +23,18 @@ exports.log = (msg, type) => {
     let f;
 
     switch (type) {
-        case 'log': f = console.log; break;
-        case 'warn': f = console.warn; break;
-        case 'error': f = console.error; break;
-        default: f = console.log; break;
+        case 'log':
+            f = console.log; // eslint-disable-line
+            break;
+        case 'warn':
+            f = console.warn; // eslint-disable-line
+            break;
+        case 'error':
+            f = console.error; // eslint-disable-line
+            break;
+        default:
+            f = console.log; // eslint-disable-line
+            break;
     }
 
     f(type + ':', msg);
@@ -121,7 +129,7 @@ exports.sendMail = (options, cb) => {
             html: options.contents
         }, cb);
     } catch (e) {
-        console.error(e.message);
+        console.error(e.message); // eslint-disable-line
     }
 };
 
@@ -204,8 +212,10 @@ exports.handleParams = (params, keys) => {
         var filter = keys[key];
         if (params[key]) {
             switch (filter) {
-                case 'string': params[key] = trim(params[key] + ''); break;
-                case 'number': params[key] = parseInt(params[key], 10); break;
+                case 'string': params[key] = trim(params[key] + '');
+                    break;
+                case 'number': params[key] = parseInt(params[key], 10);
+                    break;
                 default: params[key] = trim(params + '');
             }
         }

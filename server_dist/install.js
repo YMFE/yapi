@@ -51,10 +51,10 @@ function setupSql() {
 
     result.then(function () {
         _fsExtra2.default.ensureFileSync(_yapi2.default.path.join(_yapi2.default.WEBROOT_RUNTIME, 'init.lock'));
-        console.log('\u521D\u59CB\u5316\u7BA1\u7406\u5458\u8D26\u53F7 "' + _yapi2.default.WEBCONFIG.adminAccount + '" \u6210\u529F');
+        console.log('\u521D\u59CB\u5316\u7BA1\u7406\u5458\u8D26\u53F7 "' + _yapi2.default.WEBCONFIG.adminAccount + '" \u6210\u529F'); // eslint-disable-line
         process.exit(0);
     }, function (err) {
-        console.log('\u521D\u59CB\u5316\u7BA1\u7406\u5458\u8D26\u53F7 "' + _yapi2.default.WEBCONFIG.adminAccount + '" \u5931\u8D25, ' + err.message);
+        console.log('\u521D\u59CB\u5316\u7BA1\u7406\u5458\u8D26\u53F7 "' + _yapi2.default.WEBCONFIG.adminAccount + '" \u5931\u8D25, ' + err.message); // eslint-disable-line
         process.exit(0);
     });
 }

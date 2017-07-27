@@ -3,7 +3,8 @@ import {
   LIST_INTERFACE_CLICK,
   PROJECT_MEMBER_INTERFACE,
   DELETE_INTERFACE_DATA,
-  SAVE_INTERFACE_PROJECT_ID
+  SAVE_INTERFACE_PROJECT_ID,
+  GET_INTERFACE_GROUP_LIST
 } from '../constants/action-types.js'
 
 export function fetchInterfaceData (value) {
@@ -35,6 +36,13 @@ export function deleteInterfaceData (value) {
 export function saveInterfaceProjectId (value) {
   return {
     type: SAVE_INTERFACE_PROJECT_ID,
+    payload: value
+  }
+}
+
+export function getInterfaceGroupList (value) {
+  return {
+    type: GET_INTERFACE_GROUP_LIST,
     payload: value
   }
 }

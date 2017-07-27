@@ -10,7 +10,8 @@ const success = () => {
 
 class MockUrl extends Component {
   static propTypes = {
-    mockURL: PropTypes.string
+    mockURL: PropTypes.string,
+    serverIp: PropTypes.string
   }
 
   constructor(props) {
@@ -34,10 +35,13 @@ class MockUrl extends Component {
   }
 
   render () {
+    const { serverIp } = this.props
     return (
       <section className="mock-url-box">
+        <span className="title">mock地址 : </span>
         <p id="mock-p">{this.props.mockURL}</p>
         <Button type="primary" id="mock-clipboard">复制</Button>
+        <div className="host">请配置host ***.***.***.***  { serverIp }</div>
       </section>
     )
   }

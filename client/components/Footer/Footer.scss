@@ -23,6 +23,7 @@
     }
 }
 .footerMask{
+    @include wrap-width-limit;
     position: absolute;
     top: 0px;
     height: 100%;

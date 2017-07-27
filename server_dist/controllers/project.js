@@ -711,7 +711,7 @@ var projectController = function (_baseController) {
                                 _context7.prev = 21;
                                 _context7.t1 = _context7['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t1.message);
 
                             case 24:
                             case 'end':

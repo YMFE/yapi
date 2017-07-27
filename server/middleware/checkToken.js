@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 //检查token是否过期
 
 module.exports = async ( ctx, next ) => {
@@ -14,4 +14,4 @@ module.exports = async ( ctx, next ) => {
     //     ctx.throw(401, 'invalid token');
     // }
     await next();
-}
+};
