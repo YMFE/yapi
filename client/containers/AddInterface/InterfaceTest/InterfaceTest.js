@@ -138,7 +138,17 @@ export default class InterfaceTest extends Component {
       data: params,
       success: (res, header) => {
         console.log(header)
+        try {
+          res = JSON.parse(res);
+        } catch (e) {
+          null;
+        }
         this.setState({res})
+        this.setState({ loading: false })
+      },
+      error: (err, header) => {
+        console.log(header)
+        this.setState({res: err || '请求失败'})
         this.setState({ loading: false })
       }
     })
@@ -285,7 +295,7 @@ export default class InterfaceTest extends Component {
             <div className="res-part">
               <div>
                 <TextArea
-                  value={this.state.res ? JSON.stringify(this.state.res, 2) : ''}
+                  value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
                   style={{margin: 10}}
                   autosize={{ minRows: 2, maxRows: 6 }}
                 ></TextArea>
