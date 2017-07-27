@@ -47,13 +47,17 @@ exports.log = function (msg, type) {
 
     switch (type) {
         case 'log':
-            f = console.log;break;
+            f = console.log;
+            break;
         case 'warn':
-            f = console.warn;break;
+            f = console.warn;
+            break;
         case 'error':
-            f = console.error;break;
+            f = console.error;
+            break;
         default:
-            f = console.log;break;
+            f = console.log;
+            break;
     }
 
     f(type + ':', msg);
@@ -231,9 +235,11 @@ exports.handleParams = function (params, keys) {
         if (params[key]) {
             switch (filter) {
                 case 'string':
-                    params[key] = trim(params[key] + '');break;
+                    params[key] = trim(params[key] + '');
+                    break;
                 case 'number':
-                    params[key] = parseInt(params[key], 10);break;
+                    params[key] = parseInt(params[key], 10);
+                    break;
                 default:
                     params[key] = trim(params + '');
             }

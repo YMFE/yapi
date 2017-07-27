@@ -60,7 +60,7 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: '源码仓库',
-          itemLink: 'http://gitlab.corp.qunar.com/mfe/yapi.git'
+          itemLink: 'https://github.com/YMFE/yapi'
         }
       ]
 
