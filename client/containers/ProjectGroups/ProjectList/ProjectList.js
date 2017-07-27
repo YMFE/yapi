@@ -206,13 +206,18 @@ class ProjectList extends Component {
   componentWillReceiveProps(nextProps) {
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
-      this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
-        if (res.payload.data.errcode) {
-          message.error(res.payload.data.errmsg);
-        } else {
-          this.props.changeTableLoading(false);
-        }
-      });
+      if (nextProps.currGroup._id) {
+        this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
+          if (res.payload.data.errcode) {
+            message.error(res.payload.data.errmsg);
+          } else {
+            this.props.changeTableLoading(false);
+          }
+        });
+      } else {
+        // 无分组的时候停止loading状态
+        this.props.changeTableLoading(false);
+      }
     }
 
     // 切换项目列表
@@ -306,7 +311,9 @@ class ProjectList extends Component {
           </Form>
         </Modal>
         <UpDateModal/>
-        <Button className="m-btn" icon="plus" type="primary" onClick={this.showAddProjectModal}>创建项目</Button>
+        <Button className="m-btn" icon="plus" type="primary"
+          onClick={this.showAddProjectModal}
+          disabled={this.props.currGroup._id ? false : true}>创建项目</Button>
         <Table
           className="m-table"
           bordered={true}

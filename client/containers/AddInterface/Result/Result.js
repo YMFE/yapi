@@ -27,7 +27,7 @@ class Result extends Component {
   render () { 
     const TabPane = Tabs.TabPane
     const { mockJson } = this.props
-    console.log('mockJson', typeof mockJson, mockJson)
+
     return (
       <div className="result">
         <Tabs defaultActiveKey="1">

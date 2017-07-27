@@ -254,9 +254,6 @@ class AddInterface extends Component {
               <Result isSave={isSave} mockJson={mockJson} />
               <MockUrl mockURL={mockURL} />
             </TabPane>
-            {
-            // <TabPane tab="Mock" key="2">mock</TabPane>
-            }
             <TabPane tab="请求接口" key="3">
               <InterfaceTest />
             </TabPane>

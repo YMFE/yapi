@@ -1,24 +1,22 @@
-import path from 'path'
-import fs from 'fs-extra'
+import path from 'path';
+import fs from 'fs-extra';
 import nodemailer from 'nodemailer';
-import config from '../runtime/config.json'
+import config from '../runtime/config.json';
 
-var insts = new Map();
+let insts = new Map();
 let mail;
 
 const WEBROOT = path.resolve(__dirname, '..'); //路径
 const WEBROOT_SERVER = __dirname;
-const WEBROOT_RUNTIME = path.join(WEBROOT, 'runtime');
+const WEBROOT_RUNTIME = config.runtime_path;
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
-const WEBCONFIG  = config;
+const WEBCONFIG = config;
 
 fs.ensureDirSync(WEBROOT_RUNTIME);
 fs.ensureDirSync(WEBROOT_LOG);
 
-
-
-if(WEBCONFIG.mail){
-    mail = nodemailer.createTransport(WEBCONFIG.mail)
+if (WEBCONFIG.mail) {
+    mail = nodemailer.createTransport(WEBCONFIG.mail);
 }
 
 /**
@@ -27,18 +25,18 @@ if(WEBCONFIG.mail){
  * @example
  * yapi.getInst(groupModel, arg1, arg2)
  */
-function getInst(m, ...args){
-    if(!insts.get(m)){
-        insts.set(m, new m(args))
+function getInst(m, ...args) {
+    if (!insts.get(m)) {
+        insts.set(m, new m(args));
     }
-    return insts.get(m)
+    return insts.get(m);
 }
 
-function delInst(m){
-    try{
-        insts.delete(m)
-    }catch(err){
-        console.error(err)
+function delInst(m) {
+    try {
+        insts.delete(m);
+    } catch (err) {
+        console.error(err);
     }
 }
 
@@ -53,6 +51,6 @@ let r = {
     getInst: getInst,
     delInst: delInst,
     getInsts: insts
-}
-if(mail) r.mail = mail;
+};
+if (mail) r.mail = mail;
 module.exports = r;
