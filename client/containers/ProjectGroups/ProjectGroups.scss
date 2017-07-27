@@ -1,4 +1,6 @@
+@import '../../styles/mixin.scss';
+
 .g-doc {
-  max-width: 11rem;
+  @include row-width-limit;
   margin: .24rem auto;
 }

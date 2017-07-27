@@ -6,7 +6,8 @@ import { autobind } from 'core-decorators'
 import { 
   reqTagValue,
   reqHeaderValue,
-  deleteReqHeader
+  deleteReqHeader,
+  addReqHeader
 } from '../../../actions/addInterface.js'
 
 @connect(
@@ -20,7 +21,8 @@ import {
   {
     reqTagValue,
     reqHeaderValue,
-    deleteReqHeader
+    deleteReqHeader,
+    addReqHeader
   }
 )
 
@@ -30,6 +32,7 @@ class ReqList extends Component {
     reqTagValue: PropTypes.func,
     reqHeaderValue: PropTypes.func,
     deleteReqHeader: PropTypes.func,
+    addReqHeader: PropTypes.func,
     _id: PropTypes.number,
     dataNum: PropTypes.number,
     value: PropTypes.object
@@ -43,12 +46,32 @@ class ReqList extends Component {
   handleChange (value) {
     const dir = 'AddInterface/edit'
     const url = location.href
+    const newObject = []
+
     if (url.includes(dir)) {
       const { seqGroup, value: { id } } = this.props
-      seqGroup[id].name = value
+      seqGroup.forEach(v => {
+        if (id == v.id) {
+          v.name = value
+        }
+      })
+      seqGroup.forEach(v => {
+        const {id, name, value} = v
+        newObject.push({id, name, value})
+      })
+      this.props.addReqHeader( newObject )
     } else {
       const { seqGroup, dataNum } = this.props
-      seqGroup[dataNum].name = value
+      seqGroup.forEach(v => {
+        if (dataNum == v.id) {
+          v.name = value
+        }
+      })
+      seqGroup.forEach(v => {
+        const {id, name, value} = v
+        newObject.push({id, name, value})
+      })      
+      this.props.addReqHeader(newObject)
     }
   }
 
@@ -56,7 +79,17 @@ class ReqList extends Component {
   handleBlur (e) {
     const value = e.target.value
     const { seqGroup, value: { id } } = this.props
-    seqGroup[id].value = value
+    const newObject = []
+    seqGroup.forEach(v => {
+      if (id == v.id) {
+        v.value = value
+      }
+    })    
+    seqGroup.forEach(v => {
+      const {id, name, value} = v
+      newObject.push({id, name, value})
+    })
+    this.props.addReqHeader(newObject)
   }
 
   @autobind
@@ -76,13 +109,13 @@ class ReqList extends Component {
   render () {
     const propsValue = this.props.value
     const Option = Select.Option
-    const value = propsValue.value
+    const value = propsValue.value || ''
     const name = propsValue.name || ''
-
+    console.log(name)
     return (
       <li>
         <em className="title">头部标签</em>
-        <Select defaultValue={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
+        <Select value={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
           <Option value="">选择请求头</Option>
           <Option value="Accept">Accept</Option>
           <Option value="Accept-Charset">Accept-Charset</Option>
@@ -91,7 +124,7 @@ class ReqList extends Component {
           <Option value="Accept-Ranges">Accept-Ranges</Option>
         </Select>
         <em className="title">头部内容</em>
-        <Input defaultValue={value} placeholder="Basic usage" className="req-content" size="large" onBlur={this.handleBlur} />
+        <Input value={value} placeholder="Basic usage" className="req-content" size="large" onInput={this.handleBlur} />
         <Icon className="dynamic-delete-button" type="minus-circle-o" onClick={this.deleteReqHeader} />
       </li>
     )

@@ -3,9 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { changeMenuItem } from '../actions/menu'
 
-
+@connect(
+  (state) => {
+    return{
+      isAuthenticated: state.login.isLogin
+    }
+  },
+  {
+    changeMenuItem
+  }
+)
 export function requireAuthentication(Component) {
-  class AuthenticatedComponent extends React.Component {
+  return class AuthenticatedComponent extends React.Component {
     constructor(props){
       super(props);
     }
@@ -37,19 +46,8 @@ export function requireAuthentication(Component) {
           }
         </div>
       )
-
     }
   }
-  return connect(
-    (state) => {
-      return{
-        isAuthenticated: state.login.isLogin
-      }
-    },
-    {
-      changeMenuItem
-    }
-  )(AuthenticatedComponent);
 }
 
 

@@ -7,8 +7,12 @@ import RegForm from './Reg';
 import './Login.scss';
 const TabPane = Tabs.TabPane;
 
-
-class LoginWrap extends Component {
+@connect(
+  state =>({
+    loginWrapActiveKey: state.login.loginWrapActiveKey
+  })
+)
+export default class LoginWrap extends Component {
   constructor(props){
     super(props);
   }
@@ -32,9 +36,3 @@ class LoginWrap extends Component {
     );
   }
 }
-
-export default connect(
-  state =>({
-    loginWrapActiveKey: state.login.loginWrapActiveKey
-  })
-)(LoginWrap)
