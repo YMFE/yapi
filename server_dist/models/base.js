@@ -32,6 +32,7 @@ var baseModel = function () {
 
         this.schema = new _mongoose2.default.Schema(this.getSchema());
         this.name = this.getName();
+
         if (this.isNeedAutoIncrement() === true) {
             this.schema.plugin(_mongooseAutoIncrement2.default.plugin, {
                 model: this.name,

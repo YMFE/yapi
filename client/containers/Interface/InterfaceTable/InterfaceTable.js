@@ -81,13 +81,10 @@ class InterfaceTable extends Component {
       title: '功能',
       'key': 'action',
       render: (data) => {
-        // const deleteInterface = this.deleteInterface.bind(this, data._id)
         const confirm = this.confirm.bind(this, data._id)
         return (
           <span>
             <Link to={`/AddInterface/edit/${data._id}`}><span>编辑</span></Link>
-            <span className="ant-divider" />
-            <Link to={`/AddInterface/edit/${data._id}`}><span>测试</span></Link>
             <span className="ant-divider" />
             <Popconfirm title="是否删除接口!" onConfirm={confirm} okText="Yes" cancelText="No">
               <a href="">删除</a>

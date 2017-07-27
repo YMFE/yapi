@@ -58,6 +58,7 @@ class ReqMethod extends Component {
   render () {
     const { Option } = Select
     const { url, interfaceName, method } = this.props
+
     return (
       <table>
         <tbody>
@@ -65,7 +66,7 @@ class ReqMethod extends Component {
             <th>协议 :</th>
             <td>
               <span className="h3">请求方式</span>
-              <Select defaultValue={method} style={{ width: 220 }} onChange={this.handleChange} size="large">
+              <Select value={method} style={{ width: 220 }} onChange={this.handleChange} size="large">
                 <Option value="POST">POST</Option>
                 <Option value="GET">GET</Option>
                 <Option value="PUT">PUT</Option>

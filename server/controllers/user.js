@@ -98,7 +98,7 @@ class userController extends baseController {
                     })
                 })
             },
-            tokenField: 'token',
+            tokenField: 'token'
         }
     }
 

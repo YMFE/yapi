@@ -1,16 +1,18 @@
+@import '../../styles/mixin.scss';
+
 /* .user-box.css */
 .user-box {
-  max-width: 11rem;
+  @include row-width-limit;
   display: -webkit-box;
   -webkit-box-flex: 1;
   margin: .88rem auto 0 auto;
   // font-size: 0.14rem;
-  
-  
+
+
   margin-top: 40px;
   margin-bottom: 55px;
 
-  
+
 
   .user-list {
     width: 216px;
@@ -19,7 +21,7 @@
     border-radius:5px;
     margin-top: 15px;
     .search{
-      margin: 5px;    
+      margin: 5px;
     }
     ul{border:none}
   }
@@ -38,7 +40,7 @@
   .user-table {
     -webkit-box-flex: 1;
     padding: 24px;
-    margin-left: 15px;   
+    margin-left: 15px;
     border-radius:5px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;

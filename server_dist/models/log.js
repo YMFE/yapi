@@ -127,6 +127,7 @@ var logModel = function (_baseModel) {
         value: function listWithPaging(uid, page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
+
             return this.model.find({
                 uid: uid
             }).skip((page - 1) * limit).limit(limit).exec();

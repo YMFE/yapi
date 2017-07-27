@@ -49,13 +49,14 @@ var projectModel = function (_baseModel) {
             return {
                 uid: { type: Number, required: true },
                 name: { type: String, required: true },
-                basepath: { type: String, required: true, validate: {
+                basepath: {
+                    type: String, required: true, validate: {
                         validator: function validator(v) {
-                            console.log('basepath: ', v);
                             return v && v[0] === '/';
                         },
                         message: 'basepath必须是/开头'
-                    } },
+                    }
+                },
                 desc: String,
                 group_id: { type: Number, required: true },
                 members: Array,
