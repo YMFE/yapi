@@ -239,6 +239,7 @@ export default class InterfaceTest extends Component {
               style={{marginLeft: 10}}
               loading={this.state.loading}
             >发送</Button>
+            <span style={{fontSize: 12}}>（请求测试真实接口）</span>
           </div>
           <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
             <div className="req-row headers">
