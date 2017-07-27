@@ -8,10 +8,10 @@ $color-grey-deep : #929aac;
 $color-black-light : #404040;
 /* .header-box.css */
 .header-box {
+  @include wrap-width-limit;
   display: block;
   font-size: 0.14rem;
   z-index: 99;
-  @include wrap-width-limit;
   .content {
     @include row-width-limit;
     margin: 0 auto;
