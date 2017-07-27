@@ -19,8 +19,8 @@ module.exports = function () {
                     case 0:
                         path = ctx.path;
 
-                        console.log(path);
-                        console.log(ctx.hostname);
+                        console.log(path); // eslint-disable-line
+                        console.log(ctx.hostname); // eslint-disable-line
 
                         if (!next) {
                             _context.next = 6;

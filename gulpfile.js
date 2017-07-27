@@ -11,6 +11,8 @@ const DIST = 'server_dist/';
 const SRC = 'server/**/*.js';
 
 function generateBabel(status) {
+
+    // 返回一个新的 babel 插件
     const babelProcess = babel({
         presets: ['es2015', 'stage-3'],
         plugins: ['transform-runtime']
@@ -43,6 +45,9 @@ function excuteCmd(cmd, args, opts) {
 
         output('log', `${NAME} ${message}`, true);
 
+        // ykit 成功编译时会输出带有 build complete 字样的 log
+        // 此时停止正在编译的提示
+        // 换为等待文件变更的提示
         if (~message.indexOf('building complete')) {
             waitingSpinner();
         }
@@ -102,14 +107,22 @@ gulp.task('initialBuild', ['removeDist'], () => {
 });
 
 gulp.task('default', ['initialBuild'], () => {
+
+    // 若 client/ 下的文件发生变动则显示正在编译的提示
+    // 并在编译完成之后停止
     gulp.watch('client/**/*', event => {
         spinner.stop();
         spinner = ora(`正在编译 ${event.path}`).start();
     });
 
     gulp.watch(SRC, event => {
+
+        // 获取变更文件相对于 server/ 的路径
+        // 此路径用于 gulp.dest() 写入新文件
         let originFilePath = path.relative(path.join(__dirname, 'server'), event.path);
         let distPath = path.resolve(DIST, path.join(originFilePath));
+
+        // 编译提示
         spinner.text = `正在编译 ${event.path}...`;
 
         gulp.src(event.path).pipe(generateBabel())
@@ -121,12 +134,14 @@ gulp.task('default', ['initialBuild'], () => {
     });
 });
 
+// 全量编译后端代码
 gulp.task('buildNode', () => {
     return gulp.src(SRC)
         .pipe(generateBabel())
         .pipe(gulp.dest(DIST));
 });
 
+// 仅监测后端代码并实时编译
 gulp.task('watchNode', ['buildNode'], () => {
     return watch(SRC, {
         verbose: true,
@@ -136,6 +151,7 @@ gulp.task('watchNode', ['buildNode'], () => {
         .pipe(gulp.dest(DIST));
 });
 
+// 编译前后端
 gulp.task('build', () => {
     let status = {
         count: 0

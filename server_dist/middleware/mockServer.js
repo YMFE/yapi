@@ -35,6 +35,7 @@ module.exports = function () {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _yapi2.default.commons.log('Server Recevie Request...');
+
                         hostname = ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
 
@@ -55,6 +56,7 @@ module.exports = function () {
                         return _context.abrupt('return', true);
 
                     case 8:
+
                         _yapi2.default.commons.log('MockServer Running...');
                         projectInst = _yapi2.default.getInst(_project3.default), projects = void 0;
                         _context.prev = 10;
@@ -81,6 +83,7 @@ module.exports = function () {
 
                             if (ctx.path && ctx.path.indexOf(_project.basepath) === 0) {
                                 matchProject.push(_project);
+
                                 if (_project.basepath.length > maxBasepath) {
                                     maxBasepath = _project.basepath.length;
                                     matchProject = _project;

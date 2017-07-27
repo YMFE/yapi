@@ -7,7 +7,6 @@ import userModel from './models/user.js';
 yapi.commons = commons;
 yapi.connect = dbModule.connect();
 
-
 function install() {
     let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
 
@@ -34,10 +33,10 @@ function setupSql() {
 
     result.then(function () {
         fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
-        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`);
+        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
         process.exit(0);
     }, function (err) {
-        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`);
+        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
         process.exit(0);
     });
 }
