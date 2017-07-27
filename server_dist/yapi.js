@@ -25,6 +25,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var insts = new _map2.default();
 var mail = void 0;
 
+if (!_config2.default.runtime_path) {
+    _config2.default.runtime_path = _path2.default.join(_path2.default.resolve(__dirname, '../'), 'runtime');
+}
+
 var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
 var WEBROOT_RUNTIME = _config2.default.runtime_path;
