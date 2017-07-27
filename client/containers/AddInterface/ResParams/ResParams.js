@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import wangEditor from 'wangeditor'
-import { Tabs } from 'antd'
+import { Card } from 'antd'
 import { getResParams } from '../../../actions/addInterface.js'
 
 const editor = new wangEditor('#res-cover')
@@ -49,14 +49,11 @@ class ResParams extends Component {
   }
 
   render () {
-    const TabPane = Tabs.TabPane
     return (
       <section className="res-params-box">
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="返回参数" key="1">
-            <div id="res-cover"></div>
-          </TabPane>
-        </Tabs>
+        <Card title="返回 Mock" style={{ width: 500 }}>
+          <div id="res-cover"></div>
+        </Card>
       </section>
     )
   }

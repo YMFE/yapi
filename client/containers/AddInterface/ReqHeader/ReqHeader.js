@@ -57,7 +57,6 @@ class ReqHeader extends Component {
     return (
       <section>
         <div className="req-header">
-          <strong className="req-h3">请求头部 :</strong>
           <ul>
             { getReqList(this) }
           </ul>

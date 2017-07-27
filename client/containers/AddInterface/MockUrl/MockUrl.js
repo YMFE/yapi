@@ -36,8 +36,10 @@ class MockUrl extends Component {
   render () {
     return (
       <section className="mock-url-box">
+        <span>mock地址 : </span>
         <p id="mock-p">{this.props.mockURL}</p>
         <Button type="primary" id="mock-clipboard">复制</Button>
+        <div className="host">请配置host ***.***.***.*** www.xxx.com</div>
       </section>
     )
   }
