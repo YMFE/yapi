@@ -6,6 +6,7 @@
   font-size: .14rem;
   overflow-x: hidden;
   overflow-y: auto;
+  font-size: .12rem;
 
   .content {
     @include row-width-limit;
@@ -15,9 +16,33 @@
     background: #FFF;
     padding: 10px 20px 50px 20px;
 
+    .ant-tabs-content {
+      padding: 0 0 50px 0;
+    }
+  
+    .border {
+      zoom: 1;
+      overflow: hidden;
+    }
+
+    .ant-card-body {
+      padding: 0;
+    }
+
+    .ant-tabs-nav {
+      float: left;
+    }
+
+    .req-title {
+      margin: 40px 0 0 30px;
+      color: #666;
+      font-weight: normal;
+    }
+
     .save {
-      float: right;
-      margin: 0 0 10px 0;
+      position: absolute;
+      bottom: 0;
+      left: 550px;
     }
 
     .mock {
@@ -27,7 +52,7 @@
 
     table {
       width: 100%;
-      border-top: 1px #EEE solid;
+      margin: 20px 0 0 40px;
 
       th {
         padding:0 10px;
@@ -42,13 +67,15 @@
       }
 
       .h3 {
-        font-size: .14rem;
+        font-size: .12rem;
         margin: 0 10px 0 15px;
+        width: 100px;
+        display: inline-block;
+        text-align: right;
       }
 
       .url {
-        margin: 0 0 0 15px;
-        width: 61.2%;
+        width: 16%;
       }
     }
 
@@ -64,12 +91,12 @@
     .req-header {
       display: -webkit-box;
       line-height: 32px;
-      margin: 10px 0 0 0;
-      border-top: 1px #EEE solid;
+      margin: 10px 0 0 50px;
       padding: 15px 0 0 0;
 
       .req-h3 {
         line-height: 32px;
+        font-weight: normal;
       }
 
       ul {
@@ -100,14 +127,18 @@
     .req-params {
       display: -webkit-box;
       padding: 20px 0 0 0;
-      margin: 20px 0 0 0;
-      border-top: 1px #EEE solid;
+      margin: 20px 0 0 90px;
+      width: 650px;
+      .req-h3 {
+        font-weight: normal;
+      }
     }
 
     .res-params-box {
       display: inline-block;
       width: 530px;
       float: left;
+      margin: 30px 0 0 50px;
 
       /* .req-save.css */
       .res-params {
@@ -141,7 +172,7 @@
     .result {
       display: inline-block;
       line-height: 32px;
-      margin: 0 0 0 20px;
+      margin: 29px 0 0 20px;
       width: 500px;
       float: left;
 
@@ -177,16 +208,19 @@
   .mock-url-box {
     clear: both;
     padding: 10px 0 0 0;
-    margin: 0 0 0 20px;
+    margin: 10px 0 0 90px;
     p {
-      width: 70%;
+      width: 52.8%;
       height: 35px;
       line-height: 35px;
       border: 1px #DDD solid;
       display: inline-block;
       vertical-align: -4px;
-      margin: 0 10px 0 0;
+      margin: 0 10px 0 8px;
       padding: 0 0 0 10px;
+    }
+    .host {
+      margin: 10px 0 0 80px;
     }
   }
 
@@ -216,7 +250,7 @@ body {
     p, h1, h2, h3, h4, h5, table, pre {
       line-height: auto;
       margin: 0;
-      font-size: .14rem;
+      font-size: .12rem;
       color: #777;
       font-family: 'Microsoft Yahei';
       font-weight: normal;
@@ -255,14 +289,11 @@ body {
   background-color: #fff;
 }
 #req-cover {
-  height: 330px;
   padding: 0 20px;
   background-color: #FFF;
   -webkit-box-flex: 1;
 }
 #res-cover {
-  height: 330px;
-  padding: 0 20px;
   background-color: #FFF;
   -webkit-box-flex: 1;
 }

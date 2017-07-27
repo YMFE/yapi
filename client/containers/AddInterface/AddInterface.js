@@ -97,6 +97,7 @@ class AddInterface extends Component {
       props.getResParams('')
       props.addReqHeader(initData)
     }
+    document.querySelector('.w-e-text-container').style.height = '200px'
   }
 
   getInterfaceId () {
@@ -245,16 +246,17 @@ class AddInterface extends Component {
     return (
       <section className="add-interface-box">
         <div className="content">
-          <Tabs defaultActiveKey="1">
+          <Tabs type="card">
             <TabPane tab="接口详情" key="1">
-              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
-              <Button className="mock" onClick={this.mockData}>Mock</Button>
+              <h3 className="req-title">请求部分</h3>
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
+              <MockUrl mockURL={mockURL} />
+              <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
-              <MockUrl mockURL={mockURL} />
+              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
             </TabPane>
             <TabPane tab="请求接口" key="3">
               <InterfaceTest />
