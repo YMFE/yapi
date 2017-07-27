@@ -27,7 +27,7 @@ var mail = void 0;
 
 var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
-var WEBROOT_RUNTIME = _path2.default.join(WEBROOT, 'runtime');
+var WEBROOT_RUNTIME = _config2.default.runtime_path;
 var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
 var WEBCONFIG = _config2.default;
 
