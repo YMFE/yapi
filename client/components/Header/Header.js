@@ -16,10 +16,10 @@ const MenuUser = (props) => (
     "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
   }}
   >
-    <Menu.Item key="0" style={{"fontSize": ".14rem"}}>
+    <Menu.Item key="0">
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item key="1" style={{"fontSize": ".14rem"}}>
+    <Menu.Item key="1">
       <a onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
@@ -146,15 +146,19 @@ export default class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
-    const headerStyle = {
+    const headerImgStyle = login?{}:{
       'background': 'url(./image/header-bg-img.jpg) no-repeat',
       'backgroundSize':'100% 100%'
-    }
+    };
+    const headerShadeStyle = login? {
+      'padding':'0'
+    }: {
+      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))',
+      'padding':'0'
+    };
     return (
-      <acticle className={`header-box`} style={headerStyle}>
-        <Header style={{
-          background: "linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))"
-        }}>
+      <acticle className={`header-box`} style={headerImgStyle}>
+        <Header style={headerShadeStyle}>
           <div className="content">
             <div className="logo">
               <Link to="/" onClick={this.relieveLink}>YAPI</Link>

@@ -52,6 +52,8 @@ $color-white: #fff;
     }
   }
   .img-container{
+    height: 100%;
+    width: 100%;
     padding-right: .15rem;
     //background-image: url("#{$imgUrl}demo-img.png");
     img{

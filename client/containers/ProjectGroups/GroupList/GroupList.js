@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Icon, Modal, Input, message, Menu, Row, Col } from 'antd'
+import { Button, Icon, Popconfirm, Modal, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 const { TextArea } = Input;
 const Search = Input.Search;
-const confirm = Modal.confirm;
 const TYPE_EDIT = 'edit';
 
 import {
@@ -164,21 +163,15 @@ export default class GroupList extends Component {
   deleteGroup() {
     const self = this;
     const { currGroup } = self.props;
-    confirm({
-      title: `你确定要删除分组 ${currGroup.group_name}？`,
-      content: `分组简介：${currGroup.group_desc}`,
-      onOk() {
-        axios.post('/group/del', {id: currGroup._id}).then(res => {
-          if (res.data.errcode) {
-            message.error(res.data.errmsg);
-          } else {
-            message.success('删除成功');
-            self.props.fetchGroupList().then(() => {
-              const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
-              self.setState({groupList: self.props.groupList});
-              self.props.setCurrGroup(currGroup)
-            });
-          }
+    axios.post('/group/del', {id: currGroup._id}).then(res => {
+      if (res.data.errcode) {
+        message.error(res.data.errmsg);
+      } else {
+        message.success('删除成功');
+        self.props.fetchGroupList().then(() => {
+          const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
+          self.setState({groupList: self.props.groupList});
+          self.props.setCurrGroup(currGroup)
         });
       }
     });
@@ -205,7 +198,9 @@ export default class GroupList extends Component {
             <div className="curr-group-name">
               <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
               <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
-              <Icon className="delete-group" type="delete" title="删除分组" onClick={this.deleteGroup}/>
+              <Popconfirm title={`你确定要删除分组 ${currGroup.group_name}？`} onConfirm={this.deleteGroup}>
+                <Icon className="delete-group" type="delete" title="删除分组"/>
+              </Popconfirm>
             </div>
             <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
           </div>

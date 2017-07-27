@@ -2,8 +2,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import config from '../config.js';
 
-fs.ensureDirSync( path.join(path.resolve(__dirname, '../../'), 'runtime') );
-let configPath =  path.join(path.resolve(__dirname, '../../'), 'runtime', 'config.json') 
+let runtimePath = config.runtime_path;
+fs.ensureDirSync( runtimePath );
+fs.ensureDirSync( path.join(runtimePath, 'log'));
+let configPath =  path.join(runtimePath, 'config.json') 
 
 fs.writeFileSync(configPath,
   JSON.stringify(config, null, '\t'),
