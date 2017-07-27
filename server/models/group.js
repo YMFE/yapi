@@ -1,57 +1,61 @@
-import yapi from '../yapi.js'
-import mongoose from 'mongoose'
-import baseModel from './base.js'
+import yapi from '../yapi.js';
+import mongoose from 'mongoose';
+import baseModel from './base.js';
 
-class groupModel extends baseModel{
-    getName(){
-        return 'group'
+class groupModel extends baseModel {
+    getName() {
+        return 'group';
     }
 
-    getSchema(){
+    getSchema() {
         return {
             uid: Number,
             group_name: String,
             group_desc: String,
             add_time: Number,
             up_time: Number
-        }
+        };
     }
 
     save(data) {
         let m = new this.model(data);
         return m.save();
     }
-    checkRepeat(name)  {
+
+    checkRepeat(name) {
         return this.model.count({
             group_name: name
-        })
+        });
     }
-    list(){
-        return this.model.find().select("group_name _id group_desc add_time up_time").exec()
+
+    list() {
+        return this.model.find().select("group_name _id group_desc add_time up_time").exec();
     }
-    del (id) {
+
+    del(id) {
         return this.model.deleteOne({
             _id: id
-        })
+        });
     }
-    up (id, data) {
-        return this.model.update({
-            _id: id,
-        }, {
-            group_name: data.group_name,
-            group_desc: data.group_desc,
-            up_time: yapi.commons.time()
-        })
+
+    up(id, data) {
+        return this.model.update(
+            {
+                _id: id
+            }, {
+                group_name: data.group_name,
+                group_desc: data.group_desc,
+                up_time: yapi.commons.time()
+            }
+        );
     }
 
     search(keyword) {
         return this.model.find({
             group_name: new RegExp(keyword, 'i')
         })
-        .limit(10)
+            .limit(10);
     }
-
 }
 
-
-module.exports= groupModel
+module.exports = groupModel;
