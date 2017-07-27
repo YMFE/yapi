@@ -120,7 +120,7 @@
     }
 
     .req-save, .res-save {
-      margin: 5px 0 0 107px;
+      margin: 5px 0 0 159px;
     }
 
     /* .req-params.css */
@@ -129,6 +129,7 @@
       padding: 20px 0 0 0;
       margin: 20px 0 0 90px;
       width: 650px;
+      height: 200px;
       .req-h3 {
         font-weight: normal;
       }
@@ -186,8 +187,7 @@
         padding: 10px;
         box-sizing: border-box;
         width: 100%;
-        border: 1px #CCC solid;
-        height: 300px;
+        height: 330px;
         overflow-x: hidden;
         overflow-y: auto;
         line-height: 1.2;
@@ -290,10 +290,14 @@ body {
 }
 #req-cover {
   padding: 0 20px;
-  background-color: #FFF;
+  border: 1px #DDD solid;
+  // background-color: #FFF;
   -webkit-box-flex: 1;
+  margin: 0 0 0 15px;
 }
 #res-cover {
   background-color: #FFF;
+  height: 330px;
+  padding: 0 20px;
   -webkit-box-flex: 1;
 }

@@ -31,13 +31,15 @@ const success = () => {
 
 @connect(
   state => {
+    console.log(state)
     return {
       reqParams: state.addInterface.reqParams,
       resParams: state.addInterface.resParams,
       method: state.addInterface.method,
       url: state.addInterface.url,
       seqGroup: state.addInterface.seqGroup,
-      interfaceName: state.addInterface.interfaceName
+      interfaceName: state.addInterface.interfaceName,
+      server_ip: state.login.server_ip
     }
   },
   {
@@ -56,6 +58,7 @@ class AddInterface extends Component {
   static propTypes = {
     url: PropTypes.string,
     method: PropTypes.string,
+    server_ip: PropTypes.string,
     reqParams: PropTypes.string,
     resParams: PropTypes.string,
     seqGroup: PropTypes.array,
@@ -241,8 +244,9 @@ class AddInterface extends Component {
 
   render () {
     const TabPane = Tabs.TabPane
+    const { server_ip } = this.props
     const { isLoading, isSave, mockJson='', mockURL } = this.state
-
+    
     return (
       <section className="add-interface-box">
         <div className="content">
@@ -252,7 +256,7 @@ class AddInterface extends Component {
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
-              <MockUrl mockURL={mockURL} />
+              <MockUrl mockURL={mockURL} serverIp={server_ip} />
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />

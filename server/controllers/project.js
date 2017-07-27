@@ -1,32 +1,32 @@
-import projectModel from '../models/project.js'
-import yapi from '../yapi.js'
-import baseController from './base.js'
-import interfaceModel from '../models/interface.js'
-import groupModel from '../models/group'
-import commons from '../utils/commons.js'
-import userModel from '../models/user.js'
+import projectModel from '../models/project.js';
+import yapi from '../yapi.js';
+import baseController from './base.js';
+import interfaceModel from '../models/interface.js';
+import groupModel from '../models/group';
+import commons from '../utils/commons.js';
+import userModel from '../models/user.js';
 
 class projectController extends baseController {
 
-    constructor(ctx){
-        super(ctx)
+    constructor(ctx) {
+        super(ctx);
         this.Model = yapi.getInst(projectModel);
         this.groupModel = yapi.getInst(groupModel);
     }
 
-    handleBasepath(basepath){
-        if(!basepath) return false;
-        if(basepath[0] !== '/') basepath = '/' + basepath;
-        if(basepath[basepath.length -1] === '/') basepath = basepath.substr(0, basepath.length -1)
-        if(!yapi.commons.verifyPath(basepath)){
+    handleBasepath(basepath) {
+        if (!basepath) return false;
+        if (basepath[0] !== '/') basepath = '/' + basepath;
+        if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
+        if (!yapi.commons.verifyPath(basepath)) {
             return false;
         }
         return basepath;
     }
 
-    verifyDomain(domain){
-        if(!domain) return false;
-        if(/^[a-zA-Z0-9\-_\.]+?\.[a-zA-Z0-9\-_\.]*?[a-zA-Z]{2,6}$/.test(domain)){
+    verifyDomain(domain) {
+        if (!domain) return false;
+        if (/^[a-zA-Z0-9\-_\.]+?\.[a-zA-Z0-9\-_\.]*?[a-zA-Z]{2,6}$/.test(domain)) {
             return true;
         }
         return false;
@@ -56,38 +56,40 @@ class projectController extends baseController {
             protocol: 'string',
             group_id: 'number',
             desc: 'string'
-        })
-        if(!params.group_id){
+        });
+        if (!params.group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
-        if(!params.name){
+        if (!params.name) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目名不能为空');
         }
 
         let checkRepeat = await this.Model.checkNameRepeat(params.name);
-        if(checkRepeat > 0){
-            return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的项目名');
+
+        if (checkRepeat > 0) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
 
-        if(!params.basepath){
+        if (!params.basepath) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目basepath不能为空');
         }
-        if(!params.prd_host){
+        if (!params.prd_host) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
 
-        if((params.basepath = this.handleBasepath(params.basepath)) === false){
-            return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+        if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
+            return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
         }
 
-        if(!this.verifyDomain(params.prd_host)){
-            return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+        if (!this.verifyDomain(params.prd_host)) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误');
         }
 
         let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
-        if(checkRepeatDomain > 0){
-            return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
+
+        if (checkRepeatDomain > 0) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
 
         let data = {
@@ -101,78 +103,78 @@ class projectController extends baseController {
             group_id: params.group_id,
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
-        }
+        };
 
-        try{
+        try {
             let result = await this.Model.save(data);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
 
     }
-     /**
-     * 添加项目
-     * @interface /project/add_member
-     * @method POST
-     * @category project
-     * @foldnumber 10
-     * @param {Number} id 项目id，不能为空
-     * @param {String} member_uid 项目成员uid,不能为空
-     * @returns {Object}
-     * @example ./api/project/add_member.json
-     */
-    async addMember(ctx){
+    /**
+    * 添加项目
+    * @interface /project/add_member
+    * @method POST
+    * @category project
+    * @foldnumber 10
+    * @param {Number} id 项目id，不能为空
+    * @param {String} member_uid 项目成员uid,不能为空
+    * @returns {Object}
+    * @example ./api/project/add_member.json
+    */
+    async addMember(ctx) {
         let params = ctx.request.body;
-        if(!params.member_uid){
+        if (!params.member_uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
         }
-        if(!params.id){
+        if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
         var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
-        if(check > 0){
-             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
+        if (check > 0) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
-        try{
+        try {
             let result = await this.Model.addMember(params.id, params.member_uid);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
 
     }
-     /**
-     * 添加项目
-     * @interface /project/del_member
-     * @method POST
-     * @category project
-     * @foldnumber 10
-     * @param {Number} id 项目id，不能为空
-     * @param {member_uid} uid 项目成员uid,不能为空
-     * @returns {Object}
-     * @example ./api/project/del_member.json
-     */
+    /**
+    * 添加项目
+    * @interface /project/del_member
+    * @method POST
+    * @category project
+    * @foldnumber 10
+    * @param {Number} id 项目id，不能为空
+    * @param {member_uid} uid 项目成员uid,不能为空
+    * @returns {Object}
+    * @example ./api/project/del_member.json
+    */
 
-    async delMember(ctx){
+    async delMember(ctx) {
         let params = ctx.request.body;
-        if(!params.member_uid){
+        if (!params.member_uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
         }
-        if(!params.id){
+        if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
         var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
-        if(check === 0){
-             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
+        if (check === 0) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
         }
 
-         try{
+        try {
             let result = await this.Model.delMember(params.id, params.member_uid);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -189,7 +191,7 @@ class projectController extends baseController {
 
     async getMemberList(ctx) {
         let params = ctx.request.query;
-        if(!params.id) {
+        if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
@@ -199,32 +201,32 @@ class projectController extends baseController {
             let result = await userInst.findByUids(project.members);
 
             ctx.body = yapi.commons.resReturn(result);
-        } catch(e) {
+        } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
-     /**
-     * 添加项目
-     * @interface /project/get
-     * @method GET
-     * @category project
-     * @foldnumber 10
-     * @param {Number} id 项目id，不能为空
-     * @returns {Object}
-     * @example ./api/project/get.json
-     */
+    /**
+    * 添加项目
+    * @interface /project/get
+    * @method GET
+    * @category project
+    * @foldnumber 10
+    * @param {Number} id 项目id，不能为空
+    * @returns {Object}
+    * @example ./api/project/get.json
+    */
 
-    async get(ctx){
+    async get(ctx) {
         let params = ctx.request.query;
-        if(!params.id){
+        if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        try{
+        try {
             let result = await this.Model.get(params.id);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -246,31 +248,31 @@ class projectController extends baseController {
             page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10;
 
-        if(!group_id){
+        if (!group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
-        try{
+        try {
             let result = await this.Model.listWithPaging(group_id, page, limit);
             let count = await this.Model.listCount(group_id);
             let uids = [];
-            result.forEach( (item)=> {
-                if(uids.indexOf(item.uid) === -1){
-                    uids.push(item.uid)
+            result.forEach((item) => {
+                if (uids.indexOf(item.uid) === -1) {
+                    uids.push(item.uid);
                 }
 
-            } )
+            });
             let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
-            users.forEach((item)=> {
+            users.forEach((item) => {
                 _users[item._id] = item;
-            } )
+            });
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
                 list: result,
                 userinfo: _users
-            })
-        }catch(e){
-             ctx.body = yapi.commons.resReturn(null, 402, e.message)
+            });
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -285,25 +287,25 @@ class projectController extends baseController {
      * @example ./api/project/del.json
      */
 
-    async del(ctx){
-        try{
+    async del(ctx) {
+        try {
             let id = ctx.request.body.id;
-            if(!id){
+            if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
             let interfaceInst = yapi.getInst(interfaceModel);
             let count = await interfaceInst.countByProjectId(id);
-            if(count > 0){
+            if (count > 0) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
             }
 
-            if(await this.jungeProjectAuth(id) !== true){
+            if (await this.jungeProjectAuth(id) !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result);
-        }catch(err){
-             ctx.body = yapi.commons.resReturn(null, 402, e.message)
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
 
@@ -325,8 +327,8 @@ class projectController extends baseController {
      * @example ./api/project/up.json
      */
 
-    async up(ctx){
-        try{
+    async up(ctx) {
+        try {
             let id = ctx.request.body.id;
             let params = ctx.request.body;
             params = yapi.commons.handleParams(params, {
@@ -336,65 +338,65 @@ class projectController extends baseController {
                 protocol: 'string',
                 group_id: 'number',
                 desc: 'string'
-            })
-            if(!id){
+            });
+            if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
             }
 
-            if(await this.jungeMemberAuth(id, this.getUid()) !== true){
+            if (await this.jungeMemberAuth(id, this.getUid()) !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
 
             let projectData = await this.Model.get(id);
 
-            if((params.basepath = this.handleBasepath(params.basepath)) === false){
-                return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误')
+            if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
+                return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
             }
 
-            if(!this.verifyDomain(params.prd_host)){
-                return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误')
+            if (!this.verifyDomain(params.prd_host)) {
+                return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误');
             }
 
-            if(projectData.name === params.name){
+            if (projectData.name === params.name) {
                 delete params.name;
             }
-            if(projectData.basepath === params.basepath && projectData.prd_host === params.prd_host){
-                delete params.basepath
-                delete params.prd_host
+            if (projectData.basepath === params.basepath && projectData.prd_host === params.prd_host) {
+                delete params.basepath;
+                delete params.prd_host;
             }
 
-            if(params.name){
+            if (params.name) {
                 let checkRepeat = await this.Model.checkNameRepeat(params.name);
-                if(checkRepeat > 0){
-                    return ctx.body =  yapi.commons.resReturn(null, 401, '已存在的项目名');
+                if (checkRepeat > 0) {
+                    return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
                 }
             }
 
-            if(params.basepath && params.prd_host){
+            if (params.basepath && params.prd_host) {
                 let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
-                if(checkRepeatDomain > 0){
-                    return ctx.body =  yapi.commons.resReturn(null, 401, '已存在domain和basepath');
+                if (checkRepeatDomain > 0) {
+                    return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
                 }
             }
 
-            let data= {
+            let data = {
                 uid: this.getUid(),
                 up_time: yapi.commons.time()
-            }
+            };
 
-            if(params.name) data.name = params.name;
-            if(params.desc) data.desc = params.desc;
-            if(params.prd_host && params.basepath){
+            if (params.name) data.name = params.name;
+            if (params.desc) data.desc = params.desc;
+            if (params.prd_host && params.basepath) {
                 data.prd_host = params.prd_host;
                 data.basepath = params.basepath;
             }
-            if(params.protocol) data.protocol = params.protocol;
-            if(params.env) data.env = params.env;
+            if (params.protocol) data.protocol = params.protocol;
+            if (params.env) data.env = params.env;
 
             let result = await this.Model.up(id, data);
-            ctx.body = yapi.commons.resReturn(result)
-        }catch(e){
-             ctx.body = yapi.commons.resReturn(null, 402, e.message)
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -412,11 +414,11 @@ class projectController extends baseController {
         const { q } = ctx.request.query;
 
         if (!q) {
-            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.')
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.');
         }
 
         if (!yapi.commons.validateSearchKeyword(q)) {
-            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.')
+            return ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.');
         }
 
         let projectList = await this.Model.search(q);
@@ -436,7 +438,7 @@ class projectController extends baseController {
         let groupRules = [
             '_id',
             'uid',
-            { key: 'group_name', alias: 'groupName'},
+            { key: 'group_name', alias: 'groupName' },
             { key: 'group_desc', alias: 'groupDesc' },
             { key: 'add_time', alias: 'addTime' },
             { key: 'up_time', alias: 'upTime' }
@@ -450,7 +452,7 @@ class projectController extends baseController {
             group: groupList
         };
 
-        return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok')
+        return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok');
     }
 }
 

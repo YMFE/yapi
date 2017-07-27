@@ -96,7 +96,7 @@ class projectModel extends baseModel {
     up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({
-            _id: id,
+            _id: id
         }, data, { runValidators: true });
     }
 
