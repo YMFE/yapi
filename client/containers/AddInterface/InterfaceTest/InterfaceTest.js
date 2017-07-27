@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card } from 'antd'
+import { Button, Input, Select, Card, Alert } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
@@ -167,6 +167,10 @@ export default class InterfaceTest extends Component {
     this.setState({ params });
   }
 
+  hasCrossRequestPlugin() {
+    const dom = document.getElementById('y-request');
+    return dom.getAttribute('key') === 'yapi';
+  }
 
   render () {
 
@@ -175,10 +179,29 @@ export default class InterfaceTest extends Component {
     const search = URL.format({
       query
     });
+    const hasPlugin = this.hasCrossRequestPlugin();
 
 
     return (
       <div className="interface-test">
+        <div style={{padding: '0 20%'}}>
+          { hasPlugin ? '' :
+          <Alert
+            message={
+              <div>
+                温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
+                <a
+                  target="blank"
+                  href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                >
+                  测试增强插件 [点击获取]！
+                </a>
+              </div>
+            }
+            type="warning"
+          />
+          }
+        </div>
         <div className="interface-name">{interfaceName}</div>
         <div className="req-part">
           <div className="req-row href">
