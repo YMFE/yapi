@@ -108,7 +108,7 @@ class List extends Component {
           <span>            
             <Link to={"/user/profile/" + item._id} >查看</Link>
             <span className="ant-divider" />
-            <Popconfirm placement="leftTop" title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="Yes" cancelText="No">
+            <Popconfirm title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="确定" cancelText="取消">
               <a href="#">删除</a>
             </Popconfirm>
           </span>

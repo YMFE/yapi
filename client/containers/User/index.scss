@@ -1,5 +1,10 @@
 @import '../../styles/mixin.scss';
 
+.g-doc {
+  margin: .24rem auto;
+  min-height: 5rem;
+}
+
 /* .user-box.css */
 .user-box {
   @include row-width-limit;
@@ -15,23 +20,29 @@
 
 
   .user-list {
-    width: 216px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
     margin-top: 15px;
     .search{
-      margin: 5px;
+      padding: 5px;
+      background-color: #eee;
     }
     ul{border:none}
+    .ant-menu-item{
+      font-size: 14px;
+    }
   }
   .user-name{
-    padding: 10px 0px;
-    text-align: center;
+    padding: 24px 10px;
+    // text-align: center;
     background-color: #34495e;
     color: white;
+    font-size: 16px;
+    border-top-left-radius:5px;
+    border-top-right-radius: 5px;
     span{
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
   .router-content{
@@ -59,7 +70,7 @@
     -webkit-box-flex: 1;
     margin-top: 15px;
     margin-left: 15px;
-    padding: 10px 30px;
+    padding: 24px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
@@ -67,11 +78,24 @@
       min-height:35px;
       line-height:35px;
       margin: 5px;
+      margin-left: 0px;
       margin-bottom:10px;
       border-bottom: 1px solid #f1f3f6;
       padding-bottom: 10px;
+      #old_password,#password,#verify_pass{
+        margin-top: 20px;
+      }
+      #old_password{
+        margin-top: 0px;
+      }
+      .ant-col-12{
+        .ant-input{
+          width: 70%;
+          margin-right: 24px;
+        }
+      }
       .ant-col-4{
-        color: black;
+        color: rgba(0,0,0,0.85);
         padding: 0px 10px;
         text-indent: .7em;
         // background-color: #f1f3f6;
@@ -87,13 +111,13 @@
         cursor: pointer
       }
 
-      .edit-buttons{
-        margin:10px;
-      }
+      // .edit-buttons{
+      //   margin:10px;
+      // }
 
-      .edit-button{
-        margin: 5px;
-      }
+      // .edit-button{
+      //   margin: 5px;
+      // }
     }
   }
 

@@ -37,6 +37,7 @@ module.exports = {
             "error",
             "always"
         ],
-        "strict": 0
+        "strict": 0,
+        "comma-dangle": ["error", "never"]
     }
 };
