@@ -1,5 +1,4 @@
 import yapi from '../yapi.js';
-import mongoose from 'mongoose';
 import baseModel from './base.js';
 
 class groupModel extends baseModel {
@@ -29,7 +28,7 @@ class groupModel extends baseModel {
     }
 
     list() {
-        return this.model.find().select("group_name _id group_desc add_time up_time").exec();
+        return this.model.find().select('group_name _id group_desc add_time up_time').exec();
     }
 
     del(id) {

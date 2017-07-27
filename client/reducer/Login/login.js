@@ -26,7 +26,8 @@ export default (state = initialState, action) => {
         isLogin: (action.payload.data.errcode == 0),
         loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
-        uid: action.payload.data.data ? action.payload.data.data._id : null
+        uid: action.payload.data.data ? action.payload.data.data._id : null,
+        server_ip: action.payload.data.data.server_ip
       };
     }
     case LOGIN: {
@@ -36,7 +37,8 @@ export default (state = initialState, action) => {
           isLogin: true,
           loginState: MEMBER_STATUS,
           uid: action.payload.data.data.uid,
-          userName: action.payload.data.data.username
+          userName: action.payload.data.data.username,
+          server_ip: action.payload.data.data.server_ip
         };
       } else {
         return state;

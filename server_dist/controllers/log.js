@@ -103,6 +103,7 @@ var logController = function (_baseController) {
                             case 9:
                                 count = _context.sent;
 
+
                                 ctx.body = _yapi2.default.commons.resReturn({
                                     total: Math.ceil(count / limit),
                                     list: result
@@ -114,7 +115,7 @@ var logController = function (_baseController) {
                                 _context.prev = 13;
                                 _context.t0 = _context['catch'](3);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, e.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
                             case 16:
                             case 'end':

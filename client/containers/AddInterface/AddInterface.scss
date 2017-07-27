@@ -2,6 +2,7 @@
 
 .add-interface-box {
   -webkit-box-flex: 1;
+  min-height: 5rem;
   font-size: .14rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -256,12 +257,12 @@ body {
 #req-cover {
   height: 330px;
   padding: 0 20px;
-  background-color: #FFF;
+  // background-color: #FFF;
   -webkit-box-flex: 1;
 }
 #res-cover {
   height: 330px;
   padding: 0 20px;
-  background-color: #FFF;
+  /*background-color: #FFF;*/
   -webkit-box-flex: 1;
 }

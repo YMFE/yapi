@@ -78,7 +78,7 @@ class Interface extends Component {
   render () {
     const { interfaceData, projectMember, modalVisible } = this.props
     return (
-      <div>
+      <div className="g-doc">
         <section className="interface-box">
           <InterfaceList projectMember={projectMember} />
           <InterfaceMode modalVisible={modalVisible} closeProjectMember={this.props.closeProjectMember} />
