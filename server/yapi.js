@@ -8,7 +8,7 @@ let mail;
 
 const WEBROOT = path.resolve(__dirname, '..'); //路径
 const WEBROOT_SERVER = __dirname;
-const WEBROOT_RUNTIME = path.join(WEBROOT, 'runtime');
+const WEBROOT_RUNTIME = config.runtime_path;
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
 const WEBCONFIG = config;
 

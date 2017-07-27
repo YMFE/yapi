@@ -1,5 +1,11 @@
-module.exports = {
+import path from 'path'
+/**
+ * config.js是用来第一次安装初始化网站配置，如果不用默认的runtime_path，可以直接修改runtime_path路径
+ */
+let runtime_path = path.join(path.resolve(__dirname, '../'), 'runtime')
+let config = {
   "port": 80,
+  "runtime_path": runtime_path,
   "webhost": "yapi.local.qunar.com",
   "adminAccount": "admin@admin.com",
   "db": {
@@ -17,3 +23,7 @@ module.exports = {
     }
   }
 }
+
+module.exports = config
+
+
