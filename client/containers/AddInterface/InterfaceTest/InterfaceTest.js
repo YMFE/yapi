@@ -239,7 +239,7 @@ export default class InterfaceTest extends Component {
               style={{marginLeft: 10}}
               loading={this.state.loading}
             >发送</Button>
-            <span style={{fontSize: 12}}>（请求测试真实接口）</span>
+            <span style={{fontSize: 12, color: 'rgba(0, 0, 0, 0.25)'}}>（请求测试真实接口）</span>
           </div>
           <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
             <div className="req-row headers">
@@ -294,10 +294,9 @@ export default class InterfaceTest extends Component {
         <Card title="返回结果" noHovering style={{marginTop: 10}}>
           <Spin spinning={this.state.loading}>
             <div className="res-part">
-              <div>
+              <div style={{padding: 10}}>
                 <TextArea
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
-                  style={{margin: 10}}
                   autosize={{ minRows: 2, maxRows: 6 }}
                 ></TextArea>
               </div>
