@@ -6,17 +6,37 @@
 <title>my yApi</title>
 <script>
     document.write('<script src="prd/assets.js?v=' + Math.random() + '"><\/script>');
+    console.log(window)
 </script>
+
+
+
+
 <script>
     document.write('<link rel="stylesheet"  href="/prd/' + window.WEBPACK_ASSETS['index.js'].css + '" />');
 </script>
 
-<script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
 </head>
 <body>
 <div id="yapi" style="height: 100%;"></div>
+
+
+<script>
+    document.write('<script src="/prd/' + window.WEBPACK_ASSETS['manifest'].js + '"><\/script>');
+</script>
+<script>
+    document.write('<script src="/prd/' + window.WEBPACK_ASSETS['lib2'].js + '"><\/script>');
+</script>
+<script>
+    document.write('<script src="/prd/' + window.WEBPACK_ASSETS['lib'].js + '"><\/script>');
+</script>
+
 <script>
     document.write('<script src="/prd/' + window.WEBPACK_ASSETS['index.js'].js + '"><\/script>');
 </script>
+
+<script src="/lib/ace-1.2.8.js"></script>
+<script src="/lib/mode-json-1.2.8.js"></script>
+<script src="https://qsso.corp.qunar.com/lib/qsso-auth.js"></script>
 </body>
 </html>
