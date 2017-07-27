@@ -16,7 +16,7 @@ var _nodemailer = require('nodemailer');
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
 
-var _config = require('../../config.json');
+var _config = require('../config.json');
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -58,7 +58,7 @@ function delInst(m) {
     try {
         insts.delete(m);
     } catch (err) {
-        console.error(err);
+        console.error(err); // eslint-disable-line
     }
 }
 

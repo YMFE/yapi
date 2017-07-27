@@ -1,5 +1,9 @@
 @import '../../styles/mixin.scss';
 
+.g-doc {
+  min-height: 5rem;
+}
+
 /* .interface-box.css */
 .interface-box {
   @include row-width-limit;
