@@ -154,6 +154,7 @@ var baseController = function () {
         key: 'getLoginStatus',
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+                var result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -165,16 +166,19 @@ var baseController = function () {
                                 _context3.t0 = _context3.sent;
 
                                 if (!(_context3.t0 === true)) {
-                                    _context3.next = 5;
+                                    _context3.next = 7;
                                     break;
                                 }
 
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(_yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time'])));
+                                result = _yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time']);
 
-                            case 5:
+                                result.server_ip = _yapi2.default.WEBCONFIG.server_ip;
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+
+                            case 7:
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 300, 'Please login.'));
 
-                            case 6:
+                            case 8:
                             case 'end':
                                 return _context3.stop();
                         }

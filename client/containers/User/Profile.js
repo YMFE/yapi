@@ -22,7 +22,7 @@ class Profile extends Component {
 
       }
     }
-    
+
   }
 
   componentDidMount(){
@@ -51,7 +51,7 @@ class Profile extends Component {
     let value = this.state._userinfo[name];
     let params = {uid: state.userinfo.uid}
     params[name] = value;
-    
+
     axios.post('/user/update', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
@@ -66,7 +66,7 @@ class Profile extends Component {
       }else{
         message.error(data.errmsg)
       }
-      
+
     }, (err) => {
       message.error(err.message)
     } )
@@ -104,8 +104,8 @@ class Profile extends Component {
       password: password,
       old_password: old_password
     }
-    
-    
+
+
     axios.post('/user/change_password', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
@@ -114,11 +114,11 @@ class Profile extends Component {
       }else{
         message.error(data.errmsg)
       }
-      
+
     }, (err) => {
       message.error(err.message)
     } )
-    
+
   }
 
   render() {
@@ -138,8 +138,8 @@ class Profile extends Component {
       userNameEditHtml = <div>
         <Input value={_userinfo.username} name="username" onChange={this.changeUserinfo} placeholder="用户名"  />
         <ButtonGroup className="edit-buttons" >
-          <Button  className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >Cancel</Button>
-          <Button  className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >取消</Button>
+          <Button  className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">确定</Button>
         </ButtonGroup>
       </div>
     }
@@ -154,8 +154,8 @@ class Profile extends Component {
       emailEditHtml = <div>
         <Input placeholder="Email" value={_userinfo.email} name="email" onChange={this.changeUserinfo} />
         <ButtonGroup className="edit-buttons" >
-          <Button  className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >Cancel</Button>
-          <Button  className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >取消</Button>
+          <Button  className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>确定</Button>
         </ButtonGroup>
       </div>
     }
@@ -182,8 +182,8 @@ class Profile extends Component {
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
-          <Button  className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>Cancel</Button>
-          <Button  className="edit-button" onClick={this.updatePassword} type="primary">OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>取消</Button>
+          <Button  className="edit-button" onClick={this.updatePassword} type="primary">确定</Button>
         </ButtonGroup>
       </div>
     }

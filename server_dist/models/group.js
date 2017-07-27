@@ -24,10 +24,6 @@ var _yapi = require('../yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
 
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -74,7 +70,7 @@ var groupModel = function (_baseModel) {
     }, {
         key: 'list',
         value: function list() {
-            return this.model.find().select("group_name _id group_desc add_time up_time").exec();
+            return this.model.find().select('group_name _id group_desc add_time up_time').exec();
         }
     }, {
         key: 'del',
