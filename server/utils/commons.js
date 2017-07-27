@@ -109,7 +109,7 @@ exports.sendMail = (options, cb) => {
     }
     try {
         yapi.mail.sendMail({
-            from: yapi.WEBCONFIG.mail.auth.user,
+            from: yapi.WEBCONFIG.mail.from,
             to: options.to,
             subject: 'yapi平台',
             html: options.contents
