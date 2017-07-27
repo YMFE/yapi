@@ -39,7 +39,7 @@ class LeftMenu extends Component {
     this.interval = setInterval(() => {
       if (this.searchSign === this._searchSign) {
         this.interval = clearInterval(this.interval)
-        axios.get('/user/search?q=' + value).then((res) => {          
+        axios.get('/user/search?q=' + value).then((res) => {
           if (res.data.errcode === 0) {
             this.setState({
               dataSource: res.data.data
@@ -103,7 +103,7 @@ class LeftMenu extends Component {
           </div>
         </Col>
       </Row>
-      <Menu mode='inline' defaultSelectedKeys={[location.hash]}>
+      <Menu mode='inline' defaultSelectedKeys={[location.hash]} className="user-nav">
         {content}
       </Menu>
     </div>
