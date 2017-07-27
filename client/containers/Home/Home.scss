@@ -1,4 +1,5 @@
 @import '../../styles/common.scss';
+@import '../../styles/mixin.scss';
 
 $color-white : #fff;
 $color-blue-lighter : #f1f5ff;
@@ -47,10 +48,10 @@ $color-black-lighter: #404040;
     display: flex;
     align-items: center;
     height: 100%;
-    max-width: 11rem;
+    @include row-width-limit;
     margin: 1rem auto 0;
     .user-des{
-      max-width: 11rem;
+      @include row-width-limit;
       margin: 0 auto .5rem;
       text-align: center;
       .title{
@@ -106,7 +107,7 @@ $color-black-lighter: #404040;
     }
   }
   .container{
-    max-width: 11rem;
+    @include row-width-limit;
     margin: 0 auto;
     height:100%;
     position: relative;
@@ -154,5 +155,3 @@ $color-black-lighter: #404040;
     }
   }
 }
-
-

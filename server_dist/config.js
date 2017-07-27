@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  "port": "3000",
+  "port": 80,
   "webhost": "yapi.local.qunar.com",
   "adminAccount": "admin@admin.com",
   "db": {
@@ -11,6 +11,7 @@ module.exports = {
   },
   "mail": {
     "host": "smtp.mail.com",
+    "from": "****@mail.com",
     "port": 4652,
     "auth": {
       "user": "****@mail.com",
