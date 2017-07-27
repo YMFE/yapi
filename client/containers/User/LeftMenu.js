@@ -83,7 +83,7 @@ class LeftMenu extends Component {
     const { dataSource } = this.state;
     return (<div className="user-list">
       <div className='cur-user'>
-        <div className='user-name'><span>用户名 : </span>{`${this.props.curUserName}`}</div>
+        <div className='user-name'><span>用户名 :</span>{`${this.props.curUserName}`}</div>
       </div>
       <Row type="flex" justify="start" className="search">
         <Col span="24">

@@ -132,7 +132,7 @@ class Profile extends Component {
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
         {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>
+        <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>
       </div>
     } else {
       userNameEditHtml = <div>
@@ -148,14 +148,14 @@ class Profile extends Component {
       emailEditHtml = <div >
         <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
       </div>
     } else {
       emailEditHtml = <div>
         <Input placeholder="Email" value={_userinfo.email} name="email" onChange={this.changeUserinfo} />
         <ButtonGroup className="edit-buttons" >
-          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >Cancel</Button>
-          <Button size={'small'} className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('emailEdit', false) }} >Cancel</Button>
+          <Button  className="edit-button" type="primary" onClick={ () => { this.updateUserinfo('email')} }>OK</Button>
         </ButtonGroup>
       </div>
     }
@@ -164,7 +164,7 @@ class Profile extends Component {
       roleEditHtml = <div>
         <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>
+        <Button  icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>
       </div>
     } else {
       roleEditHtml = <Select defaultValue={_userinfo.role} onChange={ this.changeRole} style={{ width: 150 }} >
@@ -175,15 +175,15 @@ class Profile extends Component {
     }
 
     if (this.state.secureEdit === false) {
-      secureEditHtml = <Button size={'small'} icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
+      secureEditHtml = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
     } else {
       secureEditHtml = <div>
         <Input style={{display: this.state.userinfo.role === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
-          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>Cancel</Button>
-          <Button size={'small'} className="edit-button" onClick={this.updatePassword} type="primary">OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('secureEdit', false) }}>Cancel</Button>
+          <Button  className="edit-button" onClick={this.updatePassword} type="primary">OK</Button>
         </ButtonGroup>
       </div>
     }
