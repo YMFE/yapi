@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
@@ -111,7 +111,8 @@ export default class InterfaceTest extends Component {
       params,
       paramsNotJson,
       headers,
-      currDomain: domains.prd
+      currDomain: domains.prd,
+      loading: false
     });
   }
 
@@ -128,6 +129,8 @@ export default class InterfaceTest extends Component {
       query
     });
 
+    this.setState({ loading: true })
+
     crossRequest({
       url: href,
       method,
@@ -136,6 +139,7 @@ export default class InterfaceTest extends Component {
       success: (res, header) => {
         console.log(header)
         this.setState({res})
+        this.setState({ loading: false })
       }
     })
   }
@@ -219,7 +223,12 @@ export default class InterfaceTest extends Component {
               </Select>
               <Input value={pathname+search} disabled style={{display: 'inline-block', width: 300}} />
             </InputGroup>
-            <Button onClick={this.testInterface} type="primary" style={{marginLeft: 10}}>发送</Button>
+            <Button
+              onClick={this.testInterface}
+              type="primary"
+              style={{marginLeft: 10}}
+              loading={this.state.loading}
+            >发送</Button>
           </div>
           <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
             <div className="req-row headers">
@@ -272,15 +281,17 @@ export default class InterfaceTest extends Component {
           </Card>
         </div>
         <Card title="返回结果" noHovering style={{marginTop: 10}}>
-          <div className="res-part">
-            <div>
-              <TextArea
-                value={this.state.res ? JSON.stringify(this.state.res, 2) : ''}
-                style={{margin: 10}}
-                autosize={{ minRows: 2, maxRows: 6 }}
-              ></TextArea>
+          <Spin spinning={this.state.loading}>
+            <div className="res-part">
+              <div>
+                <TextArea
+                  value={this.state.res ? JSON.stringify(this.state.res, 2) : ''}
+                  style={{margin: 10}}
+                  autosize={{ minRows: 2, maxRows: 6 }}
+                ></TextArea>
+              </div>
             </div>
-          </div>
+          </Spin>
         </Card>
       </div>
     )
