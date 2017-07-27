@@ -138,8 +138,8 @@ class Profile extends Component {
       userNameEditHtml = <div>
         <Input value={_userinfo.username} name="username" onChange={this.changeUserinfo} placeholder="用户名"  />
         <ButtonGroup className="edit-buttons" >
-          <Button size={'small'} className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >Cancel</Button>
-          <Button size={'small'} className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">OK</Button>
+          <Button  className="edit-button" onClick={() => { this.handleEdit('usernameEdit', false) }} >Cancel</Button>
+          <Button  className="edit-button" onClick={ () => { this.updateUserinfo('username')} } type="primary">OK</Button>
         </ButtonGroup>
       </div>
     }
