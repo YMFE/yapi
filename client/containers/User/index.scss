@@ -1,5 +1,9 @@
 @import '../../styles/mixin.scss';
 
+.g-doc {
+  margin: .24rem auto;
+}
+
 /* .user-box.css */
 .user-box {
   @include row-width-limit;
@@ -15,7 +19,6 @@
 
 
   .user-list {
-    width: 216px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
