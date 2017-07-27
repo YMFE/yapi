@@ -66,8 +66,26 @@ ToolUser.propTypes={
 };
 
 
+
+@connect(
+  (state) => {
+    return{
+      user: state.login.userName,
+      uid: state.login.uid,
+      msg: null,
+      login:state.login.isLogin,
+      curKey: state.menu.curKey
+    }
+  },
+  {
+    loginTypeAction,
+    logoutActions,
+    checkLoginState,
+    changeMenuItem
+  }
+)
 @withRouter
-class HeaderCom extends Component {
+export default class HeaderCom extends Component {
   constructor(props) {
     super(props);
   }
@@ -88,6 +106,9 @@ class HeaderCom extends Component {
   }
   linkTo = (e) =>{
     this.props.changeMenuItem(e.key);
+    if(!this.props.login){
+      message.info('请先登录',1);
+    }
   }
   relieveLink = () => {
     this.props.changeMenuItem("");
@@ -125,15 +146,16 @@ class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
-    const headerStyle = {
-      'background': 'url(./image/bg-img.jpg) no-repeat center',
-      'backgroundSize':'cover'
-    }
+    const headerImgStyle = login?{}:{
+      'background': 'url(./image/header-bg-img.jpg) no-repeat',
+      'backgroundSize':'100% 100%'
+    };
+    const headerShadeStyle = login?{}:{
+      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))'
+    };
     return (
-      <acticle className={`header-box`} style={headerStyle}>
-        <Header style={{
-          background: "linear-gradient(to bottom,rgba(64,64,64,1),rgba(64,64,64,0.9))"
-        }}>
+      <acticle className={`header-box`} style={headerImgStyle}>
+        <Header style={headerShadeStyle}>
           <div className="content">
             <div className="logo">
               <Link to="/" onClick={this.relieveLink}>YAPI</Link>
@@ -171,21 +193,3 @@ class HeaderCom extends Component {
     )
   }
 }
-
-export default connect(
-  (state) => {
-    return{
-      user: state.login.userName,
-      uid: state.login.uid,
-      msg: null,
-      login:state.login.isLogin,
-      curKey: state.menu.curKey
-    }
-  },
-  {
-    loginTypeAction,
-    logoutActions,
-    checkLoginState,
-    changeMenuItem
-  }
-)(HeaderCom)

@@ -1,6 +1,8 @@
+@import '../../styles/mixin.scss';
+
 /* .interface-box.css */
 .news-box {
-  max-width: 11rem;
+  @include row-width-limit;
   display: -webkit-box;
   -webkit-box-flex: 1;
   margin: .88rem auto 0 auto;
