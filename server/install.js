@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import initConfig from './utils/initConfig.js'
 import yapi from './yapi.js';
 import commons from './utils/commons';
 import dbModule from './utils/db.js';
