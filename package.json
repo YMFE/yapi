@@ -25,6 +25,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "core-decorators": "^0.17.0",
     "cross-request": "^1.0.1",
+    "eslint-loader": "^1.9.0",
     "fast-sass-loader": "^1.2.5",
     "fs-extra": "^3.0.1",
     "json2html": "0.0.8",
