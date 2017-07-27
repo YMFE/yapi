@@ -1,4 +1,6 @@
 @import '../../styles/common.scss';
+@import '../../styles/mixin.scss';
+
 $color-white : #fff;
 $color-blue : #108ee9;
 $color-blue-deeper: #34495E;
@@ -20,7 +22,7 @@ $color-black-light : #404040;
   z-index: 99;
   // 内容宽度
   .content {
-    max-width: 11rem;
+    @include row-width-limit;
     margin: 0 auto;
     zoom: 1;
     overflow: hidden;
@@ -85,4 +87,3 @@ $color-black-light : #404040;
     }
   }
 }
-

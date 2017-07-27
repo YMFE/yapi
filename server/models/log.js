@@ -9,13 +9,13 @@ class logModel extends baseModel {
 
     getSchema() {
         return {
-            uid: {type: Number, required: true},
-            title: {type: String, required: true},
-            type: {type: String, enum:['user', 'group', 'interface', 'project', 'other'], required: true},
-            content: {type: String, required: true},
-            username: {type: String, required: true},
+            uid: { type: Number, required: true },
+            title: { type: String, required: true },
+            type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other'], required: true },
+            content: { type: String, required: true },
+            username: { type: String, required: true },
             add_time: Number
-        }
+        };
     }
 
     /**
@@ -36,21 +36,27 @@ class logModel extends baseModel {
             add_time: yapi.commons.time()
         };
         let log = new this.model(saveData);
+
         return log.save();
     }
 
-    list (uid){
+    list(uid) {
         return this.model.find({
             uid: uid
-        }).exec()
+        })
+            .exec();
     }
 
     listWithPaging(uid, page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
+
         return this.model.find({
             uid: uid
-        }).skip((page - 1) * limit).limit(limit).exec();
+        })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .exec();
     }
 
     listCount(uid) {

@@ -130,7 +130,7 @@ gulp.task('build', () => {
     };
     let ykitOutput = '';
 
-    spinner = ora('请稍等...').start();
+    spinner = ora('正在编译，请稍等...').start();
 
     gulp.src(SRC)
         .pipe(generateBabel(status))
