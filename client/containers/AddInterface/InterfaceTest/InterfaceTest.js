@@ -205,6 +205,11 @@ export default class InterfaceTest extends Component {
         <div className="interface-name">{interfaceName}</div>
         <div className="req-part">
           <div className="req-row href">
+            <InputGroup compact style={{display: 'inline-block', width: 680, border: 0, background: '#fff', marginBottom: -4}}>
+              <Input value="Method" disabled style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
+              <Input value="Domain" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+              <Input value="Basepath + Url + [Query]" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+            </InputGroup>
             <InputGroup compact style={{display: 'inline-block', width: 680}}>
               <Input value={method} disabled style={{display: 'inline-block', width: 80}} />
               <Select defaultValue="prd" style={{display: 'inline-block', width: 300}} onChange={this.changeDomain}>
