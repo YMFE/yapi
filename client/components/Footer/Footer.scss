@@ -2,7 +2,7 @@
 @import '../../styles/mixin.scss';
 
 .footer{
-    // max-width: 12rem;
+    @include wrap-width-limit;
     margin: 0px auto;
     clear: both;
     font-size: 12px;
