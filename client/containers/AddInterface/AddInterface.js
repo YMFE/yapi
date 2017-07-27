@@ -31,7 +31,6 @@ const success = () => {
 
 @connect(
   state => {
-    console.log(state)
     return {
       reqParams: state.addInterface.reqParams,
       resParams: state.addInterface.resParams,
@@ -245,7 +244,7 @@ class AddInterface extends Component {
     const TabPane = Tabs.TabPane
     const { server_ip } = this.props
     const { isLoading, isSave, mockJson='', mockURL } = this.state
-    
+
     return (
       <section className="add-interface-box">
         <div className="content">
