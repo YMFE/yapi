@@ -52,7 +52,6 @@ $color-black-lighter: #404040;
     @include row-width-limit;
     margin: 1rem auto 0;
     .user-des{
-      @include row-width-limit;
       margin: 0 auto .5rem;
       text-align: center;
       .title{
@@ -74,9 +73,9 @@ $color-black-lighter: #404040;
     }
   }
   .main-part{
-    padding: .9rem .5rem;
-    height: 5.8rem;
     @include wrap-width-limit;
+    padding: .9rem 0;
+    height: 5.8rem;
     &:nth-child(odd){
       background-color: $color-blue-lighter;
     }
@@ -86,7 +85,7 @@ $color-black-lighter: #404040;
   }
   .feat-part{
     @include wrap-width-limit;
-    padding: .9rem .5rem;
+    padding: .9rem 0;
     background-color: $color-white;
     p{
       display: flex;
