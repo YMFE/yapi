@@ -18,14 +18,18 @@ function model(model, schema) {
     if (schema instanceof _mongoose2.default.Schema === false) {
         schema = new _mongoose2.default.Schema(schema);
     }
+
     schema.set('autoIndex', false);
+
     return _yapi2.default.connect.model(model, schema, model);
 }
 
 function connect() {
     _mongoose2.default.Promise = global.Promise;
+
     var config = _yapi2.default.WEBCONFIG;
     var options = {};
+
     if (config.user) {
         options.user = config.db.user, options.pass = config.db.pass;
     }

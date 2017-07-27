@@ -1,87 +1,95 @@
-import yapi from '../yapi.js'
-import mongoose  from 'mongoose'
-import baseModel from './base.js'
+import baseModel from './base.js';
 
-class userModel extends baseModel{
-    getName(){
-        return 'user'
+class userModel extends baseModel {
+    getName() {
+        return 'user';
     }
 
-    getSchema(){
-        return{
-           username: {
+    getSchema() {
+        return {
+            username: {
                 type: String,
-                required: true   
-           },
-           password:{
-               type:String,
-               required: true
-          },
-           email: {
-               type: String,
-               required: true
-           },
-           passsalt: String,
-           role: String,
-           add_time: Number,
-           up_time: Number 
-        }
+                required: true
+            },
+            password: {
+                type: String,
+                required: true
+            },
+            email: {
+                type: String,
+                required: true
+            },
+            passsalt: String,
+            role: String,
+            add_time: Number,
+            up_time: Number
+        };
     }
-    save(data){
+
+    save(data) {
         let user = new this.model(data);
         return user.save();
     }
-    checkRepeat(email){
+
+    checkRepeat(email) {
         return this.model.count({
             email: email
-        })
+        });
     }
-    list(){
-        return this.model.find().select("_id username email role  add_time up_time").exec()  //显示id name email role 
+
+    list() {
+        return this.model.find().select('_id username email role  add_time up_time').exec();  //显示id name email role 
     }
-    findByUids(uids){
+
+    findByUids(uids) {
         return this.model.find({
-            _id: {$in: uids}
-        }).select("_id username email role  add_time up_time").exec()
+            _id: { $in: uids }
+        }).select('_id username email role  add_time up_time').exec();
     }
+
     listWithPaging(page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find().sort({_id: -1}).skip((page - 1) * limit).limit(limit).select("_id username email role  add_time up_time").exec();
+        return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role  add_time up_time').exec();
     }
+
     listCount() {
         return this.model.count();
     }
-    findByEmail(email){
-        return this.model.findOne({email: email})
+    
+    findByEmail(email) {
+        return this.model.findOne({ email: email });
     }
-    findById(id){
+
+    findById(id) {
         return this.model.findById({
             _id: id
-        })
+        });
     }
-    del (id) {
+
+    del(id) {
         return this.model.deleteOne({
-            _id: id 
-        })
+            _id: id
+        });
     }
-    update(id,data){
+
+    update(id, data) {
         return this.model.update({
             _id: id
-        }, data)
+        }, data);
     }
+
     search(keyword) {
         return this.model.find({
             $or: [
                 { email: new RegExp(keyword, 'i') },
-                { username: new RegExp(keyword, 'i')}
+                { username: new RegExp(keyword, 'i') }
             ]
         }, {
             passsalt: 0,
             password: 0
-        }).limit(10)
+        }).limit(10);
     }
-
 }
 
-module.exports = userModel
+module.exports = userModel;

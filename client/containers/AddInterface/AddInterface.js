@@ -239,7 +239,7 @@ class AddInterface extends Component {
   render () {
     const TabPane = Tabs.TabPane
     const { isLoading, isSave, mockJson='', mockURL } = this.state
-    console.log(mockURL)
+
     return (
       <section className="add-interface-box">
         <div className="content">
@@ -254,9 +254,6 @@ class AddInterface extends Component {
               <Result isSave={isSave} mockJson={mockJson} />
               <MockUrl mockURL={mockURL} />
             </TabPane>
-            {
-            // <TabPane tab="Mock" key="2">mock</TabPane>
-            }
             <TabPane tab="请求接口" key="3">
               <InterfaceTest />
             </TabPane>

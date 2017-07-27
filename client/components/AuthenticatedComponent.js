@@ -2,11 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { changeMenuItem } from '../actions/menu'
-import { message } from 'antd'
 
-
+@connect(
+  (state) => {
+    return{
+      isAuthenticated: state.login.isLogin
+    }
+  },
+  {
+    changeMenuItem
+  }
+)
 export function requireAuthentication(Component) {
-  class AuthenticatedComponent extends React.Component {
+  return class AuthenticatedComponent extends React.Component {
     constructor(props){
       super(props);
     }
@@ -27,7 +35,6 @@ export function requireAuthentication(Component) {
       if( !this.props.isAuthenticated ){
         this.props.history.push('/');
         this.props.changeMenuItem('/');
-        message.info('请先登录',1);
       }
     }
     render() {
@@ -39,19 +46,8 @@ export function requireAuthentication(Component) {
           }
         </div>
       )
-
     }
   }
-  return connect(
-    (state) => {
-      return{
-        isAuthenticated: state.login.isLogin
-      }
-    },
-    {
-      changeMenuItem
-    }
-  )(AuthenticatedComponent);
 }
 
 

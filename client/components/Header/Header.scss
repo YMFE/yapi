@@ -1,26 +1,19 @@
 @import '../../styles/common.scss';
+@import '../../styles/mixin.scss';
+
 $color-white : #fff;
 $color-blue : #108ee9;
 $color-blue-deeper: #34495E;
 $color-grey-deep : #929aac;
 $color-black-light : #404040;
 /* .header-box.css */
-
-//.light{
-//  background-color: #f7fafc;
-//  color: $color-blue;
-//}
-//.dark {
-//  background-color: $color-black-light;
-//  color: $color-white;
-//}
 .header-box {
   display: block;
   font-size: 0.14rem;
   z-index: 99;
   // 内容宽度
   .content {
-    max-width: 11rem;
+    @include row-width-limit;
     margin: 0 auto;
     zoom: 1;
     overflow: hidden;
@@ -85,4 +78,3 @@ $color-black-light : #404040;
     }
   }
 }
-
