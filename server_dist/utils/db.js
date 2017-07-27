@@ -31,12 +31,13 @@ function connect() {
     var options = {};
 
     if (config.user) {
-        options.user = config.db.user, options.pass = config.db.pass;
+        options.user = config.db.user;
+        options.pass = config.db.pass;
     }
 
     var db = _mongoose2.default.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE, options);
 
-    db.then(function (res) {
+    db.then(function () {
         _yapi2.default.commons.log('mongodb load success...');
     }, function (err) {
         _yapi2.default.commons.log(err, 'Mongo connect error');

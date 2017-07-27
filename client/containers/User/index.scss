@@ -33,15 +33,15 @@
     }
   }
   .user-name{
-    padding: 24px 0px;
-    text-align: center;
+    padding: 24px 10px;
+    // text-align: center;
     background-color: #34495e;
     color: white;
     font-size: 16px;
     border-top-left-radius:5px;
     border-top-right-radius: 5px; 
     span{
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
   .router-content{
@@ -73,9 +73,6 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:5px;
-    .ant-btn-group{
-      margin-top: 12px;
-    }
     .user-item {
       min-height:35px;
       line-height:35px;
@@ -90,8 +87,14 @@
       #old_password{
         margin-top: 0px;
       }
+      .ant-col-12{
+        .ant-input{
+          width: 70%;
+          margin-right: 24px;
+        }
+      }
       .ant-col-4{
-        color: black;
+        color: rgba(0,0,0,0.85);
         padding: 0px 10px;
         text-indent: .7em;
         // background-color: #f1f3f6;
