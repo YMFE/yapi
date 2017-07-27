@@ -146,15 +146,16 @@ export default class HeaderCom extends Component {
   }
   render () {
     const { login, user, msg, uid, curKey } = this.props;
-    const headerStyle = {
+    const headerImgStyle = login?{}:{
       'background': 'url(./image/header-bg-img.jpg) no-repeat',
       'backgroundSize':'100% 100%'
-    }
+    };
+    const headerShadeStyle = login?{}:{
+      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))'
+    };
     return (
-      <acticle className={`header-box`} style={headerStyle}>
-        <Header style={{
-          background: "linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))"
-        }}>
+      <acticle className={`header-box`} style={headerImgStyle}>
+        <Header style={headerShadeStyle}>
           <div className="content">
             <div className="logo">
               <Link to="/" onClick={this.relieveLink}>YAPI</Link>
