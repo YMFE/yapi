@@ -6,6 +6,10 @@ import config from '../runtime/config.json';
 let insts = new Map();
 let mail;
 
+if(!config.runtime_path){
+    config.runtime_path = path.join(path.resolve(__dirname, '../'), 'runtime')
+}
+
 const WEBROOT = path.resolve(__dirname, '..'); //路径
 const WEBROOT_SERVER = __dirname;
 const WEBROOT_RUNTIME = config.runtime_path;
