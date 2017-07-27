@@ -9,6 +9,7 @@ module.exports = {
   },
   "mail": {
     "host": "smtp.mail.com",
+    "from": "****@mail.com",
     "port": 4652,
     "auth": {
         "user": "****@mail.com",

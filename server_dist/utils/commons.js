@@ -130,7 +130,7 @@ exports.sendMail = function (options, cb) {
     };
     try {
         _yapi2.default.mail.sendMail({
-            from: _yapi2.default.WEBCONFIG.mail.auth.user,
+            from: _yapi2.default.WEBCONFIG.mail.from,
             to: options.to,
             subject: 'yapi平台',
             html: options.contents
