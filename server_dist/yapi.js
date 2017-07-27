@@ -16,7 +16,7 @@ var _nodemailer = require('nodemailer');
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
 
-var _config = require('../runtime/config.json');
+var _config = require('../../config.json');
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -25,17 +25,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var insts = new _map2.default();
 var mail = void 0;
 
-if (!_config2.default.runtime_path) {
-    _config2.default.runtime_path = _path2.default.join(_path2.default.resolve(__dirname, '../'), 'runtime');
-}
-
 var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
-var WEBROOT_RUNTIME = _config2.default.runtime_path;
+var WEBROOT_RUNTIME = _path2.default.resolve(__dirname, '../..');
 var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
 var WEBCONFIG = _config2.default;
 
-_fsExtra2.default.ensureDirSync(WEBROOT_RUNTIME);
 _fsExtra2.default.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail) {
