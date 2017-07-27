@@ -4,10 +4,6 @@ var _fsExtra = require('fs-extra');
 
 var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
-var _initConfig = require('./utils/initConfig.js');
-
-var _initConfig2 = _interopRequireDefault(_initConfig);
-
 var _yapi = require('./yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);

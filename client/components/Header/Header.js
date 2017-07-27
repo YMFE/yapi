@@ -150,8 +150,11 @@ export default class HeaderCom extends Component {
       'background': 'url(./image/header-bg-img.jpg) no-repeat',
       'backgroundSize':'100% 100%'
     };
-    const headerShadeStyle = login?{}:{
-      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))'
+    const headerShadeStyle = login? {
+      'padding':'0'
+    }: {
+      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))',
+      'padding':'0'
     };
     return (
       <acticle className={`header-box`} style={headerImgStyle}>
