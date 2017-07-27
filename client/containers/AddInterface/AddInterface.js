@@ -100,7 +100,6 @@ class AddInterface extends Component {
       props.getResParams('')
       props.addReqHeader(initData)
     }
-    document.querySelector('.w-e-text-container').style.height = '200px'
   }
 
   getInterfaceId () {
