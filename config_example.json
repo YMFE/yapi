@@ -1,6 +1,7 @@
 {
   "port": "3000",
   "webhost": "yapi.local.qunar.com",
+  "server_ip": "192.168.1.1",
   "adminAccount": "admin@admin.com",
   "db": {
     "servername": "127.0.0.1",
