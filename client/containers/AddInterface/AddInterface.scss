@@ -209,18 +209,27 @@
     clear: both;
     padding: 10px 0 0 0;
     margin: 10px 0 0 90px;
+    zoom: 1;
+    overflow: hidden;
+    .title {
+      float: left;
+      line-height: 35px;
+    }
     p {
       width: 52.8%;
       height: 35px;
       line-height: 35px;
       border: 1px #DDD solid;
       display: inline-block;
-      vertical-align: -4px;
       margin: 0 10px 0 8px;
       padding: 0 0 0 10px;
+      float: left;
     }
     .host {
       margin: 10px 0 0 80px;
+    }
+    #mock-clipboard {
+      margin: 3px 0 0 0;
     }
   }
 
