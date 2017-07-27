@@ -66,7 +66,7 @@ const getColumns = (data, props) => {
         <span>
           <a onClick={() => changeUpdateModal(true, index)}>修改</a>
           <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="删除" cancelText="取消">
+          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="确定" cancelText="取消">
             <a href="#">删除</a>
           </Popconfirm>
         </span>
