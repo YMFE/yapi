@@ -44,10 +44,6 @@ var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
 var _request2 = require('request');
 
 var _request3 = _interopRequireDefault(_request2);
@@ -255,6 +251,7 @@ var userController = function (_baseController) {
                             case 8:
                                 login = _context3.sent;
 
+
                                 if (login === true) {
                                     _yapi2.default.commons.log('login success');
                                     ctx.redirect('/');
@@ -336,7 +333,7 @@ var userController = function (_baseController) {
                                 _context4.prev = 17;
                                 _context4.t0 = _context4['catch'](2);
 
-                                console.error("third_login:", _context4.t0.message);
+                                console.error('third_login:', _context4.t0.message); // eslint-disable-line
                                 return _context4.abrupt('return', false);
 
                             case 21:
@@ -469,7 +466,7 @@ var userController = function (_baseController) {
     }, {
         key: 'forgetPassword',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
@@ -481,7 +478,7 @@ var userController = function (_baseController) {
                 }, _callee6, this);
             }));
 
-            function forgetPassword(_x7) {
+            function forgetPassword() {
                 return _ref6.apply(this, arguments);
             }
 
@@ -490,7 +487,7 @@ var userController = function (_baseController) {
     }, {
         key: 'resetPassword',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
@@ -502,7 +499,7 @@ var userController = function (_baseController) {
                 }, _callee7, this);
             }));
 
-            function resetPassword(_x8) {
+            function resetPassword() {
                 return _ref7.apply(this, arguments);
             }
 
@@ -512,6 +509,7 @@ var userController = function (_baseController) {
         key: 'setLoginCookie',
         value: function setLoginCookie(uid, passsalt) {
             var token = jwt.sign({ uid: uid }, passsalt, { expiresIn: '7 days' });
+
             this.ctx.cookies.set('_yapi_token', token, {
                 expires: _yapi2.default.commons.expireDate(7),
                 httpOnly: true
@@ -595,9 +593,11 @@ var userController = function (_baseController) {
                                     up_time: _yapi2.default.commons.time()
                                 };
 
+
                                 if (!data.username) {
                                     data.username = data.email.substr(0, data.email.indexOf('@'));
                                 }
+
                                 _context8.prev = 15;
                                 _context8.next = 18;
                                 return userInst.save(data);
@@ -605,8 +605,8 @@ var userController = function (_baseController) {
                             case 18:
                                 user = _context8.sent;
 
-                                this.setLoginCookie(user._id, user.passsalt);
 
+                                this.setLoginCookie(user._id, user.passsalt);
                                 ctx.body = _yapi2.default.commons.resReturn({
                                     uid: user._id,
                                     email: user.email,
@@ -636,7 +636,7 @@ var userController = function (_baseController) {
                 }, _callee8, this, [[15, 24]]);
             }));
 
-            function reg(_x9) {
+            function reg(_x7) {
                 return _ref8.apply(this, arguments);
             }
 
@@ -695,7 +695,7 @@ var userController = function (_baseController) {
                 }, _callee9, this, [[2, 12]]);
             }));
 
-            function list(_x10) {
+            function list(_x8) {
                 return _ref9.apply(this, arguments);
             }
 
@@ -745,7 +745,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, "不存在的用户"));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '不存在的用户'));
 
                             case 10:
                                 return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
@@ -770,7 +770,7 @@ var userController = function (_baseController) {
                 }, _callee10, this, [[0, 13]]);
             }));
 
-            function findById(_x11) {
+            function findById(_x9) {
                 return _ref10.apply(this, arguments);
             }
 
@@ -824,6 +824,7 @@ var userController = function (_baseController) {
                             case 9:
                                 result = _context11.sent;
 
+
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context11.next = 16;
                                 break;
@@ -842,7 +843,7 @@ var userController = function (_baseController) {
                 }, _callee11, this, [[0, 13]]);
             }));
 
-            function del(_x12) {
+            function del(_x10) {
                 return _ref11.apply(this, arguments);
             }
 
@@ -875,6 +876,7 @@ var userController = function (_baseController) {
                                 _context12.prev = 0;
                                 params = ctx.request.body;
 
+
                                 params = _yapi2.default.commons.handleParams(params, {
                                     username: 'string',
                                     email: 'string'
@@ -900,13 +902,14 @@ var userController = function (_baseController) {
 
                             case 9:
                                 data = {
-
                                     up_time: _yapi2.default.commons.time()
                                 };
+
 
                                 if (this.getRole() === 'admin') {
                                     params.role && (data.role = params.role);
                                 }
+
                                 params.username && (data.username = params.username);
                                 params.email && (data.email = params.email);
 
@@ -935,6 +938,7 @@ var userController = function (_baseController) {
                             case 21:
                                 result = _context12.sent;
 
+
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context12.next = 28;
                                 break;
@@ -953,7 +957,7 @@ var userController = function (_baseController) {
                 }, _callee12, this, [[0, 25]]);
             }));
 
-            function update(_x13) {
+            function update(_x11) {
                 return _ref12.apply(this, arguments);
             }
 
@@ -1015,7 +1019,7 @@ var userController = function (_baseController) {
                                 }];
                                 filteredRes = _commons2.default.filterRes(queryList, rules);
 
-                                console.log(queryList);
+                                console.log(queryList); // eslint-disable-line
 
                                 return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 0, 'ok'));
 
@@ -1027,7 +1031,7 @@ var userController = function (_baseController) {
                 }, _callee13, this);
             }));
 
-            function search(_x14) {
+            function search(_x12) {
                 return _ref13.apply(this, arguments);
             }
 
