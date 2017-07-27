@@ -4,7 +4,6 @@ yapi.commons = commons;
 import dbModule from './utils/db.js';
 import mockServer from './middleware/mockServer.js';
 import Koa from 'koa';
-import convert from 'koa-convert';
 import koaStatic from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import router from './router.js';

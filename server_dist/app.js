@@ -20,10 +20,6 @@ var _koa = require('koa');
 
 var _koa2 = _interopRequireDefault(_koa);
 
-var _koaConvert = require('koa-convert');
-
-var _koaConvert2 = _interopRequireDefault(_koaConvert);
-
 var _koaStatic = require('koa-static');
 
 var _koaStatic2 = _interopRequireDefault(_koaStatic);

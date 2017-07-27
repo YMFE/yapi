@@ -91,8 +91,6 @@ function createAction(controller, path, method, action) {
         } else {
             ctx.body = yapi.commons.resReturn(null, 400, 'Without Permission.');
         }
-
-
     });
 }
 
