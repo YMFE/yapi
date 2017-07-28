@@ -23,7 +23,8 @@ YAPI管理平台，旨在为开发、产品、测试人员提供更优雅的接�
 
 #### 1.1 项目分组
 登录之后进到项目首页，左边侧边栏显示的即分组列表。
-![分组列表](http://upload-images.jianshu.io/upload_images/842107-bf341260ab637b36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![分组列表](http://upload-images.jianshu.io/upload_images/842107-d90ca4b3242fa760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 管理员有权限添加或删除分组。
 ![添加分组](http://upload-images.jianshu.io/upload_images/842107-a0d4d9a98003896a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
