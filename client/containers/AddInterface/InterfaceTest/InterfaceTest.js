@@ -239,9 +239,9 @@ export default class InterfaceTest extends Component {
         <div className="req-part">
           <div className="req-row href">
             <InputGroup compact style={{display: 'inline-block', width: 680, border: 0, background: '#fff', marginBottom: -4}}>
-              <Input value="Method" disabled style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
-              <Input value="Domain" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
-              <Input value="Basepath + Url + [Query]" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+              <Input value="Method" style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
+              <Input value="Domain" style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+              <Input value="Basepath + Url + [Query]" style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
             </InputGroup>
             <InputGroup compact style={{display: 'inline-block', width: 680}}>
               <Select value={method} style={{display: 'inline-block', width: 80}} onChange={this.changeMethod} >
@@ -271,7 +271,7 @@ export default class InterfaceTest extends Component {
                   const value = typeof query[key] === 'object' ? JSON.stringify(query[key]) : query[key].toString();
                   return (
                     <div key={index}>
-                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                       <Input value={value} onChange={e => this.changeQuery(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
                     </div>
                   )
@@ -285,7 +285,7 @@ export default class InterfaceTest extends Component {
                 Object.keys(headers).map((key, index) => {
                   return (
                     <div key={index}>
-                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                       <Input value={headers[key]} onChange={e => this.changeHeader(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
                     </div>
                   )
@@ -305,7 +305,7 @@ export default class InterfaceTest extends Component {
                   const value = typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key].toString();
                   return (
                     <div key={index}>
-                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                       <Input value={value} onChange={e => this.changeParams(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
                     </div>
                   )
