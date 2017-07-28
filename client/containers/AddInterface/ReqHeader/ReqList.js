@@ -120,7 +120,7 @@ class ReqList extends Component {
     return (
       <li>
         <em className="title">头部标签 : </em>
-        <Select value={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
+        <Select value={name} style={{ width: 180 }} onChange={this.handleChange} size="large">
           <Option value="">选择请求头</Option>
           {headersOptions}
         </Select>
