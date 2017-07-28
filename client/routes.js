@@ -15,7 +15,7 @@ export default () => {
         </Route>
         <Route path="/project" component={ Interface } />
         <Route path="/user" component={User} />
-        <Route path="/News" component={ News } />
+        <Route path="/news" component={ News } />
         <Route path="/add-interface" component={ AddInterface } />
       </div>
     </HashRouter>

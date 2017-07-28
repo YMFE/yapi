@@ -58,7 +58,7 @@ export default class App extends Component {
               </Switch>
               <Route path="/project" component={requireAuthentication(Interface)} />
               <Route path="/user" component={requireAuthentication(User)} />
-              <Route path="/News" component={requireAuthentication(News)} />
+              <Route path="/news" component={requireAuthentication(News)} />
               <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
             </div>
             <Footer />
