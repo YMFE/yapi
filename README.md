@@ -31,7 +31,7 @@
 
 管理员有权限添加或删除分组。
 
-<img src="http://upload-images.jianshu.io/upload_images/842107-a0d4d9a98003896a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+<img src="http://upload-images.jianshu.io/upload_images/842107-a0d4d9a98003896a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "500" style="margin-left:170px;display:block;" alt="图片名称" align=center />
 
 > 分组名称具有唯一性
 
