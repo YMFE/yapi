@@ -63,10 +63,9 @@ class ReqMethod extends Component {
       <table>
         <tbody>
           <tr>
-            <th>协议 :</th>
             <td>
-              <span className="h3">请求方式</span>
-              <Select value={method} style={{ width: 220 }} onChange={this.handleChange} size="large">
+              <span className="h3">请求方式 : </span>
+              <Select value={method} style={{ width: 180 }} onChange={this.handleChange} size="large">
                 <Option value="POST">POST</Option>
                 <Option value="GET">GET</Option>
                 <Option value="PUT">PUT</Option>
@@ -75,8 +74,8 @@ class ReqMethod extends Component {
             </td>
           </tr>
           <tr>
-            <th>URL :</th>
             <td>
+              <span className="h3">URL : </span>
               <Input 
                 placeholder="填写 URL" 
                 className="url" 
@@ -87,8 +86,8 @@ class ReqMethod extends Component {
             </td>
           </tr>
           <tr>
-            <th>名称 :</th>
             <td>
+              <span className="h3">名称 : </span>
               <Input 
                 placeholder="接口名称" 
                 className="url" 
