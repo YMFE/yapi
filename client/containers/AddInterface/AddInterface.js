@@ -76,7 +76,8 @@ class AddInterface extends Component {
       isLoading: '',
       isSave: false,
       mockJson: '',
-      mockURL: ''
+      mockURL: '',
+      projectData: {}
     }
   }
 
@@ -128,7 +129,8 @@ class AddInterface extends Component {
         const { protocol, prd_host, basepath } = data.data.data
         const mockURL = `${protocol}://${prd_host}${basepath}${result.path}`
         this.setState({
-          mockURL: mockURL
+          mockURL: mockURL,
+          projectData: data.data.data
         })
       })
   }
@@ -136,7 +138,9 @@ class AddInterface extends Component {
   editState (data) {
     const props = this.props
     const { path, title, req_params_other, res_body, req_headers, project_id, method } = data
-
+    this.setState({
+      apiData: data
+    })
     props.pushInputValue(path)
     props.pushInterfaceMethod(method)
     props.pushInterfaceName(title)
@@ -254,7 +258,7 @@ class AddInterface extends Component {
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
-              <MockUrl mockURL={mockURL} serverIp={server_ip} />
+              <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData}  />
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
