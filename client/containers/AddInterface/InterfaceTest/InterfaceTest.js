@@ -50,7 +50,6 @@ export default class InterfaceTest extends Component {
     params: {},
     paramsNotJson: false,
     headers: {},
-    search: '',
     currDomain: ''
   }
 
@@ -59,15 +58,15 @@ export default class InterfaceTest extends Component {
   }
 
   componentWillMount() {
-    this.interfacePropsToState()
+    this.getInterfaceState()
   }
 
   componentWillReceiveProps(nextProps) {
-    this.interfacePropsToState(nextProps)
+    this.getInterfaceState(nextProps)
   }
 
   @autobind
-  interfacePropsToState(nextProps) {
+  getInterfaceState(nextProps) {
     const props = nextProps || this.props;
     const { method, url, seqGroup, interfaceProject } = props;
     const { prd_host, basepath, protocol, env } = interfaceProject;
@@ -105,6 +104,7 @@ export default class InterfaceTest extends Component {
     })
 
     this.setState({
+      method,
       domains,
       pathname,
       query,
@@ -118,8 +118,7 @@ export default class InterfaceTest extends Component {
 
   @autobind
   testInterface() {
-    const { method } = this.props;
-    const { pathname, query, headers, params, currDomain } = this.state;
+    const { headers, params, currDomain, method, pathname, query } = this.state;
     const urlObj = URL.parse(currDomain);
 
     const href = URL.format({
@@ -156,8 +155,12 @@ export default class InterfaceTest extends Component {
 
   @autobind
   changeDomain(value) {
-    const domain = this.state.domains[value];
-    this.setState({ currDomain: domain });
+    this.setState({ currDomain: value });
+  }
+
+  @autobind
+  selectDomain(value) {
+    this.setState({ currDomain: value });
   }
 
   @autobind
@@ -171,6 +174,7 @@ export default class InterfaceTest extends Component {
   changeQuery(e, key) {
     const query = JSON.parse(JSON.stringify(this.state.query));
     query[key] = e.target.value;
+
     this.setState({ query });
   }
 
@@ -181,6 +185,21 @@ export default class InterfaceTest extends Component {
     this.setState({ params });
   }
 
+  @autobind
+  changeMethod(value) {
+    this.setState({ method: value });
+  }
+
+  @autobind
+  changePath(e) {
+    const path = e.target.value;
+    const urlObj = URL.parse(path, true);
+    this.setState({
+      query: urlObj.query,
+      pathname: urlObj.pathname
+    })
+  }
+
   hasCrossRequestPlugin() {
     const dom = document.getElementById('y-request');
     return dom.getAttribute('key') === 'yapi';
@@ -188,12 +207,10 @@ export default class InterfaceTest extends Component {
 
   render () {
 
-    const { interfaceName, method } = this.props;
-    const { domains, pathname, query, headers, params, paramsNotJson } = this.state;
-    const search = URL.format({
-      query
-    });
+    const { interfaceName } = this.props;
+    const { method, domains, pathname, query, headers, params, paramsNotJson, currDomain } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
+    const search = decodeURIComponent(URL.format({query}));
 
 
     return (
@@ -217,6 +234,8 @@ export default class InterfaceTest extends Component {
           }
         </div>
         <div className="interface-name">{interfaceName}</div>
+
+        {/* url */}
         <div className="req-part">
           <div className="req-row href">
             <InputGroup compact style={{display: 'inline-block', width: 680, border: 0, background: '#fff', marginBottom: -4}}>
@@ -225,13 +244,16 @@ export default class InterfaceTest extends Component {
               <Input value="Basepath + Url + [Query]" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
             </InputGroup>
             <InputGroup compact style={{display: 'inline-block', width: 680}}>
-              <Input value={method} disabled style={{display: 'inline-block', width: 80}} />
-              <Select defaultValue="prd" style={{display: 'inline-block', width: 300}} onChange={this.changeDomain}>
+              <Select value={method} style={{display: 'inline-block', width: 80}} onChange={this.changeMethod} >
+                <Option value="GET">GET</Option>
+                <Option value="POST">POST</Option>
+              </Select>
+              <Select value={currDomain} mode="combobox" filterOption={() => true} style={{display: 'inline-block', width: 300}} onChange={this.changeDomain} onSelect={this.selectDomain}>
                 {
-                  Object.keys(domains).map((key, index) => (<Option value={key} key={index}>{domains[key]}</Option>))
+                  Object.keys(domains).map((key, index) => (<Option value={domains[key]} key={index}>{key + '：' + domains[key]}</Option>))
                 }
               </Select>
-              <Input value={pathname+search} disabled style={{display: 'inline-block', width: 300}} />
+              <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{display: 'inline-block', width: 300}} />
             </InputGroup>
             <Button
               onClick={this.testInterface}
@@ -241,20 +263,7 @@ export default class InterfaceTest extends Component {
             >发送</Button>
             <span style={{fontSize: 12, color: 'rgba(0, 0, 0, 0.25)'}}>（请求测试真实接口）</span>
           </div>
-          <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
-            <div className="req-row headers">
-              {
-                Object.keys(headers).map((key, index) => {
-                  return (
-                    <div key={index}>
-                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
-                      <Input value={headers[key]} onChange={e => this.changeHeader(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
-                    </div>
-                  )
-                })
-              }
-            </div>
-          </Card>
+
           <Card title="Query" noHovering style={{marginTop: 10}} className={Object.keys(query).length ? '' : 'hidden'}>
             <div className="req-row query">
               {
@@ -264,6 +273,20 @@ export default class InterfaceTest extends Component {
                     <div key={index}>
                       <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                       <Input value={value} onChange={e => this.changeQuery(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Card>
+          <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
+            <div className="req-row headers">
+              {
+                Object.keys(headers).map((key, index) => {
+                  return (
+                    <div key={index}>
+                      <Input disabled value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                      <Input value={headers[key]} onChange={e => this.changeHeader(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
                     </div>
                   )
                 })
