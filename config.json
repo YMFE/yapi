@@ -1,0 +1,21 @@
+{
+  "port": "3000",
+  "webhost": "yapi.local.qunar.com",
+  "adminAccount": "admin@admin.com",
+  "db": {
+    "servername": "10.86.40.194",
+    "DATABASE": "yapi",
+    "port": 27017,
+    "user": "test1",
+    "pass": "test1",
+    "server_ip": "192.222.193.50"
+  },
+  "mail": {
+    "host": "smtp.163.com",
+    "port": 465,
+      "auth": {
+      "user": "hellosean1025@163.com",
+      "pass": "helloqunar123"
+    }
+  }
+}

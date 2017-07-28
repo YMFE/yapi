@@ -114,7 +114,7 @@ class ReqList extends Component {
     console.log(name)
     return (
       <li>
-        <em className="title">头部标签</em>
+        <em className="title">头部标签 : </em>
         <Select value={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
           <Option value="">选择请求头</Option>
           <Option value="Accept">Accept</Option>
@@ -123,7 +123,7 @@ class ReqList extends Component {
           <Option value="Accept-Language">Accept-Language</Option>
           <Option value="Accept-Ranges">Accept-Ranges</Option>
         </Select>
-        <em className="title">头部内容</em>
+        <em className="title">头部内容 : </em>
         <Input value={value} placeholder="Basic usage" className="req-content" size="large" onInput={this.handleBlur} />
         <Icon className="dynamic-delete-button" type="minus-circle-o" onClick={this.deleteReqHeader} />
       </li>
