@@ -111,17 +111,18 @@ class ReqList extends Component {
     const Option = Select.Option
     const value = propsValue.value || ''
     const name = propsValue.name || ''
-    console.log(name)
+
+    const headers = ["Accept","Accept-Charset","Accept-Encoding","Accept-Language","Accept-Datetime","Authorization","Cache-Control","Connection","Cookie","Content-Disposition","Content-Length","Content-MD5","Content-Type","Date","Expect","From","Host","If-Match","If-Modified-Since","If-None-Match","If-Range","If-Unmodified-Since","Max-Forwards","Origin","Pragma","Proxy-Authorization","Range","Referer","TE","User-Agent","Upgrade","Via","Warning","X-Requested-With","DNT","X-Forwarded-For","X-Forwarded-Host","X-Forwarded-Proto","Front-End-Https","X-Http-Method-Override","X-ATT-DeviceId","X-Wap-Profile","Proxy-Connection","X-UIDH","X-Csrf-Token"]
+    const headersOptions = headers.map( (item, index) => {
+      return <Option key={index} value={item}>{item}</Option>
+    } )
+
     return (
       <li>
         <em className="title">头部标签 : </em>
         <Select value={name} style={{ width: 220 }} onChange={this.handleChange} size="large">
           <Option value="">选择请求头</Option>
-          <Option value="Accept">Accept</Option>
-          <Option value="Accept-Charset">Accept-Charset</Option>
-          <Option value="Accept-Encoding">Accept-Encoding</Option>
-          <Option value="Accept-Language">Accept-Language</Option>
-          <Option value="Accept-Ranges">Accept-Ranges</Option>
+          {headersOptions}
         </Select>
         <em className="title">头部内容 : </em>
         <Input value={value} placeholder="Basic usage" className="req-content" size="large" onInput={this.handleBlur} />
