@@ -192,7 +192,7 @@ export default class GroupList extends Component {
     const { currGroup } = this.props;
 
     return (
-      <div>
+      <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
