@@ -15,7 +15,8 @@ import QueueAnim from 'rc-queue-anim';
 const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};
 const style = {
-  'height':'100%',
+  // 'height':'100%',
+  // 'height':'7rem',
   'width':'100%',
   'background': 'url(./image/bg-img.jpg) no-repeat',
   'backgroundSize':'100% 100%'
@@ -37,19 +38,17 @@ const HomeGuest = (props) => (
             <Col span={8} className="main-one-left">
               <Login/>
             </Col>
-            <OverPack>
-              <TweenOne
-                key="feat-motion-one"
-                animation={imgAnim}
-              >
-                <Col span={16} className="main-one-right">
-
-                  <div className="img-container">
-                    <img src="./image/demo-img.png"/>
-                  </div>
-                </Col>
-              </TweenOne>
-            </OverPack>
+            <Col span={16} className="main-one-right">
+              <OverPack>
+                <TweenOne
+                  key="feat-motion-one"
+                  animation={imgAnim}
+                  className="img-container"
+                >
+                  <img src="./image/demo-img.png"/>
+                </TweenOne>
+              </OverPack>
+            </Col>
           </Row>
         </div>
       </div>
