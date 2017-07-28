@@ -24,9 +24,7 @@ const Option = Select.Option;
     seqGroup: state.addInterface.seqGroup,
     interfaceName: state.addInterface.interfaceName,
     interfaceProject: state.addInterface.project
-  }),
-  {
-  }
+  })
 )
 @withRouter
 export default class InterfaceTest extends Component {
@@ -136,18 +134,16 @@ export default class InterfaceTest extends Component {
       method,
       headers,
       data: params,
-      success: (res, header) => {
-        console.log(header)
+      success: (res) => {
         try {
-          res = JSON.parse(res);
+          res = JSON.parse(res)
         } catch (e) {
-          null;
+          null
         }
         this.setState({res})
         this.setState({ loading: false })
       },
-      error: (err, header) => {
-        console.log(header)
+      error: (err) => {
         this.setState({res: err || '请求失败'})
         this.setState({ loading: false })
       }

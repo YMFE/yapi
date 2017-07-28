@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Input, Button } from 'antd'
+import { Modal, Button, AutoComplete } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { autobind } from 'core-decorators'
@@ -9,7 +9,9 @@ class InterfaceMode extends Component {
   static propTypes = {
     modalVisible: PropTypes.bool,
     closeProjectMember: PropTypes.func,
-    memberList: PropTypes.array
+    memberList: PropTypes.array,
+    dataSource: PropTypes.array,
+    inputValue: PropTypes.string
   }
 
   constructor(props) {
@@ -31,7 +33,6 @@ class InterfaceMode extends Component {
     }
     axios.get('/project/get_member_list', { params })
       .then(data => {
-        console.log(data)
         this.setState({
           'memberList': data.data.data
         })
@@ -39,6 +40,14 @@ class InterfaceMode extends Component {
       .catch(err => {
         console.log(err)
       })
+  }
+
+  @autobind
+  onSelect (userName) {
+    console.log(userName)
+    this.setState({
+      userName
+    })
   }
 
   @autobind
@@ -79,10 +88,26 @@ class InterfaceMode extends Component {
   }
 
   @autobind
-  injectValue (e) {
+  handleSearch (value) {
     this.setState({
-      userName: e.target.value
+      userName: value
     })
+    const params = { q: value}
+
+    axios.get('/user/search', { params })
+      .then(data => {
+        const userList = []
+        data = data.data.data
+        if (data) {
+          data.forEach( v => userList.push(v.username) )
+          this.setState({
+            dataSource: userList
+          })
+        } 
+      })
+      .catch (err => {
+        console.log(err)
+      })
   }
 
   handleOk (closeProjectMember) {
@@ -104,7 +129,7 @@ class InterfaceMode extends Component {
     const { modalVisible, closeProjectMember } = this.props
     const handleOk = this.handleOk.bind(this, closeProjectMember)
     const handleCancel = this.handleCancel.bind(this, closeProjectMember)
-    const { memberList } = this.state
+    const { memberList, dataSource } = this.state
 
     return (
       <Modal
@@ -115,7 +140,13 @@ class InterfaceMode extends Component {
         className="interface-mode-box"
       >
         <div className="add-user">
-          <Input placeholder="Basic usage" size="large" onBlur={this.injectValue} />
+          <AutoComplete
+            dataSource={dataSource}
+            style={{ width: 350 }}
+            onSelect={this.onSelect}
+            onSearch={this.handleSearch}
+            placeholder="input here"
+          />
           <Button onClick={this.addNewUser}>添 加</Button>          
         </div>
         <article className="users">
