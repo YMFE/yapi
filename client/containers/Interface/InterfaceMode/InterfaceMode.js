@@ -56,7 +56,7 @@ class InterfaceMode extends Component {
       member_uid: id,
       id: this.getInterfaceId()
     }
-
+    
     axios.post('/project/del_member', params)
       .then(() => {
         this.getMemberList()
