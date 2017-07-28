@@ -76,7 +76,10 @@ class AddInterface extends Component {
       isLoading: '',
       isSave: false,
       mockJson: '',
-      mockURL: ''
+      mockURL: '',
+      projectData: {},
+      tagName: '创建接口',
+      showMock: ''
     }
   }
 
@@ -91,6 +94,8 @@ class AddInterface extends Component {
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
       this.initInterfaceData(interfaceId)
+      this.modifyTagName('编辑接口')
+      this.setState({showMock: 'show-mock'})
     } else {
       const props = this.props
       props.pushInputValue('')
@@ -113,6 +118,12 @@ class AddInterface extends Component {
     }
   }
 
+  modifyTagName (tagName) {
+    this.setState({
+      tagName
+    })
+  }
+
   verificationURL () {
     const dir = 'AddInterface/edit'
     const url = location.href
@@ -128,7 +139,8 @@ class AddInterface extends Component {
         const { protocol, prd_host, basepath } = data.data.data
         const mockURL = `${protocol}://${prd_host}${basepath}${result.path}`
         this.setState({
-          mockURL: mockURL
+          mockURL: mockURL,
+          projectData: data.data.data
         })
       })
   }
@@ -136,7 +148,9 @@ class AddInterface extends Component {
   editState (data) {
     const props = this.props
     const { path, title, req_params_other, res_body, req_headers, project_id, method } = data
-
+    this.setState({
+      apiData: data
+    })
     props.pushInputValue(path)
     props.pushInterfaceMethod(method)
     props.pushInterfaceName(title)
@@ -243,26 +257,27 @@ class AddInterface extends Component {
   render () {
     const TabPane = Tabs.TabPane
     const { server_ip } = this.props
-    const { isLoading, isSave, mockJson='', mockURL } = this.state
-
+    const { isLoading, isSave, mockJson='', mockURL, tagName, showMock } = this.state
+    let Pane = ''
+    if (showMock) {
+      Pane = <TabPane tab="请求接口" key="3"><InterfaceTest /></TabPane>
+    }
     return (
       <section className="add-interface-box">
         <div className="content">
           <Tabs type="card">
-            <TabPane tab="接口详情" key="1">
+            <TabPane tab={tagName} key="1">
               <h3 className="req-title">请求部分</h3>
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
-              <MockUrl mockURL={mockURL} serverIp={server_ip} />
+              <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData} showMock={showMock}/>
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
               <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
             </TabPane>
-            <TabPane tab="请求接口" key="3">
-              <InterfaceTest />
-            </TabPane>
+            {Pane}
           </Tabs>
         </div>
         <div className={`loading ${isLoading}`}></div>

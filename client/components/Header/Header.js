@@ -161,7 +161,7 @@ export default class HeaderCom extends Component {
         <Header style={headerShadeStyle}>
           <div className="content">
             <div className="logo">
-              <Link to="/" onClick={this.relieveLink}>YAPI</Link>
+              <Link to="/" onClick={this.relieveLink}>YAPI<span className="ui-badge"></span></Link>
             </div>
             <Menu
               mode="horizontal"
