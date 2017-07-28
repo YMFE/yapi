@@ -9,12 +9,13 @@
   font-size: .12rem;
 
   .content {
-    @include row-width-limit;
-    margin: 24px auto;
+    max-width: 11.7rem;
+    min-width: 11.7rem;
     border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     background: #FFF;
     padding: 10px 20px 50px 20px;
+    margin: 0 auto;
 
     .ant-tabs-content {
       padding: 0 0 50px 0;
