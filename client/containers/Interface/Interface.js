@@ -46,10 +46,9 @@ class Interface extends Component {
 
   componentWillMount () {
     const interfaceId = this.getInterfaceId()
-    console.log(interfaceId);
     const params = {
       params: {
-        project_id: '2481'
+        project_id: interfaceId
       }
     }
 
