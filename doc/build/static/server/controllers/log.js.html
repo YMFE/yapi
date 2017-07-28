@@ -55,19 +55,20 @@ class logController extends baseController {
             page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10;
 
-        if(!uid){
+        if (!uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '用户id不能为空');
         }
 
         try {
             let result = await this.Model.listWithPaging(uid, page, limit);
             let count = await this.Model.listCount(uid);
+            
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
                 list: result
-            })
-        } catch(err) {
-            ctx.body = yapi.commons.resReturn(null, 402, e.message)
+            });
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
 

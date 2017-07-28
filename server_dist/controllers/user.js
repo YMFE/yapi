@@ -52,6 +52,18 @@ var _commons = require('../utils/commons.js');
 
 var _commons2 = _interopRequireDefault(_commons);
 
+var _interface = require('../models/interface.js');
+
+var _interface2 = _interopRequireDefault(_interface);
+
+var _group = require('../models/group.js');
+
+var _group2 = _interopRequireDefault(_group);
+
+var _project = require('../models/project.js');
+
+var _project2 = _interopRequireDefault(_project);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwt = require('jsonwebtoken');
@@ -1036,6 +1048,106 @@ var userController = function (_baseController) {
             }
 
             return search;
+        }()
+
+        /**
+         * 根据路由id获取面包屑数据
+         * @interface /user/nav
+         * @method GET
+         * @category user
+         * @foldnumber 10
+         * @param {String} type 可选group|interface|project
+         * @param {Number} id   
+         * @return {Object}
+         * @example ./api/user/nav.json
+        */
+
+    }, {
+        key: 'nav',
+        value: function () {
+            var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
+                var _ctx$request$query, id, type, result, interfaceInst, interfaceData, projectInst, projectData, groupInst, groupData;
+
+                return _regenerator2.default.wrap(function _callee14$(_context14) {
+                    while (1) {
+                        switch (_context14.prev = _context14.next) {
+                            case 0:
+                                _ctx$request$query = ctx.request.query, id = _ctx$request$query.id, type = _ctx$request$query.type;
+                                result = {};
+                                _context14.prev = 2;
+
+                                if (!(type === 'interface')) {
+                                    _context14.next = 12;
+                                    break;
+                                }
+
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                _context14.next = 7;
+                                return interfaceInst.get(id);
+
+                            case 7:
+                                interfaceData = _context14.sent;
+
+                                result["interface_id"] = interfaceData._id;
+                                result["interface_name"] = interfaceData.path;
+                                type = 'project';
+                                id = interfaceData.project_id;
+
+                            case 12:
+                                if (!(type === 'project')) {
+                                    _context14.next = 21;
+                                    break;
+                                }
+
+                                projectInst = _yapi2.default.getInst(_project2.default);
+                                _context14.next = 16;
+                                return projectInst.get(id);
+
+                            case 16:
+                                projectData = _context14.sent;
+
+                                result["project_id"] = projectData._id;
+                                result["project_name"] = projectData.prd_host + projectData.basepath;
+                                type = 'group';
+                                id = projectData.group_id;
+
+                            case 21:
+                                if (!(type === 'group')) {
+                                    _context14.next = 28;
+                                    break;
+                                }
+
+                                groupInst = _yapi2.default.getInst(_group2.default);
+                                _context14.next = 25;
+                                return groupInst.get(id);
+
+                            case 25:
+                                groupData = _context14.sent;
+
+                                result["group_id"] = groupData._id;
+                                result["group_name"] = groupData.group_name;
+
+                            case 28:
+                                return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+
+                            case 31:
+                                _context14.prev = 31;
+                                _context14.t0 = _context14['catch'](2);
+                                return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result, 422, _context14.t0.message));
+
+                            case 34:
+                            case 'end':
+                                return _context14.stop();
+                        }
+                    }
+                }, _callee14, this, [[2, 31]]);
+            }));
+
+            function nav(_x13) {
+                return _ref14.apply(this, arguments);
+            }
+
+            return nav;
         }()
     }]);
     return userController;
