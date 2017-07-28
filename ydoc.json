@@ -18,8 +18,8 @@
         "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
         "title": "首页", // Page Title
         "banner": { // Banner 配置
-            "title": "index",
-            "description": "首页说明文字"
+            "title": "Yapi",
+            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
         "content": "./README.md" // 内容(这里以markdown文件举例)
     },{
