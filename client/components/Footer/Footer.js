@@ -14,18 +14,19 @@ class Footer extends Component {
       'background': 'url(./image/footer-bac.jpg)'
     }
     return (
-      <div className = 'footer' style = {style}>
-       
-        <div className = 'footContent'>
-          { this.props.footList.map(function(item,i){
-            return <FootItem key = { i } linkList = { item.linkList } title = { item.title } iconType = { item.iconType } ></FootItem>
-          }) }
-          <div className = 'copyRight'>
-            <h4>Copyright © 2017</h4>
-            YMFF出品 @ YMFF
+      <div className = 'footer-wrapper'>
+        <div className = 'footer' style = {style}>
+          <div className = 'footContent'>
+            { this.props.footList.map(function(item,i){
+              return <FootItem key = { i } linkList = { item.linkList } title = { item.title } iconType = { item.iconType } ></FootItem>
+            }) }
+            <div className = 'copyRight'>
+              <h4>Copyright © 2017</h4>
+              YMFF出品 @ YMFF
+            </div>
           </div>
+          <div className='footerMask'></div>
         </div>
-        <div className='footerMask'></div>
       </div>
     )
   }
