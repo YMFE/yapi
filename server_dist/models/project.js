@@ -170,7 +170,7 @@ var projectModel = function (_baseModel) {
         value: function checkMemberRepeat(id, uid) {
             return this.model.count({
                 _id: id,
-                members: [uid]
+                members: { $in: [uid] }
             });
         }
     }, {
