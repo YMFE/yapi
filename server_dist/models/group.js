@@ -61,6 +61,13 @@ var groupModel = function (_baseModel) {
             return m.save();
         }
     }, {
+        key: 'get',
+        value: function get(id) {
+            return this.model.findOne({
+                _id: id
+            }).exec();
+        }
+    }, {
         key: 'checkRepeat',
         value: function checkRepeat(name) {
             return this.model.count({

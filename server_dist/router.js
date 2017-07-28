@@ -81,6 +81,7 @@ createAction('user', 'logout', 'get', 'logout');
 createAction('user', 'login_by_token', 'post', 'loginByToken');
 createAction('user', 'change_password', 'post', 'changePassword');
 createAction('user', 'search', 'get', 'search');
+createAction('user', 'nav', 'get', 'nav');
 
 //project
 createAction('project', 'add', 'post', 'add');
