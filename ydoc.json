@@ -1,6 +1,6 @@
 {
     "name": "yapi",
-    "dest": "doc/build",
+    "dest": "static/doc",
     "examplePath": "./exampleCode",
     "defaultGrammar": "json",
     "instructionsInfoPath": "", //使用说明 内容路径 (需要配合JS-Component注释的@instructions使用)
