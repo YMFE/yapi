@@ -16,6 +16,10 @@
     background: #FFF;
     padding: 10px 20px 50px 20px;
     margin: 0 auto;
+    
+    .ant-tabs {
+      padding: 0 0 50px 0;
+    }
 
     .ant-tabs-content {
       padding: 0 0 50px 0;
@@ -212,6 +216,7 @@
     margin: 10px 0 0 90px;
     zoom: 1;
     overflow: hidden;
+    display: none;
     .title {
       float: left;
       line-height: 35px;
@@ -232,6 +237,10 @@
     #mock-clipboard {
       margin: 3px 0 0 0;
     }
+  }
+
+  .show-mock {
+    display: block;
   }
 
   .loading {
