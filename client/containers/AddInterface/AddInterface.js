@@ -107,8 +107,8 @@ class AddInterface extends Component {
   }
 
   getInterfaceId () {
-    const reg = /AddInterface\/edit\/(\d+)/g
-    const regTwo = /AddInterface\/(\d+)/g
+    const reg = /add-interface\/edit\/(\d+)/g
+    const regTwo = /add-interface\/(\d+)/g
     const url = location.href
     if ( url.match(reg) ) {
       return RegExp.$1
@@ -125,7 +125,7 @@ class AddInterface extends Component {
   }
 
   verificationURL () {
-    const dir = 'AddInterface/edit'
+    const dir = 'add-interface/edit'
     const url = location.href
     if (url.includes(dir)) {
       return true
@@ -247,7 +247,7 @@ class AddInterface extends Component {
         success()
         this.changeState(true)
         // 初始化 mock
-        this.mockData()   
+        this.mockData()
       })
       .catch(e => {
         console.log(e)

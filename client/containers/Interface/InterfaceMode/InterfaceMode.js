@@ -56,7 +56,7 @@ class InterfaceMode extends Component {
       member_uid: id,
       id: this.getInterfaceId()
     }
-    
+
     axios.post('/project/del_member', params)
       .then(() => {
         this.getMemberList()
@@ -103,7 +103,7 @@ class InterfaceMode extends Component {
           this.setState({
             dataSource: userList
           })
-        } 
+        }
       })
       .catch (err => {
         console.log(err)
@@ -119,7 +119,7 @@ class InterfaceMode extends Component {
   }
 
   getInterfaceId () {
-    const reg = /Interface\/(\d+)/g
+    const reg = /project\/(\d+)/g
     const url = location.href
     url.match(reg)
     return RegExp.$1
@@ -147,7 +147,7 @@ class InterfaceMode extends Component {
             onSearch={this.handleSearch}
             placeholder="input here"
           />
-          <Button onClick={this.addNewUser}>添 加</Button>          
+          <Button onClick={this.addNewUser}>添 加</Button>
         </div>
         <article className="users">
           <p>项目成员</p>

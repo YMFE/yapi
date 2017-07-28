@@ -13,7 +13,7 @@ class InterfaceList extends Component {
   }
 
   getInterfaceId () {
-    const reg = /Interface\/(\d+)/g
+    const reg = /project\/(\d+)/g
     const url = location.href
     url.match(reg)
     return RegExp.$1
@@ -25,7 +25,7 @@ class InterfaceList extends Component {
 
     return (
       <div className="interface-btngroup">
-        <Link to={`/AddInterface/${getInterfaceId}`}><Button className="interface-btn" type="primary" icon="plus">添加接口</Button></Link>
+        <Link to={`/add-interface/${getInterfaceId}`}><Button className="interface-btn" type="primary" icon="plus">添加接口</Button></Link>
         <Button className="interface-btn" type="primary" onClick={projectMember} icon="user">管理成员</Button>
       </div>
     )
