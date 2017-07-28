@@ -13,6 +13,7 @@ class MockUrl extends Component {
     mockURL: PropTypes.string,
     serverIp: PropTypes.string,
     mockData: PropTypes.string,
+    showMock: PropTypes.string,
     projectData: PropTypes.object
   }
 
@@ -37,10 +38,9 @@ class MockUrl extends Component {
   }
 
   render () {
-    console.log(this.props)
-    const { serverIp } = this.props
+    const { serverIp, showMock } = this.props
     return (
-      <section className="mock-url-box">
+      <section className={`mock-url-box ${showMock}`}>
         <span className="title">mock地址 : </span>
         <p id="mock-p">{this.props.mockURL}</p>
         <Button type="primary" id="mock-clipboard">复制</Button>
