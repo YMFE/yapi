@@ -96,7 +96,7 @@
     .req-header {
       display: -webkit-box;
       line-height: 32px;
-      margin: 10px 0 0 50px;
+      margin: 10px 0 0 58px;
       padding: 15px 0 0 0;
 
       .req-h3 {
@@ -125,18 +125,19 @@
     }
 
     .req-save, .res-save {
-      margin: 5px 0 0 159px;
+      margin: 5px 0 0 167px;
     }
 
     /* .req-params.css */
     .req-params {
       display: -webkit-box;
       padding: 20px 0 0 0;
-      margin: 20px 0 0 90px;
-      width: 650px;
+      margin: 20px 0 0 92px;
+      width: 562px;
       height: 200px;
       .req-h3 {
         font-weight: normal;
+        margin: 0 0 0 8px;
       }
     }
 
@@ -213,7 +214,7 @@
   .mock-url-box {
     clear: both;
     padding: 10px 0 0 0;
-    margin: 10px 0 0 90px;
+    margin: 10px 0 0 96px;
     zoom: 1;
     overflow: hidden;
     display: none;
@@ -222,7 +223,7 @@
       line-height: 35px;
     }
     p {
-      width: 52.8%;
+      width: 47.3%;
       height: 35px;
       line-height: 35px;
       border: 1px #DDD solid;
@@ -230,6 +231,7 @@
       margin: 0 10px 0 8px;
       padding: 0 0 0 10px;
       float: left;
+      border-radius: 4px;
     }
     .host {
       margin: 10px 0 0 80px;
@@ -257,6 +259,11 @@
   }
   .is-loading {
     display: block;
+  }
+  .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active,
+  .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    font-size: .12rem;
+    margin-top: 3px;
   }
 }
 
@@ -310,9 +317,9 @@ body {
 #req-cover {
   padding: 0 20px;
   border: 1px #DDD solid;
-  // background-color: #FFF;
+  border-radius: 4px;
   -webkit-box-flex: 1;
-  margin: 0 0 0 15px;
+  margin: 0 0 0 12px;
 }
 #res-cover {
   background-color: #FFF;
