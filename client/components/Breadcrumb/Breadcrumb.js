@@ -33,11 +33,14 @@ export default class BreadcrumbNavigation extends Component {
         <Link to="/">Home</Link>
       </Breadcrumb.Item>
     )].concat(extraBreadcrumbItems);
-    console.log(pathSnippets);
-    return (
-      <Breadcrumb className="breadcrumb-container">
-        {breadcrumbItems}
-      </Breadcrumb>
-    )
+    if (pathSnippets.length) {
+      return (
+        <Breadcrumb className="breadcrumb-container">
+          {breadcrumbItems}
+        </Breadcrumb>
+      )
+    } else {
+      return <span></span>;
+    }
   }
 }
