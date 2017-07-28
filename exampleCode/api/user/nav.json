@@ -1,0 +1,12 @@
+{
+    "errcode": 0,
+    "errmsg": "success",
+    "data": {
+        "interface_id": 2746,
+        "interface_name": "/a/c",
+        "project_id": 2481,
+        "project_name": "www.xxx.com/api",
+        "group_id": 181,
+        "group_name": "YMFE"
+    }
+}
