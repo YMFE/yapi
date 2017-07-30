@@ -1,12 +1,12 @@
 {
-    "name": "yapi",
+    "name": "YApi",
     "dest": "static/doc",
     "examplePath": "./exampleCode",
     "defaultGrammar": "json",
     "instructionsInfoPath": "", //使用说明 内容路径 (需要配合JS-Component注释的@instructions使用)
     "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
     "common": { // 通用默认配置，包括主页配置等
-        "title": "yapi", //page title
+        "title": "YApi", //page title
         "footer": "&copy; 2016 <a href=\"http://ued.qunar.com/ymfe/\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>.", // 通用尾
         "home": "YMFE", // logo
         "homeUrl": "http://ued.qunar.com/ymfe/" // logourl
@@ -17,14 +17,62 @@
     "pages": [{
         "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
         "title": "首页", // Page Title
+         "homepage": { // 配置首页，样式区别于其他页面
+            "version": "v1.0.0", // 版本信息将显示在banner底部
+            "button": [{ // 按钮组将显示在banner底部
+                "name": "开始",
+                "href": "./interface.html"
+            },{
+                "name": "Github",
+                "href": "https://github.com/YMFE/yapi"
+            }],
+            "intro": [{ // 首页的正文部分，数组项依次渲染，可重复使用
+                "title": "为API开发者设计的管理平台", // 介绍板块标题
+                "desc": "YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。" // 介绍板块描述
+            },{
+                "title": "功能",
+                "detail": {
+                    "type": "thumbnail", // 三列布局的介绍板块
+                    "content": [{ // 三列布局的内容，每项的key值非必需，但建议每列的key值一致
+                        "name": "项目接口管理", // 板块名称
+                        "src": "http://ojk406wln.bkt.clouddn.com/intro_muti.png", // 缩略图
+                        "desc": "提供基本的项目分组，项目管理，接口管理功能" // 描述
+                    },{
+                        "name": "mockServer服务",
+                        "src": "http://ojk406wln.bkt.clouddn.com/intro_md.png",
+                        "desc": "用户只需在项目配置线上域名和接口基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务"
+                    },{
+                        "name": "用户管理",
+                        "src": "http://ojk406wln.bkt.clouddn.com/intro_theme.png",
+                        "desc": "提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录"
+                    }]
+                }
+            }]
+        },
         "banner": { // Banner 配置
-            "title": "Yapi",
+            "title": "YApi",
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": "./README.md" // 内容(这里以markdown文件举例)
+        "content": "./README/README-home.md" // 内容(这里以markdown文件举例)
+    },{
+        "name": "interface", // Page Name 会根据他生成 html 文件，例: index.html
+        "title": "接口管理", // Page Title
+        "banner": { // Banner 配置
+            "title": "YApi",
+            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
+        },
+        "content": "./README/README-interface.md" // 内容(这里以markdown文件举例)
+    },{
+        "name": "mock", // Page Name 会根据他生成 html 文件，例: index.html
+        "title": "Mock功能", // Page Title
+        "banner": { // Banner 配置
+            "title": "YApi",
+            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
+        },
+        "content": "./README/README-mock.md" // 内容(这里以markdown文件举例)
     },{
         "name": "api",
-        "title": "api文档",
+        "title": "",
         "banner": {
             "title": "api",
             "description": "api文档"
