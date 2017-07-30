@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
+import axios from 'axios';
 import URL from 'url';
 
 import {
@@ -77,7 +78,7 @@ export default class InterfaceTest extends Component {
       domains[item.name] = item.domain;
     })
 
-    const query = {};
+    const query = [];
     let params = {};
     let reqParams = this.props.reqParams ? this.props.reqParams : '{}';
     let paramsNotJson = false;
@@ -90,7 +91,7 @@ export default class InterfaceTest extends Component {
     if (method === 'GET') {
       Object.keys(reqParams).forEach(key => {
         const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
-        query[key] = value;
+        query.push({key, value})
       })
     } else if (method === 'POST') {
       params = reqParams;
@@ -117,7 +118,7 @@ export default class InterfaceTest extends Component {
   }
 
   @autobind
-  testInterface() {
+  requestInterface() {
     const { headers, params, currDomain, method, pathname, query } = this.state;
     const urlObj = URL.parse(currDomain);
 
@@ -125,7 +126,7 @@ export default class InterfaceTest extends Component {
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
       pathname,
-      query
+      query: this.getQueryObj(query)
     });
 
     this.setState({ loading: true })
@@ -171,11 +172,25 @@ export default class InterfaceTest extends Component {
   }
 
   @autobind
-  changeQuery(e, key) {
+  changeQuery(e, index, isKey) {
     const query = JSON.parse(JSON.stringify(this.state.query));
-    query[key] = e.target.value;
-
+    const v = e.target.value;
+    if (isKey) {
+      query[index].key = v;
+    } else {
+      query[index].value = v;
+    }
     this.setState({ query });
+  }
+  @autobind
+  addQuery() {
+    const { query } = this.state;
+    this.setState({query: query.concat([{key: '', value: ''}])})
+  }
+  @autobind
+  deleteQuery(index) {
+    const { query } = this.state;
+    this.setState({query: query.filter((item, i) => +index !== +i)});
   }
 
   @autobind
@@ -205,12 +220,25 @@ export default class InterfaceTest extends Component {
     return dom.getAttribute('key') === 'yapi';
   }
 
+  getQueryObj(query) {
+    const queryObj = {};
+    query.forEach(item => {
+      if (item.key) {
+        queryObj[item.key] = item.value || '';
+      }
+    })
+    return queryObj;
+  }
+
   render () {
 
     const { interfaceName } = this.props;
     const { method, domains, pathname, query, headers, params, paramsNotJson, currDomain } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
-    const search = decodeURIComponent(URL.format({query}));
+    const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
+
+    console.log(axios)
+    window.axios = axios
 
 
     return (
@@ -239,9 +267,9 @@ export default class InterfaceTest extends Component {
         <div className="req-part">
           <div className="req-row href">
             <InputGroup compact style={{display: 'inline-block', width: 680, border: 0, background: '#fff', marginBottom: -4}}>
-              <Input value="Method" style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
-              <Input value="Domain" style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
-              <Input value="Basepath + Url + [Query]" style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+              <Input value="Method" disabled style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
+              <Input value="Domain" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
+              <Input value="Basepath + Url + [Query]" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
             </InputGroup>
             <InputGroup compact style={{display: 'inline-block', width: 680}}>
               <Select value={method} style={{display: 'inline-block', width: 80}} onChange={this.changeMethod} >
@@ -256,7 +284,7 @@ export default class InterfaceTest extends Component {
               <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{display: 'inline-block', width: 300}} />
             </InputGroup>
             <Button
-              onClick={this.testInterface}
+              onClick={this.requestInterface}
               type="primary"
               style={{marginLeft: 10}}
               loading={this.state.loading}
@@ -264,20 +292,19 @@ export default class InterfaceTest extends Component {
             <span style={{fontSize: 12, color: 'rgba(0, 0, 0, 0.25)'}}>（请求测试真实接口）</span>
           </div>
 
-          <Card title="Query" noHovering style={{marginTop: 10}} className={Object.keys(query).length ? '' : 'hidden'}>
-            <div className="req-row query">
-              {
-                Object.keys(query).map((key, index) => {
-                  const value = typeof query[key] === 'object' ? JSON.stringify(query[key]) : query[key].toString();
-                  return (
-                    <div key={index}>
-                      <Input value={key} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
-                      <Input value={value} onChange={e => this.changeQuery(e, key)} style={{display: 'inline-block', width: 200, margin: 10}} />
-                    </div>
-                  )
-                })
-              }
-            </div>
+          <Card title="Query" noHovering style={{marginTop: 10}}>
+            {
+              query.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <Input value={item.key} onChange={e => this.changeQuery(e, index, true)} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
+                    <Input value={item.value} onChange={e => this.changeQuery(e, index)} style={{display: 'inline-block', width: 200, margin: 10}} />
+                    <Icon type="close" className="icon-btn" onClick={() => this.deleteQuery(index)} />
+                  </div>
+                )
+              })
+            }
+            <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
           </Card>
           <Card title="HEADERS" noHovering style={{marginTop: 10}} className={Object.keys(headers).length ? '' : 'hidden'}>
             <div className="req-row headers">
@@ -291,9 +318,10 @@ export default class InterfaceTest extends Component {
                   )
                 })
               }
+              <Button type="primary" icon="plus">Add header</Button>
             </div>
           </Card>
-          <Card title="Body" noHovering style={{marginTop: 10}} className={Object.keys(params).length ? '' : 'hidden'}>
+          <Card title="Body" noHovering style={{marginTop: 10}} className={method === 'POST' ? '' : 'hidden'}>
             <div className="req-row params">
               { paramsNotJson ?
                 <TextArea
@@ -311,6 +339,7 @@ export default class InterfaceTest extends Component {
                   )
                 })
               }
+              <Button type="primary" icon="plus">Add form parameter</Button>
             </div>
           </Card>
         </div>
