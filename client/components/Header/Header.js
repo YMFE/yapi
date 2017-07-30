@@ -105,9 +105,11 @@ export default class HeaderCom extends Component {
     location: PropTypes.object
   }
   linkTo = (e) =>{
-    this.props.changeMenuItem(e.key);
-    if(!this.props.login){
-      message.info('请先登录',1);
+    if(e.key != '/doc'){
+      this.props.changeMenuItem(e.key);
+      if(!this.props.login){
+        message.info('请先登录',1);
+      }
     }
   }
   relieveLink = () => {
@@ -177,6 +179,9 @@ export default class HeaderCom extends Component {
             >
               <Menu.Item key="/group">
                 <Link to="/group">项目广场</Link>
+              </Menu.Item>
+              <Menu.Item key="/doc">
+                <a target="_blank" href="./doc/index.html">文档</a>
               </Menu.Item>
             </Menu>
             <div className="user-toolbar">
