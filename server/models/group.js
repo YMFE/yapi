@@ -21,6 +21,12 @@ class groupModel extends baseModel {
         return m.save();
     }
 
+    get(id) {
+        return this.model.findOne({
+            _id: id
+        }).exec();
+    }
+
     checkRepeat(name) {
         return this.model.count({
             group_name: name

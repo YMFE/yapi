@@ -21,8 +21,8 @@ class ModeTags extends Component {
   }
 
   render() {
-    const { value: { username='', _id } } = this.props
-    console.log(this.props, _id, username)
+    const { value: { username='' } } = this.props
+
     return (
       <span onClick={this.closeTags}>
         {username}

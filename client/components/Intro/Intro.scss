@@ -32,14 +32,17 @@ $color-white: #fff;
     }
     .des-switch{
       .switch-content{
+        float: left;
+        width: 50%;
+        max-height: .85rem;
         font-size: .14rem;
-        margin-bottom: .15rem;
+        padding: .1rem .15rem .1rem 0;
         div{
           float: left;
         }
         .icon-switch{
-          height: .3rem;
-          width: .3rem;
+          height: .4rem;
+          width: .4rem;
           border-radius: .02rem;
           background-color: $color-blue;
           margin-right: .1rem;
@@ -47,6 +50,10 @@ $color-white: #fff;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: .18rem;
+        }
+        .text-switch{
+          width: calc(100% - .65rem);
         }
       }
     }

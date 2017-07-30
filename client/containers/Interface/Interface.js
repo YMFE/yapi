@@ -53,7 +53,7 @@ class Interface extends Component {
     }
 
     this.props.saveInterfaceProjectId(interfaceId)
-
+    console.log(params);
     axios.get('/interface/list', params)
       .then(result => {
         result = result.data.data
@@ -69,13 +69,16 @@ class Interface extends Component {
   }
 
   getInterfaceId () {
-    const reg = /Interface\/(\d+)/g
+    const reg = /project\/(\d+)/g
     const url = location.href
     url.match(reg)
+    console.log(url.match(reg));
+    console.log(RegExp.$1);
     return RegExp.$1
   }
 
   render () {
+    console.log('==================');
     const { interfaceData, projectMember, modalVisible } = this.props
     return (
       <div className="g-doc">
