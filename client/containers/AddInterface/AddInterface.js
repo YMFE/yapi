@@ -5,7 +5,7 @@ import axios from 'axios'
 import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Button, Tabs, message } from 'antd'
+import { Button, Tabs, message, Affix } from 'antd'
 import ReqMethod from './ReqMethod/ReqMethod.js'
 import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
@@ -107,8 +107,8 @@ class AddInterface extends Component {
   }
 
   getInterfaceId () {
-    const reg = /AddInterface\/edit\/(\d+)/g
-    const regTwo = /AddInterface\/(\d+)/g
+    const reg = /add-interface\/edit\/(\d+)/g
+    const regTwo = /add-interface\/(\d+)/g
     const url = location.href
     if ( url.match(reg) ) {
       return RegExp.$1
@@ -125,7 +125,7 @@ class AddInterface extends Component {
   }
 
   verificationURL () {
-    const dir = 'AddInterface/edit'
+    const dir = 'add-interface/edit'
     const url = location.href
     if (url.includes(dir)) {
       return true
@@ -247,7 +247,7 @@ class AddInterface extends Component {
         success()
         this.changeState(true)
         // 初始化 mock
-        this.mockData()   
+        this.mockData()
       })
       .catch(e => {
         console.log(e)
@@ -264,6 +264,7 @@ class AddInterface extends Component {
     }
     return (
       <section className="add-interface-box">
+
         <div className="content">
           <Tabs type="card">
             <TabPane tab={tagName} key="1">
@@ -275,11 +276,13 @@ class AddInterface extends Component {
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
-              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
             </TabPane>
             {Pane}
           </Tabs>
         </div>
+        <Affix offsetBottom={0} className="save-button" onChange={affixed => console.log(affixed)}>
+          <Button type="primary" onClick={this.saveForms}>保存</Button>
+        </Affix>
         <div className={`loading ${isLoading}`}></div>
       </section>
     )

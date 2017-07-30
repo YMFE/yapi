@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Col, Icon } from 'antd'
+import {  Icon } from 'antd'
 import "./Intro.scss"
 import { OverPack } from 'rc-scroll-anim'
 import TweenOne from 'rc-tween-one'
 import QueueAnim from 'rc-queue-anim';
 
 const IntroPart = (props) =>(
-  <Col span={12} className="switch-content">
+  <li className="switch-content">
     <div className="icon-switch">
       <Icon type={props.iconType} />
     </div>
-    <div>
+    <div className="text-switch">
       <p><b>{props.title}</b></p>
       <p>{props.des}</p>
     </div>
-  </Col>
+  </li>
 )
 
 IntroPart.propTypes = {
@@ -80,11 +80,11 @@ class Intro extends React.Component{
                 {intro.des}
               </div>
             </div>
-            <div className="des-switch" key={`${id}-des-switch`}>
+            <ul className="des-switch" key={`${id}-des-switch`}>
               {intro.detail.map(function(item,i){
                 return(<IntroPart key={i} title={item.title} des={item.des} iconType={item.iconType}/>)
               })}
-            </div>
+            </ul>
           </QueueAnim>
         </OverPack>
       </div>

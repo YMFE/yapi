@@ -123,7 +123,7 @@ class projectModel extends baseModel {
     checkMemberRepeat(id, uid) {
         return this.model.count({
             _id: id,
-            members: [uid]
+            members: {$in: [uid]}
         });
     }
 

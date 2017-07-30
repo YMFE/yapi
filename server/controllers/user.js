@@ -4,6 +4,10 @@ import baseController from './base.js';
 import request from 'request';
 import common from '../utils/commons.js';
 
+import interfaceModel from '../models/interface.js'
+import groupModel from '../models/group.js'
+import projectModel from '../models/project.js'
+
 const jwt = require('jsonwebtoken');
 
 class userController extends baseController {
@@ -71,6 +75,7 @@ class userController extends baseController {
         ctx.cookies.set('_yapi_uid', null);
         ctx.body = yapi.commons.resReturn('ok');
     }
+
 
     /**
      *  第三方登录需要提供一个request方法和 token字段，暂时只支持qunar第三方
@@ -442,7 +447,7 @@ class userController extends baseController {
             }
 
             let result = await userInst.update(id, data);
-            
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -494,6 +499,54 @@ class userController extends baseController {
 
         return ctx.body = yapi.commons.resReturn(filteredRes, 0, 'ok');
     }
+
+    /**
+     * 根据路由id获取面包屑数据
+     * @interface /user/nav
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @param {String} type 可选group|interface|project
+     * @param {Number} id   
+     * @return {Object}
+     * @example ./api/user/nav.json
+    */
+    async nav(ctx) {
+        let { id, type } = ctx.request.query;
+        let result = {};
+        try {
+            if (type === 'interface') {
+                let interfaceInst = yapi.getInst(interfaceModel);
+                let interfaceData = await interfaceInst.get(id)
+                result["interface_id"] = interfaceData._id;
+                result["interface_name"] = interfaceData.path;
+                type = 'project';
+                id = interfaceData.project_id;
+            }
+
+            if (type === 'project') {
+                let projectInst = yapi.getInst(projectModel);
+                let projectData = await projectInst.get(id);
+                result["project_id"] = projectData._id;
+                result["project_name"] = projectData.prd_host + projectData.basepath;
+                type = 'group';
+                id = projectData.group_id
+            }
+
+            if (type === 'group') {
+                let groupInst = yapi.getInst(groupModel);
+                let groupData = await groupInst.get(id);
+                result["group_id"] = groupData._id;
+                result["group_name"] = groupData.group_name;
+            }
+
+            return ctx.body = yapi.commons.resReturn(result)
+        }
+        catch (e) {
+            return ctx.body = yapi.commons.resReturn(result, 422, e.message)
+        }
+    }
+
 }
 
 module.exports = userController;

@@ -5,12 +5,18 @@ import { Icon, Input, AutoComplete } from 'antd'
 import './Search.scss'
 import { withRouter } from 'react-router';
 import axios from 'axios';
+import { setCurrGroup } from '../../../actions/group'
+import { changeMenuItem } from '../../../actions/menu'
+const Option = AutoComplete.Option;
 
 @connect(
   state => ({
     groupList: state.group.groupList,
     projectList: state.project.projectList
-  })
+  }),{
+    setCurrGroup,
+    changeMenuItem
+  }
 )
 
 @withRouter
@@ -27,14 +33,18 @@ export default class Srch extends Component{
     projectList: PropTypes.array,
     router: PropTypes.object,
     history: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    setCurrGroup: PropTypes.func,
+    changeMenuItem : PropTypes.func
   }
 
-  onSelect = (value) => {
-    if( value.split(":")[0] == "分组" ){
-      this.props.history.push('/group/'+value.split(":")[1].trim());
+  onSelect = (value,option) => {
+    if( option.props.tpye == "分组" ){
+      this.props.changeMenuItem('/group');
+      this.props.history.push('/group/'+value);
+      this.props.setCurrGroup({"group_name":value,"_id":option.props['id']});
     } else {
-      this.props.history.push('/project/'+value.split("(")[1].slice(0,-1));
+      this.props.history.push('/project/'+option.props['id']);
     }
   }
 
@@ -43,9 +53,27 @@ export default class Srch extends Component{
       .then((res) => {
         if(res.data && res.data.errcode === 0){
           const dataSource = [];
-          for(let title in res.data.data){
+          for(let title in res.data.data) {
             res.data.data[title].map(item => {
-              title == "group" ? dataSource.push( "分组"+": "+item.groupName ): dataSource.push( "项目"+": "+item.name+"("+item._id+")" );
+              dataSource.push(
+                title == "group" ?
+                  ( <Option
+                    key={`${item._id}`}
+                    tpye="分组"
+                    value={`${item.groupName}`}
+                    id={`${item._id}`}
+                  >
+                    {`分组: ${item.groupName}`}
+                  </Option>) :
+                  (<Option
+                    key={`${item._id}`}
+                    tpye="项目"
+                    value={`${item._id}`}
+                    id={`${item._id}`}
+                  >
+                    {`项目: ${item.name}`}
+                  </Option>)
+              )
             })
           }
           this.setState({
@@ -70,6 +98,7 @@ export default class Srch extends Component{
 
   render(){
     const { dataSource } = this.state;
+
     return(
       <div className="search-wrapper">
         <AutoComplete
@@ -85,11 +114,7 @@ export default class Srch extends Component{
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
             size="large"
-            style={{
-              // width: 200,
-              // borderColor:"#AAA",
-              // borderWidth:"1px",
-            }}
+            style={{}}
             placeholder="搜索分组/项目"
             className="search-input"
           />

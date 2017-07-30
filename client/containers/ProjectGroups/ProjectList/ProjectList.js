@@ -39,7 +39,7 @@ const getColumns = (data, props) => {
     dataIndex: 'name',
     key: 'name',
     render: (text, record) => {
-      return <Link to={`/Interface/${record._id}`}>{text}</Link>
+      return <Link to={`/project/${record._id}`}>{text}</Link>
     }
   },{
     title: 'Mock链接',
@@ -47,7 +47,7 @@ const getColumns = (data, props) => {
     render: (item) => {
       return 'http://'+ item.prd_host + item.basepath;
     }
-    
+
   }, {
     title: '创建人',
     dataIndex: 'owner',
