@@ -28,6 +28,7 @@ class ResParams extends Component {
 
   constructor(props) {
     super(props)
+    console.log(props)
   }
 
   // initResParams () {

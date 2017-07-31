@@ -15,7 +15,7 @@ import {
 const initialState = {
   interfaceName: '',
   url: '',
-  method: '',
+  method: 'GET',
   // 默认请求头部有一条数据
   seqGroup: [
     {
