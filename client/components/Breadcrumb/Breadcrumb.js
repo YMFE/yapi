@@ -20,13 +20,17 @@ export default class BreadcrumbNavigation extends Component {
   }
 
   getBreadcrumb = (pathSnippets) => {
+    console.log(pathSnippets);
     // 重置 state 中的 breadcrumb，防止重复渲染
     this.setState({
       breadcrumb: []
     });
-    if (/project|group|add-interface]/.test(pathSnippets[0])) {
-      const type = pathSnippets[0] === 'add-interface' ? 'interface' : pathSnippets[0],
-        id = pathSnippets[1];
+    if (/project|group|add-interface/.test(pathSnippets[0])) {
+      let type = pathSnippets[0] === 'add-interface' ? 'interface' : pathSnippets[0],
+        id = pathSnippets[pathSnippets.length-1];
+      if (!pathSnippets.includes('edit')) {
+        type = 'project';
+      }
       const params = { type, id };
       axios.get('/user/nav', {params: params}).then( (res) => {
         const data = res.data.data;
@@ -51,7 +55,7 @@ export default class BreadcrumbNavigation extends Component {
           this.setState({
             breadcrumb: this.state.breadcrumb.concat([{
               name: data.interface_name,
-              path: '/project/' + data.interface_id
+              path: '/add-interface/' + data.interface_id
             }])
           });
         }
