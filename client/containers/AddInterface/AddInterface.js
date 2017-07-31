@@ -220,8 +220,8 @@ class AddInterface extends Component {
     const { interfaceName, url, seqGroup, reqParams, resParams, method } = this.props
     const ifTrue = this.verificationURL()
     const interfaceId = this.getInterfaceId()
-    // const origin = location.origin
-    // const pathname = location.pathname
+    const origin = location.origin
+    const pathname = location.pathname
     const params = {
       title: interfaceName,
       path: url,
@@ -250,7 +250,8 @@ class AddInterface extends Component {
         this.changeState(true)
         // 初始化 mock
         this.mockData()
-        // location.href = `${origin}${pathname}#/add-interface/edit/${interfaceId}`
+
+        location.href = `${origin}${pathname}#/project/${interfaceId}`
       })
       .catch(e => {
         console.log(e)
