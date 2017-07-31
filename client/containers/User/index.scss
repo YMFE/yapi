@@ -2,7 +2,6 @@
 
 .g-doc {
   margin: .24rem auto;
-  min-height: 5rem;
 }
 
 /* .user-box.css */
@@ -23,6 +22,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius:4px;
+    min-height: 5rem;
     margin-top: 15px;
     .search{
       padding: 5px;
@@ -55,6 +55,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     margin-top: 15px;
+    min-height: 5rem;
     .ant-table-wrapper table {
       // font-size: .14rem;
 
@@ -72,6 +73,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius: .04rem;
+    min-height: 5rem;
     .user-item {
       min-height:35px;
       line-height:35px;

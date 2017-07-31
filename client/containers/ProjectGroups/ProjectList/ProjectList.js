@@ -39,15 +39,15 @@ const getColumns = (data, props) => {
     dataIndex: 'name',
     key: 'name',
     render: (text, record) => {
-      return <Link to={`/Interface/${record._id}`}>{text}</Link>
+      return <Link to={`/project/${record._id}`}>{text}</Link>
     }
   },{
-    title: 'Mock链接',
+    title: 'Mock基本URL',
     key: 'domain',
     render: (item) => {
       return 'http://'+ item.prd_host + item.basepath;
     }
-    
+
   }, {
     title: '创建人',
     dataIndex: 'owner',

@@ -1,9 +1,12 @@
 @import '../../styles/common.scss';
 @import '../../styles/mixin.scss';
 
+.footer-wrapper{
+    width: 100%;
+}
 .footer{
     @include wrap-width-limit;
-    margin: 0px auto;
+    margin: 0 auto;
     clear: both;
     font-size: 12px;
     background: #000c15;
@@ -25,7 +28,7 @@
 .footerMask{
     @include wrap-width-limit;
     position: absolute;
-    top: 0px;
+    top: 0;
     height: 100%;
     width: 100%;
     background-color: #404040;
@@ -34,8 +37,8 @@
 }
 .footContent{
     @include row-width-limit;
-    width:90%;
-    margin:0px auto;
+    //width:90%;
+    margin:0 auto;
     overflow: hidden;
     position: relative;
     z-index: 2;
@@ -45,7 +48,7 @@
     width: 25%;
     float: left;
     div{
-        margin: 6px 0px;
+        margin: 6px 0;
     }
     a{
         font-weight: 200;
@@ -68,6 +71,6 @@
         margin: 0 auto 12px;
         font-weight: 500;
         position: relative;
-        text-indent: 0em;
+        text-indent: 0;
     }
 }

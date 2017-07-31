@@ -9,12 +9,17 @@
   font-size: .12rem;
 
   .content {
-    @include row-width-limit;
-    margin: 24px auto;
+    max-width: 11.7rem;
+    min-width: 11.7rem;
     border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     background: #FFF;
-    padding: 10px 20px 50px 20px;
+    padding: 10px 20px 0 20px;
+    margin: 0 auto;
+    
+    .ant-tabs {
+      padding: 0 0 50px 0;
+    }
 
     .ant-tabs-content {
       padding: 0 0 50px 0;
@@ -39,12 +44,6 @@
       font-weight: normal;
     }
 
-    .save {
-      position: absolute;
-      bottom: 0;
-      left: 550px;
-    }
-
     .mock {
       float: right;
       margin: 0 15px 0 0;
@@ -59,7 +58,7 @@
       }
 
       td {
-        padding: 10px 0;
+        padding: 11px 0;
       }
 
       .select {
@@ -91,8 +90,7 @@
     .req-header {
       display: -webkit-box;
       line-height: 32px;
-      margin: 10px 0 0 50px;
-      padding: 15px 0 0 0;
+      margin: 12px 0 0 58px;
 
       .req-h3 {
         line-height: 32px;
@@ -105,7 +103,7 @@
 
         li {
           display: -webkit-box;
-          margin: 0 0 10px 0;
+          margin: 0 0 16px 0;
         }
 
         .title {
@@ -120,18 +118,18 @@
     }
 
     .req-save, .res-save {
-      margin: 5px 0 0 159px;
+      margin: 0 0 0 167px;
     }
 
     /* .req-params.css */
     .req-params {
       display: -webkit-box;
-      padding: 20px 0 0 0;
-      margin: 20px 0 0 90px;
-      width: 650px;
+      margin: 22px 0 0 92px;
+      width: 562px;
       height: 200px;
       .req-h3 {
         font-weight: normal;
+        margin: 0 0 0 8px;
       }
     }
 
@@ -196,6 +194,10 @@
       .ant-tabs {
         -webkit-box-flex: 1;
       }
+
+      .ant-card-head {
+        cursor: not-allowed;
+      }
     }
 
     .dynamic-delete-button {
@@ -204,19 +206,30 @@
     }
   }
 
+  .ant-affix, .save-button {
+    padding: 20px 0;
+    background: #f1f3f6;
+    margin: 10px 0 0 0;
+    button {
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
   /* .mock-url-box.css */
   .mock-url-box {
     clear: both;
     padding: 10px 0 0 0;
-    margin: 10px 0 0 90px;
+    margin: 14px 0 0 96px;
     zoom: 1;
     overflow: hidden;
+    display: none;
     .title {
       float: left;
       line-height: 35px;
     }
     p {
-      width: 52.8%;
+      width: 47.3%;
       height: 35px;
       line-height: 35px;
       border: 1px #DDD solid;
@@ -224,6 +237,7 @@
       margin: 0 10px 0 8px;
       padding: 0 0 0 10px;
       float: left;
+      border-radius: 4px;
     }
     .host {
       margin: 10px 0 0 80px;
@@ -231,6 +245,10 @@
     #mock-clipboard {
       margin: 3px 0 0 0;
     }
+  }
+
+  .show-mock {
+    display: block;
   }
 
   .loading {
@@ -247,6 +265,11 @@
   }
   .is-loading {
     display: block;
+  }
+  .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active,
+  .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    font-size: .12rem;
+    margin-top: 3px;
   }
 }
 
@@ -300,9 +323,9 @@ body {
 #req-cover {
   padding: 0 20px;
   border: 1px #DDD solid;
-  // background-color: #FFF;
+  border-radius: 4px;
   -webkit-box-flex: 1;
-  margin: 0 0 0 15px;
+  margin: 0 0 0 12px;
 }
 #res-cover {
   background-color: #FFF;

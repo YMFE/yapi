@@ -15,7 +15,8 @@ import QueueAnim from 'rc-queue-anim';
 const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};
 const style = {
-  'height':'100%',
+  // 'height':'100%',
+  // 'height':'7rem',
   'width':'100%',
   'background': 'url(./image/bg-img.jpg) no-repeat',
   'backgroundSize':'100% 100%'
@@ -37,19 +38,17 @@ const HomeGuest = (props) => (
             <Col span={8} className="main-one-left">
               <Login/>
             </Col>
-            <OverPack>
-              <TweenOne
-                key="feat-motion-one"
-                animation={imgAnim}
-              >
-                <Col span={16} className="main-one-right">
-
-                  <div className="img-container">
-                    <img src="./image/demo-img.png"/>
-                  </div>
-                </Col>
-              </TweenOne>
-            </OverPack>
+            <Col span={16} className="main-one-right">
+              <OverPack>
+                <TweenOne
+                  key="feat-motion-one"
+                  animation={imgAnim}
+                  className="img-container"
+                >
+                  <img src="./image/demo-img.png"/>
+                </TweenOne>
+              </OverPack>
+            </Col>
           </Row>
         </div>
       </div>
@@ -175,19 +174,19 @@ class Home extends Component {
 Home.defaultProps={
   introList:[{
     title:"接口管理",
-    des:"yapi将满足你的所有接口管理需求。不再需要 为每个项目搭建独立的接口管理平台和编写离线的接口文档",
+    des:"满足你的所有接口管理需求。不再需要为每个项目搭建独立的接口管理平台和编写离线的接口文档，其权限管理和项目日志让协作开发不再痛苦。",
     detail:[
-      {title:"接口管理",des:"强大的接口文档",iconType:"smile-o"},
-      {title:"接口管理",des:"强大的接口文档",iconType:"smile-o"},
-      {title:"接口管理",des:"强大的接口文档",iconType:"smile-o"}
+      {title:"团队协作",des:"多成员协作，掌握项目进度",iconType:"team"},
+      {title:"权限管理",des:"设置每个成员的操作权限",iconType:"usergroup-add"},
+      {title:"项目日志",des:"推送项目情况，掌握更新动态",iconType:"schedule"}
     ],
     img:"./image/demo-img.png"
   },{
-    title:"接口管理",
-    des:"yapi将满足你的所有接口管理需求。不再需要 为每个项目搭建独立的接口管理平台和编写离线的接口文档",
+    title:"接口测试",
+    des:"一键即可得到返回结果。根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则生成Mock接口，这些接口会自动生成模拟数据。",
     detail:[
-      {title:"接口管理",des:"强大的接口文档",iconType:"smile-o"},
-      {title:"接口管理",des:"强大的接口文档",iconType:"smile-o"}
+      {title:"编辑接口",des:"团队开发时任何人都可以在权限许可下创建、修改接口",iconType:"tags-o"},
+      {title:"mock请求",des:"创建者可以自由构造需要的数据，支持复杂的生成逻辑",iconType:"fork"}
     ],
     img:"./image/demo-img.png"
   }

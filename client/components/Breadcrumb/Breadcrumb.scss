@@ -1,6 +1,6 @@
 @import '../../styles/mixin.scss';
 
-.g-doc {
+.breadcrumb-container {
   @include row-width-limit;
-  margin: .24rem auto;
+  margin: 16px auto;
 }
