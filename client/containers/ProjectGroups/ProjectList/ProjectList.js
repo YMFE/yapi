@@ -42,7 +42,7 @@ const getColumns = (data, props) => {
       return <Link to={`/project/${record._id}`}>{text}</Link>
     }
   },{
-    title: 'Mock链接',
+    title: 'Mock基本URL',
     key: 'domain',
     render: (item) => {
       return 'http://'+ item.prd_host + item.basepath;
