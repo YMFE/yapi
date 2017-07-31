@@ -16,7 +16,7 @@ class baseModel{
                 model: this.name,
                 field: this.getPrimaryKey(),
                 startAt: 101,
-                incrementBy: yapi.commons.rand(1, 100)
+                incrementBy: yapi.commons.rand(1, 10)
             });
         }
         

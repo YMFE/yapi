@@ -38,7 +38,7 @@ var baseModel = function () {
                 model: this.name,
                 field: this.getPrimaryKey(),
                 startAt: 101,
-                incrementBy: _yapi2.default.commons.rand(1, 100)
+                incrementBy: _yapi2.default.commons.rand(1, 10)
             });
         }
 

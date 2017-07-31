@@ -3,7 +3,16 @@
     font-size: 24px;
     margin-bottom: 24px;
   }
-  .req-row {
-    margin-bottom: 24px;
+  .icon-btn {
+    cursor: pointer;
+    margin-left: 6px;
   }
+  .icon-btn:hover {
+    color: #108ee9;
+  }
+}
+.floatfix:after{
+    content:"";
+    display:table;
+    clear:both;
 }

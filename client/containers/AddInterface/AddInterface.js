@@ -78,7 +78,7 @@ class AddInterface extends Component {
       mockJson: '',
       mockURL: '',
       projectData: {},
-      tagName: '创建接口',
+      tagName: '添加接口',
       showMock: ''
     }
   }
