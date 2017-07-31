@@ -47,10 +47,11 @@ class interfaceModel extends baseModel {
             .exec();
     }
 
-    getByPath(project_id, path) {
+    getByPath(project_id, path, method) {
         return this.model.find({
             project_id: project_id,
-            path: path
+            path: path,
+            method: method
         })
             .exec();
     }

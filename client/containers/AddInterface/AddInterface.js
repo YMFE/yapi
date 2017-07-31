@@ -5,7 +5,7 @@ import axios from 'axios'
 import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Button, Tabs, message } from 'antd'
+import { Button, Tabs, message, Affix } from 'antd'
 import ReqMethod from './ReqMethod/ReqMethod.js'
 import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
@@ -77,7 +77,9 @@ class AddInterface extends Component {
       isSave: false,
       mockJson: '',
       mockURL: '',
-      projectData: {}
+      projectData: {},
+      tagName: '添加接口',
+      showMock: ''
     }
   }
 
@@ -92,6 +94,8 @@ class AddInterface extends Component {
     if (ifTrue) {
       interfaceId = this.getInterfaceId()
       this.initInterfaceData(interfaceId)
+      this.modifyTagName('编辑接口')
+      this.setState({showMock: 'show-mock'})
     } else {
       const props = this.props
       props.pushInputValue('')
@@ -103,8 +107,8 @@ class AddInterface extends Component {
   }
 
   getInterfaceId () {
-    const reg = /AddInterface\/edit\/(\d+)/g
-    const regTwo = /AddInterface\/(\d+)/g
+    const reg = /add-interface\/edit\/(\d+)/g
+    const regTwo = /add-interface\/(\d+)/g
     const url = location.href
     if ( url.match(reg) ) {
       return RegExp.$1
@@ -114,8 +118,14 @@ class AddInterface extends Component {
     }
   }
 
+  modifyTagName (tagName) {
+    this.setState({
+      tagName
+    })
+  }
+
   verificationURL () {
-    const dir = 'AddInterface/edit'
+    const dir = 'add-interface/edit'
     const url = location.href
     if (url.includes(dir)) {
       return true
@@ -210,6 +220,8 @@ class AddInterface extends Component {
     const { interfaceName, url, seqGroup, reqParams, resParams, method } = this.props
     const ifTrue = this.verificationURL()
     const interfaceId = this.getInterfaceId()
+    const origin = location.origin
+    const pathname = location.pathname
     const params = {
       title: interfaceName,
       path: url,
@@ -237,7 +249,8 @@ class AddInterface extends Component {
         success()
         this.changeState(true)
         // 初始化 mock
-        this.mockData()   
+        this.mockData()
+        location.href = `${origin}${pathname}#/add-interface/edit/${interfaceId}`
       })
       .catch(e => {
         console.log(e)
@@ -247,28 +260,32 @@ class AddInterface extends Component {
   render () {
     const TabPane = Tabs.TabPane
     const { server_ip } = this.props
-    const { isLoading, isSave, mockJson='', mockURL } = this.state
-
+    const { isLoading, isSave, mockJson='', mockURL, tagName, showMock } = this.state
+    let Pane = ''
+    if (showMock) {
+      Pane = <TabPane tab="请求接口" key="3"><InterfaceTest /></TabPane>
+    }
     return (
       <section className="add-interface-box">
+
         <div className="content">
           <Tabs type="card">
-            <TabPane tab="接口详情" key="1">
+            <TabPane tab={tagName} key="1">
               <h3 className="req-title">请求部分</h3>
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
-              <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData}  />
+              <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData} showMock={showMock}/>
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
-              <Button type="primary" className="save" onClick={this.saveForms}>保存</Button>
             </TabPane>
-            <TabPane tab="请求接口" key="3">
-              <InterfaceTest />
-            </TabPane>
+            {Pane}
           </Tabs>
         </div>
+        <Affix offsetBottom={0} className="save-button" onChange={affixed => console.log(affixed)}>
+          <Button type="primary" onClick={this.saveForms}>保存</Button>
+        </Affix>
         <div className={`loading ${isLoading}`}></div>
       </section>
     )

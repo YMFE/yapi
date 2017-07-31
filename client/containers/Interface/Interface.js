@@ -53,7 +53,6 @@ class Interface extends Component {
     }
 
     this.props.saveInterfaceProjectId(interfaceId)
-
     axios.get('/interface/list', params)
       .then(result => {
         result = result.data.data
@@ -69,7 +68,7 @@ class Interface extends Component {
   }
 
   getInterfaceId () {
-    const reg = /Interface\/(\d+)/g
+    const reg = /project\/(\d+)/g
     const url = location.href
     url.match(reg)
     return RegExp.$1
