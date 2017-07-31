@@ -61,7 +61,7 @@ class MockUrl extends Component {
         <span className="title">mock地址 : </span>
         <p id="mock-p">{this.props.mockURL}</p>
         <span id="clipboard-button"></span>
-        <div className="host"><label>请配置host:</label> {this.props.projectData.prd_host} { serverIp }</div>
+        <div className="host"><label>请配置host:</label> { serverIp }&nbsp;{this.props.projectData.prd_host} </div>
       </section>
     )
   }
