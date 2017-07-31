@@ -130,7 +130,7 @@ $(document).ready(function() {
 
     $('.markdown-body pre').map(function(i, item) {
         $(item).addClass('ydoc-example').append('<div class="ui-copy js-copy" data-clipboard-action="copy" data-clipboard-target=".js-code-' + i + '" data-copy-number="' + i + '">copy</div><div class="copy-tip copy-tip-' + i + '">已复制</div>');
-        $(item).children('code').addClass('js-code-'+i);
+        $(item).children('code').addClass('js-code js-code-'+i);
     });
 
     var winHeight = $(window).height() - 44,
