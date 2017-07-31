@@ -11,3 +11,8 @@
     color: #108ee9;
   }
 }
+.floatfix:after{
+    content:"";
+    display:table;
+    clear:both;
+}
