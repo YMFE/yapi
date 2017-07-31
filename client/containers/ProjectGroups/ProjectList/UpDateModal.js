@@ -81,17 +81,14 @@ class UpDateModal extends Component {
 
   // 确认修改
   handleOk = (e) => {
-    console.log('in');
     e.preventDefault();
     const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
     form.validateFields((err, values) => {
-      console.log(values);
       if (!err) {
         // console.log(projectList[handleUpdateIndex]);
         let assignValue = Object.assign(projectList[handleUpdateIndex], values);
         values.protocol = this.state.protocol.split(':')[0];
         assignValue.env = assignValue.envs.map((item, index) => {
-          console.log(values['envs-protocol-'+index]);
           return {
             name: values['envs-name-'+index],
             domain: values['envs-protocol-'+index] + values['envs-domain-'+index]
@@ -104,28 +101,19 @@ class UpDateModal extends Component {
           if (res.payload.data.errcode == 0) {
             changeUpdateModal(false, -1);
             message.success('修改成功! ');
-            fetchProjectList(currGroup._id).then((res) => {
-              console.log(res);
+            fetchProjectList(currGroup._id).then(() => {
               changeTableLoading(false);
             });
           } else {
             changeTableLoading(false);
             message.error(res.payload.data.errmsg);
           }
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
           changeTableLoading(false);
         });
         form.resetFields();
       }
     });
-  }
-
-  envProtocolChange = (value) => {
-    console.log(value);
-    // this.setState({
-    //   envProtocolChange: value
-    // })
   }
 
   // 项目的修改操作 - 删除一项环境配置
@@ -142,7 +130,6 @@ class UpDateModal extends Component {
     form.setFieldsValue({
       envs: envs.filter(key => {
         const realKey = key._id ? key._id : key
-        console.log(key);
         return realKey !== id;
       })
     });
@@ -184,7 +171,6 @@ class UpDateModal extends Component {
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
     const formItems = envs.map((k, index) => {
-      console.log(k);
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>

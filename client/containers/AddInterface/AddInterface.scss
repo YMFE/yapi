@@ -1,6 +1,8 @@
 @import '../../styles/mixin.scss';
 
 .add-interface-box {
+  @include row-width-limit;
+  margin: 0 auto;
   -webkit-box-flex: 1;
   min-height: 5rem;
   font-size: .14rem;
@@ -9,14 +11,12 @@
   font-size: .12rem;
 
   .content {
-    max-width: 11.7rem;
-    min-width: 11.7rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     background: #FFF;
     padding: 10px 20px 0 20px;
     margin: 0 auto;
-    
+
     .ant-tabs {
       padding: 0 0 50px 0;
     }
@@ -24,7 +24,7 @@
     .ant-tabs-content {
       padding: 0 0 50px 0;
     }
-  
+
     .border {
       zoom: 1;
       overflow: hidden;

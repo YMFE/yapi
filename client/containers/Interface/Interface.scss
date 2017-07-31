@@ -7,7 +7,7 @@
 /* .interface-box.css */
 .interface-box {
   @include row-width-limit;
-  margin: 24px auto;
+  margin: 0 auto .24rem;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
   background: #FFF;
@@ -62,4 +62,3 @@
 body .interface-mode-box .add-user .ant-input {
   width: 100%;
 }
-
