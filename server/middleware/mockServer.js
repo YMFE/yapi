@@ -16,7 +16,6 @@ module.exports = async (ctx, next) => {
 
     yapi.commons.log('MockServer Running...');
     let projectInst = yapi.getInst(projectModel), projects;
-
     try {
         projects = await projectInst.getByDomain(hostname);
     } catch (e) {
@@ -46,9 +45,15 @@ module.exports = async (ctx, next) => {
     let interfaceInst = yapi.getInst(interfaceModel);
 
     try {
-        interfaceData = await interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length));
 
+        interfaceData = await interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length), ctx.method);        
         if (!interfaceData || interfaceData.length === 0) {
+            //非正常跨域预检请求回应
+            if(ctx.method === 'OPTIONS'){
+                ctx.set("Access-Control-Allow-Origin", "*")
+                ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+                return ctx.body = 'ok'
+            }
             return ctx.body = yapi.commons.resReturn(null, 404, '不存在的api');
         }
 
@@ -57,7 +62,7 @@ module.exports = async (ctx, next) => {
         }
 
         interfaceData = interfaceData[0];
-
+        ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
             return ctx.body = Mock.mock(
                 yapi.commons.json_parse(interfaceData.res_body)
