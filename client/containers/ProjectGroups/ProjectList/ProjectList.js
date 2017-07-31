@@ -21,8 +21,7 @@ const deleteConfirm = (id, props) => {
     delProject(id).then((res) => {
       if (res.payload.data.errcode == 0) {
         message.success('删除成功!')
-        fetchProjectList(currGroup._id).then((res) => {
-          console.log(res);
+        fetchProjectList(currGroup._id).then(() => {
         });
       } else {
         message.error(res.payload.data.errmsg);
@@ -155,7 +154,6 @@ class ProjectList extends Component {
 
         changeTableLoading(true);
         addProject(values).then((res) => {
-          console.log(res);
           // 添加项目成功后再次请求列表
           if (res.payload.data.errcode == 0) {
             that.setState({
@@ -163,16 +161,14 @@ class ProjectList extends Component {
             });
             form.resetFields();
             message.success('创建成功! ');
-            fetchProjectList(currGroup._id, this.props.currPage).then((res) => {
+            fetchProjectList(currGroup._id, this.props.currPage).then(() => {
               changeTableLoading(false);
-              console.log(131,res);
             });
           } else {
             changeTableLoading(false);
             message.error(res.payload.data.errmsg);
           }
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
           changeTableLoading(false);
         });
       }
