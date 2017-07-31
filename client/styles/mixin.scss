@@ -1,8 +1,9 @@
 @mixin row-width-limit {
-  max-width: 11.7rem;
-  min-width: 9.7rem;
+  max-width: 12.2rem;
+  min-width: 10.2rem;
+  padding: 0 .24rem;
 }
 
 @mixin wrap-width-limit {
-  min-width: 9.7rem;
+  min-width: 10.2rem;
 }
