@@ -1,35 +1,40 @@
-### Mock功能
+## Mock功能
 
  <p style='text-indent:2em;line-height:1.8em'>yapi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，支持复杂的生成逻辑，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台那么在 团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。</p>
 
-#### 1 Mock步骤
-##### 1.1 创建接口
+### 1 Mock步骤
+#### 1.1 创建接口
+
 通过点击页面上的"+添加接口"（若是接口已存在则跳到 1.2 ）
 
 <img src="http://note.youdao.com/yws/api/personal/file/WEB613bd4f29db038f2b41c03dcfceda2b6?method=download&shareKey=29bfc2b855f6f26ce0079baf567e54cc" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
- 输入协议、URL、接口名、请求头、请求参数、Mock规则（[点击到Mock规则](#mock)）等信息，然后点击右上角的"Mock"按钮。
+ 输入协议、URL、接口名、请求头、请求参数、Mock规则（[点击到Mock规则](#mock)）等信息。
 
-<img src="http://upload-images.jianshu.io/upload_images/842107-78c0ea839619d068.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+<img src="http://note.youdao.com/yws/api/personal/file/WEB680a37ba304768804b23cf2cf36ed40d?method=download&shareKey=0d750695dce3a4c7abf697fa58d24c57" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-##### 1.2 开始Mock
-当点击"Mock"按钮之后，就会在页面下方生成一个mock结果并产生一个API接口。
+输入Mock规则时它会在右边同步产生一个对应的结果
 
-<img src="http://note.youdao.com/yws/api/personal/file/WEBf9b154cb88d21daa8206e8c4a3d76042?method=download&shareKey=1999f6c2cf197b5b6d775c312e34073d" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+<img src="http://note.youdao.com/yws/api/personal/file/WEB929dce5eed22e1b7e9a10be98ee2ab38?method=download&shareKey=5616ed1d9e09cc38f9cdbb995c892cb5" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+
+最后点击保存按钮，保存后将会在"Mock地址"生成一个链接。
+>这里Mock地址的域名是需要已经配置host了
+
+<img src="http://note.youdao.com/yws/api/personal/file/WEB525ea3dadf1f274bbe12943341ba00cb?method=download&shareKey=95dbc9cf7a7646387c55dabf64cad888" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+
+取到上面的链接在浏览器中请求就可以得到如下结果。
+
+<img src="http://note.youdao.com/yws/api/personal/file/WEBf168cd41d3ad4b5b24d68787063220c7?method=download&shareKey=beb6896165ddd3568ebecbcc92195180" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+
+#### 1.2 发起请求
 
 将请求的信息填写完善如：请求方法（post、get等）、URL、请求头、请求的数据等。然后就点击"发送"，然后在"返回结果"出可以看到接口返回的数据。
 
 <img src="http://upload-images.jianshu.io/upload_images/842107-2ee7171d707e91ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-#### 3 成员管理
-
-你也可以通过点击"管理成员"来添加和删除项目的成员，便于团队管理。
-
-<img src="http://note.youdao.com/yws/api/personal/file/WEB1b9defdf0cb884f46c2bd6c30ceb02fb?method=download&shareKey=218b9326659208ec564b9fff3ea8c6c3" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
-
 
 <span id = "mock"></span>
-#### 2.1 Mock语法规范
+### 2.1 Mock语法规范
 >参考自：[Mock.js 官网](http://mockjs.com/)
 
 Mock.js 的语法规范包括两部分：
@@ -39,7 +44,7 @@ Mock.js 的语法规范包括两部分：
 [2. 数据占位符定义规范（Data Placeholder Definition，DPD）](#DPD)
 
 <span id = "DTD"></span>
-#### 数据模板定义规范（Data Template Definition，DTD）
+### 数据模板定义规范（Data Template Definition，DTD）
 
 数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：
 
@@ -62,7 +67,7 @@ Mock.js 的语法规范包括两部分：
 ```
 
 生成规则示例：
-##### 1. 属性值是字符串 String
+#### 1. 属性值是字符串 String
 
 ```
 1. 'name|min-max': string
@@ -71,7 +76,7 @@ Mock.js 的语法规范包括两部分：
 2. 'name|count': string
 通过重复 string 生成一个字符串，重复次数等于 count。
 ```
-##### 2. 属性值是数字 Number
+#### 2. 属性值是数字 Number
 ```
 1. 'name|+1': number
 
@@ -101,7 +106,7 @@ Mock.mock({
 }
 ```
 
-##### 3. 属性值是布尔型 Boolean
+#### 3. 属性值是布尔型 Boolean
 ```
 1. 'name|1': boolean
 
@@ -111,7 +116,7 @@ Mock.mock({
 
 随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。
 ```
-##### 4. 属性值是对象 Object
+#### 4. 属性值是对象 Object
 ```
 1. 'name|count': object
 
@@ -121,7 +126,7 @@ Mock.mock({
 
 从属性值 object 中随机选取 min 到 max 个属性。
 ```
-##### 5. 属性值是数组 Array
+#### 5. 属性值是数组 Array
 ```
 1. 'name|1': array
 
@@ -139,13 +144,13 @@ Mock.mock({
 
 通过重复属性值 array 生成一个新数组，重复次数为 count。
 ```
-##### 6. 属性值是函数 Function
+#### 6. 属性值是函数 Function
 ```
 1. 'name': function
 
 执行函数 function，取其返回值作为最终的属性值，函数的上下文为属性 'name' 所在的对象。
 ```
-##### 7.属性值是正则表达式 RegExp
+#### 7.属性值是正则表达式 RegExp
 ```
 1. 'name': regexp
 
@@ -165,7 +170,7 @@ Mock.mock({
 }
 ```
 <span id = "DPD"></span>
-#### 数据占位符定义规范（Data Placeholder Definition，DPD）
+### 数据占位符定义规范（Data Placeholder Definition，DPD）
 
 占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
 
