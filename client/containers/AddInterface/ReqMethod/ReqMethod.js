@@ -40,6 +40,7 @@ class ReqMethod extends Component {
 
   @autobind
   handleChange (value) {
+    console.log('select', value)
     this.props.pushInterfaceMethod(value)
   }
 
@@ -66,6 +67,7 @@ class ReqMethod extends Component {
             <td>
               <span className="h3">请求方式 : </span>
               <Select value={method} style={{ width: 180 }} onChange={this.handleChange} size="large">
+                <Option value="">选择请求方式</Option>
                 <Option value="POST">POST</Option>
                 <Option value="GET">GET</Option>
                 <Option value="PUT">PUT</Option>
