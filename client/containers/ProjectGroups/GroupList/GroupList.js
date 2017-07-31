@@ -64,11 +64,11 @@ export default class GroupList extends Component {
           if(this.props.groupList[i].group_name === groupName){
             currGroup = this.props.groupList[i];
           }else{
-            this.props.history.replace(`${currGroup.group_name}`);
+            this.props.history.replace(`${currGroup._id}`);
           }
         }
       }else if(!groupName && this.props.groupList.length){
-        this.props.history.push(`/group/${this.props.groupList[0].group_name}`);
+        this.props.history.push(`/group/${this.props.groupList[0]._id}`);
       }
       this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(currGroup)
@@ -156,7 +156,7 @@ export default class GroupList extends Component {
     const groupId = e.key;
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
-    this.props.history.replace(`${currGroup.group_name}`);
+    this.props.history.replace(`${currGroup._id}`);
   }
 
   @autobind
