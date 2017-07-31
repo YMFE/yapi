@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card } from 'antd'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Mock from 'mockjs'
 
 @connect(
   state => {
@@ -25,12 +26,24 @@ class Result extends Component {
   }
 
   render () { 
-    const { mockJson } = this.props
+    const { mockJson, resParams } = this.props
+    let json, j;
+    try{
+      json = JSON.parse(resParams);
+    }catch(e){
+      json = false;
+    }
+    if(json !== false){
+      j = JSON.stringify(Mock.mock(json), null, "   ");
+    }else{
+      j = mockJson
+    }
+    
 
     return (
       <div className="result">
         <Card title="Mock 结果" style={{ width: 500 }}>
-          <pre>{mockJson}</pre>
+          <pre>{j}</pre>
         </Card>
       </div>
     )
