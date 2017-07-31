@@ -28,7 +28,7 @@ export default class BreadcrumbNavigation extends Component {
     if (/project|group|add-interface/.test(pathSnippets[0])) {
       let type = pathSnippets[0] === 'add-interface' ? 'interface' : pathSnippets[0],
         id = pathSnippets[pathSnippets.length-1];
-      if (!pathSnippets.includes('edit')) {
+      if (pathSnippets.includes('add-interface') && !pathSnippets.includes('edit')) {
         type = 'project';
       }
       const params = { type, id };
@@ -50,12 +50,21 @@ export default class BreadcrumbNavigation extends Component {
               path: '/project/' + data.project_id
             }])
           });
+          // '添加接口'页面：根据project_id获取面包屑路径，并在结尾追加"添加接口"
+          if (pathSnippets.includes('add-interface') && !pathSnippets.includes('edit')) {
+            this.setState({
+              breadcrumb: this.state.breadcrumb.concat([{
+                name: '添加接口',
+                path: '/add-interface/' + data.project_id
+              }])
+            });
+          }
         }
-        if (data.interface_name) {
+        if (data.interface_name && pathSnippets.includes('edit')) {
           this.setState({
             breadcrumb: this.state.breadcrumb.concat([{
               name: data.interface_name,
-              path: '/add-interface/' + data.interface_id
+              path: '/add-interface/edit/' + data.interface_id
             }])
           });
         }
