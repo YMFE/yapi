@@ -88,10 +88,11 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'getByPath',
-        value: function getByPath(project_id, path) {
+        value: function getByPath(project_id, path, method) {
             return this.model.find({
                 project_id: project_id,
-                path: path
+                path: path,
+                method: method
             }).exec();
         }
     }, {
