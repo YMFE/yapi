@@ -140,8 +140,8 @@ export default class InterfaceTest extends Component {
     crossRequest({
       url: href,
       method,
-      headers,
-      data: params,
+      headers: this.getHeadersObj(headers),
+      data: this.arrToObj(params),
       success: (res) => {
         try {
           res = JSON.parse(res)
@@ -266,6 +266,15 @@ export default class InterfaceTest extends Component {
     return dom.getAttribute('key') === 'yapi';
   }
 
+  arrToObj(arr) {
+    const obj = {};
+    arr.forEach(item => {
+      if (item.key) {
+        obj[item.key] = item.value || '';
+      }
+    })
+    return obj;
+  }
   getQueryObj(query) {
     const queryObj = {};
     query.forEach(item => {
@@ -274,6 +283,15 @@ export default class InterfaceTest extends Component {
       }
     })
     return queryObj;
+  }
+  getHeadersObj(headers) {
+    const headersObj = {};
+    headers.forEach(item => {
+      if (item.name && item.value) {
+        headersObj[item.name] = item.value;
+      }
+    })
+    return headersObj;
   }
 
   render () {
@@ -350,7 +368,7 @@ export default class InterfaceTest extends Component {
                 )
               })
             }
-            <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
+            <Button type="primary" icon="plus" onClick={this.addQuery} style={{margin: 10}}>Add query parameter</Button>
           </Card>
           <Card title="HEADERS" noHovering style={{marginTop: 10}} >
             <div className="req-row headers">
@@ -365,16 +383,18 @@ export default class InterfaceTest extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addHeader}>Add header</Button>
+              <Button type="primary" icon="plus" onClick={this.addHeader} style={{margin: 10}}>Add header</Button>
             </div>
           </Card>
           <Card title="Body" noHovering style={{marginTop: 10}}>
             <div className="req-row params">
-              <Select defaultValue={paramsType} onChange={this.changeParamsType} className={method === 'POST' ? '' : 'hidden'}>
-                <Option value="text">Text</Option>
-                <Option value="file">File</Option>
-                <Option value="form">Form</Option>
-              </Select>
+              <div>
+                <Select style={{margin: 10, float: 'right'}} defaultValue={paramsType} onChange={this.changeParamsType} className={method === 'POST' ? 'floatfix' : 'floatfix hidden'}>
+                  <Option value="text">Text</Option>
+                  <Option value="file">File</Option>
+                  <Option value="form">Form</Option>
+                </Select>
+              </div>
               { method === 'POST' && paramsType !== 'form' && paramsType !== 'file' &&
                 <div>
                   <TextArea
@@ -405,7 +425,7 @@ export default class InterfaceTest extends Component {
                         )
                       })
                     }
-                    <Button type="primary" icon="plus" onClick={this.addParams}>Add form parameter</Button>
+                    <Button type="primary" icon="plus" onClick={this.addParams} style={{margin: 10}}>Add form parameter</Button>
                   </div>
                 )
               }
@@ -418,7 +438,7 @@ export default class InterfaceTest extends Component {
               }
               {
                 method !== 'POST' && (
-                  <div>GET 请求没有 Body。</div>
+                  <div style={{margin: 10}}>GET 请求没有 Body。</div>
                 )
               }
             </div>
