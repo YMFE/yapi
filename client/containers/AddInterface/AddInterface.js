@@ -250,7 +250,8 @@ class AddInterface extends Component {
         this.changeState(true)
         // 初始化 mock
         this.mockData()
-        location.href = `${origin}${pathname}#/add-interface/edit/${interfaceId}`
+
+        location.href = `${origin}${pathname}#/project/${interfaceId}`
       })
       .catch(e => {
         console.log(e)
