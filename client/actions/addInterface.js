@@ -8,7 +8,8 @@ import {
   GET_INTERFACE_RES_PARAMS,
   PUSH_INTERFACE_NAME,
   PUSH_INTERFACE_METHOD,
-  FETCH_INTERFACE_PROJECT
+  FETCH_INTERFACE_PROJECT,
+  ADD_INTERFACE_CLIPBOARD
 } from '../constants/action-types.js'
 import axios from 'axios'
 
@@ -79,5 +80,12 @@ export function fetchInterfaceProject(id) {
   return {
     type: FETCH_INTERFACE_PROJECT,
     payload: axios.get('/project/get', { params: {id}})
+  }
+}
+
+export function addInterfaceClipboard (func) {
+  return {
+    type: ADD_INTERFACE_CLIPBOARD,
+    payload: func
   }
 }
