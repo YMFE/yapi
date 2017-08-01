@@ -18,7 +18,7 @@
 <img src="http://note.youdao.com/yws/api/personal/file/WEB929dce5eed22e1b7e9a10be98ee2ab38?method=download&shareKey=5616ed1d9e09cc38f9cdbb995c892cb5" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
 最后点击保存按钮，保存后将会在"Mock地址"生成一个链接。
->这里Mock地址的域名是需要已经配置host了
+>Mock地址的域名需要配置 host 指到我们的服务器 ip 地址
 
 <img src="http://note.youdao.com/yws/api/personal/file/WEB525ea3dadf1f274bbe12943341ba00cb?method=download&shareKey=95dbc9cf7a7646387c55dabf64cad888" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
@@ -26,11 +26,6 @@
 
 <img src="http://note.youdao.com/yws/api/personal/file/WEBf168cd41d3ad4b5b24d68787063220c7?method=download&shareKey=beb6896165ddd3568ebecbcc92195180" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-#### 1.2 发起请求
-
-将请求的信息填写完善如：请求方法（post、get等）、URL、请求头、请求的数据等。然后就点击"发送"，然后在"返回结果"出可以看到接口返回的数据。
-
-<img src="http://upload-images.jianshu.io/upload_images/842107-2ee7171d707e91ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
 
 <span id = "mock"></span>
