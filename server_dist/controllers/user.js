@@ -146,6 +146,7 @@ var userController = function (_baseController) {
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
                                     username: result.username,
+                                    role: result.role,
                                     uid: result._id,
                                     email: result.email,
                                     add_time: result.add_time,
