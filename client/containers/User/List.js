@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { formatTime } from '../../common.js'
 import { Link } from 'react-router-dom'
 //import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   Table,
   Popconfirm,
@@ -10,7 +12,13 @@ import {
 import axios from 'axios';
 
 const limit = 10;
-
+@connect(
+  state => {
+    return {
+      curUserRole: state.login.role
+    }
+  }
+)
 class List extends Component {
 
   constructor(props) {
@@ -21,7 +29,9 @@ class List extends Component {
       current: 1
     }
   }
-
+  static propTypes = {
+    curUserRole: PropTypes.string
+  }
   changePage =(current)=>{
     this.setState({
       current: current
@@ -73,8 +83,11 @@ class List extends Component {
   }
 
   render() {
-    const role = 'admin'
-    const data = this.state.data;
+    const role = this.props.curUserRole;
+    let data = [];
+    if(role === 'admin'){
+      data = this.state.data;
+    }
     let columns = [{
       title: 'UID',
       dataIndex: '_id',
