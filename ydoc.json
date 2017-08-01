@@ -12,10 +12,10 @@
         "homeUrl": "http://ued.qunar.com/ymfe/" // logourl
     },
     "options": {
-        "foldcode": true,
-        "markdown": { // 对于 markdown 编译器进行统一配置
-            "menuLevel": 4 //选取第几级 head 作为目录，默认 -1 没有目录
-        }
+        "foldcode": true
+        // "markdown": { // 对于 markdown 编译器进行统一配置
+        //     "menuLevel": 4 //选取第几级 head 作为目录，默认 -1 没有目录
+        // }
     },
     "pages": [{
         "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
@@ -72,13 +72,7 @@
             "title": "YApi",
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": {
-            "sidebar": true,
-            "blocks": [{
-                "name":"",
-                "content": "./README/README-mock.md" // 内容(这里以markdown文件举例)
-            }]
-        }
+        "content": "./README/README-mock.md" // 内容(这里以markdown文件举例)
         
     },{
         "name": "api",
