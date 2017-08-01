@@ -11,7 +11,8 @@ const Option = AutoComplete.Option;
     console.log(state);
     return {
       curUid: state.login.uid + '',
-      curUserName: state.login.userName
+      curUserName: state.login.userName,
+      curUserRole: state.login.role
     }
   }
 )
@@ -28,7 +29,8 @@ class LeftMenu extends Component {
 
   static propTypes = {
     curUid: PropTypes.string,
-    curUserName: PropTypes.string
+    curUserName: PropTypes.string,
+    curUserRole: PropTypes.string
   }
 
   //延迟搜索
@@ -66,12 +68,14 @@ class LeftMenu extends Component {
     const menus = [{
       title: '个人资料',
       path: `/user/profile/${this.props.curUid}`
-    }, {
-      title: '用户管理',
-      path: '/user/list'
     }
     ]
-
+    if(this.props.curUserRole === 'admin'){
+      menus.push({
+        title: '用户管理',
+        path: '/user/list'
+      })
+    }
     let content = menus.map((menu) => {
       return (
         <Menu.Item key={'#' + menu.path} >

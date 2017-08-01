@@ -60,7 +60,7 @@ class baseController {
 
     async getLoginStatus(ctx) {
         if (await this.checkLogin(ctx) === true) {
-            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time']);
+            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time','role']);
             result.server_ip = yapi.WEBCONFIG.server_ip;
             return ctx.body = yapi.commons.resReturn(result);
         }

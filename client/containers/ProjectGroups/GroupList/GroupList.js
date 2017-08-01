@@ -20,7 +20,8 @@ import './GroupList.scss'
 @connect(
   state => ({
     groupList: state.group.groupList,
-    currGroup: state.group.currGroup
+    currGroup: state.group.currGroup,
+    curUserRole: state.login.role
   }),
   {
     fetchGroupList,
@@ -38,7 +39,8 @@ export default class GroupList extends Component {
     setCurrGroup: PropTypes.func,
     setGroupList: PropTypes.func,
     match: PropTypes.object,
-    history: PropTypes.object
+    history: PropTypes.object,
+    curUserRole: PropTypes.string
   }
 
   state = {
@@ -190,17 +192,25 @@ export default class GroupList extends Component {
 
   render () {
     const { currGroup } = this.props;
+    const delmark = <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
+    const editmark = (<Popconfirm title={`你确定要删除分组 ${currGroup.group_name}？`} onConfirm={this.deleteGroup}>
+      <Icon className="delete-group" type="delete" title="删除分组"/>
+    </Popconfirm>)
 
+    
     return (
       <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
               <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
-              <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
-              <Popconfirm title={`你确定要删除分组 ${currGroup.group_name}？`} onConfirm={this.deleteGroup}>
-                <Icon className="delete-group" type="delete" title="删除分组"/>
-              </Popconfirm>
+              {
+                this.props.curUserRole === "admin"?(editmark):''
+              }
+              {
+                this.props.curUserRole === "admin"?(delmark):''
+              }
+              
             </div>
             <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
           </div>
@@ -208,7 +218,10 @@ export default class GroupList extends Component {
             <div className="search">
               <Search onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)}/>
             </div>
-            <Button type="primary" onClick={this.showModal}>添加分组</Button>
+            {
+              this.props.curUserRole === "admin"?(<Button type="primary" onClick={this.showModal}>添加分组</Button>):''
+            }
+            
           </div>
           <Menu
             className="group-list"
