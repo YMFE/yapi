@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';
-import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../actions/project';
+import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from '../../../actions/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -90,8 +90,8 @@ class UpDateModal extends Component {
         values.protocol = this.state.protocol.split(':')[0];
         assignValue.env = assignValue.envs.map((item, index) => {
           return {
-            name: values['envs-name-'+index],
-            domain: values['envs-protocol-'+index] + values['envs-domain-'+index]
+            name: values['envs-name-' + index],
+            domain: values['envs-protocol-' + index] + values['envs-domain-' + index]
           }
         });
         // console.log(assignValue);
@@ -156,9 +156,9 @@ class UpDateModal extends Component {
     let initFormValues = {};
     let envMessage = [];
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
-    if (projectList.length !== 0 && handleUpdateIndex !== -1 ) {
+    if (projectList.length !== 0 && handleUpdateIndex !== -1) {
       // console.log(projectList[handleUpdateIndex]);
-      const { name, basepath, desc , env} = projectList[handleUpdateIndex];
+      const { name, basepath, desc, env } = projectList[handleUpdateIndex];
       initFormValues = { name, basepath, desc, env };
       if (env.length !== 0) {
         envMessage = env;
@@ -204,7 +204,7 @@ class UpDateModal extends Component {
                 }]
               })(
                 <Input placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
-              )}
+                )}
             </FormItem>
           </Col>
           <Col span={10}>
@@ -238,7 +238,7 @@ class UpDateModal extends Component {
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
                   getFieldDecorator(`envs-protocol-${index}`, {
-                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0]+'\/\/' : 'http\:\/\/',
+                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0] + '\/\/' : 'http\:\/\/',
                     rules: [{
                       required: true
                     }]
@@ -247,13 +247,13 @@ class UpDateModal extends Component {
                       <Option value="http://">{'http:\/\/'}</Option>
                       <Option value="https://">{'https:\/\/'}</Option>
                     </Select>
-                  )}/>
-              )}
+                    )} />
+                )}
             </FormItem>
           </Col>
           <Col span={2}>
             {/* 新增的项中，只有最后一项有删除按钮 */}
-            { (envs.length > 0 && k._id) || (envs.length == index + 1) ? (
+            {(envs.length > 0 && k._id) || (envs.length == index + 1) ? (
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
@@ -286,7 +286,7 @@ class UpDateModal extends Component {
               }]
             })(
               <Input />
-            )}
+              )}
           </FormItem>
 
           <FormItem
@@ -311,19 +311,19 @@ class UpDateModal extends Component {
                   <Option value="http://">{'http:\/\/'}</Option>
                   <Option value="https://">{'https:\/\/'}</Option>
                 </Select>)} />
-            )}
+              )}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label={(
-                <span>
-                  基本路径&nbsp;
-                  <Tooltip title="基本路径为空是根路径">
-                    <Icon type="question-circle-o" />
-                  </Tooltip>
-                </span>
-              )}
+              <span>
+                基本路径&nbsp;
+                <Tooltip title="基本路径为空是根路径">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}
           >
             {getFieldDecorator('basepath', {
               initialValue: initFormValues.basepath,
@@ -332,7 +332,7 @@ class UpDateModal extends Component {
               }]
             })(
               <Input />
-            )}
+              )}
           </FormItem>
 
           <FormItem
@@ -346,7 +346,7 @@ class UpDateModal extends Component {
               }]
             })(
               <TextArea rows={4} />
-            )}
+              )}
           </FormItem>
 
           {formItems}
