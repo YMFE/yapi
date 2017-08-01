@@ -149,8 +149,8 @@ class AddInterface extends Component {
     const params = {id: project_id}
     axios.get('/project/get', {params: params}).
       then( data => {
-        const { protocol, prd_host, basepath } = data.data.data
-        const mockURL = `${protocol}://${prd_host}${basepath}${result.path}`
+        const { prd_host, basepath } = data.data.data
+        const mockURL = `http://${prd_host}${basepath}${result.path}`
         this.setState({
           mockURL: mockURL,
           projectData: data.data.data
@@ -280,6 +280,11 @@ class AddInterface extends Component {
 
     axios.post(postURL, params)
       .then(data => {
+        if(data.data.errcode !== 0){
+          this.setLoading()
+          success(data.data.errmsg, false)
+          return null;
+        }
         const id = data.data.data._id
         const _id = id || interfaceId
 
@@ -297,7 +302,7 @@ class AddInterface extends Component {
       })
       .catch(error => {
         this.setLoading()
-        success('接口请求路径和接口名称不能为空!', false)
+        success('程序出错，请联系管理员检查!', false)
         console.log(error)
       })
   }
