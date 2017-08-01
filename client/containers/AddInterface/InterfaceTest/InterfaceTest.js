@@ -274,7 +274,7 @@ export default class InterfaceTest extends Component {
     const path = e.target.value;
     const urlObj = URL.parse(path, true);
     this.setState({
-      query: urlObj.query,
+      query: this.objToArr(urlObj.query),
       pathname: urlObj.pathname
     })
   }
