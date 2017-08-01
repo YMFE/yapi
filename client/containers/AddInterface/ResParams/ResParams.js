@@ -28,7 +28,6 @@ class ResParams extends Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
   }
 
   // initResParams () {
@@ -69,7 +68,6 @@ class ResParams extends Component {
     var rhymeCompleter = {
       identifierRegexps: [/[@]/],
       getCompletions: function (editor, session, pos, prefix, callback) {
-        console.log(prefix)
         if (prefix.length === 0) { callback(null, []); return }
         var wordList = [
           { name: '字符串', mock: '@string' },
@@ -97,10 +95,13 @@ class ResParams extends Component {
       }
     }
     langTools.addCompleter(rhymeCompleter);
+    
     editor.getSession().on('change', () => {
       this.props.getResParams(editor.getValue())
     });
+    
     setTimeout(() => {
+      
       editor.setValue(json_parse(this.props.resParams))
     }, 400)
   }
