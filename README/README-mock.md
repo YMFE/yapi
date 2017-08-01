@@ -5,7 +5,7 @@
 ### 1 Mock步骤
 #### 1.1 创建接口
 
-通过点击页面上的"+添加接口"（若是接口已存在则跳到 1.2 ）
+通过点击页面上的"+添加接口"
 
 <img src="http://note.youdao.com/yws/api/personal/file/WEB613bd4f29db038f2b41c03dcfceda2b6?method=download&shareKey=29bfc2b855f6f26ce0079baf567e54cc" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 

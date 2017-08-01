@@ -175,8 +175,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -184,7 +184,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
