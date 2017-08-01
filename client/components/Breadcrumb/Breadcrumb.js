@@ -20,7 +20,6 @@ export default class BreadcrumbNavigation extends Component {
   }
 
   getBreadcrumb = (pathSnippets) => {
-    console.log(pathSnippets);
     // 重置 state 中的 breadcrumb，防止重复渲染
     this.setState({
       breadcrumb: []
@@ -76,12 +75,9 @@ export default class BreadcrumbNavigation extends Component {
           path: '/' + pathSnippets.join('/')
         }]
       });
-    } else {
-      console.log(2);
     }
   }
   componentDidMount() {
-    console.log(location.hash);
     const pathSnippets = location.hash.split('#')[1].split('/').filter(i => i);
     this.getBreadcrumb(pathSnippets);
     this.setState({

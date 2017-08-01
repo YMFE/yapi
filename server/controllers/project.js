@@ -16,6 +16,7 @@ class projectController extends baseController {
 
     handleBasepath(basepath) {
         if (!basepath) return false;
+        if (basepath === '/') return basepath;
         if (basepath[0] !== '/') basepath = '/' + basepath;
         if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
         if (!yapi.commons.verifyPath(basepath)) {

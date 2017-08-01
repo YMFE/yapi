@@ -8,13 +8,14 @@ import {
   GET_INTERFACE_RES_PARAMS,
   PUSH_INTERFACE_NAME,
   PUSH_INTERFACE_METHOD,
-  FETCH_INTERFACE_PROJECT
+  FETCH_INTERFACE_PROJECT,
+  ADD_INTERFACE_CLIPBOARD
 } from '../../constants/action-types.js'
 
 const initialState = {
   interfaceName: '',
   url: '',
-  method: '',
+  method: 'GET',
   // 默认请求头部有一条数据
   seqGroup: [
     {
@@ -25,7 +26,8 @@ const initialState = {
   ],
   reqParams: '',
   resParams: '',
-  project: {}
+  project: {},
+  clipboard: () => {}
 }
 
 export default (state = initialState, action) => {
@@ -79,6 +81,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.payload.data.data
+      }
+    case ADD_INTERFACE_CLIPBOARD:
+      return {
+        ...state,
+        clipboard: action.payload
       }
     default:
       return state
