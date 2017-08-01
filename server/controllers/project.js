@@ -15,8 +15,8 @@ class projectController extends baseController {
     }
 
     handleBasepath(basepath) {
-        if (!basepath) return false;
-        if (basepath === '/') return basepath;
+        if (!basepath) return "";
+        if (basepath === '/') return "";
         if (basepath[0] !== '/') basepath = '/' + basepath;
         if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
         if (!yapi.commons.verifyPath(basepath)) {
@@ -72,12 +72,12 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
 
-        if (!params.basepath) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目basepath不能为空');
-        }
+  
         if (!params.prd_host) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
+
+        params.basepath = params.basepath || '';
 
         if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
             return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
@@ -332,6 +332,7 @@ class projectController extends baseController {
         try {
             let id = ctx.request.body.id;
             let params = ctx.request.body;
+            params.basepath = params.basepath || '';
             params = yapi.commons.handleParams(params, {
                 name: 'string',
                 basepath: 'string',

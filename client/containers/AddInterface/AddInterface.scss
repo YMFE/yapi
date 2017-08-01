@@ -16,6 +16,8 @@
     background: #FFF;
     padding: 10px 20px 0 20px;
     margin: 0 auto;
+    width: 1172px;
+    box-sizing: border-box;
 
     .ant-tabs {
       padding: 0 0 50px 0;
@@ -262,11 +264,19 @@
     height: 100px;
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     background-size: 30%;
     z-index: 10000;
+    .loading-css {
+      display: -webkit-box;
+      -webkit-box-align: center;
+      -webkit-box-pack: center;
+      width: 100%;
+      height: 100%;
+    }
   }
   .is-loading {
     display: block;
