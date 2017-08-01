@@ -39,7 +39,6 @@ export default (state = initialState, action) => {
           isLogin: true,
           loginState: MEMBER_STATUS,
           uid: action.payload.data.data.uid,
-          role: action.payload.data.data.role,
           userName: action.payload.data.data.username,
           server_ip: action.payload.data.data.server_ip
         };
@@ -53,7 +52,6 @@ export default (state = initialState, action) => {
         isLogin: false,
         loginState: GUEST_STATUS,
         userName: null,
-        role: null,
         uid: null
       }
     }
