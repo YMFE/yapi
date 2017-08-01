@@ -286,11 +286,18 @@ class ProjectList extends Component {
 
             <FormItem
               {...formItemLayout}
-              label="基本路径"
+              label={(
+                <span>
+                  基本路径&nbsp;
+                  <Tooltip title="基本路径为空是根路径">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              )}
             >
               {getFieldDecorator('basepath', {
                 rules: [{
-                  required: true, message: '请输入项目基本路径'
+                  required: false, message: '请输入项目基本路径'
                 }]
               })(
                 <Input />
@@ -303,7 +310,7 @@ class ProjectList extends Component {
             >
               {getFieldDecorator('desc', {
                 rules: [{
-                  required: true, message: '请输入描述!'
+                  required: false, message: '请输入描述!'
                 }]
               })(
                 <TextArea rows={4} />
