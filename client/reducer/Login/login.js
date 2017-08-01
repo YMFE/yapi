@@ -21,9 +21,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_LOGIN_STATE: {
+      console.log(action.payload.data);
       return {
         ...state,
         isLogin: (action.payload.data.errcode == 0),
+        role: action.payload.data.data ? action.payload.data.data.role:null,
         loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
         uid: action.payload.data.data ? action.payload.data.data._id : null,
