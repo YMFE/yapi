@@ -52,7 +52,7 @@ class LeftMenu extends Component {
       } else {
         this._searchSign = this.searchSign;
       }
-    }, 600)
+    }, 60)
 
   }
 
@@ -99,7 +99,7 @@ class LeftMenu extends Component {
               style={{ width: '100%' }}
               dataSource={dataSource.map(this.renderOption)}
               onSearch={this.handleSearch}
-              placeholder="input here"
+              placeholder="搜索用户"
               optionLabelProp="text"
             >
               <Input suffix={<Icon type="search" className="certain-category-icon" />} />

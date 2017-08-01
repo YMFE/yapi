@@ -80,10 +80,9 @@ module.exports = function () {
                         for (i = 0, l = projects.length; i < l; i++) {
                             _project = projects[i];
 
-
-                            if (ctx.path && ctx.path.indexOf(_project.basepath) === 0) {
-                                matchProject.push(_project);
-
+                            if (ctx.path && _project.basepath == "") {
+                                matchProject = _project;
+                            } else if (ctx.path && ctx.path.indexOf(_project.basepath) === 0) {
                                 if (_project.basepath.length > maxBasepath) {
                                     maxBasepath = _project.basepath.length;
                                     matchProject = _project;
@@ -139,26 +138,36 @@ module.exports = function () {
                         ctx.set("Access-Control-Allow-Origin", "*");
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 41;
+                            _context.next = 47;
                             break;
                         }
 
+                        _context.prev = 40;
                         return _context.abrupt('return', ctx.body = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body)));
-
-                    case 41:
-                        return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
                     case 44:
                         _context.prev = 44;
-                        _context.t1 = _context['catch'](25);
-                        return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t1.message));
+                        _context.t1 = _context['catch'](40);
+                        return _context.abrupt('return', ctx.body = {
+                            errcode: 400,
+                            errmsg: 'mock json数据格式有误',
+                            data: interfaceData.res_body
+                        });
 
                     case 47:
+                        return _context.abrupt('return', ctx.body = interfaceData.res_body);
+
+                    case 50:
+                        _context.prev = 50;
+                        _context.t2 = _context['catch'](25);
+                        return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t2.message));
+
+                    case 53:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[10, 16], [25, 44]]);
+        }, _callee, undefined, [[10, 16], [25, 50], [40, 44]]);
     }));
 
     return function (_x, _x2) {
