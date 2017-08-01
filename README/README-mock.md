@@ -30,7 +30,7 @@
 
 <span id = "mock"></span>
 ### 2.1 Mock语法规范
->参考自：[Mock.js 官网](http://mockjs.com/)
+>了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
 
 Mock.js 的语法规范包括两部分：
 
@@ -61,14 +61,17 @@ Mock.js 的语法规范包括两部分：
 'name|+step': value
 ```
 
-生成规则示例：
+下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array、RegExp：
+
 #### 1. 属性值是字符串 String
 
 ```
 1. 'name|min-max': string
+
 通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。
 
 2. 'name|count': string
+
 通过重复 string 生成一个字符串，重复次数等于 count。
 ```
 #### 2. 属性值是数字 Number
@@ -139,24 +142,18 @@ Mock.mock({
 
 通过重复属性值 array 生成一个新数组，重复次数为 count。
 ```
-#### 6. 属性值是函数 Function
-```
-1. 'name': function
-
-执行函数 function，取其返回值作为最终的属性值，函数的上下文为属性 'name' 所在的对象。
-```
-#### 7.属性值是正则表达式 RegExp
+#### 6.属性值是正则表达式 RegExp
 ```
 1. 'name': regexp
 
-根据正则表达式 regexp 反向生成可以匹配它的字符串。用于生成自定义格式的字符串。
+根据正则表达式 regexp 反向生成可以匹配它的字符串，用于生成自定义格式的字符串。
 
 例如：
-Mock.mock({
+{
     'regexp1': /[a-z][A-Z][0-9]/,
     'regexp2': /\w\W\s\S\d\D/,
     'regexp3': /\d{5,10}/
-})
+}
 // =>
 {
     "regexp1": "pJ7",
@@ -166,38 +163,29 @@ Mock.mock({
 ```
 <span id = "DPD"></span>
 ### 数据占位符定义规范（Data Placeholder Definition，DPD）
-
+```
 占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
 
 占位符 的格式为：
-```
+
 @占位符
-@占位符(参数 [, 参数])
 
 说明：
-1. 用 @ 来标识其后的字符串是 占位符。
-2. 占位符 引用的是 Mock.Random 中的方法。
-3. 通过 Mock.Random.extend() 来扩展自定义占位符。
-4. 占位符 也可以引用 数据模板 中的属性。
-5. 占位符 会优先引用 数据模板 中的属性。
-6. 占位符 支持 相对路径 和 绝对路径。
+1. 用 @ 来标识其后的字符串是 占位符，在YApi提供的Mock输入框在输入“@”后会自动提示占位符。
 
-Mock.mock({
-    name: {
-        first: '@FIRST',
-        middle: '@FIRST',
-        last: '@LAST',
-        full: '@first @middle @last'
-    }
-})
+例如：
+name: {
+    first: '@FIRST',
+    middle: '@FIRST',
+    last: '@LAST',
+    full: '@first @middle @last'
+}
 // 上面的示例可以得到如下结果：
-{
-    "name": {
-        "first": "Charles",
-        "middle": "Brenda",
-        "last": "Lopez",
-        "full": "Charles Brenda Lopez"
-    }
+"name": {
+    "first": "Charles",
+    "middle": "Brenda",
+    "last": "Lopez",
+    "full": "Charles Brenda Lopez"
 }
 ```
 

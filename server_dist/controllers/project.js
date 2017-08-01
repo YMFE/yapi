@@ -864,7 +864,7 @@ var projectController = function (_baseController) {
 
                                 if (params.name) data.name = params.name;
                                 if (params.desc) data.desc = params.desc;
-                                if (params.prd_host && params.basepath) {
+                                if (params.prd_host) {
                                     data.prd_host = params.prd_host;
                                     data.basepath = params.basepath;
                                 }
