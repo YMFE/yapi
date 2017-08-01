@@ -25,8 +25,8 @@ import {
 } from '../../actions/addInterface.js'
 
 let projectId = ''
-const success = (text) => {
-  message.success(text)
+const success = (text, arg) => {
+  arg ? message.success(text) : message.error(text)
 }
 
 @connect(
@@ -284,7 +284,7 @@ class AddInterface extends Component {
         const _id = id || interfaceId
 
         this.setLoading()
-        success('保存成功!')
+        success('保存成功!', true)
         this.changeState(true)
         // 初始化 mock
         this.mockData()
@@ -295,10 +295,10 @@ class AddInterface extends Component {
 
         this.jumpEditUrl(_id)
       })
-      .catch(e => {
+      .catch(error => {
         this.setLoading()
-        success('保存失败!')
-        console.log(e)
+        success('接口请求路径和接口名称不能为空!', false)
+        console.log(error)
       })
   }
 
