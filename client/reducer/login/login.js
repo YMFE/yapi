@@ -37,9 +37,9 @@ export default (state = initialState, action) => {
         return {
           ...state,
           isLogin: true,
-          role: action.payload.data.data.role,
           loginState: MEMBER_STATUS,
           uid: action.payload.data.data.uid,
+          role: action.payload.data.data.role,
           userName: action.payload.data.data.username,
           server_ip: action.payload.data.data.server_ip
         };
@@ -53,8 +53,8 @@ export default (state = initialState, action) => {
         isLogin: false,
         loginState: GUEST_STATUS,
         userName: null,
-        uid: null,
-        role: null
+        role: null,
+        uid: null
       }
     }
     case LOGIN_TYPE: {
