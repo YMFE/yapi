@@ -25,8 +25,8 @@ import {
 } from '../../actions/addInterface.js'
 
 let projectId = ''
-const success = () => {
-  message.success('保存成功!')
+const success = (text, arg) => {
+  arg ? message.success(text) : message.error(text)
 }
 
 @connect(
@@ -149,8 +149,8 @@ class AddInterface extends Component {
     const params = {id: project_id}
     axios.get('/project/get', {params: params}).
       then( data => {
-        const { protocol, prd_host, basepath } = data.data.data
-        const mockURL = `${protocol}://${prd_host}${basepath}${result.path}`
+        const { prd_host, basepath } = data.data.data
+        const mockURL = `http://${prd_host}${basepath}${result.path}`
         this.setState({
           mockURL: mockURL,
           projectData: data.data.data
@@ -280,11 +280,16 @@ class AddInterface extends Component {
 
     axios.post(postURL, params)
       .then(data => {
+        if(data.data.errcode !== 0){
+          this.setLoading()
+          success(data.data.errmsg, false)
+          return null;
+        }
         const id = data.data.data._id
         const _id = id || interfaceId
 
         this.setLoading()
-        success()
+        success('保存成功!', true)
         this.changeState(true)
         // 初始化 mock
         this.mockData()
@@ -295,8 +300,10 @@ class AddInterface extends Component {
 
         this.jumpEditUrl(_id)
       })
-      .catch(e => {
-        console.log(e)
+      .catch(error => {
+        this.setLoading()
+        success('程序出错，请联系管理员检查!', false)
+        console.log(error)
       })
   }
 
