@@ -170,7 +170,7 @@ var baseController = function () {
                                     break;
                                 }
 
-                                result = _yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time']);
+                                result = _yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role']);
 
                                 result.server_ip = _yapi2.default.WEBCONFIG.server_ip;
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
