@@ -48,6 +48,7 @@ class userController extends baseController {
 
             return ctx.body = yapi.commons.resReturn({
                 username: result.username,
+                role: result.role,
                 uid: result._id,
                 email: result.email,
                 add_time: result.add_time,
