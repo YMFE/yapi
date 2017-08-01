@@ -26,10 +26,10 @@ module.exports = async (ctx, next) => {
 
     for (let i = 0, l = projects.length; i < l; i++) {
         let project = projects[i];
-
-        if (ctx.path && ctx.path.indexOf(project.basepath) === 0) {
-            matchProject.push(project);
-
+        if(ctx.path && project.basepath == ""){
+            matchProject = project;
+        }
+        else if (ctx.path && ctx.path.indexOf(project.basepath) === 0) {
             if (project.basepath.length > maxBasepath) {
                 maxBasepath = project.basepath.length;
                 matchProject = project;
@@ -64,9 +64,17 @@ module.exports = async (ctx, next) => {
         interfaceData = interfaceData[0];
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
-            return ctx.body = Mock.mock(
-                yapi.commons.json_parse(interfaceData.res_body)
-            );
+            try{
+                return ctx.body = Mock.mock(
+                    yapi.commons.json_parse(interfaceData.res_body)
+                );
+            }catch(e){
+                return ctx.body = {
+                    errcode: 400,
+                    errmsg: 'mock json数据格式有误',
+                    data: interfaceData.res_body
+                }
+            }
         }
         return ctx.body = interfaceData.res_body;
     } catch (e) {

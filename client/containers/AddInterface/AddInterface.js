@@ -5,7 +5,7 @@ import axios from 'axios'
 import Mock from 'mockjs'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Button, Tabs, message, Affix } from 'antd'
+import { Button, Tabs, message, Affix, Spin } from 'antd'
 import ReqMethod from './ReqMethod/ReqMethod.js'
 import ReqHeader from './ReqHeader/ReqHeader.js'
 import ReqParams from './ReqParams/ReqParams.js'
@@ -287,7 +287,6 @@ class AddInterface extends Component {
         }
         const id = data.data.data._id
         const _id = id || interfaceId
-
         this.setLoading()
         success('保存成功!', true)
         this.changeState(true)
@@ -337,7 +336,11 @@ class AddInterface extends Component {
         <Affix offsetBottom={0} className="save-button">
           <Button type="primary" onClick={this.saveForms}>保存</Button>
         </Affix>
-        <div className={`loading ${isLoading}`}></div>
+        <div className={`loading ${isLoading}`}>
+          <div className="loading-css">
+            <Spin />
+          </div>
+        </div>
       </section>
     )
   }
