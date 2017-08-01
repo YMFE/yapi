@@ -25,8 +25,8 @@ import {
 } from '../../actions/addInterface.js'
 
 let projectId = ''
-const success = () => {
-  message.success('保存成功!')
+const success = (text) => {
+  message.success(text)
 }
 
 @connect(
@@ -284,7 +284,7 @@ class AddInterface extends Component {
         const _id = id || interfaceId
 
         this.setLoading()
-        success()
+        success('保存成功!')
         this.changeState(true)
         // 初始化 mock
         this.mockData()
@@ -296,6 +296,8 @@ class AddInterface extends Component {
         this.jumpEditUrl(_id)
       })
       .catch(e => {
+        this.setLoading()
+        success('保存失败!')
         console.log(e)
       })
   }
