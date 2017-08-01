@@ -102,8 +102,18 @@ class AddInterface extends Component {
       const props = this.props
       props.pushInputValue('')
       props.pushInterfaceName('')
-      props.getReqParams('')
-      props.getResParams('')
+      props.getReqParams(JSON.stringify({
+        "id": 1,
+        "name": "xxx"
+      }))
+      props.getResParams(JSON.stringify({
+        errcode: "@natural",
+        "data|3-8": {
+          uid: "@id",
+          name: "@name",
+          email: "@email"
+        }
+      }))
       props.addReqHeader(initData)
     }
   }
