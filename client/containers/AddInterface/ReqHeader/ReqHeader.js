@@ -42,7 +42,8 @@ class ReqHeader extends Component {
   addSeqGroup () {
     let newSeqGroup = []
     let seqGroup = this.props.seqGroup
-    let id = seqGroup[seqGroup.length-1].id    
+    let length = seqGroup.length
+    let id = length ? seqGroup[length-1].id : 0
     let list = {
       id: ++id,
       value: '',
