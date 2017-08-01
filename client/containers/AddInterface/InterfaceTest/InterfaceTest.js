@@ -103,11 +103,20 @@ export default class InterfaceTest extends Component {
     }
 
     const headers = []
-    seqGroup.forEach((headerItem) => {
+    let contentTypeIndex = -1;
+    seqGroup.forEach((headerItem, index) => {
       if (headerItem.name) {
+        // TODO 'Content-Type' 排除大小写不同格式影响
+        if (headerItem.name === 'Content-Type'){
+          contentTypeIndex = index;
+          headerItem.value = headerItem.value || 'application/x-www-form-urlencoded';
+        }
         headers.push({name: headerItem.name, value: headerItem.value});
       }
     })
+    if (contentTypeIndex === -1) {
+      headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
+    }
 
     this.setState({
       method,
@@ -142,6 +151,7 @@ export default class InterfaceTest extends Component {
       method,
       headers: this.getHeadersObj(headers),
       data: this.arrToObj(params),
+      files: this.getFiles(params),
       success: (res) => {
         try {
           res = JSON.parse(res)
@@ -189,6 +199,12 @@ export default class InterfaceTest extends Component {
     const { headers } = this.state;
     this.setState({headers: headers.filter((item, i) => +index !== +i)});
   }
+  @autobind
+  setContentType(type) {
+    const headersObj = this.getHeadersObj(this.state.headers);
+    headersObj['Content-Type'] = type;
+    this.setState({headers: this.objToArr(headersObj, 'name')})
+  }
 
   @autobind
   changeQuery(e, index, isKey) {
@@ -223,10 +239,17 @@ export default class InterfaceTest extends Component {
         params[index].type = e
         break;
       case 'value':
-        params[index].value = e.target.value
+        if (params[index].type === 'file') {
+          params[index].value = e.target.id
+        } else {
+          params[index].value = e.target.value
+        }
         break;
       default:
         break;
+    }
+    if (type === 'type' && e === 'file') {
+      this.setContentType('multipart/form-data')
     }
     this.setState({ params });
   }
@@ -266,14 +289,34 @@ export default class InterfaceTest extends Component {
     return dom.getAttribute('key') === 'yapi';
   }
 
+  objToArr(obj, key, value) {
+    const keyName = key || 'key';
+    const valueName = value || 'value';
+    const arr = []
+    Object.keys(obj).forEach((_key) => {
+      if (_key) {
+        arr.push({[keyName]: _key, [valueName]: obj[_key]});
+      }
+    })
+    return arr;
+  }
   arrToObj(arr) {
     const obj = {};
     arr.forEach(item => {
-      if (item.key) {
+      if (item.key && item.type !== 'file') {
         obj[item.key] = item.value || '';
       }
     })
     return obj;
+  }
+  getFiles(params) {
+    const files = {};
+    params.forEach(item => {
+      if (item.key && item.type === 'file') {
+        files[item.key] = item.value
+      }
+    })
+    return files;
   }
   getQueryObj(query) {
     const queryObj = {};
@@ -292,6 +335,12 @@ export default class InterfaceTest extends Component {
       }
     })
     return headersObj;
+  }
+
+  @autobind
+  fileChange(e, index) {
+    console.log(e)
+    console.log(index)
   }
 
   render () {
@@ -418,7 +467,7 @@ export default class InterfaceTest extends Component {
                               <Option value="text">Text</Option>
                             </Select>]{' = '}
                             {item.type === 'file' ?
-                              <Input type="file" style={{display: 'inline-block', width: 200, margin: 10}} /> :
+                              <Input type="file" id={'file_' + index} onChange={e => this.changeParams(e, index, 'value')} multiple style={{display: 'inline-block', width: 200, margin: 10}} /> :
                               <Input value={item.value} onChange={e => this.changeParams(e, index, 'value')} style={{display: 'inline-block', width: 200, margin: 10}} />
                             }
                           </div>
