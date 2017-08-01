@@ -38,7 +38,8 @@ const success = () => {
       url: state.addInterface.url,
       seqGroup: state.addInterface.seqGroup,
       interfaceName: state.addInterface.interfaceName,
-      server_ip: state.login.server_ip
+      server_ip: state.login.server_ip,
+      clipboard: state.addInterface.clipboard
     }
   },
   {
@@ -67,7 +68,8 @@ class AddInterface extends Component {
     getReqParams: PropTypes.func,
     getResParams: PropTypes.func,
     pushInputValue: PropTypes.func,
-    pushInterfaceName: PropTypes.func
+    pushInterfaceName: PropTypes.func,
+    clipboard: PropTypes.func
   }
 
   constructor (props) {
@@ -100,8 +102,18 @@ class AddInterface extends Component {
       const props = this.props
       props.pushInputValue('')
       props.pushInterfaceName('')
-      props.getReqParams('')
-      props.getResParams('')
+      props.getReqParams(JSON.stringify({
+        "id": 1,
+        "name": "xxx"
+      }))
+      props.getResParams(JSON.stringify({
+        errcode: "@natural",
+        "data|3-8": {
+          uid: "@id",
+          name: "@name",
+          email: "@email"
+        }
+      }))
       props.addReqHeader(initData)
     }
   }
@@ -110,6 +122,7 @@ class AddInterface extends Component {
     const reg = /add-interface\/edit\/(\d+)/g
     const regTwo = /add-interface\/(\d+)/g
     const url = location.href
+
     if ( url.match(reg) ) {
       return RegExp.$1
     } else {
@@ -182,6 +195,19 @@ class AddInterface extends Component {
       })
   }
 
+  initInterfaceDataTwo (interfaceId) {
+    const params = { id: interfaceId }
+
+    axios.get('/interface/get', {params: params})
+      .then(result => {
+        result = result.data.data
+        this.getMockURL(result.project_id, result)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
   setLoading (boolean) {
     this.setState({
       isLoading: boolean ? 'is-loading' : ''
@@ -215,13 +241,22 @@ class AddInterface extends Component {
   }
 
   @autobind
+  jumpEditUrl (_id) {
+    const origin = location.origin
+    const pathname = location.pathname
+    location.href = `${origin}${pathname}#/add-interface/edit/${_id}`
+    this.initInterfaceDataTwo(_id)
+    setTimeout(() => {
+      this.props.clipboard()
+    }, 1000)
+  }
+
+  @autobind
   saveForms () {
     let postURL = undefined
     const { interfaceName, url, seqGroup, reqParams, resParams, method } = this.props
     const ifTrue = this.verificationURL()
     const interfaceId = this.getInterfaceId()
-    const origin = location.origin
-    const pathname = location.pathname
     const params = {
       title: interfaceName,
       path: url,
@@ -244,13 +279,21 @@ class AddInterface extends Component {
     this.setLoading(true)
 
     axios.post(postURL, params)
-      .then(() => {
+      .then(data => {
+        const id = data.data.data._id
+        const _id = id || interfaceId
+
         this.setLoading()
         success()
         this.changeState(true)
         // 初始化 mock
         this.mockData()
-        location.href = `${origin}${pathname}#/add-interface/edit/${interfaceId}`
+        
+        if (id) {
+          this.setState({showMock: 'show-mock'})
+        }
+
+        this.jumpEditUrl(_id)
       })
       .catch(e => {
         console.log(e)
@@ -262,12 +305,13 @@ class AddInterface extends Component {
     const { server_ip } = this.props
     const { isLoading, isSave, mockJson='', mockURL, tagName, showMock } = this.state
     let Pane = ''
+    let mockGroup = ''
     if (showMock) {
       Pane = <TabPane tab="请求接口" key="3"><InterfaceTest /></TabPane>
+      mockGroup = <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData} showMock={showMock}/>
     }
     return (
       <section className="add-interface-box">
-
         <div className="content">
           <Tabs type="card">
             <TabPane tab={tagName} key="1">
@@ -275,7 +319,7 @@ class AddInterface extends Component {
               <ReqMethod />
               <ReqHeader />
               <ReqParams data={this.props} />
-              <MockUrl mockURL={mockURL} serverIp={server_ip} projectData={this.state.projectData} showMock={showMock}/>
+              {mockGroup}
               <h3 className="req-title">返回部分</h3>
               <ResParams />
               <Result isSave={isSave} mockJson={mockJson} />
@@ -283,7 +327,7 @@ class AddInterface extends Component {
             {Pane}
           </Tabs>
         </div>
-        <Affix offsetBottom={0} className="save-button" onChange={affixed => console.log(affixed)}>
+        <Affix offsetBottom={0} className="save-button">
           <Button type="primary" onClick={this.saveForms}>保存</Button>
         </Affix>
         <div className={`loading ${isLoading}`}></div>
