@@ -61,7 +61,7 @@ Mock.js 的语法规范包括两部分：
 'name|+step': value
 ```
 
-下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array、RegExp：
+下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：
 
 #### 1. 属性值是字符串 String
 
@@ -142,25 +142,7 @@ Mock.mock({
 
 通过重复属性值 array 生成一个新数组，重复次数为 count。
 ```
-#### 6.属性值是正则表达式 RegExp
-```
-1. 'name': regexp
 
-根据正则表达式 regexp 反向生成可以匹配它的字符串，用于生成自定义格式的字符串。
-
-例如：
-{
-    'regexp1': /[a-z][A-Z][0-9]/,
-    'regexp2': /\w\W\s\S\d\D/,
-    'regexp3': /\d{5,10}/
-}
-// =>
-{
-    "regexp1": "pJ7",
-    "regexp2": "F)\fp1G",
-    "regexp3": "561659409"
-}
-```
 <span id = "DPD"></span>
 ### 数据占位符定义规范（Data Placeholder Definition，DPD）
 ```

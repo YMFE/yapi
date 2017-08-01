@@ -106,7 +106,7 @@
 'name|count.dmin-dmax'<span class="token operator">:</span> value
 'name|count.dcount'<span class="token operator">:</span> value
 'name|+step'<span class="token operator">:</span> value
-</code></pre><p>下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array、RegExp：</p>
+</code></pre><p>下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：</p>
 <h4 class="subject" id="1._属性值是字符串_String">1. 属性值是字符串 String <a class="hashlink" href="#1._属性值是字符串_String">#</a></h4><pre><code><span class="token number">1</span>. 'name|min-max'<span class="token operator">:</span> string
 
 通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。
@@ -169,22 +169,6 @@ Mock.mock(<span class="token punctuation">{</span>
 <span class="token number">4</span>. 'name|count'<span class="token operator">:</span> array
 
 通过重复属性值 array 生成一个新数组，重复次数为 count。
-</code></pre><h4 class="subject" id="6.属性值是正则表达式_RegExp">6.属性值是正则表达式 RegExp <a class="hashlink" href="#6.属性值是正则表达式_RegExp">#</a></h4><pre><code><span class="token number">1</span>. 'name'<span class="token operator">:</span> regexp
-
-根据正则表达式 regexp 反向生成可以匹配它的字符串，用于生成自定义格式的字符串。
-
-例如：
-<span class="token punctuation">{</span>
-    'regexp1'<span class="token operator">:</span> /<span class="token punctuation">[</span>a-z<span class="token punctuation">]</span><span class="token punctuation">[</span>A-Z<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span>-<span class="token number">9</span><span class="token punctuation">]</span>/<span class="token punctuation">,</span>
-    'regexp2'<span class="token operator">:</span> /\w\W\s\S\d\D/<span class="token punctuation">,</span>
-    'regexp3'<span class="token operator">:</span> /\d<span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">}</span>/
-<span class="token punctuation">}</span>
-// =>
-<span class="token punctuation">{</span>
-    <span class="token property">"regexp1"</span><span class="token operator">:</span> <span class="token string">"pJ7"</span><span class="token punctuation">,</span>
-    <span class="token property">"regexp2"</span><span class="token operator">:</span> <span class="token string">"F)\fp1G"</span><span class="token punctuation">,</span>
-    <span class="token property">"regexp3"</span><span class="token operator">:</span> <span class="token string">"561659409"</span>
-<span class="token punctuation">}</span>
 </code></pre><p><span id = "DPD"></span></p>
 <h3 class="subject" id="数据占位符定义规范（Data_Placeholder_Definition，DPD）">数据占位符定义规范（Data Placeholder Definition，DPD） <a class="hashlink" href="#数据占位符定义规范（Data_Placeholder_Definition，DPD）">#</a></h3><pre><code>占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
 
