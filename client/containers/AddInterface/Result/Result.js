@@ -4,6 +4,40 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
 
+
+function regexp_parse(p,c) {
+  c = c || {}; 
+  for (let i in p) {  
+    if(! p.hasOwnProperty(i)){  
+      continue;  
+    }  
+    if (typeof p[i] === 'object') {  
+      c[i] = (p[i].constructor === Array) ? [] : {};  
+      regexp_parse(p[i], c[i]);  
+    } else {  
+      if(/^\/.+\/$/.test(p[i])){
+        try{
+          let regexpStr = p[i].substring(1,p[i].length-1);
+          // for(let i = 0;i<regexpStr.length;i++){
+          //   if("* . ? + $ ^ [ ] ( ) { } | \ /".indexOf(regexpStr[i])>-1){
+          //     regexpStr[i] = "\\"+regexpStr[i];
+          //   }
+          // }
+          
+          c[i] = new RegExp(regexpStr);
+        }
+        catch(e)
+        {
+          c[i] = p[i];
+        }
+      }else{
+        c[i] = p[i]; 
+      }
+      
+    }  
+  }  
+  return c;  
+}
 @connect(
   state => {
     return {
@@ -12,7 +46,6 @@ import Mock from 'mockjs'
     }
   }
 )
-
 class Result extends Component {
   static propTypes = {
     resParams: PropTypes.string,
@@ -30,6 +63,7 @@ class Result extends Component {
     let json, j;
     try{
       json = JSON.parse(resParams);
+      json = regexp_parse(json);
     }catch(e){
       json = false;
     }

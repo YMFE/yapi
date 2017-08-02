@@ -56,6 +56,8 @@ class ResParams extends Component {
         return json
       }
     }
+    
+
     var langTools = window.ace.require("ace/ext/language_tools");
     let editor = this.editor = window.ace.edit("res-cover")
     editor.getSession().setMode("ace/mode/json");
@@ -97,7 +99,9 @@ class ResParams extends Component {
     langTools.addCompleter(rhymeCompleter);
     
     editor.getSession().on('change', () => {
-      this.props.getResParams(editor.getValue())
+      // console.log( JSON.parse(editor.getValue()));
+      
+      this.props.getResParams(editor.getValue());
     });
     
     setTimeout(() => {
