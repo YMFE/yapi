@@ -268,7 +268,6 @@ class AddInterface extends Component {
       res_body_type: 'json',
       res_body: resParams
     }
-
     if (ifTrue) {
       params.id = interfaceId
       postURL = '/interface/up'
