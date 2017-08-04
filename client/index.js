@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import App from './Application'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import ReduxContainer from './ReduxContainer.js'
+import ReduxContainer from './reducer'
 import { DevTools } from './containers';
 
 const enhancer = compose(
