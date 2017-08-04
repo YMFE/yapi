@@ -5,6 +5,7 @@ import ProjectGroups from './ProjectGroups/ProjectGroups.js'
 import Interface from './Interface/Interface.js'
 import News from './News/News.js'
 import AddInterface from './AddInterface/AddInterface.js'
+import DevTools from './DevTools/DevTools.js'
 
 export {
   Header,
@@ -13,5 +14,6 @@ export {
   ProjectGroups,
   Interface,
   AddInterface,
-  News
+  News,
+  DevTools
 }
