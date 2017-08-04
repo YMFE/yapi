@@ -1,5 +1,4 @@
 import React from 'react'
-import 'babel-polyfill'
 import thunkMiddleware from 'redux-thunk'
 import promiseMiddleware from 'redux-promise';
 import ReactDOM from 'react-dom'
