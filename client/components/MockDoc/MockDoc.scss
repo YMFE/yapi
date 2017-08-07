@@ -1,0 +1,31 @@
+.MockDoc{
+    background-color: #F6F6F6;
+    // padding: 16px;
+    border:16px solid #F6F6F6;
+    overflow: auto;
+    width: 500px;
+    height: 500px;
+    word-break:keep-all;           /* 不换行 */
+    white-space:nowrap;  
+    .jsonItem{
+        font-size: 14px;
+        width: auto;
+        
+    }
+    .jsonitemNum{
+        margin-right: 16px;
+        display: inline-block;
+        width: 25px;
+        border-right: 1px solid gray;
+    }
+    .valueLight{
+        color: #108ee9;
+    }
+}
+.spaces{
+    display: inline-block;
+    width: 30px;
+}
+.keymes{
+    margin-left: 20px;
+}

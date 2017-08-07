@@ -230,12 +230,6 @@ constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js
 state.confirmDirty	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^    this.state = {$/;"	property	line:30
 static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  static propTypes = {$/;"	property	line:35
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  render() {$/;"	function	line:80
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  constructor(props) {$/;"	function	line:23
-from.state.loading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^    this.state = {$/;"	property	line:25
-static.newsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  static propTypes = {$/;"	property	line:29
-setLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  setLoading(bool){$/;"	function	line:34
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  componentWillMount(){$/;"	function	line:39
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  render () {$/;"	function	line:45
 @connect.fetchNewsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  static propTypes = {$/;"	property	line:34
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  constructor(props) {$/;"	function	line:40
 constructor.state.selectedKeys	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^    this.state = {$/;"	property	line:42
@@ -284,3 +278,9 @@ state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    th
 static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:34
 componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:39
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:72
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  constructor(props) {$/;"	function	line:23
+from.state.loading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^    this.state = {$/;"	property	line:25
+static.newsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  static propTypes = {$/;"	property	line:29
+setLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  setLoading(bool){$/;"	function	line:34
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  componentWillMount(){$/;"	function	line:39
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  render () {$/;"	function	line:45

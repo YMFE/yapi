@@ -46,6 +46,7 @@ class News extends Component {
     const data = this.props.newsData
     return (
       <section className="news-box">
+        {/*<MockDoc />*/}
         <NewsList loading={this.state.loading} setLoading={this.setLoading.bind(this)} />
         <NewsTimeline loading={this.state.loading} setLoading={this.setLoading.bind(this)} newsData = {data} />
       </section>
