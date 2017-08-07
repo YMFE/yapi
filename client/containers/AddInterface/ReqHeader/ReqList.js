@@ -3,12 +3,12 @@ import { Select, Input, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { 
+import {
   reqTagValue,
   reqHeaderValue,
   deleteReqHeader,
   addReqHeader
-} from '../../../actions/addInterface.js'
+} from '../../../reducer/addInterface/addInterface.js'
 
 @connect(
   state => {
@@ -70,7 +70,7 @@ class ReqList extends Component {
       seqGroup.forEach(v => {
         const {id, name, value} = v
         newObject.push({id, name, value})
-      })      
+      })
       this.props.addReqHeader(newObject)
     }
   }
@@ -84,7 +84,7 @@ class ReqList extends Component {
       if (id == v.id) {
         v.value = value
       }
-    })    
+    })
     seqGroup.forEach(v => {
       const {id, name, value} = v
       newObject.push({id, name, value})

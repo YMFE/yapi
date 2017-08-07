@@ -11,7 +11,7 @@ import { DevTools } from './containers';
 const enhancer = compose(
   // Middleware you want to use in development:
   applyMiddleware(
-    thunkMiddleware.default,
+    thunkMiddleware,
     promiseMiddleware
   ),
   // Required! Enable Redux DevTools with the monitors you chose

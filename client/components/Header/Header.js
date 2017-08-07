@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu, Dropdown, message } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
-import { changeMenuItem } from '../../actions/menu'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/login/login'
+import { changeMenuItem } from '../../reducer/menu/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;

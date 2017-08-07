@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Select, Input } from 'antd'
 import { autobind } from 'core-decorators'
-import { 
+import {
   pushInputValue,
   pushInterfaceName,
   pushInterfaceMethod
-} from '../../../actions/addInterface.js'
+} from '../../../reducer/addInterface/addInterface.js'
 
 @connect(
   state => {
@@ -76,11 +76,11 @@ class ReqMethod extends Component {
           <tr>
             <td>
               <span className="h3">URL : </span>
-              <Input 
-                placeholder="填写 URL" 
-                className="url" 
-                size="large" 
-                onInput={this.getInputVal} 
+              <Input
+                placeholder="填写 URL"
+                className="url"
+                size="large"
+                onInput={this.getInputVal}
                 value={url}
               />
             </td>
@@ -88,12 +88,12 @@ class ReqMethod extends Component {
           <tr>
             <td>
               <span className="h3">名称 : </span>
-              <Input 
-                placeholder="接口名称" 
-                className="url" 
+              <Input
+                placeholder="接口名称"
+                className="url"
                 size="large"
                 value={interfaceName}
-                onInput={this.getInterfaceValue} 
+                onInput={this.getInterfaceValue}
               />
             </td>
           </tr>

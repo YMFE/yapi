@@ -1,12 +1,12 @@
-import {
-  FETCH_INTERFACE_DATA,
-  LIST_INTERFACE_CLICK,
-  PROJECT_MEMBER_INTERFACE,
-  DELETE_INTERFACE_DATA,
-  SAVE_INTERFACE_PROJECT_ID,
-  GET_INTERFACE_GROUP_LIST
-} from '../../constants/action-types.js'
+// Actions
+const FETCH_INTERFACE_DATA = 'yapi/interface/FETCH_INTERFACE_DATA';
+const LIST_INTERFACE_CLICK = 'yapi/interface/LIST_INTERFACE_CLICK';
+const PROJECT_MEMBER_INTERFACE = 'yapi/interface/PROJECT_MEMBER_INTERFACE';
+const DELETE_INTERFACE_DATA = 'yapi/interface/DELETE_INTERFACE_DATA';
+const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
+const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
+// Reducer
 const initialState = {
   interfaceData: [],
   modalVisible: false,
@@ -49,5 +49,47 @@ export default (state = initialState, action) => {
       }
     default:
       return state
+  }
+}
+
+
+// Action Creators
+export function fetchInterfaceData (value) {
+  return {
+    type: FETCH_INTERFACE_DATA,
+    payload: value
+  };
+}
+
+export function projectMember () {
+  return {
+    type: LIST_INTERFACE_CLICK
+  }
+}
+
+export function closeProjectMember () {
+  return {
+    type: PROJECT_MEMBER_INTERFACE
+  }
+}
+
+export function deleteInterfaceData (value) {
+  return {
+    type: DELETE_INTERFACE_DATA,
+    payload: value
+  }
+}
+
+export function saveInterfaceProjectId (value) {
+  return {
+    type: SAVE_INTERFACE_PROJECT_ID,
+    payload: value
+  }
+}
+
+export function getInterfaceGroupList (value) {
+  return {
+    type: GET_INTERFACE_GROUP_LIST,
+    payload: value
   }
 }

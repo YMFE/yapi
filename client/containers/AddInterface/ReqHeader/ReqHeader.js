@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
 import ReqList from './ReqList.js'
-import { 
+import {
   addReqHeader
-} from '../../../actions/addInterface.js'
+} from '../../../reducer/addInterface/addInterface.js'
 
 // 重新渲染页面
 const getReqList = function (self) {

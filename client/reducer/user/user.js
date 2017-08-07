@@ -1,7 +1,6 @@
-import {
-  CHANGE_CUR_UID
-} from '../../constants/action-types';
+const CHANGE_CUR_UID = 'yapi/user/CHANGE_CUR_UID';
 
+// Reducer
 const initialState = {
   curUid: "0"
 };
@@ -19,3 +18,11 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+// Action Creators
+export function changeCurUid(curUid) {
+  return {
+    type: CHANGE_CUR_UID,
+    data: curUid
+  }
+}

@@ -9,7 +9,7 @@ import axios from 'axios';
 import URL from 'url';
 
 import {
-} from '../../../actions/group.js'
+} from '../../../reducer/group/group.js'
 
 import './InterfaceTest.scss'
 

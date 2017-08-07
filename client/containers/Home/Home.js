@@ -6,7 +6,7 @@ import { Row, Col, Button, Icon } from 'antd'
 import PropTypes from "prop-types"
 import Login from '../Login/LoginWrap'
 import Intro from '../../components/Intro/Intro'
-import { changeMenuItem } from '../../actions/menu'
+import { changeMenuItem } from '../../reducer/menu/menu'
 import { OverPack } from 'rc-scroll-anim'
 import TweenOne from 'rc-tween-one'
 import QueueAnim from 'rc-queue-anim';

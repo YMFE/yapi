@@ -12,7 +12,7 @@ import {
   projectMember,
   closeProjectMember,
   saveInterfaceProjectId
-} from '../../actions/interfaceAction.js'
+} from '../../reducer/interface/interface.js'
 
 @connect(
   state => {

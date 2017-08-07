@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   addInterfaceClipboard
-} from '../../../actions/addInterface.js'
+} from '../../../reducer/addInterface/addInterface.js'
 
 const success = () => {
   message.success('复制成功!')
@@ -44,7 +44,7 @@ class MockUrl extends Component {
     document.querySelector('#clipboard-button').innerHTML = '<button id="mock-clipboard">复制</button>'
     const btn = document.querySelector('#mock-clipboard')
     const txt = document.querySelector('#mock-p').innerHTML
-    
+
     new Clipboard(btn, {
       text: () => txt,
       target () {

@@ -8,7 +8,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Breadcrumb from './components/Breadcrumb/Breadcrumb';
 import Loading from './components/Loading/Loading';
-import { checkLoginState } from './actions/login';
+import { checkLoginState } from './reducer/login/login';
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
 const LOADING_STATUS = 0;

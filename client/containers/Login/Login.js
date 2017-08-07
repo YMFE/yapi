@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
-import { loginActions } from  '../../actions/login';
+import { loginActions } from  '../../reducer/login/login';
 const FormItem = Form.Item;
 import './Login.scss'
 
