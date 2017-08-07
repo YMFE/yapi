@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
-import { regActions } from  '../../actions/login';
+import { regActions } from  '../../reducer/login/login';
 
 const FormItem = Form.Item;
 const formItemStyle = {

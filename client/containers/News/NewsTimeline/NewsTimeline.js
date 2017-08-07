@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Table, Popconfirm } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchMoreNews } from '../../../actions/news.js'
+import { fetchMoreNews } from '../../../reducer/news/news.js'
 
 const removeConfirm = function(e){
   console.log(e);
@@ -25,7 +25,7 @@ class NewsTimeline extends Component {
     setLoading: PropTypes.func,
     loading: PropTypes.bool
   }
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,10 +39,10 @@ class NewsTimeline extends Component {
   handleChange(pagination){
     const pager = { ...this.state.pagination };
     pager.current = pagination.current;
-    this.props.setLoading(true); 
+    this.props.setLoading(true);
     const that = this;
     this.props.fetchMoreNews(pagination.current,pagination.pageSize).then(function(){
-      that.props.setLoading(false); 
+      that.props.setLoading(false);
     })
   }
   render () {

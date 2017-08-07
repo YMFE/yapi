@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import wangEditor from 'wangeditor'
-import { getReqParams } from '../../../actions/addInterface.js'
+import { getReqParams } from '../../../reducer/addInterface/addInterface.js'
 
 //const editor = new wangEditor('#req-cover')
 
@@ -63,7 +63,7 @@ class ReqParams extends Component {
     // }, 500)
     // editor.create()
   }
-  
+
   render () {
     return (
       <section className="req-params-box">

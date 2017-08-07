@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Menu } from 'antd'
-import { 
+import {
   fetchNewsData
-  } from '../../../actions/news.js'
+} from '../../../reducer/news/news.js'
 
 
 const logList = [{
@@ -72,7 +72,7 @@ class NewsList extends Component {
               </Menu.Item>
             )
           })}
-          
+
         </Menu>
       </div>
     )

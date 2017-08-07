@@ -22,7 +22,7 @@ import {
   pushInterfaceName,
   fetchInterfaceProject,
   pushInterfaceMethod
-} from '../../actions/addInterface.js'
+} from '../../reducer/addInterface/addInterface.js'
 
 let projectId = ''
 const success = (text, arg) => {
@@ -291,7 +291,7 @@ class AddInterface extends Component {
         this.changeState(true)
         // 初始化 mock
         this.mockData()
-        
+
         if (id) {
           this.setState({showMock: 'show-mock'})
         }

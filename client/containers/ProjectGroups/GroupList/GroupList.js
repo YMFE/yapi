@@ -13,7 +13,7 @@ import {
   fetchGroupList,
   setCurrGroup,
   setGroupList
-} from '../../../actions/group.js'
+} from '../../../reducer/group/group.js'
 
 import './GroupList.scss'
 
@@ -197,7 +197,7 @@ export default class GroupList extends Component {
       <Icon className="delete-group" type="delete" title="删除分组"/>
     </Popconfirm>)
 
-    
+
     return (
       <div className="m-group">
         <div className="group-bar">
@@ -210,7 +210,7 @@ export default class GroupList extends Component {
               {
                 this.props.curUserRole === "admin"?(delmark):''
               }
-              
+
             </div>
             <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
           </div>
@@ -221,7 +221,7 @@ export default class GroupList extends Component {
             {
               this.props.curUserRole === "admin"?(<Button type="primary" onClick={this.showModal}>添加分组</Button>):''
             }
-            
+
           </div>
           <Menu
             className="group-list"

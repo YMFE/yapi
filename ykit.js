@@ -11,6 +11,7 @@ module.exports = {
     name: 'antd',
     options: {
       modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
+        defaultQuery.plugins = [];
         defaultQuery.plugins.push('transform-decorators-legacy');
         return defaultQuery;
       }

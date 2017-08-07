@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';
-import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from '../../../actions/project';
+import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from '../../../reducer/group/project';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;

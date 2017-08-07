@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import wangEditor from 'wangeditor'
 import { Card } from 'antd'
-import { getResParams } from '../../../actions/addInterface.js'
+import { getResParams } from '../../../reducer/addInterface/addInterface.js'
 
 //const editor = new wangEditor('#res-cover')
 
@@ -56,7 +56,7 @@ class ResParams extends Component {
         return json
       }
     }
-    
+
 
     var langTools = window.ace.require("ace/ext/language_tools");
     let editor = this.editor = window.ace.edit("res-cover")
@@ -73,7 +73,7 @@ class ResParams extends Component {
         if (prefix.length === 0) { callback(null, []); return }
         var wordList = [
           { name: '字符串', mock: '@string' },
-          { name: '自然数', mock: '@natural' },          
+          { name: '自然数', mock: '@natural' },
           { name: '布尔', mock: '@boolean' },
           { name: '标题', mock: '@title' },
           { name: '姓名', mock: '@name' },
@@ -97,15 +97,15 @@ class ResParams extends Component {
       }
     }
     langTools.addCompleter(rhymeCompleter);
-    
+
     editor.getSession().on('change', () => {
       // console.log( JSON.parse(editor.getValue()));
-      
+
       this.props.getResParams(editor.getValue());
     });
-    
+
     setTimeout(() => {
-      
+
       editor.setValue(json_parse(this.props.resParams))
     }, 400)
   }

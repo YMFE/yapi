@@ -1,9 +1,11 @@
-import {
-  FETCH_GROUP_LIST,
-  SET_CURR_GROUP
-} from '../../constants/action-types';
+import axios from 'axios';
 import { message } from 'antd'
 
+// Actions
+const FETCH_GROUP_LIST = 'yapi/group/FETCH_GROUP_LIST';
+const SET_CURR_GROUP = 'yapi/group/SET_CURR_GROUP';
+
+// Reducer
 const initialState = {
   groupList: [],
   currGroup: { group_name: '' }
@@ -33,3 +35,18 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+// Action Creators
+export function fetchGroupList() {
+  return {
+    type: FETCH_GROUP_LIST,
+    payload: axios.get('/group/list')
+  }
+}
+
+export function setCurrGroup(group) {
+  return {
+    type: SET_CURR_GROUP,
+    payload: group
+  }
+}

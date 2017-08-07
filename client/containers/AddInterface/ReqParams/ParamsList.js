@@ -3,7 +3,7 @@
 // import PropTypes from 'prop-types'
 // import { autobind } from 'core-decorators'
 // import { connect } from 'react-redux'
-// import { deleteReqParams } from '../../../actions/addInterface.js'
+// import { deleteReqParams } from '../../../reducer/addInterface/addInterface.js'
 // import json2html from 'json2html'
 
 // @connect(
@@ -50,13 +50,13 @@
 //         <Select defaultValue="选填" style={{ width: 'auto' }} onChange={this.handleChange} size="large" className="required">
 //           <Option value="必填">必填</Option>
 //           <Option value="选填">选填</Option>
-//         </Select>   
+//         </Select>
 //         <em className="title">参数名称</em>
 //         <Input placeholder="参数名称" className="name" size="large" />
 //         <em className="title">参数说明</em>
 //         <Input placeholder="参数说明" className="name" size="large" />
 //         <span className="close" onClick={this.deleteReqParams} data-num={dataNum}>×</span>
-//       </li>  
+//       </li>
 //     )
 //   }
 // }

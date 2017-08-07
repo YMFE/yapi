@@ -1,11 +1,13 @@
-import {
-  LOGIN,
-  LOGIN_OUT,
-  LOGIN_TYPE,
-  GET_LOGIN_STATE,
-  REGISTER
-} from '../../constants/action-types';
+import axios from 'axios';
 
+// Actions
+const LOGIN = 'yapi/login/LOGIN';
+const LOGIN_OUT = 'yapi/login/LOGIN_OUT';
+const LOGIN_TYPE = 'yapi/login/LOGIN_TYPE';
+const GET_LOGIN_STATE = 'yapi/login/GET_LOGIN_STATE';
+const REGISTER = 'yapi/login/REGISTER';
+
+// Reducer
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
@@ -74,3 +76,51 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+// Action Creators
+export function checkLoginState() {
+  return(dispatch)=> {
+    axios.get('/user/status').then((res) => {
+      dispatch({
+        type: GET_LOGIN_STATE,
+        payload: res
+      });
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+}
+
+export function loginActions(data) {
+  return {
+    type: LOGIN,
+    payload: axios.post('/user/login', data)
+  };
+}
+
+export function regActions(data) {
+  const { email, password, userName } = data;
+  const param = {
+    email,
+    password,
+    username: userName
+  };
+  return {
+    type: REGISTER,
+    payload: axios.post('/user/reg', param)
+  };
+}
+
+export function logoutActions() {
+  return {
+    type: LOGIN_OUT,
+    payload: axios.get('./user/logout')
+  }
+}
+
+export function loginTypeAction(index) {
+  return{
+    type: LOGIN_TYPE,
+    index
+  }
+}
