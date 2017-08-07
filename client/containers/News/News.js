@@ -4,6 +4,7 @@ import NewsTimeline from './NewsTimeline/NewsTimeline'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import NewsList from './NewsList/NewsList.js'
+// import MockDoc from '../../components/MockDoc/MockDoc.js'
 import { fetchNewsData } from '../../actions/news.js'
 
 
@@ -46,6 +47,7 @@ class News extends Component {
     const data = this.props.newsData
     return (
       <section className="news-box">
+        {/*<MockDoc />*/}
         <NewsList loading={this.state.loading} setLoading={this.setLoading.bind(this)} />
         <NewsTimeline loading={this.state.loading} setLoading={this.setLoading.bind(this)} newsData = {data} />
       </section>

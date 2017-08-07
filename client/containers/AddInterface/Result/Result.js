@@ -3,8 +3,7 @@ import { Card } from 'antd'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import common from '../../../common';
-
+import parseCommon from '../../../parseCommon';
 @connect(
   state => {
     return {
@@ -30,7 +29,7 @@ class Result extends Component {
     let json, j;
     try{
       json = JSON.parse(resParams);
-      json = common.regexp_parse(json);
+      json = parseCommon.regexp_parse(json);
     }catch(e){
       json = false;
     }
