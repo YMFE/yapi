@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { message } from 'antd'
 
 // Actions
 const FETCH_GROUP_LIST = 'yapi/group/FETCH_GROUP_LIST';
@@ -14,15 +13,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_GROUP_LIST: {
-      if (action.payload.data.errcode) {
-        message.error(action.payload.data.errmsg);
-      } else {
-        return {
-          ...state,
-          groupList: action.payload.data.data
-        };
-      }
-      return state;
+      return {
+        ...state,
+        groupList: action.payload.data.data
+      };
     }
     case SET_CURR_GROUP: {
       return {
