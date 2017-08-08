@@ -51,7 +51,13 @@ var groupModel = function (_baseModel) {
                 group_name: String,
                 group_desc: String,
                 add_time: Number,
-                up_time: Number
+                up_time: Number,
+                members: [{
+                    uid: Number,
+                    role: { type: String, enum: ['owner', 'dev'] },
+                    username: String,
+                    email: String
+                }]
             };
         }
     }, {
@@ -72,6 +78,32 @@ var groupModel = function (_baseModel) {
         value: function checkRepeat(name) {
             return this.model.count({
                 group_name: name
+            });
+        }
+    }, {
+        key: 'addMember',
+        value: function addMember(id, data) {
+            return this.model.update({
+                _id: id
+            }, {
+                $push: { members: data }
+            });
+        }
+    }, {
+        key: 'delMember',
+        value: function delMember(id, uid) {
+            return this.model.update({
+                _id: id
+            }, {
+                $pull: { members: { uid: uid } }
+            });
+        }
+    }, {
+        key: 'checkMemberRepeat',
+        value: function checkMemberRepeat(id, uid) {
+            return this.model.count({
+                _id: id,
+                "members.uid": uid
             });
         }
     }, {

@@ -28,6 +28,18 @@ var _user = require('../models/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _interface = require('../models/interface.js');
+
+var _interface2 = _interopRequireDefault(_interface);
+
+var _group = require('../models/group.js');
+
+var _group2 = _interopRequireDefault(_group);
+
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwt = require('jsonwebtoken');
@@ -197,119 +209,173 @@ var baseController = function () {
         value: function getRole() {
             return this.$user.role;
         }
+
+        /**
+         * 
+         * @param {*} id type对应的id
+         * @param {*} type enum[interface, project, group] 
+         * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+         */
+
     }, {
-        key: 'jungeProjectAuth',
+        key: 'checkAuth',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(id) {
-                var model, result;
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(id, type, action) {
+                var _this = this;
+
+                var result, interfaceInst, interfaceData, projectInst, projectData, memberData, groupInst, groupData, groupMemberData;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
-                                model = _yapi2.default.getInst(_project2.default);
+                                result = {};
+                                _context4.prev = 1;
 
                                 if (!(this.getRole() === 'admin')) {
-                                    _context4.next = 3;
+                                    _context4.next = 4;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', true);
 
-                            case 3:
-                                if (id) {
-                                    _context4.next = 5;
+                            case 4:
+                                if (!(type === 'interface')) {
+                                    _context4.next = 14;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', false);
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                _context4.next = 8;
+                                return interfaceInst.get(id);
 
-                            case 5:
-                                _context4.next = 7;
-                                return model.get(id);
+                            case 8:
+                                interfaceData = _context4.sent;
 
-                            case 7:
-                                result = _context4.sent;
+                                result.interfaceData = interfaceData;
 
-                                if (!(result.uid === this.getUid())) {
-                                    _context4.next = 10;
+                                if (!(interfaceData.uid === this.getUid())) {
+                                    _context4.next = 12;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', true);
 
-                            case 10:
+                            case 12:
+                                type = 'project';
+                                id = interfaceData.project_id;
+
+                            case 14:
+                                if (!(type === 'project')) {
+                                    _context4.next = 29;
+                                    break;
+                                }
+
+                                projectInst = _yapi2.default.getInst(_project2.default);
+                                _context4.next = 18;
+                                return projectInst.get(id);
+
+                            case 18:
+                                projectData = _context4.sent;
+
+                                if (!(projectData.uid === this.getUid())) {
+                                    _context4.next = 21;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', true);
+
+                            case 21:
+                                memberData = _underscore2.default.find(projectData.members, function (m) {
+                                    if (m.uid === _this.getUid()) {
+                                        return true;
+                                    }
+                                });
+
+                                if (!(memberData && memberData.role)) {
+                                    _context4.next = 27;
+                                    break;
+                                }
+
+                                if (!(action === 'danger' && memberData.role === 'owner')) {
+                                    _context4.next = 25;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', true);
+
+                            case 25:
+                                if (!(action === 'edit')) {
+                                    _context4.next = 27;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', true);
+
+                            case 27:
+                                type = 'group';
+                                id = projectData.group_id;
+
+                            case 29:
+                                if (!(type === 'group')) {
+                                    _context4.next = 40;
+                                    break;
+                                }
+
+                                groupInst = _yapi2.default.getInst(_group2.default);
+                                _context4.next = 33;
+                                return groupInst.get(id);
+
+                            case 33:
+                                groupData = _context4.sent;
+                                groupMemberData = _underscore2.default.find(groupData.members, function (m) {
+                                    if (m.uid === _this.getUid()) {
+                                        return true;
+                                    }
+                                });
+
+                                if (!(groupMemberData && groupMemberData.role)) {
+                                    _context4.next = 40;
+                                    break;
+                                }
+
+                                if (!(action === 'danger' && groupMemberData.role === 'owner')) {
+                                    _context4.next = 38;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', true);
+
+                            case 38:
+                                if (!(action === 'edit')) {
+                                    _context4.next = 40;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', true);
+
+                            case 40:
                                 return _context4.abrupt('return', false);
 
-                            case 11:
+                            case 43:
+                                _context4.prev = 43;
+                                _context4.t0 = _context4['catch'](1);
+
+                                _yapi2.default.commons.log(_context4.t0.message, 'error');
+                                return _context4.abrupt('return', false);
+
+                            case 47:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this);
+                }, _callee4, this, [[1, 43]]);
             }));
 
-            function jungeProjectAuth(_x4) {
+            function checkAuth(_x4, _x5, _x6) {
                 return _ref4.apply(this, arguments);
             }
 
-            return jungeProjectAuth;
-        }()
-    }, {
-        key: 'jungeMemberAuth',
-        value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(id, member_uid) {
-                var model, result;
-                return _regenerator2.default.wrap(function _callee5$(_context5) {
-                    while (1) {
-                        switch (_context5.prev = _context5.next) {
-                            case 0:
-                                model = _yapi2.default.getInst(_project2.default);
-
-                                if (!(this.getRole() === 'admin')) {
-                                    _context5.next = 3;
-                                    break;
-                                }
-
-                                return _context5.abrupt('return', true);
-
-                            case 3:
-                                if (!(!id || !member_uid)) {
-                                    _context5.next = 5;
-                                    break;
-                                }
-
-                                return _context5.abrupt('return', false);
-
-                            case 5:
-                                _context5.next = 7;
-                                return model.checkMemberRepeat(id, member_uid);
-
-                            case 7:
-                                result = _context5.sent;
-
-                                if (!(result > 0)) {
-                                    _context5.next = 10;
-                                    break;
-                                }
-
-                                return _context5.abrupt('return', true);
-
-                            case 10:
-                                return _context5.abrupt('return', false);
-
-                            case 11:
-                            case 'end':
-                                return _context5.stop();
-                        }
-                    }
-                }, _callee5, this);
-            }));
-
-            function jungeMemberAuth(_x5, _x6) {
-                return _ref5.apply(this, arguments);
-            }
-
-            return jungeMemberAuth;
+            return checkAuth;
         }()
     }]);
     return baseController;

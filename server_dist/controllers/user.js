@@ -1091,6 +1091,7 @@ var userController = function (_baseController) {
 
                                 result["interface_id"] = interfaceData._id;
                                 result["interface_name"] = interfaceData.path;
+
                                 type = 'project';
                                 id = interfaceData.project_id;
 
