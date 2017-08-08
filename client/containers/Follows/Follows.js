@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
+import './Follows.scss';
 import Subnav from '../../components/Subnav/Subnav.js';
-import { Row, Col } from 'antd';
+console.log('js in');
 
-import './ProjectGroups.scss'
-
-export default class ProjectGroups extends Component {
-  constructor(props) {
-    super(props)
-  }
-
+class Follows extends Component {
   render () {
+    console.log('render');
     return (
       <div>
-        <Subnav data={[{
-          name: '项目广场',
-          path: '/test'
-        }, {
-          name: '我的关注',
-          path: '/test'
-        }]}/>
-        <div className="g-doc">
-          doc
+        <Subnav
+          default={'我的关注'}
+          data={[{
+            name: '项目广场',
+            path: '/group'
+          }, {
+            name: '我的关注',
+            path: '/follow'
+          }]}/>
+        <div className="g-row">
+          我的关注页
         </div>
       </div>
     )
   }
 }
+
+export default Follows;
