@@ -61,6 +61,17 @@ class groupModel extends baseModel {
         );
     }
 
+    changeMemberRole(id, uid, role) {
+        return this.model.update(
+            {
+                _id: id,
+                 "members.uid": uid
+            }, {
+                "$set": { "members.$.uid": role}
+            }
+        );
+    }
+
     checkMemberRepeat(id, uid){
         return this.model.count({
             _id: id,
