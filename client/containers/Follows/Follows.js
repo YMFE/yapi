@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import GroupList from './GroupList/GroupList.js';
-import ProjectList from './ProjectList/ProjectList.js';
 import Subnav from '../../components/Subnav/Subnav.js';
 import { Row, Col } from 'antd';
 
@@ -22,14 +20,7 @@ export default class ProjectGroups extends Component {
           path: '/test'
         }]}/>
         <div className="g-doc">
-          <Row gutter={16}>
-            <Col span={6}>
-              <GroupList></GroupList>
-            </Col>
-            <Col span={18}>
-              <ProjectList/>
-            </Col>
-          </Row>
+          doc
         </div>
       </div>
     )
