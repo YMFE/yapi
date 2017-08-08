@@ -5,7 +5,7 @@ import axios from 'axios'
 import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { deleteInterfaceData } from '../../../reducer/interface/interface.js'
+import { deleteInterfaceData } from '../../../reducer/modules/interface.js'
 
 @connect(
   state => {

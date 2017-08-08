@@ -5,8 +5,8 @@ import { Icon, Input, AutoComplete } from 'antd'
 import './Search.scss'
 import { withRouter } from 'react-router';
 import axios from 'axios';
-import { setCurrGroup } from '../../../reducer/group/group'
-import { changeMenuItem } from '../../../reducer/menu/menu'
+import { setCurrGroup } from '../../../reducer/modules/group'
+import { changeMenuItem } from '../../../reducer/modules/menu'
 const Option = AutoComplete.Option;
 
 @connect(

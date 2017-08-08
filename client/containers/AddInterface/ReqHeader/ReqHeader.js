@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators'
 import ReqList from './ReqList.js'
 import {
   addReqHeader
-} from '../../../reducer/addInterface/addInterface.js'
+} from '../../../reducer/modules/addInterface.js'
 
 // 重新渲染页面
 const getReqList = function (self) {

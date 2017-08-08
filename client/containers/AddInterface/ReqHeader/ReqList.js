@@ -8,7 +8,7 @@ import {
   reqHeaderValue,
   deleteReqHeader,
   addReqHeader
-} from '../../../reducer/addInterface/addInterface.js'
+} from '../../../reducer/modules/addInterface.js'
 
 @connect(
   state => {
