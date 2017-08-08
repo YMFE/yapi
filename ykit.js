@@ -13,6 +13,7 @@ module.exports = {
       modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
         defaultQuery.plugins = [];
         defaultQuery.plugins.push('transform-decorators-legacy');
+        defaultQuery.plugins.push(["import", { libraryName: "antd", style: "css" }])
         return defaultQuery;
       }
     }
