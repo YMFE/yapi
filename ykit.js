@@ -32,12 +32,12 @@ module.exports = {
             'react-dom',
             'redux-promise',
             'react-router-dom',
-            'prop-types',
+            'prop-types'
+            
+          ],
+          lib2:[
             'axios',
             'moment'
-          ],
-          lib2: [
-            'antd'
           ]
         }
       },
