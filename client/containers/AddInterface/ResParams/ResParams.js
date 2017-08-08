@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import wangEditor from 'wangeditor'
 import { Card } from 'antd'
-import { getResParams } from '../../../reducer/addInterface/addInterface.js'
+import { getResParams } from '../../../reducer/modules/addInterface.js'
 
 //const editor = new wangEditor('#res-cover')
 

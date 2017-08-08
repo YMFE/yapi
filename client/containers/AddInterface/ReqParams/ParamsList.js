@@ -3,7 +3,7 @@
 // import PropTypes from 'prop-types'
 // import { autobind } from 'core-decorators'
 // import { connect } from 'react-redux'
-// import { deleteReqParams } from '../../../reducer/addInterface/addInterface.js'
+// import { deleteReqParams } from '../../../reducer/modules/addInterface.js'
 // import json2html from 'json2html'
 
 // @connect(

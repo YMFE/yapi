@@ -4,7 +4,7 @@ import NewsTimeline from './NewsTimeline/NewsTimeline'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import NewsList from './NewsList/NewsList.js'
-import { fetchNewsData } from '../../reducer/news/news.js'
+import { fetchNewsData } from '../../reducer/modules/news.js'
 
 
 @connect(

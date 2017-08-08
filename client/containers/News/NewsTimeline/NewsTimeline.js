@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Table, Popconfirm } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchMoreNews } from '../../../reducer/news/news.js'
+import { fetchMoreNews } from '../../../reducer/modules/news.js'
 
 const removeConfirm = function(e){
   console.log(e);

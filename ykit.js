@@ -41,7 +41,22 @@ module.exports = {
         }
       },
       modifyWebpackConfig: function (baseConfig) {
-
+        var ENV_PARAMS = {};
+        switch (this.env) {
+          case 'local':
+            ENV_PARAMS = {development: true};
+            break;
+          case 'dev':
+            ENV_PARAMS = {development: true};
+            break;
+          case 'prd':
+            ENV_PARAMS = {development: false};
+            break;
+          default:
+        }
+        baseConfig.plugins.push(new this.webpack.DefinePlugin({
+            ENV_PARAMS: JSON.stringify(ENV_PARAMS)
+        }))
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, "client");
         baseConfig.output.prd.path = 'static/prd';
