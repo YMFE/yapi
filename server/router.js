@@ -9,6 +9,14 @@ import logController from './controllers/log.js';
 
 const router = koaRouter();
 
+const authLevel = {
+    admin: 0,
+    owner: 10,
+    dev: 20,
+    member:30,
+    guest:100
+}
+
 const INTERFACE_CONFIG = {
     interface: {
         prefix: '/interface/',
@@ -32,47 +40,195 @@ const INTERFACE_CONFIG = {
     }
 };
 
-//group
-createAction('group', 'list', 'get', 'list');
-createAction('group', 'add', 'post', 'add');
-createAction('group', 'up', 'post', 'up');
-createAction('group', 'del', 'post', 'del');
+const routerConfig = {
+	"group": [
+		{			
+			"action": "list",
+			"path": "list",
+			"method": "get"
+		},
+		{			
+			"action": "add",
+			"path": "add",
+			"method": "post"
+		},
+		{			
+			"action": "up",
+			"path": "up",
+			"method": "post"
+		},
+		{			
+			"action": "del",
+			"path": "del",
+			"method": "post"
+		},
+		{			
+			"action": "addMember",
+			"path": "add_member",
+			"method": "post"
+		},
+		{			
+			"action": "delMember",
+			"path": "del_member",
+			"method": "post"
+		},
+		{			
+			"action": "getMemberList",
+			"path": "members",
+			"method": "get"
+		}
+	],
+	"user": [
+		{			
+			"action": "login",
+			"path": "login",
+			"method": "post"
+		},
+		{			
+			"action": "reg",
+			"path": "reg",
+			"method": "post"
+		},
+		{			
+			"action": "list",
+			"path": "list",
+			"method": "get"
+		},
+		{			
+			"action": "findById",
+			"path": "find",
+			"method": "get"
+		},
+		{			
+			"action": "update",
+			"path": "update",
+			"method": "post"
+		},
+		{			
+			"action": "del",
+			"path": "del",
+			"method": "post"
+		},
+		{			
+			"action": "getLoginStatus",
+			"path": "status",
+			"method": "get"
+		},
+		{			
+			"action": "logout",
+			"path": "logout",
+			"method": "get"
+		},
+		{			
+			"action": "loginByToken",
+			"path": "login_by_token",
+			"method": "post"
+		},
+		{			
+			"action": "changePassword",
+			"path": "change_password",
+			"method": "post"
+		},
+		{			
+			"action": "search",
+			"path": "search",
+			"method": "get"
+		},
+		{			
+			"action": "nav",
+			"path": "nav",
+			"method": "get"
+		}
+	],
+	"project": [
+		{			
+			"action": "add",
+			"path": "add",
+			"method": "post"
+		},
+		{			
+			"action": "list",
+			"path": "list",
+			"method": "get"
+		},
+		{			
+			"action": "get",
+			"path": "get",
+			"method": "get"
+		},
+		{			
+			"action": "up",
+			"path": "up",
+			"method": "post"
+		},
+		{			
+			"action": "del",
+			"path": "del",
+			"method": "post"
+		},
+		{			
+			"action": "addMember",
+			"path": "add_member",
+			"method": "post"
+		},
+		{			
+			"action": "delMember",
+			"path": "del_member",
+			"method": "post"
+		},
+		{			
+			"action": "getMemberList",
+			"path": "get_member_list",
+			"method": "get"
+		},
+		{			
+			"action": "search",
+			"path": "search",
+			"method": "get"
+		}
+	],
+	"interface": [
+		{			
+			"action": "add",
+			"path": "add",
+			"method": "post"
+		},
+		{			
+			"action": "list",
+			"path": "list",
+			"method": "get"
+		},
+		{			
+			"action": "get",
+			"path": "get",
+			"method": "get"
+		},
+		{			
+			"action": "up",
+			"path": "up",
+			"method": "post"
+		},
+		{
+			"action": "del",
+			"path": "del",
+			"method": "post"
+		}
+	],
+	"log": [
+		{
+			"action": "list",
+			"path": "list",
+			"method": "get"
+		}
+	]
+}
 
-//user
-createAction('user', 'login', 'post', 'login');
-createAction('user', 'reg', 'post', 'reg');
-createAction('user', 'list', 'get', 'list');
-createAction('user', 'find', 'get', 'findById');
-createAction('user', 'update', 'post', 'update');
-createAction('user', 'del', 'post', 'del');
-createAction('user', 'status', 'get', 'getLoginStatus');
-createAction('user', 'logout', 'get', 'logout');
-createAction('user', 'login_by_token', 'post', 'loginByToken');
-createAction('user', 'change_password', 'post', 'changePassword');
-createAction('user', 'search', 'get', 'search');
-createAction('user', 'nav', 'get', 'nav')
-
-
-//project
-createAction('project', 'add', 'post', 'add');
-createAction('project', 'list', 'get', 'list');
-createAction('project', 'get', 'get', 'get');
-createAction('project', 'up', 'post', 'up');
-createAction('project', 'del', 'post', 'del');
-createAction('project', 'add_member', 'post', 'addMember');
-createAction('project', 'del_member', 'post', 'delMember');
-createAction('project', 'get_member_list', 'get', 'getMemberList');
-createAction('project', 'search', 'get', 'search');
-
-//interface
-createAction('interface', 'add', 'post', 'add');
-createAction('interface', 'list', 'get', 'list');
-createAction('interface', 'get', 'get', 'get');
-createAction('interface', 'up', 'post', 'up');
-createAction('interface', 'del', 'post', 'del');
-
-//node
-createAction('log', 'list', 'get', 'list');
+for(let ctrl in routerConfig){
+    let actions = routerConfig[ctrl];
+    actions.forEach( (item) => {
+        createAction(ctrl, item.action, item.path, item.method);
+    } )
+}  
 
 /**
  *
@@ -81,7 +237,7 @@ createAction('log', 'list', 'get', 'list');
  * @param {*} method request_method , post get put delete ...
  * @param {*} action controller_action_name
  */
-function createAction(controller, path, method, action) {
+function createAction(controller, action, path, method) {
     router[method](INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
         let inst = new INTERFACE_CONFIG[controller].controller(ctx);
 

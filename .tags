@@ -61,11 +61,6 @@ fetchMoreNews	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/news/news.js	
 const.curUid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^const initialState = {$/;"	property	line:4
 switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^  switch (action.type) {$/;"	function	line:9
 changeCurUid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^export function changeCurUid(curUid) {$/;"	function	line:23
-path	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^var path = require('path');$/;"	variable	line:1
-processOutput	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  processOutput: function (assets) {$/;"	function	line:5
-modifyQuery	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyQuery: function (defaultQuery) { \/\/ 可查看和编辑 defaultQuery$/;"	function	line:13
-config	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  config: function (ykit) {$/;"	function	line:21
-modifyWebpackConfig	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyWebpackConfig: function (baseConfig) {$/;"	function	line:43
 requireAuthentication	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^export function requireAuthentication(Component) {$/;"	function	line:16
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    constructor(props){$/;"	function	line:18
 static.isAuthenticated	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    static propTypes ={$/;"	property	line:21
@@ -284,3 +279,15 @@ state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    th
 static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:34
 componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:39
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:72
+path	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^var path = require('path');$/;"	variable	line:1
+processOutput	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  processOutput: function (assets) {$/;"	function	line:5
+modifyQuery	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyQuery: function (defaultQuery) { \/\/ 可查看和编辑 defaultQuery$/;"	function	line:13
+config	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  config: function (ykit) {$/;"	function	line:21
+modifyWebpackConfig	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyWebpackConfig: function (baseConfig) {$/;"	function	line:43
+switch	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^        switch (this.env) {$/;"	function	line:45
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:47
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:50
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: false};$/;"	property	line:53
+createStore	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/create.js	/^export default function createStore(initialState = {}) {$/;"	function	line:8
+module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
+module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
