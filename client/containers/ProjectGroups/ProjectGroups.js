@@ -14,14 +14,16 @@ export default class ProjectGroups extends Component {
   render () {
     return (
       <div>
-        <Subnav data={[{
-          name: '项目广场',
-          path: '/test'
-        }, {
-          name: '我的关注',
-          path: '/test'
-        }]}/>
-        <div className="g-doc">
+        <Subnav
+          default={'项目广场'}
+          data={[{
+            name: '项目广场',
+            path: '/group'
+          }, {
+            name: '我的关注',
+            path: '/follow'
+          }]}/>
+        <div className="g-row">
           <Row gutter={16}>
             <Col span={6}>
               <GroupList></GroupList>
