@@ -106,7 +106,7 @@ var userModel = function (_baseModel) {
     }, {
         key: 'findById',
         value: function findById(id) {
-            return this.model.findById({
+            return this.model.findOne({
                 _id: id
             });
         }

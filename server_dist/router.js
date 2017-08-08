@@ -40,69 +40,191 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = (0, _koaRouter2.default)();
 
-var INTERFACE_CONFIG = {
-    interface: {
-        prefix: '/interface/',
-        controller: _interface2.default
-    },
-    user: {
-        prefix: '/user/',
-        controller: _user2.default
-    },
-    group: {
-        prefix: '/group/',
-        controller: _group2.default
-    },
-    project: {
-        prefix: '/project/',
-        controller: _project2.default
-    },
-    log: {
-        prefix: '/log/',
-        controller: _log2.default
-    }
+var authLevel = {
+	admin: 0,
+	owner: 10,
+	dev: 20,
+	member: 30,
+	guest: 100
 };
 
-//group
-createAction('group', 'list', 'get', 'list');
-createAction('group', 'add', 'post', 'add');
-createAction('group', 'up', 'post', 'up');
-createAction('group', 'del', 'post', 'del');
+var INTERFACE_CONFIG = {
+	interface: {
+		prefix: '/interface/',
+		controller: _interface2.default
+	},
+	user: {
+		prefix: '/user/',
+		controller: _user2.default
+	},
+	group: {
+		prefix: '/group/',
+		controller: _group2.default
+	},
+	project: {
+		prefix: '/project/',
+		controller: _project2.default
+	},
+	log: {
+		prefix: '/log/',
+		controller: _log2.default
+	}
+};
 
-//user
-createAction('user', 'login', 'post', 'login');
-createAction('user', 'reg', 'post', 'reg');
-createAction('user', 'list', 'get', 'list');
-createAction('user', 'find', 'get', 'findById');
-createAction('user', 'update', 'post', 'update');
-createAction('user', 'del', 'post', 'del');
-createAction('user', 'status', 'get', 'getLoginStatus');
-createAction('user', 'logout', 'get', 'logout');
-createAction('user', 'login_by_token', 'post', 'loginByToken');
-createAction('user', 'change_password', 'post', 'changePassword');
-createAction('user', 'search', 'get', 'search');
-createAction('user', 'nav', 'get', 'nav');
+var routerConfig = {
+	"group": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "addMember",
+		"path": "add_member",
+		"method": "post"
+	}, {
+		"action": "delMember",
+		"path": "del_member",
+		"method": "post"
+	}, {
+		"action": "getMemberList",
+		"path": "members",
+		"method": "get"
+	}],
+	"user": [{
+		"action": "login",
+		"path": "login",
+		"method": "post"
+	}, {
+		"action": "reg",
+		"path": "reg",
+		"method": "post"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "findById",
+		"path": "find",
+		"method": "get"
+	}, {
+		"action": "update",
+		"path": "update",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "getLoginStatus",
+		"path": "status",
+		"method": "get"
+	}, {
+		"action": "logout",
+		"path": "logout",
+		"method": "get"
+	}, {
+		"action": "loginByToken",
+		"path": "login_by_token",
+		"method": "post"
+	}, {
+		"action": "changePassword",
+		"path": "change_password",
+		"method": "post"
+	}, {
+		"action": "search",
+		"path": "search",
+		"method": "get"
+	}, {
+		"action": "nav",
+		"path": "nav",
+		"method": "get"
+	}],
+	"project": [{
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "get",
+		"path": "get",
+		"method": "get"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "addMember",
+		"path": "add_member",
+		"method": "post"
+	}, {
+		"action": "delMember",
+		"path": "del_member",
+		"method": "post"
+	}, {
+		"action": "getMemberList",
+		"path": "get_member_list",
+		"method": "get"
+	}, {
+		"action": "search",
+		"path": "search",
+		"method": "get"
+	}],
+	"interface": [{
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "get",
+		"path": "get",
+		"method": "get"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}],
+	"log": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}]
+};
 
-//project
-createAction('project', 'add', 'post', 'add');
-createAction('project', 'list', 'get', 'list');
-createAction('project', 'get', 'get', 'get');
-createAction('project', 'up', 'post', 'up');
-createAction('project', 'del', 'post', 'del');
-createAction('project', 'add_member', 'post', 'addMember');
-createAction('project', 'del_member', 'post', 'delMember');
-createAction('project', 'get_member_list', 'get', 'getMemberList');
-createAction('project', 'search', 'get', 'search');
+var _loop = function _loop(ctrl) {
+	var actions = routerConfig[ctrl];
+	actions.forEach(function (item) {
+		createAction(ctrl, item.action, item.path, item.method);
+	});
+};
 
-//interface
-createAction('interface', 'add', 'post', 'add');
-createAction('interface', 'list', 'get', 'list');
-createAction('interface', 'get', 'get', 'get');
-createAction('interface', 'up', 'post', 'up');
-createAction('interface', 'del', 'post', 'del');
-
-//node
-createAction('log', 'list', 'get', 'list');
+for (var ctrl in routerConfig) {
+	_loop(ctrl);
+}
 
 /**
  *
@@ -111,48 +233,48 @@ createAction('log', 'list', 'get', 'list');
  * @param {*} method request_method , post get put delete ...
  * @param {*} action controller_action_name
  */
-function createAction(controller, path, method, action) {
-    var _this = this;
+function createAction(controller, action, path, method) {
+	var _this = this;
 
-    router[method](INTERFACE_CONFIG[controller].prefix + path, function () {
-        var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-            var inst;
-            return _regenerator2.default.wrap(function _callee$(_context) {
-                while (1) {
-                    switch (_context.prev = _context.next) {
-                        case 0:
-                            inst = new INTERFACE_CONFIG[controller].controller(ctx);
-                            _context.next = 3;
-                            return inst.init(ctx);
+	router[method](INTERFACE_CONFIG[controller].prefix + path, function () {
+		var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+			var inst;
+			return _regenerator2.default.wrap(function _callee$(_context) {
+				while (1) {
+					switch (_context.prev = _context.next) {
+						case 0:
+							inst = new INTERFACE_CONFIG[controller].controller(ctx);
+							_context.next = 3;
+							return inst.init(ctx);
 
-                        case 3:
-                            if (!(inst.$auth === true)) {
-                                _context.next = 8;
-                                break;
-                            }
+						case 3:
+							if (!(inst.$auth === true)) {
+								_context.next = 8;
+								break;
+							}
 
-                            _context.next = 6;
-                            return inst[action].call(inst, ctx);
+							_context.next = 6;
+							return inst[action].call(inst, ctx);
 
-                        case 6:
-                            _context.next = 9;
-                            break;
+						case 6:
+							_context.next = 9;
+							break;
 
-                        case 8:
-                            ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Without Permission.');
+						case 8:
+							ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Without Permission.');
 
-                        case 9:
-                        case 'end':
-                            return _context.stop();
-                    }
-                }
-            }, _callee, _this);
-        }));
+						case 9:
+						case 'end':
+							return _context.stop();
+					}
+				}
+			}, _callee, _this);
+		}));
 
-        return function (_x) {
-            return _ref.apply(this, arguments);
-        };
-    }());
+		return function (_x) {
+			return _ref.apply(this, arguments);
+		};
+	}());
 }
 
 module.exports = router;

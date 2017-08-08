@@ -62,7 +62,7 @@ class userModel extends baseModel {
     }
 
     findById(id) {
-        return this.model.findById({
+        return this.model.findOne({
             _id: id
         });
     }

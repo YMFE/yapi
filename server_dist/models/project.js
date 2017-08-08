@@ -52,7 +52,7 @@ var projectModel = function (_baseModel) {
                 basepath: { type: String },
                 desc: String,
                 group_id: { type: Number, required: true },
-                members: Array,
+                members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'], username: String, email: String } }],
                 protocol: { type: String, required: true },
                 prd_host: { type: String, required: true },
                 env: [{ name: String, domain: String }],
@@ -142,11 +142,11 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'addMember',
-        value: function addMember(id, uid) {
+        value: function addMember(id, data) {
             return this.model.update({
                 _id: id
             }, {
-                $push: { members: uid }
+                $push: { members: data }
             });
         }
     }, {
@@ -163,7 +163,7 @@ var projectModel = function (_baseModel) {
         value: function checkMemberRepeat(id, uid) {
             return this.model.count({
                 _id: id,
-                members: { $in: [uid] }
+                "members.uid": uid
             });
         }
     }, {

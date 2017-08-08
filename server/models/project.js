@@ -8,12 +8,14 @@ class projectModel extends baseModel {
 
     getSchema() {
         return {
-            uid: { type: Number, required: true },
+            uid: {type: Number, required: true},
             name: { type: String, required: true },
             basepath: {type: String  },
             desc: String,
             group_id: { type: Number, required: true },
-            members: Array,
+            members: [
+                {uid: Number, role: {type: String, enum:['owner', 'dev'], username: String, email: String}}
+            ],
             protocol: { type: String, required: true },
             prd_host: { type: String, required: true },
             env: [
@@ -93,12 +95,12 @@ class projectModel extends baseModel {
         }, data, { runValidators: true });
     }
 
-    addMember(id, uid) {
+    addMember(id, data) {
         return this.model.update(
             {
                 _id: id
             }, {
-                $push: { members: uid }
+                $push: { members: data }
             }
         );
     }
@@ -116,7 +118,7 @@ class projectModel extends baseModel {
     checkMemberRepeat(id, uid) {
         return this.model.count({
             _id: id,
-            members: {$in: [uid]}
+            "members.uid": uid
         });
     }
 
