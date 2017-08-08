@@ -13,6 +13,7 @@ class projectModel extends baseModel {
             basepath: {type: String  },
             desc: String,
             group_id: { type: Number, required: true },
+            project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
                 {uid: Number, role: {type: String, enum:['owner', 'dev'], username: String, email: String}}
             ],
@@ -56,10 +57,10 @@ class projectModel extends baseModel {
         });
     }
 
-    list(group_id) {
-        return this.model.find({
-            group_id: group_id
-        }).sort({ _id: -1 }).exec();
+    list(group_id, auth) {
+        let params = {group_id: group_id}
+        if(auth) params.project_type = 'public';
+        return this.model.find(params).sort({ _id: -1 }).exec();
     }
 
     listWithPaging(group_id, page, limit) {
@@ -120,6 +121,17 @@ class projectModel extends baseModel {
             _id: id,
             "members.uid": uid
         });
+    }
+
+    changeMemberRole(id, uid, role) {
+        return this.model.update(
+            {
+                _id: id,
+                 "members.uid": uid
+            }, {
+                "$set": { "members.$.uid": role}
+            }
+        );
     }
 
     search(keyword) {

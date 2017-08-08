@@ -30,50 +30,47 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var interfaceModel = function (_baseModel) {
-    (0, _inherits3.default)(interfaceModel, _baseModel);
+var interfaceCase = function (_baseModel) {
+    (0, _inherits3.default)(interfaceCase, _baseModel);
 
-    function interfaceModel() {
-        (0, _classCallCheck3.default)(this, interfaceModel);
-        return (0, _possibleConstructorReturn3.default)(this, (interfaceModel.__proto__ || (0, _getPrototypeOf2.default)(interfaceModel)).apply(this, arguments));
+    function interfaceCase() {
+        (0, _classCallCheck3.default)(this, interfaceCase);
+        return (0, _possibleConstructorReturn3.default)(this, (interfaceCase.__proto__ || (0, _getPrototypeOf2.default)(interfaceCase)).apply(this, arguments));
     }
 
-    (0, _createClass3.default)(interfaceModel, [{
+    (0, _createClass3.default)(interfaceCase, [{
         key: 'getName',
         value: function getName() {
-            return 'interface';
+            return 'interface_col';
         }
     }, {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                title: { type: String, required: true },
+                casename: { type: String, required: true },
                 uid: { type: Number, required: true },
-                path: { type: String, required: true },
-                method: { type: String, required: true },
+                col_id: { type: Number, required: true },
                 project_id: { type: Number, required: true },
-                desc: String,
                 add_time: Number,
                 up_time: Number,
+                env: { type: String, required: true },
+                path: { type: String, required: true },
+                method: { type: String, required: true },
                 req_query: [{
-                    name: String, value: String, desc: String, required: Boolean
+                    name: String, value: String
                 }],
                 req_headers: [{
-                    name: String, value: String, desc: String, required: Boolean
+                    name: String, value: String
                 }],
-                req_params_type: {
+                req_body_type: {
                     type: String,
                     enum: ['form', 'json', 'text', 'xml']
                 },
-                req_params_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
+                res_body_form: [{
+                    name: String, value: String
                 }],
-                req_params_other: String,
-                res_body_type: {
-                    type: String,
-                    enum: ['json', 'text', 'xml']
-                },
-                res_body: String
+                res_body_other: String
+
             };
         }
     }, {
@@ -90,36 +87,9 @@ var interfaceModel = function (_baseModel) {
             }).exec();
         }
     }, {
-        key: 'getByPath',
-        value: function getByPath(project_id, path, method) {
-            return this.model.find({
-                project_id: project_id,
-                path: path,
-                method: method
-            }).exec();
-        }
-    }, {
-        key: 'checkRepeat',
-        value: function checkRepeat(id, path, method) {
-            return this.model.count({
-                project_id: id,
-                path: path,
-                method: method
-            });
-        }
-    }, {
-        key: 'countByProjectId',
-        value: function countByProjectId(id) {
-            return this.model.count({
-                project_id: id
-            });
-        }
-    }, {
         key: 'list',
-        value: function list(project_id) {
-            return this.model.find({
-                project_id: project_id
-            }).sort({ _id: -1 }).exec();
+        value: function list() {
+            return this.model.find().exec();
         }
     }, {
         key: 'del',
@@ -132,12 +102,10 @@ var interfaceModel = function (_baseModel) {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
-            return this.model.update({
-                _id: id
-            }, data, { runValidators: true });
+            return this.model.update({ _id: id }, data);
         }
     }]);
-    return interfaceModel;
+    return interfaceCase;
 }(_base2.default);
 
-module.exports = interfaceModel;
+module.exports = interfaceCase;

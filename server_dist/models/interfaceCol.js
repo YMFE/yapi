@@ -30,50 +30,29 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var interfaceModel = function (_baseModel) {
-    (0, _inherits3.default)(interfaceModel, _baseModel);
+var interfaceCol = function (_baseModel) {
+    (0, _inherits3.default)(interfaceCol, _baseModel);
 
-    function interfaceModel() {
-        (0, _classCallCheck3.default)(this, interfaceModel);
-        return (0, _possibleConstructorReturn3.default)(this, (interfaceModel.__proto__ || (0, _getPrototypeOf2.default)(interfaceModel)).apply(this, arguments));
+    function interfaceCol() {
+        (0, _classCallCheck3.default)(this, interfaceCol);
+        return (0, _possibleConstructorReturn3.default)(this, (interfaceCol.__proto__ || (0, _getPrototypeOf2.default)(interfaceCol)).apply(this, arguments));
     }
 
-    (0, _createClass3.default)(interfaceModel, [{
+    (0, _createClass3.default)(interfaceCol, [{
         key: 'getName',
         value: function getName() {
-            return 'interface';
+            return 'interface_col';
         }
     }, {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                title: { type: String, required: true },
+                name: { type: String, required: true },
                 uid: { type: Number, required: true },
-                path: { type: String, required: true },
-                method: { type: String, required: true },
                 project_id: { type: Number, required: true },
                 desc: String,
                 add_time: Number,
-                up_time: Number,
-                req_query: [{
-                    name: String, value: String, desc: String, required: Boolean
-                }],
-                req_headers: [{
-                    name: String, value: String, desc: String, required: Boolean
-                }],
-                req_params_type: {
-                    type: String,
-                    enum: ['form', 'json', 'text', 'xml']
-                },
-                req_params_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
-                }],
-                req_params_other: String,
-                res_body_type: {
-                    type: String,
-                    enum: ['json', 'text', 'xml']
-                },
-                res_body: String
+                up_time: Number
             };
         }
     }, {
@@ -90,28 +69,10 @@ var interfaceModel = function (_baseModel) {
             }).exec();
         }
     }, {
-        key: 'getByPath',
-        value: function getByPath(project_id, path, method) {
-            return this.model.find({
-                project_id: project_id,
-                path: path,
-                method: method
-            }).exec();
-        }
-    }, {
         key: 'checkRepeat',
-        value: function checkRepeat(id, path, method) {
+        value: function checkRepeat(name) {
             return this.model.count({
-                project_id: id,
-                path: path,
-                method: method
-            });
-        }
-    }, {
-        key: 'countByProjectId',
-        value: function countByProjectId(id) {
-            return this.model.count({
-                project_id: id
+                name: name
             });
         }
     }, {
@@ -119,7 +80,7 @@ var interfaceModel = function (_baseModel) {
         value: function list(project_id) {
             return this.model.find({
                 project_id: project_id
-            }).sort({ _id: -1 }).exec();
+            }).exec();
         }
     }, {
         key: 'del',
@@ -134,10 +95,10 @@ var interfaceModel = function (_baseModel) {
             data.up_time = _yapi2.default.commons.time();
             return this.model.update({
                 _id: id
-            }, data, { runValidators: true });
+            }, data);
         }
     }]);
-    return interfaceModel;
+    return interfaceCol;
 }(_base2.default);
 
-module.exports = interfaceModel;
+module.exports = interfaceCol;

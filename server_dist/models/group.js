@@ -99,6 +99,16 @@ var groupModel = function (_baseModel) {
             });
         }
     }, {
+        key: 'changeMemberRole',
+        value: function changeMemberRole(id, uid, role) {
+            return this.model.update({
+                _id: id,
+                "members.uid": uid
+            }, {
+                "$set": { "members.$.uid": role }
+            });
+        }
+    }, {
         key: 'checkMemberRepeat',
         value: function checkMemberRepeat(id, uid) {
             return this.model.count({

@@ -52,6 +52,7 @@ var projectModel = function (_baseModel) {
                 basepath: { type: String },
                 desc: String,
                 group_id: { type: Number, required: true },
+                project_type: { type: String, required: true, enum: ['public', 'private'] },
                 members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'], username: String, email: String } }],
                 protocol: { type: String, required: true },
                 prd_host: { type: String, required: true },
@@ -97,10 +98,10 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(group_id) {
-            return this.model.find({
-                group_id: group_id
-            }).sort({ _id: -1 }).exec();
+        value: function list(group_id, auth) {
+            var params = { group_id: group_id };
+            if (auth) params.project_type = 'public';
+            return this.model.find(params).sort({ _id: -1 }).exec();
         }
     }, {
         key: 'listWithPaging',
@@ -164,6 +165,16 @@ var projectModel = function (_baseModel) {
             return this.model.count({
                 _id: id,
                 "members.uid": uid
+            });
+        }
+    }, {
+        key: 'changeMemberRole',
+        value: function changeMemberRole(id, uid, role) {
+            return this.model.update({
+                _id: id,
+                "members.uid": uid
+            }, {
+                "$set": { "members.$.uid": role }
             });
         }
     }, {

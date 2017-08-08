@@ -115,6 +115,33 @@ class groupController extends baseController {
         }
     }
 
+    async changeMemberRole(ctx){
+        let params = ctx.request.body;
+        let groupInst = yapi.getInst(groupModel);
+        if (!params.member_uid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
+        }
+        if (!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+        }
+        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        if (check === 0) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+        }
+        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+        try {
+            let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
     async getMemberList(ctx) {
         let params = ctx.request.query;
         if (!params.id) {
@@ -142,6 +169,9 @@ class groupController extends baseController {
         var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
         if (check === 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+        }
+        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
         try {
@@ -221,12 +251,10 @@ class groupController extends baseController {
      * @example ./api/group/up.json
      */
     async up(ctx) {
-        if (this.getRole() !== 'admin') {
-            return ctx.body = yapi.commons.resReturn(null, 401, '没有权限');
+        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
-
         try {
-
             ctx.request.body = yapi.commons.handleParams(ctx.request.body, {
                 id: 'number',
                 group_name: 'string',
