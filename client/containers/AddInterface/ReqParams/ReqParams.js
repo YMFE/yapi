@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import wangEditor from 'wangeditor'
-import { getReqParams } from '../../../reducer/addInterface/addInterface.js'
+import { getReqParams } from '../../../reducer/modules/addInterface.js'
 
 //const editor = new wangEditor('#req-cover')
 

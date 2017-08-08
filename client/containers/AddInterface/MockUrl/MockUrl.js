@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   addInterfaceClipboard
-} from '../../../reducer/addInterface/addInterface.js'
+} from '../../../reducer/modules/addInterface.js'
 
 const success = () => {
   message.success('复制成功!')

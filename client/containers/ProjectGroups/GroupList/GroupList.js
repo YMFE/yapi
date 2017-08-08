@@ -13,7 +13,7 @@ import {
   fetchGroupList,
   setCurrGroup,
   setGroupList
-} from '../../../reducer/group/group.js'
+} from '../../../reducer/modules/group.js'
 
 import './GroupList.scss'
 
