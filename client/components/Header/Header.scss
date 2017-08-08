@@ -17,6 +17,9 @@ $color-black-light : #404040;
     position: relative;
     float: left;
     line-height: .54rem;
+    .href {
+      text-decoration: none;
+    }
     .logo-name {
       color: $color-white;
       font-size: .24rem;
@@ -27,7 +30,7 @@ $color-black-light : #404040;
       position: absolute;
       left: 0;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(-56%);
     }
     .ui-badge {
       position: absolute;
@@ -56,7 +59,7 @@ $color-black-light : #404040;
     display: flex;
     align-items: center;
     .item-search {
-      width: 2.4rem;
+      width: 2rem;
     }
     .toolbar-li{
       float: left;
