@@ -4,8 +4,5 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:27
-state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:29
-static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:34
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:39
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:72
+module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
+module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
