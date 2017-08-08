@@ -34,8 +34,10 @@ class interfaceCol extends baseModel {
         });
     }
 
-    list() {
-        return this.model.find().exec();
+    list(project_id) {
+        return this.model.find({
+            project_id: project_id
+        }).exec();
     }
 
     del(id) {

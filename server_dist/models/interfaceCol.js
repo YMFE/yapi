@@ -77,8 +77,10 @@ var interfaceCol = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list() {
-            return this.model.find().exec();
+        value: function list(project_id) {
+            return this.model.find({
+                project_id: project_id
+            }).exec();
         }
     }, {
         key: 'del',
