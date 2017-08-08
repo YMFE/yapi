@@ -1,6 +1,10 @@
 import yapi from '../yapi.js';
 import projectModel from '../models/project.js';
 import userModel from '../models/user.js';
+import interfaceModel from '../models/interface.js'
+import groupModel from '../models/group.js'
+
+import _ from 'underscore'
 const jwt = require('jsonwebtoken');
 
 class baseController {
@@ -60,7 +64,7 @@ class baseController {
 
     async getLoginStatus(ctx) {
         if (await this.checkLogin(ctx) === true) {
-            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time','role']);
+            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role']);
             result.server_ip = yapi.WEBCONFIG.server_ip;
             return ctx.body = yapi.commons.resReturn(result);
         }
@@ -71,44 +75,77 @@ class baseController {
         return this.$user.role;
     }
 
-    async jungeProjectAuth(id) {
-        let model = yapi.getInst(projectModel);
+    /**
+     * 
+     * @param {*} id type对应的id
+     * @param {*} type enum[interface, project, group] 
+     * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+     */
+    async checkAuth(id, type, action) {
+        let result = {};
+        try {
+            if (this.getRole() === 'admin') {
+                return true;
+            }
+            if (type === 'interface') {
+                let interfaceInst = yapi.getInst(interfaceModel);
+                let interfaceData = await interfaceInst.get(id)
+                result.interfaceData = interfaceData;
+                if (interfaceData.uid === this.getUid()) {
+                    return true;
+                }
+                type = 'project';
+                id = interfaceData.project_id;
+            }
 
-        if (this.getRole() === 'admin') {
-            return true;
-        }
+            if (type === 'project') {
+                let projectInst = yapi.getInst(projectModel);
+                let projectData = await projectInst.get(id);   
+                if(projectData.uid === this.getUid()){
+                    return true;
+                }             
+                let memberData = _.find(projectData.members, (m) => {
+                    if (m.uid === this.getUid()) {
+                        return true;
+                    }
+                })
 
-        if (!id) {
+                if (memberData && memberData.role) {
+                    if(action === 'danger' && memberData.role === 'owner'){
+                        return true;
+                    }
+                    if(action === 'edit'){
+                        return true;
+                    }
+                }
+                type = 'group';
+                id = projectData.group_id
+            }
+
+            if (type === 'group') {
+                let groupInst = yapi.getInst(groupModel);
+                let groupData = await groupInst.get(id);
+                let groupMemberData = _.find(groupData.members, (m) => {
+                    if (m.uid === this.getUid()) {
+                        return true;
+                    }
+                })
+                if (groupMemberData && groupMemberData.role) {
+                    if(action === 'danger' && groupMemberData.role === 'owner'){
+                        return true;
+                    }
+                    if(action === 'edit'){
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
-
-        let result = await model.get(id);
-
-        if (result.uid === this.getUid()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    async jungeMemberAuth(id, member_uid) {
-        let model = yapi.getInst(projectModel);
-
-        if (this.getRole() === 'admin') {
-            return true;
-        }
-
-        if (!id || !member_uid) {
+        catch (e) {
+            yapi.commons.log(e.message, 'error')
             return false;
         }
-
-        let result = await model.checkMemberRepeat(id, member_uid);
-
-        if (result > 0) {
-            return true;
-        }
-
-        return false;
     }
 }
 

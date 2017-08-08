@@ -99,7 +99,7 @@ class projectController extends baseController {
             prd_host: params.prd_host,
             basepath: params.basepath,
             protocol: params.protocol || 'http',
-            members: [this.getUid()],
+            members: [],
             uid: this.getUid(),
             group_id: params.group_id,
             add_time: yapi.commons.time(),
@@ -138,8 +138,15 @@ class projectController extends baseController {
         if (check > 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
+
+        let userdata = await this.getUserdata(params.member_uid);
+        if(userdata === null){
+            return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
+        }
+
+
         try {
-            let result = await this.Model.addMember(params.id, params.member_uid);
+            let result = await this.Model.addMember(params.id, userdata);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -179,6 +186,22 @@ class projectController extends baseController {
         }
     }
 
+
+    async getUserdata(uid, role){
+        role = role || 'dev';
+        let userInst = yapi.getInst(userModel);
+        let userData = await userInst.findById(uid);
+        if(!userData){
+            return null;
+        }
+        return {
+            role: role,
+            uid: userData._id,
+            username: userData.username,
+            email: userData.email
+        }
+    }
+
     /**
      * 获取项目成员列表
      * @interface /project/get_member_list
@@ -198,10 +221,7 @@ class projectController extends baseController {
 
         try {
             let project = await this.Model.get(params.id);
-            let userInst = yapi.getInst(userModel);
-            let result = await userInst.findByUids(project.members);
-
-            ctx.body = yapi.commons.resReturn(result);
+            ctx.body = yapi.commons.resReturn(project.members);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
@@ -238,8 +258,6 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
-     * @param {Number} [page] 分页页码
-     * @param {Number} [limit] 每页数据条目，默认为10
      * @returns {Object}
      * @example ./api/project/list.json
      */
@@ -254,8 +272,7 @@ class projectController extends baseController {
         }
 
         try {
-            let result = await this.Model.listWithPaging(group_id, page, limit);
-            let count = await this.Model.listCount(group_id);
+            let result = await this.Model.list(group_id);
             let uids = [];
             result.forEach((item) => {
                 if (uids.indexOf(item.uid) === -1) {
@@ -268,7 +285,6 @@ class projectController extends baseController {
                 _users[item._id] = item;
             });
             ctx.body = yapi.commons.resReturn({
-                total: Math.ceil(count / limit),
                 list: result,
                 userinfo: _users
             });
@@ -300,7 +316,7 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
             }
 
-            if (await this.jungeProjectAuth(id) !== true) {
+            if (await this.checkAuth(id, 'project', 'owner') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
             let result = await this.Model.del(id);
@@ -345,7 +361,7 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
             }
 
-            if (await this.jungeMemberAuth(id, this.getUid()) !== true) {
+            if (await this.checkAuth(id, 'project', 'edit') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
 
@@ -382,7 +398,6 @@ class projectController extends baseController {
             }
 
             let data = {
-                uid: this.getUid(),
                 up_time: yapi.commons.time()
             };
 
