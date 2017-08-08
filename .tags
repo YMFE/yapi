@@ -291,3 +291,7 @@ case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV
 createStore	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/create.js	/^export default function createStore(initialState = {}) {$/;"	function	line:8
 module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
 module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
+const.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^const initialState = {$/;"	property	line:8
+switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^  switch (action.type) {$/;"	function	line:14
+fetchGroupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function fetchGroupList() {$/;"	function	line:34
+setCurrGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function setCurrGroup(group) {$/;"	function	line:41

@@ -4,5 +4,3 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
-module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
