@@ -169,7 +169,7 @@ export default class HeaderCom extends Component {
       <Header className="header-box" style={headerStyle}>
         <div className="content g-row">
           <div className="logo">
-            <Link to="/" onClick={this.relieveLink}>
+            <Link to="/" onClick={this.relieveLink} className="href">
               <img className="img" src="./image/logo_header@1x.png" /><span className="logo-name">YAPI<span className="ui-badge"></span></span>
             </Link>
           </div>
