@@ -11,7 +11,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #f1f3f6;
+  background: #ececec;
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -51,4 +51,12 @@ em {
 
 .hidden {
   display: none;
+}
+
+// 布局容器 guitter: 16px
+.g-row {
+  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
+  min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
+  margin: 0 auto;
+  padding: 0 .24rem;
 }

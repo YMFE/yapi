@@ -1,0 +1,16 @@
+@import '../../styles/common.scss';
+
+.m-subnav {
+  margin-bottom: .24rem;
+  background-color: #fff;
+  box-shadow: 0 0 .04rem rgba(0, 0, 0, .08);
+  font-size: .14rem;
+  border: none;
+  .m-subnav-menu {
+    border: none;
+    .item {
+      line-height: .54rem;
+      padding: 0 .36rem;
+    }
+  }
+}
