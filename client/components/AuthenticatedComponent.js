@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { changeMenuItem } from '../reducer/menu/menu'
+import { changeMenuItem } from '../reducer/modules/menu'
 
 @connect(
   (state) => {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Menu } from 'antd'
 import {
   fetchNewsData
-} from '../../../reducer/news/news.js'
+} from '../../../reducer/modules/news.js'
 
 
 const logList = [{

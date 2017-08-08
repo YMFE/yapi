@@ -7,7 +7,7 @@ import {
   pushInputValue,
   pushInterfaceName,
   pushInterfaceMethod
-} from '../../../reducer/addInterface/addInterface.js'
+} from '../../../reducer/modules/addInterface.js'
 
 @connect(
   state => {
