@@ -266,26 +266,6 @@ const.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/gro
 switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^  switch (action.type) {$/;"	function	line:14
 fetchGroupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function fetchGroupList() {$/;"	function	line:34
 setCurrGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function setCurrGroup(group) {$/;"	function	line:41
-from.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  static propTypes = {$/;"	property	line:35
-state.addGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  state = {$/;"	property	line:46
-state.editGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    addGroupModalVisible: false,$/;"	property	line:47
-state.newGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    editGroupModalVisible: false,$/;"	property	line:48
-state.newGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupName: '',$/;"	property	line:49
-state.currGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupDesc: '',$/;"	property	line:50
-state.currGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupName: '',$/;"	property	line:51
-state.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupDesc: '',$/;"	property	line:52
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  constructor(props) {$/;"	function	line:56
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  componentWillMount() {$/;"	function	line:60
-showModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  showModal(type) {$/;"	function	line:89
-hideModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  hideModal(type) {$/;"	function	line:104
-addGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  addGroup() {$/;"	function	line:116
-editGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  editGroup() {$/;"	function	line:133
-inputNewGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupName(e, type) {$/;"	function	line:148
-inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupDesc(e, type) {$/;"	function	line:156
-selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:165
-deleteGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  deleteGroup() {$/;"	function	line:173
-searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:191
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:201
 name	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "name": "yapi",$/;"	function	line:2
 version	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "version": "1.0.0",$/;"	function	line:3
 description	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "description": "YAPI",$/;"	function	line:4
@@ -415,3 +395,19 @@ switch	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^        switch (this.env)
 case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:52
 case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:55
 case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: false};$/;"	property	line:58
+from.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  static propTypes = {$/;"	property	line:35
+state.addGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  state = {$/;"	property	line:46
+state.editGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    addGroupModalVisible: false,$/;"	property	line:47
+state.newGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    editGroupModalVisible: false,$/;"	property	line:48
+state.newGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupName: '',$/;"	property	line:49
+state.currGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupDesc: '',$/;"	property	line:50
+state.currGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupName: '',$/;"	property	line:51
+state.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupDesc: '',$/;"	property	line:52
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  constructor(props) {$/;"	function	line:56
+showModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  showModal(type) {$/;"	function	line:80
+hideModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  hideModal(type) {$/;"	function	line:95
+inputNewGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupName(e, type) {$/;"	function	line:134
+inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupDesc(e, type) {$/;"	function	line:142
+selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:151
+searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:175
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:185
