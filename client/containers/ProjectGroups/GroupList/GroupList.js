@@ -75,6 +75,14 @@ export default class GroupList extends Component {
       this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(currGroup)
     });
+    this.testAsync()
+  }
+
+  async testAsync() {
+    const a = await new Promise(resolve => {
+      setTimeout(() => resolve(5), 5000)
+    })
+    console.log('a: ', a);
   }
 
   @autobind
