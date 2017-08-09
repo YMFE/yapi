@@ -3,7 +3,6 @@ import interfaceController from './controllers/interface.js';
 import groupController from './controllers/group.js';
 import userController from './controllers/user.js';
 import interfaceColController from './controllers/interfaceCol.js'
-import interfaceCaseController from './controllers/interfaceCase.js'
 
 import yapi from './yapi.js';
 import projectController from './controllers/project.js';
