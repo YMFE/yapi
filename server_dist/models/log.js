@@ -50,7 +50,7 @@ var logModel = function (_baseModel) {
         value: function getSchema() {
             return {
                 uid: { type: Number, required: true },
-                groupid: { type: Number, required: true },
+                typeid: { type: Number, required: true },
                 type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other', 'interface_col'], required: true },
                 content: { type: String, required: true },
                 username: { type: String, required: true },
@@ -72,7 +72,7 @@ var logModel = function (_baseModel) {
                 type: data.type,
                 uid: data.uid,
                 username: data.username,
-                groupid: data.groupid,
+                typeid: data.typeid,
                 add_time: _yapi2.default.commons.time()
             };
             var log = new this.model(saveData);
@@ -88,26 +88,26 @@ var logModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(groupid) {
+        value: function list(typeid) {
             return this.model.find({
-                groupid: groupid
+                typeid: typeid
             }).exec();
         }
     }, {
         key: 'listWithPaging',
-        value: function listWithPaging(groupid, page, limit) {
+        value: function listWithPaging(typeid, page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
 
             return this.model.find({
-                groupid: groupid
+                typeid: typeid
             }).skip((page - 1) * limit).limit(limit).exec();
         }
     }, {
         key: 'listCount',
-        value: function listCount(groupid) {
+        value: function listCount(typeid) {
             return this.model.count({
-                groupid: groupid
+                typeid: typeid
             });
         }
     }]);

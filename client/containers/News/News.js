@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
 import { Button } from 'antd'
+import { getMockUrl } from '../../reducer/modules/news.js'
 
 @connect(
   state => {
@@ -14,15 +15,33 @@ import { Button } from 'antd'
     }
   },
   {
+    getMockUrl: getMockUrl
   }
 )
 
 class News extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      mockURL:""
+    }
   }
   static propTypes = {
-    uid: PropTypes.string
+    uid: PropTypes.string,
+    getMockUrl: PropTypes.func
+  }
+  componentWillMount(){
+    const that = this;
+    this.props.getMockUrl(2724).then(function(data){
+      
+      const { prd_host, basepath, protocol } = data.payload.data.data;
+      
+      const mockURL = `${protocol}://${prd_host}${basepath}/{path}`;
+      console.log(data.payload.data.data);
+      that.setState({
+        mockURL: mockURL
+      })
+    })
   }
   render () {
     return (
@@ -31,7 +50,7 @@ class News extends Component {
           <Breadcrumb />
           <div className="Mockurl">
             <span>Mock地址：</span>
-            <p>mockurl</p>
+            <p>{this.state.mockURL}</p>
             <Button type="primary">下载Mock数据</Button>
           </div>
         </div>
