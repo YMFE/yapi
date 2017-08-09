@@ -28,10 +28,6 @@ var _interfaceCol = require('./controllers/interfaceCol.js');
 
 var _interfaceCol2 = _interopRequireDefault(_interfaceCol);
 
-var _interfaceCase = require('./controllers/interfaceCase.js');
-
-var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
-
 var _yapi = require('./yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
