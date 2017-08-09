@@ -7,5 +7,3 @@ exports.formatTime = (timestamp) => {
 }
 
 console.log(regex_parse)
-
-
