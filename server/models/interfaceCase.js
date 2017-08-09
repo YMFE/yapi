@@ -3,7 +3,7 @@ import baseModel from './base.js';
 
 class interfaceCase extends baseModel {
     getName() {
-        return 'interface_col';
+        return 'interface_case';
     }
 
     getSchema() {
@@ -16,7 +16,7 @@ class interfaceCase extends baseModel {
             add_time: Number,
             up_time: Number,
             env: { type: String, required: true },
-            domain: {type: String, required:true },
+            domain: {type: String },
             path: { type: String, required: true },
             method: { type: String, required: true },
             req_query: [{
@@ -64,6 +64,14 @@ class interfaceCase extends baseModel {
             { _id: id },
             data
         );
+    }
+
+    upCaseIndex(id, index){
+        return this.model.update({
+            _id: id
+        },{
+            index: index
+        })
     }
 }
 
