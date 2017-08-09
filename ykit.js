@@ -12,7 +12,12 @@ module.exports = {
     options: {
       modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
         defaultQuery.plugins = [];
+        defaultQuery.plugins.push(["transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }]);
         defaultQuery.plugins.push('transform-decorators-legacy');
+        defaultQuery.plugins.push(["import", { libraryName: "antd", style: "css" }])
         return defaultQuery;
       }
     }
@@ -31,12 +36,12 @@ module.exports = {
             'react-dom',
             'redux-promise',
             'react-router-dom',
-            'prop-types',
+            'prop-types'
+
+          ],
+          lib2:[
             'axios',
             'moment'
-          ],
-          lib2: [
-            'antd'
           ]
         }
       },

@@ -3,12 +3,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/login'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
+
+const headerStyle = {
+  'height': '.56rem',
+  'lineHeight': '.56rem',
+  'padding': 0
+};
 
 const MenuUser = (props) => (
   <Menu
@@ -24,19 +30,32 @@ const MenuUser = (props) => (
     </Menu.Item>
   </Menu>
 );
+
 MenuUser.propTypes={
-  user:PropTypes.string,
-  msg:PropTypes.string,
+  user: PropTypes.string,
+  msg: PropTypes.string,
   uid: PropTypes.number,
-  relieveLink:PropTypes.func,
-  logout:PropTypes.func
+  relieveLink: PropTypes.func,
+  logout: PropTypes.func
 }
 
 const ToolUser = (props)=> (
   <ul>
-    <li className="toolbar-li">
+    <li className="toolbar-li item-search">
       <Srch groupList={props.groupList}/>
     </li>
+    <Link to="/">
+      <Tooltip placement="bottom" title={'新建项目'}>
+        <li className="toolbar-li">
+          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
+        </li>
+      </Tooltip>
+    </Link>
+    <Tooltip placement="bottom" title={'使用文档'}>
+      <li className="toolbar-li">
+        <a target="_blank" href="./doc/index.html"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+      </li>
+    </Tooltip>
     <li className="toolbar-li">
       <Dropdown
         placement = "bottomRight"
@@ -50,18 +69,18 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-          <Icon type="solution" />
+          <Icon type="solution" /><span className="name">{props.user}</span>
         </a>
       </Dropdown>
     </li>
   </ul>
 );
 ToolUser.propTypes={
-  user:PropTypes.string,
-  msg:PropTypes.string,
+  user: PropTypes.string,
+  msg: PropTypes.string,
   uid: PropTypes.number,
-  relieveLink:PropTypes.func,
-  logout:PropTypes.func,
+  relieveLink: PropTypes.func,
+  logout: PropTypes.func,
   groupList: PropTypes.array
 };
 
@@ -73,8 +92,7 @@ ToolUser.propTypes={
       user: state.login.userName,
       uid: state.login.uid,
       msg: null,
-      login:state.login.isLogin,
-      curKey: state.menu.curKey
+      login:state.login.isLogin
     }
   },
   {
@@ -95,7 +113,6 @@ export default class HeaderCom extends Component {
     msg: PropTypes.string,
     uid: PropTypes.number,
     login:PropTypes.bool,
-    curKey:PropTypes.string,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
     checkLoginState:PropTypes.func,
@@ -147,57 +164,28 @@ export default class HeaderCom extends Component {
     })
   }
   render () {
-    const { login, user, msg, uid, curKey } = this.props;
-    const headerImgStyle = login?{}:{
-      'background': 'url(./image/header-bg-img.jpg) no-repeat',
-      'backgroundSize':'100% 100%'
-    };
-    const headerShadeStyle = login? {
-      'padding':'0'
-    }: {
-      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))',
-      'padding':'0'
-    };
+    const { login, user, msg, uid } = this.props;
     return (
-      <acticle className={`header-box`} style={headerImgStyle}>
-        <Header style={headerShadeStyle}>
-          <div className="content">
-            <div className="logo">
-              <Link to="/" onClick={this.relieveLink}>YAPI<span className="ui-badge"></span></Link>
-            </div>
-            <Menu
-              mode="horizontal"
-              className="nav-toolbar"
-              theme="dark"
-              style={{
-                lineHeight : '.64rem',
-                backgroundColor:"transparent",
-                borderColor:"transparent"
-              }}
-              onClick={this.linkTo}
-              selectedKeys={[curKey]}
-            >
-              <Menu.Item key="/group">
-                <Link to="/group">项目广场</Link>
-              </Menu.Item>
-              <Menu.Item key="/doc">
-                <a target="_blank" href="./doc/index.html">使用文档</a>
-              </Menu.Item>
-            </Menu>
-            <div className="user-toolbar">
-              {login?
-                <ToolUser
-                  user = { user }
-                  msg = { msg }
-                  uid = { uid }
-                  relieveLink = { this.relieveLink }
-                  logout = { this.logout }
-                />
-                :""}
-            </div>
+      <Header className="header-box" style={headerStyle}>
+        <div className="content g-row">
+          <div className="logo">
+            <Link to="/" onClick={this.relieveLink} className="href">
+              <img className="img" src="./image/logo_header@1x.png" /><span className="logo-name">YAPI<span className="ui-badge"></span></span>
+            </Link>
           </div>
-        </Header>
-      </acticle>
+          <div className="user-toolbar">
+            {login?
+              <ToolUser
+                user = { user }
+                msg = { msg }
+                uid = { uid }
+                relieveLink = { this.relieveLink }
+                logout = { this.logout }
+              />
+              :""}
+          </div>
+        </div>
+      </Header>
     )
   }
 }
