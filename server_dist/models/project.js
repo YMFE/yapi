@@ -100,7 +100,7 @@ var projectModel = function (_baseModel) {
         key: 'list',
         value: function list(group_id, auth) {
             var params = { group_id: group_id };
-            if (auth) params.project_type = 'public';
+            if (!auth) params.project_type = 'public';
             return this.model.find(params).sort({ _id: -1 }).exec();
         }
     }, {

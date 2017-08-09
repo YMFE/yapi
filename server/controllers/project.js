@@ -107,6 +107,7 @@ class projectController extends baseController {
             basepath: params.basepath,
             protocol: params.protocol || 'http',
             members: [],
+            project_type: params.project_type || 'private',
             uid: this.getUid(),
             group_id: params.group_id,
             add_time: yapi.commons.time(),
@@ -278,16 +279,13 @@ class projectController extends baseController {
      */
 
     async list(ctx) {
-        let group_id = ctx.request.query.group_id,
-            page = ctx.request.query.page || 1,
-            limit = ctx.request.query.limit || 10;
+        let group_id = ctx.request.query.group_id
 
         if (!group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
-        let auth = this.checkAuth(group_id, 'group', 'edit')
-
+        let auth =await  this.checkAuth(group_id, 'group', 'edit')
         try {
             let result = await this.Model.list(group_id, auth);
             let uids = [];

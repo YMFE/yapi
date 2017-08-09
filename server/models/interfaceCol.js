@@ -13,7 +13,7 @@ class interfaceCol extends baseModel {
             project_id: { type: Number, required: true },
             desc: String,
             add_time: Number,
-            up_time: Number,
+            up_time: Number
         };
     }
 

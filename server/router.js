@@ -2,6 +2,8 @@ import koaRouter from 'koa-router';
 import interfaceController from './controllers/interface.js';
 import groupController from './controllers/group.js';
 import userController from './controllers/user.js';
+import interfaceColController from './controllers/interfaceCol.js'
+import interfaceCaseController from './controllers/interfaceCase.js'
 
 import yapi from './yapi.js';
 import projectController from './controllers/project.js';
@@ -37,7 +39,11 @@ const INTERFACE_CONFIG = {
     log: {
         prefix: '/log/',
         controller: logController
-    }
+	},
+	col: {
+		prefix: '/col/',
+		controller: interfaceColController
+	}
 };
 
 const routerConfig = {
@@ -220,7 +226,16 @@ const routerConfig = {
 			"path": "list",
 			"method": "get"
 		}
-	]
+	],
+	"col": [{
+		action: "add",
+		path: "add",
+		method: "post"
+	}, {
+		action: "list",
+		path: "list",
+		method: "get"
+	}]
 }
 
 for(let ctrl in routerConfig){
