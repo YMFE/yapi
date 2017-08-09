@@ -11,10 +11,10 @@ class logController extends baseController {
         try{
             // var res = this.Model.save({
             //     uid: 107,
-            //     groupid: 21,
+            //     typeid: 21,
             //     type: 'project',
-            //     username: 'xiaomingg',
-            //     content: '小明修改了 <b>小明</b> 的项目',
+            //     username: '小明明宝宝',
+            //     content: '小明应该修改了的项目宝宝',
             //     time: yapi.commons.time()
             // });
             // var res = this.Model.del(107);
@@ -40,17 +40,17 @@ class logController extends baseController {
      */
     
     async list(ctx) {
-        let groupid = ctx.request.query.groupid,
+        let typeid = ctx.request.query.typeid,
             page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10;
 
-        if (!groupid) {
+        if (!typeid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
         try {
-            let result = await this.Model.listWithPaging(groupid, page, limit);
-            let count = await this.Model.listCount(groupid);
+            let result = await this.Model.listWithPaging(typeid, page, limit);
+            let count = await this.Model.listCount(typeid);
             
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
