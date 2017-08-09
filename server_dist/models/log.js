@@ -1,13 +1,5 @@
 'use strict';
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -36,11 +28,9 @@ var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
-var _user = require('../models/user.js');
-
-var _user2 = _interopRequireDefault(_user);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import userModel from '../models/user.js';
 
 var logModel = function (_baseModel) {
     (0, _inherits3.default)(logModel, _baseModel);
@@ -60,8 +50,8 @@ var logModel = function (_baseModel) {
         value: function getSchema() {
             return {
                 uid: { type: Number, required: true },
-                title: { type: String, required: true },
-                type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other'], required: true },
+                groupid: { type: Number, required: true },
+                type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other', 'interface_col'], required: true },
                 content: { type: String, required: true },
                 username: { type: String, required: true },
                 add_time: Number
@@ -69,7 +59,6 @@ var logModel = function (_baseModel) {
         }
 
         /**
-         * @param {String} title log标题
          * @param {String} content log内容
          * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
          * @param {Number} uid 用户id
@@ -77,66 +66,48 @@ var logModel = function (_baseModel) {
 
     }, {
         key: 'save',
-        value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(data) {
-                var userInst, username, saveData, log;
-                return _regenerator2.default.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                userInst = _yapi2.default.getInst(_user2.default);
-                                _context.next = 3;
-                                return userInst.findById(data.uid);
+        value: function save(data) {
+            var saveData = {
+                content: data.content,
+                type: data.type,
+                uid: data.uid,
+                username: data.username,
+                groupid: data.groupid,
+                add_time: _yapi2.default.commons.time()
+            };
+            var log = new this.model(saveData);
 
-                            case 3:
-                                username = _context.sent;
-                                saveData = {
-                                    title: data.title,
-                                    content: data.content,
-                                    type: data.type,
-                                    uid: data.uid,
-                                    username: username,
-                                    add_time: _yapi2.default.commons.time()
-                                };
-                                log = new this.model(saveData);
-                                return _context.abrupt('return', log.save());
-
-                            case 7:
-                            case 'end':
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this);
-            }));
-
-            function save(_x) {
-                return _ref.apply(this, arguments);
-            }
-
-            return save;
-        }()
+            return log.save();
+        }
+    }, {
+        key: 'del',
+        value: function del(id) {
+            return this.model.deleteOne({
+                _id: id
+            });
+        }
     }, {
         key: 'list',
-        value: function list(uid) {
+        value: function list(groupid) {
             return this.model.find({
-                uid: uid
+                groupid: groupid
             }).exec();
         }
     }, {
         key: 'listWithPaging',
-        value: function listWithPaging(uid, page, limit) {
+        value: function listWithPaging(groupid, page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
 
             return this.model.find({
-                uid: uid
+                groupid: groupid
             }).skip((page - 1) * limit).limit(limit).exec();
         }
     }, {
         key: 'listCount',
-        value: function listCount(uid) {
+        value: function listCount(groupid) {
             return this.model.count({
-                uid: uid
+                groupid: groupid
             });
         }
     }]);

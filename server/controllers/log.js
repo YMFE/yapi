@@ -8,6 +8,22 @@ class logController extends baseController {
         super(ctx);
         this.Model = yapi.getInst(logModel);
         this.groupModel = yapi.getInst(groupModel);
+        try{
+            // var res = this.Model.save({
+            //     uid: 107,
+            //     groupid: 21,
+            //     type: 'project',
+            //     username: 'xiaomingg',
+            //     content: '小明修改了 <b>小明</b> 的项目',
+            //     time: yapi.commons.time()
+            // });
+            // var res = this.Model.del(107);
+            // ctx.body = yapi.commons.resReturn(null, 200,res);
+        }catch(err){
+            // ctx.body = yapi.commons.resReturn(null, 402, err.message);
+        }
+
+        
     }
 
     /**
@@ -22,19 +38,19 @@ class logController extends baseController {
      * @returns {Object}
      * @example ./api/project/list.json
      */
-
+    
     async list(ctx) {
-        let uid = ctx.request.query.uid,
+        let groupid = ctx.request.query.groupid,
             page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10;
 
-        if (!uid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '用户id不能为空');
+        if (!groupid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
         try {
-            let result = await this.Model.listWithPaging(uid, page, limit);
-            let count = await this.Model.listCount(uid);
+            let result = await this.Model.listWithPaging(groupid, page, limit);
+            let count = await this.Model.listCount(groupid);
             
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),

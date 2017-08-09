@@ -4,16 +4,27 @@ const FETCH_MORE_NEWS = 'yapi/news/FETCH_MORE_NEWS';
 
 // Reducer
 const initialState = {
-  newsData: {}
+  newsData: {
+    list: [],
+    total: 0
+  },
+  curpage: 1
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_NEWS_DATA: {
-      // console.log(action.payload);
+      const list = action.payload.data.data.list;
+      state.newsData.list.push(...list);
+      if(list && list.length){
+        state.curpage++;
+      }
       return {
         ...state,
-        newsData: action.payload
+        newsData: {
+          total:action.payload.data.data.total,
+          list: state.newsData.list
+        }
       };
     }
     case FETCH_MORE_NEWS: {
@@ -33,22 +44,12 @@ export default (state = initialState, action) => {
 import axios from 'axios';
 import variable from '../../constants/variable';
 
-export function fetchNewsData (uid,page,limit) {
-  // const data = {
-  //   newsList:[
-  //     { key: 1,title: '日志标题', username: 'John Brown', content: '您好！亲爱的用户：您已成功申请接口：实时空气质量数据查询，请于两个月内进行应用验证，逾期接口将不能正常使用。如果您在使用的过程中遇到任何问题，欢迎前往交流社区反馈意见，谢谢！',time: '2014-12-01' },
-  //     { key: 2,title: '日志标题', username: 'John Brown', content: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' },
-  //     { key: 3,title: '日志标题', username: 'John Brown', content: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',time: '2014-12-01' }
-  //   ],
-  //   totalPage: 34
-  // };
-
+export function fetchNewsData (groupid,page,limit) {
   const param = {
-    uid: uid,
+    groupid: groupid,
     page: page,
-    limit: variable.PAGE_LIMIT?variable.PAGE_LIMIT:limit
+    limit: limit?limit:variable.PAGE_LIMIT
   }
-  // console.log(param);
   return {
     type: FETCH_NEWS_DATA,
     payload: axios.get('/log/list',{
