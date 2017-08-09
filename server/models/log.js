@@ -10,7 +10,7 @@ class logModel extends baseModel {
     getSchema() {
         return {
             uid: { type: Number, required: true },
-            groupid: { type: Number, required: true },
+            typeid: { type: Number, required: true },
             type: { type: String,enum:['user', 'group', 'interface','project', 'other', 'interface_col'], required: true },
             content: { type: String, required: true },
             username: { type: String, required: true },
@@ -29,7 +29,7 @@ class logModel extends baseModel {
             type: data.type,
             uid: data.uid,
             username: data.username,
-            groupid: data.groupid,
+            typeid: data.typeid,
             add_time: yapi.commons.time()
         };
         let log = new this.model(saveData);
@@ -43,26 +43,26 @@ class logModel extends baseModel {
         });
     }
 
-    list(groupid) {
+    list(typeid) {
         return this.model.find({
-            groupid: groupid
+            typeid: typeid
         })
             .exec();
     }
     
 
-    listWithPaging(groupid, page, limit) {
+    listWithPaging(typeid, page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
 
         return this.model.find({
-            groupid: groupid
+            typeid: typeid
         }).skip((page - 1) * limit).limit(limit).exec();
     }
 
-    listCount(groupid) {
+    listCount(typeid) {
         return this.model.count({
-            groupid: groupid
+            typeid: typeid
         });
     }
 }
