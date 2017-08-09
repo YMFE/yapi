@@ -6,6 +6,7 @@ import Interface from './Interface/Interface.js'
 import News from './News/News.js'
 import AddInterface from './AddInterface/AddInterface.js'
 import DevTools from './DevTools/DevTools.js'
+import Follows from './Follows/Follows.js'
 
 export {
   Header,
@@ -15,5 +16,6 @@ export {
   Interface,
   AddInterface,
   News,
-  DevTools
+  DevTools,
+  Follows
 }

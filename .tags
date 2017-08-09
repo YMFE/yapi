@@ -232,26 +232,6 @@ constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTim
 state.pagination	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^    this.state = {$/;"	property	line:31
 handleChange	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^  handleChange(pagination){$/;"	function	line:39
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^  render () {$/;"	function	line:48
-from.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  static propTypes = {$/;"	property	line:35
-state.addGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  state = {$/;"	property	line:46
-state.editGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    addGroupModalVisible: false,$/;"	property	line:47
-state.newGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    editGroupModalVisible: false,$/;"	property	line:48
-state.newGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupName: '',$/;"	property	line:49
-state.currGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupDesc: '',$/;"	property	line:50
-state.currGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupName: '',$/;"	property	line:51
-state.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupDesc: '',$/;"	property	line:52
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  constructor(props) {$/;"	function	line:56
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  componentWillMount() {$/;"	function	line:60
-showModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  showModal(type) {$/;"	function	line:81
-hideModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  hideModal(type) {$/;"	function	line:96
-addGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  addGroup() {$/;"	function	line:108
-editGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  editGroup() {$/;"	function	line:125
-inputNewGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupName(e, type) {$/;"	function	line:140
-inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupDesc(e, type) {$/;"	function	line:148
-selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:157
-deleteGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  deleteGroup() {$/;"	function	line:165
-searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:183
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:193
 const.labelCol	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/ProjectList.js	/^const formItemLayout = {$/;"	property	line:81
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/ProjectList.js	/^  constructor(props) {$/;"	function	line:112
 state.visible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/ProjectList.js	/^    this.state = {$/;"	property	line:114
@@ -279,15 +259,6 @@ state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    th
 static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:34
 componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:39
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:72
-path	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^var path = require('path');$/;"	variable	line:1
-processOutput	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  processOutput: function (assets) {$/;"	function	line:5
-modifyQuery	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyQuery: function (defaultQuery) { \/\/ 可查看和编辑 defaultQuery$/;"	function	line:13
-config	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  config: function (ykit) {$/;"	function	line:21
-modifyWebpackConfig	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyWebpackConfig: function (baseConfig) {$/;"	function	line:43
-switch	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^        switch (this.env) {$/;"	function	line:45
-case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:47
-case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:50
-case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: false};$/;"	property	line:53
 createStore	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/create.js	/^export default function createStore(initialState = {}) {$/;"	function	line:8
 module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
 module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
@@ -295,3 +266,148 @@ const.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/gro
 switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^  switch (action.type) {$/;"	function	line:14
 fetchGroupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function fetchGroupList() {$/;"	function	line:34
 setCurrGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/group.js	/^export function setCurrGroup(group) {$/;"	function	line:41
+name	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "name": "yapi",$/;"	function	line:2
+version	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "version": "1.0.0",$/;"	function	line:3
+description	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "description": "YAPI",$/;"	function	line:4
+main	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "main": "index.js",$/;"	function	line:5
+scripts	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "scripts": {$/;"	function	line:6
+build-server	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "build-server": "babel  server -d server_dist",$/;"	function	line:7
+dev-server	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "dev-server": "nodemon server_dist\/app.js -L",$/;"	function	line:8
+install-server	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "install-server": "node server_dist\/install.js",$/;"	function	line:9
+dev	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "dev": "gulp --silent",$/;"	function	line:10
+build	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "build": "gulp build --silent",$/;"	function	line:11
+only-watch	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "only-watch": "gulp watchNode"$/;"	function	line:12
+repository	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "repository": {$/;"	function	line:14
+type	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "type": "git",$/;"	function	line:15
+url	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "url": "git@gitlab.corp.qunar.com:mfe\/yapi.git"$/;"	function	line:16
+author	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "author": "",$/;"	function	line:18
+license	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "license": "ISC",$/;"	function	line:19
+dependencies	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "dependencies": {$/;"	function	line:20
+assets-webpack-plugin	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "assets-webpack-plugin": "^3.5.1",$/;"	function	line:21
+axios	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "axios": "^0.16.2",$/;"	function	line:22
+babel	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel": "^6.5.2",$/;"	function	line:23
+babel-cli	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-cli": "^6.24.1",$/;"	function	line:24
+babel-core	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-core": "^6.8.0",$/;"	function	line:25
+babel-eslint	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-eslint": "^7.2.3",$/;"	function	line:26
+babel-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-loader": "^6.2.4",$/;"	function	line:27
+babel-plugin-transform-decorators-legacy	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-plugin-transform-decorators-legacy": "^1.3.4",$/;"	function	line:28
+babel-plugin-transform-object-rest-spread	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-plugin-transform-object-rest-spread": "^6.8.0",$/;"	function	line:29
+babel-plugin-transform-runtime	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-plugin-transform-runtime": "^6.9.0",$/;"	function	line:30
+babel-preset-es2015	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-preset-es2015": "^6.9.0",$/;"	function	line:31
+babel-preset-react	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-preset-react": "^6.5.0",$/;"	function	line:32
+babel-preset-stage-3	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-preset-stage-3": "^6.24.1",$/;"	function	line:33
+babel-register	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-register": "^6.9.0",$/;"	function	line:34
+babel-runtime	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-runtime": "^6.9.2",$/;"	function	line:35
+buffer-shims	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "buffer-shims": "^1.0.0",$/;"	function	line:36
+chalk	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "chalk": "^2.0.1",$/;"	function	line:37
+clipboard	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "clipboard": "^1.7.1",$/;"	function	line:38
+copy-webpack-plugin	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "copy-webpack-plugin": "^4.0.1",$/;"	function	line:39
+core-decorators	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "core-decorators": "^0.17.0",$/;"	function	line:40
+cross-request	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "cross-request": "^1.0.1",$/;"	function	line:41
+css-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "css-loader": "^0.28.4",$/;"	function	line:42
+eslint	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "eslint": "^3.19.0",$/;"	function	line:43
+eslint-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "eslint-loader": "^1.9.0",$/;"	function	line:44
+eslint-plugin-import	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "eslint-plugin-import": "^2.2.0",$/;"	function	line:45
+eslint-plugin-react	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "eslint-plugin-react": "^7.1.0",$/;"	function	line:46
+express	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "express": "^4.15.3",$/;"	function	line:47
+extract-text-webpack-plugin	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "extract-text-webpack-plugin": "^1.0.1",$/;"	function	line:48
+fast-sass-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "fast-sass-loader": "^1.2.5",$/;"	function	line:49
+fs-extra	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "fs-extra": "^3.0.1",$/;"	function	line:50
+gulp	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "gulp": "^3.9.1",$/;"	function	line:51
+gulp-babel	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "gulp-babel": "^6.1.2",$/;"	function	line:52
+gulp-watch	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "gulp-watch": "^4.3.11",$/;"	function	line:53
+json2html	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "json2html": "0.0.8",$/;"	function	line:54
+jsoneditor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "jsoneditor": "^5.9.3",$/;"	function	line:55
+jsonwebtoken	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "jsonwebtoken": "^7.4.1",$/;"	function	line:56
+koa	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa": "^2.0.0",$/;"	function	line:57
+koa-bodyparser	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-bodyparser": "^3.2.0",$/;"	function	line:58
+koa-logger	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-logger": "^3.0.0",$/;"	function	line:59
+koa-mysql-session	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-mysql-session": "0.0.2",$/;"	function	line:60
+koa-router	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-router": "^7.0.1",$/;"	function	line:61
+koa-send	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-send": "^3.2.0",$/;"	function	line:62
+koa-session-minimal	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-session-minimal": "^3.0.3",$/;"	function	line:63
+koa-static	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-static": "^3.0.0",$/;"	function	line:64
+koa-views	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "koa-views": "^5.2.0",$/;"	function	line:65
+mock	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "mock": "^0.1.1",$/;"	function	line:66
+mockjs	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "mockjs": "^1.0.1-beta3",$/;"	function	line:67
+moment	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "moment": "^2.18.1",$/;"	function	line:68
+monaco-editor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "monaco-editor": "^0.9.0",$/;"	function	line:69
+mongoose	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "mongoose": "4.10.8",$/;"	function	line:70
+mongoose-auto-increment	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "mongoose-auto-increment": "^5.0.1",$/;"	function	line:71
+node-sass	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "node-sass": "^4.5.3",$/;"	function	line:72
+node-sass-china	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "node-sass-china": "^4.5.0",$/;"	function	line:73
+nodemailer	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "nodemailer": "^4.0.1",$/;"	function	line:74
+ora	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "ora": "^1.3.0",$/;"	function	line:75
+prop-types	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "prop-types": "^15.5.10",$/;"	function	line:76
+rc-queue-anim	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "rc-queue-anim": "^1.2.0",$/;"	function	line:77
+rc-scroll-anim	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "rc-scroll-anim": "^1.0.7",$/;"	function	line:78
+react	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react": "^15.6.1",$/;"	function	line:79
+react-dom	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-dom": "^15.6.1",$/;"	function	line:80
+react-monaco-editor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-monaco-editor": "^0.8.1",$/;"	function	line:81
+react-redux	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-redux": "^5.0.5",$/;"	function	line:82
+react-router-dom	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-router-dom": "^4.1.1",$/;"	function	line:83
+react-router-redux	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-router-redux": "^4.0.8",$/;"	function	line:84
+react-scripts	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "react-scripts": "1.0.10",$/;"	function	line:85
+redux	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux": "^3.7.1",$/;"	function	line:86
+redux-promise	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux-promise": "^0.5.3",$/;"	function	line:87
+redux-thunk	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux-thunk": "^2.2.0",$/;"	function	line:88
+request	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "request": "^2.81.0",$/;"	function	line:89
+sass-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "sass-loader": "^6.0.6",$/;"	function	line:90
+scss-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "scss-loader": "0.0.1",$/;"	function	line:91
+sha1	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "sha1": "^1.1.1",$/;"	function	line:92
+string-replace-webpack-plugin	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "string-replace-webpack-plugin": "^0.1.3",$/;"	function	line:93
+style-loader	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "style-loader": "^0.18.2",$/;"	function	line:94
+underscore	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "underscore": "^1.8.3",$/;"	function	line:95
+universal-cookie	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "universal-cookie": "^2.0.8",$/;"	function	line:96
+url	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "url": "^0.11.0",$/;"	function	line:97
+validate-commit-msg	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "validate-commit-msg": "^2.12.2",$/;"	function	line:98
+wangeditor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "wangeditor": "^3.0.4",$/;"	function	line:99
+ykit-config-antd	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "ykit-config-antd": "^0.1.3",$/;"	function	line:100
+ykit-config-react	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "ykit-config-react": "^0.4.4"$/;"	function	line:101
+devDependencies	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "devDependencies": {$/;"	function	line:103
+babel-plugin-import	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "babel-plugin-import": "^1.3.1",$/;"	function	line:104
+ghooks	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "ghooks": "^2.0.0",$/;"	function	line:105
+nodemon	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "nodemon": "^1.11.0",$/;"	function	line:106
+redux-devtools	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux-devtools": "^3.4.0",$/;"	function	line:107
+redux-devtools-dock-monitor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux-devtools-dock-monitor": "^1.1.2",$/;"	function	line:108
+redux-devtools-log-monitor	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "redux-devtools-log-monitor": "^1.3.0",$/;"	function	line:109
+webpack	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "webpack": "^2.0.0",$/;"	function	line:110
+webpack-node-externals	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "webpack-node-externals": "^1.6.0"$/;"	function	line:111
+config	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "config": {$/;"	function	line:113
+ghooks	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "ghooks": {$/;"	function	line:114
+commit-msg	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "commit-msg": "validate-commit-msg"$/;"	function	line:115
+validate-commit-msg	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "validate-commit-msg": {$/;"	function	line:117
+types	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "types": [$/;"	function	line:118
+warnOnFail	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "warnOnFail": false,$/;"	function	line:127
+maxSubjectLength	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "maxSubjectLength": 100,$/;"	function	line:128
+subjectPattern	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "subjectPattern": ".+",$/;"	function	line:129
+subjectPatternErrorMsg	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "subjectPatternErrorMsg": "请输入message信息!",$/;"	function	line:130
+helpMessage	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^      "helpMessage": "Commit message 格式错误, \\n请查看规范: http:\/\/wiki.corp.qunar.com\/pages\/viewpage.action?pageId=159698767"$/;"	function	line:131
+engines	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^  "engines": {$/;"	function	line:134
+node	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "node": ">= 6.0.0",$/;"	function	line:135
+npm	/Users/qitmac000445/Desktop/YAPI/yapi/package.json	/^    "npm": ">= 3.0.0"$/;"	function	line:136
+path	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^var path = require('path');$/;"	variable	line:1
+processOutput	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  processOutput: function (assets) {$/;"	function	line:5
+modifyQuery	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyQuery: function (defaultQuery) { \/\/ 可查看和编辑 defaultQuery$/;"	function	line:13
+config	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^  config: function (ykit) {$/;"	function	line:26
+modifyWebpackConfig	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^      modifyWebpackConfig: function (baseConfig) {$/;"	function	line:48
+switch	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^        switch (this.env) {$/;"	function	line:50
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:52
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: true};$/;"	property	line:55
+case.development	/Users/qitmac000445/Desktop/YAPI/yapi/ykit.js	/^            ENV_PARAMS = {development: false};$/;"	property	line:58
+from.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  static propTypes = {$/;"	property	line:35
+state.addGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  state = {$/;"	property	line:46
+state.editGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    addGroupModalVisible: false,$/;"	property	line:47
+state.newGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    editGroupModalVisible: false,$/;"	property	line:48
+state.newGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupName: '',$/;"	property	line:49
+state.currGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    newGroupDesc: '',$/;"	property	line:50
+state.currGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupName: '',$/;"	property	line:51
+state.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^    currGroupDesc: '',$/;"	property	line:52
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  constructor(props) {$/;"	function	line:56
+showModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  showModal(type) {$/;"	function	line:80
+hideModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  hideModal(type) {$/;"	function	line:95
+inputNewGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupName(e, type) {$/;"	function	line:134
+inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  inputNewGroupDesc(e, type) {$/;"	function	line:142
+selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:151
+searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:175
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:185

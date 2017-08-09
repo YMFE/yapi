@@ -57,24 +57,23 @@ export default class GroupList extends Component {
     super(props)
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const groupName = this.props.match.params.groupName;
-    this.props.fetchGroupList().then(() => {
-      let currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
-      if(this.props.groupList.length && groupName){
-        for(let i = 0;i<this.props.groupList.length;i++){
-          if(this.props.groupList[i].group_name === groupName){
-            currGroup = this.props.groupList[i];
-          }else{
-            this.props.history.replace(`${currGroup._id}`);
-          }
+    await this.props.fetchGroupList();
+    let currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
+    if(this.props.groupList.length && groupName){
+      for(let i = 0;i<this.props.groupList.length;i++){
+        if(this.props.groupList[i].group_name === groupName){
+          currGroup = this.props.groupList[i];
+        }else{
+          this.props.history.replace(`${currGroup._id}`);
         }
-      }else if(!groupName && this.props.groupList.length){
-        this.props.history.push(`/group/${this.props.groupList[0]._id}`);
       }
-      this.setState({groupList: this.props.groupList});
-      this.props.setCurrGroup(currGroup)
-    });
+    }else if(!groupName && this.props.groupList.length){
+      this.props.history.push(`/group/${this.props.groupList[0]._id}`);
+    }
+    this.setState({groupList: this.props.groupList});
+    this.props.setCurrGroup(currGroup)
   }
 
   @autobind
@@ -105,36 +104,31 @@ export default class GroupList extends Component {
     }
   }
   @autobind
-  addGroup() {
+  async addGroup() {
     const { newGroupName: group_name, newGroupDesc: group_desc } = this.state;
-    axios.post('/group/add', { group_name, group_desc }).then(res => {
-      if (res.data.errcode) {
-        message.error(res.data.errmsg);
-      } else {
-        this.setState({
-          addGroupModalVisible: false
-        });
-        this.props.fetchGroupList().then(() => {
-          this.setState({groupList: this.props.groupList});
-        })
-        this.props.setCurrGroup(res.data.data)
-      }
-    });
+    const res = await axios.post('/group/add', { group_name, group_desc })
+    if (!res.data.errcode) {
+      this.setState({
+        addGroupModalVisible: false
+      });
+      await this.props.fetchGroupList();
+      this.setState({groupList: this.props.groupList});
+      this.props.setCurrGroup(res.data.data)
+    }
   }
   @autobind
-  editGroup() {
+  async editGroup() {
     const { currGroupName: group_name, currGroupDesc: group_desc } = this.state;
     const id = this.props.currGroup._id;
-    axios.post('/group/up', { group_name, group_desc, id }).then(res => {
-      if (res.data.errcode) {
-        message.error(res.data.errmsg);
-      } else {
-        this.setState({
-          editGroupModalVisible: false
-        });
-        this.props.setCurrGroup({ group_name, group_desc, _id: id });
-      }
-    });
+    const res = axios.post('/group/up', { group_name, group_desc, id });
+    if (res.data.errcode) {
+      message.error(res.data.errmsg);
+    } else {
+      this.setState({
+        editGroupModalVisible: false
+      });
+      this.props.setCurrGroup({ group_name, group_desc, _id: id });
+    }
   }
   @autobind
   inputNewGroupName(e, type) {
@@ -162,21 +156,19 @@ export default class GroupList extends Component {
   }
 
   @autobind
-  deleteGroup() {
+  async deleteGroup() {
     const self = this;
     const { currGroup } = self.props;
-    axios.post('/group/del', {id: currGroup._id}).then(res => {
-      if (res.data.errcode) {
-        message.error(res.data.errmsg);
-      } else {
-        message.success('删除成功');
-        self.props.fetchGroupList().then(() => {
-          const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
-          self.setState({groupList: self.props.groupList});
-          self.props.setCurrGroup(currGroup)
-        });
-      }
-    });
+    const res = await axios.post('/group/del', {id: currGroup._id})
+    if (res.data.errcode) {
+      message.error(res.data.errmsg);
+    } else {
+      message.success('删除成功');
+      await self.props.fetchGroupList()
+      const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
+      self.setState({groupList: self.props.groupList});
+      self.props.setCurrGroup(currGroup)
+    }
   }
 
   @autobind

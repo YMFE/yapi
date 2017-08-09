@@ -6,33 +6,31 @@ $color-blue : #108ee9;
 $color-blue-deeper: #34495E;
 $color-grey-deep : #929aac;
 $color-black-light : #404040;
+
+.nav-tooltip {
+  color: red;
+}
+
 /* .header-box.css */
 .header-box {
-  @include wrap-width-limit;
-  display: block;
-  font-size: 0.14rem;
-  z-index: 99;
-  .content {
-    @include row-width-limit;
-    margin: 0 auto;
-    zoom: 1;
-    overflow: hidden;
-  }
   .logo {
     position: relative;
-    font-size: .3rem;
     float: left;
-    margin: 0 .2rem 0 0;
-    color: $color-white;
-    //cursor: pointer;
-    a{
+    line-height: .54rem;
+    .href {
+      text-decoration: none;
+    }
+    .logo-name {
       color: $color-white;
-      &:hover {
-        color: $color-white;
-      }
-      &:focus{
-        text-decoration: none;
-      }
+      font-size: .24rem;
+      font-weight: 300;
+      margin-left: .38rem;
+    }
+    .img {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-56%);
     }
     .ui-badge {
       position: absolute;
@@ -57,38 +55,30 @@ $color-black-light : #404040;
 
   .user-toolbar{
     float: right;
-    height: .64rem;
+    height: .54rem;
     display: flex;
     align-items: center;
+    .item-search {
+      width: 2rem;
+    }
     .toolbar-li{
-      &:first-child{
-        width: 2rem;
-      }
       float: left;
-      margin: 0 0 0 .12rem;
-      font-size: .2rem;
+      font-size: .14rem;
       cursor: pointer;
-      color: $color-white;
-      &:not(:last-child){
-        margin: 0 .12rem;
+      color: #ccc;
+      margin-left: .16rem;
+      transition: color .4s;
+      .dropdown-link {
+        color: #999;
+        transition: color .4s;
       }
       &:hover{
-        color: $color-blue;
-        a{
-          color: $color-blue;
+        .dropdown-link {
+          color: #fff;
         }
       }
-      a{
-        color: $color-white;
-        &:hover{
-          color: $color-blue;
-        }
-        &:focus{
-          text-decoration: none;
-        }
-      }
-      i{
-        margin-right: .03rem;
+      .name {
+        margin-left: .08rem;
       }
     }
   }

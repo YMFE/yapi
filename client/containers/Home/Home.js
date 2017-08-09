@@ -15,16 +15,15 @@ import QueueAnim from 'rc-queue-anim';
 const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};
 const style = {
-  // 'height':'100%',
-  // 'height':'7rem',
   'width':'100%',
-  'background': 'url(./image/bg-img.jpg) no-repeat',
+  // 'background-image': 'linear-gradient(to right, #0063B3 0%, #2395F1 96%)',
+  'background-color': '#333',
   'backgroundSize':'100% 100%'
 }
 const HomeGuest = (props) => (
   <div>
     <div className="main-one" style = {style}>
-      <div style={{ background: "linear-gradient(to bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.2))"}}>
+      <div>
         <div className="container">
           <Row>
             <Col span={24}>

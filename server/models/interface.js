@@ -16,6 +16,9 @@ class interfaceModel extends baseModel {
             desc: String,
             add_time: Number,
             up_time: Number,
+            req_query:[{
+                name: String, value: String, desc: String, required: Boolean
+            }],
             req_headers: [{
                 name: String, value: String, desc: String, required: Boolean
             }],

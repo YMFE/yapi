@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import '~antd/dist/antd.css';
+
 
 html {
   font-size:625%;
@@ -59,4 +59,8 @@ em {
   min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
   padding: 0 .24rem;
+}
+
+.nav-tooltip {
+  color: red;
 }

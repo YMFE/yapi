@@ -58,6 +58,11 @@ class projectController extends baseController {
             group_id: 'number',
             desc: 'string'
         });
+
+        if (await this.checkAuth(params.group_id, 'group', 'edit') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
         if (!params.group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
@@ -92,6 +97,8 @@ class projectController extends baseController {
         if (checkRepeatDomain > 0) {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
+
+        
 
         let data = {
             name: params.name,
@@ -132,6 +139,10 @@ class projectController extends baseController {
         }
         if (!params.id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+
+        if (await this.checkAuth(params.id, 'project', 'edit') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
         var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
@@ -176,6 +187,10 @@ class projectController extends baseController {
         var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
         if (check === 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
+        }
+
+        if (await this.checkAuth(params.id, 'project', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
         try {
@@ -271,8 +286,10 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
+        let auth = this.checkAuth(group_id, 'group', 'edit')
+
         try {
-            let result = await this.Model.list(group_id);
+            let result = await this.Model.list(group_id, auth);
             let uids = [];
             result.forEach((item) => {
                 if (uids.indexOf(item.uid) === -1) {
@@ -316,13 +333,40 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
             }
 
-            if (await this.checkAuth(id, 'project', 'owner') !== true) {
+            if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
+        }
+    }
+
+    async changeMemberRole(ctx){
+        let params = ctx.request.body;
+        let groupInst = yapi.getInst(groupModel);
+        if (!params.member_uid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
+        }
+        if (!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+        }
+        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        if (check === 0) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+        }
+        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+        try {
+            let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 

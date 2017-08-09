@@ -129,77 +129,91 @@ var projectController = function (_baseController) {
                                     desc: 'string'
                                 });
 
+                                _context.next = 4;
+                                return this.checkAuth(params.group_id, 'group', 'edit');
+
+                            case 4:
+                                _context.t0 = _context.sent;
+
+                                if (!(_context.t0 !== true)) {
+                                    _context.next = 7;
+                                    break;
+                                }
+
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+
+                            case 7:
                                 if (params.group_id) {
-                                    _context.next = 4;
+                                    _context.next = 9;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组id不能为空'));
 
-                            case 4:
+                            case 9:
                                 if (params.name) {
-                                    _context.next = 6;
+                                    _context.next = 11;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目名不能为空'));
 
-                            case 6:
-                                _context.next = 8;
+                            case 11:
+                                _context.next = 13;
                                 return this.Model.checkNameRepeat(params.name);
 
-                            case 8:
+                            case 13:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context.next = 11;
+                                    _context.next = 16;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
 
-                            case 11:
+                            case 16:
                                 if (params.prd_host) {
-                                    _context.next = 13;
+                                    _context.next = 18;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目domain不能为空'));
 
-                            case 13:
+                            case 18:
 
                                 params.basepath = params.basepath || '';
 
                                 if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
-                                    _context.next = 16;
+                                    _context.next = 21;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
 
-                            case 16:
+                            case 21:
                                 if (this.verifyDomain(params.prd_host)) {
-                                    _context.next = 18;
+                                    _context.next = 23;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '线上域名格式有误'));
 
-                            case 18:
-                                _context.next = 20;
+                            case 23:
+                                _context.next = 25;
                                 return this.Model.checkDomainRepeat(params.prd_host, params.basepath);
 
-                            case 20:
+                            case 25:
                                 checkRepeatDomain = _context.sent;
 
                                 if (!(checkRepeatDomain > 0)) {
-                                    _context.next = 23;
+                                    _context.next = 28;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在domain和basepath'));
 
-                            case 23:
+                            case 28:
                                 data = {
                                     name: params.name,
                                     desc: params.desc,
@@ -212,29 +226,29 @@ var projectController = function (_baseController) {
                                     add_time: _yapi2.default.commons.time(),
                                     up_time: _yapi2.default.commons.time()
                                 };
-                                _context.prev = 24;
-                                _context.next = 27;
+                                _context.prev = 29;
+                                _context.next = 32;
                                 return this.Model.save(data);
 
-                            case 27:
+                            case 32:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 34;
+                                _context.next = 39;
                                 break;
 
-                            case 31:
-                                _context.prev = 31;
-                                _context.t0 = _context['catch'](24);
+                            case 36:
+                                _context.prev = 36;
+                                _context.t1 = _context['catch'](29);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t1.message);
 
-                            case 34:
+                            case 39:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[24, 31]]);
+                }, _callee, this, [[29, 36]]);
             }));
 
             function add(_x) {
@@ -283,56 +297,70 @@ var projectController = function (_baseController) {
 
                             case 5:
                                 _context2.next = 7;
-                                return this.Model.checkMemberRepeat(params.id, params.member_uid);
+                                return this.checkAuth(params.id, 'project', 'edit');
 
                             case 7:
+                                _context2.t0 = _context2.sent;
+
+                                if (!(_context2.t0 !== true)) {
+                                    _context2.next = 10;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+
+                            case 10:
+                                _context2.next = 12;
+                                return this.Model.checkMemberRepeat(params.id, params.member_uid);
+
+                            case 12:
                                 check = _context2.sent;
 
                                 if (!(check > 0)) {
-                                    _context2.next = 10;
+                                    _context2.next = 15;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目成员已存在'));
 
-                            case 10:
-                                _context2.next = 12;
+                            case 15:
+                                _context2.next = 17;
                                 return this.getUserdata(params.member_uid);
 
-                            case 12:
+                            case 17:
                                 userdata = _context2.sent;
 
                                 if (!(userdata === null)) {
-                                    _context2.next = 15;
+                                    _context2.next = 20;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '成员uid不存在'));
 
-                            case 15:
-                                _context2.prev = 15;
-                                _context2.next = 18;
+                            case 20:
+                                _context2.prev = 20;
+                                _context2.next = 23;
                                 return this.Model.addMember(params.id, userdata);
 
-                            case 18:
+                            case 23:
                                 result = _context2.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context2.next = 25;
+                                _context2.next = 30;
                                 break;
 
-                            case 22:
-                                _context2.prev = 22;
-                                _context2.t0 = _context2['catch'](15);
+                            case 27:
+                                _context2.prev = 27;
+                                _context2.t1 = _context2['catch'](20);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t1.message);
 
-                            case 25:
+                            case 30:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[15, 22]]);
+                }, _callee2, this, [[20, 27]]);
             }));
 
             function addMember(_x2) {
@@ -394,29 +422,43 @@ var projectController = function (_baseController) {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目成员不存在'));
 
                             case 10:
-                                _context3.prev = 10;
-                                _context3.next = 13;
+                                _context3.next = 12;
+                                return this.checkAuth(params.id, 'project', 'danger');
+
+                            case 12:
+                                _context3.t0 = _context3.sent;
+
+                                if (!(_context3.t0 !== true)) {
+                                    _context3.next = 15;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+
+                            case 15:
+                                _context3.prev = 15;
+                                _context3.next = 18;
                                 return this.Model.delMember(params.id, params.member_uid);
 
-                            case 13:
+                            case 18:
                                 result = _context3.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 20;
+                                _context3.next = 25;
                                 break;
 
-                            case 17:
-                                _context3.prev = 17;
-                                _context3.t0 = _context3['catch'](10);
+                            case 22:
+                                _context3.prev = 22;
+                                _context3.t1 = _context3['catch'](15);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t1.message);
 
-                            case 20:
+                            case 25:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[10, 17]]);
+                }, _callee3, this, [[15, 22]]);
             }));
 
             function delMember(_x3) {
@@ -611,7 +653,7 @@ var projectController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
-                var group_id, page, limit, result, uids, _users, users;
+                var group_id, page, limit, auth, result, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
@@ -627,11 +669,12 @@ var projectController = function (_baseController) {
                                 return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组id不能为空'));
 
                             case 3:
-                                _context7.prev = 3;
-                                _context7.next = 6;
-                                return this.Model.list(group_id);
+                                auth = this.checkAuth(group_id, 'group', 'edit');
+                                _context7.prev = 4;
+                                _context7.next = 7;
+                                return this.Model.list(group_id, auth);
 
-                            case 6:
+                            case 7:
                                 result = _context7.sent;
                                 uids = [];
 
@@ -641,10 +684,10 @@ var projectController = function (_baseController) {
                                     }
                                 });
                                 _users = {};
-                                _context7.next = 12;
+                                _context7.next = 13;
                                 return _yapi2.default.getInst(_user2.default).findByUids(uids);
 
-                            case 12:
+                            case 13:
                                 users = _context7.sent;
 
                                 users.forEach(function (item) {
@@ -654,21 +697,21 @@ var projectController = function (_baseController) {
                                     list: result,
                                     userinfo: _users
                                 });
-                                _context7.next = 20;
+                                _context7.next = 21;
                                 break;
 
-                            case 17:
-                                _context7.prev = 17;
-                                _context7.t0 = _context7['catch'](3);
+                            case 18:
+                                _context7.prev = 18;
+                                _context7.t0 = _context7['catch'](4);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message);
 
-                            case 20:
+                            case 21:
                             case 'end':
                                 return _context7.stop();
                         }
                     }
-                }, _callee7, this, [[3, 17]]);
+                }, _callee7, this, [[4, 18]]);
             }));
 
             function list(_x8) {
@@ -693,15 +736,16 @@ var projectController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
-                var id, interfaceInst, count, result;
+                var _id, interfaceInst, count, result;
+
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.prev = 0;
-                                id = ctx.request.body.id;
+                                _id = ctx.request.body.id;
 
-                                if (id) {
+                                if (_id) {
                                     _context8.next = 4;
                                     break;
                                 }
@@ -711,7 +755,7 @@ var projectController = function (_baseController) {
                             case 4:
                                 interfaceInst = _yapi2.default.getInst(_interface2.default);
                                 _context8.next = 7;
-                                return interfaceInst.countByProjectId(id);
+                                return interfaceInst.countByProjectId(_id);
 
                             case 7:
                                 count = _context8.sent;
@@ -725,7 +769,7 @@ var projectController = function (_baseController) {
 
                             case 10:
                                 _context8.next = 12;
-                                return this.checkAuth(id, 'project', 'owner');
+                                return this.checkAuth(_id, 'project', 'danger');
 
                             case 12:
                                 _context8.t0 = _context8.sent;
@@ -739,7 +783,7 @@ var projectController = function (_baseController) {
 
                             case 15:
                                 _context8.next = 17;
-                                return this.Model.del(id);
+                                return this.Model.del(_id);
 
                             case 17:
                                 result = _context8.sent;
@@ -768,6 +812,96 @@ var projectController = function (_baseController) {
 
             return del;
         }()
+    }, {
+        key: 'changeMemberRole',
+        value: function () {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
+                var params, groupInst, check, result;
+                return _regenerator2.default.wrap(function _callee9$(_context9) {
+                    while (1) {
+                        switch (_context9.prev = _context9.next) {
+                            case 0:
+                                params = ctx.request.body;
+                                groupInst = _yapi2.default.getInst(_group2.default);
+
+                                if (params.member_uid) {
+                                    _context9.next = 4;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组成员uid不能为空'));
+
+                            case 4:
+                                if (params.id) {
+                                    _context9.next = 6;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组id不能为空'));
+
+                            case 6:
+                                _context9.next = 8;
+                                return groupInst.checkMemberRepeat(params.id, params.member_uid);
+
+                            case 8:
+                                check = _context9.sent;
+
+                                if (!(check === 0)) {
+                                    _context9.next = 11;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组成员不存在'));
+
+                            case 11:
+                                _context9.next = 13;
+                                return this.checkAuth(id, 'group', 'danger');
+
+                            case 13:
+                                _context9.t0 = _context9.sent;
+
+                                if (!(_context9.t0 !== true)) {
+                                    _context9.next = 16;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+
+                            case 16:
+
+                                params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+                                _context9.prev = 17;
+                                _context9.next = 20;
+                                return groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+
+                            case 20:
+                                result = _context9.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context9.next = 27;
+                                break;
+
+                            case 24:
+                                _context9.prev = 24;
+                                _context9.t1 = _context9['catch'](17);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t1.message);
+
+                            case 27:
+                            case 'end':
+                                return _context9.stop();
+                        }
+                    }
+                }, _callee9, this, [[17, 24]]);
+            }));
+
+            function changeMemberRole(_x10) {
+                return _ref9.apply(this, arguments);
+            }
+
+            return changeMemberRole;
+        }()
 
         /**
          * 编辑项目
@@ -790,14 +924,15 @@ var projectController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var id, params, projectData, checkRepeat, checkRepeatDomain, data, result;
-                return _regenerator2.default.wrap(function _callee9$(_context9) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+                var _id2, params, projectData, checkRepeat, checkRepeatDomain, data, result;
+
+                return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context10.prev = _context10.next) {
                             case 0:
-                                _context9.prev = 0;
-                                id = ctx.request.body.id;
+                                _context10.prev = 0;
+                                _id2 = ctx.request.body.id;
                                 params = ctx.request.body;
 
                                 params.basepath = params.basepath || '';
@@ -810,48 +945,48 @@ var projectController = function (_baseController) {
                                     desc: 'string'
                                 });
 
-                                if (id) {
-                                    _context9.next = 7;
+                                if (_id2) {
+                                    _context10.next = 7;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
                             case 7:
-                                _context9.next = 9;
-                                return this.checkAuth(id, 'project', 'edit');
+                                _context10.next = 9;
+                                return this.checkAuth(_id2, 'project', 'edit');
 
                             case 9:
-                                _context9.t0 = _context9.sent;
+                                _context10.t0 = _context10.sent;
 
-                                if (!(_context9.t0 !== true)) {
-                                    _context9.next = 12;
+                                if (!(_context10.t0 !== true)) {
+                                    _context10.next = 12;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
                             case 12:
-                                _context9.next = 14;
-                                return this.Model.get(id);
+                                _context10.next = 14;
+                                return this.Model.get(_id2);
 
                             case 14:
-                                projectData = _context9.sent;
+                                projectData = _context10.sent;
 
                                 if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
-                                    _context9.next = 17;
+                                    _context10.next = 17;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
 
                             case 17:
                                 if (this.verifyDomain(params.prd_host)) {
-                                    _context9.next = 19;
+                                    _context10.next = 19;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '线上域名格式有误'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '线上域名格式有误'));
 
                             case 19:
 
@@ -864,41 +999,41 @@ var projectController = function (_baseController) {
                                 }
 
                                 if (!params.name) {
-                                    _context9.next = 27;
+                                    _context10.next = 27;
                                     break;
                                 }
 
-                                _context9.next = 24;
+                                _context10.next = 24;
                                 return this.Model.checkNameRepeat(params.name);
 
                             case 24:
-                                checkRepeat = _context9.sent;
+                                checkRepeat = _context10.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context9.next = 27;
+                                    _context10.next = 27;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
 
                             case 27:
                                 if (!(params.basepath && params.prd_host)) {
-                                    _context9.next = 33;
+                                    _context10.next = 33;
                                     break;
                                 }
 
-                                _context9.next = 30;
+                                _context10.next = 30;
                                 return this.Model.checkDomainRepeat(params.prd_host, params.basepath);
 
                             case 30:
-                                checkRepeatDomain = _context9.sent;
+                                checkRepeatDomain = _context10.sent;
 
                                 if (!(checkRepeatDomain > 0)) {
-                                    _context9.next = 33;
+                                    _context10.next = 33;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在domain和basepath'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在domain和basepath'));
 
                             case 33:
                                 data = {
@@ -915,32 +1050,32 @@ var projectController = function (_baseController) {
                                 if (params.protocol) data.protocol = params.protocol;
                                 if (params.env) data.env = params.env;
 
-                                _context9.next = 41;
-                                return this.Model.up(id, data);
+                                _context10.next = 41;
+                                return this.Model.up(_id2, data);
 
                             case 41:
-                                result = _context9.sent;
+                                result = _context10.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context9.next = 48;
+                                _context10.next = 48;
                                 break;
 
                             case 45:
-                                _context9.prev = 45;
-                                _context9.t1 = _context9['catch'](0);
+                                _context10.prev = 45;
+                                _context10.t1 = _context10['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t1.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t1.message);
 
                             case 48:
                             case 'end':
-                                return _context9.stop();
+                                return _context10.stop();
                         }
                     }
-                }, _callee9, this, [[0, 45]]);
+                }, _callee10, this, [[0, 45]]);
             }));
 
-            function up(_x10) {
-                return _ref9.apply(this, arguments);
+            function up(_x11) {
+                return _ref10.apply(this, arguments);
             }
 
             return up;
@@ -960,40 +1095,40 @@ var projectController = function (_baseController) {
     }, {
         key: 'search',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
                 var q, projectList, groupList, projectRules, groupRules, queryList;
-                return _regenerator2.default.wrap(function _callee10$(_context10) {
+                return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context11.prev = _context11.next) {
                             case 0:
                                 q = ctx.request.query.q;
 
                                 if (q) {
-                                    _context10.next = 3;
+                                    _context11.next = 3;
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'No keyword.'));
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'No keyword.'));
 
                             case 3:
                                 if (_yapi2.default.commons.validateSearchKeyword(q)) {
-                                    _context10.next = 5;
+                                    _context11.next = 5;
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'Bad query.'));
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'Bad query.'));
 
                             case 5:
-                                _context10.next = 7;
+                                _context11.next = 7;
                                 return this.Model.search(q);
 
                             case 7:
-                                projectList = _context10.sent;
-                                _context10.next = 10;
+                                projectList = _context11.sent;
+                                _context11.next = 10;
                                 return this.groupModel.search(q);
 
                             case 10:
-                                groupList = _context10.sent;
+                                groupList = _context11.sent;
                                 projectRules = ['_id', 'name', 'basepath', 'uid', 'env', 'members', { key: 'group_id', alias: 'groupId' }, { key: 'up_time', alias: 'upTime' }, { key: 'prd_host', alias: 'prdHost' }, { key: 'add_time', alias: 'addTime' }];
                                 groupRules = ['_id', 'uid', { key: 'group_name', alias: 'groupName' }, { key: 'group_desc', alias: 'groupDesc' }, { key: 'add_time', alias: 'addTime' }, { key: 'up_time', alias: 'upTime' }];
 
@@ -1005,18 +1140,18 @@ var projectController = function (_baseController) {
                                     project: projectList,
                                     group: groupList
                                 };
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 0, 'ok'));
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(queryList, 0, 'ok'));
 
                             case 17:
                             case 'end':
-                                return _context10.stop();
+                                return _context11.stop();
                         }
                     }
-                }, _callee10, this);
+                }, _callee11, this);
             }));
 
-            function search(_x11) {
-                return _ref10.apply(this, arguments);
+            function search(_x12) {
+                return _ref11.apply(this, arguments);
             }
 
             return search;

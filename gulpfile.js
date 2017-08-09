@@ -101,7 +101,7 @@ gulp.task('initialBuild', ['removeDist'], () => {
             });
 
             excuteCmd('ykit', ['s', '-p', '4000'], {
-                cwd: path.resolve(__dirname, '../')
+                cwd: path.resolve(__dirname, './')
             });
         });
 });
