@@ -23,7 +23,7 @@ class interfaceColController extends baseController{
     async list(ctx){
         try {
             let id = ctx.query.project_id;
-            let inst = yapi.getInst(interfaceColModel);
+            let inst = this.colModel(interfaceColModel);
             let result = await inst.list(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -59,6 +59,7 @@ class interfaceColController extends baseController{
             if(!params.name){
                 return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');            
             }
+            
             let result = await this.colModel.save({
                 name: params.name,
                 project_id: params.project_id,
@@ -139,6 +140,10 @@ class interfaceColController extends baseController{
             if (!params.env) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '缺少环境配置');                
             }
+            if (!params.path) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'path 不能为空');                
+            }
+          
    
             if(!params.casename){
                 return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');            
@@ -181,7 +186,7 @@ class interfaceColController extends baseController{
     /**
      * 更新一个接口集name或描述
      * @interface /col/up_col
-     * @method GET
+     * @method POST
      * @category col
      * @foldnumber 10
      * @param {String} name
@@ -205,8 +210,40 @@ class interfaceColController extends baseController{
     }
 
     /**
+     * 更新多个接口case index
+     * @interface /col/up_col_index
+     * @method POST
+     * @category col
+     * @foldnumber 10
+     * @param {Array}  [id, index]
+     * @returns {Object} 
+     * @example 
+     */
+
+    async upCaseIndex(ctx){
+        try{
+            let params = ctx.request.body;
+            if(!params || !Array.isArray(params)){
+                ctx.body =  yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+            }
+            params.forEach((item) => {
+                if(item.id && item.index){
+                    this.caseModel.upCaseIndex(item.id, item.index).then((res) => {}, (err) => {
+                        yapi.commons.log(err.message, 'error')
+                    })
+                }
+                
+            })
+            
+            return ctx.body = yapi.commons.resReturn('success')
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 400, e.message)
+        }
+    }
+
+    /**
      * 删除一个接口集
-     * @interface /col/del
+     * @interface /col/del_col
      * @method GET
      * @category col
      * @foldnumber 10
@@ -216,7 +253,27 @@ class interfaceColController extends baseController{
      */
 
     async delCol(ctx){
+        try{
+            let id = ctx.request.body.colid;
+            let colData = await this.colModel.get(id);
+            if(!colData){
+                ctx.body =  yapi.commons.resReturn(null, 400, "不存在的id")
+            }
 
+            if(colData.uid !== this.getUid()){
+                let auth = await this.checkAuth(colData.project_id, 'project', 'danger')
+                if(!auth){
+                    return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+                }
+            }
+
+            let result = await this.colModel.del(caseid);
+            return ctx.body = yapi.commons.resReturn(result);
+
+
+        }catch(e){
+            yapi.commons.resReturn(null, 400, e.message)
+        }
     }
 
     /**
@@ -225,7 +282,27 @@ class interfaceColController extends baseController{
      */
 
     async delCase(ctx){
+        try{
+            let caseid = ctx.request.body.caseid;
+            let caseData = await this.caseModel.get(caseid);
+            if(!caseData){
+                ctx.body =  yapi.commons.resReturn(null, 400, "不存在的caseid")
+            }
 
+            if(caseData.uid !== this.getUid()){
+                let auth = await this.checkAuth(caseData.project_id, 'project', 'danger')
+                if(!auth){
+                    return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+                }
+            }
+
+            let result = await this.caseModel.del(caseid);
+            return ctx.body = yapi.commons.resReturn(result);
+
+
+        }catch(e){
+            yapi.commons.resReturn(null, 400, e.message)
+        }
     }
 
 

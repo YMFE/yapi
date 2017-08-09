@@ -41,7 +41,7 @@ var interfaceCase = function (_baseModel) {
     (0, _createClass3.default)(interfaceCase, [{
         key: 'getName',
         value: function getName() {
-            return 'interface_col';
+            return 'interface_case';
         }
     }, {
         key: 'getSchema',
@@ -55,7 +55,7 @@ var interfaceCase = function (_baseModel) {
                 add_time: Number,
                 up_time: Number,
                 env: { type: String, required: true },
-                domain: { type: String, required: true },
+                domain: { type: String },
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 req_query: [{
@@ -105,6 +105,15 @@ var interfaceCase = function (_baseModel) {
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
             return this.model.update({ _id: id }, data);
+        }
+    }, {
+        key: 'upCaseIndex',
+        value: function upCaseIndex(id, index) {
+            return this.model.update({
+                _id: id
+            }, {
+                index: index
+            });
         }
     }]);
     return interfaceCase;
