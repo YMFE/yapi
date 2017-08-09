@@ -33,11 +33,8 @@ class News extends Component {
   componentWillMount(){
     const that = this;
     this.props.getMockUrl(2724).then(function(data){
-      
       const { prd_host, basepath, protocol } = data.payload.data.data;
-      
       const mockURL = `${protocol}://${prd_host}${basepath}/{path}`;
-      console.log(data.payload.data.data);
       that.setState({
         mockURL: mockURL
       })
