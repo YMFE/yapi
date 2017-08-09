@@ -62,12 +62,14 @@ function timeago(timestamp) {
   },
   {
     fetchNewsData: fetchNewsData
+    
   }
 )
 class NewsTimeline extends Component {
   static propTypes = {
     newsData: PropTypes.object,
     fetchNewsData: PropTypes.func,
+    
     setLoading: PropTypes.func,
     loading: PropTypes.bool,
     curpage: PropTypes.number
@@ -93,8 +95,7 @@ class NewsTimeline extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchNewsData(21, this.props.curpage, 8).then(function () {
-    })
+    this.props.fetchNewsData(21, this.props.curpage, 8)
   }
 
   
