@@ -24,6 +24,14 @@ var _user = require('./controllers/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _interfaceCol = require('./controllers/interfaceCol.js');
+
+var _interfaceCol2 = _interopRequireDefault(_interfaceCol);
+
+var _interfaceCase = require('./controllers/interfaceCase.js');
+
+var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
+
 var _yapi = require('./yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
@@ -68,6 +76,10 @@ var INTERFACE_CONFIG = {
 	log: {
 		prefix: '/log/',
 		controller: _log2.default
+	},
+	col: {
+		prefix: '/col/',
+		controller: _interfaceCol2.default
 	}
 };
 
@@ -212,6 +224,15 @@ var routerConfig = {
 		"action": "list",
 		"path": "list",
 		"method": "get"
+	}],
+	"col": [{
+		action: "add",
+		path: "add",
+		method: "post"
+	}, {
+		action: "list",
+		path: "list",
+		method: "get"
 	}]
 };
 

@@ -61,3 +61,5 @@ var interfaceCaseController = function (_baseController) {
     }]);
     return interfaceCaseController;
 }(_base2.default);
+
+module.exports = interfaceCaseController;

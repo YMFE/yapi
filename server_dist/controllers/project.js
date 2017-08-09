@@ -221,6 +221,7 @@ var projectController = function (_baseController) {
                                     basepath: params.basepath,
                                     protocol: params.protocol || 'http',
                                     members: [],
+                                    project_type: params.project_type || 'private',
                                     uid: this.getUid(),
                                     group_id: params.group_id,
                                     add_time: _yapi2.default.commons.time(),
@@ -653,13 +654,13 @@ var projectController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
-                var group_id, page, limit, auth, result, uids, _users, users;
+                var group_id, auth, result, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
-                                group_id = ctx.request.query.group_id, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
+                                group_id = ctx.request.query.group_id;
 
                                 if (group_id) {
                                     _context7.next = 3;
@@ -669,12 +670,16 @@ var projectController = function (_baseController) {
                                 return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组id不能为空'));
 
                             case 3:
-                                auth = this.checkAuth(group_id, 'group', 'edit');
-                                _context7.prev = 4;
-                                _context7.next = 7;
+                                _context7.next = 5;
+                                return this.checkAuth(group_id, 'group', 'edit');
+
+                            case 5:
+                                auth = _context7.sent;
+                                _context7.prev = 6;
+                                _context7.next = 9;
                                 return this.Model.list(group_id, auth);
 
-                            case 7:
+                            case 9:
                                 result = _context7.sent;
                                 uids = [];
 
@@ -684,10 +689,10 @@ var projectController = function (_baseController) {
                                     }
                                 });
                                 _users = {};
-                                _context7.next = 13;
+                                _context7.next = 15;
                                 return _yapi2.default.getInst(_user2.default).findByUids(uids);
 
-                            case 13:
+                            case 15:
                                 users = _context7.sent;
 
                                 users.forEach(function (item) {
@@ -697,21 +702,21 @@ var projectController = function (_baseController) {
                                     list: result,
                                     userinfo: _users
                                 });
-                                _context7.next = 21;
+                                _context7.next = 23;
                                 break;
 
-                            case 18:
-                                _context7.prev = 18;
-                                _context7.t0 = _context7['catch'](4);
+                            case 20:
+                                _context7.prev = 20;
+                                _context7.t0 = _context7['catch'](6);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message);
 
-                            case 21:
+                            case 23:
                             case 'end':
                                 return _context7.stop();
                         }
                     }
-                }, _callee7, this, [[4, 18]]);
+                }, _callee7, this, [[6, 20]]);
             }));
 
             function list(_x8) {

@@ -50,10 +50,12 @@ var interfaceCase = function (_baseModel) {
                 casename: { type: String, required: true },
                 uid: { type: Number, required: true },
                 col_id: { type: Number, required: true },
+                index: { type: Number, default: 0 },
                 project_id: { type: Number, required: true },
                 add_time: Number,
                 up_time: Number,
                 env: { type: String, required: true },
+                domain: { type: String, required: true },
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 req_query: [{
@@ -89,7 +91,7 @@ var interfaceCase = function (_baseModel) {
     }, {
         key: 'list',
         value: function list() {
-            return this.model.find().exec();
+            return this.model.find().select("casename uid col_id _id index").exec();
         }
     }, {
         key: 'del',
