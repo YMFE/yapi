@@ -331,10 +331,6 @@ searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroup
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:185
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  constructor(props) {$/;"	function	line:10
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  render () {$/;"	function	line:14
-export.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:7
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:14
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:18
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:21
 const.isLogin	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^const initialState = {$/;"	property	line:15
 const.userName	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  isLogin: false,$/;"	property	line:16
 const.uid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  userName: null,$/;"	property	line:17
@@ -461,3 +457,7 @@ static.curUserRole	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/
 getUserList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  getUserList() {$/;"	function	line:41
 componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  componentDidMount() {$/;"	function	line:60
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  render() {$/;"	function	line:85
+from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:8
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:15
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:19
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:22
