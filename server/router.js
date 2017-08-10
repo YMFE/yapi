@@ -7,6 +7,7 @@ import interfaceColController from './controllers/interfaceCol.js'
 import yapi from './yapi.js';
 import projectController from './controllers/project.js';
 import logController from './controllers/log.js';
+import followController from './controllers/follow.js';
 
 const router = koaRouter();
 
@@ -38,6 +39,10 @@ const INTERFACE_CONFIG = {
     log: {
         prefix: '/log/',
         controller: logController
+	},
+	follow: {
+        prefix: '/follow/',
+        controller: followController
 	},
 	col: {
 		prefix: '/col/',
@@ -226,6 +231,19 @@ const routerConfig = {
 			"method": "get"
 		}
 	],
+	"follow": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	},{
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	},{
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}],
 	"col": [{
 		action: "addCol",
 		path: "add_col",
