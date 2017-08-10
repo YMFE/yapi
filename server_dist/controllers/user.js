@@ -1037,7 +1037,7 @@ var userController = function (_baseController) {
         key: 'avatar',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var avatarInst, data, defaultAvatar, dataBuffer, type;
+                var avatarInst, data, dataBuffer, type;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
@@ -1049,7 +1049,6 @@ var userController = function (_baseController) {
 
                             case 4:
                                 data = _context12.sent;
-                                defaultAvatar = require('../utils/defaultAvatar.js');
                                 dataBuffer = void 0, type = void 0;
 
                                 if (!data || !data.basecode) {
@@ -1062,21 +1061,21 @@ var userController = function (_baseController) {
 
                                 ctx.set('Content-type', type);
                                 ctx.body = dataBuffer;
-                                _context12.next = 15;
+                                _context12.next = 14;
                                 break;
 
-                            case 12:
-                                _context12.prev = 12;
+                            case 11:
+                                _context12.prev = 11;
                                 _context12.t0 = _context12['catch'](0);
 
                                 ctx.body = 'error:' + _context12.t0.message;
 
-                            case 15:
+                            case 14:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[0, 12]]);
+                }, _callee12, this, [[0, 11]]);
             }));
 
             function avatar(_x13) {

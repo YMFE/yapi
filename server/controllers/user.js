@@ -493,7 +493,6 @@ class userController extends baseController {
         try{
             let avatarInst = yapi.getInst(avatarModel);
             let data = await avatarInst.get(this.getUid());
-            let defaultAvatar = require('../utils/defaultAvatar.js');
             let dataBuffer, type;
             if(!data || !data.basecode){
                 dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/image/avatar.png'));
