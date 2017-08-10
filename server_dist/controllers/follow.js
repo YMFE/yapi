@@ -69,16 +69,16 @@ var followController = function (_baseController) {
     }
 
     /**
-     * 获取节点列表
-     * @interface /node/list
+     * 获取关注项目列表
+     * @interface /follow/list
      * @method GET
-     * @category node
+     * @category follow
      * @foldnumber 10
      * @param {Number} uid 用户id， 不能为空
      * @param {Number} [page] 分页页码
      * @param {Number} [limit] 分页大小
      * @returns {Object}
-     * @example ./api/follow/list.json
+     * @example /follow/list
      */
 
     (0, _createClass3.default)(followController, [{
@@ -140,6 +140,18 @@ var followController = function (_baseController) {
 
             return list;
         }()
+
+        /**
+         * 取消关注
+         * @interface /follow/list
+         * @method POST
+         * @category follow
+         * @foldnumber 10
+         * @param {Number} id 关注id
+         * @returns {Object}
+         * @example /follow/del
+         */
+
     }, {
         key: 'del',
         value: function () {
@@ -190,6 +202,21 @@ var followController = function (_baseController) {
 
             return del;
         }()
+
+        /**
+         * 添加关注
+         * @interface /follow/list
+         * @method POST
+         * @category follow
+         * @foldnumber 10
+         * @param {Number} uid 用户id
+         * @param {Number} projectid 项目id
+         * @param {String} projectname 项目名
+         * @param {String} icon 项目icon
+         * @returns {Object}
+         * @example /follow/add
+         */
+
     }, {
         key: 'add',
         value: function () {
