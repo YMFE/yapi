@@ -1,5 +1,9 @@
 'use strict';
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -56,7 +60,13 @@ var _user = require('../models/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _mockjs = require('mockjs');
+
+var _mockjs2 = _interopRequireDefault(_mockjs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var send = require('koa-send');
 
 var projectController = function (_baseController) {
     (0, _inherits3.default)(projectController, _baseController);
@@ -221,6 +231,7 @@ var projectController = function (_baseController) {
                                     basepath: params.basepath,
                                     protocol: params.protocol || 'http',
                                     members: [],
+                                    project_type: params.project_type || 'private',
                                     uid: this.getUid(),
                                     group_id: params.group_id,
                                     add_time: _yapi2.default.commons.time(),
@@ -653,13 +664,13 @@ var projectController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
-                var group_id, page, limit, auth, result, uids, _users, users;
+                var group_id, auth, result, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
-                                group_id = ctx.request.query.group_id, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
+                                group_id = ctx.request.query.group_id;
 
                                 if (group_id) {
                                     _context7.next = 3;
@@ -669,12 +680,16 @@ var projectController = function (_baseController) {
                                 return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目分组id不能为空'));
 
                             case 3:
-                                auth = this.checkAuth(group_id, 'group', 'edit');
-                                _context7.prev = 4;
-                                _context7.next = 7;
+                                _context7.next = 5;
+                                return this.checkAuth(group_id, 'group', 'edit');
+
+                            case 5:
+                                auth = _context7.sent;
+                                _context7.prev = 6;
+                                _context7.next = 9;
                                 return this.Model.list(group_id, auth);
 
-                            case 7:
+                            case 9:
                                 result = _context7.sent;
                                 uids = [];
 
@@ -684,10 +699,10 @@ var projectController = function (_baseController) {
                                     }
                                 });
                                 _users = {};
-                                _context7.next = 13;
+                                _context7.next = 15;
                                 return _yapi2.default.getInst(_user2.default).findByUids(uids);
 
-                            case 13:
+                            case 15:
                                 users = _context7.sent;
 
                                 users.forEach(function (item) {
@@ -697,21 +712,21 @@ var projectController = function (_baseController) {
                                     list: result,
                                     userinfo: _users
                                 });
-                                _context7.next = 21;
+                                _context7.next = 23;
                                 break;
 
-                            case 18:
-                                _context7.prev = 18;
-                                _context7.t0 = _context7['catch'](4);
+                            case 20:
+                                _context7.prev = 20;
+                                _context7.t0 = _context7['catch'](6);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message);
 
-                            case 21:
+                            case 23:
                             case 'end':
                                 return _context7.stop();
                         }
                     }
-                }, _callee7, this, [[4, 18]]);
+                }, _callee7, this, [[6, 20]]);
             }));
 
             function list(_x8) {
@@ -1155,6 +1170,68 @@ var projectController = function (_baseController) {
             }
 
             return search;
+        }()
+
+        /**
+         * 下载项目的 Mock 数据
+         * @interface /project/download
+         * @method GET
+         * @category project
+         * @foldnumber 10
+         * @param {String} project_id
+        */
+
+    }, {
+        key: 'download',
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+                var project_id, interfaceInst, count, arr, fileName, res;
+                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    while (1) {
+                        switch (_context12.prev = _context12.next) {
+                            case 0:
+                                project_id = ctx.request.query.project_id;
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                _context12.next = 4;
+                                return interfaceInst.list(project_id);
+
+                            case 4:
+                                count = _context12.sent;
+
+                                console.log(count);
+                                arr = (0, _stringify2.default)(count.map(function (item) {
+                                    // 返回的json模板数据: item.res_body
+                                    var mockData = _mockjs2.default.mock(_yapi2.default.commons.json_parse(item.res_body));
+                                    return {
+                                        path: item.path,
+                                        mock: mockData
+                                    };
+                                }));
+                                //   console.log(arr);
+
+                                fileName = 'mock.js';
+
+                                ctx.attachment(fileName);
+                                _context12.next = 11;
+                                return send(ctx, fileName, { root: __dirname + '/public' });
+
+                            case 11:
+                                res = ('\n      var data = ' + arr).trim();
+                                return _context12.abrupt('return', ctx.body = res);
+
+                            case 13:
+                            case 'end':
+                                return _context12.stop();
+                        }
+                    }
+                }, _callee12, this);
+            }));
+
+            function download(_x13) {
+                return _ref12.apply(this, arguments);
+            }
+
+            return download;
         }()
     }]);
     return projectController;

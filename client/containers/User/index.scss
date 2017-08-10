@@ -11,6 +11,7 @@
   display: -webkit-box;
   -webkit-box-flex: 1;
   margin: 0 auto;
+  margin-top: 24px;
   .user-list {
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
@@ -107,5 +108,29 @@
   .user-nav {
     border-bottom-left-radius: .04rem;
     border-bottom-right-radius: .04rem;
+  }
+  .avatar-uploader,
+  .avatar-uploader-trigger,
+  .avatar {
+    width: 150px;
+    height: 150px;
+  }
+  .avatar-uploader {
+    display: block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .avatar-uploader {
+    display: block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .avatar-uploader-trigger {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 28px;
+    color: #999;
   }
 }

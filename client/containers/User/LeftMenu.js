@@ -4,6 +4,7 @@ import { Row, Col, Menu, AutoComplete, Input, Icon } from 'antd'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Avatar from './Avatar.js'
 
 const Option = AutoComplete.Option;
 @connect(
@@ -87,6 +88,7 @@ class LeftMenu extends Component {
     const { dataSource } = this.state;
     return (<div className="user-list">
       <div className='cur-user'>
+        <Avatar />
         <div className='user-name'><span>用户名 :</span>{`${this.props.curUserName}`}</div>
       </div>
       <Row type="flex" justify="start" className="search">

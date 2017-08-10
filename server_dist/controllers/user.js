@@ -64,6 +64,10 @@ var _project = require('../models/project.js');
 
 var _project2 = _interopRequireDefault(_project);
 
+var _avatar = require('../models/avatar.js');
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwt = require('jsonwebtoken');
@@ -324,7 +328,8 @@ var userController = function (_baseController) {
                                     passsalt: passsalt,
                                     role: 'member',
                                     add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time()
+                                    up_time: _yapi2.default.commons.time(),
+                                    type: 'third'
                                 };
                                 _context4.next = 11;
                                 return userInst.save(data);
@@ -334,7 +339,7 @@ var userController = function (_baseController) {
 
                                 _yapi2.default.commons.sendMail({
                                     to: email,
-                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u7CFB\u7EDF\u68C0\u6D4B\u60A8\u662F\u7B2C\u4E00\u6B21\u7528Qsso\u8D26\u53F7\u767B\u5F55YApi\u670D\u52A1,\u60A8\u7684Email\u662F\uFF1A ' + email + ' \uFF0C\u521D\u59CB\u5316\u5BC6\u7801\u4E3A\uFF1A' + passsalt + '</p>'
+                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0.</p>'
                                 });
 
                             case 13:
@@ -477,48 +482,6 @@ var userController = function (_baseController) {
             return changePassword;
         }()
     }, {
-        key: 'forgetPassword',
-        value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-                return _regenerator2.default.wrap(function _callee6$(_context6) {
-                    while (1) {
-                        switch (_context6.prev = _context6.next) {
-                            case 0:
-                            case 'end':
-                                return _context6.stop();
-                        }
-                    }
-                }, _callee6, this);
-            }));
-
-            function forgetPassword() {
-                return _ref6.apply(this, arguments);
-            }
-
-            return forgetPassword;
-        }()
-    }, {
-        key: 'resetPassword',
-        value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-                return _regenerator2.default.wrap(function _callee7$(_context7) {
-                    while (1) {
-                        switch (_context7.prev = _context7.next) {
-                            case 0:
-                            case 'end':
-                                return _context7.stop();
-                        }
-                    }
-                }, _callee7, this);
-            }));
-
-            function resetPassword() {
-                return _ref7.apply(this, arguments);
-            }
-
-            return resetPassword;
-        }()
-    }, {
         key: 'setLoginCookie',
         value: function setLoginCookie(uid, passsalt) {
             var token = jwt.sign({ uid: uid }, passsalt, { expiresIn: '7 days' });
@@ -549,11 +512,11 @@ var userController = function (_baseController) {
     }, {
         key: 'reg',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var userInst, params, checkRepeat, passsalt, data, user;
-                return _regenerator2.default.wrap(function _callee8$(_context8) {
+                return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context6.prev = _context6.next) {
                             case 0:
                                 //注册
                                 userInst = _yapi2.default.getInst(_user2.default);
@@ -566,33 +529,33 @@ var userController = function (_baseController) {
                                 });
 
                                 if (params.email) {
-                                    _context8.next = 5;
+                                    _context6.next = 5;
                                     break;
                                 }
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '邮箱不能为空'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '邮箱不能为空'));
 
                             case 5:
                                 if (params.password) {
-                                    _context8.next = 7;
+                                    _context6.next = 7;
                                     break;
                                 }
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
 
                             case 7:
-                                _context8.next = 9;
+                                _context6.next = 9;
                                 return userInst.checkRepeat(params.email);
 
                             case 9:
-                                checkRepeat = _context8.sent;
+                                checkRepeat = _context6.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context8.next = 12;
+                                    _context6.next = 12;
                                     break;
                                 }
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
 
                             case 12:
                                 passsalt = _yapi2.default.commons.randStr();
@@ -603,7 +566,8 @@ var userController = function (_baseController) {
                                     passsalt: passsalt,
                                     role: 'member',
                                     add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time()
+                                    up_time: _yapi2.default.commons.time(),
+                                    type: "site"
                                 };
 
 
@@ -611,12 +575,12 @@ var userController = function (_baseController) {
                                     data.username = data.email.substr(0, data.email.indexOf('@'));
                                 }
 
-                                _context8.prev = 15;
-                                _context8.next = 18;
+                                _context6.prev = 15;
+                                _context6.next = 18;
                                 return userInst.save(data);
 
                             case 18:
-                                user = _context8.sent;
+                                user = _context6.sent;
 
 
                                 this.setLoginCookie(user._id, user.passsalt);
@@ -632,25 +596,25 @@ var userController = function (_baseController) {
                                     to: user.email,
                                     contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F</p>'
                                 });
-                                _context8.next = 27;
+                                _context6.next = 27;
                                 break;
 
                             case 24:
-                                _context8.prev = 24;
-                                _context8.t0 = _context8['catch'](15);
+                                _context6.prev = 24;
+                                _context6.t0 = _context6['catch'](15);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context8.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context6.t0.message);
 
                             case 27:
                             case 'end':
-                                return _context8.stop();
+                                return _context6.stop();
                         }
                     }
-                }, _callee8, this, [[15, 24]]);
+                }, _callee6, this, [[15, 24]]);
             }));
 
             function reg(_x7) {
-                return _ref8.apply(this, arguments);
+                return _ref6.apply(this, arguments);
             }
 
             return reg;
@@ -671,45 +635,45 @@ var userController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var page, limit, userInst, user, count;
-                return _regenerator2.default.wrap(function _callee9$(_context9) {
+                return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context7.prev = _context7.next) {
                             case 0:
                                 page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _context9.prev = 2;
-                                _context9.next = 5;
+                                _context7.prev = 2;
+                                _context7.next = 5;
                                 return userInst.listWithPaging(page, limit);
 
                             case 5:
-                                user = _context9.sent;
-                                _context9.next = 8;
+                                user = _context7.sent;
+                                _context7.next = 8;
                                 return userInst.listCount();
 
                             case 8:
-                                count = _context9.sent;
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                count = _context7.sent;
+                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
                                     total: Math.ceil(count / limit),
                                     list: user
                                 }));
 
                             case 12:
-                                _context9.prev = 12;
-                                _context9.t0 = _context9['catch'](2);
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message));
+                                _context7.prev = 12;
+                                _context7.t0 = _context7['catch'](2);
+                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message));
 
                             case 15:
                             case 'end':
-                                return _context9.stop();
+                                return _context7.stop();
                         }
                     }
-                }, _callee9, this, [[2, 12]]);
+                }, _callee7, this, [[2, 12]]);
             }));
 
             function list(_x8) {
-                return _ref9.apply(this, arguments);
+                return _ref7.apply(this, arguments);
             }
 
             return list;
@@ -729,39 +693,39 @@ var userController = function (_baseController) {
     }, {
         key: 'findById',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var userInst, id, result;
-                return _regenerator2.default.wrap(function _callee10$(_context10) {
+                return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context8.prev = _context8.next) {
                             case 0:
-                                _context10.prev = 0;
+                                _context8.prev = 0;
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 id = ctx.request.query.id;
 
                                 if (id) {
-                                    _context10.next = 5;
+                                    _context8.next = 5;
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 5:
-                                _context10.next = 7;
+                                _context8.next = 7;
                                 return userInst.findById(id);
 
                             case 7:
-                                result = _context10.sent;
+                                result = _context8.sent;
 
                                 if (result) {
-                                    _context10.next = 10;
+                                    _context8.next = 10;
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '不存在的用户'));
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '不存在的用户'));
 
                             case 10:
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
                                     uid: result._id,
                                     username: result.username,
                                     email: result.email,
@@ -771,20 +735,20 @@ var userController = function (_baseController) {
                                 }));
 
                             case 13:
-                                _context10.prev = 13;
-                                _context10.t0 = _context10['catch'](0);
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t0.message));
+                                _context8.prev = 13;
+                                _context8.t0 = _context8['catch'](0);
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context8.t0.message));
 
                             case 16:
                             case 'end':
-                                return _context10.stop();
+                                return _context8.stop();
                         }
                     }
-                }, _callee10, this, [[0, 13]]);
+                }, _callee8, this, [[0, 13]]);
             }));
 
             function findById(_x9) {
-                return _ref10.apply(this, arguments);
+                return _ref8.apply(this, arguments);
             }
 
             return findById;
@@ -804,60 +768,60 @@ var userController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
                 var userInst, id, result;
-                return _regenerator2.default.wrap(function _callee11$(_context11) {
+                return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
-                        switch (_context11.prev = _context11.next) {
+                        switch (_context9.prev = _context9.next) {
                             case 0:
-                                _context11.prev = 0;
+                                _context9.prev = 0;
 
                                 if (!(this.getRole() !== 'admin')) {
-                                    _context11.next = 3;
+                                    _context9.next = 3;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'Without permission.'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'Without permission.'));
 
                             case 3:
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 id = ctx.request.body.id;
 
                                 if (id) {
-                                    _context11.next = 7;
+                                    _context9.next = 7;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 7:
-                                _context11.next = 9;
+                                _context9.next = 9;
                                 return userInst.del(id);
 
                             case 9:
-                                result = _context11.sent;
+                                result = _context9.sent;
 
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context11.next = 16;
+                                _context9.next = 16;
                                 break;
 
                             case 13:
-                                _context11.prev = 13;
-                                _context11.t0 = _context11['catch'](0);
+                                _context9.prev = 13;
+                                _context9.t0 = _context9['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message);
 
                             case 16:
                             case 'end':
-                                return _context11.stop();
+                                return _context9.stop();
                         }
                     }
-                }, _callee11, this, [[0, 13]]);
+                }, _callee9, this, [[0, 13]]);
             }));
 
             function del(_x10) {
-                return _ref11.apply(this, arguments);
+                return _ref9.apply(this, arguments);
             }
 
             return del;
@@ -880,13 +844,13 @@ var userController = function (_baseController) {
     }, {
         key: 'update',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
                 var params, userInst, id, data, checkRepeat, result;
-                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
-                        switch (_context12.prev = _context12.next) {
+                        switch (_context10.prev = _context10.next) {
                             case 0:
-                                _context12.prev = 0;
+                                _context10.prev = 0;
                                 params = ctx.request.body;
 
 
@@ -896,22 +860,22 @@ var userController = function (_baseController) {
                                 });
 
                                 if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
-                                    _context12.next = 5;
+                                    _context10.next = 5;
                                     break;
                                 }
 
-                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
 
                             case 5:
                                 userInst = _yapi2.default.getInst(_user2.default);
                                 id = params.uid;
 
                                 if (id) {
-                                    _context12.next = 9;
+                                    _context10.next = 9;
                                     break;
                                 }
 
-                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 9:
                                 data = {
@@ -919,62 +883,206 @@ var userController = function (_baseController) {
                                 };
 
 
-                                if (this.getRole() === 'admin') {
-                                    params.role && (data.role = params.role);
-                                }
-
                                 params.username && (data.username = params.username);
                                 params.email && (data.email = params.email);
 
                                 if (!data.email) {
-                                    _context12.next = 19;
+                                    _context10.next = 18;
                                     break;
                                 }
 
-                                _context12.next = 16;
+                                _context10.next = 15;
                                 return userInst.checkRepeat(data.email);
 
-                            case 16:
-                                checkRepeat = _context12.sent;
+                            case 15:
+                                checkRepeat = _context10.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context12.next = 19;
+                                    _context10.next = 18;
                                     break;
                                 }
 
-                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
 
-                            case 19:
-                                _context12.next = 21;
+                            case 18:
+                                _context10.next = 20;
                                 return userInst.update(id, data);
 
-                            case 21:
-                                result = _context12.sent;
+                            case 20:
+                                result = _context10.sent;
 
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context12.next = 28;
+                                _context10.next = 27;
                                 break;
 
-                            case 25:
-                                _context12.prev = 25;
-                                _context12.t0 = _context12['catch'](0);
+                            case 24:
+                                _context10.prev = 24;
+                                _context10.t0 = _context10['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context12.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t0.message);
+
+                            case 27:
+                            case 'end':
+                                return _context10.stop();
+                        }
+                    }
+                }, _callee10, this, [[0, 24]]);
+            }));
+
+            function update(_x11) {
+                return _ref10.apply(this, arguments);
+            }
+
+            return update;
+        }()
+
+        /**
+         * 
+         * @param {*} basecode  base64编码，通过h5 api传给后端
+         */
+
+    }, {
+        key: 'uploadAvatar',
+        value: function () {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+                var basecode, pngPrefix, jpegPrefix, type, strLength, avatarInst, result;
+                return _regenerator2.default.wrap(function _callee11$(_context11) {
+                    while (1) {
+                        switch (_context11.prev = _context11.next) {
+                            case 0:
+                                _context11.prev = 0;
+                                basecode = ctx.request.body.basecode;
+
+                                if (basecode) {
+                                    _context11.next = 4;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'basecode不能为空'));
+
+                            case 4:
+                                pngPrefix = 'data:image/png;base64,';
+                                jpegPrefix = 'data:image/jpeg;base64,';
+                                type = void 0;
+
+                                if (!(basecode.substr(0, pngPrefix.length) === pngPrefix)) {
+                                    _context11.next = 12;
+                                    break;
+                                }
+
+                                basecode = basecode.substr(pngPrefix.length);
+                                type = 'image/png';
+                                _context11.next = 18;
+                                break;
+
+                            case 12:
+                                if (!(basecode.substr(0, jpegPrefix.length) === jpegPrefix)) {
+                                    _context11.next = 17;
+                                    break;
+                                }
+
+                                basecode = basecode.substr(jpegPrefix.length);
+                                type = 'image/jpeg';
+                                _context11.next = 18;
+                                break;
+
+                            case 17:
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '仅支持jpeg和png格式的图片'));
+
+                            case 18:
+                                strLength = basecode.length;
+
+                                if (!(parseInt(strLength - strLength / 8 * 2) > 200000)) {
+                                    _context11.next = 21;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '图片大小不能超过200kb'));
+
+                            case 21:
+                                avatarInst = _yapi2.default.getInst(_avatar2.default);
+                                _context11.next = 24;
+                                return avatarInst.up(this.getUid(), basecode, type);
+
+                            case 24:
+                                result = _context11.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+
+                                _context11.next = 31;
+                                break;
 
                             case 28:
+                                _context11.prev = 28;
+                                _context11.t0 = _context11['catch'](0);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context11.t0.message);
+
+                            case 31:
+                            case 'end':
+                                return _context11.stop();
+                        }
+                    }
+                }, _callee11, this, [[0, 28]]);
+            }));
+
+            function uploadAvatar(_x12) {
+                return _ref11.apply(this, arguments);
+            }
+
+            return uploadAvatar;
+        }()
+    }, {
+        key: 'avatar',
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+                var avatarInst, data, dataBuffer, type;
+                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    while (1) {
+                        switch (_context12.prev = _context12.next) {
+                            case 0:
+                                _context12.prev = 0;
+                                avatarInst = _yapi2.default.getInst(_avatar2.default);
+                                _context12.next = 4;
+                                return avatarInst.get(this.getUid());
+
+                            case 4:
+                                data = _context12.sent;
+                                dataBuffer = void 0, type = void 0;
+
+                                if (!data || !data.basecode) {
+                                    dataBuffer = _yapi2.default.fs.readFileSync(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static/image/avatar.png'));
+                                    type = 'image/png';
+                                } else {
+                                    type = data.type;
+                                    dataBuffer = new Buffer(data.basecode, 'base64');
+                                }
+
+                                ctx.set('Content-type', type);
+                                ctx.body = dataBuffer;
+                                _context12.next = 14;
+                                break;
+
+                            case 11:
+                                _context12.prev = 11;
+                                _context12.t0 = _context12['catch'](0);
+
+                                ctx.body = 'error:' + _context12.t0.message;
+
+                            case 14:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[0, 25]]);
+                }, _callee12, this, [[0, 11]]);
             }));
 
-            function update(_x11) {
+            function avatar(_x13) {
                 return _ref12.apply(this, arguments);
             }
 
-            return update;
+            return avatar;
         }()
 
         /**
@@ -1031,12 +1139,9 @@ var userController = function (_baseController) {
                                     alias: 'upTime'
                                 }];
                                 filteredRes = _commons2.default.filterRes(queryList, rules);
-
-                                console.log(queryList); // eslint-disable-line
-
                                 return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 0, 'ok'));
 
-                            case 12:
+                            case 11:
                             case 'end':
                                 return _context13.stop();
                         }
@@ -1044,7 +1149,7 @@ var userController = function (_baseController) {
                 }, _callee13, this);
             }));
 
-            function search(_x12) {
+            function search(_x14) {
                 return _ref13.apply(this, arguments);
             }
 
@@ -1145,7 +1250,7 @@ var userController = function (_baseController) {
                 }, _callee14, this, [[2, 31]]);
             }));
 
-            function nav(_x13) {
+            function nav(_x15) {
                 return _ref14.apply(this, arguments);
             }
 
