@@ -576,7 +576,7 @@ class projectController extends baseController {
               }, 500);
             });
         }
-        module.exports = run;`;
+        module.exports = run;`
         .trim();
         return ctx.body = res;
     }
