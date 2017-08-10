@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import login from './login.js'
+import user from './user.js'
 import group from './group.js'
 import project from './project.js'
 import Interface from './interface.js'
@@ -9,7 +9,7 @@ import menu from './menu.js'
 
 export default combineReducers({
   group,
-  login,
+  user,
   Interface,
   project,
   news,

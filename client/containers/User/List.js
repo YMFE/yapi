@@ -15,7 +15,7 @@ const limit = 10;
 @connect(
   state => {
     return {
-      curUserRole: state.login.role
+      curUserRole: state.user.role
     }
   }
 )
@@ -41,7 +41,7 @@ class List extends Component {
   getUserList() {
     axios.get('/user/list?page=' + this.state.current).then((res) => {
       let result = res.data;
-      
+
       if (result.errcode === 0) {
         let list = result.data.list;
         let total = result.data.total * limit;
@@ -118,7 +118,7 @@ class List extends Component {
       width:80,
       render: (item) => {
         return (
-          <span>            
+          <span>
             <Link to={"/user/profile/" + item._id} >查看</Link>
             <span className="ant-divider" />
             <Popconfirm title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="确定" cancelText="取消">

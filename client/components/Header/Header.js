@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu, Dropdown, message, Tooltip } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/login'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
@@ -89,10 +89,10 @@ ToolUser.propTypes={
 @connect(
   (state) => {
     return{
-      user: state.login.userName,
-      uid: state.login.uid,
+      user: state.user.userName,
+      uid: state.user.uid,
       msg: null,
-      login:state.login.isLogin
+      login:state.user.isLogin
     }
   },
   {

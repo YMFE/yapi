@@ -7,7 +7,7 @@ import User from './containers/User/User.js';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Loading from './components/Loading/Loading';
-import { checkLoginState } from './reducer/modules/login';
+import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
 const LOADING_STATUS = 0;
@@ -15,7 +15,7 @@ const LOADING_STATUS = 0;
 @connect(
   state => {
     return {
-      loginState: state.login.loginState
+      loginState: state.user.loginState
     };
   },
   {
@@ -34,6 +34,13 @@ export default class App extends Component {
     checkLoginState: PropTypes.func,
     loginState: PropTypes.number
   };
+
+  // componentWillMount() {
+  //   if( !this.props.isAuthenticated ){
+  //     this.props.history.push('/');
+  //     this.props.changeMenuItem('/');
+  //   }
+  // }
 
   componentDidMount() {
     this.props.checkLoginState();
