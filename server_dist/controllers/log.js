@@ -103,7 +103,7 @@ var logController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'typeid不能为空'));
 
                             case 3:
                                 _context.prev = 3;

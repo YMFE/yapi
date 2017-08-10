@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
 import { Button } from 'antd'
 import { getMockUrl } from '../../reducer/modules/news.js'
+import Subnav from '../../components/Subnav/Subnav.js';
 
 @connect(
   state => {
@@ -42,17 +43,33 @@ class News extends Component {
   }
   render () {
     return (
-      <section className="news-box">
-        <div className="logHead">
-          <Breadcrumb />
-          <div className="Mockurl">
-            <span>Mock地址：</span>
-            <p>{this.state.mockURL}</p>
-            <Button type="primary">下载Mock数据</Button>
-          </div>
+      <div>
+        <Subnav
+          default={'动态'}
+          data={[{
+            name: '动态',
+            path: '/news'
+          }, {
+            name: '测试',
+            path: '/follow'
+          }, {
+            name: '设置',
+            path: '/follow'
+          }]}/>
+        <div className="g-row">
+          <section className="news-box">
+            <div className="logHead">
+              <Breadcrumb />
+              <div className="Mockurl">
+                <span>Mock地址：</span>
+                <p>{this.state.mockURL}</p>
+                <Button type="primary">下载Mock数据</Button>
+              </div>
+            </div>
+            <NewsTimeline/>
+          </section>
         </div>
-        <NewsTimeline/>
-      </section>
+      </div>
     )
   }
 }

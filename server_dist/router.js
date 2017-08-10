@@ -40,6 +40,10 @@ var _log = require('./controllers/log.js');
 
 var _log2 = _interopRequireDefault(_log);
 
+var _follow = require('./controllers/follow.js');
+
+var _follow2 = _interopRequireDefault(_follow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _koaRouter2.default)();
@@ -72,6 +76,10 @@ var INTERFACE_CONFIG = {
 	log: {
 		prefix: '/log/',
 		controller: _log2.default
+	},
+	follow: {
+		prefix: '/follow/',
+		controller: _follow2.default
 	},
 	col: {
 		prefix: '/col/',
@@ -220,6 +228,19 @@ var routerConfig = {
 		"action": "list",
 		"path": "list",
 		"method": "get"
+	}],
+	"follow": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
 	}],
 	"col": [{
 		action: "addCol",
