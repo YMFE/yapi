@@ -1192,13 +1192,32 @@ var projectController = function (_baseController) {
                             case 0:
                                 project_id = ctx.request.query.project_id;
                                 interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                // 根据 project_id 获取接口数据
+
                                 _context12.next = 4;
                                 return interfaceInst.list(project_id);
 
                             case 4:
                                 count = _context12.sent;
 
-                                console.log(count);
+                                if (project_id) {
+                                    _context12.next = 9;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
+
+                            case 9:
+                                if (count) {
+                                    _context12.next = 11;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目id不存在'));
+
+                            case 11:
+
+                                console.log('cont', count);
                                 arr = (0, _stringify2.default)(count.map(function (item) {
                                     // 返回的json模板数据: item.res_body
                                     var mockData = _mockjs2.default.mock(_yapi2.default.commons.json_parse(item.res_body));
@@ -1212,14 +1231,14 @@ var projectController = function (_baseController) {
                                 fileName = 'mock.js';
 
                                 ctx.attachment(fileName);
-                                _context12.next = 11;
+                                _context12.next = 17;
                                 return send(ctx, fileName, { root: __dirname + '/public' });
 
-                            case 11:
-                                res = ('\n      var data = ' + arr).trim();
+                            case 17:
+                                res = ('\n      var data = ' + arr + ';\n      module.exports = data;').trim();
                                 return _context12.abrupt('return', ctx.body = res);
 
-                            case 13:
+                            case 19:
                             case 'end':
                                 return _context12.stop();
                         }
