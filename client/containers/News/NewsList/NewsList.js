@@ -20,7 +20,7 @@ const logList = [{
   state => {
     // console.log(state);
     return {
-      uid: state.login.uid + "",
+      uid: state.user.uid + "",
       newsData: state.news.newsData
     }
   },

@@ -6,7 +6,7 @@ import { changeMenuItem } from '../reducer/modules/menu'
 @connect(
   (state) => {
     return{
-      isAuthenticated: state.login.isLogin
+      isAuthenticated: state.user.isLogin
     }
   },
   {
