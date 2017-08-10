@@ -9,7 +9,7 @@ const TabPane = Tabs.TabPane;
 
 @connect(
   state =>({
-    loginWrapActiveKey: state.login.loginWrapActiveKey
+    loginWrapActiveKey: state.user.loginWrapActiveKey
   })
 )
 export default class LoginWrap extends Component {

@@ -155,8 +155,8 @@ var userController = function (_baseController) {
                                     email: result.email,
                                     add_time: result.add_time,
                                     up_time: result.up_time,
-                                    server_ip: _yapi2.default.WEBCONFIG.server_ip
-
+                                    server_ip: _yapi2.default.WEBCONFIG.server_ip,
+                                    type: 'site'
                                 }, 0, 'logout success...'));
 
                             case 19:
@@ -1157,22 +1157,22 @@ var userController = function (_baseController) {
         }()
 
         /**
-         * 根据路由id获取面包屑数据
-         * @interface /user/nav
+         * 根据路由id初始化项目数据
+         * @interface /user/project
          * @method GET
          * @category user
          * @foldnumber 10
          * @param {String} type 可选group|interface|project
          * @param {Number} id   
          * @return {Object}
-         * @example ./api/user/nav.json
+         * @example 
         */
 
     }, {
-        key: 'nav',
+        key: 'project',
         value: function () {
             var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
-                var _ctx$request$query, id, type, result, interfaceInst, interfaceData, projectInst, projectData, groupInst, groupData;
+                var _ctx$request$query, id, type, result, interfaceInst, interfaceData, projectInst, projectData, ownerAuth, devAuth, groupInst, groupData, _ownerAuth, _devAuth;
 
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                     while (1) {
@@ -1183,7 +1183,7 @@ var userController = function (_baseController) {
                                 _context14.prev = 2;
 
                                 if (!(type === 'interface')) {
-                                    _context14.next = 12;
+                                    _context14.next = 11;
                                     break;
                                 }
 
@@ -1194,67 +1194,121 @@ var userController = function (_baseController) {
                             case 7:
                                 interfaceData = _context14.sent;
 
-                                result["interface_id"] = interfaceData._id;
-                                result["interface_name"] = interfaceData.path;
-
+                                result.interface = interfaceData;
                                 type = 'project';
                                 id = interfaceData.project_id;
 
-                            case 12:
+                            case 11:
                                 if (!(type === 'project')) {
-                                    _context14.next = 21;
+                                    _context14.next = 31;
                                     break;
                                 }
 
                                 projectInst = _yapi2.default.getInst(_project2.default);
-                                _context14.next = 16;
+                                _context14.next = 15;
                                 return projectInst.get(id);
 
-                            case 16:
+                            case 15:
                                 projectData = _context14.sent;
 
-                                result["project_id"] = projectData._id;
-                                result["project_name"] = projectData.prd_host + projectData.basepath;
+                                result.project = projectData.toObject();
+                                _context14.next = 19;
+                                return this.checkAuth(id, 'project', 'danger');
+
+                            case 19:
+                                ownerAuth = _context14.sent;
+                                devAuth = void 0;
+
+                                if (!ownerAuth) {
+                                    _context14.next = 25;
+                                    break;
+                                }
+
+                                result.project.role = 'owner';
+                                _context14.next = 29;
+                                break;
+
+                            case 25:
+                                _context14.next = 27;
+                                return this.checkAuth(id, 'project', 'site');
+
+                            case 27:
+                                devAuth = _context14.sent;
+
+                                if (devAuth) {
+                                    result.project.role = 'dev';
+                                } else {
+                                    result.project.role = 'member';
+                                }
+
+                            case 29:
                                 type = 'group';
                                 id = projectData.group_id;
 
-                            case 21:
+                            case 31:
                                 if (!(type === 'group')) {
-                                    _context14.next = 28;
+                                    _context14.next = 49;
                                     break;
                                 }
 
                                 groupInst = _yapi2.default.getInst(_group2.default);
-                                _context14.next = 25;
+                                _context14.next = 35;
                                 return groupInst.get(id);
 
-                            case 25:
+                            case 35:
                                 groupData = _context14.sent;
 
-                                result["group_id"] = groupData._id;
-                                result["group_name"] = groupData.group_name;
+                                result.group = groupData.toObject();
+                                _context14.next = 39;
+                                return this.checkAuth(id, 'group', 'danger');
 
-                            case 28:
+                            case 39:
+                                _ownerAuth = _context14.sent;
+                                _devAuth = void 0;
+
+                                if (!_ownerAuth) {
+                                    _context14.next = 45;
+                                    break;
+                                }
+
+                                result.group.role = 'owner';
+                                _context14.next = 49;
+                                break;
+
+                            case 45:
+                                _context14.next = 47;
+                                return this.checkAuth(id, 'group', 'site');
+
+                            case 47:
+                                _devAuth = _context14.sent;
+
+                                if (_devAuth) {
+                                    result.group.role = 'dev';
+                                } else {
+                                    result.group.role = 'member';
+                                }
+
+                            case 49:
                                 return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
 
-                            case 31:
-                                _context14.prev = 31;
+                            case 52:
+                                _context14.prev = 52;
                                 _context14.t0 = _context14['catch'](2);
                                 return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result, 422, _context14.t0.message));
 
-                            case 34:
+                            case 55:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[2, 31]]);
+                }, _callee14, this, [[2, 52]]);
             }));
 
-            function nav(_x15) {
+            function project(_x15) {
                 return _ref14.apply(this, arguments);
             }
 
-            return nav;
+            return project;
         }()
     }]);
     return userController;

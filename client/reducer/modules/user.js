@@ -1,21 +1,22 @@
 import axios from 'axios';
 
 // Actions
-const LOGIN = 'yapi/login/LOGIN';
-const LOGIN_OUT = 'yapi/login/LOGIN_OUT';
-const LOGIN_TYPE = 'yapi/login/LOGIN_TYPE';
-const GET_LOGIN_STATE = 'yapi/login/GET_LOGIN_STATE';
-const REGISTER = 'yapi/login/REGISTER';
+const LOGIN = 'yapi/user/LOGIN';
+const LOGIN_OUT = 'yapi/user/LOGIN_OUT';
+const LOGIN_TYPE = 'yapi/user/LOGIN_TYPE';
+const GET_LOGIN_STATE = 'yapi/user/GET_LOGIN_STATE';
+const REGISTER = 'yapi/user/REGISTER';
 
 // Reducer
 const LOADING_STATUS = 0;
 const GUEST_STATUS = 1;
 const MEMBER_STATUS = 2;
-
+// Reducer user
 const initialState = {
   isLogin: false,
   userName: null,
   uid: null,
+  email: '',
   loginState: LOADING_STATUS,
   loginWrapActiveKey: "1"
 };

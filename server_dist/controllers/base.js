@@ -66,22 +66,23 @@ var baseController = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 this.$user = null;
+                                console.log(111111);
                                 ignoreRouter = ['/user/login_by_token', '/user/login', '/user/reg', '/user/status', '/user/logout'];
 
                                 if (!(ignoreRouter.indexOf(ctx.path) > -1)) {
-                                    _context.next = 6;
+                                    _context.next = 7;
                                     break;
                                 }
 
                                 this.$auth = true;
-                                _context.next = 8;
+                                _context.next = 9;
                                 break;
 
-                            case 6:
-                                _context.next = 8;
+                            case 7:
+                                _context.next = 9;
                                 return this.checkLogin(ctx);
 
-                            case 8:
+                            case 9:
                             case 'end':
                                 return _context.stop();
                         }
@@ -162,6 +163,11 @@ var baseController = function () {
 
             return checkLogin;
         }()
+        /**
+         * 
+         * @param {*} ctx 
+         */
+
     }, {
         key: 'getLoginStatus',
         value: function () {
@@ -182,7 +188,7 @@ var baseController = function () {
                                     break;
                                 }
 
-                                result = _yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role']);
+                                result = _yapi2.default.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type']);
 
                                 result.server_ip = _yapi2.default.WEBCONFIG.server_ip;
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
