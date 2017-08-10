@@ -525,39 +525,60 @@ class projectController extends baseController {
      * @param {String} project_id
     */
     async download(ctx) {
-      const project_id = ctx.request.query.project_id;
-      let interfaceInst = yapi.getInst(interfaceModel);
-      // 根据 project_id 获取接口数据
-      let count = await interfaceInst.list(project_id);
+        const project_id = ctx.request.query.project_id;
+        let interfaceInst = yapi.getInst(interfaceModel);
+        // 根据 project_id 获取接口数据
+        let count = await interfaceInst.list(project_id);
 
-      if (!project_id) {
-          return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
-      } else if (!count) {
-          return ctx.body = yapi.commons.resReturn(null, 401, '项目id不存在');
-      }
+        if (!project_id) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+        } else if (!count) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '项目id不存在');
+        }
 
-      console.log('cont',count);
-      const arr = JSON.stringify(count.map(function(item) {
-          // 返回的json模板数据: item.res_body
-          const mockData = Mock.mock(
-              yapi.commons.json_parse(item.res_body)
-          );
-          return {
-              path: item.path,
-              mock: mockData
-          }
-      }));
-      //   console.log(arr);
+        const arr = JSON.stringify(count.map(function(item) {
+            // 返回的json模板数据: item.res_body
+            const mockData = Mock.mock(
+                yapi.commons.json_parse(item.res_body)
+            );
+            return {
+                path: item.path,
+                mock: mockData
+            }
+        }));
 
-      const fileName = 'mock.js';
-      ctx.attachment(fileName);
-      await send(ctx, fileName, { root: __dirname + '/public' });
+        const fileName = 'mock.js';
+        ctx.attachment(fileName);
+        await send(ctx, fileName, { root: __dirname + '/public' });
 
-      const res = `
-      var data = ${arr};
-      module.exports = data;`
-      .trim();
-      return ctx.body = res;
+        const res = `
+        var Mock = require('mockjs');
+        var xhook = require('xhook');
+        var data = ${arr};
+        function run() {
+            xhook.before(function(request, callback) {
+                setTimeout(function() {
+                    var res;
+                    data.forEach((item) => {
+                        // 请求的接口在 data 中存在
+                         if(request.url === item.path) {
+                            res = {
+                                status: 200,
+                                text: Mock.mock(item.mock)
+                            }
+                        }
+                    });
+                    if (res) {
+                        callback(res);
+                    }else {
+                        callback({ status: 405, text: '接口不存在' });
+                    }
+              }, 500);
+            });
+        }
+        module.exports = run;`;
+        .trim();
+        return ctx.body = res;
     }
 }
 
