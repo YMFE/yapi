@@ -59,10 +59,10 @@ var logController = function (_baseController) {
         try {
             // var res = this.Model.save({
             //     uid: 107,
-            //     groupid: 21,
+            //     typeid: 21,
             //     type: 'project',
-            //     username: 'xiaomingg',
-            //     content: '小明修改了 <b>小明</b> 的项目',
+            //     username: '小明明宝宝',
+            //     content: '小明应该修改了的项目宝宝',
             //     time: yapi.commons.time()
             // });
             // var res = this.Model.del(107);
@@ -91,14 +91,14 @@ var logController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var groupid, page, limit, result, count;
+                var typeid, page, limit, result, count;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                groupid = ctx.request.query.groupid, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
+                                typeid = ctx.request.query.typeid, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
 
-                                if (groupid) {
+                                if (typeid) {
                                     _context.next = 3;
                                     break;
                                 }
@@ -108,12 +108,12 @@ var logController = function (_baseController) {
                             case 3:
                                 _context.prev = 3;
                                 _context.next = 6;
-                                return this.Model.listWithPaging(groupid, page, limit);
+                                return this.Model.listWithPaging(typeid, page, limit);
 
                             case 6:
                                 result = _context.sent;
                                 _context.next = 9;
-                                return this.Model.listCount(groupid);
+                                return this.Model.listCount(typeid);
 
                             case 9:
                                 count = _context.sent;
