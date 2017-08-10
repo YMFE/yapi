@@ -22,7 +22,8 @@ class userModel extends baseModel {
             passsalt: String,
             role: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            type: {type: String, enum: ['site', 'third'], default: "site"} //site用户是网站注册用户, third是第三方登录过来的用户
         };
     }
 

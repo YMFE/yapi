@@ -7,6 +7,7 @@ import common from '../utils/commons.js';
 import interfaceModel from '../models/interface.js'
 import groupModel from '../models/group.js'
 import projectModel from '../models/project.js'
+import avatarModel from '../models/avatar.js'
 
 const jwt = require('jsonwebtoken');
 
@@ -141,12 +142,13 @@ class userController extends baseController {
                     passsalt: passsalt,
                     role: 'member',
                     add_time: yapi.commons.time(),
-                    up_time: yapi.commons.time()
+                    up_time: yapi.commons.time(),
+                    type: 'third'
                 };
                 user = await userInst.save(data);
                 yapi.commons.sendMail({
                     to: email,
-                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi,系统检测您是第一次用Qsso账号登录YApi服务,您的Email是： ${email} ，初始化密码为：${passsalt}</p>`
+                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台.</p>`
                 });
             }
 
@@ -210,10 +212,6 @@ class userController extends baseController {
         }
     }
 
-    async forgetPassword() { }
-
-    async resetPassword() { }
-
     setLoginCookie(uid, passsalt) {
         let token = jwt.sign({ uid: uid }, passsalt, { expiresIn: '7 days' });
 
@@ -271,7 +269,8 @@ class userController extends baseController {
             passsalt: passsalt,
             role: 'member',
             add_time: yapi.commons.time(),
-            up_time: yapi.commons.time()
+            up_time: yapi.commons.time(),
+            type: "site"
         };
 
         if (!data.username) {
@@ -433,10 +432,6 @@ class userController extends baseController {
                 up_time: yapi.commons.time()
             };
 
-            if (this.getRole() === 'admin') {
-                params.role && (data.role = params.role);
-            }
-
             params.username && (data.username = params.username);
             params.email && (data.email = params.email);
 
@@ -452,6 +447,65 @@ class userController extends baseController {
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    /**
+     * 
+     * @param {*} basecode  base64编码，通过h5 api传给后端
+     */
+
+    async uploadAvatar(ctx) {
+        try {
+            let basecode = ctx.request.body.basecode;
+            if(!basecode){
+                return ctx.body = yapi.commons.resReturn(null, 400, 'basecode不能为空')
+            }
+            let pngPrefix = 'data:image/png;base64,';
+            let jpegPrefix = 'data:image/jpeg;base64,';
+            let type;
+            if(basecode.substr(0, pngPrefix.length ) === pngPrefix){                
+                basecode = basecode.substr(pngPrefix.length);
+                type = 'image/png';
+            }else if(basecode.substr(0, jpegPrefix.length ) === jpegPrefix){
+                basecode = basecode.substr(jpegPrefix.length);
+                type = 'image/jpeg';
+            }else{
+                return ctx.body = yapi.commons.resReturn(null, 400, '仅支持jpeg和png格式的图片')
+            }            
+            let strLength = basecode.length;
+            if(parseInt(strLength-(strLength/8)*2) > 200000){
+                return ctx.body = yapi.commons.resReturn(null, 400, '图片大小不能超过200kb');
+            }
+
+            let avatarInst = yapi.getInst(avatarModel);
+                let result = await avatarInst.up(this.getUid(), basecode, type)
+                ctx.body = yapi.commons.resReturn(result);
+            
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 401, e.message);
+        }
+
+    }
+
+    async avatar(ctx) {   
+        
+        try{
+            let avatarInst = yapi.getInst(avatarModel);
+            let data = await avatarInst.get(this.getUid());
+            let dataBuffer, type;
+            if(!data || !data.basecode){
+                dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/image/avatar.png'));
+                type = 'image/png'
+            }else{
+                type = data.type;
+                dataBuffer = new Buffer(data.basecode, 'base64');                
+            }
+
+            ctx.set('Content-type', type);
+            ctx.body = dataBuffer;
+        }catch(err){
+            ctx.body = 'error:' + err.message
         }
     }
 
@@ -496,7 +550,6 @@ class userController extends baseController {
         ];
 
         let filteredRes = common.filterRes(queryList, rules);
-        console.log(queryList); // eslint-disable-line
 
         return ctx.body = yapi.commons.resReturn(filteredRes, 0, 'ok');
     }
@@ -521,7 +574,7 @@ class userController extends baseController {
                 let interfaceData = await interfaceInst.get(id)
                 result["interface_id"] = interfaceData._id;
                 result["interface_name"] = interfaceData.path;
-                
+
                 type = 'project';
                 id = interfaceData.project_id;
             }
