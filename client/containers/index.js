@@ -1,21 +1,25 @@
 import Header from '../components/Header/Header.js'
 import Home from './Home/Home.js'
 import Login from './Login/LoginWrap.js'
-import ProjectGroups from './ProjectGroups/ProjectGroups.js'
+import Group from './Group/Group.js'
 import Interface from './Interface/Interface.js'
+import Project from './Project/Project.js'
 import News from './News/News.js'
 import AddInterface from './AddInterface/AddInterface.js'
 import DevTools from './DevTools/DevTools.js'
 import Follows from './Follows/Follows.js'
+import AddProject from './Project/AddProject/AddProject.js'
 
 export {
   Header,
   Home,
   Login,
-  ProjectGroups,
+  Group,
   Interface,
+  Project,
   AddInterface,
   News,
   DevTools,
-  Follows
+  Follows,
+  AddProject
 }

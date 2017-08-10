@@ -117,7 +117,6 @@ var interfaceModel = function (_baseModel) {
     }, {
         key: 'list',
         value: function list(project_id) {
-            console.log(project_id);
             return this.model.find({
                 project_id: project_id
             }).sort({ _id: -1 }).exec();
