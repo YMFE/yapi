@@ -6,6 +6,7 @@ const LOGIN_OUT = 'yapi/login/LOGIN_OUT';
 const LOGIN_TYPE = 'yapi/login/LOGIN_TYPE';
 const GET_LOGIN_STATE = 'yapi/login/GET_LOGIN_STATE';
 const REGISTER = 'yapi/login/REGISTER';
+const GET_AVATAR = 'yapi/login/AVATAR';
 
 // Reducer
 const LOADING_STATUS = 0;
@@ -72,6 +73,11 @@ export default (state = initialState, action) => {
         userName: action.payload.data.data.username
       };
     }
+    case GET_AVATAR: {
+      return {
+        ...state
+      }
+    }
     default:
       return state;
   }
@@ -122,5 +128,12 @@ export function loginTypeAction(index) {
   return{
     type: LOGIN_TYPE,
     index
+  }
+}
+
+export function getAvatar(){
+  return {
+    type: GET_AVATAR,
+    payload: axios.get("/user/avatar")
   }
 }
