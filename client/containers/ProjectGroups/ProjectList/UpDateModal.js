@@ -187,13 +187,14 @@ class UpDateModal extends Component {
                 rules: [{
                   required: false,
                   whitespace: true,
-                  message: "请输入环境名称",
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
                         callback('请输入环境域名');
                       } else if (!/\S/.test(value)) {
                         callback('请输入环境域名');
+                      } else if (/prd/.test(value)) {
+                        callback('环境域名不能是"prd"');
                       } else {
                         return callback();
                       }
@@ -319,7 +320,7 @@ class UpDateModal extends Component {
             label={(
               <span>
                 基本路径&nbsp;
-                <Tooltip title="基本路径为空是根路径">
+                <Tooltip title="基本路径为空表示根路径">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>

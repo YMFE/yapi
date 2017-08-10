@@ -7,6 +7,7 @@ import interfaceColController from './controllers/interfaceCol.js'
 import yapi from './yapi.js';
 import projectController from './controllers/project.js';
 import logController from './controllers/log.js';
+import followController from './controllers/follow.js';
 
 const router = koaRouter();
 
@@ -39,6 +40,10 @@ const INTERFACE_CONFIG = {
         prefix: '/log/',
         controller: logController
 	},
+	follow: {
+        prefix: '/follow/',
+        controller: followController
+	},
 	col: {
 		prefix: '/col/',
 		controller: interfaceColController
@@ -47,99 +52,99 @@ const INTERFACE_CONFIG = {
 
 const routerConfig = {
 	"group": [
-		{			
+		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "add",
 			"path": "add",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "up",
 			"path": "up",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "del",
 			"path": "del",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "addMember",
 			"path": "add_member",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "delMember",
 			"path": "del_member",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "getMemberList",
 			"path": "members",
 			"method": "get"
 		}
 	],
 	"user": [
-		{			
+		{
 			"action": "login",
 			"path": "login",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "reg",
 			"path": "reg",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "findById",
 			"path": "find",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "update",
 			"path": "update",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "del",
 			"path": "del",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "getLoginStatus",
 			"path": "status",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "logout",
 			"path": "logout",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "loginByToken",
 			"path": "login_by_token",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "changePassword",
 			"path": "change_password",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "search",
 			"path": "search",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "nav",
 			"path": "nav",
 			"method": "get"
@@ -154,69 +159,74 @@ const routerConfig = {
 		}
 	],
 	"project": [
-		{			
+		{
 			"action": "add",
 			"path": "add",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "get",
 			"path": "get",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "up",
 			"path": "up",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "del",
 			"path": "del",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "addMember",
 			"path": "add_member",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "delMember",
 			"path": "del_member",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "getMemberList",
 			"path": "get_member_list",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "search",
 			"path": "search",
+			"method": "get"
+		},
+		{			
+			"action": "download",
+			"path": "download",
 			"method": "get"
 		}
 	],
 	"interface": [
-		{			
+		{
 			"action": "add",
 			"path": "add",
 			"method": "post"
 		},
-		{			
+		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "get",
 			"path": "get",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "up",
 			"path": "up",
 			"method": "post"
@@ -234,6 +244,19 @@ const routerConfig = {
 			"method": "get"
 		}
 	],
+	"follow": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	},{
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	},{
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}],
 	"col": [{
 		action: "addCol",
 		path: "add_col",
@@ -279,7 +302,7 @@ for(let ctrl in routerConfig){
     actions.forEach( (item) => {
         createAction(ctrl, item.action, item.path, item.method);
     } )
-}  
+}
 
 /**
  *

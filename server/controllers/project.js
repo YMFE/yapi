@@ -5,6 +5,8 @@ import interfaceModel from '../models/interface.js';
 import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
+import Mock from 'mockjs';
+const send = require('koa-send');
 
 class projectController extends baseController {
 
@@ -77,7 +79,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
 
-  
+
         if (!params.prd_host) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
@@ -98,7 +100,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
 
-        
+
 
         let data = {
             name: params.name,
@@ -512,6 +514,41 @@ class projectController extends baseController {
         };
 
         return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok');
+    }
+
+    /**
+     * 下载项目的 Mock 数据
+     * @interface /project/download
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {String} project_id
+    */
+    async download(ctx) {
+      const project_id = ctx.request.query.project_id;
+      let interfaceInst = yapi.getInst(interfaceModel);
+      let count = await interfaceInst.list(project_id);
+      console.log(count);
+      const arr = JSON.stringify(count.map(function(item) {
+        // 返回的json模板数据: item.res_body
+        const mockData = Mock.mock(
+            yapi.commons.json_parse(item.res_body)
+        );
+        return {
+            path: item.path,
+            mock: mockData
+        }
+    }));
+    //   console.log(arr);
+
+      const fileName = 'mock.js';
+      ctx.attachment(fileName);
+      await send(ctx, fileName, { root: __dirname + '/public' });
+
+      const res = `
+      var data = ${arr}`
+      .trim();
+      return ctx.body = res;
     }
 }
 

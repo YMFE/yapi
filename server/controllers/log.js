@@ -45,7 +45,7 @@ class logController extends baseController {
             limit = ctx.request.query.limit || 10;
 
         if (!typeid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+            return ctx.body = yapi.commons.resReturn(null, 400, 'typeid不能为空');
         }
 
         try {
