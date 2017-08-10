@@ -78,7 +78,7 @@ var followController = function (_baseController) {
      * @param {Number} [page] 分页页码
      * @param {Number} [limit] 分页大小
      * @returns {Object}
-     * @example ./api/project/list.json
+     * @example ./api/follow/list.json
      */
 
     (0, _createClass3.default)(followController, [{
