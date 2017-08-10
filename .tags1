@@ -4,9 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  constructor(props) {$/;"	function	line:24
-@connect.state.data	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^    this.state = {$/;"	property	line:26
-static.curUserRole	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  static propTypes = {$/;"	property	line:32
-getUserList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  getUserList() {$/;"	function	line:41
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  componentDidMount() {$/;"	function	line:60
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  render() {$/;"	function	line:85
+from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:8
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:15
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:19
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:22
