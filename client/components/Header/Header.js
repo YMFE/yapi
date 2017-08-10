@@ -69,7 +69,7 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-          <img style={{width:24,height:24}} src="/user/avatar" /><span className="name">{props.user}</span>
+          <img style={{width:24,height:24}} src={`/user/avatar?uid=${props.uid}`} /><span className="name">{props.user}</span>
         </a>
       </Dropdown>
     </li>
@@ -89,6 +89,7 @@ ToolUser.propTypes={
 @connect(
   (state) => {
     return{
+      avatar: state.login.avatar,
       user: state.login.userName,
       uid: state.login.uid,
       msg: null,
@@ -163,6 +164,9 @@ export default class HeaderCom extends Component {
       console.log(err);
     })
   }
+
+
+
   render () {
     const { login, user, msg, uid } = this.props;
     return (

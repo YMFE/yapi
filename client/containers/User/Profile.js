@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Row, Col, Input, Button, Select, message } from 'antd'
+import { Row, Col, Input, Button, Select, message, Upload, Icon } from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
-
 
 class Profile extends Component {
 
@@ -191,6 +190,7 @@ class Profile extends Component {
 
     return <div className="user-profile">
       <Row className="user-item" type="flex" justify="start">
+        <Col span={24}><Avatar uid={userinfo.uid}>点击上传头像</Avatar></Col>
         <Col span={4}>用户id</Col>
         <Col span={12}>
           {userinfo.uid}
@@ -236,5 +236,77 @@ class Profile extends Component {
     </div>
   }
 }
+
+
+
+class Avatar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl:""
+    }
+  }
+  static propTypes = {
+    uid: PropTypes.number
+  }
+  uploadAvatar(basecode){
+    axios.post("/user/upload_avatar",{basecode: basecode}).then(()=>{
+      this.setState({ imageUrl: basecode })
+    }).catch((e)=>{
+      console.log(e);
+    })
+  }
+  handleChange(info){
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, basecode=>{this.uploadAvatar(basecode)});
+    }
+  }
+
+  render() {
+    let imageUrl = "";
+    if(this.props.uid && !this.state.imageUrl){
+      imageUrl = `/user/avatar?uid=${this.props.uid}`;
+    }else{
+      imageUrl = this.state.imageUrl;
+    }
+    return <div className="avatar-box">
+      <Upload 
+        className="avatar-uploader"
+        name="basecode"
+        showUploadList={true}
+        action="/user/upload_avatar"
+        beforeUpload={beforeUpload}
+        onChange={this.handleChange.bind(this)} >
+        {
+          imageUrl ?
+            <img src={imageUrl} alt="" className="avatar" /> :
+            <Icon type="plus" className="avatar-uploader-trigger" />
+        }
+      </Upload>
+    </div>
+  }
+}
+
+function beforeUpload(file) {
+  const isJPG = file.type === 'image/jpeg';
+  const isPNG = file.type === 'image/png';
+  if (!isJPG && !isPNG) {
+    message.error('图片的格式只能为 jpg、png！');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('图片必须小于 200kb!');
+  }
+  
+  return (isPNG||isJPG) && isLt2M;
+}
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 
 export default Profile
