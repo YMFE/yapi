@@ -143,6 +143,14 @@ const routerConfig = {
 			"action": "nav",
 			"path": "nav",
 			"method": "get"
+		},{
+			"action": "avatar",
+			"path": "avatar",
+			"method": "get"
+		},{
+			action: "uploadAvatar",
+			path: "upload_avatar",
+			method: "post"
 		}
 	],
 	"project": [
