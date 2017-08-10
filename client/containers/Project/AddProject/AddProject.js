@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Form, Input, Icon, Tooltip, Select, message } from 'antd';
+import { Button, Form, Input, Icon, Tooltip, Select, message, Row, Col, Radio } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../reducer/modules/project';
 // import { Link } from 'react-router-dom'
 // import variable from '../../../constants/variable';
@@ -10,35 +10,21 @@ import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 import './Addproject.scss'
-
-// 确认删除项目 handleDelete, currGroup._id, fetchProjectList
-// const deleteConfirm = (id, props) => {
-//   const { delProject, currGroup, fetchProjectList } = props;
-//   const handle = () => {
-//     delProject(id).then((res) => {
-//       if (res.payload.data.errcode == 0) {
-//         message.success('删除成功!')
-//         fetchProjectList(currGroup._id).then(() => {
-//         });
-//       } else {
-//         message.error(res.payload.data.errmsg);
-//       }
-//     });
-//   }
-//   return handle;
-// };
-
 
 const formItemLayout = {
   labelCol: {
+    lg: { span: 3 },
     xs: { span: 24 },
     sm: { span: 6 }
   },
   wrapperCol: {
+    lg: { span: 21 },
     xs: { span: 24 },
     sm: { span: 14 }
-  }
+  },
+  className: 'form-item'
 };
 
 @connect(
@@ -84,14 +70,6 @@ class ProjectList extends Component {
     currPage: PropTypes.number
   }
 
-  // 显示模态框 - 创建项目
-  @autobind
-  showAddProjectModal() {
-    this.setState({
-      visible: true
-    });
-  }
-
   // 确认添加项目
   @autobind
   handleOk(e) {
@@ -99,6 +77,7 @@ class ProjectList extends Component {
     const that = this;
     e.preventDefault();
     form.validateFields((err, values) => {
+      // console.log(values);
       if (!err) {
         values.protocol = this.state.protocol.split(':')[0];
         // 获取当前分组id传入values
@@ -127,15 +106,6 @@ class ProjectList extends Component {
     });
   }
 
-  // 取消修改
-  @autobind
-  handleCancel() {
-    this.props.form.resetFields();
-    this.setState({
-      visible: false
-    });
-  }
-
   // 修改线上域名的协议类型 (http/https)
   @autobind
   protocolChange(value) {
@@ -144,35 +114,7 @@ class ProjectList extends Component {
     })
   }
 
-  // 分页逻辑
-  @autobind
-  paginationChange(pageNum) {
-    this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
-      if (res.payload.data.errcode) {
-        message.error(res.payload.data.errmsg);
-      } else {
-        this.props.changeTableLoading(false);
-      }
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    // 切换分组
-    if (this.props.currGroup !== nextProps.currGroup) {
-      if (nextProps.currGroup._id) {
-        this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
-          if (res.payload.data.errcode) {
-            message.error(res.payload.data.errmsg);
-          } else {
-            this.props.changeTableLoading(false);
-          }
-        });
-      } else {
-        // 无分组的时候停止loading状态
-        this.props.changeTableLoading(false);
-      }
-    }
-
     // 切换项目列表
     if (this.props.projectList !== nextProps.projectList) {
       // console.log(nextProps.projectList);
@@ -204,6 +146,24 @@ class ProjectList extends Component {
               <Input />
             )}
           </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="所属分组"
+          >
+            {getFieldDecorator('group_id', {
+              rules: [{
+                required: true, message: '请选择项目所属的分组!'
+              }]
+            })(
+              <Select>
+                <Option value="china">China</Option>
+                <Option value="use">U.S.A</Option>
+              </Select>
+            )}
+          </FormItem>
+
+          <hr className="breakline" />
 
           <FormItem
             {...formItemLayout}
@@ -262,10 +222,36 @@ class ProjectList extends Component {
               <TextArea rows={4} />
             )}
           </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="权限"
+          >
+            {getFieldDecorator('radio-group', {
+              rules: [{
+                required: true
+              }],
+              initialValue: 1
+            })(
+              <RadioGroup>
+                <Radio value={1} className="radio">
+                  <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
+                </Radio>
+                <br />
+                <Radio value={2} className="radio">
+                  <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
+                </Radio>
+              </RadioGroup>
+            )}
+          </FormItem>
         </Form>
-        <Button className="m-btn" icon="plus" type="primary"
-          onClick={this.showAddProjectModal}
-          disabled={this.props.currGroup._id ? false : true}>创建项目</Button>
+        <Row>
+          <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
+            <Button className="m-btn" icon="plus" type="primary"
+              onClick={this.handleOk}
+              >创建项目</Button>
+          </Col>
+        </Row>
       </div>
     );
   }
