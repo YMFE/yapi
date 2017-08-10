@@ -145,8 +145,8 @@ const routerConfig = {
 			"method": "get"
 		},
 		{
-			"action": "nav",
-			"path": "nav",
+			"action": "project",
+			"path": "project",
 			"method": "get"
 		},{
 			"action": "avatar",

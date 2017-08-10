@@ -127,7 +127,7 @@ HomeGuest.propTypes ={
 
 @connect(
   state => ({
-    login: state.login.isLogin
+    login: state.user.isLogin
   }),
   {
     changeMenuItem
