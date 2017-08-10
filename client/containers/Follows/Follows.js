@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import './Follows.scss';
 import Subnav from '../../components/Subnav/Subnav.js';
-console.log('js in');
 
 class Follows extends Component {
   render () {
-    console.log('render');
     return (
       <div>
         <Subnav

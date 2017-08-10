@@ -28,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
-        var hostname, config, projectInst, projects, matchProject, maxBasepath, i, l, _project, project, interfaceData, interfaceInst;
+        var hostname, config, projectInst, projects, matchProject, maxBasepath, i, l, _project, project, interfaceData, interfaceInst, res;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
@@ -138,15 +138,16 @@ module.exports = function () {
                         ctx.set("Access-Control-Allow-Origin", "*");
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 47;
+                            _context.next = 48;
                             break;
                         }
 
                         _context.prev = 40;
-                        return _context.abrupt('return', ctx.body = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body)));
+                        res = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body));
+                        return _context.abrupt('return', ctx.body = res);
 
-                    case 44:
-                        _context.prev = 44;
+                    case 45:
+                        _context.prev = 45;
                         _context.t1 = _context['catch'](40);
                         return _context.abrupt('return', ctx.body = {
                             errcode: 400,
@@ -154,20 +155,20 @@ module.exports = function () {
                             data: interfaceData.res_body
                         });
 
-                    case 47:
+                    case 48:
                         return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
-                    case 50:
-                        _context.prev = 50;
+                    case 51:
+                        _context.prev = 51;
                         _context.t2 = _context['catch'](25);
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t2.message));
 
-                    case 53:
+                    case 54:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[10, 16], [25, 50], [40, 44]]);
+        }, _callee, undefined, [[10, 16], [25, 51], [40, 45]]);
     }));
 
     return function (_x, _x2) {

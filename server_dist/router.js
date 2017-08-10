@@ -194,6 +194,10 @@ var routerConfig = {
 		"action": "search",
 		"path": "search",
 		"method": "get"
+	}, {
+		"action": "download",
+		"path": "download",
+		"method": "get"
 	}],
 	"interface": [{
 		"action": "add",

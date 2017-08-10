@@ -1,5 +1,9 @@
 'use strict';
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -56,7 +60,13 @@ var _user = require('../models/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _mockjs = require('mockjs');
+
+var _mockjs2 = _interopRequireDefault(_mockjs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var send = require('koa-send');
 
 var projectController = function (_baseController) {
     (0, _inherits3.default)(projectController, _baseController);
@@ -1160,6 +1170,68 @@ var projectController = function (_baseController) {
             }
 
             return search;
+        }()
+
+        /**
+         * 下载项目的 Mock 数据
+         * @interface /project/download
+         * @method GET
+         * @category project
+         * @foldnumber 10
+         * @param {String} project_id
+        */
+
+    }, {
+        key: 'download',
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+                var project_id, interfaceInst, count, arr, fileName, res;
+                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    while (1) {
+                        switch (_context12.prev = _context12.next) {
+                            case 0:
+                                project_id = ctx.request.query.project_id;
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                _context12.next = 4;
+                                return interfaceInst.list(project_id);
+
+                            case 4:
+                                count = _context12.sent;
+
+                                console.log(count);
+                                arr = (0, _stringify2.default)(count.map(function (item) {
+                                    // 返回的json模板数据: item.res_body
+                                    var mockData = _mockjs2.default.mock(_yapi2.default.commons.json_parse(item.res_body));
+                                    return {
+                                        path: item.path,
+                                        mock: mockData
+                                    };
+                                }));
+                                //   console.log(arr);
+
+                                fileName = 'mock.js';
+
+                                ctx.attachment(fileName);
+                                _context12.next = 11;
+                                return send(ctx, fileName, { root: __dirname + '/public' });
+
+                            case 11:
+                                res = ('\n      var data = ' + arr).trim();
+                                return _context12.abrupt('return', ctx.body = res);
+
+                            case 13:
+                            case 'end':
+                                return _context12.stop();
+                        }
+                    }
+                }, _callee12, this);
+            }));
+
+            function download(_x13) {
+                return _ref12.apply(this, arguments);
+            }
+
+            return download;
         }()
     }]);
     return projectController;
