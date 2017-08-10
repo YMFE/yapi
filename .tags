@@ -254,11 +254,6 @@ static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroup
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/UpDateModal.js	/^  render() {$/;"	function	line:152
 validator	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/UpDateModal.js	/^                  validator(rule, value, callback) {$/;"	function	line:191
 validator	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/ProjectList/UpDateModal.js	/^                  validator(rule, value, callback) {$/;"	function	line:224
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:27
-state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:29
-static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:34
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:39
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:72
 createStore	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/create.js	/^export default function createStore(initialState = {}) {$/;"	function	line:8
 module.exports.parser	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^module.exports = {$/;"	property	line:1
 module.exports.extends	/Users/qitmac000445/Desktop/YAPI/yapi/client/.eslintrc.js	/^    parser: 'babel-eslint',$/;"	property	line:2
@@ -411,3 +406,14 @@ inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Projec
 selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:151
 searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:175
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:185
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  constructor(props) {$/;"	function	line:10
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  render () {$/;"	function	line:14
+from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:6
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:13
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:17
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:20
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:26
+state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:28
+static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:33
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:38
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:71
