@@ -74,7 +74,6 @@ class interfaceModel extends baseModel {
     }
 
     list(project_id) {
-        console.log(project_id);
         return this.model.find({
             project_id: project_id
         })
