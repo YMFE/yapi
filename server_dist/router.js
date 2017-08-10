@@ -226,13 +226,41 @@ var routerConfig = {
 		"method": "get"
 	}],
 	"col": [{
-		action: "add",
-		path: "add",
+		action: "addCol",
+		path: "add_col",
 		method: "post"
 	}, {
 		action: "list",
 		path: "list",
 		method: "get"
+	}, {
+		action: "getCaseList",
+		path: "case_list",
+		method: "get"
+	}, {
+		action: "addCase",
+		path: "add_case",
+		method: "post"
+	}, {
+		action: "getCase",
+		path: "case",
+		method: "get"
+	}, {
+		action: "upCol",
+		path: "up_col",
+		method: "post"
+	}, {
+		action: "upCaseIndex",
+		path: "up_col_index",
+		method: "post"
+	}, {
+		action: "delCol",
+		path: "del_col",
+		method: "post"
+	}, {
+		action: "delCase",
+		path: "del_case",
+		method: "post"
 	}]
 };
 
@@ -282,7 +310,7 @@ function createAction(controller, action, path, method) {
 							break;
 
 						case 8:
-							ctx.body = _yapi2.default.commons.resReturn(null, 400, 'Without Permission.');
+							ctx.body = _yapi2.default.commons.resReturn(null, 40011, '请登录.');
 
 						case 9:
 						case 'end':

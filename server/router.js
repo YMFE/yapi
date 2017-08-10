@@ -232,14 +232,43 @@ const routerConfig = {
 		}
 	],
 	"col": [{
-		action: "add",
-		path: "add",
+		action: "addCol",
+		path: "add_col",
 		method: "post"
 	}, {
 		action: "list",
 		path: "list",
 		method: "get"
-	}]
+	},{
+		action: "getCaseList",
+		path: "case_list",
+		method: "get"
+	},{
+		action: "addCase",
+		path: "add_case",
+		method: "post"
+	},{
+		action: "getCase",
+		path: "case",
+		method: "get"
+	},{
+		action: "upCol",
+		path: "up_col",
+		method: "post"
+	},{
+		action: "upCaseIndex",
+		path: "up_col_index",
+		method: "post"
+	},{
+		action: "delCol",
+		path: "del_col",
+		method: "post"
+	},{
+		action: "delCase",
+		path: "del_case",
+		method: "post"
+	}
+	]
 }
 
 for(let ctrl in routerConfig){
@@ -265,7 +294,7 @@ function createAction(controller, action, path, method) {
         if (inst.$auth === true) {
             await inst[action].call(inst, ctx);
         } else {
-            ctx.body = yapi.commons.resReturn(null, 400, 'Without Permission.');
+            ctx.body = yapi.commons.resReturn(null, 40011, '请登录.');
         }
     });
 }
