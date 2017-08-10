@@ -1,6 +1,6 @@
 import yapi from '../yapi.js';
 import baseModel from './base.js';
-import userModel from '../models/user.js';
+// import userModel from '../models/user.js';
 
 class logModel extends baseModel {
     getName() {
@@ -10,8 +10,8 @@ class logModel extends baseModel {
     getSchema() {
         return {
             uid: { type: Number, required: true },
-            title: { type: String, required: true },
-            type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other'], required: true },
+            typeid: { type: Number, required: true },
+            type: { type: String,enum:['user', 'group', 'interface','project', 'other', 'interface_col'], required: true },
             content: { type: String, required: true },
             username: { type: String, required: true },
             add_time: Number
@@ -19,49 +19,50 @@ class logModel extends baseModel {
     }
 
     /**
-     * @param {String} title log标题
      * @param {String} content log内容
      * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
      * @param {Number} uid 用户id
      */
-    async save(data) {
-        let userInst = yapi.getInst(userModel);
-        let username = await userInst.findById(data.uid);
+    save(data) {
         let saveData = {
-            title: data.title,
             content: data.content,
             type: data.type,
             uid: data.uid,
-            username: username,
+            username: data.username,
+            typeid: data.typeid,
             add_time: yapi.commons.time()
         };
         let log = new this.model(saveData);
 
         return log.save();
     }
+    
+    del(id) {
+        return this.model.deleteOne({
+            _id: id
+        });
+    }
 
-    list(uid) {
+    list(typeid) {
         return this.model.find({
-            uid: uid
+            typeid: typeid
         })
             .exec();
     }
+    
 
-    listWithPaging(uid, page, limit) {
+    listWithPaging(typeid, page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
 
         return this.model.find({
-            uid: uid
-        })
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .exec();
+            typeid: typeid
+        }).skip((page - 1) * limit).limit(limit).exec();
     }
 
-    listCount(uid) {
+    listCount(typeid) {
         return this.model.count({
-            uid: uid
+            typeid: typeid
         });
     }
 }

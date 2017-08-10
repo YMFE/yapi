@@ -20,64 +20,55 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import userModel from '../models/user.js';
+var followModel = function (_baseModel) {
+    (0, _inherits3.default)(followModel, _baseModel);
 
-var logModel = function (_baseModel) {
-    (0, _inherits3.default)(logModel, _baseModel);
-
-    function logModel() {
-        (0, _classCallCheck3.default)(this, logModel);
-        return (0, _possibleConstructorReturn3.default)(this, (logModel.__proto__ || (0, _getPrototypeOf2.default)(logModel)).apply(this, arguments));
+    function followModel() {
+        (0, _classCallCheck3.default)(this, followModel);
+        return (0, _possibleConstructorReturn3.default)(this, (followModel.__proto__ || (0, _getPrototypeOf2.default)(followModel)).apply(this, arguments));
     }
 
-    (0, _createClass3.default)(logModel, [{
+    (0, _createClass3.default)(followModel, [{
         key: 'getName',
         value: function getName() {
-            return 'log';
+            return 'follow';
         }
     }, {
         key: 'getSchema',
         value: function getSchema() {
             return {
                 uid: { type: Number, required: true },
-                typeid: { type: Number, required: true },
-                type: { type: String, enum: ['user', 'group', 'interface', 'project', 'other', 'interface_col'], required: true },
-                content: { type: String, required: true },
-                username: { type: String, required: true },
-                add_time: Number
+                projectid: { type: Number, required: true },
+                projectname: { type: String, required: true },
+                icon: String
             };
         }
 
         /**
-         * @param {String} content log内容
-         * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
          * @param {Number} uid 用户id
+         * @param {Number} projectid 项目id
+         * @param {String} projectname 项目名
+         * @param {String} icon 项目图标
          */
 
     }, {
         key: 'save',
         value: function save(data) {
+            //关注
             var saveData = {
-                content: data.content,
-                type: data.type,
                 uid: data.uid,
-                username: data.username,
-                typeid: data.typeid,
-                add_time: _yapi2.default.commons.time()
+                projectid: data.projectid,
+                projectname: data.projectname,
+                icon: data.icon
             };
-            var log = new this.model(saveData);
-
-            return log.save();
+            var follow = new this.model(saveData);
+            return follow.save();
         }
     }, {
         key: 'del',
@@ -87,31 +78,32 @@ var logModel = function (_baseModel) {
             });
         }
     }, {
-        key: 'list',
-        value: function list(typeid) {
-            return this.model.find({
-                typeid: typeid
-            }).exec();
-        }
-    }, {
         key: 'listWithPaging',
-        value: function listWithPaging(typeid, page, limit) {
+        value: function listWithPaging(uid, page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
 
             return this.model.find({
-                typeid: typeid
+                uid: uid
             }).skip((page - 1) * limit).limit(limit).exec();
         }
     }, {
         key: 'listCount',
-        value: function listCount(typeid) {
+        value: function listCount(uid) {
             return this.model.count({
-                typeid: typeid
+                uid: uid
+            });
+        }
+    }, {
+        key: 'checkProjectRepeat',
+        value: function checkProjectRepeat(uid, projectid) {
+            return this.model.count({
+                uid: uid,
+                projectid: projectid
             });
         }
     }]);
-    return logModel;
+    return followModel;
 }(_base2.default);
 
-module.exports = logModel;
+module.exports = followModel;

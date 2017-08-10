@@ -59,7 +59,7 @@ class projectModel extends baseModel {
 
     list(group_id, auth) {
         let params = {group_id: group_id}
-        if(auth) params.project_type = 'public';
+        if(!auth) params.project_type = 'public';
         return this.model.find(params).sort({ _id: -1 }).exec();
     }
 
@@ -139,6 +139,14 @@ class projectModel extends baseModel {
             name: new RegExp(keyword, 'ig')
         })
             .limit(10);
+    }
+
+    download(id) {
+      console.log('models in download');
+        // return this.model.find({
+        //     name: new RegExp(id, 'ig')
+        // })
+        //     .limit(10);
     }
 }
 

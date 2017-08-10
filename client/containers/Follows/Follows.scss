@@ -1,1 +1,12 @@
 @import '../../styles/common.scss';
+
+
+.follow-box{
+    padding: 24px;
+    background-color: #FFF;
+    .follow-container{
+        display: flex;
+        display: -webkit-flex;
+    }
+    
+}

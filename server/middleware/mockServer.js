@@ -46,7 +46,7 @@ module.exports = async (ctx, next) => {
 
     try {
 
-        interfaceData = await interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length), ctx.method);        
+        interfaceData = await interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length), ctx.method);
         if (!interfaceData || interfaceData.length === 0) {
             //非正常跨域预检请求回应
             if(ctx.method === 'OPTIONS'){
@@ -65,9 +65,10 @@ module.exports = async (ctx, next) => {
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
             try{
-                return ctx.body = Mock.mock(
+                const res = Mock.mock(
                     yapi.commons.json_parse(interfaceData.res_body)
                 );
+                return ctx.body = res;
             }catch(e){
                 return ctx.body = {
                     errcode: 400,

@@ -100,7 +100,7 @@ var projectModel = function (_baseModel) {
         key: 'list',
         value: function list(group_id, auth) {
             var params = { group_id: group_id };
-            if (auth) params.project_type = 'public';
+            if (!auth) params.project_type = 'public';
             return this.model.find(params).sort({ _id: -1 }).exec();
         }
     }, {
@@ -183,6 +183,15 @@ var projectModel = function (_baseModel) {
             return this.model.find({
                 name: new RegExp(keyword, 'ig')
             }).limit(10);
+        }
+    }, {
+        key: 'download',
+        value: function download(id) {
+            console.log('models in download');
+            // return this.model.find({
+            //     name: new RegExp(id, 'ig')
+            // })
+            //     .limit(10);
         }
     }]);
     return projectModel;
