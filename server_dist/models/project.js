@@ -184,6 +184,15 @@ var projectModel = function (_baseModel) {
                 name: new RegExp(keyword, 'ig')
             }).limit(10);
         }
+    }, {
+        key: 'download',
+        value: function download(id) {
+            console.log('models in download');
+            // return this.model.find({
+            //     name: new RegExp(id, 'ig')
+            // })
+            //     .limit(10);
+        }
     }]);
     return projectModel;
 }(_base2.default);

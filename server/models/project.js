@@ -140,6 +140,14 @@ class projectModel extends baseModel {
         })
             .limit(10);
     }
+
+    download(id) {
+      console.log('models in download');
+        // return this.model.find({
+        //     name: new RegExp(id, 'ig')
+        // })
+        //     .limit(10);
+    }
 }
 
 module.exports = projectModel;

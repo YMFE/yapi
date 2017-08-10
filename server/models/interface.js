@@ -74,6 +74,7 @@ class interfaceModel extends baseModel {
     }
 
     list(project_id) {
+        console.log(project_id);
         return this.model.find({
             project_id: project_id
         })
@@ -86,7 +87,7 @@ class interfaceModel extends baseModel {
             _id: id
         });
     }
-    
+
     up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({
