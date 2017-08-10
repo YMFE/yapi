@@ -4,9 +4,9 @@ import ProjectList from './ProjectList/ProjectList.js';
 import Subnav from '../../components/Subnav/Subnav.js';
 import { Row, Col } from 'antd';
 
-import './ProjectGroups.scss'
+import './Group.scss'
 
-export default class ProjectGroups extends Component {
+export default class Group extends Component {
   constructor(props) {
     super(props)
   }

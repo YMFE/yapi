@@ -44,7 +44,7 @@ const ToolUser = (props)=> (
     <li className="toolbar-li item-search">
       <Srch groupList={props.groupList}/>
     </li>
-    <Link to="/">
+    <Link to="/add-project">
       <Tooltip placement="bottom" title={'新建项目'}>
         <li className="toolbar-li">
           <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />

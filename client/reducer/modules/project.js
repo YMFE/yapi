@@ -95,7 +95,6 @@ export function addProject(data) {
   };
   return {
     type: PROJECT_ADD,
-    // payload 可以返回 Promise，异步请求使用 axios 即可
     payload: axios.post('/project/add', param)
   };
 }
@@ -113,7 +112,6 @@ export function updateProject(data) {
   };
   return {
     type: PROJECT_UPDATE,
-    // payload 可以返回 Promise，异步请求使用 axios 即可
     payload: axios.post('/project/up', param)
   };
 }
@@ -122,7 +120,6 @@ export function delProject(id) {
   const param = { id };
   return {
     type: PROJECT_DEL,
-    // payload 可以返回 Promise，异步请求使用 axios 即可
     payload: axios.post('/project/del', param)
   };
 }
