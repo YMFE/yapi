@@ -344,11 +344,6 @@ regActions	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	
 const.username	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^    password,$/;"	property	line:106
 logoutActions	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function logoutActions() {$/;"	function	line:115
 loginTypeAction	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function loginTypeAction(index) {$/;"	function	line:122
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:26
-state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:28
-static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:33
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:45
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:78
 const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^const headerStyle = {$/;"	property	line:13
 const.lineHeight	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  'height': '.56rem',$/;"	property	line:14
 const.padding	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  'lineHeight': '.56rem',$/;"	property	line:15
@@ -461,3 +456,8 @@ from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Pr
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:15
 componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:19
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:22
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:26
+state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:28
+static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:33
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:45
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:81

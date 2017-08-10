@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
-import { Home, Group, Project, News, AddInterface, Follows, AddProject } from './containers/index';
+import { Home, Group, Project, Follows, AddProject } from './containers/index';
 import User from './containers/User/User.js';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -63,10 +63,12 @@ export default class App extends Component {
               </Switch>
               <Route path="/project" component={requireAuthentication(Project)} />
               <Route path="/user" component={requireAuthentication(User)} />
-              <Route path="/news" component={requireAuthentication(News)} />
-              <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
               <Route path="/follow" component={requireAuthentication(Follows)} />
               <Route path="/add-project" component={requireAuthentication(AddProject)} />
+              {
+              // <Route path="/news" component={requireAuthentication(News)} />
+              // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
+              }
             </div>
             <Footer />
           </div>
