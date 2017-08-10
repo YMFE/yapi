@@ -32,6 +32,8 @@ import interfaceModel from '../models/interface.js';
 import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
+import Mock from 'mockjs';
+const send = require('koa-send');
 
 class projectController extends baseController {
 
@@ -85,6 +87,11 @@ class projectController extends baseController {
             group_id: 'number',
             desc: 'string'
         });
+
+        if (await this.checkAuth(params.group_id, 'group', 'edit') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
         if (!params.group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
@@ -99,7 +106,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
 
-  
+
         if (!params.prd_host) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
         }
@@ -120,13 +127,16 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
         }
 
+
+
         let data = {
             name: params.name,
             desc: params.desc,
             prd_host: params.prd_host,
             basepath: params.basepath,
             protocol: params.protocol || 'http',
-            members: [this.getUid()],
+            members: [],
+            project_type: params.project_type || 'private',
             uid: this.getUid(),
             group_id: params.group_id,
             add_time: yapi.commons.time(),
@@ -161,12 +171,23 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
 
+        if (await this.checkAuth(params.id, 'project', 'edit') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
         var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
         if (check > 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
+
+        let userdata = await this.getUserdata(params.member_uid);
+        if(userdata === null){
+            return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
+        }
+
+
         try {
-            let result = await this.Model.addMember(params.id, params.member_uid);
+            let result = await this.Model.addMember(params.id, userdata);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -198,11 +219,31 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
         }
 
+        if (await this.checkAuth(params.id, 'project', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
         try {
             let result = await this.Model.delMember(params.id, params.member_uid);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+
+    async getUserdata(uid, role){
+        role = role || 'dev';
+        let userInst = yapi.getInst(userModel);
+        let userData = await userInst.findById(uid);
+        if(!userData){
+            return null;
+        }
+        return {
+            role: role,
+            uid: userData._id,
+            username: userData.username,
+            email: userData.email
         }
     }
 
@@ -225,10 +266,7 @@ class projectController extends baseController {
 
         try {
             let project = await this.Model.get(params.id);
-            let userInst = yapi.getInst(userModel);
-            let result = await userInst.findByUids(project.members);
-
-            ctx.body = yapi.commons.resReturn(result);
+            ctx.body = yapi.commons.resReturn(project.members);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
@@ -265,24 +303,20 @@ class projectController extends baseController {
      * @category project
      * @foldnumber 10
      * @param {Number} group_id 项目group_id，不能为空
-     * @param {Number} [page] 分页页码
-     * @param {Number} [limit] 每页数据条目，默认为10
      * @returns {Object}
      * @example ./api/project/list.json
      */
 
     async list(ctx) {
-        let group_id = ctx.request.query.group_id,
-            page = ctx.request.query.page || 1,
-            limit = ctx.request.query.limit || 10;
+        let group_id = ctx.request.query.group_id
 
         if (!group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
+        let auth =await  this.checkAuth(group_id, 'group', 'edit')
         try {
-            let result = await this.Model.listWithPaging(group_id, page, limit);
-            let count = await this.Model.listCount(group_id);
+            let result = await this.Model.list(group_id, auth);
             let uids = [];
             result.forEach((item) => {
                 if (uids.indexOf(item.uid) === -1) {
@@ -295,7 +329,6 @@ class projectController extends baseController {
                 _users[item._id] = item;
             });
             ctx.body = yapi.commons.resReturn({
-                total: Math.ceil(count / limit),
                 list: result,
                 userinfo: _users
             });
@@ -327,13 +360,40 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
             }
 
-            if (await this.jungeProjectAuth(id) !== true) {
+            if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
+        }
+    }
+
+    async changeMemberRole(ctx){
+        let params = ctx.request.body;
+        let groupInst = yapi.getInst(groupModel);
+        if (!params.member_uid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
+        }
+        if (!params.id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+        }
+        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        if (check === 0) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+        }
+        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
+
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+        try {
+            let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
 
@@ -372,7 +432,7 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
             }
 
-            if (await this.jungeMemberAuth(id, this.getUid()) !== true) {
+            if (await this.checkAuth(id, 'project', 'edit') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
 
@@ -409,7 +469,6 @@ class projectController extends baseController {
             }
 
             let data = {
-                uid: this.getUid(),
                 up_time: yapi.commons.time()
             };
 
@@ -482,6 +541,71 @@ class projectController extends baseController {
         };
 
         return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok');
+    }
+
+    /**
+     * 下载项目的 Mock 数据
+     * @interface /project/download
+     * @method GET
+     * @category project
+     * @foldnumber 10
+     * @param {String} project_id
+    */
+    async download(ctx) {
+        const project_id = ctx.request.query.project_id;
+        let interfaceInst = yapi.getInst(interfaceModel);
+        // 根据 project_id 获取接口数据
+        let count = await interfaceInst.list(project_id);
+
+        if (!project_id) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+        } else if (!count) {
+            return ctx.body = yapi.commons.resReturn(null, 401, '项目id不存在');
+        }
+
+        const arr = JSON.stringify(count.map(function(item) {
+            // 返回的json模板数据: item.res_body
+            const mockData = Mock.mock(
+                yapi.commons.json_parse(item.res_body)
+            );
+            return {
+                path: item.path,
+                mock: mockData
+            }
+        }));
+
+        const fileName = 'mock.js';
+        ctx.attachment(fileName);
+        await send(ctx, fileName, { root: __dirname + '/public' });
+
+        const res = `
+        var Mock = require('mockjs');
+        var xhook = require('xhook');
+        var data = ${arr};
+        function run() {
+            xhook.before(function(request, callback) {
+                setTimeout(function() {
+                    var res;
+                    data.forEach((item) => {
+                        // 请求的接口在 data 中存在
+                         if(request.url === item.path) {
+                            res = {
+                                status: 200,
+                                text: Mock.mock(item.mock)
+                            }
+                        }
+                    });
+                    if (res) {
+                        callback(res);
+                    }else {
+                        callback({ status: 405, text: '接口不存在' });
+                    }
+              }, 500);
+            });
+        }
+        module.exports = run;`;
+        .trim();
+        return ctx.body = res;
     }
 }
 

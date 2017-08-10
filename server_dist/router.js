@@ -162,8 +162,8 @@ var routerConfig = {
 		"path": "search",
 		"method": "get"
 	}, {
-		"action": "nav",
-		"path": "nav",
+		"action": "project",
+		"path": "project",
 		"method": "get"
 	}, {
 		"action": "avatar",
