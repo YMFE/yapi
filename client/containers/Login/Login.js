@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
-import { loginActions } from  '../../reducer/modules/login';
+import { loginActions } from  '../../reducer/modules/user';
 const FormItem = Form.Item;
 import './Login.scss'
 
@@ -17,7 +17,7 @@ const changeHeight = {
 @connect(
   state => {
     return {
-      loginData: state.login
+      loginData: state.user
     }
   },
   {

@@ -12,7 +12,7 @@ import Subnav from '../../components/Subnav/Subnav.js';
   state => {
     console.log(state);
     return {
-      uid: state.login.uid + ''
+      uid: state.user.uid + ''
     }
   },
   {

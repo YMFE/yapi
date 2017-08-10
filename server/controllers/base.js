@@ -19,6 +19,7 @@ class baseController {
 
     async init(ctx) {
         this.$user = null;
+        console.log(111111)
         let ignoreRouter = [
             '/user/login_by_token',
             '/user/login',
@@ -26,7 +27,7 @@ class baseController {
             '/user/status',
             '/user/logout'
         ];
-        if (ignoreRouter.indexOf(ctx.path) > -1) {
+        if (ignoreRouter.indexOf(ctx.path) > -1) {            
             this.$auth = true;
         } else {
             await this.checkLogin(ctx);
@@ -61,10 +62,14 @@ class baseController {
         }
 
     }
+    /**
+     * 
+     * @param {*} ctx 
+     */
 
     async getLoginStatus(ctx) {
         if (await this.checkLogin(ctx) === true) {
-            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role']);
+            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type']);
             result.server_ip = yapi.WEBCONFIG.server_ip;
             return ctx.body = yapi.commons.resReturn(result);
         }

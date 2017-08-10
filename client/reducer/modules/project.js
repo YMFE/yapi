@@ -17,7 +17,8 @@ const initialState = {
   userInfo: {},
   tableLoading: true,
   total: 0,
-  currPage: 1
+  currPage: 1,
+  curProject: {}
 };
 
 export default (state = initialState, action) => {
