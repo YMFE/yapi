@@ -31,13 +31,8 @@ export default class Project extends Component {
     super(props)
   }
 
-  getProject(){
-    this.props.getProject(167)
-  }
-  
-
   componentWillMount() {
-    this.getProject(this.props.match.params.id)
+    this.props.getProject(this.props.match.params.id)
   }
 
   render () {

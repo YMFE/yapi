@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd';
 import './interface.scss'
 
@@ -9,13 +10,15 @@ import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
 import InterfaceColContent from './InterfaceCol/InterfaceColContent.js'
 
 class Interface extends Component {
+  static propTypes = {
+    match: PropTypes.object
+  }
 
   constructor(props) {
-    super(props)
+    super(props)    
     this.state = {
       contentView: 'list'
     }
-
   }
 
   handleTab = (key) => {
@@ -37,7 +40,7 @@ class Interface extends Component {
           <div className="left-menu">
             <Tabs defaultActiveKey="list" type="card" onChange={this.handleTab}>
               <Tabs.TabPane tab="接口列表" key="list">
-                <InterfaceMenu />
+                <InterfaceMenu projectId={this.props.match.params.id} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="接口集合" key="col">
                 <InterfaceColMenu />
