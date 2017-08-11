@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    window.QSSO.attach('qsso-login','/user/login_by_token')
+    window.QSSO.attach('qsso-login','/api/user/login_by_token')
   }
 
 
