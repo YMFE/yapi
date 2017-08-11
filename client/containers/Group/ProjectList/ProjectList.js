@@ -1,78 +1,77 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Popconfirm, message } from 'antd';
+import { message, Row, Col } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../reducer/modules/project';
-import { Link } from 'react-router-dom'
-import variable from '../../../constants/variable';
-import common from '../../../common';
+import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
+// import variable from '../../../constants/variable';
 import { autobind } from 'core-decorators';
 
 import './ProjectList.scss'
 
 // 确认删除项目 handleDelete, currGroup._id, fetchProjectList
-const deleteConfirm = (id, props) => {
-  const { delProject, currGroup, fetchProjectList } = props;
-  const handle = () => {
-    delProject(id).then((res) => {
-      if (res.payload.data.errcode == 0) {
-        message.success('删除成功!')
-        fetchProjectList(currGroup._id).then(() => {
-        });
-      } else {
-        message.error(res.payload.data.errmsg);
-      }
-    });
-  }
-  return handle;
-};
+// const deleteConfirm = (id, props) => {
+//   const { delProject, currGroup, fetchProjectList } = props;
+//   const handle = () => {
+//     delProject(id).then((res) => {
+//       if (res.payload.data.errcode == 0) {
+//         message.success('删除成功!')
+//         fetchProjectList(currGroup._id).then(() => {
+//         });
+//       } else {
+//         message.error(res.payload.data.errmsg);
+//       }
+//     });
+//   }
+//   return handle;
+// };
 
-const getColumns = (data, props) => {
-  const { changeUpdateModal, userInfo } = props;
-  return [{
-    title: '项目名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text, record) => {
-      return <Link to={`/project/${record._id}`}>{text}</Link>
-    }
-  },{
-    title: 'Mock基本URL',
-    key: 'domain',
-    render: (item) => {
-      return 'http://'+ item.prd_host + item.basepath;
-    }
-
-  }, {
-    title: '创建人',
-    dataIndex: 'owner',
-    key: 'owner',
-    render: (text, record, index) => {
-      // data是projectList的列表值
-      // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
-      return <span>{userInfo[data[index].uid] ? userInfo[data[index].uid].username : ''}</span>;
-    }
-  }, {
-    title: '创建时间',
-    dataIndex: 'add_time',
-    key: 'add_time',
-    render: time => <span>{common.formatTime(time)}</span>
-  }, {
-    title: '操作',
-    key: 'action',
-    render: (text, record, index) => {
-      const id = record._id;
-      return (
-        <span>
-          <a onClick={() => changeUpdateModal(true, index)}>修改</a>
-          <span className="ant-divider" />
-          <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="确定" cancelText="取消">
-            <a href="#">删除</a>
-          </Popconfirm>
-        </span>
-      )}
-  }];
-}
+// const getColumns = (data, props) => {
+//   const { changeUpdateModal, userInfo } = props;
+//   return [{
+//     title: '项目名称',
+//     dataIndex: 'name',
+//     key: 'name',
+//     render: (text, record) => {
+//       return <Link to={`/project/${record._id}`}>{text}</Link>
+//     }
+//   },{
+//     title: 'Mock基本URL',
+//     key: 'domain',
+//     render: (item) => {
+//       return 'http://'+ item.prd_host + item.basepath;
+//     }
+//
+//   }, {
+//     title: '创建人',
+//     dataIndex: 'owner',
+//     key: 'owner',
+//     render: (text, record, index) => {
+//       // data是projectList的列表值
+//       // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
+//       return <span>{userInfo[data[index].uid] ? userInfo[data[index].uid].username : ''}</span>;
+//     }
+//   }, {
+//     title: '创建时间',
+//     dataIndex: 'add_time',
+//     key: 'add_time',
+//     render: time => <span>{common.formatTime(time)}</span>
+//   }, {
+//     title: '操作',
+//     key: 'action',
+//     render: (text, record, index) => {
+//       const id = record._id;
+//       return (
+//         <span>
+//           <a onClick={() => changeUpdateModal(true, index)}>修改</a>
+//           <span className="ant-divider" />
+//           <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="确定" cancelText="取消">
+//             <a href="#">删除</a>
+//           </Popconfirm>
+//         </span>
+//       )}
+//   }];
+// }
 
 @connect(
   state => {
@@ -177,21 +176,17 @@ class ProjectList extends Component {
   }
 
   render() {
+    const projectData = this.state.projectData;
     return (
       <div className="m-panel">
-        <Table
-          className="m-table"
-          bordered={true}
-          loading={this.props.tableLoading}
-          columns={getColumns(this.state.projectData, this.props)}
-          dataSource={this.state.projectData}
-          pagination={{
-            total: this.props.total * variable.PAGE_LIMIT,
-            defaultPageSize: variable.PAGE_LIMIT,
-            onChange: this.paginationChange
-          }}
-        />
-
+        <Row gutter={16}>
+          {projectData.map((item, index) => {
+            return (
+              <Col span={8} key={index}>
+                <ProjectCard projectData={item} />
+              </Col>);
+          })}
+        </Row>
       </div>
     );
   }
