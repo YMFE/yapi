@@ -1,8 +1,8 @@
-import './ProjectBox.scss'
+import './ProjectCard.scss'
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
-class ProjectBox extends Component {
+class ProjectCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,4 +25,4 @@ class ProjectBox extends Component {
 
 }
 
-export default ProjectBox
+export default ProjectCard
