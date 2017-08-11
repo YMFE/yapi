@@ -37,6 +37,7 @@ export default class GroupList extends Component {
             path: `/project/${match.params.id}/activity`
           }]}/>
         <Switch>
+          <Redirect exact from='/project' to='/project/0' />
           <Redirect exact from='/project/:id' to={`/project/${match.params.id}/interface`} />
           <Route path="/project/:id/activity" component={null} />
           <Route path="/project/:id/interface" component={Interface} />
