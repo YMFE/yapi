@@ -143,7 +143,7 @@ var followController = function (_baseController) {
 
         /**
          * 取消关注
-         * @interface /follow/list
+         * @interface /follow/del
          * @method POST
          * @category follow
          * @foldnumber 10
@@ -205,7 +205,7 @@ var followController = function (_baseController) {
 
         /**
          * 添加关注
-         * @interface /follow/list
+         * @interface /follow/add
          * @method POST
          * @category follow
          * @foldnumber 10
