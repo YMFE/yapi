@@ -51,6 +51,7 @@ $color-black-light : #404040;
   .nav-toolbar {
     font-size: .15rem;
     float: left;
+    
   }
 
   .user-toolbar{
@@ -71,6 +72,9 @@ $color-black-light : #404040;
       .dropdown-link {
         color: #999;
         transition: color .4s;
+        .ant-avatar-image{
+          margin-bottom: -10px;
+        }
       }
       &:hover{
         .dropdown-link {

@@ -10,7 +10,8 @@ class followModel extends baseModel {
             uid: { type: Number, required: true },
             projectid: { type: Number, required: true },
             projectname: { type: String, required: true },
-            icon: String
+            icon: String,
+            color: String
         };
     }
 
@@ -26,7 +27,8 @@ class followModel extends baseModel {
             uid: data.uid,
             projectid: data.projectid,
             projectname: data.projectname,
-            icon: data.icon
+            icon: data.icon,
+            color: data.color
         };
         let follow = new this.model(saveData);
         return follow.save();

@@ -115,18 +115,22 @@
   .avatar-uploader,
   .avatar-uploader-trigger,
   .avatar {
-    width: 100px;
-    height: 100px;
+    // width: 100px;
+    // height: 100px;
     overflow: hidden;
-    border-radius: 50px;
-    
-    img{
-      height: auto;
-    }
+    // border-radius: 50px;
   }
   .avatar-uploader {
     display: block;
     cursor: pointer;
+  }
+  .ant-avatar-lg{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+  }
+  .ant-upload-list{
+    display: none;
   }
   .avatar-uploader-trigger {
     display: table-cell;

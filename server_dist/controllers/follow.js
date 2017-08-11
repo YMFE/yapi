@@ -143,7 +143,7 @@ var followController = function (_baseController) {
 
         /**
          * 取消关注
-         * @interface /follow/list
+         * @interface /follow/del
          * @method POST
          * @category follow
          * @foldnumber 10
@@ -205,8 +205,8 @@ var followController = function (_baseController) {
 
         /**
          * 添加关注
-         * @interface /follow/list
-         * @method POST
+         * @interface /follow/add
+         * @method GET
          * @category follow
          * @foldnumber 10
          * @param {Number} uid 用户id
@@ -232,7 +232,8 @@ var followController = function (_baseController) {
                                     uid: 'number',
                                     projectid: 'number',
                                     projectname: 'string',
-                                    icon: 'string'
+                                    icon: 'string',
+                                    color: 'string'
                                 });
 
                                 if (params.uid) {
@@ -281,36 +282,46 @@ var followController = function (_baseController) {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目图标标志不能为空'));
 
                             case 15:
+                                if (params.color) {
+                                    _context3.next = 17;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目颜色不能为空'));
+
+                            case 17:
                                 data = {
                                     uid: params.uid,
                                     projectid: params.projectid,
                                     projectname: params.projectname,
-                                    icon: params.icon
+                                    icon: params.icon,
+                                    color: params.color
+
                                 };
-                                _context3.prev = 16;
-                                _context3.next = 19;
+                                _context3.prev = 18;
+                                _context3.next = 21;
                                 return this.Model.save(data);
 
-                            case 19:
+                            case 21:
                                 result = _context3.sent;
 
-                                result = _yapi2.default.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon']);
+                                result = _yapi2.default.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 27;
+                                _context3.next = 29;
                                 break;
 
-                            case 24:
-                                _context3.prev = 24;
-                                _context3.t0 = _context3['catch'](16);
+                            case 26:
+                                _context3.prev = 26;
+                                _context3.t0 = _context3['catch'](18);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
-                            case 27:
+                            case 29:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[16, 24]]);
+                }, _callee3, this, [[18, 26]]);
             }));
 
             function add(_x3) {

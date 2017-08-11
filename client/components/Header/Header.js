@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
@@ -69,8 +69,9 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-
-          <img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} /><span className="name">{props.user}</span>
+          <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+          {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
+          <span className="name">{props.user}</span>
 
         </a>
       </Dropdown>
