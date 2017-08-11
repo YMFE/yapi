@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Icon, Tooltip, Select, message, Row, Col, Radio } from 'antd';
-import { addProject } from  '../../../reducer/modules/project';
-import { fetchGroupList } from '../../../reducer/modules/group.js'
+import { addProject } from  '../../reducer/modules/project.js';
+import { fetchGroupList } from '../../reducer/modules/group.js'
 import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
