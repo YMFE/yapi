@@ -129,8 +129,7 @@ $(document).ready(function() {
     });
 
     $('.markdown-body pre').map(function(i, item) {
-        $(item).addClass('ydoc-example').append('<div class="ui-copy js-copy" data-clipboard-action="copy" data-clipboard-target=".js-code-' + i + '" data-copy-number="' + i + '">copy</div><div class="copy-tip copy-tip-' + i + '">已复制</div>');
-        $(item).children('code').addClass('js-code js-code-'+i);
+        $(item).addClass('ydoc-example');
     });
 
     var winHeight = $(window).height() - 44,
@@ -214,17 +213,4 @@ $(document).ready(function() {
             return false;
         }
     }
-
-    // 代码复制功能
-    var clipboard = new Clipboard('.js-copy');
-
-    clipboard.on('success', function(e) {
-      var copyNumber = $(e.trigger).attr('data-copy-number');
-      $('.copy-tip-'+copyNumber).show();
-      setTimeout(function() {
-          $('.copy-tip-'+copyNumber).hide();
-      }, 1000);
-      e.clearSelection();
-    });
-
 });

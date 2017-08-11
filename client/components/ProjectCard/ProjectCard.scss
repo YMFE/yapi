@@ -1,0 +1,22 @@
+@import '../../styles/mixin.scss';
+
+.m-card {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: .16rem;
+  background-color: #fff;
+  transition: all .4s;
+  color: rgba(0, 0, 0, 0.65);
+  &:hover {
+    background-color: #efefef;
+  }
+  .m-card-logo {
+    .icon {
+      font-size: .8rem;
+    }
+    .name {
+      font-size: .18rem;
+      margin-top: .16rem;
+    }
+  }
+}
