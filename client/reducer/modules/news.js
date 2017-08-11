@@ -46,7 +46,7 @@ export function fetchNewsData (typeid,page,limit) {
   }
   return {
     type: FETCH_NEWS_DATA,
-    payload: axios.get('/log/list',{
+    payload: axios.get('/api/log/list',{
       params: param
     })
   };
@@ -56,7 +56,7 @@ export function getMockUrl(project_id){
   const params = {id: project_id};
   return {
     type:"",
-    payload: axios.get('/project/get', {params: params})
+    payload: axios.get('/api/project/get', {params: params})
   }
   
 }

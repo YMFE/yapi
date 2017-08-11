@@ -49,7 +49,7 @@ export default class Srch extends Component{
   }
 
   handleSearch = (value) => {
-    axios.get('/project/search?q='+value)
+    axios.get('/api/project/search?q='+value)
       .then((res) => {
         if(res.data && res.data.errcode === 0){
           const dataSource = [];

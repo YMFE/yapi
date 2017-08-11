@@ -161,7 +161,7 @@ export function pushInterfaceMethod (value) {
 export function fetchInterfaceProject(id) {
   return {
     type: FETCH_INTERFACE_PROJECT,
-    payload: axios.get('/project/get', { params: {id}})
+    payload: axios.get('/api/project/get', { params: {id}})
   }
 }
 

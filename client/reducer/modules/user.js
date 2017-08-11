@@ -81,7 +81,7 @@ export default (state = initialState, action) => {
 // Action Creators
 export function checkLoginState() {
   return(dispatch)=> {
-    axios.get('/user/status').then((res) => {
+    axios.get('/api/user/status').then((res) => {
       dispatch({
         type: GET_LOGIN_STATE,
         payload: res
@@ -95,7 +95,7 @@ export function checkLoginState() {
 export function loginActions(data) {
   return {
     type: LOGIN,
-    payload: axios.post('/user/login', data)
+    payload: axios.post('/api/user/login', data)
   };
 }
 
@@ -108,14 +108,14 @@ export function regActions(data) {
   };
   return {
     type: REGISTER,
-    payload: axios.post('/user/reg', param)
+    payload: axios.post('/api/user/reg', param)
   };
 }
 
 export function logoutActions() {
   return {
     type: LOGIN_OUT,
-    payload: axios.get('./user/logout')
+    payload: axios.get('/api/user/logout')
   }
 }
 
