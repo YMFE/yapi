@@ -46,7 +46,8 @@ var followModel = function (_baseModel) {
                 uid: { type: Number, required: true },
                 projectid: { type: Number, required: true },
                 projectname: { type: String, required: true },
-                icon: String
+                icon: String,
+                color: String
             };
         }
 
@@ -65,7 +66,8 @@ var followModel = function (_baseModel) {
                 uid: data.uid,
                 projectid: data.projectid,
                 projectname: data.projectname,
-                icon: data.icon
+                icon: data.icon,
+                color: data.color
             };
             var follow = new this.model(saveData);
             return follow.save();
