@@ -37,7 +37,7 @@ class Profile extends Component {
 
   getUserInfo = (id) => {
     var _this = this;
-    axios.get('/user/find?id=' + id).then((res) => {
+    axios.get('/api/user/find?id=' + id).then((res) => {
       _this.setState({
         userinfo: res.data.data,
         _userinfo: res.data.data
@@ -51,7 +51,7 @@ class Profile extends Component {
     let params = {uid: state.userinfo.uid}
     params[name] = value;
 
-    axios.post('/user/update', params).then( (res)=>{
+    axios.post('/api/user/update', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
         let userinfo = this.state.userinfo;
@@ -105,7 +105,7 @@ class Profile extends Component {
     }
 
 
-    axios.post('/user/change_password', params).then( (res)=>{
+    axios.post('/api/user/change_password', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
         this.handleEdit('secureEdit', false)

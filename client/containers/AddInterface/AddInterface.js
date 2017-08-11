@@ -147,7 +147,7 @@ class AddInterface extends Component {
 
   getMockURL (project_id, result) {
     const params = {id: project_id}
-    axios.get('/project/get', {params: params}).
+    axios.get('/api/project/get', {params: params}).
       then( data => {
         const { prd_host, basepath } = data.data.data
         const mockURL = `http://${prd_host}${basepath}${result.path}`

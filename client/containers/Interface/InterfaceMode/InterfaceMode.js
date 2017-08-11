@@ -31,7 +31,7 @@ class InterfaceMode extends Component {
     const params = {
       id: this.getInterfaceId()
     }
-    axios.get('/project/get_member_list', { params })
+    axios.get('/api/project/get_member_list', { params })
       .then(data => {
         this.setState({
           'memberList': data.data.data
@@ -57,7 +57,7 @@ class InterfaceMode extends Component {
       id: this.getInterfaceId()
     }
 
-    axios.post('/project/del_member', params)
+    axios.post('/api/project/del_member', params)
       .then(() => {
         this.getMemberList()
       })
@@ -70,11 +70,11 @@ class InterfaceMode extends Component {
   addNewUser () {
     const { userName } = this.state
     const params = { q: userName}
-    axios.get('/user/search', { params })
+    axios.get('/api/user/search', { params })
       .then(data => {
         const member_uid = data.data.data[0].uid
         const params = {id: this.getInterfaceId(), member_uid}
-        axios.post('/project/add_member', params)
+        axios.post('/api/project/add_member', params)
           .then( () => {
             this.getMemberList()
           })
@@ -94,7 +94,7 @@ class InterfaceMode extends Component {
     })
     const params = { q: value}
 
-    axios.get('/user/search', { params })
+    axios.get('/api/user/search', { params })
       .then(data => {
         const userList = []
         data = data.data.data
