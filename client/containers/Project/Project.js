@@ -37,11 +37,10 @@ export default class Project extends Component {
 
   render () {
     const { match } = this.props;
-    console.log('project')
     return (
       <div>
         <Subnav
-          default={'接口'}
+          default={'动态'}
           data={[{
             name: '接口',
             path: `/project/${match.params.id}/interface`
@@ -53,7 +52,7 @@ export default class Project extends Component {
             path: `/project/${match.params.id}/activity`
           }]}/>
         <Switch>
-          <Redirect exact from ="/project/:id" to={`/project/${match.params.id}/activity`}/>
+          <Redirect exact from="/project/:id" to={`/project/${match.params.id}/activity`}/>
           <Route path="/project/:id/activity" component={Activity} />
           <Route path="/project/:id/interface" component={Interface} />
           <Route path="/project/:id/setting" component={Setting} />
