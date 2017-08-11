@@ -3,11 +3,23 @@ import { Row, Col, Input, Button, Select, message, Upload, Icon } from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+@connect(state=>{
+  return {
+    curUid: state.user.uid,
+    userType: state.user.type
+  }
+},{
+
+})
 
 class Profile extends Component {
 
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    curUid: PropTypes.number,
+    userType: PropTypes.string
   }
 
   constructor(props) {
@@ -126,12 +138,21 @@ class Profile extends Component {
     const Option = Select.Option;
     let userinfo = this.state.userinfo;
     let _userinfo = this.state._userinfo;
-    let roles = { admin: '管理员', member: '会员' }
+    let roles = { admin: '管理员', member: '会员' };
+    let userType = "";
+    if(this.props.userType === "third"){
+      userType = false;
+    }else if(this.props.userType === "site"){
+      userType = true;
+    }else{
+      userType = false;
+    }
+    
     if (this.state.usernameEdit === false) {
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
         {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>
+        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>:""}
       </div>
     } else {
       userNameEditHtml = <div>
@@ -147,7 +168,7 @@ class Profile extends Component {
       emailEditHtml = <div >
         <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>:""}
       </div>
     } else {
       emailEditHtml = <div>
@@ -163,7 +184,7 @@ class Profile extends Component {
       roleEditHtml = <div>
         <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>
+        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>:""}
       </div>
     } else {
       roleEditHtml = <Select defaultValue={_userinfo.role} onChange={ this.changeRole} style={{ width: 150 }} >
@@ -227,12 +248,12 @@ class Profile extends Component {
         </Col>
       </Row>
 
-      <Row className="user-item" type="flex" justify="start">
+      {userType?<Row className="user-item" type="flex" justify="start">
         <Col span={4}>密码</Col>
         <Col span={12}>
           {secureEditHtml}
         </Col>
-      </Row>
+      </Row>:""}
     </div>
   }
 }
@@ -243,15 +264,16 @@ class Avatar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageUrl:""
+      imageUrl: ""
     }
   }
   static propTypes = {
     uid: PropTypes.number
   }
   uploadAvatar(basecode){
-    axios.post("/user/upload_avatar",{basecode: basecode}).then(()=>{
-      this.setState({ imageUrl: basecode })
+    axios.post("/api/user/upload_avatar",{basecode: basecode}).then(()=>{
+      this.setState({ imageUrl: basecode });
+      
     }).catch((e)=>{
       console.log(e);
     })
@@ -264,18 +286,13 @@ class Avatar extends Component {
   }
 
   render() {
-    let imageUrl = "";
-    if(this.props.uid && !this.state.imageUrl){
-      imageUrl = `/user/avatar?uid=${this.props.uid}`;
-    }else{
-      imageUrl = this.state.imageUrl;
-    }
+    let imageUrl = this.state.imageUrl?this.state.imageUrl:`/api/user/avatar?uid=${this.props.uid}`;
     return <div className="avatar-box">
       <Upload 
         className="avatar-uploader"
         name="basecode"
         showUploadList={true}
-        action="/user/upload_avatar"
+        action="/api/user/upload_avatar"
         beforeUpload={beforeUpload}
         onChange={this.handleChange.bind(this)} >
         {
@@ -284,6 +301,7 @@ class Avatar extends Component {
             <Icon type="plus" className="avatar-uploader-trigger" />
         }
       </Upload>
+      <span className="avatarChange">点击头像更换</span>
     </div>
   }
 }
@@ -294,7 +312,7 @@ function beforeUpload(file) {
   if (!isJPG && !isPNG) {
     message.error('图片的格式只能为 jpg、png！');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 0.2;
   if (!isLt2M) {
     message.error('图片必须小于 200kb!');
   }
