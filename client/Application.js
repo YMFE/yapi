@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import { Home, Group, Project, News, AddInterface, Follows, AddProject } from './containers/index';
 import User from './containers/User/User.js';
 import Header from './components/Header/Header';
@@ -45,7 +45,7 @@ export default class App extends Component {
       return <Loading visible />;
     } else {
       r = (
-        <HashRouter>
+        <Router>
           <div className="router-main">
             <Header />
             <div className="router-container">
@@ -63,7 +63,7 @@ export default class App extends Component {
             </div>
             <Footer />
           </div>
-        </HashRouter>
+        </Router>
       )
     }
     return r;

@@ -42,7 +42,7 @@ class LeftMenu extends Component {
     this.interval = setInterval(() => {
       if (this.searchSign === this._searchSign) {
         this.interval = clearInterval(this.interval)
-        axios.get('/user/search?q=' + value).then((res) => {
+        axios.get('/api/user/search?q=' + value).then((res) => {
           if (res.data.errcode === 0) {
             this.setState({
               dataSource: res.data.data

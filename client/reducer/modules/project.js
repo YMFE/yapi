@@ -59,7 +59,7 @@ export default (state = initialState, action) => {
 export function fetchProjectList(id, pageNum) {
   return {
     type: FETCH_PROJECT_LIST,
-    payload: axios.get('/project/list', {
+    payload: axios.get('/api/project/list', {
       params: {
         group_id: id,
         page: pageNum || 1,
@@ -95,7 +95,7 @@ export function addProject(data) {
   };
   return {
     type: PROJECT_ADD,
-    payload: axios.post('/project/add', param)
+    payload: axios.post('/api/project/add', param)
   };
 }
 
@@ -112,7 +112,7 @@ export function updateProject(data) {
   };
   return {
     type: PROJECT_UPDATE,
-    payload: axios.post('/project/up', param)
+    payload: axios.post('/api/project/up', param)
   };
 }
 
@@ -120,6 +120,6 @@ export function delProject(id) {
   const param = { id };
   return {
     type: PROJECT_DEL,
-    payload: axios.post('/project/del', param)
+    payload: axios.post('/api/project/del', param)
   };
 }

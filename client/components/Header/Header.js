@@ -69,7 +69,7 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-          <img style={{width:24,height:24}} src="/user/avatar" /><span className="name">{props.user}</span>
+          <img style={{width:30,height:30}} src="/api/user/avatar" /><span className="name">{props.user}</span>
         </a>
       </Dropdown>
     </li>
