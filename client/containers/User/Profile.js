@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Input, Button, Select, message, Upload, Icon } from 'antd'
+import { Row, Col, Input, Button, Select, message, Upload, Icon ,Avatar} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
@@ -211,7 +211,7 @@ class Profile extends Component {
 
     return <div className="user-profile">
       <Row className="user-item" type="flex" justify="start">
-        <Col span={24}><Avatar uid={userinfo.uid}>点击上传头像</Avatar></Col>
+        <Col span={24}><AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload></Col>
         <Col span={4}>用户id</Col>
         <Col span={12}>
           {userinfo.uid}
@@ -260,7 +260,7 @@ class Profile extends Component {
 
 
 
-class Avatar extends Component {
+class AvatarUpload extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -297,7 +297,7 @@ class Avatar extends Component {
         onChange={this.handleChange.bind(this)} >
         {
           imageUrl ?
-            <img src={imageUrl} alt="" className="avatar" /> :
+            <Avatar size="large" src={imageUrl}  />:
             <Icon type="plus" className="avatar-uploader-trigger" />
         }
       </Upload>

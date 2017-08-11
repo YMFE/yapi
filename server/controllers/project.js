@@ -5,6 +5,7 @@ import interfaceModel from '../models/interface.js';
 import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
+import logModel from '../models/log.js';
 import Mock from 'mockjs';
 const send = require('koa-send');
 
@@ -14,6 +15,7 @@ class projectController extends baseController {
         super(ctx);
         this.Model = yapi.getInst(projectModel);
         this.groupModel = yapi.getInst(groupModel);
+        this.logModel = yapi.getInst(logModel);
     }
 
     handleBasepath(basepath) {
@@ -46,6 +48,7 @@ class projectController extends baseController {
      * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
      * @param {String} protocol 线上域名协议，不能为空
      * @param {Number} group_id 项目分组id，不能为空
+     * @param {String} project_type private public
      * @param  {String} [desc] 项目描述
      * @returns {Object}
      * @example ./api/project/add.json
@@ -118,6 +121,14 @@ class projectController extends baseController {
 
         try {
             let result = await this.Model.save(data);
+            let username = this.getUsername();
+            await this.logModel.save({
+                content: `用户${username}添加了项目${params.name}`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.group_id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -161,6 +172,14 @@ class projectController extends baseController {
 
         try {
             let result = await this.Model.addMember(params.id, userdata);
+            let username = this.getUsername();
+            await this.logModel.save({
+                content: `用户${username}添加了项目成员${userdata.username}`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -198,6 +217,19 @@ class projectController extends baseController {
 
         try {
             let result = await this.Model.delMember(params.id, params.member_uid);
+            let username = this.getUsername();
+            let project = await this.Model.get(params.id);
+            for(let i in project.members){
+                if(i.uid === params.member_uid){
+                    await this.logModel.save({
+                        content: `用户${username}删除了项目${project.name}中的成员${i.username}`,
+                        type: 'project',
+                        uid: this.getUid(),
+                        username: username,
+                        typeid: params.id
+                    });
+                }
+            }
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -364,6 +396,21 @@ class projectController extends baseController {
 
         try {
             let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+
+            let username = this.getUsername();
+            let project = await this.Model.get(params.id);
+            for(let i in project.members){
+                if(i.uid === params.member_uid){
+                    await this.logModel.save({
+                        content: `用户${username}修改了项目${project.name}中成员${i.username}的角色为${params.role}`,
+                        type: 'project',
+                        uid: this.getUid(),
+                        username: username,
+                        typeid: params.id
+                    });
+                }
+            }
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -455,6 +502,16 @@ class projectController extends baseController {
             if (params.env) data.env = params.env;
 
             let result = await this.Model.up(id, data);
+
+            let username = this.getUsername();
+            await this.logModel.save({
+                content: `用户${username}更新了项目${params.name}`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: id
+            });
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);

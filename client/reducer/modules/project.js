@@ -8,6 +8,7 @@ const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 const CHANGE_UPDATE_MODAL = 'yapi/project/CHANGE_UPDATE_MODAL';
 const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
+const GET_CUR_PROJECT = 'yapi/project/GET_CUR_PROJECT'
 
 // Reducer
 const initialState = {
@@ -23,6 +24,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case GET_CUR_PROJECT: {
+      return {
+        ...state,
+        curProject: action.payload.data
+      }
+    }
     case CHANGE_UPDATE_MODAL: {
       return {
         ...state,
@@ -122,4 +129,15 @@ export function delProject(id) {
     type: PROJECT_DEL,
     payload: axios.post('/api/project/del', param)
   };
+}
+
+export function getProject(id){
+ 
+  return async (dispatch) => {    
+    let result = await axios.get('/api/project/get?id=' + id);
+    dispatch({
+      type: GET_CUR_PROJECT,
+      payload: result.data 
+    })
+  }
 }
