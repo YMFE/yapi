@@ -106,7 +106,7 @@ export default class GroupList extends Component {
   @autobind
   async addGroup() {
     const { newGroupName: group_name, newGroupDesc: group_desc } = this.state;
-    const res = await axios.post('/group/add', { group_name, group_desc })
+    const res = await axios.post('/api/group/add', { group_name, group_desc })
     if (!res.data.errcode) {
       this.setState({
         addGroupModalVisible: false
@@ -120,7 +120,7 @@ export default class GroupList extends Component {
   async editGroup() {
     const { currGroupName: group_name, currGroupDesc: group_desc } = this.state;
     const id = this.props.currGroup._id;
-    const res = axios.post('/group/up', { group_name, group_desc, id });
+    const res = axios.post('/api/group/up', { group_name, group_desc, id });
     if (res.data.errcode) {
       message.error(res.data.errmsg);
     } else {
@@ -159,7 +159,7 @@ export default class GroupList extends Component {
   async deleteGroup() {
     const self = this;
     const { currGroup } = self.props;
-    const res = await axios.post('/group/del', {id: currGroup._id})
+    const res = await axios.post('/api/group/del', {id: currGroup._id})
     if (res.data.errcode) {
       message.error(res.data.errmsg);
     } else {

@@ -39,7 +39,7 @@ class List extends Component {
   }
 
   getUserList() {
-    axios.get('/user/list?page=' + this.state.current).then((res) => {
+    axios.get('/api/user/list?page=' + this.state.current).then((res) => {
       let result = res.data;
       
       if (result.errcode === 0) {
@@ -62,7 +62,7 @@ class List extends Component {
   }
 
   confirm = (uid) =>{
-    axios.post('/user/del', {
+    axios.post('/api/user/del', {
       id: uid
     }).then( (res)=>{
       if(res.data.errcode === 0){

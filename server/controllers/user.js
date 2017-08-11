@@ -451,7 +451,9 @@ class userController extends baseController {
     }
 
     /**
-     * 
+     * 上传用户头像
+     * @interface /user/upload_avatar
+     * @method POST 
      * @param {*} basecode  base64编码，通过h5 api传给后端
      */
 
