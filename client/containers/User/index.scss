@@ -113,21 +113,18 @@
     border: none;
   }
   .avatar-uploader,
-  .avatar-uploader-trigger,
-  .avatar {
-    // width: 100px;
-    // height: 100px;
+  .avatar-uploader-trigger{
+    width: 100px;
+    height: 100px;
     overflow: hidden;
-    // border-radius: 50px;
+    border-radius: 50px;
+  }
+  .avatar{
+    width: 100px;
   }
   .avatar-uploader {
     display: block;
     cursor: pointer;
-  }
-  .ant-avatar-lg{
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
   }
   .ant-upload-list{
     display: none;
