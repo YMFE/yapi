@@ -19,7 +19,7 @@ class followController extends baseController {
         //     ctx.body = yapi.commons.resReturn(null, 402, err.message);
         // }
 
-        
+
     }
 
     /**
@@ -34,7 +34,7 @@ class followController extends baseController {
      * @returns {Object}
      * @example /follow/list
      */
-    
+
     async list(ctx) {
         let uid = ctx.request.query.uid,
             page = ctx.request.query.page || 1,
@@ -47,7 +47,7 @@ class followController extends baseController {
         try {
             let result = await this.Model.listWithPaging(uid, page, limit);
             let count = await this.Model.listCount(uid);
-            
+
             ctx.body = yapi.commons.resReturn({
                 total: Math.ceil(count / limit),
                 list: result
@@ -60,7 +60,7 @@ class followController extends baseController {
 
     /**
      * 取消关注
-     * @interface /follow/list
+     * @interface /follow/del
      * @method POST
      * @category follow
      * @foldnumber 10
@@ -86,7 +86,7 @@ class followController extends baseController {
 
     /**
      * 添加关注
-     * @interface /follow/list
+     * @interface /follow/add
      * @method POST
      * @category follow
      * @foldnumber 10
