@@ -455,6 +455,9 @@ class userController extends baseController {
      * @interface /user/upload_avatar
      * @method POST 
      * @param {*} basecode  base64编码，通过h5 api传给后端
+     * @category user
+     * @returns {Object} 
+     * @example 
      */
 
     async uploadAvatar(ctx) {
@@ -495,6 +498,9 @@ class userController extends baseController {
      * @interface /user/avatar
      * @method GET 
      * @param {*} uid  
+     * @category user
+     * @returns {Object} 
+     * @example 
      */
 
     async avatar(ctx) {   
