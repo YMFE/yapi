@@ -942,6 +942,9 @@ var userController = function (_baseController) {
          * @interface /user/upload_avatar
          * @method POST 
          * @param {*} basecode  base64编码，通过h5 api传给后端
+         * @category user
+         * @returns {Object} 
+         * @example 
          */
 
     }, {
@@ -1041,6 +1044,9 @@ var userController = function (_baseController) {
         * @interface /user/avatar
         * @method GET 
         * @param {*} uid  
+        * @category user
+        * @returns {Object} 
+        * @example 
         */
 
     }, {

@@ -66,7 +66,7 @@ var baseController = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 this.$user = null;
-                                ignoreRouter = ['/user/login_by_token', '/user/login', '/user/reg', '/user/status', '/user/logout'];
+                                ignoreRouter = ['/api/user/login_by_token', '/api/user/login', '/api/user/reg', '/api/user/status', '/api/user/logout'];
 
                                 if (!(ignoreRouter.indexOf(ctx.path) > -1)) {
                                     _context.next = 6;
