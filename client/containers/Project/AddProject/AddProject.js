@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Icon, Tooltip, Select, message, Row, Col, Radio } from 'antd';
-import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../reducer/modules/project';
-// import { Link } from 'react-router-dom'
-// import variable from '../../../constants/variable';
-// import common from '../../../common';
+import { addProject } from  '../../../reducer/modules/project';
+import { fetchGroupList } from '../../../reducer/modules/group.js'
 import { autobind } from 'core-decorators';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -30,77 +28,46 @@ const formItemLayout = {
 @connect(
   state => {
     return {
-      projectList: state.project.projectList,
-      userInfo: state.project.userInfo,
-      tableLoading: state.project.tableLoading,
-      currGroup: state.group.currGroup,
-      total: state.project.total,
-      currPage: state.project.currPage
+      groupList: state.group.groupList
     }
   },
   {
-    fetchProjectList,
-    addProject,
-    delProject,
-    changeUpdateModal,
-    changeTableLoading
+    fetchGroupList,
+    addProject
   }
 )
+
 class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
       protocol: 'http:\/\/',
-      projectData: []
+      groupList: []
     }
   }
   static propTypes = {
+    groupList: PropTypes.array,
     form: PropTypes.object,
-    fetchProjectList: PropTypes.func,
     addProject: PropTypes.func,
-    delProject: PropTypes.func,
-    changeUpdateModal: PropTypes.func,
-    changeTableLoading: PropTypes.func,
-    projectList: PropTypes.array,
-    userInfo: PropTypes.object,
-    tableLoading: PropTypes.bool,
-    currGroup: PropTypes.object,
-    total: PropTypes.number,
-    currPage: PropTypes.number
+    fetchGroupList: PropTypes.func
   }
 
   // 确认添加项目
   @autobind
   handleOk(e) {
-    const { form, currGroup, changeTableLoading, addProject, fetchProjectList } = this.props;
-    const that = this;
+    const { form, addProject } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
-      // console.log(values);
+      console.log(values);
       if (!err) {
         values.protocol = this.state.protocol.split(':')[0];
-        // 获取当前分组id传入values
-        values.group_id = currGroup._id;
 
-        changeTableLoading(true);
         addProject(values).then((res) => {
-          // 添加项目成功后再次请求列表
           if (res.payload.data.errcode == 0) {
-            that.setState({
-              visible: false
-            });
             form.resetFields();
             message.success('创建成功! ');
-            fetchProjectList(currGroup._id, this.props.currPage).then(() => {
-              changeTableLoading(false);
-            });
-          } else {
-            changeTableLoading(false);
-            message.error(res.payload.data.errmsg);
           }
         }).catch(() => {
-          changeTableLoading(false);
         });
       }
     });
@@ -114,18 +81,9 @@ class ProjectList extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    // 切换项目列表
-    if (this.props.projectList !== nextProps.projectList) {
-      // console.log(nextProps.projectList);
-      const data = nextProps.projectList.map((item, index) => {
-        item.key = index;
-        return item;
-      });
-      this.setState({
-        projectData: data
-      });
-    }
+  async componentWillMount() {
+    await this.props.fetchGroupList();
+    this.setState({groupList: this.props.groupList});
   }
 
   render() {
@@ -157,8 +115,7 @@ class ProjectList extends Component {
               }]
             })(
               <Select>
-                <Option value="china">China</Option>
-                <Option value="use">U.S.A</Option>
+                {this.state.groupList.map((item, index) => <Option value={item._id.toString()} key={index}>{item.group_name}</Option>)}
               </Select>
             )}
           </FormItem>
@@ -227,18 +184,18 @@ class ProjectList extends Component {
             {...formItemLayout}
             label="权限"
           >
-            {getFieldDecorator('radio-group', {
+            {getFieldDecorator('project_type', {
               rules: [{
                 required: true
               }],
-              initialValue: 1
+              initialValue: 'private'
             })(
               <RadioGroup>
-                <Radio value={1} className="radio">
+                <Radio value="private" className="radio">
                   <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
                 </Radio>
                 <br />
-                <Radio value={2} className="radio">
+                <Radio value="public" className="radio">
                   <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
                 </Radio>
               </RadioGroup>
