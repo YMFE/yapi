@@ -11,9 +11,9 @@ const Option = AutoComplete.Option;
   state => {
     console.log(state);
     return {
-      curUid: state.login.uid + '',
-      curUserName: state.login.userName,
-      curUserRole: state.login.role
+      curUid: state.user.uid + '',
+      curUserName: state.user.userName,
+      curUserRole: state.user.role
     }
   }
 )

@@ -38,7 +38,7 @@ const success = (text, arg) => {
       url: state.addInterface.url,
       seqGroup: state.addInterface.seqGroup,
       interfaceName: state.addInterface.interfaceName,
-      server_ip: state.login.server_ip,
+      server_ip: state.user.server_ip,
       clipboard: state.addInterface.clipboard
     }
   },

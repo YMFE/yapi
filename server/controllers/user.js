@@ -490,11 +490,19 @@ class userController extends baseController {
 
     }
 
+     /**
+     * 根据用户uid头像
+     * @interface /user/avatar
+     * @method GET 
+     * @param {*} uid  
+     */
+
     async avatar(ctx) {   
         
         try{
+            let uid = ctx.query.uid ? ctx.query.uid: this.getUid();
             let avatarInst = yapi.getInst(avatarModel);
-            let data = await avatarInst.get(this.getUid());
+            let data = await avatarInst.get(uid);
             let dataBuffer, type;
             if(!data || !data.basecode){
                 dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/image/avatar.png'));

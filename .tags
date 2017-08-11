@@ -61,48 +61,11 @@ fetchMoreNews	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/news/news.js	
 const.curUid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^const initialState = {$/;"	property	line:4
 switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^  switch (action.type) {$/;"	function	line:9
 changeCurUid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/user/user.js	/^export function changeCurUid(curUid) {$/;"	function	line:23
-requireAuthentication	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^export function requireAuthentication(Component) {$/;"	function	line:16
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    constructor(props){$/;"	function	line:18
-static.isAuthenticated	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    static propTypes ={$/;"	property	line:21
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    componentWillMount() {$/;"	function	line:28
-componentWillReceiveProps	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    componentWillReceiveProps() {$/;"	function	line:31
-checkAuth	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    checkAuth() {$/;"	function	line:34
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    render() {$/;"	function	line:40
-MenuUser.propTypes.user	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^MenuUser.propTypes={$/;"	property	line:27
-ToolUser.propTypes.user	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^ToolUser.propTypes={$/;"	property	line:59
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  constructor(props) {$/;"	function	line:89
-static.router	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  static propTypes ={$/;"	property	line:92
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  render () {$/;"	function	line:149
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Search/Search.js	/^  constructor(props){$/;"	function	line:24
 state.dataSource	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Search/Search.js	/^    this.state = {$/;"	property	line:26
 static.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Search/Search.js	/^  static propTypes = {$/;"	property	line:31
 getDataSource	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Search/Search.js	/^  getDataSource(groupList){$/;"	function	line:91
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Search/Search.js	/^  render(){$/;"	function	line:99
-@connect.url	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  static propTypes = {$/;"	property	line:58
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  constructor (props) {$/;"	function	line:75
-constructor.state.isLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    this.state = {$/;"	property	line:77
-constructor.state.isSave	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      isLoading: '',$/;"	property	line:78
-constructor.state.mockJson	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      isSave: false,$/;"	property	line:79
-constructor.state.mockURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      mockJson: '',$/;"	property	line:80
-constructor.state.projectData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      mockURL: '',$/;"	property	line:81
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  componentDidMount () {$/;"	function	line:88
-getInterfaceId	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  getInterfaceId () {$/;"	function	line:121
-modifyTagName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  modifyTagName (tagName) {$/;"	function	line:134
-verificationURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  verificationURL () {$/;"	function	line:140
-getMockURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  getMockURL (project_id, result) {$/;"	function	line:148
-getMockURL.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = {id: project_id}$/;"	property	line:149
-editState	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  editState (data) {$/;"	function	line:161
-initInterfaceData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  initInterfaceData (interfaceId) {$/;"	function	line:177
-initInterfaceData.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = { id: interfaceId }$/;"	property	line:178
-initInterfaceDataTwo	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  initInterfaceDataTwo (interfaceId) {$/;"	function	line:198
-initInterfaceDataTwo.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = { id: interfaceId }$/;"	property	line:199
-setLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  setLoading (boolean) {$/;"	function	line:211
-routerPage	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  routerPage () {$/;"	function	line:217
-changeState	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  changeState (ifTrue) {$/;"	function	line:223
-mockData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  mockData () { \/\/ mock 数据$/;"	function	line:230
-jumpEditUrl	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  jumpEditUrl (_id) {$/;"	function	line:244
-saveForms	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  saveForms () {$/;"	function	line:255
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  render () {$/;"	function	line:308
 @connect.reqParams	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/InterfaceTest/InterfaceTest.js	/^  static propTypes = {$/;"	property	line:33
 state.res	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/InterfaceTest/InterfaceTest.js	/^  state = {$/;"	property	line:43
 state.method	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/InterfaceTest/InterfaceTest.js	/^    res: '',$/;"	property	line:44
@@ -174,23 +137,6 @@ rhymeCompleter.identifierRegexps	/Users/qitmac000445/Desktop/YAPI/yapi/client/co
 getCompletions	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/ResParams/ResParams.js	/^      getCompletions: function (editor, session, pos, prefix, callback) {$/;"	function	line:72
 callback	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/ResParams/ResParams.js	/^        callback(null, wordList.map(function (ea) {$/;"	function	line:94
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/ResParams/ResParams.js	/^  render() {$/;"	function	line:113
-const.y	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
-const.opacity	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
-const.type	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
-const.ease	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
-const.y	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
-const.opacity	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
-const.type	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
-const.ease	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
-const.duration	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
-const.width	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const style = {$/;"	property	line:17
-const.background	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  'width':'100%',$/;"	property	line:20
-const.backgroundSize	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  'background': 'url(.\/image\/bg-img.jpg) no-repeat',$/;"	property	line:21
-HomeGuest.propTypes.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^HomeGuest.propTypes ={$/;"	property	line:125
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  constructor(props) {$/;"	function	line:139
-static.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  static propTypes = {$/;"	property	line:142
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  render () {$/;"	function	line:150
-Home.defaultProps.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^Home.defaultProps={$/;"	property	line:174
 from.fetchInterfaceData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/Interface.js	/^  static propTypes = {$/;"	property	line:34
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/Interface.js	/^  constructor(props) {$/;"	function	line:43
 componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/Interface.js	/^  componentWillMount () {$/;"	function	line:47
@@ -203,29 +149,6 @@ deleteInterfaceData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Inte
 deleteInterface	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/InterfaceTable/InterfaceTable.js	/^  deleteInterface (interfaceId) {$/;"	function	line:50
 deleteInterface.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/InterfaceTable/InterfaceTable.js	/^    const params = {$/;"	property	line:51
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Interface/InterfaceTable/InterfaceTable.js	/^  render () {$/;"	function	line:63
-import.marginBottom	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^const formItemStyle = {$/;"	property	line:9
-const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^const changeHeight = {$/;"	property	line:13
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  constructor(props) {$/;"	function	line:29
-static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  static propTypes = {$/;"	property	line:33
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  componentDidMount() {$/;"	function	line:56
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  render() {$/;"	function	line:61
-const.marginBottom	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^const formItemStyle = {$/;"	property	line:8
-const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^const changeHeight = {$/;"	property	line:12
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  constructor(props) {$/;"	function	line:28
-state.confirmDirty	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^    this.state = {$/;"	property	line:30
-static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  static propTypes = {$/;"	property	line:35
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  render() {$/;"	function	line:80
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  constructor(props) {$/;"	function	line:23
-from.state.loading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^    this.state = {$/;"	property	line:25
-static.newsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  static propTypes = {$/;"	property	line:29
-setLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  setLoading(bool){$/;"	function	line:34
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  componentWillMount(){$/;"	function	line:39
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  render () {$/;"	function	line:45
-@connect.fetchNewsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  static propTypes = {$/;"	property	line:34
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  constructor(props) {$/;"	function	line:40
-constructor.state.selectedKeys	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^    this.state = {$/;"	property	line:42
-getLogData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  getLogData(e){$/;"	function	line:46
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  render () {$/;"	function	line:59
 from	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^import { fetchMoreNews } from '..\/..\/..\/reducer\/modules\/news.js'$/;"	function	line:5
 @connect.newsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^  static propTypes = {$/;"	property	line:22
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsTimeline/NewsTimeline.js	/^  constructor(props) {$/;"	function	line:29
@@ -408,12 +331,133 @@ searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroup
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/ProjectGroups/GroupList/GroupList.js	/^  render () {$/;"	function	line:185
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  constructor(props) {$/;"	function	line:10
 render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/Group.js	/^  render () {$/;"	function	line:14
-from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:6
-constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:13
-componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:17
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:20
+const.isLogin	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^const initialState = {$/;"	property	line:15
+const.userName	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  isLogin: false,$/;"	property	line:16
+const.uid	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  userName: null,$/;"	property	line:17
+const.email	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  uid: null,$/;"	property	line:18
+const.loginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  email: '',$/;"	property	line:19
+const.loginWrapActiveKey	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  loginState: LOADING_STATUS,$/;"	property	line:20
+switch	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^  switch (action.type) {$/;"	function	line:25
+checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function checkLoginState() {$/;"	function	line:82
+loginActions	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function loginActions(data) {$/;"	function	line:95
+regActions	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function regActions(data) {$/;"	function	line:102
+const.username	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^    password,$/;"	property	line:106
+logoutActions	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function logoutActions() {$/;"	function	line:115
+loginTypeAction	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/modules/user.js	/^export function loginTypeAction(index) {$/;"	function	line:122
 constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:26
 state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:28
 static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:33
-componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:38
-render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:71
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:45
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:78
+const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^const headerStyle = {$/;"	property	line:13
+const.lineHeight	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  'height': '.56rem',$/;"	property	line:14
+const.padding	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  'lineHeight': '.56rem',$/;"	property	line:15
+MenuUser.propTypes.user	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^MenuUser.propTypes={$/;"	property	line:34
+ToolUser.propTypes.user	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^ToolUser.propTypes={$/;"	property	line:78
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  constructor(props) {$/;"	function	line:107
+static.router	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  static propTypes ={$/;"	property	line:110
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/Header/Header.js	/^  render () {$/;"	function	line:166
+import.marginBottom	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^const formItemStyle = {$/;"	property	line:9
+const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^const changeHeight = {$/;"	property	line:13
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  constructor(props) {$/;"	function	line:29
+static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  static propTypes = {$/;"	property	line:33
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  componentDidMount() {$/;"	function	line:56
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Login.js	/^  render() {$/;"	function	line:61
+const.marginBottom	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^const formItemStyle = {$/;"	property	line:8
+const.height	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^const changeHeight = {$/;"	property	line:12
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  constructor(props) {$/;"	function	line:28
+state.confirmDirty	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^    this.state = {$/;"	property	line:30
+static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  static propTypes = {$/;"	property	line:35
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/Reg.js	/^  render() {$/;"	function	line:80
+requireAuthentication	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^export function requireAuthentication(Component) {$/;"	function	line:16
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    constructor(props){$/;"	function	line:18
+static.isAuthenticated	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    static propTypes ={$/;"	property	line:21
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    componentWillMount() {$/;"	function	line:28
+componentWillReceiveProps	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    componentWillReceiveProps() {$/;"	function	line:31
+checkAuth	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    checkAuth() {$/;"	function	line:34
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/components/AuthenticatedComponent.js	/^    render() {$/;"	function	line:40
+const.y	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
+const.opacity	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
+const.type	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
+const.ease	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };$/;"	property	line:15
+const.y	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
+const.opacity	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
+const.type	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
+const.ease	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
+const.duration	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const imgAnim = { y: '+=50', opacity: 0, type: 'from', ease: 'easeOutQuad', duration: '1500'};$/;"	property	line:16
+const.width	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^const style = {$/;"	property	line:17
+const.background-color	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  'width':'100%',$/;"	property	line:18
+const.backgroundSize	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  'background-color': '#333',$/;"	property	line:20
+HomeGuest.propTypes.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^HomeGuest.propTypes ={$/;"	property	line:124
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  constructor(props) {$/;"	function	line:138
+static.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  static propTypes = {$/;"	property	line:141
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^  render () {$/;"	function	line:149
+Home.defaultProps.introList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Home/Home.js	/^Home.defaultProps={$/;"	property	line:173
+@connect.url	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  static propTypes = {$/;"	property	line:58
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  constructor (props) {$/;"	function	line:75
+constructor.state.isLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    this.state = {$/;"	property	line:77
+constructor.state.isSave	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      isLoading: '',$/;"	property	line:78
+constructor.state.mockJson	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      isSave: false,$/;"	property	line:79
+constructor.state.mockURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      mockJson: '',$/;"	property	line:80
+constructor.state.projectData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^      mockURL: '',$/;"	property	line:81
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  componentDidMount () {$/;"	function	line:88
+getInterfaceId	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  getInterfaceId () {$/;"	function	line:121
+modifyTagName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  modifyTagName (tagName) {$/;"	function	line:134
+verificationURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  verificationURL () {$/;"	function	line:140
+getMockURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  getMockURL (project_id, result) {$/;"	function	line:148
+getMockURL.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = {id: project_id}$/;"	property	line:149
+editState	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  editState (data) {$/;"	function	line:161
+initInterfaceData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  initInterfaceData (interfaceId) {$/;"	function	line:177
+initInterfaceData.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = { id: interfaceId }$/;"	property	line:178
+initInterfaceDataTwo	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  initInterfaceDataTwo (interfaceId) {$/;"	function	line:198
+initInterfaceDataTwo.id	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^    const params = { id: interfaceId }$/;"	property	line:199
+setLoading	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  setLoading (boolean) {$/;"	function	line:211
+routerPage	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  routerPage () {$/;"	function	line:217
+changeState	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  changeState (ifTrue) {$/;"	function	line:223
+mockData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  mockData () { \/\/ mock 数据$/;"	function	line:230
+jumpEditUrl	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  jumpEditUrl (_id) {$/;"	function	line:244
+saveForms	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  saveForms () {$/;"	function	line:255
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/AddInterface/AddInterface.js	/^  render () {$/;"	function	line:308
+from.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  static propTypes = {$/;"	property	line:35
+state.addGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  state = {$/;"	property	line:46
+state.editGroupModalVisible	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    addGroupModalVisible: false,$/;"	property	line:47
+state.newGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    editGroupModalVisible: false,$/;"	property	line:48
+state.newGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    newGroupName: '',$/;"	property	line:49
+state.currGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    newGroupDesc: '',$/;"	property	line:50
+state.currGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    currGroupName: '',$/;"	property	line:51
+state.groupList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^    currGroupDesc: '',$/;"	property	line:52
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  constructor(props) {$/;"	function	line:56
+showModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  showModal(type) {$/;"	function	line:80
+hideModal	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  hideModal(type) {$/;"	function	line:95
+inputNewGroupName	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  inputNewGroupName(e, type) {$/;"	function	line:134
+inputNewGroupDesc	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  inputNewGroupDesc(e, type) {$/;"	function	line:142
+selectGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  selectGroup(e) {$/;"	function	line:151
+searchGroup	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  searchGroup(e, value) {$/;"	function	line:175
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Group/GroupList/GroupList.js	/^  render () {$/;"	function	line:185
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/LoginWrap.js	/^  constructor(props){$/;"	function	line:16
+static.form	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/LoginWrap.js	/^  static propTypes = {$/;"	property	line:20
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Login/LoginWrap.js	/^  render() {$/;"	function	line:25
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  constructor(props) {$/;"	function	line:24
+state.mockURL	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^    this.state = {$/;"	property	line:26
+static.uid	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  static propTypes = {$/;"	property	line:30
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  componentWillMount(){$/;"	function	line:34
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/News.js	/^  render () {$/;"	function	line:44
+@connect.fetchNewsData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  static propTypes = {$/;"	property	line:34
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  constructor(props) {$/;"	function	line:40
+constructor.state.selectedKeys	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^    this.state = {$/;"	property	line:42
+getLogData	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  getLogData(e){$/;"	function	line:46
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/News/NewsList/NewsList.js	/^  render () {$/;"	function	line:59
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/LeftMenu.js	/^  constructor(props) {$/;"	function	line:21
+@connect.state.dataSource	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/LeftMenu.js	/^    this.state = {$/;"	property	line:23
+static.curUid	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/LeftMenu.js	/^  static propTypes = {$/;"	property	line:31
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/LeftMenu.js	/^  render() {$/;"	function	line:68
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  constructor(props) {$/;"	function	line:24
+@connect.state.data	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^    this.state = {$/;"	property	line:26
+static.curUserRole	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  static propTypes = {$/;"	property	line:32
+getUserList	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  getUserList() {$/;"	function	line:41
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  componentDidMount() {$/;"	function	line:60
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/User/List.js	/^  render() {$/;"	function	line:85
+from.children	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  static propTypes = {$/;"	property	line:8
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  constructor(props) {$/;"	function	line:15
+componentWillMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  componentWillMount() {$/;"	function	line:19
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/containers/Project/Project.js	/^  render () {$/;"	function	line:22

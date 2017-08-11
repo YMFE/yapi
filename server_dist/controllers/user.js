@@ -1035,21 +1035,30 @@ var userController = function (_baseController) {
 
             return uploadAvatar;
         }()
+
+        /**
+        * 根据用户uid头像
+        * @interface /user/avatar
+        * @method GET 
+        * @param {*} uid  
+        */
+
     }, {
         key: 'avatar',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var avatarInst, data, dataBuffer, type;
+                var uid, avatarInst, data, dataBuffer, type;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
                             case 0:
                                 _context12.prev = 0;
+                                uid = ctx.query.uid ? ctx.query.uid : this.getUid();
                                 avatarInst = _yapi2.default.getInst(_avatar2.default);
-                                _context12.next = 4;
-                                return avatarInst.get(this.getUid());
+                                _context12.next = 5;
+                                return avatarInst.get(uid);
 
-                            case 4:
+                            case 5:
                                 data = _context12.sent;
                                 dataBuffer = void 0, type = void 0;
 
@@ -1063,21 +1072,21 @@ var userController = function (_baseController) {
 
                                 ctx.set('Content-type', type);
                                 ctx.body = dataBuffer;
-                                _context12.next = 14;
+                                _context12.next = 15;
                                 break;
 
-                            case 11:
-                                _context12.prev = 11;
+                            case 12:
+                                _context12.prev = 12;
                                 _context12.t0 = _context12['catch'](0);
 
                                 ctx.body = 'error:' + _context12.t0.message;
 
-                            case 14:
+                            case 15:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[0, 11]]);
+                }, _callee12, this, [[0, 12]]);
             }));
 
             function avatar(_x13) {
