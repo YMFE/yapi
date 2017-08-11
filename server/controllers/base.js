@@ -19,7 +19,6 @@ class baseController {
 
     async init(ctx) {
         this.$user = null;
-        console.log(111111)
         let ignoreRouter = [
             '/user/login_by_token',
             '/user/login',
