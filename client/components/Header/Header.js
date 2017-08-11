@@ -89,14 +89,8 @@ ToolUser.propTypes={
 @connect(
   (state) => {
     return{
-<<<<<<< HEAD
-      avatar: state.login.avatar,
-      user: state.login.userName,
-      uid: state.login.uid,
-=======
       user: state.user.userName,
       uid: state.user.uid,
->>>>>>> 8c04198eb2dd2e6ddae9b815cc9a21b6436d8c76
       msg: null,
       login:state.user.isLogin
     }
