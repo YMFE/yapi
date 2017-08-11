@@ -1,21 +1,22 @@
 @import '../../styles/mixin.scss';
-.p-box{
-    min-width: 150px;
-    min-height: 200px;
-    // background-color: #dbd;
 
-    .p-container{
-        width: 100%;
-        height: 100%;
-        background: #fff;
-        border-radius: 2px;
-        font-size: 12px;
-        position: relative;
-        -webkit-transition: all .3s;
-        transition: all .3s;
-        &:hover{
-            box-shadow: 0 1px 6px rgba(0,0,0,.2);
-            border-color: transparent;
-        }
+.m-card {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: .16rem;
+  background-color: #fff;
+  transition: all .4s;
+  color: rgba(0, 0, 0, 0.65);
+  &:hover {
+    background-color: #efefef;
+  }
+  .m-card-logo {
+    .icon {
+      font-size: .8rem;
     }
+    .name {
+      font-size: .18rem;
+      margin-top: .16rem;
+    }
+  }
 }
