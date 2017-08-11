@@ -13,6 +13,9 @@ $color-black-light : #404040;
 
 /* .header-box.css */
 .header-box {
+  height: .56rem;
+  line-height: .56rem;
+  padding: 0;
   .logo {
     position: relative;
     float: left;
@@ -45,6 +48,24 @@ $color-black-light : #404040;
     @keyframes flag {
       from { background-position: 0px; }
       to { background-position: -240px; }
+    }
+    &:before, &:after {
+      content: '';
+      display: block;
+      width: 2px;
+      height: .56rem;
+      background-color: #222;
+      border-left: 1px solid #575D67;
+      position: relative;
+      top: 0;
+    }
+    &:before {
+      float: left;
+      left: -.08rem;
+    }
+    &:after {
+      float: right;
+      right: -.27rem;
     }
   }
 

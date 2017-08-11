@@ -81,8 +81,8 @@ class userController extends baseController {
                 email: result.email,
                 add_time: result.add_time,
                 up_time: result.up_time,
-                server_ip: yapi.WEBCONFIG.server_ip
-
+                server_ip: yapi.WEBCONFIG.server_ip,
+                type: 'site'
             }, 0, 'logout success...');
         } else {
             return ctx.body = yapi.commons.resReturn(null, 405, '密码错误');
@@ -478,8 +478,13 @@ class userController extends baseController {
     }
 
     /**
-     * 
+     * 上传用户头像
+     * @interface /user/upload_avatar
+     * @method POST 
      * @param {*} basecode  base64编码，通过h5 api传给后端
+     * @category user
+     * @returns {Object} 
+     * @example 
      */
 
     async uploadAvatar(ctx) {
@@ -515,11 +520,22 @@ class userController extends baseController {
 
     }
 
+     /**
+     * 根据用户uid头像
+     * @interface /user/avatar
+     * @method GET 
+     * @param {*} uid  
+     * @category user
+     * @returns {Object} 
+     * @example 
+     */
+
     async avatar(ctx) {   
         
         try{
+            let uid = ctx.query.uid ? ctx.query.uid: this.getUid();
             let avatarInst = yapi.getInst(avatarModel);
-            let data = await avatarInst.get(this.getUid());
+            let data = await avatarInst.get(uid);
             let dataBuffer, type;
             if(!data || !data.basecode){
                 dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/image/avatar.png'));
@@ -582,26 +598,24 @@ class userController extends baseController {
     }
 
     /**
-     * 根据路由id获取面包屑数据
-     * @interface /user/nav
+     * 根据路由id初始化项目数据
+     * @interface /user/project
      * @method GET
      * @category user
      * @foldnumber 10
      * @param {String} type 可选group|interface|project
      * @param {Number} id   
      * @return {Object}
-     * @example ./api/user/nav.json
+     * @example 
     */
-    async nav(ctx) {
+    async project(ctx) {
         let { id, type } = ctx.request.query;
         let result = {};
         try {
             if (type === 'interface') {
                 let interfaceInst = yapi.getInst(interfaceModel);
                 let interfaceData = await interfaceInst.get(id)
-                result["interface_id"] = interfaceData._id;
-                result["interface_name"] = interfaceData.path;
-
+                result.interface = interfaceData;         
                 type = 'project';
                 id = interfaceData.project_id;
             }
@@ -609,17 +623,38 @@ class userController extends baseController {
             if (type === 'project') {
                 let projectInst = yapi.getInst(projectModel);
                 let projectData = await projectInst.get(id);
-                result["project_id"] = projectData._id;
-                result["project_name"] = projectData.prd_host + projectData.basepath;
+                result.project = projectData.toObject();
+                let ownerAuth = await this.checkAuth(id, 'project', 'danger'), devAuth;
+                if(ownerAuth){
+                    result.project.role = 'owner'
+                }else{
+                    devAuth = await this.checkAuth(id, 'project', 'site');
+                    if(devAuth){
+                        result.project.role = 'dev'
+                    }else{
+                        result.project.role = 'member'
+                    }
+                }
                 type = 'group';
-                id = projectData.group_id
+                id = projectData.group_id;
             }
 
             if (type === 'group') {
                 let groupInst = yapi.getInst(groupModel);
                 let groupData = await groupInst.get(id);
-                result["group_id"] = groupData._id;
-                result["group_name"] = groupData.group_name;
+                result.group = groupData.toObject();               
+                let ownerAuth = await this.checkAuth(id, 'group', 'danger'), devAuth;
+                if(ownerAuth){
+                    result.group.role = 'owner'
+                }else{
+                    devAuth = await this.checkAuth(id, 'group', 'site');
+                    if(devAuth){
+                        result.group.role = 'dev'
+                    }else{
+                        result.group.role = 'member'
+                    }
+                }
+                
             }
 
             return ctx.body = yapi.commons.resReturn(result)
