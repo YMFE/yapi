@@ -10,18 +10,8 @@ import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
 
-const headerStyle = {
-  'height': '.56rem',
-  'lineHeight': '.56rem',
-  'padding': 0
-};
-
 const MenuUser = (props) => (
-  <Menu
-  style={{
-    "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
-  }}
-  >
+  <Menu className="user-menu" >
     <Menu.Item key="0">
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
@@ -172,7 +162,7 @@ export default class HeaderCom extends Component {
   render () {
     const { login, user, msg, uid } = this.props;
     return (
-      <Header className="header-box" style={headerStyle}>
+      <Header className="header-box m-header">
         <div className="content g-row">
           <div className="logo">
             <Link to="/" onClick={this.relieveLink} className="href">

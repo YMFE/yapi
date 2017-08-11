@@ -139,11 +139,19 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-user-upload_avatar">/user/upload_avatar</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-user-avatar">/user/avatar</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-user-search">/user/search</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#-user-nav">/user/nav</a>
+                                        <a href="#-user-project">/user/project</a>
                                     </li>
                                 
                                 </ul>
@@ -1246,6 +1254,130 @@
 
 <div class="con-list-item">
     <blockquote class="api">
+        <h3 id="-user-upload_avatar" class="page-header subject">
+            /user/upload_avatar
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-user-upload_avatar">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        上传用户头像
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#452" target="_blank">./server/controllers/user.js:452</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>basecode</td>
+                <td>*</td>
+                <td>base64编码，通过h5 api传给后端</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-avatar" class="page-header subject">
+            /user/avatar
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-user-avatar">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        根据用户uid头像
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#495" target="_blank">./server/controllers/user.js:495</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>uid</td>
+                <td>*</td>
+                <td></td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
         <h3 id="-user-search" class="page-header subject">
             /user/search
             
@@ -1262,7 +1394,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#511" target="_blank">./server/controllers/user.js:511</a>
+        <a href="./static/server/controllers/user.js.html#527" target="_blank">./server/controllers/user.js:527</a>
     </p>
     
     
@@ -1324,23 +1456,23 @@
 
 <div class="con-list-item">
     <blockquote class="api">
-        <h3 id="-user-nav" class="page-header subject">
-            /user/nav
+        <h3 id="-user-project" class="page-header subject">
+            /user/project
             
             <span class="ui-badge">GET</span>
             
             
-            <a class="hashlink" href="#-user-nav">#</a>
+            <a class="hashlink" href="#-user-project">#</a>
         </h3>
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        根据路由id获取面包屑数据
+        根据路由id初始化项目数据
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#556" target="_blank">./server/controllers/user.js:556</a>
+        <a href="./static/server/controllers/user.js.html#572" target="_blank">./server/controllers/user.js:572</a>
     </p>
     
     
@@ -1392,20 +1524,6 @@
         </table>
     </div>
     
-    
-    <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
-    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
-    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"interface_id"</span><span class="token punctuation">:</span> <span class="token number">2746</span><span class="token punctuation">,</span>
-        <span class="token string">"interface_name"</span><span class="token punctuation">:</span> <span class="token string">"/a/c"</span><span class="token punctuation">,</span>
-        <span class="token string">"project_id"</span><span class="token punctuation">:</span> <span class="token number">2481</span><span class="token punctuation">,</span>
-        <span class="token string">"project_name"</span><span class="token punctuation">:</span> <span class="token string">"www.xxx.com/api"</span><span class="token punctuation">,</span>
-        <span class="token string">"group_id"</span><span class="token punctuation">:</span> <span class="token number">181</span><span class="token punctuation">,</span>
-        <span class="token string">"group_name"</span><span class="token punctuation">:</span> <span class="token string">"YMFE"</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
     
     
 </div>

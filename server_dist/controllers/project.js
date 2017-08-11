@@ -119,6 +119,7 @@ var projectController = function (_baseController) {
          * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
          * @param {String} protocol 线上域名协议，不能为空
          * @param {Number} group_id 项目分组id，不能为空
+         * @param {String} project_type private public
          * @param  {String} [desc] 项目描述
          * @returns {Object}
          * @example ./api/project/add.json
