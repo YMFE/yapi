@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Follows.scss';
 import Subnav from '../../components/Subnav/Subnav.js';
-import ProjectBox from '../../components/ProjectBox/ProjectBox.js';
+import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 
 class Follows extends Component {
   render () {
@@ -19,10 +19,10 @@ class Follows extends Component {
         <div className="g-row">
           <div className="follow-box">
             <div className="follow-container">
-              <ProjectBox />
-              <ProjectBox />
-              <ProjectBox />
-              <ProjectBox />
+              <ProjectCard />
+              <ProjectCard />
+              <ProjectCard />
+              <ProjectCard />
             </div>
           </div>
         </div>
