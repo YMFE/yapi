@@ -10,13 +10,29 @@ import router from './router.js';
 
 yapi.connect = dbModule.connect();    
 const app = new Koa();
+let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
+
 
 app.use(mockServer);
 app.use(bodyParser());
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+
+
+app.use( async (ctx, next) => {
+    if( /^\/(?!api)[a-zA-Z0-9\/\-]*$/.test(ctx.path) ){
+        ctx.path = "/"
+        await next()
+    }else{
+        await next()
+    }
+    
+})
 app.use(koaStatic(
-    yapi.path.join(yapi.WEBROOT, 'static')
+    yapi.path.join(yapi.WEBROOT, 'static'),
+    {index: indexFile}
 ));
+
 app.listen(yapi.WEBCONFIG.port);
 commons.log(`the server is start at port ${yapi.WEBCONFIG.port}`);

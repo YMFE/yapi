@@ -66,23 +66,22 @@ var baseController = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 this.$user = null;
-                                console.log(111111);
                                 ignoreRouter = ['/user/login_by_token', '/user/login', '/user/reg', '/user/status', '/user/logout'];
 
                                 if (!(ignoreRouter.indexOf(ctx.path) > -1)) {
-                                    _context.next = 7;
+                                    _context.next = 6;
                                     break;
                                 }
 
                                 this.$auth = true;
-                                _context.next = 9;
+                                _context.next = 8;
                                 break;
 
-                            case 7:
-                                _context.next = 9;
+                            case 6:
+                                _context.next = 8;
                                 return this.checkLogin(ctx);
 
-                            case 9:
+                            case 8:
                             case 'end':
                                 return _context.stop();
                         }

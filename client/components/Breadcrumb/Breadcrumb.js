@@ -31,7 +31,7 @@ export default class BreadcrumbNavigation extends Component {
         type = 'project';
       }
       const params = { type, id };
-      axios.get('/user/nav', {params: params}).then( (res) => {
+      axios.get('/api/user/nav', {params: params}).then( (res) => {
         const data = res.data.data;
         // 依次填入group/projec/interface
         if (data.group_name) {

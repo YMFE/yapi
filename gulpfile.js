@@ -96,7 +96,7 @@ gulp.task('initialBuild', ['removeDist'], () => {
             output('success', '初始编译成功！');
             waitingSpinner();
 
-            excuteCmd('node_modules/.bin/nodemon', ['-q', 'server_dist/app.js'], {
+            excuteCmd('node_modules/.bin/nodemon', ['-q', 'server_dist/app.js', 'dev'], {
                 cwd: __dirname
             });
 
