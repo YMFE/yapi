@@ -62,6 +62,9 @@ var logModel = function (_baseModel) {
          * @param {String} content log内容
          * @param {Enum} type log类型， ['user', 'group', 'interface', 'project', 'other']
          * @param {Number} uid 用户id
+         * @param {String} username 用户名
+         * @param {Number} typeid 类型id
+         * @param {Number} add_time 时间
          */
 
     }, {
@@ -88,26 +91,28 @@ var logModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(typeid) {
+        value: function list(typeid, type) {
             return this.model.find({
-                typeid: typeid
+                typeid: typeid,
+                type: type
             }).exec();
         }
     }, {
         key: 'listWithPaging',
-        value: function listWithPaging(typeid, page, limit) {
+        value: function listWithPaging(typeid, type, page, limit) {
             page = parseInt(page);
             limit = parseInt(limit);
 
             return this.model.find({
-                typeid: typeid
+                type: type
             }).skip((page - 1) * limit).limit(limit).exec();
         }
     }, {
         key: 'listCount',
-        value: function listCount(typeid) {
+        value: function listCount(typeid, type) {
             return this.model.count({
-                typeid: typeid
+                typeid: typeid,
+                type: type
             });
         }
     }]);

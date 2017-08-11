@@ -214,7 +214,11 @@ var baseController = function () {
         value: function getRole() {
             return this.$user.role;
         }
-
+    }, {
+        key: 'getUsername',
+        value: function getUsername() {
+            return this.$user.username;
+        }
         /**
          * 
          * @param {*} id type对应的id

@@ -86,8 +86,6 @@ export function checkLoginState() {
         type: GET_LOGIN_STATE,
         payload: res
       });
-    }).catch((err) => {
-      console.log(err);
     })
   }
 }
