@@ -12,7 +12,7 @@ export default function createStore(initialState = {}) {
   if (ENV_PARAMS.development) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
-      window.devToolsExtension ? window.devToolsExtension() : require('../cntainers/DevTools/DevTools').default.instrument()
+      window.devToolsExtension ? window.devToolsExtension() : require('../containers/DevTools/DevTools').default.instrument()
     )(_createStore);
 
   } else {
