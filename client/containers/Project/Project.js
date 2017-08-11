@@ -22,6 +22,7 @@ export default class GroupList extends Component {
 
   render () {
     const { match } = this.props;
+    console.log('project')
     return (
       <div>
         <Subnav
@@ -37,7 +38,7 @@ export default class GroupList extends Component {
             path: `/project/${match.params.id}/activity`
           }]}/>
         <Switch>
-          <Redirect exact from='/project/:id' to={`/project/${match.params.id}/interface`} />
+          <Redirect exact from ="/project/:id" to={`/project/${match.params.id}/activity`}/>
           <Route path="/project/:id/activity" component={null} />
           <Route path="/project/:id/interface" component={Interface} />
           <Route path="/project/:id/setting" component={null} />
