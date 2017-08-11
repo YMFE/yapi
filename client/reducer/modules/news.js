@@ -38,9 +38,10 @@ export default (state = initialState, action) => {
 import axios from 'axios';
 import variable from '../../constants/variable';
 
-export function fetchNewsData (typeid,page,limit) {
+export function fetchNewsData (typeid,type,page,limit) {
   const param = {
     typeid: typeid,
+    type: type,
     page: page,
     limit: limit?limit:variable.PAGE_LIMIT
   }

@@ -86,7 +86,7 @@ class NewsTimeline extends Component {
   getMore(){
     const that = this;
     this.setState({loading: true});
-    this.props.fetchNewsData(21, this.props.curpage, 8).then(function () {
+    this.props.fetchNewsData(21,'project', this.props.curpage, 8).then(function () {
       that.setState({loading: false});
       if(that.props.newsData.total + 1 === that.props.curpage){
         that.setState({bidden: "logbidden"})
@@ -95,7 +95,7 @@ class NewsTimeline extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchNewsData(21, this.props.curpage, 8)
+    this.props.fetchNewsData(21,'project', this.props.curpage, 8)
   }
 
   
