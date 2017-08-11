@@ -37,3 +37,5 @@ node_modules/
 runtime/
 prd/
 dev/
+.tags
+.tags1
