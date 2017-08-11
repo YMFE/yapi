@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Subnav } from '../../components/index'
-import Interface from './Interface/Interface.js'
 import { getProject } from  '../../reducer/modules/project';
+import { Interface } from './Interface/Interface.js'
+import { Activity } from './Activity/Activity.js'
+import { Setting } from './Setting/Setting.js'
+
 
 @connect(
   state => {
@@ -39,6 +42,7 @@ export default class Project extends Component {
 
   render () {
     const { match } = this.props;
+    console.log('project')
     return (
       <div>
         <Subnav
@@ -54,10 +58,10 @@ export default class Project extends Component {
             path: `/project/${match.params.id}/activity`
           }]}/>
         <Switch>
-          <Redirect exact from='/project/:id' to={`/project/${match.params.id}/interface`} />
-          <Route path="/project/:id/activity" component={null} />
+          <Redirect exact from ="/project/:id" to={`/project/${match.params.id}/activity`}/>
+          <Route path="/project/:id/activity" component={Activity} />
           <Route path="/project/:id/interface" component={Interface} />
-          <Route path="/project/:id/setting" component={null} />
+          <Route path="/project/:id/setting" component={Setting} />
         </Switch>
       </div>
     )

@@ -73,7 +73,7 @@
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
         "content": "./README/README-mock.md" // 内容(这里以markdown文件举例)
-        
+
     },{
         "name": "api",
         "title": "",
@@ -85,8 +85,8 @@
         "options": {
             "type": "interface", // 类型，可选 component 和 lib，默认 component
             "source": true, // 是否生成源文件预览，默认 false
-            "categories":["group","user","project", "interface"]
-            
+            "categories":["group","user","project", "interface","follow"]
+
         }
     }]
 }
