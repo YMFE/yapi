@@ -61,7 +61,7 @@ export default class App extends Component {
                 <Redirect exact from='/group' to='/group/1' />
                 <Route exact path="/group/:groupName" component={requireAuthentication(Group)} />
               </Switch>
-              <Route path="/project" component={requireAuthentication(Project)} />
+              <Route path="/project/:id" component={requireAuthentication(Project)} />
               <Route path="/user" component={requireAuthentication(User)} />
               <Route path="/follow" component={requireAuthentication(Follows)} />
               <Route path="/add-project" component={requireAuthentication(AddProject)} />
