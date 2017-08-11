@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Subnav } from '../../components/index'
 import { Interface } from './Interface/Interface.js'
+import { Activity } from './Activity/Activity.js'
+import { Setting } from './Setting/Setting.js'
 
 export default class GroupList extends Component {
 
@@ -39,9 +41,9 @@ export default class GroupList extends Component {
           }]}/>
         <Switch>
           <Redirect exact from ="/project/:id" to={`/project/${match.params.id}/activity`}/>
-          <Route path="/project/:id/activity" component={null} />
+          <Route path="/project/:id/activity" component={Activity} />
           <Route path="/project/:id/interface" component={Interface} />
-          <Route path="/project/:id/setting" component={null} />
+          <Route path="/project/:id/setting" component={Setting} />
         </Switch>
       </div>
     )
