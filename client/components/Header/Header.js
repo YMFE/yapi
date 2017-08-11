@@ -53,7 +53,7 @@ const ToolUser = (props)=> (
     </Link>
     <Tooltip placement="bottom" title={'使用文档'}>
       <li className="toolbar-li">
-        <a target="_blank" href="./doc/index.html"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+        <a target="_blank" href="/doc/index.html"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
       </li>
     </Tooltip>
     <li className="toolbar-li">
@@ -69,7 +69,9 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-          <img style={{width:24,height:24}} src={`/user/avatar?uid=${props.uid}`} /><span className="name">{props.user}</span>
+
+          <img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} /><span className="name">{props.user}</span>
+
         </a>
       </Dropdown>
     </li>
@@ -173,7 +175,7 @@ export default class HeaderCom extends Component {
         <div className="content g-row">
           <div className="logo">
             <Link to="/" onClick={this.relieveLink} className="href">
-              <img className="img" src="./image/logo_header@1x.png" /><span className="logo-name">YAPI<span className="ui-badge"></span></span>
+              <img className="img" src="/image/logo_header@1x.png" /><span className="logo-name">YAPI<span className="ui-badge"></span></span>
             </Link>
           </div>
           <div className="user-toolbar">
