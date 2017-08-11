@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
 export function fetchGroupList() {
   return {
     type: FETCH_GROUP_LIST,
-    payload: axios.get('/group/list')
+    payload: axios.get('/api/group/list')
   }
 }
 

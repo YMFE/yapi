@@ -51,7 +51,7 @@ class InterfaceTable extends Component {
     const params = {
       id: interfaceId
     }
-    axios.post('/interface/del', params)
+    axios.post('/api/interface/del', params)
       .then(() => {
         this.deleteInterfaceData(interfaceId)
       })
