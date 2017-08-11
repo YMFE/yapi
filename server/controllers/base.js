@@ -20,11 +20,11 @@ class baseController {
     async init(ctx) {
         this.$user = null;
         let ignoreRouter = [
-            '/user/login_by_token',
-            '/user/login',
-            '/user/reg',
-            '/user/status',
-            '/user/logout'
+            '/api/user/login_by_token',
+            '/api/user/login',
+            '/api/user/reg',
+            '/api/user/status',
+            '/api/user/logout'
         ];
         if (ignoreRouter.indexOf(ctx.path) > -1) {            
             this.$auth = true;
