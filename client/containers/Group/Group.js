@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import GroupList from './GroupList/GroupList.js';
 import ProjectList from './ProjectList/ProjectList.js';
+import MemberList from './MemberList/MemberList.js';
 import Subnav from '../../components/Subnav/Subnav.js';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 import './Group.scss'
 
@@ -21,7 +23,10 @@ export default class Group extends Component {
             <GroupList></GroupList>
           </Col>
           <Col span={18}>
-            <ProjectList/>
+            <Tabs type="card" className="m-tab">
+              <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
+              <TabPane tab="成员列表" key="2"><MemberList/></TabPane>
+            </Tabs>
           </Col>
         </Row>
       </div>
