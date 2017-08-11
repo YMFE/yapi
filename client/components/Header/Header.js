@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon, Layout, Menu, Dropdown, message, Tooltip } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/login'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
@@ -44,7 +44,7 @@ const ToolUser = (props)=> (
     <li className="toolbar-li item-search">
       <Srch groupList={props.groupList}/>
     </li>
-    <Link to="/">
+    <Link to="/add-project">
       <Tooltip placement="bottom" title={'新建项目'}>
         <li className="toolbar-li">
           <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
@@ -89,11 +89,16 @@ ToolUser.propTypes={
 @connect(
   (state) => {
     return{
+<<<<<<< HEAD
       avatar: state.login.avatar,
       user: state.login.userName,
       uid: state.login.uid,
+=======
+      user: state.user.userName,
+      uid: state.user.uid,
+>>>>>>> 8c04198eb2dd2e6ddae9b815cc9a21b6436d8c76
       msg: null,
-      login:state.login.isLogin
+      login:state.user.isLogin
     }
   },
   {
