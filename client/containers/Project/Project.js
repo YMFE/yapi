@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Subnav } from '../../components/index'
 import { getProject } from  '../../reducer/modules/project';
-import { Interface } from './Interface/Interface.js'
+import Interface from './Interface/Interface.js'
 import { Activity } from './Activity/Activity.js'
 import { Setting } from './Setting/Setting.js'
 
