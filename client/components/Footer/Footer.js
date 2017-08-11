@@ -11,7 +11,7 @@ class Footer extends Component {
   }
   render () {
     const style = {
-      'background': 'url(./image/footer-bac.jpg)'
+      'background': 'url(/image/footer-bac.jpg)'
     }
     return (
       <div className = 'footer-wrapper'>

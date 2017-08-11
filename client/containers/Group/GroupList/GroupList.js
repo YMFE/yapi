@@ -21,7 +21,7 @@ import './GroupList.scss'
   state => ({
     groupList: state.group.groupList,
     currGroup: state.group.currGroup,
-    curUserRole: state.login.role
+    curUserRole: state.user.role
   }),
   {
     fetchGroupList,
