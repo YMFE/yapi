@@ -4,4 +4,8 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-createStore	/Users/qitmac000445/Desktop/YAPI/yapi/client/reducer/create.js	/^export default function createStore(initialState = {}) {$/;"	function	line:8
+constructor	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  constructor(props) {$/;"	function	line:26
+state.login	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^    this.state = {$/;"	property	line:28
+static.checkLoginState	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  static propTypes = {$/;"	property	line:33
+componentDidMount	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  componentDidMount() {$/;"	function	line:45
+render	/Users/qitmac000445/Desktop/YAPI/yapi/client/Application.js	/^  render() {$/;"	function	line:78
