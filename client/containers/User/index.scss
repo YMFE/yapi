@@ -109,22 +109,23 @@
     border-bottom-left-radius: .04rem;
     border-bottom-right-radius: .04rem;
   }
+  .avatar-uploader{
+    border: none;
+  }
   .avatar-uploader,
   .avatar-uploader-trigger,
   .avatar {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50px;
+    
+    img{
+      height: auto;
+    }
   }
   .avatar-uploader {
     display: block;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .avatar-uploader {
-    display: block;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
     cursor: pointer;
   }
   .avatar-uploader-trigger {
@@ -132,5 +133,11 @@
     vertical-align: middle;
     font-size: 28px;
     color: #999;
+  }
+  .avatarChange{
+    display: block;
+    width: 100px;
+    text-align: center;
+    padding-bottom: 8px;
   }
 }
