@@ -2,7 +2,7 @@ import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 import messageMiddleware from './middleware/messageMiddleware';
-import DevTools from '../containers/DevTools/DevTools';
+
 import reducer from './modules/reducer';
 
 export default function createStore(initialState = {}) {
@@ -12,8 +12,9 @@ export default function createStore(initialState = {}) {
   if (ENV_PARAMS.development) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
-      window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
+      window.devToolsExtension ? window.devToolsExtension() : require('../cntainers/DevTools/DevTools').default.instrument()
     )(_createStore);
+
   } else {
     finalCreateStore = applyMiddleware(...middleware)(_createStore);
   }
