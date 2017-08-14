@@ -60,7 +60,7 @@ class projectModel extends baseModel {
     list(group_id, auth) {
         let params = {group_id: group_id}
         if(!auth) params.project_type = 'public';
-        return this.model.find(params).sort({ _id: -1 }).exec();
+        return this.model.find(params).select("_id uid name basepath desc group_id project_type protocol prd_host env add_time up_time").sort({ _id: -1 }).exec();
     }
 
     listWithPaging(group_id, page, limit) {
