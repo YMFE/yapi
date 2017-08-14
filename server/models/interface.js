@@ -42,26 +42,12 @@ class interfaceModel extends baseModel {
                     default: "1"
                 }
             }],
-            req_body_json_doc: [{
-                json_path: String, desc: String,required:{
-                    type:String,
-                    enum: ["1", "0"],
-                    default: "1"
-                }
-            }],
             req_body_other: String,
             res_body_type: {
                 type: String,
                 enum: ['json', 'text', 'xml']
             },
-            res_body: String,
-            res_body_json_doc: [{
-                json_path: String, desc: String,required:{
-                    type:String,
-                    enum: ["1", "0"],
-                    default: "1"
-                }
-            }]
+            res_body: String
         };
     }
 
