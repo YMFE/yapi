@@ -75,7 +75,7 @@ var interfaceColController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var id, result;
+                var id, result, i;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -87,23 +87,43 @@ var interfaceColController = function (_baseController) {
 
                             case 4:
                                 result = _context.sent;
+                                i = 0;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 11;
+                            case 6:
+                                if (!(i < result.length)) {
+                                    _context.next = 14;
+                                    break;
+                                }
+
+                                result[i] = result[i].toObject();
+                                _context.next = 10;
+                                return this.caseModel.list(result[i]._id);
+
+                            case 10:
+                                result[i].caseList = _context.sent;
+
+                            case 11:
+                                i++;
+                                _context.next = 6;
                                 break;
 
-                            case 8:
-                                _context.prev = 8;
+                            case 14:
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context.next = 20;
+                                break;
+
+                            case 17:
+                                _context.prev = 17;
                                 _context.t0 = _context['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 11:
+                            case 20:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[0, 8]]);
+                }, _callee, this, [[0, 17]]);
             }));
 
             function list(_x) {
@@ -309,62 +329,46 @@ var interfaceColController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口集id不能为空'));
 
                             case 7:
-                                if (params.env) {
-                                    _context4.next = 9;
-                                    break;
-                                }
-
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '缺少环境配置'));
-
-                            case 9:
-                                if (params.path) {
-                                    _context4.next = 11;
-                                    break;
-                                }
-
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'path 不能为空'));
-
-                            case 11:
                                 if (params.casename) {
-                                    _context4.next = 13;
+                                    _context4.next = 9;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用例名称不能为空'));
 
-                            case 13:
+                            case 9:
 
                                 params.uid = this.getUid();
                                 params.index = 0;
                                 params.add_time = _yapi2.default.commons.time();
                                 params.up_time = _yapi2.default.commons.time();
-                                _context4.next = 19;
+                                _context4.next = 15;
                                 return this.caseModel.save(params);
 
-                            case 19:
+                            case 15:
                                 result = _context4.sent;
 
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
 
-                                _context4.next = 26;
+                                _context4.next = 22;
                                 break;
 
-                            case 23:
-                                _context4.prev = 23;
+                            case 19:
+                                _context4.prev = 19;
                                 _context4.t0 = _context4['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 26:
+                            case 22:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[0, 23]]);
+                }, _callee4, this, [[0, 19]]);
             }));
 
             function addCase(_x4) {
