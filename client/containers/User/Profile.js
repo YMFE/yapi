@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Input, Button, Select, message, Upload, Icon ,Avatar} from 'antd'
+import { Row, Col, Input, Button, Select, message, Upload} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
@@ -273,7 +273,6 @@ class AvatarUpload extends Component {
   uploadAvatar(basecode){
     axios.post("/api/user/upload_avatar",{basecode: basecode}).then(()=>{
       this.setState({ imageUrl: basecode });
-      
     }).catch((e)=>{
       console.log(e);
     })
@@ -284,22 +283,20 @@ class AvatarUpload extends Component {
       getBase64(info.file.originFileObj, basecode=>{this.uploadAvatar(basecode)});
     }
   }
-
   render() {
     let imageUrl = this.state.imageUrl?this.state.imageUrl:`/api/user/avatar?uid=${this.props.uid}`;
+    // console.log(this.props.uid);
+    
     return <div className="avatar-box">
-      <Upload 
+      <Upload
         className="avatar-uploader"
         name="basecode"
-        showUploadList={true}
+        showUploadList={false}
         action="/api/user/upload_avatar"
         beforeUpload={beforeUpload}
         onChange={this.handleChange.bind(this)} >
-        {
-          imageUrl ?
-            <Avatar size="large" src={imageUrl}  />:
-            <Icon type="plus" className="avatar-uploader-trigger" />
-        }
+        {/*<Avatar size="large" src={imageUrl}  />*/}
+        <img className = "avatar" src = {imageUrl} />
       </Upload>
       <span className="avatarChange">点击头像更换</span>
     </div>
