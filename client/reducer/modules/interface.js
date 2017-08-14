@@ -5,6 +5,7 @@ const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
 const CHANGE_INTERFACE_ID = 'yapi/interface/CHANGE_INTERFACE_ID';
 const ADD_INTERFACE_DATA = 'yapi/interface/ADD_INTERFACE_DATA';
 const DELETE_INTERFACE_DATA = 'yapi/interface/DELETE_INTERFACE_DATA';
+const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -17,11 +18,16 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_INTERFACE_DATA:
+      return {
+        ...state,
+        curdata: action.updata
+      }
     case DELETE_INTERFACE_DATA:
       return (() => {
-        
-        let newlist = state.list.filter(data=> data._id !== action.payload), newid, curdata;
-        
+
+        let newlist = state.list.filter(data => data._id !== action.payload), newid, curdata;
+
         if (state.interfaceId === action.payload && state.list.length > 0) {
           newid = state.list[0]._id
           curdata = state.list[0]
@@ -70,6 +76,17 @@ export function changeInterfaceId(id) {
     type: CHANGE_INTERFACE_ID,
     payload: id
   }
+}
+
+export function updateInterfaceData(updata) {
+
+  return {
+    type: UPDATE_INTERFACE_DATA,
+    updata: updata,
+    payload: true
+  }
+
+
 }
 
 export async function deleteInterfaceData(id) {
