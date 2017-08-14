@@ -5,7 +5,7 @@ import { Button, Input, Select, Card, Alert, Spin, Icon, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
-import axios from 'axios';
+// import axios from 'axios';
 import URL from 'url';
 
 // import {
@@ -19,25 +19,27 @@ const Option = Select.Option;
 
 @connect(
   state => ({
-    reqParams: state.addInterface.reqParams,
-    method: state.addInterface.method,
-    url: state.addInterface.url,
-    seqGroup: state.addInterface.seqGroup,
-    interfaceName: state.addInterface.interfaceName,
-    interfaceProject: state.addInterface.project
+    currInterface: state.inter.curdata,
+    currProject: state.project.currProject
+    // reqParams: state.addInterface.reqParams,
+    // method: state.addInterface.method,
+    // url: state.addInterface.url,
+    // seqGroup: state.addInterface.seqGroup,
+    // interfaceName: state.addInterface.interfaceName,
   })
 )
 @withRouter
 export default class InterfaceTest extends Component {
 
   static propTypes = {
-    reqParams: PropTypes.string,
-    method: PropTypes.string,
-    url: PropTypes.string,
-    interfaceName: PropTypes.string,
-    seqGroup: PropTypes.array,
     match: PropTypes.object,
-    interfaceProject: PropTypes.object
+    currProject: PropTypes.object,
+    currInterface: PropTypes.object,
+    reqParams: PropTypes.string,
+    // method: PropTypes.string,
+    // url: PropTypes.string,
+    interfaceName: PropTypes.string
+    // seqGroup: PropTypes.array,
   }
 
   state = {
@@ -68,8 +70,11 @@ export default class InterfaceTest extends Component {
   @autobind
   getInterfaceState(nextProps) {
     const props = nextProps || this.props;
-    const { method, url, seqGroup, interfaceProject } = props;
-    const { prd_host, basepath, protocol, env } = interfaceProject;
+    const { currInterface, currProject } = props;
+    console.log('currInterface', currInterface)
+    console.log('currProject', currProject)
+    const { method, path: url, req_headers } = currInterface;
+    const { prd_host, basepath, protocol, env } = currProject;
     const pathname = (basepath + url).replace(/\/+/g, '/');
 
     const domains = {prd: protocol + '://' + prd_host};
@@ -104,7 +109,7 @@ export default class InterfaceTest extends Component {
 
     const headers = []
     let contentTypeIndex = -1;
-    seqGroup.forEach((headerItem, index) => {
+    req_headers.forEach((headerItem, index) => {
       if (headerItem.name) {
         // TODO 'Content-Type' 排除大小写不同格式影响
         if (headerItem.name === 'Content-Type'){
@@ -349,10 +354,6 @@ export default class InterfaceTest extends Component {
     const { method, domains, pathname, query, headers, params, currDomain, paramsType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
-
-    console.log(axios)
-    window.axios = axios
-
 
     return (
       <div className="interface-test">
