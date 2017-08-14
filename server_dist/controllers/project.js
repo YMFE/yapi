@@ -1284,6 +1284,7 @@ var projectController = function (_baseController) {
          * @method GET
          * @category project
          * @foldnumber 10
+         * @author wenbo.dong
          * @param {String} project_id
         */
 

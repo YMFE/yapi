@@ -579,6 +579,7 @@ class projectController extends baseController {
      * @method GET
      * @category project
      * @foldnumber 10
+     * @author wenbo.dong
      * @param {String} project_id
     */
     async download(ctx) {

@@ -7,9 +7,6 @@ import PropTypes from 'prop-types';
 class ProjectCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
   }
 
   static propTypes = {
@@ -18,13 +15,12 @@ class ProjectCard extends Component {
 
   render() {
     const { projectData } = this.props;
-    console.log(projectData);
     return (
       <Link to={`/project/${projectData._id}`}>
         <Card bordered={false} bodyStyle={{padding: 16}} className="m-card">
           <div className="m-card-logo">
             <Icon type="area-chart" className="icon" />
-            <p className="name">{projectData.name}</p>
+            <p className="name">{projectData.name || projectData.projectname}</p>
           </div>
           <div className="m-card-btns" style={{display: 'none'}}>btns</div>
         </Card>
