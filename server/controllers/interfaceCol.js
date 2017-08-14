@@ -24,6 +24,11 @@ class interfaceColController extends baseController{
         try {
             let id = ctx.query.project_id;
             let result = await this.colModel.list(id);
+
+            for(let i=0; i< result.length;i++){
+                result[i] = result[i].toObject();
+                result[i].caseList = await this.caseModel.list(result[i]._id)
+            }
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -134,13 +139,7 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
             if (!params.col_id) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
-            }
-            if (!params.env) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '缺少环境配置');
-            }
-            if (!params.path) {
-                return ctx.body = yapi.commons.resReturn(null, 400, 'path 不能为空');
+                return ctx.body = yapi.commons.resReturn(null, 400, '接口集id不能为空');
             }
 
 

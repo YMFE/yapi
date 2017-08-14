@@ -72,7 +72,7 @@ class baseController {
             result.server_ip = yapi.WEBCONFIG.server_ip;
             return ctx.body = yapi.commons.resReturn(result);
         }
-        return ctx.body = yapi.commons.resReturn(null, 300, 'Please login.');
+        return ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
     }
 
     getRole() {

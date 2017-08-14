@@ -35,13 +35,15 @@ class InterfaceEditForm extends Component {
       req_body_type: 'form',
       req_headers: [{
         name: 'Content-Type',
-        value: 'application/urlencode', required: "1"
+        value: 'application/x-www-form-urlencoded', required: "1"
       }],
       req_body_form: [{
         name: 'id',
         type: 'text',
         required: '1'
-      }]
+      }],
+      res_body_type: 'json',
+      res_body: ''
     }
   }
 
@@ -50,20 +52,29 @@ class InterfaceEditForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        console.log(this.props.form.getFieldValue('keys'))
       }
     });
   }
 
   componentDidMount() {
+    let that = this;
     mockEditor({
       container: 'req_body_json',
-      data: {
-        name: "@name"
-      },
+      data: that.state.req_body_json,
       onChange: function (d) {
-        console.log(this)
-        console.log(d)
+        that.setState({
+          req_body_json: d.text
+        })
+      }
+    })
+
+    mockEditor({
+      container: 'res_body_json',
+      data: that.state.res_body,
+      onChange: function (d) {
+        that.setState({
+          res_body: d.text
+        })
       }
     })
   }
@@ -294,33 +305,94 @@ class InterfaceEditForm extends Component {
               <Radio value="form">form</Radio>
               <Radio value="json">json</Radio>
               <Radio value="file">file</Radio>
+              <Radio value="raw">raw</Radio>
             </RadioGroup>
             )}
 
         </FormItem>
+        {this.props.form.getFieldValue('req_body_type') === 'form' ?
+          <Row >
+            <Col span={14} offset={6} style={{ minHeight: "50px", padding: "15px" }}>
+              <Row>
+                <Col span="24">
 
-        <Row style={{ display: this.props.form.getFieldValue('req_body_type') === 'form' ? 'block' : 'none' }}>
-          <Col span={14} offset={6} style={{ minHeight: "300px", padding: "15px" }}>
-            <Row>
-              <Col span="24">
+                  <Button onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
 
-                <Button onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
+                </Col>
 
-              </Col>
+              </Row>
+              {requestBodyList}
+            </Col>
 
-            </Row>
-            {requestBodyList}
-          </Col>
+          </Row>
+          :
+          null
+        }
 
-        </Row>
 
         <Row style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={14} offset={6} id="req_body_json"  style={{ minHeight: "300px", padding: "15px" }}>
-            
+          <Col span={14} offset={6} id="req_body_json" style={{ minHeight: "300px", padding: "15px" }}>
+          </Col>
+        </Row>
+
+        {this.props.form.getFieldValue('req_body_type') === 'file' ?
+          <Row >
+            <Col span={14} offset={6} style={{ padding: "15px" }}>
+              {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
+                <Input.TextArea placeholder="备注信息" />
+              )}
+            </Col>
+
+
+          </Row>
+          :
+          null
+        }
+        {this.props.form.getFieldValue('req_body_type') === 'raw' ?
+          <Row>
+            <Col span={14} offset={6} style={{ padding: "15px" }}>
+              {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
+                <Input.TextArea placeholder="备注信息" />
+              )}
+            </Col>
+          </Row>
+          : null
+        }
+
+        <FormItem style={{ marginBottom: "5px" }}
+          {...formItemLayout}
+          label="响应Body"
+        >
+          {getFieldDecorator('res_body_type', {
+            initialValue: this.state.res_body_type
+          })(
+            <RadioGroup>
+              <Radio value="json">json</Radio>
+              <Radio value="raw">raw</Radio>
+
+            </RadioGroup>
+            )}
+
+        </FormItem>
+        <Row style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
+          <Col span={14} offset={6} id="res_body_json" style={{ minHeight: "300px", padding: "15px" }}>
+
           </Col>
 
 
         </Row>
+
+        <Row style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
+          <Col span={14} offset={6} style={{ padding: "15px" }}>
+            {getFieldDecorator('req_body_other', { initialValue: this.state.res_body })(
+              <Input.TextArea placeholder="备注信息" />
+            )}
+          </Col>
+
+
+        </Row>
+
+
         <FormItem
           wrapperCol={{ span: 12, offset: 6 }}
         >

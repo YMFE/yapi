@@ -3,8 +3,6 @@ var ace = require('brace'),
 require('brace/mode/javascript');
 require('brace/theme/xcode');
 require("brace/ext/language_tools.js");
-require("brace/snippets/javascript.js");
-
 var json5 = require('json5');
 
 var langTools = ace.acequire("ace/ext/language_tools"),
@@ -76,8 +74,9 @@ function run(options) {
   editor.setTheme('ace/theme/xcode');
   editor.setOptions({
     enableBasicAutocompletion: true,
-    enableSnippets: true,
-    enableLiveAutocompletion: true
+    enableSnippets: false,
+    enableLiveAutocompletion: true,
+    useWorker: false
   });
   mockEditor = {
     curData: {},
