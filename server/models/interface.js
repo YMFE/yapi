@@ -18,17 +18,29 @@ class interfaceModel extends baseModel {
             add_time: Number,
             up_time: Number,
             req_query:[{
-                name: String, value: String, desc: String, required: Boolean
+                name: String, value: String, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
             }],
             req_headers: [{
-                name: String, value: String, desc: String, required: Boolean
+                name: String, value: String, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
             }],
             req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'xml']
             },
             req_body_form: [{
-                name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
+                name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
             }],
             req_body_other: String,
             res_body_type: {

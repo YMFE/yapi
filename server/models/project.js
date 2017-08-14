@@ -15,7 +15,7 @@ class projectModel extends baseModel {
             group_id: { type: Number, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
-                {uid: Number, role: {type: String, enum:['owner', 'dev'], username: String, email: String}}
+                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
             ],
             protocol: { type: String, required: true },
             prd_host: { type: String, required: true },
@@ -111,7 +111,7 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $pull: { members: uid }
+                $pull: { members: {uid: uid} }
             }
         );
     }

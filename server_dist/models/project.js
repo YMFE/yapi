@@ -53,7 +53,7 @@ var projectModel = function (_baseModel) {
                 desc: String,
                 group_id: { type: Number, required: true },
                 project_type: { type: String, required: true, enum: ['public', 'private'] },
-                members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'], username: String, email: String } }],
+                members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'] }, username: String, email: String }],
                 protocol: { type: String, required: true },
                 prd_host: { type: String, required: true },
                 env: [{ name: String, domain: String }],
@@ -156,7 +156,7 @@ var projectModel = function (_baseModel) {
             return this.model.update({
                 _id: id
             }, {
-                $pull: { members: uid }
+                $pull: { members: { uid: uid } }
             });
         }
     }, {
