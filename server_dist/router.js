@@ -339,7 +339,7 @@ function createAction(controller, action, path, method) {
 							break;
 
 						case 8:
-							ctx.body = _yapi2.default.commons.resReturn(null, 40011, '请登录.');
+							ctx.body = _yapi2.default.commons.resReturn(null, 40011, '请登录...');
 
 						case 9:
 						case 'end':
