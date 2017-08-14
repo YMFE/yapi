@@ -72,10 +72,17 @@ var interfaceModel = function (_baseModel) {
                 }],
                 req_body_type: {
                     type: String,
-                    enum: ['form', 'json', 'text', 'xml']
+                    enum: ['form', 'json', 'text', 'file']
                 },
                 req_body_form: [{
                     name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
+                }],
+                req_body_json_doc: [{
+                    json_path: String, desc: String, required: {
                         type: String,
                         enum: ["1", "0"],
                         default: "1"
@@ -86,7 +93,14 @@ var interfaceModel = function (_baseModel) {
                     type: String,
                     enum: ['json', 'text', 'xml']
                 },
-                res_body: String
+                res_body: String,
+                res_body_json_doc: [{
+                    json_path: String, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
+                }]
             };
         }
     }, {

@@ -75,36 +75,35 @@ var interfaceColController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var id, inst, result;
+                var id, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.prev = 0;
                                 id = ctx.query.project_id;
-                                inst = this.colModel(_interfaceCol2.default);
-                                _context.next = 5;
-                                return inst.list(id);
+                                _context.next = 4;
+                                return this.colModel.list(id);
 
-                            case 5:
+                            case 4:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 12;
+                                _context.next = 11;
                                 break;
 
-                            case 9:
-                                _context.prev = 9;
+                            case 8:
+                                _context.prev = 8;
                                 _context.t0 = _context['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 12:
+                            case 11:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[0, 9]]);
+                }, _callee, this, [[0, 8]]);
             }));
 
             function list(_x) {

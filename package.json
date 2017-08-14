@@ -52,6 +52,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-watch": "^4.3.11",
     "json2html": "0.0.8",
+    "json5": "^0.5.1",
     "jsoneditor": "^5.9.3",
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",

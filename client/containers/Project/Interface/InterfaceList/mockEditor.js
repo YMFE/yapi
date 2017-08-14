@@ -1,9 +1,11 @@
 var ace = require('brace'),
   Mock = require('mockjs')
-require('brace/mode/json');
+require('brace/mode/javascript');
 require('brace/theme/xcode');
 require("brace/ext/language_tools.js");
-require("brace/snippets/json.js")
+require("brace/snippets/javascript.js");
+
+var json5 = require('json5');
 
 var langTools = ace.acequire("ace/ext/language_tools"),
   editor,
@@ -70,7 +72,7 @@ function run(options) {
 
   editor = ace.edit(container)
   editor.$blockScrolling = Infinity;
-  editor.getSession().setMode('ace/mode/json');
+  editor.getSession().setMode('ace/mode/javascript');
   editor.setTheme('ace/theme/xcode');
   editor.setOptions({
     enableBasicAutocompletion: true,
@@ -85,7 +87,7 @@ function run(options) {
       if (typeof data === 'string') {
         editor.setValue(data);
       } else if (typeof data === 'object') {
-        editor.setValue(JSON.stringify(data, null, "  "))
+        editor.setValue(json5.stringify(data, null, "  "))
       }
     },
     editor: editor
@@ -122,7 +124,8 @@ function run(options) {
 function handleJson(json) {
   var curData = mockEditor.curData;
   try {
-    var obj = JSON.parse(json);
+    var obj = json5.parse(json);
+    curData.text = json;
     curData.format = true;
     curData.jsonData = obj;
     curData.mockData = Mock.mock(obj);
