@@ -193,7 +193,7 @@ var baseController = function () {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
 
                             case 7:
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 300, 'Please login.'));
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 40011, '请登录...'));
 
                             case 8:
                             case 'end':

@@ -320,7 +320,7 @@ function createAction(controller, action, path, method) {
         if (inst.$auth === true) {
             await inst[action].call(inst, ctx);
         } else {
-            ctx.body = yapi.commons.resReturn(null, 40011, '请登录.');
+            ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
         }
     });
 }
