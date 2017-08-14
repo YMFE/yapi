@@ -7,6 +7,7 @@ import interfaceCol from './interfaceCol.js'
 import news from './news.js'
 import addInterface from './addInterface.js'
 import menu from './menu.js'
+import follow from './follow.js'
 
 export default combineReducers({
   group,
@@ -16,5 +17,6 @@ export default combineReducers({
   project,
   news,
   addInterface,
-  menu
+  menu,
+  follow
 })

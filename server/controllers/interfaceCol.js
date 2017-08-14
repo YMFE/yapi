@@ -23,8 +23,7 @@ class interfaceColController extends baseController{
     async list(ctx){
         try {
             let id = ctx.query.project_id;
-            let inst = yapi.getInst(interfaceColModel);
-            let result = await inst.list(id);
+            let result = await this.colModel.list(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);

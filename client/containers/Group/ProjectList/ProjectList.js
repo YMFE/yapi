@@ -133,17 +133,17 @@ class ProjectList extends Component {
     })
   }
 
-  // 分页逻辑
-  @autobind
-  paginationChange(pageNum) {
-    this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
-      if (res.payload.data.errcode) {
-        message.error(res.payload.data.errmsg);
-      } else {
-        this.props.changeTableLoading(false);
-      }
-    });
-  }
+  // // 分页逻辑 取消分页
+  // @autobind
+  // paginationChange(pageNum) {
+  //   this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
+  //     if (res.payload.data.errcode) {
+  //       message.error(res.payload.data.errmsg);
+  //     } else {
+  //       this.props.changeTableLoading(false);
+  //     }
+  //   });
+  // }
 
   componentWillReceiveProps(nextProps) {
     // 切换分组
