@@ -13,6 +13,7 @@ class interfaceModel extends baseModel {
             path: { type: String, required: true },
             method: { type: String, required: true },
             project_id: { type: Number, required: true },
+            status: {type: String, enum: ['undone', 'done'], default: 'undone'},
             desc: String,
             add_time: Number,
             up_time: Number,
@@ -22,14 +23,14 @@ class interfaceModel extends baseModel {
             req_headers: [{
                 name: String, value: String, desc: String, required: Boolean
             }],
-            req_params_type: {
+            req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'xml']
             },
-            req_params_form: [{
+            req_body_form: [{
                 name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
             }],
-            req_params_other: String,
+            req_body_other: String,
             res_body_type: {
                 type: String,
                 enum: ['json', 'text', 'xml']
