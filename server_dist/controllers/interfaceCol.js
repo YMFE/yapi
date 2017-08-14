@@ -66,8 +66,8 @@ var interfaceColController = function (_baseController) {
      * @category col
      * @foldnumber 10
      * @param {String} project_id email名称，不能为空
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
 
@@ -82,7 +82,7 @@ var interfaceColController = function (_baseController) {
                             case 0:
                                 _context.prev = 0;
                                 id = ctx.query.project_id;
-                                inst = this.colModel(_interfaceCol2.default);
+                                inst = _yapi2.default.getInst(_interfaceCol2.default);
                                 _context.next = 5;
                                 return inst.list(id);
 
@@ -123,8 +123,8 @@ var interfaceColController = function (_baseController) {
          * @param {Number} project_id
          * @param {String} name
          * @param {String} desc
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -207,8 +207,8 @@ var interfaceColController = function (_baseController) {
          * @category col
          * @foldnumber 10
          * @param {String} col_id 接口集id
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -263,17 +263,17 @@ var interfaceColController = function (_baseController) {
          * @param {String} casename
          * @param {Number} col_id
          * @param {Number} project_id
-         * @param {String} env  
+         * @param {String} env
          * @param {String} domain
          * @param {String} path
          * @param {String} method
          * @param {Object} req_query
          * @param {Object} req_headers
          * @param {String} req_body_type
-         * @param {Array} req_body_form 
+         * @param {Array} req_body_form
          * @param {String} req_body_other
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -382,8 +382,8 @@ var interfaceColController = function (_baseController) {
          * @category col
          * @foldnumber 10
          * @param {String} caseid
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -436,8 +436,8 @@ var interfaceColController = function (_baseController) {
          * @foldnumber 10
          * @param {String} name
          * @param {String} desc
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -493,8 +493,8 @@ var interfaceColController = function (_baseController) {
          * @category col
          * @foldnumber 10
          * @param {Array}  [id, index]
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -551,9 +551,9 @@ var interfaceColController = function (_baseController) {
          * @method GET
          * @category col
          * @foldnumber 10
-         * @param {String} 
-         * @returns {Object} 
-         * @example 
+         * @param {String}
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -625,8 +625,8 @@ var interfaceColController = function (_baseController) {
         }()
 
         /**
-         * 
-         * @param {*} ctx 
+         *
+         * @param {*} ctx
          */
 
     }, {
