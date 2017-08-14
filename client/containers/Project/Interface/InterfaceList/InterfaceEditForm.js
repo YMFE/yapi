@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const dataTpl = {
-  query: { name: "", required: "1", desc: "" },
+  req_query: { name: "", required: "1", desc: "" },
   req_headers: { name: "", required: "1", desc: "" }
 }
 
@@ -26,7 +26,7 @@ class InterfaceEditForm extends Component {
   constructor(props) {
     super(props)
     const { curdata } = this.props;
-    if (curdata.query && curdata.query.length === 0) delete curdata.query;
+    if (curdata.req_query && curdata.req_query.length === 0) delete curdata.req_query;
     if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
     if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
 
@@ -35,7 +35,7 @@ class InterfaceEditForm extends Component {
       path: '',
       status: 'undone',
       method: 'get',
-      query: [{
+      req_query: [{
         name: '',
         desc: '',
         required: "1"
@@ -130,14 +130,14 @@ class InterfaceEditForm extends Component {
     const queryTpl = (data, index) => {
       return <Row key={index}>
         <Col span="4">
-          {getFieldDecorator('query[' + index + '].name', {
+          {getFieldDecorator('req_query[' + index + '].name', {
             initialValue: data.name
           })(
             <Input placeholder="参数名称" />
             )}
         </Col>
         <Col span="4" >
-          {getFieldDecorator('query[' + index + '].required', {
+          {getFieldDecorator('req_query[' + index + '].required', {
             initialValue: data.required
           })(
             <Select>
@@ -147,14 +147,14 @@ class InterfaceEditForm extends Component {
             )}
         </Col>
         <Col span="8" >
-          {getFieldDecorator('query[' + index + '].desc', {
+          {getFieldDecorator('req_query[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input placeholder="备注" />
             )}
         </Col>
         <Col span="2" >
-          <Icon type="delete" onClick={() => this.delParams(index, 'query')} />
+          <Icon type="delete" onClick={() => this.delParams(index, 'req_query')} />
         </Col>
 
       </Row>
@@ -193,13 +193,15 @@ class InterfaceEditForm extends Component {
     const requestBodyTpl = (data, index) => {
       return <Row key={index}>
         <Col span="8">
-          {getFieldDecorator('req_body_form[' + index + '].name')(
+          {getFieldDecorator('req_body_form[' + index + '].name',{
+            initialValue: data.name
+          })(
             <Input placeholder="name" />
           )}
         </Col>
         <Col span="4" >
           {getFieldDecorator('req_body_form[' + index + '].type', {
-            initialValue: 'text'
+            initialValue: data.type
           })(
             <Select>
               <Option value="text">文本</Option>
@@ -208,7 +210,9 @@ class InterfaceEditForm extends Component {
             )}
         </Col>
         <Col span="8">
-          {getFieldDecorator('req_body_form[' + index + '].desc')(
+          {getFieldDecorator('req_body_form[' + index + '].desc',{
+            initialValue: data.desc
+          })(
             <Input placeholder="备注" />
           )}
         </Col>
@@ -218,7 +222,7 @@ class InterfaceEditForm extends Component {
       </Row>
     }
 
-    const QueryList = this.state.query.map((item, index) => {
+    const QueryList = this.state.req_query.map((item, index) => {
       return queryTpl(item, index)
     })
 
@@ -290,7 +294,7 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="Query"
         >
-          <Button size="small" type="primary" onClick={() => this.addParams('query')}>添加Query参数</Button>
+          <Button size="small" type="primary" onClick={() => this.addParams('req_query')}>添加Query参数</Button>
         </FormItem>
 
         <Row className="interface-edit-item">
