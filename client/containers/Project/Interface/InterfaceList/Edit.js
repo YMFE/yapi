@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import InterfaceEditForm from './InterfaceEditForm.js'
-
+import './Edit.scss'
 
 @connect(
   state => {
@@ -17,11 +17,13 @@ class InterfaceEdit extends Component{
     curdata: PropTypes.object
   }
 
+  onSubmit = (params)=>{
+    console.log('edit', params)
+  }
+
   render(){
-    
-    return <div>
-      <h3>Edit</h3>
-      <InterfaceEditForm />
+    return <div className="interface-edit">
+      <InterfaceEditForm onSubmit={this.onSubmit} curdata={this.props.curdata} />
     </div>
   }
 }
