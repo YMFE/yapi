@@ -4,7 +4,7 @@ import Header from './Header/Header.js'
 import Intro from './Intro/Intro.js'
 import Loading from './Loading/Loading.js'
 import MockDoc from './MockDoc/MockDoc.js'
-import ProjectBox from './ProjectBox/ProjectBox.js'
+import ProjectCard from './ProjectCard/ProjectCard.js'
 import Subnav from './Subnav/Subnav.js'
 
 export {
@@ -14,6 +14,6 @@ export {
   Intro,
   Loading,
   MockDoc,
-  ProjectBox,
+  ProjectCard,
   Subnav
 }
