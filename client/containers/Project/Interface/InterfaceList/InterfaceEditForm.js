@@ -18,40 +18,52 @@ const mockEditor = require('./mockEditor.js');
 
 class InterfaceEditForm extends Component {
   static propTypes = {
-    form: PropTypes.object
+    form: PropTypes.object,
+    curdata: PropTypes.object,
+    onSubmit: PropTypes.func
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      title: 'title',
-      path: 'path',
+    const { curdata } = this.props;
+    if (curdata.query && curdata.query.length === 0) delete curdata.query;
+    if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
+    if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
+
+    this.state = Object.assign({
+      title: '',
+      path: '',
+      status: 'undone',
       method: 'get',
       query: [{
-        name: 'name',
-        desc: 'desc',
+        name: '',
+        desc: '',
         required: "1"
       }],
       req_body_type: 'form',
       req_headers: [{
-        name: 'Content-Type',
-        value: 'application/x-www-form-urlencoded', required: "1"
+        name: '',
+        value: '', required: "1"
       }],
       req_body_form: [{
-        name: 'id',
-        type: 'text',
-        required: '1'
+        name: '',
+        type: '',
+        required: ''
       }],
       res_body_type: 'json',
-      res_body: ''
-    }
+      res_body: '',
+      desc: '',
+      res_body_mock: ''
+    }, curdata)
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        if (values.res_body_type === 'json') values.res_body = this.state.res_body;
+        values.req_body_json = this.state.res_body;
+        this.props.onSubmit(values)
       }
     });
   }
@@ -72,8 +84,10 @@ class InterfaceEditForm extends Component {
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
+        
         that.setState({
-          res_body: d.text
+          res_body: d.text,
+          res_body_mock: d.mockText
         })
       }
     })
@@ -99,8 +113,8 @@ class InterfaceEditForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 }
+      labelCol: { span: 4 },
+      wrapperCol: { span: 18 }
     };
     const prefixSelector = getFieldDecorator('method', {
       initialValue: 'GET'
@@ -219,10 +233,12 @@ class InterfaceEditForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="接口名称"
         >
           {getFieldDecorator('title', {
+            initialValue: this.state.title,
             rules: [{
               required: true, message: '清输入接口名称!'
             }]
@@ -232,10 +248,12 @@ class InterfaceEditForm extends Component {
         </FormItem>
 
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="接口路径"
         >
           {getFieldDecorator('path', {
+            initialValue: this.state.path,
             rules: [{
               required: true, message: '清输入接口路径!'
             }]
@@ -245,10 +263,11 @@ class InterfaceEditForm extends Component {
         </FormItem>
 
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="状态"
         >
-          {getFieldDecorator('status', { initialValue: 'undone' })(
+          {getFieldDecorator('status', { initialValue: this.state.status })(
             <Select>
               <Option value="done">已完成</Option>
               <Option value="undone">未完成</Option>
@@ -257,23 +276,25 @@ class InterfaceEditForm extends Component {
         </FormItem>
 
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="接口描述"
         >
-          {getFieldDecorator('desc')(
+          {getFieldDecorator('desc', { initialValue: this.state.desc })(
             <Input.TextArea placeholder="接口描述" />
           )}
         </FormItem>
 
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="Query"
         >
-          <Button onClick={() => this.addParams('query')}>添加Query参数</Button>
+          <Button size="small" type="primary" onClick={() => this.addParams('query')}>添加Query参数</Button>
         </FormItem>
 
-        <Row>
-          <Col span={18} offset={6}>
+        <Row className="interface-edit-item">
+          <Col span={18} offset={4}>
             {QueryList}
           </Col>
 
@@ -281,20 +302,22 @@ class InterfaceEditForm extends Component {
 
 
         <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="请求Headers"
         >
-          <Button onClick={() => this.addParams('req_headers')}>添加Header</Button>
+          <Button size="small" type="primary" onClick={() => this.addParams('req_headers')}>添加Header</Button>
         </FormItem>
 
-        <Row>
-          <Col span={18} offset={6}>
+        <Row className="interface-edit-item">
+          <Col span={18} offset={4}>
             {headerList}
           </Col>
 
         </Row>
 
-        <FormItem style={{ marginBottom: "5px" }}
+        <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="请求Body"
         >
@@ -311,12 +334,12 @@ class InterfaceEditForm extends Component {
 
         </FormItem>
         {this.props.form.getFieldValue('req_body_type') === 'form' ?
-          <Row >
-            <Col span={14} offset={6} style={{ minHeight: "50px", padding: "15px" }}>
+          <Row className="interface-edit-item">
+            <Col span={18} offset={4} style={{ minHeight: "50px" }}>
               <Row>
-                <Col span="24">
+                <Col span="24" className="interface-edit-item">
 
-                  <Button onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
+                  <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
 
                 </Col>
 
@@ -330,14 +353,14 @@ class InterfaceEditForm extends Component {
         }
 
 
-        <Row style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={14} offset={6} id="req_body_json" style={{ minHeight: "300px", padding: "15px" }}>
+        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
+          <Col span={18} offset={4} id="req_body_json" style={{ minHeight: "300px"}}>
           </Col>
         </Row>
 
         {this.props.form.getFieldValue('req_body_type') === 'file' ?
-          <Row >
-            <Col span={14} offset={6} style={{ padding: "15px" }}>
+          <Row className="interface-edit-item" >
+            <Col span={14} offset={6}>
               {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
                 <Input.TextArea placeholder="备注信息" />
               )}
@@ -350,7 +373,7 @@ class InterfaceEditForm extends Component {
         }
         {this.props.form.getFieldValue('req_body_type') === 'raw' ?
           <Row>
-            <Col span={14} offset={6} style={{ padding: "15px" }}>
+            <Col span={18} offset={4} >
               {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
                 <Input.TextArea placeholder="备注信息" />
               )}
@@ -359,7 +382,8 @@ class InterfaceEditForm extends Component {
           : null
         }
 
-        <FormItem style={{ marginBottom: "5px" }}
+        <FormItem
+          className="interface-edit-item"
           {...formItemLayout}
           label="响应Body"
         >
@@ -374,17 +398,28 @@ class InterfaceEditForm extends Component {
             )}
 
         </FormItem>
-        <Row style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={14} offset={6} id="res_body_json" style={{ minHeight: "300px", padding: "15px" }}>
+        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
+          
+          <Col span={18} offset={4}  id="res_body_json" style={{ minHeight: "300px" }}>
 
           </Col>
-
-
         </Row>
 
-        <Row style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
-          <Col span={14} offset={6} style={{ padding: "15px" }}>
-            {getFieldDecorator('req_body_other', { initialValue: this.state.res_body })(
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="mock预览"
+        >
+          <pre style={{backgroundColor: "#eee", lineHeight: "20px"}}>
+            {this.state.res_body_mock || " "}
+          </pre>
+        </FormItem>
+       
+
+        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
+          <Col span={18} offset={4} >
+            {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
               <Input.TextArea placeholder="备注信息" />
             )}
           </Col>
@@ -394,6 +429,7 @@ class InterfaceEditForm extends Component {
 
 
         <FormItem
+          className="interface-edit-item"
           wrapperCol={{ span: 12, offset: 6 }}
         >
           <Button type="primary" htmlType="submit">Submit</Button>
