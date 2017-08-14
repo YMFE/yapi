@@ -114,7 +114,7 @@ class followController extends baseController {
     /**
      * 添加关注
      * @interface /follow/add
-     * @method POST
+     * @method GET
      * @category follow
      * @foldnumber 10
      * @param {Number} uid 用户id
@@ -131,7 +131,8 @@ class followController extends baseController {
             uid: 'number',
             projectid: 'number',
             projectname: 'string',
-            icon: 'string'
+            icon: 'string',
+            color: 'string'
         });
 
         if (!params.uid) {
@@ -153,17 +154,22 @@ class followController extends baseController {
         if (!params.icon) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目图标标志不能为空');
         }
+        if (!params.color) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目颜色不能为空');
+        }
 
         let data = {
             uid: params.uid,
             projectid: params.projectid,
             projectname: params.projectname,
-            icon: params.icon
+            icon: params.icon,
+            color: params.color
+
         };
 
         try {
             let result = await this.Model.save(data);
-            result = yapi.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon']);
+            result = yapi.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
