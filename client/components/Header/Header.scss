@@ -96,6 +96,9 @@ $color-black-light : #404040;
         .ant-avatar-image{
           margin-bottom: -10px;
         }
+        .ant-avatar > img{
+          height: auto;
+        }
       }
       &:hover{
         .dropdown-link {
