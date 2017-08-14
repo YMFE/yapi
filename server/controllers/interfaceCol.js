@@ -17,14 +17,14 @@ class interfaceColController extends baseController{
      * @category col
      * @foldnumber 10
      * @param {String} project_id email名称，不能为空
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
     async list(ctx){
         try {
             let id = ctx.query.project_id;
             let result = await this.colModel.list(id);
-            
+
             for(let i=0; i< result.length;i++){
                 result[i] = result[i].toObject();
                 result[i].caseList = await this.caseModel.list(result[i]._id)
@@ -44,8 +44,8 @@ class interfaceColController extends baseController{
      * @param {Number} project_id
      * @param {String} name
      * @param {String} desc
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async addCol(ctx){
@@ -56,14 +56,14 @@ class interfaceColController extends baseController{
                 project_id: 'number',
                 desc: 'string'
             });
-            
+
             if (!params.project_id) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');                
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
             if(!params.name){
-                return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');            
+                return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');
             }
-            
+
             let result = await this.colModel.save({
                 name: params.name,
                 project_id: params.project_id,
@@ -86,8 +86,8 @@ class interfaceColController extends baseController{
      * @category col
      * @foldnumber 10
      * @param {String} col_id 接口集id
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async getCaseList(ctx){
@@ -110,17 +110,17 @@ class interfaceColController extends baseController{
      * @param {String} casename
      * @param {Number} col_id
      * @param {Number} project_id
-     * @param {String} env  
+     * @param {String} env
      * @param {String} domain
      * @param {String} path
      * @param {String} method
      * @param {Object} req_query
      * @param {Object} req_headers
      * @param {String} req_body_type
-     * @param {Array} req_body_form 
+     * @param {Array} req_body_form
      * @param {String} req_body_other
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async addCase(ctx){
@@ -134,17 +134,17 @@ class interfaceColController extends baseController{
                 domain: 'string',
                 method: 'string'
             });
-            
+
             if (!params.project_id) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');                
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
             if (!params.col_id) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '接口集id不能为空');                
+                return ctx.body = yapi.commons.resReturn(null, 400, '接口集id不能为空');
             }
-          
-   
+
+
             if(!params.casename){
-                return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');            
+                return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
             }
 
             params.uid = this.getUid();
@@ -152,7 +152,7 @@ class interfaceColController extends baseController{
             params.add_time = yapi.commons.time();
             params.up_time = yapi.commons.time();
             let result = await this.caseModel.save(params);
-            
+
             ctx.body = yapi.commons.resReturn(result);
 
         }catch(e){
@@ -167,8 +167,8 @@ class interfaceColController extends baseController{
      * @category col
      * @foldnumber 10
      * @param {String} caseid
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async getCase(ctx){
@@ -189,8 +189,8 @@ class interfaceColController extends baseController{
      * @foldnumber 10
      * @param {String} name
      * @param {String} desc
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async upCol(ctx){
@@ -214,8 +214,8 @@ class interfaceColController extends baseController{
      * @category col
      * @foldnumber 10
      * @param {Array}  [id, index]
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async upCaseIndex(ctx){
@@ -230,9 +230,9 @@ class interfaceColController extends baseController{
                         yapi.commons.log(err.message, 'error')
                     })
                 }
-                
+
             })
-            
+
             return ctx.body = yapi.commons.resReturn('success')
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
@@ -245,9 +245,9 @@ class interfaceColController extends baseController{
      * @method GET
      * @category col
      * @foldnumber 10
-     * @param {String} 
-     * @returns {Object} 
-     * @example 
+     * @param {String}
+     * @returns {Object}
+     * @example
      */
 
     async delCol(ctx){
@@ -275,8 +275,8 @@ class interfaceColController extends baseController{
     }
 
     /**
-     * 
-     * @param {*} ctx 
+     *
+     * @param {*} ctx
      */
 
     async delCase(ctx){
