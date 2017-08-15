@@ -72,8 +72,6 @@ class projectController extends baseController {
      * @foldnumber 10
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
-     * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
-     * @param {String} protocol 线上域名协议，不能为空
      * @param {Number} group_id 项目分组id，不能为空
      * @param {String} project_type private public
      * @param  {String} [desc] 项目描述
@@ -85,8 +83,6 @@ class projectController extends baseController {
         params = yapi.commons.handleParams(params, {
             name: 'string',
             basepath: 'string',
-            prd_host: 'string',
-            protocol: 'string',
             group_id: 'number',
             desc: 'string'
         });
@@ -109,35 +105,16 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
 
-
-        if (!params.prd_host) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目domain不能为空');
-        }
-
         params.basepath = params.basepath || '';
 
         if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
             return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
         }
 
-        if (!this.verifyDomain(params.prd_host)) {
-            return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误');
-        }
-
-        let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
-
-        if (checkRepeatDomain > 0) {
-            return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
-        }
-
-
-
         let data = {
             name: params.name,
             desc: params.desc,
-            prd_host: params.prd_host,
             basepath: params.basepath,
-            protocol: params.protocol || 'http',
             members: [],
             project_type: params.project_type || 'private',
             uid: this.getUid(),
@@ -322,6 +299,9 @@ class projectController extends baseController {
         }
         try {
             let result = await this.Model.get(params.id);
+            result = result.toObject();
+            delete result.members;
+            result.role = await this.getProjectRole(params.id, 'project');
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -361,8 +341,7 @@ class projectController extends baseController {
                 _users[item._id] = item;
             });
             ctx.body = yapi.commons.resReturn({
-                list: result,
-                userinfo: _users
+                list: result
             });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -453,7 +432,6 @@ class projectController extends baseController {
      * @param {Number} id 项目id，不能为空
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
-     * @param {String} prd_host 项目线上域名，不能为空。可通过配置的域名访问到mock数据
      * @param {String} [desc] 项目描述
      * @param {Array} [env] 项目环境配置
      * @param {String} [env[].name] 环境名称
@@ -470,8 +448,6 @@ class projectController extends baseController {
             params = yapi.commons.handleParams(params, {
                 name: 'string',
                 basepath: 'string',
-                prd_host: 'string',
-                protocol: 'string',
                 group_id: 'number',
                 desc: 'string'
             });
@@ -489,16 +465,8 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
             }
 
-            if (!this.verifyDomain(params.prd_host)) {
-                return ctx.body = yapi.commons.resReturn(null, 401, '线上域名格式有误');
-            }
-
             if (projectData.name === params.name) {
                 delete params.name;
-            }
-            if (projectData.basepath === params.basepath && projectData.prd_host === params.prd_host) {
-                delete params.basepath;
-                delete params.prd_host;
             }
 
             if (params.name) {
@@ -508,24 +476,15 @@ class projectController extends baseController {
                 }
             }
 
-            if (params.basepath && params.prd_host) {
-                let checkRepeatDomain = await this.Model.checkDomainRepeat(params.prd_host, params.basepath);
-                if (checkRepeatDomain > 0) {
-                    return ctx.body = yapi.commons.resReturn(null, 401, '已存在domain和basepath');
-                }
-            }
-
             let data = {
                 up_time: yapi.commons.time()
             };
 
             if (params.name) data.name = params.name;
             if (params.desc) data.desc = params.desc;
-            if (params.prd_host ) {
-                data.prd_host = params.prd_host;
+            if (params.basepath ) {
                 data.basepath = params.basepath;
             }
-            if (params.protocol) data.protocol = params.protocol;
             if (params.env) data.env = params.env;
 
             let result = await this.Model.up(id, data);
@@ -577,7 +536,6 @@ class projectController extends baseController {
             'members',
             { key: 'group_id', alias: 'groupId' },
             { key: 'up_time', alias: 'upTime' },
-            { key: 'prd_host', alias: 'prdHost' },
             { key: 'add_time', alias: 'addTime' }
         ];
         let groupRules = [

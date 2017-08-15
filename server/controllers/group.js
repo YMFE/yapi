@@ -11,14 +11,41 @@ class groupController extends baseController {
 
     /**
      * 添加项目分组
+     * @interface /group/get
+     * @method GET
+     * @category group
+     * @foldnumber 10
+     * @param {String} id 项目分组ID
+     * @returns {Object} 
+     * @example 
+     */
+    async get(ctx) {
+        try {
+            let params = ctx.request.query;
+            if (!params.id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+            }
+            let groupInst = yapi.getInst(groupModel);
+            let result = await groupInst.getGroupById(params.id);
+            result = result.toObject();
+            result.role = await this.getProjectRole(params.id, 'group');
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 400, e.message)
+        }
+
+    }
+
+    /**
+     * 添加项目分组
      * @interface /group/add
      * @method POST
      * @category group
      * @foldnumber 10
      * @param {String} group_name 项目分组名称，不能为空
-     * @param {String} [group_desc] 项目分组描述 
+     * @param {String} [group_desc] 项目分组描述
      * @param {String} owner_uid  组长uid
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/add.json
      */
     async add(ctx) {
@@ -38,12 +65,12 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组名不能为空');
         }
 
-        if(!params.owner_uid){
+        if (!params.owner_uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组必须添加一个组长');
         }
 
         let groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
-        if(groupUserdata === null){
+        if (groupUserdata === null) {
             return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
         }
         let groupInst = yapi.getInst(groupModel);
@@ -74,11 +101,11 @@ class groupController extends baseController {
 
     }
 
-    async getUserdata(uid, role){
+    async getUserdata(uid, role) {
         role = role || 'dev';
         let userInst = yapi.getInst(userModel);
         let userData = await userInst.findById(uid);
-        if(!userData){
+        if (!userData) {
             return null;
         }
         return {
@@ -98,12 +125,14 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
 
-    async addMember(ctx){   
+
+    async addMember(ctx){
+
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
         if (!params.member_uid) {
@@ -118,10 +147,10 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '成员已存在');
         }
         let groupUserdata = await this.getUserdata(params.member_uid);
-        if(groupUserdata === null){
+        if (groupUserdata === null) {
             return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
         }
-        if(groupUserdata._role === 'admin'){
+        if (groupUserdata._role === 'admin') {
             return ctx.body = yapi.commons.resReturn(null, 400, '不能邀请管理员')
         }
         delete groupUserdata._role;
@@ -142,11 +171,11 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @param {String} role  组长uid
-     * @returns {Object} 
-     * @example 
+     * @param {String} role 权限 ['owner'|'dev']
+     * @returns {Object}
+     * @example
      */
-    async changeMemberRole(ctx){
+    async changeMemberRole(ctx) {
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
         if (!params.member_uid) {
@@ -179,8 +208,8 @@ class groupController extends baseController {
      * @category group
      * @foldnumber 10
      * @param {String} id 项目分组id
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async getMemberList(ctx) {
@@ -206,8 +235,8 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async delMember(ctx) {
@@ -241,7 +270,7 @@ class groupController extends baseController {
      * @method get
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/list.json
      */
     async list(ctx) {
@@ -261,7 +290,7 @@ class groupController extends baseController {
      * @param {String} id 项目分组id
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/del.json
      */
     async del(ctx) {
@@ -300,7 +329,7 @@ class groupController extends baseController {
      * @param {String} group_desc 项目分组描述
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/up.json
      */
     async up(ctx) {

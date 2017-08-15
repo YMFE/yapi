@@ -26,7 +26,7 @@ class baseController {
             '/api/user/status',
             '/api/user/logout'
         ];
-        if (ignoreRouter.indexOf(ctx.path) > -1) {            
+        if (ignoreRouter.indexOf(ctx.path) > -1) {
             this.$auth = true;
         } else {
             await this.checkLogin(ctx);
@@ -82,24 +82,18 @@ class baseController {
     getUsername() {
         return this.$user.username;
     }
-    /**
-     * 
-     * @param {*} id type对应的id
-     * @param {*} type enum[interface, project, group] 
-     * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
-     */
-    async checkAuth(id, type, action) {
+    async getProjectRole(id, type) {
         let result = {};
         try {
             if (this.getRole() === 'admin') {
-                return true;
+                return 'admin';
             }
             if (type === 'interface') {
                 let interfaceInst = yapi.getInst(interfaceModel);
                 let interfaceData = await interfaceInst.get(id)
                 result.interfaceData = interfaceData;
                 if (interfaceData.uid === this.getUid()) {
-                    return true;
+                    return 'owner';
                 }
                 type = 'project';
                 id = interfaceData.project_id;
@@ -107,10 +101,10 @@ class baseController {
 
             if (type === 'project') {
                 let projectInst = yapi.getInst(projectModel);
-                let projectData = await projectInst.get(id);   
-                if(projectData.uid === this.getUid()){
-                    return true;
-                }             
+                let projectData = await projectInst.get(id);
+                if (projectData.uid === this.getUid()) {
+                    return 'owner';
+                }
                 let memberData = _.find(projectData.members, (m) => {
                     if (m.uid === this.getUid()) {
                         return true;
@@ -118,11 +112,10 @@ class baseController {
                 })
 
                 if (memberData && memberData.role) {
-                    if(action === 'danger' && memberData.role === 'owner'){
-                        return true;
-                    }
-                    if(action === 'edit'){
-                        return true;
+                    if (memberData.role === 'owner') {
+                        return 'owner';
+                    }else {
+                        return 'dev';
                     }
                 }
                 type = 'group';
@@ -138,21 +131,39 @@ class baseController {
                     }
                 })
                 if (groupMemberData && groupMemberData.role) {
-                    if(action === 'danger' && groupMemberData.role === 'owner'){
-                        return true;
-                    }
-                    if(action === 'edit'){
-                        return true;
+                    if (groupMemberData.role === 'owner') {
+                        return 'owner';
+                    }else{
+                        return 'dev'
                     }
                 }
             }
 
-            return false;
+            return 'member';
         }
         catch (e) {
             yapi.commons.log(e.message, 'error')
             return false;
         }
+    }
+    /**
+     * 
+     * @param {*} id type对应的id
+     * @param {*} type enum[interface, project, group] 
+     * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+     */
+    async checkAuth(id, type, action) {
+        let role =  await this.getProjectRole(id, type);
+        if(action === 'danger'){
+            if(role === 'admin' || role === 'owner'){
+                return true;
+            }
+        }else if(action === 'edit'){
+            if(role === 'admin' || role === 'owner' || role === 'dev'){
+                return true;
+            }
+        }
+        return false;
     }
 }
 

@@ -30,17 +30,17 @@ class View extends Component {
   componentDidMount() {
     let that = this;
     mockEditor({
-      container: 'req_body_json',
+      container: 'vreq_body_json',
       data: that.props.req_body_form,
       onChange: function () {}
     })
     mockEditor({
-      container: 'res_body_json',
+      container: 'vres_body_json',
       data: that.props.res_body,
       onChange: function () {}
     })
     mockEditor({
-      container: 'req_query_json',
+      container: 'vreq_query_json',
       data: that.props.req_query,
       onChange: function () {}
     })
@@ -106,15 +106,15 @@ class View extends Component {
       </div>
       <div className="colQuery">
         <span className="colKey">Query：</span>
-        <div span={18} offset={4} id="req_query_json" style={{ minHeight: "150px" }}></div>
+        <div span={18} offset={4} id="vreq_query_json" style={{ minHeight: "150px" }}></div>
       </div>
       <div className="colBody">
         <span className="colKey">请求Body：</span>
-        <div span={18} offset={4} id="req_body_json" style={{ minHeight: "300px" }}></div>
+        <div span={18} offset={4} id="vreq_body_json" style={{ minHeight: "300px" }}></div>
       </div>
       <div className="colBody">
         <span className="colKey">响应Body：</span>
-        <div span={18} offset={4} id="res_body_json" style={{ minHeight: "300px" }}></div>
+        <div span={18} offset={4} id="vres_body_json" style={{ minHeight: "300px" }}></div>
       </div>
       
       
