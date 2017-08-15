@@ -64,6 +64,19 @@
         }
     }
 }
+.caseContainer{
+    padding: 24px;
+    font-size: 12px;
+    >div{
+        margin: 8px 0px;
+        padding: 12px;
+        background-color: #ececec;
+        .colKey{
+            font-weight: bolder;
+            margin-right: 16px;
+        }
+    }
+}
 
 
 
