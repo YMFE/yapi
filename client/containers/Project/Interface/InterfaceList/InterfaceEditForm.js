@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'underscore'
 
 import {
   Form, Select, Input,
   Button, Row, Col, Radio, Icon
 } from 'antd';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
 const dataTpl = {
   req_query: { name: "", required: "1", desc: "" },
-  req_headers: { name: "", required: "1", desc: "" }
+  req_headers: { name: "", required: "1", desc: "" },
+  req_params: { name: "", desc: "" }
 }
 
 const mockEditor = require('./mockEditor.js');
@@ -32,12 +35,14 @@ class InterfaceEditForm extends Component {
     if (curdata.req_query && curdata.req_query.length === 0) delete curdata.req_query;
     if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
     if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
+    if (curdata.req_params && curdata.req_params.length === 0) delete curdata.req_params;
 
     this.state = Object.assign({
       title: '',
       path: '',
       status: 'undone',
       method: 'get',
+      req_params: [],
       req_query: [{
         name: '',
         desc: '',
@@ -66,23 +71,31 @@ class InterfaceEditForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
+        values.req_params = this.state.req_params;
         values.req_body_json = this.state.res_body;
-        let isfile = false;
-        if(values.req_body_type === 'form'){
-          values.req_body_form.forEach((item)=>{
-            if(item.type === 'file'){
+        values.method = this.state.method;
+        let isfile = false, isHavaContentType = false;
+        if (values.req_body_type === 'form') {
+          values.req_body_form.forEach((item) => {
+            if (item.type === 'file') {
               isfile = true;
             }
           })
 
-          values.req_headers.filter( (item)=>{
-            item.name !== 'Content-Type'
+          values.req_headers.map((item) => {
+            if (item.name === 'Content-Type') {
+              item.value = isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
+              isHavaContentType = true;
+            }
           })
-          values.req_headers.unshift({
-            name: 'Content-Type',
-            value: isfile? 'multipart/form-data': 'application/x-www-form-urlencoded'
-          })
-          
+          if (isHavaContentType === false) {
+            values.req_headers.unshift({
+              name: 'Content-Type',
+              value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
+            })
+          }
+
+
         }
 
         this.props.onSubmit(values)
@@ -101,7 +114,7 @@ class InterfaceEditForm extends Component {
         })
       }
     })
-    
+
     resBodyEditor = mockEditor({
       container: 'res_body_json',
       data: that.state.res_body,
@@ -121,9 +134,10 @@ class InterfaceEditForm extends Component {
     })
   }
 
-  addParams = (name) => {
+  addParams = (name, data) => {
     let newValue = {}
-    newValue[name] = [].concat(this.state[name], dataTpl[name])
+    data = data || dataTpl[name]
+    newValue[name] = [].concat(this.state[name], data)
     this.setState(newValue)
   }
 
@@ -136,6 +150,22 @@ class InterfaceEditForm extends Component {
     })
     this.props.form.setFieldsValue(newValue)
     this.setState(newValue)
+  }
+
+  handlePath = (e) => {
+    let val = e.target.value;
+    if (val && val.indexOf(":") !== -1) {
+      let paths = val.split("/"), name, i;
+      for(i=1; i< paths.length; i++){
+        if(paths[i][0] === ':'){
+          name = paths[i].substr(1);
+          if(!_.find(this.state.req_params, {name: name})){
+            this.addParams('req_params', { name: name })
+          }
+        }
+      }
+      
+    }
   }
 
   render() {
@@ -241,6 +271,33 @@ class InterfaceEditForm extends Component {
       </Row>
     }
 
+    const paramsTpl = (data, index) => {
+      return <Row key={index}>
+        <Col span="6">
+          {getFieldDecorator('req_params[' + index + '].name', {
+            initialValue: data.name
+          })(
+            <Input disabled placeholder="参数名称" />
+            )}
+        </Col>
+        <Col span="8" >
+          {getFieldDecorator('req_params[' + index + '].desc', {
+            initialValue: data.desc
+          })(
+            <Input placeholder="备注" />
+            )}
+        </Col>
+        <Col span="2" >
+          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_params')} />
+        </Col>
+
+      </Row>
+    }
+
+    const paramsList = this.state.req_params.map((item, index) => {
+      return paramsTpl(item, index)
+    })
+
     const QueryList = this.state.req_query.map((item, index) => {
       return queryTpl(item, index)
     })
@@ -275,32 +332,34 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="接口路径"
         >
-          {getFieldDecorator('path', {
-            initialValue: this.state.path,
-            rules: [{
-              required: true, message: '清输入接口路径!'
-            }]
-          })(
-            <InputGroup compact>
-              {getFieldDecorator('method', {
-                initialValue: 'GET'
-              })(
-                <Select style={{ width: "15%" }}>
-                  <Option value="GET">GET</Option>
-                  <Option value="POST">POST</Option>
-                  <Option value="PUT">PUT</Option>
-                  <Option value="DELETE">DELETE</Option>
-                </Select>
-                )}
-              <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%'}} />
-              {getFieldDecorator('path', {
-                initialValue: this.state.path
-              })(
-                <Input placeholder="/path" style={{ width: '60%' }} />
-                )}
-            </InputGroup>
+          <InputGroup compact>
+            <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
+              <Option value="GET">GET</Option>
+              <Option value="POST">POST</Option>
+              <Option value="PUT">PUT</Option>
+              <Option value="DELETE">DELETE</Option>
+            </Select>
 
-            )}
+
+            <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
+
+            {getFieldDecorator('path', {
+              initialValue: this.state.path,
+              rules: [{
+                required: true, message: '清输入接口路径!'
+              }]
+            })(
+              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              )}
+          </InputGroup>
+          <Row className="interface-edit-item">
+            <Col span={18} offset={0}>
+              {paramsList}
+            </Col>
+
+          </Row>
+
+
         </FormItem>
 
         <FormItem
@@ -462,7 +521,7 @@ class InterfaceEditForm extends Component {
           label="预览"
         >
           <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px" }}>
-            
+
           </div>
         </FormItem>
 
@@ -470,7 +529,7 @@ class InterfaceEditForm extends Component {
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
           <Col span={18} offset={4} >
             {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
-              <Input.TextArea style={{minHeight: "150px"}} placeholder="备注信息" />
+              <Input.TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
             )}
           </Col>
 
