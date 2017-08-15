@@ -10,7 +10,8 @@ import './Edit.scss'
 @connect(
   state => {
     return {
-      curdata: state.inter.curdata
+      curdata: state.inter.curdata,
+      currProject: state.project.currProject
     }
   },{
     updateInterfaceData
@@ -20,7 +21,16 @@ import './Edit.scss'
 class InterfaceEdit extends Component{
   static propTypes = {
     curdata: PropTypes.object,
+    currProject:PropTypes.object,
     updateInterfaceData: PropTypes.func
+  }
+
+  constructor(props){
+    super(props)
+    const {curdata, currProject} = this.props;
+    this.state = {
+      mockUrl: location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${currProject._id}${currProject.basepath}/${curdata.path}`
+    }
   }
 
   onSubmit =async (params)=>{
@@ -31,14 +41,12 @@ class InterfaceEdit extends Component{
       message.success('保存成功');
     }else{
       message.success(result.data.errmsg)
-    }
-    
-    
+    }    
   }
 
   render(){
     return <div className="interface-edit">
-      <InterfaceEditForm onSubmit={this.onSubmit} curdata={this.props.curdata} />
+      <InterfaceEditForm mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.props.curdata} />
     </div>
   }
 }
