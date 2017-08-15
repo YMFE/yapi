@@ -49,10 +49,12 @@ class View extends Component {
   render () {
 
     const dataSource = [{
+      key: 1,
       name: '1',
       value: '胡彦斌',
       desc: 32
     }, {
+      key: 2,
       name: '2',
       value: '胡彦斌',
       desc: 32
@@ -181,11 +183,4 @@ View.defaultProps = {
   viewData: data
 }
 
-<<<<<<< HEAD
-
-
 export default View
-
-=======
-export default View
->>>>>>> 77a9d58ad88bd2cb782be964372f8a7d2a2dc034
