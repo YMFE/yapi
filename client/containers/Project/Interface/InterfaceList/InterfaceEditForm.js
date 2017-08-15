@@ -7,6 +7,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
 const dataTpl = {
   req_query: { name: "", required: "1", desc: "" },
@@ -20,7 +21,9 @@ class InterfaceEditForm extends Component {
   static propTypes = {
     form: PropTypes.object,
     curdata: PropTypes.object,
-    onSubmit: PropTypes.func
+    mockUrl: PropTypes.string,
+    onSubmit: PropTypes.func,
+    basepath: PropTypes.string
   }
 
   constructor(props) {
@@ -53,7 +56,8 @@ class InterfaceEditForm extends Component {
       res_body_type: 'json',
       res_body: '',
       desc: '',
-      res_body_mock: ''
+      res_body_mock: '',
+      mockUrl: this.props.mockUrl
     }, curdata)
   }
 
@@ -80,17 +84,23 @@ class InterfaceEditForm extends Component {
       }
     })
 
-    mockEditor({
+    let resBodyEditor = mockEditor({
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
-        
+
         that.setState({
           res_body: d.text,
           res_body_mock: d.mockText
         })
       }
     })
+
+    that.setState({
+      res_body_mock: resBodyEditor.curData.mockText
+    })
+
+
   }
 
   addParams = (name) => {
@@ -116,16 +126,7 @@ class InterfaceEditForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
     };
-    const prefixSelector = getFieldDecorator('method', {
-      initialValue: 'GET'
-    })(
-      <Select style={{ width: 75 }}>
-        <Option value="GET">GET</Option>
-        <Option value="POST">POST</Option>
-        <Option value="PUT">PUT</Option>
-        <Option value="DELETE">DELETE</Option>
-      </Select>
-      );
+
 
     const queryTpl = (data, index) => {
       return <Row key={index}>
@@ -154,7 +155,7 @@ class InterfaceEditForm extends Component {
             )}
         </Col>
         <Col span="2" >
-          <Icon type="delete" onClick={() => this.delParams(index, 'req_query')} />
+          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_query')} />
         </Col>
 
       </Row>
@@ -184,7 +185,7 @@ class InterfaceEditForm extends Component {
             )}
         </Col>
         <Col span="2" >
-          <Icon type="delete" onClick={() => this.delParams(index, 'req_headers')} />
+          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_headers')} />
         </Col>
 
       </Row>
@@ -193,11 +194,11 @@ class InterfaceEditForm extends Component {
     const requestBodyTpl = (data, index) => {
       return <Row key={index}>
         <Col span="8">
-          {getFieldDecorator('req_body_form[' + index + '].name',{
+          {getFieldDecorator('req_body_form[' + index + '].name', {
             initialValue: data.name
           })(
             <Input placeholder="name" />
-          )}
+            )}
         </Col>
         <Col span="4" >
           {getFieldDecorator('req_body_form[' + index + '].type', {
@@ -210,14 +211,14 @@ class InterfaceEditForm extends Component {
             )}
         </Col>
         <Col span="8">
-          {getFieldDecorator('req_body_form[' + index + '].desc',{
+          {getFieldDecorator('req_body_form[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input placeholder="备注" />
-          )}
+            )}
         </Col>
         <Col span="2" >
-          <Icon type="delete" onClick={() => this.delParams(index, 'req_body_form')} />
+          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_body_form')} />
         </Col>
       </Row>
     }
@@ -262,7 +263,25 @@ class InterfaceEditForm extends Component {
               required: true, message: '清输入接口路径!'
             }]
           })(
-            <Input addonBefore={prefixSelector} placeholder="/path" />
+            <InputGroup compact>
+              {getFieldDecorator('method', {
+                initialValue: 'GET'
+              })(
+                <Select style={{ width: "75px" }}>
+                  <Option value="GET">GET</Option>
+                  <Option value="POST">POST</Option>
+                  <Option value="PUT">PUT</Option>
+                  <Option value="DELETE">DELETE</Option>
+                </Select>
+                )}
+              <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '100px', marginRight: "10px", marginLeft: "10px" }} />
+              {getFieldDecorator('path', {
+                initialValue: this.state.path
+              })(
+                <Input placeholder="/path" style={{ width: '350px' }} />
+                )}
+            </InputGroup>
+
             )}
         </FormItem>
 
@@ -358,7 +377,7 @@ class InterfaceEditForm extends Component {
 
 
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={18} offset={4} id="req_body_json" style={{ minHeight: "300px"}}>
+          <Col span={18} offset={4} id="req_body_json" style={{ minHeight: "300px" }}>
           </Col>
         </Row>
 
@@ -403,8 +422,8 @@ class InterfaceEditForm extends Component {
 
         </FormItem>
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
-          
-          <Col span={18} offset={4}  id="res_body_json" style={{ minHeight: "300px" }}>
+
+          <Col span={18} offset={4} id="res_body_json" style={{ minHeight: "300px" }}>
 
           </Col>
         </Row>
@@ -413,13 +432,22 @@ class InterfaceEditForm extends Component {
           style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}
           className="interface-edit-item"
           {...formItemLayout}
-          label="mock预览"
+          label="mock地址"
         >
-          <pre style={{backgroundColor: "#eee", lineHeight: "20px"}}>
+          <Input onChange={() => { }} value={this.state.mockUrl} />
+        </FormItem>
+
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="预览"
+        >
+          <pre style={{ backgroundColor: "#eee", lineHeight: "20px" }}>
             {this.state.res_body_mock || " "}
           </pre>
         </FormItem>
-       
+
 
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
           <Col span={18} offset={4} >

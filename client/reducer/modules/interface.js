@@ -64,7 +64,8 @@ export default (state = initialState, action) => {
     case FETCH_INTERFACE_LIST:
       return {
         ...state,
-        list: action.payload.data
+        list: action.payload.data,
+        curdata: action.payload.data.length > 0 ? action.payload.data[0] :  {}
       }
     default:
       return state
