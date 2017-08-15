@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin, Icon, message, Collapse } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, message, Collapse, Radio } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
@@ -17,6 +17,8 @@ const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 @connect(
   state => ({
@@ -376,8 +378,6 @@ export default class Run extends Component {
           }
         </div>
 
-        {/*<div className="interface-name">{interfaceName}</div>*/}
-
         <Card title="请求部分" noHovering className="req-part">
           <div className="url">
             <InputGroup compact style={{display: 'flex'}}>
@@ -421,7 +421,8 @@ export default class Run extends Component {
                 headers.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />{' = '}
+                      <Input value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
+                      <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeHeader(e, index)} className="value" />
                       <Icon type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                     </div>
@@ -447,49 +448,55 @@ export default class Run extends Component {
             >
               { method === 'POST' && paramsType !== 'form' && paramsType !== 'file' &&
                 <div>
+                  <RadioGroup defaultValue="json">
+                    <RadioButton value="json">JSON</RadioButton>
+                    <RadioButton value="text">TEXT</RadioButton>
+                    <RadioButton value="xml">XML</RadioButton>
+                    <RadioButton value="html">HTML</RadioButton>
+                  </RadioGroup>
                   <TextArea
                     value={params}
-                    style={{margin: 10}}
+                    style={{marginTop: 10}}
                     autosize={{ minRows: 2, maxRows: 6 }}
                   ></TextArea>
-                  <div>{paramsType}</div>
                 </div>
               }
               {
-                method === 'POST' && paramsType === 'form' && (
-                  <div>
-                    {
-                      params.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <Input value={item.key} onChange={e => this.changeParams(e, index, 'key')} style={{display: 'inline-block', width: 200, margin: 10}} />
-                            [<Select value={item.type} onChange={e => this.changeParams(e, index, 'type')}>
-                              <Option value="file">File</Option>
-                              <Option value="text">Text</Option>
-                            </Select>]{' = '}
-                            {item.type === 'file' ?
-                              <Input type="file" id={'file_' + index} onChange={e => this.changeParams(e, index, 'value')} multiple style={{display: 'inline-block', width: 200, margin: 10}} /> :
-                              <Input value={item.value} onChange={e => this.changeParams(e, index, 'value')} style={{display: 'inline-block', width: 200, margin: 10}} />
-                            }
-                          </div>
-                        )
-                      })
-                    }
-                    <Button type="primary" icon="plus" onClick={this.addParams}>Add form parameter</Button>
-                  </div>
-                )
+                method === 'POST' && paramsType === 'form' &&
+                <div>
+                  {
+                    params.map((item, index) => {
+                      return (
+                        <div key={index} className="key-value-wrap">
+                          <Input value={item.key} onChange={e => this.changeParams(e, index, 'key')} className="key" />
+                          <span>[</span>
+                          <Select value={item.type} onChange={e => this.changeParams(e, index, 'type')}>
+                            <Option value="file">File</Option>
+                            <Option value="text">Text</Option>
+                          </Select>
+                          <span>]</span>
+                          <span className="eq-symbol">=</span>
+                          {
+                            item.type === 'file' ? <Input type="file" id={'file_' + index} onChange={e => this.changeParams(e, index, 'value')} multiple className="value" /> :
+                            <Input value={item.value} onChange={e => this.changeParams(e, index, 'value')} className="value" />
+                          }
+                          <Icon type="delete" className="icon-btn" onClick={() => this.deleteParams(index)} />
+                        </div>
+                      )
+                    })
+                  }
+                  <Button type="primary" icon="plus" onClick={this.addParams}>Add form parameter</Button>
+                </div>
               }
               {
-                method === 'POST' && paramsType === 'file' && (
-                  <div>
-                    <Input type="file"></Input>
-                  </div>
-                )
+                method === 'POST' && paramsType === 'file' &&
+                <div>
+                  <Input type="file"></Input>
+                </div>
               }
               {
-                method !== 'POST' && (
-                  <div style={{margin: 10}}>GET 请求没有 Body。</div>
-                )
+                method !== 'POST' &&
+                <div>GET 请求没有 BODY。</div>
               }
             </Panel>
           </Collapse>
