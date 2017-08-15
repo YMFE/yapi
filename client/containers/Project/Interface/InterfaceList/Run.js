@@ -24,7 +24,7 @@ const RadioGroup = Radio.Group;
   state => ({
     currInterface: state.inter.curdata,
     currProject: state.project.currProject
-    // reqParams: state.addInterface.reqParams,
+    // reqBody: state.addInterface.reqBody,
     // method: state.addInterface.method,
     // url: state.addInterface.url,
     // seqGroup: state.addInterface.seqGroup,
@@ -38,7 +38,7 @@ export default class Run extends Component {
     match: PropTypes.object,
     currProject: PropTypes.object,
     currInterface: PropTypes.object,
-    reqParams: PropTypes.string,
+    reqBody: PropTypes.string,
     // method: PropTypes.string,
     // url: PropTypes.string,
     interfaceName: PropTypes.string
@@ -50,12 +50,12 @@ export default class Run extends Component {
     method: 'GET',
     domains: [],
     pathname: '',
-    query: {},
-    params: {},
-    paramsNotJson: false,
-    headers: {},
+    query: [],
+    bodyForm: [],
+    headers: [],
     currDomain: '',
-    paramsType: 'from'
+    bodyType: '',
+    bodyOther: ''
   }
 
   constructor(props) {
@@ -76,7 +76,16 @@ export default class Run extends Component {
     const { currInterface, currProject } = props;
     console.log('currInterface', currInterface)
     console.log('currProject', currProject)
-    const { method, path: url, req_headers } = currInterface;
+    const {
+      method,
+      path: url,
+      req_headers = [],
+      req_body_type,
+      req_query = [],
+      req_params = [],
+      req_body_other = '',
+      req_body_form = []
+    } = currInterface;
     const { prd_host, basepath, protocol, env } = currProject;
     const pathname = (basepath + url).replace(/\/+/g, '/');
 
@@ -85,30 +94,22 @@ export default class Run extends Component {
       domains[item.name] = item.domain;
     })
 
+    const pathParam = [];
+    req_params.forEach(item => {
+      pathParam.push({key: item.name, value: item.value})
+    })
+
     const query = [];
-    let params = [];
-    let reqParams = this.props.reqParams ? this.props.reqParams : '{}';
-    let paramsNotJson = false;
-    try {
-      reqParams = JSON.parse(reqParams);
-      // paramsNotJson = false;
-    } catch (e) {
-      // paramsNotJson = true;
-      reqParams = {};
-      message.error('请求参数不是 JSON 格式');
-    }
-    if (method === 'GET') {
-      Object.keys(reqParams).forEach(key => {
-        const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
-        query.push({key, value})
-      })
-    } else if (method === 'POST') {
-      // params = reqParams;
-      Object.keys(reqParams).forEach(key => {
-        const value = typeof reqParams[key] === 'object' ? JSON.stringify(reqParams[key]) : reqParams[key].toString();
-        query.push({key, value, type: 'text'})
-      })
-    }
+    req_query.forEach(item => {
+      query.push({key: item.name, value: item.value})
+    })
+
+    const bodyForm = [];
+    req_body_form.forEach(item => {
+      bodyForm.push({key: item.name, value: item.value, type: 'text'})
+    })
+
+    const bodyOther = req_body_other;
 
     const headers = []
     let contentTypeIndex = -1;
@@ -131,18 +132,18 @@ export default class Run extends Component {
       domains,
       pathname,
       query,
-      params,
-      paramsNotJson,
+      bodyForm,
       headers,
+      bodyOther,
       currDomain: domains.prd,
-      loading: false,
-      paramsType: 'form'
+      bodyType: req_body_type || 'form',
+      loading: false
     });
   }
 
   @autobind
-  requestInterface() {
-    const { headers, params, currDomain, method, pathname, query } = this.state;
+  reqRealInterface() {
+    const { headers, bodyForm, bodyOther, currDomain, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(currDomain);
 
     const href = URL.format({
@@ -158,8 +159,8 @@ export default class Run extends Component {
       url: href,
       method,
       headers: this.getHeadersObj(headers),
-      data: this.arrToObj(params),
-      files: this.getFiles(params),
+      data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
+      files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res) => {
         try {
           res = JSON.parse(res)
@@ -237,20 +238,20 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeParams(e, index, type) {
-    const params = JSON.parse(JSON.stringify(this.state.params));
+  changeBody(e, index, type) {
+    const bodyForm = JSON.parse(JSON.stringify(this.state.bodyForm));
     switch (type) {
       case 'key':
-        params[index].key = e.target.value
+        bodyForm[index].key = e.target.value
         break;
       case 'type':
-        params[index].type = e
+        bodyForm[index].type = e
         break;
       case 'value':
-        if (params[index].type === 'file') {
-          params[index].value = e.target.id
+        if (bodyForm[index].type === 'file') {
+          bodyForm[index].value = e.target.id
         } else {
-          params[index].value = e.target.value
+          bodyForm[index].value = e.target.value
         }
         break;
       default:
@@ -259,17 +260,17 @@ export default class Run extends Component {
     if (type === 'type' && e === 'file') {
       this.setContentType('multipart/form-data')
     }
-    this.setState({ params });
+    this.setState({ bodyForm });
   }
   @autobind
-  addParams() {
-    const { params } = this.state;
-    this.setState({params: params.concat([{key: '', value: '', type: 'text'}])})
+  addBody() {
+    const { bodyForm } = this.state;
+    this.setState({bodyForm: bodyForm.concat([{key: '', value: '', type: 'text'}])})
   }
   @autobind
-  deleteParams(index) {
-    const { params } = this.state;
-    this.setState({params: params.filter((item, i) => +index !== +i)});
+  deleteBody(index) {
+    const { bodyForm } = this.state;
+    this.setState({bodyForm: bodyForm.filter((item, i) => +index !== +i)});
   }
 
   @autobind
@@ -288,8 +289,8 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeParamsType(value) {
-    this.setState({paramsType: value})
+  changeBodyType(value) {
+    this.setState({bodyType: value})
   }
 
   hasCrossRequestPlugin() {
@@ -317,9 +318,9 @@ export default class Run extends Component {
     })
     return obj;
   }
-  getFiles(params) {
+  getFiles(bodyForm) {
     const files = {};
-    params.forEach(item => {
+    bodyForm.forEach(item => {
       if (item.key && item.type === 'file') {
         files[item.key] = item.value
       }
@@ -353,7 +354,7 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathname, query, headers, params, currDomain, paramsType } = this.state;
+    const { method, domains, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
 
@@ -393,11 +394,16 @@ export default class Run extends Component {
               <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
             </InputGroup>
             <Button
-              onClick={this.requestInterface}
+              onClick={this.reqRealInterface}
               type="primary"
               style={{marginLeft: 10}}
               loading={this.state.loading}
             >发送</Button>
+            <Button
+              onClick={this.reqRealInterface}
+              type="primary"
+              style={{marginLeft: 10}}
+            >保存</Button>
           </div>
 
           <Collapse defaultActiveKey={['1', '2', '3']} bordered={true}>
@@ -436,7 +442,7 @@ export default class Run extends Component {
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <div>BODY</div>
                   <div onClick={e => e.stopPropagation()} style={{marginRight: 5}}>
-                    <Select defaultValue={paramsType} onChange={this.changeParamsType} className={method === 'POST' ? '' : 'hidden'}>
+                    <Select defaultValue={bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'hidden'}>
                       <Option value="text">Text</Option>
                       <Option value="file">File</Option>
                       <Option value="form">Form</Option>
@@ -446,7 +452,7 @@ export default class Run extends Component {
               }
               key="3"
             >
-              { method === 'POST' && paramsType !== 'form' && paramsType !== 'file' &&
+              { method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
                 <div>
                   <RadioGroup defaultValue="json">
                     <RadioButton value="json">JSON</RadioButton>
@@ -455,41 +461,41 @@ export default class Run extends Component {
                     <RadioButton value="html">HTML</RadioButton>
                   </RadioGroup>
                   <TextArea
-                    value={params}
+                    value={bodyOther}
                     style={{marginTop: 10}}
-                    autosize={{ minRows: 2, maxRows: 6 }}
+                    autosize={{ minRows: 2, maxRows: 10 }}
                   ></TextArea>
                 </div>
               }
               {
-                method === 'POST' && paramsType === 'form' &&
+                method === 'POST' && bodyType === 'form' &&
                 <div>
                   {
-                    params.map((item, index) => {
+                    bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
-                          <Input value={item.key} onChange={e => this.changeParams(e, index, 'key')} className="key" />
+                          <Input value={item.key} onChange={e => this.changeBody(e, index, 'key')} className="key" />
                           <span>[</span>
-                          <Select value={item.type} onChange={e => this.changeParams(e, index, 'type')}>
+                          <Select value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
                             <Option value="file">File</Option>
                             <Option value="text">Text</Option>
                           </Select>
                           <span>]</span>
                           <span className="eq-symbol">=</span>
                           {
-                            item.type === 'file' ? <Input type="file" id={'file_' + index} onChange={e => this.changeParams(e, index, 'value')} multiple className="value" /> :
-                            <Input value={item.value} onChange={e => this.changeParams(e, index, 'value')} className="value" />
+                            item.type === 'file' ? <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
+                            <Input value={item.value} onChange={e => this.changeBody(e, index, 'value')} className="value" />
                           }
-                          <Icon type="delete" className="icon-btn" onClick={() => this.deleteParams(index)} />
+                          <Icon type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
                         </div>
                       )
                     })
                   }
-                  <Button type="primary" icon="plus" onClick={this.addParams}>Add form parameter</Button>
+                  <Button type="primary" icon="plus" onClick={this.addBody}>Add form parameter</Button>
                 </div>
               }
               {
-                method === 'POST' && paramsType === 'file' &&
+                method === 'POST' && bodyType === 'file' &&
                 <div>
                   <Input type="file"></Input>
                 </div>
