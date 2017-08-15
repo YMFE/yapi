@@ -61,6 +61,15 @@ class followModel extends baseModel {
             projectid: projectid
         });
     }
+
+    updateById(id,data){
+        return this.model.update({
+            _id: id
+        },{
+            icon: data.icon,
+            color: data.color
+        });
+    }
 }
 
 module.exports = followModel;

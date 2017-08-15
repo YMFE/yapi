@@ -67,10 +67,15 @@ function run(options) {
     wordList.push(options.wordList);
   }
   data = options.data || '';
+  options.readOnly = options.readOnly || false;
 
   editor = ace.edit(container)
   editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
+  //editor.renderer.setShowGutter(true);
+  if(options.readOnly === true){
+    editor.setReadOnly(true);
+  }
   editor.setTheme('ace/theme/xcode');
   editor.setOptions({
     enableBasicAutocompletion: true,
@@ -134,5 +139,15 @@ function handleJson(json) {
   }
 }
 
-
+/**
+ * mockEditor({
+      container: 'req_body_json', //dom的id
+      data: that.state.req_body_json, //初始化数据
+      onChange: function (d) {
+        that.setState({
+          req_body_json: d.text
+        })
+      }
+    })
+ */
 module.exports = run;
