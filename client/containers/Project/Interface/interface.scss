@@ -3,7 +3,7 @@
         min-height: 5rem;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
         background: #FFF;
-        border-radius:4px;
+        border-radius:5px;
         margin: 3px;
         .ant-tabs-bar{
             border-bottom: none;
@@ -41,9 +41,10 @@
                 width: 40px;
             }
 
-            .btn-http-get{
-                background-color: #00a854;
-                border-color: #00a854
+            .interface-delete-icon{
+                position: absolute;
+                right: 5px;
+                top: 14px;
             }
         }
     }
@@ -53,7 +54,7 @@
         min-height: 5rem;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
         background: #FFF;
-        border-radius:4px;
+        border-radius:5px;
         .interface-content{
             .ant-tabs-nav{
                 width:100%
