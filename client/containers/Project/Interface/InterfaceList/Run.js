@@ -29,7 +29,7 @@ const Option = Select.Option;
   })
 )
 @withRouter
-export default class InterfaceTest extends Component {
+export default class Run extends Component {
 
   static propTypes = {
     match: PropTypes.object,
@@ -350,52 +350,46 @@ export default class InterfaceTest extends Component {
 
   render () {
 
-    const { interfaceName } = this.props;
     const { method, domains, pathname, query, headers, params, currDomain, paramsType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
 
     return (
       <div className="interface-test">
-        <div style={{padding: '0 20%'}}>
-          { hasPlugin ? '' :
-          <Alert
-            message={
-              <div>
-                温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
-                <a
-                  target="blank"
-                  href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                >
-                  测试增强插件 [点击获取]！
-                </a>
-              </div>
-            }
-            type="warning"
-          />
+        <div  className="has-plugin">
+          {
+            hasPlugin ? '' : (
+              <Alert
+                message={
+                  <div>
+                    温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
+                    <a
+                      target="blank"
+                      href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                    >测试增强插件 [点击获取]！</a>
+                  </div>
+                }
+                type="warning"
+              />
+            )
           }
         </div>
-        <div className="interface-name">{interfaceName}</div>
 
-        {/* url */}
-        <div className="req-part">
-          <div className="req-row href">
-            <InputGroup compact style={{display: 'inline-block', width: 680, border: 0, background: '#fff', marginBottom: -4}}>
-              <Input value="Method" disabled style={{display: 'inline-block', width: 80, border: 0, background: '#fff'}} />
-              <Input value="Domain" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
-              <Input value="Basepath + Url + [Query]" disabled style={{display: 'inline-block', width: 300, border: 0, background: '#fff'}} />
-            </InputGroup>
-            <InputGroup compact style={{display: 'inline-block', width: 680}}>
-              <Select value={method} style={{display: 'inline-block', width: 80}} onChange={this.changeMethod} >
+        {/*<div className="interface-name">{interfaceName}</div>*/}
+
+        <Card title="请求部分" noHovering className="req-part">
+          <div className="url">
+            <InputGroup compact style={{display: 'flex'}}>
+              <Select value={method} style={{flexBasis: '80'}} onChange={this.changeMethod} >
                 <Option value="GET">GET</Option>
                 <Option value="POST">POST</Option>
               </Select>
-              <Select value={currDomain} mode="combobox" filterOption={() => true} style={{display: 'inline-block', width: 300}} onChange={this.changeDomain} onSelect={this.selectDomain}>
+              <Select value={currDomain} mode="combobox" filterOption={() => true} style={{flexBasis: '180', flexGrow: 1}} onChange={this.changeDomain} onSelect={this.selectDomain}>
                 {
                   Object.keys(domains).map((key, index) => (<Option value={domains[key]} key={index}>{key + '：' + domains[key]}</Option>))
                 }
               </Select>
-              <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{display: 'inline-block', width: 300}} />
+              <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: '180', flexGrow: 1}} />
             </InputGroup>
             <Button
               onClick={this.requestInterface}
@@ -403,17 +397,16 @@ export default class InterfaceTest extends Component {
               style={{marginLeft: 10}}
               loading={this.state.loading}
             >发送</Button>
-            <span style={{fontSize: 12, color: 'rgba(0, 0, 0, 0.25)'}}>（请求测试真实接口）</span>
           </div>
 
-          <Card title="Query" noHovering style={{marginTop: 10}}>
+          <Card title="QUERY PARAMETERS" noHovering style={{marginTop: 10}}>
             {
               query.map((item, index) => {
                 return (
                   <div key={index}>
                     <Input value={item.key} onChange={e => this.changeQuery(e, index, true)} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                     <Input value={item.value} onChange={e => this.changeQuery(e, index)} style={{display: 'inline-block', width: 200, margin: 10}} />
-                    <Icon type="close" className="icon-btn" onClick={() => this.deleteQuery(index)} />
+                    <Icon type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
                 )
               })
@@ -428,7 +421,7 @@ export default class InterfaceTest extends Component {
                     <div key={index}>
                       <Input value={item.name} onChange={e => this.changeHeader(e, index, true)} style={{display: 'inline-block', width: 200, margin: 10}} />{' = '}
                       <Input value={item.value} onChange={e => this.changeHeader(e, index)} style={{display: 'inline-block', width: 200, margin: 10}} />
-                      <Icon type="close" className="icon-btn" onClick={() => this.deleteHeader(index)} />
+                      <Icon type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                     </div>
                   )
                 })
@@ -436,7 +429,7 @@ export default class InterfaceTest extends Component {
               <Button type="primary" icon="plus" onClick={this.addHeader} style={{margin: 10}}>Add header</Button>
             </div>
           </Card>
-          <Card title="Body" noHovering style={{marginTop: 10}}>
+          <Card title="BODY" noHovering style={{marginTop: 10}}>
             <div className="req-row params">
               <div>
                 <Select style={{margin: 10, float: 'right'}} defaultValue={paramsType} onChange={this.changeParamsType} className={method === 'POST' ? 'floatfix' : 'floatfix hidden'}>
@@ -493,8 +486,9 @@ export default class InterfaceTest extends Component {
               }
             </div>
           </Card>
-        </div>
-        <Card title="返回结果" noHovering style={{marginTop: 10}}>
+        </Card>
+
+        <Card title="返回结果" noHovering className="resp-part">
           <Spin spinning={this.state.loading}>
             <div className="res-part">
               <div style={{padding: 10}}>
