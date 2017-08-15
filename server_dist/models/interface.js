@@ -52,23 +52,36 @@ var interfaceModel = function (_baseModel) {
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 project_id: { type: Number, required: true },
+                status: { type: String, enum: ['undone', 'done'], default: 'undone' },
                 desc: String,
                 add_time: Number,
                 up_time: Number,
                 req_query: [{
-                    name: String, value: String, desc: String, required: Boolean
+                    name: String, value: String, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
                 }],
                 req_headers: [{
-                    name: String, value: String, desc: String, required: Boolean
+                    name: String, value: String, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
                 }],
-                req_params_type: {
+                req_body_type: {
                     type: String,
-                    enum: ['form', 'json', 'text', 'xml']
+                    enum: ['form', 'json', 'text', 'file']
                 },
-                req_params_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
+                req_body_form: [{
+                    name: String, type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
                 }],
-                req_params_other: String,
+                req_body_other: String,
                 res_body_type: {
                     type: String,
                     enum: ['json', 'text', 'xml']

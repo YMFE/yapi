@@ -15,10 +15,8 @@ class projectModel extends baseModel {
             group_id: { type: Number, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
-                {uid: Number, role: {type: String, enum:['owner', 'dev'], username: String, email: String}}
+                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
             ],
-            protocol: { type: String, required: true },
-            prd_host: { type: String, required: true },
             env: [
                 { name: String, domain: String }
             ],
@@ -60,7 +58,7 @@ class projectModel extends baseModel {
     list(group_id, auth) {
         let params = {group_id: group_id}
         if(!auth) params.project_type = 'public';
-        return this.model.find(params).sort({ _id: -1 }).exec();
+        return this.model.find(params).select("_id uid name basepath desc group_id project_type env add_time up_time").sort({ _id: -1 }).exec();
     }
 
     listWithPaging(group_id, page, limit) {
@@ -111,7 +109,7 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $pull: { members: uid }
+                $pull: { members: {uid: uid} }
             }
         );
     }
