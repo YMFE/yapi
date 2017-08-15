@@ -1,0 +1,35 @@
+.caseContainer{
+    padding: 24px;
+    font-size: 12px;
+    // display: flex;
+    overflow: hidden;
+    >div{
+        margin: 8px 0px;
+        // background-color: #ececec;
+        padding: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        float: left;
+        .colKey{
+            font-weight: bolder;
+            margin-right: 16px;
+        }
+    }
+    .colName,.colPath,.colstatus,.colMock{
+        width: 50%;
+        float: left;
+        padding: 8px 16px;
+    }
+    .colDesc{
+        line-height: 1.5em;
+        .colKey{
+            margin-right: 0px;
+            float: left;
+            margin-bottom: 8px;
+        }
+        .colValue{
+            float: left;
+            text-indent: 2em;
+        }
+    }
+}
