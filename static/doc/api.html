@@ -85,6 +85,22 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-group-add_member">/group/add_member</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-change_member_role">/group/change_member_role</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-get_member_list">/group/get_member_list</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-del_member">/group/del_member</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-group-list">/group/list</a>
                                     </li>
                                      
@@ -421,6 +437,302 @@
 
 <div class="con-list-item">
     <blockquote class="api">
+        <h3 id="-group-add_member" class="page-header subject">
+            /group/add_member
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-add_member">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        添加项目分组成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#92" target="_blank">./server/controllers/group.js:92</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-change_member_role" class="page-header subject">
+            /group/change_member_role
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-change_member_role">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        修改项目分组成员角色
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#136" target="_blank">./server/controllers/group.js:136</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>role</td>
+                <td>String</td>
+                <td>权限 ['owner'|'dev']</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-get_member_list" class="page-header subject">
+            /group/get_member_list
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-group-get_member_list">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        获取所有项目成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#174" target="_blank">./server/controllers/group.js:174</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-del_member" class="page-header subject">
+            /group/del_member
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-del_member">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        删除项目成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#200" target="_blank">./server/controllers/group.js:200</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
         <h3 id="-group-list" class="page-header subject">
             /group/list
             
@@ -437,7 +749,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#184" target="_blank">./server/controllers/group.js:184</a>
+        <a href="./static/server/controllers/group.js.html#237" target="_blank">./server/controllers/group.js:237</a>
     </p>
     
     
@@ -499,7 +811,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#203" target="_blank">./server/controllers/group.js:203</a>
+        <a href="./static/server/controllers/group.js.html#256" target="_blank">./server/controllers/group.js:256</a>
     </p>
     
     
@@ -571,7 +883,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#240" target="_blank">./server/controllers/group.js:240</a>
+        <a href="./static/server/controllers/group.js.html#293" target="_blank">./server/controllers/group.js:293</a>
     </p>
     
     
@@ -1599,30 +1911,6 @@
             </tr>
             
             <tr>
-                <td>prd_host</td>
-                <td>String</td>
-                <td>项目线上域名，不能为空。可通过配置的域名访问到mock数据</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>protocol</td>
-                <td>String</td>
-                <td>线上域名协议，不能为空</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
                 <td>group_id</td>
                 <td>Number</td>
                 <td>项目分组id，不能为空</td>
@@ -1702,7 +1990,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#137" target="_blank">./server/controllers/project.js:137</a>
+        <a href="./static/server/controllers/project.js.html#114" target="_blank">./server/controllers/project.js:114</a>
     </p>
     
     
@@ -1786,7 +2074,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#188" target="_blank">./server/controllers/project.js:188</a>
+        <a href="./static/server/controllers/project.js.html#165" target="_blank">./server/controllers/project.js:165</a>
     </p>
     
     
@@ -1870,7 +2158,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#254" target="_blank">./server/controllers/project.js:254</a>
+        <a href="./static/server/controllers/project.js.html#231" target="_blank">./server/controllers/project.js:231</a>
     </p>
     
     
@@ -1948,7 +2236,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#279" target="_blank">./server/controllers/project.js:279</a>
+        <a href="./static/server/controllers/project.js.html#256" target="_blank">./server/controllers/project.js:256</a>
     </p>
     
     
@@ -2031,7 +2319,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#303" target="_blank">./server/controllers/project.js:303</a>
+        <a href="./static/server/controllers/project.js.html#280" target="_blank">./server/controllers/project.js:280</a>
     </p>
     
     
@@ -2077,7 +2365,6 @@
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"total"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
         <span class="token string">"list"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
             <span class="token punctuation">{</span>
                 <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">529</span><span class="token punctuation">,</span>
@@ -2223,17 +2510,7 @@
                     <span class="token string">"107"</span>
                 <span class="token punctuation">]</span>
             <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token string">"userinfo"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            <span class="token string">"107"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
-                <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
-                <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
-                <span class="token string">"role"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
-                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500280333</span><span class="token punctuation">,</span>
-                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500373530</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
@@ -2258,7 +2535,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#344" target="_blank">./server/controllers/project.js:344</a>
+        <a href="./static/server/controllers/project.js.html#320" target="_blank">./server/controllers/project.js:320</a>
     </p>
     
     
@@ -2330,7 +2607,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#419" target="_blank">./server/controllers/project.js:419</a>
+        <a href="./static/server/controllers/project.js.html#395" target="_blank">./server/controllers/project.js:395</a>
     </p>
     
     
@@ -2383,18 +2660,6 @@
                 <td>basepath</td>
                 <td>String</td>
                 <td>项目基本路径，不能为空</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>prd_host</td>
-                <td>String</td>
-                <td>项目线上域名，不能为空。可通过配置的域名访问到mock数据</td>
                 <td>
                     
                     <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
@@ -2490,7 +2755,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#520" target="_blank">./server/controllers/project.js:520</a>
+        <a href="./static/server/controllers/project.js.html#476" target="_blank">./server/controllers/project.js:476</a>
     </p>
     
     
@@ -2585,7 +2850,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#575" target="_blank">./server/controllers/project.js:575</a>
+        <a href="./static/server/controllers/project.js.html#530" target="_blank">./server/controllers/project.js:530</a>
     </p>
     
     
@@ -2774,7 +3039,7 @@
             </tr>
             
             <tr>
-                <td>req_params_type</td>
+                <td>req_body_type</td>
                 <td>String</td>
                 <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
                 <td>
@@ -2784,7 +3049,17 @@
             </tr>
             
             <tr>
-                <td>req_params_form</td>
+                <td>req_params</td>
+                <td>Array</td>
+                <td>name, desc两个参数</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form</td>
                 <td>Mixed</td>
                 <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
                 <td>
@@ -2794,7 +3069,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].name</td>
+                <td>req_body_form[].name</td>
                 <td>String</td>
                 <td>请求参数名</td>
                 <td>
@@ -2804,7 +3079,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].value</td>
+                <td>req_body_form[].value</td>
                 <td>String</td>
                 <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
                 <td>
@@ -2814,7 +3089,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].type</td>
+                <td>req_body_form[].type</td>
                 <td>String</td>
                 <td>请求参数类型，有["text", "file"]两种</td>
                 <td>
@@ -2824,7 +3099,7 @@
             </tr>
             
             <tr>
-                <td>req_params_other</td>
+                <td>req_body_other</td>
                 <td>String</td>
                 <td>非form类型的请求参数可保存到此字段</td>
                 <td>
@@ -2961,7 +3236,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#99" target="_blank">./server/controllers/interface.js:99</a>
+        <a href="./static/server/controllers/interface.js.html#107" target="_blank">./server/controllers/interface.js:107</a>
     </p>
     
     
@@ -3026,7 +3301,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#124" target="_blank">./server/controllers/interface.js:124</a>
+        <a href="./static/server/controllers/interface.js.html#132" target="_blank">./server/controllers/interface.js:132</a>
     </p>
     
     
@@ -3091,7 +3366,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#149" target="_blank">./server/controllers/interface.js:149</a>
+        <a href="./static/server/controllers/interface.js.html#157" target="_blank">./server/controllers/interface.js:157</a>
     </p>
     
     
@@ -3199,7 +3474,7 @@
             </tr>
             
             <tr>
-                <td>req_params_type</td>
+                <td>req_body_type</td>
                 <td>String</td>
                 <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
                 <td>
@@ -3209,7 +3484,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form</td>
+                <td>req_body_form</td>
                 <td>Mixed</td>
                 <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
                 <td>
@@ -3219,7 +3494,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].name</td>
+                <td>req_body_form[].name</td>
                 <td>String</td>
                 <td>请求参数名</td>
                 <td>
@@ -3229,7 +3504,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].value</td>
+                <td>req_body_form[].value</td>
                 <td>String</td>
                 <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
                 <td>
@@ -3239,7 +3514,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].type</td>
+                <td>req_body_form[].type</td>
                 <td>String</td>
                 <td>请求参数类型，有["text", "file"]两种</td>
                 <td>
@@ -3249,7 +3524,7 @@
             </tr>
             
             <tr>
-                <td>req_params_other</td>
+                <td>req_body_other</td>
                 <td>String</td>
                 <td>非form类型的请求参数可保存到此字段</td>
                 <td>
@@ -3324,7 +3599,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#250" target="_blank">./server/controllers/interface.js:250</a>
+        <a href="./static/server/controllers/interface.js.html#264" target="_blank">./server/controllers/interface.js:264</a>
     </p>
     
     
@@ -3715,7 +3990,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#33" target="_blank">./server/controllers/interfaceCol.js:33</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#37" target="_blank">./server/controllers/interfaceCol.js:37</a>
     </p>
     
     
@@ -3801,7 +4076,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#77" target="_blank">./server/controllers/interfaceCol.js:77</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#81" target="_blank">./server/controllers/interfaceCol.js:81</a>
     </p>
     
     
@@ -3863,7 +4138,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#99" target="_blank">./server/controllers/interfaceCol.js:99</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#103" target="_blank">./server/controllers/interfaceCol.js:103</a>
     </p>
     
     
@@ -4057,7 +4332,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#164" target="_blank">./server/controllers/interfaceCol.js:164</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#162" target="_blank">./server/controllers/interfaceCol.js:162</a>
     </p>
     
     
@@ -4119,7 +4394,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#185" target="_blank">./server/controllers/interfaceCol.js:185</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#183" target="_blank">./server/controllers/interfaceCol.js:183</a>
     </p>
     
     
@@ -4193,7 +4468,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#211" target="_blank">./server/controllers/interfaceCol.js:211</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#209" target="_blank">./server/controllers/interfaceCol.js:209</a>
     </p>
     
     
@@ -4253,7 +4528,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#243" target="_blank">./server/controllers/interfaceCol.js:243</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#241" target="_blank">./server/controllers/interfaceCol.js:241</a>
     </p>
     
     

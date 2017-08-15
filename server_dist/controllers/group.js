@@ -69,9 +69,9 @@ var groupController = function (_baseController) {
      * @category group
      * @foldnumber 10
      * @param {String} group_name 项目分组名称，不能为空
-     * @param {String} [group_desc] 项目分组描述 
+     * @param {String} [group_desc] 项目分组描述
      * @param {String} owner_uid  组长uid
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/add.json
      */
 
@@ -244,8 +244,8 @@ var groupController = function (_baseController) {
          * @foldnumber 10
          * @param {String} id 项目分组id
          * @param {String} member_uid 项目分组成员uid
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -353,9 +353,9 @@ var groupController = function (_baseController) {
          * @foldnumber 10
          * @param {String} id 项目分组id
          * @param {String} member_uid 项目分组成员uid
-         * @param {String} role  组长uid
-         * @returns {Object} 
-         * @example 
+         * @param {String} role 权限 ['owner'|'dev']
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -455,8 +455,8 @@ var groupController = function (_baseController) {
          * @category group
          * @foldnumber 10
          * @param {String} id 项目分组id
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -519,8 +519,8 @@ var groupController = function (_baseController) {
          * @foldnumber 10
          * @param {String} id 项目分组id
          * @param {String} member_uid 项目分组成员uid
-         * @returns {Object} 
-         * @example 
+         * @returns {Object}
+         * @example
          */
 
     }, {
@@ -617,7 +617,7 @@ var groupController = function (_baseController) {
          * @method get
          * @category group
          * @foldnumber 10
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/group/list.json
          */
 
@@ -670,7 +670,7 @@ var groupController = function (_baseController) {
          * @param {String} id 项目分组id
          * @category group
          * @foldnumber 10
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/group/del.json
          */
 
@@ -759,7 +759,7 @@ var groupController = function (_baseController) {
          * @param {String} group_desc 项目分组描述
          * @category group
          * @foldnumber 10
-         * @returns {Object} 
+         * @returns {Object}
          * @example ./api/group/up.json
          */
 
