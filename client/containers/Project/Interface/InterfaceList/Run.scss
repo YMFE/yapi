@@ -1,7 +1,13 @@
 .interface-test {
-  .interface-name {
-    font-size: 24px;
-    margin-bottom: 24px;
+  .has-plugin, .req-part, .resp-part {
+    margin: 8px;
+  }
+  // .interface-name {
+  //   font-size: 24px;
+  //   margin-bottom: 24px;
+  // }
+  .url {
+    display: flex;
   }
   .icon-btn {
     cursor: pointer;
