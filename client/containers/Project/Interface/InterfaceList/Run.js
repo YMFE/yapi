@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin, Icon, message, Collapse, Radio } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
