@@ -18,7 +18,8 @@ const initialState = {
   uid: null,
   email: '',
   loginState: LOADING_STATUS,
-  loginWrapActiveKey: "1"
+  loginWrapActiveKey: "1",
+  role: ""
 };
 
 export default (state = initialState, action) => {
@@ -40,7 +41,8 @@ export default (state = initialState, action) => {
           isLogin: true,
           loginState: MEMBER_STATUS,
           uid: action.payload.data.data.uid,
-          userName: action.payload.data.data.username
+          userName: action.payload.data.data.username,
+          role: action.payload.data.data.role
         };
       } else {
         return state;
@@ -52,7 +54,8 @@ export default (state = initialState, action) => {
         isLogin: false,
         loginState: GUEST_STATUS,
         userName: null,
-        uid: null
+        uid: null,
+        role: ""
       }
     }
     case LOGIN_TYPE: {
@@ -79,6 +82,7 @@ export default (state = initialState, action) => {
 export function checkLoginState() {
   return(dispatch)=> {
     axios.get('/api/user/status').then((res) => {
+      console.log(res)
       dispatch({
         type: GET_LOGIN_STATE,
         payload: res

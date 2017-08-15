@@ -9,7 +9,6 @@ import Profile from './Profile.js'
 import { Row } from 'antd';
 import Subnav from '../../components/Subnav/Subnav.js';
 @connect(state=>{
-  console.log(state);
   return {
     curUid: state.user.uid,
     userType: state.user.type,
@@ -31,7 +30,7 @@ class User extends Component {
   }
 
   componentDidMount () {
-    console.log(this.props.match)
+    // console.log(this.props.match)
   }
 
   render () {
@@ -41,7 +40,7 @@ class User extends Component {
     }];
     if(this.props.role === "admin"){
       navData.push({
-        name: '成员管理',
+        name: '用户管理',
         path: '/user/list'
       })
     }
