@@ -58,7 +58,6 @@ class ProjectList extends Component {
     const { form, addProject } = this.props;
     e.preventDefault();
     form.validateFields((err, values) => {
-      console.log(values);
       if (!err) {
         values.protocol = this.state.protocol.split(':')[0];
 
@@ -110,6 +109,7 @@ class ProjectList extends Component {
             label="所属分组"
           >
             {getFieldDecorator('group_id', {
+              initialValue: this.state.groupList.length > 0? this.state.groupList[0]._id.toString() : null ,
               rules: [{
                 required: true, message: '请选择项目所属的分组!'
               }]
@@ -126,33 +126,8 @@ class ProjectList extends Component {
             {...formItemLayout}
             label={(
               <span>
-                线上域名&nbsp;
-                <Tooltip title="将根据配置的线上域名访问mock数据">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
-          >
-            {getFieldDecorator('prd_host', {
-              rules: [{
-                required: true,
-                message: '请输入项目线上域名!'
-              }]
-            })(
-              <Input addonBefore={(
-                <Select defaultValue="http://" onChange={this.protocolChange}>
-                  <Option value="http://">{'http:\/\/'}</Option>
-                  <Option value="https://">{'https:\/\/'}</Option>
-                </Select>)} />
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label={(
-              <span>
                 基本路径&nbsp;
-                <Tooltip title="基本路径为空是根路径">
+                <Tooltip title="接口基本路径，为空是根路径">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>

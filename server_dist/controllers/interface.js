@@ -69,12 +69,12 @@ var interfaceController = function (_baseController) {
      * @param {String}  [req_headers[].value] 请求的header信息值
      * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
      * @param {String}  [req_headers[].desc] header描述
-     * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-     * @param {Mixed}  [req_params_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
-     * @param {String} [req_params_form[].name] 请求参数名
-     * @param {String} [req_params_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
-     * @param {String} [req_params_form[].type] 请求参数类型，有["text", "file"]两种
-     * @param {String} [req_params_other]  非form类型的请求参数可保存到此字段
+     * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+     * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+     * @param {String} [req_body_form[].name] 请求参数名
+     * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+     * @param {String} [req_body_form[].type] 请求参数类型，有["text", "file"]两种
+     * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
      * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
      * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
      * @param  {String} [desc] 接口描述 
@@ -152,7 +152,7 @@ var interfaceController = function (_baseController) {
                                     desc: params.desc,
                                     method: params.method,
                                     req_headers: params.req_headers,
-                                    req_params_type: params.req_params_type,
+                                    req_body_type: params.req_body_type,
                                     res_body: params.res_body,
                                     res_body_type: params.res_body_type,
                                     uid: this.getUid(),
@@ -161,35 +161,39 @@ var interfaceController = function (_baseController) {
                                 };
 
 
-                                if (params.req_params_form) {
-                                    data.req_params_form = params.req_params_form;
-                                }
-                                if (params.req_params_other) {
-                                    data.req_params_other = params.req_params_other;
+                                if (params.req_query) {
+                                    data.req_query = params.req_query;
                                 }
 
-                                _context.next = 22;
+                                if (params.req_body_form) {
+                                    data.req_body_form = params.req_body_form;
+                                }
+                                if (params.req_body_other) {
+                                    data.req_body_other = params.req_body_other;
+                                }
+
+                                _context.next = 23;
                                 return this.Model.save(data);
 
-                            case 22:
+                            case 23:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 29;
+                                _context.next = 30;
                                 break;
 
-                            case 26:
-                                _context.prev = 26;
+                            case 27:
+                                _context.prev = 27;
                                 _context.t0 = _context['catch'](16);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 29:
+                            case 30:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[16, 26]]);
+                }, _callee, this, [[16, 27]]);
             }));
 
             function add(_x) {
@@ -337,12 +341,12 @@ var interfaceController = function (_baseController) {
          * @param {String}  [req_headers[].value] 请求的header信息值
          * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
          * @param {String}  [req_headers[].desc] header描述
-         * @param {String}  [req_params_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-         * @param {Mixed}  [req_params_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
-         * @param {String} [req_params_form[].name] 请求参数名
-         * @param {String} [req_params_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
-         * @param {String} [req_params_form[].type] 请求参数类型，有["text", "file"]两种
-         * @param {String} [req_params_other]  非form类型的请求参数可保存到此字段
+         * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+         * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+         * @param {String} [req_body_form[].name] 请求参数名
+         * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+         * @param {String} [req_body_form[].type] 请求参数类型，有["text", "file"]两种
+         * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
          * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
          * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
          * @param  {String} [desc] 接口描述 
@@ -436,11 +440,14 @@ var interfaceController = function (_baseController) {
                                     data.req_headers = params.req_headers;
                                 }
 
-                                if (params.req_params_form) {
-                                    data.req_params_form = params.req_params_form;
+                                if (params.req_body_form) {
+                                    data.req_body_form = params.req_body_form;
                                 }
-                                if (params.req_params_other) {
-                                    data.req_params_other = params.req_params_other;
+                                if (params.req_query) {
+                                    data.req_query = params.req_query;
+                                }
+                                if (params.req_body_other) {
+                                    data.req_body_other = params.req_body_other;
                                 }
 
                                 if (params.res_body_type) {
@@ -450,29 +457,29 @@ var interfaceController = function (_baseController) {
                                     data.res_body = params.res_body;
                                 }
 
-                                _context4.prev = 28;
-                                _context4.next = 31;
+                                _context4.prev = 29;
+                                _context4.next = 32;
                                 return this.Model.up(id, data);
 
-                            case 31:
+                            case 32:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 38;
+                                _context4.next = 39;
                                 break;
 
-                            case 35:
-                                _context4.prev = 35;
-                                _context4.t0 = _context4['catch'](28);
+                            case 36:
+                                _context4.prev = 36;
+                                _context4.t0 = _context4['catch'](29);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 38:
+                            case 39:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[28, 35]]);
+                }, _callee4, this, [[29, 36]]);
             }));
 
             function up(_x4) {

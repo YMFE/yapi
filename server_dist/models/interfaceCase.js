@@ -54,10 +54,10 @@ var interfaceCase = function (_baseModel) {
                 project_id: { type: Number, required: true },
                 add_time: Number,
                 up_time: Number,
-                env: { type: String, required: true },
+                env: { type: String },
                 domain: { type: String },
-                path: { type: String, required: true },
-                method: { type: String, required: true },
+                path: { type: String },
+                method: { type: String },
                 req_query: [{
                     name: String, value: String
                 }],
@@ -90,8 +90,10 @@ var interfaceCase = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list() {
-            return this.model.find().select("casename uid col_id _id index").exec();
+        value: function list(col_id) {
+            return this.model.find({
+                col_id: col_id
+            }).select("casename uid col_id _id index").exec();
         }
     }, {
         key: 'del',
