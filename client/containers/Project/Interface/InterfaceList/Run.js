@@ -24,11 +24,6 @@ const RadioGroup = Radio.Group;
   state => ({
     currInterface: state.inter.curdata,
     currProject: state.project.currProject
-    // reqBody: state.addInterface.reqBody,
-    // method: state.addInterface.method,
-    // url: state.addInterface.url,
-    // seqGroup: state.addInterface.seqGroup,
-    // interfaceName: state.addInterface.interfaceName,
   })
 )
 @withRouter
@@ -39,10 +34,7 @@ export default class Run extends Component {
     currProject: PropTypes.object,
     currInterface: PropTypes.object,
     reqBody: PropTypes.string,
-    // method: PropTypes.string,
-    // url: PropTypes.string,
     interfaceName: PropTypes.string
-    // seqGroup: PropTypes.array,
   }
 
   state = {
@@ -130,6 +122,7 @@ export default class Run extends Component {
     this.setState({
       method,
       domains,
+      pathParam,
       pathname,
       query,
       bodyForm,
@@ -235,6 +228,28 @@ export default class Run extends Component {
   deleteQuery(index) {
     const { query } = this.state;
     this.setState({query: query.filter((item, i) => +index !== +i)});
+  }
+
+  @autobind
+  changePathParam(e, index, isKey) {
+    const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
+    const v = e.target.value;
+    if (isKey) {
+      pathParam[index].key = v;
+    } else {
+      pathParam[index].value = v;
+    }
+    this.setState({ pathParam });
+  }
+  @autobind
+  addPathParam() {
+    const { pathParam } = this.state;
+    this.setState({pathParam: pathParam.concat([{key: '', value: ''}])})
+  }
+  @autobind
+  deletePathParam(index) {
+    const { pathParam } = this.state;
+    this.setState({pathParam: pathParam.filter((item, i) => +index !== +i)});
   }
 
   @autobind
@@ -354,28 +369,28 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
+    const pathParamStr = pathParam.reduce((v, item) => v + '/' + item.value, '');
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
 
     return (
       <div className="interface-test">
         <div  className="has-plugin">
           {
-            hasPlugin ? '' : (
-              <Alert
-                message={
-                  <div>
-                    温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
-                    <a
-                      target="blank"
-                      href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                    >测试增强插件 [点击获取]！</a>
-                  </div>
-                }
-                type="warning"
-              />
-            )
+            hasPlugin ? '' :
+            <Alert
+              message={
+                <div>
+                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
+                  <a
+                    target="blank"
+                    href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                  >测试增强插件 [点击获取]！</a>
+                </div>
+              }
+              type="warning"
+            />
           }
         </div>
 
@@ -391,7 +406,7 @@ export default class Run extends Component {
                   Object.keys(domains).map((key, index) => (<Option value={domains[key]} key={index}>{key + '：' + domains[key]}</Option>))
                 }
               </Select>
-              <Input value={pathname + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
+              <Input value={pathname + pathParamStr + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
             </InputGroup>
             <Button
               onClick={this.reqRealInterface}
@@ -406,7 +421,22 @@ export default class Run extends Component {
             >保存</Button>
           </div>
 
-          <Collapse defaultActiveKey={['1', '2', '3']} bordered={true}>
+          <Collapse defaultActiveKey={['0', '1', '2', '3']} bordered={true}>
+            <Panel header="PATH PARAMETERS" key="0" className={pathParam.length === 0 ? 'hidden' : ''}>
+              {
+                pathParam.map((item, index) => {
+                  return (
+                    <div key={index} className="key-value-wrap">
+                      <Input value={item.key} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                      <span className="eq-symbol">=</span>
+                      <Input value={item.value} onChange={e => this.changePathParam(e, index)} className="value" />
+                      <Icon type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
+                    </div>
+                  )
+                })
+              }
+              <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
+            </Panel>
             <Panel header="QUERY PARAMETERS" key="1">
               {
                 query.map((item, index) => {
