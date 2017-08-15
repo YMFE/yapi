@@ -75,7 +75,7 @@ var interfaceModel = function (_baseModel) {
                     enum: ['form', 'json', 'text', 'file']
                 },
                 req_body_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                    name: String, type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
                         type: String,
                         enum: ["1", "0"],
                         default: "1"

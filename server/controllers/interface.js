@@ -83,6 +83,10 @@ class interfaceController extends baseController {
                 up_time: yapi.commons.time()
             };
 
+            if(params.req_query){
+                data.req_query = params.req_query;
+            }
+
             if (params.req_body_form) {
                 data.req_body_form = params.req_body_form;
             }
@@ -224,9 +228,12 @@ class interfaceController extends baseController {
         if (params.req_headers) {
             data.req_headers = params.req_headers;
         }
-
+        
         if (params.req_body_form) {
             data.req_body_form = params.req_body_form;
+        }
+        if(params.req_query){
+            data.req_query = params.req_query;
         }
         if (params.req_body_other) {
             data.req_body_other = params.req_body_other;
