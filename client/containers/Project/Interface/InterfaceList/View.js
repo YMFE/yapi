@@ -10,7 +10,6 @@ const mockEditor = require('./mockEditor.js')
 // import { getMockUrl } from '../../reducer/modules/news.js'
 
 @connect(state=>{
-  console.log(state);
   return {
     curData: state.inter.curdata
   }
@@ -182,7 +181,11 @@ View.defaultProps = {
   viewData: data
 }
 
+<<<<<<< HEAD
 
 
 export default View
 
+=======
+export default View
+>>>>>>> 77a9d58ad88bd2cb782be964372f8a7d2a2dc034

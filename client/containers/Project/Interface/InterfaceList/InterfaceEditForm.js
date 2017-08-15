@@ -67,13 +67,31 @@ class InterfaceEditForm extends Component {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.req_body_json = this.state.res_body;
+        let isfile = false;
+        if(values.req_body_type === 'form'){
+          values.req_body_form.forEach((item)=>{
+            if(item.type === 'file'){
+              isfile = true;
+            }
+          })
+
+          values.req_headers.filter( (item)=>{
+            item.name !== 'Content-Type'
+          })
+          values.req_headers.unshift({
+            name: 'Content-Type',
+            value: isfile? 'multipart/form-data': 'application/x-www-form-urlencoded'
+          })
+          
+        }
+
         this.props.onSubmit(values)
       }
     });
   }
 
   componentDidMount() {
-    let that = this;
+    let that = this, mockPreview, resBodyEditor;
     mockEditor({
       container: 'req_body_json',
       data: that.state.req_body_json,
@@ -83,12 +101,12 @@ class InterfaceEditForm extends Component {
         })
       }
     })
-
-    let resBodyEditor = mockEditor({
+    
+    resBodyEditor = mockEditor({
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
-
+        mockPreview.editor.setValue(d.mockText)
         that.setState({
           res_body: d.text,
           res_body_mock: d.mockText
@@ -96,11 +114,11 @@ class InterfaceEditForm extends Component {
       }
     })
 
-    that.setState({
-      res_body_mock: resBodyEditor.curData.mockText
+    mockPreview = mockEditor({
+      container: 'mock-preview',
+      data: resBodyEditor.curData.mockText,
+      readOnly: true
     })
-
-
   }
 
   addParams = (name) => {
@@ -267,18 +285,18 @@ class InterfaceEditForm extends Component {
               {getFieldDecorator('method', {
                 initialValue: 'GET'
               })(
-                <Select style={{ width: "75px" }}>
+                <Select style={{ width: "15%" }}>
                   <Option value="GET">GET</Option>
                   <Option value="POST">POST</Option>
                   <Option value="PUT">PUT</Option>
                   <Option value="DELETE">DELETE</Option>
                 </Select>
                 )}
-              <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '100px', marginRight: "10px", marginLeft: "10px" }} />
+              <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%'}} />
               {getFieldDecorator('path', {
                 initialValue: this.state.path
               })(
-                <Input placeholder="/path" style={{ width: '350px' }} />
+                <Input placeholder="/path" style={{ width: '60%' }} />
                 )}
             </InputGroup>
 
@@ -383,7 +401,7 @@ class InterfaceEditForm extends Component {
 
         {this.props.form.getFieldValue('req_body_type') === 'file' ?
           <Row className="interface-edit-item" >
-            <Col span={14} offset={6}>
+            <Col span={18} offset={4}>
               {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
                 <Input.TextArea placeholder="备注信息" />
               )}
@@ -423,8 +441,8 @@ class InterfaceEditForm extends Component {
         </FormItem>
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
 
-          <Col span={18} offset={4} id="res_body_json" style={{ minHeight: "300px" }}>
-
+          <Col span={17} offset={4} >
+            <div id="res_body_json" style={{ minHeight: "300px" }}  ></div>
           </Col>
         </Row>
 
@@ -443,16 +461,16 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="预览"
         >
-          <pre style={{ backgroundColor: "#eee", lineHeight: "20px" }}>
-            {this.state.res_body_mock || " "}
-          </pre>
+          <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px" }}>
+            
+          </div>
         </FormItem>
 
 
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
           <Col span={18} offset={4} >
             {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
-              <Input.TextArea placeholder="备注信息" />
+              <Input.TextArea style={{minHeight: "150px"}} placeholder="备注信息" />
             )}
           </Col>
 
