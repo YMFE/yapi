@@ -35,6 +35,12 @@ class groupModel extends baseModel {
         }).exec();
     }
 
+    getGroupById(id) {
+        return this.model.findOne({
+            _id: id
+        }).select("uid group_name group_desc add_time up_time").exec();
+    }
+
     checkRepeat(name) {
         return this.model.count({
             group_name: name

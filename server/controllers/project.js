@@ -272,6 +272,9 @@ class projectController extends baseController {
         }
         try {
             let result = await this.Model.get(params.id);
+            result = result.toObject();
+            delete result.members;
+            result.role = await this.getProjectRole(params.id, 'project');
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
