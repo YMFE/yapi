@@ -29,7 +29,7 @@ class InterfaceEdit extends Component{
     super(props)
     const {curdata, currProject} = this.props;
     this.state = {
-      mockUrl: location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${currProject._id}${currProject.basepath}/${curdata.path}`
+      mockUrl: location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${currProject._id}${currProject.basepath}${curdata.path}`
     }
   }
 

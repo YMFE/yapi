@@ -8,45 +8,39 @@ module.exports = async (ctx, next) => {
 
     let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
+    let path = ctx.path;
+    
 
-    if (ctx.hostname === config.webhost) {
+    if (path.indexOf('/mock/') !== 0) {
         if (next) await next();
         return true;
     }
 
+    let paths = path.split("/");
+    let projectId = paths[2];
+    paths.splice(0, 3);
+    path = "/" + paths.join("/");
+    if(!projectId){
+        return ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空');
+    }
+
     yapi.commons.log('MockServer Running...');
-    let projectInst = yapi.getInst(projectModel), projects;
+    let projectInst = yapi.getInst(projectModel), project;
     try {
-        projects = await projectInst.getByDomain(hostname);
+        project = await projectInst.get(projectId);
     } catch (e) {
         return ctx.body = yapi.commons.resReturn(null, 403, e.message);
     }
 
-    let matchProject = [], maxBasepath = 0;
-
-    for (let i = 0, l = projects.length; i < l; i++) {
-        let project = projects[i];
-        if(ctx.path && project.basepath == ""){
-            matchProject = project;
-        }
-        else if (ctx.path && ctx.path.indexOf(project.basepath) === 0) {
-            if (project.basepath.length > maxBasepath) {
-                maxBasepath = project.basepath.length;
-                matchProject = project;
-            }
-        }
+    if (project === false) {
+        return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
-
-    if (matchProject === false) {
-        return ctx.body = yapi.commons.resReturn(null, 400, '不存在的domain');
-    }
-
-    let project = matchProject, interfaceData;
+    
+    let interfaceData;
     let interfaceInst = yapi.getInst(interfaceModel);
 
     try {
-
-        interfaceData = await interfaceInst.getByPath(project._id, ctx.path.substr(project.basepath.length), ctx.method);
+        interfaceData = await interfaceInst.getByPath(project._id, path.substr(project.basepath.length), ctx.method);
         if (!interfaceData || interfaceData.length === 0) {
             //非正常跨域预检请求回应
             if(ctx.method === 'OPTIONS'){
