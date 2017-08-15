@@ -24,6 +24,7 @@ class interfaceController extends baseController {
      * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
      * @param {String}  [req_headers[].desc] header描述
      * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+     * @param {Array} [req_params] name, desc两个参数
      * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
      * @param {String} [req_body_form[].name] 请求参数名
      * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
@@ -83,12 +84,15 @@ class interfaceController extends baseController {
                 up_time: yapi.commons.time()
             };
 
-            if(params.req_query){
+            if (params.req_query) {
                 data.req_query = params.req_query;
             }
 
             if (params.req_body_form) {
                 data.req_body_form = params.req_body_form;
+            }
+            if (params.req_params) {
+                data.req_params = params.req_params;
             }
             if (params.req_body_other) {
                 data.req_body_other = params.req_body_other;
@@ -191,7 +195,7 @@ class interfaceController extends baseController {
         params.method = params.method.toUpperCase();
 
         let id = ctx.request.body.id;
-        
+
         if (!id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
@@ -228,11 +232,14 @@ class interfaceController extends baseController {
         if (params.req_headers) {
             data.req_headers = params.req_headers;
         }
-        
+
         if (params.req_body_form) {
             data.req_body_form = params.req_body_form;
         }
-        if(params.req_query){
+        if (params.req_params) {
+            data.req_params = params.req_params;
+        }
+        if (params.req_query) {
             data.req_query = params.req_query;
         }
         if (params.req_body_other) {
