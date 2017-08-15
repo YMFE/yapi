@@ -152,7 +152,7 @@ class Profile extends Component {
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
         {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>:""}
+        {<Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>}
       </div>
     } else {
       userNameEditHtml = <div>
