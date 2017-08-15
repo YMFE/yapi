@@ -104,6 +104,16 @@ var followModel = function (_baseModel) {
                 projectid: projectid
             });
         }
+    }, {
+        key: 'updateById',
+        value: function updateById(id, data) {
+            return this.model.update({
+                _id: id
+            }, {
+                icon: data.icon,
+                color: data.color
+            });
+        }
     }]);
     return followModel;
 }(_base2.default);

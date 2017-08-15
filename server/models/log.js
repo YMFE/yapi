@@ -60,7 +60,8 @@ class logModel extends baseModel {
         limit = parseInt(limit);
 
         return this.model.find({
-            type: type
+            type: type,
+            typeid: typeid
         }).skip((page - 1) * limit).limit(limit).exec();
     }
 
