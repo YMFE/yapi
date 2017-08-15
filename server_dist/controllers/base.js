@@ -219,17 +219,10 @@ var baseController = function () {
         value: function getUsername() {
             return this.$user.username;
         }
-        /**
-         * 
-         * @param {*} id type对应的id
-         * @param {*} type enum[interface, project, group] 
-         * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
-         */
-
     }, {
-        key: 'checkAuth',
+        key: 'getProjectRole',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(id, type, action) {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(id, type) {
                 var _this = this;
 
                 var result, interfaceInst, interfaceData, projectInst, projectData, memberData, groupInst, groupData, groupMemberData;
@@ -245,7 +238,7 @@ var baseController = function () {
                                     break;
                                 }
 
-                                return _context4.abrupt('return', true);
+                                return _context4.abrupt('return', 'admin');
 
                             case 4:
                                 if (!(type === 'interface')) {
@@ -267,7 +260,7 @@ var baseController = function () {
                                     break;
                                 }
 
-                                return _context4.abrupt('return', true);
+                                return _context4.abrupt('return', 'owner');
 
                             case 12:
                                 type = 'project';
@@ -275,7 +268,7 @@ var baseController = function () {
 
                             case 14:
                                 if (!(type === 'project')) {
-                                    _context4.next = 29;
+                                    _context4.next = 30;
                                     break;
                                 }
 
@@ -291,7 +284,7 @@ var baseController = function () {
                                     break;
                                 }
 
-                                return _context4.abrupt('return', true);
+                                return _context4.abrupt('return', 'owner');
 
                             case 21:
                                 memberData = _underscore2.default.find(projectData.members, function (m) {
@@ -301,40 +294,35 @@ var baseController = function () {
                                 });
 
                                 if (!(memberData && memberData.role)) {
+                                    _context4.next = 28;
+                                    break;
+                                }
+
+                                if (!(memberData.role === 'owner')) {
                                     _context4.next = 27;
                                     break;
                                 }
 
-                                if (!(action === 'danger' && memberData.role === 'owner')) {
-                                    _context4.next = 25;
-                                    break;
-                                }
-
-                                return _context4.abrupt('return', true);
-
-                            case 25:
-                                if (!(action === 'edit')) {
-                                    _context4.next = 27;
-                                    break;
-                                }
-
-                                return _context4.abrupt('return', true);
+                                return _context4.abrupt('return', 'owner');
 
                             case 27:
+                                return _context4.abrupt('return', 'dev');
+
+                            case 28:
                                 type = 'group';
                                 id = projectData.group_id;
 
-                            case 29:
+                            case 30:
                                 if (!(type === 'group')) {
-                                    _context4.next = 40;
+                                    _context4.next = 42;
                                     break;
                                 }
 
                                 groupInst = _yapi2.default.getInst(_group2.default);
-                                _context4.next = 33;
+                                _context4.next = 34;
                                 return groupInst.get(id);
 
-                            case 33:
+                            case 34:
                                 groupData = _context4.sent;
                                 groupMemberData = _underscore2.default.find(groupData.members, function (m) {
                                     if (m.uid === _this.getUid()) {
@@ -343,45 +331,108 @@ var baseController = function () {
                                 });
 
                                 if (!(groupMemberData && groupMemberData.role)) {
-                                    _context4.next = 40;
+                                    _context4.next = 42;
                                     break;
                                 }
 
-                                if (!(action === 'danger' && groupMemberData.role === 'owner')) {
-                                    _context4.next = 38;
+                                if (!(groupMemberData.role === 'owner')) {
+                                    _context4.next = 41;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', true);
+                                return _context4.abrupt('return', 'owner');
 
-                            case 38:
-                                if (!(action === 'edit')) {
-                                    _context4.next = 40;
-                                    break;
-                                }
+                            case 41:
+                                return _context4.abrupt('return', 'dev');
 
-                                return _context4.abrupt('return', true);
+                            case 42:
+                                return _context4.abrupt('return', 'member');
 
-                            case 40:
-                                return _context4.abrupt('return', false);
-
-                            case 43:
-                                _context4.prev = 43;
+                            case 45:
+                                _context4.prev = 45;
                                 _context4.t0 = _context4['catch'](1);
 
                                 _yapi2.default.commons.log(_context4.t0.message, 'error');
                                 return _context4.abrupt('return', false);
 
-                            case 47:
+                            case 49:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[1, 43]]);
+                }, _callee4, this, [[1, 45]]);
             }));
 
-            function checkAuth(_x4, _x5, _x6) {
+            function getProjectRole(_x4, _x5) {
                 return _ref4.apply(this, arguments);
+            }
+
+            return getProjectRole;
+        }()
+        /**
+         * 
+         * @param {*} id type对应的id
+         * @param {*} type enum[interface, project, group] 
+         * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+         */
+
+    }, {
+        key: 'checkAuth',
+        value: function () {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(id, type, action) {
+                var role;
+                return _regenerator2.default.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                _context5.next = 2;
+                                return this.getProjectRole(id, type);
+
+                            case 2:
+                                role = _context5.sent;
+
+                                if (!(action === 'danger')) {
+                                    _context5.next = 8;
+                                    break;
+                                }
+
+                                if (!(role === 'admin' || role === 'owner')) {
+                                    _context5.next = 6;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', true);
+
+                            case 6:
+                                _context5.next = 11;
+                                break;
+
+                            case 8:
+                                if (!(action === 'edit')) {
+                                    _context5.next = 11;
+                                    break;
+                                }
+
+                                if (!(role === 'admin' || role === 'owner' || role === 'dev')) {
+                                    _context5.next = 11;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', true);
+
+                            case 11:
+                                return _context5.abrupt('return', false);
+
+                            case 12:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this);
+            }));
+
+            function checkAuth(_x6, _x7, _x8) {
+                return _ref5.apply(this, arguments);
             }
 
             return checkAuth;

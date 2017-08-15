@@ -81,7 +81,27 @@
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
+                                        <a href="#-group-get">/group/get</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-group-add">/group/add</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-add_member">/group/add_member</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-change_member_role">/group/change_member_role</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-get_member_list">/group/get_member_list</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-group-del_member">/group/del_member</a>
                                     </li>
                                      
                                     <li >
@@ -326,6 +346,68 @@
 
 <div class="con-list-item">
     <blockquote class="api">
+        <h3 id="-group-get" class="page-header subject">
+            /group/get
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-group-get">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        添加项目分组
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#11" target="_blank">./server/controllers/group.js:11</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组ID</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
         <h3 id="-group-add" class="page-header subject">
             /group/add
             
@@ -342,7 +424,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#11" target="_blank">./server/controllers/group.js:11</a>
+        <a href="./static/server/controllers/group.js.html#38" target="_blank">./server/controllers/group.js:38</a>
     </p>
     
     
@@ -406,7 +488,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -415,6 +497,302 @@
         <span class="token string">"group_desc"</span><span class="token punctuation">:</span> <span class="token string">"大数据5"</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-add_member" class="page-header subject">
+            /group/add_member
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-add_member">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        添加项目分组成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#119" target="_blank">./server/controllers/group.js:119</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-change_member_role" class="page-header subject">
+            /group/change_member_role
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-change_member_role">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        修改项目分组成员角色
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#163" target="_blank">./server/controllers/group.js:163</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>role</td>
+                <td>String</td>
+                <td>组长uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-get_member_list" class="page-header subject">
+            /group/get_member_list
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-group-get_member_list">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        获取所有项目成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#201" target="_blank">./server/controllers/group.js:201</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-group-del_member" class="page-header subject">
+            /group/del_member
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-group-del_member">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        删除项目成员
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/group.js.html#227" target="_blank">./server/controllers/group.js:227</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>String</td>
+                <td>项目分组id</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>member_uid</td>
+                <td>String</td>
+                <td>项目分组成员uid</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
     
     
 </div>
@@ -437,13 +815,13 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#184" target="_blank">./server/controllers/group.js:184</a>
+        <a href="./static/server/controllers/group.js.html#264" target="_blank">./server/controllers/group.js:264</a>
     </p>
     
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
@@ -499,7 +877,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#203" target="_blank">./server/controllers/group.js:203</a>
+        <a href="./static/server/controllers/group.js.html#283" target="_blank">./server/controllers/group.js:283</a>
     </p>
     
     
@@ -541,7 +919,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -571,7 +949,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#240" target="_blank">./server/controllers/group.js:240</a>
+        <a href="./static/server/controllers/group.js.html#320" target="_blank">./server/controllers/group.js:320</a>
     </p>
     
     
@@ -637,7 +1015,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -725,7 +1103,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"logout success..."</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -764,7 +1142,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span>
@@ -855,7 +1233,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" ><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" ><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -951,7 +1329,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"logout success..."</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1436,7 +1814,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
@@ -1599,30 +1977,6 @@
             </tr>
             
             <tr>
-                <td>prd_host</td>
-                <td>String</td>
-                <td>项目线上域名，不能为空。可通过配置的域名访问到mock数据</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>protocol</td>
-                <td>String</td>
-                <td>线上域名协议，不能为空</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
                 <td>group_id</td>
                 <td>Number</td>
                 <td>项目分组id，不能为空</td>
@@ -1661,7 +2015,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1702,7 +2056,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#137" target="_blank">./server/controllers/project.js:137</a>
+        <a href="./static/server/controllers/project.js.html#114" target="_blank">./server/controllers/project.js:114</a>
     </p>
     
     
@@ -1756,7 +2110,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1786,7 +2140,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#188" target="_blank">./server/controllers/project.js:188</a>
+        <a href="./static/server/controllers/project.js.html#165" target="_blank">./server/controllers/project.js:165</a>
     </p>
     
     
@@ -1840,7 +2194,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1870,7 +2224,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#254" target="_blank">./server/controllers/project.js:254</a>
+        <a href="./static/server/controllers/project.js.html#231" target="_blank">./server/controllers/project.js:231</a>
     </p>
     
     
@@ -1912,7 +2266,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
@@ -1948,7 +2302,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#279" target="_blank">./server/controllers/project.js:279</a>
+        <a href="./static/server/controllers/project.js.html#256" target="_blank">./server/controllers/project.js:256</a>
     </p>
     
     
@@ -1990,7 +2344,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -2031,7 +2385,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#303" target="_blank">./server/controllers/project.js:303</a>
+        <a href="./static/server/controllers/project.js.html#283" target="_blank">./server/controllers/project.js:283</a>
     </p>
     
     
@@ -2073,11 +2427,10 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"total"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
         <span class="token string">"list"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
             <span class="token punctuation">{</span>
                 <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">529</span><span class="token punctuation">,</span>
@@ -2223,17 +2576,7 @@
                     <span class="token string">"107"</span>
                 <span class="token punctuation">]</span>
             <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token string">"userinfo"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            <span class="token string">"107"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">107</span><span class="token punctuation">,</span>
-                <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
-                <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"admin@admin.com"</span><span class="token punctuation">,</span>
-                <span class="token string">"role"</span><span class="token punctuation">:</span> <span class="token string">"admin"</span><span class="token punctuation">,</span>
-                <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1500280333</span><span class="token punctuation">,</span>
-                <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1500373530</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
@@ -2258,7 +2601,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#344" target="_blank">./server/controllers/project.js:344</a>
+        <a href="./static/server/controllers/project.js.html#323" target="_blank">./server/controllers/project.js:323</a>
     </p>
     
     
@@ -2300,7 +2643,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -2330,7 +2673,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#419" target="_blank">./server/controllers/project.js:419</a>
+        <a href="./static/server/controllers/project.js.html#398" target="_blank">./server/controllers/project.js:398</a>
     </p>
     
     
@@ -2392,18 +2735,6 @@
             </tr>
             
             <tr>
-                <td>prd_host</td>
-                <td>String</td>
-                <td>项目线上域名，不能为空。可通过配置的域名访问到mock数据</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
                 <td>desc</td>
                 <td>String</td>
                 <td>项目描述</td>
@@ -2448,7 +2779,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
+    <pre class="ydoc-example" data-foldnumber=10><code>
 <span class="token comment" spellcheck="true">//请求示例</span>
 <span class="token punctuation">{</span>
     <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
@@ -2490,7 +2821,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#520" target="_blank">./server/controllers/project.js:520</a>
+        <a href="./static/server/controllers/project.js.html#479" target="_blank">./server/controllers/project.js:479</a>
     </p>
     
     
@@ -2532,7 +2863,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -2585,7 +2916,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#575" target="_blank">./server/controllers/project.js:575</a>
+        <a href="./static/server/controllers/project.js.html#533" target="_blank">./server/controllers/project.js:533</a>
     </p>
     
     
@@ -2774,7 +3105,7 @@
             </tr>
             
             <tr>
-                <td>req_params_type</td>
+                <td>req_body_type</td>
                 <td>String</td>
                 <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
                 <td>
@@ -2784,7 +3115,17 @@
             </tr>
             
             <tr>
-                <td>req_params_form</td>
+                <td>req_params</td>
+                <td>Array</td>
+                <td>name, desc两个参数</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form</td>
                 <td>Mixed</td>
                 <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
                 <td>
@@ -2794,7 +3135,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].name</td>
+                <td>req_body_form[].name</td>
                 <td>String</td>
                 <td>请求参数名</td>
                 <td>
@@ -2804,7 +3145,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].value</td>
+                <td>req_body_form[].value</td>
                 <td>String</td>
                 <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
                 <td>
@@ -2814,7 +3155,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].type</td>
+                <td>req_body_form[].type</td>
                 <td>String</td>
                 <td>请求参数类型，有["text", "file"]两种</td>
                 <td>
@@ -2824,7 +3165,7 @@
             </tr>
             
             <tr>
-                <td>req_params_other</td>
+                <td>req_body_other</td>
                 <td>String</td>
                 <td>非form类型的请求参数可保存到此字段</td>
                 <td>
@@ -2868,7 +3209,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
+    <pre class="ydoc-example" data-foldnumber=10><code>
 <span class="token comment" spellcheck="true">//请求  /interface/add</span>
 <span class="token comment" spellcheck="true">//header Content-Type:application/json</span>
 
@@ -2961,7 +3302,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#99" target="_blank">./server/controllers/interface.js:99</a>
+        <a href="./static/server/controllers/interface.js.html#107" target="_blank">./server/controllers/interface.js:107</a>
     </p>
     
     
@@ -3003,7 +3344,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span><span class="token keyword">interface</span><span class="token operator">/</span><span class="token keyword">get</span><span class="token punctuation">.</span>json</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span><span class="token keyword">interface</span><span class="token operator">/</span><span class="token keyword">get</span><span class="token punctuation">.</span>json</code></pre>
     
     
 </div>
@@ -3026,7 +3367,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#124" target="_blank">./server/controllers/interface.js:124</a>
+        <a href="./static/server/controllers/interface.js.html#132" target="_blank">./server/controllers/interface.js:132</a>
     </p>
     
     
@@ -3068,7 +3409,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span><span class="token keyword">interface</span><span class="token operator">/</span>list<span class="token punctuation">.</span>json</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span><span class="token keyword">interface</span><span class="token operator">/</span>list<span class="token punctuation">.</span>json</code></pre>
     
     
 </div>
@@ -3091,7 +3432,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#149" target="_blank">./server/controllers/interface.js:149</a>
+        <a href="./static/server/controllers/interface.js.html#157" target="_blank">./server/controllers/interface.js:157</a>
     </p>
     
     
@@ -3199,7 +3540,7 @@
             </tr>
             
             <tr>
-                <td>req_params_type</td>
+                <td>req_body_type</td>
                 <td>String</td>
                 <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
                 <td>
@@ -3209,7 +3550,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form</td>
+                <td>req_body_form</td>
                 <td>Mixed</td>
                 <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
                 <td>
@@ -3219,7 +3560,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].name</td>
+                <td>req_body_form[].name</td>
                 <td>String</td>
                 <td>请求参数名</td>
                 <td>
@@ -3229,7 +3570,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].value</td>
+                <td>req_body_form[].value</td>
                 <td>String</td>
                 <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
                 <td>
@@ -3239,7 +3580,7 @@
             </tr>
             
             <tr>
-                <td>req_params_form[].type</td>
+                <td>req_body_form[].type</td>
                 <td>String</td>
                 <td>请求参数类型，有["text", "file"]两种</td>
                 <td>
@@ -3249,7 +3590,7 @@
             </tr>
             
             <tr>
-                <td>req_params_other</td>
+                <td>req_body_other</td>
                 <td>String</td>
                 <td>非form类型的请求参数可保存到此字段</td>
                 <td>
@@ -3293,7 +3634,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -3324,7 +3665,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#250" target="_blank">./server/controllers/interface.js:250</a>
+        <a href="./static/server/controllers/interface.js.html#264" target="_blank">./server/controllers/interface.js:264</a>
     </p>
     
     
@@ -3366,7 +3707,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">{</span>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token punctuation">{</span>
     <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -3461,7 +3802,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token operator">/</span>follow<span class="token operator">/</span>list</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token operator">/</span>follow<span class="token operator">/</span>list</code></pre>
     
     
 </div>
@@ -3526,7 +3867,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token operator">/</span>follow<span class="token operator">/</span>del</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token operator">/</span>follow<span class="token operator">/</span>del</code></pre>
     
     
 </div>
@@ -3627,7 +3968,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token operator">/</span>follow<span class="token operator">/</span>add</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token operator">/</span>follow<span class="token operator">/</span>add</code></pre>
     
     
 </div>
@@ -3715,7 +4056,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#33" target="_blank">./server/controllers/interfaceCol.js:33</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#37" target="_blank">./server/controllers/interfaceCol.js:37</a>
     </p>
     
     
@@ -3801,7 +4142,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#77" target="_blank">./server/controllers/interfaceCol.js:77</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#81" target="_blank">./server/controllers/interfaceCol.js:81</a>
     </p>
     
     
@@ -3863,7 +4204,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#99" target="_blank">./server/controllers/interfaceCol.js:99</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#103" target="_blank">./server/controllers/interfaceCol.js:103</a>
     </p>
     
     
@@ -4057,7 +4398,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#164" target="_blank">./server/controllers/interfaceCol.js:164</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#162" target="_blank">./server/controllers/interfaceCol.js:162</a>
     </p>
     
     
@@ -4119,7 +4460,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#185" target="_blank">./server/controllers/interfaceCol.js:185</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#183" target="_blank">./server/controllers/interfaceCol.js:183</a>
     </p>
     
     
@@ -4193,7 +4534,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#211" target="_blank">./server/controllers/interfaceCol.js:211</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#209" target="_blank">./server/controllers/interfaceCol.js:209</a>
     </p>
     
     
@@ -4253,7 +4594,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#243" target="_blank">./server/controllers/interfaceCol.js:243</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#241" target="_blank">./server/controllers/interfaceCol.js:241</a>
     </p>
     
     
@@ -4380,7 +4721,7 @@
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token operator">/</span>log<span class="token operator">/</span>list</code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code><span class="token operator">/</span>log<span class="token operator">/</span>list</code></pre>
     
     
 </div>
@@ -4435,8 +4776,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
+                $this.prev().height('auto');
+                $this.prev().parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -4444,7 +4785,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
