@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import '../interface.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -84,32 +83,3 @@ View.defaultProps = {
 }
 
 export default View
-=======
-import React,{Component} from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
-
-@connect(
-  state => {
-    return {
-      curdata: state.inter.curdata
-    }
-  }
-)
-
-class InterfaceView extends Component{
-  static propTypes = {
-    curdata: PropTypes.object
-  }
-
-  render(){
-    console.log(this.props.curdata)
-    let view = JSON.stringify(this.props.curdata, null, "   ");
-    return <pre>
-      {view}
-    </pre>
-  }
-}
-
-export default InterfaceView;
->>>>>>> fe76f992f0b0251fce75b3fb564ace43565ab8b4
