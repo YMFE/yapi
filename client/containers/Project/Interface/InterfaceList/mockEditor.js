@@ -86,7 +86,7 @@ function run(options) {
       if (typeof data === 'string') {
         editor.setValue(data);
       } else if (typeof data === 'object') {
-        editor.setValue(JSON.stringify(data, null, "  "))
+        editor.setValue(json5(data, null, "  "))
       }
     },
     editor: editor

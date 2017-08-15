@@ -18,10 +18,11 @@ function connect() {
     let config = yapi.WEBCONFIG;
     let options = {};
 
-    if (config.user) {
+    if (config.db.user) {
         options.user = config.db.user;
         options.pass = config.db.pass;
     }
+    
 
     let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options);
 
