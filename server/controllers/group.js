@@ -43,9 +43,9 @@ class groupController extends baseController {
      * @category group
      * @foldnumber 10
      * @param {String} group_name 项目分组名称，不能为空
-     * @param {String} [group_desc] 项目分组描述 
+     * @param {String} [group_desc] 项目分组描述
      * @param {String} owner_uid  组长uid
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/add.json
      */
     async add(ctx) {
@@ -125,12 +125,14 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
 
-    async addMember(ctx) {
+
+    async addMember(ctx){
+
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
         if (!params.member_uid) {
@@ -169,9 +171,9 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @param {String} role  组长uid
-     * @returns {Object} 
-     * @example 
+     * @param {String} role 权限 ['owner'|'dev']
+     * @returns {Object}
+     * @example
      */
     async changeMemberRole(ctx) {
         let params = ctx.request.body;
@@ -206,8 +208,8 @@ class groupController extends baseController {
      * @category group
      * @foldnumber 10
      * @param {String} id 项目分组id
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async getMemberList(ctx) {
@@ -233,8 +235,8 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @returns {Object} 
-     * @example 
+     * @returns {Object}
+     * @example
      */
 
     async delMember(ctx) {
@@ -268,7 +270,7 @@ class groupController extends baseController {
      * @method get
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/list.json
      */
     async list(ctx) {
@@ -288,7 +290,7 @@ class groupController extends baseController {
      * @param {String} id 项目分组id
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/del.json
      */
     async del(ctx) {
@@ -327,7 +329,7 @@ class groupController extends baseController {
      * @param {String} group_desc 项目分组描述
      * @category group
      * @foldnumber 10
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/group/up.json
      */
     async up(ctx) {
