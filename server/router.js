@@ -78,13 +78,18 @@ const routerConfig = {
 			"method": "post"
 		},
 		{
+			"action": "changeMemberRole",
+			"path": "change_member_role",
+			"method": "post"
+		},
+		{
 			"action": "delMember",
 			"path": "del_member",
 			"method": "post"
 		},
 		{
 			"action": "getMemberList",
-			"path": "members",
+			"path": "get_member_list",
 			"method": "get"
 		}
 	],

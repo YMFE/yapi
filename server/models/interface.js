@@ -31,6 +31,10 @@ class interfaceModel extends baseModel {
                     default: "1"
                 }
             }],
+            req_params:[{
+                name: String,
+                desc: String
+            }],
             req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'file']
