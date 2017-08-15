@@ -67,7 +67,7 @@ class groupModel extends baseModel {
                 _id: id,
                  "members.uid": uid
             }, {
-                "$set": { "members.$.uid": role}
+                "$set": { "members.$.role": role}
             }
         );
     }

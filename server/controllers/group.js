@@ -82,12 +82,26 @@ class groupController extends baseController {
             return null;
         }
         return {
+            _role: userData.role,
             role: role,
             uid: userData._id,
             username: userData.username,
             email: userData.email
         }
     }
+
+    /**
+     * 添加项目分组成员
+     * @interface /group/add_member
+     * @method POST
+     * @category group
+     * @foldnumber 10
+     * @param {String} id 项目分组id
+     * @param {String} member_uid 项目分组成员uid
+     * @returns {Object} 
+     * @example 
+     */
+
 
     async addMember(ctx){   
         let params = ctx.request.body;
@@ -107,6 +121,10 @@ class groupController extends baseController {
         if(groupUserdata === null){
             return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
         }
+        if(groupUserdata._role === 'admin'){
+            return ctx.body = yapi.commons.resReturn(null, 400, '不能邀请管理员')
+        }
+        delete groupUserdata._role;
         try {
             let result = await groupInst.addMember(params.id, groupUserdata);
             ctx.body = yapi.commons.resReturn(result);
@@ -115,6 +133,19 @@ class groupController extends baseController {
         }
     }
 
+
+    /**
+     * 修改项目分组成员角色
+     * @interface /group/change_member_role
+     * @method POST
+     * @category group
+     * @foldnumber 10
+     * @param {String} id 项目分组id
+     * @param {String} member_uid 项目分组成员uid
+     * @param {String} role  组长uid
+     * @returns {Object} 
+     * @example 
+     */
     async changeMemberRole(ctx){
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
@@ -128,7 +159,7 @@ class groupController extends baseController {
         if (check === 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
         }
-        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+        if (await this.checkAuth(params.id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
@@ -141,6 +172,16 @@ class groupController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
+    /**
+     * 获取所有项目成员
+     * @interface /group/get_member_list
+     * @method GET
+     * @category group
+     * @foldnumber 10
+     * @param {String} id 项目分组id
+     * @returns {Object} 
+     * @example 
+     */
 
     async getMemberList(ctx) {
         let params = ctx.request.query;
@@ -157,6 +198,18 @@ class groupController extends baseController {
         }
     }
 
+    /**
+     * 删除项目成员
+     * @interface /group/del_member
+     * @method POST
+     * @category group
+     * @foldnumber 10
+     * @param {String} id 项目分组id
+     * @param {String} member_uid 项目分组成员uid
+     * @returns {Object} 
+     * @example 
+     */
+
     async delMember(ctx) {
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
@@ -170,7 +223,7 @@ class groupController extends baseController {
         if (check === 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
         }
-        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+        if (await this.checkAuth(params.id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
