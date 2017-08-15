@@ -76,7 +76,7 @@ function run(options) {
     enableBasicAutocompletion: true,
     enableSnippets: false,
     enableLiveAutocompletion: true,
-    useWorker: false
+    useWorker: true
   });
   mockEditor = {
     curData: {},
@@ -86,7 +86,7 @@ function run(options) {
       if (typeof data === 'string') {
         editor.setValue(data);
       } else if (typeof data === 'object') {
-        editor.setValue(json5.stringify(data, null, "  "))
+        editor.setValue(json5(data, null, "  "))
       }
     },
     editor: editor
@@ -128,6 +128,7 @@ function handleJson(json) {
     curData.format = true;
     curData.jsonData = obj;
     curData.mockData = Mock.mock(obj);
+    curData.mockText = JSON.stringify(curData.mockData, null, "  ");
   } catch (e) {
     curData.format = e.message;
   }

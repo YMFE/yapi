@@ -30,7 +30,7 @@ function connect() {
     var config = _yapi2.default.WEBCONFIG;
     var options = {};
 
-    if (config.user) {
+    if (config.db.user) {
         options.user = config.db.user;
         options.pass = config.db.pass;
     }

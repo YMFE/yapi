@@ -12,7 +12,7 @@ import { Setting } from './Setting/Setting.js'
 @connect(
   state => {
     return {
-      curProject: state.project.curProject
+      curProject: state.project.currProject
     }
   },
   {
