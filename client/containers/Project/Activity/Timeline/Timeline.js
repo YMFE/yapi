@@ -3,6 +3,7 @@ import { Timeline, Spin } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { formatTime } from '../../../../common.js';
+import { Link } from 'react-router-dom'
 import { fetchNewsData, fetchMoreNews } from '../../../../reducer/modules/news.js'
 
 function timeago(timestamp) {
@@ -93,7 +94,7 @@ class TimeTree extends Component {
       this.setState({ loading: true });
       this.props.fetchMoreNews(this.props.typeid, 'project', this.props.curpage+1, 8).then(function () {
         that.setState({ loading: false });
-        if (that.props.newsData.total + 1 === that.props.curpage) {
+        if (that.props.newsData.total === that.props.curpage) {
           that.setState({ bidden: "logbidden" })
         }
       })
@@ -101,18 +102,17 @@ class TimeTree extends Component {
   }
 
   componentWillMount() {
+    
     this.props.fetchNewsData(this.props.typeid, 'project', 1, 8)
   }
 
-
   render() {
-    
     let data = this.props.newsData ? this.props.newsData.list : [];
     if (data && data.length) {
       data = data.map(function (item, i) {
         return (<Timeline.Item key={i}>
           <span className="logoTimeago">{timeago(item.add_time)}</span>
-          <span className="logusername">{item.username}</span>
+          <span className="logusername"><Link to={`/user/profile/${item.uid}`}>{item.username}</Link></span>
           <span className="logtype">{item.type}</span>
           <span className="logtime">{formatTime(item.add_time)}</span>
           <span className="logcontent">{item.content}</span>
@@ -121,7 +121,7 @@ class TimeTree extends Component {
     } else {
       data = "";
     }
-    let pending = this.state.bidden ? <a className={this.state.bidden}>以上为全部内容</a> : <a className="loggetMore" onClick={this.getMore.bind(this)}>查看更多</a>;
+    let pending = this.props.newsData.total <= this.props.curpage ? <a className= "logbidden">以上为全部内容</a> : <a className="loggetMore" onClick={this.getMore.bind(this)}>查看更多</a>;
     if (this.state.loading) {
       pending = <Spin />
     }

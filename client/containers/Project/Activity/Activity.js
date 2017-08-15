@@ -9,7 +9,6 @@ import { getMockUrl } from '../../../reducer/modules/news.js'
 
 @connect(
   state => {
-    console.log(state);
     return {
       uid: state.user.uid + ''
     }
@@ -51,7 +50,7 @@ class Activity extends Component {
               <div className="Mockurl">
                 <span>Mock地址：</span>
                 <p>{this.state.mockURL}</p>
-                <Button type="primary">下载Mock数据</Button>
+                <Button type="primary"><a href = {`/api/project/download?project_id=${this.props.match.params.id}`}>下载Mock数据</a></Button>
               </div>
             </div>
             <TimeTree typeid = {+this.props.match.params.id} />
