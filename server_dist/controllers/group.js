@@ -214,6 +214,7 @@ var groupController = function (_baseController) {
 
                             case 7:
                                 return _context2.abrupt('return', {
+                                    _role: userData.role,
                                     role: role,
                                     uid: userData._id,
                                     username: userData.username,
@@ -234,6 +235,19 @@ var groupController = function (_baseController) {
 
             return getUserdata;
         }()
+
+        /**
+         * 添加项目分组成员
+         * @interface /group/add_member
+         * @method POST
+         * @category group
+         * @foldnumber 10
+         * @param {String} id 项目分组id
+         * @param {String} member_uid 项目分组成员uid
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'addMember',
         value: function () {
@@ -290,29 +304,38 @@ var groupController = function (_baseController) {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '组长uid不存在'));
 
                             case 16:
-                                _context3.prev = 16;
-                                _context3.next = 19;
+                                if (!(groupUserdata._role === 'admin')) {
+                                    _context3.next = 18;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '不能邀请管理员'));
+
+                            case 18:
+                                delete groupUserdata._role;
+                                _context3.prev = 19;
+                                _context3.next = 22;
                                 return groupInst.addMember(params.id, groupUserdata);
 
-                            case 19:
+                            case 22:
                                 result = _context3.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 26;
+                                _context3.next = 29;
                                 break;
 
-                            case 23:
-                                _context3.prev = 23;
-                                _context3.t0 = _context3['catch'](16);
+                            case 26:
+                                _context3.prev = 26;
+                                _context3.t0 = _context3['catch'](19);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
-                            case 26:
+                            case 29:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[16, 23]]);
+                }, _callee3, this, [[19, 26]]);
             }));
 
             function addMember(_x4) {
@@ -321,6 +344,20 @@ var groupController = function (_baseController) {
 
             return addMember;
         }()
+
+        /**
+         * 修改项目分组成员角色
+         * @interface /group/change_member_role
+         * @method POST
+         * @category group
+         * @foldnumber 10
+         * @param {String} id 项目分组id
+         * @param {String} member_uid 项目分组成员uid
+         * @param {String} role  组长uid
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'changeMemberRole',
         value: function () {
@@ -364,7 +401,7 @@ var groupController = function (_baseController) {
 
                             case 11:
                                 _context4.next = 13;
-                                return this.checkAuth(id, 'group', 'danger');
+                                return this.checkAuth(params.id, 'group', 'danger');
 
                             case 13:
                                 _context4.t0 = _context4.sent;
@@ -411,6 +448,17 @@ var groupController = function (_baseController) {
 
             return changeMemberRole;
         }()
+        /**
+         * 获取所有项目成员
+         * @interface /group/get_member_list
+         * @method GET
+         * @category group
+         * @foldnumber 10
+         * @param {String} id 项目分组id
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'getMemberList',
         value: function () {
@@ -462,6 +510,19 @@ var groupController = function (_baseController) {
 
             return getMemberList;
         }()
+
+        /**
+         * 删除项目成员
+         * @interface /group/del_member
+         * @method POST
+         * @category group
+         * @foldnumber 10
+         * @param {String} id 项目分组id
+         * @param {String} member_uid 项目分组成员uid
+         * @returns {Object} 
+         * @example 
+         */
+
     }, {
         key: 'delMember',
         value: function () {
@@ -505,7 +566,7 @@ var groupController = function (_baseController) {
 
                             case 11:
                                 _context6.next = 13;
-                                return this.checkAuth(id, 'group', 'danger');
+                                return this.checkAuth(params.id, 'group', 'danger');
 
                             case 13:
                                 _context6.t0 = _context6.sent;

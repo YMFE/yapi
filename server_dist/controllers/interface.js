@@ -70,6 +70,7 @@ var interfaceController = function (_baseController) {
      * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
      * @param {String}  [req_headers[].desc] header描述
      * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+     * @param {Array} [req_params] name, desc两个参数
      * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
      * @param {String} [req_body_form[].name] 请求参数名
      * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
@@ -168,32 +169,35 @@ var interfaceController = function (_baseController) {
                                 if (params.req_body_form) {
                                     data.req_body_form = params.req_body_form;
                                 }
+                                if (params.req_params) {
+                                    data.req_params = params.req_params;
+                                }
                                 if (params.req_body_other) {
                                     data.req_body_other = params.req_body_other;
                                 }
 
-                                _context.next = 23;
+                                _context.next = 24;
                                 return this.Model.save(data);
 
-                            case 23:
+                            case 24:
                                 result = _context.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 30;
+                                _context.next = 31;
                                 break;
 
-                            case 27:
-                                _context.prev = 27;
+                            case 28:
+                                _context.prev = 28;
                                 _context.t0 = _context['catch'](16);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 30:
+                            case 31:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[16, 27]]);
+                }, _callee, this, [[16, 28]]);
             }));
 
             function add(_x) {
@@ -443,6 +447,9 @@ var interfaceController = function (_baseController) {
                                 if (params.req_body_form) {
                                     data.req_body_form = params.req_body_form;
                                 }
+                                if (params.req_params) {
+                                    data.req_params = params.req_params;
+                                }
                                 if (params.req_query) {
                                     data.req_query = params.req_query;
                                 }
@@ -457,29 +464,29 @@ var interfaceController = function (_baseController) {
                                     data.res_body = params.res_body;
                                 }
 
-                                _context4.prev = 29;
-                                _context4.next = 32;
+                                _context4.prev = 30;
+                                _context4.next = 33;
                                 return this.Model.up(id, data);
 
-                            case 32:
+                            case 33:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 39;
+                                _context4.next = 40;
                                 break;
 
-                            case 36:
-                                _context4.prev = 36;
-                                _context4.t0 = _context4['catch'](29);
+                            case 37:
+                                _context4.prev = 37;
+                                _context4.t0 = _context4['catch'](30);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 39:
+                            case 40:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[29, 36]]);
+                }, _callee4, this, [[30, 37]]);
             }));
 
             function up(_x4) {

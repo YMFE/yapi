@@ -311,8 +311,7 @@ class projectController extends baseController {
                 _users[item._id] = item;
             });
             ctx.body = yapi.commons.resReturn({
-                list: result,
-                userinfo: _users
+                list: result
             });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
