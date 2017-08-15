@@ -5,18 +5,20 @@ import { connect } from 'react-redux';
 import { Select, Button } from 'antd';
 import './MemberList.scss'
 import { autobind } from 'core-decorators';
-import { fetchGroupMemberList } from '../../../reducer/modules/group.js'
+import { fetchGroupMemberList, fetchGroupMsg } from '../../../reducer/modules/group.js'
 const Option = Select.Option;
 
 @connect(
   state => {
     return {
       currGroup: state.group.currGroup,
-      uid: state.user.uid
+      uid: state.user.uid,
+      role: state.group.role
     }
   },
   {
-    fetchGroupMemberList
+    fetchGroupMemberList,
+    fetchGroupMsg
   }
 )
 class MemberList extends Component {
@@ -24,13 +26,15 @@ class MemberList extends Component {
     super(props);
     this.state = {
       userInfo: [],
-      operable: false
+      role: ''
     }
   }
   static propTypes = {
     currGroup: PropTypes.object,
     uid: PropTypes.number,
-    fetchGroupMemberList: PropTypes.func
+    fetchGroupMemberList: PropTypes.func,
+    fetchGroupMsg: PropTypes.func,
+    role: PropTypes.string
   }
 
   @autobind
@@ -45,11 +49,22 @@ class MemberList extends Component {
           userInfo: res.payload.data.data
         });
       });
+      this.props.fetchGroupMsg(nextProps.currGroup._id).then((res) => {
+        this.setState({
+          role: res.payload.data.data.role
+        });
+      })
     }
   }
 
   componentDidMount() {
-    this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
+    const currGroupId = this.props.currGroup._id;
+    this.props.fetchGroupMsg(currGroupId).then((res) => {
+      this.setState({
+        role: res.payload.data.data.role
+      });
+    })
+    this.props.fetchGroupMemberList(currGroupId).then((res) => {
       this.setState({
         userInfo: res.payload.data.data
       });
@@ -57,7 +72,7 @@ class MemberList extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
     const columns = [{
       title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
       dataIndex: 'username',
@@ -71,15 +86,21 @@ class MemberList extends Component {
     }, {
       key: 'action',
       className: 'member-opration',
-      render: (text, record) => (
-        <div>
-          <Select defaultValue={record.role} className="select" onChange={this.handleChange}>
-            <Option value="owner">组长</Option>
-            <Option value="dev">开发者</Option>
-          </Select>
-          <Button type="danger" icon="minus" className="btn-danger" />
-        </div>
-      )
+      render: (text, record) => {
+        if (this.state.role === 'owner' || this.state.role === 'admin') {
+          return (
+            <div>
+              <Select defaultValue={record.role} className="select" onChange={this.handleChange}>
+                <Option value="owner">组长</Option>
+                <Option value="dev">开发者</Option>
+              </Select>
+              <Button type="danger" icon="minus" className="btn-danger" />
+            </div>
+          )
+        } else {
+          return '';
+        }
+      }
     }];
     return (
       <div className="m-panel">

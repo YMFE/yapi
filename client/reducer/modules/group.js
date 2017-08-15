@@ -4,12 +4,14 @@ import axios from 'axios';
 const FETCH_GROUP_LIST = 'yapi/group/FETCH_GROUP_LIST';
 const SET_CURR_GROUP = 'yapi/group/SET_CURR_GROUP';
 const FETCH_GROUP_MEMBER = 'yapi/group/FETCH_GROUP_MEMBER';
+const FETCH_GROUP_MSG = 'yapi/group/FETCH_GROUP_MSG';
 
 // Reducer
 const initialState = {
   groupList: [],
   currGroup: { group_name: '' },
-  member: []
+  member: [],
+  role: ''
 };
 
 export default (state = initialState, action) => {
@@ -32,11 +34,28 @@ export default (state = initialState, action) => {
         member: action.payload.data.data
       };
     }
+    case FETCH_GROUP_MSG: {
+      console.log(action.payload.data.data.role);
+      return {
+        ...state,
+        role: action.payload.data.data.role
+      };
+    }
 
     default:
       return state;
   }
 };
+
+// 获取 group 信息 (权限信息)
+export function fetchGroupMsg(id) {
+  return {
+    type: FETCH_GROUP_MSG,
+    payload: axios.get('/api/group/get', {
+      params: { id }
+    })
+  }
+}
 
 // 获取分组成员列表
 export function fetchGroupMemberList(id) {
