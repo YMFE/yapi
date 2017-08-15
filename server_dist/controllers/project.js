@@ -733,8 +733,7 @@ var projectController = function (_baseController) {
                                     _users[item._id] = item;
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn({
-                                    list: result,
-                                    userinfo: _users
+                                    list: result
                                 });
                                 _context7.next = 23;
                                 break;
