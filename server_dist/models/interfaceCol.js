@@ -90,6 +90,13 @@ var interfaceCol = function (_baseModel) {
             });
         }
     }, {
+        key: 'delByProjectId',
+        value: function delByProjectId(id) {
+            return this.model.delete({
+                project_id: id
+            });
+        }
+    }, {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();

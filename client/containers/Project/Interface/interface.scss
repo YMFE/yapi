@@ -23,6 +23,11 @@
         .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
             background-color: #efefef
         }
+
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar{
+            text-align: center;
+            line-height: 40px;
+        }
         
         .interface-filter{
             padding-left: 10px;
