@@ -158,10 +158,11 @@ export default class GroupList extends Component {
   showConfirm =()=> {
     let that = this;
     confirm({
-      title: that.props.currGroup.group_name,
-      content: <div style={{marginTop:'10px', fontSize: '14px', lineHeight: '25px'}}>
-        <Alert message="该操作会删除该分组下所有项目!" type="warning" />
-        <div style={{marginTop: '10px'}}><b>请输入分组名称：</b><input id="group_name" /></div>
+      title: "确认删除"+that.props.currGroup.group_name+"分组吗？",
+      content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
+        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
+
+        <div style={{marginTop: '15px'}}><b>请输入分组名称确认此操作:</b><input id="group_name" /></div>
       </div>,
       onOk() {        
         let groupName = document.getElementById('group_name').value;        
@@ -175,6 +176,7 @@ export default class GroupList extends Component {
         }
         
       },
+      iconType: 'delete',
       onCancel() { }
     });
   }
