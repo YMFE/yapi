@@ -2,7 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import yapi from '../yapi.js';
 import sha1 from 'sha1';
-import json5 from 'json5'
+import logModel from '../models/log.js';
+import json5 from 'json5';
 
 exports.resReturn = (data, num, errmsg) => {
     num = num || 0;
@@ -223,4 +224,23 @@ exports.handleParams = (params, keys) => {
     }
 
     return params;
+};
+
+
+exports.saveLog = (logData) => {
+    try {
+        let logInst = yapi.getInst(logModel);
+        let data = {
+            content: logData.content,
+            type: logData.type,
+            uid: logData.uid,
+            username: logData.username,
+            typeid: logData.typeid
+        };
+        logInst.save(data).then(
+            
+        );
+    } catch(e) {
+        yapi.commons.log(e, 'error'); // eslint-disable-line
+    }
 };
