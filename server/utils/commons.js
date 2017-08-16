@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import yapi from '../yapi.js';
 import sha1 from 'sha1';
+import json5 from 'json5'
 
 exports.resReturn = (data, num, errmsg) => {
     num = num || 0;
@@ -89,7 +90,7 @@ exports.rand = (min, max) => {
 
 exports.json_parse = (json) => {
     try {
-        return JSON.parse(json);
+        return json5.parse(json);
     } catch (e) {
         return json;
     }

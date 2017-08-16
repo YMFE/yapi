@@ -87,6 +87,12 @@ class projectModel extends baseModel {
         });
     }
 
+    delByGroupid(groupId){
+        return this.model.delete({
+            group_id: groupId
+        })
+    }
+
     up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({

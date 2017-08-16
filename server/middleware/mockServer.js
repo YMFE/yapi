@@ -2,6 +2,24 @@ import yapi from '../yapi.js';
 import projectModel from '../models/project.js';
 import interfaceModel from '../models/interface.js';
 import Mock from 'mockjs';
+import _ from 'underscore';
+
+
+function matchApi(apiPath, apiRule) {
+    let apiPaths = apiPath.split("/");
+    let apiRules = apiRule.split("/");
+    if (apiPaths.length !== apiRules.length) {
+        return false;
+    }
+    for (let i = 0; i < apiRules.length; i++) {
+        if (apiRules[i] && apiRules[i].indexOf(":") !== 0) {
+            if (apiRules[i] !== apiPaths[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 module.exports = async (ctx, next) => {
     yapi.commons.log('Server Recevie Request...');
@@ -9,7 +27,7 @@ module.exports = async (ctx, next) => {
     let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
     let path = ctx.path;
-    
+
 
     if (path.indexOf('/mock/') !== 0) {
         if (next) await next();
@@ -20,7 +38,7 @@ module.exports = async (ctx, next) => {
     let projectId = paths[2];
     paths.splice(0, 3);
     path = "/" + paths.join("/");
-    if(!projectId){
+    if (!projectId) {
         return ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空');
     }
 
@@ -35,20 +53,33 @@ module.exports = async (ctx, next) => {
     if (project === false) {
         return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
-    
-    let interfaceData;
+
+    let interfaceData, newData, newpath;
     let interfaceInst = yapi.getInst(interfaceModel);
 
     try {
-        interfaceData = await interfaceInst.getByPath(project._id, path.substr(project.basepath.length), ctx.method);
+        newpath = path.substr(project.basepath.length);
+        interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
         if (!interfaceData || interfaceData.length === 0) {
             //非正常跨域预检请求回应
-            if(ctx.method === 'OPTIONS'){
+            if (ctx.method === 'OPTIONS') {
                 ctx.set("Access-Control-Allow-Origin", "*")
                 ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
                 return ctx.body = 'ok'
             }
-            return ctx.body = yapi.commons.resReturn(null, 404, '不存在的api');
+            let newData = await interfaceInst.getVar(project._id, ctx.method);
+
+            let findInterface = _.find(newData, (item) => {
+                return matchApi(newpath, item.path)
+            });
+
+            if (!findInterface) {
+                return ctx.body = yapi.commons.resReturn(null, 404, '不存在的api');
+            }
+            interfaceData = [
+                await interfaceInst.get(findInterface._id)
+            ]
+
         }
 
         if (interfaceData.length > 1) {
@@ -58,12 +89,12 @@ module.exports = async (ctx, next) => {
         interfaceData = interfaceData[0];
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
-            try{
+            try {
                 const res = Mock.mock(
                     yapi.commons.json_parse(interfaceData.res_body)
                 );
                 return ctx.body = res;
-            }catch(e){
+            } catch (e) {
                 return ctx.body = {
                     errcode: 400,
                     errmsg: 'mock json数据格式有误',
@@ -73,6 +104,7 @@ module.exports = async (ctx, next) => {
         }
         return ctx.body = interfaceData.res_body;
     } catch (e) {
+        console.error(e)
         return ctx.body = yapi.commons.resReturn(null, 409, e.message);
     }
 };
