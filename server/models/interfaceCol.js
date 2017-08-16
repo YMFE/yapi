@@ -46,6 +46,12 @@ class interfaceCol extends baseModel {
         });
     }
 
+    delByProjectId(id){
+        return this.model.deleteMany({
+            project_id: id
+        })
+    }
+
     up(id, data) {
         data.up_time = yapi.commons.time()
         return this.model.update(

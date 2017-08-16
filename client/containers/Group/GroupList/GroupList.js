@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Icon, Popconfirm, Modal, Input, message, Menu, Row, Col } from 'antd'
+import { Button, Icon, Modal,Alert, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 const { TextArea } = Input;
 const Search = Input.Search;
 const TYPE_EDIT = 'edit';
-
+const confirm = Modal.confirm;
+import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import {
   fetchGroupList,
   setCurrGroup,
@@ -50,7 +51,8 @@ export default class GroupList extends Component {
     newGroupDesc: '',
     currGroupName: '',
     currGroupDesc: '',
-    groupList: []
+    groupList: [],
+    owner_uid: 0
   }
 
   constructor(props) {
@@ -105,8 +107,8 @@ export default class GroupList extends Component {
   }
   @autobind
   async addGroup() {
-    const { newGroupName: group_name, newGroupDesc: group_desc } = this.state;
-    const res = await axios.post('/api/group/add', { group_name, group_desc })
+    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uid } = this.state;
+    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uid })
     if (!res.data.errcode) {
       this.setState({
         addGroupModalVisible: false
@@ -156,6 +158,39 @@ export default class GroupList extends Component {
   }
 
   @autobind
+  onUserSelect(childState) {
+    this.setState({
+      owner_uid: childState.uid
+    })
+  }
+
+  showConfirm =()=> {
+    let that = this;
+    confirm({
+      title: "确认删除"+that.props.currGroup.group_name+"分组吗？",
+      content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
+        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
+
+        <div style={{marginTop: '15px'}}><b>请输入分组名称确认此操作:</b><input id="group_name" /></div>
+      </div>,
+      onOk() {
+        let groupName = document.getElementById('group_name').value;
+        if(that.props.currGroup.group_name !== groupName){
+          message.error('分组名称有误')
+          return new Promise((resolve, reject)=>{
+            reject('error')
+          })
+        }else{
+          that.deleteGroup()
+        }
+
+      },
+      iconType: 'delete',
+      onCancel() { }
+    });
+  }
+
+  @autobind
   async deleteGroup() {
     const self = this;
     const { currGroup } = self.props;
@@ -163,7 +198,7 @@ export default class GroupList extends Component {
     if (res.data.errcode) {
       message.error(res.data.errmsg);
     } else {
-      message.success('删除成功');
+      message.success('删除成功')
       await self.props.fetchGroupList()
       const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
       self.setState({groupList: self.props.groupList});
@@ -185,9 +220,8 @@ export default class GroupList extends Component {
   render () {
     const { currGroup } = this.props;
     const delmark = <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
-    const editmark = (<Popconfirm title={`你确定要删除分组 ${currGroup.group_name}？`} onConfirm={this.deleteGroup}>
-      <Icon className="delete-group" type="delete" title="删除分组"/>
-    </Popconfirm>)
+    const editmark = <Icon className="delete-group" onClick={()=> {this.showConfirm()}}  type="delete" title="删除分组"/>
+
 
 
     return (
@@ -247,6 +281,12 @@ export default class GroupList extends Component {
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
               <TextArea rows = {3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
+            </Col>
+          </Row>
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">组长：</div></Col>
+            <Col span="15">
+              <UsernameAutoComplete callbackState={this.onUserSelect} />
             </Col>
           </Row>
         </Modal>

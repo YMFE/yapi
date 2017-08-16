@@ -56,6 +56,7 @@ var interfaceModel = function (_baseModel) {
                 desc: String,
                 add_time: Number,
                 up_time: Number,
+                type: { type: String, enum: ['static', 'var'], default: 'static' },
                 req_query: [{
                     name: String, value: String, desc: String, required: {
                         type: String,
@@ -107,6 +108,14 @@ var interfaceModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'getVar',
+        value: function getVar(project_id, method) {
+            return this.model.find({
+                type: 'var',
+                method: method
+            }).select('_id path').exec();
+        }
+    }, {
         key: 'getByPath',
         value: function getByPath(project_id, path, method) {
             return this.model.find({
@@ -143,6 +152,13 @@ var interfaceModel = function (_baseModel) {
         value: function del(id) {
             return this.model.deleteOne({
                 _id: id
+            });
+        }
+    }, {
+        key: 'delByProjectId',
+        value: function delByProjectId(id) {
+            return this.model.deleteMany({
+                project_id: id
             });
         }
     }, {
