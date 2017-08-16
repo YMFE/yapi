@@ -132,6 +132,13 @@ var projectModel = function (_baseModel) {
             });
         }
     }, {
+        key: 'delByGroupid',
+        value: function delByGroupid(groupId) {
+            return this.model.delete({
+                group_id: groupId
+            });
+        }
+    }, {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
