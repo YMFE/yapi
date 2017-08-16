@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { fetchInterfaceList, fetchInterfaceData, changeInterfaceId, addInterfaceData, deleteInterfaceData } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceList, fetchInterfaceData,  addInterfaceData, deleteInterfaceData } from '../../../../reducer/modules/interface.js';
 import { Menu, Input, Icon, Tag, Modal, message } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import axios from 'axios'
+import { Link,withRouter } from 'react-router-dom';
 
 const confirm = Modal.confirm;
 
@@ -14,29 +15,27 @@ const confirm = Modal.confirm;
   state => {
     return {
       list: state.inter.list,
-      curProject: state.project.curProject,
-      interfaceId: state.inter.interfaceId
+      curProject: state.project.curProject
     }
   },
   {
     fetchInterfaceList,
     fetchInterfaceData,
-    changeInterfaceId,
     addInterfaceData,
     deleteInterfaceData
   }
 )
 class InterfaceMenu extends Component {
   static propTypes = {
+    match: PropTypes.object,
     projectId: PropTypes.string,
-    interfaceId: PropTypes.number,
     list: PropTypes.array,
     fetchInterfaceList: PropTypes.func,
     curProject: PropTypes.object,
     fetchInterfaceData: PropTypes.func,
-    changeInterfaceId: PropTypes.func,
     addInterfaceData: PropTypes.func,
-    deleteInterfaceData: PropTypes.func
+    deleteInterfaceData: PropTypes.func,
+    history: PropTypes.object
   }
 
   showModal = () => {
@@ -59,26 +58,21 @@ class InterfaceMenu extends Component {
       delIcon: null,
       filter: ''
     }
+    
   }
 
   async handleRequest() {
     let result = await this.props.fetchInterfaceList(this.props.projectId);
-    let interfaces = result.payload.data;
-    if (interfaces.length > 0) {
-      this.props.changeInterfaceId(interfaces[0]._id)
-      await this.props.fetchInterfaceData(interfaces[0]._id)
+    let params = this.props.match.params;
+    if(!params.actionId){
+      this.props.history.replace('/project/'+params.id + '/interface/api/' + result.payload.data[0]._id)
     }
   }
 
   componentWillMount() {
     this.handleRequest()
   }
-
-  onSelect = (item) => {
-    this.props.changeInterfaceId(parseInt(item.key, 10))
-    this.props.fetchInterfaceData(parseInt(item.key, 10))
-  }
-
+  
   handleAddInterface = (data) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {
@@ -127,6 +121,7 @@ class InterfaceMenu extends Component {
 
   render() {
     const items = [];
+    const matchParams = this.props.match.params;
     this.props.list.forEach((item) => {
       let color, filter = this.state.filter;
       if(filter && item.title.indexOf(filter) === -1 && item.path.indexOf(filter) === -1){
@@ -141,9 +136,10 @@ class InterfaceMenu extends Component {
       }
 
       items.push(
+
         <Menu.Item onMouseEnter={this.enterItem} onMouseLeave={this.leaveItem} key={"" + item._id}>
           <Tag className="btn-http" color={color}>{item.method}  </Tag>
-          {item.title}
+          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <Icon type="delete" onClick={()=> {this.showConfirm(item._id)}} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} className="interface-delete-icon" />
         </Menu.Item>
       )
@@ -163,7 +159,7 @@ class InterfaceMenu extends Component {
           <AddInterfaceForm onCancel={this.handleCancel} onSubmit={this.handleAddInterface} />
         </Modal>
       </div>
-      <Menu selectedKeys={[this.props.interfaceId + ""]} className="interface-list" onSelect={this.onSelect}>
+      <Menu selectedKeys={[this.props.match.params.actionId + ""]} className="interface-list">
         {items}
       </Menu>
     </div>
@@ -171,4 +167,4 @@ class InterfaceMenu extends Component {
   }
 }
 
-export default InterfaceMenu
+export default withRouter(InterfaceMenu)
