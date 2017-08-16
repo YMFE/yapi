@@ -56,21 +56,6 @@ var logController = function (_baseController) {
 
         _this.Model = _yapi2.default.getInst(_log2.default);
         _this.groupModel = _yapi2.default.getInst(_group2.default);
-        try {
-            // var res = this.Model.save({
-            //     uid: 107,
-            //     typeid: 21,
-            //     type: 'project',
-            //     username: '小明明宝宝',
-            //     content: '小明应该修改了的项目宝宝',
-            //     time: yapi.commons.time()
-            // });
-            // var res = this.Model.del(107);
-            // ctx.body = yapi.commons.resReturn(null, 200,res);
-        } catch (err) {
-            // ctx.body = yapi.commons.resReturn(null, 402, err.message);
-        }
-
         return _this;
     }
 
