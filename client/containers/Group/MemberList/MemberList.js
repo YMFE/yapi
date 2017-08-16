@@ -9,6 +9,15 @@ import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember } from '../../../reducer/modules/group.js'
 const Option = Select.Option;
 
+const arrayAddKey = (arr) => {
+  return arr.map((item, index) => {
+    return {
+      ...item,
+      key: index
+    }
+  });
+}
+
 @connect(
   state => {
     return {
@@ -68,7 +77,7 @@ class MemberList extends Component {
         // 添加成功后重新获取分组成员列表
         this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
           this.setState({
-            userInfo: res.payload.data.data,
+            userInfo: arrayAddKey(res.payload.data.data),
             visible: false
           });
         });
@@ -116,7 +125,6 @@ class MemberList extends Component {
             username: v.username,
             id: v.uid
           }));
-          console.log(userList);
           this.setState({
             dataSource: userList
           })
@@ -128,7 +136,7 @@ class MemberList extends Component {
     if (this.props.currGroup !== nextProps.currGroup) {
       this.props.fetchGroupMemberList(nextProps.currGroup._id).then((res) => {
         this.setState({
-          userInfo: res.payload.data.data
+          userInfo: arrayAddKey(res.payload.data.data)
         });
       });
       this.props.fetchGroupMsg(nextProps.currGroup._id).then((res) => {
@@ -148,7 +156,7 @@ class MemberList extends Component {
     })
     this.props.fetchGroupMemberList(currGroupId).then((res) => {
       this.setState({
-        userInfo: res.payload.data.data
+        userInfo: arrayAddKey(res.payload.data.data)
       });
     });
   }
@@ -184,7 +192,6 @@ class MemberList extends Component {
         }
       }
     }];
-    console.log(this.state.dataSource);
     return (
       <div className="m-panel">
         <Modal
