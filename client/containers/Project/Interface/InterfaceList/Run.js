@@ -74,7 +74,7 @@ export default class Run extends Component {
       req_headers = [],
       req_body_type,
       req_query = [],
-      // req_params = [],
+      req_params = [],
       req_body_other = '',
       req_body_form = []
     } = currInterface;
@@ -101,7 +101,7 @@ export default class Run extends Component {
     this.setState({
       method,
       domains,
-      pathParam: [{name: 'id', value: ''}],
+      pathParam: req_params.concat(),
       pathname,
       query: req_query.concat(),
       bodyForm: req_body_form.concat(),

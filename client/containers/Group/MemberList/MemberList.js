@@ -178,7 +178,7 @@ class MemberList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">用户名: </div></Col>
             <Col span="15">
-              <UsernameAutoComplete callbackState={this.onUserSelect} style={{ width: 150 }} />
+              <UsernameAutoComplete callbackState={this.onUserSelect} />
             </Col>
           </Row>
           <Row gutter={6} className="modal-input">
