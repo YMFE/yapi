@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Select, Button, Modal, Row, Col, message } from 'antd';
+import { Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
-import { fetchGroupMemberList, fetchGroupMsg, addMember } from '../../../reducer/modules/group.js'
+import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember } from '../../../reducer/modules/group.js'
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
@@ -29,7 +29,8 @@ const arrayAddKey = (arr) => {
   {
     fetchGroupMemberList,
     fetchGroupMsg,
-    addMember
+    addMember,
+    delMember
   }
 )
 class MemberList extends Component {
@@ -50,6 +51,7 @@ class MemberList extends Component {
     fetchGroupMemberList: PropTypes.func,
     fetchGroupMsg: PropTypes.func,
     addMember: PropTypes.func,
+    delMember: PropTypes.func,
     role: PropTypes.string
   }
 
@@ -58,10 +60,34 @@ class MemberList extends Component {
     console.log(`selected ${value}`);
   }
 
-  showModal = () => {
+  @autobind
+  showAddMemberModal() {
     this.setState({
       visible: true
     });
+  }
+
+  @autobind
+  reFetchList() {
+    this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
+      this.setState({
+        userInfo: arrayAddKey(res.payload.data.data),
+        visible: false
+      });
+    });
+  }
+
+  @autobind
+  deleteConfirm(member_uid) {
+    return () => {
+      const id = this.props.currGroup._id;
+      this.props.delMember({ id, member_uid }).then((res) => {
+        if (!res.payload.data.errcode) {
+          message.success(res.payload.data.errmsg);
+          this.reFetchList(); // 添加成功后重新获取分组成员列表
+        }
+      });
+    }
   }
 
   @autobind
@@ -74,13 +100,7 @@ class MemberList extends Component {
       console.log(res);
       if (!res.payload.data.errcode) {
         message.success('添加成功!');
-        // 添加成功后重新获取分组成员列表
-        this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
-          this.setState({
-            userInfo: arrayAddKey(res.payload.data.data),
-            visible: false
-          });
-        });
+        this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
     });
   }
@@ -94,8 +114,10 @@ class MemberList extends Component {
   }
 
   @autobind
-  changeMemberRole(e) {
-    console.log(e);
+  changeMemberRole(value) {
+    return () => {
+      console.log(this.props.currGroup._id, value);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -136,7 +158,6 @@ class MemberList extends Component {
   }
 
   render() {
-    console.log(this.state);
     const columns = [{
       title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
       dataIndex: 'username',
@@ -148,7 +169,7 @@ class MemberList extends Component {
         </div>);
       }
     }, {
-      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showModal}>添加成员</Button></div> : '',
+      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
       key: 'action',
       className: 'member-opration',
       render: (text, record) => {
@@ -159,7 +180,9 @@ class MemberList extends Component {
                 <Option value="owner">组长</Option>
                 <Option value="dev">开发者</Option>
               </Select>
-              <Button type="danger" icon="minus" className="btn-danger" />
+              <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
+                <Button type="danger" icon="minus" className="btn-danger" />
+              </Popconfirm>
             </div>
           )
         } else {
