@@ -88,7 +88,7 @@ class projectModel extends baseModel {
     }
 
     delByGroupid(groupId){
-        return this.model.delete({
+        return this.model.deleteMany({
             group_id: groupId
         })
     }

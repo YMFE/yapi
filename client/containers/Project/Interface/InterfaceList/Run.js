@@ -74,7 +74,7 @@ export default class Run extends Component {
       req_headers = [],
       req_body_type,
       req_query = [],
-      req_params = [],
+      // req_params = [],
       req_body_other = '',
       req_body_form = []
     } = currInterface;
@@ -86,48 +86,27 @@ export default class Run extends Component {
       domains[item.name] = item.domain;
     })
 
-    const pathParam = [];
-    req_params.forEach(item => {
-      pathParam.push({key: item.name, value: item.value})
-    })
-
-    const query = [];
-    req_query.forEach(item => {
-      query.push({key: item.name, value: item.value})
-    })
-
-    const bodyForm = [];
-    req_body_form.forEach(item => {
-      bodyForm.push({key: item.name, value: item.value, type: 'text'})
-    })
-
-    const bodyOther = req_body_other;
-
-    const headers = []
-    let contentTypeIndex = -1;
-    req_headers.forEach((headerItem, index) => {
-      if (headerItem.name) {
-        // TODO 'Content-Type' 排除大小写不同格式影响
-        if (headerItem.name === 'Content-Type'){
-          contentTypeIndex = index;
-          headerItem.value = headerItem.value || 'application/x-www-form-urlencoded';
-        }
-        headers.push({name: headerItem.name, value: headerItem.value});
+    let hasContentType = false;
+    req_headers.forEach(headerItem => {
+      // TODO 'Content-Type' 排除大小写不同格式影响
+      if (headerItem.name === 'Content-Type'){
+        hasContentType = true;
+        headerItem.value = headerItem.value || 'application/x-www-form-urlencoded';
       }
     })
-    if (contentTypeIndex === -1) {
-      headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
+    if (!hasContentType) {
+      req_headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
     }
 
     this.setState({
       method,
       domains,
-      pathParam,
+      pathParam: [{name: 'id', value: ''}],
       pathname,
-      query,
-      bodyForm,
-      headers,
-      bodyOther,
+      query: req_query.concat(),
+      bodyForm: req_body_form.concat(),
+      headers: req_headers.concat(),
+      bodyOther: req_body_other,
       currDomain: domains.prd,
       bodyType: req_body_type || 'form',
       loading: false
@@ -205,7 +184,7 @@ export default class Run extends Component {
   setContentType(type) {
     const headersObj = this.getHeadersObj(this.state.headers);
     headersObj['Content-Type'] = type;
-    this.setState({headers: this.objToArr(headersObj, 'name')})
+    this.setState({headers: this.objToArr(headersObj)})
   }
 
   @autobind
@@ -213,7 +192,7 @@ export default class Run extends Component {
     const query = JSON.parse(JSON.stringify(this.state.query));
     const v = e.target.value;
     if (isKey) {
-      query[index].key = v;
+      query[index].name = v;
     } else {
       query[index].value = v;
     }
@@ -222,7 +201,7 @@ export default class Run extends Component {
   @autobind
   addQuery() {
     const { query } = this.state;
-    this.setState({query: query.concat([{key: '', value: ''}])})
+    this.setState({query: query.concat([{name: '', value: ''}])})
   }
   @autobind
   deleteQuery(index) {
@@ -234,22 +213,31 @@ export default class Run extends Component {
   changePathParam(e, index, isKey) {
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
     const v = e.target.value;
+    const name = pathParam[index].name;
+    let newPathname = this.state.pathname;
     if (isKey) {
-      pathParam[index].key = v;
+      if (!name && v) {
+        newPathname += `/:${v}`;
+      } else {
+        newPathname = newPathname.replace(`/:${name}`, v ? `/:${v}` : '')
+      }
+      pathParam[index].name = v;
     } else {
       pathParam[index].value = v;
     }
-    this.setState({ pathParam });
+    this.setState({ pathParam, pathname: newPathname });
   }
   @autobind
   addPathParam() {
     const { pathParam } = this.state;
-    this.setState({pathParam: pathParam.concat([{key: '', value: ''}])})
+    this.setState({pathParam: pathParam.concat([{name: '', value: ''}])})
   }
   @autobind
   deletePathParam(index) {
     const { pathParam } = this.state;
-    this.setState({pathParam: pathParam.filter((item, i) => +index !== +i)});
+    const name = pathParam[index].name;
+    const newPathname = this.state.pathname.replace(`/:${name}`, '');
+    this.setState({pathParam: pathParam.filter((item, i) => +index !== +i), pathname: newPathname});
   }
 
   @autobind
@@ -257,7 +245,7 @@ export default class Run extends Component {
     const bodyForm = JSON.parse(JSON.stringify(this.state.bodyForm));
     switch (type) {
       case 'key':
-        bodyForm[index].key = e.target.value
+        bodyForm[index].name = e.target.value
         break;
       case 'type':
         bodyForm[index].type = e
@@ -280,7 +268,7 @@ export default class Run extends Component {
   @autobind
   addBody() {
     const { bodyForm } = this.state;
-    this.setState({bodyForm: bodyForm.concat([{key: '', value: '', type: 'text'}])})
+    this.setState({bodyForm: bodyForm.concat([{name: '', value: '', type: 'text'}])})
   }
   @autobind
   deleteBody(index) {
@@ -314,7 +302,7 @@ export default class Run extends Component {
   }
 
   objToArr(obj, key, value) {
-    const keyName = key || 'key';
+    const keyName = key || 'name';
     const valueName = value || 'value';
     const arr = []
     Object.keys(obj).forEach((_key) => {
@@ -327,8 +315,8 @@ export default class Run extends Component {
   arrToObj(arr) {
     const obj = {};
     arr.forEach(item => {
-      if (item.key && item.type !== 'file') {
-        obj[item.key] = item.value || '';
+      if (item.name && item.type !== 'file') {
+        obj[item.name] = item.value || '';
       }
     })
     return obj;
@@ -336,8 +324,8 @@ export default class Run extends Component {
   getFiles(bodyForm) {
     const files = {};
     bodyForm.forEach(item => {
-      if (item.key && item.type === 'file') {
-        files[item.key] = item.value
+      if (item.name && item.type === 'file') {
+        files[item.name] = item.value
       }
     })
     return files;
@@ -345,8 +333,8 @@ export default class Run extends Component {
   getQueryObj(query) {
     const queryObj = {};
     query.forEach(item => {
-      if (item.key) {
-        queryObj[item.key] = item.value || '';
+      if (item.name) {
+        queryObj[item.name] = item.value || '';
       }
     })
     return queryObj;
@@ -371,7 +359,10 @@ export default class Run extends Component {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
-    const pathParamStr = pathParam.reduce((v, item) => v + '/' + item.value, '');
+    let path = pathname;
+    pathParam.forEach(item => {
+      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+    });
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
 
     return (
@@ -406,7 +397,7 @@ export default class Run extends Component {
                   Object.keys(domains).map((key, index) => (<Option value={domains[key]} key={index}>{key + '：' + domains[key]}</Option>))
                 }
               </Select>
-              <Input value={pathname + pathParamStr + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
+              <Input value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
             </InputGroup>
             <Button
               onClick={this.reqRealInterface}
@@ -427,7 +418,7 @@ export default class Run extends Component {
                 pathParam.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.key} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                      <Input value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changePathParam(e, index)} className="value" />
                       <Icon type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
@@ -435,14 +426,14 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
+              <Button type="primary" icon="plus" onClick={this.addPathParam}>Add path parameter</Button>
             </Panel>
             <Panel header="QUERY PARAMETERS" key="1">
               {
                 query.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.key} onChange={e => this.changeQuery(e, index, true)} className="key" />
+                      <Input value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeQuery(e, index)} className="value" />
                       <Icon type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
@@ -504,7 +495,7 @@ export default class Run extends Component {
                     bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
-                          <Input value={item.key} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                          <Input value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
                           <span>[</span>
                           <Select value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
                             <Option value="file">File</Option>
