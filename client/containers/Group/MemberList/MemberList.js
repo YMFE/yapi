@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Select, Button, Modal, Row, Col, AutoComplete, message } from 'antd';
-import './MemberList.scss'
-import axios from 'axios'
+import { Select, Button, Modal, Row, Col, message } from 'antd';
+import './MemberList.scss';
 import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember } from '../../../reducer/modules/group.js'
+import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
+
+const arrayAddKey = (arr) => {
+  return arr.map((item, index) => {
+    return {
+      ...item,
+      key: index
+    }
+  });
+}
 
 @connect(
   state => {
@@ -68,7 +77,7 @@ class MemberList extends Component {
         // 添加成功后重新获取分组成员列表
         this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
           this.setState({
-            userInfo: res.payload.data.data,
+            userInfo: arrayAddKey(res.payload.data.data),
             visible: false
           });
         });
@@ -85,50 +94,15 @@ class MemberList extends Component {
   }
 
   @autobind
-  onSelect (userName) {
-    this.state.dataSource.forEach((item) => {
-      if (item.username === userName) {
-        this.setState({
-          inputUid: item.id
-        });
-      }
-    });
-  }
-
-  @autobind
   changeMemberRole(e) {
     console.log(e);
-  }
-
-  @autobind
-  handleSearch (value) {
-    this.setState({
-      userName: value
-    })
-    const params = { q: value}
-
-    axios.get('/api/user/search', { params })
-      .then(data => {
-        const userList = []
-        data = data.data.data
-        if (data) {
-          data.forEach( v => userList.push({
-            username: v.username,
-            id: v.uid
-          }));
-          console.log(userList);
-          this.setState({
-            dataSource: userList
-          })
-        }
-      })
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currGroup !== nextProps.currGroup) {
       this.props.fetchGroupMemberList(nextProps.currGroup._id).then((res) => {
         this.setState({
-          userInfo: res.payload.data.data
+          userInfo: arrayAddKey(res.payload.data.data)
         });
       });
       this.props.fetchGroupMsg(nextProps.currGroup._id).then((res) => {
@@ -148,12 +122,21 @@ class MemberList extends Component {
     })
     this.props.fetchGroupMemberList(currGroupId).then((res) => {
       this.setState({
-        userInfo: res.payload.data.data
+        userInfo: arrayAddKey(res.payload.data.data)
       });
     });
   }
 
+  @autobind
+  onUserSelect(childState) {
+    console.log(childState);
+    this.setState({
+      inputUid: childState.uid
+    })
+  }
+
   render() {
+    console.log(this.state);
     const columns = [{
       title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
       dataIndex: 'username',
@@ -184,7 +167,6 @@ class MemberList extends Component {
         }
       }
     }];
-    console.log(this.state.dataSource);
     return (
       <div className="m-panel">
         <Modal
@@ -196,15 +178,7 @@ class MemberList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">用户名: </div></Col>
             <Col span="15">
-              <AutoComplete
-                defaultValue={[]}
-                dataSource={this.state.dataSource.map(i => i.username)}
-                style={{ width: 350 }}
-                onSelect={this.onSelect}
-                onSearch={this.handleSearch}
-                placeholder="请输入用户名"
-                size="large"
-              />
+              <UsernameAutoComplete callbackState={this.onUserSelect} style={{ width: 150 }} />
             </Col>
           </Row>
           <Row gutter={6} className="modal-input">
