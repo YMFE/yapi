@@ -269,6 +269,9 @@ class projectController extends baseController {
         }
         try {
             let result = await this.Model.get(params.id);
+            result = result.toObject();
+            delete result.members;
+            result.role = await this.getProjectRole(params.id, 'project');
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -332,15 +335,18 @@ class projectController extends baseController {
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
-            let interfaceInst = yapi.getInst(interfaceModel);
-            let count = await interfaceInst.countByProjectId(id);
-            if (count > 0) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
-            }
-
+            
             if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
+
+            let interfaceInst = yapi.getInst(interfaceModel);
+            let interfaceColInst = yapi.getInst(interfaceColModel);
+            let interfaceCaseInst = yapi.getInst(interfaceCaseModel);
+            await interfaceInst.delByProjectId(id)
+            await interfaceCaseInst.delByProjectId(id)
+            await interfaceColInst.delByProjectId(id)
+
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {

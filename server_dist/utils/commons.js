@@ -28,6 +28,10 @@ var _log = require('../models/log.js');
 
 var _log2 = _interopRequireDefault(_log);
 
+var _json = require('json5');
+
+var _json2 = _interopRequireDefault(_json);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.resReturn = function (data, num, errmsg) {
@@ -115,7 +119,7 @@ exports.rand = function (min, max) {
 
 exports.json_parse = function (json) {
     try {
-        return JSON.parse(json);
+        return _json2.default.parse(json);
     } catch (e) {
         return json;
     }
