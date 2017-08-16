@@ -157,7 +157,7 @@ var interfaceModel = function (_baseModel) {
     }, {
         key: 'delByProjectId',
         value: function delByProjectId(id) {
-            return this.model.delete({
+            return this.model.deleteMany({
                 project_id: id
             });
         }

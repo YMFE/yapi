@@ -134,7 +134,7 @@ var projectModel = function (_baseModel) {
     }, {
         key: 'delByGroupid',
         value: function delByGroupid(groupId) {
-            return this.model.delete({
+            return this.model.deleteMany({
                 group_id: groupId
             });
         }
