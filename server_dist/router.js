@@ -120,6 +120,10 @@ var routerConfig = {
 		"action": "getMemberList",
 		"path": "get_member_list",
 		"method": "get"
+	}, {
+		action: 'get',
+		path: 'get',
+		method: 'get'
 	}],
 	"user": [{
 		"action": "login",

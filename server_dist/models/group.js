@@ -74,6 +74,13 @@ var groupModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'getGroupById',
+        value: function getGroupById(id) {
+            return this.model.findOne({
+                _id: id
+            }).select("uid group_name group_desc add_time up_time").exec();
+        }
+    }, {
         key: 'checkRepeat',
         value: function checkRepeat(name) {
             return this.model.count({
