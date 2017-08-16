@@ -782,7 +782,7 @@ var projectController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
-                var _id, interfaceInst, count, result;
+                var _id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
 
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -799,57 +799,57 @@ var projectController = function (_baseController) {
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
                             case 4:
-                                interfaceInst = _yapi2.default.getInst(_interface2.default);
-                                _context8.next = 7;
-                                return interfaceInst.countByProjectId(_id);
-
-                            case 7:
-                                count = _context8.sent;
-
-                                if (!(count > 0)) {
-                                    _context8.next = 10;
-                                    break;
-                                }
-
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '请先删除该项目下所有接口'));
-
-                            case 10:
-                                _context8.next = 12;
+                                _context8.next = 6;
                                 return this.checkAuth(_id, 'project', 'danger');
 
-                            case 12:
+                            case 6:
                                 _context8.t0 = _context8.sent;
 
                                 if (!(_context8.t0 !== true)) {
-                                    _context8.next = 15;
+                                    _context8.next = 9;
                                     break;
                                 }
 
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 15:
-                                _context8.next = 17;
+                            case 9:
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                interfaceColInst = _yapi2.default.getInst(interfaceColModel);
+                                interfaceCaseInst = _yapi2.default.getInst(interfaceCaseModel);
+                                _context8.next = 14;
+                                return interfaceInst.delByProjectId(_id);
+
+                            case 14:
+                                _context8.next = 16;
+                                return interfaceCaseInst.delByProjectId(_id);
+
+                            case 16:
+                                _context8.next = 18;
+                                return interfaceColInst.delByProjectId(_id);
+
+                            case 18:
+                                _context8.next = 20;
                                 return this.Model.del(_id);
 
-                            case 17:
+                            case 20:
                                 result = _context8.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context8.next = 24;
+                                _context8.next = 27;
                                 break;
 
-                            case 21:
-                                _context8.prev = 21;
+                            case 24:
+                                _context8.prev = 24;
                                 _context8.t1 = _context8['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context8.t1.message);
 
-                            case 24:
+                            case 27:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[0, 21]]);
+                }, _callee8, this, [[0, 24]]);
             }));
 
             function del(_x9) {

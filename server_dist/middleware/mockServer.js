@@ -24,11 +24,32 @@ var _mockjs = require('mockjs');
 
 var _mockjs2 = _interopRequireDefault(_mockjs);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function matchApi(apiPath, apiRule) {
+    var apiPaths = apiPath.split("/");
+    var apiRules = apiRule.split("/");
+    if (apiPaths.length !== apiRules.length) {
+        return false;
+    }
+    for (var i = 0; i < apiRules.length; i++) {
+        if (apiRules[i] && apiRules[i].indexOf(":") !== 0) {
+            if (apiRules[i] !== apiPaths[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 module.exports = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
-        var hostname, config, path, paths, projectId, projectInst, project, interfaceData, interfaceInst, res;
+        var hostname, config, path, paths, projectId, projectInst, project, interfaceData, newData, newpath, interfaceInst, _newData, findInterface, res;
+
         return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
@@ -96,22 +117,24 @@ module.exports = function () {
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '不存在的项目'));
 
                     case 28:
-                        interfaceData = void 0;
+                        interfaceData = void 0, newData = void 0, newpath = void 0;
                         interfaceInst = _yapi2.default.getInst(_interface2.default);
                         _context.prev = 30;
-                        _context.next = 33;
-                        return interfaceInst.getByPath(project._id, path.substr(project.basepath.length), ctx.method);
 
-                    case 33:
+                        newpath = path.substr(project.basepath.length);
+                        _context.next = 34;
+                        return interfaceInst.getByPath(project._id, newpath, ctx.method);
+
+                    case 34:
                         interfaceData = _context.sent;
 
                         if (!(!interfaceData || interfaceData.length === 0)) {
-                            _context.next = 40;
+                            _context.next = 50;
                             break;
                         }
 
                         if (!(ctx.method === 'OPTIONS')) {
-                            _context.next = 39;
+                            _context.next = 40;
                             break;
                         }
 
@@ -119,54 +142,78 @@ module.exports = function () {
                         ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
                         return _context.abrupt('return', ctx.body = 'ok');
 
-                    case 39:
+                    case 40:
+                        _context.next = 42;
+                        return interfaceInst.getVar(project._id, ctx.method);
+
+                    case 42:
+                        _newData = _context.sent;
+                        findInterface = _underscore2.default.find(_newData, function (item) {
+                            return matchApi(newpath, item.path);
+                        });
+
+                        if (findInterface) {
+                            _context.next = 46;
+                            break;
+                        }
+
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 404, '不存在的api'));
 
-                    case 40:
+                    case 46:
+                        _context.next = 48;
+                        return interfaceInst.get(findInterface._id);
+
+                    case 48:
+                        _context.t1 = _context.sent;
+                        interfaceData = [_context.t1];
+
+                    case 50:
                         if (!(interfaceData.length > 1)) {
-                            _context.next = 42;
+                            _context.next = 52;
                             break;
                         }
 
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '存在多个api，请检查数据库'));
 
-                    case 42:
+                    case 52:
 
                         interfaceData = interfaceData[0];
                         ctx.set("Access-Control-Allow-Origin", "*");
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 53;
+                            _context.next = 63;
                             break;
                         }
 
-                        _context.prev = 45;
+                        _context.prev = 55;
                         res = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body));
                         return _context.abrupt('return', ctx.body = res);
 
-                    case 50:
-                        _context.prev = 50;
-                        _context.t1 = _context['catch'](45);
+                    case 60:
+                        _context.prev = 60;
+                        _context.t2 = _context['catch'](55);
                         return _context.abrupt('return', ctx.body = {
                             errcode: 400,
                             errmsg: 'mock json数据格式有误',
                             data: interfaceData.res_body
                         });
 
-                    case 53:
+                    case 63:
                         return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
-                    case 56:
-                        _context.prev = 56;
-                        _context.t2 = _context['catch'](30);
-                        return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t2.message));
+                    case 66:
+                        _context.prev = 66;
+                        _context.t3 = _context['catch'](30);
 
-                    case 59:
+                        console.error(_context.t3);
+                        return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t3.message));
+
+                    case 70:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[17, 23], [30, 56], [45, 50]]);
+        }, _callee, undefined, [[17, 23], [30, 66], [55, 60]]);
     }));
 
     return function (_x, _x2) {
