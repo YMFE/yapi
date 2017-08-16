@@ -61,7 +61,7 @@ class interfaceCase extends baseModel {
     }
 
     delByProjectId(id){
-        return this.model.delete({
+        return this.model.deleteMany({
             project_id: id
         })
     }
