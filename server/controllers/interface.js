@@ -2,6 +2,7 @@ import interfaceModel from '../models/interface.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 
+
 class interfaceController extends baseController {
     constructor(ctx) {
         super(ctx);
@@ -91,8 +92,11 @@ class interfaceController extends baseController {
             if (params.req_body_form) {
                 data.req_body_form = params.req_body_form;
             }
-            if (params.req_params) {
+            if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+                data.type = 'var'
                 data.req_params = params.req_params;
+            } else {
+                data.type = 'static'
             }
             if (params.req_body_other) {
                 data.req_body_other = params.req_body_other;
@@ -236,9 +240,13 @@ class interfaceController extends baseController {
         if (params.req_body_form) {
             data.req_body_form = params.req_body_form;
         }
-        if (params.req_params) {
+        if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+            data.type = 'var'
             data.req_params = params.req_params;
+        } else {
+            data.type = 'static'
         }
+
         if (params.req_query) {
             data.req_query = params.req_query;
         }

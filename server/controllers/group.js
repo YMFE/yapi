@@ -3,12 +3,14 @@ import yapi from '../yapi.js';
 import baseController from './base.js';
 import projectModel from '../models/project.js';
 import userModel from '../models/user.js';
+import interfaceModel from '../models/interface.js';
+import interfaceColModel from '../models/interfaceCol.js';
+import interfaceCaseModel from '../models/interfaceCase.js';
 
 class groupController extends baseController {
     constructor(ctx) {
         super(ctx);
     }
-
     /**
      * 添加项目分组
      * @interface /group/get
@@ -301,18 +303,21 @@ class groupController extends baseController {
         try {
             let groupInst = yapi.getInst(groupModel);
             let projectInst = yapi.getInst(projectModel);
+            let interfaceInst = yapi.getInst(interfaceModel);
+            let interfaceColInst = yapi.getInst(interfaceColModel);
+            let interfaceCaseInst = yapi.getInst(interfaceCaseModel);
             let id = ctx.request.body.id;
 
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
             }
-
-            let count = await projectInst.countByGroupId(id);
-
-            if (count > 0) {
-                return ctx.body = yapi.commons.resReturn(null, 403, '请先删除该分组下的项目');
-            }
-
+            let projectList =await projectInst.list(id, true);
+            projectList.forEach(async (p) => {
+                await interfaceInst.delByProjectId(p._id)
+                await interfaceCaseInst.delByProjectId(p._id)
+                await interfaceColInst.delByProjectId(p._id)
+            })
+            await projectInst.delByGroupid(id);
             let result = await groupInst.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {

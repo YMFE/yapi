@@ -17,6 +17,7 @@ class interfaceModel extends baseModel {
             desc: String,
             add_time: Number,
             up_time: Number,
+            type: {type: String, enum: ['static', 'var'], default:'static'},
             req_query:[{
                 name: String, value: String, desc: String, required: {
                     type:String,
@@ -67,6 +68,13 @@ class interfaceModel extends baseModel {
             .exec();
     }
 
+    getVar(project_id, method){
+        return this.model.find({
+            type: 'var',
+            method: method
+        }).select('_id path').exec()
+    }
+
     getByPath(project_id, path, method) {
         return this.model.find({
             project_id: project_id,
@@ -102,6 +110,12 @@ class interfaceModel extends baseModel {
         return this.model.deleteOne({
             _id: id
         });
+    }
+
+    delByProjectId(id){
+        return this.model.delete({
+            project_id: id
+        })
     }
 
     up(id, data) {

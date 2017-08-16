@@ -6,6 +6,23 @@
   min-height: 5rem;
   margin-top: 0;
 }
+
+.btn-container {
+  text-align: right;
+}
+
+.modal-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: .24rem;
+  .label {
+    text-align: right;
+  }
+  .select {
+    width: 1.2rem;
+  }
+}
+
 .member-opration {
   text-align: right;
   .select {
