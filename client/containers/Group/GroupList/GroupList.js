@@ -9,6 +9,7 @@ const { TextArea } = Input;
 const Search = Input.Search;
 const TYPE_EDIT = 'edit';
 const confirm = Modal.confirm;
+import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import {
   fetchGroupList,
   setCurrGroup,
@@ -50,7 +51,8 @@ export default class GroupList extends Component {
     newGroupDesc: '',
     currGroupName: '',
     currGroupDesc: '',
-    groupList: []
+    groupList: [],
+    owner_uid: 0
   }
 
   constructor(props) {
@@ -105,8 +107,8 @@ export default class GroupList extends Component {
   }
   @autobind
   async addGroup() {
-    const { newGroupName: group_name, newGroupDesc: group_desc } = this.state;
-    const res = await axios.post('/api/group/add', { group_name, group_desc })
+    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uid } = this.state;
+    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uid })
     if (!res.data.errcode) {
       this.setState({
         addGroupModalVisible: false
@@ -155,6 +157,13 @@ export default class GroupList extends Component {
     this.props.history.replace(`${currGroup._id}`);
   }
 
+  @autobind
+  onUserSelect(childState) {
+    this.setState({
+      owner_uid: childState.uid
+    })
+  }
+
   showConfirm =()=> {
     let that = this;
     confirm({
@@ -163,17 +172,17 @@ export default class GroupList extends Component {
         <Alert message="该操作会删除该分组下所有项目!" type="warning" />
         <div style={{marginTop: '10px'}}><b>请输入分组名称：</b><input id="group_name" /></div>
       </div>,
-      onOk() {        
-        let groupName = document.getElementById('group_name').value;        
+      onOk() {
+        let groupName = document.getElementById('group_name').value;
         if(that.props.currGroup.group_name !== groupName){
           message.error('分组名称有误')
           return new Promise((resolve, reject)=>{
             reject('error')
-          })          
+          })
         }else{
           that.deleteGroup()
         }
-        
+
       },
       onCancel() { }
     });
@@ -210,7 +219,7 @@ export default class GroupList extends Component {
     const { currGroup } = this.props;
     const delmark = <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)}/>
     const editmark = <Icon className="delete-group" onClick={()=> {this.showConfirm()}}  type="delete" title="删除分组"/>
-    
+
 
 
     return (
@@ -270,6 +279,12 @@ export default class GroupList extends Component {
             <Col span="5"><div className="label">简介：</div></Col>
             <Col span="15">
               <TextArea rows = {3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
+            </Col>
+          </Row>
+          <Row gutter={6} className="modal-input">
+            <Col span="5"><div className="label">组长：</div></Col>
+            <Col span="15">
+              <UsernameAutoComplete callbackState={this.onUserSelect} />
             </Col>
           </Row>
         </Modal>
