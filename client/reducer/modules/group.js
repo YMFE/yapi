@@ -5,6 +5,7 @@ const FETCH_GROUP_LIST = 'yapi/group/FETCH_GROUP_LIST';
 const SET_CURR_GROUP = 'yapi/group/SET_CURR_GROUP';
 const FETCH_GROUP_MEMBER = 'yapi/group/FETCH_GROUP_MEMBER';
 const FETCH_GROUP_MSG = 'yapi/group/FETCH_GROUP_MSG';
+const ADD_FROUP_MEMBER = 'yapi/group/ADD_FROUP_MEMBER';
 
 // Reducer
 const initialState = {
@@ -35,7 +36,6 @@ export default (state = initialState, action) => {
       };
     }
     case FETCH_GROUP_MSG: {
-      console.log(action.payload.data.data.role);
       return {
         ...state,
         role: action.payload.data.data.role
@@ -54,6 +54,14 @@ export function fetchGroupMsg(id) {
     payload: axios.get('/api/group/get', {
       params: { id }
     })
+  }
+}
+
+// 添加项目分组成员
+export function addMember(param) {
+  return {
+    type: ADD_FROUP_MEMBER,
+    payload: axios.post('/api/group/add_member', param)
   }
 }
 

@@ -42,7 +42,7 @@ class Interface extends Component {
               <Tabs.TabPane tab="接口列表" key="list">
                 <InterfaceMenu projectId={this.props.match.params.id} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="接口集合" key="col">
+              <Tabs.TabPane tab="接口集合" key="col" >
                 <InterfaceColMenu />
               </Tabs.TabPane>
             </Tabs>

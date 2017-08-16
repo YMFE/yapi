@@ -52,6 +52,18 @@ var _user = require('../models/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _interface = require('../models/interface.js');
+
+var _interface2 = _interopRequireDefault(_interface);
+
+var _interfaceCol = require('../models/interfaceCol.js');
+
+var _interfaceCol2 = _interopRequireDefault(_interfaceCol);
+
+var _interfaceCase = require('../models/interfaceCase.js');
+
+var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var groupController = function (_baseController) {
@@ -61,7 +73,6 @@ var groupController = function (_baseController) {
         (0, _classCallCheck3.default)(this, groupController);
         return (0, _possibleConstructorReturn3.default)(this, (groupController.__proto__ || (0, _getPrototypeOf2.default)(groupController)).call(this, ctx));
     }
-
     /**
      * 添加项目分组
      * @interface /group/get
@@ -747,70 +758,100 @@ var groupController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var groupInst, projectInst, _id, count, result;
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+                var _this2 = this;
 
-                return _regenerator2.default.wrap(function _callee9$(_context9) {
+                var groupInst, projectInst, interfaceInst, interfaceColInst, interfaceCaseInst, _id, projectList, result;
+
+                return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context10.prev = _context10.next) {
                             case 0:
                                 if (!(this.getRole() !== 'admin')) {
-                                    _context9.next = 2;
+                                    _context10.next = 2;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
 
                             case 2:
-                                _context9.prev = 2;
+                                _context10.prev = 2;
                                 groupInst = _yapi2.default.getInst(_group2.default);
                                 projectInst = _yapi2.default.getInst(_project2.default);
+                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                interfaceColInst = _yapi2.default.getInst(_interfaceCol2.default);
+                                interfaceCaseInst = _yapi2.default.getInst(_interfaceCase2.default);
                                 _id = ctx.request.body.id;
 
                                 if (_id) {
-                                    _context9.next = 8;
+                                    _context10.next = 11;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'id不能为空'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'id不能为空'));
 
-                            case 8:
-                                _context9.next = 10;
-                                return projectInst.countByGroupId(_id);
-
-                            case 10:
-                                count = _context9.sent;
-
-                                if (!(count > 0)) {
-                                    _context9.next = 13;
-                                    break;
-                                }
-
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 403, '请先删除该分组下的项目'));
+                            case 11:
+                                _context10.next = 13;
+                                return projectInst.list(_id, true);
 
                             case 13:
-                                _context9.next = 15;
+                                projectList = _context10.sent;
+
+                                projectList.forEach(function () {
+                                    var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(p) {
+                                        return _regenerator2.default.wrap(function _callee9$(_context9) {
+                                            while (1) {
+                                                switch (_context9.prev = _context9.next) {
+                                                    case 0:
+                                                        _context9.next = 2;
+                                                        return interfaceInst.delByProjectId(p._id);
+
+                                                    case 2:
+                                                        _context9.next = 4;
+                                                        return interfaceCaseInst.delByProjectId(p._id);
+
+                                                    case 4:
+                                                        _context9.next = 6;
+                                                        return interfaceColInst.delByProjectId(p._id);
+
+                                                    case 6:
+                                                    case 'end':
+                                                        return _context9.stop();
+                                                }
+                                            }
+                                        }, _callee9, _this2);
+                                    }));
+
+                                    return function (_x11) {
+                                        return _ref10.apply(this, arguments);
+                                    };
+                                }());
+                                _context10.next = 17;
+                                return projectInst.delByGroupid(_id);
+
+                            case 17:
+                                _context10.next = 19;
                                 return groupInst.del(_id);
 
-                            case 15:
-                                result = _context9.sent;
+                            case 19:
+                                result = _context10.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context9.next = 22;
+                                _context10.next = 26;
                                 break;
 
-                            case 19:
-                                _context9.prev = 19;
-                                _context9.t0 = _context9['catch'](2);
+                            case 23:
+                                _context10.prev = 23;
+                                _context10.t0 = _context10['catch'](2);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t0.message);
 
-                            case 22:
+                            case 26:
                             case 'end':
-                                return _context9.stop();
+                                return _context10.stop();
                         }
                     }
-                }, _callee9, this, [[2, 19]]);
+                }, _callee10, this, [[2, 23]]);
             }));
 
             function del(_x10) {
@@ -836,28 +877,28 @@ var groupController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
                 var groupInst, _id2, data, result;
 
-                return _regenerator2.default.wrap(function _callee10$(_context10) {
+                return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context11.prev = _context11.next) {
                             case 0:
-                                _context10.next = 2;
+                                _context11.next = 2;
                                 return this.checkAuth(id, 'group', 'danger');
 
                             case 2:
-                                _context10.t0 = _context10.sent;
+                                _context11.t0 = _context11.sent;
 
-                                if (!(_context10.t0 !== true)) {
-                                    _context10.next = 5;
+                                if (!(_context11.t0 !== true)) {
+                                    _context11.next = 5;
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
                             case 5:
-                                _context10.prev = 5;
+                                _context11.prev = 5;
 
                                 ctx.request.body = _yapi2.default.commons.handleParams(ctx.request.body, {
                                     id: 'number',
@@ -873,32 +914,32 @@ var groupController = function (_baseController) {
                                 if ((0, _keys2.default)(data).length === 0) {
                                     ctx.body = _yapi2.default.commons.resReturn(null, 404, '分组名和分组描述不能为空');
                                 }
-                                _context10.next = 15;
+                                _context11.next = 15;
                                 return groupInst.up(_id2, data);
 
                             case 15:
-                                result = _context10.sent;
+                                result = _context11.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context10.next = 22;
+                                _context11.next = 22;
                                 break;
 
                             case 19:
-                                _context10.prev = 19;
-                                _context10.t1 = _context10['catch'](5);
+                                _context11.prev = 19;
+                                _context11.t1 = _context11['catch'](5);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t1.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t1.message);
 
                             case 22:
                             case 'end':
-                                return _context10.stop();
+                                return _context11.stop();
                         }
                     }
-                }, _callee10, this, [[5, 19]]);
+                }, _callee11, this, [[5, 19]]);
             }));
 
-            function up(_x11) {
-                return _ref10.apply(this, arguments);
+            function up(_x12) {
+                return _ref11.apply(this, arguments);
             }
 
             return up;
