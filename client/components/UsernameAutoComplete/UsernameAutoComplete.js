@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
-import axios from 'axios'
+import axios from 'axios';
 
 class UsernameAutoComplete extends Component {
   constructor(props) {
