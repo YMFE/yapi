@@ -58,21 +58,25 @@ class InterfaceMenu extends Component {
       delIcon: null,
       filter: ''
     }
-    
+
   }
 
   async handleRequest() {
-    let result = await this.props.fetchInterfaceList(this.props.projectId);
-    let params = this.props.match.params;
-    if(!params.actionId){
-      this.props.history.replace('/project/'+params.id + '/interface/api/' + result.payload.data[0]._id)
-    }
+    await this.props.fetchInterfaceList(this.props.projectId);
+    
+    // if(!params.actionId){
+    //   this.props.history.replace('/project/'+params.id + '/interface/api/' + result.payload.data[0]._id)
+    // }
   }
 
   componentWillMount() {
     this.handleRequest()
   }
-  
+
+  // componentWillReceiveProps() {
+  //   this.handleRequest()
+  // }
+
   handleAddInterface = (data) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {

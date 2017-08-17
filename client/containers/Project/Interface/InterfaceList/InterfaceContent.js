@@ -19,7 +19,7 @@ const TabPane = Tabs.TabPane;
     }
   },
   {
-    fetchInterfaceData    
+    fetchInterfaceData
   }
 )
 class Content extends Component {
@@ -27,7 +27,8 @@ class Content extends Component {
     match: PropTypes.object,
     list: PropTypes.array,
     curdata: PropTypes.object,
-    fetchInterfaceData: PropTypes.func
+    fetchInterfaceData: PropTypes.func,
+    history: PropTypes.object
   }
   constructor(props) {
     super(props)
@@ -37,17 +38,24 @@ class Content extends Component {
     this._actionId = 0;
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillMount() {
+    this.handleRequest(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
     this.handleRequest(nextProps)
   }
 
-  handleRequest(nextProps){
+  handleRequest(nextProps) {
     let matchParams = nextProps.match.params;
     let _actionId;
-    _actionId = matchParams.actionId;    
+    _actionId = matchParams.actionId;
     _actionId = parseInt(matchParams.actionId, 10);
-    if(!nextProps.curdata)return;
-    if(this._actionId !== _actionId){
+    if (_actionId == 0 && nextProps.list.length > 0) {
+      return this.props.history.replace('/project/' + matchParams.id + '/interface/api/' + nextProps.list[0]._id)
+    }
+    if (!nextProps.curdata) return;
+    if (this._actionId !== _actionId) {
       this._actionId = _actionId;
       this.props.fetchInterfaceData(_actionId)
     }
@@ -56,7 +64,7 @@ class Content extends Component {
     })
   }
 
-  onChange = (key)=>{
+  onChange = (key) => {
     this.setState({
       curtab: key
     })

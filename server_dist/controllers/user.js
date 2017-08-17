@@ -590,7 +590,8 @@ var userController = function (_baseController) {
                                     username: user.username,
                                     add_time: user.add_time,
                                     up_time: user.up_time,
-                                    role: 'member'
+                                    role: 'member',
+                                    type: user.type
                                 });
                                 _yapi2.default.commons.sendMail({
                                     to: user.email,
@@ -730,6 +731,7 @@ var userController = function (_baseController) {
                                     username: result.username,
                                     email: result.email,
                                     role: result.role,
+                                    type: result.type,
                                     add_time: result.add_time,
                                     up_time: result.up_time
                                 }));
