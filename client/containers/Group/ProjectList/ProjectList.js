@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { message, Row, Col } from 'antd';
+import { message, Row, Col, Icon } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 // import variable from '../../../constants/variable';
@@ -180,12 +180,15 @@ class ProjectList extends Component {
     return (
       <div className="m-panel">
         <Row gutter={16}>
-          {projectData.map((item, index) => {
+          {projectData.length ? projectData.map((item, index) => {
             return (
               <Col span={8} key={index}>
                 <ProjectCard projectData={item} />
               </Col>);
-          })}
+          }) : (<div className="empty-tip">
+            <p><Icon type="frown-o" /> 该分组还没有项目呢</p>
+            <p>请点击右上角 “<Icon type="plus-circle" />” 按钮添加项目</p>
+          </div>)}
         </Row>
       </div>
     );

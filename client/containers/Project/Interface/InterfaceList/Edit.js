@@ -44,6 +44,30 @@ class InterfaceEdit extends Component{
     }    
   }
 
+  componentWillMount(){
+    let s = new WebSocket('ws://yapi.local.qunar.com:3000/api/interface/solve_conflict?id=1');
+    s.onopen = (e)=>{
+      console.log('open',e)
+      s.send('abc')
+      //s.close()
+      s.send('aaaaa')
+    }
+
+    s.onclose = (e)=>{
+      console.log('close',e)
+    }
+
+    s.onmessage = (e)=>{
+      console.log('message',e)
+    }
+
+    s.onerror = (e)=>{
+      console.log('error',e)
+    }
+
+
+  }
+
   render(){
     return <div className="interface-edit">
       <InterfaceEditForm mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.props.curdata} />

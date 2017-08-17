@@ -127,6 +127,7 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
+     * @param {String} role 成员角色，owner or dev
      * @returns {Object}
      * @example
      */
@@ -144,11 +145,13 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
         }
 
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
         var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
         if (check > 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '成员已存在');
         }
-        let groupUserdata = await this.getUserdata(params.member_uid);
+        let groupUserdata = await this.getUserdata(params.member_uid, params.role);
         if (groupUserdata === null) {
             return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
         }
