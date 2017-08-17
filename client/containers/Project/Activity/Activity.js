@@ -42,20 +42,18 @@ class Activity extends Component {
   }
   render () {
     return (
-      <div>
-        <div className="g-row">
-          <section className="news-box">
-            <div className="logHead">
-              {/*<Breadcrumb />*/}
-              <div className="Mockurl">
-                <span>Mock地址：</span>
-                <p>{this.state.mockURL}</p>
-                <Button type="primary"><a href = {`/api/project/download?project_id=${this.props.match.params.id}`}>下载Mock数据</a></Button>
-              </div>
+      <div className="g-row">
+        <section className="news-box">
+          <div className="logHead">
+            {/*<Breadcrumb />*/}
+            <div className="Mockurl">
+              <span>Mock地址：</span>
+              <p>{this.state.mockURL}</p>
+              <Button type="primary"><a href = {`/api/project/download?project_id=${this.props.match.params.id}`}>下载Mock数据</a></Button>
             </div>
-            <TimeTree typeid = {+this.props.match.params.id} />
-          </section>
-        </div>
+          </div>
+          <TimeTree typeid = {+this.props.match.params.id} />
+        </section>
       </div>
     )
   }

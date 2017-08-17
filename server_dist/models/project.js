@@ -55,6 +55,8 @@ var projectModel = function (_baseModel) {
                 project_type: { type: String, required: true, enum: ['public', 'private'] },
                 members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'] }, username: String, email: String }],
                 env: [{ name: String, domain: String }],
+                icon: String,
+                color: String,
                 add_time: Number,
                 up_time: Number
             };
@@ -99,7 +101,7 @@ var projectModel = function (_baseModel) {
         value: function list(group_id, auth) {
             var params = { group_id: group_id };
             if (!auth) params.project_type = 'public';
-            return this.model.find(params).select("_id uid name basepath desc group_id project_type env add_time up_time").sort({ _id: -1 }).exec();
+            return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
         }
     }, {
         key: 'listWithPaging',

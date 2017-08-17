@@ -219,7 +219,7 @@ class View extends Component {
       width: '45%'
     }];
 
-    return <div className="caseContainer">
+    return this.props.curData.title?<div className="caseContainer">
       <div className="colName">
         <span className="colKey">接口名：</span>
         <span className="colValue">{this.props.curData.title}</span>
@@ -271,7 +271,7 @@ class View extends Component {
         desc: "123",
         required: 0
       }])}*/}
-    </div>
+    </div>:<div className="caseContainer">接口不存在</div>;
   }
 }
 
