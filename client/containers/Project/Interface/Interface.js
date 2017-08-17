@@ -11,22 +11,18 @@ import InterfaceContent from './InterfaceList/InterfaceContent.js'
 import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
 import InterfaceColContent from './InterfaceCol/InterfaceColContent.js'
 
-class InterfaceRoute extends Component {
-  static propTypes = {
-    match: PropTypes.object
+const InterfaceRoute = (props) => {
+  let C;
+  if (props.match.params.action === 'api') {
+    C = InterfaceContent;
+  } else if (props.match.params.action === 'col') {
+    C = InterfaceColContent;
   }
-  constructor(props){
-    super(props)
-  }
-  render() {
-    let C, props = this.props;
-    if (props.match.params.action === 'api') {
-      C = InterfaceContent;
-    } else if (props.match.params.action === 'col') {
-      C = InterfaceColContent;
-    }
-    return <C />
-  }
+  return <C />
+}
+
+InterfaceRoute.propTypes = {
+  match: PropTypes.object
 }
 
 
@@ -42,7 +38,7 @@ class Interface extends Component {
     }
   }
 
-  onChange = (key)=>{
+  onChange = (key) => {
     this.setState({
       curkey: key
     })

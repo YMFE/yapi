@@ -40,19 +40,29 @@ var _router = require('./router.js');
 
 var _router2 = _interopRequireDefault(_router);
 
+var _koaWebsocket = require('koa-websocket');
+
+var _koaWebsocket2 = _interopRequireDefault(_koaWebsocket);
+
+var _websocket = require('./websocket.js');
+
+var _websocket2 = _interopRequireDefault(_websocket);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _yapi2.default.commons = _commons2.default;
 
 
 _yapi2.default.connect = _db2.default.connect();
-var app = new _koa2.default();
+var app = (0, _koaWebsocket2.default)(new _koa2.default());
 var indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
 app.use(_mockServer2.default);
 app.use((0, _koaBodyparser2.default)());
 app.use(_router2.default.routes());
 app.use(_router2.default.allowedMethods());
+
+(0, _websocket2.default)(app);
 
 app.use(function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
