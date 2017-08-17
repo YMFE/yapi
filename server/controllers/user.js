@@ -287,7 +287,8 @@ class userController extends baseController {
                 username: user.username,
                 add_time: user.add_time,
                 up_time: user.up_time,
-                role: 'member'
+                role: 'member',
+                type: user.type
             });
             yapi.commons.sendMail({
                 to: user.email,
