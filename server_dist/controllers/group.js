@@ -325,6 +325,7 @@ var groupController = function (_baseController) {
          * @foldnumber 10
          * @param {String} id 项目分组id
          * @param {String} member_uid 项目分组成员uid
+         * @param {String} role 成员角色，owner or dev
          * @returns {Object}
          * @example
          */
@@ -357,66 +358,69 @@ var groupController = function (_baseController) {
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组id不能为空'));
 
                             case 6:
-                                _context4.next = 8;
+
+                                params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+                                _context4.next = 9;
                                 return groupInst.checkMemberRepeat(params.id, params.member_uid);
 
-                            case 8:
+                            case 9:
                                 check = _context4.sent;
 
                                 if (!(check > 0)) {
-                                    _context4.next = 11;
+                                    _context4.next = 12;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '成员已存在'));
 
-                            case 11:
-                                _context4.next = 13;
-                                return this.getUserdata(params.member_uid);
+                            case 12:
+                                _context4.next = 14;
+                                return this.getUserdata(params.member_uid, params.role);
 
-                            case 13:
+                            case 14:
                                 groupUserdata = _context4.sent;
 
                                 if (!(groupUserdata === null)) {
-                                    _context4.next = 16;
+                                    _context4.next = 17;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '组长uid不存在'));
 
-                            case 16:
+                            case 17:
                                 if (!(groupUserdata._role === 'admin')) {
-                                    _context4.next = 18;
+                                    _context4.next = 19;
                                     break;
                                 }
 
                                 return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '不能邀请管理员'));
 
-                            case 18:
+                            case 19:
                                 delete groupUserdata._role;
-                                _context4.prev = 19;
-                                _context4.next = 22;
+                                _context4.prev = 20;
+                                _context4.next = 23;
                                 return groupInst.addMember(params.id, groupUserdata);
 
-                            case 22:
+                            case 23:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 29;
+                                _context4.next = 30;
                                 break;
 
-                            case 26:
-                                _context4.prev = 26;
-                                _context4.t0 = _context4['catch'](19);
+                            case 27:
+                                _context4.prev = 27;
+                                _context4.t0 = _context4['catch'](20);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 29:
+                            case 30:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[19, 26]]);
+                }, _callee4, this, [[20, 27]]);
             }));
 
             function addMember(_x5) {
