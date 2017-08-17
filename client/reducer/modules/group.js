@@ -7,6 +7,7 @@ const FETCH_GROUP_MEMBER = 'yapi/group/FETCH_GROUP_MEMBER';
 const FETCH_GROUP_MSG = 'yapi/group/FETCH_GROUP_MSG';
 const ADD_GROUP_MEMBER = 'yapi/group/ADD_GROUP_MEMBER';
 const DEL_GROUP_MEMBER = 'yapi/group/DEL_GROUP_MEMBER';
+const CHANGE_GROUP_MEMBER = 'yapi/group/CHANGE_GROUP_MEMBER';
 
 // Reducer
 const initialState = {
@@ -58,7 +59,7 @@ export function fetchGroupMsg(id) {
   }
 }
 
-// 添加项目分组成员
+// 添加分组成员
 export function addMember(param) {
   return {
     type: ADD_GROUP_MEMBER,
@@ -66,11 +67,19 @@ export function addMember(param) {
   }
 }
 
-// 删除项目分组成员
+// 删除分组成员
 export function delMember(param) {
   return {
     type: DEL_GROUP_MEMBER,
     payload: axios.post('/api/group/del_member', param)
+  }
+}
+
+// 修改分组成员权限
+export function changeMemberRole(param) {
+  return {
+    type: CHANGE_GROUP_MEMBER,
+    payload: axios.post('/api/group/change_member_role', param)
   }
 }
 
