@@ -3,6 +3,37 @@ import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
 import axios from 'axios';
 
+/**
+ * 用户名输入框自动完成组件
+ *
+ * @component UsernameAutoComplete
+ * @examplelanguage js
+ *
+ * * 用户名输入框自动完成组件
+ * * 用户名输入框自动完成组件
+ *
+ *
+ */
+
+ /**
+ * 获取自动输入的用户信息
+ *
+ * 获取子组件state
+ * @property callbackState
+ * @type function
+ * @description 类型提示：支持数组传值；也支持用函数格式化字符串：函数有两个参数(scale, index)；
+ * 受控属性：滑块滑到某一刻度时所展示的刻度文本信息。如果不需要标签，请将该属性设置为 [] 空列表来覆盖默认转换函数。
+ * @returns {object} {uid: xxx, username: xxx}
+ * @examplelanguage js
+ * @example
+ * onUserSelect(childState) {
+ *   this.setState({
+ *     uid: childState.uid,
+ *     username: childState.username
+ *   })
+ * }
+ *
+ */
 class UsernameAutoComplete extends Component {
   constructor(props) {
     super(props);
