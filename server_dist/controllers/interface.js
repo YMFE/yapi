@@ -589,6 +589,46 @@ var interfaceController = function (_baseController) {
 
             return del;
         }()
+    }, {
+        key: 'solveConflict',
+        value: function () {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+                var id;
+                return _regenerator2.default.wrap(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+                                id = parseInt(ctx.query.id, 10);
+
+                                if (id) {
+                                    _context6.next = 3;
+                                    break;
+                                }
+
+                                return _context6.abrupt('return', ctx.websocket.send("id 参数有误"));
+
+                            case 3:
+
+                                ctx.websocket.send('Hello World');
+                                ctx.websocket.on('message', function (message) {
+                                    // do something with the message from client 
+                                    console.log(message);
+                                });
+
+                            case 5:
+                            case 'end':
+                                return _context6.stop();
+                        }
+                    }
+                }, _callee6, this);
+            }));
+
+            function solveConflict(_x6) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return solveConflict;
+        }()
     }]);
     return interfaceController;
 }(_base2.default);
