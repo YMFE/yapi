@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import './interface.scss'
 
@@ -50,7 +50,7 @@ class Interface extends Component {
   }
 
   render() {
-    const { action, id } = this.props.match.params;
+    const { action } = this.props.match.params;
     return <div className="web-content g-row" style={{ marginBottom: "15px" }}>
       <Row gutter={16} >
         <Col span={6}>
@@ -70,7 +70,7 @@ class Interface extends Component {
         <Col span={18} >
           <div className="right-content">
             <Switch>
-              <Redirect exact from='/project/:id/interface/:action' to={'/project/' + id + '/interface/' + action + '/0'} />
+              <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
               <Route path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
             </Switch>
           </div>
