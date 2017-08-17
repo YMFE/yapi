@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
-// import axios from 'axios';
+import axios from 'axios';
 import URL from 'url';
 import AddColModal from './AddColModal'
 
@@ -357,6 +357,42 @@ export default class Run extends Component {
     console.log(index)
   }
 
+  saveToCol = async (colId, caseName) => {
+    const project_id = this.props.match.params.id;
+    const {
+      currDomain: domain,
+      pathname: path,
+      method,
+      pathParam: req_params,
+      query: req_query,
+      headers: req_headers,
+      bodyType: req_body_type,
+      bodyForm: req_body_form,
+      bodyOther: req_body_other
+    } = this.state;
+    const res = await axios.post('/api/col/add_case', {
+      casename: caseName,
+      col_id: colId,
+      project_id,
+      env: '',
+      domain,
+      path,
+      method,
+      req_params,
+      req_query,
+      req_headers,
+      req_body_type,
+      req_body_form,
+      req_body_other
+    });
+    if (res.data.errcode) {
+      message.error(res.data.errmsg)
+    } else {
+      message.success('添加成功')
+      this.setState({addColModalVisible: false})
+    }
+  }
+
   render () {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
@@ -409,7 +445,7 @@ export default class Run extends Component {
                 loading={this.state.loading}
               >发送</Button>
             </Tooltip>
-            <Tooltip placement="bottom" title="添加到集合">
+            <Tooltip placement="bottom" title="保存到集合">
               <Button
                 onClick={() => this.setState({addColModalVisible: true})}
                 type="primary"
@@ -550,7 +586,7 @@ export default class Run extends Component {
         <AddColModal
           visible={this.state.addColModalVisible}
           onCancel={() => this.setState({addColModalVisible: false})}
-          onOk={null}
+          onOk={this.saveToCol}
         ></AddColModal>
       </div>
     )
