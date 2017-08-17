@@ -2,3 +2,24 @@
 .form-item {
   margin-bottom: .16rem;
 }
+.breakline {
+  margin-top: .18rem;
+  margin-bottom: .18rem;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+.card-danger {
+  border-color: #ff561b;
+  border-radius: 4px;
+  .ant-card-body {
+    display: flex;
+    align-items: center;
+  }
+  .card-danger-content {
+    flex: 1;
+  }
+  .card-danger-btn {
+    flex-grow: 0;
+    flex-shrink: 1;
+  }
+}

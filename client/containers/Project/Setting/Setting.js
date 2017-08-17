@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card } from 'antd';
 import PropTypes from 'prop-types';
-import { updateProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from '../../../reducer/modules/project';
+import { updateProject, delProject, getProjectMsg } from '../../../reducer/modules/project';
+import { fetchGroupMsg } from '../../../reducer/modules/group';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
+import './Setting.scss';
 
 // layout
 const formItemLayout = {
@@ -21,29 +23,20 @@ const formItemLayout = {
   },
   className: 'form-item'
 };
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 6 }
-  }
-};
-let uuid = 0;
+let uuid = 0; // 环境配置的计数
 
 @connect(
   state => {
     return {
       projectList: state.project.projectList,
-      handleUpdateIndex: state.project.handleUpdateIndex,
-      tableLoading: state.project.tableLoading,
-      currGroup: state.group.currGroup
+      projectMsg: state.project.projectMsg
     }
   },
   {
-    fetchProjectList,
     updateProject,
     delProject,
-    changeUpdateModal,
-    changeTableLoading
+    getProjectMsg,
+    fetchGroupMsg
   }
 )
 class Setting extends Component {
@@ -51,41 +44,36 @@ class Setting extends Component {
     super(props);
     this.state = {
       protocol: 'http:\/\/',
-      envProtocolChange: 'http:\/\/'
+      envProtocolChange: 'http:\/\/',
+      projectMsg: {}
     }
   }
   static propTypes = {
+    match: PropTypes.object,
     form: PropTypes.object,
-    fetchProjectList: PropTypes.func,
     updateProject: PropTypes.func,
     delProject: PropTypes.func,
-    changeUpdateModal: PropTypes.func,
-    changeTableLoading: PropTypes.func,
+    getProjectMsg: PropTypes.func,
+    fetchGroupMsg: PropTypes.func,
     projectList: PropTypes.array,
-    currGroup: PropTypes.object,
-    handleUpdateIndex: PropTypes.number
+    projectMsg: PropTypes.object
   }
 
   // 修改线上域名的协议类型 (http/https)
   protocolChange = (value) => {
     this.setState({
-      protocol: value
+      protocol: value,
+      currGroup: ''
     })
-  }
-
-  handleCancel = () => {
-    this.props.form.resetFields();
-    this.props.changeUpdateModal(false, -1);
   }
 
   // 确认修改
   handleOk = (e) => {
     e.preventDefault();
-    const { form, updateProject, changeUpdateModal, currGroup, projectList, handleUpdateIndex, fetchProjectList, changeTableLoading } = this.props;
+    const { form, updateProject, projectMsg } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
-        // console.log(projectList[handleUpdateIndex]);
-        let assignValue = Object.assign(projectList[handleUpdateIndex], values);
+        let assignValue = Object.assign(projectMsg, values);
         values.protocol = this.state.protocol.split(':')[0];
         assignValue.env = assignValue.envs.map((item, index) => {
           return {
@@ -95,20 +83,14 @@ class Setting extends Component {
         });
         // console.log(assignValue);
 
-        changeTableLoading(true);
         updateProject(assignValue).then((res) => {
+          console.log(res);
           if (res.payload.data.errcode == 0) {
-            changeUpdateModal(false, -1);
             message.success('修改成功! ');
-            fetchProjectList(currGroup._id).then(() => {
-              changeTableLoading(false);
-            });
           } else {
-            changeTableLoading(false);
             message.error(res.payload.data.errmsg);
           }
         }).catch(() => {
-          changeTableLoading(false);
         });
         form.resetFields();
       }
@@ -148,29 +130,38 @@ class Setting extends Component {
     });
   }
 
+  handleDelete = () => {
+    console.log(this.props); // 出问题了
+    this.props.delProject(this.props.match.params.id).then((res) => {
+      if (res.payload.data.errcode == 0) {
+        message.success('删除成功!');
+      }
+    });
+  }
+
+  async componentWillMount() {
+    await this.props.getProjectMsg(this.props.match.params.id);
+    const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
+    this.setState({
+      currGroup: groupMsg.payload.data.data.group_name
+    })
+  }
+
   render () {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     // const that = this;
-    const { projectList, handleUpdateIndex } = this.props;
-    console.log(this.props);
+    const { projectMsg } = this.props;
     let initFormValues = {};
     let envMessage = [];
-    // 如果列表存在且用户点击修改按钮时，设置表单默认值
-    if (projectList.length !== 0 && handleUpdateIndex !== -1) {
-      // console.log(projectList[handleUpdateIndex]);
-      const { name, basepath, desc, env } = projectList[handleUpdateIndex];
-      initFormValues = { name, basepath, desc, env };
-      if (env.length !== 0) {
-        envMessage = env;
-      }
-      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '\:\/\/';
-
+    const { name, basepath, desc, env } = projectMsg;
+    initFormValues = { name, basepath, desc, env };
+    if (env && env.length !== 0) {
+      envMessage = env;
     }
 
     getFieldDecorator('envs', { initialValue: envMessage });
     const envs = getFieldValue('envs');
-    const formItems = envs.map((k, index) => {
+    const envSettingItems = envs.map((k, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
@@ -286,27 +277,9 @@ class Setting extends Component {
 
           <FormItem
             {...formItemLayout}
-            label={(
-              <span>
-                线上域名&nbsp;
-                <Tooltip title="将根据配置的线上域名访问mock数据">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
+            label="所属分组"
           >
-            {getFieldDecorator('prd_host', {
-              initialValue: initFormValues.prd_host,
-              rules: [{
-                required: true, message: '请输入项目线上域名!'
-              }]
-            })(
-              <Input addonBefore={(
-                <Select defaultValue={initFormValues.prd_protocol} onChange={this.protocolChange}>
-                  <Option value="http://">{'http:\/\/'}</Option>
-                  <Option value="https://">{'https:\/\/'}</Option>
-                </Select>)} />
-              )}
+            <Input value={this.state.currGroup} disabled={true} />
           </FormItem>
 
           <FormItem
@@ -344,13 +317,41 @@ class Setting extends Component {
               )}
           </FormItem>
 
-          {formItems}
-          <FormItem {...formItemLayoutWithOutLabel}>
+          <FormItem
+            {...formItemLayout}
+            label="所属分组"
+          >
+            {envSettingItems}
+          </FormItem>
+
+          <FormItem {...formItemLayout}>
             <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
               <Icon type="plus" /> 添加环境配置
             </Button>
           </FormItem>
         </Form>
+        <Row>
+          <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
+            <Button className="m-btn" icon="plus" type="primary"
+              onClick={this.handleOk}
+              >修改项目</Button>
+          </Col>
+        </Row>
+
+        <hr className="breakline" />
+
+        <FormItem
+          {...formItemLayout}
+          label="危险操作"
+        >
+          <Card noHovering={true} className="card-danger">
+            <div className="card-danger-content">
+              <h3>删除项目</h3>
+              <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
+            </div>
+            <Button type="danger" ghost className="card-danger-btn" onClick={this.handleDelete}>删除</Button>
+          </Card>
+        </FormItem>
       </div>
     )
   }
