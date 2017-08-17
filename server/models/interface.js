@@ -54,7 +54,7 @@ class interfaceModel extends baseModel {
                 enum: ['json', 'text', 'xml']
             },
             res_body: String
-        };
+        };  
     }
 
     save(data) {
@@ -123,7 +123,15 @@ class interfaceModel extends baseModel {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id
-        }, data, { runValidators: true });
+        }, data, {runValidators: true });
+    }
+
+    upEditUid(id, uid){
+        return this.model.update({
+            _id: id
+        }, 
+        {edit_uid: uid},
+        {runValidators: true });
     }
 }
 
