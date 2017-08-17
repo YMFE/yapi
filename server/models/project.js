@@ -20,6 +20,8 @@ class projectModel extends baseModel {
             env: [
                 { name: String, domain: String }
             ],
+            icon: String,
+            color: String,
             add_time: Number,
             up_time: Number
         };
@@ -58,7 +60,7 @@ class projectModel extends baseModel {
     list(group_id, auth) {
         let params = {group_id: group_id}
         if(!auth) params.project_type = 'public';
-        return this.model.find(params).select("_id uid name basepath desc group_id project_type env add_time up_time").sort({ _id: -1 }).exec();
+        return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
     }
 
     listWithPaging(group_id, page, limit) {

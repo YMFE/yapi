@@ -1,5 +1,9 @@
 'use strict';
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -39,6 +43,10 @@ var _base2 = _interopRequireDefault(_base);
 var _yapi = require('../yapi.js');
 
 var _yapi2 = _interopRequireDefault(_yapi);
+
+var _user = require('../models/user.js');
+
+var _user2 = _interopRequireDefault(_user);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -593,34 +601,77 @@ var interfaceController = function (_baseController) {
         key: 'solveConflict',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var id;
+                var _this2 = this;
+
+                var id, result, userInst, userinfo, data;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
-                                id = parseInt(ctx.query.id, 10);
+                                _context6.prev = 0;
+                                id = parseInt(ctx.query.id, 10), result = void 0, userInst = void 0, userinfo = void 0, data = void 0;
 
                                 if (id) {
-                                    _context6.next = 3;
+                                    _context6.next = 4;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.websocket.send("id 参数有误"));
 
-                            case 3:
+                            case 4:
+                                _context6.next = 6;
+                                return this.Model.get(id);
 
-                                ctx.websocket.send('Hello World');
-                                ctx.websocket.on('message', function (message) {
-                                    // do something with the message from client 
-                                    console.log(message);
+                            case 6:
+                                result = _context6.sent;
+                                userinfo;
+
+                                if (!(result.edit_uid !== 0 && result.edit_uid !== this.getUid())) {
+                                    _context6.next = 16;
+                                    break;
+                                }
+
+                                userInst = _yapi2.default.getInst(_user2.default);
+                                _context6.next = 12;
+                                return userInst.findById(result.edit_uid);
+
+                            case 12:
+                                userinfo = _context6.sent;
+
+                                data = {
+                                    errno: result.edit_uid,
+                                    data: { uid: result.edit_uid, username: userinfo.username }
+                                };
+                                _context6.next = 18;
+                                break;
+
+                            case 16:
+                                this.Model.upEditUid(id, this.getUid()).then();
+                                data = {
+                                    errno: 0,
+                                    data: result
+                                };
+
+                            case 18:
+                                ctx.websocket.send((0, _stringify2.default)(data));
+                                ctx.websocket.on('close', function () {
+                                    _this2.Model.upEditUid(id, 0).then();
                                 });
+                                _context6.next = 25;
+                                break;
 
-                            case 5:
+                            case 22:
+                                _context6.prev = 22;
+                                _context6.t0 = _context6['catch'](0);
+
+                                _yapi2.default.commons.log(_context6.t0, 'error');
+
+                            case 25:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this);
+                }, _callee6, this, [[0, 22]]);
             }));
 
             function solveConflict(_x6) {

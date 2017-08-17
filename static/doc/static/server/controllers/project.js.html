@@ -84,7 +84,9 @@ class projectController extends baseController {
             name: 'string',
             basepath: 'string',
             group_id: 'number',
-            desc: 'string'
+            desc: 'string',
+            color: 'string',
+            icon: 'string'
         });
 
         if (await this.checkAuth(params.group_id, 'group', 'edit') !== true) {
@@ -119,6 +121,8 @@ class projectController extends baseController {
             project_type: params.project_type || 'private',
             uid: this.getUid(),
             group_id: params.group_id,
+            icon: params.icon,
+            color: params.color,
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
         };
@@ -126,12 +130,14 @@ class projectController extends baseController {
         try {
             let result = await this.Model.save(data);
             let username = this.getUsername();
-            await this.logModel.save({
+            yapi.commons.saveLog({
                 content: `用户${username}添加了项目${params.name}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.group_id
+                typeid: params.group_id,
+                color: params.color,
+                icon: params.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -140,7 +146,7 @@ class projectController extends baseController {
 
     }
     /**
-    * 添加项目
+    * 添加项目成员
     * @interface /project/add_member
     * @method POST
     * @category project
@@ -168,7 +174,9 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
 
-        let userdata = await this.getUserdata(params.member_uid);
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+        let userdata = await this.getUserdata(params.member_uid, params.role);
         if(userdata === null){
             return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
         }
@@ -177,12 +185,15 @@ class projectController extends baseController {
         try {
             let result = await this.Model.addMember(params.id, userdata);
             let username = this.getUsername();
-            await this.logModel.save({
+            let project = await this.Model.get(params.id);
+            yapi.commons.saveLog({
                 content: `用户${username}添加了项目成员${userdata.username}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.id
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -191,7 +202,7 @@ class projectController extends baseController {
 
     }
     /**
-    * 添加项目
+    * 删除项目成员
     * @interface /project/del_member
     * @method POST
     * @category project
@@ -223,17 +234,16 @@ class projectController extends baseController {
             let result = await this.Model.delMember(params.id, params.member_uid);
             let username = this.getUsername();
             let project = await this.Model.get(params.id);
-            for(let i in project.members){
-                if(i.uid === params.member_uid){
-                    await this.logModel.save({
-                        content: `用户${username}删除了项目${project.name}中的成员${i.username}`,
-                        type: 'project',
-                        uid: this.getUid(),
-                        username: username,
-                        typeid: params.id
-                    });
-                }
-            }
+            let member =  await yapi.getInst(userModel).findById(params.member_uid);
+            yapi.commons.saveLog({
+                content: `用户${username}删除了项目${project.name}中的成员${member.username}`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -282,7 +292,7 @@ class projectController extends baseController {
     }
 
     /**
-    * 添加项目
+    * 获取项目信息
     * @interface /project/get
     * @method GET
     * @category project
@@ -365,15 +375,18 @@ class projectController extends baseController {
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
-            let interfaceInst = yapi.getInst(interfaceModel);
-            let count = await interfaceInst.countByProjectId(id);
-            if (count > 0) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '请先删除该项目下所有接口');
-            }
 
             if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
+
+            let interfaceInst = yapi.getInst(interfaceModel);
+            let interfaceColInst = yapi.getInst(interfaceColModel);
+            let interfaceCaseInst = yapi.getInst(interfaceCaseModel);
+            await interfaceInst.delByProjectId(id)
+            await interfaceCaseInst.delByProjectId(id)
+            await interfaceColInst.delByProjectId(id)
+
             let result = await this.Model.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
@@ -405,18 +418,16 @@ class projectController extends baseController {
 
             let username = this.getUsername();
             let project = await this.Model.get(params.id);
-            for(let i in project.members){
-                if(i.uid === params.member_uid){
-                    await this.logModel.save({
-                        content: `用户${username}修改了项目${project.name}中成员${i.username}的角色为${params.role}`,
-                        type: 'project',
-                        uid: this.getUid(),
-                        username: username,
-                        typeid: params.id
-                    });
-                }
-            }
-
+            let member = await yapi.getInst(userModel).findByUids(params.member_uid);
+            yapi.commons.saveLog({
+                content: `用户${username}修改了项目${project.name}中成员${member.username}的角色为${params.role}`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -449,7 +460,9 @@ class projectController extends baseController {
                 name: 'string',
                 basepath: 'string',
                 group_id: 'number',
-                desc: 'string'
+                desc: 'string',
+                icon: 'string',
+                color: 'string'
             });
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
@@ -486,18 +499,20 @@ class projectController extends baseController {
                 data.basepath = params.basepath;
             }
             if (params.env) data.env = params.env;
-
+            if(params.color) data.color = params.color;
+            if(params.icon) data.icon = params.icon;
             let result = await this.Model.up(id, data);
 
             let username = this.getUsername();
-            await this.logModel.save({
-                content: `用户${username}更新了项目${params.name}`,
+            yapi.commons.saveLog({
+                content: `用户${username}更新了项目${projectData.name}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: id
+                typeid: id,
+                icon: params.icon,
+                color: params.color
             });
-
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
