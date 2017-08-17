@@ -6,7 +6,7 @@ import { Subnav } from '../../components/index'
 import { getProject } from  '../../reducer/modules/project';
 import Interface from './Interface/Interface.js'
 import Activity from './Activity/Activity.js'
-import { Setting } from './Setting/Setting.js'
+import Setting from './Setting/Setting.js'
 
 
 @connect(
