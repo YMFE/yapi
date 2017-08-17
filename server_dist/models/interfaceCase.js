@@ -58,6 +58,9 @@ var interfaceCase = function (_baseModel) {
                 domain: { type: String },
                 path: { type: String },
                 method: { type: String },
+                req_params: [{
+                    name: String, value: String
+                }],
                 req_query: [{
                     name: String, value: String
                 }],

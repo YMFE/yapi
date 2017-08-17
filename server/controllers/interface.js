@@ -304,6 +304,17 @@ class interfaceController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
+
+    async solveConflict(ctx) {
+        let id = parseInt(ctx.query.id, 10);
+        if(!id) return ctx.websocket.send("id 参数有误");
+
+        ctx.websocket.send('Hello World');
+        ctx.websocket.on('message', function (message) {
+            // do something with the message from client 
+            console.log(message);
+        });
+    }
 }
 
 module.exports = interfaceController;
