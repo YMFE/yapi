@@ -1,7 +1,7 @@
 import interfaceModel from '../models/interface.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
-
+import userModel from '../models/user.js';
 
 class interfaceController extends baseController {
     constructor(ctx) {
@@ -306,18 +306,31 @@ class interfaceController extends baseController {
     }
 
     async solveConflict(ctx) {
-        let id = parseInt(ctx.query.id, 10);
-        if(!id) return ctx.websocket.send("id 参数有误");
-
-        ctx.websocket.send('Hello World');
-        ctx.websocket.on('message', function (message) {
-            // do something with the message from client 
-            console.log(message);
-        });
-
-        ctx.websocket.on('close', function(){
-            console.log('websocket: close')
-        })
+        try {
+            let id = parseInt(ctx.query.id, 10), result, userInst, userinfo, data;
+            if (!id) return ctx.websocket.send("id 参数有误");
+            result = await this.Model.get(id), userinfo;         
+            if(result.edit_uid !== 0 && result.edit_uid !== this.getUid()){
+                userInst = yapi.getInst(userModel);
+                userinfo = await userInst.findById(result.edit_uid);
+                data = {
+                    errno: result.edit_uid,
+                    data: {uid: result.edit_uid, username: userinfo.username}
+                }
+            }else{
+                this.Model.upEditUid(id, this.getUid() ).then()
+                data = {
+                    errno: 0,
+                    data: result
+                }
+            }
+            ctx.websocket.send(JSON.stringify(data));  
+            ctx.websocket.on('close', ()=> {  
+                this.Model.upEditUid(id, 0).then()
+            })
+        } catch (err) {
+            yapi.commons.log(err, 'error')
+        }
     }
 }
 
