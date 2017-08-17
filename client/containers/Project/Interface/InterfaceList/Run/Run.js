@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import { withRouter } from 'react-router';
 // import axios from 'axios';
 import URL from 'url';
+import AddColModal from './AddColModal'
 
 // import {
 // } from '../../../reducer/modules/group.js'
@@ -47,7 +48,8 @@ export default class Run extends Component {
     headers: [],
     currDomain: '',
     bodyType: '',
-    bodyOther: ''
+    bodyOther: '',
+    addColModalVisible: false
   }
 
   constructor(props) {
@@ -399,17 +401,21 @@ export default class Run extends Component {
               </Select>
               <Input value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
             </InputGroup>
-            <Button
-              onClick={this.reqRealInterface}
-              type="primary"
-              style={{marginLeft: 10}}
-              loading={this.state.loading}
-            >发送</Button>
-            <Button
-              onClick={this.reqRealInterface}
-              type="primary"
-              style={{marginLeft: 10}}
-            >保存</Button>
+            <Tooltip placement="bottom" title="请求真实接口">
+              <Button
+                onClick={this.reqRealInterface}
+                type="primary"
+                style={{marginLeft: 10}}
+                loading={this.state.loading}
+              >发送</Button>
+            </Tooltip>
+            <Tooltip placement="bottom" title="添加到集合">
+              <Button
+                onClick={() => this.setState({addColModalVisible: true})}
+                type="primary"
+                style={{marginLeft: 10}}
+              >保存</Button>
+            </Tooltip>
           </div>
 
           <Collapse defaultActiveKey={['0', '1', '2', '3']} bordered={true}>
@@ -541,6 +547,11 @@ export default class Run extends Component {
             </div>
           </Spin>
         </Card>
+        <AddColModal
+          visible={this.state.addColModalVisible}
+          onCancel={() => this.setState({addColModalVisible: false})}
+          onOk={null}
+        ></AddColModal>
       </div>
     )
   }
