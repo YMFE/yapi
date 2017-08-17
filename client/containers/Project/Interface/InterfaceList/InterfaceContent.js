@@ -4,9 +4,11 @@ import PropTypes from 'prop-types'
 import { Tabs } from 'antd';
 import Edit from './Edit.js'
 import View from './View.js'
-import Run from './Run.js'
+
 import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
+import Run from './Run/Run.js'
+
 
 const TabPane = Tabs.TabPane;
 @connect(
@@ -87,6 +89,5 @@ class Content extends Component {
     </div>
   }
 }
-
 
 export default withRouter(Content)
