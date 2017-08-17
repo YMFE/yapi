@@ -56,6 +56,8 @@ export default class InterfaceColMenu extends Component {
       });
       message.success('添加集合成功');
       await this.props.fetchInterfaceColList(project_id);
+    } else {
+      message.error(res.data.errmsg);
     }
   }
 
@@ -90,7 +92,7 @@ export default class InterfaceColMenu extends Component {
                 onTitleClick={(key, e) => this.selectCol(key, e, col)}
               >
                 {
-                  col.interfaceCaseList && col.interfaceCaseList.map((interfaceCase, index) => (
+                  col.caseList && col.caseList.map((interfaceCase, index) => (
                     <Menu.Item key={index}>{interfaceCase.name}</Menu.Item>
                   ))
                 }

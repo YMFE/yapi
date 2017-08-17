@@ -2,7 +2,7 @@ import React from 'react'
 import { Tabs } from 'antd';
 import Edit from './Edit.js'
 import View from './View.js'
-import Run from './Run.js'
+import Run from './Run/Run.js'
 
 const TabPane = Tabs.TabPane;
 
