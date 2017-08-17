@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Timeline, Spin } from 'antd'
+import { Timeline, Spin, Avatar } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { formatTime } from '../../../../common.js';
@@ -58,7 +58,8 @@ function timeago(timestamp) {
   state => {
     return {
       newsData: state.news.newsData,
-      curpage: state.news.curpage
+      curpage: state.news.curpage,
+      curUid: state.user.uid
     }
   },
   {
@@ -75,7 +76,8 @@ class TimeTree extends Component {
     setLoading: PropTypes.func,
     loading: PropTypes.bool,
     curpage: PropTypes.number,
-    typeid: PropTypes.number
+    typeid: PropTypes.number,
+    curUid: PropTypes.number
   }
 
   constructor(props) {
@@ -109,8 +111,9 @@ class TimeTree extends Component {
   render() {
     let data = this.props.newsData ? this.props.newsData.list : [];
     if (data && data.length) {
+
       data = data.map(function (item, i) {
-        return (<Timeline.Item key={i}>
+        return (<Timeline.Item dot={<Avatar src={`/api/user/avatar?uid=${item.uid}`} />} key={i}>
           <span className="logoTimeago">{timeago(item.add_time)}</span>
           <span className="logusername"><Link to={`/user/profile/${item.uid}`}>{item.username}</Link></span>
           <span className="logtype">{item.type}</span>
