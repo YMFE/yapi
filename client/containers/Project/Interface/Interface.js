@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import './interface.scss'
 
@@ -69,7 +69,10 @@ class Interface extends Component {
         </Col>
         <Col span={18} >
           <div className="right-content">
-            <Route path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
+            <Switch>
+              <Redirect exact from='/project/:id/interface/:action' to={'/project/' + id + '/interface/' + action + '/0'} />
+              <Route path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
+            </Switch>
           </div>
         </Col>
       </Row>

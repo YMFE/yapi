@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
     case UPDATE_INTERFACE_DATA:
       return {
         ...state,
-        curdata: action.updata
+        curdata: Object.assign({}, state.curdata, action.updata)
       }
     case DELETE_INTERFACE_DATA:
       return (() => {
