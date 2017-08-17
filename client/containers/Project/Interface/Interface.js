@@ -10,6 +10,7 @@ import InterfaceContent from './InterfaceList/InterfaceContent.js'
 
 import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
 import InterfaceColContent from './InterfaceCol/InterfaceColContent.js'
+import InterfaceCaseContent from './InterfaceCol/InterfaceCaseContent.js'
 
 const InterfaceRoute = (props) => {
   let C;
@@ -17,6 +18,8 @@ const InterfaceRoute = (props) => {
     C = InterfaceContent;
   } else if (props.match.params.action === 'col') {
     C = InterfaceColContent;
+  } else if (props.match.params.action === 'case') {
+    C = InterfaceCaseContent;
   }
   return <C />
 }
@@ -28,7 +31,8 @@ InterfaceRoute.propTypes = {
 
 class Interface extends Component {
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    history: PropTypes.object
   }
 
   constructor(props) {
@@ -36,20 +40,28 @@ class Interface extends Component {
     this.state = {
       curkey: this.props.match.params.action
     }
+    console.log(this.props)
   }
 
-  onChange = (key) => {
-    this.setState({
-      curkey: key
-    })
+  // componentWillReceiveProps(nextProps) {
+  //
+  // }
+
+  onChange = (action) => {
+    // this.setState({
+    //   curkey: key
+    // })
+    let params = this.props.match.params;
+    this.props.history.push('/project/'+params.id + '/interface/' + action)
   }
 
   render() {
+    const action = this.props.match.params.action;
     return <div className="web-content g-row" style={{ marginBottom: "15px" }}>
       <Row gutter={16} >
         <Col span={6}>
           <div className="left-menu">
-            <Tabs type="card" activeKey={this.state.curkey} onChange={this.onChange}>
+            <Tabs type="card" activeKey={action} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
                 <InterfaceMenu projectId={this.props.match.params.id} />
               </Tabs.TabPane>
