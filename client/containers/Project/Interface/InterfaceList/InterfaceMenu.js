@@ -58,7 +58,7 @@ class InterfaceMenu extends Component {
       delIcon: null,
       filter: ''
     }
-    
+
   }
 
   async handleRequest() {
@@ -72,7 +72,11 @@ class InterfaceMenu extends Component {
   componentWillMount() {
     this.handleRequest()
   }
-  
+
+  // componentWillReceiveProps() {
+  //   this.handleRequest()
+  // }
+
   handleAddInterface = (data) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {

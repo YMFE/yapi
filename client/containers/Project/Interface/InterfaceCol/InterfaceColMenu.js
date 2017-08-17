@@ -10,6 +10,8 @@ import { Input, Icon, Tag, Modal, Row, Col, message, Tooltip, Tree } from 'antd'
 const TextArea = Input.TextArea;
 const TreeNode = Tree.TreeNode;
 
+import './InterfaceColMenu.scss'
+
 @connect(
   state => {
     return {
@@ -28,7 +30,8 @@ export default class InterfaceColMenu extends Component {
     match: PropTypes.object,
     interfaceColList: PropTypes.array,
     fetchInterfaceColList: PropTypes.func,
-    fetchInterfaceCaseList: PropTypes.func
+    fetchInterfaceCaseList: PropTypes.func,
+    history: PropTypes.object
   }
 
   state = {
@@ -41,9 +44,21 @@ export default class InterfaceColMenu extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.fetchInterfaceColList(this.props.match.params.id)
+  async componentWillMount() {
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
+    let params = this.props.match.params;
+    if(!params.actionId){
+      this.props.history.push('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
+    }
   }
+
+  // async componentWillReceiveProps(nextProps) {
+  //   const result = await nextProps.fetchInterfaceColList(nextProps.match.params.id)
+  //   let params = nextProps.match.params;
+  //   if(!params.actionId){
+  //     nextProps.history.replace('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
+  //   }
+  // }
 
   @autobind
   async addCol() {
@@ -78,6 +93,7 @@ export default class InterfaceColMenu extends Component {
           </Tooltip>
         </div>
         <Tree
+          className="col-list-tree"
           defaultExpandedKeys={['0-0-0', '0-0-1']}
           defaultSelectedKeys={['0-0-0', '0-0-1']}
           onSelect={this.onSelect}
@@ -91,6 +107,7 @@ export default class InterfaceColMenu extends Component {
                 {
                   col.caseList && col.caseList.map((interfaceCase) => (
                     <TreeNode
+                      style={{width: '100%'}}
                       key={interfaceCase._id}
                       title={interfaceCase.casename}
                     ></TreeNode>
