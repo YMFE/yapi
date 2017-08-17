@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col } from 'antd';
 import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
-// import variable from '../../../constants/variable';
+import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import { autobind } from 'core-decorators';
 
 import './ProjectList.scss'
@@ -110,10 +110,7 @@ class ProjectList extends Component {
               <Col span={8} key={index}>
                 <ProjectCard projectData={item} />
               </Col>);
-          }) : (<div className="empty-tip">
-            <p><Icon type="frown-o" /> 该分组还没有项目呢</p>
-            <p>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</p>
-          </div>)}
+          }) : <ErrMsg type="noProject"/>}
         </Row>
       </div>
     );
