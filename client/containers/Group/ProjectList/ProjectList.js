@@ -26,52 +26,6 @@ import './ProjectList.scss'
 //   return handle;
 // };
 
-// const getColumns = (data, props) => {
-//   const { changeUpdateModal, userInfo } = props;
-//   return [{
-//     title: '项目名称',
-//     dataIndex: 'name',
-//     key: 'name',
-//     render: (text, record) => {
-//       return <Link to={`/project/${record._id}`}>{text}</Link>
-//     }
-//   },{
-//     title: 'Mock基本URL',
-//     key: 'domain',
-//     render: (item) => {
-//       return 'http://'+ item.prd_host + item.basepath;
-//     }
-//
-//   }, {
-//     title: '创建人',
-//     dataIndex: 'owner',
-//     key: 'owner',
-//     render: (text, record, index) => {
-//       // data是projectList的列表值
-//       // 根据序号找到对应项的uid，根据uid获取对应项目的创建人
-//       return <span>{userInfo[data[index].uid] ? userInfo[data[index].uid].username : ''}</span>;
-//     }
-//   }, {
-//     title: '创建时间',
-//     dataIndex: 'add_time',
-//     key: 'add_time',
-//     render: time => <span>{common.formatTime(time)}</span>
-//   }, {
-//     title: '操作',
-//     key: 'action',
-//     render: (text, record, index) => {
-//       const id = record._id;
-//       return (
-//         <span>
-//           <a onClick={() => changeUpdateModal(true, index)}>修改</a>
-//           <span className="ant-divider" />
-//           <Popconfirm title="你确定要删除项目吗?" onConfirm={deleteConfirm(id, props)} okText="确定" cancelText="取消">
-//             <a href="#">删除</a>
-//           </Popconfirm>
-//         </span>
-//       )}
-//   }];
-// }
 
 @connect(
   state => {
@@ -187,7 +141,7 @@ class ProjectList extends Component {
               </Col>);
           }) : (<div className="empty-tip">
             <p><Icon type="frown-o" /> 该分组还没有项目呢</p>
-            <p>请点击右上角 “<Icon type="plus-circle" />” 按钮添加项目</p>
+            <p>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</p>
           </div>)}
         </Row>
       </div>
