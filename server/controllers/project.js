@@ -57,7 +57,9 @@ class projectController extends baseController {
             name: 'string',
             basepath: 'string',
             group_id: 'number',
-            desc: 'string'
+            desc: 'string',
+            color: 'string',
+            icon: 'string'
         });
 
         if (await this.checkAuth(params.group_id, 'group', 'edit') !== true) {
@@ -92,6 +94,8 @@ class projectController extends baseController {
             project_type: params.project_type || 'private',
             uid: this.getUid(),
             group_id: params.group_id,
+            icon: params.icon,
+            color: params.color,
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
         };
@@ -104,7 +108,9 @@ class projectController extends baseController {
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.group_id
+                typeid: params.group_id,
+                color: params.color,
+                icon: params.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -150,12 +156,15 @@ class projectController extends baseController {
         try {
             let result = await this.Model.addMember(params.id, userdata);
             let username = this.getUsername();
+            let project = await this.Model.get(params.id);
             yapi.commons.saveLog({
                 content: `用户${username}添加了项目成员${userdata.username}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.id
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -202,7 +211,9 @@ class projectController extends baseController {
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.id
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -384,7 +395,9 @@ class projectController extends baseController {
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.id
+                typeid: params.id,
+                color: project.color,
+                icon: project.icon
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -418,7 +431,9 @@ class projectController extends baseController {
                 name: 'string',
                 basepath: 'string',
                 group_id: 'number',
-                desc: 'string'
+                desc: 'string',
+                icon: 'string',
+                color: 'string'
             });
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
@@ -455,7 +470,8 @@ class projectController extends baseController {
                 data.basepath = params.basepath;
             }
             if (params.env) data.env = params.env;
-
+            if(params.color) data.color = params.color;
+            if(params.icon) data.icon = params.icon;
             let result = await this.Model.up(id, data);
 
             let username = this.getUsername();
@@ -464,7 +480,9 @@ class projectController extends baseController {
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: id
+                typeid: id,
+                icon: params.icon,
+                color: params.color
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {

@@ -138,7 +138,9 @@ var projectController = function (_baseController) {
                                     name: 'string',
                                     basepath: 'string',
                                     group_id: 'number',
-                                    desc: 'string'
+                                    desc: 'string',
+                                    color: 'string',
+                                    icon: 'string'
                                 });
 
                                 _context.next = 4;
@@ -204,6 +206,8 @@ var projectController = function (_baseController) {
                                     project_type: params.project_type || 'private',
                                     uid: this.getUid(),
                                     group_id: params.group_id,
+                                    icon: params.icon,
+                                    color: params.color,
                                     add_time: _yapi2.default.commons.time(),
                                     up_time: _yapi2.default.commons.time()
                                 };
@@ -220,7 +224,9 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.group_id
+                                    typeid: params.group_id,
+                                    color: params.color,
+                                    icon: params.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context.next = 32;
@@ -262,7 +268,7 @@ var projectController = function (_baseController) {
         key: 'addMember',
         value: function () {
             var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
-                var params, check, userdata, result, username;
+                var params, check, userdata, result, username, project;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -334,30 +340,37 @@ var projectController = function (_baseController) {
                             case 23:
                                 result = _context2.sent;
                                 username = this.getUsername();
+                                _context2.next = 27;
+                                return this.Model.get(params.id);
+
+                            case 27:
+                                project = _context2.sent;
 
                                 _yapi2.default.commons.saveLog({
                                     content: '\u7528\u6237' + username + '\u6DFB\u52A0\u4E86\u9879\u76EE\u6210\u5458' + userdata.username,
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.id
+                                    typeid: params.id,
+                                    color: project.color,
+                                    icon: project.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context2.next = 32;
+                                _context2.next = 35;
                                 break;
 
-                            case 29:
-                                _context2.prev = 29;
+                            case 32:
+                                _context2.prev = 32;
                                 _context2.t1 = _context2['catch'](20);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t1.message);
 
-                            case 32:
+                            case 35:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[20, 29]]);
+                }, _callee2, this, [[20, 32]]);
             }));
 
             function addMember(_x2) {
@@ -456,7 +469,9 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.id
+                                    typeid: params.id,
+                                    color: project.color,
+                                    icon: project.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context3.next = 33;
@@ -920,7 +935,9 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.id
+                                    typeid: params.id,
+                                    color: project.color,
+                                    icon: project.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context9.next = 35;
@@ -983,7 +1000,9 @@ var projectController = function (_baseController) {
                                     name: 'string',
                                     basepath: 'string',
                                     group_id: 'number',
-                                    desc: 'string'
+                                    desc: 'string',
+                                    icon: 'string',
+                                    color: 'string'
                                 });
 
                                 if (_id2) {
@@ -1057,11 +1076,12 @@ var projectController = function (_baseController) {
                                     data.basepath = params.basepath;
                                 }
                                 if (params.env) data.env = params.env;
-
-                                _context10.next = 31;
+                                if (params.color) data.color = params.color;
+                                if (params.icon) data.icon = params.icon;
+                                _context10.next = 33;
                                 return this.Model.up(_id2, data);
 
-                            case 31:
+                            case 33:
                                 result = _context10.sent;
                                 username = this.getUsername();
 
@@ -1070,24 +1090,26 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: _id2
+                                    typeid: _id2,
+                                    icon: params.icon,
+                                    color: params.color
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context10.next = 40;
+                                _context10.next = 42;
                                 break;
 
-                            case 37:
-                                _context10.prev = 37;
+                            case 39:
+                                _context10.prev = 39;
                                 _context10.t1 = _context10['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t1.message);
 
-                            case 40:
+                            case 42:
                             case 'end':
                                 return _context10.stop();
                         }
                     }
-                }, _callee10, this, [[0, 37]]);
+                }, _callee10, this, [[0, 39]]);
             }));
 
             function up(_x11) {
