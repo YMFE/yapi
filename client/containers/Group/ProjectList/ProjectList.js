@@ -1,31 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { message, Row, Col, Icon } from 'antd';
-import { addProject, fetchProjectList, delProject, changeUpdateModal, changeTableLoading } from  '../../../reducer/modules/project';
+import { Row, Col, Icon } from 'antd';
+import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 // import variable from '../../../constants/variable';
 import { autobind } from 'core-decorators';
 
 import './ProjectList.scss'
-
-// 确认删除项目 handleDelete, currGroup._id, fetchProjectList
-// const deleteConfirm = (id, props) => {
-//   const { delProject, currGroup, fetchProjectList } = props;
-//   const handle = () => {
-//     delProject(id).then((res) => {
-//       if (res.payload.data.errcode == 0) {
-//         message.success('删除成功!')
-//         fetchProjectList(currGroup._id).then(() => {
-//         });
-//       } else {
-//         message.error(res.payload.data.errmsg);
-//       }
-//     });
-//   }
-//   return handle;
-// };
-
 
 @connect(
   state => {
@@ -42,8 +24,7 @@ import './ProjectList.scss'
     fetchProjectList,
     addProject,
     delProject,
-    changeUpdateModal,
-    changeTableLoading
+    changeUpdateModal
   }
 )
 class ProjectList extends Component {
@@ -61,7 +42,6 @@ class ProjectList extends Component {
     addProject: PropTypes.func,
     delProject: PropTypes.func,
     changeUpdateModal: PropTypes.func,
-    changeTableLoading: PropTypes.func,
     projectList: PropTypes.array,
     userInfo: PropTypes.object,
     tableLoading: PropTypes.bool,
@@ -103,16 +83,7 @@ class ProjectList extends Component {
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
       if (nextProps.currGroup._id) {
-        this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage).then((res) => {
-          if (res.payload.data.errcode) {
-            message.error(res.payload.data.errmsg);
-          } else {
-            this.props.changeTableLoading(false);
-          }
-        });
-      } else {
-        // 无分组的时候停止loading状态
-        this.props.changeTableLoading(false);
+        this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage)
       }
     }
 

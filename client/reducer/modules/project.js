@@ -3,10 +3,10 @@ import variable from '../../constants/variable';
 
 // Actions
 const FETCH_PROJECT_LIST = 'yapi/project/FETCH_PROJECT_LIST';
+const GET_PROJECT_MSG = 'yapi/project/GET_PROJECT_MSG';
 const PROJECT_ADD = 'yapi/project/PROJECT_ADD';
 const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
-const CHANGE_UPDATE_MODAL = 'yapi/project/CHANGE_UPDATE_MODAL';
-const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
+// const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
 const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT'
 
@@ -15,6 +15,7 @@ const initialState = {
   isUpdateModalShow: false,
   handleUpdateIndex: -1,
   projectList: [],
+  projectMsg: {},
   userInfo: {},
   tableLoading: true,
   total: 0,
@@ -30,25 +31,31 @@ export default (state = initialState, action) => {
         currProject: action.payload.data
       }
     }
-    case CHANGE_UPDATE_MODAL: {
-      return {
-        ...state,
-        isUpdateModalShow: action.payload.data,
-        handleUpdateIndex: action.payload.index
-      };
-    }
-    case CHANGE_TABLE_LOADING: {
-      return {
-        ...state,
-        tableLoading: action.payload
-      }
-    }
+    // case CHANGE_UPDATE_MODAL: {
+    //   return {
+    //     ...state,
+    //     isUpdateModalShow: action.payload.data,
+    //     handleUpdateIndex: action.payload.index
+    //   };
+    // }
+    // case CHANGE_TABLE_LOADING: {
+    //   return {
+    //     ...state,
+    //     tableLoading: action.payload
+    //   }
+    // }
     case FETCH_PROJECT_LIST: {
       return {
         ...state,
         projectList: action.payload.data.data.list,
         total: action.payload.data.data.total,
         userInfo: action.payload.data.data.userinfo
+      };
+    }
+    case GET_PROJECT_MSG: {
+      return {
+        ...state,
+        projectMsg: action.payload.data.data
       };
     }
     case PROJECT_ADD: {
@@ -62,7 +69,7 @@ export default (state = initialState, action) => {
   }
 };
 
-// Action Creators
+// 获取某分组下的项目列表
 export function fetchProjectList(id, pageNum) {
   return {
     type: FETCH_PROJECT_LIST,
@@ -76,19 +83,22 @@ export function fetchProjectList(id, pageNum) {
   };
 }
 
-export function changeUpdateModal(data, index) {
+// 获取项目信息
+export function getProjectMsg(id) {
   return {
-    type: CHANGE_UPDATE_MODAL,
-    payload: { data, index }
+    type: GET_PROJECT_MSG,
+    payload: axios.get('/api/project/get', {
+      params: { id }
+    })
   };
 }
 
-export function changeTableLoading(data) {
-  return {
-    type: CHANGE_TABLE_LOADING,
-    payload: data
-  };
-}
+// export function changeTableLoading(data) {
+//   return {
+//     type: CHANGE_TABLE_LOADING,
+//     payload: data
+//   };
+// }
 
 export function addProject(data) {
   const { name, prd_host, basepath, desc, group_id, protocol } = data;
