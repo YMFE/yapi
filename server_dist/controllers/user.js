@@ -730,6 +730,7 @@ var userController = function (_baseController) {
                                     username: result.username,
                                     email: result.email,
                                     role: result.role,
+                                    type: result.type,
                                     add_time: result.add_time,
                                     up_time: result.up_time
                                 }));

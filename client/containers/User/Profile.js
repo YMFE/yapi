@@ -6,9 +6,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 @connect(state=>{
+  console.log(state);
   return {
     curUid: state.user.uid,
-    userType: state.user.type
+    userType: state.user.type,
+    curRole: state.user.role
   }
 },{
 
@@ -19,7 +21,8 @@ class Profile extends Component {
   static propTypes = {
     match: PropTypes.object,
     curUid: PropTypes.number,
-    userType: PropTypes.string
+    userType: PropTypes.string,
+    curRole: PropTypes.string
   }
 
   constructor(props) {
@@ -147,12 +150,32 @@ class Profile extends Component {
     }else{
       userType = false;
     }
-    
     if (this.state.usernameEdit === false) {
+      let btn = "";
+      if(userType){
+        if(userinfo.uid === this.props.curUid){//本人
+          btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+        }else{
+          
+          if(this.props.curRole === "admin"){
+            btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+          }else{
+            btn = "";
+          }
+        }
+      }else{
+        // if(userinfo.uid === this.props.curUid){//本人
+        //   btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+        // }else{
+        btn = "";
+        // }
+      }
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
         {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-        {<Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>}
+        {
+          btn
+        }
       </div>
     } else {
       userNameEditHtml = <div>
@@ -165,10 +188,28 @@ class Profile extends Component {
     }
 
     if (this.state.emailEdit === false) {
+      let btn = "";
+      if(userType){
+        if(userinfo.uid === this.props.curUid){//本人
+          btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        }else{
+          if(this.props.curRole === "admin"){
+            btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+          }else{
+            btn = "";
+          }
+        }
+      }else{
+        if(userinfo.uid === this.props.curUid){//本人
+          // btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        }else{
+          btn = "";
+        }
+      }
       emailEditHtml = <div >
         <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>:""}
+        {btn}
       </div>
     } else {
       emailEditHtml = <div>
@@ -181,24 +222,27 @@ class Profile extends Component {
     }
 
     if (this.state.roleEdit === false) {
+      let btn = "";
       roleEditHtml = <div>
         <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
-        {/*<span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        {userType?<Button  icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>:""}
+        {btn}
       </div>
     } else {
       roleEditHtml = <Select defaultValue={_userinfo.role} onChange={ this.changeRole} style={{ width: 150 }} >
         <Option value="admin">管理员</Option>
         <Option value="member">会员</Option>
-
       </Select>
     }
 
     if (this.state.secureEdit === false) {
-      secureEditHtml = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
+      let btn = "";
+      if(this.props.curRole === "admin" && userType){
+        btn = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
+      }
+      secureEditHtml = btn;
     } else {
       secureEditHtml = <div>
-        <Input style={{display: this.state.userinfo.role === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
+        <Input style={{display: this.props.curRole === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
@@ -208,10 +252,9 @@ class Profile extends Component {
       </div>
     }
 
-
     return <div className="user-profile">
       <Row className="user-item" type="flex" justify="start">
-        <Col span={24}><AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload></Col>
+        <Col span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<img className = "avatarImg" src = {`/api/user/avatar?uid=${userinfo.uid}`} />}</Col>
         <Col span={4}>用户id</Col>
         <Col span={12}>
           {userinfo.uid}
@@ -229,7 +272,7 @@ class Profile extends Component {
           {emailEditHtml}
         </Col>
       </Row>
-      <Row className="user-item" style={{display: this.state.userinfo.role === 'admin'? '': 'none'}} type="flex" justify="start">
+      <Row className="user-item" style={{display: this.props.curRole === 'admin'? '': 'none'}} type="flex" justify="start">
         <Col span={4}>角色</Col>
         <Col span={12}>
           {roleEditHtml}
@@ -248,7 +291,7 @@ class Profile extends Component {
         </Col>
       </Row>
 
-      {userType?<Row className="user-item" type="flex" justify="start">
+      {(this.props.curRole === "admin" && userType)?<Row className="user-item" type="flex" justify="start">
         <Col span={4}>密码</Col>
         <Col span={12}>
           {secureEditHtml}
