@@ -314,6 +314,10 @@ class interfaceController extends baseController {
             // do something with the message from client 
             console.log(message);
         });
+
+        ctx.websocket.on('close', function(){
+            console.log('websocket: close')
+        })
     }
 }
 

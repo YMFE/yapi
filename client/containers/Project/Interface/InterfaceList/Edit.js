@@ -49,6 +49,8 @@ class InterfaceEdit extends Component{
     s.onopen = (e)=>{
       console.log('open',e)
       s.send('abc')
+      //s.close()
+      s.send('aaaaa')
     }
 
     s.onclose = (e)=>{

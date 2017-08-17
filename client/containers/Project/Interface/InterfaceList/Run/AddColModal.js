@@ -32,7 +32,8 @@ export default class AddColModal extends Component {
     visible: false,
     addColName: '',
     addColDesc: '',
-    id: 0
+    id: 0,
+    caseName: ''
   }
 
   constructor(props) {
@@ -71,9 +72,18 @@ export default class AddColModal extends Component {
         className="add-col-modal"
         title="添加到集合"
         visible={this.props.visible}
-        onOk={() => this.props.onOk(id)}
+        onOk={() => this.props.onOk(id, this.state.caseName)}
         onCancel={this.props.onCancel}
       >
+        <Row gutter={6}>
+          <Col span="5"><div className="label">接口用例名：</div></Col>
+          <Col span="15">
+            <Input
+              placeholder="请输入接口用例名称"
+              value={this.state.caseName}
+              onChange={e => this.setState({caseName: e.target.value})}></Input>
+          </Col>
+        </Row>
         <p>请选择添加到的集合：</p>
         <ul className="col-list">
           {

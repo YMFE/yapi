@@ -615,7 +615,11 @@ var interfaceController = function (_baseController) {
                                     console.log(message);
                                 });
 
-                            case 5:
+                                ctx.websocket.on('close', function () {
+                                    console.log('websocket: close');
+                                });
+
+                            case 6:
                             case 'end':
                                 return _context6.stop();
                         }
