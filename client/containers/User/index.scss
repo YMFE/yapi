@@ -126,6 +126,11 @@
   .avatarImg{
     width: 100px;
     border-radius: 50px;
+    overflow: hidden;
+    height: 100px;
+    img{
+      width: 100%;
+    }
   }
   .avatar-uploader {
     display: block;

@@ -29,13 +29,9 @@ class User extends Component {
     super(props)
   }
 
-  componentDidMount () {
-    // console.log(this.props.match)
-  }
-
   render () {
     let navData = [{
-      name: '个人资料',
+      name: '用户资料',
       path: `/user/profile/${this.props.curUid}`
     }];
     if(this.props.role === "admin"){

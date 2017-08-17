@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 @connect(state=>{
-  console.log(state);
   return {
     curUid: state.user.uid,
     userType: state.user.type,
@@ -156,7 +155,6 @@ class Profile extends Component {
         if(userinfo.uid === this.props.curUid){//本人
           btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
         }else{
-          
           if(this.props.curRole === "admin"){
             btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
           }else{
@@ -192,6 +190,9 @@ class Profile extends Component {
       if(userType){
         if(userinfo.uid === this.props.curUid){//本人
           btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+          if(userinfo.role === 'admin'){
+            btn = "";
+          }
         }else{
           if(this.props.curRole === "admin"){
             btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
@@ -236,13 +237,13 @@ class Profile extends Component {
 
     if (this.state.secureEdit === false) {
       let btn = "";
-      if(this.props.curRole === "admin" && userType){
+      if(userType){
         btn = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
       }
       secureEditHtml = btn;
     } else {
       secureEditHtml = <div>
-        <Input style={{display: this.props.curRole === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
+        <Input style={{display: this.props.curRole === 'admin'&& userinfo.role!='admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
@@ -254,7 +255,7 @@ class Profile extends Component {
 
     return <div className="user-profile">
       <Row className="user-item" type="flex" justify="start">
-        <Col span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<img className = "avatarImg" src = {`/api/user/avatar?uid=${userinfo.uid}`} />}</Col>
+        <Col span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
         <Col span={4}>用户id</Col>
         <Col span={12}>
           {userinfo.uid}
@@ -291,7 +292,7 @@ class Profile extends Component {
         </Col>
       </Row>
 
-      {(this.props.curRole === "admin" && userType)?<Row className="user-item" type="flex" justify="start">
+      {(userType)?<Row className="user-item" type="flex" justify="start">
         <Col span={4}>密码</Col>
         <Col span={12}>
           {secureEditHtml}
