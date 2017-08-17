@@ -37,17 +37,19 @@ class ErrMsg extends Component {
 
   render () {
     let { type, title, desc, opration } = this.props;
-    switch (type) {
-      case 'noProject':
-        title = '该分组还没有项目呢';
-        desc = <span>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</span>;
-        break;
-      case 'noData':
-        title = '暂无数据';
-        desc = '先去别处逛逛吧';
-        break;
-      default:
-        console.log('default');
+    if (type) {
+      switch (type) {
+        case 'noProject':
+          title = '该分组还没有项目呢';
+          desc = <span>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</span>;
+          break;
+        case 'noData':
+          title = '暂无数据';
+          desc = '先去别处逛逛吧';
+          break;
+        default:
+          console.log('default');
+      }
     }
     return (
       <div className="err-msg">
