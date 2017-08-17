@@ -31,7 +31,8 @@ export default (state = initialState, action) => {
         role: action.payload.data.data ? action.payload.data.data.role:null,
         loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
-        uid: action.payload.data.data ? action.payload.data.data._id : null
+        uid: action.payload.data.data ? action.payload.data.data._id : null,
+        type: action.payload.data.data ? action.payload.data.data.type : null
       };
     }
     case LOGIN: {
