@@ -10,13 +10,16 @@ const Option = Select.Option;
 // layout
 const formItemLayout = {
   labelCol: {
+    lg: { span: 3 },
     xs: { span: 24 },
     sm: { span: 6 }
   },
   wrapperCol: {
+    lg: { span: 21 },
     xs: { span: 24 },
     sm: { span: 14 }
-  }
+  },
+  className: 'form-item'
 };
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
@@ -149,6 +152,7 @@ class Setting extends Component {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     // const that = this;
     const { projectList, handleUpdateIndex } = this.props;
+    console.log(this.props);
     let initFormValues = {};
     let envMessage = [];
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
