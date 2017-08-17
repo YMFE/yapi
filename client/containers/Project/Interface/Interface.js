@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import './interface.scss'
 
@@ -43,20 +43,14 @@ class Interface extends Component {
     console.log(this.props)
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //
-  // }
-
   onChange = (action) => {
-    // this.setState({
-    //   curkey: key
-    // })
     let params = this.props.match.params;
+
     this.props.history.push('/project/'+params.id + '/interface/' + action)
   }
 
   render() {
-    const action = this.props.match.params.action;
+    const { action, id } = this.props.match.params;
     return <div className="web-content g-row" style={{ marginBottom: "15px" }}>
       <Row gutter={16} >
         <Col span={6}>
