@@ -19,7 +19,8 @@ const initialState = {
   email: '',
   loginState: LOADING_STATUS,
   loginWrapActiveKey: "1",
-  role: ""
+  role: "",
+  type: ""
 };
 
 export default (state = initialState, action) => {
@@ -31,7 +32,8 @@ export default (state = initialState, action) => {
         role: action.payload.data.data ? action.payload.data.data.role:null,
         loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
-        uid: action.payload.data.data ? action.payload.data.data._id : null
+        uid: action.payload.data.data ? action.payload.data.data._id : null,
+        type: action.payload.data.data ? action.payload.data.data.type : null
       };
     }
     case LOGIN: {
@@ -42,7 +44,8 @@ export default (state = initialState, action) => {
           loginState: MEMBER_STATUS,
           uid: action.payload.data.data.uid,
           userName: action.payload.data.data.username,
-          role: action.payload.data.data.role
+          role: action.payload.data.data.role,
+          type: action.payload.data.data.type
         };
       } else {
         return state;
@@ -55,7 +58,8 @@ export default (state = initialState, action) => {
         loginState: GUEST_STATUS,
         userName: null,
         uid: null,
-        role: ""
+        role: "",
+        type: ""
       }
     }
     case LOGIN_TYPE: {
@@ -70,7 +74,8 @@ export default (state = initialState, action) => {
         isLogin: true,
         loginState: MEMBER_STATUS,
         uid: action.payload.data.data.uid,
-        userName: action.payload.data.data.username
+        userName: action.payload.data.data.username,
+        type: action.payload.data.data.type
       };
     }
     default:
@@ -82,7 +87,6 @@ export default (state = initialState, action) => {
 export function checkLoginState() {
   return(dispatch)=> {
     axios.get('/api/user/status').then((res) => {
-      console.log(res)
       dispatch({
         type: GET_LOGIN_STATE,
         payload: res
