@@ -141,7 +141,9 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
 
-        let userdata = await this.getUserdata(params.member_uid);
+        params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+        let userdata = await this.getUserdata(params.member_uid, params.role);
         if(userdata === null){
             return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
         }
