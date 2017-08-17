@@ -13,12 +13,27 @@
         .colKey{
             font-weight: bolder;
             margin-right: 16px;
+            padding-bottom: 16px;
+            display: inline-block;
         }
     }
-    .colName,.colPath,.colstatus,.colMock{
+    .colreqBodyType{
+        margin: 0px;
+        .colKey{
+            padding-bottom: 0px;
+        }
+    }
+    .ace_print-margin{
+        display: none;
+    }
+    .colName,.colPath,.colstatus,.colAddTime,.colUpTime,.colMethod{
         width: 50%;
         float: left;
         padding: 8px 16px;
+
+        .colKey{
+            padding-bottom: 0px;
+        }
     }
     .colDesc{
         line-height: 1.5em;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
-import axios from 'axios'
+import axios from 'axios';
 
 class UsernameAutoComplete extends Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class UsernameAutoComplete extends Component {
     return (
       <AutoComplete
         dataSource={this.state.dataSource.map(i => i.username)}
-        style={{ width: 350 }}
+        style={{ width: '100%' }}
         onSelect={this.onSelect}
         onSearch={this.handleSearch}
         placeholder="请输入用户名"
