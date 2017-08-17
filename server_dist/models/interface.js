@@ -52,6 +52,7 @@ var interfaceModel = function (_baseModel) {
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 project_id: { type: Number, required: true },
+                edit_uid: { type: Number, default: 0 },
                 status: { type: String, enum: ['undone', 'done'], default: 'undone' },
                 desc: String,
                 add_time: Number,

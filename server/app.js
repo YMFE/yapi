@@ -7,9 +7,12 @@ import Koa from 'koa';
 import koaStatic from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import router from './router.js';
+import websockify from 'koa-websocket';
+import websocket from './websocket.js'
+
 
 yapi.connect = dbModule.connect();    
-const app = new Koa();
+const app = websockify(new Koa());
 let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
 
@@ -18,7 +21,7 @@ app.use(bodyParser());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-
+websocket(app);
 
 app.use( async (ctx, next) => {
     if( /^\/(?!api)[a-zA-Z0-9\/\-]*$/.test(ctx.path) ){

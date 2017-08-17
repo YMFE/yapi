@@ -28,3 +28,20 @@
     color: #108ee9;
   }
 }
+.add-col-modal {
+  .col-list {
+    height: 200px;
+    overflow: auto;
+    margin: 7px 0 15px 0;
+    background: #eaeaea;
+    .col-item {
+      padding: 7px 10px 7px 10px;
+    }
+    .col-item:hover {
+      background: #fa0;
+    }
+    .col-item.selected {
+      background: #108ee9;
+    }
+  }
+}

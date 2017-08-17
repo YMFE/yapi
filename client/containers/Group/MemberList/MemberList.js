@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Select, Button, Modal, Row, Col, message } from 'antd';
+import { Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
-import { fetchGroupMemberList, fetchGroupMsg, addMember } from '../../../reducer/modules/group.js'
+import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
@@ -29,7 +29,9 @@ const arrayAddKey = (arr) => {
   {
     fetchGroupMemberList,
     fetchGroupMsg,
-    addMember
+    addMember,
+    delMember,
+    changeMemberRole
   }
 )
 class MemberList extends Component {
@@ -50,20 +52,31 @@ class MemberList extends Component {
     fetchGroupMemberList: PropTypes.func,
     fetchGroupMsg: PropTypes.func,
     addMember: PropTypes.func,
+    delMember: PropTypes.func,
+    changeMemberRole: PropTypes.func,
     role: PropTypes.string
   }
 
-  @autobind
-  handleChange(value) {
-    console.log(`selected ${value}`);
-  }
 
-  showModal = () => {
+  @autobind
+  showAddMemberModal() {
     this.setState({
       visible: true
     });
   }
 
+  // 重新获取列表
+  @autobind
+  reFetchList() {
+    this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
+      this.setState({
+        userInfo: arrayAddKey(res.payload.data.data),
+        visible: false
+      });
+    });
+  }
+
+  // 增 - 添加成员
   @autobind
   handleOk() {
     console.log(this.props.currGroup._id, this.state.inputUid);
@@ -74,29 +87,55 @@ class MemberList extends Component {
       console.log(res);
       if (!res.payload.data.errcode) {
         message.success('添加成功!');
-        // 添加成功后重新获取分组成员列表
-        this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
-          this.setState({
-            userInfo: arrayAddKey(res.payload.data.data),
-            visible: false
-          });
-        });
+        this.reFetchList(); // 添加成功后重新获取分组成员列表
+      }
+    });
+  }
+  // 添加成员时 选择新增成员权限
+  @autobind
+  changeNewMemberRole(value) {
+    return () => {
+      console.log(this.props.currGroup._id, value);
+    }
+  }
+
+  // 删 - 删除分组成员
+  @autobind
+  deleteConfirm(member_uid) {
+    return () => {
+      const id = this.props.currGroup._id;
+      this.props.delMember({ id, member_uid }).then((res) => {
+        if (!res.payload.data.errcode) {
+          message.success(res.payload.data.errmsg);
+          this.reFetchList(); // 添加成功后重新获取分组成员列表
+        }
+      });
+    }
+  }
+
+  // 改 - 修改成员权限
+  @autobind
+  changeUserRole(e) {
+    console.log(e);
+    const id = this.props.currGroup._id;
+    const role = e.split('-')[0];
+    const member_uid = e.split('-')[1];
+    this.props.changeMemberRole({ id, member_uid, role }).then((res) => {
+      if (!res.payload.data.errcode) {
+        message.success(res.payload.data.errmsg);
+        this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
     });
   }
 
+  // 关闭模态框
   @autobind
   handleCancel() {
-    // 取消模态框的时候重置模态框中的值
     this.setState({
       visible: false
     });
   }
 
-  @autobind
-  changeMemberRole(e) {
-    console.log(e);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currGroup !== nextProps.currGroup) {
@@ -136,7 +175,6 @@ class MemberList extends Component {
   }
 
   render() {
-    console.log(this.state);
     const columns = [{
       title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
       dataIndex: 'username',
@@ -148,18 +186,20 @@ class MemberList extends Component {
         </div>);
       }
     }, {
-      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showModal}>添加成员</Button></div> : '',
+      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
       key: 'action',
       className: 'member-opration',
       render: (text, record) => {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select defaultValue={record.role} className="select" onChange={this.handleChange}>
-                <Option value="owner">组长</Option>
-                <Option value="dev">开发者</Option>
+              <Select defaultValue={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
+                <Option value={'owner-'+record.uid}>组长</Option>
+                <Option value={'dev-'+record.uid}>开发者</Option>
               </Select>
-              <Button type="danger" icon="minus" className="btn-danger" />
+              <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
+                <Button type="danger" icon="minus" className="btn-danger" />
+              </Popconfirm>
             </div>
           )
         } else {
@@ -184,7 +224,7 @@ class MemberList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label">权限: </div></Col>
             <Col span="15">
-              <Select size="large" defaultValue="dev" className="select" onChange={this.changeMemberRole}>
+              <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                 <Option value="owner">组长</Option>
                 <Option value="dev">开发者</Option>
               </Select>

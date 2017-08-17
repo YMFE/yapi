@@ -319,31 +319,34 @@ var projectController = function (_baseController) {
                                 return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目成员已存在'));
 
                             case 15:
-                                _context2.next = 17;
-                                return this.getUserdata(params.member_uid);
 
-                            case 17:
+                                params.role = params.role === 'owner' ? 'owner' : 'dev';
+
+                                _context2.next = 18;
+                                return this.getUserdata(params.member_uid, params.role);
+
+                            case 18:
                                 userdata = _context2.sent;
 
                                 if (!(userdata === null)) {
-                                    _context2.next = 20;
+                                    _context2.next = 21;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '成员uid不存在'));
 
-                            case 20:
-                                _context2.prev = 20;
-                                _context2.next = 23;
+                            case 21:
+                                _context2.prev = 21;
+                                _context2.next = 24;
                                 return this.Model.addMember(params.id, userdata);
 
-                            case 23:
+                            case 24:
                                 result = _context2.sent;
                                 username = this.getUsername();
-                                _context2.next = 27;
+                                _context2.next = 28;
                                 return this.Model.get(params.id);
 
-                            case 27:
+                            case 28:
                                 project = _context2.sent;
 
                                 _yapi2.default.commons.saveLog({
@@ -356,21 +359,21 @@ var projectController = function (_baseController) {
                                     icon: project.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context2.next = 35;
+                                _context2.next = 36;
                                 break;
 
-                            case 32:
-                                _context2.prev = 32;
-                                _context2.t1 = _context2['catch'](20);
+                            case 33:
+                                _context2.prev = 33;
+                                _context2.t1 = _context2['catch'](21);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t1.message);
 
-                            case 35:
+                            case 36:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[20, 32]]);
+                }, _callee2, this, [[21, 33]]);
             }));
 
             function addMember(_x2) {

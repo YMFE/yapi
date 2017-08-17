@@ -6,7 +6,7 @@ import { Subnav } from '../../components/index'
 import { getProject } from  '../../reducer/modules/project';
 import Interface from './Interface/Interface.js'
 import Activity from './Activity/Activity.js'
-import { Setting } from './Setting/Setting.js'
+import Setting from './Setting/Setting.js'
 
 
 @connect(
@@ -43,7 +43,7 @@ export default class Project extends Component {
           default={'动态'}
           data={[{
             name: '接口',
-            path: `/project/${match.params.id}/interface`
+            path: `/project/${match.params.id}/interface/api`
           }, {
             name: '设置',
             path: `/project/${match.params.id}/setting`
@@ -54,7 +54,7 @@ export default class Project extends Component {
         <Switch>
           <Redirect exact from="/project/:id" to={`/project/${match.params.id}/activity`}/>
           <Route path="/project/:id/activity" component={Activity} />
-          <Route path="/project/:id/interface" component={Interface} />
+          <Route path="/project/:id/interface/:action" component={Interface} />
           <Route path="/project/:id/setting" component={Setting} />
         </Switch>
       </div>
