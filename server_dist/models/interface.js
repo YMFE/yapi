@@ -170,6 +170,13 @@ var interfaceModel = function (_baseModel) {
                 _id: id
             }, data, { runValidators: true });
         }
+    }, {
+        key: 'upEditUid',
+        value: function upEditUid(id, uid) {
+            return this.model.update({
+                _id: id
+            }, { edit_uid: uid }, { runValidators: true });
+        }
     }]);
     return interfaceModel;
 }(_base2.default);
