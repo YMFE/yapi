@@ -119,7 +119,7 @@ class projectController extends baseController {
 
     }
     /**
-    * 添加项目
+    * 添加项目成员
     * @interface /project/add_member
     * @method POST
     * @category project
@@ -175,7 +175,7 @@ class projectController extends baseController {
 
     }
     /**
-    * 添加项目
+    * 删除项目成员
     * @interface /project/del_member
     * @method POST
     * @category project
@@ -265,7 +265,7 @@ class projectController extends baseController {
     }
 
     /**
-    * 添加项目
+    * 获取项目信息
     * @interface /project/get
     * @method GET
     * @category project
@@ -348,7 +348,7 @@ class projectController extends baseController {
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
-            
+
             if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
