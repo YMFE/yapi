@@ -19,7 +19,7 @@ const TabPane = Tabs.TabPane;
     }
   },
   {
-    fetchInterfaceData    
+    fetchInterfaceData
   }
 )
 class Content extends Component {
@@ -37,6 +37,10 @@ class Content extends Component {
     this._actionId = 0;
   }
 
+  componentWillMount() {
+    this.handleRequest(this.props)
+  }
+
   componentWillReceiveProps(nextProps){
     this.handleRequest(nextProps)
   }
@@ -44,7 +48,7 @@ class Content extends Component {
   handleRequest(nextProps){
     let matchParams = nextProps.match.params;
     let _actionId;
-    _actionId = matchParams.actionId;    
+    _actionId = matchParams.actionId;
     _actionId = parseInt(matchParams.actionId, 10);
     if(!nextProps.curdata)return;
     if(this._actionId !== _actionId){

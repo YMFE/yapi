@@ -5,10 +5,12 @@ import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList } from '../../../../reducer/modules/interfaceCol'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { Menu, Input, Icon, Tag, Modal, Row, Col, message, Tooltip } from 'antd';
+import { Input, Icon, Tag, Modal, Row, Col, message, Tooltip, Tree } from 'antd';
 
-const SubMenu = Menu.SubMenu;
-const { TextArea } = Input;
+const TextArea = Input.TextArea;
+const TreeNode = Tree.TreeNode;
+
+import './InterfaceColMenu.scss'
 
 @connect(
   state => {
@@ -28,7 +30,8 @@ export default class InterfaceColMenu extends Component {
     match: PropTypes.object,
     interfaceColList: PropTypes.array,
     fetchInterfaceColList: PropTypes.func,
-    fetchInterfaceCaseList: PropTypes.func
+    fetchInterfaceCaseList: PropTypes.func,
+    history: PropTypes.object
   }
 
   state = {
@@ -41,9 +44,21 @@ export default class InterfaceColMenu extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.fetchInterfaceColList(this.props.match.params.id)
+  async componentWillMount() {
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
+    let params = this.props.match.params;
+    if(!params.actionId){
+      this.props.history.push('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
+    }
   }
+
+  // async componentWillReceiveProps(nextProps) {
+  //   const result = await nextProps.fetchInterfaceColList(nextProps.match.params.id)
+  //   let params = nextProps.match.params;
+  //   if(!params.actionId){
+  //     nextProps.history.replace('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
+  //   }
+  // }
 
   @autobind
   async addCol() {
@@ -77,29 +92,31 @@ export default class InterfaceColMenu extends Component {
             <Tag color="#108ee9" style={{ marginLeft: "15px" }} onClick={() => this.setState({addColModalVisible: true})} ><Icon type="plus" /></Tag>
           </Tooltip>
         </div>
-        <Menu
-          onClick={this.handleClick}
-          style={{ width: 240 }}
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub0']}
-          mode="inline"
+        <Tree
+          className="col-list-tree"
+          defaultExpandedKeys={['0-0-0', '0-0-1']}
+          defaultSelectedKeys={['0-0-0', '0-0-1']}
+          onSelect={this.onSelect}
         >
           {
-            this.props.interfaceColList.map((col, index) => (
-              <SubMenu
-                key={`sub${index}`}
+            this.props.interfaceColList.map((col) => (
+              <TreeNode
+                key={col._id}
                 title={<span><Icon type="folder-open" /><span>{col.name}</span></span>}
-                onTitleClick={(key, e) => this.selectCol(key, e, col)}
               >
                 {
-                  col.caseList && col.caseList.map((interfaceCase, index) => (
-                    <Menu.Item key={index}>{interfaceCase.name}</Menu.Item>
+                  col.caseList && col.caseList.map((interfaceCase) => (
+                    <TreeNode
+                      style={{width: '100%'}}
+                      key={interfaceCase._id}
+                      title={interfaceCase.casename}
+                    ></TreeNode>
                   ))
                 }
-              </SubMenu>
+              </TreeNode>
             ))
           }
-        </Menu>
+        </Tree>
         <Modal
           title="添加集合"
           visible={this.state.addColModalVisible}

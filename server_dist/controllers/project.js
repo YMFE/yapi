@@ -253,7 +253,7 @@ var projectController = function (_baseController) {
             return add;
         }()
         /**
-        * 添加项目
+        * 添加项目成员
         * @interface /project/add_member
         * @method POST
         * @category project
@@ -383,7 +383,7 @@ var projectController = function (_baseController) {
             return addMember;
         }()
         /**
-        * 添加项目
+        * 删除项目成员
         * @interface /project/del_member
         * @method POST
         * @category project
@@ -610,7 +610,7 @@ var projectController = function (_baseController) {
         }()
 
         /**
-        * 添加项目
+        * 获取项目信息
         * @interface /project/get
         * @method GET
         * @category project
