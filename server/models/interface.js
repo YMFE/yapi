@@ -13,7 +13,7 @@ class interfaceModel extends baseModel {
             path: { type: String, required: true },
             method: { type: String, required: true },
             project_id: { type: Number, required: true },
-            edit_uid: {type: Number},
+            edit_uid: {type: Number, default: 0},
             status: {type: String, enum: ['undone', 'done'], default: 'undone'},
             desc: String,
             add_time: Number,
@@ -54,7 +54,7 @@ class interfaceModel extends baseModel {
                 enum: ['json', 'text', 'xml']
             },
             res_body: String
-        };
+        };  
     }
 
     save(data) {
@@ -123,7 +123,15 @@ class interfaceModel extends baseModel {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id
-        }, data, { runValidators: true });
+        }, data, {runValidators: true });
+    }
+
+    upEditUid(id, uid){
+        return this.model.update({
+            _id: id
+        }, 
+        {edit_uid: uid},
+        {runValidators: true });
     }
 }
 

@@ -18,15 +18,14 @@ var _interface2 = _interopRequireDefault(_interface);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var route = require('koa-route');
-
+var router = (0, _koaRouter2.default)();
 
 function websocket(app) {
   console.log('load websocket...');
   app.ws.use(function (ctx, next) {
     return next(ctx);
   });
-  app.ws.use(route.all('/api/interface/solve_conflict', function () {
+  router.get('/api/interface/solve_conflict', function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
       var inst;
       return _regenerator2.default.wrap(function _callee$(_context) {
@@ -64,7 +63,10 @@ function websocket(app) {
     return function (_x) {
       return _ref.apply(this, arguments);
     };
-  }()));
+  }());
+
+  app.ws.use(router.routes());
+  app.ws.use(router.allowedMethods());
 }
 
 module.exports = websocket;

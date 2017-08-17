@@ -21,7 +21,7 @@ class interfaceCase extends baseModel {
             method: { type: String },
             req_params: [{
                 name: String, value: String
-            }],
+            }],   
             req_query: [{
                 name: String, value: String
             }],
