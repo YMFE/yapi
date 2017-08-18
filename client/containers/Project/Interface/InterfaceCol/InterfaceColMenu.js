@@ -64,7 +64,12 @@ export default class InterfaceColMenu extends Component {
     const { isShowCol, currColId, currCaseId } = nextProps;
     const action = isShowCol ? 'col' : 'case';
     const actionId = isShowCol ? currColId : currCaseId;
-    this.setState({expandedKeys: [action+'_'+actionId]})
+    let expandedKeys = this.state.expandedKeys;
+    if (expandedKeys.indexOf(action+'_'+actionId) === -1) {
+      expandedKeys = expandedKeys.concat([action+'_'+actionId])
+    }
+    console.log(expandedKeys)
+    this.setState({expandedKeys})
   }
 
   @autobind
