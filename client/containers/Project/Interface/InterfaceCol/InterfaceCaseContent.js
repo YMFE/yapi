@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
+import { fetchInterfaceColList, setColData, fetchCaseData } from '../../../../reducer/modules/interfaceCol'
 
 @connect(
   state => {
@@ -10,12 +10,13 @@ import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../..
       interfaceColList: state.interfaceCol.interfaceColList,
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
+      currCase: state.interfaceCol.currCase,
       isShowCol: state.interfaceCol.isShowCol
     }
   },
   {
     fetchInterfaceColList,
-    fetchInterfaceCaseList,
+    fetchCaseData,
     setColData
   }
 )
@@ -26,11 +27,12 @@ export default class InterfaceCaseContent extends Component {
     match: PropTypes.object,
     interfaceColList: PropTypes.array,
     fetchInterfaceColList: PropTypes.func,
-    fetchInterfaceCaseList: PropTypes.func,
+    fetchCaseData: PropTypes.func,
     setColData: PropTypes.func,
     history: PropTypes.object,
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
+    currCase: PropTypes.object,
     isShowCol: PropTypes.bool
   }
 
@@ -40,20 +42,30 @@ export default class InterfaceCaseContent extends Component {
 
   async componentWillMount() {
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
-    let { currColId, currCaseId, isShowCol } = this.props;
+    let { currCaseId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    currColId = +currColId || result.payload.data.data[0]._id;
     currCaseId = +actionId || +currCaseId || result.payload.data.data[0].caseList[0]._id;
-    if (isShowCol) {
-      this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
-    } else {
-      this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
+    this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
+    this.props.fetchCaseData(currCaseId)
+    this.props.setColData({currCaseId: +currCaseId, isShowCol: false})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const oldCaseId = this.props.match.params.actionId
+    const newCaseId = nextProps.match.params.actionId
+    if (oldCaseId !== newCaseId) {
+      this.props.fetchCaseData(newCaseId);
+      this.props.setColData({currCaseId: +newCaseId, isShowCol: false})
     }
-    this.props.setColData({currColId: +currColId, currCaseId: +currCaseId})
   }
 
   render() {
-    return <h1>hello caseContent</h1>
+    return (
+      <div>
+        <h1>hello caseContent</h1>
+        {JSON.stringify(this.props.currCase, null, 2)}
+      </div>
+    )
   }
 }
