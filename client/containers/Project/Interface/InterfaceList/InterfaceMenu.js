@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { fetchInterfaceList, fetchInterfaceData,  addInterfaceData, deleteInterfaceData } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceList, fetchInterfaceData, addInterfaceData, deleteInterfaceData } from '../../../../reducer/modules/interface.js';
 import { Menu, Input, Icon, Tag, Modal, message } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import axios from 'axios'
-import { Link,withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 const confirm = Modal.confirm;
-
+const SubMenu = Menu.SubMenu;
 
 
 @connect(
   state => {
     return {
       list: state.inter.list,
+      inter: state.inter.curdata,
       curProject: state.project.curProject
     }
   },
@@ -28,6 +29,7 @@ const confirm = Modal.confirm;
 class InterfaceMenu extends Component {
   static propTypes = {
     match: PropTypes.object,
+    inter: PropTypes.object,
     projectId: PropTypes.string,
     list: PropTypes.array,
     fetchInterfaceList: PropTypes.func,
@@ -63,7 +65,7 @@ class InterfaceMenu extends Component {
 
   async handleRequest() {
     await this.props.fetchInterfaceList(this.props.projectId);
-    
+
     // if(!params.actionId){
     //   this.props.history.replace('/project/'+params.id + '/interface/api/' + result.payload.data[0]._id)
     // }
@@ -92,7 +94,7 @@ class InterfaceMenu extends Component {
     })
   }
 
-  showConfirm = (id)=> {
+  showConfirm = (id) => {
     let that = this;
     confirm({
       title: '您确认删除此接口',
@@ -123,12 +125,18 @@ class InterfaceMenu extends Component {
     })
   }
 
+  handleGroup = (e) =>{
+    console.log(e, '33')
+    e.stopPropagation();
+    return false;
+  }
+
   render() {
     const items = [];
     const matchParams = this.props.match.params;
     this.props.list.forEach((item) => {
       let color, filter = this.state.filter;
-      if(filter && item.title.indexOf(filter) === -1 && item.path.indexOf(filter) === -1){
+      if (filter && item.title.indexOf(filter) === -1 && item.path.indexOf(filter) === -1) {
         return null;
       }
       switch (item.method) {
@@ -144,7 +152,7 @@ class InterfaceMenu extends Component {
         <Menu.Item onMouseEnter={this.enterItem} onMouseLeave={this.leaveItem} key={"" + item._id}>
           <Tag className="btn-http" color={color}>{item.method}  </Tag>
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
-          <Icon type="delete" onClick={()=> {this.showConfirm(item._id)}} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} className="interface-delete-icon" />
+          <Icon type="delete" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} className="interface-delete-icon" />
         </Menu.Item>
       )
     })
@@ -163,8 +171,10 @@ class InterfaceMenu extends Component {
           <AddInterfaceForm onCancel={this.handleCancel} onSubmit={this.handleAddInterface} />
         </Modal>
       </div>
-      <Menu selectedKeys={[this.props.match.params.actionId + ""]} className="interface-list">
-        {items}
+      <Menu className="interface-list" defaultSelectedKeys={['aaa']} mode="inline"  defaultOpenKeys={['aaa']}>
+        <SubMenu key={"aaa"} title={<span onClick={this.handleGroup}><Icon type="appstore" /><span>Navigation Two</span></span>}>
+          {items}
+        </SubMenu>
       </Menu>
     </div>
 
