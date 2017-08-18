@@ -604,20 +604,24 @@ var interfaceColController = function (_baseController) {
 
                             case 14:
                                 result = _context8.sent;
+                                _context8.next = 17;
+                                return this.caseModel.delByCol(id);
+
+                            case 17:
                                 return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
 
-                            case 18:
-                                _context8.prev = 18;
+                            case 20:
+                                _context8.prev = 20;
                                 _context8.t0 = _context8['catch'](0);
 
                                 _yapi2.default.commons.resReturn(null, 400, _context8.t0.message);
 
-                            case 21:
+                            case 23:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[0, 18]]);
+                }, _callee8, this, [[0, 20]]);
             }));
 
             function delCol(_x8) {

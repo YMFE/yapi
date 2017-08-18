@@ -42,16 +42,8 @@ class Content extends Component {
     this.handleRequest(this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.handleRequest(nextProps)
-  }
-
   handleRequest(nextProps) {
     let matchParams = nextProps.match.params;
-
-    if (!matchParams.actionId && (nextProps.list.length > 0)) {
-      return this.props.history.replace('/project/' + matchParams.id + '/interface/api/' + nextProps.list[0]._id)
-    }
     if (matchParams.actionId && this._actionId !== matchParams.actionId) {
       this._actionId = matchParams.actionId;
       this.props.fetchInterfaceData(matchParams.actionId)

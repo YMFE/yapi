@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { fetchInterfaceList, fetchInterfaceData, addInterfaceData, deleteInterfaceData } from '../../../../reducer/modules/interface.js';
-import { Menu, Input, Icon, Tag, Modal, message } from 'antd';
+import { Menu, Input, Icon, Tag, Modal, message, Tree, Dropdown } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import axios from 'axios'
 import { Link, withRouter } from 'react-router-dom';
 
 const confirm = Modal.confirm;
-const SubMenu = Menu.SubMenu;
+const TreeNode = Tree.TreeNode;
 
 
 @connect(
@@ -79,6 +79,10 @@ class InterfaceMenu extends Component {
   //   this.handleRequest()
   // }
 
+  onSelect = (selectedKeys, info) => {
+    console.log('selected', selectedKeys, info);
+  }
+
   handleAddInterface = (data) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {
@@ -111,8 +115,8 @@ class InterfaceMenu extends Component {
     this.props.deleteInterfaceData(id)
   }
 
-  enterItem = (e) => {
-    this.setState({ delIcon: e.key })
+  enterItem = (id) => {
+    this.setState({ delIcon: id })
   }
 
   leaveItem = () => {
@@ -125,16 +129,15 @@ class InterfaceMenu extends Component {
     })
   }
 
-  handleGroup = (e) =>{
-    console.log(e, '33')
+  handleGroup = (e) => {
     e.stopPropagation();
     return false;
   }
 
   render() {
-    const items = [];
     const matchParams = this.props.match.params;
-    this.props.list.forEach((item) => {
+
+    const item_interface_create = (item) => {
       let color, filter = this.state.filter;
       if (filter && item.title.indexOf(filter) === -1 && item.path.indexOf(filter) === -1) {
         return null;
@@ -146,21 +149,33 @@ class InterfaceMenu extends Component {
         case 'DELETE': color = 'red'; break;
         default: color = "green";
       }
+      return <TreeNode
+        title={<div onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >          
+          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} ><Tag color={color} className="btn-http" >{item.method}</Tag>{item.title}</Link>
+          <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+        </div>}
+        key={'' + item._id} />
 
-      items.push(
+    }
 
-        <Menu.Item onMouseEnter={this.enterItem} onMouseLeave={this.leaveItem} key={"" + item._id}>
-          <Tag className="btn-http" color={color}>{item.method}  </Tag>
-          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
-          <Icon type="delete" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} className="interface-delete-icon" />
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <span onClick={this.showModal}>添加接口</span>
         </Menu.Item>
-      )
-    })
+        <Menu.Item>
+          <span >修改分类</span>
+        </Menu.Item>
+        <Menu.Item>
+          <span onClick={this.showModal}>删除分类</span>
+        </Menu.Item>
+      </Menu>
+    );
 
     return <div>
       <div className="interface-filter">
         <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
-        <Tag onClick={this.showModal} color="#108ee9" style={{ marginLeft: "15px" }} ><Icon type="plus" /></Tag>
+        <Tag  color="#108ee9" style={{ marginLeft: "15px" }} ><Icon type="plus" /></Tag>
         <Modal
           title="添加接口"
           visible={this.state.visible}
@@ -171,11 +186,29 @@ class InterfaceMenu extends Component {
           <AddInterfaceForm onCancel={this.handleCancel} onSubmit={this.handleAddInterface} />
         </Modal>
       </div>
-      <Menu className="interface-list" defaultSelectedKeys={['aaa']} mode="inline"  defaultOpenKeys={['aaa']}>
-        <SubMenu key={"aaa"} title={<span onClick={this.handleGroup}><Icon type="appstore" /><span>Navigation Two</span></span>}>
-          {items}
-        </SubMenu>
-      </Menu>
+      {this.props.list.length > 0 ?
+        <Tree
+          className="interface-list"
+          defaultExpandedKeys={['group-' + this.props.list[0]._id]}
+          onSelect={this.onSelect}
+        >
+          <TreeNode title={<Link style={{fontSize: '14px'}} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder-open" style={{marginRight: 5}} />全部接口</Link>} key="root" />
+          {this.props.list.map((item) => {
+            return <TreeNode title={<div>              
+              <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{marginRight: 5}} />{item.name}</Link>
+              <Dropdown overlay={menu}>
+                <Icon type='bars' className="interface-delete-icon" />
+              </Dropdown>
+            </div>} key={'group-' + item._id} >
+              {item.list.map(item_interface_create)}
+
+            </TreeNode>
+          })}
+
+
+
+        </Tree>
+        : null}
     </div>
 
   }

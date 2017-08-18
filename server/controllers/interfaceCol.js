@@ -266,6 +266,7 @@ class interfaceColController extends baseController{
             }
 
             let result = await this.colModel.del(caseid);
+            await this.caseModel.delByCol(id)
             return ctx.body = yapi.commons.resReturn(result);
 
 

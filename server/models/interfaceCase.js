@@ -69,6 +69,12 @@ class interfaceCase extends baseModel {
         })
     }
 
+    delByCol(id){
+        return this.model.deleteMany({
+            col_id: id
+        })
+    }
+
     up(id, data) {
         data.up_time = yapi.commons.time()
         return this.model.update(

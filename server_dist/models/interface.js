@@ -52,6 +52,7 @@ var interfaceModel = function (_baseModel) {
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 project_id: { type: Number, required: true },
+                catid: { type: Number, required: true },
                 edit_uid: { type: Number, default: 0 },
                 status: { type: String, enum: ['undone', 'done'], default: 'undone' },
                 desc: String,
@@ -143,16 +144,32 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(project_id) {
+        value: function list(project_id, select) {
+            select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time';
             return this.model.find({
                 project_id: project_id
-            }).sort({ _id: -1 }).exec();
+            }).select(select).sort({ _id: -1 }).exec();
+        }
+    }, {
+        key: 'listByCatid',
+        value: function listByCatid(catid, select) {
+            select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time';
+            return this.model.find({
+                catid: catid
+            }).select(select).exec();
         }
     }, {
         key: 'del',
         value: function del(id) {
             return this.model.deleteOne({
                 _id: id
+            });
+        }
+    }, {
+        key: 'delByCatid',
+        value: function delByCatid(id) {
+            return this.model.deleteMany({
+                catid: id
             });
         }
     }, {

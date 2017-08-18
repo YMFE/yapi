@@ -70,7 +70,7 @@ app.use(function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        if (!/^\/(?!api)[a-zA-Z0-9\/\-]*$/.test(ctx.path)) {
+                        if (!/^\/(?!api)[a-zA-Z0-9\/\-_]*$/.test(ctx.path)) {
                             _context.next = 6;
                             break;
                         }
