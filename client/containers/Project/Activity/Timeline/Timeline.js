@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { formatTime } from '../../../../common.js';
 import { Link } from 'react-router-dom'
 import { fetchNewsData, fetchMoreNews } from '../../../../reducer/modules/news.js'
+import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 
 function timeago(timestamp) {
   let minutes, hours, days, seconds, mouth, year;
@@ -130,7 +131,7 @@ class TimeTree extends Component {
     }
     return (
       <section className="news-timeline">
-        {data ? <Timeline pending={pending}>{data}</Timeline> : "还没有任何动态"}
+        {data ? <Timeline pending={pending}>{data}</Timeline> : <ErrMsg type="noData"/>}
       </section>
     )
   }
