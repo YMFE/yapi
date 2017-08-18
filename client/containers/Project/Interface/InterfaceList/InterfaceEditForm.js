@@ -109,6 +109,7 @@ class InterfaceEditForm extends Component {
       container: 'req_body_json',
       data: that.state.req_body_json,
       onChange: function (d) {
+        if(d.format !== true) return false;
         that.setState({
           req_body_json: d.text
         })
@@ -119,6 +120,7 @@ class InterfaceEditForm extends Component {
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
+        if(d.format !== true) return false;
         mockPreview.editor.setValue(d.mockText)
         that.setState({
           res_body: d.text,
