@@ -124,7 +124,7 @@ export default class InterfaceColMenu extends Component {
             this.props.interfaceColList.map((col) => (
               <TreeNode
                 key={'col_' + col._id}
-                title={<span><Icon type="folder-open" /><span>{col.name}</span></span>}
+                title={<span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>}
               >
                 {
                   col.caseList && col.caseList.map((interfaceCase) => (
