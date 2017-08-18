@@ -72,7 +72,7 @@ class Interface extends Component {
           <div className="right-content">
             <Switch>
               <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
-              <Route path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
+              <Route exact path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
             </Switch>
           </div>
         </Col>

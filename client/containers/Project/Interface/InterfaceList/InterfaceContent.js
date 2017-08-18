@@ -48,15 +48,13 @@ class Content extends Component {
 
   handleRequest(nextProps) {
     let matchParams = nextProps.match.params;
-    let _actionId;
-    _actionId = matchParams.actionId || 0;
-    if (_actionId === 0 && (nextProps.list.length > 0)) {
+
+    if (!matchParams.actionId && (nextProps.list.length > 0)) {
       return this.props.history.replace('/project/' + matchParams.id + '/interface/api/' + nextProps.list[0]._id)
     }
-    if (!nextProps.curdata) return;
-    if (this._actionId !== _actionId) {
-      this._actionId = _actionId;
-      this.props.fetchInterfaceData(_actionId)
+    if (matchParams.actionId && this._actionId !== matchParams.actionId) {
+      this._actionId = matchParams.actionId;
+      this.props.fetchInterfaceData(matchParams.actionId)
     }
     this.setState({
       curtab: 'view'

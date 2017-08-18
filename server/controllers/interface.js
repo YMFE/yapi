@@ -254,6 +254,10 @@ class interfaceController extends baseController {
             data.req_body_other = params.req_body_other;
         }
 
+        if (params.req_body_type) {
+            data.req_body_type = params.req_body_type;
+        }
+
         if (params.res_body_type) {
             data.res_body_type = params.res_body_type;
         }

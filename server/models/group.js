@@ -15,7 +15,7 @@ class groupModel extends baseModel {
             up_time: Number,
             members: [
                 {
-                    uid: Number, 
+                    uid: Number,
                     role: {type: String, enum:['owner', 'dev']},
                     username: String,
                     email: String

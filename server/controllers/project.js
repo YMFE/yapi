@@ -48,6 +48,7 @@ class projectController extends baseController {
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
      * @param {Number} group_id 项目分组id，不能为空
+     * @param {Number} group_name 项目分组名称，不能为空
      * @param {String} project_type private public
      * @param  {String} [desc] 项目描述
      * @returns {Object}
@@ -59,6 +60,7 @@ class projectController extends baseController {
             name: 'string',
             basepath: 'string',
             group_id: 'number',
+            group_name: 'string',
             desc: 'string',
             color: 'string',
             icon: 'string'
@@ -96,6 +98,7 @@ class projectController extends baseController {
             project_type: params.project_type || 'private',
             uid: this.getUid(),
             group_id: params.group_id,
+            group_name: params.group_name,
             icon: params.icon,
             color: params.color,
             add_time: yapi.commons.time(),
@@ -111,6 +114,7 @@ class projectController extends baseController {
                 uid: this.getUid(),
                 username: username,
                 typeid: params.group_id,
+                typename: params.group_name,
                 color: params.color,
                 icon: params.icon
             });
@@ -369,27 +373,40 @@ class projectController extends baseController {
         }
     }
 
+    /**
+     * 修改项目成员角色
+     * @interface /project/change_member_role
+     * @method POST
+     * @category project
+     * @foldnumber 10
+     * @param {String} id 项目id
+     * @param {String} member_uid 项目成员uid
+     * @param {String} role 权限 ['owner'|'dev']
+     * @returns {Object}
+     * @example
+     */
     async changeMemberRole(ctx){
         let params = ctx.request.body;
-        let groupInst = yapi.getInst(groupModel);
+        console.log(params);
+        let projectInst = yapi.getInst(projectModel);
         if (!params.member_uid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
         }
         if (!params.id) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
         if (check === 0) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
         }
-        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+        if (await this.checkAuth(params.id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
         params.role = params.role === 'owner' ? 'owner' : 'dev';
 
         try {
-            let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            let result = await projectInst.changeMemberRole(params.id, params.member_uid, params.role);
 
             let username = this.getUsername();
             let project = await this.Model.get(params.id);

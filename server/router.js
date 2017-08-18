@@ -204,6 +204,11 @@ const routerConfig = {
 			"method": "post"
 		},
 		{
+			"action": "changeMemberRole",
+			"path": "change_member_role",
+			"method": "post"
+		},
+		{
 			"action": "getMemberList",
 			"path": "get_member_list",
 			"method": "get"
@@ -213,7 +218,7 @@ const routerConfig = {
 			"path": "search",
 			"method": "get"
 		},
-		{			
+		{
 			"action": "download",
 			"path": "download",
 			"method": "get"
