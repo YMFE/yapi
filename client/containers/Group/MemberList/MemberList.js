@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'

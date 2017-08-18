@@ -211,6 +211,10 @@ var routerConfig = {
 		"path": "del_member",
 		"method": "post"
 	}, {
+		"action": "changeMemberRole",
+		"path": "change_member_role",
+		"method": "post"
+	}, {
 		"action": "getMemberList",
 		"path": "get_member_list",
 		"method": "get"

@@ -53,21 +53,24 @@ export default class InterfaceColMenu extends Component {
     super(props)
   }
 
-  // async componentWillMount() {
-  //   const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
-  //   let params = this.props.match.params;
-  //   if(!params.actionId){
-  //     this.props.history.push('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
-  //   }
-  // }
+  async componentWillMount() {
+    const { isShowCol, currColId, currCaseId } = this.props;
+    const action = isShowCol ? 'col' : 'case';
+    const actionId = isShowCol ? currColId : currCaseId;
+    this.setState({expandedKeys: [action+'_'+actionId]})
+  }
 
-  // async componentWillReceiveProps(nextProps) {
-  //   const result = await nextProps.fetchInterfaceColList(nextProps.match.params.id)
-  //   let params = nextProps.match.params;
-  //   if(!params.actionId){
-  //     nextProps.history.replace('/project/'+params.id + '/interface/col/' + result.payload.data.data[0]._id)
-  //   }
-  // }
+  async componentWillReceiveProps(nextProps) {
+    const { isShowCol, currColId, currCaseId } = nextProps;
+    const action = isShowCol ? 'col' : 'case';
+    const actionId = isShowCol ? currColId : currCaseId;
+    let expandedKeys = this.state.expandedKeys;
+    if (expandedKeys.indexOf(action+'_'+actionId) === -1) {
+      expandedKeys = expandedKeys.concat([action+'_'+actionId])
+    }
+    console.log(expandedKeys)
+    this.setState({expandedKeys})
+  }
 
   @autobind
   async addCol() {
@@ -86,18 +89,23 @@ export default class InterfaceColMenu extends Component {
   }
 
   onSelect = (keys) => {
-    const type = keys[0].split('_')[0];
-    const id = keys[0].split('_')[1];
-    if (type === 'col') {
-      this.props.setColData({
-        isShowCol: true,
-        currColId: +id
-      })
-    } else {
-      this.props.setColData({
-        isShowCol: false,
-        currCaseId: +id
-      })
+    if (keys.length) {
+      const type = keys[0].split('_')[0];
+      const id = keys[0].split('_')[1];
+      const project_id = this.props.match.params.id
+      if (type === 'col') {
+        this.props.setColData({
+          isShowCol: true,
+          currColId: +id
+        })
+        this.props.history.push('/project/' + project_id + '/interface/col/' + id)
+      } else {
+        this.props.setColData({
+          isShowCol: false,
+          currCaseId: +id
+        })
+        this.props.history.push('/project/' + project_id + '/interface/case/' + id)
+      }
     }
   }
 

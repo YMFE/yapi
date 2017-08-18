@@ -13,6 +13,7 @@ class projectModel extends baseModel {
             basepath: {type: String  },
             desc: String,
             group_id: { type: Number, required: true },
+            group_name: { type: String, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
                 {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
@@ -33,6 +34,11 @@ class projectModel extends baseModel {
     }
 
     get(id) {
+    this.model.findOne({
+        _id: id
+    }).select("uid group_name ").exec().then((res) => {
+      console.log(res);
+    })
         return this.model.findOne({
             _id: id
         }).exec();
@@ -135,7 +141,7 @@ class projectModel extends baseModel {
                 _id: id,
                  "members.uid": uid
             }, {
-                "$set": { "members.$.uid": role}
+                "$set": { "members.$.role": role}
             }
         );
     }
