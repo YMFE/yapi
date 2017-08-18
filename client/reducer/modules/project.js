@@ -101,14 +101,15 @@ export function getProjectMsg(id) {
 // }
 
 export function addProject(data) {
-  const { name, prd_host, basepath, desc, group_id, protocol } = data;
+  const { name, prd_host, basepath, desc, group_id, group_name, protocol } = data;
   const param = {
     name,
     prd_host,
     protocol,
     basepath,
     desc,
-    group_id
+    group_id,
+    group_name
   };
   return {
     type: PROJECT_ADD,
@@ -117,11 +118,10 @@ export function addProject(data) {
 }
 
 export function updateProject(data) {
-  const { name, prd_host, basepath, desc, _id, protocol, env } = data;
+  const { name, project_type, basepath, desc, _id, env } = data;
   const param = {
     name,
-    prd_host,
-    protocol,
+    project_type,
     basepath,
     desc,
     id: _id,

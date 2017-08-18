@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 import '../Setting.scss';
 
 // layout
@@ -81,10 +82,8 @@ class ProjectMessage extends Component {
             domain: values['envs-protocol-' + index] + values['envs-domain-' + index]
           }
         });
-        // console.log(assignValue);
 
         updateProject(assignValue).then((res) => {
-          console.log(res);
           if (res.payload.data.errcode == 0) {
             message.success('修改成功! ');
           } else {
@@ -152,8 +151,8 @@ class ProjectMessage extends Component {
     const { projectMsg } = this.props;
     let initFormValues = {};
     let envMessage = [];
-    const { name, basepath, desc, env } = projectMsg;
-    initFormValues = { name, basepath, desc, env };
+    const { name, basepath, desc, env, project_type } = projectMsg;
+    initFormValues = { name, basepath, desc, env, project_type };
     if (env && env.length !== 0) {
       envMessage = env;
     }
@@ -327,6 +326,28 @@ class ProjectMessage extends Component {
             <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
               <Icon type="plus" /> 添加环境配置
             </Button>
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="权限"
+          >
+            {getFieldDecorator('project_type', {
+              rules: [{
+                required: true
+              }],
+              initialValue: initFormValues.project_type
+            })(
+              <RadioGroup>
+                <Radio value="private" className="radio">
+                  <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
+                </Radio>
+                <br />
+                <Radio value="public" className="radio">
+                  <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
+                </Radio>
+              </RadioGroup>
+            )}
           </FormItem>
         </Form>
         <Row>

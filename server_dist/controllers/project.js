@@ -125,6 +125,7 @@ var projectController = function (_baseController) {
          * @param {String} name 项目名称，不能为空
          * @param {String} basepath 项目基本路径，不能为空
          * @param {Number} group_id 项目分组id，不能为空
+         * @param {Number} group_name 项目分组名称，不能为空
          * @param {String} project_type private public
          * @param  {String} [desc] 项目描述
          * @returns {Object}
@@ -146,6 +147,7 @@ var projectController = function (_baseController) {
                                     name: 'string',
                                     basepath: 'string',
                                     group_id: 'number',
+                                    group_name: 'string',
                                     desc: 'string',
                                     color: 'string',
                                     icon: 'string'
@@ -214,6 +216,7 @@ var projectController = function (_baseController) {
                                     project_type: params.project_type || 'private',
                                     uid: this.getUid(),
                                     group_id: params.group_id,
+                                    group_name: params.group_name,
                                     icon: params.icon,
                                     color: params.color,
                                     add_time: _yapi2.default.commons.time(),
@@ -233,6 +236,7 @@ var projectController = function (_baseController) {
                                     uid: this.getUid(),
                                     username: username,
                                     typeid: params.group_id,
+                                    typename: params.group_name,
                                     color: params.color,
                                     icon: params.icon
                                 });
