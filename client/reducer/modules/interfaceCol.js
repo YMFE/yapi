@@ -76,7 +76,7 @@ export function fetchCaseData(caseId){
 export function fetchCaseList(colId) {
   return {
     type: FETCH_CASE_LIST,
-    payload: axios.get('/api/col/case_list/col_id=' + colId)
+    payload: axios.get('/api/col/case_list/?col_id=' + colId)
   }
 }
 
