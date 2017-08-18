@@ -40,23 +40,37 @@ export default class InterfaceCaseContent extends Component {
     super(props)
   }
 
+  getColId(colList, currCaseId) {
+    let currColId = 0;
+    colList.forEach(col => {
+      col.caseList.forEach(caseItem => {
+        if (+caseItem._id === currCaseId) {
+          currColId = col._id;
+        }
+      })
+    })
+    return currColId;
+  }
+
   async componentWillMount() {
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
     let { currCaseId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
     currCaseId = +actionId || +currCaseId || result.payload.data.data[0].caseList[0]._id;
+    let currColId = this.getColId(result.payload.data.data, currCaseId);
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
     this.props.fetchCaseData(currCaseId)
-    this.props.setColData({currCaseId: +currCaseId, isShowCol: false})
+    this.props.setColData({currCaseId: +currCaseId, currColId, isShowCol: false})
   }
 
   componentWillReceiveProps(nextProps) {
     const oldCaseId = this.props.match.params.actionId
     const newCaseId = nextProps.match.params.actionId
     if (oldCaseId !== newCaseId) {
+      let currColId = this.getColId(this.props.interfaceColList, newCaseId);
       this.props.fetchCaseData(newCaseId);
-      this.props.setColData({currCaseId: +newCaseId, isShowCol: false})
+      this.props.setColData({currCaseId: +newCaseId, currColId, isShowCol: false})
     }
   }
 
