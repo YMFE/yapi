@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import './interface.scss'
 
 import InterfaceMenu from './InterfaceList/InterfaceMenu.js'
+import InterfaceList from './InterfaceList/InterfaceList.js'
 import InterfaceContent from './InterfaceList/InterfaceContent.js'
 
 import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
@@ -15,13 +16,19 @@ import InterfaceCaseContent from './InterfaceCol/InterfaceCaseContent.js'
 const InterfaceRoute = (props) => {
   let C;
   if (props.match.params.action === 'api') {
-    C = InterfaceContent;
+    if(!props.match.params.actionId){
+      C = InterfaceList
+    }else if(!isNaN(props.match.params.actionId)){
+      C = InterfaceContent;
+    }else if(props.match.params.actionId.indexOf('cat_')===0){
+      C = InterfaceList
+    }
   } else if (props.match.params.action === 'col') {
     C = InterfaceColContent;
   } else if (props.match.params.action === 'case') {
     C = InterfaceCaseContent;
   }
-  return <C />
+  return <C {...props} />
 }
 
 InterfaceRoute.propTypes = {
@@ -45,7 +52,6 @@ class Interface extends Component {
 
   onChange = (action) => {
     let params = this.props.match.params;
-
     this.props.history.push('/project/'+params.id + '/interface/' + action)
   }
 
@@ -72,7 +78,7 @@ class Interface extends Component {
           <div className="right-content">
             <Switch>
               <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
-              <Route exact path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
+              <Route exact path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />              
             </Switch>
           </div>
         </Col>

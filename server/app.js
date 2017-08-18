@@ -24,7 +24,7 @@ app.use(router.allowedMethods());
 websocket(app);
 
 app.use( async (ctx, next) => {
-    if( /^\/(?!api)[a-zA-Z0-9\/\-]*$/.test(ctx.path) ){
+    if( /^\/(?!api)[a-zA-Z0-9\/\-_]*$/.test(ctx.path) ){
         ctx.path = "/"
         await next()
     }else{

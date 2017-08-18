@@ -658,30 +658,31 @@ var projectController = function (_baseController) {
                             case 6:
                                 result = _context6.sent;
 
+                                console.log(result);
                                 result = result.toObject();
                                 delete result.members;
-                                _context6.next = 11;
+                                _context6.next = 12;
                                 return this.getProjectRole(params.id, 'project');
 
-                            case 11:
+                            case 12:
                                 result.role = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 18;
+                                _context6.next = 19;
                                 break;
 
-                            case 15:
-                                _context6.prev = 15;
+                            case 16:
+                                _context6.prev = 16;
                                 _context6.t0 = _context6['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 18:
+                            case 19:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[3, 15]]);
+                }, _callee6, this, [[3, 16]]);
             }));
 
             function get(_x7) {
