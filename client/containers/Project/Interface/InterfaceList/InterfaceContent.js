@@ -49,9 +49,8 @@ class Content extends Component {
   handleRequest(nextProps) {
     let matchParams = nextProps.match.params;
     let _actionId;
-    _actionId = matchParams.actionId;
-    _actionId = parseInt(matchParams.actionId, 10);
-    if (_actionId == 0 && nextProps.list.length > 0) {
+    _actionId = matchParams.actionId || 0;
+    if (_actionId === 0 && (nextProps.list.length > 0)) {
       return this.props.history.replace('/project/' + matchParams.id + '/interface/api/' + nextProps.list[0]._id)
     }
     if (!nextProps.curdata) return;
