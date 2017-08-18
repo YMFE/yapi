@@ -36,7 +36,12 @@ class InterfaceEditForm extends Component {
     if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
     if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
     if (curdata.req_params && curdata.req_params.length === 0) delete curdata.req_params;
-
+    if (curdata.req_body_form) {
+      curdata.req_body_form = curdata.req_body_form.map((item) => {
+        item.type = item.type === 'text' ? 'text' : 'file'
+        return item
+      })
+    }
     this.state = Object.assign({
       title: '',
       path: '',
@@ -55,8 +60,8 @@ class InterfaceEditForm extends Component {
       }],
       req_body_form: [{
         name: '',
-        type: '',
-        required: ''
+        type: 'text',
+        required: '1'
       }],
       res_body_type: 'json',
       res_body: '',
@@ -64,6 +69,8 @@ class InterfaceEditForm extends Component {
       res_body_mock: '',
       mockUrl: this.props.mockUrl
     }, curdata)
+
+
   }
 
   handleSubmit = (e) => {
@@ -94,9 +101,10 @@ class InterfaceEditForm extends Component {
               value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
             })
           }
-
-
         }
+        values.req_headers = values.req_headers.filter((item)=> item.name !== '')
+        values.req_body_form = values.req_body_form.filter((item)=> item.name !== '')
+        values.req_params = values.req_params.filter(item=>item.name !== '')
 
         this.props.onSubmit(values)
       }
@@ -109,7 +117,7 @@ class InterfaceEditForm extends Component {
       container: 'req_body_json',
       data: that.state.req_body_json,
       onChange: function (d) {
-        if(d.format !== true) return false;
+        if (d.format !== true) return false;
         that.setState({
           req_body_json: d.text
         })
@@ -120,7 +128,7 @@ class InterfaceEditForm extends Component {
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
-        if(d.format !== true) return false;
+        if (d.format !== true) return false;
         mockPreview.editor.setValue(d.mockText)
         that.setState({
           res_body: d.text,
@@ -158,15 +166,15 @@ class InterfaceEditForm extends Component {
     let val = e.target.value;
     if (val && val.indexOf(":") !== -1) {
       let paths = val.split("/"), name, i;
-      for(i=1; i< paths.length; i++){
-        if(paths[i][0] === ':'){
+      for (i = 1; i < paths.length; i++) {
+        if (paths[i][0] === ':') {
           name = paths[i].substr(1);
-          if(!_.find(this.state.req_params, {name: name})){
+          if (!_.find(this.state.req_params, { name: name })) {
             this.addParams('req_params', { name: name })
           }
         }
       }
-      
+
     }
   }
 
