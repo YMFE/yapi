@@ -2,6 +2,8 @@ import projectModel from '../models/project.js';
 import yapi from '../yapi.js';
 import baseController from './base.js';
 import interfaceModel from '../models/interface.js';
+import interfaceColModel from '../models/interfaceCol.js';
+import interfaceCaseModel from '../models/interfaceCase.js';
 import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
