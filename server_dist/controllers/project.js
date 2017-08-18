@@ -792,16 +792,15 @@ var projectController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
-                var _id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
-
+                var id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.prev = 0;
-                                _id = ctx.request.body.id;
+                                id = ctx.request.body.id;
 
-                                if (_id) {
+                                if (id) {
                                     _context8.next = 4;
                                     break;
                                 }
@@ -810,7 +809,7 @@ var projectController = function (_baseController) {
 
                             case 4:
                                 _context8.next = 6;
-                                return this.checkAuth(_id, 'project', 'danger');
+                                return this.checkAuth(id, 'project', 'danger');
 
                             case 6:
                                 _context8.t0 = _context8.sent;
@@ -827,19 +826,19 @@ var projectController = function (_baseController) {
                                 interfaceColInst = _yapi2.default.getInst(_interfaceCol2.default);
                                 interfaceCaseInst = _yapi2.default.getInst(_interfaceCase2.default);
                                 _context8.next = 14;
-                                return interfaceInst.delByProjectId(_id);
+                                return interfaceInst.delByProjectId(id);
 
                             case 14:
                                 _context8.next = 16;
-                                return interfaceCaseInst.delByProjectId(_id);
+                                return interfaceCaseInst.delByProjectId(id);
 
                             case 16:
                                 _context8.next = 18;
-                                return interfaceColInst.delByProjectId(_id);
+                                return interfaceColInst.delByProjectId(id);
 
                             case 18:
                                 _context8.next = 20;
-                                return this.Model.del(_id);
+                                return this.Model.del(id);
 
                             case 20:
                                 result = _context8.sent;
@@ -872,77 +871,79 @@ var projectController = function (_baseController) {
         key: 'changeMemberRole',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var params, groupInst, check, result, username, project, member;
+                var params, projectInst, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
                                 params = ctx.request.body;
-                                groupInst = _yapi2.default.getInst(_group2.default);
+
+                                console.log(params);
+                                projectInst = _yapi2.default.getInst(_project2.default);
 
                                 if (params.member_uid) {
-                                    _context9.next = 4;
+                                    _context9.next = 5;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组成员uid不能为空'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目成员uid不能为空'));
 
-                            case 4:
+                            case 5:
                                 if (params.id) {
-                                    _context9.next = 6;
+                                    _context9.next = 7;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组id不能为空'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
-                            case 6:
-                                _context9.next = 8;
-                                return groupInst.checkMemberRepeat(params.id, params.member_uid);
+                            case 7:
+                                _context9.next = 9;
+                                return projectInst.checkMemberRepeat(params.id, params.member_uid);
 
-                            case 8:
+                            case 9:
                                 check = _context9.sent;
 
                                 if (!(check === 0)) {
-                                    _context9.next = 11;
+                                    _context9.next = 12;
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分组成员不存在'));
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目成员不存在'));
 
-                            case 11:
-                                _context9.next = 13;
-                                return this.checkAuth(id, 'group', 'danger');
+                            case 12:
+                                _context9.next = 14;
+                                return this.checkAuth(params.id, 'group', 'danger');
 
-                            case 13:
+                            case 14:
                                 _context9.t0 = _context9.sent;
 
                                 if (!(_context9.t0 !== true)) {
-                                    _context9.next = 16;
+                                    _context9.next = 17;
                                     break;
                                 }
 
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 16:
+                            case 17:
 
                                 params.role = params.role === 'owner' ? 'owner' : 'dev';
 
-                                _context9.prev = 17;
-                                _context9.next = 20;
-                                return groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+                                _context9.prev = 18;
+                                _context9.next = 21;
+                                return projectInst.changeMemberRole(params.id, params.member_uid, params.role);
 
-                            case 20:
+                            case 21:
                                 result = _context9.sent;
                                 username = this.getUsername();
-                                _context9.next = 24;
+                                _context9.next = 25;
                                 return this.Model.get(params.id);
 
-                            case 24:
+                            case 25:
                                 project = _context9.sent;
-                                _context9.next = 27;
+                                _context9.next = 28;
                                 return _yapi2.default.getInst(_user2.default).findByUids(params.member_uid);
 
-                            case 27:
+                            case 28:
                                 member = _context9.sent;
 
                                 _yapi2.default.commons.saveLog({
@@ -955,21 +956,21 @@ var projectController = function (_baseController) {
                                     icon: project.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context9.next = 35;
+                                _context9.next = 36;
                                 break;
 
-                            case 32:
-                                _context9.prev = 32;
-                                _context9.t1 = _context9['catch'](17);
+                            case 33:
+                                _context9.prev = 33;
+                                _context9.t1 = _context9['catch'](18);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t1.message);
 
-                            case 35:
+                            case 36:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[17, 32]]);
+                }, _callee9, this, [[18, 33]]);
             }));
 
             function changeMemberRole(_x10) {
@@ -1000,14 +1001,13 @@ var projectController = function (_baseController) {
         key: 'up',
         value: function () {
             var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
-                var _id2, params, projectData, checkRepeat, data, result, username;
-
+                var id, params, projectData, checkRepeat, data, result, username;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
                             case 0:
                                 _context10.prev = 0;
-                                _id2 = ctx.request.body.id;
+                                id = ctx.request.body.id;
                                 params = ctx.request.body;
 
                                 params.basepath = params.basepath || '';
@@ -1020,7 +1020,7 @@ var projectController = function (_baseController) {
                                     color: 'string'
                                 });
 
-                                if (_id2) {
+                                if (id) {
                                     _context10.next = 7;
                                     break;
                                 }
@@ -1029,7 +1029,7 @@ var projectController = function (_baseController) {
 
                             case 7:
                                 _context10.next = 9;
-                                return this.checkAuth(_id2, 'project', 'edit');
+                                return this.checkAuth(id, 'project', 'edit');
 
                             case 9:
                                 _context10.t0 = _context10.sent;
@@ -1043,7 +1043,7 @@ var projectController = function (_baseController) {
 
                             case 12:
                                 _context10.next = 14;
-                                return this.Model.get(_id2);
+                                return this.Model.get(id);
 
                             case 14:
                                 projectData = _context10.sent;
@@ -1094,7 +1094,7 @@ var projectController = function (_baseController) {
                                 if (params.color) data.color = params.color;
                                 if (params.icon) data.icon = params.icon;
                                 _context10.next = 33;
-                                return this.Model.up(_id2, data);
+                                return this.Model.up(id, data);
 
                             case 33:
                                 result = _context10.sent;
@@ -1105,7 +1105,7 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: _id2,
+                                    typeid: id,
                                     icon: params.icon,
                                     color: params.color
                                 });
