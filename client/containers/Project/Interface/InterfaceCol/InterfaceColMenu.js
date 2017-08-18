@@ -45,7 +45,8 @@ export default class InterfaceColMenu extends Component {
   state = {
     addColModalVisible: false,
     addColName: '',
-    addColDesc: ''
+    addColDesc: '',
+    expandedKeys: []
   }
 
   constructor(props) {
@@ -84,25 +85,25 @@ export default class InterfaceColMenu extends Component {
     }
   }
 
-  @autobind
-  async onSelect(key) {
-    const type = key.split('_')[0];
-    const id = key.split('_')[1];
+  onSelect = (keys) => {
+    const type = keys[0].split('_')[0];
+    const id = keys[0].split('_')[1];
     if (type === 'col') {
       this.props.setColData({
         isShowCol: true,
-        currColId: id
+        currColId: +id
       })
     } else {
       this.props.setColData({
         isShowCol: false,
-        currCaseId: id
+        currCaseId: +id
       })
     }
   }
 
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
+
     return (
       <div>
         <div className="interface-filter">
@@ -113,9 +114,11 @@ export default class InterfaceColMenu extends Component {
         </div>
         <Tree
           className="col-list-tree"
-          defaultExpandedKeys={[''+currColId, ''+currCaseId]}
-          defaultSelectedKeys={[isShowCol ? ''+currColId : ''+currCaseId]}
+          expandedKeys={this.state.expandedKeys}
+          selectedKeys={[isShowCol ? 'col_'+currColId : 'case_'+currCaseId]}
           onSelect={this.onSelect}
+          autoExpandParent
+          onExpand={keys => this.setState({expandedKeys: keys})}
         >
           {
             this.props.interfaceColList.map((col) => (
