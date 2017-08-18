@@ -13,6 +13,7 @@ class interfaceModel extends baseModel {
             path: { type: String, required: true },
             method: { type: String, required: true },
             project_id: { type: Number, required: true },
+            catid: {type: Number, required: true},
             edit_uid: {type: Number, default: 0},
             status: {type: String, enum: ['undone', 'done'], default: 'undone'},
             desc: String,
@@ -99,18 +100,33 @@ class interfaceModel extends baseModel {
         });
     }
 
-    list(project_id) {
+    list(project_id, select) {
+        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
         return this.model.find({
             project_id: project_id
         })
+            .select(select)
             .sort({ _id: -1 })
             .exec();
+    }
+
+    listByCatid(catid, select){
+        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
+        return this.model.find({
+            catid: catid
+        }).select(select).exec();
     }
 
     del(id) {
         return this.model.deleteOne({
             _id: id
         });
+    }
+
+    delByCatid(id){
+        return this.model.deleteMany({
+            catid: id
+        })
     }
 
     delByProjectId(id){
