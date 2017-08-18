@@ -193,6 +193,7 @@ class View extends Component {
   render () {
 
     const dataSource = [];
+    console.log(this.props.curData)
     if(this.props.curData.req_headers&&this.props.curData.req_headers.length){
       this.props.curData.req_headers.map((item,i)=>{
         dataSource.push({
