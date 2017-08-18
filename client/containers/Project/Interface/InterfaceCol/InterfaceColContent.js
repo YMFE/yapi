@@ -50,7 +50,7 @@ export default class InterfaceColContent extends Component {
     } else {
       this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
     }
-    this.props.setColData({currColId, currCaseId})
+    this.props.setColData({currColId: +currColId, currCaseId: +currCaseId})
   }
 
   render() {
