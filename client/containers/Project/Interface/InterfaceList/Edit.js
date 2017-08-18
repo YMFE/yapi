@@ -38,7 +38,7 @@ class InterfaceEdit extends Component {
   }
 
   onSubmit = async (params) => {
-    params.id = params._id = this.props.curdata._id;
+    params.id = this.props.match.params.actionId;
     let result = await axios.post('/api/interface/up', params);
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
@@ -49,7 +49,6 @@ class InterfaceEdit extends Component {
   }
 
   componentWillUnmount(){
-    console.log('unmount')
     try{
       if(this.state.status === 1){
         this.WebSocket.close()
@@ -84,7 +83,6 @@ class InterfaceEdit extends Component {
   }
 
   render() {    
-    console.log(this.state.status)
     return <div className="interface-edit">
       {this.state.status === 1 ?
         <InterfaceEditForm mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.state.curdata} />

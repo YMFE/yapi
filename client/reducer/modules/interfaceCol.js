@@ -1,7 +1,8 @@
 import axios from 'axios'
 // Actions
 const FETCH_INTERFACE_COL_LIST = 'yapi/interfaceCol/FETCH_INTERFACE_COL_LIST';
-const FETCH_INTERFACE_CASE_LIST = 'yapi/interfaceCol/FETCH_INTERFACE_CASE_LIST';
+const FETCH_CASE_DATA = 'yapi/interfaceCol/FETCH_CASE_DATA';
+const FETCH_CASE_LIST = 'yapi/interfaceCol/FETCH_CASE_LIST';
 const SET_COL_DATA = 'yapi/interfaceCol/SET_COL_DATA';
 
 // Reducer
@@ -20,32 +21,35 @@ const initialState = {
   }],
   isShowCol: true,
   currColId: 0,
-  currCaseId: 0
+  currCaseId: 0,
+  currCase: {},
+  currCaseList: []
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_INTERFACE_COL_LIST:
+    case FETCH_INTERFACE_COL_LIST:{
       return {
         ...state,
         interfaceColList: action.payload.data.data
       }
-    case FETCH_INTERFACE_CASE_LIST: {
-      const caseList = state.interfaceColList.map(col => {
-        if (col._id === state.currColId) {
-          return col.caseList = action.payload.data.data;
-        }
-        return col;
-      })
+    }
+    case FETCH_CASE_DATA: {
       return {
         ...state,
-        caseList
+        currCase: action.payload.data.data
+      }
+    }
+    case FETCH_CASE_LIST: {
+      return {
+        ...state,
+        currCaseList: action.payload.data.data
       }
     }
     case SET_COL_DATA: {
       return {
         ...state,
-        ...action.payload.data
+        ...action.payload
       }
     }
     default:
@@ -62,10 +66,17 @@ export function fetchInterfaceColList (projectId) {
   }
 }
 
-export function fetchInterfaceCaseList(colId){
+export function fetchCaseData(caseId){
   return {
-    type: FETCH_INTERFACE_CASE_LIST,
-    payload: axios.get('/api/col/case_list?col_id=' + colId)
+    type: FETCH_CASE_DATA,
+    payload: axios.get('/api/col/case?caseid=' + caseId)
+  }
+}
+
+export function fetchCaseList(colId) {
+  return {
+    type: FETCH_CASE_LIST,
+    payload: axios.get('/api/col/case_list/col_id=' + colId)
   }
 }
 

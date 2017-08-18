@@ -472,6 +472,10 @@ var interfaceController = function (_baseController) {
                                     data.req_body_other = params.req_body_other;
                                 }
 
+                                if (params.req_body_type) {
+                                    data.req_body_type = params.req_body_type;
+                                }
+
                                 if (params.res_body_type) {
                                     data.res_body_type = params.res_body_type;
                                 }
@@ -479,29 +483,29 @@ var interfaceController = function (_baseController) {
                                     data.res_body = params.res_body;
                                 }
 
-                                _context4.prev = 30;
-                                _context4.next = 33;
+                                _context4.prev = 31;
+                                _context4.next = 34;
                                 return this.Model.up(id, data);
 
-                            case 33:
+                            case 34:
                                 result = _context4.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 40;
+                                _context4.next = 41;
                                 break;
 
-                            case 37:
-                                _context4.prev = 37;
-                                _context4.t0 = _context4['catch'](30);
+                            case 38:
+                                _context4.prev = 38;
+                                _context4.t0 = _context4['catch'](31);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
 
-                            case 40:
+                            case 41:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[30, 37]]);
+                }, _callee4, this, [[31, 38]]);
             }));
 
             function up(_x4) {

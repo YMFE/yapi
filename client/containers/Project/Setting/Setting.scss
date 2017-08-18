@@ -23,3 +23,32 @@
     flex-shrink: 1;
   }
 }
+
+.setting-group {
+  .ant-card-head {
+    background-color: #eee;
+  }
+  .ant-card-body {
+    padding: 0;
+  }
+  .card-item {
+    display: flex;
+    align-items: center;
+    padding: .1rem .15rem;
+    position: relative;
+    .item-img {
+      width: .2rem;
+      height: .2rem;
+      margin-right: .08rem;
+    }
+    .item-role {
+      position: absolute;
+      right: .15rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .card-item + .card-item {
+    border-top: 1px solid #eee;
+  }
+}

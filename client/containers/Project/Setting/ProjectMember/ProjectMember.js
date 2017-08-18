@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Table, Card, Badge, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
-import './MemberList.scss';
 import { autobind } from 'core-decorators';
-import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'
-import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import { connect } from 'react-redux';
+import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
+import { getProjectMsg, getProjectMemberList, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
+import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import '../Setting.scss';
+
 const Option = Select.Option;
 
 const arrayAddKey = (arr) => {
@@ -20,24 +22,26 @@ const arrayAddKey = (arr) => {
 @connect(
   state => {
     return {
-      currGroup: state.group.currGroup,
-      uid: state.user.uid,
-      role: state.group.role
+      projectMsg: state.project.projectMsg,
+      uid: state.user.uid
     }
   },
   {
     fetchGroupMemberList,
-    fetchGroupMsg,
+    getProjectMsg,
+    getProjectMemberList,
     addMember,
     delMember,
     changeMemberRole
   }
 )
-class MemberList extends Component {
+class ProjectMember extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: [],
+      groupMemberList: [],
+      projectMemberList: [],
+      groupName: '',
       role: '',
       visible: false,
       dataSource: [],
@@ -46,17 +50,16 @@ class MemberList extends Component {
     }
   }
   static propTypes = {
-    currGroup: PropTypes.object,
+    projectId: PropTypes.number,
+    projectMsg: PropTypes.object,
     uid: PropTypes.number,
-    fetchGroupMemberList: PropTypes.func,
-    fetchGroupMsg: PropTypes.func,
     addMember: PropTypes.func,
     delMember: PropTypes.func,
     changeMemberRole: PropTypes.func,
-    role: PropTypes.string
+    fetchGroupMemberList: PropTypes.func,
+    getProjectMsg: PropTypes.func,
+    getProjectMemberList: PropTypes.func
   }
-
-
   @autobind
   showAddMemberModal() {
     this.setState({
@@ -67,9 +70,9 @@ class MemberList extends Component {
   // 重新获取列表
   @autobind
   reFetchList() {
-    this.props.fetchGroupMemberList(this.props.currGroup._id).then((res) => {
+    this.props.getProjectMemberList(this.props.projectId).then((res) => {
       this.setState({
-        userInfo: arrayAddKey(res.payload.data.data),
+        projectMemberList: arrayAddKey(res.payload.data.data),
         visible: false
       });
     });
@@ -78,9 +81,9 @@ class MemberList extends Component {
   // 增 - 添加成员
   @autobind
   handleOk() {
-    console.log(this.props.currGroup._id, this.state.inputUid);
+    console.log(this.props.projectId, this.state.inputUid);
     this.props.addMember({
-      id: this.props.currGroup._id,
+      id: this.props.projectId,
       member_uid: this.state.inputUid
     }).then((res) => {
       console.log(res);
@@ -94,7 +97,7 @@ class MemberList extends Component {
   @autobind
   changeNewMemberRole(value) {
     return () => {
-      console.log(this.props.currGroup._id, value);
+      console.log(this.props.projectId, value);
     }
   }
 
@@ -102,7 +105,7 @@ class MemberList extends Component {
   @autobind
   deleteConfirm(member_uid) {
     return () => {
-      const id = this.props.currGroup._id;
+      const id = this.props.projectId;
       this.props.delMember({ id, member_uid }).then((res) => {
         if (!res.payload.data.errcode) {
           message.success(res.payload.data.errmsg);
@@ -116,7 +119,7 @@ class MemberList extends Component {
   @autobind
   changeUserRole(e) {
     console.log(e);
-    const id = this.props.currGroup._id;
+    const id = this.props.projectId;
     const role = e.split('-')[0];
     const member_uid = e.split('-')[1];
     this.props.changeMemberRole({ id, member_uid, role }).then((res) => {
@@ -135,36 +138,6 @@ class MemberList extends Component {
     });
   }
 
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.currGroup !== nextProps.currGroup) {
-      this.props.fetchGroupMemberList(nextProps.currGroup._id).then((res) => {
-        this.setState({
-          userInfo: arrayAddKey(res.payload.data.data)
-        });
-      });
-      this.props.fetchGroupMsg(nextProps.currGroup._id).then((res) => {
-        this.setState({
-          role: res.payload.data.data.role
-        });
-      })
-    }
-  }
-
-  componentDidMount() {
-    const currGroupId = this.props.currGroup._id;
-    this.props.fetchGroupMsg(currGroupId).then((res) => {
-      this.setState({
-        role: res.payload.data.data.role
-      });
-    })
-    this.props.fetchGroupMemberList(currGroupId).then((res) => {
-      this.setState({
-        userInfo: arrayAddKey(res.payload.data.data)
-      });
-    });
-  }
-
   @autobind
   onUserSelect(childState) {
     console.log(childState);
@@ -172,10 +145,24 @@ class MemberList extends Component {
       inputUid: childState.uid
     })
   }
+  
+  async componentWillMount() {
+    const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
+    const rojectMsg = await this.props.getProjectMsg(this.props.projectId);
+    const projectMemberList = await this.props.getProjectMemberList(this.props.projectId);
+    this.setState({
+      groupMemberList: groupMemberList.payload.data.data,
+      groupName: this.props.projectMsg.group_name,
+      projectMemberList: arrayAddKey(projectMemberList.payload.data.data),
+      role: rojectMsg.payload.data.data.role
+    })
+  }
 
-  render() {
+  render () {
+    console.log(this.props);
+    console.log(this.state);
     const columns = [{
-      title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
+      title: ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => {
@@ -230,10 +217,21 @@ class MemberList extends Component {
             </Col>
           </Row>
         </Modal>
-        <Table columns={columns} dataSource={this.state.userInfo} pagination={false} />
+        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} />
+        <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
+          {this.state.groupMemberList.map((item, index) => {
+            return (<div key={index} className="card-item">
+              <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
+              <p className="item-name">{item.username}</p>
+              {item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', marginLeft: '8px', borderRadius: '4px' }} /> : null}
+              {item.role === 'owner' ? <p className="item-role">组长</p> : null}
+              {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
+            </div>);
+          })}
+        </Card>
       </div>
-    );
+    )
   }
 }
 
-export default MemberList;
+export default ProjectMember;
