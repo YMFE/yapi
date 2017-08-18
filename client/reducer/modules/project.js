@@ -9,6 +9,10 @@ const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 // const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
 const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT'
+const GET_PEOJECT_MEMBER = 'yapi/project/GET_PEOJECT_MEMBER';
+const ADD_PROJECT_MEMBER = 'yapi/project/ADD_PROJECT_MEMBER';
+const DEL_PROJECT_MEMBER = 'yapi/project/DEL_PROJECT_MEMBER';
+const CHANGE_PROJECT_MEMBER = 'yapi/project/CHANGE_PROJECT_MEMBER';
 
 // Reducer
 const initialState = {
@@ -93,6 +97,40 @@ export function getProjectMsg(id) {
   };
 }
 
+// 添加项目成员
+export function addMember(param) {
+  return {
+    type: ADD_PROJECT_MEMBER,
+    payload: axios.post('/api/project/add_member', param)
+  }
+}
+
+// 删除项目成员
+export function delMember(param) {
+  return {
+    type: DEL_PROJECT_MEMBER,
+    payload: axios.post('/api/project/del_member', param)
+  }
+}
+
+// 修改项目成员权限
+export function changeMemberRole(param) {
+  return {
+    type: CHANGE_PROJECT_MEMBER,
+    payload: axios.post('/api/project/change_member_role', param)
+  }
+}
+
+// 获取项目成员列表
+export function getProjectMemberList(id) {
+  return {
+    type: GET_PEOJECT_MEMBER,
+    payload: axios.get('/api/project/get_member_list', {
+      params: { id }
+    })
+  }
+}
+
 // export function changeTableLoading(data) {
 //   return {
 //     type: CHANGE_TABLE_LOADING,
@@ -101,14 +139,15 @@ export function getProjectMsg(id) {
 // }
 
 export function addProject(data) {
-  const { name, prd_host, basepath, desc, group_id, protocol } = data;
+  const { name, prd_host, basepath, desc, group_id, group_name, protocol } = data;
   const param = {
     name,
     prd_host,
     protocol,
     basepath,
     desc,
-    group_id
+    group_id,
+    group_name
   };
   return {
     type: PROJECT_ADD,
@@ -117,11 +156,10 @@ export function addProject(data) {
 }
 
 export function updateProject(data) {
-  const { name, prd_host, basepath, desc, _id, protocol, env } = data;
+  const { name, project_type, basepath, desc, _id, env } = data;
   const param = {
     name,
-    prd_host,
-    protocol,
+    project_type,
     basepath,
     desc,
     id: _id,

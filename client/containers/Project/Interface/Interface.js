@@ -51,15 +51,16 @@ class Interface extends Component {
 
   render() {
     const { action } = this.props.match.params;
+    const activeKey = action === 'api' ? 'api' : 'colOrCase';
     return <div className="web-content g-row" style={{ marginBottom: "15px" }}>
       <Row gutter={16} >
         <Col span={6}>
           <div className="left-menu">
-            <Tabs type="card" activeKey={action} onChange={this.onChange}>
+            <Tabs type="card" activeKey={activeKey} onChange={() => this.onChange(action)}>
               <Tabs.TabPane tab="接口列表" key="api">
                 <InterfaceMenu projectId={this.props.match.params.id} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="接口集合" key="col" >
+              <Tabs.TabPane tab="接口集合" key="colOrCase" >
                 <InterfaceColMenu />
               </Tabs.TabPane>
             </Tabs>
@@ -71,7 +72,7 @@ class Interface extends Component {
           <div className="right-content">
             <Switch>
               <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
-              <Route path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
+              <Route exact path="/project/:id/interface/:action/:actionId" component={InterfaceRoute} />
             </Switch>
           </div>
         </Col>
