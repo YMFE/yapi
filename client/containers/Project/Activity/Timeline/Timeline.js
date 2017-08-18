@@ -57,6 +57,7 @@ function timeago(timestamp) {
 
 @connect(
   state => {
+    console.log(state);
     return {
       newsData: state.news.newsData,
       curpage: state.news.curpage,
