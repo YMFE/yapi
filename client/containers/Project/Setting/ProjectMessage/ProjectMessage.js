@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -8,6 +8,7 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const confirm = Modal.confirm;
 import '../Setting.scss';
 
 // layout
@@ -135,6 +136,38 @@ class ProjectMessage extends Component {
       if (res.payload.data.errcode == 0) {
         message.success('删除成功!');
       }
+    });
+  }
+
+  showConfirm = () => {
+    let that = this;
+    confirm({
+      title: "确认删除 "+that.props.projectMsg.name+" 分组吗？",
+      content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
+        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner/>
+        <div style={{marginTop: '15px'}}>
+          <p style={{marginBottom: '8px'}}><b>请输入项目名称确认此操作:</b></p>
+          <Input id="project_name" size="large" />
+        </div>
+      </div>,
+      onOk() {
+        let groupName = document.getElementById('project_name').value;
+        if(that.props.projectMsg.name !== groupName){
+          message.error('分组名称有误')
+          return new Promise((resolve, reject)=>{
+            reject('error')
+          })
+        }else{
+          that.props.delProject(that.props.projectId).then((res) => {
+            if (res.payload.data.errcode == 0) {
+              message.success('删除成功!');
+            }
+          });
+        }
+
+      },
+      iconType: 'delete',
+      onCancel() { }
     });
   }
 
@@ -369,7 +402,7 @@ class ProjectMessage extends Component {
               <h3>删除项目</h3>
               <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
             </div>
-            <Button type="danger" ghost className="card-danger-btn" onClick={this.handleDelete}>删除</Button>
+            <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
           </Card>
         </FormItem>
       </div>
