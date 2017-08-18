@@ -37,6 +37,9 @@
             background-color: #efefef
         }
         .interface-list{
+            a{
+                color: #333
+            }
             
             .btn-http{
                 height: 23px;
@@ -49,10 +52,15 @@
                 display: inline
             }
 
+            .ant-tree-node-content-wrapper{
+                width: 100%
+            }
+
             .interface-delete-icon{
-                position: absolute;
-                right: 5px;
-                top: 14px;
+                position: relative;
+                right: 31px;
+                top: 6px;
+                float: right
             }
         }
     }

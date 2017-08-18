@@ -1,4 +1,5 @@
 import interfaceModel from '../models/interface.js';
+import interfaceCatModel from '../models/interfaceCat.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 import userModel from '../models/user.js';
@@ -7,6 +8,7 @@ class interfaceController extends baseController {
     constructor(ctx) {
         super(ctx);
         this.Model = yapi.getInst(interfaceModel);
+        this.catModel = yapi.getInst(interfaceCatModel)
     }
 
     /**
@@ -45,7 +47,8 @@ class interfaceController extends baseController {
             title: 'string',
             path: 'string',
             method: 'string',
-            desc: 'string'
+            desc: 'string',
+            catid: 'number'
         });
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
@@ -72,6 +75,7 @@ class interfaceController extends baseController {
         try {
             let data = {
                 project_id: params.project_id,
+                catid: params.catid,
                 title: params.title,
                 path: params.path,
                 desc: params.desc,
@@ -159,6 +163,43 @@ class interfaceController extends baseController {
         }
     }
 
+    async listByCat(ctx) {
+        let catid = ctx.request.query.catid;
+        if (!catid) {
+            return ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空');
+        }
+        try {
+            let result = await this.Model.listByCatid(catid)
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
+        }
+
+    }
+
+    async listByMenu(ctx) {
+        let project_id = ctx.request.query.project_id;
+        if (!project_id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+        try {
+            let result = await this.catModel.list(project_id), newResult = [];
+            for(let i=0, item, list;i< result.length; i++){
+                item = result[i].toObject()
+                list = await this.Model.listByCatid(item._id, '_id title method')
+                for(let j=0; j< list.length; j++){
+                    list[j] = list[j].toObject()
+                }   
+                item.list = list;
+                newResult[i] = item             
+            }
+            ctx.body = yapi.commons.resReturn(newResult);
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 402, err.message);
+        }
+
+    }
+
     /**
      * 编辑接口
      * @interface /interface/up
@@ -193,7 +234,8 @@ class interfaceController extends baseController {
             title: 'string',
             path: 'string',
             method: 'string',
-            desc: 'string'
+            desc: 'string',
+            catid: 'number'
         });
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
@@ -231,6 +273,10 @@ class interfaceController extends baseController {
         }
         if (params.method) {
             data.method = params.method;
+        }
+
+        if(params.catid){
+            data.catid = params.catid;
         }
 
         if (params.req_headers) {
@@ -313,29 +359,101 @@ class interfaceController extends baseController {
         try {
             let id = parseInt(ctx.query.id, 10), result, userInst, userinfo, data;
             if (!id) return ctx.websocket.send("id 参数有误");
-            result = await this.Model.get(id), userinfo;         
-            if(result.edit_uid !== 0 && result.edit_uid !== this.getUid()){
+            result = await this.Model.get(id), userinfo;
+            if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
                 userInst = yapi.getInst(userModel);
                 userinfo = await userInst.findById(result.edit_uid);
                 data = {
                     errno: result.edit_uid,
-                    data: {uid: result.edit_uid, username: userinfo.username}
+                    data: { uid: result.edit_uid, username: userinfo.username }
                 }
-            }else{
-                this.Model.upEditUid(id, this.getUid() ).then()
+            } else {
+                this.Model.upEditUid(id, this.getUid()).then()
                 data = {
                     errno: 0,
                     data: result
                 }
             }
-            ctx.websocket.send(JSON.stringify(data));  
-            ctx.websocket.on('close', ()=> {  
+            ctx.websocket.send(JSON.stringify(data));
+            ctx.websocket.on('close', () => {
                 this.Model.upEditUid(id, 0).then()
             })
         } catch (err) {
             yapi.commons.log(err, 'error')
         }
     }
+
+    async addCat(ctx) {
+        try {
+            let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                name: 'string',
+                project_id: 'number',
+                desc: 'string'
+            });
+
+            if (!params.project_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+            }
+            if (!params.name) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');
+            }
+
+            let result = await this.catModel.save({
+                name: params.name,
+                project_id: params.project_id,
+                desc: params.desc,
+                uid: this.getUid(),
+                add_time: yapi.commons.time(),
+                up_time: yapi.commons.time()
+            })
+            ctx.body = yapi.commons.resReturn(result);
+
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    async upCat(ctx) {
+        try {
+            let params = ctx.request.body;
+            let result = await this.catModel.up(params.catid, {
+                name: params.cat_name,
+                desc: params.cat_desc,
+                up_time: yapi.commons.time()
+            })
+            ctx.body = yapi.commons.resReturn(result)
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 400, e.message)
+        }
+    }
+
+    async delCat(ctx) {
+        try {
+            let id = ctx.request.body.catid;
+            let catData = await this.catModel.get(id);
+            if (!catData) {
+                ctx.body = yapi.commons.resReturn(null, 400, "不存在的分类")
+            }
+
+            if (catData.uid !== this.getUid()) {
+                let auth = await this.checkAuth(catData.project_id, 'project', 'danger')
+                if (!auth) {
+                    return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+                }
+            }
+
+            let result = await this.catModel.del(id);
+            await this.Model.delByCatid(id)
+            return ctx.body = yapi.commons.resReturn(result);
+
+
+        } catch (e) {
+            yapi.commons.resReturn(null, 400, e.message)
+        }
+    }
+
+
 }
 
 module.exports = interfaceController;

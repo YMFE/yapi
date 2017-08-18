@@ -30,52 +30,29 @@ var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var interfaceCase = function (_baseModel) {
-    (0, _inherits3.default)(interfaceCase, _baseModel);
+var interfaceCol = function (_baseModel) {
+    (0, _inherits3.default)(interfaceCol, _baseModel);
 
-    function interfaceCase() {
-        (0, _classCallCheck3.default)(this, interfaceCase);
-        return (0, _possibleConstructorReturn3.default)(this, (interfaceCase.__proto__ || (0, _getPrototypeOf2.default)(interfaceCase)).apply(this, arguments));
+    function interfaceCol() {
+        (0, _classCallCheck3.default)(this, interfaceCol);
+        return (0, _possibleConstructorReturn3.default)(this, (interfaceCol.__proto__ || (0, _getPrototypeOf2.default)(interfaceCol)).apply(this, arguments));
     }
 
-    (0, _createClass3.default)(interfaceCase, [{
+    (0, _createClass3.default)(interfaceCol, [{
         key: 'getName',
         value: function getName() {
-            return 'interface_case';
+            return 'interface_col';
         }
     }, {
         key: 'getSchema',
         value: function getSchema() {
             return {
-                casename: { type: String, required: true },
+                name: { type: String, required: true },
                 uid: { type: Number, required: true },
-                col_id: { type: Number, required: true },
-                index: { type: Number, default: 0 },
                 project_id: { type: Number, required: true },
+                desc: String,
                 add_time: Number,
-                up_time: Number,
-                env: { type: String },
-                domain: { type: String },
-                path: { type: String },
-                method: { type: String },
-                req_params: [{
-                    name: String, value: String
-                }],
-                req_query: [{
-                    name: String, value: String
-                }],
-                req_headers: [{
-                    name: String, value: String
-                }],
-                req_body_type: {
-                    type: String,
-                    enum: ['form', 'json', 'text', 'xml']
-                },
-                res_body_form: [{
-                    name: String, value: String
-                }],
-                res_body_other: String
-
+                up_time: Number
             };
         }
     }, {
@@ -92,11 +69,18 @@ var interfaceCase = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'checkRepeat',
+        value: function checkRepeat(name) {
+            return this.model.count({
+                name: name
+            });
+        }
+    }, {
         key: 'list',
-        value: function list(col_id) {
+        value: function list(project_id) {
             return this.model.find({
-                col_id: col_id
-            }).select("casename uid col_id _id index").exec();
+                project_id: project_id
+            }).exec();
         }
     }, {
         key: 'del',
@@ -113,29 +97,15 @@ var interfaceCase = function (_baseModel) {
             });
         }
     }, {
-        key: 'delByCol',
-        value: function delByCol(id) {
-            return this.model.deleteMany({
-                col_id: id
-            });
-        }
-    }, {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
-            return this.model.update({ _id: id }, data);
-        }
-    }, {
-        key: 'upCaseIndex',
-        value: function upCaseIndex(id, index) {
             return this.model.update({
                 _id: id
-            }, {
-                index: index
-            });
+            }, data);
         }
     }]);
-    return interfaceCase;
+    return interfaceCol;
 }(_base2.default);
 
-module.exports = interfaceCase;
+module.exports = interfaceCol;

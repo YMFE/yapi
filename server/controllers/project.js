@@ -284,6 +284,7 @@ class projectController extends baseController {
         }
         try {
             let result = await this.Model.get(params.id);
+            console.log(result)
             result = result.toObject();
             delete result.members;
             result.role = await this.getProjectRole(params.id, 'project');
