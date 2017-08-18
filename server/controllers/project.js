@@ -373,6 +373,18 @@ class projectController extends baseController {
         }
     }
 
+    /**
+     * 修改项目成员角色
+     * @interface /project/change_member_role
+     * @method POST
+     * @category project
+     * @foldnumber 10
+     * @param {String} id 项目id
+     * @param {String} member_uid 项目成员uid
+     * @param {String} role 权限 ['owner'|'dev']
+     * @returns {Object}
+     * @example
+     */
     async changeMemberRole(ctx){
         let params = ctx.request.body;
         console.log(params);
