@@ -48,6 +48,14 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
+var _interfaceCol = require('../models/interfaceCol.js');
+
+var _interfaceCol2 = _interopRequireDefault(_interfaceCol);
+
+var _interfaceCase = require('../models/interfaceCase.js');
+
+var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
+
 var _group = require('../models/group');
 
 var _group2 = _interopRequireDefault(_group);
@@ -812,8 +820,8 @@ var projectController = function (_baseController) {
 
                             case 9:
                                 interfaceInst = _yapi2.default.getInst(_interface2.default);
-                                interfaceColInst = _yapi2.default.getInst(interfaceColModel);
-                                interfaceCaseInst = _yapi2.default.getInst(interfaceCaseModel);
+                                interfaceColInst = _yapi2.default.getInst(_interfaceCol2.default);
+                                interfaceCaseInst = _yapi2.default.getInst(_interfaceCase2.default);
                                 _context8.next = 14;
                                 return interfaceInst.delByProjectId(_id);
 
