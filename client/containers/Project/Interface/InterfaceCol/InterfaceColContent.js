@@ -10,7 +10,8 @@ import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../re
       interfaceColList: state.interfaceCol.interfaceColList,
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
-      isShowCol: state.interfaceCol.isShowCol
+      isShowCol: state.interfaceCol.isShowCol,
+      currCaseList: state.interfaceCol.currCaseList
     }
   },
   {
@@ -29,6 +30,7 @@ export default class InterfaceColContent extends Component {
     fetchCaseList: PropTypes.func,
     setColData: PropTypes.func,
     history: PropTypes.object,
+    currCaseList: PropTypes.array,
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
     isShowCol: PropTypes.bool
@@ -59,6 +61,11 @@ export default class InterfaceColContent extends Component {
   }
 
   render() {
-    return <h1>hello colContent</h1>
+    return (
+      <div>
+        <h1>hello colContent</h1>
+        {JSON.stringify(this.props.currCaseList, null, 2)}
+      </div>
+    )
   }
 }
