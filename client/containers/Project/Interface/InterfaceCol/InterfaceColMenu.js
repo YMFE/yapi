@@ -61,14 +61,11 @@ export default class InterfaceColMenu extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const { isShowCol, currColId, currCaseId } = nextProps;
-    const action = isShowCol ? 'col' : 'case';
-    const actionId = isShowCol ? currColId : currCaseId;
+    const { currColId } = nextProps;
     let expandedKeys = this.state.expandedKeys;
-    if (expandedKeys.indexOf(action+'_'+actionId) === -1) {
-      expandedKeys = expandedKeys.concat([action+'_'+actionId])
+    if (expandedKeys.indexOf('col_'+currColId) === -1) {
+      expandedKeys = expandedKeys.concat(['col_'+currColId])
     }
-    console.log(expandedKeys)
     this.setState({expandedKeys})
   }
 
@@ -86,6 +83,10 @@ export default class InterfaceColMenu extends Component {
     } else {
       message.error(res.data.errmsg);
     }
+  }
+
+  onExpand = (keys) => {
+    this.setState({expandedKeys: keys})
   }
 
   onSelect = (keys) => {
@@ -111,6 +112,7 @@ export default class InterfaceColMenu extends Component {
 
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
+    console.log(this.state.expandedKeys)
 
     return (
       <div>
@@ -126,7 +128,7 @@ export default class InterfaceColMenu extends Component {
           selectedKeys={[isShowCol ? 'col_'+currColId : 'case_'+currCaseId]}
           onSelect={this.onSelect}
           autoExpandParent
-          onExpand={keys => this.setState({expandedKeys: keys})}
+          onExpand={this.onExpand}
         >
           {
             this.props.interfaceColList.map((col) => (
