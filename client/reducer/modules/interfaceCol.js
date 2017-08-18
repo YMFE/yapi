@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     case SET_COL_DATA: {
       return {
         ...state,
-        ...action.payload.data
+        ...action.payload
       }
     }
     default:
