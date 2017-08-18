@@ -375,25 +375,26 @@ class projectController extends baseController {
 
     async changeMemberRole(ctx){
         let params = ctx.request.body;
-        let groupInst = yapi.getInst(groupModel);
+        console.log(params);
+        let projectInst = yapi.getInst(projectModel);
         if (!params.member_uid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
         }
         if (!params.id) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
         if (check === 0) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分组成员不存在');
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
         }
-        if (await this.checkAuth(id, 'group', 'danger') !== true) {
+        if (await this.checkAuth(params.id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
         params.role = params.role === 'owner' ? 'owner' : 'dev';
 
         try {
-            let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            let result = await projectInst.changeMemberRole(params.id, params.member_uid, params.role);
 
             let username = this.getUsername();
             let project = await this.Model.get(params.id);
