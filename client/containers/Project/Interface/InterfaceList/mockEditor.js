@@ -6,9 +6,6 @@ require("brace/ext/language_tools.js");
 var json5 = require('json5');
 
 var langTools = ace.acequire("ace/ext/language_tools"),
-  editor,
-  mockEditor,
-  rhymeCompleter,
   wordList = [
     { name: '字符串', mock: '@string' },
     { name: '自然数', mock: '@natural' },
@@ -60,6 +57,22 @@ var langTools = ace.acequire("ace/ext/language_tools"),
   ];
 
 function run(options) {
+  var editor,
+    mockEditor,
+    rhymeCompleter;
+  function handleJson(json) {
+    var curData = mockEditor.curData;
+    try {
+      var obj = json5.parse(json);
+      curData.text = json;
+      curData.format = true;
+      curData.jsonData = obj;
+      curData.mockData = Mock.mock(obj);
+      curData.mockText = JSON.stringify(curData.mockData, null, "  ");
+    } catch (e) {
+      curData.format = e.message;
+    }
+  }
   options = options || {};
   var container, data;
   container = options.container || 'mock-editor';
@@ -73,7 +86,7 @@ function run(options) {
   editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
   //editor.renderer.setShowGutter(true);
-  if(options.readOnly === true){
+  if (options.readOnly === true) {
     editor.setReadOnly(true);
   }
   editor.setTheme('ace/theme/xcode');
@@ -125,19 +138,7 @@ function run(options) {
 
 
 
-function handleJson(json) {
-  var curData = mockEditor.curData;
-  try {
-    var obj = json5.parse(json);
-    curData.text = json;
-    curData.format = true;
-    curData.jsonData = obj;
-    curData.mockData = Mock.mock(obj);
-    curData.mockText = JSON.stringify(curData.mockData, null, "  ");
-  } catch (e) {
-    curData.format = e.message;
-  }
-}
+
 
 /**
  * mockEditor({
