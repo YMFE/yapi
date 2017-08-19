@@ -11,7 +11,8 @@ import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 @connect(
   state => {
     return {
-      data: state.follow.data
+      data: state.follow.data,
+      uid: state.user.uid
     }
   },
   {
@@ -26,11 +27,25 @@ class Follows extends Component {
     }
   }
   static propTypes = {
-    getFollowList: PropTypes.func
+    getFollowList: PropTypes.func,
+    uid: PropTypes.number
   }
 
-  componentDidMount() {
-    this.props.getFollowList(107).then((res) => {
+  receiveRes = () => {
+    console.log('receive!');
+    this.props.getFollowList(this.props.uid).then((res) => {
+      console.log(res);
+      if (res.payload.data.errcode === 0) {
+        this.setState({
+          data: res.payload.data.data.list
+        })
+      }
+    });
+  }
+
+  async componentWillMount() {
+    console.log(this.props);
+    this.props.getFollowList(this.props.uid).then((res) => {
       console.log(res);
       if (res.payload.data.errcode === 0) {
         this.setState({
@@ -42,7 +57,6 @@ class Follows extends Component {
 
   render () {
     const data = this.state.data;
-    console.log(data);
     return (
       <div>
         <Subnav
@@ -57,10 +71,9 @@ class Follows extends Component {
         <div className="g-row">
           <Row gutter={16} className="follow-box">
             {data.map((item, index) => {
-              console.log(item);
               return (
                 <Col span={6} key={index}>
-                  <ProjectCard projectData={item} />
+                  <ProjectCard projectData={item} isFollowed={true} callbackResult={this.receiveRes} />
                 </Col>);
             })}
           </Row>

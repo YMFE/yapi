@@ -69,3 +69,8 @@ em {
 .ant-dropdown .user-menu {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
+
+// confirm 框内边距过大
+.ant-confirm .ant-modal-body{
+  padding: .24rem !important;
+}
