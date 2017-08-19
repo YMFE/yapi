@@ -238,12 +238,12 @@ class InterfaceMenu extends Component {
     };
 
     const defaultExpandedKeys = ()=>{
-      const {router, inter, list} = this.props;
-      if(list.length === 0) return null;
+      const {router, inter, list} = this.props, rNull = {expands: [], selects: []};
+      if(list.length === 0) return rNull;
       if(router){
         if(!isNaN(router.params.actionId)){
           let _actionId = parseInt(router.params.actionId, 10)
-          if(!inter._id || inter._id !== _actionId)return null;
+          if(!inter._id || inter._id !== _actionId)return rNull;
           return {
             expands: ['group-' + inter.catid],
             selects: [inter._id+""]
