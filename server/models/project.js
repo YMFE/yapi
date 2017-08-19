@@ -34,11 +34,7 @@ class projectModel extends baseModel {
     }
 
     get(id) {
-    this.model.findOne({
-        _id: id
-    }).select("uid group_name ").exec().then((res) => {
-      console.log(res);
-    })
+        console.log(id)   
         return this.model.findOne({
             _id: id
         }).exec();
