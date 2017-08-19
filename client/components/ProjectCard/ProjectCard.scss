@@ -1,5 +1,31 @@
 @import '../../styles/mixin.scss';
-
+.card-container {
+  position: relative;
+  &:hover {
+    .m-card{
+      background-color: #efefef;
+    }
+    .card-btns {
+      display: block;
+    }
+  }
+  // 按钮组
+  .card-btns {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    // 卡片右上角按钮
+    .icon {
+      cursor: pointer;
+      font-size: .2rem;
+      padding: .08rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}
 .m-card {
   cursor: pointer;
   text-align: center;
@@ -7,9 +33,7 @@
   background-color: #fff;
   transition: all .4s;
   color: rgba(0, 0, 0, 0.65);
-  &:hover {
-    background-color: #efefef;
-  }
+  position: relative;
   .m-card-logo {
     .icon {
       font-size: .8rem;
