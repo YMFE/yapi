@@ -54,7 +54,7 @@ export default class App extends Component {
       r = (
         <Router>
           <div className="router-main">
-            <Header />
+            {this.props.loginState !== 1 ? <Header /> : null}
             <div className="router-container">
               <Route exact path="/" component={Home} />
               <Route path="/group" component={requireAuthentication(Group)} />

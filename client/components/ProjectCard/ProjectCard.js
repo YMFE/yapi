@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { delFollow } from  '../../reducer/modules/follow';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router'
 
 @connect(
   () => {
@@ -14,6 +15,7 @@ import PropTypes from 'prop-types';
     delFollow
   }
 )
+@withRouter
 class ProjectCard extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,7 @@ class ProjectCard extends Component {
     projectData: PropTypes.object,
     isFollowed: PropTypes.bool,
     callbackResult: PropTypes.func,
+    history: PropTypes.object,
     delFollow: PropTypes.func
   }
 
@@ -48,10 +51,9 @@ class ProjectCard extends Component {
   // </Popconfirm>
   render() {
     const { projectData, isFollowed } = this.props;
-    console.log(this.props);
     return (
       <div className="card-container">
-        <Card bordered={false} bodyStyle={{padding: 16}} className="m-card">
+        <Card bordered={false} bodyStyle={{padding: 16}} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
           <div className="m-card-logo">
             <Icon type="area-chart" className="icon" />
             <p className="name">{projectData.name || projectData.projectname}</p>
