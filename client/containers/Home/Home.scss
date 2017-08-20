@@ -12,6 +12,20 @@ $color-text-light: #6d7c90;
 .g-body {
   position: relative;
 }
+.home-heander {
+  font-size: 0;
+  .item {
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+    font-size: .17rem;
+    padding: .16rem .24rem;
+    -webkit-font-smoothing: antialiased;
+    &:hover {
+      color: #27cdfd;
+    }
+  }
+}
 .m-bg {
   position: absolute;
   left: 0;

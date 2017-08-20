@@ -1,6 +1,6 @@
 import Header from '../components/Header/Header.js'
 import Home from './Home/Home.js'
-import Login from './Login/LoginWrap.js'
+import Login from './Login/LoginContainer.js'
 import Group from './Group/Group.js'
 import Interface from './Interface/Interface.js'
 import Project from './Project/Project.js'
