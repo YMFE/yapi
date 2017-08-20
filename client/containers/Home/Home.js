@@ -206,8 +206,6 @@ class Home extends Component {
             </div>
           )
           : <HomeGuest introList={this.props.introList}/>}
-        <div style={{height: '1000px'}}>
-        </div>
       </div>
     )
   }
