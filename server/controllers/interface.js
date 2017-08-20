@@ -418,8 +418,8 @@ class interfaceController extends baseController {
         try {
             let params = ctx.request.body;
             let result = await this.catModel.up(params.catid, {
-                name: params.cat_name,
-                desc: params.cat_desc,
+                name: params.name,
+                desc: params.desc,
                 up_time: yapi.commons.time()
             })
             ctx.body = yapi.commons.resReturn(result)
@@ -444,8 +444,8 @@ class interfaceController extends baseController {
             }
 
             let result = await this.catModel.del(id);
-            await this.Model.delByCatid(id)
-            return ctx.body = yapi.commons.resReturn(result);
+            let r = await this.Model.delByCatid(id)
+            return ctx.body = yapi.commons.resReturn(r);
 
 
         } catch (e) {
