@@ -105,7 +105,6 @@ class InterfaceEditForm extends Component {
         values.req_headers = values.req_headers.filter((item)=> item.name !== '')
         values.req_body_form = values.req_body_form.filter((item)=> item.name !== '')
         values.req_params = values.req_params.filter(item=>item.name !== '')
-
         this.props.onSubmit(values)
       }
     });
