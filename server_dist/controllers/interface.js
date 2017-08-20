@@ -622,29 +622,33 @@ var interfaceController = function (_baseController) {
                                     data.res_body = params.res_body;
                                 }
 
-                                _context6.prev = 32;
-                                _context6.next = 35;
+                                if (params.status) {
+                                    data.status = params.status;
+                                }
+
+                                _context6.prev = 33;
+                                _context6.next = 36;
                                 return this.Model.up(id, data);
 
-                            case 35:
+                            case 36:
                                 result = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 42;
+                                _context6.next = 43;
                                 break;
 
-                            case 39:
-                                _context6.prev = 39;
-                                _context6.t0 = _context6['catch'](32);
+                            case 40:
+                                _context6.prev = 40;
+                                _context6.t0 = _context6['catch'](33);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 42:
+                            case 43:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[32, 39]]);
+                }, _callee6, this, [[33, 40]]);
             }));
 
             function up(_x6) {
