@@ -32,14 +32,14 @@ class News extends Component {
     getMockUrl: PropTypes.func
   }
   componentWillMount(){
-    const that = this;
-    this.props.getMockUrl(2724).then(function(data){
-      const { prd_host, basepath, protocol } = data.payload.data.data;
-      const mockURL = `${protocol}://${prd_host}${basepath}/{path}`;
-      that.setState({
-        mockURL: mockURL
-      })
-    })
+    //const that = this;
+    // this.props.getMockUrl(2724).then(function(data){
+    //   const { prd_host, basepath, protocol } = data.payload.data.data;
+    //   const mockURL = `${protocol}://${prd_host}${basepath}/{path}`;
+    //   that.setState({
+    //     mockURL: mockURL
+    //   })
+    // })
   }
   render () {
     return (

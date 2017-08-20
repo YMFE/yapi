@@ -35,19 +35,25 @@ class Content extends Component {
     this.state = {
       curtab: 'view'
     }
-    this._actionId = 0;
   }
 
   componentWillMount() {
-    this.handleRequest(this.props)
+    const params = this.props.match.params;
+    this.actionId = params.actionId;
+    this.handleRequest(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const params = nextProps.match.params;
+    if(params.actionId !== this.actionId){
+      this.actionId = params.actionId;
+      this.handleRequest(nextProps)
+    } 
   }
 
   handleRequest(nextProps) {
-    let matchParams = nextProps.match.params;
-    if (matchParams.actionId && this._actionId !== matchParams.actionId) {
-      this._actionId = matchParams.actionId;
-      this.props.fetchInterfaceData(matchParams.actionId)
-    }
+    const params = nextProps.match.params;
+    this.props.fetchInterfaceData(params.actionId)
     this.setState({
       curtab: 'view'
     })

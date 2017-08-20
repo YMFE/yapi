@@ -71,11 +71,7 @@ var projectModel = function (_baseModel) {
     }, {
         key: 'get',
         value: function get(id) {
-            this.model.findOne({
-                _id: id
-            }).select("uid group_name ").exec().then(function (res) {
-                console.log(res);
-            });
+            console.log(id);
             return this.model.findOne({
                 _id: id
             }).exec();

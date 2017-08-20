@@ -908,8 +908,8 @@ var interfaceController = function (_baseController) {
                                 params = ctx.request.body;
                                 _context10.next = 4;
                                 return this.catModel.up(params.catid, {
-                                    name: params.cat_name,
-                                    desc: params.cat_desc,
+                                    name: params.name,
+                                    desc: params.desc,
                                     up_time: _yapi2.default.commons.time()
                                 });
 
@@ -944,7 +944,7 @@ var interfaceController = function (_baseController) {
         key: 'delCat',
         value: function () {
             var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
-                var id, catData, auth, result;
+                var id, catData, auth, result, r;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
@@ -989,20 +989,21 @@ var interfaceController = function (_baseController) {
                                 return this.Model.delByCatid(id);
 
                             case 17:
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+                                r = _context11.sent;
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(r));
 
-                            case 20:
-                                _context11.prev = 20;
+                            case 21:
+                                _context11.prev = 21;
                                 _context11.t0 = _context11['catch'](0);
 
                                 _yapi2.default.commons.resReturn(null, 400, _context11.t0.message);
 
-                            case 23:
+                            case 24:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[0, 20]]);
+                }, _callee11, this, [[0, 21]]);
             }));
 
             function delCat(_x11) {

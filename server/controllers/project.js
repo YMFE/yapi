@@ -288,7 +288,9 @@ class projectController extends baseController {
         }
         try {
             let result = await this.Model.get(params.id);
-            console.log(result)
+            if(!result){
+                return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
+            }
             result = result.toObject();
             delete result.members;
             result.role = await this.getProjectRole(params.id, 'project');
