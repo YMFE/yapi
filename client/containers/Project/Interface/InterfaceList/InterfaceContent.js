@@ -59,6 +59,12 @@ class Content extends Component {
     })
   }
 
+  switchToView = ()=>{
+    this.setState({
+      curtab: 'view'
+    })
+  }
+
   onChange = (key) => {
     this.setState({
       curtab: key
@@ -81,7 +87,7 @@ class Content extends Component {
     if (this.state.curtab === 'view') {
       tabContent = <View />;
     } else if (this.state.curtab === 'edit') {
-      tabContent = <Edit />
+      tabContent = <Edit switchToView={this.switchToView} />
     } else if (this.state.curtab === 'run') {
       tabContent = <Run />
     }

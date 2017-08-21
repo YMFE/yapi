@@ -17,7 +17,7 @@ const TreeNode = Tree.TreeNode;
     return {
       list: state.inter.list,
       inter: state.inter.curdata,
-      curProject: state.project.curProject
+      curProject: state.project.currProject
     }
   },
   {

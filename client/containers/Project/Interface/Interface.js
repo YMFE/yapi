@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './interface.scss'
 
@@ -40,12 +41,19 @@ InterfaceRoute.propTypes = {
   match: PropTypes.object
 }
 
-
+@connect(
+  state => {
+    return {
+      isShowCol: state.interfaceCol.isShowCol
+    }
+  }
+)
 class Interface extends Component {
   static propTypes = {
     match: PropTypes.object,
     history: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    isShowCol: PropTypes.bool
   }
 
   constructor(props) {
@@ -57,6 +65,9 @@ class Interface extends Component {
 
   onChange = (action) => {
     let params = this.props.match.params;
+    if(action === 'colOrCase') {
+      action = this.props.isShowCol ? 'col' : 'case';
+    }
     this.props.history.push('/project/' + params.id + '/interface/' + action)
   }
 
@@ -67,7 +78,7 @@ class Interface extends Component {
       <Row gutter={16} >
         <Col span={6}>
           <div className="left-menu">
-            <Tabs type="card" activeKey={activeKey} onChange={() => this.onChange(action)}>
+            <Tabs type="card" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
                 <InterfaceMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
               </Tabs.TabPane>
