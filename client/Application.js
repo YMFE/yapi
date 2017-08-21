@@ -52,21 +52,23 @@ export default class App extends Component {
       return <Loading visible />;
     } else {
       r = (
-        <Router>
-          <div className="router-main">
-            {this.props.loginState !== 1 ? <Header /> : null}
-            <div className="router-container">
-              <Route exact path="/" component={Home} />
-              <Route path="/group" component={requireAuthentication(Group)} />
-              <Route path="/project/:id" component={requireAuthentication(Project)} />
-              <Route path="/user" component={requireAuthentication(User)} />
-              <Route path="/follow" component={requireAuthentication(Follows)} />
-              <Route path="/add-project" component={requireAuthentication(AddProject)} />
-              <Route path="/login" component={Login} />
-              {
-              // <Route path="/news" component={requireAuthentication(News)} />
-              // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
-              }
+        <Router >
+          <div className="g-main">
+            <div className="router-main">
+              {this.props.loginState !== 1 ? <Header /> : null}
+              <div className="router-container">
+                <Route exact path="/" component={Home} />
+                <Route path="/group" component={requireAuthentication(Group)} />
+                <Route path="/project/:id" component={requireAuthentication(Project)} />
+                <Route path="/user" component={requireAuthentication(User)} />
+                <Route path="/follow" component={requireAuthentication(Follows)} />
+                <Route path="/add-project" component={requireAuthentication(AddProject)} />
+                <Route path="/login" component={Login} />
+                {
+                // <Route path="/news" component={requireAuthentication(News)} />
+                // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
+                }
+              </div>
             </div>
             <Footer />
           </div>

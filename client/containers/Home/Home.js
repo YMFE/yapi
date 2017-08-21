@@ -107,18 +107,38 @@ const HomeGuest = () => (
         <Row className="row-card">
           <Col span={12} className="section-card">
             <Card title="Mock 规则">
-              <p>通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
-              <p>通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
-              <p>通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
+              <p className="mock-desc">通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
+              <div className="code">
+                <ol start="1">
+                  <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;200,&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;1,&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
+                  <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
+                </ol>
+              </div>
             </Card>
           </Col>
           <Col span={12} className="section-card mock-after">
             <Card title="生成的 Mock 数据">
-              <p>生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
-              <p>生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
-              <p>生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
-              <p>生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
-              <p>生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
+              <p className="mock-desc">生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
+              <div className="code">
+                <ol start="1">
+                  <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;<span className="string">&quot;errcode&quot;</span><span>:&ensp;</span><span className="number">304</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;<span className="string">&quot;errmsg&quot;</span><span>:&ensp;</span><span className="string">&quot;JtkMIoRu)N#ie^h%Z77[F)&quot;</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array&quot;</span><span>:&ensp;</span><span className="number">4</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;true&ensp;&amp;&ensp;4&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
+                  <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
+                </ol>
+              </div>
             </Card>
           </Col>
         </Row>
@@ -206,8 +226,6 @@ class Home extends Component {
             </div>
           )
           : <HomeGuest introList={this.props.introList}/>}
-        <div style={{height: '1000px'}}>
-        </div>
       </div>
     )
   }
