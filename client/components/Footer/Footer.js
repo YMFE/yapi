@@ -13,14 +13,10 @@ class Footer extends Component {
   render () {
     return (
       <div className="footer-wrapper">
-        <Row>
-          { this.props.footList.map(function(item,i){
+        <Row className="footer-container">
+          {this.props.footList.map(function(item,i){
             return <FootItem key={ i } linkList={ item.linkList } title={ item.title } iconType={ item.iconType } ></FootItem>
-          }) }
-          <div className="copyRight">
-            <h4>Copyright © 2017</h4>
-            YMFF出品 @ YMFF
-          </div>
+          })}
         </Row>
       </div>
     )
@@ -39,9 +35,9 @@ class FootItem extends Component {
   render () {
     return (
       <Col span={6}>
-        <h4><Icon type={ this.props.iconType } style={{ fontSize: 16 }} />&nbsp;&nbsp; { this.props.title } </h4>
+        <h4 className="title"><Icon type={ this.props.iconType } className="icon" />{this.props.title}</h4>
         { this.props.linkList.map(function(item,i){
-          return (<div key={i}>&nbsp;&nbsp;<a href={ item.itemLink }><span>{ item.itemTitle }</span></a></div>);
+          return (<p key={i}><a href={ item.itemLink } className="link">{ item.itemTitle }</a></p>);
         }) }
       </Col>
     );
@@ -98,7 +94,16 @@ Footer.defaultProps = {
           itemLink: 'http://ued.qunar.com/ydoc/'
         }
       ]
-
+    },
+    {
+      title: 'Copyright © 2017',
+      iconType: 'layout',
+      linkList: [
+        {
+          itemTitle: 'YMFE 首页',
+          itemLink: 'http://ymfe.org/home/'
+        }
+      ]
     }
   ]
 }
