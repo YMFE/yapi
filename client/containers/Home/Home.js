@@ -83,7 +83,7 @@ const HomeGuest = () => (
               <Col span={8} className="section-item" key="feat-wrapper-2">
                 <Icon type="code-o" className="img" />
                 <h4 className="title">可部署</h4>
-                <span className="desc">用户只需在项目配置线上域名和接口基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
+                <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
               </Col>
               <Col span={8} className="section-item" key="feat-wrapper-3">
                 <Icon type="team" className="img" />
@@ -111,11 +111,11 @@ const HomeGuest = () => (
               <div className="code">
                 <ol start="1">
                   <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;200,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;<span className="number">200</span>,&ensp;&ensp;</span></span></li>
                   <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
                   <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;1,&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
                   <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
                   <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
@@ -125,7 +125,7 @@ const HomeGuest = () => (
           </Col>
           <Col span={12} className="section-card mock-after">
             <Card title="生成的 Mock 数据">
-              <p className="mock-desc">生成的 Mock 数据可以在线使用(配置Hosts后直接访问接口)，也可以下载到本地使用。</p>
+              <p className="mock-desc">生成的 Mock 数据可以在线使用，也可以下载到本地使用。</p>
               <div className="code">
                 <ol start="1">
                   <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
@@ -163,7 +163,7 @@ const HomeGuest = () => (
               </div>
               <div className="section-block block-third">
                 <h4>开发者(* N) / 成员(* N)</h4>
-                <p className="item"> - 不允许创建分组或项目</p>
+                <p className="item"> - 不允许创建分组</p>
                 <p className="item"> - 不允许修改分组或项目信息</p>
               </div>
             </Card>
