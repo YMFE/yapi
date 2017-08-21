@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
+import { Table } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 
 @connect(
@@ -61,10 +62,29 @@ export default class InterfaceColContent extends Component {
   }
 
   render() {
+
+    const { currCaseList } = this.props;
+
+    const columns = [{
+      title: '名字',
+      dataIndex: 'casename',
+      key: 'casename'
+    }, {
+      title: '方法',
+      dataIndex: 'method',
+      key: 'method'
+    }, {
+      title: 'PATH',
+      dataIndex: 'path',
+      key: 'path'
+    }];
+
     return (
       <div>
-        <h1>hello colContent</h1>
-        {JSON.stringify(this.props.currCaseList, null, 2)}
+        <div style={{padding:"15px"}}>
+          <h2 style={{marginBottom: '10px'}}>接口集合</h2>
+          <Table dataSource={currCaseList} columns={columns} />
+        </div>
       </div>
     )
   }
