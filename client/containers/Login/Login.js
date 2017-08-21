@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
 import { loginActions } from  '../../reducer/modules/user';
+import { withRouter } from 'react-router'
 const FormItem = Form.Item;
 import './Login.scss'
 
@@ -24,7 +25,7 @@ const changeHeight = {
     loginActions
   }
 )
-
+@withRouter
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -32,6 +33,7 @@ class Login extends Component {
 
   static propTypes = {
     form: PropTypes.object,
+    history: PropTypes.object,
     loginActions: PropTypes.func
   }
 
@@ -42,6 +44,7 @@ class Login extends Component {
       if (!err) {
         this.props.loginActions(values).then((res) => {
           if (res.payload.data.errcode == 0) {
+            this.props.history.push('/');
             message.success('登录成功! ');
           } else {
             message.error(res.payload.data.errmsg);
