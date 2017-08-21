@@ -243,7 +243,7 @@ var interfaceColController = function (_baseController) {
                                 id = ctx.query.col_id;
                                 inst = _yapi2.default.getInst(_interfaceCase2.default);
                                 _context3.next = 5;
-                                return inst.list(id);
+                                return inst.list(id, 'all');
 
                             case 5:
                                 result = _context3.sent;

@@ -93,7 +93,13 @@ var interfaceCase = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(col_id) {
+        value: function list(col_id, select) {
+            select = select || 'casename uid col_id _id index';
+            if (select === 'all') {
+                return this.model.find({
+                    col_id: col_id
+                }).exec();
+            }
             return this.model.find({
                 col_id: col_id
             }).select("casename uid col_id _id index").exec();
