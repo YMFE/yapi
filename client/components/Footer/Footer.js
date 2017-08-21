@@ -1,6 +1,7 @@
 import './Footer.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Row, Col } from 'antd';
 import { Icon } from 'antd'
 class Footer extends Component {
   constructor(props) {
@@ -10,23 +11,17 @@ class Footer extends Component {
     footList: PropTypes.array
   }
   render () {
-    const style = {
-      'background': 'url(/image/footer-bac.jpg)'
-    }
     return (
-      <div className = 'footer-wrapper'>
-        <div className = 'footer' style = {style}>
-          <div className = 'footContent'>
-            { this.props.footList.map(function(item,i){
-              return <FootItem key = { i } linkList = { item.linkList } title = { item.title } iconType = { item.iconType } ></FootItem>
-            }) }
-            <div className = 'copyRight'>
-              <h4>Copyright © 2017</h4>
-              YMFF出品 @ YMFF
-            </div>
+      <div className="footer-wrapper">
+        <Row>
+          { this.props.footList.map(function(item,i){
+            return <FootItem key={ i } linkList={ item.linkList } title={ item.title } iconType={ item.iconType } ></FootItem>
+          }) }
+          <div className="copyRight">
+            <h4>Copyright © 2017</h4>
+            YMFF出品 @ YMFF
           </div>
-          <div className='footerMask'></div>
-        </div>
+        </Row>
       </div>
     )
   }
@@ -43,12 +38,12 @@ class FootItem extends Component {
   }
   render () {
     return (
-      <div className = 'footItem'>
-        <h4><Icon type= { this.props.iconType } style={{ fontSize: 16 }} />&nbsp;&nbsp; { this.props.title } </h4>
+      <Col span={6}>
+        <h4><Icon type={ this.props.iconType } style={{ fontSize: 16 }} />&nbsp;&nbsp; { this.props.title } </h4>
         { this.props.linkList.map(function(item,i){
-          return (<div key = {i}>&nbsp;&nbsp;<a href = { item.itemLink }><span>{ item.itemTitle }</span></a></div>);
+          return (<div key={i}>&nbsp;&nbsp;<a href={ item.itemLink }><span>{ item.itemTitle }</span></a></div>);
         }) }
-      </div>
+      </Col>
     );
   }
 }

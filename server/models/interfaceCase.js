@@ -11,17 +11,17 @@ class interfaceCase extends baseModel {
             casename: { type: String, required: true },
             uid: { type: Number, required: true },
             col_id: { type: Number, required: true },
-            index: {type: Number, default:0},
+            index: { type: Number, default: 0 },
             project_id: { type: Number, required: true },
             add_time: Number,
             up_time: Number,
             env: { type: String },
-            domain: {type: String },
+            domain: { type: String },
             path: { type: String },
             method: { type: String },
             req_params: [{
                 name: String, value: String
-            }],   
+            }],
             req_query: [{
                 name: String, value: String
             }],
@@ -51,7 +51,13 @@ class interfaceCase extends baseModel {
         }).exec();
     }
 
-    list(col_id) {
+    list(col_id, select) {
+        select = select || 'casename uid col_id _id index'
+        if (select === 'all') {
+            return this.model.find({
+                col_id: col_id
+            }).exec();
+        }
         return this.model.find({
             col_id: col_id
         }).select("casename uid col_id _id index").exec();
@@ -63,13 +69,13 @@ class interfaceCase extends baseModel {
         });
     }
 
-    delByProjectId(id){
+    delByProjectId(id) {
         return this.model.deleteMany({
             project_id: id
         })
     }
 
-    delByCol(id){
+    delByCol(id) {
         return this.model.deleteMany({
             col_id: id
         })
@@ -83,12 +89,12 @@ class interfaceCase extends baseModel {
         );
     }
 
-    upCaseIndex(id, index){
+    upCaseIndex(id, index) {
         return this.model.update({
             _id: id
-        },{
-            index: index
-        })
+        }, {
+                index: index
+            })
     }
 }
 
