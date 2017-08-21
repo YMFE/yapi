@@ -26,7 +26,8 @@ class InterfaceEditForm extends Component {
     curdata: PropTypes.object,
     mockUrl: PropTypes.string,
     onSubmit: PropTypes.func,
-    basepath: PropTypes.string
+    basepath: PropTypes.string,
+    cat: PropTypes.array
   }
 
   constructor(props) {
@@ -102,10 +103,9 @@ class InterfaceEditForm extends Component {
             })
           }
         }
-        values.req_headers = values.req_headers.filter((item)=> item.name !== '')
-        values.req_body_form = values.req_body_form.filter((item)=> item.name !== '')
-        values.req_params = values.req_params.filter(item=>item.name !== '')
-
+        values.req_headers = values.req_headers.filter((item) => item.name !== '')
+        values.req_body_form = values.req_body_form.filter((item) => item.name !== '')
+        values.req_params = values.req_params.filter(item => item.name !== '')
         this.props.onSubmit(values)
       }
     });
@@ -334,6 +334,24 @@ class InterfaceEditForm extends Component {
             }]
           })(
             <Input placeholder="接口名称" />
+            )}
+        </FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="选择分类"
+        >
+          {getFieldDecorator('catid', {
+            initialValue: _.find(this.props.cat, item=> item._id === this.state.catid).name,
+            rules: [
+              { required: true, message: '请选择一个分类' }
+            ]
+          })(
+            <Select placeholder="请选择一个分类">
+              {this.props.cat.map(item => {
+                return <Option key={item._id} value={item._id + ""} >{item.name}</Option>
+              })}
+            </Select>
             )}
         </FormItem>
 

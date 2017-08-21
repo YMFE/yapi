@@ -24,7 +24,8 @@ class InterfaceEdit extends Component {
     curdata: PropTypes.object,
     currProject: PropTypes.object,
     updateInterfaceData: PropTypes.func,
-    match: PropTypes.object
+    match: PropTypes.object,
+    switchToView: PropTypes.func
   }
 
   constructor(props) {
@@ -43,6 +44,7 @@ class InterfaceEdit extends Component {
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
       message.success('保存成功');
+      this.props.switchToView()
     } else {
       message.success(result.data.errmsg)
     }
@@ -85,7 +87,7 @@ class InterfaceEdit extends Component {
   render() {    
     return <div className="interface-edit">
       {this.state.status === 1 ?
-        <InterfaceEditForm mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.state.curdata} />
+        <InterfaceEditForm cat={this.props.currProject.cat} mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.state.curdata} />
         :
         null}
       {

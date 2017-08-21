@@ -311,6 +311,10 @@ class interfaceController extends baseController {
             data.res_body = params.res_body;
         }
 
+        if(params.status){
+            data.status = params.status;
+        }
+
         try {
             let result = await this.Model.up(id, data);
             ctx.body = yapi.commons.resReturn(result);
