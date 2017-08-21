@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
   Table, Tag
 } from 'antd';
 import { formatTime } from '../../../../common.js'
+
+@connect(
+  state => {
+    return {
+      curProject: state.project.currProject
+    }
+  })
 class InterfaceList extends Component {
   constructor(props) {
     super(props)
@@ -18,7 +26,8 @@ class InterfaceList extends Component {
   }
 
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    curProject: PropTypes.object
   }
 
   handleRequest = async (props) => {
@@ -69,9 +78,12 @@ class InterfaceList extends Component {
       },
       sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order
     }, {
-      title: '接口URL',
+      title: '接口路径',
       dataIndex: 'path',
-      key: 'path'
+      key: 'path',
+      render: (item)=>{
+        return <span>{this.props.curProject.basepath + item}</span>
+      }
     }, {
       title: '请求方式',
       dataIndex: 'method',
@@ -97,8 +109,8 @@ class InterfaceList extends Component {
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }, {
       title: '更新日期',
-      dataIndex: 'add_time',
-      key: 'add_time',
+      dataIndex: 'up_time',
+      key: 'up_time',
       render: (item) => {
         return <span>{formatTime(item)}</span>
       }
