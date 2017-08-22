@@ -32,14 +32,19 @@
     padding: 0;
   }
   .card-item {
-    display: flex;
-    align-items: center;
     padding: .1rem .15rem;
     position: relative;
     .item-img {
       width: .2rem;
       height: .2rem;
       margin-right: .08rem;
+      vertical-align: middle;
+    }
+    .item-name {
+      position: absolute;
+      left: .43rem;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .item-role {
       position: absolute;

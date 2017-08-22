@@ -9,6 +9,7 @@ import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
 import logModel from '../models/log.js';
+import followModel from '../models/follow.js';
 import Mock from 'mockjs';
 const send = require('koa-send');
 
@@ -19,6 +20,7 @@ class projectController extends baseController {
         this.Model = yapi.getInst(projectModel);
         this.groupModel = yapi.getInst(groupModel);
         this.logModel = yapi.getInst(logModel);
+        this.followModel = yapi.getInst(followModel);
     }
 
     handleBasepath(basepath) {
@@ -448,7 +450,26 @@ class projectController extends baseController {
      * @returns {Object}
      * @example ./api/project/up.json
      */
-
+    async upSet(ctx){
+        let id = ctx.request.body.id;
+        let data = {};
+        data.color = ctx.request.body.color;
+        data.icon = ctx.request.body.icon;
+        if(!id){
+            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+        }
+        try{
+            let result = await this.Model.up(id, data);
+            ctx.body = yapi.commons.resReturn(result);
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+        try{
+            this.followModel.updateById(this.getUid(),id,data).then();
+        }catch(e){
+            yapi.commons.log(e, 'error'); // eslint-disable-line
+        }
+    }
     async up(ctx) {
         try {
             let id = ctx.request.body.id;
@@ -500,7 +521,22 @@ class projectController extends baseController {
             if(params.color) data.color = params.color;
             if(params.icon) data.icon = params.icon;
             let result = await this.Model.up(id, data);
-
+            // try{
+            //     let data = {};
+            //     if(params.name){
+            //         data.projectname = params.name;
+            //     }
+            //     if(params.icon){
+            //         data.icon = params.icon;
+            //     }
+            //     if(params.color){
+            //         data.color = params.color;
+            //     }
+            //     this.followModel.updateById(this.getUid(),id,data);
+            // }catch(e){
+            //     yapi.commons.log(e, 'error'); // eslint-disable-line
+            // }
+            
             let username = this.getUsername();
             yapi.commons.saveLog({
                 content: `用户${username}更新了项目${projectData.name}`,
