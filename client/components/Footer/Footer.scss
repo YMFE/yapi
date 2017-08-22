@@ -9,7 +9,7 @@
 
 .footer-container{
   @include row-width-limit;
-  margin:0 auto;
+  margin: 0 auto !important;
   padding-top: .48rem;
   .icon {
     font-size: .16rem;

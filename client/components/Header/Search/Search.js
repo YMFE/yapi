@@ -9,6 +9,7 @@ import { setCurrGroup } from '../../../reducer/modules/group'
 import { changeMenuItem } from '../../../reducer/modules/menu'
 const Option = AutoComplete.Option;
 
+
 @connect(
   state => ({
     groupList: state.group.groupList,
