@@ -1,12 +1,6 @@
 @import '../../styles/common.scss';
 @import '../../styles/mixin.scss';
 
-$color-white : #fff;
-$color-blue : #108ee9;
-$color-blue-deeper: #34495E;
-$color-grey-deep : #929aac;
-$color-black-light : #404040;
-
 .nav-tooltip {
   color: red;
 }
@@ -72,7 +66,7 @@ $color-black-light : #404040;
   .nav-toolbar {
     font-size: .15rem;
     float: left;
-    
+
   }
 
   .user-toolbar{
@@ -91,7 +85,7 @@ $color-black-light : #404040;
       margin-left: .16rem;
       transition: color .4s;
       .dropdown-link {
-        color: #999;
+        color: #ccc;
         transition: color .4s;
         .ant-avatar-image{
           margin-bottom: -10px;
@@ -102,7 +96,7 @@ $color-black-light : #404040;
       }
       &:hover{
         .dropdown-link {
-          color: #fff;
+          color: #ccc;
         }
       }
       .name {

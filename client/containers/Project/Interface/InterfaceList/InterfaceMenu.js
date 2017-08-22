@@ -208,7 +208,7 @@ class InterfaceMenu extends Component {
         case 'POST': color = "blue"; break;
         case 'PUT': color = "yellow"; break;
         case 'DELETE': color = 'red'; break;
-        default: color = "green";
+        default: color = "yellow";
       }
       return <TreeNode
         title={<div onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >

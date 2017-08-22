@@ -59,7 +59,7 @@ var baseController = function () {
     (0, _createClass3.default)(baseController, [{
         key: 'init',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var ignoreRouter;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -103,7 +103,7 @@ var baseController = function () {
     }, {
         key: 'checkLogin',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
                 var token, uid, userInst, result, decoded;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -170,7 +170,7 @@ var baseController = function () {
     }, {
         key: 'getLoginStatus',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
                 var result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -222,7 +222,7 @@ var baseController = function () {
     }, {
         key: 'getProjectRole',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(id, type) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(id, type) {
                 var _this = this;
 
                 var result, interfaceInst, interfaceData, projectInst, projectData, memberData, groupInst, groupData, groupMemberData;
@@ -379,7 +379,7 @@ var baseController = function () {
     }, {
         key: 'checkAuth',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(id, type, action) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(id, type, action) {
                 var role;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {

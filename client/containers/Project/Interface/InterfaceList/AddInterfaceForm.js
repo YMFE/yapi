@@ -1,11 +1,18 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Select, Button } from 'antd';
+
+import constants from '../../../../constants/variable.js'
+const HTTP_METHOD = constants.HTTP_METHOD;
+const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
+
+
 class AddInterfaceForm extends Component {
   static propTypes = {
     form: PropTypes.object,
@@ -23,7 +30,7 @@ class AddInterfaceForm extends Component {
     });
   }
 
-  
+
 
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
@@ -31,12 +38,11 @@ class AddInterfaceForm extends Component {
       initialValue: 'GET'
     })(
       <Select style={{ width: 75 }}>
-        <Option value="GET">GET</Option>
-        <Option value="POST">POST</Option>
-        <Option value="PUT">PUT</Option>
-        <Option value="DELETE">DELETE</Option>
+        {HTTP_METHOD_KEYS.map(item => {
+          return <Option key={item} value={item}>{item}</Option>
+        })}
       </Select>
-    );
+      );
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -47,10 +53,10 @@ class AddInterfaceForm extends Component {
         sm: { span: 14 }
       }
     };
-    
+
 
     return (
-      
+
       <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
@@ -62,7 +68,7 @@ class AddInterfaceForm extends Component {
             }]
           })(
             <Input placeholder="接口名称" />
-          )}
+            )}
         </FormItem>
 
         <FormItem
@@ -75,11 +81,11 @@ class AddInterfaceForm extends Component {
             }]
           })(
             <Input addonBefore={prefixSelector} placeholder="/path" />
-          )}
+            )}
         </FormItem>
         <br />
         <FormItem wrapperCol={{ span: 24, offset: 8 }} >
-          <Button  onClick={this.props.onCancel} style={{marginRight: "10px"}}  >取消</Button>
+          <Button onClick={this.props.onCancel} style={{ marginRight: "10px" }}  >取消</Button>
           <Button
             type="primary"
             htmlType="submit"
@@ -88,7 +94,7 @@ class AddInterfaceForm extends Component {
             提交
           </Button>
         </FormItem>
-          
+
       </Form>
 
     );
