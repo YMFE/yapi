@@ -6,6 +6,7 @@ import { delFollow, addFollow } from  '../../reducer/modules/follow';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import { debounce } from '../../common';
 
 @connect(
   state => {
@@ -22,6 +23,8 @@ import { withRouter } from 'react-router';
 class ProjectCard extends Component {
   constructor(props) {
     super(props);
+    this.add = debounce(this.add, 400);
+    this.del = debounce(this.del, 400);
   }
 
   static propTypes = {
