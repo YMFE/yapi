@@ -77,22 +77,24 @@ class InterfaceMenu extends Component {
   async handleRequest() {
     this.props.initInterface()
     await this.props.fetchInterfaceList(this.props.projectId);
-
-    // if(!params.actionId){
-    //   this.props.history.replace('/project/'+params.id + '/interface/api/' + result.payload.data[0]._id)
-    // }
   }
 
   componentWillMount() {
     this.handleRequest()
   }
 
-  // componentWillReceiveProps() {
-  //   this.handleRequest()
-  // }
 
-  onSelect = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+
+  onSelect = (selectedKeys) => {
+    const {history, match} = this.props;
+    let curkey = selectedKeys[0];
+    if(!curkey || !selectedKeys) return false;
+    let basepath = "/project/" + match.params.id + "/interface/api";
+    if(curkey === 'root'){
+      history.push(basepath)
+    }else{
+      history.push(basepath + '/' + curkey)
+    }
   }
 
   handleAddInterface = (data) => {
@@ -147,25 +149,31 @@ class InterfaceMenu extends Component {
 
   showConfirm = (id) => {
     let that = this;
-    confirm({
+    const ref = confirm({
       title: '您确认删除此接口',
       content: '温馨提示：接口删除后，无法恢复',
       async onOk() {
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.props.fetchInterfaceList(that.props.projectId)
+        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        ref.destroy()
       },
-      onCancel() { }
+      async onCancel() { 
+        ref.destroy()
+      }
     });
   }
 
   showDelCatConfirm = (catid) => {
     let that = this;
-    confirm({
+    const ref = confirm({
       title: '您确认删除此接口分类',
       content: '温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复',
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
         await that.props.fetchInterfaceList(that.props.projectId)
+        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        ref.destroy()
       },
       onCancel() { }
     });
@@ -245,19 +253,19 @@ class InterfaceMenu extends Component {
           let _actionId = parseInt(router.params.actionId, 10)
           if(!inter._id || inter._id !== _actionId)return rNull;
           return {
-            expands: ['group-' + inter.catid],
+            expands: ['cat_' + inter.catid],
             selects: [inter._id+""]
           }
         }else{
           let catid = router.params.actionId.substr(4);
           return {
-            expands: ['group-' + catid],
-            selects: ['group-' + catid]
+            expands: ['cat_' + catid],
+            selects: ['cat_' + catid]
           }
         }
       }else{
         return {
-          expands: ['group-' + list[0]._id],
+          expands: ['cat_' + list[0]._id],
           selects: ['root']
         }
       }
@@ -307,7 +315,7 @@ class InterfaceMenu extends Component {
               <Dropdown overlay={menu(item)}>
                 <Icon type='bars' className="interface-delete-icon" />
               </Dropdown>
-            </div>} key={'group-' + item._id} >
+            </div>} key={'cat_' + item._id} >
               {item.list.map(item_interface_create)}
 
             </TreeNode>

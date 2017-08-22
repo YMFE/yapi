@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'underscore'
 
 import {
-  Form, Select, Input,
+  Form, Select, Input,Tooltip,
   Button, Row, Col, Radio, Icon
 } from 'antd';
 
@@ -368,16 +368,18 @@ class InterfaceEditForm extends Component {
               <Option value="DELETE">DELETE</Option>
             </Select>
 
-
-            <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
-
+            <Tooltip title="接口基本路径，可在项目配置里修改">
+              <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
+            </Tooltip>
             {getFieldDecorator('path', {
               initialValue: this.state.path,
               rules: [{
                 required: true, message: '清输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
+                <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              </Tooltip>
               )}
           </InputGroup>
           <Row className="interface-edit-item">
