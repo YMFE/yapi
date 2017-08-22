@@ -48,7 +48,7 @@ class Content extends Component {
     if(params.actionId !== this.actionId){
       this.actionId = params.actionId;
       this.handleRequest(nextProps)
-    } 
+    }
   }
 
   handleRequest(nextProps) {
