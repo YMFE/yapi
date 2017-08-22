@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'underscore'
+import constants from '../../../../constants/variable.js'
 
 import {
-  Form, Select, Input,Tooltip,
+  Form, Select, Input, Tooltip,
   Button, Row, Col, Radio, Icon
 } from 'antd';
 
@@ -14,11 +15,13 @@ const RadioGroup = Radio.Group;
 const dataTpl = {
   req_query: { name: "", required: "1", desc: "" },
   req_headers: { name: "", required: "1", desc: "" },
-  req_params: { name: "", desc: "" }
+  req_params: { name: "", desc: "" },
+  req_body_form: {name: "", type: "text", required: "1", desc: ""}
 }
 
 const mockEditor = require('./mockEditor.js');
-
+const HTTP_METHOD = constants.HTTP_METHOD;
+const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 
 class InterfaceEditForm extends Component {
   static propTypes = {
@@ -103,9 +106,14 @@ class InterfaceEditForm extends Component {
             })
           }
         }
-        values.req_headers = values.req_headers.filter((item) => item.name !== '')
-        values.req_body_form = values.req_body_form.filter((item) => item.name !== '')
-        values.req_params = values.req_params.filter(item => item.name !== '')
+        values.req_headers = values.req_headers ?values.req_headers.filter((item) => item.name !== '') : []
+        values.req_body_form = values.req_body_form ?  values.req_body_form.filter((item) => item.name !== ''): []
+        values.req_params = values.req_params ?  values.req_params.filter(item => item.name !== ''): []
+        values.req_query = values.req_query ?  values.req_query.filter(item => item.name !== ''): []
+
+        if(HTTP_METHOD[values.method].request_body !== true){
+          values.req_params = []
+        }
         this.props.onSubmit(values)
       }
     });
@@ -184,10 +192,9 @@ class InterfaceEditForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
     };
-
-
+    
     const queryTpl = (data, index) => {
-      return <Row key={index}>
+      return <Row key={index} className="interface-edit-item-content">
         <Col span="4">
           {getFieldDecorator('req_query[' + index + '].name', {
             initialValue: data.name
@@ -220,7 +227,7 @@ class InterfaceEditForm extends Component {
     }
 
     const headerTpl = (data, index) => {
-      return <Row key={index}>
+      return <Row key={index} className="interface-edit-item-content">
         <Col span="4">
           {getFieldDecorator('req_headers[' + index + '].name', {
             initialValue: data.name
@@ -250,7 +257,7 @@ class InterfaceEditForm extends Component {
     }
 
     const requestBodyTpl = (data, index) => {
-      return <Row key={index}>
+      return <Row key={index} className="interface-edit-item-content">
         <Col span="8">
           {getFieldDecorator('req_body_form[' + index + '].name', {
             initialValue: data.name
@@ -282,7 +289,7 @@ class InterfaceEditForm extends Component {
     }
 
     const paramsTpl = (data, index) => {
-      return <Row key={index}>
+      return <Row key={index} className="interface-edit-item-content">
         <Col span="6">
           {getFieldDecorator('req_params[' + index + '].name', {
             initialValue: data.name
@@ -342,7 +349,7 @@ class InterfaceEditForm extends Component {
           label="选择分类"
         >
           {getFieldDecorator('catid', {
-            initialValue: _.find(this.props.cat, item=> item._id === this.state.catid).name,
+            initialValue: _.find(this.props.cat, item => item._id === this.state.catid).name,
             rules: [
               { required: true, message: '请选择一个分类' }
             ]
@@ -362,10 +369,9 @@ class InterfaceEditForm extends Component {
         >
           <InputGroup compact>
             <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
-              <Option value="GET">GET</Option>
-              <Option value="POST">POST</Option>
-              <Option value="PUT">PUT</Option>
-              <Option value="DELETE">DELETE</Option>
+              {HTTP_METHOD_KEYS.map(item => {
+                return <Option key={item} value={item}>{item}</Option>
+              })}
             </Select>
 
             <Tooltip title="接口基本路径，可在项目配置里修改">
@@ -445,42 +451,44 @@ class InterfaceEditForm extends Component {
           </Col>
 
         </Row>
+        {HTTP_METHOD[this.state.method].request_body ? <div >
+          <FormItem
+            className="interface-edit-item"
+            {...formItemLayout}
+            label="请求Body"
+          >
+            {getFieldDecorator('req_body_type', {
+              initialValue: this.state.req_body_type
+            })(
+              <RadioGroup>
+                <Radio value="form">form</Radio>
+                <Radio value="json">json</Radio>
+                <Radio value="file">file</Radio>
+                <Radio value="raw">raw</Radio>
+              </RadioGroup>
+              )}
 
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="请求Body"
-        >
-          {getFieldDecorator('req_body_type', {
-            initialValue: this.state.req_body_type
-          })(
-            <RadioGroup>
-              <Radio value="form">form</Radio>
-              <Radio value="json">json</Radio>
-              <Radio value="file">file</Radio>
-              <Radio value="raw">raw</Radio>
-            </RadioGroup>
-            )}
+          </FormItem>
+          {this.props.form.getFieldValue('req_body_type') === 'form' ?
+            <Row className="interface-edit-item">
+              <Col span={18} offset={4} style={{ minHeight: "50px" }}>
+                <Row>
+                  <Col span="24" className="interface-edit-item">
 
-        </FormItem>
-        {this.props.form.getFieldValue('req_body_type') === 'form' ?
-          <Row className="interface-edit-item">
-            <Col span={18} offset={4} style={{ minHeight: "50px" }}>
-              <Row>
-                <Col span="24" className="interface-edit-item">
+                    <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
 
-                  <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
+                  </Col>
 
-                </Col>
+                </Row>
+                {requestBodyList}
+              </Col>
 
-              </Row>
-              {requestBodyList}
-            </Col>
-
-          </Row>
-          :
-          null
-        }
+            </Row>
+            :
+            null
+          }
+        </div>
+          : null}
 
 
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
