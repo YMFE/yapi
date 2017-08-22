@@ -82,7 +82,7 @@ class Interface extends Component {
               <Tabs.TabPane tab="接口列表" key="api">
                 <InterfaceMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="接口集合" key="colOrCase" >
+              <Tabs.TabPane tab="测试集合" key="colOrCase" >
                 <InterfaceColMenu />
               </Tabs.TabPane>
             </Tabs>
