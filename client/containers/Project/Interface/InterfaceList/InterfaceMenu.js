@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { fetchInterfaceList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
+import { getProject } from '../../../../reducer/modules/project.js';
 import { Menu, Input, Icon, Tag, Modal, message, Tree, Dropdown } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import AddInterfaceCatForm from './AddInterfaceCatForm';
@@ -25,7 +26,8 @@ const TreeNode = Tree.TreeNode;
     fetchInterfaceData,
     deleteInterfaceCatData,
     deleteInterfaceData,
-    initInterface
+    initInterface,
+    getProject
   }
 )
 class InterfaceMenu extends Component {
@@ -41,7 +43,8 @@ class InterfaceMenu extends Component {
     deleteInterfaceData: PropTypes.func,
     initInterface: PropTypes.func,
     history: PropTypes.object,
-    router: PropTypes.object
+    router: PropTypes.object,
+    getProject: PropTypes.func
   }
 
   /**
@@ -120,6 +123,7 @@ class InterfaceMenu extends Component {
       }
       message.success('接口分类添加成功')
       this.props.fetchInterfaceList(this.props.projectId)
+      this.props.getProject(data.project_id)
       this.setState({
         add_cat_modal_visible: false
       });
