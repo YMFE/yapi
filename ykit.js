@@ -9,22 +9,22 @@ var assetsPluginInstance = new AssetsPlugin({
 
 function handleCommonsChunk(webpackConfig) {
   var commonsChunk = {
-        //filename: 'scripts/[name]@[chunkhash][ext]',
-        vendors: {
-          lib: ['react', 'redux',
-            'redux-thunk',
-            'react-dom',
-            'redux-promise',
-            'react-router-dom',
-            'prop-types'
+    //filename: 'scripts/[name]@[chunkhash][ext]',
+    vendors: {
+      lib: ['react', 'redux',
+        'redux-thunk',
+        'react-dom',
+        'redux-promise',
+        'react-router-dom',
+        'prop-types'
 
-          ],
-          lib2: [
-            'axios',
-            'moment'
-          ]
-        }
-      },
+      ],
+      lib2: [
+        'axios',
+        'moment'
+      ]
+    }
+  },
     chunks = [],
     filenameTpl = webpackConfig.output[this.env],
     vendors;
@@ -78,7 +78,7 @@ module.exports = {
           "regenerator": true
         }]);
         defaultQuery.plugins.push('transform-decorators-legacy');
-        defaultQuery.plugins.push(["import", { libraryName: "antd", style: "css" }])
+        // defaultQuery.plugins.push(["import", { libraryName: "antd", style: "css" }])
         return defaultQuery;
       }
     }
@@ -102,8 +102,8 @@ module.exports = {
             ENV_PARAMS = { development: false };
             break;
           default:
-        }        
-        
+        }
+
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
           ENV_PARAMS: JSON.stringify(ENV_PARAMS)
         }))
@@ -117,7 +117,15 @@ module.exports = {
 
         //commonsChunk
         handleCommonsChunk.call(this, baseConfig)
-
+        baseConfig.module.loaders.push({
+          test: /\.less$/,
+          loader: ykit.ExtractTextPlugin.extract(
+            require.resolve('style-loader'),
+            require.resolve('css-loader')
+            + '?sourceMap!'
+            + require.resolve('less-loader') + '?sourceMap'
+          )
+        })
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(

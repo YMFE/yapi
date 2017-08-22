@@ -65,6 +65,8 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.0",
     "koa-websocket": "^4.0.0",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
     "mock": "^0.1.1",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.18.1",
