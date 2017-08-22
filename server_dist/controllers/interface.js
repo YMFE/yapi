@@ -36,6 +36,10 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
+var _interfaceCat = require('../models/interfaceCat.js');
+
+var _interfaceCat2 = _interopRequireDefault(_interfaceCat);
+
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -59,6 +63,7 @@ var interfaceController = function (_baseController) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (interfaceController.__proto__ || (0, _getPrototypeOf2.default)(interfaceController)).call(this, ctx));
 
         _this.Model = _yapi2.default.getInst(_interface2.default);
+        _this.catModel = _yapi2.default.getInst(_interfaceCat2.default);
         return _this;
     }
 
@@ -109,7 +114,8 @@ var interfaceController = function (_baseController) {
                                     title: 'string',
                                     path: 'string',
                                     method: 'string',
-                                    desc: 'string'
+                                    desc: 'string',
+                                    catid: 'number'
                                 });
                                 params.method = params.method || 'GET';
                                 params.method = params.method.toUpperCase();
@@ -156,6 +162,7 @@ var interfaceController = function (_baseController) {
                                 _context.prev = 16;
                                 data = {
                                     project_id: params.project_id,
+                                    catid: params.catid,
                                     title: params.title,
                                     path: params.path,
                                     desc: params.desc,
@@ -341,6 +348,133 @@ var interfaceController = function (_baseController) {
 
             return list;
         }()
+    }, {
+        key: 'listByCat',
+        value: function () {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
+                var catid, result;
+                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                catid = ctx.request.query.catid;
+
+                                if (catid) {
+                                    _context4.next = 3;
+                                    break;
+                                }
+
+                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'catid不能为空'));
+
+                            case 3:
+                                _context4.prev = 3;
+                                _context4.next = 6;
+                                return this.Model.listByCatid(catid);
+
+                            case 6:
+                                result = _context4.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context4.next = 13;
+                                break;
+
+                            case 10:
+                                _context4.prev = 10;
+                                _context4.t0 = _context4['catch'](3);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
+
+                            case 13:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[3, 10]]);
+            }));
+
+            function listByCat(_x4) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return listByCat;
+        }()
+    }, {
+        key: 'listByMenu',
+        value: function () {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+                var project_id, result, newResult, i, item, list, j;
+                return _regenerator2.default.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                project_id = ctx.request.query.project_id;
+
+                                if (project_id) {
+                                    _context5.next = 3;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+
+                            case 3:
+                                _context5.prev = 3;
+                                _context5.next = 6;
+                                return this.catModel.list(project_id);
+
+                            case 6:
+                                result = _context5.sent;
+                                newResult = [];
+                                i = 0;
+
+                            case 9:
+                                if (!(i < result.length)) {
+                                    _context5.next = 20;
+                                    break;
+                                }
+
+                                item = result[i].toObject();
+                                _context5.next = 13;
+                                return this.Model.listByCatid(item._id, '_id title method');
+
+                            case 13:
+                                list = _context5.sent;
+
+                                for (j = 0; j < list.length; j++) {
+                                    list[j] = list[j].toObject();
+                                }
+                                item.list = list;
+                                newResult[i] = item;
+
+                            case 17:
+                                i++;
+                                _context5.next = 9;
+                                break;
+
+                            case 20:
+                                ctx.body = _yapi2.default.commons.resReturn(newResult);
+                                _context5.next = 26;
+                                break;
+
+                            case 23:
+                                _context5.prev = 23;
+                                _context5.t0 = _context5['catch'](3);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context5.t0.message);
+
+                            case 26:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this, [[3, 23]]);
+            }));
+
+            function listByMenu(_x5) {
+                return _ref5.apply(this, arguments);
+            }
+
+            return listByMenu;
+        }()
 
         /**
          * 编辑接口
@@ -372,11 +506,11 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var params, id, interfaceData, checkRepeat, data, result;
-                return _regenerator2.default.wrap(function _callee4$(_context4) {
+                return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context6.prev = _context6.next) {
                             case 0:
                                 params = ctx.request.body;
 
@@ -385,7 +519,8 @@ var interfaceController = function (_baseController) {
                                     title: 'string',
                                     path: 'string',
                                     method: 'string',
-                                    desc: 'string'
+                                    desc: 'string',
+                                    catid: 'number'
                                 });
                                 params.method = params.method || 'GET';
                                 params.method = params.method.toUpperCase();
@@ -393,44 +528,44 @@ var interfaceController = function (_baseController) {
                                 id = ctx.request.body.id;
 
                                 if (id) {
-                                    _context4.next = 7;
+                                    _context6.next = 7;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
 
                             case 7:
-                                _context4.next = 9;
+                                _context6.next = 9;
                                 return this.Model.get(id);
 
                             case 9:
-                                interfaceData = _context4.sent;
+                                interfaceData = _context6.sent;
 
                                 if (!(params.path && !_yapi2.default.commons.verifyPath(params.path))) {
-                                    _context4.next = 12;
+                                    _context6.next = 12;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
                             case 12:
                                 if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
-                                    _context4.next = 18;
+                                    _context6.next = 18;
                                     break;
                                 }
 
-                                _context4.next = 15;
+                                _context6.next = 15;
                                 return this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
 
                             case 15:
-                                checkRepeat = _context4.sent;
+                                checkRepeat = _context6.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context4.next = 18;
+                                    _context6.next = 18;
                                     break;
                                 }
 
-                                return _context4.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
                             case 18:
                                 data = {
@@ -449,6 +584,10 @@ var interfaceController = function (_baseController) {
                                 }
                                 if (params.method) {
                                     data.method = params.method;
+                                }
+
+                                if (params.catid) {
+                                    data.catid = params.catid;
                                 }
 
                                 if (params.req_headers) {
@@ -483,33 +622,37 @@ var interfaceController = function (_baseController) {
                                     data.res_body = params.res_body;
                                 }
 
-                                _context4.prev = 31;
-                                _context4.next = 34;
+                                if (params.status) {
+                                    data.status = params.status;
+                                }
+
+                                _context6.prev = 33;
+                                _context6.next = 36;
                                 return this.Model.up(id, data);
 
-                            case 34:
-                                result = _context4.sent;
+                            case 36:
+                                result = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context4.next = 41;
+                                _context6.next = 43;
                                 break;
 
-                            case 38:
-                                _context4.prev = 38;
-                                _context4.t0 = _context4['catch'](31);
+                            case 40:
+                                _context6.prev = 40;
+                                _context6.t0 = _context6['catch'](33);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context4.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 41:
+                            case 43:
                             case 'end':
-                                return _context4.stop();
+                                return _context6.stop();
                         }
                     }
-                }, _callee4, this, [[31, 38]]);
+                }, _callee6, this, [[33, 40]]);
             }));
 
-            function up(_x4) {
-                return _ref4.apply(this, arguments);
+            function up(_x6) {
+                return _ref6.apply(this, arguments);
             }
 
             return up;
@@ -529,74 +672,74 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var id, data, result;
-                return _regenerator2.default.wrap(function _callee5$(_context5) {
+                return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
-                        switch (_context5.prev = _context5.next) {
+                        switch (_context7.prev = _context7.next) {
                             case 0:
-                                _context5.prev = 0;
+                                _context7.prev = 0;
                                 id = ctx.request.body.id;
 
                                 if (id) {
-                                    _context5.next = 4;
+                                    _context7.next = 4;
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
+                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
 
                             case 4:
-                                _context5.next = 6;
+                                _context7.next = 6;
                                 return this.Model.get(ctx.request.body.id);
 
                             case 6:
-                                data = _context5.sent;
+                                data = _context7.sent;
 
                                 if (!(data.uid != this.getUid())) {
-                                    _context5.next = 13;
+                                    _context7.next = 13;
                                     break;
                                 }
 
-                                _context5.next = 10;
+                                _context7.next = 10;
                                 return this.jungeProjectAuth(data.project_id);
 
                             case 10:
-                                _context5.t0 = _context5.sent;
+                                _context7.t0 = _context7.sent;
 
-                                if (!(_context5.t0 !== true)) {
-                                    _context5.next = 13;
+                                if (!(_context7.t0 !== true)) {
+                                    _context7.next = 13;
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
                             case 13:
-                                _context5.next = 15;
+                                _context7.next = 15;
                                 return this.Model.del(id);
 
                             case 15:
-                                result = _context5.sent;
+                                result = _context7.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context5.next = 22;
+                                _context7.next = 22;
                                 break;
 
                             case 19:
-                                _context5.prev = 19;
-                                _context5.t1 = _context5['catch'](0);
+                                _context7.prev = 19;
+                                _context7.t1 = _context7['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context5.t1.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t1.message);
 
                             case 22:
                             case 'end':
-                                return _context5.stop();
+                                return _context7.stop();
                         }
                     }
-                }, _callee5, this, [[0, 19]]);
+                }, _callee7, this, [[0, 19]]);
             }));
 
-            function del(_x5) {
-                return _ref5.apply(this, arguments);
+            function del(_x7) {
+                return _ref7.apply(this, arguments);
             }
 
             return del;
@@ -604,49 +747,49 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'solveConflict',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var _this2 = this;
 
                 var id, result, userInst, userinfo, data;
-                return _regenerator2.default.wrap(function _callee6$(_context6) {
+                return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
-                        switch (_context6.prev = _context6.next) {
+                        switch (_context8.prev = _context8.next) {
                             case 0:
-                                _context6.prev = 0;
+                                _context8.prev = 0;
                                 id = parseInt(ctx.query.id, 10), result = void 0, userInst = void 0, userinfo = void 0, data = void 0;
 
                                 if (id) {
-                                    _context6.next = 4;
+                                    _context8.next = 4;
                                     break;
                                 }
 
-                                return _context6.abrupt('return', ctx.websocket.send("id 参数有误"));
+                                return _context8.abrupt('return', ctx.websocket.send("id 参数有误"));
 
                             case 4:
-                                _context6.next = 6;
+                                _context8.next = 6;
                                 return this.Model.get(id);
 
                             case 6:
-                                result = _context6.sent;
+                                result = _context8.sent;
                                 userinfo;
 
                                 if (!(result.edit_uid !== 0 && result.edit_uid !== this.getUid())) {
-                                    _context6.next = 16;
+                                    _context8.next = 16;
                                     break;
                                 }
 
                                 userInst = _yapi2.default.getInst(_user2.default);
-                                _context6.next = 12;
+                                _context8.next = 12;
                                 return userInst.findById(result.edit_uid);
 
                             case 12:
-                                userinfo = _context6.sent;
+                                userinfo = _context8.sent;
 
                                 data = {
                                     errno: result.edit_uid,
                                     data: { uid: result.edit_uid, username: userinfo.username }
                                 };
-                                _context6.next = 18;
+                                _context8.next = 18;
                                 break;
 
                             case 16:
@@ -661,28 +804,217 @@ var interfaceController = function (_baseController) {
                                 ctx.websocket.on('close', function () {
                                     _this2.Model.upEditUid(id, 0).then();
                                 });
-                                _context6.next = 25;
+                                _context8.next = 25;
                                 break;
 
                             case 22:
-                                _context6.prev = 22;
-                                _context6.t0 = _context6['catch'](0);
+                                _context8.prev = 22;
+                                _context8.t0 = _context8['catch'](0);
 
-                                _yapi2.default.commons.log(_context6.t0, 'error');
+                                _yapi2.default.commons.log(_context8.t0, 'error');
 
                             case 25:
                             case 'end':
-                                return _context6.stop();
+                                return _context8.stop();
                         }
                     }
-                }, _callee6, this, [[0, 22]]);
+                }, _callee8, this, [[0, 22]]);
             }));
 
-            function solveConflict(_x6) {
-                return _ref6.apply(this, arguments);
+            function solveConflict(_x8) {
+                return _ref8.apply(this, arguments);
             }
 
             return solveConflict;
+        }()
+    }, {
+        key: 'addCat',
+        value: function () {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
+                var params, result;
+                return _regenerator2.default.wrap(function _callee9$(_context9) {
+                    while (1) {
+                        switch (_context9.prev = _context9.next) {
+                            case 0:
+                                _context9.prev = 0;
+                                params = ctx.request.body;
+
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    name: 'string',
+                                    project_id: 'number',
+                                    desc: 'string'
+                                });
+
+                                if (params.project_id) {
+                                    _context9.next = 5;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+
+                            case 5:
+                                if (params.name) {
+                                    _context9.next = 7;
+                                    break;
+                                }
+
+                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '名称不能为空'));
+
+                            case 7:
+                                _context9.next = 9;
+                                return this.catModel.save({
+                                    name: params.name,
+                                    project_id: params.project_id,
+                                    desc: params.desc,
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 9:
+                                result = _context9.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+
+                                _context9.next = 16;
+                                break;
+
+                            case 13:
+                                _context9.prev = 13;
+                                _context9.t0 = _context9['catch'](0);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message);
+
+                            case 16:
+                            case 'end':
+                                return _context9.stop();
+                        }
+                    }
+                }, _callee9, this, [[0, 13]]);
+            }));
+
+            function addCat(_x9) {
+                return _ref9.apply(this, arguments);
+            }
+
+            return addCat;
+        }()
+    }, {
+        key: 'upCat',
+        value: function () {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+                var params, result;
+                return _regenerator2.default.wrap(function _callee10$(_context10) {
+                    while (1) {
+                        switch (_context10.prev = _context10.next) {
+                            case 0:
+                                _context10.prev = 0;
+                                params = ctx.request.body;
+                                _context10.next = 4;
+                                return this.catModel.up(params.catid, {
+                                    name: params.name,
+                                    desc: params.desc,
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 4:
+                                result = _context10.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context10.next = 11;
+                                break;
+
+                            case 8:
+                                _context10.prev = 8;
+                                _context10.t0 = _context10['catch'](0);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 400, _context10.t0.message);
+
+                            case 11:
+                            case 'end':
+                                return _context10.stop();
+                        }
+                    }
+                }, _callee10, this, [[0, 8]]);
+            }));
+
+            function upCat(_x10) {
+                return _ref10.apply(this, arguments);
+            }
+
+            return upCat;
+        }()
+    }, {
+        key: 'delCat',
+        value: function () {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+                var id, catData, auth, result, r;
+                return _regenerator2.default.wrap(function _callee11$(_context11) {
+                    while (1) {
+                        switch (_context11.prev = _context11.next) {
+                            case 0:
+                                _context11.prev = 0;
+                                id = ctx.request.body.catid;
+                                _context11.next = 4;
+                                return this.catModel.get(id);
+
+                            case 4:
+                                catData = _context11.sent;
+
+                                if (!catData) {
+                                    ctx.body = _yapi2.default.commons.resReturn(null, 400, "不存在的分类");
+                                }
+
+                                if (!(catData.uid !== this.getUid())) {
+                                    _context11.next = 12;
+                                    break;
+                                }
+
+                                _context11.next = 9;
+                                return this.checkAuth(catData.project_id, 'project', 'danger');
+
+                            case 9:
+                                auth = _context11.sent;
+
+                                if (auth) {
+                                    _context11.next = 12;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
+
+                            case 12:
+                                _context11.next = 14;
+                                return this.catModel.del(id);
+
+                            case 14:
+                                result = _context11.sent;
+                                _context11.next = 17;
+                                return this.Model.delByCatid(id);
+
+                            case 17:
+                                r = _context11.sent;
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(r));
+
+                            case 21:
+                                _context11.prev = 21;
+                                _context11.t0 = _context11['catch'](0);
+
+                                _yapi2.default.commons.resReturn(null, 400, _context11.t0.message);
+
+                            case 24:
+                            case 'end':
+                                return _context11.stop();
+                        }
+                    }
+                }, _callee11, this, [[0, 21]]);
+            }));
+
+            function delCat(_x11) {
+                return _ref11.apply(this, arguments);
+            }
+
+            return delCat;
         }()
     }]);
     return interfaceController;

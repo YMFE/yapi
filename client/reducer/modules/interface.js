@@ -1,9 +1,10 @@
 import axios from 'axios'
 // Actions
+const INIT_INTERFACE_DATA = 'yapi/interface/INIT_INTERFACE_DATA';
 const FETCH_INTERFACE_DATA = 'yapi/interface/FETCH_INTERFACE_DATA';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
-const ADD_INTERFACE_DATA = 'yapi/interface/ADD_INTERFACE_DATA';
 const DELETE_INTERFACE_DATA = 'yapi/interface/DELETE_INTERFACE_DATA';
+const DELETE_INTERFACE_CAT_DATA = 'yapi/interface/DELETE_INTERFACE_CAT_DATA';
 const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
@@ -16,35 +17,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case INIT_INTERFACE_DATA:
+      return initialState
     case UPDATE_INTERFACE_DATA:
       return {
         ...state,
         curdata: Object.assign({}, state.curdata, action.updata)
       }
-    case DELETE_INTERFACE_DATA:
-      return (() => {
 
-        let newlist = state.list.filter(data => data._id !== action.payload), curdata;
-
-        if (state.list.length > 0) {
-          curdata = state.list[0]
-        } else if (state.list.length == 0) {
-          curdata = {}
-        }
-
-        return {
-          ...state,
-          curdata: curdata,
-          list: newlist
-        }
-      })()
-
-    case ADD_INTERFACE_DATA:
-      return {
-        ...state,
-        curdata: action.payload,
-        list: [].concat(state.list, action.payload)
-      }
     case FETCH_INTERFACE_DATA:
       return {
         ...state,
@@ -54,11 +34,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         list: action.payload.data
-        // curdata: {}
       }
     default:
       return state
   }
+}
+
+export function initInterface(){
+  return {
+    type: INIT_INTERFACE_DATA
+  }
+
 }
 
 export function updateInterfaceData(updata) {
@@ -73,10 +59,18 @@ export function updateInterfaceData(updata) {
 }
 
 export async function deleteInterfaceData(id) {
-  await axios.post('/api/interface/del', { id: id })
+  let result =  await axios.post('/api/interface/del', { id: id })
   return {
     type: DELETE_INTERFACE_DATA,
-    payload: true
+    payload: result
+  }
+}
+
+export async function deleteInterfaceCatData(id) {
+  let result = await axios.post('/api/interface/del_cat', { catid: id })
+  return {
+    type: DELETE_INTERFACE_CAT_DATA,
+    payload: result
   }
 }
 
@@ -91,16 +85,9 @@ export async function fetchInterfaceData(interfaceId) {
 }
 
 export async function fetchInterfaceList(projectId) {
-  let result = await axios.get('/api/interface/list?project_id=' + projectId);
+  let result = await axios.get('/api/interface/list_menu?project_id=' + projectId);
   return {
     type: FETCH_INTERFACE_LIST,
     payload: result.data
-  }
-}
-
-export async function addInterfaceData(data) {
-  return {
-    type: ADD_INTERFACE_DATA,
-    payload: data
   }
 }

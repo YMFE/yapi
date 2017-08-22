@@ -4,6 +4,7 @@ import App from './Application'
 import { Provider } from 'react-redux'
 import createStore from './reducer/create';
 import { DevTools } from './containers';
+import './styles/theme.less'
 
 const store = createStore();
 

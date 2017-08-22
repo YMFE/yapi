@@ -71,14 +71,16 @@ var projectModel = function (_baseModel) {
     }, {
         key: 'get',
         value: function get(id) {
-            this.model.findOne({
-                _id: id
-            }).select("uid group_name ").exec().then(function (res) {
-                console.log(res);
-            });
             return this.model.findOne({
                 _id: id
             }).exec();
+        }
+    }, {
+        key: 'getBaseInfo',
+        value: function getBaseInfo(id) {
+            return this.model.findOne({
+                _id: id
+            }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time').exec();
         }
     }, {
         key: 'getByDomain',

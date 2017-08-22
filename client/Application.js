@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { Home, Group, Project, Follows, AddProject } from './containers/index';
+import { Home, Group, Project, Follows, AddProject, Login } from './containers/index';
 import User from './containers/User/User.js';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -52,20 +52,23 @@ export default class App extends Component {
       return <Loading visible />;
     } else {
       r = (
-        <Router>
-          <div className="router-main">
-            <Header />
-            <div className="router-container">
-              <Route exact path="/" component={Home} />
-              <Route path="/group" component={requireAuthentication(Group)} />
-              <Route path="/project/:id" component={requireAuthentication(Project)} />
-              <Route path="/user" component={requireAuthentication(User)} />
-              <Route path="/follow" component={requireAuthentication(Follows)} />
-              <Route path="/add-project" component={requireAuthentication(AddProject)} />
-              {
-              // <Route path="/news" component={requireAuthentication(News)} />
-              // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
-              }
+        <Router >
+          <div className="g-main">
+            <div className="router-main">
+              {this.props.loginState !== 1 ? <Header /> : null}
+              <div className="router-container">
+                <Route exact path="/" component={Home} />
+                <Route path="/group" component={requireAuthentication(Group)} />
+                <Route path="/project/:id" component={requireAuthentication(Project)} />
+                <Route path="/user" component={requireAuthentication(User)} />
+                <Route path="/follow" component={requireAuthentication(Follows)} />
+                <Route path="/add-project" component={requireAuthentication(AddProject)} />
+                <Route path="/login" component={Login} />
+                {
+                // <Route path="/news" component={requireAuthentication(News)} />
+                // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
+                }
+              </div>
             </div>
             <Footer />
           </div>
