@@ -253,6 +253,27 @@ const routerConfig = {
 			"action": "del",
 			"path": "del",
 			"method": "post"
+		},
+		{
+			action: 'listByCat',
+			path: 'list_cat',
+			method: 'get'
+		},{
+			action: 'listByMenu',
+			path: 'list_menu',
+			method: 'get'
+		},{
+			action: 'addCat',
+			path: 'add_cat',
+			method: 'post'
+		},{
+			action: 'upCat',
+			path: 'up_cat',
+			method: 'post'
+		},{
+			action: 'delCat',
+			path: 'del_cat',
+			method: 'post'
 		}
 	],
 	"log": [

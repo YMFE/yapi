@@ -39,13 +39,20 @@ em {
   font-style: normal;
 }
 
+[data-reactroot], .g-main, .router-main {
+  height: 100%;
+}
 // 页面最外层元素 样式
 .router-main {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  padding-bottom: .24rem;
+  min-height: 100%;
+  height: auto !important;
   height: 100%;
-  .router-container{
-    min-height:calc(100% - 2.47rem);
+  margin-bottom: -2rem;
+  &::after {
+    content: '';
+    display: block;
+    height: 2rem;
   }
 }
 
@@ -68,4 +75,9 @@ em {
 
 .ant-dropdown .user-menu {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+// confirm 框内边距过大
+.ant-confirm .ant-modal-body{
+  padding: .24rem !important;
 }

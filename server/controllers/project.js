@@ -4,6 +4,7 @@ import baseController from './base.js';
 import interfaceModel from '../models/interface.js';
 import interfaceColModel from '../models/interfaceCol.js';
 import interfaceCaseModel from '../models/interfaceCase.js';
+import interfaceCatModel from '../models/interfaceCat.js';
 import groupModel from '../models/group';
 import commons from '../utils/commons.js';
 import userModel from '../models/user.js';
@@ -289,9 +290,14 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
         try {
-            let result = await this.Model.get(params.id);
+            let result = await this.Model.getBaseInfo(params.id);
+            if(!result){
+                return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
+            }
             result = result.toObject();
-            delete result.members;
+            let catInst = yapi.getInst(interfaceCatModel);
+            let cat = await catInst.list(params.id);
+            result.cat = cat;
             result.role = await this.getProjectRole(params.id, 'project');
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {

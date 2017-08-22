@@ -56,6 +56,10 @@ var _interfaceCase = require('../models/interfaceCase.js');
 
 var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
 
+var _interfaceCat = require('../models/interfaceCat.js');
+
+var _interfaceCat2 = _interopRequireDefault(_interfaceCat);
+
 var _group = require('../models/group');
 
 var _group2 = _interopRequireDefault(_group);
@@ -641,7 +645,7 @@ var projectController = function (_baseController) {
         key: 'get',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var params, result;
+                var params, result, catInst, cat;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
@@ -658,35 +662,50 @@ var projectController = function (_baseController) {
                             case 3:
                                 _context6.prev = 3;
                                 _context6.next = 6;
-                                return this.Model.get(params.id);
+                                return this.Model.getBaseInfo(params.id);
 
                             case 6:
                                 result = _context6.sent;
 
+                                if (result) {
+                                    _context6.next = 9;
+                                    break;
+                                }
+
+                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '不存在的项目'));
+
+                            case 9:
                                 result = result.toObject();
-                                delete result.members;
-                                _context6.next = 11;
+                                catInst = _yapi2.default.getInst(_interfaceCat2.default);
+                                _context6.next = 13;
+                                return catInst.list(params.id);
+
+                            case 13:
+                                cat = _context6.sent;
+
+                                result.cat = cat;
+                                _context6.next = 17;
                                 return this.getProjectRole(params.id, 'project');
 
-                            case 11:
+                            case 17:
                                 result.role = _context6.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 18;
+                                _context6.next = 24;
                                 break;
 
-                            case 15:
-                                _context6.prev = 15;
+                            case 21:
+                                _context6.prev = 21;
                                 _context6.t0 = _context6['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 18:
+                            case 24:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[3, 15]]);
+                }, _callee6, this, [[3, 21]]);
             }));
 
             function get(_x7) {

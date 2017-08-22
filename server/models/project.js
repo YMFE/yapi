@@ -33,15 +33,17 @@ class projectModel extends baseModel {
         return m.save();
     }
 
-    get(id) {
-    this.model.findOne({
-        _id: id
-    }).select("uid group_name ").exec().then((res) => {
-      console.log(res);
-    })
+    get(id) {        
         return this.model.findOne({
             _id: id
         }).exec();
+    }   
+
+    getBaseInfo(id){
+        return this.model.findOne({
+            _id: id
+        }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time')
+        .exec()
     }
 
     getByDomain(domain) {

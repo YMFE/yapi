@@ -1,8 +1,6 @@
 ## 快速开始
-### 1 接口管理架构
-平台以**项目分组** -> **项目** -> **接口**的划分进行接口组织管理。
+### 1 创建项目分组
 
-<img src="http://upload-images.jianshu.io/upload_images/842107-305ba49a60ee1ff5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
 #### 1.1 项目分组
 

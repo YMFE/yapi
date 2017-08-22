@@ -21,12 +21,24 @@
             background-color: #fff
         }
         .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
-            background-color: #efefef
+            background-color: #efefef;
+            color:#021b2d;
+            font-weight: 500
+        }
+
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
+            height: 40px;
         }
 
         .ant-tabs.ant-tabs-card > .ant-tabs-bar{
             text-align: center;
             line-height: 40px;
+            height:40px;
+        }
+
+        .ant-tabs-nav-wrap{
+            height: 40px;
+            line-height: 31px;
         }
         
         .interface-filter{
@@ -37,6 +49,9 @@
             background-color: #efefef
         }
         .interface-list{
+            a{
+                color: #333
+            }
             
             .btn-http{
                 height: 23px;
@@ -49,10 +64,15 @@
                 display: inline
             }
 
+            .ant-tree-node-content-wrapper{
+                width: 100%
+            }
+
             .interface-delete-icon{
-                position: absolute;
-                right: 5px;
-                top: 14px;
+                position: relative;
+                right: 31px;
+                top: 6px;
+                float: right
             }
         }
     }

@@ -140,12 +140,11 @@ class ProjectMember extends Component {
 
   @autobind
   onUserSelect(childState) {
-    console.log(childState);
     this.setState({
       inputUid: childState.uid
     })
   }
-  
+
   async componentWillMount() {
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const rojectMsg = await this.props.getProjectMsg(this.props.projectId);
@@ -159,8 +158,6 @@ class ProjectMember extends Component {
   }
 
   render () {
-    console.log(this.props);
-    console.log(this.state);
     const columns = [{
       title: ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
       dataIndex: 'username',

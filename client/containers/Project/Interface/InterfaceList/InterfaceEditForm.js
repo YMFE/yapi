@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'underscore'
 
 import {
-  Form, Select, Input,
+  Form, Select, Input,Tooltip,
   Button, Row, Col, Radio, Icon
 } from 'antd';
 
@@ -26,7 +26,8 @@ class InterfaceEditForm extends Component {
     curdata: PropTypes.object,
     mockUrl: PropTypes.string,
     onSubmit: PropTypes.func,
-    basepath: PropTypes.string
+    basepath: PropTypes.string,
+    cat: PropTypes.array
   }
 
   constructor(props) {
@@ -102,10 +103,9 @@ class InterfaceEditForm extends Component {
             })
           }
         }
-        values.req_headers = values.req_headers.filter((item)=> item.name !== '')
-        values.req_body_form = values.req_body_form.filter((item)=> item.name !== '')
-        values.req_params = values.req_params.filter(item=>item.name !== '')
-
+        values.req_headers = values.req_headers.filter((item) => item.name !== '')
+        values.req_body_form = values.req_body_form.filter((item) => item.name !== '')
+        values.req_params = values.req_params.filter(item => item.name !== '')
         this.props.onSubmit(values)
       }
     });
@@ -338,6 +338,24 @@ class InterfaceEditForm extends Component {
         </FormItem>
 
         <FormItem
+          {...formItemLayout}
+          label="选择分类"
+        >
+          {getFieldDecorator('catid', {
+            initialValue: _.find(this.props.cat, item=> item._id === this.state.catid).name,
+            rules: [
+              { required: true, message: '请选择一个分类' }
+            ]
+          })(
+            <Select placeholder="请选择一个分类">
+              {this.props.cat.map(item => {
+                return <Option key={item._id} value={item._id + ""} >{item.name}</Option>
+              })}
+            </Select>
+            )}
+        </FormItem>
+
+        <FormItem
           className="interface-edit-item"
           {...formItemLayout}
           label="接口路径"
@@ -350,16 +368,18 @@ class InterfaceEditForm extends Component {
               <Option value="DELETE">DELETE</Option>
             </Select>
 
-
-            <Input value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
-
+            <Tooltip title="接口基本路径，可在项目配置里修改">
+              <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
+            </Tooltip>
             {getFieldDecorator('path', {
               initialValue: this.state.path,
               rules: [{
                 required: true, message: '清输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
+                <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              </Tooltip>
               )}
           </InputGroup>
           <Row className="interface-edit-item">

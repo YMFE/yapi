@@ -35,27 +35,31 @@ class Content extends Component {
     this.state = {
       curtab: 'view'
     }
-    this._actionId = 0;
   }
 
   componentWillMount() {
-    this.handleRequest(this.props)
+    const params = this.props.match.params;
+    this.actionId = params.actionId;
+    this.handleRequest(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.handleRequest(nextProps)
+    const params = nextProps.match.params;
+    if(params.actionId !== this.actionId){
+      this.actionId = params.actionId;
+      this.handleRequest(nextProps)
+    }
   }
 
   handleRequest(nextProps) {
-    let matchParams = nextProps.match.params;
+    const params = nextProps.match.params;
+    this.props.fetchInterfaceData(params.actionId)
+    this.setState({
+      curtab: 'view'
+    })
+  }
 
-    if (!matchParams.actionId && (nextProps.list.length > 0)) {
-      return this.props.history.replace('/project/' + matchParams.id + '/interface/api/' + nextProps.list[0]._id)
-    }
-    if (matchParams.actionId && this._actionId !== matchParams.actionId) {
-      this._actionId = matchParams.actionId;
-      this.props.fetchInterfaceData(matchParams.actionId)
-    }
+  switchToView = ()=>{
     this.setState({
       curtab: 'view'
     })
@@ -83,7 +87,7 @@ class Content extends Component {
     if (this.state.curtab === 'view') {
       tabContent = <View />;
     } else if (this.state.curtab === 'edit') {
-      tabContent = <Edit />
+      tabContent = <Edit switchToView={this.switchToView} />
     } else if (this.state.curtab === 'run') {
       tabContent = <Run />
     }
