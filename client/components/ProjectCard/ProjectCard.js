@@ -51,13 +51,13 @@ class ProjectCard extends Component {
   // </Popconfirm>
   render() {
     const { projectData, isFollowed } = this.props;
+    console.log(projectData);
     return (
       <div className="card-container">
-        <Card bordered={false} bodyStyle={{padding: 16}} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
-          <div className="m-card-logo">
-            <Icon type="area-chart" className="icon" />
-            <p className="name">{projectData.name || projectData.projectname}</p>
-          </div>
+        <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
+          <Icon type="area-chart" className="ui-logo" />
+          <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
+          <p className="ui-desc">{projectData.desc || projectData.desc}</p>
         </Card>
         <div className="card-btns">
           <Tooltip placement="rightTop" title={isFollowed ? '取消关注' : '添加关注'}>
