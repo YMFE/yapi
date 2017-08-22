@@ -92,12 +92,12 @@ class List extends Component {
       title: 'UID',
       dataIndex: '_id',
       key: '_id',
-      width: 70
+      width: 100
     }, {
       title: '用户名',
       dataIndex: 'username',
       key: 'username',
-      width: 150
+      width: 180
     }, {
       title: 'Email',
       dataIndex: 'email',
@@ -106,16 +106,16 @@ class List extends Component {
       title: '用户角色',
       dataIndex: 'role',
       key: 'role',
-      width:110
+      width:150
     }, {
       title: '更新日期',
       dataIndex: 'up_time',
       key: 'up_time',
-      width: 180
+      width: 150
     }, {
       title: '功能',
       key: 'action',
-      width:80,
+      width:"80px",
       render: (item) => {
         return (
           <span>

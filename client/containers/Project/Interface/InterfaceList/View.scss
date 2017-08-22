@@ -35,6 +35,47 @@
             padding-bottom: 0px;
         }
     }
+    .ant-table-thead {
+        th{
+            color: #6d6c6c;
+            font-weight: normal;
+        }
+        tr{
+            // background-color: black;
+        }
+    }
+    .ant-table-thead>tr>th{
+        background: #f7f7f7;
+    }
+    .colMethod{
+        .colValue{
+            display: inline-block;
+            border-radius: 4px;
+            color: #00a854;
+            background: #cfefdf;
+            border-color: #cfefdf;
+            height: 23px;
+            line-height: 23px;
+            text-align: center;
+            font-size: 10px;
+            margin-right: 7px;
+            padding: 0 5px;
+        }
+    }
+    .colstatus{
+        .colValue{
+            height: 23px;
+            padding: 0 5px;
+            line-height: 23px;
+            display: inline-block;
+            border-radius: 4px;
+            color: white;
+        }
+    }
+    .colMockUrl{
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
     .colDesc{
         line-height: 1.5em;
         .colKey{
