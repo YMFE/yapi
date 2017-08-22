@@ -69,10 +69,10 @@ class Follows extends Component {
             path: '/follow'
           }]}/>
         <div className="g-row">
-          <Row gutter={16} className="follow-box">
+          <Row gutter={24} className="follow-box card-panel">
             {data.map((item, index) => {
               return (
-                <Col span={6} key={index}>
+                <Col span={8} key={index}>
                   <ProjectCard projectData={item} isFollowed={true} callbackResult={this.receiveRes} />
                 </Col>);
             })}

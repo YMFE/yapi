@@ -3,14 +3,15 @@
 
 .footer-wrapper{
   border-top: 1px solid #ddd;
-  height: 2rem;
+  height: 2.4rem;
   width: 100%;
 }
 
 .footer-container{
   @include row-width-limit;
-  margin:0 auto;
+  margin: 0 auto !important;
   padding-top: .48rem;
+  padding-bottom: .48rem;
   .icon {
     font-size: .16rem;
     margin-right: .08rem;

@@ -106,13 +106,12 @@ var followModel = function (_baseModel) {
         }
     }, {
         key: 'updateById',
-        value: function updateById(id, data) {
+        value: function updateById(id, typeid, data) {
+
             return this.model.update({
-                _id: id
-            }, {
-                icon: data.icon,
-                color: data.color
-            });
+                uid: id,
+                projectid: typeid
+            }, data, { runValidators: true });
         }
     }]);
     return followModel;
