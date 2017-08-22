@@ -83,7 +83,6 @@ export default class Run extends Component {
       protocol = '',
       env = []
     } = data;
-    console.log('error', basepath, url)
     const pathname = (basepath + url).replace(/\/+/g, '/');
 
     const domains = {prd: protocol + '://' + prd_host};
