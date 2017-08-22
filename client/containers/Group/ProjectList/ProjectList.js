@@ -103,11 +103,11 @@ class ProjectList extends Component {
   render() {
     const projectData = this.state.projectData;
     return (
-      <div className="m-panel">
-        <Row gutter={16}>
+      <div className="m-panel card-panel">
+        <Row gutter={24}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col span={8} key={index}>
+              <Col span={12} key={index}>
                 <ProjectCard projectData={item} />
               </Col>);
           }) : <ErrMsg type="noProject"/>}

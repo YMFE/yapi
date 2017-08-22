@@ -48,11 +48,11 @@ em {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -2rem;
+  margin-bottom: -2.4rem;
   &::after {
     content: '';
     display: block;
-    height: 2rem;
+    height: 2.4rem;
   }
 }
 
@@ -80,4 +80,8 @@ em {
 // confirm 框内边距过大
 .ant-confirm .ant-modal-body{
   padding: .24rem !important;
+}
+
+.card-panel {
+  padding: .36rem .24rem 0;
 }
