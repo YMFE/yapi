@@ -196,9 +196,9 @@ class interfaceColController extends baseController{
     async upCol(ctx){
         try{
             let params = ctx.request.body;
-            let result = await this.caseModel.up(params.col_id, {
-                name: params.col_name,
-                desc: params.col_desc,
+            let result = await this.colModel.up(params.col_id, {
+                name: params.name,
+                desc: params.desc,
                 up_time: yapi.commons.time()
             })
             ctx.body = yapi.commons.resReturn(result)
