@@ -5,7 +5,7 @@
  **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
  
  </p>
-<img src="./images/mock.jpg" />
+<img src="./images/mock.jpg" style="width: 50%" />
 
 ### 1 如何使用Mock?
 ### 1.1 最简单最直接的方式
