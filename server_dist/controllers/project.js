@@ -1052,76 +1052,15 @@ var projectController = function (_baseController) {
          */
 
     }, {
-        key: 'upSet',
+        key: 'up',
         value: function () {
             var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
-                var id, data, result;
+                var id, params, projectData, checkRepeat, data, result, username;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
                             case 0:
-                                id = ctx.request.body.id;
-                                data = {};
-
-                                data.color = ctx.request.body.color;
-                                data.icon = ctx.request.body.icon;
-
-                                if (id) {
-                                    _context10.next = 6;
-                                    break;
-                                }
-
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
-
-                            case 6:
-                                _context10.prev = 6;
-                                _context10.next = 9;
-                                return this.Model.up(id, data);
-
-                            case 9:
-                                result = _context10.sent;
-
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context10.next = 16;
-                                break;
-
-                            case 13:
-                                _context10.prev = 13;
-                                _context10.t0 = _context10['catch'](6);
-
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t0.message);
-
-                            case 16:
-                                try {
-                                    this.followModel.updateById(this.getUid(), id, data).then();
-                                } catch (e) {
-                                    _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
-                                }
-
-                            case 17:
-                            case 'end':
-                                return _context10.stop();
-                        }
-                    }
-                }, _callee10, this, [[6, 13]]);
-            }));
-
-            function upSet(_x11) {
-                return _ref10.apply(this, arguments);
-            }
-
-            return upSet;
-        }()
-    }, {
-        key: 'up',
-        value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
-                var id, params, projectData, checkRepeat, data, result, username;
-                return _regenerator2.default.wrap(function _callee11$(_context11) {
-                    while (1) {
-                        switch (_context11.prev = _context11.next) {
-                            case 0:
-                                _context11.prev = 0;
+                                _context10.prev = 0;
                                 id = ctx.request.body.id;
                                 params = ctx.request.body;
 
@@ -1136,39 +1075,39 @@ var projectController = function (_baseController) {
                                 });
 
                                 if (id) {
-                                    _context11.next = 7;
+                                    _context10.next = 7;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
                             case 7:
-                                _context11.next = 9;
+                                _context10.next = 9;
                                 return this.checkAuth(id, 'project', 'edit');
 
                             case 9:
-                                _context11.t0 = _context11.sent;
+                                _context10.t0 = _context10.sent;
 
-                                if (!(_context11.t0 !== true)) {
-                                    _context11.next = 12;
+                                if (!(_context10.t0 !== true)) {
+                                    _context10.next = 12;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
                             case 12:
-                                _context11.next = 14;
+                                _context10.next = 14;
                                 return this.Model.get(id);
 
                             case 14:
-                                projectData = _context11.sent;
+                                projectData = _context10.sent;
 
                                 if (!((params.basepath = this.handleBasepath(params.basepath)) === false)) {
-                                    _context11.next = 17;
+                                    _context10.next = 17;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, 'basepath格式有误'));
 
                             case 17:
 
@@ -1177,22 +1116,22 @@ var projectController = function (_baseController) {
                                 }
 
                                 if (!params.name) {
-                                    _context11.next = 24;
+                                    _context10.next = 24;
                                     break;
                                 }
 
-                                _context11.next = 21;
+                                _context10.next = 21;
                                 return this.Model.checkNameRepeat(params.name);
 
                             case 21:
-                                checkRepeat = _context11.sent;
+                                checkRepeat = _context10.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context11.next = 24;
+                                    _context10.next = 24;
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的项目名'));
 
                             case 24:
                                 data = {
@@ -1208,11 +1147,11 @@ var projectController = function (_baseController) {
                                 if (params.env) data.env = params.env;
                                 if (params.color) data.color = params.color;
                                 if (params.icon) data.icon = params.icon;
-                                _context11.next = 33;
+                                _context10.next = 33;
                                 return this.Model.up(id, data);
 
                             case 33:
-                                result = _context11.sent;
+                                result = _context10.sent;
 
                                 // try{
                                 //     let data = {};
@@ -1242,28 +1181,102 @@ var projectController = function (_baseController) {
                                     color: params.color
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context11.next = 42;
+                                _context10.next = 42;
                                 break;
 
                             case 39:
-                                _context11.prev = 39;
-                                _context11.t1 = _context11['catch'](0);
+                                _context10.prev = 39;
+                                _context10.t1 = _context10['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t1.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t1.message);
 
                             case 42:
+                            case 'end':
+                                return _context10.stop();
+                        }
+                    }
+                }, _callee10, this, [[0, 39]]);
+            }));
+
+            function up(_x11) {
+                return _ref10.apply(this, arguments);
+            }
+
+            return up;
+        }()
+
+        /**
+         * 修改项目头像
+         * @interface /project/upset
+         * @method POST
+         * @category project
+         * @foldnumber 10
+         * @param {Number} id
+         * @param {String} color
+         * @param {String} icon
+         * @return {Object}
+        */
+
+    }, {
+        key: 'upSet',
+        value: function () {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
+                var id, data, result;
+                return _regenerator2.default.wrap(function _callee11$(_context11) {
+                    while (1) {
+                        switch (_context11.prev = _context11.next) {
+                            case 0:
+                                id = ctx.request.body.id;
+                                data = {};
+
+                                data.color = ctx.request.body.color;
+                                data.icon = ctx.request.body.icon;
+
+                                if (id) {
+                                    _context11.next = 6;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
+
+                            case 6:
+                                _context11.prev = 6;
+                                _context11.next = 9;
+                                return this.Model.up(id, data);
+
+                            case 9:
+                                result = _context11.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context11.next = 16;
+                                break;
+
+                            case 13:
+                                _context11.prev = 13;
+                                _context11.t0 = _context11['catch'](6);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t0.message);
+
+                            case 16:
+                                try {
+                                    this.followModel.updateById(this.getUid(), id, data).then();
+                                } catch (e) {
+                                    _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
+                                }
+
+                            case 17:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[0, 39]]);
+                }, _callee11, this, [[6, 13]]);
             }));
 
-            function up(_x12) {
+            function upSet(_x12) {
                 return _ref11.apply(this, arguments);
             }
 
-            return up;
+            return upSet;
         }()
 
         /**
