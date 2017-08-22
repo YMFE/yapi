@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { fetchInterfaceColList, setColData, fetchCaseData } from '../../../../reducer/modules/interfaceCol'
+import { Postman } from '../../../../components'
+// import Run from
 
 @connect(
   state => {
@@ -11,7 +13,8 @@ import { fetchInterfaceColList, setColData, fetchCaseData } from '../../../../re
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
       currCase: state.interfaceCol.currCase,
-      isShowCol: state.interfaceCol.isShowCol
+      isShowCol: state.interfaceCol.isShowCol,
+      currProject: state.project.currProject
     }
   },
   {
@@ -33,7 +36,8 @@ export default class InterfaceCaseContent extends Component {
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
     currCase: PropTypes.object,
-    isShowCol: PropTypes.bool
+    isShowCol: PropTypes.bool,
+    currProject: PropTypes.object
   }
 
   constructor(props) {
@@ -75,10 +79,14 @@ export default class InterfaceCaseContent extends Component {
   }
 
   render() {
+    const { currCase, currProject } = this.props;
+    const data = Object.assign({}, currCase, currProject);
     return (
       <div>
-        <h1>hello caseContent</h1>
-        {JSON.stringify(this.props.currCase, null, 2)}
+        <h1 style={{marginLeft: 8}}>{currCase.casename}</h1>
+        <div>
+          <Postman data={data} />
+        </div>
       </div>
     )
   }

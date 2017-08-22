@@ -68,8 +68,6 @@ export default class Run extends Component {
   getInterfaceState(nextProps) {
     const props = nextProps || this.props;
     const { currInterface, currProject } = props;
-    console.log('currInterface', currInterface)
-    console.log('currProject', currProject)
     const {
       method,
       path: url,

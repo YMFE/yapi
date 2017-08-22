@@ -46,7 +46,9 @@ export default class InterfaceColContent extends Component {
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    currColId = +actionId || +currColId || result.payload.data.data[0].caseList[0]._id;
+    currColId = +actionId ||
+                result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
+                result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     this.props.fetchCaseList(currColId)
     this.props.setColData({currColId: +currColId, isShowCol: true})
@@ -66,24 +68,24 @@ export default class InterfaceColContent extends Component {
     const { currCaseList } = this.props;
 
     const columns = [{
-      title: '名字',
+      title: '用例名称',
       dataIndex: 'casename',
       key: 'casename'
     }, {
-      title: '方法',
-      dataIndex: 'method',
-      key: 'method'
-    }, {
-      title: 'PATH',
+      title: '用例路径',
       dataIndex: 'path',
       key: 'path'
+    }, {
+      title: '请求方式',
+      dataIndex: 'method',
+      key: 'method'
     }];
 
     return (
       <div>
         <div style={{padding:"15px"}}>
-          <h2 style={{marginBottom: '10px'}}>接口集合</h2>
-          <Table dataSource={currCaseList} columns={columns} />
+          <h2 style={{marginBottom: '10px'}}>测试集合</h2>
+          <Table dataSource={currCaseList} columns={columns} pagination={false} rowKey="_id"/>
         </div>
       </div>
     )
