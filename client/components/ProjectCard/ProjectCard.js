@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { delFollow } from  '../../reducer/modules/follow';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 @connect(
   () => {
@@ -51,13 +51,11 @@ class ProjectCard extends Component {
   // </Popconfirm>
   render() {
     const { projectData, isFollowed } = this.props;
-    console.log(projectData);
     return (
       <div className="card-container">
         <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
           <Icon type="area-chart" className="ui-logo" />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
-          <p className="ui-desc">{projectData.desc || projectData.desc}</p>
         </Card>
         <div className="card-btns">
           <Tooltip placement="rightTop" title={isFollowed ? '取消关注' : '添加关注'}>
