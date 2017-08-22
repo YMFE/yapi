@@ -155,8 +155,23 @@ export default class InterfaceColMenu extends Component {
         } else {
           message.error(res.data.errmsg);
         }
-      },
-      onCancel() { }
+      }
+    });
+  }
+  showDelCaseConfirm = (caseId) => {
+    let that = this;
+    confirm({
+      title: '您确认删除此测试用例',
+      content: '温馨提示：用例删除后无法恢复',
+      async onOk() {
+        const res = await axios.get('/api/col/del_case?caseid=' + caseId)
+        if (!res.data.errcode) {
+          message.success('删除用例成功');
+          await that.props.fetchInterfaceColList(that.props.match.params.id);
+        } else {
+          message.error(res.data.errmsg);
+        }
+      }
     });
   }
   showColModal = (type, col) => {
@@ -228,7 +243,7 @@ export default class InterfaceColMenu extends Component {
                       title={
                         <div className="menu-title">
                           <span>{interfaceCase.casename}</span>
-                          <Icon type='delete' className="case-delete-icon" onClick={() => { this.showConfirm(interfaceCase._id) }} />
+                          <Icon type='delete' className="case-delete-icon" onClick={() => { this.showDelCaseConfirm(interfaceCase._id) }} />
                         </div>
                       }
                     ></TreeNode>
