@@ -74,27 +74,18 @@ var followModel = function (_baseModel) {
         }
     }, {
         key: 'del',
-        value: function del(id) {
+        value: function del(projectid, uid) {
             return this.model.deleteOne({
-                _id: id
+                projectid: projectid,
+                uid: uid
             });
         }
     }, {
-        key: 'listWithPaging',
-        value: function listWithPaging(uid, page, limit) {
-            page = parseInt(page);
-            limit = parseInt(limit);
-
+        key: 'list',
+        value: function list(uid) {
             return this.model.find({
                 uid: uid
-            }).skip((page - 1) * limit).limit(limit).exec();
-        }
-    }, {
-        key: 'listCount',
-        value: function listCount(uid) {
-            return this.model.count({
-                uid: uid
-            });
+            }).exec();
         }
     }, {
         key: 'checkProjectRepeat',

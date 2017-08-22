@@ -6,6 +6,7 @@ import { Row, Col } from 'antd';
 import { getFollowList } from  '../../reducer/modules/follow';
 import Subnav from '../../components/Subnav/Subnav.js';
 import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
+import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
 
 
 @connect(
@@ -70,12 +71,12 @@ class Follows extends Component {
           }]}/>
         <div className="g-row">
           <Row gutter={24} className="follow-box card-panel">
-            {data.map((item, index) => {
+            {data.length ? data.map((item, index) => {
               return (
                 <Col span={8} key={index}>
                   <ProjectCard projectData={item} isFollowed={true} callbackResult={this.receiveRes} />
                 </Col>);
-            })}
+            }): <ErrMsg type="noFollow"/>}
           </Row>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import projectModel from '../models/project.js';
 import yapi from '../yapi.js';
+import _ from "underscore"
 import baseController from './base.js';
 import interfaceModel from '../models/interface.js';
 import interfaceColModel from '../models/interfaceCol.js';
@@ -326,8 +327,18 @@ class projectController extends baseController {
         let auth =await  this.checkAuth(group_id, 'group', 'edit')
         try {
             let result = await this.Model.list(group_id, auth);
+            let follow = await this.followModel.list(this.getUid());
             let uids = [];
-            result.forEach((item) => {
+            result.forEach((item, index) => {
+                result[index] = item.toObject();
+                let f = _.find(follow, (fol)=>{
+                    return fol.projectid === item._id
+                })
+                if(f){
+                    result[index].follow = true;
+                }else{
+                    result[index].follow = false;
+                }
                 if (uids.indexOf(item.uid) === -1) {
                     uids.push(item.uid);
                 }
@@ -395,7 +406,6 @@ class projectController extends baseController {
      */
     async changeMemberRole(ctx){
         let params = ctx.request.body;
-        console.log(params);
         let projectInst = yapi.getInst(projectModel);
         if (!params.member_uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
@@ -450,26 +460,6 @@ class projectController extends baseController {
      * @returns {Object}
      * @example ./api/project/up.json
      */
-    async upSet(ctx){
-        let id = ctx.request.body.id;
-        let data = {};
-        data.color = ctx.request.body.color;
-        data.icon = ctx.request.body.icon;
-        if(!id){
-            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
-        }
-        try{
-            let result = await this.Model.up(id, data);
-            ctx.body = yapi.commons.resReturn(result);
-        }catch(e){
-            ctx.body = yapi.commons.resReturn(null, 402, e.message);
-        }
-        try{
-            this.followModel.updateById(this.getUid(),id,data).then();
-        }catch(e){
-            yapi.commons.log(e, 'error'); // eslint-disable-line
-        }
-    }
     async up(ctx) {
         try {
             let id = ctx.request.body.id;
@@ -536,7 +526,7 @@ class projectController extends baseController {
             // }catch(e){
             //     yapi.commons.log(e, 'error'); // eslint-disable-line
             // }
-            
+
             let username = this.getUsername();
             yapi.commons.saveLog({
                 content: `用户${username}更新了项目${projectData.name}`,
@@ -552,6 +542,38 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
+
+     /**
+      * 修改项目头像
+      * @interface /project/upset
+      * @method POST
+      * @category project
+      * @foldnumber 10
+      * @param {Number} id
+      * @param {String} color
+      * @param {String} icon
+      * @return {Object}
+     */
+     async upSet(ctx){
+         let id = ctx.request.body.id;
+         let data = {};
+         data.color = ctx.request.body.color;
+         data.icon = ctx.request.body.icon;
+         if(!id){
+             return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+         }
+         try{
+             let result = await this.Model.up(id, data);
+             ctx.body = yapi.commons.resReturn(result);
+         }catch(e){
+             ctx.body = yapi.commons.resReturn(null, 402, e.message);
+         }
+         try{
+             this.followModel.updateById(this.getUid(),id,data).then();
+         }catch(e){
+             yapi.commons.log(e, 'error'); // eslint-disable-line
+         }
+     }
 
     /**
      * 模糊搜索项目名称或者组名称
