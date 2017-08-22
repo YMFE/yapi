@@ -51,20 +51,6 @@ var followController = function (_baseController) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (followController.__proto__ || (0, _getPrototypeOf2.default)(followController)).call(this, ctx));
 
         _this.Model = _yapi2.default.getInst(_follow2.default);
-        // try{
-        //     var res = this.Model.save({
-        //         uid: 107,
-        //         projectid: 221,
-        //         projectname: 'Flight',
-        //         icon: 'code'
-        //     });
-        //     // var res = this.Model.del(107);
-        //     ctx.body = yapi.commons.resReturn(null, 200,res);
-        // }catch(err){
-        //     ctx.body = yapi.commons.resReturn(null, 402, err.message);
-        // }
-
-
         return _this;
     }
 
@@ -74,7 +60,6 @@ var followController = function (_baseController) {
      * @method GET
      * @category follow
      * @foldnumber 10
-     * @param {Number} uid 用户id， 不能为空
      * @param {Number} [page] 分页页码
      * @param {Number} [limit] 分页大小
      * @returns {Object}
@@ -84,13 +69,13 @@ var followController = function (_baseController) {
     (0, _createClass3.default)(followController, [{
         key: 'list',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
-                var uid, page, limit, result, count;
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+                var uid, page, limit, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                uid = ctx.request.query.uid, page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
+                                uid = this.getUid(), page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
 
                                 if (uid) {
                                     _context.next = 3;
@@ -102,36 +87,30 @@ var followController = function (_baseController) {
                             case 3:
                                 _context.prev = 3;
                                 _context.next = 6;
-                                return this.Model.listWithPaging(uid, page, limit);
+                                return this.Model.list(uid);
 
                             case 6:
                                 result = _context.sent;
-                                _context.next = 9;
-                                return this.Model.listCount(uid);
-
-                            case 9:
-                                count = _context.sent;
 
 
                                 ctx.body = _yapi2.default.commons.resReturn({
-                                    total: Math.ceil(count / limit),
                                     list: result
                                 });
-                                _context.next = 16;
+                                _context.next = 13;
                                 break;
 
-                            case 13:
-                                _context.prev = 13;
+                            case 10:
+                                _context.prev = 10;
                                 _context.t0 = _context['catch'](3);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 16:
+                            case 13:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[3, 13]]);
+                }, _callee, this, [[3, 10]]);
             }));
 
             function list(_x) {
@@ -147,7 +126,7 @@ var followController = function (_baseController) {
          * @method POST
          * @category follow
          * @foldnumber 10
-         * @param {Number} id 关注id
+         * @param {Number} projectid 
          * @returns {Object}
          * @example /follow/del
          */
@@ -155,45 +134,59 @@ var followController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
-                var params, result;
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+                var params, uid, checkRepeat, result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                params = ctx.request.body;
+                                params = ctx.request.body, uid = this.getUid();
 
-                                if (!params.followid) {
+                                if (params.projectid) {
                                     _context2.next = 3;
                                     break;
                                 }
 
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '关注id不能为空'));
+                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
                             case 3:
-                                _context2.prev = 3;
-                                _context2.next = 6;
-                                return this.Model.del(params.id);
+                                _context2.next = 5;
+                                return this.Model.checkProjectRepeat(uid, params.projectid);
 
-                            case 6:
+                            case 5:
+                                checkRepeat = _context2.sent;
+
+                                if (!(checkRepeat == 0)) {
+                                    _context2.next = 8;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目未关注'));
+
+                            case 8:
+                                _context2.prev = 8;
+                                _context2.next = 11;
+                                return this.Model.del(params.projectid, this.getUid());
+
+                            case 11:
                                 result = _context2.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context2.next = 13;
+                                _context2.next = 18;
                                 break;
 
-                            case 10:
-                                _context2.prev = 10;
-                                _context2.t0 = _context2['catch'](3);
+                            case 15:
+                                _context2.prev = 15;
+                                _context2.t0 = _context2['catch'](8);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t0.message);
 
-                            case 13:
+                            case 18:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[3, 10]]);
+                }, _callee2, this, [[8, 15]]);
             }));
 
             function del(_x2) {
@@ -209,7 +202,6 @@ var followController = function (_baseController) {
          * @method GET
          * @category follow
          * @foldnumber 10
-         * @param {Number} uid 用户id
          * @param {Number} projectid 项目id
          * @param {String} projectname 项目名
          * @param {String} icon 项目icon
@@ -220,8 +212,8 @@ var followController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
-                var params, checkRepeat, data, result;
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+                var params, uid, checkRepeat, data, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -229,99 +221,91 @@ var followController = function (_baseController) {
                                 params = ctx.request.body;
 
                                 params = _yapi2.default.commons.handleParams(params, {
-                                    uid: 'number',
                                     projectid: 'number',
                                     projectname: 'string',
                                     icon: 'string',
                                     color: 'string'
                                 });
 
-                                if (params.uid) {
-                                    _context3.next = 4;
-                                    break;
-                                }
+                                uid = this.getUid();
 
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用户id不为空'));
-
-                            case 4:
                                 if (params.projectid) {
-                                    _context3.next = 6;
+                                    _context3.next = 5;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
-                            case 6:
-                                _context3.next = 8;
-                                return this.Model.checkProjectRepeat(params.uid, params.projectid);
+                            case 5:
+                                _context3.next = 7;
+                                return this.Model.checkProjectRepeat(uid, params.projectid);
 
-                            case 8:
+                            case 7:
                                 checkRepeat = _context3.sent;
 
                                 if (!checkRepeat) {
-                                    _context3.next = 11;
+                                    _context3.next = 10;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目已关注'));
 
-                            case 11:
+                            case 10:
                                 if (params.projectname) {
-                                    _context3.next = 13;
+                                    _context3.next = 12;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目名不能为空'));
 
-                            case 13:
+                            case 12:
                                 if (params.icon) {
-                                    _context3.next = 15;
+                                    _context3.next = 14;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目图标标志不能为空'));
 
-                            case 15:
+                            case 14:
                                 if (params.color) {
-                                    _context3.next = 17;
+                                    _context3.next = 16;
                                     break;
                                 }
 
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目颜色不能为空'));
 
-                            case 17:
+                            case 16:
                                 data = {
-                                    uid: params.uid,
+                                    uid: uid,
                                     projectid: params.projectid,
                                     projectname: params.projectname,
                                     icon: params.icon,
                                     color: params.color
-
                                 };
-                                _context3.prev = 18;
-                                _context3.next = 21;
+                                _context3.prev = 17;
+                                _context3.next = 20;
                                 return this.Model.save(data);
 
-                            case 21:
+                            case 20:
                                 result = _context3.sent;
 
                                 result = _yapi2.default.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 29;
+                                _context3.next = 28;
                                 break;
 
-                            case 26:
-                                _context3.prev = 26;
-                                _context3.t0 = _context3['catch'](18);
+                            case 25:
+                                _context3.prev = 25;
+                                _context3.t0 = _context3['catch'](17);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
-                            case 29:
+                            case 28:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[18, 26]]);
+                }, _callee3, this, [[17, 25]]);
             }));
 
             function add(_x3) {
