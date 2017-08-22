@@ -76,9 +76,9 @@ class ProjectCard extends Component {
           <Icon type="area-chart" className="ui-logo" />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
         </Card>
-        <div className="card-btns">
+        <div className="card-btns" onClick={projectData.follow || inFollowPage ? this.del : this.add}>
           <Tooltip placement="rightTop" title={projectData.follow || inFollowPage ? '取消关注' : '添加关注'}>
-            <Icon type={projectData.follow || inFollowPage ? 'star' : 'star-o'} className="icon" onClick={projectData.follow || inFollowPage ? this.del : this.add}/>
+            <Icon type={projectData.follow || inFollowPage ? 'star' : 'star-o'} className="icon"/>
           </Tooltip>
         </div>
       </div>
