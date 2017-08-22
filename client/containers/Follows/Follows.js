@@ -33,7 +33,7 @@ class Follows extends Component {
   }
 
   receiveRes = () => {
-    console.log('receive!');
+    console.log('receive res!');
     this.props.getFollowList(this.props.uid).then((res) => {
       console.log(res);
       if (res.payload.data.errcode === 0) {
@@ -74,7 +74,7 @@ class Follows extends Component {
             {data.length ? data.map((item, index) => {
               return (
                 <Col span={8} key={index}>
-                  <ProjectCard projectData={item} isFollowed={true} callbackResult={this.receiveRes} />
+                  <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
                 </Col>);
             }): <ErrMsg type="noFollow"/>}
           </Row>
