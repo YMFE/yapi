@@ -5,12 +5,38 @@ import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { Input, Icon, Tag, Modal, Row, Col, message, Tooltip, Tree } from 'antd';
+import { Input, Icon, Tag, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 
-const TextArea = Input.TextArea;
 const TreeNode = Tree.TreeNode;
+const FormItem = Form.Item;
 
 import './InterfaceColMenu.scss'
+
+const ColModalForm = Form.create()((props) => {
+  const { visible, onCancel, onCreate, form, title } = props;
+  const { getFieldDecorator } = form;
+  return (
+    <Modal
+      visible={visible}
+      title={title}
+      onCancel={onCancel}
+      onOk={onCreate}
+    >
+      <Form layout="vertical">
+        <FormItem label="集合名">
+          {getFieldDecorator('colName', {
+            rules: [{ required: true, message: '请输入集合命名！' }]
+          })(
+            <Input />
+          )}
+        </FormItem>
+        <FormItem label="简介">
+          {getFieldDecorator('colDesc')(<Input type="textarea" />)}
+        </FormItem>
+      </Form>
+    </Modal>
+  )
+});
 
 @connect(
   state => {
@@ -43,10 +69,10 @@ export default class InterfaceColMenu extends Component {
   }
 
   state = {
-    addColModalVisible: false,
-    addColName: '',
-    addColDesc: '',
-    expandedKeys: []
+    expandedKeys: [],
+    colModalType: '',
+    colModalVisible: false,
+    editColId: 0
   }
 
   constructor(props) {
@@ -70,15 +96,21 @@ export default class InterfaceColMenu extends Component {
   }
 
   @autobind
-  async addCol() {
-    const { addColName: name, addColDesc: desc } = this.state;
-    const project_id = this.props.match.params.id
-    const res = await axios.post('/api/col/add_col', { name, desc, project_id })
+  async addorEditCol() {
+    const { colName: name, colDesc: desc } = this.form.getFieldsValue();
+    const { colModalType, editColId: col_id } = this.state;
+    const project_id = this.props.match.params.id;
+    let res = {};
+    if (colModalType === 'add') {
+      res = await axios.post('/api/col/add_col', { name, desc, project_id })
+    } else if (colModalType === 'edit') {
+      res = await axios.post('/api/col/up_col', { name, desc, col_id })
+    }
     if (!res.data.errcode) {
       this.setState({
-        addColModalVisible: false
+        colModalVisible: false
       });
-      message.success('添加集合成功');
+      message.success(colModalType === 'edit' ? '修改集合成功' : '添加集合成功');
       await this.props.fetchInterfaceColList(project_id);
     } else {
       message.error(res.data.errmsg);
@@ -109,17 +141,44 @@ export default class InterfaceColMenu extends Component {
       }
     }
   }
+  showColModal = (type, col) => {
+    const editCol = type === 'edit' ? {colName: col.name, colDesc: col.desc} : {colName: '', colDesc: ''};
+    this.setState({
+      colModalVisible: true,
+      colModalType: type || 'add',
+      editColId: col._id
+    })
+    this.form.setFieldsValue(editCol)
+  }
+  saveFormRef = (form) => {
+    this.form = form;
+  }
 
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
-    console.log(this.state.expandedKeys)
+    const { colModalType, colModalVisible } = this.state;
+
+    const menu = (col) => {
+      return (
+        <Menu>
+          <Menu.Item>
+            <span onClick={() => this.showColModal('edit', col)}>修改集合</span>
+          </Menu.Item>
+          <Menu.Item>
+            <span onClick={() => {
+              this.showDelColConfirm(col._id)
+            }}>删除集合</span>
+          </Menu.Item>
+        </Menu>
+      )
+    };
 
     return (
       <div>
         <div className="interface-filter">
           <Input placeholder="Filter by name" style={{ width: "70%" }} />
           <Tooltip placement="bottom" title="添加集合">
-            <Tag color="#108ee9" style={{ marginLeft: "15px" }} onClick={() => this.setState({addColModalVisible: true})} ><Icon type="plus" /></Tag>
+            <Tag color="#108ee9" style={{ marginLeft: "15px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
           </Tooltip>
         </div>
         <Tree
@@ -134,14 +193,26 @@ export default class InterfaceColMenu extends Component {
             this.props.interfaceColList.map((col) => (
               <TreeNode
                 key={'col_' + col._id}
-                title={<span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>}
+                title={
+                  <div className="menu-title">
+                    <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
+                    <Dropdown overlay={menu(col)}>
+                      <Icon type='bars'/>
+                    </Dropdown>
+                  </div>
+                }
               >
                 {
                   col.caseList && col.caseList.map((interfaceCase) => (
                     <TreeNode
                       style={{width: '100%'}}
                       key={'case_' + interfaceCase._id}
-                      title={interfaceCase.casename}
+                      title={
+                        <div className="menu-title">
+                          <span>{interfaceCase.casename}</span>
+                          <Icon type='delete' className="case-delete-icon" onClick={() => { this.showConfirm(interfaceCase._id) }} />
+                        </div>
+                      }
                     ></TreeNode>
                   ))
                 }
@@ -149,33 +220,13 @@ export default class InterfaceColMenu extends Component {
             ))
           }
         </Tree>
-        <Modal
-          title="添加集合"
-          visible={this.state.addColModalVisible}
-          onOk={this.addCol}
-          onCancel={() => { this.setState({ addColModalVisible: false }) }}
-          className="add-col-modal"
-        >
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">集合名：</div></Col>
-            <Col span="15">
-              <Input
-                placeholder="请输入集合名称"
-                value={this.state.addColName}
-                onChange={e => this.setState({addColName: e.target.value})}></Input>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">简介：</div></Col>
-            <Col span="15">
-              <TextArea
-                rows={3}
-                placeholder="请输入集合描述"
-                value={this.state.addColDesc}
-                onChange={e => this.setState({addColDesc: e.target.value})}></TextArea>
-            </Col>
-          </Row>
-        </Modal>
+        <ColModalForm
+          ref={this.saveFormRef}
+          type={colModalType}
+          visible={colModalVisible}
+          onCancel={() => { this.setState({ colModalVisible: false }) }}
+          onCreate={this.addorEditCol}
+        ></ColModalForm>
       </div>
     )
   }

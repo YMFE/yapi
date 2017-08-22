@@ -455,9 +455,9 @@ var interfaceColController = function (_baseController) {
                                 _context6.prev = 0;
                                 params = ctx.request.body;
                                 _context6.next = 4;
-                                return this.caseModel.up(params.col_id, {
-                                    name: params.col_name,
-                                    desc: params.col_desc,
+                                return this.colModel.up(params.col_id, {
+                                    name: params.name,
+                                    desc: params.desc,
                                     up_time: _yapi2.default.commons.time()
                                 });
 
