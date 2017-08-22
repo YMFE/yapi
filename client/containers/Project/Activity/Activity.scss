@@ -67,8 +67,14 @@
       float: left;
       min-width:100px; 
     }
+    .projectDes{
+      color: #7b7b7b;
+      font-size: 25px;
+      float: left;
+      line-height: 0.9em;
+    }
     .Mockurl{
-      width: 500px;
+      width: 600px !important;
       float: right;
       color: #7b7b7b;
       >span{
@@ -76,7 +82,7 @@
         line-height: 30px;
       }
       p{
-        width: 60%;
+        width: 65%;
         display: inline-block;
         position: relative;
         padding: 4px 7px;
