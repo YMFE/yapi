@@ -1,25 +1,35 @@
 @import '../../styles/mixin.scss';
 .card-container {
   position: relative;
+
+  transition: all .2s;
+  .m-card, .card-btns {
+    transform: translateY(0);
+    transition: all .2s;
+  }
   &:hover {
-    .m-card{
-      background-color: #efefef;
+    .m-card, .card-btns {
+      transform: translateY(-4px);
     }
-    .card-btns {
-      display: block;
+  }
+  &:active {
+    .m-card, .card-btns {
+      transform: translateY(4px);
     }
   }
   // 按钮组
   .card-btns {
-    display: none;
     position: absolute;
     top: 0;
     right: 0;
+    width: .48rem;
+    height: .48rem;
+    background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
     // 卡片右上角按钮
     .icon {
       cursor: pointer;
-      font-size: .2rem;
-      padding: .08rem;
+      font-size: .16rem;
+      padding: .06rem;
       position: absolute;
       right: 0;
       top: 0;
@@ -29,12 +39,44 @@
 .m-card {
   cursor: pointer;
   text-align: center;
-  margin-bottom: .16rem;
-  background-color: #fff;
+  margin-bottom: .36rem;
   transition: all .4s;
-  color: rgba(0, 0, 0, 0.65);
   position: relative;
-  .m-card-logo {
+  .ant-card-body {
+    background-color: $color-bg-gray;
+    border-radius: 4px;
+    padding-top: .9rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+  .ui-logo {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -20%);
+    font-size: .4rem;
+    color: #fff;
+    background-color: #2395f1;
+    line-height: 1rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+  .ui-title {
+    font-size: .19rem;
+    margin-bottom: .08rem;
+    font-weight: normal;
+  }
+  .ui-desc {
+    font-size: .16rem;
+    height: .24rem;
+    line-height: .24rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    color: rgba(39, 56, 72, 0.43);
+  }
+  .m-card-body {
     .icon {
       font-size: .8rem;
     }
@@ -43,4 +85,5 @@
       margin-top: .16rem;
     }
   }
+
 }
