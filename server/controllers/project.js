@@ -1,5 +1,6 @@
 import projectModel from '../models/project.js';
 import yapi from '../yapi.js';
+import _ from "underscore"
 import baseController from './base.js';
 import interfaceModel from '../models/interface.js';
 import interfaceColModel from '../models/interfaceCol.js';
@@ -326,8 +327,18 @@ class projectController extends baseController {
         let auth =await  this.checkAuth(group_id, 'group', 'edit')
         try {
             let result = await this.Model.list(group_id, auth);
+            let follow = await this.followModel.list(this.getUid());
             let uids = [];
-            result.forEach((item) => {
+            result.forEach((item, index) => {
+                result[index] = item.toObject();
+                let f = _.find(follow, (fol)=>{
+                    return fol.projectid === item._id
+                })
+                if(f){
+                    result[index].follow = true;
+                }else{
+                    result[index].follow = false;
+                }
                 if (uids.indexOf(item.uid) === -1) {
                     uids.push(item.uid);
                 }
@@ -395,7 +406,6 @@ class projectController extends baseController {
      */
     async changeMemberRole(ctx){
         let params = ctx.request.body;
-        console.log(params);
         let projectInst = yapi.getInst(projectModel);
         if (!params.member_uid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
