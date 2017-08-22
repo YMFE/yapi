@@ -9,6 +9,7 @@ import { Input, Icon, Tag, Modal, message, Tooltip, Tree, Dropdown, Menu, Form }
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
+const confirm = Modal.confirm;
 
 import './InterfaceColMenu.scss'
 
@@ -141,12 +142,29 @@ export default class InterfaceColMenu extends Component {
       }
     }
   }
+  showDelColConfirm = (colId) => {
+    let that = this;
+    confirm({
+      title: '您确认删除此测试集合',
+      content: '温馨提示：该操作会删除该集合下所有测试用例，用例删除后无法恢复',
+      async onOk() {
+        const res = await axios.get('/api/col/del_col?col_id=' + colId)
+        if (!res.data.errcode) {
+          message.success('删除集合成功');
+          await that.props.fetchInterfaceColList(that.props.match.params.id);
+        } else {
+          message.error(res.data.errmsg);
+        }
+      },
+      onCancel() { }
+    });
+  }
   showColModal = (type, col) => {
     const editCol = type === 'edit' ? {colName: col.name, colDesc: col.desc} : {colName: '', colDesc: ''};
     this.setState({
       colModalVisible: true,
       colModalType: type || 'add',
-      editColId: col._id
+      editColId: col && col._id
     })
     this.form.setFieldsValue(editCol)
   }
