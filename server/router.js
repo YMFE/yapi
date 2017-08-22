@@ -169,6 +169,10 @@ const routerConfig = {
 	],
 	"project": [
 		{
+			"action": "upSet",
+			"path": "upset",
+			"method": "post"
+		},{
 			"action": "add",
 			"path": "add",
 			"method": "post"
