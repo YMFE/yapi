@@ -25,7 +25,11 @@ export default class Run extends Component {
 
   static propTypes = {
     data: PropTypes.object,
-    save:PropTypes.func
+    save: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.func
+    ]),
+    saveTip: PropTypes.string
   }
 
   state = {
@@ -399,11 +403,11 @@ export default class Run extends Component {
                 loading={this.state.loading}
               >发送</Button>
             </Tooltip>
-            <Tooltip placement="bottom" title="保存到集合">
+            <Tooltip placement="bottom" title={this.props.saveTip}>
               <Button
                 onClick={this.props.save}
                 type="primary"
-                style={{marginLeft: 10}}
+                style={{marginLeft: 10, display: this.props.save === false ? 'none' : ''}}
               >保存</Button>
             </Tooltip>
           </div>
