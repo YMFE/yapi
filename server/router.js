@@ -327,11 +327,11 @@ const routerConfig = {
 	},{
 		action: "delCol",
 		path: "del_col",
-		method: "post"
+		method: "get"
 	},{
 		action: "delCase",
 		path: "del_case",
-		method: "post"
+		method: "get"
 	}
 	]
 }

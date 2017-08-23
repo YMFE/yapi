@@ -9,7 +9,8 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-import './Addproject.scss'
+import { withRouter } from 'react-router';
+import './Addproject.scss';
 
 const formItemLayout = {
   labelCol: {
@@ -36,7 +37,7 @@ const formItemLayout = {
     addProject
   }
 )
-
+@withRouter
 class ProjectList extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +49,7 @@ class ProjectList extends Component {
     groupList: PropTypes.array,
     form: PropTypes.object,
     addProject: PropTypes.func,
+    history: PropTypes.object,
     fetchGroupList: PropTypes.func
   }
 
@@ -65,6 +67,7 @@ class ProjectList extends Component {
           if (res.payload.data.errcode == 0) {
             form.resetFields();
             message.success('创建成功! ');
+            this.props.history.push('/project/' + res.payload.data.data._id + '/interface/api');
           }
         }).catch(() => {
         });

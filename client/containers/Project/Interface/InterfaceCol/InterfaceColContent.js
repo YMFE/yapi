@@ -55,9 +55,12 @@ export default class InterfaceColContent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldCaseId = this.props.match.params.actionId
-    const newCaseId = nextProps.match.params.actionId
-    if (oldCaseId !== newCaseId) {
+    const { interfaceColList } = nextProps;
+    const { actionId: oldCaseId, id } = this.props.match.params
+    let newCaseId = nextProps.match.params.actionId
+    if (!interfaceColList.find(item => +item._id === +newCaseId)) {
+      this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
+    } else if (oldCaseId !== newCaseId) {
       this.props.fetchCaseList(newCaseId);
       this.props.setColData({currColId: +newCaseId, isShowCol: true})
     }

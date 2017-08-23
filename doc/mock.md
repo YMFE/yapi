@@ -1,34 +1,44 @@
-## Mock功能
+## Mock介绍
 
- <p style='text-indent:2em;line-height:1.8em'>yapi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，支持复杂的生成逻辑，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台那么在 团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。</p>
+ <p style='text-indent:2em;line-height:1.8em'>yapi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。
+ 
+ **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
+ 
+ </p>
+<img src="./images/mock.jpg" style="width: 50%" />
 
-### 1 Mock步骤
-#### 1.1 创建接口
+### 1 如何使用Mock?
+### 1.1 最简单最直接的方式
+在代码直接请求yapi提供的mock地址，以jQuery为例：
 
-通过点击页面上的"+添加接口"
+````javascript
+let prefix = 'http://yapi.local.qunar.com:3000/mock/2817'
+$.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
+    console.log(res) //返回上图预览部分的数据
+})
+````
 
-<img src="http://note.youdao.com/yws/api/personal/file/WEB613bd4f29db038f2b41c03dcfceda2b6?method=download&shareKey=29bfc2b855f6f26ce0079baf567e54cc" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+### 1.2 基于本地服务器反向代理
 
- 输入协议、URL、接口名、请求头、请求参数、Mock规则（[点击到Mock规则](#mock)）等信息。
+优点:不用修改项目代码
 
-<img src="http://note.youdao.com/yws/api/personal/file/WEB680a37ba304768804b23cf2cf36ed40d?method=download&shareKey=0d750695dce3a4c7abf697fa58d24c57" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+#### 1.2.1 基于nginx反向代理
 
-输入Mock规则时它会在右边同步产生一个对应的结果
+```` nginx
+location /baseapi
+{
+proxy_pass http://http://yapi.local.qunar.com:3000/mock/2817/;
+}
+````
 
-<img src="http://note.youdao.com/yws/api/personal/file/WEB929dce5eed22e1b7e9a10be98ee2ab38?method=download&shareKey=5616ed1d9e09cc38f9cdbb995c892cb5" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
-
-最后点击保存按钮，保存后将会在"Mock地址"生成一个链接。
->Mock地址的域名需要配置 host 指到我们的服务器 ip 地址
-
-<img src="http://note.youdao.com/yws/api/personal/file/WEB525ea3dadf1f274bbe12943341ba00cb?method=download&shareKey=95dbc9cf7a7646387c55dabf64cad888" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
-
-取到上面的链接在浏览器中请求就可以得到如下结果。
-
-<img src="http://note.youdao.com/yws/api/personal/file/WEB1d1f7dc7b83a8cd6f576953cf45e9719?method=download&shareKey=99b4af9baac527b969543dd0a909d2a1" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+#### 1.2.2 基于ykit Jerry代理
+<img src="./images/ykit.jpg" />
 
 
 
 <span id = "mock"></span>
+
+
 ### 2.1 Mock语法规范
 >了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
 
@@ -170,10 +180,3 @@ name: {
     "full": "Charles Brenda Lopez"
 }
 ```
-
-## 未来计划推出功能
-
-1. 可视化JSON编辑器，可定义JSON_Schema和mockjs
-2. 支持HTTP和RPC协议
-3. 自动化测试
-4. 多人协作
