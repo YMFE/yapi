@@ -104,7 +104,6 @@ class ProjectList extends Component {
   }
 
   render() {
-    console.log(this.props);
     const projectData = this.state.projectData;
     return (
       <div className="m-panel card-panel card-panel-s">
