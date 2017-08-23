@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
-import { updateProject, delProject, getProjectMsg } from '../../../../reducer/modules/project';
+import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
@@ -9,9 +9,10 @@ import { withRouter } from 'react-router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const RadioButton = Radio.Button;
+import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
 import '../Setting.scss';
-
 // layout
 const formItemLayout = {
   labelCol: {
@@ -39,7 +40,8 @@ let uuid = 0; // 环境配置的计数
     updateProject,
     delProject,
     getProjectMsg,
-    fetchGroupMsg
+    fetchGroupMsg,
+    upsetProject
   }
 )
 @withRouter
@@ -60,6 +62,7 @@ class ProjectMessage extends Component {
     getProjectMsg: PropTypes.func,
     history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
+    upsetProject: PropTypes.func,
     projectList: PropTypes.array,
     projectMsg: PropTypes.object
   }
@@ -166,6 +169,25 @@ class ProjectMessage extends Component {
     });
   }
 
+  // 修改项目头像的背景颜色
+  changeProjectColor = (e) => {
+    const { _id, color, icon } = this.props.projectMsg;
+    this.props.upsetProject({ id: _id, color: e.target.value || color, icon }).then((res) => {
+      if (res.payload.data.errcode === 0) {
+        this.props.getProjectMsg(this.props.projectId);
+      }
+    });
+  }
+  // 修改项目头像的图标
+  changeProjectIcon = (e) => {
+    const { _id, color, icon } = this.props.projectMsg;
+    this.props.upsetProject({ id: _id, color, icon: e.target.value || icon }).then((res) => {
+      if (res.payload.data.errcode === 0) {
+        this.props.getProjectMsg(this.props.projectId);
+      }
+    });
+  }
+
   async componentWillMount() {
     await this.props.getProjectMsg(this.props.projectId);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
@@ -177,7 +199,6 @@ class ProjectMessage extends Component {
   render () {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { projectMsg } = this.props;
-    console.log(projectMsg);
     let initFormValues = {};
     let envMessage = [];
     const { name, basepath, desc, env, project_type } = projectMsg;
@@ -285,19 +306,23 @@ class ProjectMessage extends Component {
         </Row>
       );
     });
-
-    const colorSelector = (<RadioGroup onChange={this.onChange} value={1}>
-      <Radio value={1} style={{color: 'red'}}></Radio>
-      <Radio value={2}></Radio>
-      <Radio value={3}></Radio>
-      <Radio value={4}></Radio>
+    const colorArr = Object.entries(constants.PROJECT_COLOR);
+    const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
+      {colorArr.map((item, index) => {
+        return (<RadioButton key={index} value={item[0]} style={{backgroundColor: item[1], color: '#fff', fontWeight: 'bold'}}>{item[0] === projectMsg.color ? <Icon type="check" /> : null}</RadioButton>);
+      })}
+    </RadioGroup>);
+    const iconSelector = (<RadioGroup onChange={this.changeProjectIcon} value={projectMsg.icon} className="icon">
+      {constants.PROJECT_ICON.map((item) => {
+        return (<RadioButton key={item} value={item} style={{fontWeight: 'bold'}}><Icon type={item} /></RadioButton>);
+      })}
     </RadioGroup>);
     return (
       <div className="m-panel">
         <Row className="project-setting">
           <Col sm={6} lg={3} className="setting-logo">
-            <Popover placement="bottom" title={colorSelector} content={'content'} trigger="click">
-              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{backgroundColor: projectMsg.color || '#2395f1'}} />
+            <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
+              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
             </Popover>
           </Col>
           <Col sm={18} lg={21} className="setting-intro">
@@ -400,9 +425,9 @@ class ProjectMessage extends Component {
         </Form>
         <Row>
           <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
-            <Button className="m-btn" icon="plus" type="primary"
+            <Button className="m-btn" icon="save" type="primary"
               onClick={this.handleOk}
-              >修改项目</Button>
+              >保存</Button>
           </Col>
         </Row>
 
