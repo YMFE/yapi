@@ -60,18 +60,18 @@ export default class GroupList extends Component {
   }
 
   async componentWillMount() {
-    const groupName = this.props.match.params.groupName;
+    const groupId = !isNaN(this.props.match.params.groupId) ? parseInt(this.props.match.params.groupId) : 0;
     await this.props.fetchGroupList();
     let currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
-    if(this.props.groupList.length && groupName){
+    if(this.props.groupList.length && groupId){
       for(let i = 0;i<this.props.groupList.length;i++){
-        if(this.props.groupList[i].group_name === groupName){
+        if(this.props.groupList[i]._id === groupId){
           currGroup = this.props.groupList[i];
         }else{
           this.props.history.replace(`${currGroup._id}`);
         }
       }
-    }else if(!groupName && this.props.groupList.length){
+    }else if(!groupId && this.props.groupList.length){
       this.props.history.push(`/group/${this.props.groupList[0]._id}`);
     }
     this.setState({groupList: this.props.groupList});
