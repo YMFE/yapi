@@ -913,6 +913,12 @@
       "from": "balanced-match@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/balanced-match/download/balanced-match-1.0.0.tgz"
     },
+    "base16": {
+      "version": "1.0.0",
+      "from": "base16@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/base16/download/base16-1.0.0.tgz",
+      "dev": true
+    },
     "base62": {
       "version": "1.2.0",
       "from": "base62@>=1.1.0 <2.0.0",
@@ -1438,7 +1444,7 @@
     },
     "compressible": {
       "version": "2.0.11",
-      "from": "compressible@>=2.0.10 <2.1.0",
+      "from": "http://registry.npm.taobao.org/compressible/download/compressible-2.0.11.tgz",
       "resolved": "http://registry.npm.taobao.org/compressible/download/compressible-2.0.11.tgz"
     },
     "compression": {
@@ -1479,6 +1485,12 @@
       "version": "1.3.0",
       "from": "connect-history-api-fallback@>=1.3.0 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/connect-history-api-fallback/download/connect-history-api-fallback-1.3.0.tgz"
+    },
+    "console-browserify": {
+      "version": "1.1.0",
+      "from": "console-browserify@^1.1.0",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/console-browserify/-/console-browserify-1.1.0.tgz",
+      "dev": true
     },
     "console-control-strings": {
       "version": "1.1.0",
@@ -1643,6 +1655,20 @@
         }
       }
     },
+    "cross-spawn-async": {
+      "version": "2.2.5",
+      "from": "cross-spawn-async@>=2.1.1 <3.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/cross-spawn-async/download/cross-spawn-async-2.2.5.tgz",
+      "dev": true,
+      "dependencies": {
+        "lru-cache": {
+          "version": "4.1.1",
+          "from": "lru-cache@>=4.0.0 <5.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/lru-cache/download/lru-cache-4.1.1.tgz",
+          "dev": true
+        }
+      }
+    },
     "crypt": {
       "version": "0.0.2",
       "from": "crypt@>=0.0.1",
@@ -1652,6 +1678,12 @@
       "version": "2.0.5",
       "from": "cryptiles@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/cryptiles/download/cryptiles-2.0.5.tgz"
+    },
+    "crypto-browserify": {
+      "version": "3.11.1",
+      "from": "crypto-browserify@^3.11.0",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/crypto-browserify/-/crypto-browserify-3.11.1.tgz",
+      "dev": true
     },
     "css-animation": {
       "version": "1.4.1",
@@ -2036,6 +2068,20 @@
         }
       }
     },
+    "duplexify": {
+      "version": "3.5.1",
+      "from": "duplexify@>=3.2.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/duplexify/-/duplexify-3.5.1.tgz",
+      "dev": true,
+      "dependencies": {
+        "end-of-stream": {
+          "version": "1.4.0",
+          "from": "end-of-stream@>=1.0.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.0.tgz",
+          "dev": true
+        }
+      }
+    },
     "ecc-jsbn": {
       "version": "0.1.1",
       "from": "ecc-jsbn@>=0.1.1 <0.2.0",
@@ -2093,6 +2139,12 @@
           "resolved": "http://registry.npm.corp.qunar.com/once/download/once-1.3.3.tgz"
         }
       }
+    },
+    "enhanced-resolve": {
+      "version": "3.4.1",
+      "from": "enhanced-resolve@^3.3.0",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/enhanced-resolve/-/enhanced-resolve-3.4.1.tgz",
+      "dev": true
     },
     "enquire.js": {
       "version": "2.1.6",
@@ -2325,6 +2377,12 @@
       "from": "event-emitter@>=0.3.5 <0.4.0",
       "resolved": "http://registry.npm.corp.qunar.com/event-emitter/download/event-emitter-0.3.5.tgz"
     },
+    "event-stream": {
+      "version": "3.3.4",
+      "from": "event-stream@>=3.3.0 <3.4.0",
+      "resolved": "http://registry.npm.corp.qunar.com/event-stream/download/event-stream-3.3.4.tgz",
+      "dev": true
+    },
     "eventemitter3": {
       "version": "1.2.0",
       "from": "eventemitter3@>=1.0.0 <2.0.0",
@@ -2354,6 +2412,12 @@
       "version": "0.2.0",
       "from": "exec-sh@>=0.2.0 <0.3.0",
       "resolved": "http://registry.npm.corp.qunar.com/exec-sh/download/exec-sh-0.2.0.tgz"
+    },
+    "execa": {
+      "version": "0.4.0",
+      "from": "execa@>=0.4.0 <0.5.0",
+      "resolved": "http://registry.npm.corp.qunar.com/execa/download/execa-0.4.0.tgz",
+      "dev": true
     },
     "exit-hook": {
       "version": "1.1.1",
@@ -2653,6 +2717,12 @@
       "version": "0.5.0",
       "from": "fresh@0.5.0",
       "resolved": "https://registry.npmjs.org/fresh/-/fresh-0.5.0.tgz"
+    },
+    "from": {
+      "version": "0.1.7",
+      "from": "from@>=0.0.0 <1.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/from/download/from-0.1.7.tgz",
+      "dev": true
     },
     "fs-exists-sync": {
       "version": "0.1.0",
@@ -3401,6 +3471,12 @@
         }
       }
     },
+    "ghooks": {
+      "version": "2.0.0",
+      "from": "ghooks@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/ghooks/-/ghooks-2.0.0.tgz",
+      "dev": true
+    },
     "glob": {
       "version": "7.1.2",
       "from": "glob@>=7.1.2 <8.0.0",
@@ -3541,6 +3617,12 @@
       "version": "4.1.11",
       "from": "graceful-fs@>=4.1.2 <5.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/graceful-fs/download/graceful-fs-4.1.11.tgz"
+    },
+    "graceful-readlink": {
+      "version": "1.0.1",
+      "from": "graceful-readlink@>=1.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/graceful-readlink/download/graceful-readlink-1.0.1.tgz",
+      "dev": true
     },
     "growly": {
       "version": "1.3.0",
@@ -3952,6 +4034,12 @@
       "from": "ignore@>=3.2.0 <4.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/ignore/download/ignore-3.3.3.tgz"
     },
+    "ignore-by-default": {
+      "version": "1.0.1",
+      "from": "ignore-by-default@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/ignore-by-default/download/ignore-by-default-1.0.1.tgz",
+      "dev": true
+    },
     "image-size": {
       "version": "0.5.5",
       "from": "image-size@>=0.5.0 <0.6.0",
@@ -3987,6 +4075,12 @@
       "version": "0.0.1",
       "from": "indexof@0.0.1",
       "resolved": "http://registry.npm.corp.qunar.com/indexof/download/indexof-0.0.1.tgz"
+    },
+    "infinity-agent": {
+      "version": "2.0.3",
+      "from": "infinity-agent@>=2.0.0 <3.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/infinity-agent/download/infinity-agent-2.0.3.tgz",
+      "dev": true
     },
     "inflation": {
       "version": "2.0.0",
@@ -4765,6 +4859,11 @@
       "from": "koa-compose@>=4.0.0 <5.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/koa-compose/download/koa-compose-4.0.0.tgz"
     },
+    "koa-compress": {
+      "version": "2.0.0",
+      "from": "koa-compress@latest",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/koa-compress/-/koa-compress-2.0.0.tgz"
+    },
     "koa-convert": {
       "version": "1.2.0",
       "from": "koa-convert@>=1.2.0 <2.0.0",
@@ -4979,6 +5078,12 @@
       "from": "lodash._baseassign@>=3.0.0 <4.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/lodash._baseassign/download/lodash._baseassign-3.2.0.tgz"
     },
+    "lodash._baseclone": {
+      "version": "4.5.7",
+      "from": "lodash._baseclone@>=4.5.0 <4.6.0",
+      "resolved": "http://registry.npm.corp.qunar.com/lodash._baseclone/download/lodash._baseclone-4.5.7.tgz",
+      "dev": true
+    },
     "lodash._basecopy": {
       "version": "3.0.1",
       "from": "lodash._basecopy@>=3.0.0 <4.0.0",
@@ -5049,6 +5154,12 @@
       "from": "lodash.camelcase@>=4.3.0 <5.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/lodash.camelcase/download/lodash.camelcase-4.3.0.tgz"
     },
+    "lodash.clone": {
+      "version": "4.3.2",
+      "from": "lodash.clone@4.3.2",
+      "resolved": "http://registry.npm.corp.qunar.com/lodash.clone/download/lodash.clone-4.3.2.tgz",
+      "dev": true
+    },
     "lodash.clonedeep": {
       "version": "4.5.0",
       "from": "lodash.clonedeep@>=4.3.2 <5.0.0",
@@ -5058,6 +5169,12 @@
       "version": "4.5.2",
       "from": "lodash.cond@>=4.3.0 <5.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/lodash.cond/download/lodash.cond-4.5.2.tgz"
+    },
+    "lodash.curry": {
+      "version": "4.1.1",
+      "from": "lodash.curry@>=4.0.1 <5.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/lodash.curry/download/lodash.curry-4.1.1.tgz",
+      "dev": true
     },
     "lodash.debounce": {
       "version": "4.0.8",
@@ -5073,6 +5190,12 @@
       "version": "3.2.0",
       "from": "lodash.escape@>=3.0.0 <4.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/lodash.escape/download/lodash.escape-3.2.0.tgz"
+    },
+    "lodash.flow": {
+      "version": "3.5.0",
+      "from": "lodash.flow@>=3.3.0 <4.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/lodash.flow/download/lodash.flow-3.5.0.tgz",
+      "dev": true
     },
     "lodash.get": {
       "version": "4.4.2",
@@ -5226,6 +5349,12 @@
       "from": "makeerror@>=1.0.0 <1.1.0",
       "resolved": "http://registry.npm.corp.qunar.com/makeerror/download/makeerror-1.0.11.tgz"
     },
+    "manage-path": {
+      "version": "2.0.0",
+      "from": "manage-path@2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/manage-path/download/manage-path-2.0.0.tgz",
+      "dev": true
+    },
     "map-cache": {
       "version": "0.2.2",
       "from": "map-cache@>=0.2.0 <0.3.0",
@@ -5235,6 +5364,12 @@
       "version": "1.0.1",
       "from": "map-obj@>=1.0.1 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/map-obj/download/map-obj-1.0.1.tgz"
+    },
+    "map-stream": {
+      "version": "0.1.0",
+      "from": "map-stream@>=0.1.0 <0.2.0",
+      "resolved": "http://registry.npm.corp.qunar.com/map-stream/download/map-stream-0.1.0.tgz",
+      "dev": true
     },
     "math-expression-evaluator": {
       "version": "1.2.17",
@@ -5528,6 +5663,12 @@
       "from": "negotiator@0.6.1",
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.1.tgz"
     },
+    "nested-error-stacks": {
+      "version": "1.0.2",
+      "from": "nested-error-stacks@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/nested-error-stacks/download/nested-error-stacks-1.0.2.tgz",
+      "dev": true
+    },
     "no-case": {
       "version": "2.3.1",
       "from": "no-case@>=2.2.0 <3.0.0",
@@ -5564,6 +5705,20 @@
       "version": "0.4.0",
       "from": "node-int64@>=0.4.0 <0.5.0",
       "resolved": "http://registry.npm.corp.qunar.com/node-int64/download/node-int64-0.4.0.tgz"
+    },
+    "node-libs-browser": {
+      "version": "2.0.0",
+      "from": "node-libs-browser@^2.0.0",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/node-libs-browser/-/node-libs-browser-2.0.0.tgz",
+      "dev": true,
+      "dependencies": {
+        "string_decoder": {
+          "version": "0.10.31",
+          "from": "string_decoder@^0.10.25",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-0.10.31.tgz",
+          "dev": true
+        }
+      }
     },
     "node-notifier": {
       "version": "5.1.2",
@@ -5634,6 +5789,82 @@
       "from": "nodemailer@>=4.0.1 <5.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/nodemailer/download/nodemailer-4.0.1.tgz"
     },
+    "nodemon": {
+      "version": "1.11.0",
+      "from": "nodemon@>=1.11.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/nodemon/download/nodemon-1.11.0.tgz",
+      "dev": true,
+      "dependencies": {
+        "chalk": {
+          "version": "1.1.3",
+          "from": "chalk@>=1.0.0 <2.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/chalk/-/chalk-1.1.3.tgz",
+          "dev": true
+        },
+        "configstore": {
+          "version": "1.4.0",
+          "from": "configstore@>=1.0.0 <2.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/configstore/download/configstore-1.4.0.tgz",
+          "dev": true
+        },
+        "got": {
+          "version": "3.3.1",
+          "from": "got@>=3.2.0 <4.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/got/download/got-3.3.1.tgz",
+          "dev": true,
+          "dependencies": {
+            "object-assign": {
+              "version": "3.0.0",
+              "from": "object-assign@>=3.0.0 <4.0.0",
+              "resolved": "http://registry.npm.corp.qunar.com/object-assign/download/object-assign-3.0.0.tgz",
+              "dev": true
+            }
+          }
+        },
+        "latest-version": {
+          "version": "1.0.1",
+          "from": "latest-version@>=1.0.0 <2.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/latest-version/download/latest-version-1.0.1.tgz",
+          "dev": true
+        },
+        "lodash.defaults": {
+          "version": "3.1.2",
+          "from": "lodash.defaults@>=3.1.2 <4.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/lodash.defaults/download/lodash.defaults-3.1.2.tgz",
+          "dev": true
+        },
+        "package-json": {
+          "version": "1.2.0",
+          "from": "package-json@>=1.0.0 <2.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/package-json/download/package-json-1.2.0.tgz",
+          "dev": true
+        },
+        "repeating": {
+          "version": "1.1.3",
+          "from": "repeating@>=1.1.2 <2.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/repeating/download/repeating-1.1.3.tgz",
+          "dev": true
+        },
+        "timed-out": {
+          "version": "2.0.0",
+          "from": "timed-out@>=2.0.0 <3.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/timed-out/download/timed-out-2.0.0.tgz",
+          "dev": true
+        },
+        "update-notifier": {
+          "version": "0.5.0",
+          "from": "update-notifier@0.5.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/update-notifier/-/update-notifier-0.5.0.tgz",
+          "dev": true
+        },
+        "uuid": {
+          "version": "2.0.3",
+          "from": "uuid@>=2.0.1 <3.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/uuid/download/uuid-2.0.3.tgz",
+          "dev": true
+        }
+      }
+    },
     "nopt": {
       "version": "3.0.6",
       "from": "nopt@>=2.0.0 <3.0.0||>=3.0.0 <4.0.0",
@@ -5658,6 +5889,12 @@
       "version": "1.9.1",
       "from": "normalize-url@>=1.4.0 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/normalize-url/download/normalize-url-1.9.1.tgz"
+    },
+    "npm-run-path": {
+      "version": "1.0.0",
+      "from": "npm-run-path@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/npm-run-path/download/npm-run-path-1.0.0.tgz",
+      "dev": true
     },
     "npmlog": {
       "version": "4.1.2",
@@ -5777,6 +6014,26 @@
       "version": "5.1.0",
       "from": "opn@5.1.0",
       "resolved": "http://registry.npm.corp.qunar.com/opn/download/opn-5.1.0.tgz"
+    },
+    "opt-cli": {
+      "version": "1.5.1",
+      "from": "opt-cli@1.5.1",
+      "resolved": "http://registry.npm.corp.qunar.com/opt-cli/download/opt-cli-1.5.1.tgz",
+      "dev": true,
+      "dependencies": {
+        "commander": {
+          "version": "2.9.0",
+          "from": "commander@2.9.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/commander/-/commander-2.9.0.tgz",
+          "dev": true
+        },
+        "spawn-command": {
+          "version": "0.0.2-1",
+          "from": "spawn-command@0.0.2-1",
+          "resolved": "http://registry.npm.corp.qunar.com/spawn-command/download/spawn-command-0.0.2-1.tgz",
+          "dev": true
+        }
+      }
     },
     "optimist": {
       "version": "0.6.1",
@@ -5924,6 +6181,12 @@
       "from": "parse-json@>=2.2.0 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/parse-json/download/parse-json-2.2.0.tgz"
     },
+    "parse-key": {
+      "version": "0.2.1",
+      "from": "parse-key@>=0.2.1 <0.3.0",
+      "resolved": "http://registry.npm.corp.qunar.com/parse-key/download/parse-key-0.2.1.tgz",
+      "dev": true
+    },
     "parse-passwd": {
       "version": "1.0.0",
       "from": "parse-passwd@>=1.0.0 <2.0.0",
@@ -5969,6 +6232,12 @@
       "from": "path-is-inside@>=1.0.1 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/path-is-inside/download/path-is-inside-1.0.2.tgz"
     },
+    "path-key": {
+      "version": "1.0.0",
+      "from": "path-key@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/path-key/download/path-key-1.0.0.tgz",
+      "dev": true
+    },
     "path-parse": {
       "version": "1.0.5",
       "from": "path-parse@>=1.0.5 <2.0.0",
@@ -5993,6 +6262,12 @@
       "version": "2.0.0",
       "from": "path-type@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/path-type/download/path-type-2.0.0.tgz"
+    },
+    "pause-stream": {
+      "version": "0.0.11",
+      "from": "pause-stream@0.0.11",
+      "resolved": "http://registry.npm.corp.qunar.com/pause-stream/download/pause-stream-0.0.11.tgz",
+      "dev": true
     },
     "pbkdf2": {
       "version": "3.0.13",
@@ -6412,6 +6687,12 @@
       "from": "prr@>=0.0.0 <0.1.0",
       "resolved": "http://registry.npm.corp.qunar.com/prr/download/prr-0.0.0.tgz"
     },
+    "ps-tree": {
+      "version": "1.1.0",
+      "from": "ps-tree@>=1.0.1 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/ps-tree/download/ps-tree-1.1.0.tgz",
+      "dev": true
+    },
     "pseudomap": {
       "version": "1.0.2",
       "from": "pseudomap@>=1.0.2 <2.0.0",
@@ -6426,6 +6707,12 @@
       "version": "1.4.1",
       "from": "punycode@>=1.4.1 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/punycode/download/punycode-1.4.1.tgz"
+    },
+    "pure-color": {
+      "version": "1.3.0",
+      "from": "pure-color@>=1.2.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/pure-color/download/pure-color-1.3.0.tgz",
+      "dev": true
     },
     "q": {
       "version": "1.5.0",
@@ -6754,6 +7041,12 @@
       "from": "react@>=15.6.1 <16.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/react/download/react-15.6.1.tgz"
     },
+    "react-base16-styling": {
+      "version": "0.5.3",
+      "from": "react-base16-styling@>=0.5.1 <0.6.0",
+      "resolved": "http://registry.npm.corp.qunar.com/react-base16-styling/download/react-base16-styling-0.5.3.tgz",
+      "dev": true
+    },
     "react-dev-utils": {
       "version": "3.1.1",
       "from": "react-dev-utils@>=3.0.2 <4.0.0",
@@ -6895,6 +7188,20 @@
         }
       }
     },
+    "react-dock": {
+      "version": "0.2.4",
+      "from": "react-dock@>=0.2.4 <0.3.0",
+      "resolved": "http://registry.npm.corp.qunar.com/react-dock/download/react-dock-0.2.4.tgz",
+      "dev": true,
+      "dependencies": {
+        "lodash.debounce": {
+          "version": "3.1.1",
+          "from": "lodash.debounce@>=3.1.1 <4.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/lodash.debounce/download/lodash.debounce-3.1.1.tgz",
+          "dev": true
+        }
+      }
+    },
     "react-dom": {
       "version": "15.6.1",
       "from": "react-dom@>=15.6.1 <16.0.0",
@@ -6932,10 +7239,22 @@
         }
       }
     },
+    "react-json-tree": {
+      "version": "0.10.9",
+      "from": "react-json-tree@>=0.10.8 <0.11.0",
+      "resolved": "http://registry.npm.corp.qunar.com/react-json-tree/download/react-json-tree-0.10.9.tgz",
+      "dev": true
+    },
     "react-lazy-load": {
       "version": "3.0.12",
       "from": "react-lazy-load@>=3.0.10 <4.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/react-lazy-load/download/react-lazy-load-3.0.12.tgz"
+    },
+    "react-pure-render": {
+      "version": "1.0.2",
+      "from": "react-pure-render@>=1.0.2 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/react-pure-render/download/react-pure-render-1.0.2.tgz",
+      "dev": true
     },
     "react-redux": {
       "version": "5.0.6",
@@ -7388,6 +7707,36 @@
       "version": "3.7.2",
       "from": "redux@>=3.7.1 <4.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/redux/download/redux-3.7.2.tgz"
+    },
+    "redux-devtools": {
+      "version": "3.4.0",
+      "from": "redux-devtools@>=3.4.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/redux-devtools/-/redux-devtools-3.4.0.tgz",
+      "dev": true
+    },
+    "redux-devtools-dock-monitor": {
+      "version": "1.1.2",
+      "from": "redux-devtools-dock-monitor@>=1.1.2 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/redux-devtools-dock-monitor/download/redux-devtools-dock-monitor-1.1.2.tgz",
+      "dev": true
+    },
+    "redux-devtools-instrument": {
+      "version": "1.8.2",
+      "from": "redux-devtools-instrument@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/redux-devtools-instrument/-/redux-devtools-instrument-1.8.2.tgz",
+      "dev": true
+    },
+    "redux-devtools-log-monitor": {
+      "version": "1.3.0",
+      "from": "redux-devtools-log-monitor@>=1.3.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/redux-devtools-log-monitor/download/redux-devtools-log-monitor-1.3.0.tgz",
+      "dev": true
+    },
+    "redux-devtools-themes": {
+      "version": "1.0.0",
+      "from": "redux-devtools-themes@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/redux-devtools-themes/download/redux-devtools-themes-1.0.0.tgz",
+      "dev": true
     },
     "redux-promise": {
       "version": "0.5.3",
@@ -7946,6 +8295,12 @@
       "from": "sparkles@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/sparkles/download/sparkles-1.0.0.tgz"
     },
+    "spawn-command": {
+      "version": "0.0.2",
+      "from": "spawn-command@0.0.2",
+      "resolved": "http://registry.npm.corp.qunar.com/spawn-command/download/spawn-command-0.0.2.tgz",
+      "dev": true
+    },
     "spdx-correct": {
       "version": "1.0.2",
       "from": "spdx-correct@>=1.0.0 <1.1.0",
@@ -7970,6 +8325,12 @@
       "version": "2.0.20",
       "from": "spdy-transport@>=2.0.18 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/spdy-transport/download/spdy-transport-2.0.20.tgz"
+    },
+    "split": {
+      "version": "0.3.3",
+      "from": "split@>=0.3.0 <0.4.0",
+      "resolved": "http://registry.npm.corp.qunar.com/split/download/split-0.3.3.tgz",
+      "dev": true
     },
     "sprintf-js": {
       "version": "1.0.3",
@@ -8008,6 +8369,12 @@
       "from": "stream-browserify@>=2.0.1 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/stream-browserify/download/stream-browserify-2.0.1.tgz"
     },
+    "stream-combiner": {
+      "version": "0.0.4",
+      "from": "stream-combiner@>=0.0.4 <0.1.0",
+      "resolved": "http://registry.npm.corp.qunar.com/stream-combiner/download/stream-combiner-0.0.4.tgz",
+      "dev": true
+    },
     "stream-consume": {
       "version": "0.1.0",
       "from": "stream-consume@>=0.1.0 <0.2.0",
@@ -8017,6 +8384,12 @@
       "version": "2.7.2",
       "from": "stream-http@>=2.3.1 <3.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/stream-http/download/stream-http-2.7.2.tgz"
+    },
+    "stream-shift": {
+      "version": "1.0.0",
+      "from": "stream-shift@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/stream-shift/download/stream-shift-1.0.0.tgz",
+      "dev": true
     },
     "strict-uri-encode": {
       "version": "1.1.0",
@@ -8116,6 +8489,12 @@
           "resolved": "http://registry.npm.corp.qunar.com/strip-bom/download/strip-bom-2.0.0.tgz"
         }
       }
+    },
+    "strip-eof": {
+      "version": "1.0.0",
+      "from": "strip-eof@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/strip-eof/download/strip-eof-1.0.0.tgz",
+      "dev": true
     },
     "strip-indent": {
       "version": "1.0.1",
@@ -8241,6 +8620,12 @@
           }
         }
       }
+    },
+    "tapable": {
+      "version": "0.2.8",
+      "from": "tapable@~0.2.5",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/tapable/-/tapable-0.2.8.tgz",
+      "dev": true
     },
     "tar": {
       "version": "2.2.1",
@@ -8369,6 +8754,20 @@
       "from": "toposort@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npm.corp.qunar.com/toposort/download/toposort-1.0.3.tgz"
     },
+    "touch": {
+      "version": "1.0.0",
+      "from": "touch@1.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/touch/download/touch-1.0.0.tgz",
+      "dev": true,
+      "dependencies": {
+        "nopt": {
+          "version": "1.0.10",
+          "from": "nopt@>=1.0.10 <1.1.0",
+          "resolved": "http://registry.npm.corp.qunar.com/nopt/download/nopt-1.0.10.tgz",
+          "dev": true
+        }
+      }
+    },
     "tough-cookie": {
       "version": "2.3.2",
       "from": "tough-cookie@>=2.3.0 <2.4.0",
@@ -8465,6 +8864,12 @@
       "version": "0.1.2",
       "from": "unc-path-regex@>=0.1.0 <0.2.0",
       "resolved": "http://registry.npm.corp.qunar.com/unc-path-regex/download/unc-path-regex-0.1.2.tgz"
+    },
+    "undefsafe": {
+      "version": "0.0.3",
+      "from": "undefsafe@0.0.3",
+      "resolved": "http://registry.npm.corp.qunar.com/undefsafe/download/undefsafe-0.0.3.tgz",
+      "dev": true
     },
     "underscore": {
       "version": "1.8.3",
@@ -8727,6 +9132,12 @@
       "from": "vinyl-sourcemaps-apply@>=0.2.0 <0.3.0",
       "resolved": "http://registry.npm.corp.qunar.com/vinyl-sourcemaps-apply/download/vinyl-sourcemaps-apply-0.2.1.tgz"
     },
+    "vm-browserify": {
+      "version": "0.0.4",
+      "from": "vm-browserify@0.0.4",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/vm-browserify/-/vm-browserify-0.0.4.tgz",
+      "dev": true
+    },
     "w3c-blob": {
       "version": "0.0.1",
       "from": "w3c-blob@0.0.1",
@@ -8768,6 +9179,128 @@
       "version": "4.0.2",
       "from": "webidl-conversions@>=4.0.0 <5.0.0",
       "resolved": "http://registry.npm.taobao.org/webidl-conversions/download/webidl-conversions-4.0.2.tgz"
+    },
+    "webpack": {
+      "version": "2.7.0",
+      "from": "webpack@>=2.0.0 <3.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/webpack/download/webpack-2.7.0.tgz",
+      "dev": true,
+      "dependencies": {
+        "async": {
+          "version": "2.5.0",
+          "from": "async@^2.1.2",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/async/-/async-2.5.0.tgz",
+          "dev": true
+        },
+        "cliui": {
+          "version": "2.1.0",
+          "from": "cliui@^2.1.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/cliui/-/cliui-2.1.0.tgz",
+          "dev": true
+        },
+        "has-flag": {
+          "version": "1.0.0",
+          "from": "has-flag@^1.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/has-flag/-/has-flag-1.0.0.tgz",
+          "dev": true
+        },
+        "load-json-file": {
+          "version": "1.1.0",
+          "from": "load-json-file@^1.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/load-json-file/-/load-json-file-1.1.0.tgz",
+          "dev": true
+        },
+        "path-type": {
+          "version": "1.1.0",
+          "from": "path-type@^1.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/path-type/-/path-type-1.1.0.tgz",
+          "dev": true
+        },
+        "read-pkg": {
+          "version": "1.1.0",
+          "from": "read-pkg@^1.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/read-pkg/-/read-pkg-1.1.0.tgz",
+          "dev": true
+        },
+        "read-pkg-up": {
+          "version": "1.0.1",
+          "from": "read-pkg-up@^1.0.1",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/read-pkg-up/-/read-pkg-up-1.0.1.tgz",
+          "dev": true
+        },
+        "strip-bom": {
+          "version": "2.0.0",
+          "from": "strip-bom@^2.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/strip-bom/-/strip-bom-2.0.0.tgz",
+          "dev": true
+        },
+        "supports-color": {
+          "version": "3.2.3",
+          "from": "supports-color@^3.1.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/supports-color/-/supports-color-3.2.3.tgz",
+          "dev": true
+        },
+        "uglify-js": {
+          "version": "2.8.29",
+          "from": "uglify-js@^2.8.27",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/uglify-js/-/uglify-js-2.8.29.tgz",
+          "dev": true,
+          "dependencies": {
+            "yargs": {
+              "version": "3.10.0",
+              "from": "yargs@>=3.10.0 <3.11.0",
+              "resolved": "http://registry.npm.corp.qunar.com/yargs/download/yargs-3.10.0.tgz",
+              "dev": true
+            }
+          }
+        },
+        "webpack-sources": {
+          "version": "1.0.1",
+          "from": "webpack-sources@>=1.0.1 <2.0.0",
+          "resolved": "http://registry.npm.corp.qunar.com/webpack-sources/download/webpack-sources-1.0.1.tgz",
+          "dev": true
+        },
+        "wordwrap": {
+          "version": "0.0.2",
+          "from": "wordwrap@0.0.2",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/wordwrap/-/wordwrap-0.0.2.tgz",
+          "dev": true
+        },
+        "yargs": {
+          "version": "6.6.0",
+          "from": "yargs@^6.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/yargs/-/yargs-6.6.0.tgz",
+          "dev": true,
+          "dependencies": {
+            "camelcase": {
+              "version": "3.0.0",
+              "from": "camelcase@^3.0.0",
+              "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/camelcase/-/camelcase-3.0.0.tgz",
+              "dev": true
+            },
+            "cliui": {
+              "version": "3.2.0",
+              "from": "cliui@>=3.2.0 <4.0.0",
+              "resolved": "http://registry.npm.corp.qunar.com/cliui/download/cliui-3.2.0.tgz",
+              "dev": true
+            }
+          }
+        },
+        "yargs-parser": {
+          "version": "4.2.1",
+          "from": "yargs-parser@^4.2.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/yargs-parser/-/yargs-parser-4.2.1.tgz",
+          "dev": true,
+          "dependencies": {
+            "camelcase": {
+              "version": "3.0.0",
+              "from": "camelcase@^3.0.0",
+              "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/camelcase/-/camelcase-3.0.0.tgz",
+              "dev": true
+            }
+          }
+        }
+      }
     },
     "webpack-dev-middleware": {
       "version": "1.12.0",
@@ -8895,6 +9428,12 @@
           "resolved": "http://registry.npm.corp.qunar.com/fs-extra/download/fs-extra-0.30.0.tgz"
         }
       }
+    },
+    "webpack-node-externals": {
+      "version": "1.6.0",
+      "from": "webpack-node-externals@>=1.6.0 <2.0.0",
+      "resolved": "http://registry.npm.corp.qunar.com/webpack-node-externals/download/webpack-node-externals-1.6.0.tgz",
+      "dev": true
     },
     "webpack-sources": {
       "version": "0.1.5",

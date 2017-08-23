@@ -96,19 +96,19 @@ module.exports = {
         var ENV_PARAMS = {};
         switch (this.env) {
           case 'local':
-            ENV_PARAMS = { development: true };
+            ENV_PARAMS = 'dev';
             break;
           case 'dev':
-            ENV_PARAMS = { development: true };
+            ENV_PARAMS = 'dev';
             break;
           case 'prd':
-            ENV_PARAMS = { development: false };
+            ENV_PARAMS = 'production';
             break;
           default:
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          ENV_PARAMS: JSON.stringify(ENV_PARAMS)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
         }))
 
         //初始化配置

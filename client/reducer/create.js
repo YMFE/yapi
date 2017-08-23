@@ -8,14 +8,13 @@ export default function createStore(initialState = {}) {
   const middleware = [thunkMiddleware, promiseMiddleware, messageMiddleware];
 
   let finalCreateStore;
-  if (ENV_PARAMS.development) {
+  if (process.env.NODE_ENV === 'production') {
+    finalCreateStore = applyMiddleware(...middleware)(_createStore);
+  } else {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
       window.devToolsExtension ? window.devToolsExtension() : require('../containers/DevTools/DevTools').instrument()
     )(_createStore);
-
-  } else {
-    finalCreateStore = applyMiddleware(...middleware)(_createStore);
   }
 
   const store = finalCreateStore(reducer, initialState);

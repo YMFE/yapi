@@ -10,6 +10,7 @@ import router from './router.js';
 import websockify from 'koa-websocket';
 import websocket from './websocket.js'
 
+var compress = require('koa-compress')
 
 yapi.connect = dbModule.connect();    
 const app = websockify(new Koa());
@@ -23,6 +24,11 @@ app.use(router.allowedMethods());
 
 websocket(app);
 
+app.use(compress({
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}))
+
 app.use( async (ctx, next) => {
     if( /^\/(?!api)[a-zA-Z0-9\/\-_]*$/.test(ctx.path) ){
         ctx.path = "/"
@@ -34,7 +40,7 @@ app.use( async (ctx, next) => {
 })
 app.use(koaStatic(
     yapi.path.join(yapi.WEBROOT, 'static'),
-    {index: indexFile}
+    {index: indexFile, gzip: true}
 ));
 
 app.listen(yapi.WEBCONFIG.port);

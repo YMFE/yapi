@@ -58,6 +58,7 @@
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
+    "koa-compress": "^2.0.0",
     "koa-logger": "^3.0.0",
     "koa-mysql-session": "0.0.2",
     "koa-router": "^7.0.1",
