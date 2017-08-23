@@ -82,7 +82,7 @@ export default class Run extends Component {
 
   render () {
     const { currInterface, currProject } = this.props;
-    const data = Object.assign({}, currInterface, currProject)
+    const data = Object.assign({}, currInterface, currProject, {_id: currInterface._id})
 
     return (
       <div>

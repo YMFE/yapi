@@ -50,7 +50,9 @@ export default class Run extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getInterfaceState(nextProps)
+    if (nextProps.data._id !== this.props.data._id) {
+      this.getInterfaceState(nextProps)
+    }
   }
 
   @autobind
@@ -85,7 +87,7 @@ export default class Run extends Component {
     }
     const domains = env.concat();
     if (domain && !env.find(item => item.domain === domain)) {
-      domains.push([{name: 'default', domain}])
+      domains.push({name: 'default', domain})
     }
 
     this.setState({
@@ -97,7 +99,7 @@ export default class Run extends Component {
       bodyForm: req_body_form.concat(),
       headers: req_headers.concat(),
       bodyOther: req_body_other,
-      currDomain: domain || env[0].domain,
+      currDomain: domain || (env[0] && env[0].domain),
       bodyType: req_body_type || 'form',
       loading: false
     });
