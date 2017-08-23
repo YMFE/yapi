@@ -21,22 +21,11 @@ const Panel = Collapse.Panel;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-// @connect(
-//   state => ({
-//     currInterface: state.inter.curdata,
-//     currProject: state.project.currProject
-//   })
-// )
-// @withRouter
 export default class Run extends Component {
 
   static propTypes = {
-    data: PropTypes.object
-    // match: PropTypes.object,
-    // currProject: PropTypes.object,
-    // currInterface: PropTypes.object,
-    // reqBody: PropTypes.string,
-    // interfaceName: PropTypes.string
+    data: PropTypes.object,
+    save:PropTypes.func
   }
 
   state = {
@@ -50,7 +39,6 @@ export default class Run extends Component {
     currDomain: '',
     bodyType: '',
     bodyOther: ''
-    // addColModalVisible: false
   }
 
   constructor(props) {
@@ -78,17 +66,11 @@ export default class Run extends Component {
       req_params = [],
       req_body_other = '',
       req_body_form = [],
-      prd_host = '',
       basepath = '',
-      protocol = '',
-      env = []
+      env = [],
+      domain = ''
     } = data;
     const pathname = (basepath + url).replace(/\/+/g, '/');
-
-    const domains = {prd: protocol + '://' + prd_host};
-    env.forEach(item => {
-      domains[item.name] = item.domain;
-    })
 
     let hasContentType = false;
     req_headers.forEach(headerItem => {
@@ -101,6 +83,10 @@ export default class Run extends Component {
     if (!hasContentType) {
       req_headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
     }
+    const domains = env.concat();
+    if (domain && !env.find(item => item.domain === domain)) {
+      domains.push([{name: 'default', domain}])
+    }
 
     this.setState({
       method,
@@ -111,7 +97,7 @@ export default class Run extends Component {
       bodyForm: req_body_form.concat(),
       headers: req_headers.concat(),
       bodyOther: req_body_other,
-      currDomain: domains.prd,
+      currDomain: domain || env[0].domain,
       bodyType: req_body_type || 'form',
       loading: false
     });
@@ -359,42 +345,6 @@ export default class Run extends Component {
     console.log(index)
   }
 
-  // saveToCol = async (colId, caseName) => {
-  //   const project_id = this.props.match.params.id;
-  //   const {
-  //     currDomain: domain,
-  //     pathname: path,
-  //     method,
-  //     pathParam: req_params,
-  //     query: req_query,
-  //     headers: req_headers,
-  //     bodyType: req_body_type,
-  //     bodyForm: req_body_form,
-  //     bodyOther: req_body_other
-  //   } = this.state;
-  //   const res = await axios.post('/api/col/add_case', {
-  //     casename: caseName,
-  //     col_id: colId,
-  //     project_id,
-  //     env: '',
-  //     domain,
-  //     path,
-  //     method,
-  //     req_params,
-  //     req_query,
-  //     req_headers,
-  //     req_body_type,
-  //     req_body_form,
-  //     req_body_other
-  //   });
-  //   if (res.data.errcode) {
-  //     message.error(res.data.errmsg)
-  //   } else {
-  //     message.success('添加成功')
-  //     this.setState({addColModalVisible: false})
-  //   }
-  // }
-
   render () {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
@@ -434,7 +384,7 @@ export default class Run extends Component {
               </Select>
               <Select value={currDomain} mode="combobox" filterOption={() => true} style={{flexBasis: 180, flexGrow: 1}} onChange={this.changeDomain} onSelect={this.selectDomain}>
                 {
-                  Object.keys(domains).map((key, index) => (<Option value={domains[key]} key={index}>{key + '：' + domains[key]}</Option>))
+                  domains.map((item, index) => (<Option value={item.domain} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
               <Input value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
@@ -449,7 +399,7 @@ export default class Run extends Component {
             </Tooltip>
             <Tooltip placement="bottom" title="保存到集合">
               <Button
-                onClick={() => this.setState({addColModalVisible: true})}
+                onClick={this.props.save}
                 type="primary"
                 style={{marginLeft: 10}}
               >保存</Button>
@@ -585,11 +535,6 @@ export default class Run extends Component {
             </div>
           </Spin>
         </Card>
-        {/*<AddColModal
-          visible={this.state.addColModalVisible}
-          onCancel={() => this.setState({addColModalVisible: false})}
-          onOk={this.saveToCol}
-        ></AddColModal>*/}
       </div>
     )
   }

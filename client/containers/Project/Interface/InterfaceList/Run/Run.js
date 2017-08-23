@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import axios from 'axios';
 import { message } from 'antd';
 import { Postman } from '../../../../../components'
+import AddColModal from './AddColModal'
 
 // import {
 // } from '../../../reducer/modules/group.js'
@@ -40,8 +41,11 @@ export default class Run extends Component {
   componentWillReceiveProps() {
   }
 
+  savePostmanRef = (postman) => {
+    this.postman = postman;
+  }
 
-  saveToCol = async (colId, caseName) => {
+  saveCase = async (colId, caseName) => {
     const project_id = this.props.match.params.id;
     const {
       currDomain: domain,
@@ -53,12 +57,11 @@ export default class Run extends Component {
       bodyType: req_body_type,
       bodyForm: req_body_form,
       bodyOther: req_body_other
-    } = this.state;
+    } = this.postman.state;
     const res = await axios.post('/api/col/add_case', {
       casename: caseName,
       col_id: colId,
       project_id,
-      env: '',
       domain,
       path,
       method,
@@ -73,7 +76,7 @@ export default class Run extends Component {
       message.error(res.data.errmsg)
     } else {
       message.success('添加成功')
-      this.setState({addColModalVisible: false})
+      this.setState({saveCaseModalVisible: false})
     }
   }
 
@@ -83,7 +86,12 @@ export default class Run extends Component {
 
     return (
       <div>
-        <Postman data={data} />
+        <Postman data={data} save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
+        <AddColModal
+          visible={this.state.saveCaseModalVisible}
+          onCancel={() => this.setState({saveCaseModalVisible: false})}
+          onOk={this.saveCase}
+        ></AddColModal>
       </div>
     )
   }

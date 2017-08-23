@@ -33,7 +33,7 @@ class View extends Component {
     if(req_body_type === 'json'){
       return <div style={{display:this.props.curData.req_body_other?"block":"none"}} className="colBody">
         <span className="colKey">请求Body：</span>
-        <div id="vreq_body_json" style={{ minHeight: "300px" }}></div>
+        <div id="vreq_body_json" style={{ minHeight: "200px" }}></div>
       </div>
 
     }else if(req_body_type === 'form'){
@@ -89,7 +89,7 @@ class View extends Component {
     if(res_body_type === 'json'){
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
         <span className="colKey">返回Body：</span>
-        <div id="vres_body_json" style={{ minHeight: "300px" }}></div>
+        <div id="vres_body_json" style={{ minHeight: "200px" }}></div>
       </div>
     }else if(res_body_type === 'raw'){
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
@@ -238,7 +238,7 @@ class View extends Component {
       </div>
       <div className="colMockUrl">
         <span className="colKey">Mock地址：</span>
-        <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}/yourPath`}</span>
+        <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}/${this.props.curData.path}`}</span>
       </div>
       {this.props.curData.desc?<div className="colDesc">
         <span className="colKey">接口描述：</span>
