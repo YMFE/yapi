@@ -22,8 +22,5 @@ module.exports = {
         "comma-dangle": ["error", "never"],
         "no-console": ["off"],
         "import/no-unresolved": ["error"]
-    },
-    "globals": {
-      "ENV_PARAMS": true
     }
 }
