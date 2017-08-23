@@ -5,6 +5,7 @@ import { updateProject, delProject, getProjectMsg } from '../../../../reducer/mo
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
+import { withRouter } from 'react-router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -41,6 +42,7 @@ let uuid = 0; // 环境配置的计数
     fetchGroupMsg
   }
 )
+@withRouter
 class ProjectMessage extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +58,7 @@ class ProjectMessage extends Component {
     updateProject: PropTypes.func,
     delProject: PropTypes.func,
     getProjectMsg: PropTypes.func,
+    history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
     projectList: PropTypes.array,
     projectMsg: PropTypes.object
@@ -130,15 +133,6 @@ class ProjectMessage extends Component {
     });
   }
 
-  handleDelete = () => {
-    console.log(this.props); // 出问题了
-    this.props.delProject(this.props.projectId).then((res) => {
-      if (res.payload.data.errcode == 0) {
-        message.success('删除成功!');
-      }
-    });
-  }
-
   showConfirm = () => {
     let that = this;
     confirm({
@@ -161,6 +155,7 @@ class ProjectMessage extends Component {
           that.props.delProject(that.props.projectId).then((res) => {
             if (res.payload.data.errcode == 0) {
               message.success('删除成功!');
+              that.props.history.push('/group');
             }
           });
         }
