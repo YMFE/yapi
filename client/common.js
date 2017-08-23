@@ -7,6 +7,8 @@ exports.formatTime = (timestamp) => {
   return moment.unix(timestamp).format("YYYY-MM-DD HH:mm:ss")
 }
 
+// 获取 YAPI LOGO 的 SVG
+// 参数 length 为 svg 的直径。
 exports.logoSVG = (length) => (<svg className="svg" width={length} height={length} viewBox="0 0 64 64" version="1.1">
   <title>Icon</title>
   <desc>Created with Sketch.</desc>
@@ -38,6 +40,10 @@ exports.logoSVG = (length) => (<svg className="svg" width={length} height={lengt
   </g>
 </svg>);
 
+// 防抖函数，减少高频触发的函数执行的频率
+// 请在 constructor 里使用:
+// import { debounce } from '$/common';
+// this.func = debounce(this.func, 400);
 exports.debounce = (func, wait) => {
   let timeout;
   return function() {
@@ -45,3 +51,12 @@ exports.debounce = (func, wait) => {
     timeout = setTimeout(func, wait);
   };
 };
+
+// 从 Javascript 对象中选取随机属性
+exports.pickRandomProperty = (obj) => {
+  let result;
+  let count = 0;
+  for (let prop in obj)
+    if (Math.random() < 1/++count) result = prop;
+  return result;
+}

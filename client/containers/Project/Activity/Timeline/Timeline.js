@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Timeline, Spin, Avatar } from 'antd'
+import { Timeline, Spin, Avatar,Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { formatTime } from '../../../../common.js';
@@ -57,7 +57,6 @@ function timeago(timestamp) {
 
 @connect(
   state => {
-    console.log(state);
     return {
       newsData: state.news.newsData,
       curpage: state.news.curpage,
@@ -112,14 +111,24 @@ class TimeTree extends Component {
 
   render() {
     let data = this.props.newsData ? this.props.newsData.list : [];
+    let logType = {
+      project: "项目",
+      group: "分组",
+      interface: "接口",
+      interface_col: "接口集",
+      user: "用户",
+      other: "其他"
+    };
     if (data && data.length) {
 
       data = data.map(function (item, i) {
         return (<Timeline.Item dot={<Avatar src={`/api/user/avatar?uid=${item.uid}`} />} key={i}>
-          <span className="logoTimeago">{timeago(item.add_time)}</span>
-          <span className="logusername"><Link to={`/user/profile/${item.uid}`}>{item.username}</Link></span>
-          <span className="logtype">{item.type}</span>
-          <span className="logtime">{formatTime(item.add_time)}</span>
+          <div className="logMesHeade">
+            <span className="logoTimeago">{timeago(item.add_time)}</span>
+            <span className="logusername"><Link to={`/user/profile/${item.uid}`}><Icon type="user" />{item.username}</Link></span>
+            <span className="logtype">{logType[item.type]}动态</span>
+            <span className="logtime">{formatTime(item.add_time)}</span>
+          </div>
           <span className="logcontent">{item.content}</span>
         </Timeline.Item>);
       });

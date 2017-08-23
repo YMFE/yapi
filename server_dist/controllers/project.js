@@ -148,8 +148,8 @@ var projectController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var params, checkRepeat, data, result, username;
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+                var params, checkRepeat, data, result, colInst, catInst, username;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -233,7 +233,8 @@ var projectController = function (_baseController) {
                                     icon: params.icon,
                                     color: params.color,
                                     add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time()
+                                    up_time: _yapi2.default.commons.time(),
+                                    env: [{ name: 'local', domain: 'http://127.0.0.1' }]
                                 };
                                 _context.prev = 20;
                                 _context.next = 23;
@@ -241,6 +242,36 @@ var projectController = function (_baseController) {
 
                             case 23:
                                 result = _context.sent;
+                                colInst = _yapi2.default.getInst(_interfaceCol2.default);
+                                catInst = _yapi2.default.getInst(_interfaceCat2.default);
+
+                                if (!result._id) {
+                                    _context.next = 31;
+                                    break;
+                                }
+
+                                _context.next = 29;
+                                return colInst.save({
+                                    name: '公共测试集',
+                                    project_id: result._id,
+                                    desc: '公共测试集',
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 29:
+                                _context.next = 31;
+                                return catInst.save({
+                                    name: '公共分类',
+                                    project_id: result._id,
+                                    desc: '公共分类',
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 31:
                                 username = this.getUsername();
 
                                 _yapi2.default.commons.saveLog({
@@ -254,21 +285,21 @@ var projectController = function (_baseController) {
                                     icon: params.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 32;
+                                _context.next = 39;
                                 break;
 
-                            case 29:
-                                _context.prev = 29;
+                            case 36:
+                                _context.prev = 36;
                                 _context.t1 = _context['catch'](20);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t1.message);
 
-                            case 32:
+                            case 39:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[20, 29]]);
+                }, _callee, this, [[20, 36]]);
             }));
 
             function add(_x) {
@@ -292,7 +323,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'addMember',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
                 var params, check, userdata, result, username, project;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -422,7 +453,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'delMember',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
                 var params, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -528,7 +559,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getUserdata',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(uid, role) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(uid, role) {
                 var userInst, userData;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -586,7 +617,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getMemberList',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
                 var params, project;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -648,7 +679,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'get',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
                 var params, result, catInst, cat;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -733,7 +764,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
                 var group_id, auth, result, follow, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
@@ -833,7 +864,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
                 var id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -926,7 +957,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'changeMemberRole',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
                 var params, projectInst, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -1048,7 +1079,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
                 var id, data, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
@@ -1127,7 +1158,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
                 var id, params, projectData, checkRepeat, data, result, username;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
@@ -1274,7 +1305,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(ctx) {
                 var id, data, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
@@ -1347,7 +1378,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'search',
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
+            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(ctx) {
                 var q, projectList, groupList, projectRules, groupRules, queryList;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
@@ -1422,7 +1453,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'download',
         value: function () {
-            var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
+            var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(ctx) {
                 var project_id, interfaceInst, count, arr, fileName, res;
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                     while (1) {
