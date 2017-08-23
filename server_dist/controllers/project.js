@@ -149,7 +149,7 @@ var projectController = function (_baseController) {
         key: 'add',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var params, checkRepeat, data, result, username;
+                var params, checkRepeat, data, result, colInst, catInst, username;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -233,7 +233,8 @@ var projectController = function (_baseController) {
                                     icon: params.icon,
                                     color: params.color,
                                     add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time()
+                                    up_time: _yapi2.default.commons.time(),
+                                    env: [{ name: 'local', domain: 'http://127.0.0.1' }]
                                 };
                                 _context.prev = 20;
                                 _context.next = 23;
@@ -241,6 +242,36 @@ var projectController = function (_baseController) {
 
                             case 23:
                                 result = _context.sent;
+                                colInst = _yapi2.default.getInst(_interfaceCol2.default);
+                                catInst = _yapi2.default.getInst(_interfaceCat2.default);
+
+                                if (!result._id) {
+                                    _context.next = 31;
+                                    break;
+                                }
+
+                                _context.next = 29;
+                                return colInst.save({
+                                    name: '公共测试集',
+                                    project_id: result._id,
+                                    desc: '公共测试集',
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 29:
+                                _context.next = 31;
+                                return catInst.save({
+                                    name: '公共分类',
+                                    project_id: result._id,
+                                    desc: '公共分类',
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 31:
                                 username = this.getUsername();
 
                                 _yapi2.default.commons.saveLog({
@@ -254,21 +285,21 @@ var projectController = function (_baseController) {
                                     icon: params.icon
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 32;
+                                _context.next = 39;
                                 break;
 
-                            case 29:
-                                _context.prev = 29;
+                            case 36:
+                                _context.prev = 36;
                                 _context.t1 = _context['catch'](20);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t1.message);
 
-                            case 32:
+                            case 39:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[20, 29]]);
+                }, _callee, this, [[20, 36]]);
             }));
 
             function add(_x) {
