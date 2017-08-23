@@ -75,7 +75,7 @@ export default class AddColModal extends Component {
         onOk={() => this.props.onOk(id, this.state.caseName)}
         onCancel={this.props.onCancel}
       >
-        <Row gutter={6}>
+        <Row gutter={6} className="modal-input">
           <Col span="5"><div className="label">接口用例名：</div></Col>
           <Col span="15">
             <Input

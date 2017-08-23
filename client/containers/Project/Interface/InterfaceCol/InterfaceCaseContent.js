@@ -78,8 +78,8 @@ export default class InterfaceCaseContent extends Component {
   }
 
   render() {
-    const { currCase } = this.props;
-    const data = currCase;
+    const { currCase, currProject } = this.props;
+    const data = Object.assign({}, currCase, currProject);
     return (
       <div>
         <h1 style={{marginLeft: 8}}>{currCase.casename}</h1>
