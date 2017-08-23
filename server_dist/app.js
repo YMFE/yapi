@@ -67,7 +67,7 @@ app.use(_router2.default.allowedMethods());
 (0, _websocket2.default)(app);
 
 app.use(compress({
-    threshold: 2048,
+    threshold: 50480,
     flush: require('zlib').Z_SYNC_FLUSH
 }));
 
