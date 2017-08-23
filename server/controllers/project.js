@@ -428,19 +428,50 @@ class projectController extends baseController {
 
             let username = this.getUsername();
             let project = await this.Model.get(params.id);
-            let member = await yapi.getInst(userModel).findByUids(params.member_uid);
+            let member = await yapi.getInst(userModel).findById(params.member_uid);
             yapi.commons.saveLog({
                 content: `用户${username}修改了项目${project.name}中成员${member.username}的角色为${params.role}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.id,
-                color: project.color,
-                icon: project.icon
+                typeid: params.id
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    /**
+     * 项目设置
+     * @interface /project/upset
+     * @method POST
+     * @category project
+     * @foldnumber 10
+     * @param {Number} id 项目id，不能为空
+     * @param {String} icon 项目icon
+     * @param {Array} color 项目color
+     * @returns {Object}
+     * @example ./api/project/upset
+     */
+    async upSet(ctx){
+        let id = ctx.request.body.id;
+        let data = {};
+        data.color = ctx.request.body.color;
+        data.icon = ctx.request.body.icon;
+        if(!id){
+            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+        }
+        try{
+            let result = await this.Model.up(id, data);
+            ctx.body = yapi.commons.resReturn(result);
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+        try{
+            this.followModel.updateById(this.getUid(),id,data).then();
+        }catch(e){
+            yapi.commons.log(e, 'error'); // eslint-disable-line
         }
     }
 
@@ -511,31 +542,13 @@ class projectController extends baseController {
             if(params.color) data.color = params.color;
             if(params.icon) data.icon = params.icon;
             let result = await this.Model.up(id, data);
-            // try{
-            //     let data = {};
-            //     if(params.name){
-            //         data.projectname = params.name;
-            //     }
-            //     if(params.icon){
-            //         data.icon = params.icon;
-            //     }
-            //     if(params.color){
-            //         data.color = params.color;
-            //     }
-            //     this.followModel.updateById(this.getUid(),id,data);
-            // }catch(e){
-            //     yapi.commons.log(e, 'error'); // eslint-disable-line
-            // }
-
             let username = this.getUsername();
             yapi.commons.saveLog({
                 content: `用户${username}更新了项目${projectData.name}`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: id,
-                icon: params.icon,
-                color: params.color
+                typeid: id
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {

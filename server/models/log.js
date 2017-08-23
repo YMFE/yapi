@@ -62,7 +62,7 @@ class logModel extends baseModel {
         return this.model.find({
             type: type,
             typeid: typeid
-        }).skip((page - 1) * limit).limit(limit).exec();
+        }).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
     }
 
     listCount(typeid,type) {

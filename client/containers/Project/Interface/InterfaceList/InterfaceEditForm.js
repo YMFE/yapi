@@ -51,22 +51,28 @@ class InterfaceEditForm extends Component {
       path: '',
       status: 'undone',
       method: 'get',
+
       req_params: [],
+
       req_query: [{
         name: '',
         desc: '',
         required: "1"
       }],
-      req_body_type: 'form',
+      
       req_headers: [{
         name: '',
         value: '', required: "1"
       }],
+
+      req_body_type: 'form',
       req_body_form: [{
         name: '',
         type: 'text',
         required: '1'
       }],
+      req_body_other: '',
+
       res_body_type: 'json',
       res_body: '',
       desc: '',
@@ -83,7 +89,7 @@ class InterfaceEditForm extends Component {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.req_params = this.state.req_params;
-        values.req_body_json = this.state.res_body;
+        values.req_body_other = this.state.req_body_other;
         values.method = this.state.method;
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
@@ -105,6 +111,19 @@ class InterfaceEditForm extends Component {
               value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
             })
           }
+        }else if(values.req_body_type === 'json'){
+          values.req_headers.map((item) => {
+            if (item.name === 'Content-Type') {
+              item.value = 'application/json'
+              isHavaContentType = true;
+            }
+          })
+          if(isHavaContentType === false){
+            values.req_headers.unshift({
+              name: 'Content-Type',
+              value: 'application/json'
+            })
+          }
         }
         values.req_headers = values.req_headers ?values.req_headers.filter((item) => item.name !== '') : []
         values.req_body_form = values.req_body_form ?  values.req_body_form.filter((item) => item.name !== ''): []
@@ -123,11 +142,11 @@ class InterfaceEditForm extends Component {
     let that = this, mockPreview, resBodyEditor;
     mockEditor({
       container: 'req_body_json',
-      data: that.state.req_body_json,
+      data: that.state.req_body_other,
       onChange: function (d) {
         if (d.format !== true) return false;
         that.setState({
-          req_body_json: d.text
+          req_body_other: d.text
         })
       }
     })
@@ -374,7 +393,7 @@ class InterfaceEditForm extends Component {
               })}
             </Select>
 
-            <Tooltip title="接口基本路径，可在项目配置里修改">
+            <Tooltip title="接口基本路径，可在项目配置里修改" style={{display: this.props.basepath == '' ? 'block': 'none'}}>
               <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
             </Tooltip>
             {getFieldDecorator('path', {
@@ -577,9 +596,9 @@ class InterfaceEditForm extends Component {
 
         <FormItem
           className="interface-edit-item"
-          wrapperCol={{ span: 12, offset: 6 }}
+          wrapperCol={{ span: 14, offset: 10 }}
         >
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <Button type="primary" htmlType="submit">保存</Button>
         </FormItem>
       </Form>
     );
