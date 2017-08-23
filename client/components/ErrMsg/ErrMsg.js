@@ -46,6 +46,12 @@ class ErrMsg extends Component {
           title = '你还没有关注项目呢';
           desc = <span>先去 <a onClick={() => this.props.history.push('/group')}>“项目广场”</a> 逛逛吧, 那里可以添加关注。</span>;
           break;
+        case 'noMemberInProject':
+          title = '该项目还没有成员呢';
+          break;
+        case 'noMemberInGroup':
+          title = '该分组还没有成员呢';
+          break;
         case 'noProject':
           title = '该分组还没有项目呢';
           desc = <span>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</span>;

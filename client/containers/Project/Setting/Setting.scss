@@ -116,4 +116,18 @@
     background-color: #2395f1;
     border-radius: 4px;
   }
+  .color {
+    // .ant-radio-button-wrapper {
+    //   &:first-child {
+    //     border: none;
+    //   }
+    // }
+    .ant-radio-button-wrapper-checked {
+      border-radius: 0;
+      &:hover {
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
 }
