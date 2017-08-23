@@ -81,7 +81,7 @@ module.exports = {
           "regenerator": true
         }]);
         defaultQuery.plugins.push('transform-decorators-legacy');
-        // defaultQuery.plugins.push(["import", { libraryName: "antd", style: "css" }])
+        defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       }
     }
