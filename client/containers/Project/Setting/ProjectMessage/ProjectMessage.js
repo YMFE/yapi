@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Affix } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -214,7 +214,7 @@ class ProjectMessage extends Component {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
-          <Col span={10} offset={2}>
+          <Col span={11}>
             <FormItem
               label={index === 0 ? (
                 <span>环境名称</span>) : ''}
@@ -248,7 +248,7 @@ class ProjectMessage extends Component {
                 )}
             </FormItem>
           </Col>
-          <Col span={10}>
+          <Col span={11}>
             <FormItem
               label={index === 0 ? (
                 <span>环境域名</span>) : ''}
@@ -395,15 +395,10 @@ class ProjectMessage extends Component {
             label="环境配置"
           >
             {envSettingItems}
+            <Button type="default" onClick={this.add} style={{ width: '50%' }}>
+              <Icon type="plus" /> 添加环境配置
+            </Button>
           </FormItem>
-
-          <Row>
-            <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
-              <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-                <Icon type="plus" /> 添加环境配置
-              </Button>
-            </Col>
-          </Row>
 
           <FormItem
             {...formItemLayout}
@@ -427,19 +422,16 @@ class ProjectMessage extends Component {
             )}
           </FormItem>
         </Form>
-        <Row>
-          <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
-            <Button className="m-btn" icon="save" type="primary"
-              onClick={this.handleOk}
-              >保存</Button>
-          </Col>
-        </Row>
-
-        <hr className="breakline" />
+        <Affix offsetBottom={0}>
+          <div className="btnwrap-changeproject">
+            <Button className="m-btn btn-save" icon="save" type="primary" onClick={this.handleOk} >保 存</Button>
+          </div>
+        </Affix>
 
         <FormItem
           {...formItemLayout}
           label="危险操作"
+          className="danger-container"
         >
           <Card noHovering={true} className="card-danger">
             <div className="card-danger-content">

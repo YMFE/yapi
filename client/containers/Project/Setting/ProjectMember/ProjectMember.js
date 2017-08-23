@@ -215,7 +215,7 @@ class ProjectMember extends Component {
             </Col>
           </Row>
         </Modal>
-        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} />
+        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
         <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
           {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
             return (<div key={index} className="card-item">
