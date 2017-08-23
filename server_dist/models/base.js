@@ -37,7 +37,7 @@ var baseModel = function () {
             this.schema.plugin(_mongooseAutoIncrement2.default.plugin, {
                 model: this.name,
                 field: this.getPrimaryKey(),
-                startAt: 101,
+                startAt: 11,
                 incrementBy: _yapi2.default.commons.rand(1, 10)
             });
         }
