@@ -3,12 +3,14 @@ import interfaceCatModel from '../models/interfaceCat.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 import userModel from '../models/user.js';
+import projectModel from '../models/project.js';
 
 class interfaceController extends baseController {
     constructor(ctx) {
         super(ctx);
         this.Model = yapi.getInst(interfaceModel);
-        this.catModel = yapi.getInst(interfaceCatModel)
+        this.catModel = yapi.getInst(interfaceCatModel);
+        this.projectModel = yapi.getInst(projectModel);
     }
 
     /**
@@ -107,6 +109,16 @@ class interfaceController extends baseController {
             }
 
             let result = await this.Model.save(data);
+            let username = this.getUsername();
+            // let project = await this.projectModel.get(params.project_id);
+            let cate = await this.catModel.get(params.catid);
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.project_id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -317,6 +329,22 @@ class interfaceController extends baseController {
 
         try {
             let result = await this.Model.up(id, data);
+            let username = this.getUsername();
+            let cate;
+            if(params.catid){
+                cate = await this.catModel.get(+params.catid);
+            }else{
+                let inter = await this.Model.get(id);
+                cate = await this.catModel.get(inter.catid);
+            }
+            
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: cate.project_id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -351,8 +379,19 @@ class interfaceController extends baseController {
                 }
             }
 
-
+            let inter = await this.Model.get(id);
             let result = await this.Model.del(id);
+
+            let username = this.getUsername();
+            let cate = await this.catModel.get(inter.catid);
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 删除了分类 "${cate.name}" 下的接口 "${inter.title}"`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: cate.project_id
+            });
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
@@ -411,6 +450,16 @@ class interfaceController extends baseController {
                 add_time: yapi.commons.time(),
                 up_time: yapi.commons.time()
             })
+
+            let username = this.getUsername();
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 添加了分类 "${params.name}"`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.project_id
+            });
+
             ctx.body = yapi.commons.resReturn(result);
 
         } catch (e) {
@@ -425,7 +474,18 @@ class interfaceController extends baseController {
                 name: params.name,
                 desc: params.desc,
                 up_time: yapi.commons.time()
-            })
+            });
+
+            let username = this.getUsername();
+            let cate = await this.catModel.get(params.catid);
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 更新了分类 "${cate.name}"`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: cate.project_id
+            });
+
             ctx.body = yapi.commons.resReturn(result)
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
@@ -447,8 +507,19 @@ class interfaceController extends baseController {
                 }
             }
 
+            let cate = await this.catModel.get(id);
             let result = await this.catModel.del(id);
-            let r = await this.Model.delByCatid(id)
+            let r = await this.Model.delByCatid(id);
+            let username = this.getUsername();
+            
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 删除了分类 "${cate.name}" 及该分类下的接口`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: cate.project_id
+            });
+
             return ctx.body = yapi.commons.resReturn(r);
 
 

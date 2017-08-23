@@ -52,6 +52,10 @@ var _user = require('../models/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _project = require('../models/project.js');
+
+var _project2 = _interopRequireDefault(_project);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var interfaceController = function (_baseController) {
@@ -64,6 +68,7 @@ var interfaceController = function (_baseController) {
 
         _this.Model = _yapi2.default.getInst(_interface2.default);
         _this.catModel = _yapi2.default.getInst(_interfaceCat2.default);
+        _this.projectModel = _yapi2.default.getInst(_project2.default);
         return _this;
     }
 
@@ -101,7 +106,7 @@ var interfaceController = function (_baseController) {
         key: 'add',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
-                var params, checkRepeat, data, result;
+                var params, checkRepeat, data, result, username, cate;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -199,23 +204,38 @@ var interfaceController = function (_baseController) {
 
                             case 24:
                                 result = _context.sent;
+                                username = this.getUsername();
+                                // let project = await this.projectModel.get(params.project_id);
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 31;
-                                break;
+                                _context.next = 28;
+                                return this.catModel.get(params.catid);
 
                             case 28:
-                                _context.prev = 28;
+                                cate = _context.sent;
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u4E3A\u5206\u7C7B "' + cate.name + '" \u6DFB\u52A0\u4E86\u63A5\u53E3 "' + data.title + '"',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: params.project_id
+                                });
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context.next = 36;
+                                break;
+
+                            case 33:
+                                _context.prev = 33;
                                 _context.t0 = _context['catch'](16);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 31:
+                            case 36:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[16, 28]]);
+                }, _callee, this, [[16, 33]]);
             }));
 
             function add(_x) {
@@ -507,7 +527,7 @@ var interfaceController = function (_baseController) {
         key: 'up',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var params, id, interfaceData, checkRepeat, data, result;
+                var params, id, interfaceData, checkRepeat, data, result, username, cate, inter;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
@@ -632,23 +652,59 @@ var interfaceController = function (_baseController) {
 
                             case 36:
                                 result = _context6.sent;
+                                username = this.getUsername();
+                                cate = void 0;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 43;
+                                if (!params.catid) {
+                                    _context6.next = 45;
+                                    break;
+                                }
+
+                                _context6.next = 42;
+                                return this.catModel.get(+params.catid);
+
+                            case 42:
+                                cate = _context6.sent;
+                                _context6.next = 51;
                                 break;
 
-                            case 40:
-                                _context6.prev = 40;
+                            case 45:
+                                _context6.next = 47;
+                                return this.Model.get(id);
+
+                            case 47:
+                                inter = _context6.sent;
+                                _context6.next = 50;
+                                return this.catModel.get(inter.catid);
+
+                            case 50:
+                                cate = _context6.sent;
+
+                            case 51:
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u66F4\u65B0\u4E86\u5206\u7C7B "' + cate.name + '" \u4E0B\u7684\u63A5\u53E3 "' + data.title + '"',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: cate.project_id
+                                });
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context6.next = 58;
+                                break;
+
+                            case 55:
+                                _context6.prev = 55;
                                 _context6.t0 = _context6['catch'](33);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 43:
+                            case 58:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[33, 40]]);
+                }, _callee6, this, [[33, 55]]);
             }));
 
             function up(_x6) {
@@ -673,7 +729,7 @@ var interfaceController = function (_baseController) {
         key: 'del',
         value: function () {
             var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
-                var id, data, result;
+                var id, data, inter, result, username, cate;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
@@ -715,27 +771,46 @@ var interfaceController = function (_baseController) {
 
                             case 13:
                                 _context7.next = 15;
-                                return this.Model.del(id);
+                                return this.Model.get(id);
 
                             case 15:
+                                inter = _context7.sent;
+                                _context7.next = 18;
+                                return this.Model.del(id);
+
+                            case 18:
                                 result = _context7.sent;
+                                username = this.getUsername();
+                                _context7.next = 22;
+                                return this.catModel.get(inter.catid);
+
+                            case 22:
+                                cate = _context7.sent;
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u5220\u9664\u4E86\u5206\u7C7B "' + cate.name + '" \u4E0B\u7684\u63A5\u53E3 "' + inter.title + '"',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: cate.project_id
+                                });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context7.next = 22;
+                                _context7.next = 30;
                                 break;
 
-                            case 19:
-                                _context7.prev = 19;
+                            case 27:
+                                _context7.prev = 27;
                                 _context7.t1 = _context7['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t1.message);
 
-                            case 22:
+                            case 30:
                             case 'end':
                                 return _context7.stop();
                         }
                     }
-                }, _callee7, this, [[0, 19]]);
+                }, _callee7, this, [[0, 27]]);
             }));
 
             function del(_x7) {
@@ -831,7 +906,7 @@ var interfaceController = function (_baseController) {
         key: 'addCat',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var params, result;
+                var params, result, username;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
@@ -873,24 +948,33 @@ var interfaceController = function (_baseController) {
 
                             case 9:
                                 result = _context9.sent;
+                                username = this.getUsername();
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u6DFB\u52A0\u4E86\u5206\u7C7B "' + params.name + '"',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: params.project_id
+                                });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
 
-                                _context9.next = 16;
+                                _context9.next = 18;
                                 break;
 
-                            case 13:
-                                _context9.prev = 13;
+                            case 15:
+                                _context9.prev = 15;
                                 _context9.t0 = _context9['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message);
 
-                            case 16:
+                            case 18:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[0, 13]]);
+                }, _callee9, this, [[0, 15]]);
             }));
 
             function addCat(_x9) {
@@ -903,7 +987,7 @@ var interfaceController = function (_baseController) {
         key: 'upCat',
         value: function () {
             var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
-                var params, result;
+                var params, result, username, cate;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
@@ -919,23 +1003,37 @@ var interfaceController = function (_baseController) {
 
                             case 4:
                                 result = _context10.sent;
-
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context10.next = 11;
-                                break;
+                                username = this.getUsername();
+                                _context10.next = 8;
+                                return this.catModel.get(params.catid);
 
                             case 8:
-                                _context10.prev = 8;
+                                cate = _context10.sent;
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u66F4\u65B0\u4E86\u5206\u7C7B "' + cate.name + '"',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: cate.project_id
+                                });
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context10.next = 16;
+                                break;
+
+                            case 13:
+                                _context10.prev = 13;
                                 _context10.t0 = _context10['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 400, _context10.t0.message);
 
-                            case 11:
+                            case 16:
                             case 'end':
                                 return _context10.stop();
                         }
                     }
-                }, _callee10, this, [[0, 8]]);
+                }, _callee10, this, [[0, 13]]);
             }));
 
             function upCat(_x10) {
@@ -948,7 +1046,7 @@ var interfaceController = function (_baseController) {
         key: 'delCat',
         value: function () {
             var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
-                var id, catData, auth, result, r;
+                var id, catData, auth, cate, result, r, username;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
@@ -985,29 +1083,45 @@ var interfaceController = function (_baseController) {
 
                             case 12:
                                 _context11.next = 14;
-                                return this.catModel.del(id);
+                                return this.catModel.get(id);
 
                             case 14:
-                                result = _context11.sent;
+                                cate = _context11.sent;
                                 _context11.next = 17;
-                                return this.Model.delByCatid(id);
+                                return this.catModel.del(id);
 
                             case 17:
+                                result = _context11.sent;
+                                _context11.next = 20;
+                                return this.Model.delByCatid(id);
+
+                            case 20:
                                 r = _context11.sent;
+                                username = this.getUsername();
+
+
+                                _yapi2.default.commons.saveLog({
+                                    content: '\u7528\u6237 "' + username + '" \u5220\u9664\u4E86\u5206\u7C7B "' + cate.name + '" \u53CA\u8BE5\u5206\u7C7B\u4E0B\u7684\u63A5\u53E3',
+                                    type: 'project',
+                                    uid: this.getUid(),
+                                    username: username,
+                                    typeid: cate.project_id
+                                });
+
                                 return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(r));
 
-                            case 21:
-                                _context11.prev = 21;
+                            case 26:
+                                _context11.prev = 26;
                                 _context11.t0 = _context11['catch'](0);
 
                                 _yapi2.default.commons.resReturn(null, 400, _context11.t0.message);
 
-                            case 24:
+                            case 29:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[0, 21]]);
+                }, _callee11, this, [[0, 26]]);
             }));
 
             function delCat(_x11) {

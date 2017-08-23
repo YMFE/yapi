@@ -57,3 +57,36 @@
     border-top: 1px solid #eee;
   }
 }
+
+.project-setting {
+  .setting-logo {
+    text-align: right;
+    padding: .24rem;
+    cursor: pointer;
+  }
+  .setting-intro {
+    padding: .24rem;
+    height: 1.48rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .ui-title {
+      font-size: .32rem;
+      font-weight: normal;
+      width: 100%;
+    }
+    .ui-desc {
+      font-size: .16rem;
+    }
+  }
+  .ui-logo {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    font-size: .6rem;
+    color: #fff;
+    background-color: #2395f1;
+    line-height: 1rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+}
