@@ -88,6 +88,25 @@
     background-color: #2395f1;
     line-height: 1rem;
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    position: relative;
+    &:after {
+      opacity: 0;
+      content: '点击修改';
+      display: block;
+      transition: all .4s;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      font-size: .14rem;
+      color: #fff;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0, .25);
+    }
+    &:hover:after {
+      opacity: 1;
+    }
   }
 }
 
@@ -115,5 +134,19 @@
     color: #fff;
     background-color: #2395f1;
     border-radius: 4px;
+  }
+  .color {
+    // .ant-radio-button-wrapper {
+    //   &:first-child {
+    //     border: none;
+    //   }
+    // }
+    .ant-radio-button-wrapper-checked {
+      border-radius: 0;
+      &:hover {
+        border: none;
+        box-shadow: none;
+      }
+    }
   }
 }

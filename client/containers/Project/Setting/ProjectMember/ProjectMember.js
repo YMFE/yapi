@@ -3,6 +3,7 @@ import { Table, Card, Badge, Select, Button, Modal, Row, Col, message, Popconfir
 import PropTypes from 'prop-types';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
+import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
 import { getProjectMsg, getProjectMemberList, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
 import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
@@ -214,9 +215,9 @@ class ProjectMember extends Component {
             </Col>
           </Row>
         </Modal>
-        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} />
+        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} />
         <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
-          {this.state.groupMemberList.map((item, index) => {
+          {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
             return (<div key={index} className="card-item">
               <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
               <p className="item-name">{item.username}</p>
@@ -224,7 +225,7 @@ class ProjectMember extends Component {
               {item.role === 'owner' ? <p className="item-role">组长</p> : null}
               {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
             </div>);
-          })}
+          }): <ErrMsg type="noMemberInGroup"/>}
         </Card>
       </div>
     )

@@ -25,9 +25,9 @@ export default {
   },
   PROJECT_COLOR: {
     blue: '#2395f1',
-    green: '#57cf27',
-    yellow: '#fac200',
-    red: '#ff561b',
+    green: '#00a854',
+    yellow: '#ffbf00',
+    red: '#f56a00',
     pink: '#f5317f',
     cyan: '#00a2ae',
     gray: '#bfbfbf',
