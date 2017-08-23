@@ -110,7 +110,6 @@ class interfaceColController extends baseController{
      * @param {String} casename
      * @param {Number} col_id
      * @param {Number} project_id
-     * @param {String} env
      * @param {String} domain
      * @param {String} path
      * @param {String} method
@@ -130,7 +129,6 @@ class interfaceColController extends baseController{
                 casename: 'string',
                 project_id: 'number',
                 col_id: 'number',
-                env: 'string',
                 domain: 'string',
                 method: 'string'
             });

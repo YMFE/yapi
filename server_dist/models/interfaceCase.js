@@ -54,9 +54,6 @@ var interfaceCase = function (_baseModel) {
                 project_id: { type: Number, required: true },
                 add_time: Number,
                 up_time: Number,
-                env: [{
-                    name: String, domain: String
-                }],
                 domain: { type: String },
                 path: { type: String },
                 method: { type: String },
