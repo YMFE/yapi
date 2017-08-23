@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { fetchInterfaceColList, setColData, fetchCaseData } from '../../../../reducer/modules/interfaceCol'
 import { Postman } from '../../../../components'
-// import Run from
 
 @connect(
   state => {

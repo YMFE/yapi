@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
+import { withRouter } from 'react-router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -41,6 +42,7 @@ let uuid = 0; // 环境配置的计数
     fetchGroupMsg
   }
 )
+@withRouter
 class ProjectMessage extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +58,7 @@ class ProjectMessage extends Component {
     updateProject: PropTypes.func,
     delProject: PropTypes.func,
     getProjectMsg: PropTypes.func,
+    history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
     projectList: PropTypes.array,
     projectMsg: PropTypes.object
@@ -130,15 +133,6 @@ class ProjectMessage extends Component {
     });
   }
 
-  handleDelete = () => {
-    console.log(this.props); // 出问题了
-    this.props.delProject(this.props.projectId).then((res) => {
-      if (res.payload.data.errcode == 0) {
-        message.success('删除成功!');
-      }
-    });
-  }
-
   showConfirm = () => {
     let that = this;
     confirm({
@@ -161,6 +155,7 @@ class ProjectMessage extends Component {
           that.props.delProject(that.props.projectId).then((res) => {
             if (res.payload.data.errcode == 0) {
               message.success('删除成功!');
+              that.props.history.push('/group');
             }
           });
         }
@@ -176,12 +171,13 @@ class ProjectMessage extends Component {
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     this.setState({
       currGroup: groupMsg.payload.data.data.group_name
-    })
+    });
   }
 
   render () {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { projectMsg } = this.props;
+    console.log(projectMsg);
     let initFormValues = {};
     let envMessage = [];
     const { name, basepath, desc, env, project_type } = projectMsg;
@@ -289,8 +285,27 @@ class ProjectMessage extends Component {
         </Row>
       );
     });
+
+    const colorSelector = (<RadioGroup onChange={this.onChange} value={1}>
+      <Radio value={1} style={{color: 'red'}}></Radio>
+      <Radio value={2}></Radio>
+      <Radio value={3}></Radio>
+      <Radio value={4}></Radio>
+    </RadioGroup>);
     return (
       <div className="m-panel">
+        <Row className="project-setting">
+          <Col sm={6} lg={3} className="setting-logo">
+            <Popover placement="bottom" title={colorSelector} content={'content'} trigger="click">
+              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{backgroundColor: projectMsg.color || '#2395f1'}} />
+            </Popover>
+          </Col>
+          <Col sm={18} lg={21} className="setting-intro">
+            <h2 className="ui-title">{projectMsg.group_name + ' / ' + projectMsg.name}</h2>
+            <p className="ui-desc">{projectMsg.desc}</p>
+          </Col>
+        </Row>
+        <hr className="breakline" />
         <Form>
           <FormItem
             {...formItemLayout}
@@ -350,7 +365,7 @@ class ProjectMessage extends Component {
 
           <FormItem
             {...formItemLayout}
-            label="所属分组"
+            label="环境配置"
           >
             {envSettingItems}
           </FormItem>

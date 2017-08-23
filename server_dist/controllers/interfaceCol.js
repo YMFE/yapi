@@ -455,9 +455,9 @@ var interfaceColController = function (_baseController) {
                                 _context6.prev = 0;
                                 params = ctx.request.body;
                                 _context6.next = 4;
-                                return this.caseModel.up(params.col_id, {
-                                    name: params.col_name,
-                                    desc: params.col_desc,
+                                return this.colModel.up(params.col_id, {
+                                    name: params.name,
+                                    desc: params.desc,
                                     up_time: _yapi2.default.commons.time()
                                 });
 
@@ -569,7 +569,7 @@ var interfaceColController = function (_baseController) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.prev = 0;
-                                id = ctx.request.body.colid;
+                                id = ctx.query.col_id;
                                 _context8.next = 4;
                                 return this.colModel.get(id);
 
@@ -600,7 +600,7 @@ var interfaceColController = function (_baseController) {
 
                             case 12:
                                 _context8.next = 14;
-                                return this.colModel.del(caseid);
+                                return this.colModel.del(id);
 
                             case 14:
                                 result = _context8.sent;
@@ -640,16 +640,15 @@ var interfaceColController = function (_baseController) {
         key: 'delCase',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var _caseid, caseData, auth, result;
-
+                var caseid, caseData, auth, result;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
                                 _context9.prev = 0;
-                                _caseid = ctx.request.body.caseid;
+                                caseid = ctx.query.caseid;
                                 _context9.next = 4;
-                                return this.caseModel.get(_caseid);
+                                return this.caseModel.get(caseid);
 
                             case 4:
                                 caseData = _context9.sent;
@@ -678,7 +677,7 @@ var interfaceColController = function (_baseController) {
 
                             case 12:
                                 _context9.next = 14;
-                                return this.caseModel.del(_caseid);
+                                return this.caseModel.del(caseid);
 
                             case 14:
                                 result = _context9.sent;

@@ -34,26 +34,19 @@ class followModel extends baseModel {
         return follow.save();
     }
 
-    del(id){
+    del(projectid, uid){
         return this.model.deleteOne({
-            _id: id
+            projectid: projectid,
+            uid: uid
         });
     }
     
-    listWithPaging(uid, page, limit) {
-        page = parseInt(page);
-        limit = parseInt(limit);
-
+    list(uid) {
         return this.model.find({
             uid: uid
-        }).skip((page - 1) * limit).limit(limit).exec();
+        }).exec();
     }
 
-    listCount(uid) {
-        return this.model.count({
-            uid: uid
-        });
-    }
 
     checkProjectRepeat(uid,projectid){
         return this.model.count({

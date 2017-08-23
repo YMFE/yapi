@@ -196,9 +196,9 @@ class interfaceColController extends baseController{
     async upCol(ctx){
         try{
             let params = ctx.request.body;
-            let result = await this.caseModel.up(params.col_id, {
-                name: params.col_name,
-                desc: params.col_desc,
+            let result = await this.colModel.up(params.col_id, {
+                name: params.name,
+                desc: params.desc,
                 up_time: yapi.commons.time()
             })
             ctx.body = yapi.commons.resReturn(result)
@@ -252,7 +252,7 @@ class interfaceColController extends baseController{
 
     async delCol(ctx){
         try{
-            let id = ctx.request.body.colid;
+            let id = ctx.query.col_id;
             let colData = await this.colModel.get(id);
             if(!colData){
                 ctx.body =  yapi.commons.resReturn(null, 400, "不存在的id")
@@ -265,7 +265,7 @@ class interfaceColController extends baseController{
                 }
             }
 
-            let result = await this.colModel.del(caseid);
+            let result = await this.colModel.del(id);
             await this.caseModel.delByCol(id)
             return ctx.body = yapi.commons.resReturn(result);
 
@@ -282,7 +282,7 @@ class interfaceColController extends baseController{
 
     async delCase(ctx){
         try{
-            let caseid = ctx.request.body.caseid;
+            let caseid = ctx.query.caseid;
             let caseData = await this.caseModel.get(caseid);
             if(!caseData){
                 ctx.body =  yapi.commons.resReturn(null, 400, "不存在的caseid")

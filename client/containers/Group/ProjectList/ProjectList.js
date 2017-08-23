@@ -16,7 +16,6 @@ import './ProjectList.scss'
       userInfo: state.project.userInfo,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup,
-      total: state.project.total,
       currPage: state.project.currPage
     }
   },
@@ -46,7 +45,6 @@ class ProjectList extends Component {
     userInfo: PropTypes.object,
     tableLoading: PropTypes.bool,
     currGroup: PropTypes.object,
-    total: PropTypes.number,
     currPage: PropTypes.number
   }
 
@@ -67,6 +65,11 @@ class ProjectList extends Component {
     })
   }
 
+  // 获取 ProjectCard 组件的关注事件回调，收到后更新数据
+  @autobind
+  receiveRes() {
+    this.props.fetchProjectList(this.props.currGroup._id, this.props.currPage);
+  }
   // // 分页逻辑 取消分页
   // @autobind
   // paginationChange(pageNum) {
@@ -103,12 +106,12 @@ class ProjectList extends Component {
   render() {
     const projectData = this.state.projectData;
     return (
-      <div className="m-panel card-panel">
-        <Row gutter={24}>
+      <div className="m-panel card-panel card-panel-s">
+        <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col span={12} key={index}>
-                <ProjectCard projectData={item} />
+              <Col span={8} key={index}>
+                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
           }) : <ErrMsg type="noProject"/>}
         </Row>

@@ -1,10 +1,12 @@
+@import '../../../styles/mixin.scss';
+
 .group-bar {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
   border-radius: 4px;
   background-color: #fff;
   min-height: 5rem;
   .curr-group {
-    background: #34495E;
+    background: $color-bg-dark;
     border-radius: 4px 4px 0 0;
     padding: 32px 24px;
     .curr-group-name {
@@ -16,7 +18,7 @@
         max-width: 150px;
         vertical-align: bottom;
       }
-      
+
       color: #fff;
       font-size: 24px;
     }

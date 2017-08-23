@@ -1,7 +1,7 @@
 @import '../../styles/mixin.scss';
 .card-container {
   position: relative;
-
+  user-select: none;
   transition: all .2s;
   .m-card, .card-btns {
     transform: translateY(0);
@@ -17,7 +17,7 @@
       transform: translateY(4px);
     }
   }
-  // 按钮组
+  // 卡片右上角按钮
   .card-btns {
     position: absolute;
     top: 0;
@@ -25,7 +25,7 @@
     width: .48rem;
     height: .48rem;
     background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
-    // 卡片右上角按钮
+    border-top-right-radius: 4px;
     .icon {
       cursor: pointer;
       font-size: .16rem;
@@ -66,15 +66,9 @@
     font-size: .19rem;
     margin-bottom: .08rem;
     font-weight: normal;
-  }
-  .ui-desc {
-    font-size: .16rem;
-    height: .24rem;
-    line-height: .24rem;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    color: rgba(39, 56, 72, 0.43);
   }
   .m-card-body {
     .icon {
@@ -86,4 +80,20 @@
     }
   }
 
+}
+
+.card-panel-s {
+  .m-card {
+    .ant-card-body {
+      padding-top: .6rem;
+    }
+    .ui-logo {
+      width: .6rem;
+      height: .6rem;
+      line-height: .6rem;
+      transform: translate(-50%, -20%);
+      font-size: .24rem;
+      background-color: #2395f1;
+    }
+  }
 }
