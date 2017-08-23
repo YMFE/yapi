@@ -83,10 +83,8 @@
     "rc-scroll-anim": "^1.0.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-monaco-editor": "^0.8.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "^4.0.8",
     "react-scripts": "1.0.10",
     "redux": "^3.7.1",
     "redux-promise": "^0.5.3",
@@ -101,9 +99,7 @@
     "universal-cookie": "^2.0.8",
     "url": "^0.11.0",
     "validate-commit-msg": "^2.12.2",
-    "wangeditor": "^3.0.4",
-    "ykit-config-antd": "^0.1.3",
-    "ykit-config-react": "^0.4.4"
+    "ykit-config-antd": "^0.1.3"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.3.1",

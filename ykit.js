@@ -9,19 +9,22 @@ var assetsPluginInstance = new AssetsPlugin({
 
 function handleCommonsChunk(webpackConfig) {
   var commonsChunk = {
-    //filename: 'scripts/[name]@[chunkhash][ext]',
     vendors: {
       lib: ['react', 'redux',
         'redux-thunk',
         'react-dom',
         'redux-promise',
+        'react-router',
         'react-router-dom',
-        'prop-types'
-
-      ],
-      lib2: [
+        'prop-types',
         'axios',
         'moment'
+
+      ],
+      lib2: [        
+        'brace',
+        'mockjs',
+        'json5'
       ]
     }
   },
