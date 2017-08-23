@@ -261,13 +261,14 @@ class ProjectMessage extends Component {
                 rules: [{
                   required: false,
                   whitespace: true,
-                  message: "请输入环境域名",
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
                         callback('请输入环境域名');
                       } else if (!/\S/.test(value)) {
                         callback('请输入环境域名');
+                      } else if (!/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/.test(value)) {
+                        callback('域名格式错误');
                       } else {
                         return callback();
                       }
@@ -396,11 +397,13 @@ class ProjectMessage extends Component {
             {envSettingItems}
           </FormItem>
 
-          <FormItem {...formItemLayout}>
-            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-              <Icon type="plus" /> 添加环境配置
-            </Button>
-          </FormItem>
+          <Row>
+            <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
+              <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                <Icon type="plus" /> 添加环境配置
+              </Button>
+            </Col>
+          </Row>
 
           <FormItem
             {...formItemLayout}
