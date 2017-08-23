@@ -12,7 +12,7 @@ function model(model, schema) {
     return yapi.connect.model(model, schema, model);
 }
 
-function connect() {
+function connect(callback) {
     mongoose.Promise = global.Promise;
 
     let config = yapi.WEBCONFIG;
@@ -28,6 +28,9 @@ function connect() {
 
     db.then(function () {
         yapi.commons.log('mongodb load success...');
+        if(typeof callback === 'function'){
+            callback.call(db)
+        }
     }, function (err) {
         yapi.commons.log(err, 'Mongo connect error');
     });
@@ -37,6 +40,7 @@ function connect() {
 }
 
 yapi.db = model;
+
 
 module.exports = {
     model: model,
