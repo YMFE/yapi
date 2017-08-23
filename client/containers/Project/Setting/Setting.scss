@@ -83,10 +83,37 @@
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    font-size: .6rem;
+    font-size: .5rem;
     color: #fff;
     background-color: #2395f1;
     line-height: 1rem;
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+}
+
+.change-project-container {
+  max-width: 320px;
+  .ant-popover-inner {
+    text-align: center;
+  }
+  .ant-popover-title {
+    padding: 8px .16rem;
+    height: auto;
+  }
+  .ant-radio-button-wrapper {
+    font-size: 16px;
+    border: none;
+    &:first-child {
+      border: none;
+    }
+    &:not(:first-child)::before {
+      display: none !important;
+    }
+  }
+  .ant-radio-button-wrapper-checked {
+    box-shadow: none;
+    color: #fff;
+    background-color: #2395f1;
+    border-radius: 4px;
   }
 }
