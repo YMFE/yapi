@@ -1,6 +1,6 @@
 import './ProjectCard.scss';
 import React, { Component } from 'react';
-import { Card, Icon, Tooltip, message } from 'antd';
+import { Card, Icon, Tooltip } from 'antd';
 import { connect } from 'react-redux'
 import { delFollow, addFollow } from  '../../reducer/modules/follow';
 // import { Link } from 'react-router-dom';
@@ -42,7 +42,7 @@ class ProjectCard extends Component {
     this.props.delFollow(id).then((res) => {
       if (res.payload.data.errcode === 0) {
         this.props.callbackResult();
-        message.success('已取消关注！');
+        // message.success('已取消关注！');  // 星号已做出反馈 无需重复提醒用户
       }
     });
   }
@@ -53,30 +53,24 @@ class ProjectCard extends Component {
       uid,
       projectid: projectData._id,
       projectname: projectData.name,
-      icon: 'star',
-      color: '#2395f1'
+      icon: projectData.icon,
+      color: projectData.color
     }
     this.props.addFollow(param).then((res) => {
       console.log(res);
       if (res.payload.data.errcode === 0) {
         this.props.callbackResult();
-        message.success('已添加关注！');
+        // message.success('已添加关注！');  // 星号已做出反馈 无需重复提醒用户
       }
     });
   }
-  // <Link to={`/project/${projectData._id}`} className="card-link">
-  //
-  // </Link>
 
-  // <Popconfirm placement="leftBottom" title={<Icon type="up" />} onConfirm={confirm} okText="确认" cancelText="取消">
-  //   <Icon type="star-o" className="icon" onClick={this.clickHandle}/>
-  // </Popconfirm>
   render() {
     const { projectData, inFollowPage } = this.props;
     return (
       <div className="card-container">
         <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
-          <Icon type="area-chart" className="ui-logo" />
+          <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{backgroundColor: projectData.color || '#2395f1'}} />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
         </Card>
         <div className="card-btns" onClick={projectData.follow || inFollowPage ? this.del : this.add}>
