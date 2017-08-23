@@ -93,6 +93,7 @@ class ProjectMessage extends Component {
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
             message.success('修改成功! ');
+            // this.props.history.push('/group');
           } else {
             message.error(res.payload.data.errmsg);
           }
