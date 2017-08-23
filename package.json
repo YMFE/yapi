@@ -46,7 +46,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^7.1.0",
     "express": "^4.15.3",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "2.0.0",
     "fast-sass-loader": "^1.2.5",
     "fs-extra": "^3.0.1",
     "gulp": "^3.9.1",
