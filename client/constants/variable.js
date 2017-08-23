@@ -22,7 +22,59 @@ export default {
     'PATCH': {
       request_body: true
     }
-  }
+  },
+  PROJECT_COLOR: {
+    blue: '#2395f1',
+    green: '#57cf27',
+    yellow: '#fac200',
+    red: '#ff561b',
+    pink: '#f5317f',
+    cyan: '#00a2ae',
+    gray: '#bfbfbf',
+    purple: '#7265e6'
+  },
+  PROJECT_ICON: [
+    'code-o',
+    'swap',
+    'clock-circle-o',
+    'unlock',
+    'calendar',
+    'play-circle-o',
+    'file-text',
+    'desktop',
+    'hdd',
+    'appstore-o',
+    'line-chart',
+    'mail',
+    'mobile',
+    'notification',
+    'picture',
+    'poweroff',
+    'search',
+    'setting',
+    'share-alt',
+    'shopping-cart',
+    'tag-o',
+    'video-camera',
+    'cloud-o',
+    'star-o',
+    'environment-o',
+    'camera-o',
+    'team',
+    'customer-service',
+    'pay-circle-o',
+    'rocket',
+    'database',
+    'tool',
+    'wifi',
+    'idcard',
+    'medicine-box',
+    'coffee',
+    'safety',
+    'global',
+    'api',
+    'fork',
+    'android-o',
+    'apple-o'
+  ]
 }
-
-

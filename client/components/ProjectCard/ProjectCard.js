@@ -7,6 +7,7 @@ import { delFollow, addFollow } from  '../../reducer/modules/follow';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { debounce } from '../../common';
+import constants from '../../constants/variable.js';
 
 @connect(
   state => {
@@ -57,7 +58,6 @@ class ProjectCard extends Component {
       color: projectData.color
     }
     this.props.addFollow(param).then((res) => {
-      console.log(res);
       if (res.payload.data.errcode === 0) {
         this.props.callbackResult();
         // message.success('已添加关注！');  // 星号已做出反馈 无需重复提醒用户
@@ -70,7 +70,7 @@ class ProjectCard extends Component {
     return (
       <div className="card-container">
         <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
-          <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{backgroundColor: projectData.color || '#2395f1'}} />
+          <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectData.color] || constants.PROJECT_COLOR.blue }} />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
         </Card>
         <div className="card-btns" onClick={projectData.follow || inFollowPage ? this.del : this.add}>
