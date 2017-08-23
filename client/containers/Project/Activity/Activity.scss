@@ -48,14 +48,61 @@
     .logbidden{
       color: #c0c1c1;
       cursor: default;
-      line-height: 30px;
-      padding-left: 30px;
+      padding: 8px !important;
     }
     .loggetMore{
       line-height: 30px;
-      padding-left: 30px;
       color: #4eaef3;
     }
+
+    .ant-timeline-item{
+      &:after{
+        content: "";
+        width: 0px;
+        height: 0px;
+        display: block;
+        clear: both;
+      }
+
+      .ant-timeline-item-content{
+        background-color: #ececec;
+        float: left;
+        width: auto;
+        margin-left: 40px;
+        padding: 0px;
+        padding-bottom: 16px;
+        min-width: 300px;
+        border-radius: 8px;
+        
+        .logMesHeade{
+          color: white;
+          padding: 16px 8px 8px 8px;
+          background-color: gray;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+        .logoTimeago{
+          left: -120px;
+        }
+        .logcontent{
+          text-indent: 2em;
+          line-height: 1.5em;
+          margin-top: 16px;
+        }
+      }
+      
+    }
+    .ant-timeline-item-pending{
+        padding: 0px;
+        .ant-timeline-item-content{
+          padding: 0px;
+          min-width: auto;
+          .loggetMore{
+            margin: 0px;
+            padding: 8px;
+          }
+        }
+      }
   }
   .logHead{
     height: 80px;
