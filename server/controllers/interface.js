@@ -43,7 +43,6 @@ class interfaceController extends baseController {
      */
     async add(ctx) {
         let params = ctx.request.body;
-
         params = yapi.commons.handleParams(params, {
             project_id: 'number',
             title: 'string',
@@ -52,6 +51,11 @@ class interfaceController extends baseController {
             desc: 'string',
             catid: 'number'
         });
+
+        let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+        if (!auth) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+        }
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
@@ -196,14 +200,14 @@ class interfaceController extends baseController {
         }
         try {
             let result = await this.catModel.list(project_id), newResult = [];
-            for(let i=0, item, list;i< result.length; i++){
+            for (let i = 0, item, list; i < result.length; i++) {
                 item = result[i].toObject()
                 list = await this.Model.listByCatid(item._id, '_id title method path')
-                for(let j=0; j< list.length; j++){
+                for (let j = 0; j < list.length; j++) {
                     list[j] = list[j].toObject()
-                }   
+                }
                 item.list = list;
-                newResult[i] = item             
+                newResult[i] = item
             }
             ctx.body = yapi.commons.resReturn(newResult);
         } catch (err) {
@@ -249,6 +253,7 @@ class interfaceController extends baseController {
             desc: 'string',
             catid: 'number'
         });
+
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
 
@@ -257,7 +262,12 @@ class interfaceController extends baseController {
         if (!id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
+
         let interfaceData = await this.Model.get(id);
+        let auth = await this.checkAuth(interfaceData.project_id, 'project', 'edit')
+        if (!auth) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+        }
 
         if (params.path && !yapi.commons.verifyPath(params.path)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
@@ -287,7 +297,7 @@ class interfaceController extends baseController {
             data.method = params.method;
         }
 
-        if(params.catid){
+        if (params.catid) {
             data.catid = params.catid;
         }
 
@@ -323,7 +333,7 @@ class interfaceController extends baseController {
             data.res_body = params.res_body;
         }
 
-        if(params.status){
+        if (params.status) {
             data.status = params.status;
         }
 
@@ -331,13 +341,13 @@ class interfaceController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             let cate;
-            if(params.catid){
+            if (params.catid) {
                 cate = await this.catModel.get(+params.catid);
-            }else{
+            } else {
                 let inter = await this.Model.get(id);
-                cate = await this.catModel.get(inter.catid);
+                cate = interfaceData.catid;
             }
-            
+
             yapi.commons.saveLog({
                 content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
                 type: 'project',
@@ -374,8 +384,9 @@ class interfaceController extends baseController {
             let data = await this.Model.get(ctx.request.body.id);
 
             if (data.uid != this.getUid()) {
-                if (await this.jungeProjectAuth(data.project_id) !== true) {
-                    return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+                let auth = await this.checkAuth(data.project_id, 'project', 'danger')
+                if (!auth) {
+                    return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
                 }
             }
 
@@ -438,9 +449,15 @@ class interfaceController extends baseController {
             if (!params.project_id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
             if (!params.name) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');
             }
+
 
             let result = await this.catModel.save({
                 name: params.name,
@@ -474,10 +491,15 @@ class interfaceController extends baseController {
                 name: params.name,
                 desc: params.desc,
                 up_time: yapi.commons.time()
-            });
+            });            
 
             let username = this.getUsername();
             let cate = await this.catModel.get(params.catid);
+
+            let auth = await this.checkAuth(cate.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
             yapi.commons.saveLog({
                 content: `用户 "${username}" 更新了分类 "${cate.name}"`,
                 type: 'project',
@@ -511,7 +533,7 @@ class interfaceController extends baseController {
             let result = await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
             let username = this.getUsername();
-            
+
             yapi.commons.saveLog({
                 content: `用户 "${username}" 删除了分类 "${cate.name}" 及该分类下的接口`,
                 type: 'project',

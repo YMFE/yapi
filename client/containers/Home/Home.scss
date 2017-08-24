@@ -27,6 +27,51 @@ $color-bg-lightblue: #c6e2ff;
     }
   }
 }
+
+// 按钮组
+.btn-group {
+  padding: .3rem .24rem;
+  .btn-home {
+    font-size: .15rem;
+    font-weight: 200;
+    letter-spacing: 1px;
+    border: none;
+    line-height: .4rem;
+    height: .4rem;
+    padding: 0 .24rem;
+    margin-right: .24rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    transform: translateY(0);
+    transition: all .2s;
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+    }
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+  .btn-login {
+    background-color: #32325d;
+    &:hover {
+      background-color: #43459a;
+    }
+    &:active, &:focus {
+      color: #e6ebf1;
+      background-color: #32325d;
+    }
+  }
+  .btn-home-normal {
+    color: #43459a;
+    &:hover {
+      color: #7795f8;
+    }
+    &:hover, &:focus {
+      background-color: #f6f9fc;
+    }
+  }
+}
+
 .m-bg {
   position: absolute;
   left: 0;
@@ -103,47 +148,6 @@ $color-bg-lightblue: #c6e2ff;
       }
       .desc {
         font-size: .18rem;
-      }
-      .btn-group {
-        padding: .3rem .24rem;
-        .btn-home {
-          font-size: .15rem;
-          font-weight: 200;
-          letter-spacing: 1px;
-          border: none;
-          line-height: .4rem;
-          height: .4rem;
-          padding: 0 .24rem;
-          margin-right: .24rem;
-          box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
-          transform: translateY(0);
-          transition: all .2s;
-          &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
-          }
-          &:active {
-            transform: translateY(1px);
-          }
-        }
-        .btn-login {
-          background-color: #43459a;
-          &:hover {
-            background-color: #555abf;
-          }
-          &:hover {
-            background-color: #32325d;
-          }
-        }
-        .btn-qsso {
-          color: #43459a;
-          &:hover {
-            color: #7795f8;
-          }
-          &:hover {
-            background-color: #f6f9fc;
-          }
-        }
       }
     }
     .login-form{
@@ -351,6 +355,9 @@ $color-bg-lightblue: #c6e2ff;
       box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
       border: none;
     }
+    .ant-card:not(.ant-card-no-hovering):hover {
+      box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    }
     .ant-card-head {
       background-color: $color-blue-grey-lighter;
       border-top-left-radius: .04rem;
@@ -398,6 +405,11 @@ $color-bg-lightblue: #c6e2ff;
     }
     .keyword {
       color: #2359f1;
+    }
+    .item {
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
   }
   .mock-after {
@@ -462,8 +474,41 @@ $color-bg-lightblue: #c6e2ff;
   }
 }
 
+.row-tip {
+  margin-top: .48rem;
+  padding-top: .48rem;
+  padding-bottom: .24rem;
+  background-color: #ececec;
+  .container {
+    display: flex;
+    align-items: center;
+    .tip-title {
+      flex: 2;
+    }
+    .tip-btns {
+      flex: 1;
+    }
+  }
+  .btn-group {
+    white-space: nowrap;
+  }
+  .title {
+    -webkit-font-smoothing: antialiased;
+    padding-left: .24rem;
+    color: #2e2e5a;
+    line-height: .32rem;
+    margin-bottom: .08rem;
+    font-size: .24rem;
+  }
+  .desc {
+    -webkit-font-smoothing: antialiased;
+    padding-left: .24rem;
+    color: #6d7c90;
+    font-size: .16rem;
+  }
+}
 
-
+// LOGO 旋转动画
 @keyframes spin
 {
   from {
