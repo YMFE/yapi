@@ -5,6 +5,7 @@ import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'ant
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'
+import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
@@ -230,7 +231,7 @@ class MemberList extends Component {
             </Col>
           </Row>
         </Modal>
-        <Table columns={columns} dataSource={this.state.userInfo} pagination={false} />
+        <Table columns={columns} dataSource={this.state.userInfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
       </div>
     );
   }

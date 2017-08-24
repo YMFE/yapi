@@ -54,8 +54,8 @@ class ProjectCard extends Component {
       uid,
       projectid: projectData._id,
       projectname: projectData.name,
-      icon: projectData.icon,
-      color: projectData.color
+      icon: projectData.icon || constants.PROJECT_ICON[0],
+      color: projectData.color || constants.PROJECT_COLOR.blue
     }
     this.props.addFollow(param).then((res) => {
       if (res.payload.data.errcode === 0) {

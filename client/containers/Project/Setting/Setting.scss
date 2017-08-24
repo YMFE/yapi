@@ -14,6 +14,7 @@
   .ant-card-body {
     display: flex;
     align-items: center;
+    padding: .24rem !important;
   }
   .card-danger-content {
     flex: 1;
@@ -24,7 +25,14 @@
   }
 }
 
+.setting-project-member {
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+}
+
 .setting-group {
+  margin-top: .48rem;
+  border-radius: 2px;
   .ant-card-head {
     background-color: #eee;
   }
@@ -88,6 +96,25 @@
     background-color: #2395f1;
     line-height: 1rem;
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    position: relative;
+    &:after {
+      opacity: 0;
+      content: '点击修改';
+      display: block;
+      transition: all .4s;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      font-size: .14rem;
+      color: #fff;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0, .25);
+    }
+    &:hover:after {
+      opacity: 1;
+    }
   }
 }
 
@@ -115,5 +142,56 @@
     color: #fff;
     background-color: #2395f1;
     border-radius: 4px;
+  }
+  .color {
+    // .ant-radio-button-wrapper {
+    //   &:first-child {
+    //     border: none;
+    //   }
+    // }
+    .ant-radio-button-wrapper-checked {
+      border-radius: 0;
+      &:hover {
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.danger-container {
+  margin-top: .48rem;
+}
+.btnwrap-changeproject {
+  text-align: center;
+  padding: .24rem 0;
+  margin: 0 -.24rem;
+  background: #fff;
+  background-image: linear-gradient(45deg, #d9d9d9 25%, transparent 0),linear-gradient(45deg, transparent 75%, #d9d9d9 0);
+  background-size: 4px 4px;
+  .btn-save {
+    background-color: #32325d;
+    font-size: .15rem;
+    font-weight: 200;
+    letter-spacing: 1px;
+    border: none;
+    line-height: .4rem;
+    height: .4rem;
+    padding: 0 .24rem;
+    margin-right: .24rem;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+    transition: all .2s;
+    &:focus {
+      background-color: #43458b;
+    }
+    &:hover {
+      transform: translateY(-1px);
+      background-color: #43458b;
+    }
+    &:active {
+      transform: translateY(1px);
+      background-color: #32325d;
+    }
   }
 }
