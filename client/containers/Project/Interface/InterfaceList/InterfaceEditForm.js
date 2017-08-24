@@ -388,7 +388,7 @@ class InterfaceEditForm extends Component {
             <span>
               接口路径&nbsp;
               <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
-                <Icon type="question" style={{ width: "10px" }} />
+                <Icon type="question-circle-o" style={{ width: "10px" }} />
               </Tooltip>
 
             </span>
