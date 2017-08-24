@@ -174,6 +174,10 @@
 @label-required-color        : @highlight-color;
 @label-color                 : @heading-color;
 @form-item-margin-bottom     : 24px;
+// 处理添加环境配置下边距重合的 bug
+.ant-form-item > .ant-form-item, .ant-form-item :not(.ant-form) > .ant-form-item {
+  margin-bottom: 16px;
+}
 @form-item-trailing-colon    : true;
 
 // Input
@@ -250,11 +254,11 @@
 
 // Table
 // --
-@table-header-bg: @background-color-base;
+@table-header-bg: #eee;
 @table-header-sort-bg: @background-color-active;
 @table-row-hover-bg: @primary-1;
 @table-selected-row-bg: #fafafa;
-@table-padding-vertical: 16px + 2px;
+@table-padding-vertical: 16px;
 @table-padding-horizontal: 8px + 2px;
 
 // Tag

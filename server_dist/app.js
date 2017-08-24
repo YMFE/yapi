@@ -53,6 +53,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _yapi2.default.commons = _commons2.default;
 
 
+var compress = require('koa-compress');
+
 _yapi2.default.connect = _db2.default.connect();
 var app = (0, _koaWebsocket2.default)(new _koa2.default());
 var indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
@@ -64,8 +66,13 @@ app.use(_router2.default.allowedMethods());
 
 (0, _websocket2.default)(app);
 
+app.use(compress({
+    threshold: 50480,
+    flush: require('zlib').Z_SYNC_FLUSH
+}));
+
 app.use(function () {
-    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
+    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx, next) {
         return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
@@ -99,7 +106,7 @@ app.use(function () {
         return _ref.apply(this, arguments);
     };
 }());
-app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static'), { index: indexFile }));
+app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static'), { index: indexFile, gzip: true }));
 
 app.listen(_yapi2.default.WEBCONFIG.port);
 _commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.port);

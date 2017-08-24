@@ -74,7 +74,7 @@ var interfaceColController = function (_baseController) {
     (0, _createClass3.default)(interfaceColController, [{
         key: 'list',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var id, result, i;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -149,7 +149,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'addCol',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
                 var params, result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -233,7 +233,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'getCaseList',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
                 var id, inst, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -297,7 +297,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'addCase',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(ctx) {
                 var params, result;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -377,6 +377,97 @@ var interfaceColController = function (_baseController) {
         }()
 
         /**
+         * 增加一个接口用例
+         * @interface /col/up_case
+         * @method POST
+         * @category col
+         * @foldnumber 10
+         * @param {number} id
+         * @param {String} casename
+         * @param {String} domain
+         * @param {String} path
+         * @param {String} method
+         * @param {Object} req_query
+         * @param {Object} req_headers
+         * @param {String} req_body_type
+         * @param {Array} req_body_form
+         * @param {String} req_body_other
+         * @returns {Object}
+         * @example
+         */
+
+    }, {
+        key: 'upCase',
+        value: function () {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
+                var params, result;
+                return _regenerator2.default.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                _context5.prev = 0;
+                                params = ctx.request.body;
+
+                                params = _yapi2.default.commons.handleParams(params, {
+                                    id: 'number',
+                                    casename: 'string',
+                                    domain: 'string',
+                                    method: 'string'
+                                });
+
+                                if (params.id) {
+                                    _context5.next = 5;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用例id不能为空'));
+
+                            case 5:
+                                if (params.casename) {
+                                    _context5.next = 7;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用例名称不能为空'));
+
+                            case 7:
+
+                                params.uid = this.getUid();
+
+                                _context5.next = 10;
+                                return this.caseModel.up(params);
+
+                            case 10:
+                                result = _context5.sent;
+
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+
+                                _context5.next = 17;
+                                break;
+
+                            case 14:
+                                _context5.prev = 14;
+                                _context5.t0 = _context5['catch'](0);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context5.t0.message);
+
+                            case 17:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this, [[0, 14]]);
+            }));
+
+            function upCase(_x5) {
+                return _ref5.apply(this, arguments);
+            }
+
+            return upCase;
+        }()
+
+        /**
          * 获取一个接口用例详情
          * @interface /col/case
          * @method GET
@@ -390,74 +481,16 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'getCase',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
                 var id, result;
-                return _regenerator2.default.wrap(function _callee5$(_context5) {
-                    while (1) {
-                        switch (_context5.prev = _context5.next) {
-                            case 0:
-                                _context5.prev = 0;
-                                id = ctx.query.caseid;
-                                _context5.next = 4;
-                                return this.caseModel.get(id);
-
-                            case 4:
-                                result = _context5.sent;
-
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context5.next = 11;
-                                break;
-
-                            case 8:
-                                _context5.prev = 8;
-                                _context5.t0 = _context5['catch'](0);
-
-                                ctx.body = _yapi2.default.commons.resReturn(null, 400, _context5.t0.message);
-
-                            case 11:
-                            case 'end':
-                                return _context5.stop();
-                        }
-                    }
-                }, _callee5, this, [[0, 8]]);
-            }));
-
-            function getCase(_x5) {
-                return _ref5.apply(this, arguments);
-            }
-
-            return getCase;
-        }()
-
-        /**
-         * 更新一个接口集name或描述
-         * @interface /col/up_col
-         * @method POST
-         * @category col
-         * @foldnumber 10
-         * @param {String} name
-         * @param {String} desc
-         * @returns {Object}
-         * @example
-         */
-
-    }, {
-        key: 'upCol',
-        value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
-                var params, result;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 _context6.prev = 0;
-                                params = ctx.request.body;
+                                id = ctx.query.caseid;
                                 _context6.next = 4;
-                                return this.colModel.up(params.col_id, {
-                                    name: params.name,
-                                    desc: params.desc,
-                                    up_time: _yapi2.default.commons.time()
-                                });
+                                return this.caseModel.get(id);
 
                             case 4:
                                 result = _context6.sent;
@@ -480,8 +513,66 @@ var interfaceColController = function (_baseController) {
                 }, _callee6, this, [[0, 8]]);
             }));
 
-            function upCol(_x6) {
+            function getCase(_x6) {
                 return _ref6.apply(this, arguments);
+            }
+
+            return getCase;
+        }()
+
+        /**
+         * 更新一个接口集name或描述
+         * @interface /col/up_col
+         * @method POST
+         * @category col
+         * @foldnumber 10
+         * @param {String} name
+         * @param {String} desc
+         * @returns {Object}
+         * @example
+         */
+
+    }, {
+        key: 'upCol',
+        value: function () {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
+                var params, result;
+                return _regenerator2.default.wrap(function _callee7$(_context7) {
+                    while (1) {
+                        switch (_context7.prev = _context7.next) {
+                            case 0:
+                                _context7.prev = 0;
+                                params = ctx.request.body;
+                                _context7.next = 4;
+                                return this.colModel.up(params.col_id, {
+                                    name: params.name,
+                                    desc: params.desc,
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                            case 4:
+                                result = _context7.sent;
+
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context7.next = 11;
+                                break;
+
+                            case 8:
+                                _context7.prev = 8;
+                                _context7.t0 = _context7['catch'](0);
+
+                                ctx.body = _yapi2.default.commons.resReturn(null, 400, _context7.t0.message);
+
+                            case 11:
+                            case 'end':
+                                return _context7.stop();
+                        }
+                    }
+                }, _callee7, this, [[0, 8]]);
+            }));
+
+            function upCol(_x7) {
+                return _ref7.apply(this, arguments);
             }
 
             return upCol;
@@ -501,15 +592,15 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'upCaseIndex',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
                 var _this2 = this;
 
                 var params;
-                return _regenerator2.default.wrap(function _callee7$(_context7) {
+                return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
-                        switch (_context7.prev = _context7.next) {
+                        switch (_context8.prev = _context8.next) {
                             case 0:
-                                _context7.prev = 0;
+                                _context8.prev = 0;
                                 params = ctx.request.body;
 
                                 if (!params || !Array.isArray(params)) {
@@ -523,24 +614,24 @@ var interfaceColController = function (_baseController) {
                                     }
                                 });
 
-                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn('success'));
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn('success'));
 
                             case 7:
-                                _context7.prev = 7;
-                                _context7.t0 = _context7['catch'](0);
+                                _context8.prev = 7;
+                                _context8.t0 = _context8['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 400, _context7.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 400, _context8.t0.message);
 
                             case 10:
                             case 'end':
-                                return _context7.stop();
+                                return _context8.stop();
                         }
                     }
-                }, _callee7, this, [[0, 7]]);
+                }, _callee8, this, [[0, 7]]);
             }));
 
-            function upCaseIndex(_x7) {
-                return _ref7.apply(this, arguments);
+            function upCaseIndex(_x8) {
+                return _ref8.apply(this, arguments);
             }
 
             return upCaseIndex;
@@ -560,108 +651,31 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'delCol',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
                 var id, colData, auth, result;
-                return _regenerator2.default.wrap(function _callee8$(_context8) {
+                return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context9.prev = _context9.next) {
                             case 0:
-                                _context8.prev = 0;
+                                _context9.prev = 0;
                                 id = ctx.query.col_id;
-                                _context8.next = 4;
+                                _context9.next = 4;
                                 return this.colModel.get(id);
 
                             case 4:
-                                colData = _context8.sent;
+                                colData = _context9.sent;
 
                                 if (!colData) {
                                     ctx.body = _yapi2.default.commons.resReturn(null, 400, "不存在的id");
                                 }
 
                                 if (!(colData.uid !== this.getUid())) {
-                                    _context8.next = 12;
-                                    break;
-                                }
-
-                                _context8.next = 9;
-                                return this.checkAuth(colData.project_id, 'project', 'danger');
-
-                            case 9:
-                                auth = _context8.sent;
-
-                                if (auth) {
-                                    _context8.next = 12;
-                                    break;
-                                }
-
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
-
-                            case 12:
-                                _context8.next = 14;
-                                return this.colModel.del(id);
-
-                            case 14:
-                                result = _context8.sent;
-                                _context8.next = 17;
-                                return this.caseModel.delByCol(id);
-
-                            case 17:
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
-
-                            case 20:
-                                _context8.prev = 20;
-                                _context8.t0 = _context8['catch'](0);
-
-                                _yapi2.default.commons.resReturn(null, 400, _context8.t0.message);
-
-                            case 23:
-                            case 'end':
-                                return _context8.stop();
-                        }
-                    }
-                }, _callee8, this, [[0, 20]]);
-            }));
-
-            function delCol(_x8) {
-                return _ref8.apply(this, arguments);
-            }
-
-            return delCol;
-        }()
-
-        /**
-         *
-         * @param {*} ctx
-         */
-
-    }, {
-        key: 'delCase',
-        value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
-                var caseid, caseData, auth, result;
-                return _regenerator2.default.wrap(function _callee9$(_context9) {
-                    while (1) {
-                        switch (_context9.prev = _context9.next) {
-                            case 0:
-                                _context9.prev = 0;
-                                caseid = ctx.query.caseid;
-                                _context9.next = 4;
-                                return this.caseModel.get(caseid);
-
-                            case 4:
-                                caseData = _context9.sent;
-
-                                if (!caseData) {
-                                    ctx.body = _yapi2.default.commons.resReturn(null, 400, "不存在的caseid");
-                                }
-
-                                if (!(caseData.uid !== this.getUid())) {
                                     _context9.next = 12;
                                     break;
                                 }
 
                                 _context9.next = 9;
-                                return this.checkAuth(caseData.project_id, 'project', 'danger');
+                                return this.checkAuth(colData.project_id, 'project', 'danger');
 
                             case 9:
                                 auth = _context9.sent;
@@ -675,28 +689,105 @@ var interfaceColController = function (_baseController) {
 
                             case 12:
                                 _context9.next = 14;
-                                return this.caseModel.del(caseid);
+                                return this.colModel.del(id);
 
                             case 14:
                                 result = _context9.sent;
+                                _context9.next = 17;
+                                return this.caseModel.delByCol(id);
+
+                            case 17:
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
 
-                            case 18:
-                                _context9.prev = 18;
+                            case 20:
+                                _context9.prev = 20;
                                 _context9.t0 = _context9['catch'](0);
 
                                 _yapi2.default.commons.resReturn(null, 400, _context9.t0.message);
 
-                            case 21:
+                            case 23:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[0, 18]]);
+                }, _callee9, this, [[0, 20]]);
             }));
 
-            function delCase(_x9) {
+            function delCol(_x9) {
                 return _ref9.apply(this, arguments);
+            }
+
+            return delCol;
+        }()
+
+        /**
+         *
+         * @param {*} ctx
+         */
+
+    }, {
+        key: 'delCase',
+        value: function () {
+            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
+                var caseid, caseData, auth, result;
+                return _regenerator2.default.wrap(function _callee10$(_context10) {
+                    while (1) {
+                        switch (_context10.prev = _context10.next) {
+                            case 0:
+                                _context10.prev = 0;
+                                caseid = ctx.query.caseid;
+                                _context10.next = 4;
+                                return this.caseModel.get(caseid);
+
+                            case 4:
+                                caseData = _context10.sent;
+
+                                if (!caseData) {
+                                    ctx.body = _yapi2.default.commons.resReturn(null, 400, "不存在的caseid");
+                                }
+
+                                if (!(caseData.uid !== this.getUid())) {
+                                    _context10.next = 12;
+                                    break;
+                                }
+
+                                _context10.next = 9;
+                                return this.checkAuth(caseData.project_id, 'project', 'danger');
+
+                            case 9:
+                                auth = _context10.sent;
+
+                                if (auth) {
+                                    _context10.next = 12;
+                                    break;
+                                }
+
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
+
+                            case 12:
+                                _context10.next = 14;
+                                return this.caseModel.del(caseid);
+
+                            case 14:
+                                result = _context10.sent;
+                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+
+                            case 18:
+                                _context10.prev = 18;
+                                _context10.t0 = _context10['catch'](0);
+
+                                _yapi2.default.commons.resReturn(null, 400, _context10.t0.message);
+
+                            case 21:
+                            case 'end':
+                                return _context10.stop();
+                        }
+                    }
+                }, _callee10, this, [[0, 18]]);
+            }));
+
+            function delCase(_x10) {
+                return _ref10.apply(this, arguments);
             }
 
             return delCase;
