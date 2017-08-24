@@ -69,7 +69,7 @@ var followController = function (_baseController) {
     (0, _createClass3.default)(followController, [{
         key: 'list',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
                 var uid, page, limit, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -134,7 +134,7 @@ var followController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
                 var params, uid, checkRepeat, result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -212,7 +212,7 @@ var followController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
                 var params, uid, checkRepeat, data, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
