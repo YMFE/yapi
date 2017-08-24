@@ -40,7 +40,7 @@ class interfaceModel extends baseModel {
             }],
             req_body_type: {
                 type: String,
-                enum: ['form', 'json', 'text', 'file']
+                enum: ['form', 'json', 'text', 'file', 'raw']
             },
             req_body_form: [{
                 name: String,  type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
@@ -52,7 +52,7 @@ class interfaceModel extends baseModel {
             req_body_other: String,
             res_body_type: {
                 type: String,
-                enum: ['json', 'text', 'xml']
+                enum: ['json', 'text', 'xml', 'raw']
             },
             res_body: String
         };  

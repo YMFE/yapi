@@ -48,7 +48,7 @@ class interfaceColController extends baseController{
      * @example
      */
     async list(ctx){
-        try {
+        try {   
             let id = ctx.query.project_id;
             let result = await this.colModel.list(id);
 
@@ -89,6 +89,11 @@ class interfaceColController extends baseController{
             }
             if(!params.name){
                 return ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空');
+            }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
 
             let result = await this.colModel.save({
@@ -137,7 +142,6 @@ class interfaceColController extends baseController{
      * @param {String} casename
      * @param {Number} col_id
      * @param {Number} project_id
-     * @param {String} env
      * @param {String} domain
      * @param {String} path
      * @param {String} method
@@ -157,14 +161,20 @@ class interfaceColController extends baseController{
                 casename: 'string',
                 project_id: 'number',
                 col_id: 'number',
-                env: 'string',
                 domain: 'string',
                 method: 'string'
             });
 
+
             if (!params.project_id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
+
             if (!params.col_id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '接口集id不能为空');
             }
@@ -179,6 +189,61 @@ class interfaceColController extends baseController{
             params.add_time = yapi.commons.time();
             params.up_time = yapi.commons.time();
             let result = await this.caseModel.save(params);
+
+            ctx.body = yapi.commons.resReturn(result);
+
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    /**
+     * 增加一个接口用例
+     * @interface /col/up_case
+     * @method POST
+     * @category col
+     * @foldnumber 10
+     * @param {number} id
+     * @param {String} casename
+     * @param {String} domain
+     * @param {String} path
+     * @param {String} method
+     * @param {Object} req_query
+     * @param {Object} req_headers
+     * @param {String} req_body_type
+     * @param {Array} req_body_form
+     * @param {String} req_body_other
+     * @returns {Object}
+     * @example
+     */
+
+    async upCase(ctx){
+        try{
+            let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                id: 'number',
+                casename: 'string',
+                domain: 'string',
+                method: 'string'
+            });
+
+            if (!params.id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '用例id不能为空');
+            }
+
+            if(!params.casename){
+                return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
+            }
+
+            let caseData = await this.caseModel.get(id);
+            let auth = await this.checkAuth(caseData.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
+
+            params.uid = this.getUid();
+
+            let result = await this.caseModel.up(params.id, params);
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -223,6 +288,13 @@ class interfaceColController extends baseController{
     async upCol(ctx){
         try{
             let params = ctx.request.body;
+            let id = params.col_id;
+            let colData = await this.colModel.get(id);
+            let auth = await this.checkAuth(colData.project_id, 'project', 'edit')
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
+
             let result = await this.colModel.up(params.col_id, {
                 name: params.name,
                 desc: params.desc,
