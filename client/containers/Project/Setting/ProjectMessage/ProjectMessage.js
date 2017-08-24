@@ -16,12 +16,12 @@ import '../Setting.scss';
 // layout
 const formItemLayout = {
   labelCol: {
-    lg: { span: 3 },
+    lg: { offset: 1, span: 3 },
     xs: { span: 24 },
     sm: { span: 6 }
   },
   wrapperCol: {
-    lg: { span: 21 },
+    lg: { span: 19 },
     xs: { span: 24 },
     sm: { span: 14 }
   },
@@ -323,12 +323,12 @@ class ProjectMessage extends Component {
     return (
       <div className="m-panel">
         <Row className="project-setting">
-          <Col sm={6} lg={3} className="setting-logo">
+          <Col xs={6} lg={{offset: 1, span: 3}} className="setting-logo">
             <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
               <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
             </Popover>
           </Col>
-          <Col sm={18} lg={21} className="setting-intro">
+          <Col xs={18} sm={15} lg={19} className="setting-intro">
             <h2 className="ui-title">{projectMsg.group_name + ' / ' + projectMsg.name}</h2>
             <p className="ui-desc">{projectMsg.desc}</p>
           </Col>
@@ -407,7 +407,7 @@ class ProjectMessage extends Component {
             {getFieldDecorator('desc', {
               initialValue: initFormValues.desc,
               rules: [{
-                required: false, message: '请输入描述!'
+                required: false, message: '描述不超过50字!', max: 50
               }]
             })(
               <TextArea rows={4} />
