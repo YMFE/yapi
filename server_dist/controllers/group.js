@@ -88,7 +88,7 @@ var groupController = function (_baseController) {
     (0, _createClass3.default)(groupController, [{
         key: 'get',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var params, groupInst, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -160,7 +160,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
                 var params, groupUserdata, groupInst, checkRepeat, data, result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -272,7 +272,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'getUserdata',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(uid, role) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(uid, role) {
                 var userInst, userData;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -333,7 +333,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'addMember',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(ctx) {
                 var params, groupInst, check, groupUserdata, result;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -446,7 +446,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'changeMemberRole',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
                 var params, groupInst, check, result;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -547,7 +547,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'getMemberList',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
                 var params, groupInst, group;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -611,7 +611,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'delMember',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
                 var params, groupInst, check, result;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
@@ -709,7 +709,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
                 var groupInst, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -762,7 +762,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
                 var _this2 = this;
 
                 var groupInst, projectInst, interfaceInst, interfaceColInst, interfaceCaseInst, _id, projectList, result;
@@ -802,7 +802,7 @@ var groupController = function (_baseController) {
                                 projectList = _context10.sent;
 
                                 projectList.forEach(function () {
-                                    var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(p) {
+                                    var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(p) {
                                         return _regenerator2.default.wrap(function _callee9$(_context9) {
                                             while (1) {
                                                 switch (_context9.prev = _context9.next) {
@@ -881,7 +881,7 @@ var groupController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
                 var groupInst, _id2, data, result;
 
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
