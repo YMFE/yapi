@@ -244,7 +244,7 @@ export default class GroupList extends Component {
           </div>
           <div className="group-operate">
             <div className="search">
-              <Search onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)}/>
+              <Search placeholder="Filter by name" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)}/>
             </div>
             {
               this.props.curUserRole === "admin"?(<Button type="primary" onClick={this.showModal}>添加分组</Button>):''

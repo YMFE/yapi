@@ -454,7 +454,7 @@ var interfaceController = function (_baseController) {
 
                                 item = result[i].toObject();
                                 _context5.next = 13;
-                                return this.Model.listByCatid(item._id, '_id title method');
+                                return this.Model.listByCatid(item._id, '_id title method path');
 
                             case 13:
                                 list = _context5.sent;

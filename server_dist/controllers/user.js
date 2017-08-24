@@ -271,7 +271,7 @@ var userController = function (_baseController) {
 
                                 if (login === true) {
                                     _yapi2.default.commons.log('login success');
-                                    ctx.redirect('/');
+                                    ctx.redirect('/group');
                                 }
                                 _context3.next = 16;
                                 break;
