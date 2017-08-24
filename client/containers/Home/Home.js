@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
-import { logoSVG } from '../../common.js';
+import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
 
 const HomeGuest = () => (
@@ -33,7 +33,7 @@ const HomeGuest = () => (
                 {logoSVG('72px')}
                 <span className="name">YAPI</span>
               </div>
-              <div className="detail">高效、易用、可部署的API管理平台<br/><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
+              <div className="detail">高效、易用、功能强大的API管理平台<br/><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
                 <Button className="btn-home btn-home-normal" id="qsso-login">QSSO 登录</Button>
@@ -42,7 +42,7 @@ const HomeGuest = () => (
           </Col>
           <Col span={15}>
             <div className="img-container">
-              <img className="img" src="./image/demo-img.jpg"/>
+              <img className="img" src={getImgPath('./image/demo-img', 'jpg')}/>
             </div>
           </Col>
         </Row>
@@ -55,18 +55,18 @@ const HomeGuest = () => (
         <Row key="feat-motion-row">
           <Col span={8} className="section-item" key="feat-wrapper-1">
             <Icon type="api" className="img" />
-            <h4 className="title">项目接口管理</h4>
+            <h4 className="title">项目管理</h4>
             <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
           </Col>
           <Col span={8} className="section-item" key="feat-wrapper-2">
             <Icon type="code-o" className="img" />
-            <h4 className="title">可部署</h4>
-            <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
+            <h4 className="title">接口管理</h4>
+            <span className="desc">友好的接口文档，基于websocket的多人协作接口编辑功能和类postman测试工具，让多人协作成倍提升开发效率</span>
           </Col>
           <Col span={8} className="section-item" key="feat-wrapper-3">
             <Icon type="team" className="img" />
-            <h4 className="title">用户管理</h4>
-            <span className="desc">提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录</span>
+            <h4 className="title">MockServer</h4>
+            <span className="desc">基于Mockjs，使用简单功能强大</span>
           </Col>
         </Row>
       </div>
@@ -101,7 +101,7 @@ const HomeGuest = () => (
           </Col>
           <Col span={12} className="section-card mock-after">
             <Card title="生成的 Mock 数据">
-              <p className="mock-desc">生成的 Mock 数据可以在线使用，也可以下载到本地使用。</p>
+              <p className="mock-desc">生成的 Mock 数据可以直接用 ajax 请求使用，也可以通过服务器代理使用（不需要修改项目一行代码）</p>
               <div className="code">
                 <ol start="1">
                   <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
