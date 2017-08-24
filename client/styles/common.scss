@@ -13,6 +13,9 @@ html, body {
   height: 100%;
   background: #ececec;
 }
+::selection {
+  background-color: #2395f1;
+}
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
   margin: 0;

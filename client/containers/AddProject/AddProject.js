@@ -147,7 +147,7 @@ class ProjectList extends Component {
           >
             {getFieldDecorator('desc', {
               rules: [{
-                required: false, message: '请输入描述!'
+                required: false, message: '描述不超过50字!', max: 50
               }]
             })(
               <TextArea rows={4} />
