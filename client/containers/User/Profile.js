@@ -3,6 +3,7 @@ import { Row, Col, Input, Button, Select, message, Upload} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 @connect(state=>{
@@ -252,52 +253,84 @@ class Profile extends Component {
         </ButtonGroup>
       </div>
     }
-
+    let bacToPer = "";
+    if(userinfo.uid != this.props.curUid){
+      bacToPer = <div className="bacToPer"><Link to={`/user/profile/${this.props.curUid}`}><Button onClick={()=>{this.getUserInfo(this.props.curUid)}}>返回到当前用户</Button></Link></div>
+    }
     return <div className="user-profile">
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
-        <Col span={4}>用户id</Col>
-        <Col span={12}>
-          {userinfo.uid}
-        </Col>
+      {
+        bacToPer
+      }
+      <Row  className="avatarCon" type="flex" justify="start">
+        <div className="m-bg">
+          <div className="m-bg-mask m-bg-mask0"></div>
+          <div className="m-bg-mask m-bg-mask1"></div>
+          <div className="m-bg-mask m-bg-mask2"></div>
+          <div className="m-bg-mask m-bg-mask3"></div>
+        </div>
+        <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
       </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>用户名</Col>
-        <Col span={12}>
-          {userNameEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item"  type="flex" justify="start">
-        <Col span={4}>Email</Col>
-        <Col span={12}>
-          {emailEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item" style={{display: this.props.curRole === 'admin'? '': 'none'}} type="flex" justify="start">
-        <Col span={4}>角色</Col>
-        <Col span={12}>
-          {roleEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>创建账号时间</Col>
-        <Col span={12}>
-          {formatTime(userinfo.add_time)}
-        </Col>
-      </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>更新账号时间</Col>
-        <Col span={12}>
-          {formatTime(userinfo.up_time)}
-        </Col>
-      </Row>
+      <div className="user-item-body">
+        <div className="user-item-mask-top"></div>
+        <div className="user-item-mask">
+          <div className="m-bg">
+            <div className="m-bg-mask m-bg-mask0"></div>
+            <div className="m-bg-mask m-bg-mask1"></div>
+            <div className="m-bg-mask m-bg-mask2"></div>
+            <div className="m-bg-mask m-bg-mask3"></div>
+          </div>
+        </div>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>用户id</Col>
+          <Col span={12}>
+            {userinfo.uid}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>用户名</Col>
+          <Col span={12}>
+            {userNameEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item"  type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>Email</Col>
+          <Col span={12}>
+            {emailEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item" style={{display: this.props.curRole === 'admin'? '': 'none'}} type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>角色</Col>
+          <Col span={12}>
+            {roleEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>创建账号时间</Col>
+          <Col span={12}>
+            {formatTime(userinfo.add_time)}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>更新账号时间</Col>
+          <Col span={12}>
+            {formatTime(userinfo.up_time)}
+          </Col>
+        </Row>
 
-      {(userType)?<Row className="user-item" type="flex" justify="start">
-        <Col span={4}>密码</Col>
-        <Col span={12}>
-          {secureEditHtml}
-        </Col>
-      </Row>:""}
+        {(userType)?<Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>密码</Col>
+          <Col span={12}>
+            {secureEditHtml}
+          </Col>
+        </Row>:""}
+      </div>
     </div>
   }
 }
@@ -342,7 +375,7 @@ class AvatarUpload extends Component {
         {/*<Avatar size="large" src={imageUrl}  />*/}
         <img className = "avatar" src = {imageUrl} />
       </Upload>
-      <span className="avatarChange">点击头像更换</span>
+      <span className="avatarChange">点击头像更换<br></br>只支持jpg、png格式且大小不超过200kb的图片</span>
     </div>
   }
 }
