@@ -60,3 +60,8 @@ exports.pickRandomProperty = (obj) => {
     if (Math.random() < 1/++count) result = prop;
   return result;
 }
+
+exports.getImgPath = (path, type) => {
+  let rate = window.devicePixelRatio >= 2 ? 2 : 1;
+  return `${path}@${rate}x.${type}`;
+}
