@@ -208,8 +208,8 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
             }
 
-            let caseData = await this.caseModel.get(id);
-            let auth = await this.checkAuth(caseData.project_id, 'project', 'edit')
+            let caseData = await this.caseModel.get(params.id);
+            let auth = await this.checkAuth(caseData.project_id, 'project', 'edit');
             if (!auth) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
