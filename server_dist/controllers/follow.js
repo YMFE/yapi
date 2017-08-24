@@ -40,6 +40,10 @@ var _follow = require('../models/follow');
 
 var _follow2 = _interopRequireDefault(_follow);
 
+var _project = require('../models/project');
+
+var _project2 = _interopRequireDefault(_project);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var followController = function (_baseController) {
@@ -51,6 +55,7 @@ var followController = function (_baseController) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (followController.__proto__ || (0, _getPrototypeOf2.default)(followController)).call(this, ctx));
 
         _this.Model = _yapi2.default.getInst(_follow2.default);
+        _this.projectModel = _yapi2.default.getInst(_project2.default);
         return _this;
     }
 
@@ -213,7 +218,7 @@ var followController = function (_baseController) {
         key: 'add',
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
-                var params, uid, checkRepeat, data, result;
+                var params, uid, checkRepeat, project, data, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -221,10 +226,7 @@ var followController = function (_baseController) {
                                 params = ctx.request.body;
 
                                 params = _yapi2.default.commons.handleParams(params, {
-                                    projectid: 'number',
-                                    projectname: 'string',
-                                    icon: 'string',
-                                    color: 'string'
+                                    projectid: 'number'
                                 });
 
                                 uid = this.getUid();
@@ -251,61 +253,42 @@ var followController = function (_baseController) {
                                 return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目已关注'));
 
                             case 10:
-                                if (params.projectname) {
-                                    _context3.next = 12;
-                                    break;
-                                }
+                                _context3.prev = 10;
+                                _context3.next = 13;
+                                return this.projectModel.get(params.projectid);
 
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目名不能为空'));
-
-                            case 12:
-                                if (params.icon) {
-                                    _context3.next = 14;
-                                    break;
-                                }
-
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目图标标志不能为空'));
-
-                            case 14:
-                                if (params.color) {
-                                    _context3.next = 16;
-                                    break;
-                                }
-
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目颜色不能为空'));
-
-                            case 16:
+                            case 13:
+                                project = _context3.sent;
                                 data = {
                                     uid: uid,
                                     projectid: params.projectid,
-                                    projectname: params.projectname,
-                                    icon: params.icon,
-                                    color: params.color
+                                    projectname: project.name,
+                                    icon: project.icon,
+                                    color: project.color
                                 };
-                                _context3.prev = 17;
-                                _context3.next = 20;
+                                _context3.next = 17;
                                 return this.Model.save(data);
 
-                            case 20:
+                            case 17:
                                 result = _context3.sent;
 
                                 result = _yapi2.default.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 28;
+                                _context3.next = 25;
                                 break;
 
-                            case 25:
-                                _context3.prev = 25;
-                                _context3.t0 = _context3['catch'](17);
+                            case 22:
+                                _context3.prev = 22;
+                                _context3.t0 = _context3['catch'](10);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
-                            case 28:
+                            case 25:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[17, 25]]);
+                }, _callee3, this, [[10, 22]]);
             }));
 
             function add(_x3) {
