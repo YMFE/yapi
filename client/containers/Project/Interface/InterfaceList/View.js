@@ -178,6 +178,25 @@ class View extends Component {
         })
       })
     }
+    const req_dataSource = [];
+    if(this.props.curData.req_params&&this.props.curData.req_params.length){
+      this.props.curData.req_params.map((item,i)=>{
+        req_dataSource.push({
+          key: i,
+          name: item.name,
+          value: item.desc
+        })
+      })
+    }
+    const req_params_columns = [{
+      title: '参数名称',
+      dataIndex: 'name',
+      key: 'name'
+    },{
+      title: '备注',
+      dataIndex: 'value',
+      key: 'value'
+    }];
     
     const columns = [{
       title: '参数名称',
@@ -259,6 +278,10 @@ class View extends Component {
       {this.props.curData.desc?<div className="colDesc">
         <span className="colKey">接口描述：</span>
         <span className="colValue">{this.props.curData.desc}</span>
+      </div>:""}
+      {req_dataSource.length?<div className="colHeader">
+        <span className="colKey">路径参数：</span>
+        <Table bordered size="small" pagination = {false} columns= {req_params_columns} dataSource = {req_dataSource} />
       </div>:""}
       {dataSource.length?<div className="colHeader">
         <span className="colKey">请求Headers：</span>
