@@ -71,7 +71,7 @@
       z-index: 3;
     }
     .user-item-body{
-      width: 80%;
+      width: 95%;
       margin: 0px auto;
       padding: 32px;
       position: relative;
@@ -144,6 +144,7 @@
         margin-right: 30px;
         white-space: nowrap;
         text-align: right;
+        width: 130px;
       }
       .text{
         padding-right: 15px;
@@ -181,6 +182,7 @@
     height: 100px;
     background-color: white;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-left: 60px;
     img{
       width: 100%;
     }
@@ -196,7 +198,7 @@
   .avatar-box{
     width: 100px;
     position: relative;
-    // margin-left: 160px;
+    margin-left: 60px;
   }
   .avatarCon{
     // background: gray;
