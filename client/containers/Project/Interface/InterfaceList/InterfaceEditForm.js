@@ -16,7 +16,7 @@ const dataTpl = {
   req_query: { name: "", required: "1", desc: "" },
   req_headers: { name: "", required: "1", desc: "" },
   req_params: { name: "", desc: "" },
-  req_body_form: {name: "", type: "text", required: "1", desc: ""}
+  req_body_form: { name: "", type: "text", required: "1", desc: "" }
 }
 
 const mockEditor = require('./mockEditor.js');
@@ -46,6 +46,7 @@ class InterfaceEditForm extends Component {
         return item
       })
     }
+
     this.state = Object.assign({
       title: '',
       path: '',
@@ -59,7 +60,7 @@ class InterfaceEditForm extends Component {
         desc: '',
         required: "1"
       }],
-      
+
       req_headers: [{
         name: '',
         value: '', required: "1"
@@ -79,14 +80,13 @@ class InterfaceEditForm extends Component {
       res_body_mock: '',
       mockUrl: this.props.mockUrl
     }, curdata)
-
-
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values)
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.req_params = this.state.req_params;
         values.req_body_other = this.state.req_body_other;
@@ -111,26 +111,26 @@ class InterfaceEditForm extends Component {
               value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
             })
           }
-        }else if(values.req_body_type === 'json'){
+        } else if (values.req_body_type === 'json') {
           values.req_headers.map((item) => {
             if (item.name === 'Content-Type') {
               item.value = 'application/json'
               isHavaContentType = true;
             }
           })
-          if(isHavaContentType === false){
+          if (isHavaContentType === false) {
             values.req_headers.unshift({
               name: 'Content-Type',
               value: 'application/json'
             })
           }
         }
-        values.req_headers = values.req_headers ?values.req_headers.filter((item) => item.name !== '') : []
-        values.req_body_form = values.req_body_form ?  values.req_body_form.filter((item) => item.name !== ''): []
-        values.req_params = values.req_params ?  values.req_params.filter(item => item.name !== ''): []
-        values.req_query = values.req_query ?  values.req_query.filter(item => item.name !== ''): []
+        values.req_headers = values.req_headers ? values.req_headers.filter((item) => item.name !== '') : []
+        values.req_body_form = values.req_body_form ? values.req_body_form.filter((item) => item.name !== '') : []
+        values.req_params = values.req_params ? values.req_params.filter(item => item.name !== '') : []
+        values.req_query = values.req_query ? values.req_query.filter(item => item.name !== '') : []
 
-        if(HTTP_METHOD[values.method].request_body !== true){
+        if (HTTP_METHOD[values.method].request_body !== true) {
           values.req_params = []
         }
         this.props.onSubmit(values)
@@ -211,7 +211,7 @@ class InterfaceEditForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
     };
-    
+
     const queryTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
         <Col span="4">
@@ -384,7 +384,15 @@ class InterfaceEditForm extends Component {
         <FormItem
           className="interface-edit-item"
           {...formItemLayout}
-          label="接口路径"
+          label={(
+            <span>
+              接口路径&nbsp;
+              <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
+                <Icon type="question" style={{ width: "10px" }} />
+              </Tooltip>
+
+            </span>
+          )}
         >
           <InputGroup compact>
             <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
@@ -393,7 +401,7 @@ class InterfaceEditForm extends Component {
               })}
             </Select>
 
-            <Tooltip title="接口基本路径，可在项目配置里修改" style={{display: this.props.basepath == '' ? 'block': 'none'}}>
+            <Tooltip title="接口基本路径，可在项目配置里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
               <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
             </Tooltip>
             {getFieldDecorator('path', {
@@ -402,9 +410,7 @@ class InterfaceEditForm extends Component {
                 required: true, message: '清输入接口路径!'
               }]
             })(
-              <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
-                <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
-              </Tooltip>
+              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
               )}
           </InputGroup>
           <Row className="interface-edit-item">
