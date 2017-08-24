@@ -148,7 +148,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var params, checkRepeat, data, result, colInst, catInst, username;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -321,7 +321,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'addMember',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
                 var params, check, userdata, result, username;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -444,7 +444,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'delMember',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
                 var params, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -548,7 +548,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getUserdata',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(uid, role) {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(uid, role) {
                 var userInst, userData;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -606,7 +606,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getMemberList',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
                 var params, project;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -668,7 +668,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'get',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
                 var params, result, catInst, cat;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -753,7 +753,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
                 var group_id, auth, result, follow, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
@@ -853,7 +853,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
                 var id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -946,7 +946,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'changeMemberRole',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
                 var params, projectInst, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -1068,7 +1068,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
                 var id, data, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
@@ -1147,7 +1147,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
                 var id, params, projectData, checkRepeat, data, result, username;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
@@ -1294,8 +1294,8 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var id, data, result;
+            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(ctx) {
+                var id, data, auth, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
@@ -1314,36 +1314,50 @@ var projectController = function (_baseController) {
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
                             case 6:
-                                _context12.prev = 6;
-                                _context12.next = 9;
+                                _context12.next = 8;
+                                return this.checkAuth(id, 'project', 'danger');
+
+                            case 8:
+                                auth = _context12.sent;
+
+                                if (auth) {
+                                    _context12.next = 11;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
+
+                            case 11:
+                                _context12.prev = 11;
+                                _context12.next = 14;
                                 return this.Model.up(id, data);
 
-                            case 9:
+                            case 14:
                                 result = _context12.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context12.next = 16;
+                                _context12.next = 21;
                                 break;
 
-                            case 13:
-                                _context12.prev = 13;
-                                _context12.t0 = _context12['catch'](6);
+                            case 18:
+                                _context12.prev = 18;
+                                _context12.t0 = _context12['catch'](11);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context12.t0.message);
 
-                            case 16:
+                            case 21:
                                 try {
                                     this.followModel.updateById(this.getUid(), id, data).then();
                                 } catch (e) {
                                     _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
                                 }
 
-                            case 17:
+                            case 22:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[6, 13]]);
+                }, _callee12, this, [[11, 18]]);
             }));
 
             function upSet(_x13) {
@@ -1367,7 +1381,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'search',
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
+            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(ctx) {
                 var q, projectList, groupList, projectRules, groupRules, queryList;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
@@ -1442,7 +1456,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'download',
         value: function () {
-            var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
+            var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(ctx) {
                 var project_id, interfaceInst, count, arr, fileName, res;
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                     while (1) {

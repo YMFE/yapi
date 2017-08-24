@@ -39,3 +39,4 @@ prd/
 dev/
 .tags
 .tags1
+tsconfig.json

@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from "prop-types";
+import { withRouter } from 'react-router';
 import { logoSVG } from '../../common.js';
-
-// import Intro from '../../components/Intro/Intro'
 import { changeMenuItem } from '../../reducer/modules/menu'
-import { OverPack } from 'rc-scroll-anim'
-import TweenOne from 'rc-tween-one'
-import QueueAnim from 'rc-queue-anim';
-
-const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 
 const HomeGuest = () => (
   <div className="g-body">
@@ -42,7 +36,7 @@ const HomeGuest = () => (
               <div className="detail">高效、易用、可部署的API管理平台<br/><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                <Button className="btn-home btn-qsso" id="qsso-login">QSSO 登录</Button>
+                <Button className="btn-home btn-home-normal" id="qsso-login">QSSO 登录</Button>
               </div>
             </div>
           </Col>
@@ -56,43 +50,25 @@ const HomeGuest = () => (
     </div>
     <div className="feat-part section-feature">
       <div className="container home-section">
-        <OverPack
-          playScale={[0.2,0.1]}
-        >
-          <TweenOne
-            key="feat-motion-one"
-            animation={oneAnim}
-          >
-            <h3 className="title">为API开发者设计的管理平台</h3>
-            <span className="desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</span>
-          </TweenOne>
-          <Row key="feat-motion-row">
-            <QueueAnim
-              delay = {200}
-              interval ={200}
-              leaveReverse={true}
-              ease = 'easeOutQuad'
-              animConfig ={{ opacity:[1,0],y: '+=30' }}
-              key="feat-motion-queue"
-            >
-              <Col span={8} className="section-item" key="feat-wrapper-1">
-                <Icon type="api" className="img" />
-                <h4 className="title">项目接口管理</h4>
-                <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
-              </Col>
-              <Col span={8} className="section-item" key="feat-wrapper-2">
-                <Icon type="code-o" className="img" />
-                <h4 className="title">可部署</h4>
-                <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
-              </Col>
-              <Col span={8} className="section-item" key="feat-wrapper-3">
-                <Icon type="team" className="img" />
-                <h4 className="title">用户管理</h4>
-                <span className="desc">提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录</span>
-              </Col>
-            </QueueAnim>
-          </Row>
-        </OverPack>
+        <h3 className="title">为API开发者设计的管理平台</h3>
+        <span className="desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</span>
+        <Row key="feat-motion-row">
+          <Col span={8} className="section-item" key="feat-wrapper-1">
+            <Icon type="api" className="img" />
+            <h4 className="title">项目接口管理</h4>
+            <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
+          </Col>
+          <Col span={8} className="section-item" key="feat-wrapper-2">
+            <Icon type="code-o" className="img" />
+            <h4 className="title">可部署</h4>
+            <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
+          </Col>
+          <Col span={8} className="section-item" key="feat-wrapper-3">
+            <Icon type="team" className="img" />
+            <h4 className="title">用户管理</h4>
+            <span className="desc">提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录</span>
+          </Col>
+        </Row>
       </div>
     </div>
     <div className="feat-part m-mock m-skew home-section">
@@ -110,15 +86,15 @@ const HomeGuest = () => (
               <p className="mock-desc">通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
               <div className="code">
                 <ol start="1">
-                  <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;<span className="number">200</span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
-                  <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
+                  <li className="item"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;<span className="number">200</span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
+                  <li className="item"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
                 </ol>
               </div>
             </Card>
@@ -146,7 +122,7 @@ const HomeGuest = () => (
     </div>
     <div className="home-section section-manage">
       <div className="container">
-        <Row className="row-card">
+        <Row className="row-card" style={{marginBottom: '.48rem'}}>
           <Col span={7} className="section-card">
             <Card>
               <div className="section-block block-first">
@@ -191,7 +167,7 @@ HomeGuest.propTypes ={
     changeMenuItem
   }
 )
-
+@withRouter
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -202,6 +178,7 @@ class Home extends Component {
   static propTypes = {
     introList: PropTypes.array,
     login : PropTypes.bool,
+    history: PropTypes.object,
     changeMenuItem : PropTypes.func
   }
   toStart = () =>{
@@ -211,21 +188,21 @@ class Home extends Component {
     const { login } = this.props;
     return (
       <div className="home-main">
-        {login?
-          (
-            <div className="user-home">
-              <div className="user-des">
-                <p className="title">YAPI</p>
-                <p className="des">一个高效，易用，可部署的Api管理系统</p>
-                <div className="btn">
-                  <Button type="primary" size="large">
-                    <Link to="/group" onClick={this.toStart}>开始</Link>
-                  </Button>
-                </div>
+        {login? this.props.history.push('/group') : <HomeGuest introList={this.props.introList}/>}
+        <div className="row-tip">
+          <div className="container">
+            <div className="tip-title">
+              <h3 className="title">准备好使用了吗？</h3>
+              <p className="desc">注册账号尽请使用吧，查看使用文档了解更多信息</p>
+            </div>
+            <div className="tip-btns">
+              <div className="btn-group">
+                <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
+                <Button className="btn-home btn-home-normal"><a target="_blank" href="/doc/index.html" >使用文档</a></Button>
               </div>
             </div>
-          )
-          : <HomeGuest introList={this.props.introList}/>}
+          </div>
+        </div>
       </div>
     )
   }
