@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Input, Button, Select, message, Upload} from 'antd'
+import { Row, Col, Input, Button, Select, message, Upload, Tooltip} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
@@ -365,17 +365,21 @@ class AvatarUpload extends Component {
     // console.log(this.props.uid);
     
     return <div className="avatar-box">
-      <Upload
-        className="avatar-uploader"
-        name="basecode"
-        showUploadList={false}
-        action="/api/user/upload_avatar"
-        beforeUpload={beforeUpload}
-        onChange={this.handleChange.bind(this)} >
-        {/*<Avatar size="large" src={imageUrl}  />*/}
-        <img className = "avatar" src = {imageUrl} />
-      </Upload>
-      <span className="avatarChange">点击头像更换<br></br>只支持jpg、png格式且大小不超过200kb的图片</span>
+      <Tooltip placement="left" title={<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>}>
+        <div>
+          <Upload
+            className="avatar-uploader"
+            name="basecode"
+            showUploadList={false}
+            action="/api/user/upload_avatar"
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange.bind(this)} >
+            {/*<Avatar size="large" src={imageUrl}  />*/}
+            <img className = "avatar" src = {imageUrl} />
+          </Upload>
+        </div>
+      </Tooltip>
+      <span className="avatarChange"></span>
     </div>
   }
 }

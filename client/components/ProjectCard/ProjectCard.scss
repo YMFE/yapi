@@ -11,11 +11,18 @@
     .m-card, .card-btns {
       transform: translateY(-4px);
     }
+    .m-card .ant-card-body {
+      box-shadow: 0 4px 8px rgba(50, 50, 93, 0.11), 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
   }
   &:active {
     .m-card, .card-btns {
       transform: translateY(4px);
     }
+  }
+  // 覆盖 card 组件 hover 状态的默认阴影样式
+  .ant-card:not(.ant-card-no-hovering):hover {
+    box-shadow: none;
   }
   // 卡片右上角按钮
   .card-btns {
@@ -47,6 +54,7 @@
     border-radius: 4px;
     padding-top: .24rem + .16rem + 1rem;
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    transition: all .2s;
   }
   .ui-logo {
     width: 1rem;

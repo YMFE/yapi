@@ -21,7 +21,7 @@ class interfaceColController extends baseController{
      * @example
      */
     async list(ctx){
-        try {
+        try {   
             let id = ctx.query.project_id;
             let result = await this.colModel.list(id);
 

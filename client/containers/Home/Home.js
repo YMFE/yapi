@@ -8,11 +8,8 @@ import { logoSVG } from '../../common.js';
 
 // import Intro from '../../components/Intro/Intro'
 import { changeMenuItem } from '../../reducer/modules/menu'
-import { OverPack } from 'rc-scroll-anim'
-import TweenOne from 'rc-tween-one'
-import QueueAnim from 'rc-queue-anim';
 
-const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
+// const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 
 const HomeGuest = () => (
   <div className="g-body">
@@ -56,43 +53,25 @@ const HomeGuest = () => (
     </div>
     <div className="feat-part section-feature">
       <div className="container home-section">
-        <OverPack
-          playScale={[0.2,0.1]}
-        >
-          <TweenOne
-            key="feat-motion-one"
-            animation={oneAnim}
-          >
-            <h3 className="title">为API开发者设计的管理平台</h3>
-            <span className="desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</span>
-          </TweenOne>
-          <Row key="feat-motion-row">
-            <QueueAnim
-              delay = {200}
-              interval ={200}
-              leaveReverse={true}
-              ease = 'easeOutQuad'
-              animConfig ={{ opacity:[1,0],y: '+=30' }}
-              key="feat-motion-queue"
-            >
-              <Col span={8} className="section-item" key="feat-wrapper-1">
-                <Icon type="api" className="img" />
-                <h4 className="title">项目接口管理</h4>
-                <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
-              </Col>
-              <Col span={8} className="section-item" key="feat-wrapper-2">
-                <Icon type="code-o" className="img" />
-                <h4 className="title">可部署</h4>
-                <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
-              </Col>
-              <Col span={8} className="section-item" key="feat-wrapper-3">
-                <Icon type="team" className="img" />
-                <h4 className="title">用户管理</h4>
-                <span className="desc">提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录</span>
-              </Col>
-            </QueueAnim>
-          </Row>
-        </OverPack>
+        <h3 className="title">为API开发者设计的管理平台</h3>
+        <span className="desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</span>
+        <Row key="feat-motion-row">
+          <Col span={8} className="section-item" key="feat-wrapper-1">
+            <Icon type="api" className="img" />
+            <h4 className="title">项目接口管理</h4>
+            <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
+          </Col>
+          <Col span={8} className="section-item" key="feat-wrapper-2">
+            <Icon type="code-o" className="img" />
+            <h4 className="title">可部署</h4>
+            <span className="desc">用户只需配置接口的基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务</span>
+          </Col>
+          <Col span={8} className="section-item" key="feat-wrapper-3">
+            <Icon type="team" className="img" />
+            <h4 className="title">用户管理</h4>
+            <span className="desc">提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录</span>
+          </Col>
+        </Row>
       </div>
     </div>
     <div className="feat-part m-mock m-skew home-section">
@@ -110,15 +89,15 @@ const HomeGuest = () => (
               <p className="mock-desc">通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
               <div className="code">
                 <ol start="1">
-                  <li className="alt"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;<span className="number">200</span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
-                  <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
+                  <li className="item"><span className="orderNum orderNum-first">1</span><span><span>&#123;&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">2</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errcode|200-500&quot;</span><span>:&ensp;<span className="number">200</span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
+                  <li className="item"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
                 </ol>
               </div>
             </Card>
@@ -146,7 +125,7 @@ const HomeGuest = () => (
     </div>
     <div className="home-section section-manage">
       <div className="container">
-        <Row className="row-card">
+        <Row className="row-card" style={{marginBottom: '.48rem'}}>
           <Col span={7} className="section-card">
             <Card>
               <div className="section-block block-first">

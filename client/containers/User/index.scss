@@ -28,7 +28,6 @@
   }
   .user-name{
     padding: .24rem;
-    // text-align: center;
     background-color: #34495e;
     color: white;
     font-size: 18px;
@@ -60,7 +59,6 @@
 
   .user-profile {
     -webkit-box-flex: 1;
-    padding: 32px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius: .04rem;
@@ -68,14 +66,16 @@
     position: relative;
     .bacToPer{
       position: absolute;
-      right: 40px;
-      top: 40px;
+      right: 8px;
+      top: 8px;
       z-index: 3;
     }
     .user-item-body{
+      width: 80%;
+      margin: 0px auto;
       padding: 32px;
-      background-color: #ececec;
       position: relative;
+      // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.3), 0 1px 3px rgba(0, 0, 0, 0.01);
       .user-item-mask-top{
         position: absolute;
         top: 0px;
@@ -100,9 +100,9 @@
         position: relative;
         z-index: 3;
         padding: 8px 0px;
+        
         .maoboli{
-          background-color: rgba(225,225,225,0.60);
-          // filter: blur(3px);
+          background-color: rgba(225,225,225,0.16);
           position: absolute;
           width: 100%;
           height: 100%;
@@ -119,7 +119,6 @@
       margin: 5px;
       margin-left: 0px;
       margin-bottom: 16px;
-      // border-bottom: 1px solid #f1f3f6;
       padding-bottom: 16px;
       font-size: 14px;
       #old_password,#password,#verify_pass{
@@ -135,11 +134,9 @@
         }
       }
       .ant-col-4{
-        color: rgba(0,0,0,0.85);
+        color: rgba(0,0,0,0.66);
         padding: 0px 16px;
         text-indent: .7em;
-        // background-color: #f1f3f6;
-        border-left: 4px solid #f1f3f6;
         margin-right: 30px;
         white-space: nowrap;
       }
@@ -147,7 +144,6 @@
         padding-right: 15px;
       }
       .text-button{
-        // font-size: 12px;
         color: #657289;
         cursor: pointer
       }
@@ -160,6 +156,7 @@
   }
   .avatar-uploader{
     border: none;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
   }
   .avatar-uploader,
   .avatar-uploader-trigger{
@@ -171,7 +168,6 @@
   .avatar{
     width: 100px;
     min-height: 100px;
-    // border-radius: 50px;
   }
   .avatarImg{
     width: 100px;
@@ -180,6 +176,7 @@
     height: 100px;
     background-color: white;
     margin: 0px auto;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
     img{
       width: 100%;
     }
@@ -195,6 +192,7 @@
   .avatar-box{
     width: 100px;
     margin: 0px auto;
+    position: relative;
   }
   .avatarCon{
     background: gray;
@@ -257,6 +255,8 @@
     padding: 8px;
     margin-left: -100px;
     color: #ececec;
+    position: absolute;
+    top: 0px;
   }
 
 
