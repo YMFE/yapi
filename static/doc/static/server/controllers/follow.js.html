@@ -28,11 +28,13 @@
                 import yapi from '../yapi.js';
 import baseController from './base.js';
 import followModel from '../models/follow';
+import projectModel from '../models/project';
 
 class followController extends baseController {
     constructor(ctx) {
         super(ctx);
         this.Model = yapi.getInst(followModel);
+        this.projectModel = yapi.getInst(projectModel);
     }
 
     /**
@@ -116,13 +118,10 @@ class followController extends baseController {
     async add(ctx) {
         let params = ctx.request.body;
         params = yapi.commons.handleParams(params, {
-            projectid: 'number',
-            projectname: 'string',
-            icon: 'string',
-            color: 'string'
+            projectid: 'number'
         });
 
-        let uid = this.getUid()
+        let uid = this.getUid();
 
         if (!params.projectid) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
@@ -134,25 +133,15 @@ class followController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 401, '项目已关注');
         }
 
-        if (!params.projectname) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目名不能为空');
-        }
-        if (!params.icon) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目图标标志不能为空');
-        }
-        if (!params.color) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目颜色不能为空');
-        }
-
-        let data = {
-            uid: uid,
-            projectid: params.projectid,
-            projectname: params.projectname,
-            icon: params.icon,
-            color: params.color
-        };
-
         try {
+            let project = await this.projectModel.get(params.projectid);
+            let data = {
+                uid: uid,
+                projectid: params.projectid,
+                projectname: project.name,
+                icon: project.icon,
+                color: project.color
+            };
             let result = await this.Model.save(data);
             result = yapi.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
             ctx.body = yapi.commons.resReturn(result);
