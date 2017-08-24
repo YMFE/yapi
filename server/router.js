@@ -313,6 +313,10 @@ const routerConfig = {
 		path: "add_case",
 		method: "post"
 	},{
+		action: "upCase",
+		path: "up_case",
+		method: "post"
+	},{
 		action: "getCase",
 		path: "case",
 		method: "get"

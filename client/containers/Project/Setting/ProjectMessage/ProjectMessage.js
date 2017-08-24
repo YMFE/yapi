@@ -140,22 +140,22 @@ class ProjectMessage extends Component {
   showConfirm = () => {
     let that = this;
     confirm({
-      title: "确认删除 "+that.props.projectMsg.name+" 分组吗？",
-      content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
-        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner/>
-        <div style={{marginTop: '15px'}}>
-          <p style={{marginBottom: '8px'}}><b>请输入项目名称确认此操作:</b></p>
+      title: "确认删除 " + that.props.projectMsg.name + " 分组吗？",
+      content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
+        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner />
+        <div style={{ marginTop: '15px' }}>
+          <p style={{ marginBottom: '8px' }}><b>请输入项目名称确认此操作:</b></p>
           <Input id="project_name" size="large" />
         </div>
       </div>,
       onOk() {
         let groupName = document.getElementById('project_name').value;
-        if(that.props.projectMsg.name !== groupName){
+        if (that.props.projectMsg.name !== groupName) {
           message.error('分组名称有误')
-          return new Promise((resolve, reject)=>{
+          return new Promise((resolve, reject) => {
             reject('error')
           })
-        }else{
+        } else {
           that.props.delProject(that.props.projectId).then((res) => {
             if (res.payload.data.errcode == 0) {
               message.success('删除成功!');
@@ -197,9 +197,10 @@ class ProjectMessage extends Component {
     });
   }
 
-  render () {
+  render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { projectMsg } = this.props;
+    const mockUrl =  location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`
     let initFormValues = {};
     let envMessage = [];
     const { name, basepath, desc, env, project_type } = projectMsg;
@@ -311,12 +312,12 @@ class ProjectMessage extends Component {
     const colorArr = Object.entries(constants.PROJECT_COLOR);
     const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
       {colorArr.map((item, index) => {
-        return (<RadioButton key={index} value={item[0]} style={{backgroundColor: item[1], color: '#fff', fontWeight: 'bold'}}>{item[0] === projectMsg.color ? <Icon type="check" /> : null}</RadioButton>);
+        return (<RadioButton key={index} value={item[0]} style={{ backgroundColor: item[1], color: '#fff', fontWeight: 'bold' }}>{item[0] === projectMsg.color ? <Icon type="check" /> : null}</RadioButton>);
       })}
     </RadioGroup>);
     const iconSelector = (<RadioGroup onChange={this.changeProjectIcon} value={projectMsg.icon} className="icon">
       {constants.PROJECT_ICON.map((item) => {
-        return (<RadioButton key={item} value={item} style={{fontWeight: 'bold'}}><Icon type={item} /></RadioButton>);
+        return (<RadioButton key={item} value={item} style={{ fontWeight: 'bold' }}><Icon type={item} /></RadioButton>);
       })}
     </RadioGroup>);
     return (
@@ -334,6 +335,13 @@ class ProjectMessage extends Component {
         </Row>
         <hr className="breakline" />
         <Form>
+          <FormItem
+            {...formItemLayout}
+            label="项目ID"
+          >
+            <span >{this.props.projectMsg._id}</span>
+
+          </FormItem>
           <FormItem
             {...formItemLayout}
             label="项目名称"
@@ -359,7 +367,7 @@ class ProjectMessage extends Component {
             {...formItemLayout}
             label={(
               <span>
-                基本路径&nbsp;
+                接口基本路径&nbsp;
                 <Tooltip title="基本路径为空表示根路径">
                   <Icon type="question-circle-o" />
                 </Tooltip>
@@ -369,11 +377,27 @@ class ProjectMessage extends Component {
             {getFieldDecorator('basepath', {
               initialValue: initFormValues.basepath,
               rules: [{
-                required: false, message: '请输入项目基本路径! '
+                required: false, message: '请输入基本路径! '
               }]
             })(
               <Input />
               )}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label={(
+              <span>
+                MOCK地址&nbsp;
+                <Tooltip title="具体使用方法请查看文档">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}
+          >
+
+            <Input disabled value={mockUrl} onChange={()=>{}} />
+
           </FormItem>
 
           <FormItem
@@ -419,7 +443,7 @@ class ProjectMessage extends Component {
                   <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
                 </Radio>
               </RadioGroup>
-            )}
+              )}
           </FormItem>
         </Form>
         <Affix offsetBottom={0}>
