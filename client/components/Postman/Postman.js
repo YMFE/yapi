@@ -54,7 +54,10 @@ export default class Run extends Component {
   }
 
   componentDidMount() {
-    this.loadBodyEditor()
+    const { bodyType } = this.state;
+    if(bodyType !== 'file' && bodyType !== 'form') {
+      this.loadBodyEditor()
+    }
   }
 
   @autobind
@@ -105,6 +108,10 @@ export default class Run extends Component {
       currDomain: domain || (env[0] && env[0].domain),
       bodyType: req_body_type || 'form',
       loading: false
+    }, () => {
+      if(req_body_type !== 'file' && req_body_type !== 'form') {
+        this.loadBodyEditor()
+      }
     });
   }
 
@@ -507,7 +514,7 @@ export default class Run extends Component {
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <div>BODY</div>
                   <div onClick={e => e.stopPropagation()} style={{marginRight: 5}}>
-                    <Select defaultValue={bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'hidden'}>
+                    <Select value={bodyType !== 'form' && bodyType !== 'file' ? 'text' : bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'hidden'}>
                       <Option value="text">Text</Option>
                       <Option value="file">File</Option>
                       <Option value="form">Form</Option>
