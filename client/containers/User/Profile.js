@@ -3,7 +3,7 @@ import { Row, Col, Input, Button, Select, message, Upload, Tooltip} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 @connect(state=>{
@@ -40,7 +40,19 @@ class Profile extends Component {
   }
 
   componentDidMount(){
-    const uid = this.props.match.params.uid;
+    this._uid = this.props.match.params.uid;
+    this.handleUserinfo(this.props)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(!nextProps.match.params.uid) return;
+    if(this._uid !== nextProps.match.params.uid){
+      this.handleUserinfo(nextProps)
+    }
+  }
+
+  handleUserinfo(props){
+    const uid = props.match.params.uid;
     this.getUserInfo(uid)
   }
 
@@ -253,33 +265,13 @@ class Profile extends Component {
         </ButtonGroup>
       </div>
     }
-    let bacToPer = "";
-    if(userinfo.uid != this.props.curUid){
-      bacToPer = <div className="bacToPer"><Link to={`/user/profile/${this.props.curUid}`}><Button onClick={()=>{this.getUserInfo(this.props.curUid)}}>返回到当前用户</Button></Link></div>
-    }
     return <div className="user-profile">
-      {
-        bacToPer
-      }
-      <Row  className="avatarCon" type="flex" justify="start">
-        <div className="m-bg">
-          <div className="m-bg-mask m-bg-mask0"></div>
-          <div className="m-bg-mask m-bg-mask1"></div>
-          <div className="m-bg-mask m-bg-mask2"></div>
-          <div className="m-bg-mask m-bg-mask3"></div>
-        </div>
-        <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
-      </Row>
       <div className="user-item-body">
-        {/*<div className="user-item-mask-top"></div>
-        <div className="user-item-mask">
-          <div className="m-bg">
-            <div className="m-bg-mask m-bg-mask0"></div>
-            <div className="m-bg-mask m-bg-mask1"></div>
-            <div className="m-bg-mask m-bg-mask2"></div>
-            <div className="m-bg-mask m-bg-mask3"></div>
-          </div>
-        </div>*/}
+        {userinfo.uid === this.props.curUid?<h3>个人设置</h3>:<h3>{userinfo.username} 资料设置</h3>}
+        
+        <Row  className="avatarCon" type="flex" justify="start">
+          <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
+        </Row>
         <Row className="user-item" type="flex" justify="start">
           <div className="maoboli"></div>
           <Col span={4}>用户id</Col>
@@ -365,7 +357,7 @@ class AvatarUpload extends Component {
     // console.log(this.props.uid);
     
     return <div className="avatar-box">
-      <Tooltip placement="left" title={<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>}>
+      <Tooltip placement="right" title={<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>}>
         <div>
           <Upload
             className="avatar-uploader"

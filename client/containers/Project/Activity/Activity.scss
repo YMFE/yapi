@@ -80,14 +80,15 @@
         margin-left: 40px;
         padding: 0px;
         padding-bottom: 16px;
-        min-width: 300px;
-        max-width: 600px;
+        // min-width: 300px;
+        // max-width: 600px;
+        width: 625px;
         border-radius: 8px;
         
         .logMesHeade{
           color: white;
           padding: 16px 8px 8px 8px;
-          background-color: gray;
+          background-color: rgba(35, 149, 241, 0.88);
           border-top-left-radius: 8px;
           border-top-right-radius: 8px;
         }
@@ -107,7 +108,7 @@
         padding: 0px;
         .ant-timeline-item-content{
           padding: 0px;
-          min-width: auto;
+          width: auto;
           margin-top: 15px;
           .loggetMore{
             margin: 0px;
