@@ -82,11 +82,11 @@ export default class Run extends Component {
 
   render () {
     const { currInterface, currProject } = this.props;
-    const data = Object.assign({}, currInterface, currProject)
+    const data = Object.assign({}, currInterface, currProject, {_id: currInterface._id})
 
     return (
       <div>
-        <Postman data={data} save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
+        <Postman data={data} saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
           onCancel={() => this.setState({saveCaseModalVisible: false})}

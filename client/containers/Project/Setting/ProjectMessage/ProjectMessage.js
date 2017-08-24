@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Affix } from 'antd';
 import PropTypes from 'prop-types';
-import { updateProject, delProject, getProjectMsg } from '../../../../reducer/modules/project';
+import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
@@ -9,9 +9,10 @@ import { withRouter } from 'react-router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const RadioButton = Radio.Button;
+import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
 import '../Setting.scss';
-
 // layout
 const formItemLayout = {
   labelCol: {
@@ -39,7 +40,8 @@ let uuid = 0; // 环境配置的计数
     updateProject,
     delProject,
     getProjectMsg,
-    fetchGroupMsg
+    fetchGroupMsg,
+    upsetProject
   }
 )
 @withRouter
@@ -60,6 +62,7 @@ class ProjectMessage extends Component {
     getProjectMsg: PropTypes.func,
     history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
+    upsetProject: PropTypes.func,
     projectList: PropTypes.array,
     projectMsg: PropTypes.object
   }
@@ -90,6 +93,7 @@ class ProjectMessage extends Component {
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
             message.success('修改成功! ');
+            // this.props.history.push('/group');
           } else {
             message.error(res.payload.data.errmsg);
           }
@@ -136,22 +140,22 @@ class ProjectMessage extends Component {
   showConfirm = () => {
     let that = this;
     confirm({
-      title: "确认删除 "+that.props.projectMsg.name+" 分组吗？",
-      content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
-        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner/>
-        <div style={{marginTop: '15px'}}>
-          <p style={{marginBottom: '8px'}}><b>请输入项目名称确认此操作:</b></p>
+      title: "确认删除 " + that.props.projectMsg.name + " 分组吗？",
+      content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
+        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner />
+        <div style={{ marginTop: '15px' }}>
+          <p style={{ marginBottom: '8px' }}><b>请输入项目名称确认此操作:</b></p>
           <Input id="project_name" size="large" />
         </div>
       </div>,
       onOk() {
         let groupName = document.getElementById('project_name').value;
-        if(that.props.projectMsg.name !== groupName){
+        if (that.props.projectMsg.name !== groupName) {
           message.error('分组名称有误')
-          return new Promise((resolve, reject)=>{
+          return new Promise((resolve, reject) => {
             reject('error')
           })
-        }else{
+        } else {
           that.props.delProject(that.props.projectId).then((res) => {
             if (res.payload.data.errcode == 0) {
               message.success('删除成功!');
@@ -166,6 +170,25 @@ class ProjectMessage extends Component {
     });
   }
 
+  // 修改项目头像的背景颜色
+  changeProjectColor = (e) => {
+    const { _id, color, icon } = this.props.projectMsg;
+    this.props.upsetProject({ id: _id, color: e.target.value || color, icon }).then((res) => {
+      if (res.payload.data.errcode === 0) {
+        this.props.getProjectMsg(this.props.projectId);
+      }
+    });
+  }
+  // 修改项目头像的图标
+  changeProjectIcon = (e) => {
+    const { _id, color, icon } = this.props.projectMsg;
+    this.props.upsetProject({ id: _id, color, icon: e.target.value || icon }).then((res) => {
+      if (res.payload.data.errcode === 0) {
+        this.props.getProjectMsg(this.props.projectId);
+      }
+    });
+  }
+
   async componentWillMount() {
     await this.props.getProjectMsg(this.props.projectId);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
@@ -174,10 +197,10 @@ class ProjectMessage extends Component {
     });
   }
 
-  render () {
+  render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { projectMsg } = this.props;
-    console.log(projectMsg);
+    const mockUrl =  location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`
     let initFormValues = {};
     let envMessage = [];
     const { name, basepath, desc, env, project_type } = projectMsg;
@@ -192,7 +215,7 @@ class ProjectMessage extends Component {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
-          <Col span={10} offset={2}>
+          <Col span={11}>
             <FormItem
               label={index === 0 ? (
                 <span>环境名称</span>) : ''}
@@ -226,7 +249,7 @@ class ProjectMessage extends Component {
                 )}
             </FormItem>
           </Col>
-          <Col span={10}>
+          <Col span={11}>
             <FormItem
               label={index === 0 ? (
                 <span>环境域名</span>) : ''}
@@ -239,13 +262,14 @@ class ProjectMessage extends Component {
                 rules: [{
                   required: false,
                   whitespace: true,
-                  message: "请输入环境域名",
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
                         callback('请输入环境域名');
                       } else if (!/\S/.test(value)) {
                         callback('请输入环境域名');
+                      } else if (!/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/.test(value)) {
+                        callback('域名格式错误');
                       } else {
                         return callback();
                       }
@@ -285,19 +309,23 @@ class ProjectMessage extends Component {
         </Row>
       );
     });
-
-    const colorSelector = (<RadioGroup onChange={this.onChange} value={1}>
-      <Radio value={1} style={{color: 'red'}}></Radio>
-      <Radio value={2}></Radio>
-      <Radio value={3}></Radio>
-      <Radio value={4}></Radio>
+    const colorArr = Object.entries(constants.PROJECT_COLOR);
+    const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
+      {colorArr.map((item, index) => {
+        return (<RadioButton key={index} value={item[0]} style={{ backgroundColor: item[1], color: '#fff', fontWeight: 'bold' }}>{item[0] === projectMsg.color ? <Icon type="check" /> : null}</RadioButton>);
+      })}
+    </RadioGroup>);
+    const iconSelector = (<RadioGroup onChange={this.changeProjectIcon} value={projectMsg.icon} className="icon">
+      {constants.PROJECT_ICON.map((item) => {
+        return (<RadioButton key={item} value={item} style={{ fontWeight: 'bold' }}><Icon type={item} /></RadioButton>);
+      })}
     </RadioGroup>);
     return (
       <div className="m-panel">
         <Row className="project-setting">
           <Col sm={6} lg={3} className="setting-logo">
-            <Popover placement="bottom" title={colorSelector} content={'content'} trigger="click">
-              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{backgroundColor: projectMsg.color || '#2395f1'}} />
+            <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
+              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
             </Popover>
           </Col>
           <Col sm={18} lg={21} className="setting-intro">
@@ -307,6 +335,13 @@ class ProjectMessage extends Component {
         </Row>
         <hr className="breakline" />
         <Form>
+          <FormItem
+            {...formItemLayout}
+            label="项目ID"
+          >
+            <span >{this.props.projectMsg._id}</span>
+
+          </FormItem>
           <FormItem
             {...formItemLayout}
             label="项目名称"
@@ -332,7 +367,7 @@ class ProjectMessage extends Component {
             {...formItemLayout}
             label={(
               <span>
-                基本路径&nbsp;
+                接口基本路径&nbsp;
                 <Tooltip title="基本路径为空表示根路径">
                   <Icon type="question-circle-o" />
                 </Tooltip>
@@ -342,11 +377,27 @@ class ProjectMessage extends Component {
             {getFieldDecorator('basepath', {
               initialValue: initFormValues.basepath,
               rules: [{
-                required: false, message: '请输入项目基本路径! '
+                required: false, message: '请输入基本路径! '
               }]
             })(
               <Input />
               )}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label={(
+              <span>
+                MOCK地址&nbsp;
+                <Tooltip title="具体使用方法请查看文档">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}
+          >
+
+            <Input disabled value={mockUrl} onChange={()=>{}} />
+
           </FormItem>
 
           <FormItem
@@ -368,10 +419,7 @@ class ProjectMessage extends Component {
             label="环境配置"
           >
             {envSettingItems}
-          </FormItem>
-
-          <FormItem {...formItemLayout}>
-            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+            <Button type="default" onClick={this.add} style={{ width: '50%' }}>
               <Icon type="plus" /> 添加环境配置
             </Button>
           </FormItem>
@@ -395,22 +443,19 @@ class ProjectMessage extends Component {
                   <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
                 </Radio>
               </RadioGroup>
-            )}
+              )}
           </FormItem>
         </Form>
-        <Row>
-          <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
-            <Button className="m-btn" icon="plus" type="primary"
-              onClick={this.handleOk}
-              >修改项目</Button>
-          </Col>
-        </Row>
-
-        <hr className="breakline" />
+        <Affix offsetBottom={0}>
+          <div className="btnwrap-changeproject">
+            <Button className="m-btn btn-save" icon="save" type="primary" onClick={this.handleOk} >保 存</Button>
+          </div>
+        </Affix>
 
         <FormItem
           {...formItemLayout}
           label="危险操作"
+          className="danger-container"
         >
           <Card noHovering={true} className="card-danger">
             <div className="card-danger-content">

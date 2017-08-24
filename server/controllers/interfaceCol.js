@@ -159,6 +159,56 @@ class interfaceColController extends baseController{
     }
 
     /**
+     * 增加一个接口用例
+     * @interface /col/up_case
+     * @method POST
+     * @category col
+     * @foldnumber 10
+     * @param {number} id
+     * @param {String} casename
+     * @param {String} domain
+     * @param {String} path
+     * @param {String} method
+     * @param {Object} req_query
+     * @param {Object} req_headers
+     * @param {String} req_body_type
+     * @param {Array} req_body_form
+     * @param {String} req_body_other
+     * @returns {Object}
+     * @example
+     */
+
+    async upCase(ctx){
+        try{
+            let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                id: 'number',
+                casename: 'string',
+                domain: 'string',
+                method: 'string'
+            });
+
+            if (!params.id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '用例id不能为空');
+            }
+
+
+            if(!params.casename){
+                return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
+            }
+
+            params.uid = this.getUid();
+
+            let result = await this.caseModel.up(params);
+
+            ctx.body = yapi.commons.resReturn(result);
+
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    /**
      * 获取一个接口用例详情
      * @interface /col/case
      * @method GET

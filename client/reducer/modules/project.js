@@ -8,6 +8,7 @@ const PROJECT_ADD = 'yapi/project/PROJECT_ADD';
 const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 // const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
+const PROJECT_UPSET = 'yapi/project/PROJECT_UPSET';
 const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT'
 const GET_PEOJECT_MEMBER = 'yapi/project/GET_PEOJECT_MEMBER';
 const ADD_PROJECT_MEMBER = 'yapi/project/ADD_PROJECT_MEMBER';
@@ -139,7 +140,7 @@ export function getProjectMemberList(id) {
 // }
 
 export function addProject(data) {
-  const { name, prd_host, basepath, desc, group_id, group_name, protocol } = data;
+  const { name, prd_host, basepath, desc, group_id, group_name, protocol, icon, color } = data;
   const param = {
     name,
     prd_host,
@@ -147,7 +148,9 @@ export function addProject(data) {
     basepath,
     desc,
     group_id,
-    group_name
+    group_name,
+    icon,
+    color
   };
   return {
     type: PROJECT_ADD,
@@ -155,6 +158,7 @@ export function addProject(data) {
   };
 }
 
+// 修改项目
 export function updateProject(data) {
   const { name, project_type, basepath, desc, _id, env } = data;
   const param = {
@@ -171,6 +175,15 @@ export function updateProject(data) {
   };
 }
 
+// 修改项目头像
+export function upsetProject(param) {
+  return {
+    type: PROJECT_UPSET,
+    payload: axios.post('/api/project/upset', param)
+  };
+}
+
+// 删除项目
 export function delProject(id) {
   const param = { id };
   return {

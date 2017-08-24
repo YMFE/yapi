@@ -3,9 +3,11 @@ import yapi from './yapi.js';
 import commons from './utils/commons';
 import dbModule from './utils/db.js';
 import userModel from './models/user.js';
+import mongoose from 'mongoose';
 
 yapi.commons = commons;
 yapi.connect = dbModule.connect();
+
 
 function install() {
     let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
@@ -31,14 +33,109 @@ function setupSql() {
         up_time: yapi.commons.time()
     });
 
-    result.then(function () {
-        fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
-        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
-        process.exit(0);
-    }, function (err) {
-        console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
-        process.exit(0);
-    });
+    yapi.connect.then(function () {
+        let userCol = mongoose.connection.db.collection('user')
+        userCol.ensureIndex({
+            username: 1
+        })
+        userCol.ensureIndex({
+            email: 1
+        }, {
+                unique: true
+            })
+
+        let projectCol = mongoose.connection.db.collection('project')
+        projectCol.ensureIndex({
+            uid: 1
+        })
+        projectCol.ensureIndex({
+            name: 1
+        })
+        projectCol.ensureIndex({
+            group_id: 1
+        })
+
+        let logCol = mongoose.connection.db.collection('log')
+        logCol.ensureIndex({
+            uid: 1
+        })
+
+        logCol.ensureIndex({
+            typeid: 1,
+            type: 1
+        })
+
+        let interfaceColCol = mongoose.connection.db.collection('interface_col')
+        interfaceColCol.ensureIndex({
+            uid: 1
+        })
+        interfaceColCol.ensureIndex({
+            project_id: 1
+        })
+
+        let interfaceCatCol = mongoose.connection.db.collection('interface_cat')
+        interfaceCatCol.ensureIndex({
+            uid: 1
+        })
+        interfaceCatCol.ensureIndex({
+            project_id: 1
+        })
+
+        let interfaceCaseCol = mongoose.connection.db.collection('interface_case')
+        interfaceCaseCol.ensureIndex({
+            uid: 1
+        })
+        interfaceCaseCol.ensureIndex({
+            col_id: 1
+        })
+        interfaceCaseCol.ensureIndex({
+            project_id: 1
+        })
+
+        let interfaceCol = mongoose.connection.db.collection('interface')
+        interfaceCol.ensureIndex({
+            uid: 1
+        })
+        interfaceCol.ensureIndex({
+            path: 1,
+            method: 1
+        })
+        interfaceCol.ensureIndex({
+            project_id: 1
+        })
+
+        let groupCol = mongoose.connection.db.collection('group')
+        groupCol.ensureIndex({
+            uid: 1
+        })
+        groupCol.ensureIndex({
+            group_name: 1
+        })
+
+        let avatarCol = mongoose.connection.db.collection('avatar')
+        avatarCol.ensureIndex({
+            uid: 1
+        })
+
+        let followCol = mongoose.connection.db.collection('follow')
+        followCol.ensureIndex({
+            uid: 1
+        })
+        followCol.ensureIndex({
+            project_id: 1
+        })
+        
+        result.then(function () {
+            fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
+            process.exit(0);
+        }, function (err) {
+            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
+            process.exit(0);
+        });
+
+    })
+
 }
 
 install();
