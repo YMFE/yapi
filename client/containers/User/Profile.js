@@ -271,7 +271,7 @@ class Profile extends Component {
         <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
       </Row>
       <div className="user-item-body">
-        <div className="user-item-mask-top"></div>
+        {/*<div className="user-item-mask-top"></div>
         <div className="user-item-mask">
           <div className="m-bg">
             <div className="m-bg-mask m-bg-mask0"></div>
@@ -279,7 +279,7 @@ class Profile extends Component {
             <div className="m-bg-mask m-bg-mask2"></div>
             <div className="m-bg-mask m-bg-mask3"></div>
           </div>
-        </div>
+        </div>*/}
         <Row className="user-item" type="flex" justify="start">
           <div className="maoboli"></div>
           <Col span={4}>用户id</Col>
