@@ -118,7 +118,7 @@ class userController extends baseController {
 
             if (login === true) {
                 yapi.commons.log('login success');
-                ctx.redirect('/');
+                ctx.redirect('/group');
             }
         } catch (e) {
             yapi.commons.log(e.message, 'error');
