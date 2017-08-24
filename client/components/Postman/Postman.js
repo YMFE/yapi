@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
+import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 // import { withRouter } from 'react-router';
 // import axios from 'axios';
 import URL from 'url';
@@ -12,7 +13,7 @@ import URL from 'url';
 // import {
 // } from '../../../reducer/modules/group.js'
 
-// import './Run.scss'
+import './Postman.scss'
 
 const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -130,26 +131,28 @@ export default class Run extends Component {
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res, header) => {
-        // try {
-        //   res = JSON.parse(res)
-        //   header = JSON.parse(header)
-        // } catch (e) {
-        //   message.error(e.message)
-        // }
+        try {
+          res = typeof res === 'object' ? res : JSON.parse(res)
+          header = typeof header === 'object' ? header : JSON.parse(header)
+        } catch (e) {
+          message.error(e.message)
+        }
         message.success('请求完成')
         this.setState({res, resHeader: header})
         this.setState({ loading: false })
+        this.bindAceEditor()
       },
       error: (err, header) => {
-        // try {
-        //   err = JSON.parse(err)
-        //   header = JSON.parse(header)
-        // } catch (e) {
-        //   message.error(e.message)
-        // }
+        try {
+          err = typeof err === 'object' ? err : JSON.parse(err)
+          header = typeof header === 'object' ? header : JSON.parse(header)
+        } catch (e) {
+          message.error(e.message)
+        }
         message.success('请求完成')
         this.setState({res: err || '请求失败', resHeader: header})
         this.setState({ loading: false })
+        this.bindAceEditor()
       }
     })
   }
@@ -354,6 +357,22 @@ export default class Run extends Component {
     return headersObj;
   }
 
+  bindAceEditor = () => {
+    console.log(mockEditor)
+    mockEditor({
+      container: 'res-body-pretty',
+      data: JSON.stringify(this.state.res, null, 2),
+      readOnly:true,
+      onChange: function () {}
+    })
+    mockEditor({
+      container: 'res-headers-pretty',
+      data:  JSON.stringify(this.state.resHeader, null, 2),
+      readOnly:true,
+      onChange: function () {}
+    })
+  }
+
   @autobind
   fileChange(e, index) {
     console.log(e)
@@ -371,7 +390,7 @@ export default class Run extends Component {
     const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
 
     return (
-      <div className="interface-test">
+      <div className="interface-test postman">
         <div  className="has-plugin">
           {
             hasPlugin ? '' :
@@ -543,16 +562,18 @@ export default class Run extends Component {
             <div className="res-code"></div>
             <Collapse defaultActiveKey={['0', '1']} bordered={true}>
               <Panel header="BODY" key="0" >
-                <TextArea
+                {/*<TextArea
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
-                ></TextArea>
+                ></TextArea>*/}
+                <div id="res-body-pretty" className="pretty-editor" style={{height: 200}}></div>
               </Panel>
               <Panel header="HEADERS" key="1" >
-                <TextArea
+                {/*<TextArea
                   value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
-                ></TextArea>
+                ></TextArea>*/}
+                <div id="res-headers-pretty" className="pretty-editor" style={{height: 200}}></div>
               </Panel>
             </Collapse>
           </Spin>
