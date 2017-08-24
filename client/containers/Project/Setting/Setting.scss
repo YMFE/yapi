@@ -35,14 +35,14 @@
   border-radius: 2px;
   .ant-card-head {
     background-color: #eee;
-      padding: 0 .08rem !important;
+    padding: 0 .08rem !important;
   }
   .ant-card-head-title {
     font-size: .12rem;
     float: inherit;
   }
   .ant-card-body {
-    padding: 0;
+    padding: 0 !important;
   }
   .card-item {
     padding: .1rem .15rem;
