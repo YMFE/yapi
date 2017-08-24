@@ -170,16 +170,19 @@ class interfaceColController extends baseController{
             params.add_time = yapi.commons.time();
             params.up_time = yapi.commons.time();
             let result = await this.caseModel.save(params);
-
-            let col = await this.colModel.get(params.project_id);
             let username = this.getUsername();
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 在接口集 "${col.name}" 下添加了接口用例 "${params.casename}"`,
-                type: 'project',
-                uid: this.getUid(),
-                username: username,
-                typeid: params.project_id
+
+            this.colModel.get(params.col_id).then((col)=>{
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 在接口集 "${col.name}" 下添加了接口用例 "${params.casename}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: params.project_id
+                });
             });
+            
+            
             ctx.body = yapi.commons.resReturn(result);
 
         }catch(e){
@@ -234,16 +237,18 @@ class interfaceColController extends baseController{
             params.uid = this.getUid();
 
             let result = await this.caseModel.up(params.id, params);
-
-            let col = await this.colModel.get(caseData.col_id);
             let username = this.getUsername();
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 在接口集 "${col.name}" 更新了接口用例 "${params.casename}"`,
-                type: 'project',
-                uid: this.getUid(),
-                username: username,
-                typeid: caseData.project_id
+            this.colModel.get(caseData.col_id).then((col)=>{
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 在接口集 "${col.name}" 更新了接口用例 "${params.casename}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: caseData.project_id
+                });
             });
+            
+            
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -331,6 +336,7 @@ class interfaceColController extends baseController{
             if(!params || !Array.isArray(params)){
                 ctx.body =  yapi.commons.resReturn(null, 400, "请求参数必须是数组")
             }
+            // let caseName = "";
             params.forEach((item) => {
                 if(item.id && item.index){
                     this.caseModel.upCaseIndex(item.id, item.index).then((res) => {}, (err) => {
@@ -338,7 +344,16 @@ class interfaceColController extends baseController{
                     })
                 }
 
-            })
+            });
+
+            // let username = this.getUsername();
+            // yapi.commons.saveLog({
+            //     content: `用户 "${username}" 更新了接口集 "${params.col_name}"`,
+            //     type: 'project',
+            //     uid: this.getUid(),
+            //     username: username,
+            //     typeid: params.project_id
+            // });
 
             return ctx.body = yapi.commons.resReturn('success')
         }catch(e){
@@ -371,12 +386,17 @@ class interfaceColController extends baseController{
                     return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
                 }
             }
-
             let result = await this.colModel.del(id);
-            await this.caseModel.delByCol(id)
+            await this.caseModel.delByCol(id);
+            let username = this.getUsername();
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 删除了接口集 "${colData.name}" 及其下面的接口`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: colData.project_id
+            });
             return ctx.body = yapi.commons.resReturn(result);
-
-
         }catch(e){
             yapi.commons.resReturn(null, 400, e.message)
         }
@@ -403,6 +423,19 @@ class interfaceColController extends baseController{
             }
 
             let result = await this.caseModel.del(caseid);
+
+            let username = this.getUsername();
+            this.colModel.get(caseData.col_id).then((col)=>{
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 删除了接口集 "${col.name}" 下的接口 "${caseData.casename}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: caseData.project_id
+                });
+            });
+            
+
             return ctx.body = yapi.commons.resReturn(result);
 
 

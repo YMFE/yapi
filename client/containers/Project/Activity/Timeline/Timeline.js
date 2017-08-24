@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Timeline, Spin, Avatar,Icon } from 'antd'
+import { Timeline, Spin, Avatar } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { formatTime } from '../../../../common.js';
@@ -122,10 +122,10 @@ class TimeTree extends Component {
     if (data && data.length) {
 
       data = data.map(function (item, i) {
-        return (<Timeline.Item dot={<Avatar src={`/api/user/avatar?uid=${item.uid}`} />} key={i}>
+        return (<Timeline.Item dot={<Link to={`/user/profile/${item.uid}`}><Avatar src={`/api/user/avatar?uid=${item.uid}`} /></Link>} key={i}>
           <div className="logMesHeade">
             <span className="logoTimeago">{timeago(item.add_time)}</span>
-            <span className="logusername"><Link to={`/user/profile/${item.uid}`}><Icon type="user" />{item.username}</Link></span>
+            {/*<span className="logusername"><Link to={`/user/profile/${item.uid}`}><Icon type="user" />{item.username}</Link></span>*/}
             <span className="logtype">{logType[item.type]}动态</span>
             <span className="logtime">{formatTime(item.add_time)}</span>
           </div>
