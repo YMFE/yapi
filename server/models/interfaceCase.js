@@ -31,10 +31,10 @@ class interfaceCase extends baseModel {
                 type: String,
                 enum: ['form', 'json', 'text', 'xml']
             },
-            res_body_form: [{
+            req_body_form: [{
                 name: String, value: String
             }],
-            res_body_other: String
+            req_body_other: String
 
         };
     }
