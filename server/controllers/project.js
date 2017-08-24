@@ -589,6 +589,11 @@ class projectController extends baseController {
         if (!id) {
             return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
         }
+
+        let auth = await this.checkAuth(id, 'project', 'danger')
+        if (!auth) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+        }
         try {
             let result = await this.Model.up(id, data);
             ctx.body = yapi.commons.resReturn(result);
