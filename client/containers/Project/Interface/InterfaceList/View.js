@@ -238,7 +238,7 @@ class View extends Component {
       </div>
       <div className="colMockUrl">
         <span className="colKey">Mock地址：</span>
-        <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}/${this.props.curData.path}`}</span>
+        <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
       </div>
       {this.props.curData.desc?<div className="colDesc">
         <span className="colKey">接口描述：</span>
