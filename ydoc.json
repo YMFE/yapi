@@ -24,7 +24,7 @@
             "version": "v1.0.0", // 版本信息将显示在banner底部
             "button": [{ // 按钮组将显示在banner底部
                 "name": "开始",
-                "href": "./interface.html"
+                "href": "./start.html"
             },{
                 "name": "Github",
                 "href": "https://github.com/YMFE/yapi"
