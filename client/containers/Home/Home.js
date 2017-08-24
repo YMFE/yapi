@@ -39,7 +39,7 @@ const HomeGuest = () => (
               <div className="detail">高效、易用、可部署的API管理平台<br/><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                <Button className="btn-home btn-qsso" id="qsso-login">QSSO 登录</Button>
+                <Button className="btn-home btn-home-normal" id="qsso-login">QSSO 登录</Button>
               </div>
             </div>
           </Col>
@@ -205,6 +205,20 @@ class Home extends Component {
             </div>
           )
           : <HomeGuest introList={this.props.introList}/>}
+        <div className="row-tip">
+          <div className="container">
+            <div className="tip-title">
+              <h3 className="title">准备好使用了吗？</h3>
+              <p className="desc">注册账号尽请使用吧，查看使用文档了解更多信息</p>
+            </div>
+            <div className="tip-btns">
+              <div className="btn-group">
+                <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
+                <Button className="btn-home btn-home-normal"><a target="_blank" href="/doc/index.html" >使用文档</a></Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

@@ -5,6 +5,8 @@
   border-top: 1px solid #ddd;
   height: 2.4rem;
   width: 100%;
+  background-color: $color-bg-dark;
+  overflow: hidden;
 }
 
 .footer-container{
@@ -28,7 +30,7 @@
     line-height: .3rem;
     transition: color .2s;
     &:hover {
-      color: #2e2e5a;
+      color: $color-bg-gray;
     }
   }
 }
