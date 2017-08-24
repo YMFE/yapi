@@ -76,6 +76,11 @@
       padding: 32px;
       position: relative;
       // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.3), 0 1px 3px rgba(0, 0, 0, 0.01);
+      h3{
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
       .user-item-mask-top{
         position: absolute;
         top: 0px;
@@ -102,7 +107,7 @@
         padding: 8px 0px;
         
         .maoboli{
-          background-color: rgba(225,225,225,0.16);
+          // background-color: rgba(225,225,225,0.16);
           position: absolute;
           width: 100%;
           height: 100%;
@@ -118,8 +123,6 @@
       line-height:35px;
       margin: 5px;
       margin-left: 0px;
-      margin-bottom: 16px;
-      padding-bottom: 16px;
       font-size: 14px;
       #old_password,#password,#verify_pass{
         margin-top: 20px;
@@ -134,11 +137,13 @@
         }
       }
       .ant-col-4{
-        color: rgba(0,0,0,0.66);
+        color: rgba(71, 86, 99, .8);
+        font-weight: 500;
         padding: 0px 16px;
         text-indent: .7em;
         margin-right: 30px;
         white-space: nowrap;
+        text-align: right;
       }
       .text{
         padding-right: 15px;
@@ -175,7 +180,6 @@
     overflow: hidden;
     height: 100px;
     background-color: white;
-    margin: 0px auto;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
     img{
       width: 100%;
@@ -191,57 +195,18 @@
   }
   .avatar-box{
     width: 100px;
-    margin: 0px auto;
     position: relative;
+    // margin-left: 160px;
   }
   .avatarCon{
-    background: gray;
+    // background: gray;
     padding: 16px 0px;
-    margin-bottom: 16px;
     width: 100%;
     overflow: hidden;
     position: relative;
     
   }
-  .m-bg {
-      position: absolute;
-      left: 0;
-      top: -300px;
-      height: 1200px;
-      width: 100%;
-      transform: skewY(-11deg);
-      background-image: linear-gradient(-20deg, #21d4fd 0%, #b721ff 100%);
-      .m-bg-mask {
-        position: absolute;
-        height: 180px;
-      }
-      .m-bg-mask0 {
-        bottom: 0;
-        left: 0;
-        width: 30%;
-        background-image: linear-gradient(120deg, #6ab3fd 0%, #8ba3fd 102%);
-      }
-      .m-bg-mask1 {
-        bottom: 180px;
-        right: 0;
-        width: 36%;
-        background-image: linear-gradient(120deg, #28c5f5 0%, #6682fe 100%);
-      }
-      .m-bg-mask2 {
-        bottom: 540px;
-        left: 0;
-        width: 20%;
-        height: 240px;
-        background-image: linear-gradient(120deg, #8121ff 0%, #5e5ef7 100%);
-      }
-      .m-bg-mask3 {
-        bottom: 540px;
-        left: 20%;
-        width: 70%;
-        height: 240px;
-        background-image: linear-gradient(-225deg, #5f2bff 0%, #6088fe 48%, #22ccf6 100%);
-      }
-    }
+  
   .avatar-uploader-trigger {
     display: table-cell;
     vertical-align: middle;
