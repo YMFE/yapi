@@ -9,6 +9,8 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+import { pickRandomProperty } from '../../common';
+import constants from '../../constants/variable.js';
 import { withRouter } from 'react-router';
 import './Addproject.scss';
 
@@ -62,6 +64,8 @@ class ProjectList extends Component {
       if (!err) {
         values.group_id = values.group.split(':')[0];
         values.group_name = values.group.split(':')[1];
+        values.icon = constants.PROJECT_ICON[0];
+        values.color = pickRandomProperty(constants.PROJECT_COLOR);
         delete values.group;
         addProject(values).then((res) => {
           if (res.payload.data.errcode == 0) {

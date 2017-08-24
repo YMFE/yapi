@@ -15,7 +15,7 @@ class baseModel{
             this.schema.plugin(autoIncrement.plugin, {
                 model: this.name,
                 field: this.getPrimaryKey(),
-                startAt: 101,
+                startAt: 11,
                 incrementBy: yapi.commons.rand(1, 10)
             });
         }

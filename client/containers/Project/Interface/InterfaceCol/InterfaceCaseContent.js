@@ -77,14 +77,49 @@ export default class InterfaceCaseContent extends Component {
     }
   }
 
+  // updateCase = () => {
+  //   const project_id = this.props.match.params.id;
+  //   const {
+  //     currDomain: domain,
+  //     pathname: path,
+  //     method,
+  //     pathParam: req_params,
+  //     query: req_query,
+  //     headers: req_headers,
+  //     bodyType: req_body_type,
+  //     bodyForm: req_body_form,
+  //     bodyOther: req_body_other
+  //   } = this.postman.state;
+  //   const res = await axios.post('/api/col/add_case', {
+  //     casename: caseName,
+  //     col_id: colId,
+  //     project_id,
+  //     domain,
+  //     path,
+  //     method,
+  //     req_params,
+  //     req_query,
+  //     req_headers,
+  //     req_body_type,
+  //     req_body_form,
+  //     req_body_other
+  //   });
+  //   if (res.data.errcode) {
+  //     message.error(res.data.errmsg)
+  //   } else {
+  //     message.success('添加成功')
+  //     this.setState({saveCaseModalVisible: false})
+  //   }
+  // }
+
   render() {
     const { currCase, currProject } = this.props;
-    const data = Object.assign({}, currCase, currProject);
+    const data = Object.assign({}, currCase, currProject, {_id: currCase._id});
     return (
       <div>
         <h1 style={{marginLeft: 8}}>{currCase.casename}</h1>
         <div>
-          <Postman data={data} />
+          <Postman data={data} saveTip="更新保存用例" save={false} />
         </div>
       </div>
     )

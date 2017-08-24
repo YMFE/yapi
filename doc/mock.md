@@ -3,6 +3,8 @@
  <p style='text-indent:2em;line-height:1.8em'>yapi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。
  
  **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
+
+ 注：项目id可以在项目设置里查看到
  
  </p>
 <img src="./images/mock.jpg" style="width: 50%" />
@@ -27,11 +29,14 @@ $.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
 ```` nginx
 location /baseapi
 {
-proxy_pass http://http://yapi.local.qunar.com:3000/mock/2817/;
+proxy_pass   http://yapi.local.qunar.com:3000/mock/2817/baseapi; #baseapi后面没有"/"
 }
 ````
 
 #### 1.2.2 基于ykit Jerry代理
+
+假设您本地服务器访问地址是： http://xxx.com
+
 <img src="./images/ykit.jpg" />
 
 
