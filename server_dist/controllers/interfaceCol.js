@@ -435,7 +435,7 @@ var interfaceColController = function (_baseController) {
                                 params.uid = this.getUid();
 
                                 _context5.next = 10;
-                                return this.caseModel.up(params);
+                                return this.caseModel.up(params.id, params);
 
                             case 10:
                                 result = _context5.sent;
