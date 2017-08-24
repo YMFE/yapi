@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from "prop-types";
+import { withRouter } from 'react-router';
 import { logoSVG } from '../../common.js';
-
-// import Intro from '../../components/Intro/Intro'
 import { changeMenuItem } from '../../reducer/modules/menu'
-
-// const oneAnim = { y: '+=30', opacity: 0, type: 'from', ease: 'easeOutQuad' };
 
 const HomeGuest = () => (
   <div className="g-body">
@@ -170,7 +167,7 @@ HomeGuest.propTypes ={
     changeMenuItem
   }
 )
-
+@withRouter
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -181,6 +178,7 @@ class Home extends Component {
   static propTypes = {
     introList: PropTypes.array,
     login : PropTypes.bool,
+    history: PropTypes.object,
     changeMenuItem : PropTypes.func
   }
   toStart = () =>{
@@ -190,21 +188,7 @@ class Home extends Component {
     const { login } = this.props;
     return (
       <div className="home-main">
-        {login?
-          (
-            <div className="user-home">
-              <div className="user-des">
-                <p className="title">YAPI</p>
-                <p className="des">一个高效，易用，可部署的Api管理系统</p>
-                <div className="btn">
-                  <Button type="primary" size="large">
-                    <Link to="/group" onClick={this.toStart}>开始</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )
-          : <HomeGuest introList={this.props.introList}/>}
+        {login? this.props.history.push('/group') : <HomeGuest introList={this.props.introList}/>}
         <div className="row-tip">
           <div className="container">
             <div className="tip-title">
