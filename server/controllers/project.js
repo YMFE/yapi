@@ -232,14 +232,14 @@ class projectController extends baseController {
         try {
             let result = await this.Model.delMember(params.id, params.member_uid);
             let username = this.getUsername();
-            let project = await this.Model.get(params.id);
-            let member = await yapi.getInst(userModel).findById(params.member_uid);
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 删除了项目 "${project.name}" 中的成员 "${member.username}"`,
-                type: 'project',
-                uid: this.getUid(),
-                username: username,
-                typeid: params.id
+            yapi.getInst(userModel).findById(params.member_uid).then((member)=>{
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 删除了项目中的成员 "${member.username}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: params.id
+                });
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -441,15 +441,15 @@ class projectController extends baseController {
             let result = await projectInst.changeMemberRole(params.id, params.member_uid, params.role);
 
             let username = this.getUsername();
-            let project = await this.Model.get(params.id);
-            let member = await yapi.getInst(userModel).findById(params.member_uid);
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 修改了项目 "${project.name}" 中成员 "${member.username}" 的角色为 "${params.role}"`,
-                type: 'project',
-                uid: this.getUid(),
-                username: username,
-                typeid: params.id
-            });
+            yapi.getInst(userModel).findById(params.member_uid).then((member)=>{
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 修改了项目中的成员 "${member.username}" 的角色为 "${params.role}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: params.id
+                });
+            })
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -483,7 +483,16 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
         try {
-            this.followModel.updateById(this.getUid(), id, data).then();
+            this.followModel.updateById(this.getUid(), id, data).then(()=>{
+                let username = this.getUsername();
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 修改了项目图标、颜色`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: id
+                });
+            });
         } catch (e) {
             yapi.commons.log(e, 'error'); // eslint-disable-line
         }
@@ -567,43 +576,6 @@ class projectController extends baseController {
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
-        }
-    }
-
-    /**
-     * 修改项目头像
-     * @interface /project/upset
-     * @method POST
-     * @category project
-     * @foldnumber 10
-     * @param {Number} id
-     * @param {String} color
-     * @param {String} icon
-     * @return {Object}
-    */
-    async upSet(ctx) {
-        let id = ctx.request.body.id;
-        let data = {};
-        data.color = ctx.request.body.color;
-        data.icon = ctx.request.body.icon;
-        if (!id) {
-            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
-        }
-
-        let auth = await this.checkAuth(id, 'project', 'danger')
-        if (!auth) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
-        }
-        try {
-            let result = await this.Model.up(id, data);
-            ctx.body = yapi.commons.resReturn(result);
-        } catch (e) {
-            ctx.body = yapi.commons.resReturn(null, 402, e.message);
-        }
-        try {
-            this.followModel.updateById(this.getUid(), id, data).then();
-        } catch (e) {
-            yapi.commons.log(e, 'error'); // eslint-disable-line
         }
     }
 
