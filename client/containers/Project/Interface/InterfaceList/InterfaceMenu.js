@@ -89,13 +89,13 @@ class InterfaceMenu extends Component {
 
 
   onSelect = (selectedKeys) => {
-    const {history, match} = this.props;
+    const { history, match } = this.props;
     let curkey = selectedKeys[0];
-    if(!curkey || !selectedKeys) return false;
+    if (!curkey || !selectedKeys) return false;
     let basepath = "/project/" + match.params.id + "/interface/api";
-    if(curkey === 'root'){
+    if (curkey === 'root') {
       history.push(basepath)
-    }else{
+    } else {
       history.push(basepath + '/' + curkey)
     }
   }
@@ -162,7 +162,7 @@ class InterfaceMenu extends Component {
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
         ref.destroy()
       },
-      async onCancel() { 
+      async onCancel() {
         ref.destroy()
       }
     });
@@ -201,12 +201,37 @@ class InterfaceMenu extends Component {
 
   render() {
     const matchParams = this.props.match.params;
+    let menuList = this.props.list;
+
+
+    const defaultExpandedKeys = () => {
+      const { router, inter, list } = this.props, rNull = { expands: [], selects: [] };
+      if (list.length === 0) return rNull;
+      if (router) {
+        if (!isNaN(router.params.actionId)) {
+          let _actionId = parseInt(router.params.actionId, 10)
+          if (!inter._id || inter._id !== _actionId) return rNull;
+          return {
+            expands: ['cat_' + inter.catid],
+            selects: [inter._id + ""]
+          }
+        } else {
+          let catid = router.params.actionId.substr(4);
+          return {
+            expands: ['cat_' + catid],
+            selects: ['cat_' + catid]
+          }
+        }
+      } else {
+        return {
+          expands: ['cat_' + list[0]._id],
+          selects: ['root']
+        }
+      }
+    }
 
     const item_interface_create = (item) => {
-      let color, filter = this.state.filter;
-      if (filter && item.title.indexOf(filter) === -1 && item.path.indexOf(filter) === -1) {
-        return null;
-      }
+      let color;
       switch (item.method) {
         case 'GET': color = "green"; break;
         case 'POST': color = "blue"; break;
@@ -249,34 +274,22 @@ class InterfaceMenu extends Component {
       </Menu>
     };
 
-    const defaultExpandedKeys = ()=>{
-      const {router, inter, list} = this.props, rNull = {expands: [], selects: []};
-      if(list.length === 0) return rNull;
-      if(router){
-        if(!isNaN(router.params.actionId)){
-          let _actionId = parseInt(router.params.actionId, 10)
-          if(!inter._id || inter._id !== _actionId)return rNull;
-          return {
-            expands: ['cat_' + inter.catid],
-            selects: [inter._id+""]
-          }
-        }else{
-          let catid = router.params.actionId.substr(4);
-          return {
-            expands: ['cat_' + catid],
-            selects: ['cat_' + catid]
-          }
+
+
+    let currentKes = defaultExpandedKeys();
+    if (this.state.filter) {
+      let arr = [];
+      menuList = this.props.list.filter(item => {
+        if (item.name.indexOf(this.state.filter) === -1) {          
+          return false;
         }
-      }else{
-        return {
-          expands: ['cat_' + list[0]._id],
-          selects: ['root']
-        }
+        arr.push('cat_' + item._id)
+        return true;
+      })
+      if(arr.length > 0){
+        currentKes.expands = arr;
       }
     }
-
-    const currentKes = defaultExpandedKeys();
-
     return <div>
       <div className="interface-filter">
         <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
@@ -305,15 +318,15 @@ class InterfaceMenu extends Component {
           <AddInterfaceCatForm catdata={this.state.curCatdata} onCancel={() => this.changeModal('change_cat_modal_visible', false)} onSubmit={this.handleChangeInterfaceCat} />
         </Modal>
       </div>
-      {this.props.list.length > 0 ?
+      {menuList.length > 0 ?
         <Tree
           className="interface-list"
-          defaultExpandedKeys={currentKes.expands}
-          defaultSelectedKeys={currentKes.selects}
+          expandedKeys={currentKes.expands}
+          selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
         >
           <TreeNode title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder-open" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
-          {this.props.list.map((item) => {
+          {menuList.map((item) => {
             return <TreeNode title={<div>
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <Dropdown overlay={menu(item)}>
