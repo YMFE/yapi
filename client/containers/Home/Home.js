@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
-import { logoSVG } from '../../common.js';
+import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
 
 const HomeGuest = () => (
@@ -42,7 +42,7 @@ const HomeGuest = () => (
           </Col>
           <Col span={15}>
             <div className="img-container">
-              <img className="img" src="./image/demo-img.jpg"/>
+              <img className="img" src={getImgPath('./image/demo-img', 'jpg')}/>
             </div>
           </Col>
         </Row>
