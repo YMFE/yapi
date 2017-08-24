@@ -199,7 +199,7 @@ class interfaceColController extends baseController{
 
             params.uid = this.getUid();
 
-            let result = await this.caseModel.up(params);
+            let result = await this.caseModel.up(params.id, params);
 
             ctx.body = yapi.commons.resReturn(result);
 

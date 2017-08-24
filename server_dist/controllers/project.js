@@ -148,7 +148,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'add',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
                 var params, checkRepeat, data, result, colInst, catInst, username;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -275,14 +275,12 @@ var projectController = function (_baseController) {
                                 username = this.getUsername();
 
                                 _yapi2.default.commons.saveLog({
-                                    content: '\u7528\u6237' + username + '\u6DFB\u52A0\u4E86\u9879\u76EE' + params.name,
+                                    content: '\u7528\u6237 "' + username + '" \u6DFB\u52A0\u4E86\u9879\u76EE "' + params.name + '"',
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
                                     typeid: params.group_id,
-                                    typename: params.group_name,
-                                    color: params.color,
-                                    icon: params.icon
+                                    typename: params.group_name
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context.next = 39;
@@ -323,8 +321,8 @@ var projectController = function (_baseController) {
     }, {
         key: 'addMember',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
-                var params, check, userdata, result, username, project;
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
+                var params, check, userdata, result, username;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -399,37 +397,30 @@ var projectController = function (_baseController) {
                             case 24:
                                 result = _context2.sent;
                                 username = this.getUsername();
-                                _context2.next = 28;
-                                return this.Model.get(params.id);
-
-                            case 28:
-                                project = _context2.sent;
 
                                 _yapi2.default.commons.saveLog({
-                                    content: '\u7528\u6237' + username + '\u6DFB\u52A0\u4E86\u9879\u76EE\u6210\u5458' + userdata.username,
+                                    content: '\u7528\u6237 "' + username + '" \u6DFB\u52A0\u4E86\u9879\u76EE\u6210\u5458 "' + userdata.username + '"',
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.id,
-                                    color: project.color,
-                                    icon: project.icon
+                                    typeid: params.id
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context2.next = 36;
+                                _context2.next = 33;
                                 break;
 
-                            case 33:
-                                _context2.prev = 33;
+                            case 30:
+                                _context2.prev = 30;
                                 _context2.t1 = _context2['catch'](21);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t1.message);
 
-                            case 36:
+                            case 33:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[21, 33]]);
+                }, _callee2, this, [[21, 30]]);
             }));
 
             function addMember(_x2) {
@@ -453,7 +444,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'delMember',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
                 var params, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -524,13 +515,11 @@ var projectController = function (_baseController) {
                                 member = _context3.sent;
 
                                 _yapi2.default.commons.saveLog({
-                                    content: '\u7528\u6237' + username + '\u5220\u9664\u4E86\u9879\u76EE' + project.name + '\u4E2D\u7684\u6210\u5458' + member.username,
+                                    content: '\u7528\u6237 "' + username + '" \u5220\u9664\u4E86\u9879\u76EE "' + project.name + '" \u4E2D\u7684\u6210\u5458 "' + member.username + '"',
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.id,
-                                    color: project.color,
-                                    icon: project.icon
+                                    typeid: params.id
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context3.next = 33;
@@ -559,7 +548,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getUserdata',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(uid, role) {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(uid, role) {
                 var userInst, userData;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -617,7 +606,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'getMemberList',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
                 var params, project;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -679,7 +668,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'get',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var params, result, catInst, cat;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -764,7 +753,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var group_id, auth, result, follow, uids, _users, users;
 
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
@@ -864,7 +853,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var id, interfaceInst, interfaceColInst, interfaceCaseInst, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -957,7 +946,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'changeMemberRole',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
                 var params, projectInst, check, result, username, project, member;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -1032,7 +1021,7 @@ var projectController = function (_baseController) {
                                 member = _context9.sent;
 
                                 _yapi2.default.commons.saveLog({
-                                    content: '\u7528\u6237' + username + '\u4FEE\u6539\u4E86\u9879\u76EE' + project.name + '\u4E2D\u6210\u5458' + member.username + '\u7684\u89D2\u8272\u4E3A' + params.role,
+                                    content: '\u7528\u6237 "' + username + '" \u4FEE\u6539\u4E86\u9879\u76EE "' + project.name + '" \u4E2D\u6210\u5458 "' + member.username + '" \u7684\u89D2\u8272\u4E3A "' + params.role + '"',
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
@@ -1079,7 +1068,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
                 var id, data, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
@@ -1158,7 +1147,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
                 var id, params, projectData, checkRepeat, data, result, username;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
@@ -1259,7 +1248,7 @@ var projectController = function (_baseController) {
                                 username = this.getUsername();
 
                                 _yapi2.default.commons.saveLog({
-                                    content: '\u7528\u6237' + username + '\u66F4\u65B0\u4E86\u9879\u76EE' + projectData.name,
+                                    content: '\u7528\u6237 "' + username + '" \u66F4\u65B0\u4E86\u9879\u76EE "' + projectData.name + '"',
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
@@ -1305,7 +1294,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'upSet',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(ctx) {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
                 var id, data, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
@@ -1378,7 +1367,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'search',
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(ctx) {
+            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
                 var q, projectList, groupList, projectRules, groupRules, queryList;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
@@ -1453,7 +1442,7 @@ var projectController = function (_baseController) {
     }, {
         key: 'download',
         value: function () {
-            var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(ctx) {
+            var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
                 var project_id, interfaceInst, count, arr, fileName, res;
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                     while (1) {
