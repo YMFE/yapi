@@ -173,7 +173,8 @@ class View extends Component {
           key: i,
           name: item.name,
           required: item.required,
-          value: item.value
+          value: item.value,
+          desc: item.desc
         })
       })
     }
@@ -181,16 +182,23 @@ class View extends Component {
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
-      key: 'name'
+      key: 'name',
+      width: 2
     }, {
       title: '参数值',
       dataIndex: 'value',
-      key: 'value'
+      key: 'value',
+      width: 2
     }, {
-      title: '备注',
+      title: '是否必须',
       dataIndex: 'required',
       key: 'required',
-      width: '45%'
+      width: 1
+    },{
+      title: '备注',
+      dataIndex: 'desc',
+      key: 'desc',
+      width: 4
     }];
     let status = {
       undone: "未完成",
@@ -208,6 +216,14 @@ class View extends Component {
       get: {
         bac: "#cfefdf",
         color: "#00a854"
+      },
+      input: {
+        bac: "#57cf27",
+        color: "#9c82a2"
+      },
+      delete: {
+        bac: "#57cf27",
+        color: "#57cf27"
       }
     }
     methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
