@@ -23,15 +23,14 @@
     }
     ul{border:none}
     .ant-menu-item{
-      font-size: 14px;
+      font-size: 18px;
     }
   }
   .user-name{
     padding: .24rem;
-    // text-align: center;
     background-color: #34495e;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     span{
@@ -60,19 +59,68 @@
 
   .user-profile {
     -webkit-box-flex: 1;
-    padding: 24px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
     background: #FFF;
     border-radius: .04rem;
     min-height: 5rem;
+    position: relative;
+    .bacToPer{
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      z-index: 3;
+    }
+    .user-item-body{
+      width: 80%;
+      margin: 0px auto;
+      padding: 32px;
+      position: relative;
+      // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.3), 0 1px 3px rgba(0, 0, 0, 0.01);
+      .user-item-mask-top{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        background: black;
+        z-index: 2;
+        opacity: .7;
+      }
+      .user-item-mask{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0,0,0,0.70);
+      }
+      .user-item{
+        position: relative;
+        z-index: 3;
+        padding: 8px 0px;
+        
+        .maoboli{
+          background-color: rgba(225,225,225,0.16);
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0px;
+          top: 0px;
+        }
+        
+      }
+
+    }
     .user-item {
       min-height:35px;
       line-height:35px;
       margin: 5px;
       margin-left: 0px;
       margin-bottom: 16px;
-      border-bottom: 1px solid #f1f3f6;
       padding-bottom: 16px;
+      font-size: 14px;
       #old_password,#password,#verify_pass{
         margin-top: 20px;
       }
@@ -86,11 +134,9 @@
         }
       }
       .ant-col-4{
-        color: rgba(0,0,0,0.85);
+        color: rgba(0,0,0,0.66);
         padding: 0px 16px;
         text-indent: .7em;
-        // background-color: #f1f3f6;
-        border-left: 4px solid #f1f3f6;
         margin-right: 30px;
         white-space: nowrap;
       }
@@ -98,7 +144,6 @@
         padding-right: 15px;
       }
       .text-button{
-        // font-size: 12px;
         color: #657289;
         cursor: pointer
       }
@@ -111,6 +156,7 @@
   }
   .avatar-uploader{
     border: none;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
   }
   .avatar-uploader,
   .avatar-uploader-trigger{
@@ -121,13 +167,16 @@
   }
   .avatar{
     width: 100px;
-    // border-radius: 50px;
+    min-height: 100px;
   }
   .avatarImg{
     width: 100px;
     border-radius: 50px;
     overflow: hidden;
     height: 100px;
+    background-color: white;
+    margin: 0px auto;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
     img{
       width: 100%;
     }
@@ -135,10 +184,64 @@
   .avatar-uploader {
     display: block;
     cursor: pointer;
+    height: 100px;
   }
   .ant-upload-list{
     display: none;
   }
+  .avatar-box{
+    width: 100px;
+    margin: 0px auto;
+    position: relative;
+  }
+  .avatarCon{
+    background: gray;
+    padding: 16px 0px;
+    margin-bottom: 16px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    
+  }
+  .m-bg {
+      position: absolute;
+      left: 0;
+      top: -300px;
+      height: 1200px;
+      width: 100%;
+      transform: skewY(-11deg);
+      background-image: linear-gradient(-20deg, #21d4fd 0%, #b721ff 100%);
+      .m-bg-mask {
+        position: absolute;
+        height: 180px;
+      }
+      .m-bg-mask0 {
+        bottom: 0;
+        left: 0;
+        width: 30%;
+        background-image: linear-gradient(120deg, #6ab3fd 0%, #8ba3fd 102%);
+      }
+      .m-bg-mask1 {
+        bottom: 180px;
+        right: 0;
+        width: 36%;
+        background-image: linear-gradient(120deg, #28c5f5 0%, #6682fe 100%);
+      }
+      .m-bg-mask2 {
+        bottom: 540px;
+        left: 0;
+        width: 20%;
+        height: 240px;
+        background-image: linear-gradient(120deg, #8121ff 0%, #5e5ef7 100%);
+      }
+      .m-bg-mask3 {
+        bottom: 540px;
+        left: 20%;
+        width: 70%;
+        height: 240px;
+        background-image: linear-gradient(-225deg, #5f2bff 0%, #6088fe 48%, #22ccf6 100%);
+      }
+    }
   .avatar-uploader-trigger {
     display: table-cell;
     vertical-align: middle;
@@ -147,8 +250,15 @@
   }
   .avatarChange{
     display: block;
-    width: 100px;
+    width: 300px;
     text-align: center;
-    padding-bottom: 8px;
+    padding: 8px;
+    margin-left: -100px;
+    color: #ececec;
+    position: absolute;
+    top: 0px;
   }
+
+
+
 }

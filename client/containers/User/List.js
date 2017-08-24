@@ -115,7 +115,7 @@ class List extends Component {
     }, {
       title: '功能',
       key: 'action',
-      width:"80px",
+      width:"90px",
       render: (item) => {
         return (
           <span>
