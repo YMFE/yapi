@@ -120,7 +120,7 @@ export default class InterfaceCaseContent extends Component {
     const { currCase, currProject } = this.props;
     const data = Object.assign({}, currCase, currProject, {_id: currCase._id});
     return (
-      <div>
+      <div style={{padding: '6px 0'}}>
         <h1 style={{marginLeft: 8}}>{currCase.casename}</h1>
         <div>
           <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
