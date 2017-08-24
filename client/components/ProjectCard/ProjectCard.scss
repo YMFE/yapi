@@ -89,45 +89,34 @@
 
 }
 
-// .card-panel-s {
-//   .m-card {
-//     .ant-card-body {
-//       padding-top: .6rem;
-//     }
-//     .ui-logo {
-//       width: .6rem;
-//       height: .6rem;
-//       line-height: .6rem;
-//       transform: translate(-50%, -20%);
-//       font-size: .24rem;
-//       background-color: #2395f1;
-//     }
-//   }
-// }
 @media (max-width: 768px) {
   .m-card {
-    .ant-card-body {
-      padding-top: .24rem + .16rem + .6rem;
-    }
     .ui-logo {
       width: .6rem;
       height: .6rem;
       line-height: .6rem;
       font-size: .3rem;
+      transform: translate(-50%, 0.08rem);
+    }
+    .ant-card-body {
+      padding-top: .08rem + .08rem + .6rem;
+      padding-bottom: .08rem;
     }
   }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
   .m-card {
-    .ant-card-body {
-      padding-top: .24rem + .16rem + .8rem;
-    }
     .ui-logo {
       width: .8rem;
       height: .8rem;
       line-height: .8rem;
       font-size: .4rem;
+      transform: translate(-50%, 0.16rem);
+    }
+    .ant-card-body {
+      padding-top: .16rem + .16rem + .8rem;
+      padding-bottom: .16rem;
     }
   }
 }
