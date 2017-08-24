@@ -75,16 +75,15 @@ var interfaceColController = function (_baseController) {
         key: 'list',
         value: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
-                var _id, result, i;
-
+                var id, result, i;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.prev = 0;
-                                _id = ctx.query.project_id;
+                                id = ctx.query.project_id;
                                 _context.next = 4;
-                                return this.colModel.list(_id);
+                                return this.colModel.list(id);
 
                             case 4:
                                 result = _context.sent;
@@ -249,17 +248,16 @@ var interfaceColController = function (_baseController) {
         key: 'getCaseList',
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
-                var _id2, inst, result;
-
+                var id, inst, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.prev = 0;
-                                _id2 = ctx.query.col_id;
+                                id = ctx.query.col_id;
                                 inst = _yapi2.default.getInst(_interfaceCase2.default);
                                 _context3.next = 5;
-                                return inst.list(_id2, 'all');
+                                return inst.list(id, 'all');
 
                             case 5:
                                 result = _context3.sent;
@@ -462,7 +460,7 @@ var interfaceColController = function (_baseController) {
 
                             case 7:
                                 _context5.next = 9;
-                                return this.caseModel.get(id);
+                                return this.caseModel.get(params.id);
 
                             case 9:
                                 caseData = _context5.sent;
@@ -531,16 +529,15 @@ var interfaceColController = function (_baseController) {
         key: 'getCase',
         value: function () {
             var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
-                var _id3, result;
-
+                var id, result;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 _context6.prev = 0;
-                                _id3 = ctx.query.caseid;
+                                id = ctx.query.caseid;
                                 _context6.next = 4;
-                                return this.caseModel.get(_id3);
+                                return this.caseModel.get(id);
 
                             case 4:
                                 result = _context6.sent;
@@ -586,17 +583,16 @@ var interfaceColController = function (_baseController) {
         key: 'upCol',
         value: function () {
             var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
-                var params, _id4, colData, auth, result;
-
+                var params, id, colData, auth, result;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 _context7.prev = 0;
                                 params = ctx.request.body;
-                                _id4 = params.col_id;
+                                id = params.col_id;
                                 _context7.next = 5;
-                                return this.colModel.get(_id4);
+                                return this.colModel.get(id);
 
                             case 5:
                                 colData = _context7.sent;
@@ -723,16 +719,15 @@ var interfaceColController = function (_baseController) {
         key: 'delCol',
         value: function () {
             var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
-                var _id5, colData, auth, result;
-
+                var id, colData, auth, result;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:
                                 _context9.prev = 0;
-                                _id5 = ctx.query.col_id;
+                                id = ctx.query.col_id;
                                 _context9.next = 4;
-                                return this.colModel.get(_id5);
+                                return this.colModel.get(id);
 
                             case 4:
                                 colData = _context9.sent;
@@ -761,12 +756,12 @@ var interfaceColController = function (_baseController) {
 
                             case 12:
                                 _context9.next = 14;
-                                return this.colModel.del(_id5);
+                                return this.colModel.del(id);
 
                             case 14:
                                 result = _context9.sent;
                                 _context9.next = 17;
-                                return this.caseModel.delByCol(_id5);
+                                return this.caseModel.delByCol(id);
 
                             case 17:
                                 return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
