@@ -1295,7 +1295,7 @@ var projectController = function (_baseController) {
         key: 'upSet',
         value: function () {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
-                var id, data, result;
+                var id, data, auth, result;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
                         switch (_context12.prev = _context12.next) {
@@ -1314,36 +1314,50 @@ var projectController = function (_baseController) {
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
                             case 6:
-                                _context12.prev = 6;
-                                _context12.next = 9;
+                                _context12.next = 8;
+                                return this.checkAuth(id, 'project', 'danger');
+
+                            case 8:
+                                auth = _context12.sent;
+
+                                if (auth) {
+                                    _context12.next = 11;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
+
+                            case 11:
+                                _context12.prev = 11;
+                                _context12.next = 14;
                                 return this.Model.up(id, data);
 
-                            case 9:
+                            case 14:
                                 result = _context12.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context12.next = 16;
+                                _context12.next = 21;
                                 break;
 
-                            case 13:
-                                _context12.prev = 13;
-                                _context12.t0 = _context12['catch'](6);
+                            case 18:
+                                _context12.prev = 18;
+                                _context12.t0 = _context12['catch'](11);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context12.t0.message);
 
-                            case 16:
+                            case 21:
                                 try {
                                     this.followModel.updateById(this.getUid(), id, data).then();
                                 } catch (e) {
                                     _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
                                 }
 
-                            case 17:
+                            case 22:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[6, 13]]);
+                }, _callee12, this, [[11, 18]]);
             }));
 
             function upSet(_x13) {
