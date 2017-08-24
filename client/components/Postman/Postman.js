@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // import { connect } from 'react-redux'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 // import { withRouter } from 'react-router';
@@ -25,15 +25,14 @@ export default class Run extends Component {
 
   static propTypes = {
     data: PropTypes.object,
-    save: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.func
-    ]),
-    saveTip: PropTypes.string
+    save: PropTypes.func,
+    saveTip: PropTypes.string,
+    type: PropTypes.string
   }
 
   state = {
     res: '',
+    resHeader: '',
     method: 'GET',
     domains: [],
     pathname: '',
@@ -62,7 +61,7 @@ export default class Run extends Component {
   @autobind
   getInterfaceState(nextProps) {
     const props = nextProps || this.props;
-    const { data } = props;
+    const { data, type } = props;
     const {
       method = '',
       path: url = '',
@@ -76,7 +75,8 @@ export default class Run extends Component {
       env = [],
       domain = ''
     } = data;
-    const pathname = (basepath + url).replace(/\/+/g, '/');
+    // case 任意编辑 pathname，不管项目的 basepath
+    const pathname = (type === 'inter' ? (basepath + url) : url).replace(/\/+/g, '/');
 
     let hasContentType = false;
     req_headers.forEach(headerItem => {
@@ -129,17 +129,26 @@ export default class Run extends Component {
       headers: this.getHeadersObj(headers),
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
-      success: (res) => {
-        try {
-          res = JSON.parse(res)
-        } catch (e) {
-          null
-        }
-        this.setState({res})
+      success: (res, header) => {
+        // try {
+        //   res = JSON.parse(res)
+        //   header = JSON.parse(header)
+        // } catch (e) {
+        //   message.error(e.message)
+        // }
+        message.success('请求完成')
+        this.setState({res, resHeader: header})
         this.setState({ loading: false })
       },
-      error: (err) => {
-        this.setState({res: err || '请求失败'})
+      error: (err, header) => {
+        // try {
+        //   err = JSON.parse(err)
+        //   header = JSON.parse(header)
+        // } catch (e) {
+        //   message.error(e.message)
+        // }
+        message.success('请求完成')
+        this.setState({res: err || '请求失败', resHeader: header})
         this.setState({ loading: false })
       }
     })
@@ -407,8 +416,8 @@ export default class Run extends Component {
               <Button
                 onClick={this.props.save}
                 type="primary"
-                style={{marginLeft: 10, display: this.props.save === false ? 'none' : ''}}
-              >保存</Button>
+                style={{marginLeft: 10}}
+              >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
             </Tooltip>
           </div>
 
@@ -531,14 +540,21 @@ export default class Run extends Component {
 
         <Card title="返回结果" noHovering className="resp-part">
           <Spin spinning={this.state.loading}>
-            <div className="res-part">
-              <div style={{padding: 10}}>
+            <div className="res-code"></div>
+            <Collapse defaultActiveKey={['0', '1']} bordered={true}>
+              <Panel header="BODY" key="0" >
                 <TextArea
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
-                  autosize={{ minRows: 2, maxRows: 6 }}
+                  autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
-              </div>
-            </div>
+              </Panel>
+              <Panel header="HEADERS" key="1" >
+                <TextArea
+                  value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
+                  autosize={{ minRows: 2, maxRows: 10 }}
+                ></TextArea>
+              </Panel>
+            </Collapse>
           </Spin>
         </Card>
       </div>
