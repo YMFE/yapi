@@ -82,12 +82,11 @@ class ProjectMember extends Component {
   // 增 - 添加成员
   @autobind
   handleOk() {
-    console.log(this.props.projectId, this.state.inputUid);
     this.props.addMember({
       id: this.props.projectId,
-      member_uid: this.state.inputUid
+      member_uid: this.state.inputUid,
+      role: this.state.inputRole
     }).then((res) => {
-      console.log(res);
       if (!res.payload.data.errcode) {
         message.success('添加成功!');
         this.reFetchList(); // 添加成功后重新获取分组成员列表
@@ -97,9 +96,9 @@ class ProjectMember extends Component {
   // 添加成员时 选择新增成员权限
   @autobind
   changeNewMemberRole(value) {
-    return () => {
-      console.log(this.props.projectId, value);
-    }
+    this.setState({
+      inputRole: value
+    });
   }
 
   // 删 - 删除分组成员
@@ -119,7 +118,6 @@ class ProjectMember extends Component {
   // 改 - 修改成员权限
   @autobind
   changeUserRole(e) {
-    console.log(e);
     const id = this.props.projectId;
     const role = e.split('-')[0];
     const member_uid = e.split('-')[1];
