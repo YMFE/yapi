@@ -1,21 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
 import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
-// import { withRouter } from 'react-router';
-// import axios from 'axios';
 import URL from 'url';
-// import AddColModal from './AddColModal'
-
-// import {
-// } from '../../../reducer/modules/group.js'
 
 import './Postman.scss'
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -42,7 +35,8 @@ export default class Run extends Component {
     headers: [],
     currDomain: '',
     bodyType: '',
-    bodyOther: ''
+    bodyOther: '',
+    isDidMount: false
   }
 
   constructor(props) {
@@ -57,6 +51,10 @@ export default class Run extends Component {
     if (nextProps.data._id !== this.props.data._id) {
       this.getInterfaceState(nextProps)
     }
+  }
+
+  componentDidMount() {
+    this.loadBodyEditor()
   }
 
   @autobind
@@ -301,7 +299,11 @@ export default class Run extends Component {
 
   @autobind
   changeBodyType(value) {
-    this.setState({bodyType: value})
+    this.setState({bodyType: value}, () => {
+      if(value !== 'file' && value !== 'form') {
+        this.loadBodyEditor()
+      }
+    })
   }
 
   hasCrossRequestPlugin() {
@@ -358,7 +360,6 @@ export default class Run extends Component {
   }
 
   bindAceEditor = () => {
-    console.log(mockEditor)
     mockEditor({
       container: 'res-body-pretty',
       data: JSON.stringify(this.state.res, null, 2),
@@ -372,6 +373,21 @@ export default class Run extends Component {
       onChange: function () {}
     })
   }
+  loadBodyEditor = () => {
+    const that = this;
+    setTimeout(function() {
+      mockEditor({
+        container: 'body-other-edit',
+        data: that.state.bodyOther,
+        onChange: function (d) {
+          if (d.format !== true) return false;
+          that.setState({
+            bodyOther: d.text
+          })
+        }
+      })
+    }, 0);
+  }
 
   @autobind
   fileChange(e, index) {
@@ -381,7 +397,7 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, bodyOther, currDomain, bodyType } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, currDomain, bodyType } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     let path = pathname;
     pathParam.forEach(item => {
@@ -503,17 +519,12 @@ export default class Run extends Component {
             >
               { method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
                 <div>
-                  <RadioGroup defaultValue="json">
+                  <RadioGroup value={bodyType} onChange={(e) => this.changeBodyType(e.target.value)}>
                     <RadioButton value="json">JSON</RadioButton>
                     <RadioButton value="text">TEXT</RadioButton>
                     <RadioButton value="xml">XML</RadioButton>
-                    <RadioButton value="html">HTML</RadioButton>
                   </RadioGroup>
-                  <TextArea
-                    value={bodyOther}
-                    style={{marginTop: 10}}
-                    autosize={{ minRows: 2, maxRows: 10 }}
-                  ></TextArea>
+                  <div id="body-other-edit" style={{marginTop: 10}} className="pretty-editor"></div>
                 </div>
               }
               {
@@ -566,14 +577,14 @@ export default class Run extends Component {
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>*/}
-                <div id="res-body-pretty" className="pretty-editor" style={{height: 200}}></div>
+                <div id="res-body-pretty" className="pretty-editor"></div>
               </Panel>
               <Panel header="HEADERS" key="1" >
                 {/*<TextArea
                   value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>*/}
-                <div id="res-headers-pretty" className="pretty-editor" style={{height: 200}}></div>
+                <div id="res-headers-pretty" className="pretty-editor"></div>
               </Panel>
             </Collapse>
           </Spin>
