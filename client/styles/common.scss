@@ -92,3 +92,9 @@ em {
 .pannel-without-tab {
   min-height: 5rem;
 }
+
+@media (max-width: 768px) {
+  html {
+    width: min-content !important;
+  }
+}
