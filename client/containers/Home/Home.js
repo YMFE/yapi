@@ -110,7 +110,7 @@ const HomeGuest = () => (
                   <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
                   <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array&quot;</span><span>:&ensp;</span>&#91;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">&quot;Jim&quot;</span>,&ensp;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">&quot;Jim&quot;</span>&#93;<span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;true & Bob,Jim,Bob,Jim&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;true & Bob,&ensp;Jim,&ensp;Bob,&ensp;Jim&quot;</span><span>&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
                   <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
                 </ol>
