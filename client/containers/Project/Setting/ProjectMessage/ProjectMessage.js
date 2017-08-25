@@ -92,6 +92,7 @@ class ProjectMessage extends Component {
 
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
+            this.props.getProjectMsg(this.props.projectId);
             message.success('修改成功! ');
             // this.props.history.push('/group');
           } else {
