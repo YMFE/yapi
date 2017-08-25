@@ -321,8 +321,8 @@ class InterfaceMenu extends Component {
       {menuList.length > 0 ?
         <Tree
           className="interface-list"
-          expandedKeys={currentKes.expands}
-          selectedKeys={currentKes.selects}
+          defaultExpandedKeys={currentKes.expands}
+          defaultSelectedKeys={currentKes.selects}
           onSelect={this.onSelect}
         >
           <TreeNode title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder-open" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />

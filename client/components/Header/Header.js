@@ -9,7 +9,7 @@ import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
-import { logoSVG } from '../../common.js';
+import { logoSVG, betaSVG } from '../../common.js';
 
 const MenuUser = (props) => (
   <Menu className="user-menu" >
@@ -167,7 +167,7 @@ export default class HeaderCom extends Component {
         <div className="content g-row">
           <div className="logo">
             <Link to="/group" onClick={this.relieveLink} className="href">
-              <span className="img">{logoSVG('32px')}</span><span className="logo-name">YAPI<span className="ui-badge"></span></span>
+              <span className="img">{logoSVG('32px')}</span><span className="logo-name">YAPI<span className="ui-badge">{betaSVG}</span></span>
             </Link>
           </div>
           <div className="user-toolbar">

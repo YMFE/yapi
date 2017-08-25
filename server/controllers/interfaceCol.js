@@ -229,7 +229,7 @@ class interfaceColController extends baseController{
             }
 
             let caseData = await this.caseModel.get(params.id);
-            let auth = await this.checkAuth(caseData.project_id, 'project', 'edit')
+            let auth = await this.checkAuth(caseData.project_id, 'project', 'edit');
             if (!auth) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
