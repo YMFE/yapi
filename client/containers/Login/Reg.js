@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message } from 'antd';
 import { regActions } from  '../../reducer/modules/user';
-
+import { withRouter } from 'react-router'
 const FormItem = Form.Item;
 const formItemStyle = {
   marginBottom: '.16rem'
@@ -23,7 +23,7 @@ const changeHeight = {
     regActions
   }
 )
-
+@withRouter
 class Reg extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +34,7 @@ class Reg extends Component {
 
   static propTypes = {
     form: PropTypes.object,
+    history: PropTypes.object,
     regActions: PropTypes.func
   }
 
@@ -44,26 +45,18 @@ class Reg extends Component {
       if (!err) {
         this.props.regActions(values).then((res) => {
           if (res.payload.data.errcode == 0) {
+            this.props.history.push('/group');
             message.success('注册成功! ');
-          } else {
-            message.error(res.payload.data.errmsg);
           }
-        }).catch((err) => {
-          message.error(err);
         });
       }
     });
   }
 
-  handleConfirmBlur = (e) => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  }
-
   checkPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('两次输入的密码不一致啊!');
     } else {
       callback();
     }
@@ -100,7 +93,7 @@ class Reg extends Component {
               pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
             }]
           })(
-            <Input style={changeHeight} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Email" />
+            <Input style={changeHeight} prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />
           )}
         </FormItem>
 
