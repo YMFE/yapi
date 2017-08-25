@@ -13,7 +13,6 @@ class projectModel extends baseModel {
             basepath: {type: String  },
             desc: String,
             group_id: { type: Number, required: true },
-            group_name: { type: String, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
                 {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
@@ -33,16 +32,16 @@ class projectModel extends baseModel {
         return m.save();
     }
 
-    get(id) {        
+    get(id) {
         return this.model.findOne({
             _id: id
         }).exec();
-    }   
+    }
 
     getBaseInfo(id){
         return this.model.findOne({
             _id: id
-        }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time')
+        }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time')
         .exec()
     }
 
