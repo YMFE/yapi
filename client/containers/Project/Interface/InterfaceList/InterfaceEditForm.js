@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
+import { handlePath } from '../../../../common.js'
 
 import {
   Form, Select, Input, Tooltip,
@@ -191,6 +192,10 @@ class InterfaceEditForm extends Component {
 
   handlePath = (e) => {
     let val = e.target.value;
+    val = handlePath(val)
+    this.props.form.setFieldsValue({
+      path: val
+    })
     if (val && val.indexOf(":") !== -1) {
       let paths = val.split("/"), name, i;
       for (i = 1; i < paths.length; i++) {
