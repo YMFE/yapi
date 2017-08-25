@@ -1,14 +1,16 @@
-.web-content{   
+.web-content{
     .left-menu{
         min-height: 5rem;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
         background: #FFF;
         border-radius:5px;
         margin: 3px;
+        // .item-all-interface {
+        //   background-color: red;
+        // }
         .ant-tabs-bar{
             border-bottom: none;
             margin-bottom: 0
-            
         }
         .ant-tabs-nav{
             width:100%;
@@ -40,7 +42,7 @@
             height: 40px;
             line-height: 31px;
         }
-        
+
         .interface-filter{
             padding-left: 10px;
             height:45px;
@@ -52,7 +54,7 @@
             a{
                 color: #333
             }
-            
+
             .btn-http{
                 height: 23px;
                 font-size: 10px;
@@ -93,8 +95,3 @@
         }
     }
 }
-
-
-
-
-
