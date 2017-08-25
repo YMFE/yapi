@@ -15,7 +15,7 @@ const limit = 10;
 @connect(
   state => {
     return {
-      curUserRole: state.login.role
+      curUserRole: state.user.role
     }
   }
 )
@@ -39,9 +39,9 @@ class List extends Component {
   }
 
   getUserList() {
-    axios.get('/user/list?page=' + this.state.current).then((res) => {
+    axios.get('/api/user/list?page=' + this.state.current).then((res) => {
       let result = res.data;
-      
+
       if (result.errcode === 0) {
         let list = result.data.list;
         let total = result.data.total * limit;
@@ -62,7 +62,7 @@ class List extends Component {
   }
 
   confirm = (uid) =>{
-    axios.post('/user/del', {
+    axios.post('/api/user/del', {
       id: uid
     }).then( (res)=>{
       if(res.data.errcode === 0){
@@ -92,12 +92,12 @@ class List extends Component {
       title: 'UID',
       dataIndex: '_id',
       key: '_id',
-      width: 70
+      width: 100
     }, {
       title: '用户名',
       dataIndex: 'username',
       key: 'username',
-      width: 150
+      width: 180
     }, {
       title: 'Email',
       dataIndex: 'email',
@@ -106,19 +106,19 @@ class List extends Component {
       title: '用户角色',
       dataIndex: 'role',
       key: 'role',
-      width:110
+      width:150
     }, {
       title: '更新日期',
       dataIndex: 'up_time',
       key: 'up_time',
-      width: 180
+      width: 150
     }, {
       title: '功能',
       key: 'action',
-      width:80,
+      width:"90px",
       render: (item) => {
         return (
-          <span>            
+          <span>
             <Link to={"/user/profile/" + item._id} >查看</Link>
             <span className="ant-divider" />
             <Popconfirm title="确认删除此用户?"  onConfirm={() => {this.confirm(item._id)}} okText="确定" cancelText="取消">

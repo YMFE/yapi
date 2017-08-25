@@ -52,10 +52,12 @@ var projectModel = function (_baseModel) {
                 basepath: { type: String },
                 desc: String,
                 group_id: { type: Number, required: true },
-                members: Array,
-                protocol: { type: String, required: true },
-                prd_host: { type: String, required: true },
+                group_name: { type: String, required: true },
+                project_type: { type: String, required: true, enum: ['public', 'private'] },
+                members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'] }, username: String, email: String }],
                 env: [{ name: String, domain: String }],
+                icon: String,
+                color: String,
                 add_time: Number,
                 up_time: Number
             };
@@ -72,6 +74,13 @@ var projectModel = function (_baseModel) {
             return this.model.findOne({
                 _id: id
             }).exec();
+        }
+    }, {
+        key: 'getBaseInfo',
+        value: function getBaseInfo(id) {
+            return this.model.findOne({
+                _id: id
+            }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time').exec();
         }
     }, {
         key: 'getByDomain',
@@ -97,10 +106,10 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(group_id) {
-            return this.model.find({
-                group_id: group_id
-            }).sort({ _id: -1 }).exec();
+        value: function list(group_id, auth) {
+            var params = { group_id: group_id };
+            if (!auth) params.project_type = 'public';
+            return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
         }
     }, {
         key: 'listWithPaging',
@@ -133,6 +142,13 @@ var projectModel = function (_baseModel) {
             });
         }
     }, {
+        key: 'delByGroupid',
+        value: function delByGroupid(groupId) {
+            return this.model.deleteMany({
+                group_id: groupId
+            });
+        }
+    }, {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
@@ -142,11 +158,11 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'addMember',
-        value: function addMember(id, uid) {
+        value: function addMember(id, data) {
             return this.model.update({
                 _id: id
             }, {
-                $push: { members: uid }
+                $push: { members: data }
             });
         }
     }, {
@@ -155,7 +171,7 @@ var projectModel = function (_baseModel) {
             return this.model.update({
                 _id: id
             }, {
-                $pull: { members: uid }
+                $pull: { members: { uid: uid } }
             });
         }
     }, {
@@ -163,7 +179,17 @@ var projectModel = function (_baseModel) {
         value: function checkMemberRepeat(id, uid) {
             return this.model.count({
                 _id: id,
-                members: { $in: [uid] }
+                "members.uid": uid
+            });
+        }
+    }, {
+        key: 'changeMemberRole',
+        value: function changeMemberRole(id, uid, role) {
+            return this.model.update({
+                _id: id,
+                "members.uid": uid
+            }, {
+                "$set": { "members.$.role": role }
             });
         }
     }, {
@@ -172,6 +198,15 @@ var projectModel = function (_baseModel) {
             return this.model.find({
                 name: new RegExp(keyword, 'ig')
             }).limit(10);
+        }
+    }, {
+        key: 'download',
+        value: function download(id) {
+            console.log('models in download');
+            // return this.model.find({
+            //     name: new RegExp(id, 'ig')
+            // })
+            //     .limit(10);
         }
     }]);
     return projectModel;

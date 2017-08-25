@@ -1,0 +1,33 @@
+.ant-tabs-bar {
+  border-bottom: 1px solid transparent;
+  margin-bottom: 0;
+}
+
+.m-panel{
+  background-color: #fff;
+  padding: 24px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+  border-radius: 4px;
+  min-height: 4.68rem;
+  margin-top: 0;
+}
+
+.ant-input-group-wrapper {
+  width: 100%;
+}
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  font-size: 24px;
+  color: #999;
+  transition: all .3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

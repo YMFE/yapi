@@ -24,6 +24,14 @@ var _sha = require('sha1');
 
 var _sha2 = _interopRequireDefault(_sha);
 
+var _log = require('../models/log.js');
+
+var _log2 = _interopRequireDefault(_log);
+
+var _json = require('json5');
+
+var _json2 = _interopRequireDefault(_json);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.resReturn = function (data, num, errmsg) {
@@ -111,7 +119,7 @@ exports.rand = function (min, max) {
 
 exports.json_parse = function (json) {
     try {
-        return JSON.parse(json);
+        return _json2.default.parse(json);
     } catch (e) {
         return json;
     }
@@ -247,4 +255,20 @@ exports.handleParams = function (params, keys) {
     }
 
     return params;
+};
+
+exports.saveLog = function (logData) {
+    try {
+        var logInst = _yapi2.default.getInst(_log2.default);
+        var data = {
+            content: logData.content,
+            type: logData.type,
+            uid: logData.uid,
+            username: logData.username,
+            typeid: logData.typeid
+        };
+        logInst.save(data).then();
+    } catch (e) {
+        _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
+    }
 };

@@ -13,26 +13,49 @@ class interfaceModel extends baseModel {
             path: { type: String, required: true },
             method: { type: String, required: true },
             project_id: { type: Number, required: true },
+            catid: {type: Number, required: true},
+            edit_uid: {type: Number, default: 0},
+            status: {type: String, enum: ['undone', 'done'], default: 'undone'},
             desc: String,
             add_time: Number,
             up_time: Number,
+            type: {type: String, enum: ['static', 'var'], default:'static'},
+            req_query:[{
+                name: String, value: String, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
+            }],
             req_headers: [{
-                name: String, value: String, desc: String, required: Boolean
+                name: String, value: String, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
             }],
-            req_params_type: {
+            req_params:[{
+                name: String,
+                desc: String
+            }],
+            req_body_type: {
                 type: String,
-                enum: ['form', 'json', 'text', 'xml']
+                enum: ['form', 'json', 'text', 'file', 'raw']
             },
-            req_params_form: [{
-                name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
+            req_body_form: [{
+                name: String,  type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                    type:String,
+                    enum: ["1", "0"],
+                    default: "1"
+                }
             }],
-            req_params_other: String,
+            req_body_other: String,
             res_body_type: {
                 type: String,
-                enum: ['json', 'text', 'xml']
+                enum: ['json', 'text', 'xml', 'raw']
             },
             res_body: String
-        };
+        };  
     }
 
     save(data) {
@@ -45,6 +68,13 @@ class interfaceModel extends baseModel {
             _id: id
         })
             .exec();
+    }
+
+    getVar(project_id, method){
+        return this.model.find({
+            type: 'var',
+            method: method
+        }).select('_id path').exec()
     }
 
     getByPath(project_id, path, method) {
@@ -70,12 +100,21 @@ class interfaceModel extends baseModel {
         });
     }
 
-    list(project_id) {
+    list(project_id, select) {
+        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
         return this.model.find({
             project_id: project_id
         })
+            .select(select)
             .sort({ _id: -1 })
             .exec();
+    }
+
+    listByCatid(catid, select){
+        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
+        return this.model.find({
+            catid: catid
+        }).select(select).exec();
     }
 
     del(id) {
@@ -83,12 +122,32 @@ class interfaceModel extends baseModel {
             _id: id
         });
     }
-    
+
+    delByCatid(id){
+        return this.model.deleteMany({
+            catid: id
+        })
+    }
+
+    delByProjectId(id){
+        return this.model.deleteMany({
+            project_id: id
+        })
+    }
+
     up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id
-        }, data, { runValidators: true });
+        }, data, {runValidators: true });
+    }
+
+    upEditUid(id, uid){
+        return this.model.update({
+            _id: id
+        }, 
+        {edit_uid: uid},
+        {runValidators: true });
     }
 }
 

@@ -1,9 +1,8 @@
 @import '../../styles/common.scss';
 
-.ant-tabs-nav-wrap {
-  font-size: .16rem;
-  text-align: center;
-}
+// .login-body {
+//   background-color: #fff;
+// }
 
 .login-form-button {
   // background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
@@ -18,16 +17,44 @@
 .qsso-breakline{
   display: flex;
   align-items: center;
-  color: #f7fafc;
+  color: #6d7c90;
   margin: .2rem auto;
   &:before, &:after{
     content: "";
     display: inline-block;
     height: .02rem;
     flex: 1;
-    border-top: .01rem solid #f7fafc;
+    border-top: .01rem solid #6d7c90;
   }
   .qsso-breakword{
     padding: 0 .1rem;
+  }
+}
+
+.card-login {
+  margin-top: 1.6rem;
+  margin-bottom: 1.6rem;
+  border-radius: .04rem;
+  position: relative;
+  .login-logo {
+    font-size: 0;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    background-image: linear-gradient(-20deg, #21d4fd 0%, #b721ff 100%);
+    transform: translate(-50%, -50%);
+    padding: .16rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+  .login-title {
+    text-align: center;
+    padding-top: .5rem;
+    font-size: .4rem;
+    font-weight: 200;
+    color: #2e2e5a;
+  }
+  .svg {
+    animation: spin 5s linear infinite;
   }
 }

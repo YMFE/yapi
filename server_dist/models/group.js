@@ -51,7 +51,13 @@ var groupModel = function (_baseModel) {
                 group_name: String,
                 group_desc: String,
                 add_time: Number,
-                up_time: Number
+                up_time: Number,
+                members: [{
+                    uid: Number,
+                    role: { type: String, enum: ['owner', 'dev'] },
+                    username: String,
+                    email: String
+                }]
             };
         }
     }, {
@@ -68,10 +74,53 @@ var groupModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'getGroupById',
+        value: function getGroupById(id) {
+            return this.model.findOne({
+                _id: id
+            }).select("uid group_name group_desc add_time up_time").exec();
+        }
+    }, {
         key: 'checkRepeat',
         value: function checkRepeat(name) {
             return this.model.count({
                 group_name: name
+            });
+        }
+    }, {
+        key: 'addMember',
+        value: function addMember(id, data) {
+            return this.model.update({
+                _id: id
+            }, {
+                $push: { members: data }
+            });
+        }
+    }, {
+        key: 'delMember',
+        value: function delMember(id, uid) {
+            return this.model.update({
+                _id: id
+            }, {
+                $pull: { members: { uid: uid } }
+            });
+        }
+    }, {
+        key: 'changeMemberRole',
+        value: function changeMemberRole(id, uid, role) {
+            return this.model.update({
+                _id: id,
+                "members.uid": uid
+            }, {
+                "$set": { "members.$.role": role }
+            });
+        }
+    }, {
+        key: 'checkMemberRepeat',
+        value: function checkMemberRepeat(id, uid) {
+            return this.model.count({
+                _id: id,
+                "members.uid": uid
             });
         }
     }, {

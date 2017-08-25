@@ -8,17 +8,21 @@ class projectModel extends baseModel {
 
     getSchema() {
         return {
-            uid: { type: Number, required: true },
+            uid: {type: Number, required: true},
             name: { type: String, required: true },
             basepath: {type: String  },
             desc: String,
             group_id: { type: Number, required: true },
-            members: Array,
-            protocol: { type: String, required: true },
-            prd_host: { type: String, required: true },
+            group_name: { type: String, required: true },
+            project_type: {type:String, required: true, enum: ['public', 'private']},
+            members: [
+                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
+            ],
             env: [
                 { name: String, domain: String }
             ],
+            icon: String,
+            color: String,
             add_time: Number,
             up_time: Number
         };
@@ -29,10 +33,17 @@ class projectModel extends baseModel {
         return m.save();
     }
 
-    get(id) {
+    get(id) {        
         return this.model.findOne({
             _id: id
         }).exec();
+    }   
+
+    getBaseInfo(id){
+        return this.model.findOne({
+            _id: id
+        }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time')
+        .exec()
     }
 
     getByDomain(domain) {
@@ -54,10 +65,10 @@ class projectModel extends baseModel {
         });
     }
 
-    list(group_id) {
-        return this.model.find({
-            group_id: group_id
-        }).sort({ _id: -1 }).exec();
+    list(group_id, auth) {
+        let params = {group_id: group_id}
+        if(!auth) params.project_type = 'public';
+        return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
     }
 
     listWithPaging(group_id, page, limit) {
@@ -86,6 +97,12 @@ class projectModel extends baseModel {
         });
     }
 
+    delByGroupid(groupId){
+        return this.model.deleteMany({
+            group_id: groupId
+        })
+    }
+
     up(id, data) {
         data.up_time = yapi.commons.time();
         return this.model.update({
@@ -93,12 +110,12 @@ class projectModel extends baseModel {
         }, data, { runValidators: true });
     }
 
-    addMember(id, uid) {
+    addMember(id, data) {
         return this.model.update(
             {
                 _id: id
             }, {
-                $push: { members: uid }
+                $push: { members: data }
             }
         );
     }
@@ -108,7 +125,7 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $pull: { members: uid }
+                $pull: { members: {uid: uid} }
             }
         );
     }
@@ -116,8 +133,19 @@ class projectModel extends baseModel {
     checkMemberRepeat(id, uid) {
         return this.model.count({
             _id: id,
-            members: {$in: [uid]}
+            "members.uid": uid
         });
+    }
+
+    changeMemberRole(id, uid, role) {
+        return this.model.update(
+            {
+                _id: id,
+                 "members.uid": uid
+            }, {
+                "$set": { "members.$.role": role}
+            }
+        );
     }
 
     search(keyword) {
@@ -125,6 +153,14 @@ class projectModel extends baseModel {
             name: new RegExp(keyword, 'ig')
         })
             .limit(10);
+    }
+
+    download(id) {
+      console.log('models in download');
+        // return this.model.find({
+        //     name: new RegExp(id, 'ig')
+        // })
+        //     .limit(10);
     }
 }
 

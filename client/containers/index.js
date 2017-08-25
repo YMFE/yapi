@@ -1,17 +1,17 @@
 import Header from '../components/Header/Header.js'
 import Home from './Home/Home.js'
-import Login from './Login/LoginWrap.js'
-import ProjectGroups from './ProjectGroups/ProjectGroups.js'
-import Interface from './Interface/Interface.js'
-import News from './News/News.js'
-import AddInterface from './AddInterface/AddInterface.js'
+import Login from './Login/LoginContainer.js'
+import Group from './Group/Group.js'
+import Project from './Project/Project.js'
+import Follows from './Follows/Follows.js'
+import AddProject from './AddProject/AddProject.js'
 
 export {
   Header,
   Home,
   Login,
-  ProjectGroups,
-  Interface,
-  AddInterface,
-  News
+  Group,
+  Project,
+  Follows,
+  AddProject
 }

@@ -37,3 +37,6 @@ node_modules/
 runtime/
 prd/
 dev/
+.tags
+.tags1
+tsconfig.json

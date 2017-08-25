@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import '~antd/dist/antd.css';
+
 
 html {
   font-size:625%;
@@ -11,7 +11,10 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #f1f3f6;
+  background: #ececec;
+}
+::selection {
+  background-color: #2395f1;
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -39,16 +42,49 @@ em {
   font-style: normal;
 }
 
+[data-reactroot], .g-main, .router-main {
+  height: 100%;
+}
 // 页面最外层元素 样式
 .router-main {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  padding-bottom: .24rem;
+  min-height: 100%;
+  height: auto !important;
   height: 100%;
-  .router-container{
-    min-height:calc(100% - 2.47rem);
+  margin-bottom: -2.4rem;
+  &::after {
+    content: '';
+    display: block;
+    height: 2.4rem;
   }
 }
 
 .hidden {
   display: none;
+}
+
+// 布局容器 guitter: 16px
+.g-row {
+  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
+  min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
+  margin: 0 auto;
+  padding: 0 .24rem;
+}
+
+.m-container {
+  margin: .24rem auto;
+  padding: .24rem;
+}
+
+.ant-dropdown .user-menu {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+// confirm 框内边距过大
+.ant-confirm .ant-modal-body{
+  padding: .24rem !important;
+}
+
+.card-panel {
+  padding: .36rem .24rem 0;
 }
