@@ -61,7 +61,8 @@ class InterfaceEdit extends Component {
   }
 
   componentWillMount() {
-    let s = new WebSocket('ws://yapi.local.qunar.com:3000/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
+    let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
+    let s = new WebSocket('ws://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
     s.onopen = () => {
       this.WebSocket = s;
     }
