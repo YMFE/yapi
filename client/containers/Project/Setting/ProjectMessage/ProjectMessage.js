@@ -330,7 +330,7 @@ class ProjectMessage extends Component {
             </Popover>
           </Col>
           <Col xs={18} sm={15} lg={19} className="setting-intro">
-            <h2 className="ui-title">{projectMsg.group_name + ' / ' + projectMsg.name}</h2>
+            <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
             <p className="ui-desc">{projectMsg.desc}</p>
           </Col>
         </Row>
