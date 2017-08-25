@@ -478,7 +478,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addPathParam}>Add path parameter</Button>
+              <Button type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
             </Panel>
             <Panel header="QUERY PARAMETERS" key="1">
               {
@@ -493,7 +493,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
+              <Button type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
             </Panel>
             <Panel header="HEADERS" key="2" >
               {
@@ -508,7 +508,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addHeader}>Add header</Button>
+              <Button type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
             </Panel>
             <Panel
               header={
@@ -559,7 +559,7 @@ export default class Run extends Component {
                       )
                     })
                   }
-                  <Button type="primary" icon="plus" onClick={this.addBody}>Add form parameter</Button>
+                  <Button type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
                 </div>
               }
               {
