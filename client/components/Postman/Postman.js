@@ -8,7 +8,7 @@ import URL from 'url';
 
 import './Postman.scss'
 
-// const { TextArea } = Input;
+const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -25,8 +25,8 @@ export default class Run extends Component {
   }
 
   state = {
-    res: '',
-    resHeader: '',
+    res: {},
+    resHeader: {},
     method: 'GET',
     domains: [],
     pathname: '',
@@ -55,7 +55,7 @@ export default class Run extends Component {
 
   componentDidMount() {
     const { bodyType } = this.state;
-    if(bodyType !== 'file' && bodyType !== 'form') {
+    if(bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
     }
   }
@@ -109,7 +109,7 @@ export default class Run extends Component {
       bodyType: req_body_type || 'form',
       loading: false
     }, () => {
-      if(req_body_type !== 'file' && req_body_type !== 'form') {
+      if(req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
         this.loadBodyEditor()
       }
     });
@@ -404,8 +404,9 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, currDomain, bodyType } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, currDomain, bodyType, resHeader } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
+    const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
@@ -420,11 +421,23 @@ export default class Run extends Component {
             <Alert
               message={
                 <div>
-                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
-                  <a
-                    target="blank"
-                    href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                  >测试增强插件 [点击获取]！</a>
+                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;
+                  <div>
+                    <a
+                      target="blank"
+                      href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                    > [Google 商店获取（需翻墙）]</a>
+                  </div>
+                  <div>
+                    <a
+                      target="blank"
+                      href="/attachment/cross-request.crx"
+                    > [手动下载安装] </a>
+                    <a
+                      target="blank"
+                      href="http://www.jianshu.com/p/12ca04c61fc6"
+                    > [安装教程] </a>
+                  </div>
                 </div>
               }
               type="warning"
@@ -477,7 +490,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addPathParam}>Add path parameter</Button>
+              <Button type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
             </Panel>
             <Panel header="QUERY PARAMETERS" key="1">
               {
@@ -492,7 +505,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addQuery}>Add query parameter</Button>
+              <Button type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
             </Panel>
             <Panel header="HEADERS" key="2" >
               {
@@ -507,7 +520,7 @@ export default class Run extends Component {
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addHeader}>Add header</Button>
+              <Button type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
             </Panel>
             <Panel
               header={
@@ -558,7 +571,7 @@ export default class Run extends Component {
                       )
                     })
                   }
-                  <Button type="primary" icon="plus" onClick={this.addBody}>Add form parameter</Button>
+                  <Button type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
                 </div>
               }
               {
@@ -580,11 +593,12 @@ export default class Run extends Component {
             <div className="res-code"></div>
             <Collapse defaultActiveKey={['0', '1']} bordered={true}>
               <Panel header="BODY" key="0" >
-                {/*<TextArea
+                <div id="res-body-pretty" className="pretty-editor" style={{display: isResJson ? '' : 'none'}}></div>
+                <TextArea
+                style={{display: isResJson ? 'none' : ''}}
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
-                ></TextArea>*/}
-                <div id="res-body-pretty" className="pretty-editor"></div>
+                ></TextArea>
               </Panel>
               <Panel header="HEADERS" key="1" >
                 {/*<TextArea

@@ -67,9 +67,10 @@ class ProjectCard extends Component {
 
   render() {
     const { projectData, inFollowPage } = this.props;
+    console.log(projectData);
     return (
       <div className="card-container">
-        <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + projectData._id)}>
+        <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + (projectData.projectid || projectData._id))}>
           <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectData.color] || constants.PROJECT_COLOR.blue }} />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
         </Card>
