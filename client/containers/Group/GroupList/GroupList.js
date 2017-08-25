@@ -116,6 +116,8 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({groupList: this.props.groupList});
       this.props.setCurrGroup(res.data.data)
+    }else{
+      message.error(res.data.errmsg)
     }
   }
   @autobind
