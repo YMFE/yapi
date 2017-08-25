@@ -52,23 +52,46 @@ var interfaceModel = function (_baseModel) {
                 path: { type: String, required: true },
                 method: { type: String, required: true },
                 project_id: { type: Number, required: true },
+                catid: { type: Number, required: true },
+                edit_uid: { type: Number, default: 0 },
+                status: { type: String, enum: ['undone', 'done'], default: 'undone' },
                 desc: String,
                 add_time: Number,
                 up_time: Number,
+                type: { type: String, enum: ['static', 'var'], default: 'static' },
+                req_query: [{
+                    name: String, value: String, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
+                }],
                 req_headers: [{
-                    name: String, value: String, desc: String, required: Boolean
+                    name: String, value: String, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
                 }],
-                req_params_type: {
+                req_params: [{
+                    name: String,
+                    desc: String
+                }],
+                req_body_type: {
                     type: String,
-                    enum: ['form', 'json', 'text', 'xml']
+                    enum: ['form', 'json', 'text', 'file', 'raw']
                 },
-                req_params_form: [{
-                    name: String, value: String, value_type: { type: String, enum: ['text', 'file'] }, desc: String, required: Boolean
+                req_body_form: [{
+                    name: String, type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                        type: String,
+                        enum: ["1", "0"],
+                        default: "1"
+                    }
                 }],
-                req_params_other: String,
+                req_body_other: String,
                 res_body_type: {
                     type: String,
-                    enum: ['json', 'text', 'xml']
+                    enum: ['json', 'text', 'xml', 'raw']
                 },
                 res_body: String
             };
@@ -85,6 +108,14 @@ var interfaceModel = function (_baseModel) {
             return this.model.findOne({
                 _id: id
             }).exec();
+        }
+    }, {
+        key: 'getVar',
+        value: function getVar(project_id, method) {
+            return this.model.find({
+                type: 'var',
+                method: method
+            }).select('_id path').exec();
         }
     }, {
         key: 'getByPath',
@@ -113,10 +144,19 @@ var interfaceModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(project_id) {
+        value: function list(project_id, select) {
+            select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time';
             return this.model.find({
                 project_id: project_id
-            }).sort({ _id: -1 }).exec();
+            }).select(select).sort({ _id: -1 }).exec();
+        }
+    }, {
+        key: 'listByCatid',
+        value: function listByCatid(catid, select) {
+            select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time';
+            return this.model.find({
+                catid: catid
+            }).select(select).exec();
         }
     }, {
         key: 'del',
@@ -126,12 +166,33 @@ var interfaceModel = function (_baseModel) {
             });
         }
     }, {
+        key: 'delByCatid',
+        value: function delByCatid(id) {
+            return this.model.deleteMany({
+                catid: id
+            });
+        }
+    }, {
+        key: 'delByProjectId',
+        value: function delByProjectId(id) {
+            return this.model.deleteMany({
+                project_id: id
+            });
+        }
+    }, {
         key: 'up',
         value: function up(id, data) {
             data.up_time = _yapi2.default.commons.time();
             return this.model.update({
                 _id: id
             }, data, { runValidators: true });
+        }
+    }, {
+        key: 'upEditUid',
+        value: function upEditUid(id, uid) {
+            return this.model.update({
+                _id: id
+            }, { edit_uid: uid }, { runValidators: true });
         }
     }]);
     return interfaceModel;

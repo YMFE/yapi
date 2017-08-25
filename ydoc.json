@@ -24,7 +24,7 @@
             "version": "v1.0.0", // 版本信息将显示在banner底部
             "button": [{ // 按钮组将显示在banner底部
                 "name": "开始",
-                "href": "./interface.html"
+                "href": "./start.html"
             },{
                 "name": "Github",
                 "href": "https://github.com/YMFE/yapi"
@@ -37,34 +37,34 @@
                 "detail": {
                     "type": "thumbnail", // 三列布局的介绍板块
                     "content": [{ // 三列布局的内容，每项的key值非必需，但建议每列的key值一致
-                        "name": "项目接口管理", // 板块名称
+                        "name": "项目管理", // 板块名称
                         "src": "http://ojk406wln.bkt.clouddn.com/intro_muti.png", // 缩略图
-                        "desc": "提供基本的项目分组，项目管理，接口管理功能" // 描述
+                        "desc": "YApi成熟的团队管理，扁平化项目权限配置满足各类企业的需求" // 描述
                     },{
-                        "name": "mockServer服务",
+                        "name": "接口管理",
                         "src": "http://ojk406wln.bkt.clouddn.com/intro_md.png",
-                        "desc": "用户只需在项目配置线上域名和接口基本路径，通过将线上域名指到我们的YApi平台服务器，就可使用mockServer服务"
+                        "desc": "友好的接口文档，基于websocket的多人协作接口编辑功能和类postman测试工具，让多人协作成倍提升开发效率"
                     },{
-                        "name": "用户管理",
+                        "name": "MockServer",
                         "src": "http://ojk406wln.bkt.clouddn.com/intro_theme.png",
-                        "desc": "提供基本的用户注册登录管理等功能，集成了去哪儿QSSO登录"
+                        "desc": "基于Mockjs，使用简单功能强大"
                     }]
                 }
             }]
         },
         "banner": { // Banner 配置
             "title": "YApi",
-            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
+            "description": "高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": "./README/README-home.md" // 内容(这里以markdown文件举例)
+        "content": "./doc/home.md" // 内容(这里以markdown文件举例)
     },{
-        "name": "interface", // Page Name 会根据他生成 html 文件，例: index.html
-        "title": "接口管理", // Page Title
+        "name": "start", // Page Name 会根据他生成 html 文件，例: index.html
+        "title": "快速开始", // Page Title
         "banner": { // Banner 配置
             "title": "YApi",
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": "./README/README-interface.md" // 内容(这里以markdown文件举例)
+        "content": "./doc/interface.md" // 内容(这里以markdown文件举例)
     },{
         "name": "mock", // Page Name 会根据他生成 html 文件，例: index.html
         "title": "Mock功能", // Page Title
@@ -72,8 +72,8 @@
             "title": "YApi",
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": "./README/README-mock.md" // 内容(这里以markdown文件举例)
-        
+        "content": "./doc/mock.md" // 内容(这里以markdown文件举例)
+
     },{
         "name": "api",
         "title": "",
@@ -85,8 +85,11 @@
         "options": {
             "type": "interface", // 类型，可选 component 和 lib，默认 component
             "source": true, // 是否生成源文件预览，默认 false
-            "categories":["group","user","project", "interface"]
-            
+            "categories":["group","user","project", "interface","follow"]
+
         }
-    }]
+    }],
+    "resources": {
+        "images": "./doc/images"
+    }
 }

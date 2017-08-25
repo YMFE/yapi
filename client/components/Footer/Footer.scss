@@ -2,62 +2,52 @@
 @import '../../styles/mixin.scss';
 
 .footer-wrapper{
-    width: 100%;
+  border-top: 1px solid #ddd;
+  height: 2.4rem;
+  width: 100%;
+  background-color: $color-bg-dark;
+  overflow: hidden;
 }
-.footer{
-    @include wrap-width-limit;
-    margin: 0 auto;
-    clear: both;
-    font-size: 12px;
-    background: #000c15;
-    position: relative;
-    z-index: 1;
-    color: rgba(255,255,255,.65);
-    box-shadow: 0 1000px 0 1000px #fff;
-    // background-image: url('image/footer-bac.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    h4{
-        margin-bottom: 20px;
-        color: #FFF;
-        i{
-            margin-left: -20px;
-        }
+
+.footer-container{
+  @include row-width-limit;
+  margin: 0 auto !important;
+  padding-top: .48rem;
+  padding-bottom: .48rem;
+  .icon {
+    font-size: .16rem;
+    margin-right: .08rem;
+  }
+  .title {
+    color: #8898aa;
+    font-size: .14rem;
+    margin-bottom: .08rem;
+  }
+  .link {
+    font-size: .14rem;
+    font-weight: 200;
+    color: #8898aa;
+    line-height: .3rem;
+    transition: color .2s;
+    &:hover {
+      color: $color-bg-gray;
     }
-}
-.footerMask{
-    @include wrap-width-limit;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #404040;
-    opacity: .65;
-    z-index: 1;
-}
-.footContent{
-    @include row-width-limit;
-    //width:90%;
-    margin:0 auto;
-    overflow: hidden;
-    position: relative;
-    z-index: 2;
+  }
 }
 .footItem{
-    padding: 24px 2%;
-    width: 25%;
-    float: left;
-    div{
-        margin: 6px 0;
+  padding: 24px 2%;
+  width: 25%;
+  float: left;
+  div{
+    margin: 6px 0;
+  }
+  a{
+    font-weight: 200;
+    color: #b3bdc1;
+    &:hover{
+      color: white;
     }
-    a{
-        font-weight: 200;
-        color: #b3bdc1;
-        &:hover{
-            color: white;
-        }
-    }
-
+  }
 }
 .copyRight{
     padding: 24px 2%;
@@ -65,7 +55,6 @@
     float: left;
     font-size: 12px;
     text-indent: 1em;
-
     h4{
         font-size: 14px;
         margin: 0 auto 12px;

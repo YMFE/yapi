@@ -3,19 +3,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction} from '../../actions/login'
-import { changeMenuItem } from '../../actions/menu'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar } from 'antd'
+import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
+import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
+import { logoSVG, betaSVG } from '../../common.js';
 
 const MenuUser = (props) => (
-  <Menu
-  style={{
-    "boxShadow":"0 1px 6px rgba(0, 0, 0, 0.3)"
-  }}
-  >
+  <Menu className="user-menu" >
     <Menu.Item key="0">
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
@@ -24,19 +21,32 @@ const MenuUser = (props) => (
     </Menu.Item>
   </Menu>
 );
+
 MenuUser.propTypes={
-  user:PropTypes.string,
-  msg:PropTypes.string,
+  user: PropTypes.string,
+  msg: PropTypes.string,
   uid: PropTypes.number,
-  relieveLink:PropTypes.func,
-  logout:PropTypes.func
+  relieveLink: PropTypes.func,
+  logout: PropTypes.func
 }
 
 const ToolUser = (props)=> (
   <ul>
-    <li className="toolbar-li">
+    <li className="toolbar-li item-search">
       <Srch groupList={props.groupList}/>
     </li>
+    <Link to="/add-project">
+      <Tooltip placement="bottom" title={'新建项目'}>
+        <li className="toolbar-li">
+          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
+        </li>
+      </Tooltip>
+    </Link>
+    <Tooltip placement="bottom" title={'使用文档'}>
+      <li className="toolbar-li">
+        <a target="_blank" href="/doc/index.html"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+      </li>
+    </Tooltip>
     <li className="toolbar-li">
       <Dropdown
         placement = "bottomRight"
@@ -50,18 +60,21 @@ const ToolUser = (props)=> (
           />
       }>
         <a className="dropdown-link">
-          <Icon type="solution" />
+          <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+          {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
+          <span className="name">{props.user}</span>
+
         </a>
       </Dropdown>
     </li>
   </ul>
 );
 ToolUser.propTypes={
-  user:PropTypes.string,
-  msg:PropTypes.string,
+  user: PropTypes.string,
+  msg: PropTypes.string,
   uid: PropTypes.number,
-  relieveLink:PropTypes.func,
-  logout:PropTypes.func,
+  relieveLink: PropTypes.func,
+  logout: PropTypes.func,
   groupList: PropTypes.array
 };
 
@@ -70,11 +83,10 @@ ToolUser.propTypes={
 @connect(
   (state) => {
     return{
-      user: state.login.userName,
-      uid: state.login.uid,
+      user: state.user.userName,
+      uid: state.user.uid,
       msg: null,
-      login:state.login.isLogin,
-      curKey: state.menu.curKey
+      login:state.user.isLogin
     }
   },
   {
@@ -95,7 +107,6 @@ export default class HeaderCom extends Component {
     msg: PropTypes.string,
     uid: PropTypes.number,
     login:PropTypes.bool,
-    curKey:PropTypes.string,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
     checkLoginState:PropTypes.func,
@@ -146,58 +157,32 @@ export default class HeaderCom extends Component {
       console.log(err);
     })
   }
+
+
+
   render () {
-    const { login, user, msg, uid, curKey } = this.props;
-    const headerImgStyle = login?{}:{
-      'background': 'url(./image/header-bg-img.jpg) no-repeat',
-      'backgroundSize':'100% 100%'
-    };
-    const headerShadeStyle = login? {
-      'padding':'0'
-    }: {
-      'background': 'linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.5))',
-      'padding':'0'
-    };
+    const { login, user, msg, uid } = this.props;
     return (
-      <acticle className={`header-box`} style={headerImgStyle}>
-        <Header style={headerShadeStyle}>
-          <div className="content">
-            <div className="logo">
-              <Link to="/" onClick={this.relieveLink}>YAPI<span className="ui-badge"></span></Link>
-            </div>
-            <Menu
-              mode="horizontal"
-              className="nav-toolbar"
-              theme="dark"
-              style={{
-                lineHeight : '.64rem',
-                backgroundColor:"transparent",
-                borderColor:"transparent"
-              }}
-              onClick={this.linkTo}
-              selectedKeys={[curKey]}
-            >
-              <Menu.Item key="/group">
-                <Link to="/group">项目广场</Link>
-              </Menu.Item>
-              <Menu.Item key="/doc">
-                <a target="_blank" href="./doc/index.html">使用文档</a>
-              </Menu.Item>
-            </Menu>
-            <div className="user-toolbar">
-              {login?
-                <ToolUser
-                  user = { user }
-                  msg = { msg }
-                  uid = { uid }
-                  relieveLink = { this.relieveLink }
-                  logout = { this.logout }
-                />
-                :""}
-            </div>
+      <Header className="header-box m-header">
+        <div className="content g-row">
+          <div className="logo">
+            <Link to="/group" onClick={this.relieveLink} className="href">
+              <span className="img">{logoSVG('32px')}</span><span className="logo-name">YAPI<span className="ui-badge">{betaSVG}</span></span>
+            </Link>
           </div>
-        </Header>
-      </acticle>
+          <div className="user-toolbar">
+            {login?
+              <ToolUser
+                user = { user }
+                msg = { msg }
+                uid = { uid }
+                relieveLink = { this.relieveLink }
+                logout = { this.logout }
+              />
+              :""}
+          </div>
+        </div>
+      </Header>
     )
   }
 }

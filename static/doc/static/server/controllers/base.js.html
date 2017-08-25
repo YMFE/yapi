@@ -28,6 +28,10 @@
                 import yapi from '../yapi.js';
 import projectModel from '../models/project.js';
 import userModel from '../models/user.js';
+import interfaceModel from '../models/interface.js'
+import groupModel from '../models/group.js'
+
+import _ from 'underscore'
 const jwt = require('jsonwebtoken');
 
 class baseController {
@@ -43,11 +47,11 @@ class baseController {
     async init(ctx) {
         this.$user = null;
         let ignoreRouter = [
-            '/user/login_by_token',
-            '/user/login',
-            '/user/reg',
-            '/user/status',
-            '/user/logout'
+            '/api/user/login_by_token',
+            '/api/user/login',
+            '/api/user/reg',
+            '/api/user/status',
+            '/api/user/logout'
         ];
         if (ignoreRouter.indexOf(ctx.path) > -1) {
             this.$auth = true;
@@ -84,57 +88,108 @@ class baseController {
         }
 
     }
+    /**
+     * 
+     * @param {*} ctx 
+     */
 
     async getLoginStatus(ctx) {
         if (await this.checkLogin(ctx) === true) {
-            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time','role']);
+            let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type']);
             result.server_ip = yapi.WEBCONFIG.server_ip;
             return ctx.body = yapi.commons.resReturn(result);
         }
-        return ctx.body = yapi.commons.resReturn(null, 300, 'Please login.');
+        return ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
     }
 
     getRole() {
         return this.$user.role;
     }
 
-    async jungeProjectAuth(id) {
-        let model = yapi.getInst(projectModel);
-
-        if (this.getRole() === 'admin') {
-            return true;
-        }
-
-        if (!id) {
-            return false;
-        }
-
-        let result = await model.get(id);
-
-        if (result.uid === this.getUid()) {
-            return true;
-        }
-
-        return false;
+    getUsername() {
+        return this.$user.username;
     }
+    async getProjectRole(id, type) {
+        let result = {};
+        try {
+            if (this.getRole() === 'admin') {
+                return 'admin';
+            }
+            if (type === 'interface') {
+                let interfaceInst = yapi.getInst(interfaceModel);
+                let interfaceData = await interfaceInst.get(id)
+                result.interfaceData = interfaceData;
+                if (interfaceData.uid === this.getUid()) {
+                    return 'owner';
+                }
+                type = 'project';
+                id = interfaceData.project_id;
+            }
 
-    async jungeMemberAuth(id, member_uid) {
-        let model = yapi.getInst(projectModel);
+            if (type === 'project') {
+                let projectInst = yapi.getInst(projectModel);
+                let projectData = await projectInst.get(id);
+                if (projectData.uid === this.getUid()) {
+                    return 'owner';
+                }
+                let memberData = _.find(projectData.members, (m) => {
+                    if (m.uid === this.getUid()) {
+                        return true;
+                    }
+                })
 
-        if (this.getRole() === 'admin') {
-            return true;
+                if (memberData && memberData.role) {
+                    if (memberData.role === 'owner') {
+                        return 'owner';
+                    }else {
+                        return 'dev';
+                    }
+                }
+                type = 'group';
+                id = projectData.group_id
+            }
+
+            if (type === 'group') {
+                let groupInst = yapi.getInst(groupModel);
+                let groupData = await groupInst.get(id);
+                let groupMemberData = _.find(groupData.members, (m) => {
+                    if (m.uid === this.getUid()) {
+                        return true;
+                    }
+                })
+                if (groupMemberData && groupMemberData.role) {
+                    if (groupMemberData.role === 'owner') {
+                        return 'owner';
+                    }else{
+                        return 'dev'
+                    }
+                }
+            }
+
+            return 'member';
         }
-
-        if (!id || !member_uid) {
+        catch (e) {
+            yapi.commons.log(e.message, 'error')
             return false;
         }
-
-        let result = await model.checkMemberRepeat(id, member_uid);
-
-        if (result > 0) {
-            return true;
+    }
+    /**
+     * 
+     * @param {*} id type对应的id
+     * @param {*} type enum[interface, project, group] 
+     * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+     */
+    async checkAuth(id, type, action) {
+        let role =  await this.getProjectRole(id, type);
+        if(action === 'danger'){
+            if(role === 'admin' || role === 'owner'){
+                return true;
+            }
+        }else if(action === 'edit'){
+            if(role === 'admin' || role === 'owner' || role === 'dev'){
+                return true;
+            }
         }
-
         return false;
     }
 }

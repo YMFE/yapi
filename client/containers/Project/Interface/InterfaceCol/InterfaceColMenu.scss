@@ -1,0 +1,17 @@
+.col-list-tree {
+  .ant-tree-node-content-wrapper {
+    width: calc(100% - 24px);
+  }
+  .menu-title {
+    display: flex;
+    justify-content: space-between;
+    .case-delete-icon{
+      display: none;
+    }
+  }
+  .menu-title:hover {
+    .case-delete-icon {
+      display: block;
+    }
+  }
+}

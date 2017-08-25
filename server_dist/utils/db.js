@@ -24,13 +24,13 @@ function model(model, schema) {
     return _yapi2.default.connect.model(model, schema, model);
 }
 
-function connect() {
+function connect(callback) {
     _mongoose2.default.Promise = global.Promise;
 
     var config = _yapi2.default.WEBCONFIG;
     var options = {};
 
-    if (config.user) {
+    if (config.db.user) {
         options.user = config.db.user;
         options.pass = config.db.pass;
     }
@@ -39,6 +39,9 @@ function connect() {
 
     db.then(function () {
         _yapi2.default.commons.log('mongodb load success...');
+        if (typeof callback === 'function') {
+            callback.call(db);
+        }
     }, function (err) {
         _yapi2.default.commons.log(err, 'Mongo connect error');
     });

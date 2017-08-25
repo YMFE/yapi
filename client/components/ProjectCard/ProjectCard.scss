@@ -1,0 +1,122 @@
+@import '../../styles/mixin.scss';
+.card-container {
+  position: relative;
+  user-select: none;
+  transition: all .2s;
+  .m-card, .card-btns {
+    transform: translateY(0);
+    transition: all .2s;
+  }
+  &:hover {
+    .m-card, .card-btns {
+      transform: translateY(-4px);
+    }
+    .m-card .ant-card-body {
+      box-shadow: 0 4px 8px rgba(50, 50, 93, 0.11), 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
+  }
+  &:active {
+    .m-card, .card-btns {
+      transform: translateY(4px);
+    }
+  }
+  // 覆盖 card 组件 hover 状态的默认阴影样式
+  .ant-card:not(.ant-card-no-hovering):hover {
+    box-shadow: none;
+  }
+  // 卡片右上角按钮
+  .card-btns {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: .48rem;
+    height: .48rem;
+    background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
+    border-top-right-radius: 4px;
+    .icon {
+      cursor: pointer;
+      font-size: .16rem;
+      padding: .06rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}
+.m-card {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: .36rem;
+  transition: all .4s;
+  position: relative;
+  .ant-card-body {
+    background-color: $color-bg-gray;
+    border-radius: 4px;
+    padding-top: .24rem + .16rem + 1rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    transition: all .2s;
+  }
+  .ui-logo {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, .24rem);
+    font-size: .5rem;
+    color: #fff;
+    background-color: #2395f1;
+    line-height: 1rem;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  }
+  .ui-title {
+    font-size: .19rem;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .m-card-body {
+    .icon {
+      font-size: .8rem;
+    }
+    .name {
+      font-size: .18rem;
+      margin-top: .16rem;
+    }
+  }
+
+}
+
+@media (max-width: 768px) {
+  .m-card {
+    .ui-logo {
+      width: .6rem;
+      height: .6rem;
+      line-height: .6rem;
+      font-size: .3rem;
+      transform: translate(-50%, 0.08rem);
+    }
+    .ant-card-body {
+      padding-top: .08rem + .08rem + .6rem;
+      padding-bottom: .08rem;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .m-card {
+    .ui-logo {
+      width: .8rem;
+      height: .8rem;
+      line-height: .8rem;
+      font-size: .4rem;
+      transform: translate(-50%, 0.16rem);
+    }
+    .ant-card-body {
+      padding-top: .16rem + .16rem + .8rem;
+      padding-bottom: .16rem;
+    }
+  }
+}

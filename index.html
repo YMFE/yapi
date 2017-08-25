@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>my yApi</title>
-<link rel="stylesheet" href="prd/index@dev.css">
-</head>
-<body>
-<div id="yapi" style="height: 100%;"></div>
-<script src="prd/index@dev.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    .test {
+        width: 400px;
+        position: relative;
+        min-height: 240px;
+        background-color: #2395f1;
+        overflow: hidden;
+    }
+    .test:before, .test:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        min-width: 800px;
+        min-height: 800px;
+        background-color: #fff;
+        animation-name: rotate;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+    .test:before {
+        bottom: 180px;
+        border-radius: 45%;
+        animation-duration: 10s;
+    }
+    .test:after {
+        top: 180px;
+        opacity: .5;
+        border-radius: 47%;
+        animation-duration: 10s;
+    }
+
+    @keyframes rotate {
+        0% {
+        transform: translate(-50%, 0) rotateZ(0deg);
+        }
+        50% {
+        transform: translate(-50%, -2%) rotateZ(180deg);
+        }
+        100% {
+        transform: translate(-50%, 0%) rotateZ(360deg);
+        }
+    }
+    </style>
+  </head>
+  <body>
+    <div class="test">
+
+    </div>
+  </body>
 </html>

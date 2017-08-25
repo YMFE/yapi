@@ -12,7 +12,15 @@ class groupModel extends baseModel {
             group_name: String,
             group_desc: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            members: [
+                {
+                    uid: Number,
+                    role: {type: String, enum:['owner', 'dev']},
+                    username: String,
+                    email: String
+                }
+            ]
         };
     }
 
@@ -27,9 +35,53 @@ class groupModel extends baseModel {
         }).exec();
     }
 
+    getGroupById(id) {
+        return this.model.findOne({
+            _id: id
+        }).select("uid group_name group_desc add_time up_time").exec();
+    }
+
     checkRepeat(name) {
         return this.model.count({
             group_name: name
+        });
+    }
+
+    addMember(id, data){
+        return this.model.update(
+            {
+                _id: id
+            }, {
+                $push: { members: data }
+            }
+        );
+    }
+
+    delMember(id, uid) {
+        return this.model.update(
+            {
+                _id: id
+            }, {
+                $pull: { members: {uid: uid} }
+            }
+        );
+    }
+
+    changeMemberRole(id, uid, role) {
+        return this.model.update(
+            {
+                _id: id,
+                 "members.uid": uid
+            }, {
+                "$set": { "members.$.role": role}
+            }
+        );
+    }
+
+    checkMemberRepeat(id, uid){
+        return this.model.count({
+            _id: id,
+            "members.uid": uid
         });
     }
 

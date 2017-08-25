@@ -22,7 +22,8 @@ class userModel extends baseModel {
             passsalt: String,
             role: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            type: {type: String, enum: ['site', 'third'], default: "site"} //site用户是网站注册用户, third是第三方登录过来的用户
         };
     }
 
@@ -38,19 +39,19 @@ class userModel extends baseModel {
     }
 
     list() {
-        return this.model.find().select('_id username email role  add_time up_time').exec();  //显示id name email role 
+        return this.model.find().select('_id username email role type  add_time up_time').exec();  //显示id name email role 
     }
 
     findByUids(uids) {
         return this.model.find({
             _id: { $in: uids }
-        }).select('_id username email role  add_time up_time').exec();
+        }).select('_id username email role type  add_time up_time').exec();
     }
 
     listWithPaging(page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role  add_time up_time').exec();
+        return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role type  add_time up_time').exec();
     }
 
     listCount() {
@@ -62,7 +63,7 @@ class userModel extends baseModel {
     }
 
     findById(id) {
-        return this.model.findById({
+        return this.model.findOne({
             _id: id
         });
     }

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Menu } from 'antd'
-import { 
+import {
   fetchNewsData
-  } from '../../../actions/news.js'
+} from '../../../reducer/modules/news.js'
 
 
 const logList = [{
@@ -20,7 +20,7 @@ const logList = [{
   state => {
     // console.log(state);
     return {
-      uid: state.user.curUid,
+      uid: state.user.uid + "",
       newsData: state.news.newsData
     }
   },
@@ -72,7 +72,7 @@ class NewsList extends Component {
               </Menu.Item>
             )
           })}
-          
+
         </Menu>
       </div>
     )

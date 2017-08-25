@@ -1,22 +1,30 @@
 import React from 'react'
-import 'babel-polyfill'
-import thunkMiddleware from 'redux-thunk'
-import promiseMiddleware from 'redux-promise';
 import ReactDOM from 'react-dom'
 import App from './Application'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import ReduxContainer from './ReduxContainer.js'
+import createStore from './reducer/create';
+import './styles/theme.less'
 
-// 合并 redux 创建stroe
-const store = createStore(combineReducers( ReduxContainer ), applyMiddleware(
-  thunkMiddleware.default,
-  promiseMiddleware
-))
+const store = createStore();
+if (process.env.NODE_ENV === 'production') {
+  ReactDOM.render(
+    <Provider store={store}>
+      <div>
+        <App />
+      </div>
+    </Provider>,
+    document.getElementById('yapi')
+  )
+} else {
+  const DevTools = require('./containers/DevTools/DevTools.js')
+  ReactDOM.render(
+    <Provider store={store}>
+      <div>
+        <App />
+        <DevTools />
+      </div>
+    </Provider>,
+    document.getElementById('yapi')
+  )
+}
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('yapi')
-)

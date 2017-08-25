@@ -1,0 +1,31 @@
+@import '../../styles/common.scss';
+
+.m-container {
+  margin: .24rem auto !important;
+  padding: .24rem !important;
+  background-color: #fff;
+}
+
+.form-item {
+  margin-bottom: .16rem;
+}
+
+.breakline {
+  margin-top: .18rem;
+  margin-bottom: .18rem;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+
+
+.radio {
+  font-weight: 600;
+}
+
+.radio-desc {
+  margin-left: .22rem;
+  position: relative;
+  font-weight: normal;
+  top: -.08rem;
+  color: #919191;
+}

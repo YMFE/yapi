@@ -5,9 +5,10 @@ import { Icon, Input, AutoComplete } from 'antd'
 import './Search.scss'
 import { withRouter } from 'react-router';
 import axios from 'axios';
-import { setCurrGroup } from '../../../actions/group'
-import { changeMenuItem } from '../../../actions/menu'
+import { setCurrGroup } from '../../../reducer/modules/group'
+import { changeMenuItem } from '../../../reducer/modules/menu'
 const Option = AutoComplete.Option;
+
 
 @connect(
   state => ({
@@ -49,7 +50,7 @@ export default class Srch extends Component{
   }
 
   handleSearch = (value) => {
-    axios.get('/project/search?q='+value)
+    axios.get('/api/project/search?q='+value)
       .then((res) => {
         if(res.data && res.data.errcode === 0){
           const dataSource = [];
@@ -104,7 +105,6 @@ export default class Srch extends Component{
         <AutoComplete
           className="search-dropdown"
           dataSource={dataSource}
-          size="large"
           style={{ width: '100%' }}
           defaultActiveFirstOption= {false}
           onSelect={this.onSelect}
@@ -113,7 +113,6 @@ export default class Srch extends Component{
         >
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
-            size="large"
             style={{}}
             placeholder="搜索分组/项目"
             className="search-input"

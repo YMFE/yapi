@@ -1,0 +1,100 @@
+.web-content{   
+    .left-menu{
+        min-height: 5rem;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+        background: #FFF;
+        border-radius:5px;
+        margin: 3px;
+        .ant-tabs-bar{
+            border-bottom: none;
+            margin-bottom: 0
+            
+        }
+        .ant-tabs-nav{
+            width:100%;
+            background-color: #ececec
+        }
+        .ant-tabs-tab{
+            min-width: 50%;
+        }
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+            background-color: #fff
+        }
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+            background-color: #efefef;
+            color:#021b2d;
+            font-weight: 500
+        }
+
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
+            height: 40px;
+        }
+
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar{
+            text-align: center;
+            line-height: 40px;
+            height:40px;
+        }
+
+        .ant-tabs-nav-wrap{
+            height: 40px;
+            line-height: 31px;
+        }
+        
+        .interface-filter{
+            padding-left: 10px;
+            height:45px;
+            line-height: 32px;
+            padding-top:7px;
+            background-color: #efefef
+        }
+        .interface-list{
+            a{
+                color: #333
+            }
+            
+            .btn-http{
+                height: 23px;
+                font-size: 10px;
+                margin-right: 7px;
+                padding: 0 5px;
+                width: 40px;
+            }
+            .interface-item{
+                display: inline
+            }
+
+            .ant-tree-node-content-wrapper{
+                width: 100%
+            }
+
+            .interface-delete-icon{
+                position: relative;
+                right: 31px;
+                top: 6px;
+                float: right
+            }
+        }
+    }
+
+    .right-content{
+        margin:3px;
+        min-height: 5rem;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+        background: #FFF;
+        border-radius:5px;
+        .interface-content{
+            .ant-tabs-nav{
+                width:100%
+            }
+            .ant-tabs-nav-wrap{
+                text-align: left;
+            }
+        }
+    }
+}
+
+
+
+
+

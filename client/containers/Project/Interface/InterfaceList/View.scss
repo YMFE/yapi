@@ -1,0 +1,96 @@
+.caseContainer{
+    padding: 24px;
+    font-size: 12px;
+    // display: flex;
+    overflow: hidden;
+    >div{
+        margin: 8px 0px;
+        // background-color: #ececec;
+        padding: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        float: left;
+        .colKey{
+            font-weight: bolder;
+            margin-right: 16px;
+            padding-bottom: 16px;
+            display: inline-block;
+        }
+    }
+    .colreqBodyType{
+        margin: 0px;
+        .colKey{
+            padding-bottom: 0px;
+        }
+    }
+    .ace_print-margin{
+        display: none;
+    }
+    .colName,.colPath,.colstatus,.colAddTime,.colUpTime,.colMethod{
+        width: 50%;
+        float: left;
+        padding: 8px 16px;
+
+        .colKey{
+            padding-bottom: 0px;
+        }
+    }
+    .colDesc{
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    .ant-table-thead {
+        th{
+            color: #6d6c6c;
+            font-weight: normal;
+        }
+        tr{
+            // background-color: black;
+        }
+    }
+    .ant-table-thead>tr>th{
+        background: #f7f7f7;
+    }
+    .colMethod{
+        .colValue{
+            display: inline-block;
+            border-radius: 4px;
+            color: #00a854;
+            background: #cfefdf;
+            border-color: #cfefdf;
+            height: 23px;
+            line-height: 23px;
+            text-align: center;
+            font-size: 10px;
+            margin-right: 7px;
+            padding: 0 5px;
+        }
+    }
+    .colstatus{
+        .colValue{
+            height: 23px;
+            padding: 0 5px;
+            line-height: 23px;
+            display: inline-block;
+            border-radius: 4px;
+            color: white;
+        }
+    }
+    .colMockUrl{
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        line-height: 1.5em;
+    }
+    .colDesc{
+        line-height: 1.5em;
+        .colKey{
+            margin-right: 0px;
+            float: left;
+            margin-bottom: 8px;
+        }
+        .colValue{
+            float: left;
+            text-indent: 2em;
+        }
+    }
+}

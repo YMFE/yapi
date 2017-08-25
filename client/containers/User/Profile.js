@@ -1,14 +1,28 @@
 import React, { Component } from 'react'
-import { Row, Col, Input, Button, Select, message } from 'antd'
+import { Row, Col, Input, Button, Select, message, Upload, Tooltip} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
+// import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
+@connect(state=>{
+  return {
+    curUid: state.user.uid,
+    userType: state.user.type,
+    curRole: state.user.role
+  }
+},{
+
+})
 
 class Profile extends Component {
 
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    curUid: PropTypes.number,
+    userType: PropTypes.string,
+    curRole: PropTypes.string
   }
 
   constructor(props) {
@@ -26,7 +40,19 @@ class Profile extends Component {
   }
 
   componentDidMount(){
-    const uid = this.props.match.params.uid;
+    this._uid = this.props.match.params.uid;
+    this.handleUserinfo(this.props)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(!nextProps.match.params.uid) return;
+    if(this._uid !== nextProps.match.params.uid){
+      this.handleUserinfo(nextProps)
+    }
+  }
+
+  handleUserinfo(props){
+    const uid = props.match.params.uid;
     this.getUserInfo(uid)
   }
 
@@ -38,7 +64,7 @@ class Profile extends Component {
 
   getUserInfo = (id) => {
     var _this = this;
-    axios.get('/user/find?id=' + id).then((res) => {
+    axios.get('/api/user/find?id=' + id).then((res) => {
       _this.setState({
         userinfo: res.data.data,
         _userinfo: res.data.data
@@ -52,7 +78,7 @@ class Profile extends Component {
     let params = {uid: state.userinfo.uid}
     params[name] = value;
 
-    axios.post('/user/update', params).then( (res)=>{
+    axios.post('/api/user/update', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
         let userinfo = this.state.userinfo;
@@ -106,11 +132,12 @@ class Profile extends Component {
     }
 
 
-    axios.post('/user/change_password', params).then( (res)=>{
+    axios.post('/api/user/change_password', params).then( (res)=>{
       let data = res.data;
       if(data.errcode === 0){
         this.handleEdit('secureEdit', false)
         message.success('修改密码成功');
+        location.reload()
       }else{
         message.error(data.errmsg)
       }
@@ -127,12 +154,40 @@ class Profile extends Component {
     const Option = Select.Option;
     let userinfo = this.state.userinfo;
     let _userinfo = this.state._userinfo;
-    let roles = { admin: '管理员', member: '会员' }
+    let roles = { admin: '管理员', member: '会员' };
+    let userType = "";
+    if(this.props.userType === "third"){
+      userType = false;
+    }else if(this.props.userType === "site"){
+      userType = true;
+    }else{
+      userType = false;
+    }
     if (this.state.usernameEdit === false) {
+      let btn = "";
+      if(userType){
+        if(userinfo.uid === this.props.curUid){//本人
+          btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+        }else{
+          if(this.props.curRole === "admin"){
+            btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+          }else{
+            btn = "";
+          }
+        }
+      }else{
+        // if(userinfo.uid === this.props.curUid){//本人
+        //   btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
+        // }else{
+        btn = "";
+        // }
+      }
       userNameEditHtml = <div >
         <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
         {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>
+        {
+          btn
+        }
       </div>
     } else {
       userNameEditHtml = <div>
@@ -145,10 +200,31 @@ class Profile extends Component {
     }
 
     if (this.state.emailEdit === false) {
+      let btn = "";
+      if(userType){
+        if(userinfo.uid === this.props.curUid){//本人
+          btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+          if(userinfo.role === 'admin'){
+            btn = "";
+          }
+        }else{
+          if(this.props.curRole === "admin"){
+            btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+          }else{
+            btn = "";
+          }
+        }
+      }else{
+        if(userinfo.uid === this.props.curUid){//本人
+          // btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        }else{
+          btn = "";
+        }
+      }
       emailEditHtml = <div >
         <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
         {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
+        {btn}
       </div>
     } else {
       emailEditHtml = <div>
@@ -161,24 +237,27 @@ class Profile extends Component {
     }
 
     if (this.state.roleEdit === false) {
+      let btn = "";
       roleEditHtml = <div>
         <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
-        {/*<span className="text-button" onClick={() => { this.handleEdit('roleEdit', true) }} ><Icon type="edit" />修改</span>*/}
-        <Button  icon="edit" onClick={() => { this.handleEdit('roleEdit', true) }}>修改</Button>
+        {btn}
       </div>
     } else {
       roleEditHtml = <Select defaultValue={_userinfo.role} onChange={ this.changeRole} style={{ width: 150 }} >
         <Option value="admin">管理员</Option>
         <Option value="member">会员</Option>
-
       </Select>
     }
 
     if (this.state.secureEdit === false) {
-      secureEditHtml = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
+      let btn = "";
+      if(userType){
+        btn = <Button  icon="edit" onClick={() => { this.handleEdit('secureEdit', true) }}>修改</Button>
+      }
+      secureEditHtml = btn;
     } else {
       secureEditHtml = <div>
-        <Input style={{display: this.state.userinfo.role === 'admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
+        <Input style={{display: this.props.curRole === 'admin'&& userinfo.role!='admin' ? 'none': ''}} placeholder="旧的密码" type="password" name="old_password" id="old_password" />
         <Input placeholder="新的密码" type="password" name="password" id="password" />
         <Input placeholder="确认密码" type="password" name="verify_pass" id="verify_pass" />
         <ButtonGroup className="edit-buttons" >
@@ -187,54 +266,136 @@ class Profile extends Component {
         </ButtonGroup>
       </div>
     }
-
-
     return <div className="user-profile">
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>用户id</Col>
-        <Col span={12}>
-          {userinfo.uid}
-        </Col>
-      </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>用户名</Col>
-        <Col span={12}>
-          {userNameEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item"  type="flex" justify="start">
-        <Col span={4}>Email</Col>
-        <Col span={12}>
-          {emailEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item" style={{display: this.state.userinfo.role === 'admin'? '': 'none'}} type="flex" justify="start">
-        <Col span={4}>角色</Col>
-        <Col span={12}>
-          {roleEditHtml}
-        </Col>
-      </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>创建账号时间</Col>
-        <Col span={12}>
-          {formatTime(userinfo.add_time)}
-        </Col>
-      </Row>
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>更新账号时间</Col>
-        <Col span={12}>
-          {formatTime(userinfo.up_time)}
-        </Col>
-      </Row>
+      <div className="user-item-body">
+        {userinfo.uid === this.props.curUid?<h3>个人设置</h3>:<h3>{userinfo.username} 资料设置</h3>}
+        
+        <Row  className="avatarCon" type="flex" justify="start">
+          <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>用户id</Col>
+          <Col span={12}>
+            {userinfo.uid}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>用户名</Col>
+          <Col span={12}>
+            {userNameEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item"  type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>Email</Col>
+          <Col span={12}>
+            {emailEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item" style={{display: this.props.curRole === 'admin'? '': 'none'}} type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>角色</Col>
+          <Col span={12}>
+            {roleEditHtml}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>创建账号时间</Col>
+          <Col span={12}>
+            {formatTime(userinfo.add_time)}
+          </Col>
+        </Row>
+        <Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>更新账号时间</Col>
+          <Col span={12}>
+            {formatTime(userinfo.up_time)}
+          </Col>
+        </Row>
 
-      <Row className="user-item" type="flex" justify="start">
-        <Col span={4}>密码</Col>
-        <Col span={12}>
-          {secureEditHtml}
-        </Col>
-      </Row>
+        {(userType)?<Row className="user-item" type="flex" justify="start">
+          <div className="maoboli"></div>
+          <Col span={4}>密码</Col>
+          <Col span={12}>
+            {secureEditHtml}
+          </Col>
+        </Row>:""}
+      </div>
     </div>
   }
 }
+
+
+
+class AvatarUpload extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl: ""
+    }
+  }
+  static propTypes = {
+    uid: PropTypes.number
+  }
+  uploadAvatar(basecode){
+    axios.post("/api/user/upload_avatar",{basecode: basecode}).then(()=>{
+      this.setState({ imageUrl: basecode });
+    }).catch((e)=>{
+      console.log(e);
+    })
+  }
+  handleChange(info){
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, basecode=>{this.uploadAvatar(basecode)});
+    }
+  }
+  render() {
+    let imageUrl = this.state.imageUrl?this.state.imageUrl:`/api/user/avatar?uid=${this.props.uid}`;
+    // console.log(this.props.uid);
+    
+    return <div className="avatar-box">
+      <Tooltip placement="right" title={<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>}>
+        <div>
+          <Upload
+            className="avatar-uploader"
+            name="basecode"
+            showUploadList={false}
+            action="/api/user/upload_avatar"
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange.bind(this)} >
+            {/*<Avatar size="large" src={imageUrl}  />*/}
+            <img className = "avatar" src = {imageUrl} />
+          </Upload>
+        </div>
+      </Tooltip>
+      <span className="avatarChange"></span>
+    </div>
+  }
+}
+
+function beforeUpload(file) {
+  const isJPG = file.type === 'image/jpeg';
+  const isPNG = file.type === 'image/png';
+  if (!isJPG && !isPNG) {
+    message.error('图片的格式只能为 jpg、png！');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 0.2;
+  if (!isLt2M) {
+    message.error('图片必须小于 200kb!');
+  }
+  
+  return (isPNG||isJPG) && isLt2M;
+}
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 
 export default Profile
