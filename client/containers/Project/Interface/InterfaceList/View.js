@@ -246,6 +246,7 @@ class View extends Component {
       }
     }
     methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
+    if(!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <div className="colName">
         <span className="colKey">接口名：</span>
@@ -253,7 +254,7 @@ class View extends Component {
       </div>
       <div className="colMethod">
         <span className="colKey">请求方法：</span>
-        <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{this.props.curData.method}</span>
+        <span style={{color:methodColor,backgroundColor:methodColor.bac}} className="colValue">{this.props.curData.method}</span>
       </div>
       <div className="colPath">
         <span className="colKey">接口路径：</span>
