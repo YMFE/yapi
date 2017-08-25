@@ -121,7 +121,7 @@ class ProjectList extends Component {
               }]
             })(
               <Select>
-                {this.state.groupList.map((item, index) => <Option value={item._id.toString() + ':' + this.state.groupList[0].group_name} key={index}>{item.group_name}</Option>)}
+                {this.state.groupList.map((item, index) => <Option value={item._id.toString() + ':' + this.state.groupList[index].group_name} key={index}>{item.group_name}</Option>)}
               </Select>
             )}
           </FormItem>
