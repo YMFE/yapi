@@ -47,7 +47,6 @@ class InterfaceEditForm extends Component {
         return item
       })
     }
-
     this.state = Object.assign({
       title: '',
       path: '',
@@ -87,7 +86,6 @@ class InterfaceEditForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values)
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.req_params = this.state.req_params;
         values.req_body_other = this.state.req_body_other;
@@ -373,7 +371,7 @@ class InterfaceEditForm extends Component {
           label="选择分类"
         >
           {getFieldDecorator('catid', {
-            initialValue: _.find(this.props.cat, item => item._id === this.state.catid).name,
+            initialValue: this.state.catid + "",
             rules: [
               { required: true, message: '请选择一个分类' }
             ]
