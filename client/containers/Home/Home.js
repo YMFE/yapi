@@ -20,14 +20,14 @@ const HomeGuest = () => (
       <div className="container">
         <Row>
           <Col span={24}>
-            <div className="home-heander">
+            <div className="home-header">
               <a href="#" className="item">YAPI</a>
               <a target="_blank" href="/doc/index.html" className="item">使用文档</a>
             </div>
           </Col>
         </Row>
         <Row>
-          <Col span={9}>
+          <Col lg={9} xs={24}>
             <div className="home-des">
               <div className="logo">
                 {logoSVG('72px')}
@@ -40,7 +40,7 @@ const HomeGuest = () => (
               </div>
             </div>
           </Col>
-          <Col span={15}>
+          <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
               <img className="img" src={getImgPath('./image/demo-img', 'jpg')}/>
             </div>
@@ -81,7 +81,7 @@ const HomeGuest = () => (
         <h3 className="title">功能强大的 Mock 服务</h3>
         <span className="desc">你想要的 Mock 服务都在这里</span>
         <Row className="row-card">
-          <Col span={12} className="section-card">
+          <Col lg={12} xs={24} className="section-card">
             <Card title="Mock 规则">
               <p className="mock-desc">通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
               <div className="code">
@@ -91,7 +91,7 @@ const HomeGuest = () => (
                   <li className="item"><span className="orderNum">3</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span><span>:&ensp;</span><span className="string">&quot;@string&quot;</span><span>,&ensp;&ensp;</span></span></li>
                   <li className="item"><span className="orderNum">4</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
                   <li className="item"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean|1&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className="item"><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|4&quot;</span><span>:&ensp;<span className="number">1</span>,&ensp;&ensp;</span></span></li>
+                  <li className="item"><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array|2&quot;</span><span>:&ensp;&#91;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">&quot;Jim&quot;</span>&#93;,&ensp;&ensp;</span></span></li>
                   <li className="item"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span><span>&ensp;&ensp;</span></span></li>
                   <li className="item"><span className="orderNum">8</span><span>&ensp;&ensp;&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
                   <li className="item"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
@@ -99,7 +99,7 @@ const HomeGuest = () => (
               </div>
             </Card>
           </Col>
-          <Col span={12} className="section-card mock-after">
+          <Col lg={12} xs={24} className="section-card mock-after">
             <Card title="生成的 Mock 数据">
               <p className="mock-desc">生成的 Mock 数据可以直接用 ajax 请求使用，也可以通过服务器代理使用（不需要修改项目一行代码）</p>
               <div className="code">
@@ -109,8 +109,8 @@ const HomeGuest = () => (
                   <li className="alt"><span className="orderNum">3</span><span>&ensp;&ensp;<span className="string">&quot;errmsg&quot;</span><span>:&ensp;</span><span className="string">&quot;JtkMIoRu)N#ie^h%Z77[F)&quot;</span><span>,&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">4</span><span>&ensp;&ensp;<span className="string">&quot;data&quot;</span><span>:&ensp;&#123;&ensp;&ensp;</span></span></li>
                   <li className="alt"><span className="orderNum">5</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean&quot;</span><span>:&ensp;</span><span className="keyword">true</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array&quot;</span><span>:&ensp;</span><span className="number">4</span><span>,&ensp;&ensp;</span></span></li>
-                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;true&ensp;&amp;&ensp;4&quot;</span><span>&ensp;&ensp;</span></span></li>
+                  <li className=""><span className="orderNum">6</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array&quot;</span><span>:&ensp;</span>&#91;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">&quot;Jim&quot;</span>,&ensp;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">&quot;Jim&quot;</span>&#93;<span>,&ensp;&ensp;</span></span></li>
+                  <li className="alt"><span className="orderNum">7</span><span>&ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span><span>:&ensp;</span><span className="string">&quot;true & Bob,&ensp;Jim,&ensp;Bob,&ensp;Jim&quot;</span><span>&ensp;&ensp;</span></span></li>
                   <li className=""><span className="orderNum">8</span><span>&ensp;&ensp;&#125;&ensp;&ensp;</span></li>
                   <li className="alt"><span className="orderNum orderNum-last">9</span><span>&#125;&ensp;&ensp;</span></li>
                 </ol>
@@ -123,7 +123,7 @@ const HomeGuest = () => (
     <div className="home-section section-manage">
       <div className="container">
         <Row className="row-card" style={{marginBottom: '.48rem'}}>
-          <Col span={7} className="section-card">
+          <Col lg={7} xs={10} className="section-card">
             <Card>
               <div className="section-block block-first">
                 <h4>超级管理员(* N)</h4>
@@ -144,7 +144,7 @@ const HomeGuest = () => (
               </div>
             </Card>
           </Col>
-          <Col span={17} className="section-card manage-word">
+          <Col lg={17} xs={14} className="section-card manage-word">
             <Icon type="team" className="icon" />
             <h3 className="title">扁平化管理模式</h3>
             <p className="desc">接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>

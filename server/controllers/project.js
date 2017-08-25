@@ -551,9 +551,13 @@ class projectController extends baseController {
                 }
             }
 
+
             let data = {
                 up_time: yapi.commons.time()
             };
+            if(params.project_type){
+                data.project_type = params.project_type
+            }
 
             if (params.name) data.name = params.name;
             if (params.desc) data.desc = params.desc;

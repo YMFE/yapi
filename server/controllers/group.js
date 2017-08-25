@@ -134,7 +134,7 @@ class groupController extends baseController {
 
 
 
-    async addMember(ctx){
+    async addMember(ctx) {
 
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
@@ -314,7 +314,7 @@ class groupController extends baseController {
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
             }
-            let projectList =await projectInst.list(id, true);
+            let projectList = await projectInst.list(id, true);
             projectList.forEach(async (p) => {
                 await interfaceInst.delByProjectId(p._id)
                 await interfaceCaseInst.delByProjectId(p._id)
@@ -341,6 +341,11 @@ class groupController extends baseController {
      * @example ./api/group/up.json
      */
     async up(ctx) {
+        
+        let groupInst = yapi.getInst(groupModel);
+        let id = ctx.request.body.id;
+        let data = {};
+
         if (await this.checkAuth(id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
@@ -350,9 +355,7 @@ class groupController extends baseController {
                 group_name: 'string',
                 group_desc: 'string'
             });
-            let groupInst = yapi.getInst(groupModel);
-            let id = ctx.request.body.id;
-            let data = {};
+
             ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name);
             ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc);
             if (Object.keys(data).length === 0) {

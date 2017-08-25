@@ -765,8 +765,7 @@ var groupController = function (_baseController) {
             var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
                 var _this2 = this;
 
-                var groupInst, projectInst, interfaceInst, interfaceColInst, interfaceCaseInst, _id, projectList, result;
-
+                var groupInst, projectInst, interfaceInst, interfaceColInst, interfaceCaseInst, id, projectList, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                         switch (_context10.prev = _context10.next) {
@@ -785,9 +784,9 @@ var groupController = function (_baseController) {
                                 interfaceInst = _yapi2.default.getInst(_interface2.default);
                                 interfaceColInst = _yapi2.default.getInst(_interfaceCol2.default);
                                 interfaceCaseInst = _yapi2.default.getInst(_interfaceCase2.default);
-                                _id = ctx.request.body.id;
+                                id = ctx.request.body.id;
 
-                                if (_id) {
+                                if (id) {
                                     _context10.next = 11;
                                     break;
                                 }
@@ -796,7 +795,7 @@ var groupController = function (_baseController) {
 
                             case 11:
                                 _context10.next = 13;
-                                return projectInst.list(_id, true);
+                                return projectInst.list(id, true);
 
                             case 13:
                                 projectList = _context10.sent;
@@ -831,11 +830,11 @@ var groupController = function (_baseController) {
                                     };
                                 }());
                                 _context10.next = 17;
-                                return projectInst.delByGroupid(_id);
+                                return projectInst.delByGroupid(id);
 
                             case 17:
                                 _context10.next = 19;
-                                return groupInst.del(_id);
+                                return groupInst.del(id);
 
                             case 19:
                                 result = _context10.sent;
@@ -882,36 +881,35 @@ var groupController = function (_baseController) {
         key: 'up',
         value: function () {
             var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
-                var groupInst, _id2, data, result;
-
+                var groupInst, id, data, result;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
-                                _context11.next = 2;
+                                groupInst = _yapi2.default.getInst(_group2.default);
+                                id = ctx.request.body.id;
+                                data = {};
+                                _context11.next = 5;
                                 return this.checkAuth(id, 'group', 'danger');
 
-                            case 2:
+                            case 5:
                                 _context11.t0 = _context11.sent;
 
                                 if (!(_context11.t0 !== true)) {
-                                    _context11.next = 5;
+                                    _context11.next = 8;
                                     break;
                                 }
 
                                 return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
 
-                            case 5:
-                                _context11.prev = 5;
+                            case 8:
+                                _context11.prev = 8;
 
                                 ctx.request.body = _yapi2.default.commons.handleParams(ctx.request.body, {
                                     id: 'number',
                                     group_name: 'string',
                                     group_desc: 'string'
                                 });
-                                groupInst = _yapi2.default.getInst(_group2.default);
-                                _id2 = ctx.request.body.id;
-                                data = {};
 
                                 ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name);
                                 ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc);
@@ -919,7 +917,7 @@ var groupController = function (_baseController) {
                                     ctx.body = _yapi2.default.commons.resReturn(null, 404, '分组名和分组描述不能为空');
                                 }
                                 _context11.next = 15;
-                                return groupInst.up(_id2, data);
+                                return groupInst.up(id, data);
 
                             case 15:
                                 result = _context11.sent;
@@ -930,7 +928,7 @@ var groupController = function (_baseController) {
 
                             case 19:
                                 _context11.prev = 19;
-                                _context11.t1 = _context11['catch'](5);
+                                _context11.t1 = _context11['catch'](8);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t1.message);
 
@@ -939,7 +937,7 @@ var groupController = function (_baseController) {
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[5, 19]]);
+                }, _callee11, this, [[8, 19]]);
             }));
 
             function up(_x12) {

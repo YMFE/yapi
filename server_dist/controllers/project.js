@@ -1229,6 +1229,9 @@ var projectController = function (_baseController) {
                                     up_time: _yapi2.default.commons.time()
                                 };
 
+                                if (params.project_type) {
+                                    data.project_type = params.project_type;
+                                }
 
                                 if (params.name) data.name = params.name;
                                 if (params.desc) data.desc = params.desc;
@@ -1238,10 +1241,10 @@ var projectController = function (_baseController) {
                                 if (params.env) data.env = params.env;
                                 if (params.color) data.color = params.color;
                                 if (params.icon) data.icon = params.icon;
-                                _context11.next = 33;
+                                _context11.next = 34;
                                 return this.Model.up(id, data);
 
-                            case 33:
+                            case 34:
                                 result = _context11.sent;
                                 username = this.getUsername();
 
@@ -1253,21 +1256,21 @@ var projectController = function (_baseController) {
                                     typeid: id
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context11.next = 42;
+                                _context11.next = 43;
                                 break;
 
-                            case 39:
-                                _context11.prev = 39;
+                            case 40:
+                                _context11.prev = 40;
                                 _context11.t1 = _context11['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t1.message);
 
-                            case 42:
+                            case 43:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[0, 39]]);
+                }, _callee11, this, [[0, 40]]);
             }));
 
             function up(_x12) {
