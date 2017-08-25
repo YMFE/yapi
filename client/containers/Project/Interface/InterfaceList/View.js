@@ -172,7 +172,7 @@ class View extends Component {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required,
+          required: item.required?"必须":"非必须",
           value: item.value,
           desc: item.desc
         })
@@ -243,6 +243,18 @@ class View extends Component {
       delete: {
         bac: "#57cf27",
         color: "#57cf27"
+      },
+      head: {
+        bac: "#d4d5f7",
+        color: "#0b47ef"
+      },
+      patch: {
+        bac: "#f9f4e1",
+        color: "#fac200"
+      },
+      options: {
+        bac: "#f7cdf5",
+        color: "#fa00f2"
       }
     }
     methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];

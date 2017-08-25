@@ -92,6 +92,7 @@ class ProjectMessage extends Component {
 
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
+            this.props.getProjectMsg(this.props.projectId);
             message.success('修改成功! ');
             // this.props.history.push('/group');
           } else {
@@ -140,9 +141,9 @@ class ProjectMessage extends Component {
   showConfirm = () => {
     let that = this;
     confirm({
-      title: "确认删除 " + that.props.projectMsg.name + " 分组吗？",
+      title: "确认删除 " + that.props.projectMsg.name + " 项目吗？",
       content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
-        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" banner />
+        <Alert message="警告：此操作非常危险,会删除该项目下面所有接口，并且无法恢复!" type="warning" banner />
         <div style={{ marginTop: '15px' }}>
           <p style={{ marginBottom: '8px' }}><b>请输入项目名称确认此操作:</b></p>
           <Input id="project_name" size="large" />
@@ -151,7 +152,7 @@ class ProjectMessage extends Component {
       onOk() {
         let groupName = document.getElementById('project_name').value;
         if (that.props.projectMsg.name !== groupName) {
-          message.error('分组名称有误')
+          message.error('项目名称有误')
           return new Promise((resolve, reject) => {
             reject('error')
           })
@@ -265,16 +266,16 @@ class ProjectMessage extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境域名');
-                      } else if (!/\S/.test(value)) {
-                        callback('请输入环境域名');
-                      } else if (!/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/.test(value)) {
-                        callback('域名格式错误');
+                        callback('请输入环境域名!');
+                      } else if (/\s/.test(value)) {
+                        callback('环境域名不允许出现空格!');
+                      } else if (/\//.test(value)) {
+                        callback('环境域名不允许出现‘\/’!');
                       } else {
                         return callback();
                       }
                     } else {
-                      callback('请输入环境域名');
+                      callback('请输入环境域名!');
                     }
                   }
                 }]

@@ -67,7 +67,6 @@ class ProjectCard extends Component {
 
   render() {
     const { projectData, inFollowPage } = this.props;
-    console.log(projectData);
     return (
       <div className="card-container">
         <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + (projectData.projectid || projectData._id))}>

@@ -461,6 +461,7 @@ export default class Run extends Component {
             </InputGroup>
             <Tooltip placement="bottom" title="请求真实接口">
               <Button
+                disabled={!hasPlugin}
                 onClick={this.reqRealInterface}
                 type="primary"
                 style={{marginLeft: 10}}
