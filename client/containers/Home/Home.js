@@ -20,14 +20,14 @@ const HomeGuest = () => (
       <div className="container">
         <Row>
           <Col span={24}>
-            <div className="home-heander">
+            <div className="home-header">
               <a href="#" className="item">YAPI</a>
               <a target="_blank" href="/doc/index.html" className="item">使用文档</a>
             </div>
           </Col>
         </Row>
         <Row>
-          <Col span={9}>
+          <Col lg={9} xs={24}>
             <div className="home-des">
               <div className="logo">
                 {logoSVG('72px')}
@@ -40,7 +40,7 @@ const HomeGuest = () => (
               </div>
             </div>
           </Col>
-          <Col span={15}>
+          <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
               <img className="img" src={getImgPath('./image/demo-img', 'jpg')}/>
             </div>
@@ -81,7 +81,7 @@ const HomeGuest = () => (
         <h3 className="title">功能强大的 Mock 服务</h3>
         <span className="desc">你想要的 Mock 服务都在这里</span>
         <Row className="row-card">
-          <Col span={12} className="section-card">
+          <Col lg={12} xs={24} className="section-card">
             <Card title="Mock 规则">
               <p className="mock-desc">通过学习一些简单的 Mock 模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼: 所有的数据都可以实时随机生成。</p>
               <div className="code">
@@ -99,7 +99,7 @@ const HomeGuest = () => (
               </div>
             </Card>
           </Col>
-          <Col span={12} className="section-card mock-after">
+          <Col lg={12} xs={24} className="section-card mock-after">
             <Card title="生成的 Mock 数据">
               <p className="mock-desc">生成的 Mock 数据可以直接用 ajax 请求使用，也可以通过服务器代理使用（不需要修改项目一行代码）</p>
               <div className="code">
@@ -123,7 +123,7 @@ const HomeGuest = () => (
     <div className="home-section section-manage">
       <div className="container">
         <Row className="row-card" style={{marginBottom: '.48rem'}}>
-          <Col span={7} className="section-card">
+          <Col lg={7} xs={10} className="section-card">
             <Card>
               <div className="section-block block-first">
                 <h4>超级管理员(* N)</h4>
@@ -144,7 +144,7 @@ const HomeGuest = () => (
               </div>
             </Card>
           </Col>
-          <Col span={17} className="section-card manage-word">
+          <Col lg={17} xs={14} className="section-card manage-word">
             <Icon type="team" className="icon" />
             <h3 className="title">扁平化管理模式</h3>
             <p className="desc">接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
