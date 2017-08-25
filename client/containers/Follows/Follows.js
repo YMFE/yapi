@@ -34,7 +34,6 @@ class Follows extends Component {
 
   receiveRes = () => {
     this.props.getFollowList(this.props.uid).then((res) => {
-      console.log(res);
       if (res.payload.data.errcode === 0) {
         this.setState({
           data: res.payload.data.data.list
@@ -44,9 +43,7 @@ class Follows extends Component {
   }
 
   async componentWillMount() {
-    console.log(this.props);
     this.props.getFollowList(this.props.uid).then((res) => {
-      console.log(res);
       if (res.payload.data.errcode === 0) {
         this.setState({
           data: res.payload.data.data.list
