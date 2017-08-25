@@ -406,7 +406,7 @@ export default class Run extends Component {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, currDomain, bodyType, resHeader } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
-    const isResJson = resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
+    const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
