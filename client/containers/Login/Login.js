@@ -46,11 +46,7 @@ class Login extends Component {
           if (res.payload.data.errcode == 0) {
             this.props.history.push('/group');
             message.success('登录成功! ');
-          } else {
-            message.error(res.payload.data.errmsg);
           }
-        }).catch((err) => {
-          message.error(err);
         });
       }
     });
