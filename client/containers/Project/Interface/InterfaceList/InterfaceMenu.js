@@ -87,7 +87,6 @@ class InterfaceMenu extends Component {
   }
 
 
-
   onSelect = (selectedKeys) => {
     const { history, match } = this.props;
     let curkey = selectedKeys[0];
@@ -107,10 +106,13 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口添加成功')
+      let interfaceId = res.data.data._id;
+      this.props.history.push("/project/" + this.props.projectId + "/interface/api/" + interfaceId)
       this.props.fetchInterfaceList(this.props.projectId)
       this.setState({
         visible: false
       });
+      
 
     })
   }
@@ -323,9 +325,10 @@ class InterfaceMenu extends Component {
           className="interface-list"
           defaultExpandedKeys={currentKes.expands}
           defaultSelectedKeys={currentKes.selects}
+          selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
         >
-          <TreeNode title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder-open" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
+          <TreeNode title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
             return <TreeNode title={<div>
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>

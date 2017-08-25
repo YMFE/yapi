@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Form, Input, Select, Button } from 'antd';
 
 import constants from '../../../../constants/variable.js'
+import { handlePath } from '../../../../common.js'
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 
@@ -30,7 +31,12 @@ class AddInterfaceForm extends Component {
     });
   }
 
-
+  handlePath = (e)=>{
+    let val = e.target.value
+    this.props.form.setFieldsValue({
+      path: handlePath(val)
+    })
+  }
 
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
@@ -80,7 +86,7 @@ class AddInterfaceForm extends Component {
               required: true, message: '清输入接口路径!'
             }]
           })(
-            <Input addonBefore={prefixSelector} placeholder="/path" />
+            <Input onBlur={this.handlePath} addonBefore={prefixSelector} placeholder="/path" />
             )}
         </FormItem>
         <br />

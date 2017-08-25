@@ -9,7 +9,7 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-import { pickRandomProperty } from '../../common';
+import { pickRandomProperty, handlePath } from '../../common';
 import constants from '../../constants/variable.js';
 import { withRouter } from 'react-router';
 import './Addproject.scss';
@@ -53,6 +53,13 @@ class ProjectList extends Component {
     addProject: PropTypes.func,
     history: PropTypes.object,
     fetchGroupList: PropTypes.func
+  }
+
+  handlePath = (e)=>{
+    let val = e.target.value
+    this.props.form.setFieldsValue({
+      basepath: handlePath(val)
+    })
   }
 
   // 确认添加项目
@@ -137,7 +144,7 @@ class ProjectList extends Component {
                 required: false, message: '请输入项目基本路径'
               }]
             })(
-              <Input />
+              <Input onBlur={this.handlePath} />
             )}
           </FormItem>
 
