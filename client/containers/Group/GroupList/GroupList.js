@@ -124,7 +124,7 @@ export default class GroupList extends Component {
   async editGroup() {
     const { currGroupName: group_name, currGroupDesc: group_desc } = this.state;
     const id = this.props.currGroup._id;
-    const res = axios.post('/api/group/up', { group_name, group_desc, id });
+    const res = await  axios.post('/api/group/up', { group_name, group_desc, id });
     if (res.data.errcode) {
       message.error(res.data.errmsg);
     } else {
