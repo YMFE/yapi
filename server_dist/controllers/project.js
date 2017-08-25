@@ -279,8 +279,7 @@ var projectController = function (_baseController) {
                                     type: 'project',
                                     uid: this.getUid(),
                                     username: username,
-                                    typeid: params.group_id,
-                                    typename: params.group_name
+                                    typeid: params.group_id
                                 });
                                 ctx.body = _yapi2.default.commons.resReturn(result);
                                 _context.next = 39;

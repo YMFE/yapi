@@ -138,8 +138,7 @@ class projectController extends baseController {
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
-                typeid: params.group_id,
-                typename: params.group_name
+                typeid: params.group_id
             });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
