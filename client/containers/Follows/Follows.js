@@ -33,7 +33,6 @@ class Follows extends Component {
   }
 
   receiveRes = () => {
-    console.log('receive res!');
     this.props.getFollowList(this.props.uid).then((res) => {
       console.log(res);
       if (res.payload.data.errcode === 0) {
