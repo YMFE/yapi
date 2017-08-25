@@ -266,16 +266,16 @@ class ProjectMessage extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境域名');
-                      } else if (!/\S/.test(value)) {
-                        callback('请输入环境域名');
-                      } else if (!/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/.test(value)) {
-                        callback('域名格式错误');
+                        callback('请输入环境域名!');
+                      } else if (/\s/.test(value)) {
+                        callback('环境域名不允许出现空格!');
+                      } else if (/\//.test(value)) {
+                        callback('环境域名不允许出现‘\/’!');
                       } else {
                         return callback();
                       }
                     } else {
-                      callback('请输入环境域名');
+                      callback('请输入环境域名!');
                     }
                   }
                 }]
