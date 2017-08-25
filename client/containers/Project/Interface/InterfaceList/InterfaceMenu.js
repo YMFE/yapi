@@ -48,7 +48,7 @@ class InterfaceMenu extends Component {
   }
 
   /**
-   * @param {String} key 
+   * @param {String} key
    */
   changeModal = (key, status) => {
     //visible add_cat_modal_visible change_cat_modal_visible del_cat_modal_visible
@@ -112,7 +112,7 @@ class InterfaceMenu extends Component {
       this.setState({
         visible: false
       });
-      
+
 
     })
   }
@@ -282,7 +282,7 @@ class InterfaceMenu extends Component {
     if (this.state.filter) {
       let arr = [];
       menuList = this.props.list.filter(item => {
-        if (item.name.indexOf(this.state.filter) === -1) {          
+        if (item.name.indexOf(this.state.filter) === -1) {
           return false;
         }
         arr.push('cat_' + item._id)
@@ -328,7 +328,7 @@ class InterfaceMenu extends Component {
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
         >
-          <TreeNode title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
+          <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
             return <TreeNode title={<div>
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
