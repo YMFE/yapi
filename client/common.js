@@ -46,7 +46,7 @@ exports.logoSVG = (length) => (<svg className="svg" width={length} height={lengt
 // this.func = debounce(this.func, 400);
 exports.debounce = (func, wait) => {
   let timeout;
-  return function() {
+  return function () {
     clearTimeout(timeout);
     timeout = setTimeout(func, wait);
   };
@@ -57,11 +57,32 @@ exports.pickRandomProperty = (obj) => {
   let result;
   let count = 0;
   for (let prop in obj)
-    if (Math.random() < 1/++count) result = prop;
+    if (Math.random() < 1 / ++count) result = prop;
   return result;
 }
 
 exports.getImgPath = (path, type) => {
   let rate = window.devicePixelRatio >= 2 ? 2 : 1;
   return `${path}@${rate}x.${type}`;
+}
+
+function trim(str) {
+  if (!str) {
+    return str;
+  }
+
+  str = str + '';
+
+  return str.replace(/(^\s*)|(\s*$)/g, '');
+}
+
+exports.trim = trim;
+
+exports.handlePath = (path) => {
+  path = trim(path);
+  if (!path) return path;
+  if (path === '/') return '';
+  path = path[0] !== '/' ? '/' + path : path;
+  path = path[path.length - 1] === '/' ? path.substr(0, path.length - 1) : path;
+  return path;
 }

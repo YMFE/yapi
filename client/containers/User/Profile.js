@@ -137,6 +137,7 @@ class Profile extends Component {
       if(data.errcode === 0){
         this.handleEdit('secureEdit', false)
         message.success('修改密码成功');
+        location.reload()
       }else{
         message.error(data.errmsg)
       }
