@@ -421,11 +421,23 @@ export default class Run extends Component {
             <Alert
               message={
                 <div>
-                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的&nbsp;
-                  <a
-                    target="blank"
-                    href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                  >测试增强插件 [点击获取]！</a>
+                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;
+                  <div>
+                    <a
+                      target="blank"
+                      href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                    > [Google 商店获取（需翻墙）]</a>
+                  </div>
+                  <div>
+                    <a
+                      target="blank"
+                      href="/attachment/cross-request.crx"
+                    > [手动下载安装] </a>
+                    <a
+                      target="blank"
+                      href="http://www.jianshu.com/p/12ca04c61fc6"
+                    > [安装教程] </a>
+                  </div>
                 </div>
               }
               type="warning"
