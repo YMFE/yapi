@@ -172,7 +172,7 @@ class View extends Component {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required,
+          required: item.required?"必须":"非必须",
           value: item.value,
           desc: item.desc
         })
