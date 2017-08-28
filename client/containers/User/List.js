@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { formatTime } from '../../common.js'
 import { Link } from 'react-router-dom'
+import { setBreadcrumb } from  '../../reducer/modules/user';
 //import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -17,6 +18,8 @@ const limit = 10;
     return {
       curUserRole: state.user.role
     }
+  },{
+    setBreadcrumb
   }
 )
 class List extends Component {
@@ -30,6 +33,7 @@ class List extends Component {
     }
   }
   static propTypes = {
+    setBreadcrumb: PropTypes.func,
     curUserRole: PropTypes.string
   }
   changePage =(current)=>{
@@ -80,6 +84,10 @@ class List extends Component {
     }, (err) => {
       message.error(err.message);
     } )
+  }
+
+  async componentWillMount() {
+    this.props.setBreadcrumb([{name: '用户管理'}]);
   }
 
   render() {
