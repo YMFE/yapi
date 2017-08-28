@@ -25,7 +25,7 @@ export default class BreadcrumbNavigation extends Component {
     console.log(this.props.breadcrumb);
     const getItem = this.props.breadcrumb.map((item, index) => {
       console.log(item);
-      if (item.fref) {
+      if (item.href) {
         return (<Breadcrumb.Item key={index}><Link to={item.href}>{item.name}</Link></Breadcrumb.Item>);
       } else {
         return (<Breadcrumb.Item key={index}>{item.name}</Breadcrumb.Item>);
