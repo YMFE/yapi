@@ -65,12 +65,18 @@ class Profile extends Component {
 
   getUserInfo = (id) => {
     var _this = this;
+    const { curUid } = this.props;
     axios.get('/api/user/find?id=' + id).then((res) => {
       _this.setState({
         userinfo: res.data.data,
         _userinfo: res.data.data
       })
-    })
+      if (curUid === +id) {
+        this.props.setBreadcrumb([{name: res.data.data.username}]);
+      } else {
+        this.props.setBreadcrumb([{name: '管理: ' + res.data.data.username}]);
+      }
+    });
   }
 
   updateUserinfo = (name) =>{
@@ -147,10 +153,6 @@ class Profile extends Component {
       message.error(err.message)
     } )
 
-  }
-
-  async componentWillMount() {
-    this.props.setBreadcrumb([{name: '用户资料'}]);
   }
 
   render() {
