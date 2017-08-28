@@ -421,7 +421,7 @@ export default class Run extends Component {
             <Alert
               message={
                 <div>
-                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;
+                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;（该插件可支持任何 chrome 内核的浏览器）
                   <div>
                     <a
                       target="blank"
@@ -431,12 +431,13 @@ export default class Run extends Component {
                   <div>
                     <a
                       target="blank"
-                      href="/attachment/cross-request.crx"
-                    > [手动下载安装] </a>
+                      href="/attachment/cross-request.zip"
+                    > [手动下载] </a>
+                    <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
                     <a
                       target="blank"
                       href="http://www.jianshu.com/p/12ca04c61fc6"
-                    > [安装教程] </a>
+                    > [详细安装教程] </a>
                   </div>
                 </div>
               }
