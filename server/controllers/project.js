@@ -331,7 +331,7 @@ class projectController extends baseController {
      */
 
     async list(ctx) {
-        let group_id = ctx.request.query.group_id
+        let group_id = ctx.request.query.group_id, project_list = [];
 
         if (!group_id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
@@ -339,30 +339,31 @@ class projectController extends baseController {
 
         let auth = await this.checkAuth(group_id, 'group', 'edit')
         try {
-            let result = await this.Model.list(group_id, auth);
+            let result = await this.Model.list(group_id);
             let follow = await this.followModel.list(this.getUid());
-            let uids = [];
-            result.forEach((item, index) => {
-                result[index] = item.toObject();
+            for(let index=0, item, r =  1; index< result.length; index++){
+                item = result[index].toObject();
+                if(item.project_type === 'private' && auth === false){
+                    r = await this.Model.checkMemberRepeat(this.getUid());
+                    if(r === 0){
+                        continue;
+                    }
+                }
+                
                 let f = _.find(follow, (fol) => {
                     return fol.projectid === item._id
                 })
                 if (f) {
-                    result[index].follow = true;
+                    item.follow = true;
                 } else {
-                    result[index].follow = false;
+                    item.follow = false;
                 }
-                if (uids.indexOf(item.uid) === -1) {
-                    uids.push(item.uid);
-                }
+                project_list.push(item);
 
-            });
-            let _users = {}, users = await yapi.getInst(userModel).findByUids(uids);
-            users.forEach((item) => {
-                _users[item._id] = item;
-            });
+            };
+
             ctx.body = yapi.commons.resReturn({
-                list: result
+                list: project_list
             });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
