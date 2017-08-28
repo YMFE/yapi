@@ -6,6 +6,7 @@ const LOGIN_OUT = 'yapi/user/LOGIN_OUT';
 const LOGIN_TYPE = 'yapi/user/LOGIN_TYPE';
 const GET_LOGIN_STATE = 'yapi/user/GET_LOGIN_STATE';
 const REGISTER = 'yapi/user/REGISTER';
+const SET_BREADCRUMB = 'yapi/user/SET_BREADCRUMB';
 
 // Reducer
 const LOADING_STATUS = 0;
@@ -18,9 +19,16 @@ const initialState = {
   uid: null,
   email: '',
   loginState: LOADING_STATUS,
-  loginWrapActiveKey: "1",
-  role: "",
-  type: ""
+  loginWrapActiveKey: '1',
+  role: '',
+  type: '',
+  // breadcrumb: [{
+  //   name: 'name',
+  //   href: 'group'
+  // }, {
+  //   name: '当前页面'
+  // }]
+  breadcrumb: []
 };
 
 export default (state = initialState, action) => {
@@ -58,8 +66,8 @@ export default (state = initialState, action) => {
         loginState: GUEST_STATUS,
         userName: null,
         uid: null,
-        role: "",
-        type: ""
+        role: '',
+        type: ''
       }
     }
     case LOGIN_TYPE: {
@@ -76,6 +84,12 @@ export default (state = initialState, action) => {
         uid: action.payload.data.data.uid,
         userName: action.payload.data.data.username,
         type: action.payload.data.data.type
+      };
+    }
+    case SET_BREADCRUMB: {
+      return {
+        ...state,
+        breadcrumb: action.data
       };
     }
     default:
@@ -126,5 +140,12 @@ export function loginTypeAction(index) {
   return{
     type: LOGIN_TYPE,
     index
+  }
+}
+
+export function setBreadcrumb(data) {
+  return{
+    type: SET_BREADCRUMB,
+    data
   }
 }
