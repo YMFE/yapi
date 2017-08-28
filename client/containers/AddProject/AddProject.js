@@ -5,6 +5,7 @@ import { Button, Form, Input, Icon, Tooltip, Select, message, Row, Col, Radio } 
 import { addProject } from  '../../reducer/modules/project.js';
 import { fetchGroupList } from '../../reducer/modules/group.js'
 import { autobind } from 'core-decorators';
+import { setBreadcrumb } from  '../../reducer/modules/user';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,7 +37,8 @@ const formItemLayout = {
   },
   {
     fetchGroupList,
-    addProject
+    addProject,
+    setBreadcrumb
   }
 )
 @withRouter
@@ -52,6 +54,7 @@ class ProjectList extends Component {
     form: PropTypes.object,
     addProject: PropTypes.func,
     history: PropTypes.object,
+    setBreadcrumb: PropTypes.func,
     fetchGroupList: PropTypes.func
   }
 
@@ -85,6 +88,7 @@ class ProjectList extends Component {
   }
 
   async componentWillMount() {
+    this.props.setBreadcrumb([{name: '新建项目'}]);
     await this.props.fetchGroupList();
     this.setState({groupList: this.props.groupList});
   }
