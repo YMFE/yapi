@@ -1,6 +1,7 @@
 import interfaceColModel from '../models/interfaceCol.js';
 import interfaceCaseModel from '../models/interfaceCase.js';
 import interfaceModel from '../models/interface.js';
+import projectModel from '../models/project.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 
@@ -10,6 +11,7 @@ class interfaceColController extends baseController{
         this.colModel = yapi.getInst(interfaceColModel);
         this.caseModel = yapi.getInst(interfaceCaseModel);
         this.interfaceModel = yapi.getInst(interfaceModel);
+        this.projectModel = yapi.getInst(projectModel);
     }
 
     /**
@@ -114,7 +116,8 @@ class interfaceColController extends baseController{
                 
                 result[index] = result[index].toObject();
                 let interfaceData = await this.interfaceModel.getBaseinfo(result[index].interface_id);
-                result[index].path = interfaceData.path;
+                let projectData = await this.projectModel.getBaseInfo(interfaceData.project_id);
+                result[index].path = projectData.basepath +  interfaceData.path;
                 result[index].method = interfaceData.method;
             }
             ctx.body = yapi.commons.resReturn(result);
@@ -293,7 +296,8 @@ class interfaceColController extends baseController{
             }
             result = result.toObject();
             let data = await this.interfaceModel.get(result.interface_id);
-            result.path = data.path;
+            let projectData = await this.projectModel.getBaseInfo(data.project_id);
+            result.path = projectData.basepath + data.path;
             result.method = data.method;
             result.req_body_type = data.req_body_type;
             result.req_headers = data.req_headers;
