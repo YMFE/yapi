@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Table } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
+import { formatTime } from '../../../../common.js'
 
 @connect(
   state => {
@@ -75,13 +76,20 @@ export default class InterfaceColContent extends Component {
       dataIndex: 'casename',
       key: 'casename'
     }, {
-      title: '用例路径',
+      title: '接口路径',
       dataIndex: 'path',
       key: 'path'
     }, {
       title: '请求方式',
       dataIndex: 'method',
       key: 'method'
+    }, {
+      title: '更新时间',
+      dataIndex: 'up_time',
+      key: 'up_time',
+      render: (item) => {
+        return <span>{formatTime(item)}</span>
+      }
     }];
 
     return (
