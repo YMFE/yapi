@@ -10,10 +10,9 @@
 }
 
 .footer-container{
-  @include row-width-limit;
   margin: 0 auto !important;
-  padding-top: .48rem;
-  padding-bottom: .48rem;
+  padding: .48rem .24rem;
+  max-width: 12.2rem;
   .icon {
     font-size: .16rem;
     margin-right: .08rem;

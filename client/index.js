@@ -27,4 +27,3 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('yapi')
   )
 }
-

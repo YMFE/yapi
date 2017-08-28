@@ -10,7 +10,6 @@ html, body {
              SimSun, sans-serif;
   margin: 0;
   padding: 0;
-  height: 100%;
   background: #ececec;
 }
 ::selection {
@@ -87,4 +86,14 @@ em {
 
 .card-panel {
   padding: .36rem .24rem 0;
+}
+
+.pannel-without-tab {
+  min-height: 5rem;
+}
+
+@media (max-width: 768px) {
+  html {
+    width: min-content !important;
+  }
 }
