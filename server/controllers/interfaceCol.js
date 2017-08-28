@@ -1,5 +1,6 @@
 import interfaceColModel from '../models/interfaceCol.js';
 import interfaceCaseModel from '../models/interfaceCase.js';
+import interfaceModel from '../models/interface.js';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 
@@ -8,6 +9,7 @@ class interfaceColController extends baseController{
         super(ctx);
         this.colModel = yapi.getInst(interfaceColModel);
         this.caseModel = yapi.getInst(interfaceCaseModel);
+        this.interfaceModel = yapi.getInst(interfaceModel);
     }
 
     /**
@@ -142,6 +144,7 @@ class interfaceColController extends baseController{
                 casename: 'string',
                 project_id: 'number',
                 col_id: 'number',
+                interface_id: 'number',
                 domain: 'string',
                 method: 'string'
             });
@@ -151,7 +154,11 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
             }
 
-            let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+            if(!params.interface_id){
+                return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
+            }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit');
             if (!auth) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
@@ -215,9 +222,7 @@ class interfaceColController extends baseController{
             let params = ctx.request.body;
             params = yapi.commons.handleParams(params, {
                 id: 'number',
-                casename: 'string',
-                domain: 'string',
-                method: 'string'
+                casename: 'string'
             });
 
             if (!params.id) {
@@ -235,6 +240,10 @@ class interfaceColController extends baseController{
             }
 
             params.uid = this.getUid();
+
+            delete params.interface_id;
+            delete params.project_id;
+            delete params.col_id;
 
             let result = await this.caseModel.up(params.id, params);
             let username = this.getUsername();
@@ -272,10 +281,38 @@ class interfaceColController extends baseController{
         try{
             let id = ctx.query.caseid;
             let result = await this.caseModel.get(id);
+            if(!result){
+                return ctx.body = yapi.commons.resReturn(null, 400, '不存在的case');
+            }
+            result = result.toObject();
+            let data = await this.interfaceModel.get(result.interface_id);
+            result.path = data.path;
+            result.method = data.method;
+            result.req_body_type = data.req_body_type;
+            result.req_headers = data.req_headers;
+
+            result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
+            result.req_query = this.handleParamsValue(data.req_query, result.req_query)
+            result.req_params = this.handleParamsValue(data.req_params, result.req_params)
+
             ctx.body = yapi.commons.resReturn(result);
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
         }
+    }
+
+    handleParamsValue(params, val){
+        let value = {};
+        if(params.length === 0 || val.length === 0){
+            return params;
+        }
+        val.forEach((item, index)=>{
+            value[item.name] = item;
+        })
+        params.forEach((item, index)=>{
+            params[index].value = value[item.name].value;
+        })
+        return params;
     }
 
     /**

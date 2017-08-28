@@ -50,18 +50,20 @@ class InterfaceEdit extends Component {
     }
   }
 
-  componentWillUnmount(){
-    try{
-      if(this.state.status === 1){
+  componentWillUnmount() {
+    try {
+      if (this.state.status === 1) {
         this.WebSocket.close()
       }
-    }catch(e){
+    } catch (e) {
       return null
     }
   }
 
   componentWillMount() {
-    let s = new WebSocket('ws://yapi.local.qunar.com:3000/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
+    let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
+
+    let s = new WebSocket('ws://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
     s.onopen = () => {
       this.WebSocket = s;
     }
@@ -82,23 +84,32 @@ class InterfaceEdit extends Component {
 
     }
 
+    s.onerror = () => {
+      this.setState({
+        curdata: this.props.curdata,
+        status: 1
+      })
+    }
+
+
+
   }
 
-  render() {    
+  render() {
     return <div className="interface-edit">
       {this.state.status === 1 ?
         <InterfaceEditForm cat={this.props.currProject.cat} mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.state.curdata} />
         :
         null}
       {
-        this.state.status === 2 ?         
-          <div style={{textAlign: 'center', fontSize: '14px', paddingTop: '10px'}}>
+        this.state.status === 2 ?
+          <div style={{ textAlign: 'center', fontSize: '14px', paddingTop: '10px' }}>
             <Link to={'/user/profile/' + this.state.curdata.uid}><b>{this.state.curdata.username}</b></Link>
             <span>正在编辑该接口，请稍后再试...</span>
           </div>
           :
           null}
-      
+
     </div>
   }
 }
