@@ -478,7 +478,7 @@ export default class Run extends Component {
           </div>
 
           <Collapse defaultActiveKey={['0', '1', '2', '3']} bordered={true}>
-            <Panel header="PATH PARAMETERS" key="0" className={pathParam.length === 0 ? 'none' : ''}>
+            <Panel header="PATH PARAMETERS" key="0" className={pathParam.length === 0 ? 'hidden' : ''}>
               {
                 pathParam.map((item, index) => {
                   return (
@@ -493,7 +493,7 @@ export default class Run extends Component {
               }
               <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
             </Panel>
-            <Panel header="QUERY PARAMETERS" key="1">
+            <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
               {
                 query.map((item, index) => {
                   return (
@@ -508,7 +508,7 @@ export default class Run extends Component {
               }
               <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
             </Panel>
-            <Panel header="HEADERS" key="2" >
+            <Panel header="HEADERS" key="2" className={headers.length === 0 ? 'hidden' : ''}>
               {
                 headers.map((item, index) => {
                   return (
@@ -537,6 +537,7 @@ export default class Run extends Component {
                 </div>
               }
               key="3"
+              className={method === 'POST' ? '' : 'hidden'}
             >
               { method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
                 <div>
@@ -581,10 +582,10 @@ export default class Run extends Component {
                   <Input type="file"></Input>
                 </div>
               }
-              {
+              {/*
                 method !== 'POST' &&
                 <div>GET 请求没有 BODY。</div>
-              }
+              */}
             </Panel>
           </Collapse>
         </Card>
