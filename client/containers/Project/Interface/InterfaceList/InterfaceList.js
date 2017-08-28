@@ -108,7 +108,7 @@ class InterfaceList extends Component {
       }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }, {
-      title: '更新日期',
+      title: '更新时间',
       dataIndex: 'up_time',
       key: 'up_time',
       render: (item) => {
