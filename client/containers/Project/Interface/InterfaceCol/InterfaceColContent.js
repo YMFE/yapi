@@ -82,7 +82,7 @@ export default class InterfaceColContent extends Component {
       render: (path, record) => {
         return (
           <Tooltip title="跳转到对应接口">
-            <a href={`/project/2909/interface/api/${record.interface_id}`}>{path || 'fdsf'}</a>
+            <a href={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{path || 'fdsf'}</a>
           </Tooltip>
         )
       }
