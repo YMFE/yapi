@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { formatTime } from '../../../../common.js'
 
@@ -78,7 +78,14 @@ export default class InterfaceColContent extends Component {
     }, {
       title: '接口路径',
       dataIndex: 'path',
-      key: 'path'
+      key: 'path',
+      render: (path, record) => {
+        return (
+          <Tooltip title="跳转到对应接口">
+            <a href={`/project/2909/interface/api/${record.interface_id}`}>{path || 'fdsf'}</a>
+          </Tooltip>
+        )
+      }
     }, {
       title: '请求方式',
       dataIndex: 'method',
