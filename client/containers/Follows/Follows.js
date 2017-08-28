@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { getFollowList } from  '../../reducer/modules/follow';
+import { setBreadcrumb } from  '../../reducer/modules/user';
 import Subnav from '../../components/Subnav/Subnav.js';
 import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
@@ -17,7 +18,8 @@ import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
     }
   },
   {
-    getFollowList
+    getFollowList,
+    setBreadcrumb
   }
 )
 class Follows extends Component {
@@ -29,6 +31,7 @@ class Follows extends Component {
   }
   static propTypes = {
     getFollowList: PropTypes.func,
+    setBreadcrumb: PropTypes.func,
     uid: PropTypes.number
   }
 
@@ -43,6 +46,7 @@ class Follows extends Component {
   }
 
   async componentWillMount() {
+    this.props.setBreadcrumb([{name: '我的关注'}]);
     this.props.getFollowList(this.props.uid).then((res) => {
       if (res.payload.data.errcode === 0) {
         this.setState({
