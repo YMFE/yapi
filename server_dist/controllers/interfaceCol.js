@@ -261,7 +261,7 @@ var interfaceColController = function (_baseController) {
         key: 'getCaseList',
         value: function () {
             var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
-                var id, inst, result;
+                var id, inst, result, index, interfaceData;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -274,23 +274,46 @@ var interfaceColController = function (_baseController) {
 
                             case 5:
                                 result = _context3.sent;
+                                index = 0;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context3.next = 12;
+                            case 7:
+                                if (!(index < result.length)) {
+                                    _context3.next = 17;
+                                    break;
+                                }
+
+                                result[index] = result[index].toObject();
+                                _context3.next = 11;
+                                return this.interfaceModel.getBaseinfo(result[index].interface_id);
+
+                            case 11:
+                                interfaceData = _context3.sent;
+
+                                result[index].path = interfaceData.path;
+                                result[index].method = interfaceData.method;
+
+                            case 14:
+                                index++;
+                                _context3.next = 7;
                                 break;
 
-                            case 9:
-                                _context3.prev = 9;
+                            case 17:
+                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                _context3.next = 23;
+                                break;
+
+                            case 20:
+                                _context3.prev = 20;
                                 _context3.t0 = _context3['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
 
-                            case 12:
+                            case 23:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[0, 9]]);
+                }, _callee3, this, [[0, 20]]);
             }));
 
             function getCaseList(_x3) {
