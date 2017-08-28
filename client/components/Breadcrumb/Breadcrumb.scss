@@ -1,6 +1,18 @@
 @import '../../styles/mixin.scss';
 
 .breadcrumb-container {
-  @include row-width-limit;
-  margin: 16px auto;
+  .ant-breadcrumb {
+    font-size: 16px;
+    float: left;
+    color: #fff;
+    padding-left: 40px;
+  }
+  .ant-breadcrumb > span:last-child {
+    color: #fff;
+    font-weight: normal;
+  }
+  .ant-breadcrumb-separator {
+    color: #fff;
+    font-weight: normal;
+  }
 }
