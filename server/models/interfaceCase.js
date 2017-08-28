@@ -75,6 +75,12 @@ class interfaceCase extends baseModel {
         })
     }
 
+    delByInterfaceId(id){
+        return this.model.deleteMany({
+            interface_id: id
+        })
+    }
+
     delByCol(id) {
         return this.model.deleteMany({
             col_id: id

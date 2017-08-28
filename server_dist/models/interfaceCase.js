@@ -119,6 +119,13 @@ var interfaceCase = function (_baseModel) {
             });
         }
     }, {
+        key: 'delByInterfaceId',
+        value: function delByInterfaceId(id) {
+            return this.model.deleteMany({
+                interface_id: id
+            });
+        }
+    }, {
         key: 'delByCol',
         value: function delByCol(id) {
             return this.model.deleteMany({
