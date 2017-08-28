@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { Route, Switch, Redirect, matchPath } from 'react-router-dom';
-import { Subnav } from '../../components/index'
+import { Subnav } from '../../components/index';
+import { fetchGroupMsg } from '../../reducer/modules/group';
+import { setBreadcrumb } from  '../../reducer/modules/user';
 import { getProject } from '../../reducer/modules/project';
 import Interface from './Interface/Interface.js'
 import Activity from './Activity/Activity.js'
@@ -16,7 +18,9 @@ import Setting from './Setting/Setting.js'
     }
   },
   {
-    getProject
+    getProject,
+    fetchGroupMsg,
+    setBreadcrumb
   }
 )
 
@@ -26,15 +30,24 @@ export default class Project extends Component {
     match: PropTypes.object,
     curProject: PropTypes.object,
     getProject: PropTypes.func,
-    location: PropTypes.object
+    location: PropTypes.object,
+    fetchGroupMsg: PropTypes.func,
+    setBreadcrumb: PropTypes.func
   }
 
   constructor(props) {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.getProject(this.props.match.params.id)
+  async componentWillMount() {
+    await this.props.getProject(this.props.match.params.id);
+    const groupMsg = await this.props.fetchGroupMsg(this.props.curProject.group_id);
+    this.props.setBreadcrumb([{
+      name: groupMsg.payload.data.data.group_name,
+      href: '/group/'+groupMsg.payload.data.data._id
+    }, {
+      name: this.props.curProject.name
+    }]);
   }
 
   render() {
