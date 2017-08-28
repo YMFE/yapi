@@ -10,6 +10,7 @@ import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
 import { logoSVG, betaSVG } from '../../common.js';
+import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 
 const MenuUser = (props) => (
   <Menu className="user-menu" >
@@ -170,6 +171,7 @@ export default class HeaderCom extends Component {
               <span className="img">{logoSVG('32px')}</span><span className="logo-name">YAPI<span className="ui-badge">{betaSVG}</span></span>
             </Link>
           </div>
+          <Breadcrumb />
           <div className="user-toolbar">
             {login?
               <ToolUser

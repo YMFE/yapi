@@ -339,7 +339,7 @@ var userController = function (_baseController) {
 
                                 _yapi2.default.commons.sendMail({
                                     to: email,
-                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0.</p>'
+                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0\uFF0C\u4F60\u7684\u90AE\u7BB1\u8D26\u53F7\u662F\uFF1A' + email + '</p>'
                                 });
 
                             case 13:
