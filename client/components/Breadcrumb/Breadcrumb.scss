@@ -7,6 +7,12 @@
     color: #fff;
     padding-left: 40px;
   }
+  .ant-breadcrumb a {
+    color: #fff;
+    &:hover {
+      color: $color-blue
+    }
+  }
   .ant-breadcrumb > span:last-child {
     color: #fff;
     font-weight: normal;
