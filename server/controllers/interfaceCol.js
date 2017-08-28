@@ -110,6 +110,13 @@ class interfaceColController extends baseController{
             let id = ctx.query.col_id;
             let inst = yapi.getInst(interfaceCaseModel);
             let result = await inst.list(id, 'all');
+            for(let index=0; index< result.length; index++){
+                
+                result[index] = result[index].toObject();
+                let interfaceData = await this.interfaceModel.getBaseinfo(result[index].interface_id);
+                result[index].path = interfaceData.path;
+                result[index].method = interfaceData.method;
+            }
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
