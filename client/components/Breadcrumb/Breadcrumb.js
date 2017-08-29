@@ -22,9 +22,7 @@ export default class BreadcrumbNavigation extends Component {
     breadcrumb: PropTypes.array
   }
   render () {
-    console.log(this.props.breadcrumb);
     const getItem = this.props.breadcrumb.map((item, index) => {
-      console.log(item);
       if (item.href) {
         return (<Breadcrumb.Item key={index}><Link to={item.href}>{item.name}</Link></Breadcrumb.Item>);
       } else {
