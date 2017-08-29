@@ -431,7 +431,7 @@ class projectController extends baseController {
         if (check === 0) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
         }
-        if (await this.checkAuth(params.id, 'group', 'danger') !== true) {
+        if (await this.checkAuth(params.id, 'project', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
