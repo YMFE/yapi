@@ -824,7 +824,7 @@ var interfaceColController = function (_baseController) {
                                 //     typeid: params.project_id
                                 // });
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn('success'));
+                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn('成功！'));
 
                             case 7:
                                 _context8.prev = 7;

@@ -39,7 +39,7 @@ exports.resReturn = function (data, num, errmsg) {
 
     return {
         errcode: num,
-        errmsg: errmsg || 'success',
+        errmsg: errmsg || '成功！',
         data: data
     };
 };
