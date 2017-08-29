@@ -85,7 +85,7 @@ export default class InterfaceCaseContent extends Component {
 
   updateCase = async () => {
     const {
-      currDomain: domain,
+      caseEnv: case_env,
       pathname: path,
       method,
       pathParam: req_params,
@@ -99,7 +99,7 @@ export default class InterfaceCaseContent extends Component {
     const res = await axios.post('/api/col/up_case', {
       id,
       casename,
-      domain,
+      case_env,
       path,
       method,
       req_params,
