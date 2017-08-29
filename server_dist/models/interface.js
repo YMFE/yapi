@@ -110,6 +110,13 @@ var interfaceModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'getBaseinfo',
+        value: function getBaseinfo(id) {
+            return this.model.findOne({
+                _id: id
+            }).select('path method uid title project_id cat_id status').exec();
+        }
+    }, {
         key: 'getVar',
         value: function getVar(project_id, method) {
             return this.model.find({

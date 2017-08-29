@@ -13,7 +13,7 @@ import InterfaceContent from './InterfaceList/InterfaceContent.js'
 import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
 import InterfaceColContent from './InterfaceCol/InterfaceColContent.js'
 import InterfaceCaseContent from './InterfaceCol/InterfaceCaseContent.js'
-
+import { getProject } from '../../../reducer/modules/project';
 const contentRouter = {
   path: '/project/:id/interface/:action/:actionId',
   exact: true
@@ -46,6 +46,8 @@ InterfaceRoute.propTypes = {
     return {
       isShowCol: state.interfaceCol.isShowCol
     }
+  },{
+    getProject
   }
 )
 class Interface extends Component {
@@ -53,7 +55,8 @@ class Interface extends Component {
     match: PropTypes.object,
     history: PropTypes.object,
     location: PropTypes.object,
-    isShowCol: PropTypes.bool
+    isShowCol: PropTypes.bool,
+    getProject: PropTypes.func
   }
 
   constructor(props) {
@@ -70,7 +73,9 @@ class Interface extends Component {
     }
     this.props.history.push('/project/' + params.id + '/interface/' + action)
   }
-
+  componentWillMount(){
+    this.props.getProject(this.props.match.params.id)
+  }
   render() {
     const { action } = this.props.match.params;
     const activeKey = action === 'api' ? 'api' : 'colOrCase';

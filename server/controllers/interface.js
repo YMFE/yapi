@@ -1,5 +1,7 @@
 import interfaceModel from '../models/interface.js';
 import interfaceCatModel from '../models/interfaceCat.js';
+import interfaceCaseModel from '../models/interfaceCase.js'
+
 import baseController from './base.js';
 import yapi from '../yapi.js';
 import userModel from '../models/user.js';
@@ -11,6 +13,7 @@ class interfaceController extends baseController {
         this.Model = yapi.getInst(interfaceModel);
         this.catModel = yapi.getInst(interfaceCatModel);
         this.projectModel = yapi.getInst(projectModel);
+        this.caseModel = yapi.getInst(interfaceCaseModel);
     }
 
     /**
@@ -404,7 +407,7 @@ class interfaceController extends baseController {
 
             let inter = await this.Model.get(id);
             let result = await this.Model.del(id);
-
+            await this.caseModel.delByInterfaceId(id);
             let username = this.getUsername();
             this.catModel.get(inter.catid).then((cate)=>{
                 yapi.commons.saveLog({

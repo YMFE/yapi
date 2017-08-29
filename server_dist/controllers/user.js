@@ -99,7 +99,7 @@ var userController = function (_baseController) {
     (0, _createClass3.default)(userController, [{
         key: 'login',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
                 var userInst, email, password, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -190,7 +190,7 @@ var userController = function (_baseController) {
     }, {
         key: 'logout',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -248,7 +248,7 @@ var userController = function (_baseController) {
     }, {
         key: 'loginByToken',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
                 var config, token, ret, login;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -300,7 +300,7 @@ var userController = function (_baseController) {
     }, {
         key: 'handleThirdLogin',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(email, username) {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(email, username) {
                 var user, data, passsalt, userInst;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -339,7 +339,7 @@ var userController = function (_baseController) {
 
                                 _yapi2.default.commons.sendMail({
                                     to: email,
-                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0.</p>'
+                                    contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0\uFF0C\u4F60\u7684\u90AE\u7BB1\u8D26\u53F7\u662F\uFF1A' + email + '</p>'
                                 });
 
                             case 13:
@@ -384,7 +384,7 @@ var userController = function (_baseController) {
     }, {
         key: 'changePassword',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
                 var params, userInst, user, passsalt, data, result;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -512,7 +512,7 @@ var userController = function (_baseController) {
     }, {
         key: 'reg',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var userInst, params, checkRepeat, passsalt, data, user;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -636,7 +636,7 @@ var userController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var page, limit, userInst, user, count;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
@@ -694,7 +694,7 @@ var userController = function (_baseController) {
     }, {
         key: 'findById',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var userInst, id, result;
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
@@ -770,7 +770,7 @@ var userController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
                 var userInst, id, result;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -846,7 +846,7 @@ var userController = function (_baseController) {
     }, {
         key: 'update',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
                 var params, userInst, id, data, checkRepeat, result;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
@@ -952,7 +952,7 @@ var userController = function (_baseController) {
     }, {
         key: 'uploadAvatar',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
                 var basecode, pngPrefix, jpegPrefix, type, strLength, avatarInst, result;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
@@ -1054,7 +1054,7 @@ var userController = function (_baseController) {
     }, {
         key: 'avatar',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(ctx) {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
                 var uid, avatarInst, data, dataBuffer, type;
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
@@ -1118,7 +1118,7 @@ var userController = function (_baseController) {
     }, {
         key: 'search',
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(ctx) {
+            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
                 var q, queryList, rules, filteredRes;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
@@ -1190,7 +1190,7 @@ var userController = function (_baseController) {
     }, {
         key: 'project',
         value: function () {
-            var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(ctx) {
+            var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(ctx) {
                 var _ctx$request$query, id, type, result, interfaceInst, interfaceData, projectInst, projectData, ownerAuth, devAuth, groupInst, groupData, _ownerAuth, _devAuth;
 
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
