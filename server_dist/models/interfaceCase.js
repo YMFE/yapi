@@ -55,7 +55,7 @@ var interfaceCase = function (_baseModel) {
                 interface_id: { type: Number, required: true },
                 add_time: Number,
                 up_time: Number,
-                env: { type: String },
+                case_env: { type: String },
                 // path: { type: String },
                 // method: { type: String },
                 req_params: [{
@@ -116,6 +116,13 @@ var interfaceCase = function (_baseModel) {
         value: function delByProjectId(id) {
             return this.model.deleteMany({
                 project_id: id
+            });
+        }
+    }, {
+        key: 'delByInterfaceId',
+        value: function delByInterfaceId(id) {
+            return this.model.deleteMany({
+                interface_id: id
             });
         }
     }, {
