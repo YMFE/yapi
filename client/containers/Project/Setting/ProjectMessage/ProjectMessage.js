@@ -235,8 +235,6 @@ class ProjectMessage extends Component {
                         callback('请输入环境域名');
                       } else if (!/\S/.test(value)) {
                         callback('请输入环境域名');
-                      } else if (/prd/.test(value)) {
-                        callback('环境域名不能是"prd"');
                       } else {
                         return callback();
                       }
