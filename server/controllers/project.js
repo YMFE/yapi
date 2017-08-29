@@ -344,7 +344,7 @@ class projectController extends baseController {
             for(let index=0, item, r =  1; index< result.length; index++){
                 item = result[index].toObject();
                 if(item.project_type === 'private' && auth === false){
-                    r = await this.Model.checkMemberRepeat(this.getUid());
+                    r = await this.Model.checkMemberRepeat(item._id, this.getUid());
                     if(r === 0){
                         continue;
                     }
