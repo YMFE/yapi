@@ -49,7 +49,7 @@ export default class Run extends Component {
     const project_id = this.props.match.params.id;
     const interface_id = this.props.currInterface._id;
     const {
-      currDomain: domain,
+      caseEnv: case_env,
       pathname: path,
       method,
       pathParam: req_params,
@@ -64,7 +64,7 @@ export default class Run extends Component {
       casename: caseName,
       col_id: colId,
       project_id,
-      domain,
+      case_env,
       path,
       method,
       req_params,
