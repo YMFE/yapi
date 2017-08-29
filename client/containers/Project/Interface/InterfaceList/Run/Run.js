@@ -47,6 +47,7 @@ export default class Run extends Component {
 
   saveCase = async (colId, caseName) => {
     const project_id = this.props.match.params.id;
+    const interface_id = this.props.currInterface._id;
     const {
       currDomain: domain,
       pathname: path,
@@ -59,6 +60,7 @@ export default class Run extends Component {
       bodyOther: req_body_other
     } = this.postman.state;
     const res = await axios.post('/api/col/add_case', {
+      interface_id,
       casename: caseName,
       col_id: colId,
       project_id,

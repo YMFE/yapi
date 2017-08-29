@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Card, Icon, Tooltip } from 'antd';
 import { connect } from 'react-redux'
 import { delFollow, addFollow } from  '../../reducer/modules/follow';
-// import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { debounce } from '../../common';
