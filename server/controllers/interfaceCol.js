@@ -155,8 +155,7 @@ class interfaceColController extends baseController{
                 project_id: 'number',
                 col_id: 'number',
                 interface_id: 'number',
-                domain: 'string',
-                method: 'string'
+                case_env: 'string'
             });
 
 

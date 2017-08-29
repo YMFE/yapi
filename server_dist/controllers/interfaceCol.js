@@ -373,8 +373,7 @@ var interfaceColController = function (_baseController) {
                                     project_id: 'number',
                                     col_id: 'number',
                                     interface_id: 'number',
-                                    domain: 'string',
-                                    method: 'string'
+                                    case_env: 'string'
                                 });
 
                                 if (params.project_id) {
