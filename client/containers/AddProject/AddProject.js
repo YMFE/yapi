@@ -5,6 +5,7 @@ import { Button, Form, Input, Icon, Tooltip, Select, message, Row, Col, Radio } 
 import { addProject } from  '../../reducer/modules/project.js';
 import { fetchGroupList } from '../../reducer/modules/group.js'
 import { autobind } from 'core-decorators';
+import { setBreadcrumb } from  '../../reducer/modules/user';
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,7 +37,8 @@ const formItemLayout = {
   },
   {
     fetchGroupList,
-    addProject
+    addProject,
+    setBreadcrumb
   }
 )
 @withRouter
@@ -52,6 +54,7 @@ class ProjectList extends Component {
     form: PropTypes.object,
     addProject: PropTypes.func,
     history: PropTypes.object,
+    setBreadcrumb: PropTypes.func,
     fetchGroupList: PropTypes.func
   }
 
@@ -69,11 +72,9 @@ class ProjectList extends Component {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        values.group_id = values.group.split(':')[0];
-        values.group_name = values.group.split(':')[1];
+        values.group_id = values.group;
         values.icon = constants.PROJECT_ICON[0];
         values.color = pickRandomProperty(constants.PROJECT_COLOR);
-        delete values.group;
         addProject(values).then((res) => {
           if (res.payload.data.errcode == 0) {
             form.resetFields();
@@ -87,6 +88,7 @@ class ProjectList extends Component {
   }
 
   async componentWillMount() {
+    this.props.setBreadcrumb([{name: '新建项目'}]);
     await this.props.fetchGroupList();
     this.setState({groupList: this.props.groupList});
   }
@@ -115,13 +117,13 @@ class ProjectList extends Component {
             label="所属分组"
           >
             {getFieldDecorator('group', {
-              initialValue: this.state.groupList.length > 0? this.state.groupList[0]._id.toString() + ':' + this.state.groupList[0].group_name : null ,
+              initialValue: this.state.groupList.length > 0? this.state.groupList[0]._id.toString() : null ,
               rules: [{
                 required: true, message: '请选择项目所属的分组!'
               }]
             })(
               <Select>
-                {this.state.groupList.map((item, index) => <Option value={item._id.toString() + ':' + this.state.groupList[0].group_name} key={index}>{item.group_name}</Option>)}
+                {this.state.groupList.map((item, index) => <Option value={item._id.toString()} key={index}>{item.group_name}</Option>)}
               </Select>
             )}
           </FormItem>

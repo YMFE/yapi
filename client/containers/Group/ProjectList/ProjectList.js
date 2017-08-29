@@ -6,6 +6,7 @@ import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '..
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import { autobind } from 'core-decorators';
+import { setBreadcrumb } from  '../../../reducer/modules/user';
 
 import './ProjectList.scss'
 
@@ -23,7 +24,8 @@ import './ProjectList.scss'
     fetchProjectList,
     addProject,
     delProject,
-    changeUpdateModal
+    changeUpdateModal,
+    setBreadcrumb
   }
 )
 class ProjectList extends Component {
@@ -45,6 +47,7 @@ class ProjectList extends Component {
     userInfo: PropTypes.object,
     tableLoading: PropTypes.bool,
     currGroup: PropTypes.object,
+    setBreadcrumb: PropTypes.func,
     currPage: PropTypes.number
   }
 
@@ -70,19 +73,10 @@ class ProjectList extends Component {
   receiveRes() {
     this.props.fetchProjectList(this.props.currGroup._id, this.props.currPage);
   }
-  // // 分页逻辑 取消分页
-  // @autobind
-  // paginationChange(pageNum) {
-  //   this.props.fetchProjectList(this.props.currGroup._id, pageNum).then((res) => {
-  //     if (res.payload.data.errcode) {
-  //       message.error(res.payload.data.errmsg);
-  //     } else {
-  //       this.props.changeTableLoading(false);
-  //     }
-  //   });
-  // }
 
   componentWillReceiveProps(nextProps) {
+    this.props.setBreadcrumb([{name: '分组: ' + (nextProps.currGroup.group_name || '')}]);
+
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
       if (nextProps.currGroup._id) {

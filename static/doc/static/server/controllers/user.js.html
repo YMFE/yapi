@@ -175,7 +175,7 @@ class userController extends baseController {
                 user = await userInst.save(data);
                 yapi.commons.sendMail({
                     to: email,
-                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台.</p>`
+                    contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台，你的邮箱账号是：${email}</p>`
                 });
             }
 

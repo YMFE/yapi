@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table, Card, Badge, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
 import { autobind } from 'core-decorators';
+import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
@@ -33,6 +34,7 @@ const arrayAddKey = (arr) => {
     getProjectMemberList,
     addMember,
     delMember,
+    fetchGroupMsg,
     changeMemberRole
   }
 )
@@ -59,6 +61,7 @@ class ProjectMember extends Component {
     changeMemberRole: PropTypes.func,
     fetchGroupMemberList: PropTypes.func,
     getProjectMsg: PropTypes.func,
+    fetchGroupMsg: PropTypes.func,
     getProjectMemberList: PropTypes.func
   }
   @autobind
@@ -146,11 +149,12 @@ class ProjectMember extends Component {
 
   async componentWillMount() {
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
+    const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     const rojectMsg = await this.props.getProjectMsg(this.props.projectId);
     const projectMemberList = await this.props.getProjectMemberList(this.props.projectId);
     this.setState({
       groupMemberList: groupMemberList.payload.data.data,
-      groupName: this.props.projectMsg.group_name,
+      groupName: groupMsg.payload.data.data.group_name,
       projectMemberList: arrayAddKey(projectMemberList.payload.data.data),
       role: rojectMsg.payload.data.data.role
     })

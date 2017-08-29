@@ -3,7 +3,7 @@ import { Row, Col, Input, Button, Select, message, Upload, Tooltip} from 'antd'
 import axios from 'axios';
 import {formatTime} from '../../common.js'
 import PropTypes from 'prop-types'
-// import { Link } from 'react-router-dom'
+import { setBreadcrumb } from  '../../reducer/modules/user';
 import { connect } from 'react-redux'
 
 @connect(state=>{
@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
     curRole: state.user.role
   }
 },{
-
+  setBreadcrumb
 })
 
 class Profile extends Component {
@@ -22,6 +22,7 @@ class Profile extends Component {
     match: PropTypes.object,
     curUid: PropTypes.number,
     userType: PropTypes.string,
+    setBreadcrumb: PropTypes.func,
     curRole: PropTypes.string
   }
 
@@ -64,12 +65,18 @@ class Profile extends Component {
 
   getUserInfo = (id) => {
     var _this = this;
+    const { curUid } = this.props;
     axios.get('/api/user/find?id=' + id).then((res) => {
       _this.setState({
         userinfo: res.data.data,
         _userinfo: res.data.data
       })
-    })
+      if (curUid === +id) {
+        this.props.setBreadcrumb([{name: res.data.data.username}]);
+      } else {
+        this.props.setBreadcrumb([{name: '管理: ' + res.data.data.username}]);
+      }
+    });
   }
 
   updateUserinfo = (name) =>{
@@ -269,7 +276,7 @@ class Profile extends Component {
     return <div className="user-profile">
       <div className="user-item-body">
         {userinfo.uid === this.props.curUid?<h3>个人设置</h3>:<h3>{userinfo.username} 资料设置</h3>}
-        
+
         <Row  className="avatarCon" type="flex" justify="start">
           <Col  span={24}>{userinfo.uid === this.props.curUid?<AvatarUpload uid={userinfo.uid}>点击上传头像</AvatarUpload>:<div className = "avatarImg"><img src = {`/api/user/avatar?uid=${userinfo.uid}`} /></div>}</Col>
         </Row>
@@ -356,7 +363,7 @@ class AvatarUpload extends Component {
   render() {
     let imageUrl = this.state.imageUrl?this.state.imageUrl:`/api/user/avatar?uid=${this.props.uid}`;
     // console.log(this.props.uid);
-    
+
     return <div className="avatar-box">
       <Tooltip placement="right" title={<div>点击头像更换 (只支持jpg、png格式且大小不超过200kb的图片)</div>}>
         <div>
@@ -387,7 +394,7 @@ function beforeUpload(file) {
   if (!isLt2M) {
     message.error('图片必须小于 200kb!');
   }
-  
+
   return (isPNG||isJPG) && isLt2M;
 }
 
