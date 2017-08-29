@@ -140,7 +140,7 @@ export function getProjectMemberList(id) {
 // }
 
 export function addProject(data) {
-  const { name, prd_host, basepath, desc, group_id, group_name, protocol, icon, color } = data;
+  const { name, prd_host, basepath, desc, group_id, group_name, protocol, icon, color, project_type } = data;
   const param = {
     name,
     prd_host,
@@ -150,7 +150,8 @@ export function addProject(data) {
     group_id,
     group_name,
     icon,
-    color
+    color,
+    project_type
   };
   return {
     type: PROJECT_ADD,
