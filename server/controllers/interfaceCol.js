@@ -25,7 +25,7 @@ class interfaceColController extends baseController{
      * @example
      */
     async list(ctx){
-        try {   
+        try {
             let id = ctx.query.project_id;
             let result = await this.colModel.list(id);
 
@@ -113,7 +113,7 @@ class interfaceColController extends baseController{
             let inst = yapi.getInst(interfaceCaseModel);
             let result = await inst.list(id, 'all');
             for(let index=0; index< result.length; index++){
-                
+
                 result[index] = result[index].toObject();
                 let interfaceData = await this.interfaceModel.getBaseinfo(result[index].interface_id);
                 let projectData = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -197,8 +197,8 @@ class interfaceColController extends baseController{
                     typeid: params.project_id
                 });
             });
-            
-            
+
+
             ctx.body = yapi.commons.resReturn(result);
 
         }catch(e){
@@ -265,8 +265,8 @@ class interfaceColController extends baseController{
                     typeid: caseData.project_id
                 });
             });
-            
-            
+
+
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -402,7 +402,7 @@ class interfaceColController extends baseController{
             //     typeid: params.project_id
             // });
 
-            return ctx.body = yapi.commons.resReturn('success')
+            return ctx.body = yapi.commons.resReturn('成功！')
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
         }
@@ -481,7 +481,7 @@ class interfaceColController extends baseController{
                     typeid: caseData.project_id
                 });
             });
-            
+
 
             return ctx.body = yapi.commons.resReturn(result);
 
