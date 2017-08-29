@@ -13,24 +13,25 @@ class interfaceCase extends baseModel {
             col_id: { type: Number, required: true },
             index: { type: Number, default: 0 },
             project_id: { type: Number, required: true },
+            interface_id: { type: Number, required: true },
             add_time: Number,
             up_time: Number,
-            domain: { type: String },
-            path: { type: String },
-            method: { type: String },
+            env: { type: String },
+            // path: { type: String },
+            // method: { type: String },
             req_params: [{
                 name: String, value: String
             }],
             req_query: [{
                 name: String, value: String
             }],
-            req_headers: [{
-                name: String, value: String
-            }],
-            req_body_type: {
-                type: String,
-                enum: ['form', 'json', 'text', 'xml']
-            },
+            // req_headers: [{
+            //     name: String, value: String
+            // }],
+            // req_body_type: {
+            //     type: String,
+            //     enum: ['form', 'json', 'text', 'xml']
+            // },
             req_body_form: [{
                 name: String, value: String
             }],
@@ -71,6 +72,12 @@ class interfaceCase extends baseModel {
     delByProjectId(id) {
         return this.model.deleteMany({
             project_id: id
+        })
+    }
+
+    delByInterfaceId(id){
+        return this.model.deleteMany({
+            interface_id: id
         })
     }
 

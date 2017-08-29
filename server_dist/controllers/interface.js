@@ -40,6 +40,10 @@ var _interfaceCat = require('../models/interfaceCat.js');
 
 var _interfaceCat2 = _interopRequireDefault(_interfaceCat);
 
+var _interfaceCase = require('../models/interfaceCase.js');
+
+var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
+
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -69,6 +73,7 @@ var interfaceController = function (_baseController) {
         _this.Model = _yapi2.default.getInst(_interface2.default);
         _this.catModel = _yapi2.default.getInst(_interfaceCat2.default);
         _this.projectModel = _yapi2.default.getInst(_project2.default);
+        _this.caseModel = _yapi2.default.getInst(_interfaceCase2.default);
         return _this;
     }
 
@@ -801,6 +806,10 @@ var interfaceController = function (_baseController) {
 
                             case 18:
                                 result = _context7.sent;
+                                _context7.next = 21;
+                                return this.caseModel.delByInterfaceId(id);
+
+                            case 21:
                                 username = this.getUsername();
 
                                 this.catModel.get(inter.catid).then(function (cate) {
@@ -814,21 +823,21 @@ var interfaceController = function (_baseController) {
                                 });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context7.next = 27;
+                                _context7.next = 29;
                                 break;
 
-                            case 24:
-                                _context7.prev = 24;
+                            case 26:
+                                _context7.prev = 26;
                                 _context7.t0 = _context7['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message);
 
-                            case 27:
+                            case 29:
                             case 'end':
                                 return _context7.stop();
                         }
                     }
-                }, _callee7, this, [[0, 24]]);
+                }, _callee7, this, [[0, 26]]);
             }));
 
             function del(_x7) {

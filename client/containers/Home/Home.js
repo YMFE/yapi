@@ -33,7 +33,7 @@ const HomeGuest = () => (
                 {logoSVG('72px')}
                 <span className="name">YAPI</span>
               </div>
-              <div className="detail">高效、易用、功能强大的API管理平台<br/><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
+              <div className="detail">高效、易用、功能强大的API管理平台<br /><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
                 <Button className="btn-home btn-home-normal" id="qsso-login">QSSO 登录</Button>
@@ -42,7 +42,7 @@ const HomeGuest = () => (
           </Col>
           <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
-              <img className="img" src={getImgPath('./image/demo-img', 'jpg')}/>
+              <img className="img" src={getImgPath('/image/demo-img', 'jpg')} />
             </div>
           </Col>
         </Row>
@@ -122,7 +122,7 @@ const HomeGuest = () => (
     </div>
     <div className="home-section section-manage">
       <div className="container">
-        <Row className="row-card" style={{marginBottom: '.48rem'}}>
+        <Row className="row-card" style={{ marginBottom: '.48rem' }}>
           <Col lg={7} xs={10} className="section-card">
             <Card>
               <div className="section-block block-first">
@@ -155,7 +155,7 @@ const HomeGuest = () => (
     </div>
   </div>
 );
-HomeGuest.propTypes ={
+HomeGuest.propTypes = {
   introList: PropTypes.array
 }
 
@@ -172,23 +172,29 @@ class Home extends Component {
   constructor(props) {
     super(props)
   }
+
+  componentWillMount() {
+    if (this.props.login) {
+      this.props.history.push('/group/261')
+    }
+  }
+
   componentDidMount() {
-    if(window.QSSO) window.QSSO.attach('qsso-login','/api/user/login_by_token')
+    if (window.QSSO && document.getElementById('qsso-login')) window.QSSO.attach('qsso-login', '/api/user/login_by_token')
   }
   static propTypes = {
     introList: PropTypes.array,
-    login : PropTypes.bool,
+    login: PropTypes.bool,
     history: PropTypes.object,
-    changeMenuItem : PropTypes.func
+    changeMenuItem: PropTypes.func
   }
-  toStart = () =>{
+  toStart = () => {
     this.props.changeMenuItem('/group');
   }
-  render () {
-    const { login } = this.props;
+  render() {
     return (
       <div className="home-main">
-        {login? this.props.history.push('/group') : <HomeGuest introList={this.props.introList}/>}
+        <HomeGuest introList={this.props.introList} />
         <div className="row-tip">
           <div className="container">
             <div className="tip-title">

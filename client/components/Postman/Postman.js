@@ -421,7 +421,7 @@ export default class Run extends Component {
             <Alert
               message={
                 <div>
-                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;
+                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;（该插件可支持任何 chrome 内核的浏览器）
                   <div>
                     <a
                       target="blank"
@@ -431,12 +431,13 @@ export default class Run extends Component {
                   <div>
                     <a
                       target="blank"
-                      href="/attachment/cross-request.crx"
-                    > [手动下载安装] </a>
+                      href="/attachment/cross-request.zip"
+                    > [手动下载] </a>
+                    <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
                     <a
                       target="blank"
                       href="http://www.jianshu.com/p/12ca04c61fc6"
-                    > [安装教程] </a>
+                    > [详细安装教程] </a>
                   </div>
                 </div>
               }
@@ -448,16 +449,16 @@ export default class Run extends Component {
         <Card title="请求部分" noHovering className="req-part">
           <div className="url">
             <InputGroup compact style={{display: 'flex'}}>
-              <Select value={method} style={{flexBasis: 60}} onChange={this.changeMethod} >
+              <Select disabled value={method} style={{flexBasis: 60}} onChange={this.changeMethod} >
                 <Option value="GET">GET</Option>
                 <Option value="POST">POST</Option>
               </Select>
-              <Select value={currDomain} mode="combobox" filterOption={() => true} style={{flexBasis: 180, flexGrow: 1}} onChange={this.changeDomain} onSelect={this.selectDomain}>
+              <Select disabled value={currDomain} mode="combobox" filterOption={() => true} style={{flexBasis: 180, flexGrow: 1}} onChange={this.changeDomain} onSelect={this.selectDomain}>
                 {
                   domains.map((item, index) => (<Option value={item.domain} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
-              <Input value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
+              <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
             </InputGroup>
             <Tooltip placement="bottom" title="请求真实接口">
               <Button
@@ -483,52 +484,52 @@ export default class Run extends Component {
                 pathParam.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                      <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changePathParam(e, index)} className="value" />
-                      <Icon type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
+                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                     </div>
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
+              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
             </Panel>
-            <Panel header="QUERY PARAMETERS" key="1">
+            <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
               {
                 query.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
+                      <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeQuery(e, index)} className="value" />
-                      <Icon type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
+                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                     </div>
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
+              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
             </Panel>
-            <Panel header="HEADERS" key="2" >
+            <Panel header="HEADERS" key="2" className={headers.length === 0 ? 'hidden' : ''}>
               {
                 headers.map((item, index) => {
                   return (
                     <div key={index} className="key-value-wrap">
-                      <Input value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
+                      <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeHeader(e, index)} className="value" />
-                      <Icon type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
+                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                     </div>
                   )
                 })
               }
-              <Button type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
+              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
             </Panel>
             <Panel
               header={
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <div>BODY</div>
                   <div onClick={e => e.stopPropagation()} style={{marginRight: 5}}>
-                    <Select value={bodyType !== 'form' && bodyType !== 'file' ? 'text' : bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'hidden'}>
+                    <Select disabled value={bodyType !== 'form' && bodyType !== 'file' ? 'text' : bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'none'}>
                       <Option value="text">Text</Option>
                       <Option value="file">File</Option>
                       <Option value="form">Form</Option>
@@ -537,10 +538,11 @@ export default class Run extends Component {
                 </div>
               }
               key="3"
+              className={method === 'POST' ? '' : 'hidden'}
             >
               { method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
                 <div>
-                  <RadioGroup value={bodyType} onChange={(e) => this.changeBodyType(e.target.value)}>
+                  <RadioGroup disabled value={bodyType} onChange={(e) => this.changeBodyType(e.target.value)}>
                     <RadioButton value="json">JSON</RadioButton>
                     <RadioButton value="text">TEXT</RadioButton>
                     <RadioButton value="xml">XML</RadioButton>
@@ -555,9 +557,9 @@ export default class Run extends Component {
                     bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
-                          <Input value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                          <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
                           <span>[</span>
-                          <Select value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
+                          <Select disabled value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
                             <Option value="file">File</Option>
                             <Option value="text">Text</Option>
                           </Select>
@@ -567,12 +569,12 @@ export default class Run extends Component {
                             item.type === 'file' ? <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
                             <Input value={item.value} onChange={e => this.changeBody(e, index, 'value')} className="value" />
                           }
-                          <Icon type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
+                          <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
                         </div>
                       )
                     })
                   }
-                  <Button type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
+                  <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
                 </div>
               }
               {
@@ -581,10 +583,10 @@ export default class Run extends Component {
                   <Input type="file"></Input>
                 </div>
               }
-              {
+              {/*
                 method !== 'POST' &&
                 <div>GET 请求没有 BODY。</div>
-              }
+              */}
             </Panel>
           </Collapse>
         </Card>

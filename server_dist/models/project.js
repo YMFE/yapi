@@ -52,7 +52,6 @@ var projectModel = function (_baseModel) {
                 basepath: { type: String },
                 desc: String,
                 group_id: { type: Number, required: true },
-                group_name: { type: String, required: true },
                 project_type: { type: String, required: true, enum: ['public', 'private'] },
                 members: [{ uid: Number, role: { type: String, enum: ['owner', 'dev'] }, username: String, email: String }],
                 env: [{ name: String, domain: String }],
@@ -80,7 +79,7 @@ var projectModel = function (_baseModel) {
         value: function getBaseInfo(id) {
             return this.model.findOne({
                 _id: id
-            }).select('_id uid name basepath desc group_id group_name project_type env icon color add_time up_time').exec();
+            }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time').exec();
         }
     }, {
         key: 'getByDomain',
@@ -106,9 +105,8 @@ var projectModel = function (_baseModel) {
         }
     }, {
         key: 'list',
-        value: function list(group_id, auth) {
+        value: function list(group_id) {
             var params = { group_id: group_id };
-            if (!auth) params.project_type = 'public';
             return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
         }
     }, {
