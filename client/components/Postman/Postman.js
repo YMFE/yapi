@@ -33,11 +33,10 @@ export default class Run extends Component {
     query: [],
     bodyForm: [],
     headers: [],
-    currDomain: '',
     caseEnv: '',
     bodyType: '',
     bodyOther: '',
-    isDidMount: false
+    loading: false
   }
 
   constructor(props) {
@@ -118,8 +117,12 @@ export default class Run extends Component {
 
   @autobind
   reqRealInterface() {
-    const { headers, bodyForm, bodyOther, currDomain, method, pathname, query, bodyType } = this.state;
-    const urlObj = URL.parse(currDomain);
+    if (this.state.loading) {
+      this.setState({ loading: false })
+      return ;
+    }
+    const { headers, bodyForm, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
+    const urlObj = URL.parse(domains.find(item => item.name === caseEnv).domain);
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
@@ -163,10 +166,10 @@ export default class Run extends Component {
     })
   }
 
-  @autobind
-  changeDomain(value) {
-    this.setState({ currDomain: value });
-  }
+  // @autobind
+  // changeDomain(value) {
+  //   this.setState({ currDomain: value });
+  // }
 
   @autobind
   selectDomain(value) {
@@ -405,7 +408,7 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
@@ -467,8 +470,8 @@ export default class Run extends Component {
                 onClick={this.reqRealInterface}
                 type="primary"
                 style={{marginLeft: 10}}
-                loading={this.state.loading}
-              >发送</Button>
+                icon={loading ? 'loading' : ''}
+              >{loading ? '取消' : '发送'}</Button>
             </Tooltip>
             <Tooltip placement="bottom" title={this.props.saveTip}>
               <Button
