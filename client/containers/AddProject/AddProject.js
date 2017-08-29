@@ -81,7 +81,6 @@ class ProjectList extends Component {
             message.success('创建成功! ');
             this.props.history.push('/project/' + res.payload.data.data._id + '/interface/api');
           }
-        }).catch(() => {
         });
       }
     });
