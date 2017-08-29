@@ -555,7 +555,6 @@ var interfaceController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
-
                                 params = _yapi2.default.commons.handleParams(params, {
                                     title: 'string',
                                     path: 'string',
@@ -604,7 +603,7 @@ var interfaceController = function (_baseController) {
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
                             case 17:
-                                if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
+                                if (!(params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method))) {
                                     _context6.next = 23;
                                     break;
                                 }

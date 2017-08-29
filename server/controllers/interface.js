@@ -251,7 +251,6 @@ class interfaceController extends baseController {
 
     async up(ctx) {
         let params = ctx.request.body;
-
         params = yapi.commons.handleParams(params, {
             title: 'string',
             path: 'string',
@@ -279,7 +278,7 @@ class interfaceController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
 
-        if (params.path && params.path !== interfaceData.path && params.method !== interfaceData.method) {
+        if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method) ) {
             let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
             if (checkRepeat > 0) {
                 return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
