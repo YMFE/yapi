@@ -34,6 +34,7 @@ export default class Run extends Component {
     bodyForm: [],
     headers: [],
     currDomain: '',
+    caseEnv: '',
     bodyType: '',
     bodyOther: '',
     isDidMount: false
@@ -75,37 +76,37 @@ export default class Run extends Component {
       req_body_form = [],
       basepath = '',
       env = [],
-      domain = ''
+      case_env = ''
     } = data;
     // case 任意编辑 pathname，不管项目的 basepath
     const pathname = (type === 'inter' ? (basepath + url) : url).replace(/\/+/g, '/');
 
-    let hasContentType = false;
-    req_headers.forEach(headerItem => {
-      // TODO 'Content-Type' 排除大小写不同格式影响
-      if (headerItem.name === 'Content-Type'){
-        hasContentType = true;
-        headerItem.value = headerItem.value || 'application/x-www-form-urlencoded';
-      }
-    })
-    if (!hasContentType) {
-      req_headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
-    }
-    const domains = env.concat();
-    if (domain && !env.find(item => item.domain === domain)) {
-      domains.push({name: 'default', domain})
-    }
+    // let hasContentType = false;
+    // req_headers.forEach(headerItem => {
+    //   // TODO 'Content-Type' 排除大小写不同格式影响
+    //   if (headerItem.name === 'Content-Type'){
+    //     hasContentType = true;
+    //     headerItem.value = headerItem.value || 'application/x-www-form-urlencoded';
+    //   }
+    // })
+    // if (!hasContentType) {
+    //   req_headers.push({name: 'Content-Type', value: 'application/x-www-form-urlencoded'});
+    // }
+    // const domains = env.concat();
+    // if (domain && !env.find(item => item.domain === domain)) {
+    //   domains.push({name: 'default', domain})
+    // }
 
     this.setState({
       method,
-      domains,
+      domains: env.concat(),
       pathParam: req_params.concat(),
       pathname,
       query: req_query.concat(),
       bodyForm: req_body_form.concat(),
       headers: req_headers.concat(),
       bodyOther: req_body_other,
-      currDomain: domain || (env[0] && env[0].domain),
+      caseEnv: case_env || (env[0] && env[0].name),
       bodyType: req_body_type || 'form',
       loading: false
     }, () => {
@@ -169,7 +170,7 @@ export default class Run extends Component {
 
   @autobind
   selectDomain(value) {
-    this.setState({ currDomain: value });
+    this.setState({ caseEnv: value });
   }
 
   @autobind
@@ -404,7 +405,7 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, currDomain, bodyType, resHeader } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
@@ -452,9 +453,9 @@ export default class Run extends Component {
                 <Option value="GET">GET</Option>
                 <Option value="POST">POST</Option>
               </Select>
-              <Select disabled value={currDomain} mode="combobox" filterOption={() => true} style={{flexBasis: 180, flexGrow: 1}} onChange={this.changeDomain} onSelect={this.selectDomain}>
+              <Select value={caseEnv} style={{flexBasis: 180, flexGrow: 1}} onSelect={this.selectDomain}>
                 {
-                  domains.map((item, index) => (<Option value={item.domain} key={index}>{item.name + '：' + item.domain}</Option>))
+                  domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
               <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
