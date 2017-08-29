@@ -88,7 +88,7 @@ class InterfaceEditForm extends Component {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.req_params = this.state.req_params;
-        values.req_body_other = this.state.req_body_other;
+        // values.req_body_other = this.state.req_body_other;
         values.method = this.state.method;
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
@@ -359,7 +359,7 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('title', {
             initialValue: this.state.title,
             rules: [{
-              required: true, message: '清输入接口名称!'
+              required: true, message: '请输入接口名称!'
             }]
           })(
             <Input placeholder="接口名称" />

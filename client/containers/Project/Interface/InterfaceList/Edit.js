@@ -46,7 +46,7 @@ class InterfaceEdit extends Component {
       message.success('保存成功');
       this.props.switchToView()
     } else {
-      message.success(result.data.errmsg)
+      message.error(result.data.errmsg)
     }
   }
 
