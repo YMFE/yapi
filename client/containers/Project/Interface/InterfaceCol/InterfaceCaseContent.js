@@ -113,6 +113,7 @@ export default class InterfaceCaseContent extends Component {
       message.error(res.data.errmsg)
     } else {
       message.success('更新成功')
+      this.props.fetchCaseData(id);
     }
   }
 
