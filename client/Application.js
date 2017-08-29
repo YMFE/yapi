@@ -36,15 +36,9 @@ export default class App extends Component {
     loginState: PropTypes.number
   };
 
-  // componentWillMount() {
-  //   if( !this.props.isAuthenticated ){
-  //     this.props.history.push('/');
-  //     this.props.changeMenuItem('/');
-  //   }
-  // }
 
   componentDidMount() {
-    message.warning('YApi平台正在公测，发布正式版会删除所有公测数据！', 5)
+    message.warning('YApi平台正在公测，发布正式版会删除所有公测数据！', 10)
     this.props.checkLoginState();
   }
 
@@ -66,10 +60,6 @@ export default class App extends Component {
                 <Route path="/follow" component={requireAuthentication(Follows)} />
                 <Route path="/add-project" component={requireAuthentication(AddProject)} />
                 <Route path="/login" component={Login} />
-                {
-                // <Route path="/news" component={requireAuthentication(News)} />
-                // <Route path="/add-interface" component={requireAuthentication(AddInterface)} />
-                }
               </div>
             </div>
             <Footer />
