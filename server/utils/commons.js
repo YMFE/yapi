@@ -10,7 +10,7 @@ exports.resReturn = (data, num, errmsg) => {
 
     return {
         errcode: num,
-        errmsg: errmsg || 'success',
+        errmsg: errmsg || '成功！',
         data: data
     };
 };
@@ -238,7 +238,7 @@ exports.saveLog = (logData) => {
             typeid: logData.typeid
         };
         logInst.save(data).then(
-            
+
         );
     } catch(e) {
         yapi.commons.log(e, 'error'); // eslint-disable-line
