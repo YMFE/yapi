@@ -2,6 +2,7 @@ import interfaceModel from '../models/interface.js';
 import interfaceCatModel from '../models/interfaceCat.js';
 import interfaceCaseModel from '../models/interfaceCase.js'
 
+import _ from 'underscore';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 import userModel from '../models/user.js';
@@ -61,6 +62,7 @@ class interfaceController extends baseController {
         }
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
+        params.req_params = params.req_params || [];
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
         if (!params.project_id) {
@@ -105,7 +107,23 @@ class interfaceController extends baseController {
             if (params.req_body_form) {
                 data.req_body_form = params.req_body_form;
             }
-            if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+
+            if (params.path.indexOf(":") > 0) {
+                let paths = params.path.split("/"), name, i;                
+                for (i = 1; i < paths.length; i++) {
+                    if (paths[i][0] === ':') {
+                        name = paths[i].substr(1);
+                        if (!_.find(params.req_params, { name: name })) {
+                            params.req_params.push({
+                                name: name,
+                                desc: ''
+                            })
+                        }
+                    }
+                }
+            }
+
+            if ( params.req_params.length > 0) {
                 data.type = 'var'
                 data.req_params = params.req_params;
             } else {
@@ -116,9 +134,9 @@ class interfaceController extends baseController {
             }
 
             let result = await this.Model.save(data);
-            
+
             // let project = await this.projectModel.get(params.project_id);
-            this.catModel.get(params.catid).then((cate)=>{
+            this.catModel.get(params.catid).then((cate) => {
                 let username = this.getUsername();
                 yapi.commons.saveLog({
                     content: `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`,
@@ -128,7 +146,7 @@ class interfaceController extends baseController {
                     typeid: params.project_id
                 });
             });
-            
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -278,7 +296,7 @@ class interfaceController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
 
-        if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method) ) {
+        if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method)) {
             let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
             if (checkRepeat > 0) {
                 return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
@@ -346,7 +364,7 @@ class interfaceController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             if (params.catid) {
-                this.catModel.get(+params.catid).then((cate)=>{
+                this.catModel.get(+params.catid).then((cate) => {
                     yapi.commons.saveLog({
                         content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
                         type: 'project',
@@ -357,7 +375,7 @@ class interfaceController extends baseController {
                 });
             } else {
                 let cateid = interfaceData.catid;
-                this.catModel.get(cateid).then((cate)=>{
+                this.catModel.get(cateid).then((cate) => {
                     yapi.commons.saveLog({
                         content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
                         type: 'project',
@@ -368,7 +386,7 @@ class interfaceController extends baseController {
                 });
             }
 
-            
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -408,7 +426,7 @@ class interfaceController extends baseController {
             let result = await this.Model.del(id);
             await this.caseModel.delByInterfaceId(id);
             let username = this.getUsername();
-            this.catModel.get(inter.catid).then((cate)=>{
+            this.catModel.get(inter.catid).then((cate) => {
                 yapi.commons.saveLog({
                     content: `用户 "${username}" 删除了分类 "${cate.name}" 下的接口 "${inter.title}"`,
                     type: 'project',
@@ -417,7 +435,7 @@ class interfaceController extends baseController {
                     typeid: cate.project_id
                 });
             })
-            
+
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
@@ -507,7 +525,7 @@ class interfaceController extends baseController {
                 name: params.name,
                 desc: params.desc,
                 up_time: yapi.commons.time()
-            });            
+            });
 
             let username = this.getUsername();
             let cate = await this.catModel.get(params.catid);
