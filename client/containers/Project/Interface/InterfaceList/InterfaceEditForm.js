@@ -6,7 +6,7 @@ import { handlePath } from '../../../../common.js'
 
 import {
   Form, Select, Input, Tooltip,
-  Button, Row, Col, Radio, Icon
+  Button, Row, Col, Radio, Icon, AutoComplete
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -23,6 +23,7 @@ const dataTpl = {
 const mockEditor = require('./mockEditor.js');
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
+const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
 
 class InterfaceEditForm extends Component {
   static propTypes = {
@@ -85,8 +86,8 @@ class InterfaceEditForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {        
-        if (values.res_body_type === 'json') values.res_body = this.state.res_body;        
+      if (!err) {
+        if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.method = this.state.method;
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
@@ -206,6 +207,10 @@ class InterfaceEditForm extends Component {
     }
   }
 
+  onSelect = (name) => {
+    console.log(name);
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -248,11 +253,15 @@ class InterfaceEditForm extends Component {
 
     const headerTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="4">
+        <Col span="6">
           {getFieldDecorator('req_headers[' + index + '].name', {
             initialValue: data.name
           })(
-            <Input placeholder="参数名称" />
+            <AutoComplete
+              dataSource={HTTP_REQUEST_HEADER}
+              filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+              placeholder="参数名称"
+            />
             )}
         </Col>
         <Col span="6" >
