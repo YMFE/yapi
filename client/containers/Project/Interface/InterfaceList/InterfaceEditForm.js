@@ -188,7 +188,7 @@ class InterfaceEditForm extends Component {
   }
 
   handlePath = (e) => {
-    let val = e.target.value;
+    let val = e.target.value, queue = [];
     val = handlePath(val)
     this.props.form.setFieldsValue({
       path: val
@@ -198,17 +198,19 @@ class InterfaceEditForm extends Component {
       for (i = 1; i < paths.length; i++) {
         if (paths[i][0] === ':') {
           name = paths[i].substr(1);
-          if (!_.find(this.state.req_params, { name: name })) {
-            this.addParams('req_params', { name: name })
+          let findExist = _.find(this.state.req_params, { name: name });
+          if (findExist) {
+            queue.push(findExist)
+          } else {
+            queue.push({ name: name, desc: '' })
           }
         }
       }
+      this.setState({
+        req_params: queue
+      })
 
     }
-  }
-
-  onSelect = (name) => {
-    console.log(name);
   }
 
   render() {
@@ -333,9 +335,7 @@ class InterfaceEditForm extends Component {
             <Input placeholder="备注" />
             )}
         </Col>
-        <Col span="2" >
-          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_params')} />
-        </Col>
+
 
       </Row>
     }
