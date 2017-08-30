@@ -649,28 +649,28 @@ var interfaceController = function (_baseController) {
                                 };
 
 
-                                if (params.path) {
+                                if (!_underscore2.default.isUndefined(params.path)) {
                                     data.path = params.path;
                                 }
-                                if (params.title) {
+                                if (!_underscore2.default.isUndefined(params.title)) {
                                     data.title = params.title;
                                 }
-                                if (params.desc) {
+                                if (!_underscore2.default.isUndefined(params.desc)) {
                                     data.desc = params.desc;
                                 }
-                                if (params.method) {
+                                if (!_underscore2.default.isUndefined(params.method)) {
                                     data.method = params.method;
                                 }
 
-                                if (params.catid) {
+                                if (!_underscore2.default.isUndefined(params.catid)) {
                                     data.catid = params.catid;
                                 }
 
-                                if (params.req_headers) {
+                                if (!_underscore2.default.isUndefined(params.req_headers)) {
                                     data.req_headers = params.req_headers;
                                 }
 
-                                if (params.req_body_form) {
+                                if (!_underscore2.default.isUndefined(params.req_body_form)) {
                                     data.req_body_form = params.req_body_form;
                                 }
                                 if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
@@ -680,25 +680,25 @@ var interfaceController = function (_baseController) {
                                     data.type = 'static';
                                 }
 
-                                if (params.req_query) {
+                                if (!_underscore2.default.isUndefined(params.req_query)) {
                                     data.req_query = params.req_query;
                                 }
-                                if (params.req_body_other) {
+                                if (!_underscore2.default.isUndefined(params.req_body_other)) {
                                     data.req_body_other = params.req_body_other;
                                 }
 
-                                if (params.req_body_type) {
+                                if (!_underscore2.default.isUndefined(params.req_body_type)) {
                                     data.req_body_type = params.req_body_type;
                                 }
 
-                                if (params.res_body_type) {
+                                if (!_underscore2.default.isUndefined(params.res_body_type)) {
                                     data.res_body_type = params.res_body_type;
                                 }
-                                if (params.res_body) {
+                                if (!_underscore2.default.isUndefined(params.res_body)) {
                                     data.res_body = params.res_body;
                                 }
 
-                                if (params.status) {
+                                if (!_underscore2.default.isUndefined(params.status)) {
                                     data.status = params.status;
                                 }
 
