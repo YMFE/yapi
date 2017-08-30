@@ -307,28 +307,28 @@ class interfaceController extends baseController {
             up_time: yapi.commons.time()
         };
 
-        if (params.path) {
+        if (!_.isUndefined(params.path)) {
             data.path = params.path;
         }
-        if (params.title) {
+        if (!_.isUndefined(params.title)) {
             data.title = params.title;
         }
-        if (params.desc) {
+        if (!_.isUndefined(params.desc)) {
             data.desc = params.desc;
         }
-        if (params.method) {
+        if (!_.isUndefined(params.method)) {
             data.method = params.method;
         }
 
-        if (params.catid) {
+        if (!_.isUndefined(params.catid)) {
             data.catid = params.catid;
         }
 
-        if (params.req_headers) {
+        if (!_.isUndefined(params.req_headers)) {
             data.req_headers = params.req_headers;
         }
 
-        if (params.req_body_form) {
+        if (!_.isUndefined(params.req_body_form)) {
             data.req_body_form = params.req_body_form;
         }
         if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
@@ -338,25 +338,25 @@ class interfaceController extends baseController {
             data.type = 'static'
         }
 
-        if (params.req_query) {
+        if (!_.isUndefined(params.req_query)) {
             data.req_query = params.req_query;
         }
-        if (params.req_body_other) {
+        if (!_.isUndefined(params.req_body_other)) {
             data.req_body_other = params.req_body_other;
         }
 
-        if (params.req_body_type) {
+        if (!_.isUndefined(params.req_body_type)) {
             data.req_body_type = params.req_body_type;
         }
 
-        if (params.res_body_type) {
+        if (!_.isUndefined(params.res_body_type)) {
             data.res_body_type = params.res_body_type;
         }
-        if (params.res_body) {
+        if (!_.isUndefined(params.res_body)) {
             data.res_body = params.res_body;
         }
 
-        if (params.status) {
+        if (!_.isUndefined(params.status)) {
             data.status = params.status;
         }
 

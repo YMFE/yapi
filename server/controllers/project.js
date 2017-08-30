@@ -560,14 +560,12 @@ class projectController extends baseController {
                 data.project_type = params.project_type
             }
 
-            if (params.name) data.name = params.name;
-            if (params.desc) data.desc = params.desc;
-            if (params.basepath) {
-                data.basepath = params.basepath;
-            }
-            if (params.env) data.env = params.env;
-            if (params.color) data.color = params.color;
-            if (params.icon) data.icon = params.icon;
+            if (!_.isUndefined(params.name)) data.name = params.name;
+            if (!_.isUndefined(params.desc)) data.desc = params.desc;
+            data.basepath = params.basepath;            
+            if (!_.isUndefined(params.env)) data.env = params.env;
+            if (!_.isUndefined(params.color)) data.color = params.color;
+            if (!_.isUndefined(params.icon)) data.icon = params.icon;
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
