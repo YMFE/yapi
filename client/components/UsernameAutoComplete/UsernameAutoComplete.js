@@ -40,7 +40,8 @@ class UsernameAutoComplete extends Component {
     this.state = {
       dataSource: [],
       uid: 0,
-      username: ''
+      username: '',
+      changeName: ''
     }
   }
 
@@ -48,19 +49,23 @@ class UsernameAutoComplete extends Component {
     callbackState: PropTypes.func
   }
 
+  changeState = (uid, username) => {
+    // 设置本组件 state
+    this.setState({ uid, username });
+    // 回调 将当前选中的uid和username回调给父组件
+    this.props.callbackState({ uid, username });
+  }
+
+  onChange = (userName) => {
+    this.setState({
+      changeName: userName
+    });
+  }
+
   onSelect = (userName) => {
     this.state.dataSource.forEach((item) => {
       if (item.username === userName) {
-        // 设置本组件 state
-        this.setState({
-          uid: item.id,
-          username: item.username
-        });
-        // 回调 将当前选中的uid和username回调给父组件
-        this.props.callbackState({
-          uid: item.id,
-          username: item.username
-        })
+        this.changeState(item.id, item.username);
       }
     });
   }
@@ -69,18 +74,34 @@ class UsernameAutoComplete extends Component {
     const params = { q: value}
     axios.get('/api/user/search', { params })
       .then(data => {
-        const userList = []
-        data = data.data.data
+        const userList = [];
+        data = data.data.data;
+
         if (data) {
           data.forEach( v => userList.push({
             username: v.username,
             id: v.uid
           }));
+          // 取回搜索值后，设置 dataSource
           this.setState({
             dataSource: userList
-          })
+          });
+          if (userList.length) {
+            userList.forEach((item) => {
+              if (item.username === this.state.changeName) {
+                // 每次取回搜索值后，没选择时默认选择第一位
+                this.changeState(userList[0].id, userList[0].username);
+              } else {
+                // 有候选词但没有对应输入框中的字符串，此时应清空候选 uid 和 username
+                this.changeState(-1, '');
+              }
+            });
+          } else {
+            // 如果没有搜索结果，则清空候选 uid 和 username
+            this.changeState(-1, '');
+          }
         }
-      })
+      });
   }
 
   render () {
@@ -88,6 +109,7 @@ class UsernameAutoComplete extends Component {
       <AutoComplete
         dataSource={this.state.dataSource.map(i => i.username)}
         style={{ width: '100%' }}
+        onChange={this.onChange}
         onSelect={this.onSelect}
         onSearch={this.handleSearch}
         placeholder="请输入用户名"
