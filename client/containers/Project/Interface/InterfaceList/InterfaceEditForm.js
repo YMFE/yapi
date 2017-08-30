@@ -206,11 +206,11 @@ class InterfaceEditForm extends Component {
           }
         }
       }
-      this.setState({
-        req_params: queue
-      })
-
     }
+    this.setState({
+      req_params: queue
+    })
+
   }
 
   render() {
@@ -564,7 +564,7 @@ class InterfaceEditForm extends Component {
             initialValue: this.state.res_body_type
           })(
             <RadioGroup>
-              <Radio value="json">json</Radio>
+              <Radio value="json">json(mock)</Radio>
               <Radio value="raw">raw</Radio>
 
             </RadioGroup>
@@ -574,6 +574,7 @@ class InterfaceEditForm extends Component {
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
 
           <Col span={17} offset={4} >
+            <h3>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
             <div id="res_body_json" style={{ minHeight: "300px" }}  ></div>
           </Col>
         </Row>
