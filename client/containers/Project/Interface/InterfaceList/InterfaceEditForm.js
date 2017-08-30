@@ -85,10 +85,8 @@ class InterfaceEditForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        if (values.res_body_type === 'json') values.res_body = this.state.res_body;
-        values.req_params = this.state.req_params;
-        // values.req_body_other = this.state.req_body_other;
+      if (!err) {        
+        if (values.res_body_type === 'json') values.res_body = this.state.res_body;        
         values.method = this.state.method;
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
@@ -130,7 +128,7 @@ class InterfaceEditForm extends Component {
         values.req_query = values.req_query ? values.req_query.filter(item => item.name !== '') : []
 
         if (HTTP_METHOD[values.method].request_body !== true) {
-          values.req_params = []
+          values.req_body_form = []
         }
         this.props.onSubmit(values)
       }
@@ -410,7 +408,7 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator('path', {
               initialValue: this.state.path,
               rules: [{
-                required: true, message: '清输入接口路径!'
+                required: true, message: '请输入接口路径!'
               }]
             })(
               <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
