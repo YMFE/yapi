@@ -121,13 +121,17 @@ export default class Run extends Component {
       this.setState({ loading: false })
       return ;
     }
-    const { headers, bodyForm, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
+    const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(domains.find(item => item.name === caseEnv).domain);
+    let path = pathname
+    pathParam.forEach(item => {
+      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+    });
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname,
+      pathname: path,
       query: this.getQueryObj(query)
     });
 
@@ -141,7 +145,9 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res, header) => {
         try {
-          res = typeof res === 'object' ? res : JSON.parse(res)
+          if (header['content-type'].indexOf('application/json') !== -1) {
+            res = typeof res === 'object' ? res : JSON.parse(res)
+          }
           header = typeof header === 'object' ? header : JSON.parse(header)
         } catch (e) {
           message.error(e.message)
@@ -153,7 +159,9 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          err = typeof err === 'object' ? err : JSON.parse(err)
+          if (header['content-type'].indexOf('application/json') !== -1) {
+            err = typeof err === 'object' ? err : JSON.parse(err)
+          }
           header = typeof header === 'object' ? header : JSON.parse(header)
         } catch (e) {
           message.error(e.message)
@@ -602,7 +610,7 @@ export default class Run extends Component {
               <Panel header="BODY" key="0" >
                 <div id="res-body-pretty" className="pretty-editor" style={{display: isResJson ? '' : 'none'}}></div>
                 <TextArea
-                style={{display: isResJson ? 'none' : ''}}
+                  style={{display: isResJson ? 'none' : ''}}
                   value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
