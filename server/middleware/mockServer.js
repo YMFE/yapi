@@ -1,7 +1,7 @@
 import yapi from '../yapi.js';
 import projectModel from '../models/project.js';
 import interfaceModel from '../models/interface.js';
-import Mock from 'mockjs';
+import mockExtra from '../../common/mock-extra.js';
 import _ from 'underscore';
 
 
@@ -90,11 +90,16 @@ module.exports = async (ctx, next) => {
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
             try {
-                const res = Mock.mock(
-                    yapi.commons.json_parse(interfaceData.res_body)
+                const res = mockExtra(
+                    yapi.commons.json_parse(interfaceData.res_body),
+                    {
+                        query: ctx.request.query,
+                        body: ctx.request.body
+                    }
                 );
                 return ctx.body = res;
             } catch (e) {
+                yapi.commons.log(e, 'error')
                 return ctx.body = {
                     errcode: 400,
                     errmsg: 'mock json数据格式有误',

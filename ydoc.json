@@ -12,15 +12,15 @@
         "homeUrl": "http://ued.qunar.com/ymfe/" // logourl
     },
     "options": {
-        "foldcode": true
-        // "markdown": { // 对于 markdown 编译器进行统一配置
-        //     "menuLevel": 4 //选取第几级 head 作为目录，默认 -1 没有目录
-        // }
+        "foldcode": true,
+        "markdown": { // 对于 markdown 编译器进行统一配置
+            "menuLevel": 2 //选取第几级 head 作为目录，默认 -1 没有目录
+        }
     },
     "pages": [{
         "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
         "title": "首页", // Page Title
-         "homepage": { // 配置首页，样式区别于其他页面
+        "homepage": { // 配置首页，样式区别于其他页面
             "version": "v1.0.0", // 版本信息将显示在banner底部
             "button": [{ // 按钮组将显示在banner底部
                 "name": "开始",
