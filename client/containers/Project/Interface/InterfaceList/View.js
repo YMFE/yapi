@@ -43,6 +43,10 @@ class View extends Component {
         dataIndex: 'name',
         key: 'name'
       }, {
+        title: '参数类型',
+        dataIndex: 'type',
+        key: 'type'
+      },{
         title: '是否必须',
         dataIndex: 'required',
         key: 'required'
@@ -60,7 +64,8 @@ class View extends Component {
             key: i,
             name: item.name,
             value: item.desc,
-            required: item.required?"必须":"非必须"
+            required: item.required?"必须":"非必须",
+            type: item.type === "text"?"文本":"文件"
           })
         })
       }
@@ -224,8 +229,14 @@ class View extends Component {
       done: "完成"
     }
     let statusColor = {
-      undone: "rgb(255, 85, 0)",
-      done: "#cfefdf"
+      undone: {
+        bac: "rgb(255, 85, 0)",
+        color: "white"
+      },
+      done:{
+        bac: "rgb(135, 208, 104)",
+        color: "white"
+      } 
     }
     let methodColor = {
       post: {
@@ -236,28 +247,29 @@ class View extends Component {
         bac: "#cfefdf",
         color: "#00a854"
       },
-      input: {
-        bac: "#57cf27",
-        color: "#9c82a2"
+      put: {
+        bac: "#fff3cf",
+        color: "#ffbf00"
       },
       delete: {
-        bac: "#57cf27",
-        color: "#57cf27"
+        bac: "#fcdbd9",
+        color: "#f04134"
       },
       head: {
-        bac: "#d4d5f7",
-        color: "#0b47ef"
+        bac: "#fff3cf",
+        color: "#ffbf00"
       },
       patch: {
-        bac: "#f9f4e1",
-        color: "#fac200"
+        bac: "#fff3cf",
+        color: "#ffbf00"
       },
       options: {
-        bac: "#f7cdf5",
-        color: "#fa00f2"
+        bac: "#fff3cf",
+        color: "#ffbf00"
       }
     }
     methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
+    statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"]
     if(!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <div className="colName">
@@ -266,7 +278,7 @@ class View extends Component {
       </div>
       <div className="colMethod">
         <span className="colKey">请求方法：</span>
-        <span style={{color:methodColor,backgroundColor:methodColor.bac}} className="colValue">{this.props.curData.method}</span>
+        <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{this.props.curData.method}</span>
       </div>
       <div className="colPath">
         <span className="colKey">接口路径：</span>
@@ -274,7 +286,7 @@ class View extends Component {
       </div>
       <div className="colstatus">
         <span className="colKey">状态：</span>
-        <span style={{backgroundColor:statusColor[this.props.curData.status]}} className="colValue">{status[this.props.curData.status]}</span>
+        <span style={{backgroundColor:statusColor.bac,color: statusColor.color}} className="colValue">{status[this.props.curData.status]}</span>
       </div>
       <div className="colAddTime">
         <span className="colKey">创建时间：</span>
