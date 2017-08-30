@@ -121,13 +121,17 @@ export default class Run extends Component {
       this.setState({ loading: false })
       return ;
     }
-    const { headers, bodyForm, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
+    const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(domains.find(item => item.name === caseEnv).domain);
+    let path = pathname
+    pathParam.forEach(item => {
+      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+    });
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname,
+      pathname: path,
       query: this.getQueryObj(query)
     });
 
