@@ -8,6 +8,9 @@
     .case-delete-icon{
       display: none;
     }
+    i:before{
+      line-height: 17px;
+    }
   }
   .menu-title:hover {
     .case-delete-icon {
