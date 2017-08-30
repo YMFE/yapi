@@ -408,7 +408,7 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator('path', {
               initialValue: this.state.path,
               rules: [{
-                required: true, message: '清输入接口路径!'
+                required: true, message: '请输入接口路径!'
               }]
             })(
               <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
