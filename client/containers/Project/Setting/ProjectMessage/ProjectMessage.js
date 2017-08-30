@@ -95,8 +95,6 @@ class ProjectMessage extends Component {
             this.props.getProjectMsg(this.props.projectId);
             message.success('修改成功! ');
             // this.props.history.push('/group');
-          } else {
-            message.error(res.payload.data.errmsg);
           }
         }).catch(() => {
         });

@@ -44,6 +44,10 @@ var _interfaceCase = require('../models/interfaceCase.js');
 
 var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -113,7 +117,7 @@ var interfaceController = function (_baseController) {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var _this2 = this;
 
-                var params, auth, checkRepeat, data, result;
+                var params, auth, checkRepeat, data, paths, name, i, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -145,47 +149,48 @@ var interfaceController = function (_baseController) {
                             case 7:
                                 params.method = params.method || 'GET';
                                 params.method = params.method.toUpperCase();
+                                params.req_params = params.req_params || [];
                                 params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
                                 if (params.project_id) {
-                                    _context.next = 12;
+                                    _context.next = 13;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
 
-                            case 12:
+                            case 13:
                                 if (params.path) {
-                                    _context.next = 14;
+                                    _context.next = 15;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口请求路径不能为空'));
 
-                            case 14:
+                            case 15:
                                 if (_yapi2.default.commons.verifyPath(params.path)) {
-                                    _context.next = 16;
+                                    _context.next = 17;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
-                            case 16:
-                                _context.next = 18;
+                            case 17:
+                                _context.next = 19;
                                 return this.Model.checkRepeat(params.project_id, params.path, params.method);
 
-                            case 18:
+                            case 19:
                                 checkRepeat = _context.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context.next = 21;
+                                    _context.next = 22;
                                     break;
                                 }
 
                                 return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 21:
-                                _context.prev = 21;
+                            case 22:
+                                _context.prev = 22;
                                 data = {
                                     project_id: params.project_id,
                                     catid: params.catid,
@@ -210,7 +215,24 @@ var interfaceController = function (_baseController) {
                                 if (params.req_body_form) {
                                     data.req_body_form = params.req_body_form;
                                 }
-                                if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+
+                                if (params.path.indexOf(":") > 0) {
+                                    paths = params.path.split("/"), name = void 0, i = void 0;
+
+                                    for (i = 1; i < paths.length; i++) {
+                                        if (paths[i][0] === ':') {
+                                            name = paths[i].substr(1);
+                                            if (!_underscore2.default.find(params.req_params, { name: name })) {
+                                                params.req_params.push({
+                                                    name: name,
+                                                    desc: ''
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (params.req_params.length > 0) {
                                     data.type = 'var';
                                     data.req_params = params.req_params;
                                 } else {
@@ -220,10 +242,10 @@ var interfaceController = function (_baseController) {
                                     data.req_body_other = params.req_body_other;
                                 }
 
-                                _context.next = 29;
+                                _context.next = 31;
                                 return this.Model.save(data);
 
-                            case 29:
+                            case 31:
                                 result = _context.sent;
 
 
@@ -240,21 +262,21 @@ var interfaceController = function (_baseController) {
                                 });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 37;
+                                _context.next = 39;
                                 break;
 
-                            case 34:
-                                _context.prev = 34;
-                                _context.t0 = _context['catch'](21);
+                            case 36:
+                                _context.prev = 36;
+                                _context.t0 = _context['catch'](22);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 37:
+                            case 39:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[21, 34]]);
+                }, _callee, this, [[22, 36]]);
             }));
 
             function add(_x) {
@@ -555,7 +577,6 @@ var interfaceController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
-
                                 params = _yapi2.default.commons.handleParams(params, {
                                     title: 'string',
                                     path: 'string',
@@ -604,7 +625,7 @@ var interfaceController = function (_baseController) {
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
                             case 17:
-                                if (!(params.path && params.path !== interfaceData.path && params.method !== interfaceData.method)) {
+                                if (!(params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method))) {
                                     _context6.next = 23;
                                     break;
                                 }
@@ -628,28 +649,28 @@ var interfaceController = function (_baseController) {
                                 };
 
 
-                                if (params.path) {
+                                if (!_underscore2.default.isUndefined(params.path)) {
                                     data.path = params.path;
                                 }
-                                if (params.title) {
+                                if (!_underscore2.default.isUndefined(params.title)) {
                                     data.title = params.title;
                                 }
-                                if (params.desc) {
+                                if (!_underscore2.default.isUndefined(params.desc)) {
                                     data.desc = params.desc;
                                 }
-                                if (params.method) {
+                                if (!_underscore2.default.isUndefined(params.method)) {
                                     data.method = params.method;
                                 }
 
-                                if (params.catid) {
+                                if (!_underscore2.default.isUndefined(params.catid)) {
                                     data.catid = params.catid;
                                 }
 
-                                if (params.req_headers) {
+                                if (!_underscore2.default.isUndefined(params.req_headers)) {
                                     data.req_headers = params.req_headers;
                                 }
 
-                                if (params.req_body_form) {
+                                if (!_underscore2.default.isUndefined(params.req_body_form)) {
                                     data.req_body_form = params.req_body_form;
                                 }
                                 if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
@@ -659,25 +680,25 @@ var interfaceController = function (_baseController) {
                                     data.type = 'static';
                                 }
 
-                                if (params.req_query) {
+                                if (!_underscore2.default.isUndefined(params.req_query)) {
                                     data.req_query = params.req_query;
                                 }
-                                if (params.req_body_other) {
+                                if (!_underscore2.default.isUndefined(params.req_body_other)) {
                                     data.req_body_other = params.req_body_other;
                                 }
 
-                                if (params.req_body_type) {
+                                if (!_underscore2.default.isUndefined(params.req_body_type)) {
                                     data.req_body_type = params.req_body_type;
                                 }
 
-                                if (params.res_body_type) {
+                                if (!_underscore2.default.isUndefined(params.res_body_type)) {
                                     data.res_body_type = params.res_body_type;
                                 }
-                                if (params.res_body) {
+                                if (!_underscore2.default.isUndefined(params.res_body)) {
                                     data.res_body = params.res_body;
                                 }
 
-                                if (params.status) {
+                                if (!_underscore2.default.isUndefined(params.status)) {
                                     data.status = params.status;
                                 }
 

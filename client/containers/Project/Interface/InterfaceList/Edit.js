@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import InterfaceEditForm from './InterfaceEditForm.js'
-import { updateInterfaceData } from '../../../../reducer/modules/interface.js';
+import { updateInterfaceData,fetchInterfaceList } from '../../../../reducer/modules/interface.js';
 import axios from 'axios'
 import { message } from 'antd'
 import './Edit.scss'
@@ -15,7 +15,8 @@ import { withRouter, Link } from 'react-router-dom';
       currProject: state.project.currProject
     }
   }, {
-    updateInterfaceData
+    updateInterfaceData,
+    fetchInterfaceList
   }
 )
 
@@ -24,6 +25,7 @@ class InterfaceEdit extends Component {
     curdata: PropTypes.object,
     currProject: PropTypes.object,
     updateInterfaceData: PropTypes.func,
+    fetchInterfaceList: PropTypes.func,
     match: PropTypes.object,
     switchToView: PropTypes.func
   }
@@ -41,6 +43,7 @@ class InterfaceEdit extends Component {
   onSubmit = async (params) => {
     params.id = this.props.match.params.actionId;
     let result = await axios.post('/api/interface/up', params);
+    this.props.fetchInterfaceList(this.props.currProject._id).then();
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
       message.success('保存成功');
