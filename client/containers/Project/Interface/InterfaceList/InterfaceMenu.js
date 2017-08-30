@@ -324,6 +324,7 @@ class InterfaceMenu extends Component {
         <Tree
           className="interface-list"
           defaultExpandedKeys={currentKes.expands}
+          expandedKeys={currentKes.expands}
           defaultSelectedKeys={currentKes.selects}
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
