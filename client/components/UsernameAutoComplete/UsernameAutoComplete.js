@@ -49,6 +49,7 @@ class UsernameAutoComplete extends Component {
     callbackState: PropTypes.func
   }
 
+  // 改变本组件 state，并回调给父组件
   changeState = (uid, username) => {
     // 设置本组件 state
     this.setState({ uid, username });
@@ -56,12 +57,14 @@ class UsernameAutoComplete extends Component {
     this.props.callbackState({ uid, username });
   }
 
+  // 输入框中的值改变时
   onChange = (userName) => {
     this.setState({
       changeName: userName
     });
   }
 
+  // 选中候选词时
   onSelect = (userName) => {
     this.state.dataSource.forEach((item) => {
       if (item.username === userName) {
@@ -70,6 +73,7 @@ class UsernameAutoComplete extends Component {
     });
   }
 
+  // 搜索回调
   handleSearch = (value) => {
     const params = { q: value}
     axios.get('/api/user/search', { params })
