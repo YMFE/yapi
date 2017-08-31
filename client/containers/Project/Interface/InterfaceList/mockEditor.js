@@ -4,6 +4,7 @@ require('brace/mode/javascript');
 require('brace/theme/xcode');
 require("brace/ext/language_tools.js");
 var json5 = require('json5');
+const MockExtra = require('common/mock-extra.js')
 
 var langTools = ace.acequire("ace/ext/language_tools"),
   wordList = [
@@ -67,7 +68,7 @@ function run(options) {
       curData.text = json;
       curData.format = true;
       curData.jsonData = obj;
-      curData.mockData = Mock.mock(obj);
+      curData.mockData = Mock.mock(MockExtra(obj, {}));
       curData.mockText = JSON.stringify(curData.mockData, null, "  ");
     } catch (e) {
       curData.format = e.message;

@@ -351,6 +351,7 @@ class interfaceController extends baseController {
             data.req_params = params.req_params;
         } else {
             data.type = 'static'
+            data.req_params = [];
         }
 
         if (!_.isUndefined(params.req_query)) {

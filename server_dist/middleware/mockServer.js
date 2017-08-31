@@ -28,6 +28,10 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
+var _mockjs = require('mockjs');
+
+var _mockjs2 = _interopRequireDefault(_mockjs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function matchApi(apiPath, apiRule) {
@@ -189,7 +193,7 @@ module.exports = function () {
                             query: ctx.request.query,
                             body: ctx.request.body
                         });
-                        return _context.abrupt('return', ctx.body = res);
+                        return _context.abrupt('return', ctx.body = _mockjs2.default.mock(res));
 
                     case 60:
                         _context.prev = 60;
