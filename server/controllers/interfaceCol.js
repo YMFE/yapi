@@ -295,12 +295,15 @@ class interfaceColController extends baseController{
             }
             result = result.toObject();
             let data = await this.interfaceModel.get(result.interface_id);
+            data = data.toObject();
             let projectData = await this.projectModel.getBaseInfo(data.project_id);
             result.path = projectData.basepath + data.path;
             result.method = data.method;
             result.req_body_type = data.req_body_type;
             result.req_headers = data.req_headers;
-
+            result.res_body = data.res_body;
+            result.res_body_type = data.res_body_type;
+            
             result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
             result.req_query = this.handleParamsValue(data.req_query, result.req_query)
             result.req_params = this.handleParamsValue(data.req_params, result.req_params)

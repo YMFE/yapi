@@ -155,10 +155,11 @@ exports.sendMail = function (options, cb) {
         _yapi2.default.mail.sendMail({
             from: _yapi2.default.WEBCONFIG.mail.from,
             to: options.to,
-            subject: 'yapi平台',
+            subject: options.subject,
             html: options.contents
         }, cb);
     } catch (e) {
+        _yapi2.default.commons.log(e.message, 'error');
         console.error(e.message); // eslint-disable-line
     }
 };

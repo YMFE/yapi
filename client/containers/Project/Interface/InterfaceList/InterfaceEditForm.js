@@ -6,7 +6,7 @@ import { handlePath } from '../../../../common.js'
 
 import {
   Form, Select, Input, Tooltip,
-  Button, Row, Col, Radio, Icon
+  Button, Row, Col, Radio, Icon, AutoComplete, Switch
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -23,6 +23,7 @@ const dataTpl = {
 const mockEditor = require('./mockEditor.js');
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
+const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
 
 class InterfaceEditForm extends Component {
   static propTypes = {
@@ -85,8 +86,8 @@ class InterfaceEditForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {        
-        if (values.res_body_type === 'json') values.res_body = this.state.res_body;        
+      if (!err) {
+        if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.method = this.state.method;
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
@@ -187,7 +188,7 @@ class InterfaceEditForm extends Component {
   }
 
   handlePath = (e) => {
-    let val = e.target.value;
+    let val = e.target.value, queue = [];
     val = handlePath(val)
     this.props.form.setFieldsValue({
       path: val
@@ -197,13 +198,19 @@ class InterfaceEditForm extends Component {
       for (i = 1; i < paths.length; i++) {
         if (paths[i][0] === ':') {
           name = paths[i].substr(1);
-          if (!_.find(this.state.req_params, { name: name })) {
-            this.addParams('req_params', { name: name })
+          let findExist = _.find(this.state.req_params, { name: name });
+          if (findExist) {
+            queue.push(findExist)
+          } else {
+            queue.push({ name: name, desc: '' })
           }
         }
       }
-
     }
+    this.setState({
+      req_params: queue
+    })
+
   }
 
   render() {
@@ -248,11 +255,15 @@ class InterfaceEditForm extends Component {
 
     const headerTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="4">
+        <Col span="6">
           {getFieldDecorator('req_headers[' + index + '].name', {
             initialValue: data.name
           })(
-            <Input placeholder="参数名称" />
+            <AutoComplete
+              dataSource={HTTP_REQUEST_HEADER}
+              filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+              placeholder="参数名称"
+            />
             )}
         </Col>
         <Col span="6" >
@@ -324,9 +335,7 @@ class InterfaceEditForm extends Component {
             <Input placeholder="备注" />
             )}
         </Col>
-        <Col span="2" >
-          <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_params')} />
-        </Col>
+
 
       </Row>
     }
@@ -411,7 +420,7 @@ class InterfaceEditForm extends Component {
                 required: true, message: '请输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
               )}
           </InputGroup>
           <Row className="interface-edit-item">
@@ -555,7 +564,7 @@ class InterfaceEditForm extends Component {
             initialValue: this.state.res_body_type
           })(
             <RadioGroup>
-              <Radio value="json">json</Radio>
+              <Radio value="json">json(mock)</Radio>
               <Radio value="raw">raw</Radio>
 
             </RadioGroup>
@@ -565,6 +574,7 @@ class InterfaceEditForm extends Component {
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
 
           <Col span={17} offset={4} >
+            <h3>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
             <div id="res_body_json" style={{ minHeight: "300px" }}  ></div>
           </Col>
         </Row>
@@ -575,7 +585,7 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="mock地址"
         >
-          <Input onChange={() => { }} value={this.state.mockUrl} />
+          <Input disabled onChange={() => { }} value={this.state.mockUrl} />
         </FormItem>
 
         <FormItem
@@ -599,6 +609,27 @@ class InterfaceEditForm extends Component {
 
 
         </Row>
+
+        <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="是否开启邮件通知"
+        >
+          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
+            <Switch checkedChildren="开" unCheckedChildren="关" />
+          )}
+        </FormItem>
+
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('switch_notice') === true ? 'block' : 'none' }}
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="改动日志"
+        >
+          {getFieldDecorator('message', { initialValue: "" })(
+            <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+          )}
+        </FormItem>
 
 
         <FormItem

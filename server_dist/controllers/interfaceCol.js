@@ -637,37 +637,41 @@ var interfaceColController = function (_baseController) {
 
                             case 10:
                                 data = _context6.sent;
-                                _context6.next = 13;
+
+                                data = data.toObject();
+                                _context6.next = 14;
                                 return this.projectModel.getBaseInfo(data.project_id);
 
-                            case 13:
+                            case 14:
                                 projectData = _context6.sent;
 
                                 result.path = projectData.basepath + data.path;
                                 result.method = data.method;
                                 result.req_body_type = data.req_body_type;
                                 result.req_headers = data.req_headers;
+                                result.res_body = data.res_body;
+                                result.res_body_type = data.res_body_type;
 
                                 result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form);
                                 result.req_query = this.handleParamsValue(data.req_query, result.req_query);
                                 result.req_params = this.handleParamsValue(data.req_params, result.req_params);
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 27;
+                                _context6.next = 30;
                                 break;
 
-                            case 24:
-                                _context6.prev = 24;
+                            case 27:
+                                _context6.prev = 27;
                                 _context6.t0 = _context6['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 400, _context6.t0.message);
 
-                            case 27:
+                            case 30:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[0, 24]]);
+                }, _callee6, this, [[0, 27]]);
             }));
 
             function getCase(_x6) {
