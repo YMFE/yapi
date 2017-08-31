@@ -1,31 +1,34 @@
-## 快速开始
-### 1 创建项目分组
+## 起步
+### 创建API
 
+注册新用户或使用 QSSO 登录。
+
+新用户进入 YApi 时没有任何权限，只能浏览公开项目，想要创建 API 应联系 `组长` 将你添加到某分组或某项目中。
 登录之后进到项目首页，左边侧边栏显示的即分组列表。
 
 <img src="./images/project_group.png" width = "200" style="margin-left:170px;display:block;" alt="图片名称" align=center />
 
-联系管理员添加分组并且把你设置为组长或让组长邀请你加入到某项目分组
 
 
-#### 2 项目列表
+
+#### 项目列表
 
 选中不同的分组，右边会显示该分组下的项目列表。
 
 <img src="./images/project_list.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-### 3 添加项目
+### 添加项目
 
-#### 3.1 点击右上角的“+“号进入添加项目页面
+- 点击右上角的“+“号进入添加项目页面
 <img src="./images/project_add.png" width = "100%" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-#### 3.2 添加项目页面
+- 添加项目页面
 <img src="./images/project_add_view.png" width = "100%" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 添加完成后进去项目详情页面
 
-### 4 项目详情页面
+### 项目详情页面
 
-#### 4.1 添加接口分类
+#### 添加接口分类
 
 <img src="./images/interface_add_cat.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 

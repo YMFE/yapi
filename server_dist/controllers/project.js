@@ -1285,14 +1285,12 @@ var projectController = function (_baseController) {
                                     data.project_type = params.project_type;
                                 }
 
-                                if (params.name) data.name = params.name;
-                                if (params.desc) data.desc = params.desc;
-                                if (params.basepath) {
-                                    data.basepath = params.basepath;
-                                }
-                                if (params.env) data.env = params.env;
-                                if (params.color) data.color = params.color;
-                                if (params.icon) data.icon = params.icon;
+                                if (!_underscore2.default.isUndefined(params.name)) data.name = params.name;
+                                if (!_underscore2.default.isUndefined(params.desc)) data.desc = params.desc;
+                                data.basepath = params.basepath;
+                                if (!_underscore2.default.isUndefined(params.env)) data.env = params.env;
+                                if (!_underscore2.default.isUndefined(params.color)) data.color = params.color;
+                                if (!_underscore2.default.isUndefined(params.icon)) data.icon = params.icon;
                                 _context12.next = 34;
                                 return this.Model.up(id, data);
 

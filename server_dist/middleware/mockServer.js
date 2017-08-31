@@ -20,9 +20,9 @@ var _interface = require('../models/interface.js');
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _mockjs = require('mockjs');
+var _mockExtra = require('../../common/mock-extra.js');
 
-var _mockjs2 = _interopRequireDefault(_mockjs);
+var _mockExtra2 = _interopRequireDefault(_mockExtra);
 
 var _underscore = require('underscore');
 
@@ -55,7 +55,6 @@ module.exports = function () {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _yapi2.default.commons.log('Server Recevie Request...');
-
                         hostname = ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
                         path = ctx.path;
@@ -181,39 +180,44 @@ module.exports = function () {
                         ctx.set("Access-Control-Allow-Origin", "*");
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 63;
+                            _context.next = 64;
                             break;
                         }
 
                         _context.prev = 55;
-                        res = _mockjs2.default.mock(_yapi2.default.commons.json_parse(interfaceData.res_body));
+                        res = (0, _mockExtra2.default)(_yapi2.default.commons.json_parse(interfaceData.res_body), {
+                            query: ctx.request.query,
+                            body: ctx.request.body
+                        });
                         return _context.abrupt('return', ctx.body = res);
 
                     case 60:
                         _context.prev = 60;
                         _context.t2 = _context['catch'](55);
+
+                        _yapi2.default.commons.log(_context.t2, 'error');
                         return _context.abrupt('return', ctx.body = {
                             errcode: 400,
                             errmsg: 'mock json数据格式有误',
                             data: interfaceData.res_body
                         });
 
-                    case 63:
+                    case 64:
                         return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
-                    case 66:
-                        _context.prev = 66;
+                    case 67:
+                        _context.prev = 67;
                         _context.t3 = _context['catch'](30);
 
                         console.error(_context.t3);
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t3.message));
 
-                    case 70:
+                    case 71:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[17, 23], [30, 66], [55, 60]]);
+        }, _callee, undefined, [[17, 23], [30, 67], [55, 60]]);
     }));
 
     return function (_x, _x2) {
