@@ -8,6 +8,7 @@ import {
 import { formatTime } from '../../../../common.js'
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
+import { Link } from 'react-router-dom';
 @connect(
   state => {
     return {
@@ -102,7 +103,10 @@ class InterfaceList extends Component {
       sorter: (a, b) => {
         return a.title.localeCompare(b.title) === 1
       },
-      sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order
+      sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
+      render: (text, item)=>{
+        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} >{text}</Link>
+      }
     }, {
       title: '接口路径',
       dataIndex: 'path',
