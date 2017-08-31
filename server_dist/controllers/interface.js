@@ -123,7 +123,7 @@ var interfaceController = function (_baseController) {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
                 var _this2 = this;
 
-                var params, auth, checkRepeat, data, paths, name, i, result, project;
+                var params, auth, checkRepeat, data, paths, name, i, result;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -253,11 +253,7 @@ var interfaceController = function (_baseController) {
 
                             case 31:
                                 result = _context.sent;
-                                _context.next = 34;
-                                return this.projectModel.getBaseInfo(params.project_id);
 
-                            case 34:
-                                project = _context.sent;
 
                                 this.catModel.get(params.catid).then(function (cate) {
                                     var username = _this2.getUsername();
@@ -269,29 +265,34 @@ var interfaceController = function (_baseController) {
                                         username: username,
                                         typeid: params.project_id
                                     });
-                                    var interfaceUrl = 'http://' + ctx.request.host + '/project/' + params.project_id + '/interface/api/' + result._id;
-                                    _this2.sendNotice(params.project_id, {
-                                        title: username + ' \u65B0\u589E\u4E86\u63A5\u53E3 ' + data.title,
-                                        content: '<div><h3>' + username + '\u65B0\u589E\u4E86\u63A5\u53E3(' + data.title + ')</h3>\n                    <p>\u9879\u76EE\u540D\uFF1A' + project.name + '</p>                    \n                    <p>\u4FEE\u6539\u7528\u6237: "' + username + '"</p>\n                    <p>\u63A5\u53E3\u540D: <a href="' + interfaceUrl + '">' + data.title + '</a></p>\n                    <p>\u63A5\u53E3\u8DEF\u5F84: [' + data.method + ']' + data.path + '</p></div>'
-                                    });
+                                    //let project = await this.projectModel.getBaseInfo(params.project_id);
+                                    // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
+                                    // this.sendNotice(params.project_id, {
+                                    //     title: `${username} 新增了接口 ${data.title}`,
+                                    //     content: `<div><h3>${username}新增了接口(${data.title})</h3>
+                                    //     <p>项目名：${project.name}</p>                    
+                                    //     <p>修改用户: "${username}"</p>
+                                    //     <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                                    //     <p>接口路径: [${data.method}]${data.path}</p></div>`
+                                    // })
                                 });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context.next = 42;
+                                _context.next = 39;
                                 break;
 
-                            case 39:
-                                _context.prev = 39;
+                            case 36:
+                                _context.prev = 36;
                                 _context.t0 = _context['catch'](22);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
 
-                            case 42:
+                            case 39:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[22, 39]]);
+                }, _callee, this, [[22, 36]]);
             }));
 
             function add(_x) {
@@ -606,7 +607,7 @@ var interfaceController = function (_baseController) {
                                 id = ctx.request.body.id;
 
 
-                                params.message = params.message || '没有改动日志';
+                                params.message = params.message || '';
                                 params.message = params.message.replace(/\n/g, "<br>");
 
                                 if (id) {
@@ -752,34 +753,42 @@ var interfaceController = function (_baseController) {
                                         });
                                     });
                                 }
-                                _context6.next = 48;
+
+                                if (!(params.switch_notice === true)) {
+                                    _context6.next = 52;
+                                    break;
+                                }
+
+                                _context6.next = 49;
                                 return this.projectModel.getBaseInfo(interfaceData.project_id);
 
-                            case 48:
+                            case 49:
                                 project = _context6.sent;
                                 interfaceUrl = 'http://' + ctx.request.host + '/project/' + interfaceData.project_id + '/interface/api/' + id;
 
                                 this.sendNotice(interfaceData.project_id, {
                                     title: username + ' \u66F4\u65B0\u4E86\u63A5\u53E3',
-                                    content: '<div><h3>' + username + '\u66F4\u65B0\u4E86\u63A5\u53E3(' + data.title + ')</h3>\n                <p>\u9879\u76EE\u540D\uFF1A' + project.name + ' </p>\n                <p>\u4FEE\u6539\u7528\u6237: ' + username + '</p>\n                <p>\u63A5\u53E3\u540D: <a href="' + interfaceUrl + '">' + data.title + '</a></p>\n                <p>\u63A5\u53E3\u8DEF\u5F84: [' + data.method + ']' + data.path + '</p>                \n                <p>\u8BE6\u7EC6\u6539\u52A8\u65E5\u5FD7: ' + params.message + '</p></div>'
+                                    content: '<div><h3>' + username + '\u66F4\u65B0\u4E86\u63A5\u53E3(' + data.title + ')</h3>\n                    <p>\u9879\u76EE\u540D\uFF1A' + project.name + ' </p>\n                    <p>\u4FEE\u6539\u7528\u6237: ' + username + '</p>\n                    <p>\u63A5\u53E3\u540D: <a href="' + interfaceUrl + '">' + data.title + '</a></p>\n                    <p>\u63A5\u53E3\u8DEF\u5F84: [' + data.method + ']' + data.path + '</p>\n                    <p>\u8BE6\u7EC6\u6539\u52A8\u65E5\u5FD7: ' + params.message + '</p></div>'
                                 });
 
+                            case 52:
+
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 57;
+                                _context6.next = 58;
                                 break;
 
-                            case 54:
-                                _context6.prev = 54;
+                            case 55:
+                                _context6.prev = 55;
                                 _context6.t0 = _context6['catch'](40);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 57:
+                            case 58:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[40, 54]]);
+                }, _callee6, this, [[40, 55]]);
             }));
 
             function up(_x6) {
