@@ -26,7 +26,7 @@ function websocket(app) {
     return next(ctx);
   });
   router.get('/api/interface/solve_conflict', function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
       var inst;
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {

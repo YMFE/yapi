@@ -18,7 +18,7 @@ let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
 
 app.use(mockServer);
-app.use(bodyParser());
+app.use(bodyParser({multipart: true}));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
