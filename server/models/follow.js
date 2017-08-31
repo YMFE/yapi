@@ -47,6 +47,12 @@ class followModel extends baseModel {
         }).exec();
     }
 
+    listByProjectId(projectid){
+        return this.model.find({
+            projectid: projectid
+        })
+    }
+
 
     checkProjectRepeat(uid,projectid){
         return this.model.count({
