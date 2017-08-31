@@ -52,74 +52,15 @@
                 }
             }]
         },
-        "banner": { // Banner 配置
+        "banner": {
             "title": "YApi",
             "description": "高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
-        "content": "./doc/home.md" // 内容(这里以markdown文件举例)
+        "content": "./doc/home.md"
     },{
-        "name": "usage", // Page Name 会根据他生成 html 文件，例: index.html
-        "title": "使用手册", // Page Title
-        "banner": { // Banner 配置
-            "title": "YApi",
-            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
-        },
-        "content": {
-            "sidebar": true,
-            "multi": true,
-            "index": "./doc/usage/getfamiliar.md",
-            "pages": [{
-                "name": "认识 YApi",
-                "content": "./doc/usage/getfamiliar.md"
-            }, {
-                "name": "创建第一个API",
-                "content": "./doc/usage/quickstart.md"
-            }, {
-                "name": "接口配置",
-                "content": "./doc/usage/interface.md"
-            }, {
-                "name": "使用mock功能",
-                "content": "./doc/usage/mock.md"
-            }, {
-                "name": "使用测试集",
-                "content": "./doc/usage/case.md"
-            }, {
-                "name": "成为组长",
-                "content": "./doc/usage/leader.md"
-            }, {
-                "name": "权限列表",
-                "content": "./doc/usage/authority.md"
-            }]
-        }
-    },{
-        "name": "manage",
-        "title": "管理学院",
+        "name": "usage",
+        "title": "使用手册",
         "banner": {
-            "title": "管理学院",
-            "description": "超级管理员、分组/项目组长的学院。"
-        },
-        "content": {
-            "sidebar": true,
-            "multi": true,
-            "index": "./doc/manage/intro.md",
-            "pages": [{
-                "name": "介绍",
-                "content": "./doc/manage/intro.md"
-            }, {
-                "name": "部署",
-                "content": "./doc/manage/build.md"
-            }, {
-                "name": "超管职责",
-                "content": "./doc/manage/admin.md"
-            }, {
-                "name": "版本升级",
-                "content": "./doc/manage/update.md"
-            }]
-        }
-    },{
-        "name": "mock", // Page Name 会根据他生成 html 文件，例: index.html
-        "title": "Mock功能", // Page Title
-        "banner": { // Banner 配置
             "title": "YApi",
             "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
@@ -150,7 +91,34 @@
                 "content": "./doc/usage/authority.md"
             }]
         }
-    },{
+    },
+//    {
+//        "name": "manage",
+//        "title": "管理学院",
+//        "banner": {
+//            "title": "管理学院",
+//            "description": "超级管理员、分组/项目组长的学院。"
+//        },
+//        "content": {
+//            "sidebar": true,
+//            "multi": true,
+//            "index": "./doc/manage/intro.md",
+//            "pages": [{
+//                "name": "介绍",
+//                "content": "./doc/manage/intro.md"
+//            }, {
+//                "name": "部署",
+//                "content": "./doc/manage/build.md"
+//            }, {
+//                "name": "超管职责",
+//                "content": "./doc/manage/admin.md"
+//            }, {
+//                "name": "版本升级",
+//                "content": "./doc/manage/update.md"
+//            }]
+//        }
+//    },
+    {
         "name": "api",
         "title": "",
         "banner": {
@@ -159,13 +127,13 @@
         },
         "content": "./server/controllers/*.js",
         "options": {
-            "type": "interface", // 类型，可选 component 和 lib，默认 component
-            "source": true, // 是否生成源文件预览，默认 false
+            "type": "interface",
+            "source": true,
             "categories":["group","user","project", "interface","follow"]
-
         }
     }],
     "resources": {
-        "images": "./doc/images"
+        "images": "./doc/images",
+        "styles": "./doc/styles"
     }
 }

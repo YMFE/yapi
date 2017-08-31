@@ -235,6 +235,11 @@ const routerConfig = {
 			"method": "post"
 		},
 		{
+			"action": "getCatMenu",
+			"path": "getCatMenu",
+			"method": "get"
+		},
+		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
@@ -252,6 +257,11 @@ const routerConfig = {
 		{
 			"action": "del",
 			"path": "del",
+			"method": "post"
+		},
+		{
+			"action": "interUpload",
+			"path": "interUpload",
 			"method": "post"
 		},
 		{

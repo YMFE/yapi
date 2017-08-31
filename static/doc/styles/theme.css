@@ -1,0 +1,15 @@
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+             SimSun, sans-serif;
+}
+.markdown-body h1, .markdown-body h2 {
+  padding-bottom: .75em;
+  margin-top: 3em;
+}
+
+.doc-img {
+  width: 50%;
+  display: block;
+  margin: 24px 0;
+}
