@@ -6,7 +6,7 @@ import { handlePath } from '../../../../common.js'
 
 import {
   Form, Select, Input, Tooltip,
-  Button, Row, Col, Radio, Icon, AutoComplete
+  Button, Row, Col, Radio, Icon, AutoComplete, Switch
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -206,11 +206,11 @@ class InterfaceEditForm extends Component {
           }
         }
       }
-      this.setState({
-        req_params: queue
-      })
-
     }
+    this.setState({
+      req_params: queue
+    })
+
   }
 
   render() {
@@ -420,7 +420,7 @@ class InterfaceEditForm extends Component {
                 required: true, message: '请输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
               )}
           </InputGroup>
           <Row className="interface-edit-item">
@@ -564,7 +564,7 @@ class InterfaceEditForm extends Component {
             initialValue: this.state.res_body_type
           })(
             <RadioGroup>
-              <Radio value="json">json</Radio>
+              <Radio value="json">json(mock)</Radio>
               <Radio value="raw">raw</Radio>
 
             </RadioGroup>
@@ -574,6 +574,7 @@ class InterfaceEditForm extends Component {
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
 
           <Col span={17} offset={4} >
+            <h3>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
             <div id="res_body_json" style={{ minHeight: "300px" }}  ></div>
           </Col>
         </Row>
@@ -584,7 +585,7 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="mock地址"
         >
-          <Input onChange={() => { }} value={this.state.mockUrl} />
+          <Input disabled onChange={() => { }} value={this.state.mockUrl} />
         </FormItem>
 
         <FormItem
@@ -608,6 +609,27 @@ class InterfaceEditForm extends Component {
 
 
         </Row>
+
+        <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="是否开启邮件通知"
+        >
+          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
+            <Switch checkedChildren="开" unCheckedChildren="关" />
+          )}
+        </FormItem>
+
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('switch_notice') === true ? 'block' : 'none' }}
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="改动日志"
+        >
+          {getFieldDecorator('message', { initialValue: "" })(
+            <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+          )}
+        </FormItem>
 
 
         <FormItem

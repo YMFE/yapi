@@ -23,7 +23,6 @@ function matchApi(apiPath, apiRule) {
 
 module.exports = async (ctx, next) => {
     yapi.commons.log('Server Recevie Request...');
-
     let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
     let path = ctx.path;
