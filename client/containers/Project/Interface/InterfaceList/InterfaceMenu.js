@@ -299,14 +299,16 @@ class InterfaceMenu extends Component {
         <Modal
           title="添加接口"
           visible={this.state.visible}
+          onCancel={() => this.changeModal('visible', false)}
           footer={null}
         >
-          <AddInterfaceForm catid={this.state.curCatid} onCancel={() => this.changeModal('visible', false)} onSubmit={this.handleAddInterface} />
+          <AddInterfaceForm catdata={this.props.curProject.cat} catid={this.state.curCatid} onCancel={() => this.changeModal('visible', false)} onSubmit={this.handleAddInterface} />
         </Modal>
 
         <Modal
           title="添加分类"
           visible={this.state.add_cat_modal_visible}
+          onCancel={() => this.changeModal('add_cat_modal_visible', false)}
           footer={null}
         >
           <AddInterfaceCatForm onCancel={() => this.changeModal('add_cat_modal_visible', false)} onSubmit={this.handleAddInterfaceCat} />
@@ -315,6 +317,7 @@ class InterfaceMenu extends Component {
         <Modal
           title="修改分类"
           visible={this.state.change_cat_modal_visible}
+          onCancel={() => this.changeModal('change_cat_modal_visible', false)} 
           footer={null}
         >
           <AddInterfaceCatForm catdata={this.state.curCatdata} onCancel={() => this.changeModal('change_cat_modal_visible', false)} onSubmit={this.handleChangeInterfaceCat} />
@@ -324,9 +327,7 @@ class InterfaceMenu extends Component {
         <Tree
           className="interface-list"
           defaultExpandedKeys={currentKes.expands}
-          expandedKeys={currentKes.expands}
           defaultSelectedKeys={currentKes.selects}
-          selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
         >
           <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
@@ -336,7 +337,10 @@ class InterfaceMenu extends Component {
               <Dropdown overlay={menu(item)}>
                 <Icon type='bars' className="interface-delete-icon" />
               </Dropdown>
-            </div>} key={'cat_' + item._id} >
+            </div>}
+             key={'cat_' + item._id} 
+             className="interface-item-nav"
+             >
               {item.list.map(item_interface_create)}
 
             </TreeNode>
