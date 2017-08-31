@@ -26,8 +26,8 @@ export default class Run extends Component {
   }
 
   state = {
-    res: {},
-    resHeader: {},
+    res: null,
+    resHeader: null,
     method: 'GET',
     domains: [],
     pathname: '',
@@ -38,7 +38,7 @@ export default class Run extends Component {
     bodyType: '',
     bodyOther: '',
     loading: false,
-    validRes: ''
+    validRes: null
   }
 
   constructor(props) {
@@ -147,10 +147,12 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res, header) => {
         try {
-          if (header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
+          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
             res = typeof res === 'object' ? res : JSON.parse(res)
           }
-          header = typeof header === 'object' ? header : JSON.parse(header)
+          if (header) {
+            header = typeof header === 'object' ? header : JSON.parse(header)
+          }
         } catch (e) {
           message.error(e.message)
         }
@@ -168,15 +170,17 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          if (header['content-type'].indexOf('application/json') !== -1) {
+          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
             err = typeof err === 'object' ? err : JSON.parse(err)
           }
-          header = typeof header === 'object' ? header : JSON.parse(header)
+          if (header) {
+            header = typeof header === 'object' ? header : JSON.parse(header)
+          }
         } catch (e) {
           message.error(e.message)
         }
         message.success('请求完成')
-        this.setState({res: err || '请求失败', resHeader: header})
+        this.setState({res: err || '请求失败', resHeader: header, validRes: null})
         this.setState({ loading: false })
         this.bindAceEditor()
       }
@@ -620,13 +624,13 @@ export default class Run extends Component {
                 <div id="res-body-pretty" className="pretty-editor" style={{display: isResJson ? '' : 'none'}}></div>
                 <TextArea
                   style={{display: isResJson ? 'none' : ''}}
-                  value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
+                  value={this.state.res && this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
-                <div style={{display: validRes ? '' : 'none', marginTop: 6, fontWeight: 'bold'}}>返回Body验证结果：</div>
+                <div style={{display: validRes ? '' : 'none', marginTop: 6, fontWeight: 'bold'}}>返回 Body 验证结果：</div>
                 <TextArea
                   style={{display: validRes ? '' : 'none'}}
-                  value={validRes && (validRes.length ? JSON.stringify(validRes.map(item => item.message), null, 2) : '验证通过')}
+                  value={validRes && (validRes.length ? JSON.stringify(validRes.map(item => item.message), null, 2) : '恭喜：验证通过！')}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
               </Panel>
