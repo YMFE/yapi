@@ -6,7 +6,7 @@ import { handlePath } from '../../../../common.js'
 
 import {
   Form, Select, Input, Tooltip,
-  Button, Row, Col, Radio, Icon, AutoComplete
+  Button, Row, Col, Radio, Icon, AutoComplete, Switch
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -611,6 +611,17 @@ class InterfaceEditForm extends Component {
         </Row>
 
         <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="是否开启邮件通知"
+        >
+          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
+            <Switch checkedChildren="开" unCheckedChildren="关" />
+          )}
+        </FormItem>
+
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('switch_notice') === true ? 'block' : 'none' }}
           className="interface-edit-item"
           {...formItemLayout}
           label="改动日志"
