@@ -698,6 +698,7 @@ var interfaceController = function (_baseController) {
                                     data.req_params = params.req_params;
                                 } else {
                                     data.type = 'static';
+                                    data.req_params = [];
                                 }
 
                                 if (!_underscore2.default.isUndefined(params.req_query)) {
