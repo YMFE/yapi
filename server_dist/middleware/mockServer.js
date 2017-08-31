@@ -55,7 +55,6 @@ module.exports = function () {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _yapi2.default.commons.log('Server Recevie Request...');
-
                         hostname = ctx.hostname;
                         config = _yapi2.default.WEBCONFIG;
                         path = ctx.path;

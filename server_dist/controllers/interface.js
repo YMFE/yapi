@@ -44,6 +44,10 @@ var _interfaceCase = require('../models/interfaceCase.js');
 
 var _interfaceCase2 = _interopRequireDefault(_interfaceCase);
 
+var _follow = require('../models/follow.js');
+
+var _follow2 = _interopRequireDefault(_follow);
+
 var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
@@ -78,6 +82,8 @@ var interfaceController = function (_baseController) {
         _this.catModel = _yapi2.default.getInst(_interfaceCat2.default);
         _this.projectModel = _yapi2.default.getInst(_project2.default);
         _this.caseModel = _yapi2.default.getInst(_interfaceCase2.default);
+        _this.followModel = _yapi2.default.getInst(_follow2.default);
+        _this.userModel = _yapi2.default.getInst(_user2.default);
         return _this;
     }
 
@@ -249,16 +255,26 @@ var interfaceController = function (_baseController) {
                                 result = _context.sent;
 
 
-                                // let project = await this.projectModel.get(params.project_id);
                                 this.catModel.get(params.catid).then(function (cate) {
                                     var username = _this2.getUsername();
+                                    var title = '\u7528\u6237 "' + username + '" \u4E3A\u5206\u7C7B "' + cate.name + '" \u6DFB\u52A0\u4E86\u63A5\u53E3 "' + data.title + '"';
                                     _yapi2.default.commons.saveLog({
-                                        content: '\u7528\u6237 "' + username + '" \u4E3A\u5206\u7C7B "' + cate.name + '" \u6DFB\u52A0\u4E86\u63A5\u53E3 "' + data.title + '"',
+                                        content: title,
                                         type: 'project',
                                         uid: _this2.getUid(),
                                         username: username,
                                         typeid: params.project_id
                                     });
+                                    //let project = await this.projectModel.getBaseInfo(params.project_id);
+                                    // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
+                                    // this.sendNotice(params.project_id, {
+                                    //     title: `${username} 新增了接口 ${data.title}`,
+                                    //     content: `<div><h3>${username}新增了接口(${data.title})</h3>
+                                    //     <p>项目名：${project.name}</p>                    
+                                    //     <p>修改用户: "${username}"</p>
+                                    //     <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                                    //     <p>接口路径: [${data.method}]${data.path}</p></div>`
+                                    // })
                                 });
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
@@ -570,7 +586,7 @@ var interfaceController = function (_baseController) {
             var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
                 var _this3 = this;
 
-                var params, id, interfaceData, auth, checkRepeat, data, result, username, cateid;
+                var params, id, interfaceData, auth, checkRepeat, data, result, username, cateid, project, interfaceUrl;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
                         switch (_context6.prev = _context6.next) {
@@ -590,60 +606,64 @@ var interfaceController = function (_baseController) {
 
                                 id = ctx.request.body.id;
 
+
+                                params.message = params.message || '';
+                                params.message = params.message.replace(/\n/g, "<br>");
+
                                 if (id) {
-                                    _context6.next = 7;
+                                    _context6.next = 9;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口id不能为空'));
 
-                            case 7:
-                                _context6.next = 9;
+                            case 9:
+                                _context6.next = 11;
                                 return this.Model.get(id);
 
-                            case 9:
+                            case 11:
                                 interfaceData = _context6.sent;
-                                _context6.next = 12;
+                                _context6.next = 14;
                                 return this.checkAuth(interfaceData.project_id, 'project', 'edit');
 
-                            case 12:
+                            case 14:
                                 auth = _context6.sent;
 
                                 if (auth) {
-                                    _context6.next = 15;
+                                    _context6.next = 17;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
 
-                            case 15:
+                            case 17:
                                 if (!(params.path && !_yapi2.default.commons.verifyPath(params.path))) {
-                                    _context6.next = 17;
+                                    _context6.next = 19;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/'));
 
-                            case 17:
+                            case 19:
                                 if (!(params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method))) {
-                                    _context6.next = 23;
+                                    _context6.next = 25;
                                     break;
                                 }
 
-                                _context6.next = 20;
+                                _context6.next = 22;
                                 return this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
 
-                            case 20:
+                            case 22:
                                 checkRepeat = _context6.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context6.next = 23;
+                                    _context6.next = 25;
                                     break;
                                 }
 
                                 return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']'));
 
-                            case 23:
+                            case 25:
                                 data = {
                                     up_time: _yapi2.default.commons.time()
                                 };
@@ -702,11 +722,11 @@ var interfaceController = function (_baseController) {
                                     data.status = params.status;
                                 }
 
-                                _context6.prev = 38;
-                                _context6.next = 41;
+                                _context6.prev = 40;
+                                _context6.next = 43;
                                 return this.Model.up(id, data);
 
-                            case 41:
+                            case 43:
                                 result = _context6.sent;
                                 username = this.getUsername();
 
@@ -734,22 +754,41 @@ var interfaceController = function (_baseController) {
                                     });
                                 }
 
+                                if (!(params.switch_notice === true)) {
+                                    _context6.next = 52;
+                                    break;
+                                }
+
+                                _context6.next = 49;
+                                return this.projectModel.getBaseInfo(interfaceData.project_id);
+
+                            case 49:
+                                project = _context6.sent;
+                                interfaceUrl = 'http://' + ctx.request.host + '/project/' + interfaceData.project_id + '/interface/api/' + id;
+
+                                this.sendNotice(interfaceData.project_id, {
+                                    title: username + ' \u66F4\u65B0\u4E86\u63A5\u53E3',
+                                    content: '<div><h3>' + username + '\u66F4\u65B0\u4E86\u63A5\u53E3(' + data.title + ')</h3>\n                    <p>\u9879\u76EE\u540D\uFF1A' + project.name + ' </p>\n                    <p>\u4FEE\u6539\u7528\u6237: ' + username + '</p>\n                    <p>\u63A5\u53E3\u540D: <a href="' + interfaceUrl + '">' + data.title + '</a></p>\n                    <p>\u63A5\u53E3\u8DEF\u5F84: [' + data.method + ']' + data.path + '</p>\n                    <p>\u8BE6\u7EC6\u6539\u52A8\u65E5\u5FD7: ' + params.message + '</p></div>'
+                                });
+
+                            case 52:
+
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 50;
+                                _context6.next = 58;
                                 break;
 
-                            case 47:
-                                _context6.prev = 47;
-                                _context6.t0 = _context6['catch'](38);
+                            case 55:
+                                _context6.prev = 55;
+                                _context6.t0 = _context6['catch'](40);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 402, _context6.t0.message);
 
-                            case 50:
+                            case 58:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[38, 47]]);
+                }, _callee6, this, [[40, 55]]);
             }));
 
             function up(_x6) {
@@ -1199,6 +1238,27 @@ var interfaceController = function (_baseController) {
 
             return delCat;
         }()
+    }, {
+        key: 'sendNotice',
+        value: function sendNotice(projectId, data) {
+            var _this6 = this;
+
+            this.followModel.listByProjectId(projectId).then(function (list) {
+                var users = [];
+                list.forEach(function (item) {
+                    users.push(item.uid);
+                });
+                _this6.userModel.findByUids(users).then(function (list) {
+                    list.forEach(function (item) {
+                        _yapi2.default.commons.sendMail({
+                            to: item.email,
+                            contents: data.content,
+                            subject: data.title
+                        });
+                    });
+                });
+            });
+        }
     }]);
     return interfaceController;
 }(_base2.default);

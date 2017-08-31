@@ -127,10 +127,11 @@ exports.sendMail = (options, cb) => {
         yapi.mail.sendMail({
             from: yapi.WEBCONFIG.mail.from,
             to: options.to,
-            subject: 'yapi平台',
+            subject: options.subject,
             html: options.contents
         }, cb);
     } catch (e) {
+        yapi.commons.log(e.message, 'error')
         console.error(e.message); // eslint-disable-line
     }
 };

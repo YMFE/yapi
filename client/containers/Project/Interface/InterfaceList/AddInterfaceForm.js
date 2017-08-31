@@ -19,7 +19,8 @@ class AddInterfaceForm extends Component {
     form: PropTypes.object,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
-    catid: PropTypes.number
+    catid: PropTypes.number,
+    catdata: PropTypes.array
   }
   handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ class AddInterfaceForm extends Component {
     });
   }
 
-  handlePath = (e)=>{
+  handlePath = (e) => {
     let val = e.target.value
     this.props.form.setFieldsValue({
       path: handlePath(val)
@@ -64,6 +65,20 @@ class AddInterfaceForm extends Component {
     return (
 
       <Form onSubmit={this.handleSubmit}>
+        <FormItem
+          {...formItemLayout}
+          label="接口分类"
+        >
+          {getFieldDecorator('catid', {
+            initialValue: this.props.catid ? this.props.catid + '' : this.props.catdata[0]._id + ''
+          })(
+            <Select>
+              {this.props.catdata.map(item => {
+                return <Option key={item._id} value={item._id+""}>{item.name}</Option>
+              })}
+            </Select>
+            )}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="接口名称"
