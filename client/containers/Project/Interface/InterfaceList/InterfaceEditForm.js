@@ -420,7 +420,7 @@ class InterfaceEditForm extends Component {
                 required: true, message: '请输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
               )}
           </InputGroup>
           <Row className="interface-edit-item">
@@ -585,7 +585,7 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="mock地址"
         >
-          <Input onChange={() => { }} value={this.state.mockUrl} />
+          <Input disabled onChange={() => { }} value={this.state.mockUrl} />
         </FormItem>
 
         <FormItem
@@ -609,6 +609,16 @@ class InterfaceEditForm extends Component {
 
 
         </Row>
+
+        <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="改动日志"
+        >
+          {getFieldDecorator('message', { initialValue: "" })(
+            <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+          )}
+        </FormItem>
 
 
         <FormItem

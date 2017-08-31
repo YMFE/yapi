@@ -1,7 +1,7 @@
 import interfaceModel from '../models/interface.js';
 import interfaceCatModel from '../models/interfaceCat.js';
 import interfaceCaseModel from '../models/interfaceCase.js'
-
+import followModel from '../models/follow.js'
 import _ from 'underscore';
 import baseController from './base.js';
 import yapi from '../yapi.js';
@@ -15,6 +15,8 @@ class interfaceController extends baseController {
         this.catModel = yapi.getInst(interfaceCatModel);
         this.projectModel = yapi.getInst(projectModel);
         this.caseModel = yapi.getInst(interfaceCaseModel);
+        this.followModel = yapi.getInst(followModel);
+        this.userModel = yapi.getInst(userModel);
     }
 
     /**
@@ -109,7 +111,7 @@ class interfaceController extends baseController {
             }
 
             if (params.path.indexOf(":") > 0) {
-                let paths = params.path.split("/"), name, i;                
+                let paths = params.path.split("/"), name, i;
                 for (i = 1; i < paths.length; i++) {
                     if (paths[i][0] === ':') {
                         name = paths[i].substr(1);
@@ -123,7 +125,7 @@ class interfaceController extends baseController {
                 }
             }
 
-            if ( params.req_params.length > 0) {
+            if (params.req_params.length > 0) {
                 data.type = 'var'
                 data.req_params = params.req_params;
             } else {
@@ -135,16 +137,26 @@ class interfaceController extends baseController {
 
             let result = await this.Model.save(data);
 
-            // let project = await this.projectModel.get(params.project_id);
+            let project = await this.projectModel.getBaseInfo(params.project_id);
             this.catModel.get(params.catid).then((cate) => {
                 let username = this.getUsername();
+                let title = `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`
                 yapi.commons.saveLog({
-                    content: `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`,
+                    content: title,
                     type: 'project',
                     uid: this.getUid(),
                     username: username,
                     typeid: params.project_id
                 });
+                let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
+                this.sendNotice(params.project_id, {
+                    title: `${username} 新增了接口 ${data.title}`,
+                    content: `<div><h3>${username}新增了接口(${data.title})</h3>
+                    <p>项目名：${project.name}</p>                    
+                    <p>修改用户: "${username}"</p>
+                    <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                    <p>接口路径: [${data.method}]${data.path}</p></div>`
+                })
             });
 
             ctx.body = yapi.commons.resReturn(result);
@@ -282,6 +294,9 @@ class interfaceController extends baseController {
 
         let id = ctx.request.body.id;
 
+        params.message = params.message || '没有改动日志';
+        params.message = params.message.replace(/\n/g, "<br>")
+
         if (!id) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
@@ -360,6 +375,8 @@ class interfaceController extends baseController {
             data.status = params.status;
         }
 
+
+
         try {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
@@ -385,7 +402,17 @@ class interfaceController extends baseController {
                     });
                 });
             }
-
+            let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
+            let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
+            this.sendNotice(interfaceData.project_id, {
+                title: `${username} 更新了接口`,
+                content: `<div><h3>${username}更新了接口(${data.title})</h3>
+                <p>项目名：${project.name} </p>
+                <p>修改用户: ${username}</p>
+                <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                <p>接口路径: [${data.method}]${data.path}</p>                
+                <p>详细改动日志: ${params.message}</p></div>`
+            })
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
@@ -580,6 +607,26 @@ class interfaceController extends baseController {
         }
     }
 
+    sendNotice(projectId, data) {
+        this.followModel.listByProjectId(projectId).then(list => {
+            let users = [];
+            list.forEach(item => {
+                users.push(item.uid)
+            })
+            this.userModel.findByUids(users).then(list => {
+                list.forEach(item => {
+                    yapi.commons.sendMail({
+                        to: item.email,
+                        contents: data.content,
+                        subject: data.title
+                    });
+                })
+
+            })
+
+        });
+
+    }
 
 }
 
