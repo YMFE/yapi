@@ -1,5 +1,9 @@
 'use strict';
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -1198,6 +1202,401 @@ var interfaceController = function (_baseController) {
             }
 
             return delCat;
+        }()
+
+        /**
+        * 接口数据上传
+        * @interface /interface/interUpload
+        * @method POST
+        * @category interface
+        * @foldnumber 10
+        * @param {Number}   project_id 项目id，不能为空
+        * @param {String}   title 接口标题，不能为空
+        * @param {String}   path 接口请求路径，不能为空
+        * @param {String}   method 请求方式
+        * @param {Array}  [req_headers] 请求的header信息
+        * @param {String}  [req_headers[].name] 请求的header信息名
+        * @param {String}  [req_headers[].value] 请求的header信息值
+        * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
+        * @param {String}  [req_headers[].desc] header描述
+        * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+        * @param {Array} [req_params] name, desc两个参数
+        * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+        * @param {String} [req_body_form[].name] 请求参数名
+        * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+        * @param {String} [req_body_form[].type] 请求参数类型，有["text", "file"]两种
+        * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
+        * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
+        * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
+        * @param  {String} [desc] 接口描述 
+        * @returns {Object} 
+        * @example ./api/interface/add.json
+        */
+
+    }, {
+        key: 'interUpload',
+        value: function () {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
+                var _this6 = this;
+
+                var interData, project_id, request, data1, catid, auth, len, successNum, i, reg, path, result, title, inter, _data, item, _data2, idata, _item, desc, queryParams, _item2, headerData, _item3, checkRepeat, data, res;
+
+                return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    while (1) {
+                        switch (_context12.prev = _context12.next) {
+                            case 0:
+                                interData = ctx.request.body.interData;
+                                project_id = ctx.request.body.project_id;
+                                request = interData.requests;
+                                data1 = [];
+                                catid = ctx.request.body.catid;
+                                _context12.next = 7;
+                                return this.checkAuth(project_id, 'project', 'danger');
+
+                            case 7:
+                                auth = _context12.sent;
+
+                                if (auth) {
+                                    _context12.next = 10;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '没有权限'));
+
+                            case 10:
+                                if (project_id) {
+                                    _context12.next = 12;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+
+                            case 12:
+                                if (catid) {
+                                    _context12.next = 14;
+                                    break;
+                                }
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '分类id不能为空'));
+
+                            case 14:
+                                len = request.length;
+                                successNum = len;
+
+                                if (!(request && len)) {
+                                    _context12.next = 82;
+                                    break;
+                                }
+
+                                i = 0;
+
+                            case 18:
+                                if (!(i < len)) {
+                                    _context12.next = 82;
+                                    break;
+                                }
+
+                                _context12.prev = 19;
+                                reg = /^(\w+):\/\/([^\/:]*)(?::(\d+))?\/([^\/\?]*)(\/.*)/;
+                                path = request[i].url;
+                                result = path.match(reg);
+
+                                if (result) {
+                                    path = result[4] + result[5];
+                                    path = path.split('?')[0].replace(/{{(\w+)}}/, '').replace(/\/$/, '');
+                                    if (path.indexOf("/") > 0) {
+                                        path = '/' + path;
+                                    }
+                                } else {
+                                    // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
+                                    path = path.replace(/{{(\w+)}}/, '');
+                                    if (path.indexOf("/") > 0) {
+                                        path = '/' + path;
+                                    }
+                                }
+                                title = request[i].name;
+
+                                if (reg.test(request[i].name)) {
+                                    title = path;
+                                }
+                                inter = {
+                                    project_id: project_id,
+                                    title: title,
+                                    path: path,
+                                    method: request[i].method,
+                                    req_headers: '',
+                                    // req_body_type: request[i].dataMode,
+                                    req_params: '',
+                                    req_body_form: '',
+                                    req_body_other: '',
+                                    res_body_type: 'json',
+                                    res_body: '',
+                                    desc: request[i].description
+                                };
+
+                                //  req_body_type   req_body_form
+
+                                if (!request[i].dataMode) {
+                                    _context12.next = 53;
+                                    break;
+                                }
+
+                                if (!(request[i].dataMode === 'params')) {
+                                    _context12.next = 35;
+                                    break;
+                                }
+
+                                inter.req_body_type = 'form';
+                                inter.req_body_form = [];
+                                _data = request[i].data;
+
+                                for (item in _data) {
+                                    inter.req_body_form.push({
+                                        name: _data[item].key,
+                                        value: _data[item].value,
+                                        type: _data[item].type
+                                    });
+                                }
+                                _context12.next = 53;
+                                break;
+
+                            case 35:
+                                if (!(request[i].dataMode === 'urlencoded')) {
+                                    _context12.next = 44;
+                                    break;
+                                }
+
+                                inter.req_body_form = [];
+                                inter.req_body_type = 'json';
+                                inter.req_body_other = '';
+                                _data2 = request[i].data;
+                                idata = '{\n';
+
+
+                                if (_data2 && _data2.length) {
+
+                                    for (_item in _data2) {
+                                        desc = _data2[_item].description ? '//' + _data2[_item].description : '';
+
+
+                                        if (_data2[_item] === _data2[_data2.length - 1]) {
+                                            idata = idata + ('"' + _data2[_item].key + '": "' + _data2[_item].value + '"' + desc + ' \n');
+                                        } else {
+                                            idata = idata + ('"' + _data2[_item].key + '": "' + _data2[_item].value + '",' + desc + ' \n');
+                                        }
+                                    }
+                                    idata = idata + '}';
+                                    inter.req_body_other = idata;
+                                }
+                                _context12.next = 53;
+                                break;
+
+                            case 44:
+                                if (!(request[i].dataMode === 'raw')) {
+                                    _context12.next = 50;
+                                    break;
+                                }
+
+                                inter.req_body_form = [];
+                                inter.req_body_type = 'raw';
+                                inter.req_body_other = request[i].rawModeData;
+                                _context12.next = 53;
+                                break;
+
+                            case 50:
+                                if (!(request[i].dataMode === 'binary')) {
+                                    _context12.next = 53;
+                                    break;
+                                }
+
+                                successNum--;
+                                return _context12.abrupt('continue', 79);
+
+                            case 53:
+                                // req_params
+                                if (request[i].queryParams) {
+                                    inter.req_params = [];
+                                    queryParams = request[i].queryParams;
+
+                                    for (_item2 in queryParams) {
+                                        inter.req_params.push({
+                                            name: queryParams[_item2].key,
+                                            desc: queryParams[_item2].description,
+                                            required: queryParams[_item2].enable
+                                        });
+                                    }
+                                }
+
+                                // req_headers
+                                if (request[i].headerData) {
+                                    inter.req_headers = [];
+                                    headerData = request[i].headerData;
+
+                                    for (_item3 in headerData) {
+                                        inter.req_headers.push({
+                                            name: headerData[_item3].key,
+                                            value: headerData[_item3].value,
+                                            required: headerData[_item3].enable,
+                                            desc: headerData[_item3].description
+                                        });
+                                    }
+                                }
+
+                                if (inter.project_id) {
+                                    _context12.next = 57;
+                                    break;
+                                }
+
+                                return _context12.abrupt('continue', 79);
+
+                            case 57:
+                                if (inter.path) {
+                                    _context12.next = 59;
+                                    break;
+                                }
+
+                                return _context12.abrupt('continue', 79);
+
+                            case 59:
+                                if (_yapi2.default.commons.verifyPath(inter.path)) {
+                                    _context12.next = 62;
+                                    break;
+                                }
+
+                                successNum--;
+                                // return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+                                return _context12.abrupt('continue', 79);
+
+                            case 62:
+                                _context12.next = 64;
+                                return this.Model.checkRepeat(inter.project_id, inter.path, inter.method);
+
+                            case 64:
+                                checkRepeat = _context12.sent;
+
+                                if (!(checkRepeat > 0)) {
+                                    _context12.next = 68;
+                                    break;
+                                }
+
+                                successNum--;
+                                // return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + inter.path + '[' + inter.method + ']');
+                                return _context12.abrupt('continue', 79);
+
+                            case 68:
+                                data = (0, _extends3.default)({}, inter, {
+                                    catid: catid,
+                                    uid: this.getUid(),
+                                    add_time: _yapi2.default.commons.time(),
+                                    up_time: _yapi2.default.commons.time()
+                                });
+
+                                if (data.req_params.length > 0) {
+                                    data.type = 'var';
+                                    data.req_params = data.req_params;
+                                } else {
+                                    data.type = 'static';
+                                }
+                                data1.push(data);
+                                _context12.next = 73;
+                                return this.Model.save(data);
+
+                            case 73:
+                                res = _context12.sent;
+                                _context12.next = 79;
+                                break;
+
+                            case 76:
+                                _context12.prev = 76;
+                                _context12.t0 = _context12['catch'](19);
+
+                                // ctx.body = yapi.commons.resReturn(e.message);
+                                successNum--;
+
+                            case 79:
+                                i++;
+                                _context12.next = 18;
+                                break;
+
+                            case 82:
+
+                                try {
+                                    if (successNum) {
+                                        this.catModel.get(catid).then(function (cate) {
+                                            var username = _this6.getUsername();
+                                            _yapi2.default.commons.saveLog({
+                                                content: '\u7528\u6237 "' + username + '" \u4E3A\u5206\u7C7B "' + cate.name + '" \u6210\u529F\u5BFC\u5165\u4E86 ' + successNum + ' \u4E2A\u63A5\u53E3',
+                                                type: 'project',
+                                                uid: _this6.getUid(),
+                                                username: username,
+                                                typeid: project_id
+                                            });
+                                        });
+                                    }
+                                } catch (e) {}
+
+                                return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(successNum));
+
+                            case 84:
+                            case 'end':
+                                return _context12.stop();
+                        }
+                    }
+                }, _callee12, this, [[19, 76]]);
+            }));
+
+            function interUpload(_x12) {
+                return _ref12.apply(this, arguments);
+            }
+
+            return interUpload;
+        }()
+    }, {
+        key: 'getCatMenu',
+        value: function () {
+            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
+                var project_id, res;
+                return _regenerator2.default.wrap(function _callee13$(_context13) {
+                    while (1) {
+                        switch (_context13.prev = _context13.next) {
+                            case 0:
+                                project_id = ctx.request.query.project_id;
+
+                                if (project_id) {
+                                    _context13.next = 3;
+                                    break;
+                                }
+
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+
+                            case 3:
+                                _context13.prev = 3;
+                                _context13.next = 6;
+                                return this.catModel.list(project_id);
+
+                            case 6:
+                                res = _context13.sent;
+                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(res));
+
+                            case 10:
+                                _context13.prev = 10;
+                                _context13.t0 = _context13['catch'](3);
+
+                                _yapi2.default.commons.resReturn(null, 400, _context13.t0.message);
+
+                            case 13:
+                            case 'end':
+                                return _context13.stop();
+                        }
+                    }
+                }, _callee13, this, [[3, 10]]);
+            }));
+
+            function getCatMenu(_x13) {
+                return _ref13.apply(this, arguments);
+            }
+
+            return getCatMenu;
         }()
     }]);
     return interfaceController;

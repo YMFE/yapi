@@ -47,7 +47,7 @@ function matchApi(apiPath, apiRule) {
 }
 
 module.exports = function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx, next) {
+    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
         var hostname, config, path, paths, projectId, projectInst, project, interfaceData, newData, newpath, interfaceInst, _newData, findInterface, res;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
