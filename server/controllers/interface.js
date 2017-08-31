@@ -137,7 +137,6 @@ class interfaceController extends baseController {
 
             let result = await this.Model.save(data);
 
-            let project = await this.projectModel.getBaseInfo(params.project_id);
             this.catModel.get(params.catid).then((cate) => {
                 let username = this.getUsername();
                 let title = `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`
@@ -148,15 +147,16 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
-                let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
-                this.sendNotice(params.project_id, {
-                    title: `${username} 新增了接口 ${data.title}`,
-                    content: `<div><h3>${username}新增了接口(${data.title})</h3>
-                    <p>项目名：${project.name}</p>                    
-                    <p>修改用户: "${username}"</p>
-                    <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
-                    <p>接口路径: [${data.method}]${data.path}</p></div>`
-                })
+                //let project = await this.projectModel.getBaseInfo(params.project_id);
+                // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
+                // this.sendNotice(params.project_id, {
+                //     title: `${username} 新增了接口 ${data.title}`,
+                //     content: `<div><h3>${username}新增了接口(${data.title})</h3>
+                //     <p>项目名：${project.name}</p>                    
+                //     <p>修改用户: "${username}"</p>
+                //     <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                //     <p>接口路径: [${data.method}]${data.path}</p></div>`
+                // })
             });
 
             ctx.body = yapi.commons.resReturn(result);
@@ -294,7 +294,7 @@ class interfaceController extends baseController {
 
         let id = ctx.request.body.id;
 
-        params.message = params.message || '没有改动日志';
+        params.message = params.message || '';
         params.message = params.message.replace(/\n/g, "<br>")
 
         if (!id) {
@@ -402,17 +402,19 @@ class interfaceController extends baseController {
                     });
                 });
             }
-            let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
-            let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
-            this.sendNotice(interfaceData.project_id, {
-                title: `${username} 更新了接口`,
-                content: `<div><h3>${username}更新了接口(${data.title})</h3>
-                <p>项目名：${project.name} </p>
-                <p>修改用户: ${username}</p>
-                <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
-                <p>接口路径: [${data.method}]${data.path}</p>                
-                <p>详细改动日志: ${params.message}</p></div>`
-            })
+            if (params.switch_notice === true) {
+                let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
+                let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
+                this.sendNotice(interfaceData.project_id, {
+                    title: `${username} 更新了接口`,
+                    content: `<div><h3>${username}更新了接口(${data.title})</h3>
+                    <p>项目名：${project.name} </p>
+                    <p>修改用户: ${username}</p>
+                    <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+                    <p>接口路径: [${data.method}]${data.path}</p>
+                    <p>详细改动日志: ${params.message}</p></div>`
+                })
+            }
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Table, Tooltip } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { formatTime } from '../../../../common.js'
@@ -82,7 +83,7 @@ export default class InterfaceColContent extends Component {
       render: (path, record) => {
         return (
           <Tooltip title="跳转到对应接口">
-            <a href={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{path || 'fdsf'}</a>
+            <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{path}</Link>
           </Tooltip>
         )
       }

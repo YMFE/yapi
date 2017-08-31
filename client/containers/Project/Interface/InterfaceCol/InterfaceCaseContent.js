@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { message } from 'antd'
 import { fetchInterfaceColList, setColData, fetchCaseData } from '../../../../reducer/modules/interfaceCol'
@@ -122,7 +123,12 @@ export default class InterfaceCaseContent extends Component {
     const data = Object.assign({}, currCase, currProject, {_id: currCase._id});
     return (
       <div style={{padding: '6px 0'}}>
-        <h1 style={{marginLeft: 8}}>{currCase.casename}</h1>
+        <h1 style={{marginLeft: 8}}>
+          {currCase.casename}
+          <span style={{marginLeft: 6, fontSize: 12}}>
+            <Link to={`/project/${currProject._id}/interface/api/${currCase.interface_id}`}>对应接口</Link>
+          </span>
+        </h1>
         <div>
           <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
         </div>
