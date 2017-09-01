@@ -63,7 +63,9 @@
                 width:auto !important;
             }
             .interface-item{
-                display: inline
+                display: inline-block;
+                width: 180px;
+                overflow: hidden;
             }
             .interface-item-nav{
                 line-height:25px;
