@@ -54,6 +54,37 @@ class ProjectData extends Component {
     })
   }
 
+  parseUrl(url){
+    let parser = document.createElement('a');
+    parser.href = url;
+    return {
+      protocol: parser.protocol,
+      hostname: parser.hostname,
+      port: parser.port,
+      pathname: parser.pathname,
+      search: parser.search,
+      host: parser.host
+    }
+  }
+
+  importPostman(data){
+    var a = {
+      path: '/api/aa',
+      queryParams: []
+    }
+
+    a.path = a.path.indexOf('/api') === 0 ? a.path.substr('/api'.length) :  a.path
+
+    return {
+      path: a.path,
+      query: queryParams
+    }
+  }
+
+  async handleAddInterface(){
+    let data = await axios.post('/api/')
+  }
+
   /**
    * 
    * 
