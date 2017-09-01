@@ -28,6 +28,10 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
+var _mockjs = require('mockjs');
+
+var _mockjs2 = _interopRequireDefault(_mockjs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function matchApi(apiPath, apiRule) {
@@ -47,7 +51,7 @@ function matchApi(apiPath, apiRule) {
 }
 
 module.exports = function () {
-    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx, next) {
+    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx, next) {
         var hostname, config, path, paths, projectId, projectInst, project, interfaceData, newData, newpath, interfaceInst, _newData, findInterface, res;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -180,7 +184,7 @@ module.exports = function () {
                         ctx.set("Access-Control-Allow-Origin", "*");
 
                         if (!(interfaceData.res_body_type === 'json')) {
-                            _context.next = 64;
+                            _context.next = 66;
                             break;
                         }
 
@@ -189,10 +193,13 @@ module.exports = function () {
                             query: ctx.request.query,
                             body: ctx.request.body
                         });
-                        return _context.abrupt('return', ctx.body = res);
 
-                    case 60:
-                        _context.prev = 60;
+                        console.log(interfaceData.res_body);
+                        console.log(res);
+                        return _context.abrupt('return', ctx.body = _mockjs2.default.mock(res));
+
+                    case 62:
+                        _context.prev = 62;
                         _context.t2 = _context['catch'](55);
 
                         _yapi2.default.commons.log(_context.t2, 'error');
@@ -202,22 +209,22 @@ module.exports = function () {
                             data: interfaceData.res_body
                         });
 
-                    case 64:
+                    case 66:
                         return _context.abrupt('return', ctx.body = interfaceData.res_body);
 
-                    case 67:
-                        _context.prev = 67;
+                    case 69:
+                        _context.prev = 69;
                         _context.t3 = _context['catch'](30);
 
                         console.error(_context.t3);
                         return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 409, _context.t3.message));
 
-                    case 71:
+                    case 73:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[17, 23], [30, 67], [55, 60]]);
+        }, _callee, undefined, [[17, 23], [30, 69], [55, 62]]);
     }));
 
     return function (_x, _x2) {

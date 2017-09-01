@@ -92,7 +92,8 @@ module.exports = {
       exports: [
         './index.js'
       ],
-      modifyWebpackConfig: function (baseConfig) {
+      modifyWebpackConfig: function (baseConfig) {       
+
         var ENV_PARAMS = {};
         switch (this.env) {
           case 'local':
@@ -113,7 +114,8 @@ module.exports = {
 
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
-        baseConfig.context = path.resolve(__dirname, "client");
+        baseConfig.context = path.resolve(__dirname, './client');
+        baseConfig.resolve.alias.common = '/common';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
