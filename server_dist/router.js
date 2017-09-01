@@ -236,6 +236,10 @@ var routerConfig = {
 		"path": "add",
 		"method": "post"
 	}, {
+		"action": "getCatMenu",
+		"path": "getCatMenu",
+		"method": "get"
+	}, {
 		"action": "list",
 		"path": "list",
 		"method": "get"
@@ -250,6 +254,10 @@ var routerConfig = {
 	}, {
 		"action": "del",
 		"path": "del",
+		"method": "post"
+	}, {
+		"action": "interUpload",
+		"path": "interUpload",
 		"method": "post"
 	}, {
 		action: 'listByCat',

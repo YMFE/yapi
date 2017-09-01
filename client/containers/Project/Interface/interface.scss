@@ -65,6 +65,9 @@
             .interface-item{
                 display: inline
             }
+            .interface-item-nav{
+                line-height:25px;
+            }
 
             .ant-tree-node-content-wrapper{
                 width: 100%
@@ -72,9 +75,11 @@
 
             .interface-delete-icon{
                 position: relative;
-                right: 31px;
-                top: 6px;
-                float: right
+                right: 21px;
+                top: 2px;
+                float: right;
+                line-height: 25px;
+                width: 30px;
             }
         }
     }

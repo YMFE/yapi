@@ -60,7 +60,7 @@ var app = (0, _koaWebsocket2.default)(new _koa2.default());
 var indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
 app.use(_mockServer2.default);
-app.use((0, _koaBodyparser2.default)());
+app.use((0, _koaBodyparser2.default)({ multipart: true }));
 app.use(_router2.default.routes());
 app.use(_router2.default.allowedMethods());
 
