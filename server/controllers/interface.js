@@ -820,6 +820,8 @@ class interfaceController extends baseController {
         
         return ctx.body = yapi.commons.resReturn(successNum);
     }
+
+    
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
         if(!project_id){
