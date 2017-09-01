@@ -3,6 +3,7 @@ import interfaceCatModel from '../models/interfaceCat.js';
 import interfaceCaseModel from '../models/interfaceCase.js'
 import followModel from '../models/follow.js'
 import _ from 'underscore';
+import url from 'url';
 import baseController from './base.js';
 import yapi from '../yapi.js';
 import userModel from '../models/user.js';
@@ -661,22 +662,23 @@ class interfaceController extends baseController {
         if(request &&len){
             for(let i = 0;i<len;i++){
                 try {
+                    let path = url.parse(request[i].url.replace(/{{(\w+)}}/,'')).path;
                     let reg = /^(\w+):\/\/([^\/:]*)(?::(\d+))?\/([^\/\?]*)(\/.*)/;
-                    let path = request[i].url;
-                    let result = path.match(reg);
-                    if(result){
-                        path = result[4]+ result[5];
-                        path = path.split('?')[0].replace(/{{(\w+)}}/,'').replace(/\/$/,'');
-                        if(path.indexOf("/") > 0){
-                            path = '/'+ path;
-                        }
-                    }else{
-                        // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
-                        path = path.replace(/{{(\w+)}}/,'');
-                        if(path.indexOf("/") > 0){
-                            path = '/'+ path;
-                        }
-                    }
+                    // let path = request[i].url;
+                    // let result = path.match(reg);
+                    // if(result){
+                    //     path = result[4]+ result[5];
+                    //     path = path.split('?')[0].replace(/{{(\w+)}}/,'').replace(/\/$/,'');
+                    //     if(path.indexOf("/") > 0){
+                    //         path = '/'+ path;
+                    //     }
+                    // }else{
+                    //     // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
+                    //     path = path.replace(/{{(\w+)}}/,'');
+                    //     if(path.indexOf("/") > 0){
+                    //         path = '/'+ path;
+                    //     }
+                    // }
                     let title = request[i].name;
                     if(reg.test(request[i].name)){
                         title = path;
@@ -695,11 +697,11 @@ class interfaceController extends baseController {
                         res_body: '',
                         desc: request[i].description
                     };
-
+                    console.log(inter.path);
                     //  req_body_type   req_body_form
                     if(request[i].dataMode){
                         // console.log(i);
-                        if(request[i].dataMode === 'params'){
+                        if(request[i].dataMode === 'params' || request[i].dataMode==='urlencoded'){
                             inter.req_body_type = 'form';
                             inter.req_body_form = [];
                             const data = request[i].data;
@@ -710,34 +712,19 @@ class interfaceController extends baseController {
                                     type: data[item].type
                                 });
                             }
-                        }else if(request[i].dataMode === 'urlencoded'){
-                            inter.req_body_form = [];
-                            inter.req_body_type = 'json';
-                            inter.req_body_other = '';
-                            let data = request[i].data;
-                            let idata = '{\n';
-                            
-                            if(data&&data.length){
-                                
-                                for(let item in data){
-                                    let desc = data[item].description?`//${data[item].description}`:'';
-                                    
-                                    if(data[item]===data[data.length-1]){
-                                        idata = idata + `"${data[item].key}": "${data[item].value}"${desc} \n`;
-                                    }else{
-                                        idata = idata + `"${data[item].key}": "${data[item].value}",${desc} \n`;
-                                    }
-                                }
-                                idata = idata + '}';
-                                inter.req_body_other = idata;
-                            }
                         }else if(request[i].dataMode === 'raw'){
                             inter.req_body_form = [];
-                            inter.req_body_type = 'raw';
+                            // console.log(request[i].headers.inedxOf('application/json')>-1);
+                            if(request[i].headers&&request[i].headers.indexOf('application/json')>-1){
+                                inter.req_body_type = 'json';
+                            }else{
+                                inter.req_body_type = 'raw';
+                            }
                             inter.req_body_other = request[i].rawModeData;
                         }else if(request[i].dataMode === 'binary'){
-                            successNum--;
-                            continue;
+                            
+                            inter.req_body_type = 'file';
+                            inter.req_body_other = request[i].rawModeData;
                         }
                     }
                     // req_params
@@ -801,7 +788,8 @@ class interfaceController extends baseController {
                     } else {
                         data.type = 'static';
                     }
-                    data1.push(data);
+                    // data1.push(data);
+                    // console.log(data);
                     let res = await this.Model.save(data);
                     // return ctx.body = yapi.commons.resReturn(res);
                 }catch(e){

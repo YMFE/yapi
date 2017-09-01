@@ -56,6 +56,10 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
+var _url = require('url');
+
+var _url2 = _interopRequireDefault(_url);
+
 var _base = require('./base.js');
 
 var _base2 = _interopRequireDefault(_base);
@@ -1278,7 +1282,7 @@ var interfaceController = function (_baseController) {
             var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
                 var _this6 = this;
 
-                var interData, project_id, request, data1, catid, auth, len, successNum, i, reg, path, result, title, inter, _data, item, _data2, idata, _item, desc, queryParams, _item2, headerData, _item3, checkRepeat, data, res;
+                var interData, project_id, request, data1, catid, auth, len, successNum, i, path, reg, title, inter, _data, item, queryParams, _item, headerData, _item2, checkRepeat, data, res;
 
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                     while (1) {
@@ -1323,7 +1327,7 @@ var interfaceController = function (_baseController) {
                                 successNum = len;
 
                                 if (!(request && len)) {
-                                    _context12.next = 82;
+                                    _context12.next = 55;
                                     break;
                                 }
 
@@ -1331,28 +1335,29 @@ var interfaceController = function (_baseController) {
 
                             case 18:
                                 if (!(i < len)) {
-                                    _context12.next = 82;
+                                    _context12.next = 55;
                                     break;
                                 }
 
                                 _context12.prev = 19;
+                                path = _url2.default.parse(request[i].url.replace(/{{(\w+)}}/, '')).path;
                                 reg = /^(\w+):\/\/([^\/:]*)(?::(\d+))?\/([^\/\?]*)(\/.*)/;
-                                path = request[i].url;
-                                result = path.match(reg);
+                                // let path = request[i].url;
+                                // let result = path.match(reg);
+                                // if(result){
+                                //     path = result[4]+ result[5];
+                                //     path = path.split('?')[0].replace(/{{(\w+)}}/,'').replace(/\/$/,'');
+                                //     if(path.indexOf("/") > 0){
+                                //         path = '/'+ path;
+                                //     }
+                                // }else{
+                                //     // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
+                                //     path = path.replace(/{{(\w+)}}/,'');
+                                //     if(path.indexOf("/") > 0){
+                                //         path = '/'+ path;
+                                //     }
+                                // }
 
-                                if (result) {
-                                    path = result[4] + result[5];
-                                    path = path.split('?')[0].replace(/{{(\w+)}}/, '').replace(/\/$/, '');
-                                    if (path.indexOf("/") > 0) {
-                                        path = '/' + path;
-                                    }
-                                } else {
-                                    // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
-                                    path = path.replace(/{{(\w+)}}/, '');
-                                    if (path.indexOf("/") > 0) {
-                                        path = '/' + path;
-                                    }
-                                }
                                 title = request[i].name;
 
                                 if (reg.test(request[i].name)) {
@@ -1373,95 +1378,47 @@ var interfaceController = function (_baseController) {
                                     desc: request[i].description
                                 };
 
+                                console.log(inter.path);
                                 //  req_body_type   req_body_form
+                                if (request[i].dataMode) {
+                                    // console.log(i);
+                                    if (request[i].dataMode === 'params' || request[i].dataMode === 'urlencoded') {
+                                        inter.req_body_type = 'form';
+                                        inter.req_body_form = [];
+                                        _data = request[i].data;
 
-                                if (!request[i].dataMode) {
-                                    _context12.next = 53;
-                                    break;
-                                }
-
-                                if (!(request[i].dataMode === 'params')) {
-                                    _context12.next = 35;
-                                    break;
-                                }
-
-                                inter.req_body_type = 'form';
-                                inter.req_body_form = [];
-                                _data = request[i].data;
-
-                                for (item in _data) {
-                                    inter.req_body_form.push({
-                                        name: _data[item].key,
-                                        value: _data[item].value,
-                                        type: _data[item].type
-                                    });
-                                }
-                                _context12.next = 53;
-                                break;
-
-                            case 35:
-                                if (!(request[i].dataMode === 'urlencoded')) {
-                                    _context12.next = 44;
-                                    break;
-                                }
-
-                                inter.req_body_form = [];
-                                inter.req_body_type = 'json';
-                                inter.req_body_other = '';
-                                _data2 = request[i].data;
-                                idata = '{\n';
-
-
-                                if (_data2 && _data2.length) {
-
-                                    for (_item in _data2) {
-                                        desc = _data2[_item].description ? '//' + _data2[_item].description : '';
-
-
-                                        if (_data2[_item] === _data2[_data2.length - 1]) {
-                                            idata = idata + ('"' + _data2[_item].key + '": "' + _data2[_item].value + '"' + desc + ' \n');
-                                        } else {
-                                            idata = idata + ('"' + _data2[_item].key + '": "' + _data2[_item].value + '",' + desc + ' \n');
+                                        for (item in _data) {
+                                            inter.req_body_form.push({
+                                                name: _data[item].key,
+                                                value: _data[item].value,
+                                                type: _data[item].type
+                                            });
                                         }
+                                    } else if (request[i].dataMode === 'raw') {
+                                        inter.req_body_form = [];
+                                        // console.log(request[i].headers.inedxOf('application/json')>-1);
+                                        if (request[i].headers && request[i].headers.indexOf('application/json') > -1) {
+                                            inter.req_body_type = 'json';
+                                        } else {
+                                            inter.req_body_type = 'raw';
+                                        }
+                                        inter.req_body_other = request[i].rawModeData;
+                                    } else if (request[i].dataMode === 'binary') {
+
+                                        inter.req_body_type = 'file';
+                                        inter.req_body_other = request[i].rawModeData;
                                     }
-                                    idata = idata + '}';
-                                    inter.req_body_other = idata;
                                 }
-                                _context12.next = 53;
-                                break;
-
-                            case 44:
-                                if (!(request[i].dataMode === 'raw')) {
-                                    _context12.next = 50;
-                                    break;
-                                }
-
-                                inter.req_body_form = [];
-                                inter.req_body_type = 'raw';
-                                inter.req_body_other = request[i].rawModeData;
-                                _context12.next = 53;
-                                break;
-
-                            case 50:
-                                if (!(request[i].dataMode === 'binary')) {
-                                    _context12.next = 53;
-                                    break;
-                                }
-
-                                successNum--;
-                                return _context12.abrupt('continue', 79);
-
-                            case 53:
                                 // req_params
                                 if (request[i].queryParams) {
                                     inter.req_params = [];
                                     queryParams = request[i].queryParams;
 
-                                    for (_item2 in queryParams) {
+                                    for (_item in queryParams) {
                                         inter.req_params.push({
-                                            name: queryParams[_item2].key,
-                                            desc: queryParams[_item2].description,
-                                            required: queryParams[_item2].enable
+                                            name: queryParams[_item].key,
+                                            desc: queryParams[_item].description,
+                                            required: queryParams[_item].enable
                                         });
                                     }
                                 }
@@ -1471,58 +1428,58 @@ var interfaceController = function (_baseController) {
                                     inter.req_headers = [];
                                     headerData = request[i].headerData;
 
-                                    for (_item3 in headerData) {
+                                    for (_item2 in headerData) {
                                         inter.req_headers.push({
-                                            name: headerData[_item3].key,
-                                            value: headerData[_item3].value,
-                                            required: headerData[_item3].enable,
-                                            desc: headerData[_item3].description
+                                            name: headerData[_item2].key,
+                                            value: headerData[_item2].value,
+                                            required: headerData[_item2].enable,
+                                            desc: headerData[_item2].description
                                         });
                                     }
                                 }
 
                                 if (inter.project_id) {
-                                    _context12.next = 57;
+                                    _context12.next = 31;
                                     break;
                                 }
 
-                                return _context12.abrupt('continue', 79);
+                                return _context12.abrupt('continue', 52);
 
-                            case 57:
+                            case 31:
                                 if (inter.path) {
-                                    _context12.next = 59;
+                                    _context12.next = 33;
                                     break;
                                 }
 
-                                return _context12.abrupt('continue', 79);
+                                return _context12.abrupt('continue', 52);
 
-                            case 59:
+                            case 33:
                                 if (_yapi2.default.commons.verifyPath(inter.path)) {
-                                    _context12.next = 62;
+                                    _context12.next = 36;
                                     break;
                                 }
 
                                 successNum--;
                                 // return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
-                                return _context12.abrupt('continue', 79);
+                                return _context12.abrupt('continue', 52);
 
-                            case 62:
-                                _context12.next = 64;
+                            case 36:
+                                _context12.next = 38;
                                 return this.Model.checkRepeat(inter.project_id, inter.path, inter.method);
 
-                            case 64:
+                            case 38:
                                 checkRepeat = _context12.sent;
 
                                 if (!(checkRepeat > 0)) {
-                                    _context12.next = 68;
+                                    _context12.next = 42;
                                     break;
                                 }
 
                                 successNum--;
                                 // return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + inter.path + '[' + inter.method + ']');
-                                return _context12.abrupt('continue', 79);
+                                return _context12.abrupt('continue', 52);
 
-                            case 68:
+                            case 42:
                                 data = (0, _extends3.default)({}, inter, {
                                     catid: catid,
                                     uid: this.getUid(),
@@ -1536,28 +1493,29 @@ var interfaceController = function (_baseController) {
                                 } else {
                                     data.type = 'static';
                                 }
-                                data1.push(data);
-                                _context12.next = 73;
+                                // data1.push(data);
+                                // console.log(data);
+                                _context12.next = 46;
                                 return this.Model.save(data);
 
-                            case 73:
+                            case 46:
                                 res = _context12.sent;
-                                _context12.next = 79;
+                                _context12.next = 52;
                                 break;
 
-                            case 76:
-                                _context12.prev = 76;
+                            case 49:
+                                _context12.prev = 49;
                                 _context12.t0 = _context12['catch'](19);
 
                                 // ctx.body = yapi.commons.resReturn(e.message);
                                 successNum--;
 
-                            case 79:
+                            case 52:
                                 i++;
                                 _context12.next = 18;
                                 break;
 
-                            case 82:
+                            case 55:
 
                                 try {
                                     if (successNum) {
@@ -1576,12 +1534,12 @@ var interfaceController = function (_baseController) {
 
                                 return _context12.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(successNum));
 
-                            case 84:
+                            case 57:
                             case 'end':
                                 return _context12.stop();
                         }
                     }
-                }, _callee12, this, [[19, 76]]);
+                }, _callee12, this, [[19, 49]]);
             }));
 
             function interUpload(_x12) {
