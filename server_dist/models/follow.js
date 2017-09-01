@@ -88,6 +88,13 @@ var followModel = function (_baseModel) {
             }).exec();
         }
     }, {
+        key: 'listByProjectId',
+        value: function listByProjectId(projectid) {
+            return this.model.find({
+                projectid: projectid
+            });
+        }
+    }, {
         key: 'checkProjectRepeat',
         value: function checkProjectRepeat(uid, projectid) {
             return this.model.count({

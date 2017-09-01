@@ -4,9 +4,10 @@ import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
 import { handlePath } from '../../../../common.js'
 
+
 import {
   Form, Select, Input, Tooltip,
-  Button, Row, Col, Radio, Icon, AutoComplete
+  Button, Row, Col, Radio, Icon, AutoComplete, Switch
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -89,6 +90,7 @@ class InterfaceEditForm extends Component {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.method = this.state.method;
+        values.req_params = values.req_params || [];
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
           values.req_body_form.forEach((item) => {
@@ -420,7 +422,7 @@ class InterfaceEditForm extends Component {
                 required: true, message: '请输入接口路径!'
               }]
             })(
-              <Input onBlur={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+              <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
               )}
           </InputGroup>
           <Row className="interface-edit-item">
@@ -585,7 +587,7 @@ class InterfaceEditForm extends Component {
           {...formItemLayout}
           label="mock地址"
         >
-          <Input onChange={() => { }} value={this.state.mockUrl} />
+          <Input disabled onChange={() => { }} value={this.state.mockUrl} />
         </FormItem>
 
         <FormItem
@@ -609,6 +611,27 @@ class InterfaceEditForm extends Component {
 
 
         </Row>
+
+        <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="是否开启邮件通知"
+        >
+          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
+            <Switch checkedChildren="开" unCheckedChildren="关" />
+          )}
+        </FormItem>
+
+        <FormItem
+          style={{ display: this.props.form.getFieldValue('switch_notice') === true ? 'block' : 'none' }}
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="改动日志"
+        >
+          {getFieldDecorator('message', { initialValue: "" })(
+            <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+          )}
+        </FormItem>
 
 
         <FormItem

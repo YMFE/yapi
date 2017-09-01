@@ -1117,36 +1117,49 @@ var projectController = function (_baseController) {
                             case 0:
                                 id = ctx.request.body.id;
                                 data = {};
+                                _context11.next = 4;
+                                return this.checkAuth(id, 'project', 'danger');
 
+                            case 4:
+                                _context11.t0 = _context11.sent;
+
+                                if (!(_context11.t0 !== true)) {
+                                    _context11.next = 7;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '没有权限'));
+
+                            case 7:
                                 data.color = ctx.request.body.color;
                                 data.icon = ctx.request.body.icon;
 
                                 if (id) {
-                                    _context11.next = 6;
+                                    _context11.next = 11;
                                     break;
                                 }
 
                                 return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '项目id不能为空'));
 
-                            case 6:
-                                _context11.prev = 6;
-                                _context11.next = 9;
+                            case 11:
+                                _context11.prev = 11;
+                                _context11.next = 14;
                                 return this.Model.up(id, data);
 
-                            case 9:
+                            case 14:
                                 result = _context11.sent;
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context11.next = 16;
+                                _context11.next = 21;
                                 break;
 
-                            case 13:
-                                _context11.prev = 13;
-                                _context11.t0 = _context11['catch'](6);
+                            case 18:
+                                _context11.prev = 18;
+                                _context11.t1 = _context11['catch'](11);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t0.message);
+                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context11.t1.message);
 
-                            case 16:
+                            case 21:
                                 try {
                                     this.followModel.updateById(this.getUid(), id, data).then(function () {
                                         var username = _this5.getUsername();
@@ -1162,12 +1175,12 @@ var projectController = function (_baseController) {
                                     _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
                                 }
 
-                            case 17:
+                            case 22:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee10, this, [[6, 13]]);
+                }, _callee10, this, [[11, 18]]);
             }));
 
             function upSet(_x11) {

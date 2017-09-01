@@ -3,6 +3,7 @@ import projectModel from '../models/project.js';
 import interfaceModel from '../models/interface.js';
 import mockExtra from '../../common/mock-extra.js';
 import _ from 'underscore';
+import Mock from 'mockjs';
 
 
 function matchApi(apiPath, apiRule) {
@@ -23,7 +24,6 @@ function matchApi(apiPath, apiRule) {
 
 module.exports = async (ctx, next) => {
     yapi.commons.log('Server Recevie Request...');
-
     let hostname = ctx.hostname;
     let config = yapi.WEBCONFIG;
     let path = ctx.path;
@@ -97,7 +97,9 @@ module.exports = async (ctx, next) => {
                         body: ctx.request.body
                     }
                 );
-                return ctx.body = res;
+                console.log(interfaceData.res_body);
+                console.log(res)
+                return ctx.body = Mock.mock(res);
             } catch (e) {
                 yapi.commons.log(e, 'error')
                 return ctx.body = {

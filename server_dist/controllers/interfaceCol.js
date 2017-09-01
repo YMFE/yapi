@@ -84,7 +84,7 @@ var interfaceColController = function (_baseController) {
     (0, _createClass3.default)(interfaceColController, [{
         key: 'list',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
                 var id, result, i;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -159,7 +159,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'addCol',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
                 var params, auth, result, username;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -265,7 +265,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'getCaseList',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
                 var id, inst, result, index, interfaceData, projectData;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -357,7 +357,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'addCase',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(ctx) {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
                 var _this2 = this;
 
                 var params, auth, result, username;
@@ -494,7 +494,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'upCase',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
                 var _this3 = this;
 
                 var params, caseData, auth, result, username;
@@ -609,7 +609,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'getCase',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var id, result, data, projectData;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -649,27 +649,29 @@ var interfaceColController = function (_baseController) {
                                 result.method = data.method;
                                 result.req_body_type = data.req_body_type;
                                 result.req_headers = data.req_headers;
+                                result.res_body = data.res_body;
+                                result.res_body_type = data.res_body_type;
 
                                 result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form);
                                 result.req_query = this.handleParamsValue(data.req_query, result.req_query);
                                 result.req_params = this.handleParamsValue(data.req_params, result.req_params);
 
                                 ctx.body = _yapi2.default.commons.resReturn(result);
-                                _context6.next = 28;
+                                _context6.next = 30;
                                 break;
 
-                            case 25:
-                                _context6.prev = 25;
+                            case 27:
+                                _context6.prev = 27;
                                 _context6.t0 = _context6['catch'](0);
 
                                 ctx.body = _yapi2.default.commons.resReturn(null, 400, _context6.t0.message);
 
-                            case 28:
+                            case 30:
                             case 'end':
                                 return _context6.stop();
                         }
                     }
-                }, _callee6, this, [[0, 25]]);
+                }, _callee6, this, [[0, 27]]);
             }));
 
             function getCase(_x6) {
@@ -709,7 +711,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'upCol',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var params, id, colData, auth, result, username;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
@@ -794,7 +796,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'upCaseIndex',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var _this4 = this;
 
                 var params;
@@ -863,7 +865,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'delCol',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
                 var id, colData, auth, result, username;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -949,7 +951,7 @@ var interfaceColController = function (_baseController) {
     }, {
         key: 'delCase',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
                 var _this5 = this;
 
                 var caseid, caseData, auth, result, username;

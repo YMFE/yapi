@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Mock from 'mockjs'
 import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
-
+const MockExtra = require('common/mock-extra.js')
 import './Postman.scss'
 
 const { TextArea } = Input;
@@ -25,8 +26,8 @@ export default class Run extends Component {
   }
 
   state = {
-    res: {},
-    resHeader: {},
+    res: null,
+    resHeader: null,
     method: 'GET',
     domains: [],
     pathname: '',
@@ -36,7 +37,8 @@ export default class Run extends Component {
     caseEnv: '',
     bodyType: '',
     bodyOther: '',
-    loading: false
+    loading: false,
+    validRes: null
   }
 
   constructor(props) {
@@ -145,29 +147,61 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res, header) => {
         try {
-          if (header['content-type'].indexOf('application/json') !== -1) {
+          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
             res = typeof res === 'object' ? res : JSON.parse(res)
           }
-          header = typeof header === 'object' ? header : JSON.parse(header)
+          if (header) {
+            header = typeof header === 'object' ? header : JSON.parse(header)
+          }
         } catch (e) {
           message.error(e.message)
         }
+        const { res_body, res_body_type } = this.props.data;
+        let validRes = '';
+        let query = {};
+        this.state.query.forEach(item=>{
+          query[item.name] = item.value;
+        })
+        let body = {};
+        if(this.state.bodyType === 'form'){
+          this.state.bodyForm.forEach(item=>{
+            body[item.name] = item.value;
+          })
+        }else if(this.state.bodyType === 'json'){
+          try{
+            body = JSON.parse(this.state.bodyOther);
+          }catch(e){
+            body = {}
+          }
+        }
+        if (res_body && res_body_type === 'json' && typeof res === 'object') {
+          let tpl = MockExtra(JSON.parse(res_body), {
+            query: query,
+            body: body
+          })
+          console.log(tpl, this.state)
+          validRes = Mock.valid(tpl, res)
+          console.log(validRes)
+        }
+        
         message.success('请求完成')
-        this.setState({res, resHeader: header})
+        this.setState({res, resHeader: header, validRes})
         this.setState({ loading: false })
         this.bindAceEditor()
       },
       error: (err, header) => {
         try {
-          if (header['content-type'].indexOf('application/json') !== -1) {
+          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
             err = typeof err === 'object' ? err : JSON.parse(err)
           }
-          header = typeof header === 'object' ? header : JSON.parse(header)
+          if (header) {
+            header = typeof header === 'object' ? header : JSON.parse(header)
+          }
         } catch (e) {
           message.error(e.message)
         }
         message.success('请求完成')
-        this.setState({res: err || '请求失败', resHeader: header})
+        this.setState({res: err || '请求失败', resHeader: header, validRes: null})
         this.setState({ loading: false })
         this.bindAceEditor()
       }
@@ -416,7 +450,7 @@ export default class Run extends Component {
 
   render () {
 
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     const hasPlugin = this.hasCrossRequestPlugin();
     const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
@@ -611,7 +645,13 @@ export default class Run extends Component {
                 <div id="res-body-pretty" className="pretty-editor" style={{display: isResJson ? '' : 'none'}}></div>
                 <TextArea
                   style={{display: isResJson ? 'none' : ''}}
-                  value={typeof this.state.res === 'object' ? JSON.stringify(this.state.res, null, 2) : this.state.res.toString()}
+                  value={this.state.res && this.state.res.toString()}
+                  autosize={{ minRows: 2, maxRows: 10 }}
+                ></TextArea>
+                <div style={{display: validRes ? '' : 'none', marginTop: 6, fontWeight: 'bold'}}>返回 Body 验证结果：</div>
+                <TextArea
+                  style={{display: validRes ? '' : 'none'}}
+                  value={validRes && (validRes.length ? JSON.stringify(validRes.map(item => item.message), null, 2) : '恭喜：验证通过！')}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
               </Panel>
