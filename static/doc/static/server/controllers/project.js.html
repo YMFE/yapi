@@ -498,6 +498,9 @@ class projectController extends baseController {
     async upSet(ctx) {
         let id = ctx.request.body.id;
         let data = {};
+        if (await this.checkAuth(id, 'project', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
         data.color = ctx.request.body.color;
         data.icon = ctx.request.body.icon;
         if (!id) {
