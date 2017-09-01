@@ -18,7 +18,8 @@ const TreeNode = Tree.TreeNode;
     return {
       list: state.inter.list,
       inter: state.inter.curdata,
-      curProject: state.project.currProject
+      curProject: state.project.currProject,
+      expands: []
     }
   },
   {
@@ -73,7 +74,8 @@ class InterfaceMenu extends Component {
       add_cat_modal_visible: false,
       change_cat_modal_visible: false,
       del_cat_modal_visible: false,
-      curCatdata: {}
+      curCatdata: {},
+      expands: null
     }
   }
 
@@ -97,6 +99,9 @@ class InterfaceMenu extends Component {
     } else {
       history.push(basepath + '/' + curkey)
     }
+    this.setState({
+      expands: null
+    })
   }
 
   handleAddInterface = (data) => {
@@ -199,34 +204,42 @@ class InterfaceMenu extends Component {
     })
   }
 
-
+  onExpand = (e)=>{
+    this.setState({
+      expands: e
+    })
+  }
 
   render() {
     const matchParams = this.props.match.params;
     let menuList = this.props.list;
-
-
+    if(menuList.length === 0){
+      return null;
+    }
     const defaultExpandedKeys = () => {
       const { router, inter, list } = this.props, rNull = { expands: [], selects: [] };
-      if (list.length === 0) return rNull;
+      if (list.length === 0){
+        return rNull;
+      }
       if (router) {
         if (!isNaN(router.params.actionId)) {
-          let _actionId = parseInt(router.params.actionId, 10)
-          if (!inter._id || inter._id !== _actionId) return rNull;
+          if (!inter._id) {
+            return rNull;
+          }
           return {
-            expands: ['cat_' + inter.catid],
+            expands: this.state.expands ?this.state.expands : ['cat_' + inter.catid],
             selects: [inter._id + ""]
           }
         } else {
           let catid = router.params.actionId.substr(4);
           return {
-            expands: ['cat_' + catid],
+            expands: this.state.expands ?this.state.expands :['cat_' + catid],
             selects: ['cat_' + catid]
           }
         }
       } else {
         return {
-          expands: ['cat_' + list[0]._id],
+          expands: this.state.expands ?this.state.expands :['cat_' + list[0]._id],
           selects: ['root']
         }
       }
@@ -279,6 +292,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
+   
     if (this.state.filter) {
       let arr = [];
       menuList = this.props.list.filter(item => {
@@ -328,7 +342,10 @@ class InterfaceMenu extends Component {
           className="interface-list"
           defaultExpandedKeys={currentKes.expands}
           defaultSelectedKeys={currentKes.selects}
+          expandedKeys={currentKes.expands}
+          selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
+          onExpand={this.onExpand}
         >
           <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
