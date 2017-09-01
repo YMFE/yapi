@@ -22,17 +22,17 @@ function mock(mockJSON, context) {
             } else {
                 p[i] = handleStr(p[i]);
                 var filters = i.split(mockSplit), newFilters = [].concat(filters);
+                c[i] = p[i];
                 if (filters.length > 1) {
                     for (var f = 1, l = filters.length, index; f < l; f++) {
                         if (filters[f] in filtersMap) {
                             if ((index = newFilters.indexOf(filters[f])) !== -1) {
                                 newFilters.splice(index, 1);
                             }
+                            delete c[i];
                             c[newFilters.join(mockSplit)] = filtersMap[filters[f]].call(p, p[i]);
                         }
                     }
-                } else {
-                    c[i] = p[i];
                 }
             }
         }

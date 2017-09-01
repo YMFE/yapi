@@ -97,6 +97,8 @@ module.exports = async (ctx, next) => {
                         body: ctx.request.body
                     }
                 );
+                console.log(interfaceData.res_body);
+                console.log(res)
                 return ctx.body = Mock.mock(res);
             } catch (e) {
                 yapi.commons.log(e, 'error')
