@@ -128,7 +128,7 @@ var interfaceController = function (_baseController) {
     (0, _createClass3.default)(interfaceController, [{
         key: 'add',
         value: function () {
-            var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx) {
+            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
                 var _this2 = this;
 
                 var params, auth, checkRepeat, data, paths, name, i, result;
@@ -324,7 +324,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'get',
         value: function () {
-            var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx) {
+            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ctx) {
                 var params, result;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -386,7 +386,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'list',
         value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ctx) {
+            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ctx) {
                 var project_id, result;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -436,7 +436,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'listByCat',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(ctx) {
+            var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(ctx) {
                 var catid, result;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -486,7 +486,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'listByMenu',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(ctx) {
+            var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(ctx) {
                 var project_id, result, newResult, i, item, list, j;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                     while (1) {
@@ -591,7 +591,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'up',
         value: function () {
-            var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(ctx) {
+            var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(ctx) {
                 var _this3 = this;
 
                 var params, id, interfaceData, auth, checkRepeat, data, result, username, cateid, project, interfaceUrl;
@@ -821,7 +821,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'del',
         value: function () {
-            var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(ctx) {
+            var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(ctx) {
                 var _this4 = this;
 
                 var id, data, auth, inter, result, username;
@@ -918,7 +918,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'solveConflict',
         value: function () {
-            var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(ctx) {
+            var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(ctx) {
                 var _this5 = this;
 
                 var id, result, userInst, userinfo, data;
@@ -1001,7 +1001,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'addCat',
         value: function () {
-            var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(ctx) {
+            var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(ctx) {
                 var params, auth, result, username;
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -1096,7 +1096,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'upCat',
         value: function () {
-            var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(ctx) {
+            var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(ctx) {
                 var params, result, username, cate, auth;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
@@ -1168,7 +1168,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'delCat',
         value: function () {
-            var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(ctx) {
+            var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(ctx) {
                 var id, catData, auth, username, result, r;
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                     while (1) {
@@ -1280,7 +1280,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'interUpload',
         value: function () {
-            var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(ctx) {
+            var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(ctx) {
                 var _this6 = this;
 
                 var interData, project_id, request, data1, catid, auth, len, successNum, i, path, reg, title, inter, _data, item, queryParams, _item, headerData, _item2, checkRepeat, data, res;
@@ -1552,7 +1552,7 @@ var interfaceController = function (_baseController) {
     }, {
         key: 'getCatMenu',
         value: function () {
-            var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(ctx) {
+            var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ctx) {
                 var project_id, res;
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                     while (1) {
