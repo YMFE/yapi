@@ -260,6 +260,10 @@
                                     <li >
                                         <a href="#-interface-del">/interface/del</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#-interface-interUpload">/interface/interUpload</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -2883,7 +2887,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#500" target="_blank">./server/controllers/project.js:500</a>
+        <a href="./static/server/controllers/project.js.html#503" target="_blank">./server/controllers/project.js:503</a>
     </p>
     
     
@@ -3031,7 +3035,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#583" target="_blank">./server/controllers/project.js:583</a>
+        <a href="./static/server/controllers/project.js.html#586" target="_blank">./server/controllers/project.js:586</a>
     </p>
     
     
@@ -3126,7 +3130,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#637" target="_blank">./server/controllers/project.js:637</a>
+        <a href="./static/server/controllers/project.js.html#640" target="_blank">./server/controllers/project.js:640</a>
     </p>
     
     
@@ -3191,7 +3195,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#21" target="_blank">./server/controllers/interface.js:21</a>
+        <a href="./static/server/controllers/interface.js.html#22" target="_blank">./server/controllers/interface.js:22</a>
     </p>
     
     
@@ -3512,7 +3516,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#167" target="_blank">./server/controllers/interface.js:167</a>
+        <a href="./static/server/controllers/interface.js.html#168" target="_blank">./server/controllers/interface.js:168</a>
     </p>
     
     
@@ -3577,7 +3581,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#192" target="_blank">./server/controllers/interface.js:192</a>
+        <a href="./static/server/controllers/interface.js.html#193" target="_blank">./server/controllers/interface.js:193</a>
     </p>
     
     
@@ -3642,7 +3646,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#254" target="_blank">./server/controllers/interface.js:254</a>
+        <a href="./static/server/controllers/interface.js.html#255" target="_blank">./server/controllers/interface.js:255</a>
     </p>
     
     
@@ -3875,7 +3879,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#423" target="_blank">./server/controllers/interface.js:423</a>
+        <a href="./static/server/controllers/interface.js.html#427" target="_blank">./server/controllers/interface.js:427</a>
     </p>
     
     
@@ -3923,6 +3927,327 @@
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
         <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-interface-interUpload" class="page-header subject">
+            /interface/interUpload
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-interface-interUpload">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        接口数据上传
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/interface.js.html#613" target="_blank">./server/controllers/interface.js:613</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>project_id</td>
+                <td>Number</td>
+                <td>项目id，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>title</td>
+                <td>String</td>
+                <td>接口标题，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>path</td>
+                <td>String</td>
+                <td>接口请求路径，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>method</td>
+                <td>String</td>
+                <td>请求方式</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers</td>
+                <td>Array</td>
+                <td>请求的header信息</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].name</td>
+                <td>String</td>
+                <td>请求的header信息名</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].value</td>
+                <td>String</td>
+                <td>请求的header信息值</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].required</td>
+                <td>Boolean</td>
+                <td>是否是必须，默认为否</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].desc</td>
+                <td>String</td>
+                <td>header描述</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_type</td>
+                <td>String</td>
+                <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_params</td>
+                <td>Array</td>
+                <td>name, desc两个参数</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form</td>
+                <td>Mixed</td>
+                <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].name</td>
+                <td>String</td>
+                <td>请求参数名</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].value</td>
+                <td>String</td>
+                <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].type</td>
+                <td>String</td>
+                <td>请求参数类型，有["text", "file"]两种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_other</td>
+                <td>String</td>
+                <td>非form类型的请求参数可保存到此字段</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>res_body_type</td>
+                <td>String</td>
+                <td>相应信息的数据格式，有["json", "text", "xml"]三种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>res_body</td>
+                <td>String</td>
+                <td>响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>desc</td>
+                <td>String</td>
+                <td>接口描述</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
+<span class="token comment" spellcheck="true">//请求  /interface/add</span>
+<span class="token comment" spellcheck="true">//header Content-Type:application/json</span>
+
+<span class="token punctuation">{</span>
+   <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"testapi"</span><span class="token punctuation">,</span>
+   <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"api"</span><span class="token punctuation">,</span>
+   <span class="token string">"method"</span><span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
+   <span class="token string">"path"</span><span class="token punctuation">:</span> <span class="token string">"/testapi"</span><span class="token punctuation">,</span>
+   <span class="token string">"project_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+   <span class="token string">"req_headers"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+         <span class="token string">"key"</span><span class="token punctuation">:</span> <span class="token string">"h"</span><span class="token punctuation">,</span>
+         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"t"</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">]</span><span class="token punctuation">,</span>
+   <span class="token string">"req_params_type"</span><span class="token punctuation">:</span> <span class="token string">"form"</span><span class="token punctuation">,</span>
+   <span class="token string">"req_params"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+         <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"uid"</span><span class="token punctuation">,</span>
+         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+         <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"text"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+     <span class="token punctuation">{</span>
+         <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"gid"</span><span class="token punctuation">,</span>
+         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token number">1001</span><span class="token punctuation">,</span>
+         <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"text"</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">]</span><span class="token punctuation">,</span>
+   <span class="token string">"res_body_type"</span><span class="token punctuation">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
+   <span class="token string">"res_body"</span><span class="token punctuation">:</span> <span class="token string">"{\"tt\": 222}"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//返回结果</span>
+<span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">422</span><span class="token punctuation">,</span>
+        <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"testapi"</span><span class="token punctuation">,</span>
+        <span class="token string">"project_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+        <span class="token string">"path"</span><span class="token punctuation">:</span> <span class="token string">"/testapi"</span><span class="token punctuation">,</span>
+        <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"api"</span><span class="token punctuation">,</span>
+        <span class="token string">"method"</span><span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
+        <span class="token string">"req_params_type"</span><span class="token punctuation">:</span> <span class="token string">"form"</span><span class="token punctuation">,</span>
+        <span class="token string">"res_body"</span><span class="token punctuation">:</span> <span class="token string">"{\"tt\": 222}"</span><span class="token punctuation">,</span>
+        <span class="token string">"res_body_type"</span><span class="token punctuation">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
+        <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499658569</span><span class="token punctuation">,</span>
+        <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499658569</span><span class="token punctuation">,</span>
+        <span class="token string">"req_params_form"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"uid"</span><span class="token punctuation">,</span>
+                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcc0"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"gid"</span><span class="token punctuation">,</span>
+                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"1001"</span><span class="token punctuation">,</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcbf"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"req_headers"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"t"</span><span class="token punctuation">,</span>
+                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcc1"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
     
@@ -4804,7 +5129,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#329" target="_blank">./server/controllers/interfaceCol.js:329</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#330" target="_blank">./server/controllers/interfaceCol.js:330</a>
     </p>
     
     
@@ -4878,7 +5203,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#370" target="_blank">./server/controllers/interfaceCol.js:370</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#371" target="_blank">./server/controllers/interfaceCol.js:371</a>
     </p>
     
     
@@ -4938,7 +5263,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#412" target="_blank">./server/controllers/interfaceCol.js:412</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#413" target="_blank">./server/controllers/interfaceCol.js:413</a>
     </p>
     
     
