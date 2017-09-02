@@ -254,8 +254,8 @@ class InterfaceMenu extends Component {
         case 'DELETE': color = 'red'; break;
         default: color = "yellow";
       }
-      return <TreeNode
-        title={<div onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
+      return <TreeNode        
+        title={<div className="aa" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} ><Tag color={color} className="btn-http" >{item.method}</Tag>{item.title}</Link>
           <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
         </div>}
