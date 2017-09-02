@@ -612,216 +612,15 @@ class interfaceController extends baseController {
     }
 
         /**
-     * 接口数据上传
-     * @interface /interface/interUpload
-     * @method POST
+     * 获取分类列表
+     * @interface /interface/getCatMenu
+     * @method GET
      * @category interface
      * @foldnumber 10
      * @param {Number}   project_id 项目id，不能为空
-     * @param {String}   title 接口标题，不能为空
-     * @param {String}   path 接口请求路径，不能为空
-     * @param {String}   method 请求方式
-     * @param {Array}  [req_headers] 请求的header信息
-     * @param {String}  [req_headers[].name] 请求的header信息名
-     * @param {String}  [req_headers[].value] 请求的header信息值
-     * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
-     * @param {String}  [req_headers[].desc] header描述
-     * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-     * @param {Array} [req_params] name, desc两个参数
-     * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
-     * @param {String} [req_body_form[].name] 请求参数名
-     * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
-     * @param {String} [req_body_form[].type] 请求参数类型，有["text", "file"]两种
-     * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
-     * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
-     * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
-     * @param  {String} [desc] 接口描述 
      * @returns {Object} 
-     * @example ./api/interface/add.json
+     * @example ./api/interface/getCatMenu
      */
-    async interUpload(ctx) {
-        let interData = ctx.request.body.interData;
-        let project_id = ctx.request.body.project_id;
-        let request = interData.requests;
-        let data1 = [];
-        let catid = ctx.request.body.catid;
-        
-        let auth = await this.checkAuth(project_id, 'project', 'danger');
-        if (!auth) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
-        }
-        if (!project_id) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
-        }
-        if (!catid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '分类id不能为空');
-        }
-        
-        const len = request.length;
-        let successNum = len;
-        
-        if(request &&len){
-            for(let i = 0;i<len;i++){
-                try {
-                    let path = url.parse(request[i].url.replace(/{{(\w+)}}/,'')).path;
-                    let reg = /^(\w+):\/\/([^\/:]*)(?::(\d+))?\/([^\/\?]*)(\/.*)/;
-                    // let path = request[i].url;
-                    // let result = path.match(reg);
-                    // if(result){
-                    //     path = result[4]+ result[5];
-                    //     path = path.split('?')[0].replace(/{{(\w+)}}/,'').replace(/\/$/,'');
-                    //     if(path.indexOf("/") > 0){
-                    //         path = '/'+ path;
-                    //     }
-                    // }else{
-                    //     // path.replace(/\{\{\ [0-9a-zA-Z-_]* }\}/g,'');
-                    //     path = path.replace(/{{(\w+)}}/,'');
-                    //     if(path.indexOf("/") > 0){
-                    //         path = '/'+ path;
-                    //     }
-                    // }
-                    let title = request[i].name;
-                    if(reg.test(request[i].name)){
-                        title = path;
-                    }
-                    let inter = {
-                        project_id: project_id,
-                        title: title,
-                        path: path,
-                        method: request[i].method,
-                        req_headers: '',
-                        // req_body_type: request[i].dataMode,
-                        req_params: '',
-                        req_body_form: '',
-                        req_body_other: '',
-                        res_body_type: 'json',
-                        res_body: '',
-                        desc: request[i].description
-                    };
-                    console.log(inter.path);
-                    //  req_body_type   req_body_form
-                    if(request[i].dataMode){
-                        // console.log(i);
-                        if(request[i].dataMode === 'params' || request[i].dataMode==='urlencoded'){
-                            inter.req_body_type = 'form';
-                            inter.req_body_form = [];
-                            const data = request[i].data;
-                            for(let item in data){
-                                inter.req_body_form.push({
-                                    name: data[item].key,
-                                    value: data[item].value,
-                                    type: data[item].type
-                                });
-                            }
-                        }else if(request[i].dataMode === 'raw'){
-                            inter.req_body_form = [];
-                            // console.log(request[i].headers.inedxOf('application/json')>-1);
-                            if(request[i].headers&&request[i].headers.indexOf('application/json')>-1){
-                                inter.req_body_type = 'json';
-                            }else{
-                                inter.req_body_type = 'raw';
-                            }
-                            inter.req_body_other = request[i].rawModeData;
-                        }else if(request[i].dataMode === 'binary'){
-                            
-                            inter.req_body_type = 'file';
-                            inter.req_body_other = request[i].rawModeData;
-                        }
-                    }
-                    // req_params
-                    if(request[i].queryParams){
-                        inter.req_params = [];
-                        const queryParams = request[i].queryParams;
-                        for(let item in queryParams){
-                            inter.req_params.push({
-                                name: queryParams[item].key,
-                                desc: queryParams[item].description,
-                                required: queryParams[item].enable
-                            });
-                        }
-                    }
-
-                    // req_headers
-                    if(request[i].headerData){
-                        inter.req_headers = [];
-                        const headerData = request[i].headerData;
-                        for(let item in headerData){
-                            inter.req_headers.push({
-                                name: headerData[item].key,
-                                value: headerData[item].value,
-                                required: headerData[item].enable,
-                                desc: headerData[item].description
-                            });
-                        }
-                    }
-                    if (!inter.project_id) {
-                        // return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
-                        continue;
-                    }
-                    if (!inter.path) {
-                        // return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
-                        continue;
-                    }
-                    if (!yapi.commons.verifyPath(inter.path)) {
-                        successNum--;
-                        // return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
-                        continue;
-                    }
-                    let checkRepeat = await this.Model.checkRepeat(inter.project_id, inter.path, inter.method);
-
-                    if (checkRepeat > 0) {
-                        successNum--;
-                        // return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + inter.path + '[' + inter.method + ']');
-                        continue;
-                    }
-
-                    
-                    let data = {
-                        ...inter,
-                        catid: catid,
-                        uid: this.getUid(),
-                        add_time: yapi.commons.time(),
-                        up_time: yapi.commons.time()
-                    };
-                    if ( data.req_params.length > 0) {
-                        data.type = 'var';
-                        data.req_params = data.req_params;
-                    } else {
-                        data.type = 'static';
-                    }
-                    // data1.push(data);
-                    // console.log(data);
-                    let res = await this.Model.save(data);
-                    // return ctx.body = yapi.commons.resReturn(res);
-                }catch(e){
-                    // ctx.body = yapi.commons.resReturn(e.message);
-                    successNum--;
-                }
-            }
-        }
-        
-        try{
-            if(successNum){
-                this.catModel.get(catid).then((cate) => {
-                    let username = this.getUsername();
-                    yapi.commons.saveLog({
-                        content: `用户 "${username}" 为分类 "${cate.name}" 成功导入了 ${successNum} 个接口`,
-                        type: 'project',
-                        uid: this.getUid(),
-                        username: username,
-                        typeid: project_id
-                    });
-                });
-            }
-            
-        }catch(e){
-            
-        }
-        
-        return ctx.body = yapi.commons.resReturn(successNum);
-    }
-
-    
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
         if(!project_id){
@@ -833,8 +632,6 @@ class interfaceController extends baseController {
         }catch(e){
             yapi.commons.resReturn(null, 400, e.message);
         }
-        
-        
     }
 
     sendNotice(projectId, data) {
