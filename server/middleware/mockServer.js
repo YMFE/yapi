@@ -1,13 +1,12 @@
-import yapi from '../yapi.js';
-import projectModel from '../models/project.js';
-import interfaceModel from '../models/interface.js';
-import mockExtra from '../../common/mock-extra.js';
-import _ from 'underscore';
-import Mock from 'mockjs';
+const yapi = require('../yapi.js');
+const projectModel = require('../models/project.js');
+const interfaceModel = require('../models/interface.js');
+const mockExtra = require('../../common/mock-extra.js');
+const _ = require('underscore');
+const Mock = require('mockjs');
 
 
 function matchApi(apiPath, apiRule) {
-    let apiPaths = apiPath.split("/");
     let apiRules = apiRule.split("/");
     if (apiPaths.length !== apiRules.length) {
         return false;
@@ -97,8 +96,6 @@ module.exports = async (ctx, next) => {
                         body: ctx.request.body
                     }
                 );
-                console.log(interfaceData.res_body);
-                console.log(res)
                 return ctx.body = Mock.mock(res);
             } catch (e) {
                 yapi.commons.log(e, 'error')
