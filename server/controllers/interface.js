@@ -611,9 +611,7 @@ class interfaceController extends baseController {
         }
     }
 
-<<<<<<< HEAD
-    
-=======
+
         /**
      * 获取分类列表
      * @interface /interface/getCatMenu
@@ -624,7 +622,7 @@ class interfaceController extends baseController {
      * @returns {Object} 
      * @example ./api/interface/getCatMenu
      */
->>>>>>> 8e1c11b8e6727c5440797e6e5a3b510d0d5a0984
+
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
         if(!project_id){
