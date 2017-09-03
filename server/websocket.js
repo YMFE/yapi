@@ -1,5 +1,5 @@
-import koaRouter from 'koa-router';
-import interfaceController from './controllers/interface.js';
+const koaRouter = require('koa-router');
+const interfaceController = require('./controllers/interface.js');
 const router = koaRouter();
 
 function websocket(app) {

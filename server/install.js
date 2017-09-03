@@ -1,9 +1,9 @@
-import fs from 'fs-extra';
-import yapi from './yapi.js';
-import commons from './utils/commons';
-import dbModule from './utils/db.js';
-import userModel from './models/user.js';
-import mongoose from 'mongoose';
+const fs = require('fs-extra');
+const yapi = require('./yapi.js');
+const commons = require('./utils/commons');
+const dbModule = require('./utils/db.js');
+const userModel = require('./models/user.js');
+const mongoose = require('mongoose');
 
 yapi.commons = commons;
 yapi.connect = dbModule.connect();

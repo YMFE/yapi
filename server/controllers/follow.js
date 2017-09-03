@@ -1,7 +1,7 @@
-import yapi from '../yapi.js';
-import baseController from './base.js';
-import followModel from '../models/follow';
-import projectModel from '../models/project';
+const yapi = require('../yapi.js');
+const baseController = require('./base.js');
+const followModel = require('../models/follow');
+const projectModel = require('../models/project');
 
 class followController extends baseController {
     constructor(ctx) {

@@ -1,7 +1,7 @@
-import logModel from '../models/log.js';
-import yapi from '../yapi.js';
-import baseController from './base.js';
-import groupModel from '../models/group';
+const logModel = require('../models/log.js');
+const yapi = require('../yapi.js');
+const baseController = require('./base.js');
+const groupModel = require('../models/group');
 
 class logController extends baseController {
     constructor(ctx) {
