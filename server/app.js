@@ -1,16 +1,14 @@
-import yapi from './yapi.js';
-import commons from './utils/commons';
+const yapi = require('./yapi.js');
+const commons = require('./utils/commons');
 yapi.commons = commons;
-import dbModule from './utils/db.js';
-import mockServer from './middleware/mockServer.js';
-import Koa from 'koa';
-import koaStatic from 'koa-static';
-import bodyParser from 'koa-bodyparser';
-import router from './router.js';
-import websockify from 'koa-websocket';
-import websocket from './websocket.js'
-
-var compress = require('koa-compress')
+const dbModule = require('./utils/db.js');
+const mockServer = require('./middleware/mockServer.js');
+const Koa = require('koa');
+const koaStatic = require('koa-static');
+const bodyParser = require('koa-bodyparser');
+const router = require('./router.js');
+const websockify = require('koa-websocket');
+const websocket = require('./websocket.js');
 
 yapi.connect = dbModule.connect();    
 const app = websockify(new Koa());
@@ -24,11 +22,6 @@ app.use(router.allowedMethods());
 
 websocket(app);
 
-app.use(compress({
-  threshold: 50480,
-  flush: require('zlib').Z_SYNC_FLUSH
-}))
-
 app.use( async (ctx, next) => {
     if( /^\/(?!api)[a-zA-Z0-9\/\-_]*$/.test(ctx.path) ){
         ctx.path = "/"
@@ -37,6 +30,16 @@ app.use( async (ctx, next) => {
         await next()
     }
     
+})
+
+app.use( async (ctx, next)=>{
+    if(ctx.path.indexOf('/prd') === 0){
+        if(yapi.commons.fileExist( yapi.path.join(yapi.WEBROOT, 'static', ctx.path+'.gz') )){
+            ctx.set('Content-Encoding', 'gzip')
+            ctx.path = ctx.path + '.gz';            
+        }
+    }
+    await next()
 })
 app.use(koaStatic(
     yapi.path.join(yapi.WEBROOT, 'static'),

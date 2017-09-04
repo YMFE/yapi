@@ -1,4 +1,4 @@
-import baseModel from './base.js';
+const baseModel = require('./base.js');
 
 class userModel extends baseModel {
     getName() {

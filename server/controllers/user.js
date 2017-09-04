@@ -1,13 +1,13 @@
-import userModel from '../models/user.js';
-import yapi from '../yapi.js';
-import baseController from './base.js';
-import request from 'request';
-import common from '../utils/commons.js';
+const userModel = require('../models/user.js');
+const yapi = require('../yapi.js');
+const baseController = require('./base.js');
+const request = require('request');
+const common = require('../utils/commons.js');
 
-import interfaceModel from '../models/interface.js'
-import groupModel from '../models/group.js'
-import projectModel from '../models/project.js'
-import avatarModel from '../models/avatar.js'
+const interfaceModel = require('../models/interface.js');
+const groupModel = require('../models/group.js');
+const projectModel = require('../models/project.js');
+const avatarModel = require('../models/avatar.js');
 
 const jwt = require('jsonwebtoken');
 
