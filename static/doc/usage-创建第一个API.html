@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -63,10 +69,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content">
+                <div class="ydoc-container-content ">
                     
                     
-                    <div class="content-left " role="complementary">
+                    <div class="content-left staticsidenav" role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -136,7 +142,7 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body " role="main">
+                    <div class="content-right markdown-body use-sidebar" role="main">
 
                          <h2 class="subject" id="起步">起步 <a class="hashlink" href="#起步">#</a></h2><h3 class="subject" id="创建API">创建API <a class="hashlink" href="#创建API">#</a></h3><p>注册新用户或使用 QSSO 登录。</p>
 <p>新用户进入 YApi 时没有任何权限，只能浏览公开项目，想要创建 API 应联系 <code>组长</code> 将你添加到某分组或某项目中。
@@ -153,10 +159,10 @@
 </li></ul>
 <h3 class="subject" id="项目详情页面">项目详情页面 <a class="hashlink" href="#项目详情页面">#</a></h3><h4 class="subject" id="添加接口分类">添加接口分类 <a class="hashlink" href="#添加接口分类">#</a></h4><p><img src="./images/interface_add_cat.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center /></p>
 <p>添加完成后可以在左侧列表看到新添加的接口分类</p>
-<h4 class="subject" id="4.2 添加接口">4.2 添加接口 <a class="hashlink" href="#4.2 添加接口">#</a></h4><p>鼠标移动到接口分类的菜单icon，点击添加接口</p>
+<h4 class="subject" id="4.2_添加接口">4.2 添加接口 <a class="hashlink" href="#4.2_添加接口">#</a></h4><p>鼠标移动到接口分类的菜单icon，点击添加接口</p>
 <p><img src="./images/interface_add.png" width="400"  style="margin:0px auto;display:block;" alt="图片名称" align=center /></p>
-<h4 class="subject" id="4.3 接口编辑">4.3 接口编辑 <a class="hashlink" href="#4.3 接口编辑">#</a></h4><p>添加完接口点击新添加的接口，跳转到接口预览页面，可看到刚才填写的信息。接口的详细信息点击编辑功能进行添加</p>
-<h4 class="subject" id="4.4 测试接口">4.4 测试接口 <a class="hashlink" href="#4.4 测试接口">#</a></h4><p>点击运行tab,可进入到接口测试页面，首先安装chrome crossRequest扩展，才可正常使用此功能
+<h4 class="subject" id="4.3_接口编辑">4.3 接口编辑 <a class="hashlink" href="#4.3_接口编辑">#</a></h4><p>添加完接口点击新添加的接口，跳转到接口预览页面，可看到刚才填写的信息。接口的详细信息点击编辑功能进行添加</p>
+<h4 class="subject" id="4.4_测试接口">4.4 测试接口 <a class="hashlink" href="#4.4_测试接口">#</a></h4><p>点击运行tab,可进入到接口测试页面，首先安装chrome crossRequest扩展，才可正常使用此功能
 <img src="./images/interface_run.png" width="800"  style="margin:0px auto;display:block;" alt="图片名称" align=center />
 点击保存按钮可把当前测试保存到测试集，方便下次调试</p>
 
@@ -183,7 +189,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -207,8 +213,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -216,7 +222,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }

@@ -1,0 +1,140 @@
+'use strict';
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baseModel = require('./base.js');
+
+var userModel = function (_baseModel) {
+    (0, _inherits3.default)(userModel, _baseModel);
+
+    function userModel() {
+        (0, _classCallCheck3.default)(this, userModel);
+        return (0, _possibleConstructorReturn3.default)(this, (userModel.__proto__ || (0, _getPrototypeOf2.default)(userModel)).apply(this, arguments));
+    }
+
+    (0, _createClass3.default)(userModel, [{
+        key: 'getName',
+        value: function getName() {
+            return 'user';
+        }
+    }, {
+        key: 'getSchema',
+        value: function getSchema() {
+            return {
+                username: {
+                    type: String,
+                    required: true
+                },
+                password: {
+                    type: String,
+                    required: true
+                },
+                email: {
+                    type: String,
+                    required: true
+                },
+                passsalt: String,
+                role: String,
+                add_time: Number,
+                up_time: Number,
+                type: { type: String, enum: ['site', 'third'], default: "site" //site用户是网站注册用户, third是第三方登录过来的用户
+                } };
+        }
+    }, {
+        key: 'save',
+        value: function save(data) {
+            var user = new this.model(data);
+            return user.save();
+        }
+    }, {
+        key: 'checkRepeat',
+        value: function checkRepeat(email) {
+            return this.model.count({
+                email: email
+            });
+        }
+    }, {
+        key: 'list',
+        value: function list() {
+            return this.model.find().select('_id username email role type  add_time up_time').exec(); //显示id name email role 
+        }
+    }, {
+        key: 'findByUids',
+        value: function findByUids(uids) {
+            return this.model.find({
+                _id: { $in: uids }
+            }).select('_id username email role type  add_time up_time').exec();
+        }
+    }, {
+        key: 'listWithPaging',
+        value: function listWithPaging(page, limit) {
+            page = parseInt(page);
+            limit = parseInt(limit);
+            return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role type  add_time up_time').exec();
+        }
+    }, {
+        key: 'listCount',
+        value: function listCount() {
+            return this.model.count();
+        }
+    }, {
+        key: 'findByEmail',
+        value: function findByEmail(email) {
+            return this.model.findOne({ email: email });
+        }
+    }, {
+        key: 'findById',
+        value: function findById(id) {
+            return this.model.findOne({
+                _id: id
+            });
+        }
+    }, {
+        key: 'del',
+        value: function del(id) {
+            return this.model.deleteOne({
+                _id: id
+            });
+        }
+    }, {
+        key: 'update',
+        value: function update(id, data) {
+            return this.model.update({
+                _id: id
+            }, data);
+        }
+    }, {
+        key: 'search',
+        value: function search(keyword) {
+            return this.model.find({
+                $or: [{ email: new RegExp(keyword, 'i') }, { username: new RegExp(keyword, 'i') }]
+            }, {
+                passsalt: 0,
+                password: 0
+            }).limit(10);
+        }
+    }]);
+    return userModel;
+}(baseModel);
+
+module.exports = userModel;
