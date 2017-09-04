@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
 import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
+import Qsso from  '../../components/Qsso/Qsso.js'
 
 const HomeGuest = () => (
   <div className="g-body">
@@ -180,7 +181,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if (window.QSSO && document.getElementById('qsso-login')) window.QSSO.attach('qsso-login', '/api/user/login_by_token')
+    Qsso.attach('qsso-login', '/api/user/login_by_token')
   }
   static propTypes = {
     introList: PropTypes.array,
