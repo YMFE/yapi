@@ -25,12 +25,12 @@
             <div class="ydoc-container-content">
                 <div class="static-code-content" role="main">
                 <pre class="brush: js;">
-                import interfaceColModel from '../models/interfaceCol.js';
-import interfaceCaseModel from '../models/interfaceCase.js';
-import interfaceModel from '../models/interface.js';
-import projectModel from '../models/project.js';
-import baseController from './base.js';
-import yapi from '../yapi.js';
+                const interfaceColModel = require('../models/interfaceCol.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
+const interfaceModel = require('../models/interface.js');
+const projectModel = require('../models/project.js');
+const baseController = require('./base.js');
+const yapi = require('../yapi.js');
 
 class interfaceColController extends baseController{
     constructor(ctx) {
