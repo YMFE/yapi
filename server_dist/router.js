@@ -1,0 +1,381 @@
+'use strict';
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var koaRouter = require('koa-router');
+var interfaceController = require('./controllers/interface.js');
+var groupController = require('./controllers/group.js');
+var userController = require('./controllers/user.js');
+var interfaceColController = require('./controllers/interfaceCol.js');
+
+var yapi = require('./yapi.js');
+var projectController = require('./controllers/project.js');
+var logController = require('./controllers/log.js');
+var followController = require('./controllers/follow.js');
+
+var router = koaRouter();
+
+var authLevel = {
+	admin: 0,
+	owner: 10,
+	dev: 20,
+	member: 30,
+	guest: 100
+};
+
+var INTERFACE_CONFIG = {
+	interface: {
+		prefix: '/interface/',
+		controller: interfaceController
+	},
+	user: {
+		prefix: '/user/',
+		controller: userController
+	},
+	group: {
+		prefix: '/group/',
+		controller: groupController
+	},
+	project: {
+		prefix: '/project/',
+		controller: projectController
+	},
+	log: {
+		prefix: '/log/',
+		controller: logController
+	},
+	follow: {
+		prefix: '/follow/',
+		controller: followController
+	},
+	col: {
+		prefix: '/col/',
+		controller: interfaceColController
+	}
+};
+
+var routerConfig = {
+	"group": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "addMember",
+		"path": "add_member",
+		"method": "post"
+	}, {
+		"action": "changeMemberRole",
+		"path": "change_member_role",
+		"method": "post"
+	}, {
+		"action": "delMember",
+		"path": "del_member",
+		"method": "post"
+	}, {
+		"action": "getMemberList",
+		"path": "get_member_list",
+		"method": "get"
+	}, {
+		action: 'get',
+		path: 'get',
+		method: 'get'
+	}],
+	"user": [{
+		"action": "login",
+		"path": "login",
+		"method": "post"
+	}, {
+		"action": "reg",
+		"path": "reg",
+		"method": "post"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "findById",
+		"path": "find",
+		"method": "get"
+	}, {
+		"action": "update",
+		"path": "update",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "getLoginStatus",
+		"path": "status",
+		"method": "get"
+	}, {
+		"action": "logout",
+		"path": "logout",
+		"method": "get"
+	}, {
+		"action": "loginByToken",
+		"path": "login_by_token",
+		"method": "post"
+	}, {
+		"action": "changePassword",
+		"path": "change_password",
+		"method": "post"
+	}, {
+		"action": "search",
+		"path": "search",
+		"method": "get"
+	}, {
+		"action": "project",
+		"path": "project",
+		"method": "get"
+	}, {
+		"action": "avatar",
+		"path": "avatar",
+		"method": "get"
+	}, {
+		action: "uploadAvatar",
+		path: "upload_avatar",
+		method: "post"
+	}],
+	"project": [{
+		"action": "upSet",
+		"path": "upset",
+		"method": "post"
+	}, {
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "get",
+		"path": "get",
+		"method": "get"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "addMember",
+		"path": "add_member",
+		"method": "post"
+	}, {
+		"action": "delMember",
+		"path": "del_member",
+		"method": "post"
+	}, {
+		"action": "changeMemberRole",
+		"path": "change_member_role",
+		"method": "post"
+	}, {
+		"action": "getMemberList",
+		"path": "get_member_list",
+		"method": "get"
+	}, {
+		"action": "search",
+		"path": "search",
+		"method": "get"
+	}, {
+		"action": "download",
+		"path": "download",
+		"method": "get"
+	}],
+	"interface": [{
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "getCatMenu",
+		"path": "getCatMenu",
+		"method": "get"
+	}, {
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "get",
+		"path": "get",
+		"method": "get"
+	}, {
+		"action": "up",
+		"path": "up",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}, {
+		"action": "interUpload",
+		"path": "interUpload",
+		"method": "post"
+	}, {
+		action: 'listByCat',
+		path: 'list_cat',
+		method: 'get'
+	}, {
+		action: 'listByMenu',
+		path: 'list_menu',
+		method: 'get'
+	}, {
+		action: 'addCat',
+		path: 'add_cat',
+		method: 'post'
+	}, {
+		action: 'upCat',
+		path: 'up_cat',
+		method: 'post'
+	}, {
+		action: 'delCat',
+		path: 'del_cat',
+		method: 'post'
+	}],
+	"log": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}],
+	"follow": [{
+		"action": "list",
+		"path": "list",
+		"method": "get"
+	}, {
+		"action": "add",
+		"path": "add",
+		"method": "post"
+	}, {
+		"action": "del",
+		"path": "del",
+		"method": "post"
+	}],
+	"col": [{
+		action: "addCol",
+		path: "add_col",
+		method: "post"
+	}, {
+		action: "list",
+		path: "list",
+		method: "get"
+	}, {
+		action: "getCaseList",
+		path: "case_list",
+		method: "get"
+	}, {
+		action: "addCase",
+		path: "add_case",
+		method: "post"
+	}, {
+		action: "upCase",
+		path: "up_case",
+		method: "post"
+	}, {
+		action: "getCase",
+		path: "case",
+		method: "get"
+	}, {
+		action: "upCol",
+		path: "up_col",
+		method: "post"
+	}, {
+		action: "upCaseIndex",
+		path: "up_col_index",
+		method: "post"
+	}, {
+		action: "delCol",
+		path: "del_col",
+		method: "get"
+	}, {
+		action: "delCase",
+		path: "del_case",
+		method: "get"
+	}]
+};
+
+var _loop = function _loop(ctrl) {
+	var actions = routerConfig[ctrl];
+	actions.forEach(function (item) {
+		createAction(ctrl, item.action, item.path, item.method);
+	});
+};
+
+for (var ctrl in routerConfig) {
+	_loop(ctrl);
+}
+
+/**
+ *
+ * @param {*} controller controller_name
+ * @param {*} path  request_path
+ * @param {*} method request_method , post get put delete ...
+ * @param {*} action controller_action_name
+ */
+function createAction(controller, action, path, method) {
+	var _this = this;
+
+	router[method]("/api" + INTERFACE_CONFIG[controller].prefix + path, function () {
+		var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ctx) {
+			var inst;
+			return _regenerator2.default.wrap(function _callee$(_context) {
+				while (1) {
+					switch (_context.prev = _context.next) {
+						case 0:
+							inst = new INTERFACE_CONFIG[controller].controller(ctx);
+							_context.next = 3;
+							return inst.init(ctx);
+
+						case 3:
+							if (!(inst.$auth === true)) {
+								_context.next = 8;
+								break;
+							}
+
+							_context.next = 6;
+							return inst[action].call(inst, ctx);
+
+						case 6:
+							_context.next = 9;
+							break;
+
+						case 8:
+							ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
+
+						case 9:
+						case 'end':
+							return _context.stop();
+					}
+				}
+			}, _callee, _this);
+		}));
+
+		return function (_x) {
+			return _ref.apply(this, arguments);
+		};
+	}());
+}
+
+module.exports = router;
