@@ -28,23 +28,12 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
-var _follow = require('../models/follow');
-
-var _follow2 = _interopRequireDefault(_follow);
-
-var _project = require('../models/project');
-
-var _project2 = _interopRequireDefault(_project);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var yapi = require('../yapi.js');
+var baseController = require('./base.js');
+var followModel = require('../models/follow');
+var projectModel = require('../models/project');
 
 var followController = function (_baseController) {
     (0, _inherits3.default)(followController, _baseController);
@@ -54,8 +43,8 @@ var followController = function (_baseController) {
 
         var _this = (0, _possibleConstructorReturn3.default)(this, (followController.__proto__ || (0, _getPrototypeOf2.default)(followController)).call(this, ctx));
 
-        _this.Model = _yapi2.default.getInst(_follow2.default);
-        _this.projectModel = _yapi2.default.getInst(_project2.default);
+        _this.Model = yapi.getInst(followModel);
+        _this.projectModel = yapi.getInst(projectModel);
         return _this;
     }
 
@@ -87,7 +76,7 @@ var followController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '用户id不能为空'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '用户id不能为空'));
 
                             case 3:
                                 _context.prev = 3;
@@ -98,7 +87,7 @@ var followController = function (_baseController) {
                                 result = _context.sent;
 
 
-                                ctx.body = _yapi2.default.commons.resReturn({
+                                ctx.body = yapi.commons.resReturn({
                                     list: result
                                 });
                                 _context.next = 13;
@@ -108,7 +97,7 @@ var followController = function (_baseController) {
                                 _context.prev = 10;
                                 _context.t0 = _context['catch'](3);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context.t0.message);
 
                             case 13:
                             case 'end':
@@ -152,7 +141,7 @@ var followController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+                                return _context2.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
 
                             case 3:
                                 _context2.next = 5;
@@ -166,7 +155,7 @@ var followController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context2.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目未关注'));
+                                return _context2.abrupt('return', ctx.body = yapi.commons.resReturn(null, 401, '项目未关注'));
 
                             case 8:
                                 _context2.prev = 8;
@@ -176,7 +165,7 @@ var followController = function (_baseController) {
                             case 11:
                                 result = _context2.sent;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                ctx.body = yapi.commons.resReturn(result);
                                 _context2.next = 18;
                                 break;
 
@@ -184,7 +173,7 @@ var followController = function (_baseController) {
                                 _context2.prev = 15;
                                 _context2.t0 = _context2['catch'](8);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context2.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context2.t0.message);
 
                             case 18:
                             case 'end':
@@ -225,7 +214,7 @@ var followController = function (_baseController) {
                             case 0:
                                 params = ctx.request.body;
 
-                                params = _yapi2.default.commons.handleParams(params, {
+                                params = yapi.commons.handleParams(params, {
                                     projectid: 'number'
                                 });
 
@@ -236,7 +225,7 @@ var followController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '项目id不能为空'));
+                                return _context3.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
 
                             case 5:
                                 _context3.next = 7;
@@ -250,7 +239,7 @@ var followController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context3.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '项目已关注'));
+                                return _context3.abrupt('return', ctx.body = yapi.commons.resReturn(null, 401, '项目已关注'));
 
                             case 10:
                                 _context3.prev = 10;
@@ -272,8 +261,8 @@ var followController = function (_baseController) {
                             case 17:
                                 result = _context3.sent;
 
-                                result = _yapi2.default.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                result = yapi.commons.fieldSelect(result, ['_id', 'uid', 'projectid', 'projectname', 'icon', 'color']);
+                                ctx.body = yapi.commons.resReturn(result);
                                 _context3.next = 25;
                                 break;
 
@@ -281,7 +270,7 @@ var followController = function (_baseController) {
                                 _context3.prev = 22;
                                 _context3.t0 = _context3['catch'](10);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context3.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context3.t0.message);
 
                             case 25:
                             case 'end':
@@ -299,6 +288,6 @@ var followController = function (_baseController) {
         }()
     }]);
     return followController;
-}(_base2.default);
+}(baseController);
 
 module.exports = followController;

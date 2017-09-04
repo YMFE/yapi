@@ -20,11 +20,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baseModel = require('./base.js');
 
 var userModel = function (_baseModel) {
     (0, _inherits3.default)(userModel, _baseModel);
@@ -137,6 +135,6 @@ var userModel = function (_baseModel) {
         }
     }]);
     return userModel;
-}(_base2.default);
+}(baseModel);
 
 module.exports = userModel;

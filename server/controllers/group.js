@@ -1,11 +1,11 @@
-import groupModel from '../models/group.js';
-import yapi from '../yapi.js';
-import baseController from './base.js';
-import projectModel from '../models/project.js';
-import userModel from '../models/user.js';
-import interfaceModel from '../models/interface.js';
-import interfaceColModel from '../models/interfaceCol.js';
-import interfaceCaseModel from '../models/interfaceCase.js';
+const groupModel = require('../models/group.js');
+const yapi = require('../yapi.js');
+const baseController = require('./base.js');
+const projectModel = require('../models/project.js');
+const userModel = require('../models/user.js');
+const interfaceModel = require('../models/interface.js');
+const interfaceColModel = require('../models/interfaceCol.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
 
 class groupController extends baseController {
     constructor(ctx) {

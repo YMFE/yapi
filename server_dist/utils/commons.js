@@ -8,31 +8,14 @@ var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _fsExtra = require('fs-extra');
-
-var _fsExtra2 = _interopRequireDefault(_fsExtra);
-
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _sha = require('sha1');
-
-var _sha2 = _interopRequireDefault(_sha);
-
-var _log = require('../models/log.js');
-
-var _log2 = _interopRequireDefault(_log);
-
-var _json = require('json5');
-
-var _json2 = _interopRequireDefault(_json);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fs = require('fs-extra');
+var path = require('path');
+var yapi = require('../yapi.js');
+var sha1 = require('sha1');
+var logModel = require('../models/log.js');
+var json5 = require('json5');
 
 exports.resReturn = function (data, num, errmsg) {
     num = num || 0;
@@ -74,7 +57,7 @@ exports.log = function (msg, type) {
     var year = date.getFullYear();
     var month = date.getMonth();
 
-    var logfile = _path2.default.join(_yapi2.default.WEBROOT_LOG, year + '-' + month + '.log');
+    var logfile = path.join(yapi.WEBROOT_LOG, year + '-' + month + '.log');
 
     if ((typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object') {
         if (msg instanceof Error) msg = msg.message;else msg = (0, _stringify2.default)(msg);
@@ -82,14 +65,14 @@ exports.log = function (msg, type) {
 
     var data = new Date().toLocaleTimeString() + '\t|\t' + type + '\t|\t' + msg;
 
-    _fsExtra2.default.writeFileSync(logfile, data, {
+    fs.writeFileSync(logfile, data, {
         flag: 'w+'
     });
 };
 
 exports.fileExist = function (filePath) {
     try {
-        return _fsExtra2.default.statSync(filePath).isFile();
+        return fs.statSync(filePath).isFile();
     } catch (err) {
         return false;
     }
@@ -119,7 +102,7 @@ exports.rand = function (min, max) {
 
 exports.json_parse = function (json) {
     try {
-        return _json2.default.parse(json);
+        return json5.parse(json);
     } catch (e) {
         return json;
     }
@@ -130,7 +113,7 @@ exports.randStr = function () {
 };
 
 exports.generatePassword = function (password, passsalt) {
-    return (0, _sha2.default)(password + (0, _sha2.default)(passsalt));
+    return sha1(password + sha1(passsalt));
 };
 
 exports.expireDate = function (day) {
@@ -140,26 +123,26 @@ exports.expireDate = function (day) {
 };
 
 exports.sendMail = function (options, cb) {
-    if (!_yapi2.default.mail) return false;
+    if (!yapi.mail) return false;
     options.subject = options.subject ? options.subject + '-yapi平台' : 'ypai平台';
 
     cb = cb || function (err) {
         if (err) {
-            _yapi2.default.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
+            yapi.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
         } else {
-            _yapi2.default.commons.log('send mail ' + options.to + ' success');
+            yapi.commons.log('send mail ' + options.to + ' success');
         }
     };
 
     try {
-        _yapi2.default.mail.sendMail({
-            from: _yapi2.default.WEBCONFIG.mail.from,
+        yapi.mail.sendMail({
+            from: yapi.WEBCONFIG.mail.from,
             to: options.to,
             subject: options.subject,
             html: options.contents
         }, cb);
     } catch (e) {
-        _yapi2.default.commons.log(e.message, 'error');
+        yapi.commons.log(e.message, 'error');
         console.error(e.message); // eslint-disable-line
     }
 };
@@ -260,7 +243,7 @@ exports.handleParams = function (params, keys) {
 
 exports.saveLog = function (logData) {
     try {
-        var logInst = _yapi2.default.getInst(_log2.default);
+        var logInst = yapi.getInst(logModel);
         var data = {
             content: logData.content,
             type: logData.type,
@@ -270,6 +253,6 @@ exports.saveLog = function (logData) {
         };
         logInst.save(data).then();
     } catch (e) {
-        _yapi2.default.commons.log(e, 'error'); // eslint-disable-line
+        yapi.commons.log(e, 'error'); // eslint-disable-line
     }
 };

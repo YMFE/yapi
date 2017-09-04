@@ -32,43 +32,18 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _user = require('../models/user.js');
-
-var _user2 = _interopRequireDefault(_user);
-
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
-var _request2 = require('request');
-
-var _request3 = _interopRequireDefault(_request2);
-
-var _commons = require('../utils/commons.js');
-
-var _commons2 = _interopRequireDefault(_commons);
-
-var _interface = require('../models/interface.js');
-
-var _interface2 = _interopRequireDefault(_interface);
-
-var _group = require('../models/group.js');
-
-var _group2 = _interopRequireDefault(_group);
-
-var _project = require('../models/project.js');
-
-var _project2 = _interopRequireDefault(_project);
-
-var _avatar = require('../models/avatar.js');
-
-var _avatar2 = _interopRequireDefault(_avatar);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var userModel = require('../models/user.js');
+var yapi = require('../yapi.js');
+var baseController = require('./base.js');
+var _request = require('request');
+var common = require('../utils/commons.js');
+
+var interfaceModel = require('../models/interface.js');
+var groupModel = require('../models/group.js');
+var projectModel = require('../models/project.js');
+var avatarModel = require('../models/avatar.js');
 
 var jwt = require('jsonwebtoken');
 
@@ -80,7 +55,7 @@ var userController = function (_baseController) {
 
         var _this = (0, _possibleConstructorReturn3.default)(this, (userController.__proto__ || (0, _getPrototypeOf2.default)(userController)).call(this, ctx));
 
-        _this.Model = _yapi2.default.getInst(_user2.default);
+        _this.Model = yapi.getInst(userModel);
         return _this;
     }
     /**
@@ -106,7 +81,7 @@ var userController = function (_baseController) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 //登录
-                                userInst = _yapi2.default.getInst(_user2.default); //创建user实体
+                                userInst = yapi.getInst(userModel); //创建user实体
 
                                 email = ctx.request.body.email;
                                 password = ctx.request.body.password;
@@ -116,7 +91,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'email不能为空'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'email不能为空'));
 
                             case 5:
                                 if (password) {
@@ -124,7 +99,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空'));
 
                             case 7:
                                 _context.next = 9;
@@ -138,29 +113,29 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 404, '该用户不存在'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 404, '该用户不存在'));
 
                             case 14:
-                                if (!(_yapi2.default.commons.generatePassword(password, result.passsalt) === result.password)) {
+                                if (!(yapi.commons.generatePassword(password, result.passsalt) === result.password)) {
                                     _context.next = 19;
                                     break;
                                 }
 
                                 this.setLoginCookie(result._id, result.passsalt);
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn({
                                     username: result.username,
                                     role: result.role,
                                     uid: result._id,
                                     email: result.email,
                                     add_time: result.add_time,
                                     up_time: result.up_time,
-                                    server_ip: _yapi2.default.WEBCONFIG.server_ip,
+                                    server_ip: yapi.WEBCONFIG.server_ip,
                                     type: 'site'
                                 }, 0, 'logout success...'));
 
                             case 19:
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 405, '密码错误'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 405, '密码错误'));
 
                             case 20:
                             case 'end':
@@ -197,7 +172,7 @@ var userController = function (_baseController) {
                             case 0:
                                 ctx.cookies.set('_yapi_token', null);
                                 ctx.cookies.set('_yapi_uid', null);
-                                ctx.body = _yapi2.default.commons.resReturn('ok');
+                                ctx.body = yapi.commons.resReturn('ok');
 
                             case 3:
                             case 'end':
@@ -225,7 +200,7 @@ var userController = function (_baseController) {
             return {
                 request: function request(token) {
                     return new _promise2.default(function (resolve, reject) {
-                        (0, _request3.default)('http://qsso.corp.qunar.com/api/verifytoken.php?token=' + token, function (error, response, body) {
+                        _request('http://qsso.corp.qunar.com/api/verifytoken.php?token=' + token, function (error, response, body) {
                             if (!error && response.statusCode == 200) {
                                 var result = JSON.parse(body);
                                 if (result && result.ret === true) {
@@ -270,7 +245,7 @@ var userController = function (_baseController) {
 
 
                                 if (login === true) {
-                                    _yapi2.default.commons.log('login success');
+                                    yapi.commons.log('login success');
                                     ctx.redirect('/group');
                                 }
                                 _context3.next = 16;
@@ -280,7 +255,7 @@ var userController = function (_baseController) {
                                 _context3.prev = 12;
                                 _context3.t0 = _context3['catch'](2);
 
-                                _yapi2.default.commons.log(_context3.t0.message, 'error');
+                                yapi.commons.log(_context3.t0.message, 'error');
                                 ctx.redirect('/');
 
                             case 16:
@@ -307,7 +282,7 @@ var userController = function (_baseController) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 user = void 0, data = void 0, passsalt = void 0;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 _context4.prev = 2;
                                 _context4.next = 5;
                                 return userInst.findByEmail(email);
@@ -320,15 +295,15 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                passsalt = _yapi2.default.commons.randStr();
+                                passsalt = yapi.commons.randStr();
                                 data = {
                                     username: username,
-                                    password: _yapi2.default.commons.generatePassword(passsalt, passsalt),
+                                    password: yapi.commons.generatePassword(passsalt, passsalt),
                                     email: email,
                                     passsalt: passsalt,
                                     role: 'member',
-                                    add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time(),
+                                    add_time: yapi.commons.time(),
+                                    up_time: yapi.commons.time(),
                                     type: 'third'
                                 };
                                 _context4.next = 11;
@@ -337,7 +312,7 @@ var userController = function (_baseController) {
                             case 11:
                                 user = _context4.sent;
 
-                                _yapi2.default.commons.sendMail({
+                                yapi.commons.sendMail({
                                     to: email,
                                     contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi\u5E73\u53F0\uFF0C\u4F60\u7684\u90AE\u7BB1\u8D26\u53F7\u662F\uFF1A' + email + '</p>'
                                 });
@@ -391,14 +366,14 @@ var userController = function (_baseController) {
                         switch (_context5.prev = _context5.next) {
                             case 0:
                                 params = ctx.request.body;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
 
                                 if (params.uid) {
                                     _context5.next = 4;
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context5.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 4:
                                 if (params.password) {
@@ -406,7 +381,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
+                                return _context5.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空'));
 
                             case 6:
                                 if (!(this.getRole() !== 'admin' && params.uid != this.getUid())) {
@@ -414,7 +389,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '没有权限'));
+                                return _context5.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, '没有权限'));
 
                             case 8:
                                 if (!(this.getRole() !== 'admin')) {
@@ -427,7 +402,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '旧密码不能为空'));
+                                return _context5.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '旧密码不能为空'));
 
                             case 11:
                                 _context5.next = 13;
@@ -436,18 +411,18 @@ var userController = function (_baseController) {
                             case 13:
                                 user = _context5.sent;
 
-                                if (!(_yapi2.default.commons.generatePassword(params.old_password, user.passsalt) !== user.password)) {
+                                if (!(yapi.commons.generatePassword(params.old_password, user.passsalt) !== user.password)) {
                                     _context5.next = 16;
                                     break;
                                 }
 
-                                return _context5.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '旧密码错误'));
+                                return _context5.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, '旧密码错误'));
 
                             case 16:
-                                passsalt = _yapi2.default.commons.randStr();
+                                passsalt = yapi.commons.randStr();
                                 data = {
-                                    up_time: _yapi2.default.commons.time(),
-                                    password: _yapi2.default.commons.generatePassword(params.password, passsalt),
+                                    up_time: yapi.commons.time(),
+                                    password: yapi.commons.generatePassword(params.password, passsalt),
                                     passsalt: passsalt
                                 };
                                 _context5.prev = 18;
@@ -457,7 +432,7 @@ var userController = function (_baseController) {
                             case 21:
                                 result = _context5.sent;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                ctx.body = yapi.commons.resReturn(result);
                                 _context5.next = 28;
                                 break;
 
@@ -465,7 +440,7 @@ var userController = function (_baseController) {
                                 _context5.prev = 25;
                                 _context5.t0 = _context5['catch'](18);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context5.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 401, _context5.t0.message);
 
                             case 28:
                             case 'end':
@@ -487,11 +462,11 @@ var userController = function (_baseController) {
             var token = jwt.sign({ uid: uid }, passsalt, { expiresIn: '7 days' });
 
             this.ctx.cookies.set('_yapi_token', token, {
-                expires: _yapi2.default.commons.expireDate(7),
+                expires: yapi.commons.expireDate(7),
                 httpOnly: true
             });
             this.ctx.cookies.set('_yapi_uid', uid, {
-                expires: _yapi2.default.commons.expireDate(7),
+                expires: yapi.commons.expireDate(7),
                 httpOnly: true
             });
         }
@@ -519,10 +494,10 @@ var userController = function (_baseController) {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 //注册
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
 
-                                params = _yapi2.default.commons.handleParams(params, {
+                                params = yapi.commons.handleParams(params, {
                                     username: 'string',
                                     password: 'string',
                                     email: 'string'
@@ -533,7 +508,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '邮箱不能为空'));
+                                return _context6.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '邮箱不能为空'));
 
                             case 5:
                                 if (params.password) {
@@ -541,7 +516,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '密码不能为空'));
+                                return _context6.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空'));
 
                             case 7:
                                 _context6.next = 9;
@@ -555,18 +530,18 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context6.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
+                                return _context6.abrupt('return', ctx.body = yapi.commons.resReturn(null, 401, '该email已经注册'));
 
                             case 12:
-                                passsalt = _yapi2.default.commons.randStr();
+                                passsalt = yapi.commons.randStr();
                                 data = {
                                     username: params.username,
-                                    password: _yapi2.default.commons.generatePassword(params.password, passsalt), //加密
+                                    password: yapi.commons.generatePassword(params.password, passsalt), //加密
                                     email: params.email,
                                     passsalt: passsalt,
                                     role: 'member',
-                                    add_time: _yapi2.default.commons.time(),
-                                    up_time: _yapi2.default.commons.time(),
+                                    add_time: yapi.commons.time(),
+                                    up_time: yapi.commons.time(),
                                     type: "site"
                                 };
 
@@ -584,7 +559,7 @@ var userController = function (_baseController) {
 
 
                                 this.setLoginCookie(user._id, user.passsalt);
-                                ctx.body = _yapi2.default.commons.resReturn({
+                                ctx.body = yapi.commons.resReturn({
                                     uid: user._id,
                                     email: user.email,
                                     username: user.username,
@@ -593,7 +568,7 @@ var userController = function (_baseController) {
                                     role: 'member',
                                     type: user.type
                                 });
-                                _yapi2.default.commons.sendMail({
+                                yapi.commons.sendMail({
                                     to: user.email,
                                     contents: '<h3>\u4EB2\u7231\u7684\u7528\u6237\uFF1A</h3><p>\u60A8\u597D\uFF0C\u611F\u8C22\u4F7F\u7528YApi,\u60A8\u7684\u8D26\u53F7 ' + params.email + ' \u5DF2\u7ECF\u6CE8\u518C\u6210\u529F</p>'
                                 });
@@ -604,7 +579,7 @@ var userController = function (_baseController) {
                                 _context6.prev = 24;
                                 _context6.t0 = _context6['catch'](15);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context6.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 401, _context6.t0.message);
 
                             case 27:
                             case 'end':
@@ -643,7 +618,7 @@ var userController = function (_baseController) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
                                 page = ctx.request.query.page || 1, limit = ctx.request.query.limit || 10;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 _context7.prev = 2;
                                 _context7.next = 5;
                                 return userInst.listWithPaging(page, limit);
@@ -655,7 +630,7 @@ var userController = function (_baseController) {
 
                             case 8:
                                 count = _context7.sent;
-                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                return _context7.abrupt('return', ctx.body = yapi.commons.resReturn({
                                     total: Math.ceil(count / limit),
                                     list: user
                                 }));
@@ -663,7 +638,7 @@ var userController = function (_baseController) {
                             case 12:
                                 _context7.prev = 12;
                                 _context7.t0 = _context7['catch'](2);
-                                return _context7.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context7.t0.message));
+                                return _context7.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, _context7.t0.message));
 
                             case 15:
                             case 'end':
@@ -701,7 +676,7 @@ var userController = function (_baseController) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
                                 _context8.prev = 0;
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 id = ctx.request.query.id;
 
                                 if (id) {
@@ -709,7 +684,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context8.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 5:
                                 _context8.next = 7;
@@ -723,10 +698,10 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, '不存在的用户'));
+                                return _context8.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, '不存在的用户'));
 
                             case 10:
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn({
+                                return _context8.abrupt('return', ctx.body = yapi.commons.resReturn({
                                     uid: result._id,
                                     username: result.username,
                                     email: result.email,
@@ -739,7 +714,7 @@ var userController = function (_baseController) {
                             case 13:
                                 _context8.prev = 13;
                                 _context8.t0 = _context8['catch'](0);
-                                return _context8.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, _context8.t0.message));
+                                return _context8.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, _context8.t0.message));
 
                             case 16:
                             case 'end':
@@ -783,10 +758,10 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 402, 'Without permission.'));
+                                return _context9.abrupt('return', ctx.body = yapi.commons.resReturn(null, 402, 'Without permission.'));
 
                             case 3:
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 id = ctx.request.body.id;
 
                                 if (id) {
@@ -794,7 +769,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context9.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context9.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 7:
                                 _context9.next = 9;
@@ -804,7 +779,7 @@ var userController = function (_baseController) {
                                 result = _context9.sent;
 
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                ctx.body = yapi.commons.resReturn(result);
                                 _context9.next = 16;
                                 break;
 
@@ -812,7 +787,7 @@ var userController = function (_baseController) {
                                 _context9.prev = 13;
                                 _context9.t0 = _context9['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context9.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context9.t0.message);
 
                             case 16:
                             case 'end':
@@ -856,7 +831,7 @@ var userController = function (_baseController) {
                                 params = ctx.request.body;
 
 
-                                params = _yapi2.default.commons.handleParams(params, {
+                                params = yapi.commons.handleParams(params, {
                                     username: 'string',
                                     email: 'string'
                                 });
@@ -866,10 +841,10 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '没有权限'));
+                                return _context10.abrupt('return', ctx.body = yapi.commons.resReturn(null, 401, '没有权限'));
 
                             case 5:
-                                userInst = _yapi2.default.getInst(_user2.default);
+                                userInst = yapi.getInst(userModel);
                                 id = params.uid;
 
                                 if (id) {
@@ -877,11 +852,11 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'uid不能为空'));
+                                return _context10.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空'));
 
                             case 9:
                                 data = {
-                                    up_time: _yapi2.default.commons.time()
+                                    up_time: yapi.commons.time()
                                 };
 
 
@@ -904,7 +879,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context10.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 401, '该email已经注册'));
+                                return _context10.abrupt('return', ctx.body = yapi.commons.resReturn(null, 401, '该email已经注册'));
 
                             case 18:
                                 _context10.next = 20;
@@ -914,7 +889,7 @@ var userController = function (_baseController) {
                                 result = _context10.sent;
 
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                ctx.body = yapi.commons.resReturn(result);
                                 _context10.next = 27;
                                 break;
 
@@ -922,7 +897,7 @@ var userController = function (_baseController) {
                                 _context10.prev = 24;
                                 _context10.t0 = _context10['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context10.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context10.t0.message);
 
                             case 27:
                             case 'end':
@@ -966,7 +941,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'basecode不能为空'));
+                                return _context11.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'basecode不能为空'));
 
                             case 4:
                                 pngPrefix = 'data:image/png;base64,';
@@ -995,7 +970,7 @@ var userController = function (_baseController) {
                                 break;
 
                             case 17:
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '仅支持jpeg和png格式的图片'));
+                                return _context11.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '仅支持jpeg和png格式的图片'));
 
                             case 18:
                                 strLength = basecode.length;
@@ -1005,17 +980,17 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context11.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, '图片大小不能超过200kb'));
+                                return _context11.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, '图片大小不能超过200kb'));
 
                             case 21:
-                                avatarInst = _yapi2.default.getInst(_avatar2.default);
+                                avatarInst = yapi.getInst(avatarModel);
                                 _context11.next = 24;
                                 return avatarInst.up(this.getUid(), basecode, type);
 
                             case 24:
                                 result = _context11.sent;
 
-                                ctx.body = _yapi2.default.commons.resReturn(result);
+                                ctx.body = yapi.commons.resReturn(result);
 
                                 _context11.next = 31;
                                 break;
@@ -1024,7 +999,7 @@ var userController = function (_baseController) {
                                 _context11.prev = 28;
                                 _context11.t0 = _context11['catch'](0);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 401, _context11.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 401, _context11.t0.message);
 
                             case 31:
                             case 'end':
@@ -1062,7 +1037,7 @@ var userController = function (_baseController) {
                             case 0:
                                 _context12.prev = 0;
                                 uid = ctx.query.uid ? ctx.query.uid : this.getUid();
-                                avatarInst = _yapi2.default.getInst(_avatar2.default);
+                                avatarInst = yapi.getInst(avatarModel);
                                 _context12.next = 5;
                                 return avatarInst.get(uid);
 
@@ -1071,7 +1046,7 @@ var userController = function (_baseController) {
                                 dataBuffer = void 0, type = void 0;
 
                                 if (!data || !data.basecode) {
-                                    dataBuffer = _yapi2.default.fs.readFileSync(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static/image/avatar.png'));
+                                    dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/image/avatar.png'));
                                     type = 'image/png';
                                 } else {
                                     type = data.type;
@@ -1131,15 +1106,15 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'No keyword.'));
+                                return _context13.abrupt('return', ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.'));
 
                             case 3:
-                                if (_yapi2.default.commons.validateSearchKeyword(q)) {
+                                if (yapi.commons.validateSearchKeyword(q)) {
                                     _context13.next = 5;
                                     break;
                                 }
 
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(void 0, 400, 'Bad query.'));
+                                return _context13.abrupt('return', ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.'));
 
                             case 5:
                                 _context13.next = 7;
@@ -1157,8 +1132,8 @@ var userController = function (_baseController) {
                                     key: 'up_time',
                                     alias: 'upTime'
                                 }];
-                                filteredRes = _commons2.default.filterRes(queryList, rules);
-                                return _context13.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(filteredRes, 0, 'ok'));
+                                filteredRes = common.filterRes(queryList, rules);
+                                return _context13.abrupt('return', ctx.body = yapi.commons.resReturn(filteredRes, 0, 'ok'));
 
                             case 11:
                             case 'end':
@@ -1206,7 +1181,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                interfaceInst = _yapi2.default.getInst(_interface2.default);
+                                interfaceInst = yapi.getInst(interfaceModel);
                                 _context14.next = 7;
                                 return interfaceInst.get(id);
 
@@ -1223,7 +1198,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                projectInst = _yapi2.default.getInst(_project2.default);
+                                projectInst = yapi.getInst(projectModel);
                                 _context14.next = 15;
                                 return projectInst.get(id);
 
@@ -1270,7 +1245,7 @@ var userController = function (_baseController) {
                                     break;
                                 }
 
-                                groupInst = _yapi2.default.getInst(_group2.default);
+                                groupInst = yapi.getInst(groupModel);
                                 _context14.next = 35;
                                 return groupInst.get(id);
 
@@ -1308,12 +1283,12 @@ var userController = function (_baseController) {
                                 }
 
                             case 49:
-                                return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result));
+                                return _context14.abrupt('return', ctx.body = yapi.commons.resReturn(result));
 
                             case 52:
                                 _context14.prev = 52;
                                 _context14.t0 = _context14['catch'](2);
-                                return _context14.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(result, 422, _context14.t0.message));
+                                return _context14.abrupt('return', ctx.body = yapi.commons.resReturn(result, 422, _context14.t0.message));
 
                             case 55:
                             case 'end':
@@ -1331,6 +1306,6 @@ var userController = function (_baseController) {
         }()
     }]);
     return userController;
-}(_base2.default);
+}(baseController);
 
 module.exports = userController;

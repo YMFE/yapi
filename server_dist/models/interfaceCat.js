@@ -20,19 +20,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var yapi = require('../yapi.js');
+var baseModel = require('./base.js');
 
 /**
  * 接口分类
  */
+
 var interfaceCat = function (_baseModel) {
     (0, _inherits3.default)(interfaceCat, _baseModel);
 
@@ -102,13 +98,13 @@ var interfaceCat = function (_baseModel) {
     }, {
         key: 'up',
         value: function up(id, data) {
-            data.up_time = _yapi2.default.commons.time();
+            data.up_time = yapi.commons.time();
             return this.model.update({
                 _id: id
             }, data);
         }
     }]);
     return interfaceCat;
-}(_base2.default);
+}(baseModel);
 
 module.exports = interfaceCat;

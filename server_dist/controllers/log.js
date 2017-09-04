@@ -28,23 +28,12 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _log = require('../models/log.js');
-
-var _log2 = _interopRequireDefault(_log);
-
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
-var _group = require('../models/group');
-
-var _group2 = _interopRequireDefault(_group);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var logModel = require('../models/log.js');
+var yapi = require('../yapi.js');
+var baseController = require('./base.js');
+var groupModel = require('../models/group');
 
 var logController = function (_baseController) {
     (0, _inherits3.default)(logController, _baseController);
@@ -54,8 +43,8 @@ var logController = function (_baseController) {
 
         var _this = (0, _possibleConstructorReturn3.default)(this, (logController.__proto__ || (0, _getPrototypeOf2.default)(logController)).call(this, ctx));
 
-        _this.Model = _yapi2.default.getInst(_log2.default);
-        _this.groupModel = _yapi2.default.getInst(_group2.default);
+        _this.Model = yapi.getInst(logModel);
+        _this.groupModel = yapi.getInst(groupModel);
         return _this;
     }
 
@@ -88,7 +77,7 @@ var logController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'typeid不能为空'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'typeid不能为空'));
 
                             case 3:
                                 if (type) {
@@ -96,7 +85,7 @@ var logController = function (_baseController) {
                                     break;
                                 }
 
-                                return _context.abrupt('return', ctx.body = _yapi2.default.commons.resReturn(null, 400, 'type不能为空'));
+                                return _context.abrupt('return', ctx.body = yapi.commons.resReturn(null, 400, 'type不能为空'));
 
                             case 5:
                                 _context.prev = 5;
@@ -112,7 +101,7 @@ var logController = function (_baseController) {
                                 count = _context.sent;
 
 
-                                ctx.body = _yapi2.default.commons.resReturn({
+                                ctx.body = yapi.commons.resReturn({
                                     total: Math.ceil(count / limit),
                                     list: result
                                 });
@@ -123,7 +112,7 @@ var logController = function (_baseController) {
                                 _context.prev = 15;
                                 _context.t0 = _context['catch'](5);
 
-                                ctx.body = _yapi2.default.commons.resReturn(null, 402, _context.t0.message);
+                                ctx.body = yapi.commons.resReturn(null, 402, _context.t0.message);
 
                             case 18:
                             case 'end':
@@ -141,6 +130,6 @@ var logController = function (_baseController) {
         }()
     }]);
     return logController;
-}(_base2.default);
+}(baseController);
 
 module.exports = logController;

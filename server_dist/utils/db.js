@@ -1,33 +1,23 @@
 'use strict';
 
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _mongooseAutoIncrement = require('mongoose-auto-increment');
-
-var _mongooseAutoIncrement2 = _interopRequireDefault(_mongooseAutoIncrement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var mongoose = require('mongoose');
+var yapi = require('../yapi.js');
+var autoIncrement = require('mongoose-auto-increment');
 
 function model(model, schema) {
-    if (schema instanceof _mongoose2.default.Schema === false) {
-        schema = new _mongoose2.default.Schema(schema);
+    if (schema instanceof mongoose.Schema === false) {
+        schema = new mongoose.Schema(schema);
     }
 
     schema.set('autoIndex', false);
 
-    return _yapi2.default.connect.model(model, schema, model);
+    return yapi.connect.model(model, schema, model);
 }
 
 function connect(callback) {
-    _mongoose2.default.Promise = global.Promise;
+    mongoose.Promise = global.Promise;
 
-    var config = _yapi2.default.WEBCONFIG;
+    var config = yapi.WEBCONFIG;
     var options = {};
 
     if (config.db.user) {
@@ -35,22 +25,22 @@ function connect(callback) {
         options.pass = config.db.pass;
     }
 
-    var db = _mongoose2.default.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE, options);
+    var db = mongoose.connect('mongodb://' + config.db.servername + ':' + config.db.port + '/' + config.db.DATABASE, options);
 
     db.then(function () {
-        _yapi2.default.commons.log('mongodb load success...');
+        yapi.commons.log('mongodb load success...');
         if (typeof callback === 'function') {
             callback.call(db);
         }
     }, function (err) {
-        _yapi2.default.commons.log(err, 'Mongo connect error');
+        yapi.commons.log(err, 'Mongo connect error');
     });
 
-    _mongooseAutoIncrement2.default.initialize(db);
+    autoIncrement.initialize(db);
     return db;
 }
 
-_yapi2.default.db = model;
+yapi.db = model;
 
 module.exports = {
     model: model,

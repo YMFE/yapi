@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs-extra';
-import config from '../config.js';
+const path = require('path');
+const fs = require('fs-extra');
+const config = require('../config.js');
 
 let runtimePath = config.runtime_path;
 fs.ensureDirSync(runtimePath);

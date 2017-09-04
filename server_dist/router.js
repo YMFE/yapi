@@ -8,45 +8,20 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _koaRouter = require('koa-router');
-
-var _koaRouter2 = _interopRequireDefault(_koaRouter);
-
-var _interface = require('./controllers/interface.js');
-
-var _interface2 = _interopRequireDefault(_interface);
-
-var _group = require('./controllers/group.js');
-
-var _group2 = _interopRequireDefault(_group);
-
-var _user = require('./controllers/user.js');
-
-var _user2 = _interopRequireDefault(_user);
-
-var _interfaceCol = require('./controllers/interfaceCol.js');
-
-var _interfaceCol2 = _interopRequireDefault(_interfaceCol);
-
-var _yapi = require('./yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _project = require('./controllers/project.js');
-
-var _project2 = _interopRequireDefault(_project);
-
-var _log = require('./controllers/log.js');
-
-var _log2 = _interopRequireDefault(_log);
-
-var _follow = require('./controllers/follow.js');
-
-var _follow2 = _interopRequireDefault(_follow);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = (0, _koaRouter2.default)();
+var koaRouter = require('koa-router');
+var interfaceController = require('./controllers/interface.js');
+var groupController = require('./controllers/group.js');
+var userController = require('./controllers/user.js');
+var interfaceColController = require('./controllers/interfaceCol.js');
+
+var yapi = require('./yapi.js');
+var projectController = require('./controllers/project.js');
+var logController = require('./controllers/log.js');
+var followController = require('./controllers/follow.js');
+
+var router = koaRouter();
 
 var authLevel = {
 	admin: 0,
@@ -59,31 +34,31 @@ var authLevel = {
 var INTERFACE_CONFIG = {
 	interface: {
 		prefix: '/interface/',
-		controller: _interface2.default
+		controller: interfaceController
 	},
 	user: {
 		prefix: '/user/',
-		controller: _user2.default
+		controller: userController
 	},
 	group: {
 		prefix: '/group/',
-		controller: _group2.default
+		controller: groupController
 	},
 	project: {
 		prefix: '/project/',
-		controller: _project2.default
+		controller: projectController
 	},
 	log: {
 		prefix: '/log/',
-		controller: _log2.default
+		controller: logController
 	},
 	follow: {
 		prefix: '/follow/',
-		controller: _follow2.default
+		controller: followController
 	},
 	col: {
 		prefix: '/col/',
-		controller: _interfaceCol2.default
+		controller: interfaceColController
 	}
 };
 
@@ -236,6 +211,10 @@ var routerConfig = {
 		"path": "add",
 		"method": "post"
 	}, {
+		"action": "getCatMenu",
+		"path": "getCatMenu",
+		"method": "get"
+	}, {
 		"action": "list",
 		"path": "list",
 		"method": "get"
@@ -250,6 +229,10 @@ var routerConfig = {
 	}, {
 		"action": "del",
 		"path": "del",
+		"method": "post"
+	}, {
+		"action": "interUpload",
+		"path": "interUpload",
 		"method": "post"
 	}, {
 		action: 'listByCat',
@@ -379,7 +362,7 @@ function createAction(controller, action, path, method) {
 							break;
 
 						case 8:
-							ctx.body = _yapi2.default.commons.resReturn(null, 40011, '请登录...');
+							ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
 
 						case 9:
 						case 'end':
