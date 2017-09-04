@@ -13,3 +13,18 @@ body, h1, h2, h3, h4, h5, h6 {
   display: block;
   margin: 24px 0;
 }
+
+.list-index {
+  padding: 6px;
+  background-color: #ff561b;
+  color: #fff;
+  font:italic bold 18px arial,sans-serif;
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.2em;
+  height: 2.2em;
+  line-height: 1.6em;
+  margin-right: .6em;
+  text-align: center;
+  vertical-align: middle;
+}
