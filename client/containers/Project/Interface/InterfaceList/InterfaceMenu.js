@@ -246,17 +246,17 @@ class InterfaceMenu extends Component {
     }
 
     const item_interface_create = (item) => {
-      let color;
-      switch (item.method) {
-        case 'GET': color = "green"; break;
-        case 'POST': color = "blue"; break;
-        case 'PUT': color = "yellow"; break;
-        case 'DELETE': color = 'red'; break;
-        default: color = "yellow";
-      }
+      // let color;
+      // switch (item.method) {
+      //   case 'GET': color = "green"; break;
+      //   case 'POST': color = "blue"; break;
+      //   case 'PUT': color = "yellow"; break;
+      //   case 'DELETE': color = 'red'; break;
+      //   default: color = "yellow";
+      // }
       return <TreeNode        
         title={<div className="aa" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
-          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} ><Tag color={color} className="btn-http" >{item.method}</Tag>{item.title}</Link>
+          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
         </div>}
         key={'' + item._id} />
@@ -352,7 +352,7 @@ class InterfaceMenu extends Component {
             return <TreeNode title={<div>
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <Dropdown overlay={menu(item)}>
-                <Icon type='bars' className="interface-delete-icon" />
+                <Icon type='setting' className="interface-delete-icon" />
               </Dropdown>
             </div>}
              key={'cat_' + item._id} 
