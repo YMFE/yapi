@@ -8,19 +8,11 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
-var _mongooseAutoIncrement = require('mongoose-auto-increment');
-
-var _mongooseAutoIncrement2 = _interopRequireDefault(_mongooseAutoIncrement);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var yapi = require('../yapi.js');
+var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 
 /**
  * 所有的model都需要继承baseModel, 且需要 getSchema和getName方法，不然会报错
@@ -30,19 +22,19 @@ var baseModel = function () {
     function baseModel() {
         (0, _classCallCheck3.default)(this, baseModel);
 
-        this.schema = new _mongoose2.default.Schema(this.getSchema());
+        this.schema = new mongoose.Schema(this.getSchema());
         this.name = this.getName();
 
         if (this.isNeedAutoIncrement() === true) {
-            this.schema.plugin(_mongooseAutoIncrement2.default.plugin, {
+            this.schema.plugin(autoIncrement.plugin, {
                 model: this.name,
                 field: this.getPrimaryKey(),
                 startAt: 11,
-                incrementBy: _yapi2.default.commons.rand(1, 10)
+                incrementBy: yapi.commons.rand(1, 10)
             });
         }
 
-        this.model = _yapi2.default.db(this.name, this.schema);
+        this.model = yapi.db(this.name, this.schema);
     }
 
     (0, _createClass3.default)(baseModel, [{
@@ -68,12 +60,12 @@ var baseModel = function () {
     }, {
         key: 'getSchema',
         value: function getSchema() {
-            _yapi2.default.commons.log('Model Class need getSchema function', 'error');
+            yapi.commons.log('Model Class need getSchema function', 'error');
         }
     }, {
         key: 'getName',
         value: function getName() {
-            _yapi2.default.commons.log('Model Class need name', 'error');
+            yapi.commons.log('Model Class need name', 'error');
         }
     }]);
     return baseModel;

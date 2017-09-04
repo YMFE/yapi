@@ -4,37 +4,26 @@ var _map = require('babel-runtime/core-js/map');
 
 var _map2 = _interopRequireDefault(_map);
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _fsExtra = require('fs-extra');
-
-var _fsExtra2 = _interopRequireDefault(_fsExtra);
-
-var _nodemailer = require('nodemailer');
-
-var _nodemailer2 = _interopRequireDefault(_nodemailer);
-
-var _config = require('../../config.json');
-
-var _config2 = _interopRequireDefault(_config);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var path = require('path');
+var fs = require('fs-extra');
+var nodemailer = require('nodemailer');
+var config = require('../../config.json');
 
 var insts = new _map2.default();
 var mail = void 0;
 
-var WEBROOT = _path2.default.resolve(__dirname, '..'); //路径
+var WEBROOT = path.resolve(__dirname, '..'); //路径
 var WEBROOT_SERVER = __dirname;
-var WEBROOT_RUNTIME = _path2.default.resolve(__dirname, '../..');
-var WEBROOT_LOG = _path2.default.join(WEBROOT_RUNTIME, 'log');
-var WEBCONFIG = _config2.default;
+var WEBROOT_RUNTIME = path.resolve(__dirname, '../..');
+var WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
+var WEBCONFIG = config;
 
-_fsExtra2.default.ensureDirSync(WEBROOT_LOG);
+fs.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail) {
-    mail = _nodemailer2.default.createTransport(WEBCONFIG.mail);
+    mail = nodemailer.createTransport(WEBCONFIG.mail);
 }
 
 /**
@@ -63,8 +52,8 @@ function delInst(m) {
 }
 
 var r = {
-    fs: _fsExtra2.default,
-    path: _path2.default,
+    fs: fs,
+    path: path,
     WEBROOT: WEBROOT,
     WEBROOT_SERVER: WEBROOT_SERVER,
     WEBROOT_RUNTIME: WEBROOT_RUNTIME,

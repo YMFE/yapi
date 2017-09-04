@@ -20,17 +20,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import userModel from '../models/user.js';
+var yapi = require('../yapi.js');
+var baseModel = require('./base.js');
+// const userModel = require('../models/user.js');
 
 var avatarModel = function (_baseModel) {
     (0, _inherits3.default)(avatarModel, _baseModel);
@@ -76,6 +70,6 @@ var avatarModel = function (_baseModel) {
         }
     }]);
     return avatarModel;
-}(_base2.default);
+}(baseModel);
 
 module.exports = avatarModel;

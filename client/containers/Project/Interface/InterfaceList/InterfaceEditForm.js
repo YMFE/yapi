@@ -4,6 +4,7 @@ import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
 import { handlePath } from '../../../../common.js'
 
+
 import {
   Form, Select, Input, Tooltip,
   Button, Row, Col, Radio, Icon, AutoComplete, Switch
@@ -89,6 +90,7 @@ class InterfaceEditForm extends Component {
       if (!err) {
         if (values.res_body_type === 'json') values.res_body = this.state.res_body;
         values.method = this.state.method;
+        values.req_params = values.req_params || [];
         let isfile = false, isHavaContentType = false;
         if (values.req_body_type === 'form') {
           values.req_body_form.forEach((item) => {

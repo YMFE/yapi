@@ -8,68 +8,30 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _yapi = require('./yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _commons = require('./utils/commons');
-
-var _commons2 = _interopRequireDefault(_commons);
-
-var _db = require('./utils/db.js');
-
-var _db2 = _interopRequireDefault(_db);
-
-var _mockServer = require('./middleware/mockServer.js');
-
-var _mockServer2 = _interopRequireDefault(_mockServer);
-
-var _koa = require('koa');
-
-var _koa2 = _interopRequireDefault(_koa);
-
-var _koaStatic = require('koa-static');
-
-var _koaStatic2 = _interopRequireDefault(_koaStatic);
-
-var _koaBodyparser = require('koa-bodyparser');
-
-var _koaBodyparser2 = _interopRequireDefault(_koaBodyparser);
-
-var _router = require('./router.js');
-
-var _router2 = _interopRequireDefault(_router);
-
-var _koaWebsocket = require('koa-websocket');
-
-var _koaWebsocket2 = _interopRequireDefault(_koaWebsocket);
-
-var _websocket = require('./websocket.js');
-
-var _websocket2 = _interopRequireDefault(_websocket);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_yapi2.default.commons = _commons2.default;
+var yapi = require('./yapi.js');
+var commons = require('./utils/commons');
+yapi.commons = commons;
+var dbModule = require('./utils/db.js');
+var mockServer = require('./middleware/mockServer.js');
+var Koa = require('koa');
+var koaStatic = require('koa-static');
+var bodyParser = require('koa-bodyparser');
+var router = require('./router.js');
+var websockify = require('koa-websocket');
+var websocket = require('./websocket.js');
 
-
-var compress = require('koa-compress');
-
-_yapi2.default.connect = _db2.default.connect();
-var app = (0, _koaWebsocket2.default)(new _koa2.default());
+yapi.connect = dbModule.connect();
+var app = websockify(new Koa());
 var indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
-app.use(_mockServer2.default);
-app.use((0, _koaBodyparser2.default)());
-app.use(_router2.default.routes());
-app.use(_router2.default.allowedMethods());
+app.use(mockServer);
+app.use(bodyParser({ multipart: true }));
+app.use(router.routes());
+app.use(router.allowedMethods());
 
-(0, _websocket2.default)(app);
-
-app.use(compress({
-    threshold: 50480,
-    flush: require('zlib').Z_SYNC_FLUSH
-}));
+websocket(app);
 
 app.use(function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(ctx, next) {
@@ -106,7 +68,35 @@ app.use(function () {
         return _ref.apply(this, arguments);
     };
 }());
-app.use((0, _koaStatic2.default)(_yapi2.default.path.join(_yapi2.default.WEBROOT, 'static'), { index: indexFile, gzip: true }));
 
-app.listen(_yapi2.default.WEBCONFIG.port);
-_commons2.default.log('the server is start at port ' + _yapi2.default.WEBCONFIG.port);
+app.use(function () {
+    var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ctx, next) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                        if (ctx.path.indexOf('/prd') === 0) {
+                            if (yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT, 'static', ctx.path + '.gz'))) {
+                                ctx.set('Content-Encoding', 'gzip');
+                                ctx.path = ctx.path + '.gz';
+                            }
+                        }
+                        _context2.next = 3;
+                        return next();
+
+                    case 3:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, undefined);
+    }));
+
+    return function (_x3, _x4) {
+        return _ref2.apply(this, arguments);
+    };
+}());
+app.use(koaStatic(yapi.path.join(yapi.WEBROOT, 'static'), { index: indexFile, gzip: true }));
+
+app.listen(yapi.WEBCONFIG.port);
+commons.log('the server is start at port ' + yapi.WEBCONFIG.port);

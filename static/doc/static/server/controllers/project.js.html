@@ -25,20 +25,20 @@
             <div class="ydoc-container-content">
                 <div class="static-code-content" role="main">
                 <pre class="brush: js;">
-                import projectModel from '../models/project.js';
-import yapi from '../yapi.js';
-import _ from "underscore"
-import baseController from './base.js';
-import interfaceModel from '../models/interface.js';
-import interfaceColModel from '../models/interfaceCol.js';
-import interfaceCaseModel from '../models/interfaceCase.js';
-import interfaceCatModel from '../models/interfaceCat.js';
-import groupModel from '../models/group';
-import commons from '../utils/commons.js';
-import userModel from '../models/user.js';
-import logModel from '../models/log.js';
-import followModel from '../models/follow.js';
-import Mock from 'mockjs';
+                const projectModel = require('../models/project.js');
+const yapi = require('../yapi.js');
+const _ = require("underscore");
+const baseController = require('./base.js');
+const interfaceModel = require('../models/interface.js');
+const interfaceColModel = require('../models/interfaceCol.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
+const interfaceCatModel = require('../models/interfaceCat.js');
+const groupModel = require('../models/group');
+const commons = require('../utils/commons.js');
+const userModel = require('../models/user.js');
+const logModel = require('../models/log.js');
+const followModel = require('../models/follow.js');
+const Mock = require('mockjs');
 const send = require('koa-send');
 
 class projectController extends baseController {
@@ -498,6 +498,9 @@ class projectController extends baseController {
     async upSet(ctx) {
         let id = ctx.request.body.id;
         let data = {};
+        if (await this.checkAuth(id, 'project', 'danger') !== true) {
+            return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+        }
         data.color = ctx.request.body.color;
         data.icon = ctx.request.body.icon;
         if (!id) {

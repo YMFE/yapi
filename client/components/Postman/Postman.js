@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators';
 import crossRequest from 'cross-request';
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
-
+const MockExtra = require('common/mock-extra.js')
 import './Postman.scss'
 
 const { TextArea } = Input;
@@ -158,8 +158,29 @@ export default class Run extends Component {
         }
         const { res_body, res_body_type } = this.props.data;
         let validRes = '';
+        let query = {};
+        this.state.query.forEach(item=>{
+          query[item.name] = item.value;
+        })
+        let body = {};
+        if(this.state.bodyType === 'form'){
+          this.state.bodyForm.forEach(item=>{
+            body[item.name] = item.value;
+          })
+        }else if(this.state.bodyType === 'json'){
+          try{
+            body = JSON.parse(this.state.bodyOther);
+          }catch(e){
+            body = {}
+          }
+        }
         if (res_body && res_body_type === 'json' && typeof res === 'object') {
-          validRes = Mock.valid(JSON.parse(res_body), res)
+          let tpl = MockExtra(JSON.parse(res_body), {
+            query: query,
+            body: body
+          })
+          console.log(tpl, this.state)
+          validRes = Mock.valid(tpl, res)
           console.log(validRes)
         }
         

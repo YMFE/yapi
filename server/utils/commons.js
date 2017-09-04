@@ -1,9 +1,9 @@
-import fs from 'fs-extra';
-import path from 'path';
-import yapi from '../yapi.js';
-import sha1 from 'sha1';
-import logModel from '../models/log.js';
-import json5 from 'json5';
+const fs = require('fs-extra');
+const path = require('path');
+const yapi = require('../yapi.js');
+const sha1 = require('sha1');
+const logModel = require('../models/log.js');
+const json5 = require('json5');
 
 exports.resReturn = (data, num, errmsg) => {
     num = num || 0;

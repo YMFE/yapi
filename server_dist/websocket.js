@@ -8,17 +8,11 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _koaRouter = require('koa-router');
-
-var _koaRouter2 = _interopRequireDefault(_koaRouter);
-
-var _interface = require('./controllers/interface.js');
-
-var _interface2 = _interopRequireDefault(_interface);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = (0, _koaRouter2.default)();
+var koaRouter = require('koa-router');
+var interfaceController = require('./controllers/interface.js');
+var router = koaRouter();
 
 function websocket(app) {
   console.log('load websocket...');
@@ -32,7 +26,7 @@ function websocket(app) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              inst = new _interface2.default(ctx);
+              inst = new interfaceController(ctx);
               _context.next = 3;
               return inst.init(ctx);
 

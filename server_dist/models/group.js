@@ -20,15 +20,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _yapi = require('../yapi.js');
-
-var _yapi2 = _interopRequireDefault(_yapi);
-
-var _base = require('./base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var yapi = require('../yapi.js');
+var baseModel = require('./base.js');
 
 var groupModel = function (_baseModel) {
     (0, _inherits3.default)(groupModel, _baseModel);
@@ -143,7 +138,7 @@ var groupModel = function (_baseModel) {
             }, {
                 group_name: data.group_name,
                 group_desc: data.group_desc,
-                up_time: _yapi2.default.commons.time()
+                up_time: yapi.commons.time()
             });
         }
     }, {
@@ -155,6 +150,6 @@ var groupModel = function (_baseModel) {
         }
     }]);
     return groupModel;
-}(_base2.default);
+}(baseModel);
 
 module.exports = groupModel;

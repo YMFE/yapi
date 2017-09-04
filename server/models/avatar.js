@@ -1,6 +1,6 @@
-import yapi from '../yapi.js';
-import baseModel from './base.js';
-// import userModel from '../models/user.js';
+const yapi = require('../yapi.js');
+const baseModel = require('./base.js');
+// const userModel = require('../models/user.js');
 
 class avatarModel extends baseModel {
     getName() {

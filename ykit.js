@@ -1,11 +1,21 @@
 var path = require('path');
 var AssetsPlugin = require('assets-webpack-plugin')
+var CompressionPlugin = require('compression-webpack-plugin')
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
 })
+
+var compressPlugin = new CompressionPlugin({
+  asset: "[path].gz[query]",
+  algorithm: "gzip",
+  test: /\.(js|css)$/,
+  threshold: 10240,
+  minRatio: 0.8,
+});
+
 
 function handleCommonsChunk(webpackConfig) {
   var commonsChunk = {
@@ -92,7 +102,8 @@ module.exports = {
       exports: [
         './index.js'
       ],
-      modifyWebpackConfig: function (baseConfig) {
+      modifyWebpackConfig: function (baseConfig) {       
+
         var ENV_PARAMS = {};
         switch (this.env) {
           case 'local':
@@ -113,7 +124,8 @@ module.exports = {
 
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
-        baseConfig.context = path.resolve(__dirname, "client");
+        baseConfig.context = path.resolve(__dirname, './client');
+        baseConfig.resolve.alias.common = '/common';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
@@ -145,6 +157,8 @@ module.exports = {
 
         if (this.env == 'prd') {
           baseConfig.plugins.push(assetsPluginInstance)
+          baseConfig.plugins.push(compressPlugin)
+
         }
         return baseConfig;
       }
