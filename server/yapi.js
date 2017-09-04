@@ -1,7 +1,7 @@
-import path from 'path';
-import fs from 'fs-extra';
-import nodemailer from 'nodemailer';
-import config from '../../config.json';
+const path = require('path');
+const fs = require('fs-extra');
+const nodemailer = require('nodemailer');
+const config = require('../../config.json');
 
 let insts = new Map();
 let mail;

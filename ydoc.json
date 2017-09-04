@@ -62,7 +62,7 @@
         "title": "使用手册",
         "banner": {
             "title": "YApi",
-            "description": "高效、易用、功能强大、的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
+            "description": "高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。"
         },
         "content": {
             "sidebar": true,
@@ -74,22 +74,26 @@
             }, {
                 "name": "创建第一个API",
                 "content": "./doc/usage/quickstart.md"
-            }, {
-                "name": "接口配置",
-                "content": "./doc/usage/interface.md"
-            }, {
+            }
+            // , {
+            //     "name": "接口配置",
+            //     "content": "./doc/usage/interface.md"
+            // }
+            , {
                 "name": "使用mock功能",
                 "content": "./doc/usage/mock.md"
-            }, {
-                "name": "使用测试集",
-                "content": "./doc/usage/case.md"
-            }, {
-                "name": "成为组长",
-                "content": "./doc/usage/leader.md"
-            }, {
-                "name": "权限列表",
-                "content": "./doc/usage/authority.md"
-            }]
+            }
+            // , {
+            //     "name": "使用测试集",
+            //     "content": "./doc/usage/case.md"
+            // }, {
+            //     "name": "成为组长",
+            //     "content": "./doc/usage/leader.md"
+            // }, {
+            //     "name": "权限列表",
+            //     "content": "./doc/usage/authority.md"
+            // }
+        ]
         }
     },
 //    {

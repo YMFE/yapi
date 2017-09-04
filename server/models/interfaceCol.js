@@ -1,5 +1,5 @@
-import yapi from '../yapi.js';
-import baseModel from './base.js';
+const yapi = require('../yapi.js');
+const baseModel = require('./base.js');
 
 class interfaceCol extends baseModel {
     getName() {

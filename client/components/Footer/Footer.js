@@ -96,12 +96,12 @@ Footer.defaultProps = {
       ]
     },
     {
-      title: 'Copyright © 2017',
+      title: 'Copyright © 2017 YApi',
       iconType: 'layout',
       linkList: [
         {
-          itemTitle: 'YMFE 首页',
-          itemLink: 'http://ymfe.org/home/'
+          itemTitle: '版本： 1.0',
+          itemLink: 'javascript:'
         }
       ]
     }

@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import yapi from '../yapi.js';
-import autoIncrement from 'mongoose-auto-increment';
+const mongoose = require('mongoose');
+const yapi = require('../yapi.js');
+const autoIncrement = require('mongoose-auto-increment');
 
 function model(model, schema) {
     if (schema instanceof mongoose.Schema === false) {
