@@ -1,11 +1,21 @@
 var path = require('path');
 var AssetsPlugin = require('assets-webpack-plugin')
+var CompressionPlugin = require('compression-webpack-plugin')
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
 })
+
+var compressPlugin = new CompressionPlugin({
+  asset: "[path].gz[query]",
+  algorithm: "gzip",
+  test: /\.(js|css)$/,
+  threshold: 10240,
+  minRatio: 0.8,
+});
+
 
 function handleCommonsChunk(webpackConfig) {
   var commonsChunk = {
@@ -147,6 +157,8 @@ module.exports = {
 
         if (this.env == 'prd') {
           baseConfig.plugins.push(assetsPluginInstance)
+          baseConfig.plugins.push(compressPlugin)
+
         }
         return baseConfig;
       }
