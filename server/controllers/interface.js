@@ -1,13 +1,13 @@
-import interfaceModel from '../models/interface.js';
-import interfaceCatModel from '../models/interfaceCat.js';
-import interfaceCaseModel from '../models/interfaceCase.js'
-import followModel from '../models/follow.js'
-import _ from 'underscore';
-import url from 'url';
-import baseController from './base.js';
-import yapi from '../yapi.js';
-import userModel from '../models/user.js';
-import projectModel from '../models/project.js';
+const interfaceModel = require('../models/interface.js');
+const interfaceCatModel = require('../models/interfaceCat.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
+const followModel = require('../models/follow.js');
+const _ = require('underscore');
+const url = require('url');
+const baseController = require('./base.js');
+const yapi = require('../yapi.js');
+const userModel = require('../models/user.js');
+const projectModel = require('../models/project.js');
 
 class interfaceController extends baseController {
     constructor(ctx) {
@@ -611,6 +611,7 @@ class interfaceController extends baseController {
         }
     }
 
+
         /**
      * 获取分类列表
      * @interface /interface/getCatMenu
@@ -621,6 +622,7 @@ class interfaceController extends baseController {
      * @returns {Object} 
      * @example ./api/interface/getCatMenu
      */
+
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
         if(!project_id){

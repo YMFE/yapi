@@ -1,13 +1,13 @@
-import koaRouter from 'koa-router';
-import interfaceController from './controllers/interface.js';
-import groupController from './controllers/group.js';
-import userController from './controllers/user.js';
-import interfaceColController from './controllers/interfaceCol.js'
+const koaRouter = require('koa-router');
+const interfaceController = require('./controllers/interface.js');
+const groupController = require('./controllers/group.js');
+const userController = require('./controllers/user.js');
+const interfaceColController = require('./controllers/interfaceCol.js');
 
-import yapi from './yapi.js';
-import projectController from './controllers/project.js';
-import logController from './controllers/log.js';
-import followController from './controllers/follow.js';
+const yapi = require('./yapi.js');
+const projectController = require('./controllers/project.js');
+const logController = require('./controllers/log.js');
+const followController = require('./controllers/follow.js');
 
 const router = koaRouter();
 
