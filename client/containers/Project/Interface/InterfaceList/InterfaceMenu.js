@@ -359,7 +359,7 @@ class InterfaceMenu extends Component {
               </Dropdown>
             </div>}
              key={'cat_' + item._id} 
-             className="interface-item-nav"
+             className={`interface-item-nav ${item.list.length?"":"cat_switch_hidden"}`}
              >
               {item.list.map(item_interface_create)}
 
