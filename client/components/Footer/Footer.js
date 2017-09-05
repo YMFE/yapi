@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'antd';
 import { Icon } from 'antd'
+import packageJson from '../../../package.json';
 class Footer extends Component {
   constructor(props) {
     super(props)
@@ -100,7 +101,7 @@ Footer.defaultProps = {
       iconType: 'layout',
       linkList: [
         {
-          itemTitle: '版本： 1.0',
+          itemTitle: '版本： '+packageJson.version,
           itemLink: 'javascript:'
         }
       ]
