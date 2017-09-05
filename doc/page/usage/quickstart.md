@@ -1,36 +1,45 @@
-## 起步
-### 创建API
+### 如何创建项目？
 
-注册新用户或使用 QSSO 登录。
+把大象装进冰箱分几步？三步：把冰箱门打开，把大象装进去，关门，搞定~
 
-新用户进入 YApi 时没有任何权限，只能浏览公开项目，想要创建 API 应联系 `组长` 将你添加到某分组或某项目中。
-登录之后进到项目首页，左边侧边栏显示的即分组列表。
+新建接口分几步？也是三步：
 
-<img src="./images/project_group.png" width = "200" style="margin-left:170px;display:block;" alt="图片名称" align=center />
+* [找到一个项目](#选择项目)
+* [新建接口](#新建_编辑接口)
+* [点击 `保存`](#保存)
+
+搞定~
 
 
 
 
-#### 项目列表
+## 选择项目
 
-选中不同的分组，右边会显示该分组下的项目列表。
+- 如果你已经登录，会在首页右侧看到一些项目 (可以在左侧的分组列表切换分组来查看不同分组下的项目)。
+
+- 点击一个项目，进入该项目的详情页。
+
+> 如果没有找到项目，请联系组长
 
 <img src="./images/project_list.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
 
-### 添加项目
+## 新建接口
 
-- 点击右上角的“+“号进入添加项目页面
-<img src="./images/project_add.png" width = "100%" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+- 点击左侧接口分组右侧的菜单按钮，选择 `添加接口`，或者点击接口列表右上角的 `添加接口`。
 
-- 添加项目页面
-<img src="./images/project_add_view.png" width = "100%" style="margin:0px auto;display:block;" alt="图片名称" align=center />
-添加完成后进去项目详情页面
+<img src="./images/usage/api_add_btn.png" />
 
-### 项目详情页面
+- 选择接口分类，输入接口名称和接口路径，点击 `提交`。
+
+<img src="./images/usage/api_add_panel.png" />
+
+> 如果没有新建项目权限，请联系组长
+
+## 保存
 
 #### 添加接口分类
 
-<img src="./images/interface_add_cat.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center />
+
 
 添加完成后可以在左侧列表看到新添加的接口分类
 
