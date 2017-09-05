@@ -51,6 +51,13 @@
             background-color: #efefef
         }
         .interface-list{
+            .cat_switch_hidden{
+                .ant-tree-switcher{
+                    visibility: hidden;
+                }
+            }
+            
+
             a{
                 color: #333
             }
@@ -85,7 +92,7 @@
             }
         }
     }
-
+    
     .right-content{
         margin:3px;
         min-height: 5rem;
