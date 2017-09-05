@@ -39,47 +39,6 @@ function delInst(m) {
     }
 }
 
-var hooks = {
-    'third_login': {
-        type: 'single',
-        listener: null
-    },
-    'add_interface': {
-        type: 'mulit',
-        listener: []
-    }
-};
-
-function bindHook(name, listener){
-    if(!name) throw new Error('缺少hookname');
-    if(name in hooks === false){
-        throw new Error('不存在的hookname');
-    }
-    if(hooks[name].type === 'multi'){
-         hooks[name].listener.push(listener);
-    }else{
-        hooks[name].listener = listener;
-    }
-    
-}
-
-function emitHook(name){
-    if(!name) throw new Error('缺少hookname');
-    if(name in hooks === false){
-        throw new Error('不存在的hookname');
-    }
-    
-    if(hooks[name] && typeof hooks[name] === 'object'){
-        if(hooks[name].type === 'single' && typeof hooks[name].listener === 'function'){
-            return hooks[name].listener.call();
-        }
-        if(Array.isArray(hooks[name.listener])){
-            hooks[name].listener.forEach(listener=>{
-                listener.call()
-            })
-        }
-    }
-}
 
 let r = {
     fs: fs,
@@ -91,9 +50,7 @@ let r = {
     WEBCONFIG: WEBCONFIG,
     getInst: getInst,
     delInst: delInst,
-    getInsts: insts,
-    emitHook: emitHook,
-    bindHook: bindHook
+    getInsts: insts
 };
 if (mail) r.mail = mail;
 module.exports = r;
