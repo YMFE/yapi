@@ -50,7 +50,8 @@ module.exports = function(){
   if(yapi.WEBCONFIG.plugins && Array.isArray(yapi.WEBCONFIG.plugins)){
     yapi.WEBCONFIG.plugins.forEach(plugin=>{
       if(!yapi.commons.fileExist(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'))){
-        throw new Error(`请安装插件(${plugin}), npm install yapi-plugin-${plugin}`)
+        throw new Error(`请安装插件(${plugin}), npm install yapi-plugin-${plugin}`);
+        process.exit();
       }
       let pluginModule = require(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'));
       pluginModule.apply(yapi)
