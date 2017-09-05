@@ -9,12 +9,14 @@ const bodyParser = require('koa-bodyparser');
 const router = require('./router.js');
 const websockify = require('koa-websocket');
 const websocket = require('./websocket.js');
+const plugins = require('./plugin.js');
 
-yapi.connect = dbModule.connect();    
-const app = websockify(new Koa());
 let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
-
+yapi.connect = dbModule.connect();  
+const app = websockify(new Koa());
+yapi.app = app;
+plugins();
 app.use(mockServer);
 app.use(bodyParser({multipart: true}));
 app.use(router.routes());
