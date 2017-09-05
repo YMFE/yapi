@@ -19,7 +19,7 @@ class Subnav extends Component {
       <div className="m-subnav">
         <Menu
           onClick={this.handleClick}
-          defaultSelectedKeys={[this.props.default]}
+          selectedKeys={[this.props.default]}
           mode="horizontal"
           className="g-row m-subnav-menu"
         >
@@ -29,7 +29,7 @@ class Subnav extends Component {
               item.name = item.name[0] + ' ' + item.name[1];
             }
             return (
-              <Menu.Item className="item" key={item.name}>
+              <Menu.Item className="item" key={item.name.replace(' ', '')}>
                 <Link to={item.path}>{this.props.data[index].name}</Link>
               </Menu.Item>
             )
