@@ -6,7 +6,7 @@
   "scripts": {
     "dev-server": "nodemon server/app.js dev -L",
     "install-server": "node server/install.js",
-    "dev-client": "ykit s -p 4000",
+    "dev-client": "ykit watch",
     "dev": "npm run dev-server & npm run dev-client",
     "server": "node server/app.js"
   },
