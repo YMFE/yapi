@@ -38,6 +38,11 @@
                             <a href="usage.html">使用手册</a> 
                         </li>
                         
+                        <li class="">
+                            
+                            <a href="manage.html">管理学院</a> 
+                        </li>
+                        
                         <li class="active">
                             
                             <a href="api.html"></a> 
@@ -262,7 +267,7 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#-interface-interUpload">/interface/interUpload</a>
+                                        <a href="#-interface-getCatMenu">/interface/getCatMenu</a>
                                     </li>
                                 
                                 </ul>
@@ -3935,23 +3940,23 @@
 
 <div class="con-list-item">
     <blockquote class="api">
-        <h3 id="-interface-interUpload" class="page-header subject">
-            /interface/interUpload
+        <h3 id="-interface-getCatMenu" class="page-header subject">
+            /interface/getCatMenu
             
-            <span class="ui-badge">POST</span>
+            <span class="ui-badge">GET</span>
             
             
-            <a class="hashlink" href="#-interface-interUpload">#</a>
+            <a class="hashlink" href="#-interface-getCatMenu">#</a>
         </h3>
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        接口数据上传
+        获取分类列表
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#613" target="_blank">./server/controllers/interface.js:613</a>
+        <a href="./static/server/controllers/interface.js.html#614" target="_blank">./server/controllers/interface.js:614</a>
     </p>
     
     
@@ -3988,268 +3993,12 @@
                 <td></td>
             </tr>
             
-            <tr>
-                <td>title</td>
-                <td>String</td>
-                <td>接口标题，不能为空</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>path</td>
-                <td>String</td>
-                <td>接口请求路径，不能为空</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>method</td>
-                <td>String</td>
-                <td>请求方式</td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_headers</td>
-                <td>Array</td>
-                <td>请求的header信息</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_headers[].name</td>
-                <td>String</td>
-                <td>请求的header信息名</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_headers[].value</td>
-                <td>String</td>
-                <td>请求的header信息值</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_headers[].required</td>
-                <td>Boolean</td>
-                <td>是否是必须，默认为否</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_headers[].desc</td>
-                <td>String</td>
-                <td>header描述</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_type</td>
-                <td>String</td>
-                <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_params</td>
-                <td>Array</td>
-                <td>name, desc两个参数</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_form</td>
-                <td>Mixed</td>
-                <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_form[].name</td>
-                <td>String</td>
-                <td>请求参数名</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_form[].value</td>
-                <td>String</td>
-                <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_form[].type</td>
-                <td>String</td>
-                <td>请求参数类型，有["text", "file"]两种</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>req_body_other</td>
-                <td>String</td>
-                <td>非form类型的请求参数可保存到此字段</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>res_body_type</td>
-                <td>String</td>
-                <td>相应信息的数据格式，有["json", "text", "xml"]三种</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>res_body</td>
-                <td>String</td>
-                <td>响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr>
-                <td>desc</td>
-                <td>String</td>
-                <td>接口描述</td>
-                <td>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
         </table>
     </div>
     
     
     <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
-<span class="token comment" spellcheck="true">//请求  /interface/add</span>
-<span class="token comment" spellcheck="true">//header Content-Type:application/json</span>
-
-<span class="token punctuation">{</span>
-   <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"testapi"</span><span class="token punctuation">,</span>
-   <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"api"</span><span class="token punctuation">,</span>
-   <span class="token string">"method"</span><span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
-   <span class="token string">"path"</span><span class="token punctuation">:</span> <span class="token string">"/testapi"</span><span class="token punctuation">,</span>
-   <span class="token string">"project_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-   <span class="token string">"req_headers"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-         <span class="token string">"key"</span><span class="token punctuation">:</span> <span class="token string">"h"</span><span class="token punctuation">,</span>
-         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"t"</span>
-      <span class="token punctuation">}</span>
-   <span class="token punctuation">]</span><span class="token punctuation">,</span>
-   <span class="token string">"req_params_type"</span><span class="token punctuation">:</span> <span class="token string">"form"</span><span class="token punctuation">,</span>
-   <span class="token string">"req_params"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-         <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"uid"</span><span class="token punctuation">,</span>
-         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
-         <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"text"</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-     <span class="token punctuation">{</span>
-         <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"gid"</span><span class="token punctuation">,</span>
-         <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token number">1001</span><span class="token punctuation">,</span>
-         <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"text"</span>
-      <span class="token punctuation">}</span>
-   <span class="token punctuation">]</span><span class="token punctuation">,</span>
-   <span class="token string">"res_body_type"</span><span class="token punctuation">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
-   <span class="token string">"res_body"</span><span class="token punctuation">:</span> <span class="token string">"{\"tt\": 222}"</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">//返回结果</span>
-<span class="token punctuation">{</span>
-    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
-    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-        <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token number">422</span><span class="token punctuation">,</span>
-        <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"testapi"</span><span class="token punctuation">,</span>
-        <span class="token string">"project_id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-        <span class="token string">"path"</span><span class="token punctuation">:</span> <span class="token string">"/testapi"</span><span class="token punctuation">,</span>
-        <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"api"</span><span class="token punctuation">,</span>
-        <span class="token string">"method"</span><span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
-        <span class="token string">"req_params_type"</span><span class="token punctuation">:</span> <span class="token string">"form"</span><span class="token punctuation">,</span>
-        <span class="token string">"res_body"</span><span class="token punctuation">:</span> <span class="token string">"{\"tt\": 222}"</span><span class="token punctuation">,</span>
-        <span class="token string">"res_body_type"</span><span class="token punctuation">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
-        <span class="token string">"uid"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-        <span class="token string">"add_time"</span><span class="token punctuation">:</span> <span class="token number">1499658569</span><span class="token punctuation">,</span>
-        <span class="token string">"up_time"</span><span class="token punctuation">:</span> <span class="token number">1499658569</span><span class="token punctuation">,</span>
-        <span class="token string">"req_params_form"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-            <span class="token punctuation">{</span>
-                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"uid"</span><span class="token punctuation">,</span>
-                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcc0"</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span>
-            <span class="token punctuation">{</span>
-                <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"gid"</span><span class="token punctuation">,</span>
-                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"1001"</span><span class="token punctuation">,</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcbf"</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token string">"req_headers"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-            <span class="token punctuation">{</span>
-                <span class="token string">"value"</span><span class="token punctuation">:</span> <span class="token string">"t"</span><span class="token punctuation">,</span>
-                <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5962f94940a7a5767088fcc1"</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token punctuation">.</span><span class="token operator">/</span>api<span class="token operator">/</span><span class="token keyword">interface</span><span class="token operator">/</span>getCatMenu</code></pre>
     
     
 </div>
