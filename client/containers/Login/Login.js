@@ -6,7 +6,7 @@ import { loginActions } from  '../../reducer/modules/user';
 import { withRouter } from 'react-router'
 const FormItem = Form.Item;
 import './Login.scss'
-import Qsso from  '../../components/Qsso/Qsso.js'
+// import Qsso from  '../../components/Qsso/Qsso.js'
 
 const formItemStyle = {
   marginBottom: '.16rem'
@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    Qsso.attach('qsso-login','/api/user/login_by_token')
+    //Qsso.attach('qsso-login','/api/user/login_by_token')
   }
 
 

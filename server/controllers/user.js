@@ -109,11 +109,9 @@ class userController extends baseController {
     }
 
     async loginByToken(ctx) {
-        let config = this.thirdQunarLogin();
-        let token = ctx.request.body[config.tokenField] || ctx.request.query[config.tokenField];
-
+        //let config = this.thirdQunarLogin();
         try {
-            let ret = await config.request(token);
+            let ret = await yapi.emitHook('third_login', ctx);
             let login = await this.handleThirdLogin(ret.email, ret.username);
 
             if (login === true) {

@@ -1,12 +1,32 @@
 var path = require('path');
+var fs = require('fs');
 var AssetsPlugin = require('assets-webpack-plugin')
 var CompressionPlugin = require('compression-webpack-plugin')
+var config = require('../config.json');
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
-})
+});
+
+function fileExist (filePath){
+  try {
+      return fs.statSync(filePath).isFile();
+  } catch (err) {
+      return false;
+  }
+};
+
+function initPlugins(){
+  if(config.plugins && Array.isArray(config.plugins)){
+    config.plugins = config.plugins.filter(item=>{
+      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
+    })
+  }
+}
+
+initPlugins();
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -81,21 +101,22 @@ function handleCommonsChunk(webpackConfig) {
 
 
 module.exports = {
-  plugins: [{
-    name: 'antd',
-    options: {
-      modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
-        defaultQuery.plugins = [];
-        defaultQuery.plugins.push(["transform-runtime", {
-          "polyfill": false,
-          "regenerator": true
-        }]);
-        defaultQuery.plugins.push('transform-decorators-legacy');
-        defaultQuery.plugins.push(["import", { libraryName: "antd"}])
-        return defaultQuery;
-      }
-    }
-  }],
+  // plugins: [{
+  //   name: 'antd',
+  //   options: {
+  //     modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
+  //       defaultQuery.plugins = [];
+  //       defaultQuery.plugins.push(["transform-runtime", {
+  //         "polyfill": false,
+  //         "regenerator": true
+  //       }]);
+  //       defaultQuery.plugins.push('transform-decorators-legacy');
+  //       defaultQuery.plugins.push(["import", { libraryName: "antd"}])
+  //       return defaultQuery;
+  //     },
+  //     exclude: /node_modules(?!\/yapi\-plugin\-)/
+  //   }
+  // }],
   // devtool:  'cheap-source-map',
   config: function (ykit) {
     return {
@@ -119,19 +140,25 @@ module.exports = {
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
+          'process.env.config': JSON.stringify(config)
         }))
 
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.common = '/common';
+        baseConfig.resolve.alias.plugins = '/node_modules';
+        baseConfig.output.local.path = 'static/prd';
+        baseConfig.output.dev.path = 'static/prd';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
 
         //commonsChunk
-        handleCommonsChunk.call(this, baseConfig)
+        handleCommonsChunk.call(this, baseConfig);
+
+
         baseConfig.module.loaders.push({
           test: /\.less$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -151,9 +178,38 @@ module.exports = {
         })
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          loader: "eslint-loader"
+          exclude: /node_modules|plugins/,
+          loader: require.resolve('eslint-loader')
         });
+
+        var testReg =  /\.(js|jsx)$/,
+        exclude =  /node_modules(?!\/yapi\-plugin\-)/,
+        query = {
+          cacheDirectory: true,
+          presets: [
+              ["es2015", {"loose": true}],
+              'es2017',
+              'stage-0',
+              'stage-1',
+              'stage-2',
+              'react'
+          ],
+          plugins: []
+        };
+        query.plugins.push(["transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }]);
+        query.plugins.push('transform-decorators-legacy');
+        query.plugins.push(["import", { libraryName: "antd"}])
+
+
+        baseConfig.module.loaders.push({
+          loader: require.resolve('babel-loader'),
+          test: testReg,
+          exclude: exclude,
+          query: query
+        })
 
         if (this.env == 'prd') {
           baseConfig.plugins.push(assetsPluginInstance)
