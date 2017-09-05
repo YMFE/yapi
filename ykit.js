@@ -1,12 +1,32 @@
 var path = require('path');
+var fs = require('fs');
 var AssetsPlugin = require('assets-webpack-plugin')
 var CompressionPlugin = require('compression-webpack-plugin')
+var config = require('../config.json');
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
-})
+});
+
+function fileExist (filePath){
+  try {
+      return fs.statSync(filePath).isFile();
+  } catch (err) {
+      return false;
+  }
+};
+
+function initPlugins(){
+  if(config.plugins && Array.isArray(config.plugins)){
+    config.plugins = config.plugins.filter(item=>{
+      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
+    })
+  }
+}
+
+initPlugins();
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -93,7 +113,8 @@ module.exports = {
         defaultQuery.plugins.push('transform-decorators-legacy');
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
-      }
+      },
+      exclude: /node_modules(?!\/yapi\-plugin\-)/
     }
   }],
   // devtool:  'cheap-source-map',
@@ -119,13 +140,15 @@ module.exports = {
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
+          'process.env.config': JSON.stringify(config)
         }))
 
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.common = '/common';
+        baseConfig.resolve.alias.plugins = '/node_modules';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
@@ -151,7 +174,7 @@ module.exports = {
         })
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
+          exclude: /node_modules|plugins/,
           loader: "eslint-loader"
         });
 

@@ -7,8 +7,7 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
 import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
-import Qsso from  '../../components/Qsso/Qsso.js'
-
+import Plugins from '../../plugin.js'
 const HomeGuest = () => (
   <div className="g-body">
     <div className="m-bg">
@@ -37,7 +36,11 @@ const HomeGuest = () => (
               <div className="detail">高效、易用、功能强大的API管理平台<br /><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                <Button className="btn-home btn-home-normal" id="qsso-login">QSSO 登录</Button>
+                {Plugins.third_login.component != null ?
+                  <Plugins.third_login.component />
+                  : null
+                }
+
               </div>
             </div>
           </Col>
@@ -181,7 +184,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    Qsso.attach('qsso-login', '/api/user/login_by_token')
+
   }
   static propTypes = {
     introList: PropTypes.array,
