@@ -5321,6 +5321,14 @@
             }
           }
         },
+        "string_decoder": {
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
+          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
+          "requires": {
+            "safe-buffer": "5.0.1"
+          }
+        },
         "string-width": {
           "version": "1.0.2",
           "resolved": "https://registry.npmjs.org/string-width/-/string-width-1.0.2.tgz",
@@ -5329,14 +5337,6 @@
             "code-point-at": "1.1.0",
             "is-fullwidth-code-point": "1.0.0",
             "strip-ansi": "3.0.1"
-          }
-        },
-        "string_decoder": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
-          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
-          "requires": {
-            "safe-buffer": "5.0.1"
           }
         },
         "stringstream": {
@@ -12483,6 +12483,22 @@
         }
       }
     },
+    "require_optional": {
+      "version": "1.0.1",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
+      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
+      "requires": {
+        "resolve-from": "2.0.0",
+        "semver": "5.4.1"
+      },
+      "dependencies": {
+        "resolve-from": {
+          "version": "2.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
+          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
+        }
+      }
+    },
     "require-directory": {
       "version": "2.1.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require-directory/-/require-directory-2.1.1.tgz",
@@ -12505,22 +12521,6 @@
       "requires": {
         "caller-path": "0.1.0",
         "resolve-from": "1.0.1"
-      }
-    },
-    "require_optional": {
-      "version": "1.0.1",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
-      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
-      "requires": {
-        "resolve-from": "2.0.0",
-        "semver": "5.4.1"
-      },
-      "dependencies": {
-        "resolve-from": {
-          "version": "2.0.0",
-          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
-          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
-        }
       }
     },
     "requires-port": {
@@ -13256,6 +13256,14 @@
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
     },
+    "string_decoder": {
+      "version": "1.0.3",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
+      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
+      "requires": {
+        "safe-buffer": "5.1.1"
+      }
+    },
     "string-convert": {
       "version": "0.2.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string-convert/-/string-convert-0.2.1.tgz",
@@ -13340,14 +13348,6 @@
         "code-point-at": "1.1.0",
         "is-fullwidth-code-point": "1.0.0",
         "strip-ansi": "3.0.1"
-      }
-    },
-    "string_decoder": {
-      "version": "1.0.3",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
-      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
-      "requires": {
-        "safe-buffer": "5.1.1"
       }
     },
     "stringstream": {
@@ -15014,8 +15014,8 @@
     },
     "yapi-plugin-qsso": {
       "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/yapi-plugin-qsso/-/yapi-plugin-qsso-1.0.2.tgz",
-      "integrity": "sha512-x1LS8R5Vdjep+a93M97v7LcdV+3tupqIOkxxS+uYh+rbYB568BZFEpvfR43L7PcBZcCaOcsCOJEsrw1rcq5rhQ=="
+      "resolved": "http://registry.npm.taobao.org/yapi-plugin-qsso/download/yapi-plugin-qsso-1.0.2.tgz",
+      "integrity": "sha1-blrUEMXZAJg9DfYONIbrjYvtWxk="
     },
     "yargs": {
       "version": "7.1.0",

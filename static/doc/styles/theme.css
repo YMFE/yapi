@@ -28,3 +28,24 @@ body, h1, h2, h3, h4, h5, h6 {
   text-align: center;
   vertical-align: middle;
 }
+
+.markdown-body blockquote {
+  border-left: 4px solid #ff561b;
+  background-color: #f8f8f8;
+  padding: .12rem .24rem;
+  position: relative;
+}
+.markdown-body blockquote:before {
+  content: '!';
+  display: block;
+  position: absolute;
+  left: -.12rem;
+  top: .12rem;
+  width: 20px;
+  height: 20px;
+  background-color: #ff561b;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+}
