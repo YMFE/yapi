@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import Mock from 'mockjs'
 import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
-import crossRequest from 'cross-request';
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
-import './Postman.scss'
+import './Postman.scss';
 
 const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -38,7 +37,8 @@ export default class Run extends Component {
     bodyType: '',
     bodyOther: '',
     loading: false,
-    validRes: null
+    validRes: null,
+    hasPlugin: true
   }
 
   constructor(props) {
@@ -46,7 +46,28 @@ export default class Run extends Component {
   }
 
   componentWillMount() {
+    let startTime = 0;
+    this.interval = setInterval(()=>{
+      startTime += 500;
+      if(startTime > 5000){
+        clearInterval(this.interval);
+      }
+      if(window.crossRequest){
+        clearInterval(this.interval);
+        this.setState({
+          hasPlugin: true
+        })
+      }else{
+        this.setState({
+          hasPlugin: false
+        })
+      }
+    }, 500)
     this.getInterfaceState()
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.interval)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -139,7 +160,7 @@ export default class Run extends Component {
 
     this.setState({ loading: true })
 
-    crossRequest({
+    window.crossRequest({
       url: href,
       method,
       headers: this.getHeadersObj(headers),
@@ -359,10 +380,10 @@ export default class Run extends Component {
     })
   }
 
-  hasCrossRequestPlugin() {
-    const dom = document.getElementById('y-request');
-    return dom.getAttribute('key') === 'yapi';
-  }
+  // hasCrossRequestPlugin() {
+  //   const dom = document.getElementById('y-request');
+  //   return dom.getAttribute('key') === 'yapi';
+  // }
 
   objToArr(obj, key, value) {
     const keyName = key || 'name';
@@ -451,7 +472,7 @@ export default class Run extends Component {
   render () {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
-    const hasPlugin = this.hasCrossRequestPlugin();
+    const hasPlugin = this.state.hasPlugin;
     const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
     let path = pathname;
     pathParam.forEach(item => {
