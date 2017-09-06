@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-// import regex_parse from './parseCommon.js';
 
 
 exports.formatTime = (timestamp) => {

@@ -6,7 +6,7 @@ import { loginActions } from  '../../reducer/modules/user';
 import { withRouter } from 'react-router'
 const FormItem = Form.Item;
 import './Login.scss'
-import Qsso from  '../../components/Qsso/Qsso.js'
+// import Qsso from  '../../components/Qsso/Qsso.js'
 
 const formItemStyle = {
   marginBottom: '.16rem'
@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    Qsso.attach('qsso-login','/api/user/login_by_token')
+    //Qsso.attach('qsso-login','/api/user/login_by_token')
   }
 
 
@@ -90,10 +90,12 @@ class Login extends Component {
         <FormItem style={formItemStyle}>
           <Button style={changeHeight} type="primary" htmlType="submit" className="login-form-button">登录</Button>
         </FormItem>
-        <div className="qsso-breakline">
+
+        
+        {/* <div className="qsso-breakline">
           <span className="qsso-breakword">或</span>
         </div>
-        <Button style={changeHeight} id="qsso-login" type="primary" className="login-form-button" size="large" ghost>QSSO登录</Button>
+        <Button style={changeHeight} id="qsso-login" type="primary" className="login-form-button" size="large" ghost>QSSO登录</Button> */}
       </Form>
 
     )

@@ -61,6 +61,7 @@ $color-bg-lightblue: #c6e2ff;
     }
   }
   .btn-home-normal {
+    border-radius: 4px;
     color: #43459a;
     &:hover {
       color: #7795f8;
@@ -68,6 +69,8 @@ $color-bg-lightblue: #c6e2ff;
     &:hover, &:focus {
       background-color: #f6f9fc;
     }
+    background-color: #fff;
+    cursor: pointer;
   }
 }
 

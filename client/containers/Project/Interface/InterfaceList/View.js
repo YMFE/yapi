@@ -31,9 +31,10 @@ class View extends Component {
 
   req_body_form(req_body_type,req_body_form){
     if(req_body_type === 'json'){
+      let h = this.countEnter(this.props.curData.req_body_other);
       return <div style={{display:this.props.curData.req_body_other?"block":"none"}} className="colBody">
         <span className="colKey">请求Body：</span>
-        <div id="vreq_body_json" style={{ minHeight: "200px" }}></div>
+        <div id="vreq_body_json" style={{ minHeight: h*16+20 }}></div>
       </div>
 
     }else if(req_body_type === 'form'){
@@ -92,9 +93,10 @@ class View extends Component {
   }
   res_body(res_body_type,res_body){
     if(res_body_type === 'json'){
+      let h = this.countEnter(this.props.curData.req_body_other);
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
         <span className="colKey">返回Body：</span>
-        <div id="vres_body_json" style={{ minHeight: "200px" }}></div>
+        <div id="vres_body_json" style={{ minHeight: h*16+20 }}></div>
       </div>
     }else if(res_body_type === 'raw'){
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
@@ -135,9 +137,19 @@ class View extends Component {
     return  <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />;
   }
   
-
+  countEnter(str){
+    let i = 0;
+    let c = 0;
+    if(!str||!str.indexOf) return 0;
+    while(str.indexOf('\n',i)>-1){
+      i = str.indexOf('\n',i) + 2;
+      c++;
+    }
+    return c;
+  }
   bindAceEditor(){
     if(this.props.curData.req_body_type === "json"&&this.props.curData.title){
+      // console.log(this.props.curData.req_body_other.indexOf("\n"));
       mockEditor({
         container: 'vreq_body_json',
         data: this.props.curData.req_body_other,

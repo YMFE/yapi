@@ -26,7 +26,6 @@ class AddInterfaceForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.catid = this.props.catid
         this.props.onSubmit(values)
       }
     });
