@@ -10,7 +10,6 @@ import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 // import { getMockUrl } from '../../reducer/modules/news.js'
 
 @connect(state=>{
-  // console.log(state);
   return {
     curData: state.inter.curdata,
     currProject: state.project.currProject
@@ -30,14 +29,10 @@ class View extends Component {
   }
 
   req_body_form(req_body_type,req_body_form){
-    if(req_body_type === 'json'){
-      let h = this.countEnter(this.props.curData.req_body_other);
-      return <div style={{display:this.props.curData.req_body_other?"block":"none"}} className="colBody">
-        <span className="colKey">请求Body：</span>
-        <div id="vreq_body_json" style={{ minHeight: h*16+20 }}></div>
-      </div>
+    
+    
 
-    }else if(req_body_type === 'form'){
+    if(req_body_type === 'form'){
 
       const columns = [{
         title: '参数名称',
@@ -149,7 +144,6 @@ class View extends Component {
   }
   bindAceEditor(){
     if(this.props.curData.req_body_type === "json"&&this.props.curData.title){
-      // console.log(this.props.curData.req_body_other.indexOf("\n"));
       mockEditor({
         container: 'vreq_body_json',
         data: this.props.curData.req_body_other,
@@ -167,6 +161,7 @@ class View extends Component {
     }
   }
   componentDidMount(){
+    
     if(this.props.curData.title){
       this.bindAceEditor.bind(this)();
     }
@@ -281,7 +276,12 @@ class View extends Component {
       }
     }
     methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
-    statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"]
+    statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
+    let h = this.countEnter(this.props.curData.req_body_other);
+    const aceEditor = <div style={{display:this.props.curData.req_body_other&&this.props.curData.req_body_type==="json"?"block":"none"}} className="colBody">
+      <span className="colKey">请求Body：</span>
+      <div id="vreq_body_json" style={{ minHeight: h*16+20 }}></div>
+    </div>
     if(!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <div className="colName">
@@ -332,6 +332,7 @@ class View extends Component {
         <span className="colKey">请求Body类型：</span>
         <span className="colValue">{this.props.curData.req_body_type}</span>
       </div>*/}
+      { aceEditor }
       {this.req_body_form(this.props.curData.req_body_type,this.props.curData.req_body_form)}
       {/*<div className="colreqBodyType">
         <span className="colKey">返回Body类型：</span>

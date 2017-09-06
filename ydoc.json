@@ -75,10 +75,13 @@
                 "name": "创建第一个API",
                 "content": "./doc/page/usage/quickstart.md"
             },{
-                "name": "项目管理",
+                "name": "管理分组与项目",
+                "content": "./doc/page/usage/manage.md"
+            },{
+                "name": "项目操作",
                 "content": "./doc/page/usage/project.md"
             },{
-                "name": "接口配置与调试",
+                "name": "接口操作",
                 "content": "./doc/page/usage/api.md"
             },{
                 "name": "使用mock功能",
