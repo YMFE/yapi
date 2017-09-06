@@ -1,13 +1,20 @@
 var path = require('path');
-var fs = require('fs');
 var AssetsPlugin = require('assets-webpack-plugin')
 var CompressionPlugin = require('compression-webpack-plugin')
-var config = require('../config.json');
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
+})
+var config = require('../config.json');
+
+var compressPlugin = new CompressionPlugin({
+  asset: "[path].gz[query]",
+  algorithm: "gzip",
+  test: /\.(js|css)$/,
+  threshold: 10240,
+  minRatio: 0.8,
 });
 
 function fileExist (filePath){
@@ -28,14 +35,6 @@ function initPlugins(){
 
 initPlugins();
 
-var compressPlugin = new CompressionPlugin({
-  asset: "[path].gz[query]",
-  algorithm: "gzip",
-  test: /\.(js|css)$/,
-  threshold: 10240,
-  minRatio: 0.8
-});
-
 
 function handleCommonsChunk(webpackConfig) {
   var commonsChunk = {
@@ -51,7 +50,7 @@ function handleCommonsChunk(webpackConfig) {
         'moment'
 
       ],
-      lib2: [
+      lib2: [        
         'brace',
         'mockjs',
         'json5'
@@ -101,29 +100,29 @@ function handleCommonsChunk(webpackConfig) {
 
 
 module.exports = {
-  // plugins: [{
-  //   name: 'antd',
-  //   options: {
-  //     modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
-  //       defaultQuery.plugins = [];
-  //       defaultQuery.plugins.push(["transform-runtime", {
-  //         "polyfill": false,
-  //         "regenerator": true
-  //       }]);
-  //       defaultQuery.plugins.push('transform-decorators-legacy');
-  //       defaultQuery.plugins.push(["import", { libraryName: "antd"}])
-  //       return defaultQuery;
-  //     },
-  //     exclude: /node_modules(?!\/yapi\-plugin\-)/
-  //   }
-  // }],
+  plugins: [{
+    name: 'antd',
+    options: {
+      modifyQuery: function (defaultQuery) { // 可查看和编辑 defaultQuery
+        defaultQuery.plugins = [];
+        defaultQuery.plugins.push(["transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }]);
+        defaultQuery.plugins.push('transform-decorators-legacy');
+        defaultQuery.plugins.push(["import", { libraryName: "antd"}])
+        return defaultQuery;
+      },
+      exclude: /node_modules/
+    }
+  }],
   // devtool:  'cheap-source-map',
   config: function (ykit) {
     return {
       exports: [
         './index.js'
       ],
-      modifyWebpackConfig: function (baseConfig) {
+      modifyWebpackConfig: function (baseConfig) {       
 
         var ENV_PARAMS = {};
         switch (this.env) {
@@ -148,17 +147,13 @@ module.exports = {
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.common = '/common';
-        baseConfig.resolve.alias.plugins = '/node_modules';
-        baseConfig.output.local.path = 'static/prd';
-        baseConfig.output.dev.path = 'static/prd';
+        baseConfig.resolve.alias.plugins = '/plugins';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
 
         //commonsChunk
-        handleCommonsChunk.call(this, baseConfig);
-
-
+        handleCommonsChunk.call(this, baseConfig)
         baseConfig.module.loaders.push({
           test: /\.less$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -178,38 +173,9 @@ module.exports = {
         })
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules|plugins/,
-          loader: require.resolve('eslint-loader')
+          exclude: /node_modules/,
+          loader: "eslint-loader"
         });
-
-        var testReg =  /\.(js|jsx)$/,
-        exclude =  /node_modules(?!\/yapi\-plugin\-)/,
-        query = {
-          cacheDirectory: true,
-          presets: [
-              ["es2015", {"loose": true}],
-              'es2017',
-              'stage-0',
-              'stage-1',
-              'stage-2',
-              'react'
-          ],
-          plugins: []
-        };
-        query.plugins.push(["transform-runtime", {
-          "polyfill": false,
-          "regenerator": true
-        }]);
-        query.plugins.push('transform-decorators-legacy');
-        query.plugins.push(["import", { libraryName: "antd"}])
-
-
-        baseConfig.module.loaders.push({
-          loader: require.resolve('babel-loader'),
-          test: testReg,
-          exclude: exclude,
-          query: query
-        })
 
         if (this.env == 'prd') {
           baseConfig.plugins.push(assetsPluginInstance)
@@ -222,9 +188,9 @@ module.exports = {
   },
   server: {
     // true/false，默认 false，效果相当于 ykit server --hot
-    hot: true
+    hot: true,
     // true/false，默认 false，开启后可在当前打开的页面提示打包错误
-    // overlay: true
+    overlay: false
   },
   hooks: {},
   commands: []

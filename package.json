@@ -4,11 +4,11 @@
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
-    "dev-server": "nodemon server/app.js dev -L",
-    "install-server": "node server/install.js",
+    "dev-server": " nodemon server/app.js dev -L",
+    "install-server": " node server/install.js",
     "dev-client": "ykit watch",
     "dev": "npm run dev-server & npm run dev-client",
-    "server": "node server/app.js"
+    "server": " node server/app.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-watch": "^4.3.11",
+    "happypack": "^4.0.0-beta.5",
     "json2html": "0.0.8",
     "json5": "^0.5.1",
     "jsoneditor": "^5.9.3",
@@ -98,6 +99,8 @@
     "universal-cookie": "^2.0.8",
     "url": "^0.11.0",
     "validate-commit-msg": "^2.12.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^1.12.0",
     "yapi-plugin-qsso": "^1.0.2",
     "ykit-config-antd": "^0.1.3"
   },
@@ -109,7 +112,6 @@
     "redux-devtools": "^3.4.0",
     "redux-devtools-dock-monitor": "^1.1.2",
     "redux-devtools-log-monitor": "^1.3.0",
-    "webpack": "^2.0.0",
     "webpack-node-externals": "^1.6.0"
   },
   "config": {

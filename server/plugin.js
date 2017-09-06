@@ -1,5 +1,5 @@
 const yapi = require('./yapi.js');
-const plugin_path = yapi.path.join(yapi.WEBROOT, 'node_modules')
+const plugin_path = yapi.path.join(yapi.WEBROOT, 'plugins')
 var hooks = {
   'third_login': {
       type: 'single',
@@ -50,7 +50,7 @@ module.exports = function(){
   if(yapi.WEBCONFIG.plugins && Array.isArray(yapi.WEBCONFIG.plugins)){
     yapi.WEBCONFIG.plugins.forEach(plugin=>{
       if(!yapi.commons.fileExist(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'))){
-        throw new Error(`请安装插件(${plugin}), npm install yapi-plugin-${plugin}`);
+        throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件?`);
         process.exit();
       }
       let pluginModule = require(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'));
