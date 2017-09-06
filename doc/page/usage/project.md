@@ -28,9 +28,9 @@
 
 ### 配置环境
 
-点击项目图标，可以修改图标及背景色：
+`环境配置` 一项可以添加该项目下接口的实际环境，供 [接口测试](./usage-使用测试集.html) 使用。
 
-<img src="./images/usage/project_setting_logo.png" />
+<img src="./images/usage/project_setting_env.png" />
 
 ## 删除项目
 
