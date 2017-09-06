@@ -58,17 +58,17 @@ const HomeGuest = () => (
         <span className="desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</span>
         <Row key="feat-motion-row">
           <Col span={8} className="section-item" key="feat-wrapper-1">
-            <Icon type="api" className="img" />
+            <Icon type="appstore-o" className="img" />
             <h4 className="title">项目管理</h4>
             <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
           </Col>
           <Col span={8} className="section-item" key="feat-wrapper-2">
-            <Icon type="code-o" className="img" />
+            <Icon type="api" className="img" />
             <h4 className="title">接口管理</h4>
             <span className="desc">友好的接口文档，基于websocket的多人协作接口编辑功能和类postman测试工具，让多人协作成倍提升开发效率</span>
           </Col>
           <Col span={8} className="section-item" key="feat-wrapper-3">
-            <Icon type="team" className="img" />
+            <Icon type="database" className="img" />
             <h4 className="title">MockServer</h4>
             <span className="desc">基于Mockjs，使用简单功能强大</span>
           </Col>
