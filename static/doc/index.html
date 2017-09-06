@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 首页</title>
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="active">
+                            
+                            <a href="index.html">首页</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="usage.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="manage.html">管理学院</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ydoc-banner-home">
+                <div class="ydoc-banner-area">
+                    <h1 class="home-title">YApi</h1>
+                    <p class="desc home-desc">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    
+                        
+                            
+                            <a class="ydoc-banner-button home-btn" href="./start.html">开始</a>
+                            
+                            <a class="ydoc-banner-button home-btn" href="https://github.com/YMFE/yapi">Github</a>
+                            
+                        
+                        
+                        <p class="home-version">当前版本：v1.0.0</p>
+                        
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ydoc-container-home" id="readme">
+                    
+                        
+                        <h1 class="home-page-title">为API开发者设计的管理平台</h1>
+                        <p class="home-page-desc">YApi让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。</p>
+                            
+                        
+                        <h1 class="home-page-title">功能</h1>
+                        
+                            
+                                
+                                <div class="home-thumbnail">
+                                    
+                                    <div class="home-item">
+                                        
+                                        <div class="home-thumbnail-img">
+                                            <img class="home-thumbnail-src" src=http://ojk406wln.bkt.clouddn.com/intro_muti.png alt="">
+                                        </div>
+                                        
+                                        <h3 class="home-thumbnail-name">项目管理</h3>
+                                        <p class="home-thumbnail-desc">YApi成熟的团队管理，扁平化项目权限配置满足各类企业的需求</p>
+                                    </div>
+                                    
+                                    <div class="home-item">
+                                        
+                                        <div class="home-thumbnail-img">
+                                            <img class="home-thumbnail-src" src=http://ojk406wln.bkt.clouddn.com/intro_md.png alt="">
+                                        </div>
+                                        
+                                        <h3 class="home-thumbnail-name">接口管理</h3>
+                                        <p class="home-thumbnail-desc">友好的接口文档，基于websocket的多人协作接口编辑功能和类postman测试工具，让多人协作成倍提升开发效率</p>
+                                    </div>
+                                    
+                                    <div class="home-item">
+                                        
+                                        <div class="home-thumbnail-img">
+                                            <img class="home-thumbnail-src" src=http://ojk406wln.bkt.clouddn.com/intro_theme.png alt="">
+                                        </div>
+                                        
+                                        <h3 class="home-thumbnail-name">MockServer</h3>
+                                        <p class="home-thumbnail-desc">基于Mockjs，使用简单功能强大</p>
+                                    </div>
+                                    
+                                </div>
+                                
+                            
+                        
+                    
+                    <article class="markdown-body">
+                         <script>
+    window.onload = function(){
+        var aList = $('.ydoc-nav').find('a');
+        $(aList[aList.length-1]).css('display','none');
+    }
+</script>
+                    </article>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+            </div>
+        </footer>
+    </div>
+
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+    
+    <script>
+        var lineHeight = 18;
+        var EXAMPLE_MAX_HEIGHT;
+
+        function fold() {
+            // 折叠code
+            $('.markdown-body pre').css({
+                "line-height": lineHeight + "px"
+            });
+            $('.markdown-body pre').map(function(i, item) {
+                var $item = $(item);
+                var foldnumber = $item.data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
+                    $item.css({
+                        "padding-bottom": 30
+                    });
+                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
+                    $item.append('<span class="extend">展开更多……</span>');
+                };
+            });
+            $('.ydoc-example').delegate('.extend', 'click', function() {
+                var $this = $(this);
+                $this.removeClass('extend').addClass('fold');
+                $this.html('折叠代码');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
+            });
+            $('.ydoc-example').delegate('.fold', 'click', function() {
+                var $this = $(this);
+                var foldnumber = $this.parent().data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                $this.removeClass('fold').addClass('extend');
+                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.html("展开更多……");
+            });
+        }
+        $(document).ready(fold);
+    </script>
+        
+
+    </body>
+
+</html>
