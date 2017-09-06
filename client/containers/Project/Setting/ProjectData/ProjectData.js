@@ -277,7 +277,7 @@ class ProjectData extends Component {
             <div className="catidSelect">
               <Select
                 showSearch
-                style={{ width: 200 }}
+                style={{ width: '100%' }}
                 placeholder="请选择数据导入的接口分类"
                 optionFilterProp="children"
                 onChange={this.selectChange.bind(this)}
