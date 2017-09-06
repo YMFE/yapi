@@ -1,0 +1,1 @@
+window.WEBPACK_ASSETS = {"index.js":{"js":"index@eab742fd3c28ea24fc95.js","css":"index@eab742fd3c28ea24fc95.css"},"lib":{"js":"lib@3c3db91cbdc265b7c37f.js"},"lib2":{"js":"lib2@122f3773fc11dd227117.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}

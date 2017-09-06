@@ -38,7 +38,8 @@ module.exports = {
             "always"
         ],
         "strict": 0,
-        "comma-dangle": ["error", "never"]
+        "comma-dangle": ["error", "never"],
+        "no-console": ["off"]
     }
 };
 
