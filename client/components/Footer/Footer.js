@@ -36,7 +36,7 @@ class FootItem extends Component {
   render () {
     return (
       <Col span={6}>
-        <h4 className="title"><Icon type={ this.props.iconType } className="icon" />{this.props.title}</h4>
+        <h4 className="title">{this.props.iconType ? <Icon type={ this.props.iconType } className="icon" /> : ''}{this.props.title}</h4>
         { this.props.linkList.map(function(item,i){
           return (<p key={i}><a href={ item.itemLink } className="link">{ item.itemTitle }</a></p>);
         }) }
@@ -78,7 +78,7 @@ Footer.defaultProps = {
     },
     {
       title: '其他项目',
-      iconType: 'layout',
+      iconType: 'appstore-o',
       linkList: [
         {
           itemTitle: 'Yo',
@@ -98,7 +98,6 @@ Footer.defaultProps = {
     },
     {
       title: 'Copyright © 2017 YApi',
-      iconType: 'layout',
       linkList: [
         {
           itemTitle: '版本： '+packageJson.version,
