@@ -51,6 +51,13 @@
             background-color: #efefef
         }
         .interface-list{
+            .cat_switch_hidden{
+                .ant-tree-switcher{
+                    visibility: hidden;
+                }
+            }
+            
+
             a{
                 color: #333
             }
@@ -66,6 +73,8 @@
                 display: inline-block;
                 width: 180px;
                 overflow: hidden;
+                top: 0px;
+                line-height: 100%;
             }
             .interface-item-nav{
                 line-height:25px;
@@ -78,14 +87,14 @@
             .interface-delete-icon{
                 position: relative;
                 right: 21px;
-                top: 2px;
+                // top: 2px;
                 float: right;
                 line-height: 25px;
                 width: 30px;
             }
         }
     }
-
+    
     .right-content{
         margin:3px;
         min-height: 5rem;

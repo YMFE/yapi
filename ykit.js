@@ -7,6 +7,7 @@ var assetsPluginInstance = new AssetsPlugin({
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
 })
+var config = require('../config.json');
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -15,6 +16,24 @@ var compressPlugin = new CompressionPlugin({
   threshold: 10240,
   minRatio: 0.8,
 });
+
+function fileExist (filePath){
+  try {
+      return fs.statSync(filePath).isFile();
+  } catch (err) {
+      return false;
+  }
+};
+
+function initPlugins(){
+  if(config.plugins && Array.isArray(config.plugins)){
+    config.plugins = config.plugins.filter(item=>{
+      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
+    })
+  }
+}
+
+initPlugins();
 
 
 function handleCommonsChunk(webpackConfig) {
@@ -93,7 +112,8 @@ module.exports = {
         defaultQuery.plugins.push('transform-decorators-legacy');
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
-      }
+      },
+      exclude: /node_modules/
     }
   }],
   // devtool:  'cheap-source-map',
@@ -119,13 +139,15 @@ module.exports = {
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
+          'process.env.config': JSON.stringify(config)
         }))
 
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.common = '/common';
+        baseConfig.resolve.alias.plugins = '/plugins';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
@@ -166,9 +188,9 @@ module.exports = {
   },
   server: {
     // true/false，默认 false，效果相当于 ykit server --hot
-    hot: true
+    hot: true,
     // true/false，默认 false，开启后可在当前打开的页面提示打包错误
-    // overlay: true
+    overlay: false
   },
   hooks: {},
   commands: []

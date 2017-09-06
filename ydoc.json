@@ -67,61 +67,55 @@
         "content": {
             "sidebar": true,
             "multi": true,
-            "index": "./doc/usage/getfamiliar.md",
+            "index": "./doc/page/usage/getfamiliar.md",
             "pages": [{
                 "name": "认识 YApi",
-                "content": "./doc/usage/getfamiliar.md"
-            }, {
+                "content": "./doc/page/usage/getfamiliar.md"
+            },{
                 "name": "创建第一个API",
-                "content": "./doc/usage/quickstart.md"
-            }
-            // , {
-            //     "name": "接口配置",
-            //     "content": "./doc/usage/interface.md"
-            // }
-            , {
+                "content": "./doc/page/usage/quickstart.md"
+            },{
+                "name": "项目管理",
+                "content": "./doc/page/usage/project.md"
+            },{
+                "name": "接口配置与调试",
+                "content": "./doc/page/usage/api.md"
+            },{
                 "name": "使用mock功能",
-                "content": "./doc/usage/mock.md"
+                "content": "./doc/page/usage/mock.md"
+            },{
+                "name": "使用测试集",
+                "content": "./doc/page/usage/case.md"
             }
-            // , {
-            //     "name": "使用测试集",
-            //     "content": "./doc/usage/case.md"
-            // }, {
-            //     "name": "成为组长",
-            //     "content": "./doc/usage/leader.md"
-            // }, {
-            //     "name": "权限列表",
-            //     "content": "./doc/usage/authority.md"
-            // }
         ]
         }
     },
-//    {
-//        "name": "manage",
-//        "title": "管理学院",
-//        "banner": {
-//            "title": "管理学院",
-//            "description": "超级管理员、分组/项目组长的学院。"
-//        },
-//        "content": {
-//            "sidebar": true,
-//            "multi": true,
-//            "index": "./doc/manage/intro.md",
-//            "pages": [{
-//                "name": "介绍",
-//                "content": "./doc/manage/intro.md"
-//            }, {
-//                "name": "部署",
-//                "content": "./doc/manage/build.md"
-//            }, {
-//                "name": "超管职责",
-//                "content": "./doc/manage/admin.md"
-//            }, {
-//                "name": "版本升级",
-//                "content": "./doc/manage/update.md"
-//            }]
-//        }
-//    },
+   {
+       "name": "manage",
+       "title": "管理学院",
+       "banner": {
+           "title": "管理学院",
+           "description": "超级管理员、分组/项目组长的学院。"
+       },
+       "content": {
+           "sidebar": true,
+           "multi": true,
+           "index": "./doc/page/manage/intro.md",
+           "pages": [{
+               "name": "介绍",
+               "content": "./doc/page/manage/intro.md"
+           }, {
+               "name": "部署",
+               "content": "./doc/page/manage/build.md"
+           }, {
+               "name": "超管职责",
+               "content": "./doc/page/manage/admin.md"
+           }, {
+               "name": "版本升级",
+               "content": "./doc/page/manage/update.md"
+           }]
+       }
+   },
     {
         "name": "api",
         "title": "",

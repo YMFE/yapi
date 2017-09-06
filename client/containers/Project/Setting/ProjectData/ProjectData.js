@@ -206,9 +206,14 @@ class ProjectData extends Component {
 
   handleAddInterface(info){
     if(this.state.selectCatid){
+      let filename = info.file.name;
+      let filetype = filename.substr(filename.lastIndexOf(".")).toLowerCase();
+      // console.log(filename,filetype);
+      if(filetype != ".json") return message.error("文件格式只能为json");
       let reader = new FileReader();
       reader.readAsText(info.file);
       reader.onload = (res)=>{
+        
         res = res.target.result;
         try{
           res = JSON.parse(res);

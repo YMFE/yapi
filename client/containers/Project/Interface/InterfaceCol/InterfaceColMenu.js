@@ -73,7 +73,8 @@ export default class InterfaceColMenu extends Component {
     expandedKeys: [],
     colModalType: '',
     colModalVisible: false,
-    editColId: 0
+    editColId: 0,
+    filterValue: ''
   }
 
   constructor(props) {
@@ -187,9 +188,14 @@ export default class InterfaceColMenu extends Component {
     this.form = form;
   }
 
+  filterCol = (e) => {
+    const value = e.target.value;
+    this.setState({filterValue: value})
+  }
+
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
-    const { colModalType, colModalVisible } = this.state;
+    const { colModalType, colModalVisible, filterValue } = this.state;
 
     const menu = (col) => {
       return (
@@ -209,7 +215,7 @@ export default class InterfaceColMenu extends Component {
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="Filter by name" style={{ width: "70%" }} />
+          <Input placeholder="Filter by name" style={{ width: "70%" }} onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
             <Tag color="#108ee9" style={{ marginLeft: "15px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
           </Tooltip>
@@ -223,7 +229,7 @@ export default class InterfaceColMenu extends Component {
           onExpand={this.onExpand}
         >
           {
-            this.props.interfaceColList.map((col) => (
+            this.props.interfaceColList.filter(col => col.name.indexOf(filterValue) !== -1).map((col) => (
               <TreeNode
                 key={'col_' + col._id}
                 title={

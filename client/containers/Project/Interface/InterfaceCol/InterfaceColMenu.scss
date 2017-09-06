@@ -5,6 +5,7 @@
   .menu-title {
     display: flex;
     justify-content: space-between;
+    overflow: hidden;
     .case-delete-icon{
       display: none;
     }
