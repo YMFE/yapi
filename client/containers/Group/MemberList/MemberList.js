@@ -200,7 +200,14 @@ class MemberList extends Component {
             </div>
           )
         } else {
-          return '';
+          // 非管理员可以看到权限 但无法修改
+          if (record.role === 'owner') {
+            return '组长';
+          } else if (record.role === 'dev') {
+            return '开发者';
+          } else {
+            return '';
+          }
         }
       }
     }];
