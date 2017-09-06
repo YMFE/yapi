@@ -8727,11 +8727,6 @@
         "minimist": "0.0.8"
       }
     },
-    "mock": {
-      "version": "0.1.1",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/mock/-/mock-0.1.1.tgz",
-      "integrity": "sha1-5+NYnH5rM3bWn1o+RwtWYEQXxjM="
-    },
     "mockjs": {
       "version": "1.0.1-beta3",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/mockjs/-/mockjs-1.0.1-beta3.tgz",
@@ -8744,11 +8739,6 @@
       "version": "2.18.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/moment/-/moment-2.18.1.tgz",
       "integrity": "sha1-w2GT3Tzhwu7SrbfIAtu8d6gbHA8="
-    },
-    "monaco-editor": {
-      "version": "0.9.0",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/monaco-editor/-/monaco-editor-0.9.0.tgz",
-      "integrity": "sha1-xQxTJRxHt/8S4J8Pg8/TKkTf5uw="
     },
     "mongodb": {
       "version": "2.2.27",
