@@ -29,6 +29,16 @@ body, h1, h2, h3, h4, h5, h6 {
   vertical-align: middle;
 }
 
+/* 覆盖掉 Interface 下的标题样式 */
+.markdown-body blockquote.api {
+  background-color: transparent;
+}
+.markdown-body blockquote.api:before {
+  content: '';
+  display: none;
+}
+
+/* markdown 的注释样式 */
 .markdown-body blockquote {
   border-left: 4px solid #ff561b;
   background-color: #f8f8f8;
