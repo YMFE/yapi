@@ -10,7 +10,7 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-import { pickRandomProperty, handlePath, strLength } from '../../common';
+import { pickRandomProperty, handlePath, nameLengthLimit } from '../../common';
 import constants from '../../constants/variable.js';
 import { withRouter } from 'react-router';
 import './Addproject.scss';
@@ -103,20 +103,7 @@ class ProjectList extends Component {
             label="项目名称"
           >
             {getFieldDecorator('name', {
-              rules: [{
-                required: true,
-                message: '请输入项目名称，长度不超过20字符(中文算2字符)!',
-                validator(rule, value, callback) {
-                  const len = value ? strLength(value) : 0;
-                  if (len > 20) {
-                    callback('请输入项目名称，长度不超过20字符(中文算2字符)!');
-                  } else if (len === 0) {
-                    callback('请输入项目名称，长度不超过20字符(中文算2字符)!');
-                  } else {
-                    return callback();
-                  }
-                }
-              }]
+              rules: nameLengthLimit('项目')
             })(
               <Input />
             )}

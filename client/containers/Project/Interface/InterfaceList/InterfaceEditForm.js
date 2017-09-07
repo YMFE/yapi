@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
-import { handlePath } from '../../../../common.js'
+import { handlePath, nameLengthLimit } from '../../../../common.js'
 import json5 from 'json5'
 import {message} from 'antd'
 
@@ -96,7 +96,7 @@ class InterfaceEditForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (values.res_body_type === 'json') {
@@ -111,9 +111,9 @@ class InterfaceEditForm extends Component {
           }
           values.req_body_other = this.state.req_body_other;
         }
-        
-        
-        
+
+
+
         values.method = this.state.method;
         values.req_params = values.req_params || [];
         let isfile = false, isHavaContentType = false;
@@ -168,7 +168,7 @@ class InterfaceEditForm extends Component {
     mockEditor({
       container: 'req_body_json',
       data: that.state.req_body_other,
-      onChange: function (d) {   
+      onChange: function (d) {
         that.setState({
           req_body_other: d.text
         })
@@ -181,7 +181,7 @@ class InterfaceEditForm extends Component {
       onChange: function (d) {
         if (d.format === true){
           mockPreview.editor.setValue(d.mockText)
-        }        
+        }
         that.setState({
           res_body: d.text,
           res_body_mock: d.mockText
@@ -392,9 +392,7 @@ class InterfaceEditForm extends Component {
         >
           {getFieldDecorator('title', {
             initialValue: this.state.title,
-            rules: [{
-              required: true, message: '请输入接口名称!'
-            }]
+            rules: nameLengthLimit('接口')
           })(
             <Input placeholder="接口名称" />
             )}

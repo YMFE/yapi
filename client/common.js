@@ -86,11 +86,28 @@ exports.handlePath = (path) => {
   return path;
 }
 
-// 返回字符串长度，汉字计数为2
-exports.strLength = (str) => {
-  let length = 0;
-  for (let i = 0; i < str.length; i++) {
-    str.charCodeAt(i) > 255 ? length += 2 : length++;
+// 名称限制 20 字符
+exports.nameLengthLimit = (type) => {
+  // 返回字符串长度，汉字计数为2
+  const strLength = (str) => {
+    let length = 0;
+    for (let i = 0; i < str.length; i++) {
+      str.charCodeAt(i) > 255 ? length += 2 : length++;
+    }
+    return length;
   }
-  return length;
+  // 返回 form中的 rules 校验规则
+  return [{
+    required: true,
+    validator(rule, value, callback) {
+      const len = value ? strLength(value) : 0;
+      if (len > 20) {
+        callback('请输入' + type + '名称，长度不超过20字符(中文算作2字符)!');
+      } else if (len === 0) {
+        callback('请输入' + type + '名称，长度不超过20字符(中文算作2字符)!');
+      } else {
+        return callback();
+      }
+    }
+  }]
 }
