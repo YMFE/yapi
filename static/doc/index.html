@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 首页</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -74,7 +80,7 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content" id="readme">
+                <div class="ydoc-container-content ydoc-container-home" id="readme">
                     
                         
                         <h1 class="home-page-title">为API开发者设计的管理平台</h1>
@@ -149,7 +155,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -173,8 +179,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -182,7 +188,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }

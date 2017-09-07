@@ -7,6 +7,15 @@ import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEdi
 import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
+import json5 from 'json5'
+
+function json_parse(data) {
+  try {
+    return json5.parse(data)
+  } catch (e) {
+    return null
+  }
+}
 
 const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -47,17 +56,17 @@ export default class Run extends Component {
 
   componentWillMount() {
     let startTime = 0;
-    this.interval = setInterval(()=>{
+    this.interval = setInterval(() => {
       startTime += 500;
-      if(startTime > 5000){
+      if (startTime > 5000) {
         clearInterval(this.interval);
       }
-      if(window.crossRequest){
+      if (window.crossRequest) {
         clearInterval(this.interval);
         this.setState({
           hasPlugin: true
         })
-      }else{
+      } else {
         this.setState({
           hasPlugin: false
         })
@@ -66,7 +75,7 @@ export default class Run extends Component {
     this.getInterfaceState()
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.interval)
   }
 
@@ -78,7 +87,7 @@ export default class Run extends Component {
 
   componentDidMount() {
     const { bodyType } = this.state;
-    if(bodyType && bodyType !== 'file' && bodyType !== 'form') {
+    if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
     }
   }
@@ -132,7 +141,7 @@ export default class Run extends Component {
       bodyType: req_body_type || 'form',
       loading: false
     }, () => {
-      if(req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
+      if (req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
         this.loadBodyEditor()
       }
     });
@@ -142,7 +151,7 @@ export default class Run extends Component {
   reqRealInterface() {
     if (this.state.loading) {
       this.setState({ loading: false })
-      return ;
+      return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(domains.find(item => item.name === caseEnv).domain);
@@ -159,7 +168,7 @@ export default class Run extends Component {
     });
 
     this.setState({ loading: true })
-
+    let that = this;
     window.crossRequest({
       url: href,
       method,
@@ -169,62 +178,60 @@ export default class Run extends Component {
       success: (res, header) => {
         try {
           if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
-            res = typeof res === 'object' ? res : JSON.parse(res)
+            res = typeof res !== 'string' ? res : json_parse(res)
           }
           if (header) {
-            header = typeof header === 'object' ? header : JSON.parse(header)
+            header = typeof header !== 'string' ? header : json_parse(header)
           }
         } catch (e) {
           message.error(e.message)
         }
-        const { res_body, res_body_type } = this.props.data;
+        const { res_body, res_body_type } = that.props.data;
         let validRes = '';
         let query = {};
-        this.state.query.forEach(item=>{
+        that.state.query.forEach(item => {
           query[item.name] = item.value;
         })
         let body = {};
-        if(this.state.bodyType === 'form'){
-          this.state.bodyForm.forEach(item=>{
+        if (that.state.bodyType === 'form') {
+          that.state.bodyForm.forEach(item => {
             body[item.name] = item.value;
           })
-        }else if(this.state.bodyType === 'json'){
-          try{
-            body = JSON.parse(this.state.bodyOther);
-          }catch(e){
-            body = {}
+        } else if (that.state.bodyType === 'json') {
+          try {
+            body = json_parse(that.state.bodyOther);
+          } catch (e) {
+            body = ''
           }
         }
         if (res_body && res_body_type === 'json' && typeof res === 'object') {
-          let tpl = MockExtra(JSON.parse(res_body), {
+          let tpl = MockExtra(json_parse(res_body), {
             query: query,
             body: body
           })
-          console.log(tpl, this.state)
           validRes = Mock.valid(tpl, res)
-          console.log(validRes)
         }
-        
+
         message.success('请求完成')
-        this.setState({res, resHeader: header, validRes})
-        this.setState({ loading: false })
-        this.bindAceEditor()
+        that.setState({ res, resHeader: header, validRes })
+        that.setState({ loading: false })
+        that.bindAceEditor()
       },
       error: (err, header) => {
         try {
           if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
-            err = typeof err === 'object' ? err : JSON.parse(err)
+            err = typeof err === 'object' ? err : json_parse(err)
           }
           if (header) {
-            header = typeof header === 'object' ? header : JSON.parse(header)
+            header = typeof header === 'object' ? header : json_parse(header)
           }
         } catch (e) {
           message.error(e.message)
         }
         message.success('请求完成')
-        this.setState({res: err || '请求失败', resHeader: header, validRes: null})
-        this.setState({ loading: false })
-        this.bindAceEditor()
+        that.setState({ res: err || '请求失败', resHeader: header, validRes: null })
+        that.setState({ loading: false })
+        that.bindAceEditor()
       }
     })
   }
@@ -241,7 +248,7 @@ export default class Run extends Component {
 
   @autobind
   changeHeader(e, index, isName) {
-    const headers = JSON.parse(JSON.stringify(this.state.headers));
+    const headers = json_parse(JSON.stringify(this.state.headers));
     const v = e.target.value;
     if (isName) {
       headers[index].name = v;
@@ -253,23 +260,23 @@ export default class Run extends Component {
   @autobind
   addHeader() {
     const { headers } = this.state;
-    this.setState({headers: headers.concat([{name: '', value: ''}])})
+    this.setState({ headers: headers.concat([{ name: '', value: '' }]) })
   }
   @autobind
   deleteHeader(index) {
     const { headers } = this.state;
-    this.setState({headers: headers.filter((item, i) => +index !== +i)});
+    this.setState({ headers: headers.filter((item, i) => +index !== +i) });
   }
   @autobind
   setContentType(type) {
     const headersObj = this.getHeadersObj(this.state.headers);
     headersObj['Content-Type'] = type;
-    this.setState({headers: this.objToArr(headersObj)})
+    this.setState({ headers: this.objToArr(headersObj) })
   }
 
   @autobind
   changeQuery(e, index, isKey) {
-    const query = JSON.parse(JSON.stringify(this.state.query));
+    const query = json_parse(JSON.stringify(this.state.query));
     const v = e.target.value;
     if (isKey) {
       query[index].name = v;
@@ -281,12 +288,12 @@ export default class Run extends Component {
   @autobind
   addQuery() {
     const { query } = this.state;
-    this.setState({query: query.concat([{name: '', value: ''}])})
+    this.setState({ query: query.concat([{ name: '', value: '' }]) })
   }
   @autobind
   deleteQuery(index) {
     const { query } = this.state;
-    this.setState({query: query.filter((item, i) => +index !== +i)});
+    this.setState({ query: query.filter((item, i) => +index !== +i) });
   }
 
   @autobind
@@ -310,19 +317,19 @@ export default class Run extends Component {
   @autobind
   addPathParam() {
     const { pathParam } = this.state;
-    this.setState({pathParam: pathParam.concat([{name: '', value: ''}])})
+    this.setState({ pathParam: pathParam.concat([{ name: '', value: '' }]) })
   }
   @autobind
   deletePathParam(index) {
     const { pathParam } = this.state;
     const name = pathParam[index].name;
     const newPathname = this.state.pathname.replace(`/:${name}`, '');
-    this.setState({pathParam: pathParam.filter((item, i) => +index !== +i), pathname: newPathname});
+    this.setState({ pathParam: pathParam.filter((item, i) => +index !== +i), pathname: newPathname });
   }
 
   @autobind
   changeBody(e, index, type) {
-    const bodyForm = JSON.parse(JSON.stringify(this.state.bodyForm));
+    const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
     switch (type) {
       case 'key':
         bodyForm[index].name = e.target.value
@@ -348,12 +355,12 @@ export default class Run extends Component {
   @autobind
   addBody() {
     const { bodyForm } = this.state;
-    this.setState({bodyForm: bodyForm.concat([{name: '', value: '', type: 'text'}])})
+    this.setState({ bodyForm: bodyForm.concat([{ name: '', value: '', type: 'text' }]) })
   }
   @autobind
   deleteBody(index) {
     const { bodyForm } = this.state;
-    this.setState({bodyForm: bodyForm.filter((item, i) => +index !== +i)});
+    this.setState({ bodyForm: bodyForm.filter((item, i) => +index !== +i) });
   }
 
   @autobind
@@ -373,8 +380,8 @@ export default class Run extends Component {
 
   @autobind
   changeBodyType(value) {
-    this.setState({bodyType: value}, () => {
-      if(value !== 'file' && value !== 'form') {
+    this.setState({ bodyType: value }, () => {
+      if (value !== 'file' && value !== 'form') {
         this.loadBodyEditor()
       }
     })
@@ -391,7 +398,7 @@ export default class Run extends Component {
     const arr = []
     Object.keys(obj).forEach((_key) => {
       if (_key) {
-        arr.push({[keyName]: _key, [valueName]: obj[_key]});
+        arr.push({ [keyName]: _key, [valueName]: obj[_key] });
       }
     })
     return arr;
@@ -437,19 +444,19 @@ export default class Run extends Component {
     mockEditor({
       container: 'res-body-pretty',
       data: JSON.stringify(this.state.res, null, 2),
-      readOnly:true,
-      onChange: function () {}
+      readOnly: true,
+      onChange: function () { }
     })
     mockEditor({
       container: 'res-headers-pretty',
-      data:  JSON.stringify(this.state.resHeader, null, 2),
-      readOnly:true,
-      onChange: function () {}
+      data: JSON.stringify(this.state.resHeader, null, 2),
+      readOnly: true,
+      onChange: function () { }
     })
   }
   loadBodyEditor = () => {
     const that = this;
-    setTimeout(function() {
+    setTimeout(function () {
       mockEditor({
         container: 'body-other-edit',
         data: that.state.bodyOther,
@@ -469,8 +476,8 @@ export default class Run extends Component {
     console.log(index)
   }
 
-  render () {
-
+  render() {
+    console.log(111)
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     const hasPlugin = this.state.hasPlugin;
     const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
@@ -478,61 +485,73 @@ export default class Run extends Component {
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
-    const search = decodeURIComponent(URL.format({query: this.getQueryObj(query)}));
+    const search = decodeURIComponent(URL.format({ query: this.getQueryObj(query) }));
+
+    let validResView;
+    if (!validRes) {
+      validResView = '请定义返回json'
+    }
+    if (Array.isArray(validRes) && validRes.length > 0) {
+      validResView = validRes.map((item, index) => {
+        return  <p key={index}>{item}</p>
+      })
+    } else if (Array.isArray(validRes)) {
+      validResView = <p>验证通过</p>
+    }
+
+
 
     return (
       <div className="interface-test postman">
-        <div  className="has-plugin">
-          {
-            hasPlugin ? '' :
-            <Alert
-              message={
+        <div className="has-plugin">
+          {hasPlugin ? '' : <Alert
+            message={
+              <div>
+                温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;（该插件可支持任何 chrome 内核的浏览器）
                 <div>
-                  温馨提示：当前正在使用接口测试服务，请安装我们为您免费提供的测试增强插件&nbsp;（该插件可支持任何 chrome 内核的浏览器）
-                  <div>
-                    <a
-                      target="blank"
-                      href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                    > [Google 商店获取（需翻墙）]</a>
-                  </div>
-                  <div>
-                    <a
-                      target="blank"
-                      href="/attachment/cross-request.zip"
-                    > [手动下载] </a>
-                    <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
-                    <a
-                      target="blank"
-                      href="http://www.jianshu.com/p/12ca04c61fc6"
-                    > [详细安装教程] </a>
-                  </div>
+                  <a
+                    target="blank"
+                    href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
+                  > [Google 商店获取（需翻墙）]</a>
                 </div>
-              }
-              type="warning"
-            />
+                <div>
+                  <a
+                    target="blank"
+                    href="/attachment/cross-request.zip"
+                  > [手动下载] </a>
+                  <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
+                  <a
+                    target="blank"
+                    href="http://www.jianshu.com/p/12ca04c61fc6"
+                  > [详细安装教程] </a>
+                </div>
+              </div>
+            }
+            type="warning"
+          />
           }
         </div>
 
         <Card title="请求部分" noHovering className="req-part">
           <div className="url">
-            <InputGroup compact style={{display: 'flex'}}>
-              <Select disabled value={method} style={{flexBasis: 60}} onChange={this.changeMethod} >
+            <InputGroup compact style={{ display: 'flex' }}>
+              <Select disabled value={method} style={{ flexBasis: 60 }} onChange={this.changeMethod} >
                 <Option value="GET">GET</Option>
                 <Option value="POST">POST</Option>
               </Select>
-              <Select value={caseEnv} style={{flexBasis: 180, flexGrow: 1}} onSelect={this.selectDomain}>
+              <Select value={caseEnv} style={{ flexBasis: 180, flexGrow: 1 }} onSelect={this.selectDomain}>
                 {
                   domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
-              <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{flexBasis: 180, flexGrow: 1}} />
+              <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
             </InputGroup>
             <Tooltip placement="bottom" title="请求真实接口">
               <Button
                 disabled={!hasPlugin}
                 onClick={this.reqRealInterface}
                 type="primary"
-                style={{marginLeft: 10}}
+                style={{ marginLeft: 10 }}
                 icon={loading ? 'loading' : ''}
               >{loading ? '取消' : '发送'}</Button>
             </Tooltip>
@@ -540,7 +559,7 @@ export default class Run extends Component {
               <Button
                 onClick={this.props.save}
                 type="primary"
-                style={{marginLeft: 10}}
+                style={{ marginLeft: 10 }}
               >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
             </Tooltip>
           </div>
@@ -554,12 +573,12 @@ export default class Run extends Component {
                       <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changePathParam(e, index)} className="value" />
-                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
+                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                     </div>
                   )
                 })
               }
-              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
+              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
             </Panel>
             <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
               {
@@ -569,12 +588,12 @@ export default class Run extends Component {
                       <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeQuery(e, index)} className="value" />
-                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
+                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                     </div>
                   )
                 })
               }
-              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
+              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
             </Panel>
             <Panel header="HEADERS" key="2" className={headers.length === 0 ? 'hidden' : ''}>
               {
@@ -584,18 +603,18 @@ export default class Run extends Component {
                       <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
                       <Input value={item.value} onChange={e => this.changeHeader(e, index)} className="value" />
-                      <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
+                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                     </div>
                   )
                 })
               }
-              <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
+              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
             </Panel>
             <Panel
               header={
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <div>BODY</div>
-                  <div onClick={e => e.stopPropagation()} style={{marginRight: 5}}>
+                  <div onClick={e => e.stopPropagation()} style={{ marginRight: 5 }}>
                     <Select disabled value={bodyType !== 'form' && bodyType !== 'file' ? 'text' : bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'none'}>
                       <Option value="text">Text</Option>
                       <Option value="file">File</Option>
@@ -607,14 +626,14 @@ export default class Run extends Component {
               key="3"
               className={method === 'POST' ? '' : 'hidden'}
             >
-              { method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
+              {method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
                 <div>
                   <RadioGroup disabled value={bodyType} onChange={(e) => this.changeBodyType(e.target.value)}>
                     <RadioButton value="json">JSON</RadioButton>
                     <RadioButton value="text">TEXT</RadioButton>
                     <RadioButton value="xml">XML</RadioButton>
                   </RadioGroup>
-                  <div id="body-other-edit" style={{marginTop: 10}} className="pretty-editor"></div>
+                  <div id="body-other-edit" style={{ marginTop: 10 }} className="pretty-editor"></div>
                 </div>
               }
               {
@@ -632,16 +651,16 @@ export default class Run extends Component {
                           </Select>
                           <span>]</span>
                           <span className="eq-symbol">=</span>
-                          {
-                            item.type === 'file' ? <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
+                          {item.type === 'file' ?
+                            <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
                             <Input value={item.value} onChange={e => this.changeBody(e, index, 'value')} className="value" />
                           }
-                          <Icon style={{display: 'none'}} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
+                          <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
                         </div>
                       )
                     })
                   }
-                  <Button style={{display: 'none'}} type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
+                  <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
                 </div>
               }
               {
@@ -663,18 +682,16 @@ export default class Run extends Component {
             <div className="res-code"></div>
             <Collapse defaultActiveKey={['0', '1']} bordered={true}>
               <Panel header="BODY" key="0" >
-                <div id="res-body-pretty" className="pretty-editor" style={{display: isResJson ? '' : 'none'}}></div>
+                <div id="res-body-pretty" className="pretty-editor" style={{ display: isResJson ? '' : 'none' }}></div>
                 <TextArea
-                  style={{display: isResJson ? 'none' : ''}}
+                  style={{ display: isResJson ? 'none' : '' }}
                   value={this.state.res && this.state.res.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>
-                <div style={{display: validRes ? '' : 'none', marginTop: 6, fontWeight: 'bold'}}>返回 Body 验证结果：</div>
-                <TextArea
-                  style={{display: validRes ? '' : 'none'}}
-                  value={validRes && (validRes.length ? JSON.stringify(validRes.map(item => item.message), null, 2) : '恭喜：验证通过！')}
-                  autosize={{ minRows: 2, maxRows: 10 }}
-                ></TextArea>
+                <div>返回 Body 验证结果：</div>
+                <p>
+                  {validResView}
+                </p>
               </Panel>
               <Panel header="HEADERS" key="1" >
                 {/*<TextArea

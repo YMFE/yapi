@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -63,10 +69,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content">
+                <div class="ydoc-container-content ">
                     
                     
-                    <div class="content-left " role="complementary">
+                    <div class="content-left staticsidenav" role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -128,7 +134,7 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body " role="main">
+                    <div class="content-right markdown-body use-sidebar" role="main">
 
                          <p>接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
 <p>YAPI 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
@@ -269,7 +275,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -293,8 +299,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -302,7 +308,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
