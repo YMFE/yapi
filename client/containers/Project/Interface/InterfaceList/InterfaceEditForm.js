@@ -500,7 +500,7 @@ class InterfaceEditForm extends Component {
               <RadioGroup>
                 <Radio value="form">form</Radio>
                 <Radio value="json">json</Radio>
-                <Radio value="file">file</Radio>
+                {/* <Radio value="file">file</Radio> */}
                 <Radio value="raw">raw</Radio>
               </RadioGroup>
               )}
@@ -533,7 +533,7 @@ class InterfaceEditForm extends Component {
           </Col>
         </Row>
 
-        {this.props.form.getFieldValue('req_body_type') === 'file' ?
+        {/* {this.props.form.getFieldValue('req_body_type') === 'file' ?
           <Row className="interface-edit-item" >
             <Col span={18} offset={4}>
               {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
@@ -545,7 +545,7 @@ class InterfaceEditForm extends Component {
           </Row>
           :
           null
-        }
+        } */}
         {this.props.form.getFieldValue('req_body_type') === 'raw' ?
           <Row>
             <Col span={18} offset={4} >

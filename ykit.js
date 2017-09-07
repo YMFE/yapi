@@ -28,7 +28,7 @@ function fileExist (filePath){
 function initPlugins(){
   if(config.plugins && Array.isArray(config.plugins)){
     config.plugins = config.plugins.filter(item=>{
-      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
+      return fileExist(path.resolve(__dirname, 'plugins/yapi-plugin-' + item + '/client.js'))
     })
   }
 }
@@ -168,7 +168,7 @@ module.exports = {
           loader: ykit.ExtractTextPlugin.extract(
             require.resolve('css-loader')
             + '?sourceMap!'
-            + require.resolve('fast-sass-loader') + '?sourceMap'
+            + require.resolve('fast-sass-loader-china') + '?sourceMap'
           )
         })
         baseConfig.module.preLoaders.push({
