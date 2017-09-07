@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Tag, Button, Modal, message
+  Table, Tag, Button, Modal, message, Tooltip
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
@@ -115,8 +115,10 @@ class InterfaceList extends Component {
       title: '接口路径',
       dataIndex: 'path',
       key: 'path',
+      width: 400,
       render: (item) => {
-        return <span>{this.props.curProject.basepath + item}</span>
+        const path = this.props.curProject.basepath + item;
+        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip"><span className="path">{path}</span></Tooltip>
       }
     }, {
       title: '请求方法',
