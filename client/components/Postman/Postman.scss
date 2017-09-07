@@ -2,6 +2,15 @@
   .pretty-editor {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    height: 200px;
+  }
+  .pretty-editor-body {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    min-height: 300px;
+  }
+  .pretty-editor-header {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    min-height: 200px;
   }
 }
