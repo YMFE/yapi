@@ -52,7 +52,6 @@ export default class InterfaceColContent extends Component {
                 result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
                 result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
-    this.props.fetchCaseList(currColId)
     this.props.setColData({currColId: +currColId, isShowCol: true})
   }
 
