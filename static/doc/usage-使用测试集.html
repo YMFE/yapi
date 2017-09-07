@@ -9,13 +9,7 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />
-    
-    
-      
-      <link rel="stylesheet" href="styles/theme.css" />
-      
-    
+    <link rel="stylesheet" href="source/main.css" />  
 </head>
 <body>
     <div class="ydoc">
@@ -69,10 +63,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content ">
+                <div class="ydoc-container-content">
                     
                     
-                    <div class="content-left staticsidenav" role="complementary">
+                    <div class="content-left " role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -125,7 +119,15 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#使用说明">使用说明</a>
+                                        <a href="#添加测试集">添加测试集</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#添加接口用例">添加接口用例</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#查看接口用例">查看接口用例</a>
                                     </li>
                                  
                                 </ul>
@@ -134,9 +136,23 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body use-sidebar" role="main">
+                    <div class="content-right markdown-body " role="main">
 
-                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><h2 class="subject" id="使用说明">使用说明 <a class="hashlink" href="#使用说明">#</a></h2>
+                         <h2 class="subject" id="介绍1">介绍 <a class="hashlink" href="#介绍1">#</a></h2><p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
+
+<h2 class="subject" id="添加测试集">添加测试集 <a class="hashlink" href="#添加测试集">#</a></h2><p>添加测试集，我们可以创建个人测试集、环境测试集或者功能测试集等等。每个测试集只是接口用例的集合，可以按照任何维度去创建。</p>
+<p>项目接口页面，测试集合 tab 下面『加号』按钮添加测试集。</p>
+<p><img src="./images/case_col_add.jpg" /></p>
+<p>添加测试集必须填写集合名，然后可以选填集合简介。</p>
+<p><img src="./images/case_col_add_modal.jpg" /></p>
+<h2 class="subject" id="添加接口用例">添加接口用例 <a class="hashlink" href="#添加接口用例">#</a></h2><p>当我们在运行、调试某个接口时，为了把当前的测试请求数据保存下来，方便下次测试。我们可以将接口当前的测试数据，保存为该接口的测试用例。</p>
+<p>在接口运行页面，点击保存按钮，添加接口用例。</p>
+<p><img src="./images/case_add.jpg" /></p>
+<p>然后选择用例需要添加到的集合。如何还没有集合，可以新建。</p>
+<p><img src="./images/case_add_modal.jpg" /></p>
+<h2 class="subject" id="查看接口用例">查看接口用例 <a class="hashlink" href="#查看接口用例">#</a></h2><p>添加完用例，我们可以在接口集合 tab 下面看到，当前项目的所有测试集合和接口用例。接口用例和接口运行一样，只不过默认带上了一些请求参数。
+<img src="./images/case_list.jpg" /></p>
+
                     </div>
                 </div>
                  
@@ -160,7 +176,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 18;
+        var lineHeight = 17.4;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -184,8 +200,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
+                $this.prev().height('auto');
+                $this.prev().parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -193,7 +209,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
