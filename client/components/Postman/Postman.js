@@ -473,7 +473,12 @@ export default class Run extends Component {
 
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     const hasPlugin = this.state.hasPlugin;
-    const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
+    let isResJson = false;
+    Object.keys(resHeader).map(key => {
+      if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
+        isResJson = true;
+      }
+    })
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
