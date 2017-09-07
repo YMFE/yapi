@@ -93,32 +93,32 @@
         ]
         }
     },
-   {
-       "name": "manage",
-       "title": "管理学院",
-       "banner": {
-           "title": "管理学院",
-           "description": "超级管理员、分组/项目组长的学院。"
-       },
-       "content": {
-           "sidebar": true,
-           "multi": true,
-           "index": "./doc/page/manage/intro.md",
-           "pages": [{
-               "name": "介绍",
-               "content": "./doc/page/manage/intro.md"
-           }, {
-               "name": "部署",
-               "content": "./doc/page/manage/build.md"
-           }, {
-               "name": "超管职责",
-               "content": "./doc/page/manage/admin.md"
-           }, {
-               "name": "版本升级",
-               "content": "./doc/page/manage/update.md"
-           }]
-       }
-   },
+//   {
+//       "name": "manage",
+//       "title": "管理学院",
+//       "banner": {
+//           "title": "管理学院",
+//           "description": "超级管理员、分组/项目组长的学院。"
+//       },
+//       "content": {
+//           "sidebar": true,
+//           "multi": true,
+//           "index": "./doc/page/manage/intro.md",
+//           "pages": [{
+//               "name": "介绍",
+//               "content": "./doc/page/manage/intro.md"
+//           }, {
+//               "name": "部署",
+//               "content": "./doc/page/manage/build.md"
+//           }, {
+//               "name": "超管职责",
+//               "content": "./doc/page/manage/admin.md"
+//           }, {
+//               "name": "版本升级",
+//               "content": "./doc/page/manage/update.md"
+//           }]
+//       }
+//   },
     {
         "name": "api",
         "title": "",

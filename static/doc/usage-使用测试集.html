@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -30,11 +36,6 @@
                         <li class="active">
                             
                             <a href="usage.html">使用手册</a> 
-                        </li>
-                        
-                        <li class="">
-                            
-                            <a href="manage.html">管理学院</a> 
                         </li>
                         
                         <li class="">
@@ -63,10 +64,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content">
+                <div class="ydoc-container-content ">
                     
                     
-                    <div class="content-left " role="complementary">
+                    <div class="content-left staticsidenav" role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -136,9 +137,9 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body " role="main">
+                    <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="介绍1">介绍 <a class="hashlink" href="#介绍1">#</a></h2><p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
+                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
 
 <h2 class="subject" id="添加测试集">添加测试集 <a class="hashlink" href="#添加测试集">#</a></h2><p>添加测试集，我们可以创建个人测试集、环境测试集或者功能测试集等等。每个测试集只是接口用例的集合，可以按照任何维度去创建。</p>
 <p>项目接口页面，测试集合 tab 下面『加号』按钮添加测试集。</p>
@@ -176,7 +177,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -200,8 +201,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -209,7 +210,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
