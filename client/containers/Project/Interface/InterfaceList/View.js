@@ -6,6 +6,7 @@ import { Table } from 'antd'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
+import variable from '../../../../constants/variable';
 // import { Card } from 'antd'
 // import { getMockUrl } from '../../reducer/modules/news.js'
 
@@ -29,8 +30,8 @@ class View extends Component {
   }
 
   req_body_form(req_body_type,req_body_form){
-    
-    
+
+
 
     if(req_body_type === 'form'){
 
@@ -131,7 +132,7 @@ class View extends Component {
 
     return  <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />;
   }
-  
+
   countEnter(str){
     let i = 0;
     let c = 0;
@@ -161,7 +162,7 @@ class View extends Component {
     }
   }
   componentDidMount(){
-    
+
     if(this.props.curData.title){
       this.bindAceEditor.bind(this)();
     }
@@ -209,7 +210,7 @@ class View extends Component {
       dataIndex: 'value',
       key: 'value'
     }];
-    
+
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
@@ -243,39 +244,9 @@ class View extends Component {
       done:{
         bac: "rgb(135, 208, 104)",
         color: "white"
-      } 
-    }
-    let methodColor = {
-      post: {
-        bac: "#d2eafb",
-        color: "#108ee9"
-      },
-      get: {
-        bac: "#cfefdf",
-        color: "#00a854"
-      },
-      put: {
-        bac: "#fff3cf",
-        color: "#ffbf00"
-      },
-      delete: {
-        bac: "#fcdbd9",
-        color: "#f04134"
-      },
-      head: {
-        bac: "#fff3cf",
-        color: "#ffbf00"
-      },
-      patch: {
-        bac: "#fff3cf",
-        color: "#ffbf00"
-      },
-      options: {
-        bac: "#fff3cf",
-        color: "#ffbf00"
       }
     }
-    methodColor = methodColor[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
+    let methodColor = variable.METHOD_COLOR[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
     statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
     const aceEditor = <div style={{display:this.props.curData.req_body_other&&this.props.curData.req_body_type==="json"?"block":"none"}} className="colBody">

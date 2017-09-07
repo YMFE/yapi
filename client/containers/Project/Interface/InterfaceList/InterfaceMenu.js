@@ -229,7 +229,7 @@ class InterfaceMenu extends Component {
     let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
       <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
-      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "15px" }} ><Icon type="plus"  /></Tag>
+      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "16px" }} ><Icon type="plus"  /></Tag>
       <Modal
         title="添加接口"
         visible={this.state.visible}

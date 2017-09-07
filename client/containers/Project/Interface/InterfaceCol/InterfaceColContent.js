@@ -87,7 +87,7 @@ export default class InterfaceColContent extends Component {
         )
       }
     }, {
-      title: '请求方式',
+      title: '请求方法',
       dataIndex: 'method',
       key: 'method'
     }, {
@@ -101,7 +101,7 @@ export default class InterfaceColContent extends Component {
 
     return (
       <div>
-        <div style={{padding:"15px"}}>
+        <div style={{padding:"16px"}}>
           <h2 style={{marginBottom: '10px'}}>测试集合</h2>
           <Table dataSource={currCaseList} columns={columns} pagination={false} rowKey="_id"/>
         </div>
