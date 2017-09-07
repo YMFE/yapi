@@ -9,13 +9,7 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />
-    
-    
-      
-      <link rel="stylesheet" href="styles/theme.css" />
-      
-    
+    <link rel="stylesheet" href="source/main.css" />  
 </head>
 <body>
     <div class="ydoc">
@@ -69,10 +63,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content ">
+                <div class="ydoc-container-content">
                     
                     
-                    <div class="content-left staticsidenav" role="complementary">
+                    <div class="content-left " role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -138,7 +132,7 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body use-sidebar" role="main">
+                    <div class="content-right markdown-body " role="main">
 
                          <h3 class="subject" id="如何创建项目？">如何创建项目？ <a class="hashlink" href="#如何创建项目？">#</a></h3><p>把大象装进冰箱分几步？三步：把冰箱门打开，把大象装进去，关门，搞定~</p>
 <p>新建接口分几步？也是三步：</p>
@@ -191,7 +185,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 18;
+        var lineHeight = 17.4;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -215,8 +209,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
+                $this.prev().height('auto');
+                $this.prev().parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -224,7 +218,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }

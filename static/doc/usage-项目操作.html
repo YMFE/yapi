@@ -9,13 +9,7 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />
-    
-    
-      
-      <link rel="stylesheet" href="styles/theme.css" />
-      
-    
+    <link rel="stylesheet" href="source/main.css" />  
 </head>
 <body>
     <div class="ydoc">
@@ -69,10 +63,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content ">
+                <div class="ydoc-container-content">
                     
                     
-                    <div class="content-left staticsidenav" role="complementary">
+                    <div class="content-left " role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -138,7 +132,7 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body use-sidebar" role="main">
+                    <div class="content-right markdown-body " role="main">
 
                          <h2 class="subject" id="新建项目">新建项目 <a class="hashlink" href="#新建项目">#</a></h2><p>点击右上角的 <code>+</code> 新建项目，进入新建项目页面。</p>
 <p><img src="./images/usage/project_add.png" /></p>
@@ -183,7 +177,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 18;
+        var lineHeight = 17.4;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -207,8 +201,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
+                $this.prev().height('auto');
+                $this.prev().parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -216,7 +210,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
