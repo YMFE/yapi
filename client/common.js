@@ -85,3 +85,12 @@ exports.handlePath = (path) => {
   path = path[path.length - 1] === '/' ? path.substr(0, path.length - 1) : path;
   return path;
 }
+
+// 返回字符串长度，汉字计数为2
+exports.strLength = (str) => {
+  let length = 0;
+  for (let i = 0; i < str.length; i++) {
+    str.charCodeAt(i) > 255 ? length += 2 : length++;
+  }
+  return length;
+}
