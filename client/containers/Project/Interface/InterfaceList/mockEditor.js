@@ -64,13 +64,14 @@ function run(options) {
   function handleJson(json) {
     var curData = mockEditor.curData;
     try {
-      var obj = json5.parse(json);
       curData.text = json;
+      var obj = json5.parse(json);      
       curData.format = true;
       curData.jsonData = obj;
       curData.mockData = Mock.mock(MockExtra(obj, {}));
       curData.mockText = JSON.stringify(curData.mockData, null, "  ");
     } catch (e) {
+      
       curData.format = e.message;
     }
   }
