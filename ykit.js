@@ -168,7 +168,7 @@ module.exports = {
           loader: ykit.ExtractTextPlugin.extract(
             require.resolve('css-loader')
             + '?sourceMap!'
-            + require.resolve('fast-sass-loader') + '?sourceMap'
+            + require.resolve('fast-sass-loader-china') + '?sourceMap'
           )
         })
         baseConfig.module.preLoaders.push({
