@@ -43,7 +43,7 @@
 ```
 
 ##  如何使用Mock?
-### 1 最简单的方式
+### 1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题）
 在代码直接请求yapi提供的mock地址，以jQuery为例：
 
 ````javascript
@@ -66,7 +66,22 @@ proxy_pass   http://yapi.corp.qunar.com/mock/2817/baseapi; #baseapi后面没有"
 }
 ````
 
-#### 2.2 基于ykit Jerry代理
+#### 2.2 基于ykit mock功能
+
+```javascript
+{
+    pattern: /\/api\/(.*)/,
+    responder: 'http://yapi.corp.qunar.com/mock/58/api/$1'
+}
+```
+
+上面通过正则匹配，将所有接口转到 http://yapi.corp.qunar.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.corp.qunar.com/mock/58/api/user/status`
+
+详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a>
+
+
+
+#### 2.3 基于ykit Jerry代理
 
 假设您本地服务器访问地址是： http://xxx.com
 

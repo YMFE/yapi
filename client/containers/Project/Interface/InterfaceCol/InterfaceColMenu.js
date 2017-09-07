@@ -217,7 +217,7 @@ export default class InterfaceColMenu extends Component {
         <div className="interface-filter">
           <Input placeholder="Filter by name" style={{ width: "70%" }} onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
-            <Tag color="#108ee9" style={{ marginLeft: "15px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
+            <Tag color="#108ee9" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
           </Tooltip>
         </div>
         <Tree
