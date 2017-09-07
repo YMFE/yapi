@@ -240,7 +240,7 @@
     },
     "are-we-there-yet": {
       "version": "1.1.4",
-      "resolved": "https://registry.npmjs.org/are-we-there-yet/-/are-we-there-yet-1.1.4.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/are-we-there-yet/-/are-we-there-yet-1.1.4.tgz",
       "integrity": "sha1-u13KOCu5TwXhUZQ3PRb9O6HKEQ0=",
       "requires": {
         "delegates": "1.0.0",
@@ -428,7 +428,7 @@
     },
     "async-foreach": {
       "version": "0.1.3",
-      "resolved": "https://registry.npmjs.org/async-foreach/-/async-foreach-0.1.3.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/async-foreach/-/async-foreach-0.1.3.tgz",
       "integrity": "sha1-NhIfhFwFeBct5Bmpfb6x0W7DRUI="
     },
     "async-validator": {
@@ -1664,7 +1664,7 @@
     },
     "block-stream": {
       "version": "0.0.9",
-      "resolved": "https://registry.npmjs.org/block-stream/-/block-stream-0.0.9.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/block-stream/-/block-stream-0.0.9.tgz",
       "integrity": "sha1-E+v+d4oDIFz+A3UUgeu0szAMEmo=",
       "requires": {
         "inherits": "2.0.3"
@@ -2168,7 +2168,7 @@
     },
     "cli-source-preview": {
       "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/cli-source-preview/-/cli-source-preview-1.1.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/cli-source-preview/-/cli-source-preview-1.1.0.tgz",
       "integrity": "sha1-BTA6sSeakJPq0aODez7iMfMAZUQ=",
       "requires": {
         "chalk": "1.1.3"
@@ -2176,7 +2176,7 @@
       "dependencies": {
         "chalk": {
           "version": "1.1.3",
-          "resolved": "https://registry.npmjs.org/chalk/-/chalk-1.1.3.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/chalk/-/chalk-1.1.3.tgz",
           "integrity": "sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=",
           "requires": {
             "ansi-styles": "2.2.1",
@@ -2492,7 +2492,7 @@
     },
     "console-control-strings": {
       "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/console-control-strings/-/console-control-strings-1.1.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/console-control-strings/-/console-control-strings-1.1.0.tgz",
       "integrity": "sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4="
     },
     "consolidate": {
@@ -2707,7 +2707,7 @@
     },
     "cross-spawn": {
       "version": "3.0.1",
-      "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-3.0.1.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/cross-spawn/-/cross-spawn-3.0.1.tgz",
       "integrity": "sha1-ElYDfsufDF9549bvE14wdwGEuYI=",
       "requires": {
         "lru-cache": "4.1.1",
@@ -4495,7 +4495,7 @@
     },
     "fs-promise": {
       "version": "0.5.0",
-      "resolved": "https://registry.npmjs.org/fs-promise/-/fs-promise-0.5.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/fs-promise/-/fs-promise-0.5.0.tgz",
       "integrity": "sha1-Q0fWv2JGVacGGkMZITw5MnatPvM=",
       "requires": {
         "any-promise": "1.3.0",
@@ -4506,7 +4506,7 @@
       "dependencies": {
         "fs-extra": {
           "version": "0.26.7",
-          "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.26.7.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/fs-extra/-/fs-extra-0.26.7.tgz",
           "integrity": "sha1-muH92UiXeY7at20JGM9C0MMYT6k=",
           "requires": {
             "graceful-fs": "4.1.11",
@@ -5296,6 +5296,14 @@
             }
           }
         },
+        "string_decoder": {
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
+          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
+          "requires": {
+            "safe-buffer": "5.0.1"
+          }
+        },
         "string-width": {
           "version": "1.0.2",
           "resolved": "https://registry.npmjs.org/string-width/-/string-width-1.0.2.tgz",
@@ -5304,14 +5312,6 @@
             "code-point-at": "1.1.0",
             "is-fullwidth-code-point": "1.0.0",
             "strip-ansi": "3.0.1"
-          }
-        },
-        "string_decoder": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
-          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
-          "requires": {
-            "safe-buffer": "5.0.1"
           }
         },
         "stringstream": {
@@ -5428,7 +5428,7 @@
     },
     "fstream": {
       "version": "1.0.11",
-      "resolved": "https://registry.npmjs.org/fstream/-/fstream-1.0.11.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/fstream/-/fstream-1.0.11.tgz",
       "integrity": "sha1-XB+x8RdHcRTwYyoOtLcbPLD9MXE=",
       "requires": {
         "graceful-fs": "4.1.11",
@@ -5444,7 +5444,7 @@
     },
     "gauge": {
       "version": "2.7.4",
-      "resolved": "https://registry.npmjs.org/gauge/-/gauge-2.7.4.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/gauge/-/gauge-2.7.4.tgz",
       "integrity": "sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=",
       "requires": {
         "aproba": "1.1.2",
@@ -6111,7 +6111,7 @@
     },
     "has-unicode": {
       "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/has-unicode/-/has-unicode-2.0.1.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/has-unicode/-/has-unicode-2.0.1.tgz",
       "integrity": "sha1-4Ob+aijPUROIVeCG0Wkedx3iqLk="
     },
     "hash-base": {
@@ -6464,7 +6464,7 @@
     },
     "in-publish": {
       "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/in-publish/-/in-publish-2.0.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/in-publish/-/in-publish-2.0.0.tgz",
       "integrity": "sha1-4g/146KvwmkDILbcVSaCqcf631E="
     },
     "indent-string": {
@@ -8190,7 +8190,7 @@
     },
     "lodash.clonedeep": {
       "version": "4.5.0",
-      "resolved": "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz",
       "integrity": "sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8="
     },
     "lodash.cond": {
@@ -8312,7 +8312,7 @@
     },
     "lodash.mergewith": {
       "version": "4.6.0",
-      "resolved": "https://registry.npmjs.org/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz",
       "integrity": "sha1-FQzwoWeR9ZA7iJHqsVRgknS96lU="
     },
     "lodash.once": {
@@ -8948,7 +8948,7 @@
     },
     "node-gyp": {
       "version": "3.6.2",
-      "resolved": "https://registry.npmjs.org/node-gyp/-/node-gyp-3.6.2.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/node-gyp/-/node-gyp-3.6.2.tgz",
       "integrity": "sha1-m/vlRWIoYoSDjnUOrAUpWFP6HGA=",
       "requires": {
         "fstream": "1.0.11",
@@ -8968,7 +8968,7 @@
       "dependencies": {
         "semver": {
           "version": "5.3.0",
-          "resolved": "https://registry.npmjs.org/semver/-/semver-5.3.0.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/semver/-/semver-5.3.0.tgz",
           "integrity": "sha1-myzl094C0XxgEq0yaqa00M9U+U8="
         }
       }
@@ -9028,7 +9028,7 @@
     },
     "node-sass-china": {
       "version": "4.5.0",
-      "resolved": "https://registry.npmjs.org/node-sass-china/-/node-sass-china-4.5.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/node-sass-china/-/node-sass-china-4.5.0.tgz",
       "integrity": "sha1-YnbBcNzqWBz14lwC/sqjUPcyx1Q=",
       "requires": {
         "async-foreach": "0.1.3",
@@ -9053,7 +9053,7 @@
       "dependencies": {
         "chalk": {
           "version": "1.1.3",
-          "resolved": "https://registry.npmjs.org/chalk/-/chalk-1.1.3.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/chalk/-/chalk-1.1.3.tgz",
           "integrity": "sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=",
           "requires": {
             "ansi-styles": "2.2.1",
@@ -9065,7 +9065,7 @@
         },
         "gaze": {
           "version": "1.1.2",
-          "resolved": "https://registry.npmjs.org/gaze/-/gaze-1.1.2.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/gaze/-/gaze-1.1.2.tgz",
           "integrity": "sha1-hHIkZ3rbiHDWeSV+0ziP22HkAQU=",
           "requires": {
             "globule": "1.2.0"
@@ -9073,7 +9073,7 @@
         },
         "globule": {
           "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/globule/-/globule-1.2.0.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/globule/-/globule-1.2.0.tgz",
           "integrity": "sha1-HcScaCLdnoovoAuiopUAboZkvQk=",
           "requires": {
             "glob": "7.1.2",
@@ -9083,7 +9083,7 @@
         },
         "lodash.assign": {
           "version": "4.2.0",
-          "resolved": "https://registry.npmjs.org/lodash.assign/-/lodash.assign-4.2.0.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/lodash.assign/-/lodash.assign-4.2.0.tgz",
           "integrity": "sha1-DZnzzNem0mHRm9rrkkUAXShYCOc="
         }
       }
@@ -9240,7 +9240,7 @@
     },
     "nopt": {
       "version": "3.0.6",
-      "resolved": "https://registry.npmjs.org/nopt/-/nopt-3.0.6.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/nopt/-/nopt-3.0.6.tgz",
       "integrity": "sha1-xkZdvwirzU2zWTF/eaxopkayj/k=",
       "requires": {
         "abbrev": "1.1.0"
@@ -12588,6 +12588,22 @@
         }
       }
     },
+    "require_optional": {
+      "version": "1.0.1",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
+      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
+      "requires": {
+        "resolve-from": "2.0.0",
+        "semver": "5.4.1"
+      },
+      "dependencies": {
+        "resolve-from": {
+          "version": "2.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
+          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
+        }
+      }
+    },
     "require-directory": {
       "version": "2.1.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require-directory/-/require-directory-2.1.1.tgz",
@@ -12610,22 +12626,6 @@
       "requires": {
         "caller-path": "0.1.0",
         "resolve-from": "1.0.1"
-      }
-    },
-    "require_optional": {
-      "version": "1.0.1",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
-      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
-      "requires": {
-        "resolve-from": "2.0.0",
-        "semver": "5.4.1"
-      },
-      "dependencies": {
-        "resolve-from": {
-          "version": "2.0.0",
-          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
-          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
-        }
       }
     },
     "requires-port": {
@@ -12785,7 +12785,7 @@
     },
     "sass-graph": {
       "version": "2.2.4",
-      "resolved": "https://registry.npmjs.org/sass-graph/-/sass-graph-2.2.4.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/sass-graph/-/sass-graph-2.2.4.tgz",
       "integrity": "sha1-E/vWPNHK8JCLn9k0dq1DpR0eC0k=",
       "requires": {
         "glob": "7.1.2",
@@ -12827,7 +12827,7 @@
     },
     "scss-tokenizer": {
       "version": "0.2.3",
-      "resolved": "https://registry.npmjs.org/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz",
       "integrity": "sha1-jrBtualyMzOCTT9VMGQRSYR85dE=",
       "requires": {
         "js-base64": "2.1.9",
@@ -12836,7 +12836,7 @@
       "dependencies": {
         "source-map": {
           "version": "0.4.4",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.4.4.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/source-map/-/source-map-0.4.4.tgz",
           "integrity": "sha1-66T12pwNyZneaAMti092FzZSA2s=",
           "requires": {
             "amdefine": "1.0.1"
@@ -13244,7 +13244,7 @@
     },
     "stdout-stream": {
       "version": "1.4.0",
-      "resolved": "https://registry.npmjs.org/stdout-stream/-/stdout-stream-1.4.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/stdout-stream/-/stdout-stream-1.4.0.tgz",
       "integrity": "sha1-osfIWH5U2UJ+qe2zrD8s1SLfN4s=",
       "requires": {
         "readable-stream": "2.3.3"
@@ -13300,6 +13300,14 @@
       "version": "1.1.0",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
+    },
+    "string_decoder": {
+      "version": "1.0.3",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
+      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
+      "requires": {
+        "safe-buffer": "5.1.1"
+      }
     },
     "string-convert": {
       "version": "0.2.1",
@@ -13385,14 +13393,6 @@
         "code-point-at": "1.1.0",
         "is-fullwidth-code-point": "1.0.0",
         "strip-ansi": "3.0.1"
-      }
-    },
-    "string_decoder": {
-      "version": "1.0.3",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
-      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
-      "requires": {
-        "safe-buffer": "5.1.1"
       }
     },
     "stringstream": {
@@ -13651,7 +13651,7 @@
     },
     "tar": {
       "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/tar/-/tar-2.2.1.tgz",
       "integrity": "sha1-jk0qJWwOIYXGsYrWlK7JaLg8sdE=",
       "requires": {
         "block-stream": "0.0.9",
@@ -14674,7 +14674,7 @@
     },
     "webpack-dev-middleware": {
       "version": "1.12.0",
-      "resolved": "https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-1.12.0.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/webpack-dev-middleware/-/webpack-dev-middleware-1.12.0.tgz",
       "integrity": "sha1-007++y7dp+HTtdvgcolRMhllFwk=",
       "requires": {
         "memory-fs": "0.4.1",
@@ -14686,7 +14686,7 @@
       "dependencies": {
         "time-stamp": {
           "version": "2.0.0",
-          "resolved": "https://registry.npmjs.org/time-stamp/-/time-stamp-2.0.0.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/time-stamp/-/time-stamp-2.0.0.tgz",
           "integrity": "sha1-lcakRTDhW6jW9KPsuMOj+sRto1c="
         }
       }
@@ -15210,7 +15210,7 @@
     },
     "ykit-config-antd": {
       "version": "0.1.3",
-      "resolved": "https://registry.npmjs.org/ykit-config-antd/-/ykit-config-antd-0.1.3.tgz",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/ykit-config-antd/-/ykit-config-antd-0.1.3.tgz",
       "integrity": "sha1-qUWmV0EHgAd0OrPgz3eBbD9KPN4=",
       "requires": {
         "antd": "2.12.8",

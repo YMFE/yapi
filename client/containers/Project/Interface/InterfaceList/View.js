@@ -88,7 +88,7 @@ class View extends Component {
   }
   res_body(res_body_type,res_body){
     if(res_body_type === 'json'){
-      let h = this.countEnter(this.props.curData.req_body_other);
+      let h = this.countEnter(this.props.curData.res_body);
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
         <span className="colKey">返回Body：</span>
         <div id="vres_body_json" style={{ minHeight: h*16+20 }}></div>
