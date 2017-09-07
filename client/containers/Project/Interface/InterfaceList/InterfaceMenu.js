@@ -77,13 +77,17 @@ class InterfaceMenu extends Component {
       change_cat_modal_visible: false,
       del_cat_modal_visible: false,
       curCatdata: {},
-      expands: null
+      expands: null,
+      list: []
     }
   }
 
   async handleRequest() {
     this.props.initInterface()
     await this.props.fetchInterfaceList(this.props.projectId);
+    this.setState({
+      list: JSON.parse(JSON.stringify(this.props.list))
+    })
   }
 
   componentWillMount() {
@@ -202,7 +206,8 @@ class InterfaceMenu extends Component {
 
   onFilter = (e) => {
     this.setState({
-      filter: e.target.value
+      filter: e.target.value,
+      list: JSON.parse(JSON.stringify(this.props.list))
     })
   }
 
@@ -214,7 +219,7 @@ class InterfaceMenu extends Component {
 
   render() {
     const matchParams = this.props.match.params;
-    let menuList = this.props.list;
+    let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
       <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
       <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "15px" }} ><Icon type="plus"  /></Tag>
@@ -327,9 +332,19 @@ class InterfaceMenu extends Component {
    
     if (this.state.filter) {
       let arr = [];
-      menuList = this.props.list.filter(item => {
+      menuList = menuList.filter( (item) => {
+        let interfaceFilter = false;
         if (item.name.indexOf(this.state.filter) === -1) {
-          return false;
+          item.list = item.list.filter(inter=>{
+            if(inter.title.indexOf(this.state.filter) === -1 && inter.path.indexOf(this.state.filter)){
+              return false;  
+            }
+            //arr.push('cat_' + inter.catid)
+            interfaceFilter = true;
+            return true;
+            
+          })
+          return interfaceFilter === true
         }
         arr.push('cat_' + item._id)
         return true;
