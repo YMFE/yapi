@@ -15,3 +15,21 @@
     line-height: 34px;
   }
 }
+
+.table-interfacelist {
+  margin-top: .2rem;
+  white-space: nowrap;
+  .colValue{
+    display: inline-block;
+    border-radius: 4px;
+    color: #00a854;
+    background: #cfefdf;
+    border-color: #cfefdf;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    font-size: 10px;
+    margin-right: 7px;
+    padding: 0 5px;
+  }
+}
