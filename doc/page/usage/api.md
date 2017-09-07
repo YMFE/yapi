@@ -17,8 +17,14 @@
 
 - 是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。
 
-## 接口调试
+## 接口运行
+接口运行功能，是用来测试真实接口的，类似『Postman』的功能。
 
-<!-- 点击运行tab,可进入到接口测试页面，首先安装chrome crossRequest扩展，才可正常使用此功能
-<img src="./images/interface_run.png" width="800"  style="margin:0px auto;display:block;" alt="图片名称" align=center />
-点击保存按钮可把当前测试保存到测试集，方便下次调试 -->
+点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。
+
+> 安装完插件记得刷新页面
+ 
+
+<img src="./images/interface_run.jpg" />
+
+点击保存按钮可把当前测试保存到测试集，方便下次调试。
