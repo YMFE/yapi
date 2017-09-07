@@ -351,11 +351,11 @@ $color-bg-lightblue: #c6e2ff;
     .ant-card {
       font-size: .17rem;
       border-radius: .04rem;
-      box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+      box-shadow: 0 16px 35px rgba(50,50,93,.1), 0 5px 16px rgba(0,0,0,.07);
       border: none;
     }
     .ant-card:not(.ant-card-no-hovering):hover {
-      box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+      box-shadow: 0 16px 35px rgba(50,50,93,.1), 0 5px 16px rgba(0,0,0,.07);
     }
     .ant-card-head {
       background-color: $color-blue-grey-lighter;

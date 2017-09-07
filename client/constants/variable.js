@@ -77,5 +77,35 @@ export default {
     'android-o',
     'apple-o'
   ],
-  HTTP_REQUEST_HEADER: ["Accept", "Accept-Charset", "Accept-Encoding", "Accept-Language", "Accept-Datetime", "Authorization", "Cache-Control", "Connection", "Cookie", "Content-Disposition", "Content-Length", "Content-MD5", "Content-Type", "Date", "Expect", "From", "Host", "If-Match", "If-Modified-Since", "If-None-Match", "If-Range", "If-Unmodified-Since", "Max-Forwards", "Origin", "Pragma", "Proxy-Authorization", "Range", "Referer", "TE", "User-Agent", "Upgrade", "Via", "Warning", "X-Requested-With", "DNT", "X-Forwarded-For", "X-Forwarded-Host", "X-Forwarded-Proto", "Front-End-Https", "X-Http-Method-Override", "X-ATT-DeviceId", "X-Wap-Profile", "Proxy-Connection", "X-UIDH", "X-Csrf-Token"]
+  HTTP_REQUEST_HEADER: ["Accept", "Accept-Charset", "Accept-Encoding", "Accept-Language", "Accept-Datetime", "Authorization", "Cache-Control", "Connection", "Cookie", "Content-Disposition", "Content-Length", "Content-MD5", "Content-Type", "Date", "Expect", "From", "Host", "If-Match", "If-Modified-Since", "If-None-Match", "If-Range", "If-Unmodified-Since", "Max-Forwards", "Origin", "Pragma", "Proxy-Authorization", "Range", "Referer", "TE", "User-Agent", "Upgrade", "Via", "Warning", "X-Requested-With", "DNT", "X-Forwarded-For", "X-Forwarded-Host", "X-Forwarded-Proto", "Front-End-Https", "X-Http-Method-Override", "X-ATT-DeviceId", "X-Wap-Profile", "Proxy-Connection", "X-UIDH", "X-Csrf-Token"],
+  METHOD_COLOR: {
+    post: {
+      bac: "#d2eafb",
+      color: "#108ee9"
+    },
+    get: {
+      bac: "#cfefdf",
+      color: "#00a854"
+    },
+    put: {
+      bac: "#fff3cf",
+      color: "#ffbf00"
+    },
+    delete: {
+      bac: "#fcdbd9",
+      color: "#f04134"
+    },
+    head: {
+      bac: "#fff3cf",
+      color: "#ffbf00"
+    },
+    patch: {
+      bac: "#fff3cf",
+      color: "#ffbf00"
+    },
+    options: {
+      bac: "#fff3cf",
+      color: "#ffbf00"
+    }
+  }
 }
