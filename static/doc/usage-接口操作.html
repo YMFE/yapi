@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -63,10 +69,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content">
+                <div class="ydoc-container-content ">
                     
                     
-                    <div class="content-left " role="complementary">
+                    <div class="content-left staticsidenav" role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -132,7 +138,7 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body " role="main">
+                    <div class="content-right markdown-body use-sidebar" role="main">
 
                          <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./usage-创建第一个API.html#新建_编辑接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
 <p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
@@ -170,7 +176,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -194,8 +200,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -203,7 +209,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }

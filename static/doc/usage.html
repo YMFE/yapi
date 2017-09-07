@@ -9,7 +9,13 @@
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
     <title>YApi 使用手册</title>
-    <link rel="stylesheet" href="source/main.css" />  
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
 </head>
 <body>
     <div class="ydoc">
@@ -63,10 +69,10 @@
 
             <div class="ydoc-container">
                  
-                <div class="ydoc-container-content">
+                <div class="ydoc-container-content ">
                     
                     
-                    <div class="content-left " role="complementary">
+                    <div class="content-left staticsidenav" role="complementary">
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
@@ -116,21 +122,21 @@
                         </nav>
                     </div>
                     
-                    <div class="content-right markdown-body " role="main">
+                    <div class="content-right markdown-body use-sidebar" role="main">
 
                          <p>YApi 是高效、易用、功能强大的api管理平台。
 <!-- 它有扁平化的管理结构(`超管`-`组长`-`组员`)，有清晰的接口组织方式(`分组`-`项目`-`接口`)，有更方便的mock方案。 --></p>
 <p>在开始使用 YApi 之前，我们先来熟悉一下 YApi 的网站结构，这将让你快速了解YApi。</p>
-<h2 class="subject" id="登录与注册2">登录与注册 <a class="hashlink" href="#登录与注册2">#</a></h2><p>想要使用 YApi ，首先要拥有账号，目前支持注册账号登录与QSSO登录两种方式。</p>
+<h2 class="subject" id="登录与注册">登录与注册 <a class="hashlink" href="#登录与注册">#</a></h2><p>想要使用 YApi ，首先要拥有账号，目前支持注册账号登录与QSSO登录两种方式。</p>
 <p><img src="./images/usage/login.png" /></p>
-<h2 class="subject" id="首页3">首页 <a class="hashlink" href="#首页3">#</a></h2><p>登录后进入首页，首页展示了分组与项目。</p>
+<h2 class="subject" id="首页">首页 <a class="hashlink" href="#首页">#</a></h2><p>登录后进入首页，首页展示了分组与项目。</p>
 <p>此时你作为新用户，没有任何分组与项目的权限，因此只能搜索、浏览 “公开项目” 的接口，如果在首页找不到任何项目，请联系管理员将你加入对应项目。</p>
 <p><span class="list-index">1</span>首页头部展示了当前所在的位置、搜索框、新建项目、查看文档和用户信息。</p>
 <p><span class="list-index">2</span>首页左侧展示分组信息，“分组”是“项目”的集合，只有超级管理员可以管理分组。</p>
 <p><span class="list-index">3</span>首页右侧是分组下的项目和成员列表，点击左侧的某个分组，右侧会出现该分组下的项目和成员信息。</p>
 <p><span class="list-index">4</span>点击项目右上角的星星即可关注项目，关注的项目可以在“我的关注”页面查看。</p>
 <p><img src="./images/usage/index.png" /></p>
-<h2 class="subject" id="项目页4">项目页 <a class="hashlink" href="#项目页4">#</a></h2><p>点击一个项目，进入项目页，项目页展示了属于该项目的全部接口，并提供项目、接口的全部操作。</p>
+<h2 class="subject" id="项目页">项目页 <a class="hashlink" href="#项目页">#</a></h2><p>点击一个项目，进入项目页，项目页展示了属于该项目的全部接口，并提供项目、接口的全部操作。</p>
 <p>此时你作为新用户，只能浏览接口信息，不可以编辑项目或接口，如果需要编辑，请联系管理员将你加入该项目。</p>
 <p><span class="list-index">1</span>项目页左侧的 “接口列表” 展示了该项目下的所有接口，右侧默认显示该项目下所有接口的列表。</p>
 <p><span class="list-index">2</span>点击左侧的某个接口，右侧会出现“预览”、“编辑”和“运行”。</p>
@@ -138,7 +144,7 @@
 <p><span class="list-index">4</span>点击二级导航的“设置”，项目组长即可编辑项目信息和管理成员列表。</p>
 <p><span class="list-index">5</span>点击二级导航的“动态”，即可查看项目的操作日志。</p>
 <p><img src="./images/usage/project.png" /></p>
-<h2 class="subject" id="个人中心5">个人中心 <a class="hashlink" href="#个人中心5">#</a></h2><p>鼠标移动到右上角的用户头像或用户名上，即可点击“个人中心”查看个人信息。</p>
+<h2 class="subject" id="个人中心">个人中心 <a class="hashlink" href="#个人中心">#</a></h2><p>鼠标移动到右上角的用户头像或用户名上，即可点击“个人中心”查看个人信息。</p>
 <p><img src="./images/usage/hover.png" /></p>
 <p>在个人信息页面可以查看并修改自己的用户名、密码等信息。</p>
 <p><img src="./images/usage/user.png" /></p>
@@ -166,7 +172,7 @@
     <script src="source/app.js"></script>
     
     <script>
-        var lineHeight = 17.4;
+        var lineHeight = 18;
         var EXAMPLE_MAX_HEIGHT;
 
         function fold() {
@@ -190,8 +196,8 @@
                 var $this = $(this);
                 $this.removeClass('extend').addClass('fold');
                 $this.html('折叠代码');
-                $this.prev().height('auto');
-                $this.prev().parent().height('auto');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
             });
             $('.ydoc-example').delegate('.fold', 'click', function() {
                 var $this = $(this);
@@ -199,7 +205,7 @@
                 EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
                 $this.removeClass('fold').addClass('extend');
                 $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.prev().height(EXAMPLE_MAX_HEIGHT); // code
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
                 $this.html("展开更多……");
             });
         }
