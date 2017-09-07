@@ -183,39 +183,40 @@ export default class Run extends Component {
           if (header) {
             header = typeof header !== 'string' ? header : json_parse(header)
           }
-        } catch (e) {
-          message.error(e.message)
-        }
-        const { res_body, res_body_type } = that.props.data;
-        let validRes = '';
-        let query = {};
-        that.state.query.forEach(item => {
-          query[item.name] = item.value;
-        })
-        let body = {};
-        if (that.state.bodyType === 'form') {
-          that.state.bodyForm.forEach(item => {
-            body[item.name] = item.value;
-          })
-        } else if (that.state.bodyType === 'json') {
-          try {
-            body = json_parse(that.state.bodyOther);
-          } catch (e) {
-            body = ''
-          }
-        }
-        if (res_body && res_body_type === 'json' && typeof res === 'object') {
-          let tpl = MockExtra(json_parse(res_body), {
-            query: query,
-            body: body
-          })
-          validRes = Mock.valid(tpl, res)
-        }
 
-        message.success('请求完成')
-        that.setState({ res, resHeader: header, validRes })
-        that.setState({ loading: false })
-        that.bindAceEditor()
+          const { res_body, res_body_type } = that.props.data;
+          let validRes = '';
+          let query = {};
+          that.state.query.forEach(item => {
+            query[item.name] = item.value;
+          })
+          let body = {};
+          if (that.state.bodyType === 'form') {
+            that.state.bodyForm.forEach(item => {
+              body[item.name] = item.value;
+            })
+          } else if (that.state.bodyType === 'json') {
+            try {
+              body = json_parse(that.state.bodyOther);
+            } catch (e) {
+              body = ''
+            }
+          }
+          if (res_body && res_body_type === 'json' && typeof res === 'object') {
+            let tpl = MockExtra(json_parse(res_body), {
+              query: query,
+              body: body
+            })
+            validRes = Mock.valid(tpl, res)
+          }
+
+          message.success('请求完成')
+          that.setState({ res, resHeader: header, validRes })
+          that.setState({ loading: false })
+          that.bindAceEditor()
+        } catch (e) {
+          console.error(e.message)
+        }
       },
       error: (err, header) => {
         try {
@@ -477,10 +478,18 @@ export default class Run extends Component {
   }
 
   render() {
-    console.log(111)
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     const hasPlugin = this.state.hasPlugin;
-    const isResJson = resHeader && resHeader['content-type'] && resHeader['content-type'].indexOf('application/json') !== -1
+    let isResJson = false;
+
+    if(resHeader && typeof resHeader === 'object'){
+      Object.keys(resHeader).map(key => {
+        console.log(key)
+        if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
+          isResJson = true;
+        }
+      })
+    }
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
@@ -492,8 +501,8 @@ export default class Run extends Component {
       validResView = '请定义返回json'
     }
     if (Array.isArray(validRes) && validRes.length > 0) {
-      validResView = validRes.map((item, index) => {
-        return  <p key={index}>{item}</p>
+      validResView = validRes.map((item,index)=>{
+        return <div key={index}>{item.message}</div>
       })
     } else if (Array.isArray(validRes)) {
       validResView = <p>验证通过</p>
@@ -682,23 +691,23 @@ export default class Run extends Component {
             <div className="res-code"></div>
             <Collapse defaultActiveKey={['0', '1']} bordered={true}>
               <Panel header="BODY" key="0" >
-                <div id="res-body-pretty" className="pretty-editor" style={{ display: isResJson ? '' : 'none' }}></div>
+                <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
                 <TextArea
                   style={{ display: isResJson ? 'none' : '' }}
                   value={this.state.res && this.state.res.toString()}
-                  autosize={{ minRows: 2, maxRows: 10 }}
+                  autosize={{ minRows: 10, maxRows: 20 }}
                 ></TextArea>
-                <div>返回 Body 验证结果：</div>
-                <p>
+                <h3 style={{marginTop: '15px',display: isResJson ? '' : 'none'}}>返回 Body 验证结果：</h3>
+                <div style={{ display: isResJson ? '' : 'none' }}>
                   {validResView}
-                </p>
+                </div>
               </Panel>
               <Panel header="HEADERS" key="1" >
                 {/*<TextArea
                   value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
                   autosize={{ minRows: 2, maxRows: 10 }}
                 ></TextArea>*/}
-                <div id="res-headers-pretty" className="pretty-editor"></div>
+                <div id="res-headers-pretty" className="pretty-editor-header"></div>
               </Panel>
             </Collapse>
           </Spin>
