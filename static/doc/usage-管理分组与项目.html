@@ -82,34 +82,30 @@
                                     <a href="usage-认识 YApi.html">认识 YApi</a> 
                                 </li>
                                   
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="usage-创建第一个API.html">创建第一个API</a> 
+                                </li>
+                                  
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="usage-创建第一个API.html">创建第一个API</a> 
+                                    <a href="usage-管理分组与项目.html">管理分组与项目</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#获取权限">获取权限</a>
+                                        <a href="#认识组长">认识组长</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#选择项目">选择项目</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#新建接口">新建接口</a>
+                                        <a href="#权限列表">权限列表</a>
                                     </li>
                                 
                                 </ul>
                                             
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-管理分组与项目.html">管理分组与项目</a> 
-                                </li>
-                                  
                                 <!-- <li  > -->
                                 <li >
                                     
@@ -140,33 +136,121 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h3 class="subject" id="如何创建项目？">如何创建项目？ <a class="hashlink" href="#如何创建项目？">#</a></h3><p>把大象装进冰箱分几步？三步：把冰箱门打开，把大象装进去，关门，搞定~</p>
-<p>新建接口分几步？也是三步：</p>
-<ul>
-<li><a href="#获取权限">获取权限</a></li><li><a href="#选择项目">找到一个项目</a></li><li><a href="#新建_编辑接口">新建接口</a></li></ul>
-<p>搞定~</p>
-<h2 class="subject" id="获取权限">获取权限 <a class="hashlink" href="#获取权限">#</a></h2><ul>
-<li>登录后查看项目，如果找不到对应分组或项目，需要联系组长获取项目权限。</li></ul>
-<h2 class="subject" id="选择项目">选择项目 <a class="hashlink" href="#选择项目">#</a></h2><ul>
-<li><p>如果你已经登录，会在首页右侧看到一些项目 (可以在左侧的分组列表切换分组来查看不同分组下的项目)。</p>
-</li><li><p>点击一个项目，进入该项目的详情页。</p>
-</li></ul>
-<blockquote>
-<p>如果没有找到项目，请联系组长</p>
-</blockquote>
-<p><img src="./images/project_list.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center /></p>
-<h2 class="subject" id="新建接口">新建接口 <a class="hashlink" href="#新建接口">#</a></h2><ul>
-<li>点击左侧接口分组右侧的菜单按钮，选择 <code>添加接口</code>，或者点击接口列表右上角的 <code>添加接口</code>。</li></ul>
-<p><img src="./images/usage/api_add_btn.png" /></p>
-<ul>
-<li>选择接口分类，输入接口名称和接口路径，点击 <code>提交</code>。</li></ul>
-<p><img src="./images/usage/api_add_panel.png" /></p>
-<blockquote>
-<p>如果没有新建项目权限，请联系组长</p>
-</blockquote>
-<ul>
-<li>恭喜你！创建了第一个YApi的接口，你可以看到在左侧看到接口名称，右侧有该接口的信息预览。</li></ul>
-<p><img src="./images/usage/api_res.png" /></p>
+                         <p>接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
+<p>YAPI 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
+<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，组长对分组或项目负责，拥有分组或项目下的所有权限，二者区别如下：</p>
+<p><code>分组组长</code> 有权限修改分组、删除分组，可以创建分组下的项目。一般来说，组长只需要对项目负责，将项目的操作任务安排给项目组长处理即可。</p>
+<p><code>项目组长</code> 无法操作分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
+<h2 class="subject" id="权限列表">权限列表 <a class="hashlink" href="#权限列表">#</a></h2><h3 class="subject" id="项目权限">项目权限 <a class="hashlink" href="#项目权限">#</a></h3><table>
+<thead>
+<tr>
+<th style="text-align:left">操作</th>
+<th style="text-align:center">游客</th>
+<th style="text-align:center">开发者</th>
+<th style="text-align:center">组长</th>
+<th style="text-align:center">超级管理员</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">浏览公开项目与接口</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">浏览私有项目与接口</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">编辑项目信息</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">新建接口</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">编辑接口</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">编辑项目头像</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">删除项目</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+</tbody>
+</table>
+<h3 class="subject" id="分组权限">分组权限 <a class="hashlink" href="#分组权限">#</a></h3><table>
+<thead>
+<tr>
+<th style="text-align:left">操作</th>
+<th style="text-align:center">游客</th>
+<th style="text-align:center">开发者</th>
+<th style="text-align:center">组长</th>
+<th style="text-align:center">超级管理员</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">浏览分组</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">在分组中新建项目</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">编辑分组信息</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">管理分组成员</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+<tr>
+<td style="text-align:left">删除分组</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✓</td>
+<td style="text-align:center">✓</td>
+</tr>
+</tbody>
+</table>
 
                     </div>
                 </div>
