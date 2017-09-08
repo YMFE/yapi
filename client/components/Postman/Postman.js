@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Radio, Tooltip, message } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Tooltip, message } from 'antd'
 import { autobind } from 'core-decorators';
+import constants from '../../constants/variable.js'
+
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
@@ -21,8 +23,8 @@ const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
+
+const HTTP_METHOD = constants.HTTP_METHOD;
 
 export default class Run extends Component {
 
@@ -479,12 +481,12 @@ export default class Run extends Component {
 
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
+    
     const hasPlugin = this.state.hasPlugin;
     let isResJson = false;
 
-    if(resHeader && typeof resHeader === 'object'){
-      Object.keys(resHeader).map(key => {
-        console.log(key)
+    if (resHeader && typeof resHeader === 'object') {
+      Object.keys(resHeader).map(key => {        
         if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
           isResJson = true;
         }
@@ -501,7 +503,7 @@ export default class Run extends Component {
       validResView = '请定义返回json'
     }
     if (Array.isArray(validRes) && validRes.length > 0) {
-      validResView = validRes.map((item,index)=>{
+      validResView = validRes.map((item, index) => {
         return <div key={index}>{item.message}</div>
       })
     } else if (Array.isArray(validRes)) {
@@ -622,33 +624,21 @@ export default class Run extends Component {
             <Panel
               header={
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div>BODY</div>
-                  <div onClick={e => e.stopPropagation()} style={{ marginRight: 5 }}>
-                    <Select disabled value={bodyType !== 'form' && bodyType !== 'file' ? 'text' : bodyType} onChange={this.changeBodyType} className={method === 'POST' ? '' : 'none'}>
-                      <Option value="text">Text</Option>
-                      <Option value="file">File</Option>
-                      <Option value="form">Form</Option>
-                    </Select>
-                  </div>
+                  <div>BODY</div>   
                 </div>
               }
               key="3"
-              className={method === 'POST' ? '' : 'hidden'}
+              className={HTTP_METHOD[method].request_body?'POST':'hidden'}
             >
-              {method === 'POST' && bodyType !== 'form' && bodyType !== 'file' &&
-                <div>
-                  <RadioGroup disabled value={bodyType} onChange={(e) => this.changeBodyType(e.target.value)}>
-                    <RadioButton value="json">JSON</RadioButton>
-                    <RadioButton value="text">TEXT</RadioButton>
-                    <RadioButton value="xml">XML</RadioButton>
-                  </RadioGroup>
-                  <div id="body-other-edit" style={{ marginTop: 10 }} className="pretty-editor"></div>
-                </div>
-              }
+
+              <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file'? 'block': 'none' }}>
+                <div id="body-other-edit" style={{ marginTop: 10 }} className="pretty-editor"></div>
+              </div>
+
               {
-                method === 'POST' && bodyType === 'form' &&
+                HTTP_METHOD[method].request_body && bodyType === 'form' &&
                 <div>
-                  {
+                  {                    
                     bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
@@ -697,7 +687,7 @@ export default class Run extends Component {
                   value={this.state.res && this.state.res.toString()}
                   autosize={{ minRows: 10, maxRows: 20 }}
                 ></TextArea>
-                <h3 style={{marginTop: '15px',display: isResJson ? '' : 'none'}}>返回 Body 验证结果：</h3>
+                <h3 style={{ marginTop: '15px', display: isResJson ? '' : 'none' }}>返回 Body 验证结果：</h3>
                 <div style={{ display: isResJson ? '' : 'none' }}>
                   {validResView}
                 </div>
