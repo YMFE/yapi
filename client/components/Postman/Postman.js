@@ -631,7 +631,7 @@ export default class Run extends Component {
             >
 
               <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file'? 'block': 'none' }}>
-                <div id="body-other-edit" style={{ marginTop: 10 }} className="pretty-editor"></div>
+                <div id="body-other-edit" style={{ marginTop: 10, minHeight:150 }} className="pretty-editor"></div>
               </div>
 
               {
