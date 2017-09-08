@@ -44,8 +44,8 @@ class interfaceController extends baseController {
      * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
      * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
      * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
-     * @param  {String} [desc] 接口描述 
-     * @returns {Object} 
+     * @param  {String} [desc] 接口描述
+     * @returns {Object}
      * @example ./api/interface/add.json
      */
     async add(ctx) {
@@ -153,7 +153,7 @@ class interfaceController extends baseController {
                 // this.sendNotice(params.project_id, {
                 //     title: `${username} 新增了接口 ${data.title}`,
                 //     content: `<div><h3>${username}新增了接口(${data.title})</h3>
-                //     <p>项目名：${project.name}</p>                    
+                //     <p>项目名：${project.name}</p>
                 //     <p>修改用户: "${username}"</p>
                 //     <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
                 //     <p>接口路径: [${data.method}]${data.path}</p></div>`
@@ -173,7 +173,7 @@ class interfaceController extends baseController {
      * @category interface
      * @foldnumber 10
      * @param {Number}   id 接口id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/interface/get.json
      */
     async get(ctx) {
@@ -198,7 +198,7 @@ class interfaceController extends baseController {
      * @category interface
      * @foldnumber 10
      * @param {Number}   project_id 项目id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/interface/list.json
      */
     async list(ctx) {
@@ -275,8 +275,8 @@ class interfaceController extends baseController {
      * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
      * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
      * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
-     * @param  {String} [desc] 接口描述 
-     * @returns {Object} 
+     * @param  {String} [desc] 接口描述
+     * @returns {Object}
      * @example ./api/interface/up.json
      */
 
@@ -432,7 +432,7 @@ class interfaceController extends baseController {
      * @category interface
      * @foldnumber 10
      * @param {Number}   id 接口id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/interface/del.json
      */
 
@@ -478,7 +478,8 @@ class interfaceController extends baseController {
         try {
             let id = parseInt(ctx.query.id, 10), result, userInst, userinfo, data;
             if (!id) return ctx.websocket.send("id 参数有误");
-            result = await this.Model.get(id), userinfo;
+            await this.Model.get(id);
+            result = userinfo;
             if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
                 userInst = yapi.getInst(userModel);
                 userinfo = await userInst.findById(result.edit_uid);
@@ -603,7 +604,8 @@ class interfaceController extends baseController {
                 typeid: catData.project_id
             });
 
-            let result = await this.catModel.del(id);
+            // no used variable 'result'
+            // let result = await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
             return ctx.body = yapi.commons.resReturn(r);
         } catch (e) {
@@ -619,7 +621,7 @@ class interfaceController extends baseController {
      * @category interface
      * @foldnumber 10
      * @param {Number}   project_id 项目id，不能为空
-     * @returns {Object} 
+     * @returns {Object}
      * @example ./api/interface/getCatMenu
      */
 

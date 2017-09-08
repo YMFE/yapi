@@ -1,5 +1,6 @@
-import React from 'react'
-import moment from 'moment'
+import React from 'react';
+import moment from 'moment';
+import constants from './constants/variable';
 
 
 exports.formatTime = (timestamp) => {
@@ -86,7 +87,7 @@ exports.handlePath = (path) => {
   return path;
 }
 
-// 名称限制 20 字符
+// 名称限制 constants.NAME_LIMIT 字符
 exports.nameLengthLimit = (type) => {
   // 返回字符串长度，汉字计数为2
   const strLength = (str) => {
@@ -101,10 +102,10 @@ exports.nameLengthLimit = (type) => {
     required: true,
     validator(rule, value, callback) {
       const len = value ? strLength(value) : 0;
-      if (len > 20) {
-        callback('请输入' + type + '名称，长度不超过20字符(中文算作2字符)!');
+      if (len > constants.NAME_LIMIT) {
+        callback('请输入' + type + '名称，长度不超过' + constants.NAME_LIMIT + '字符(中文算作2字符)!');
       } else if (len === 0) {
-        callback('请输入' + type + '名称，长度不超过20字符(中文算作2字符)!');
+        callback('请输入' + type + '名称，长度不超过' + constants.NAME_LIMIT + '字符(中文算作2字符)!');
       } else {
         return callback();
       }

@@ -14,7 +14,7 @@ var compressPlugin = new CompressionPlugin({
   algorithm: "gzip",
   test: /\.(js|css)$/,
   threshold: 10240,
-  minRatio: 0.8,
+  minRatio: 0.8
 });
 
 function fileExist (filePath){
@@ -50,7 +50,7 @@ function handleCommonsChunk(webpackConfig) {
         'moment'
 
       ],
-      lib2: [        
+      lib2: [
         'brace',
         'mockjs',
         'json5'
@@ -122,7 +122,7 @@ module.exports = {
       exports: [
         './index.js'
       ],
-      modifyWebpackConfig: function (baseConfig) {       
+      modifyWebpackConfig: function (baseConfig) {
 
         var ENV_PARAMS = {};
         switch (this.env) {
