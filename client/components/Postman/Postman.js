@@ -481,10 +481,9 @@ export default class Run extends Component {
 
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
-    
+    HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
     let isResJson = false;
-
     if (resHeader && typeof resHeader === 'object') {
       Object.keys(resHeader).map(key => {        
         if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
