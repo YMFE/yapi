@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Tag, Button, Modal, message, Tooltip
+  Table, Button, Modal, message, Tooltip
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
@@ -104,6 +104,7 @@ class InterfaceList extends Component {
       title: '接口名称',
       dataIndex: 'title',
       key: 'title',
+      width: 30,
       sorter: (a, b) => {
         return a.title.localeCompare(b.title) === 1
       },
@@ -115,7 +116,7 @@ class InterfaceList extends Component {
       title: '接口路径',
       dataIndex: 'path',
       key: 'path',
-      width: 400,
+      width: 50,
       render: (item) => {
         const path = this.props.curProject.basepath + item;
         return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip"><span className="path">{path}</span></Tooltip>
@@ -124,7 +125,7 @@ class InterfaceList extends Component {
       title: '请求方法',
       dataIndex: 'method',
       key: 'method',
-      width: 100,
+      width: 12,
       render: (item) => {
         let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get'];
         return <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{item}</span>
@@ -133,16 +134,16 @@ class InterfaceList extends Component {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 100,
+      width: 14,
       render: (item) => {
         return <div>{item === 'done' ?
-          <Tag color="#87d068">完成</Tag>
+          <span className="tag-status done">已完成</span>
           :
-          <Tag color="#f50">未完成</Tag>
+          <span className="tag-status undone">未完成</span>
         }</div>
       },
       filters: [{
-        text: '完成',
+        text: '已完成',
         value: 'done'
       }, {
         text: '未完成',
@@ -157,9 +158,9 @@ class InterfaceList extends Component {
     });
 
     return (
-      <div style={{ padding: "16px" }}>
+      <div style={{ padding: '16px' }}>
         <h2 style={{ display: 'inline-block'}}>接口列表</h2>
-        <Button style={{float: "right", marginRight: '10px'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
+        <Button style={{float: 'right'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
           title="添加接口"
