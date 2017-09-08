@@ -65,6 +65,10 @@ class InterfaceEdit extends Component {
 
   componentWillMount() {
     let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
+    this.setState({
+      curdata: this.props.curdata,
+      status: 1
+    })
 
     let s = new WebSocket('ws://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
     s.onopen = () => {
@@ -87,11 +91,8 @@ class InterfaceEdit extends Component {
 
     }
 
-    s.onerror = () => {
-      this.setState({
-        curdata: this.props.curdata,
-        status: 1
-      })
+    s.onerror = () => {      
+      console.error('websocket connect failed.')
     }
 
 

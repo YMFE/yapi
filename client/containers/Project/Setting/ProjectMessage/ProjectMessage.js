@@ -12,6 +12,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
+import { nameLengthLimit } from '../../../../common';
 import '../Setting.scss';
 // layout
 const formItemLayout = {
@@ -345,9 +346,7 @@ class ProjectMessage extends Component {
           >
             {getFieldDecorator('name', {
               initialValue: initFormValues.name,
-              rules: [{
-                required: true, message: '请输入项目名称!'
-              }]
+              rules: nameLengthLimit('项目')
             })(
               <Input />
               )}
