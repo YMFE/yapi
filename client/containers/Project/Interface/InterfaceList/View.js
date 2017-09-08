@@ -2,7 +2,7 @@ import './View.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Table } from 'antd'
+import { Table,Icon } from 'antd'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
@@ -42,7 +42,11 @@ class View extends Component {
       }, {
         title: '参数类型',
         dataIndex: 'type',
-        key: 'type'
+        key: 'type',
+        render: (text)=>{
+          text = text || "";
+          return text.toLowerCase()==="text"?<span><i className="TextIcon">T</i>文本</span>:<span><Icon type="file" />文件</span>
+        }
       },{
         title: '是否必须',
         dataIndex: 'required',
@@ -61,8 +65,8 @@ class View extends Component {
             key: i,
             name: item.name,
             value: item.desc,
-            required: item.required?"必须":"非必须",
-            type: item.type === "text"?"文本":"文件"
+            required: item.required?"是":"否",
+            type: item.type
           })
         })
       }
@@ -125,7 +129,7 @@ class View extends Component {
           key: i,
           name: item.name,
           value: item.desc,
-          required: item.required?"必须":"非必须"
+          required: item.required?"是":"否"
         })
       })
     }
@@ -185,7 +189,7 @@ class View extends Component {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required?"必须":"非必须",
+          required: item.required?"是":"否",
           value: item.value,
           desc: item.desc
         })
