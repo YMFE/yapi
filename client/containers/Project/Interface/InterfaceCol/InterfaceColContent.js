@@ -74,7 +74,10 @@ export default class InterfaceColContent extends Component {
     const columns = [{
       title: '用例名称',
       dataIndex: 'casename',
-      key: 'casename'
+      key: 'casename',
+      render: (text, item)=>{
+        return <Link to={"/project/" + item.project_id + "/interface/case/" + item._id} >{text}</Link>
+      }
     }, {
       title: '接口路径',
       dataIndex: 'path',

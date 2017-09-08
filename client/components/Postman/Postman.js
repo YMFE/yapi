@@ -474,7 +474,7 @@ export default class Run extends Component {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     const hasPlugin = this.state.hasPlugin;
     let isResJson = false;
-    Object.keys(resHeader).map(key => {
+    resHeader && Object.keys(resHeader).map(key => {
       if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
         isResJson = true;
       }
