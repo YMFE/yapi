@@ -13,7 +13,7 @@ function json_parse(data) {
   try {
     return json5.parse(data)
   } catch (e) {
-    return null
+    return data
   }
 }
 
