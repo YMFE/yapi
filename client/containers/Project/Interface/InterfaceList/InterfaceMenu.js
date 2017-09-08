@@ -82,11 +82,15 @@ class InterfaceMenu extends Component {
     }
   }
 
-  async handleRequest() {
+  handleRequest() {
     this.props.initInterface()
-    await this.props.fetchInterfaceList(this.props.projectId);
+    this.getList()
+  }
+
+  async getList(){
+    let r = await this.props.fetchInterfaceList(this.props.projectId);
     this.setState({
-      list: JSON.parse(JSON.stringify(this.props.list))
+      list: JSON.parse(JSON.stringify(r.payload.data))
     })
   }
 
@@ -119,7 +123,7 @@ class InterfaceMenu extends Component {
       message.success('接口添加成功')
       let interfaceId = res.data.data._id;
       this.props.history.push("/project/" + this.props.projectId + "/interface/api/" + interfaceId)
-      this.props.fetchInterfaceList(this.props.projectId)
+      this.getList()
       this.setState({
         visible: false
       });
@@ -135,7 +139,7 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类添加成功')
-      this.props.fetchInterfaceList(this.props.projectId)
+      this.getList()
       this.props.getProject(data.project_id)
       this.setState({
         add_cat_modal_visible: false
@@ -156,7 +160,7 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类更新成功')
-      this.props.fetchInterfaceList(this.props.projectId)
+      this.getList()
       this.setState({
         change_cat_modal_visible: false
       });
@@ -170,10 +174,12 @@ class InterfaceMenu extends Component {
       title: '您确认删除此接口',
       content: '温馨提示：接口删除后，无法恢复',
       async onOk() {
+        
         await that.props.deleteInterfaceData(id, that.props.projectId)
-        await that.props.fetchInterfaceList(that.props.projectId)
-        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        await that.getList()
         ref.destroy()
+        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        
       },
       async onCancel() {
         ref.destroy()
@@ -188,7 +194,7 @@ class InterfaceMenu extends Component {
       content: '温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复',
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
-        await that.props.fetchInterfaceList(that.props.projectId)
+        await that.getList()
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
         ref.destroy()
       },
@@ -222,7 +228,7 @@ class InterfaceMenu extends Component {
     let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
       <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
-      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "15px" }} ><Icon type="plus"  /></Tag>
+      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "16px" }} ><Icon type="plus"  /></Tag>
       <Modal
         title="添加接口"
         visible={this.state.visible}
@@ -260,7 +266,7 @@ class InterfaceMenu extends Component {
       }
       if (router) {
         if (!isNaN(router.params.actionId)) {
-          if (!inter._id) {
+          if (!inter || !inter._id) {
             return rNull;
           }
           return {

@@ -3,15 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Tag, Button, Modal, message
+  Table, Tag, Button, Modal, message, Tooltip
 } from 'antd';
-import { formatTime } from '../../../../common.js'
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
 import { Link } from 'react-router-dom';
+import variable from '../../../../constants/variable';
+import './Edit.scss';
+
 @connect(
   state => {
     return {
+      curData: state.inter.curdata,
       curProject: state.project.currProject
     }
   },{
@@ -32,6 +35,7 @@ class InterfaceList extends Component {
   }
 
   static propTypes = {
+    curData: PropTypes.object,
     match: PropTypes.object,
     curProject: PropTypes.object,
     history: PropTypes.object,
@@ -111,17 +115,25 @@ class InterfaceList extends Component {
       title: '接口路径',
       dataIndex: 'path',
       key: 'path',
+      width: 400,
       render: (item) => {
-        return <span>{this.props.curProject.basepath + item}</span>
+        const path = this.props.curProject.basepath + item;
+        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip"><span className="path">{path}</span></Tooltip>
       }
     }, {
-      title: '请求方式',
+      title: '请求方法',
       dataIndex: 'method',
-      key: 'method'
+      key: 'method',
+      width: 100,
+      render: (item) => {
+        let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get'];
+        return <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{item}</span>
+      }
     }, {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
+      width: 100,
       render: (item) => {
         return <div>{item === 'done' ?
           <Tag color="#87d068">完成</Tag>
@@ -137,13 +149,6 @@ class InterfaceList extends Component {
         value: 'undone'
       }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
-    }, {
-      title: '更新时间',
-      dataIndex: 'up_time',
-      key: 'up_time',
-      render: (item) => {
-        return <span>{formatTime(item)}</span>
-      }
     }]
 
     const data = this.state.data.map(item => {
@@ -152,10 +157,10 @@ class InterfaceList extends Component {
     });
 
     return (
-      <div style={{ padding: "15px" }}>
+      <div style={{ padding: "16px" }}>
         <h2 style={{ display: 'inline-block'}}>接口列表</h2>
         <Button style={{float: "right", marginRight: '10px'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
-        <Table style={{marginTop: '20px'}} pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
+        <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
           title="添加接口"
           visible={this.state.visible}

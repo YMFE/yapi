@@ -323,6 +323,7 @@ class interfaceColController extends baseController{
             value[item.name] = item;
         })
         params.forEach((item, index)=>{
+            if(!value[item.name] || typeof value[item.name] !== 'object') return null;
             params[index].value = value[item.name].value;
         })
         return params;

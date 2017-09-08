@@ -80,7 +80,7 @@ class Interface extends Component {
     const { action } = this.props.match.params;
     const activeKey = action === 'api' ? 'api' : 'colOrCase';
     // console.log(matchPath(this.props.location.pathname, contentRouter));
-    return <div className="web-content g-row" style={{ marginBottom: "15px" }}>
+    return <div className="web-content g-row" style={{ marginBottom: "16px" }}>
       <Row gutter={16} >
         <Col span={6}>
           <div className="left-menu">

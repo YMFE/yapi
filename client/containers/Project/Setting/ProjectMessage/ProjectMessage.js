@@ -12,6 +12,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
+import { nameLengthLimit } from '../../../../common';
 import '../Setting.scss';
 // layout
 const formItemLayout = {
@@ -142,7 +143,7 @@ class ProjectMessage extends Component {
       title: "确认删除 " + that.props.projectMsg.name + " 项目吗？",
       content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
         <Alert message="警告：此操作非常危险,会删除该项目下面所有接口，并且无法恢复!" type="warning" banner />
-        <div style={{ marginTop: '15px' }}>
+        <div style={{ marginTop: '16px' }}>
           <p style={{ marginBottom: '8px' }}><b>请输入项目名称确认此操作:</b></p>
           <Input id="project_name" size="large" />
         </div>
@@ -345,9 +346,7 @@ class ProjectMessage extends Component {
           >
             {getFieldDecorator('name', {
               initialValue: initFormValues.name,
-              rules: [{
-                required: true, message: '请输入项目名称!'
-              }]
+              rules: nameLengthLimit('项目')
             })(
               <Input />
               )}
