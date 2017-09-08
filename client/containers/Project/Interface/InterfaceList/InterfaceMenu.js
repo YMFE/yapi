@@ -267,7 +267,7 @@ class InterfaceMenu extends Component {
       }
       if (router) {
         if (!isNaN(router.params.actionId)) {
-          if (!inter._id) {
+          if (!inter || !inter._id) {
             return rNull;
           }
           return {
