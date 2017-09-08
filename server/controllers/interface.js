@@ -478,8 +478,8 @@ class interfaceController extends baseController {
         try {
             let id = parseInt(ctx.query.id, 10), result, userInst, userinfo, data;
             if (!id) return ctx.websocket.send("id 参数有误");
-            await this.Model.get(id);
-            result = userinfo;
+            result = await this.Model.get(id);
+
             if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
                 userInst = yapi.getInst(userModel);
                 userinfo = await userInst.findById(result.edit_uid);
@@ -604,8 +604,7 @@ class interfaceController extends baseController {
                 typeid: catData.project_id
             });
 
-            // no used variable 'result'
-            // let result = await this.catModel.del(id);
+            await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
             return ctx.body = yapi.commons.resReturn(r);
         } catch (e) {
