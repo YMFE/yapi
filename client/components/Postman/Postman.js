@@ -527,7 +527,7 @@ export default class Run extends Component {
                 <div>
                   <a
                     target="blank"
-                    href="/attachment/cross-request.zip"
+                    href="/attachment/cross-request-v1.7.zip"
                   > [手动下载] </a>
                   <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
                   <a
