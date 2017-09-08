@@ -87,9 +87,9 @@ function run(options) {
   editor = ace.edit(container)
   editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
-  //editor.renderer.setShowGutter(true);
   if (options.readOnly === true) {
     editor.setReadOnly(true);
+    editor.renderer.$cursorLayer.element.style.display = "none";
   }
   editor.setTheme('ace/theme/xcode');
   editor.setOptions({
