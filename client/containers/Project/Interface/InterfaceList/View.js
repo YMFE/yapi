@@ -234,20 +234,10 @@ class View extends Component {
     }];
     let status = {
       undone: "未完成",
-      done: "完成"
-    }
-    let statusColor = {
-      undone: {
-        bac: "rgb(255, 85, 0)",
-        color: "white"
-      },
-      done:{
-        bac: "rgb(135, 208, 104)",
-        color: "white"
-      }
+      done: "已完成"
     }
     let methodColor = variable.METHOD_COLOR[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
-    statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
+    // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
     const aceEditor = <div style={{display:this.props.curData.req_body_other&&this.props.curData.req_body_type==="json"?"block":"none"}} className="colBody">
       <span className="colKey">请求Body：</span>
@@ -269,7 +259,7 @@ class View extends Component {
       </div>
       <div className="colstatus">
         <span className="colKey">状态：</span>
-        <span style={{backgroundColor:statusColor.bac,color: statusColor.color}} className="colValue">{status[this.props.curData.status]}</span>
+        <span className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</span>
       </div>
       <div className="colAddTime">
         <span className="colKey">创建时间：</span>
