@@ -19,6 +19,33 @@ function json_parse(data) {
   }
 }
 
+function isValidJson(json){
+  if(!json) return false;
+  if(typeof json === 'object') return true;
+  try{
+    if(typeof json === 'string'){
+      json5.parse(json);
+      return true;
+    }
+  }catch(e){
+    return false;
+  }
+}
+
+function isJsonData(headers, res){
+  if(isValidJson(res)){
+    return true;
+  }
+  if(!headers || typeof headers !== 'object') return false;
+  let isResJson = false;
+  Object.keys(headers).map(key => {
+    if (/content-type/i.test(key) && /application\/json/i.test(headers[key])) {
+      isResJson = true;
+    }
+  })
+  return isResJson;
+}
+
 const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
@@ -179,11 +206,8 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       success: (res, header) => {
         try {
-          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
-            res = typeof res !== 'string' ? res : json_parse(res)
-          }
-          if (header) {
-            header = typeof header !== 'string' ? header : json_parse(header)
+          if(isJsonData(header)){
+            res = json_parse(res);
           }
 
           const { res_body, res_body_type } = that.props.data;
@@ -198,11 +222,7 @@ export default class Run extends Component {
               body[item.name] = item.value;
             })
           } else if (that.state.bodyType === 'json') {
-            try {
-              body = json_parse(that.state.bodyOther);
-            } catch (e) {
-              body = ''
-            }
+            body = json_parse(that.state.bodyOther);
           }
           if (res_body && res_body_type === 'json' && typeof res === 'object') {
             let tpl = MockExtra(json_parse(res_body), {
@@ -222,16 +242,13 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          if (header && header['content-type'] && header['content-type'].indexOf('application/json') !== -1) {
-            err = typeof err === 'object' ? err : json_parse(err)
-          }
-          if (header) {
-            header = typeof header === 'object' ? header : json_parse(header)
-          }
+          if(isJsonData(header)){
+            err = json_parse(err);
+          }         
         } catch (e) {
           message.error(e.message)
         }
-        message.success('请求完成')
+        message.error('请求异常')
         that.setState({ res: err || '请求失败', resHeader: header, validRes: null })
         that.setState({ loading: false })
         that.bindAceEditor()
@@ -271,10 +288,10 @@ export default class Run extends Component {
     this.setState({ headers: headers.filter((item, i) => +index !== +i) });
   }
   @autobind
-  setContentType(type) {
-    const headersObj = this.getHeadersObj(this.state.headers);
-    headersObj['Content-Type'] = type;
-    this.setState({ headers: this.objToArr(headersObj) })
+  setContentType() {
+    // const headersObj = this.getHeadersObj(this.state.headers);
+    // headersObj['Content-Type'] = type;
+    // this.setState({ headers: this.objToArr(headersObj) })
   }
 
   @autobind
@@ -351,7 +368,7 @@ export default class Run extends Component {
         break;
     }
     if (type === 'type' && e === 'file') {
-      this.setContentType('multipart/form-data')
+      //this.setContentType('multipart/form-data')
     }
     this.setState({ bodyForm });
   }
@@ -446,13 +463,13 @@ export default class Run extends Component {
   bindAceEditor = () => {
     mockEditor({
       container: 'res-body-pretty',
-      data: JSON.stringify(this.state.res, null, 2),
+      data: this.state.res,
       readOnly: true,
       onChange: function () { }
     })
     mockEditor({
       container: 'res-headers-pretty',
-      data: JSON.stringify(this.state.resHeader, null, 2),
+      data: this.state.resHeader,
       readOnly: true,
       onChange: function () { }
     })
@@ -480,17 +497,11 @@ export default class Run extends Component {
   }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes, res } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
-    let isResJson = false;
-    if (resHeader && typeof resHeader === 'object') {
-      Object.keys(resHeader).map(key => {        
-        if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
-          isResJson = true;
-        }
-      })
-    }
+    let isResJson = isJsonData(resHeader, res);
+
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
@@ -631,7 +642,7 @@ export default class Run extends Component {
             >
 
               <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file'? 'block': 'none' }}>
-                <div id="body-other-edit" style={{ marginTop: 10 }} className="pretty-editor"></div>
+                <div id="body-other-edit" style={{ marginTop: 10, minHeight:150 }} className="pretty-editor"></div>
               </div>
 
               {
