@@ -21,7 +21,7 @@ function bindHook(name, listener){
   }else{
       hooks[name].listener = listener;
   }
-  
+
 }
 
 function emitHook(name){
@@ -29,7 +29,7 @@ function emitHook(name){
   if(name in hooks === false){
       throw new Error('不存在的hookname');
   }
-  
+
   if(hooks[name] && typeof hooks[name] === 'object'){
       if(hooks[name].type === 'single' && typeof hooks[name].listener === 'function'){
           return hooks[name].listener.apply(yapi, Array.prototype.slice.call(arguments, 1));
@@ -50,7 +50,7 @@ module.exports = function(){
   if(yapi.WEBCONFIG.plugins && Array.isArray(yapi.WEBCONFIG.plugins)){
     yapi.WEBCONFIG.plugins.forEach(plugin=>{
       if(!yapi.commons.fileExist(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'))){
-        throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件?`);
+        console.error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件?`);
         process.exit();
       }
       let pluginModule = require(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin + '/server.js'));
