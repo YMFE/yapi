@@ -65,13 +65,13 @@ function run(options) {
     var curData = mockEditor.curData;
     try {
       curData.text = json;
-      var obj = json5.parse(json);      
+      var obj = json5.parse(json);
       curData.format = true;
       curData.jsonData = obj;
       curData.mockData = Mock.mock(MockExtra(obj, {}));
       curData.mockText = JSON.stringify(curData.mockData, null, "  ");
     } catch (e) {
-      
+
       curData.format = e.message;
     }
   }
@@ -114,7 +114,10 @@ function run(options) {
   rhymeCompleter = {
     identifierRegexps: [/[@]/],
     getCompletions: function (editor, session, pos, prefix, callback) {
-      if (prefix.length === 0) { callback(null, []); return }
+      if (prefix.length === 0) {
+        callback(null, []);
+        return;
+      }
       callback(null, wordList.map(function (ea) {
         return { name: ea.mock, value: ea.mock, score: ea.mock, meta: ea.name }
       }));

@@ -55,7 +55,7 @@ class interfaceModel extends baseModel {
                 enum: ['json', 'text', 'xml', 'raw']
             },
             res_body: String
-        };  
+        };
     }
 
     save(data) {
@@ -72,7 +72,7 @@ class interfaceModel extends baseModel {
 
     getBaseinfo(id){
         return this.model.findOne({
-            _id: id,
+            _id: id
         }).select('path method uid title project_id cat_id status').exec()
     }
 
@@ -151,7 +151,7 @@ class interfaceModel extends baseModel {
     upEditUid(id, uid){
         return this.model.update({
             _id: id
-        }, 
+        },
         {edit_uid: uid},
         {runValidators: true });
     }
