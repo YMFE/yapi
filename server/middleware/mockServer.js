@@ -22,8 +22,9 @@ function matchApi(apiPath, apiRule) {
 }
 
 module.exports = async (ctx, next) => {
-    let hostname = ctx.hostname;
-    let config = yapi.WEBCONFIG;
+    // no used variable 'hostname' & 'config'
+    // let hostname = ctx.hostname;
+    // let config = yapi.WEBCONFIG;
     let path = ctx.path;
 
 
@@ -52,7 +53,7 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
 
-    let interfaceData, newData, newpath;
+    let interfaceData, newpath;
     let interfaceInst = yapi.getInst(interfaceModel);
 
     try {
