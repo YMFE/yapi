@@ -481,10 +481,9 @@ export default class Run extends Component {
 
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
-    
+    HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
     let isResJson = false;
-
     if (resHeader && typeof resHeader === 'object') {
       Object.keys(resHeader).map(key => {        
         if (/content-type/i.test(key) && /application\/json/i.test(resHeader[key])) {
@@ -528,7 +527,7 @@ export default class Run extends Component {
                 <div>
                   <a
                     target="blank"
-                    href="/attachment/cross-request.zip"
+                    href="/attachment/cross-request-v1.7.zip"
                   > [手动下载] </a>
                   <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
                   <a

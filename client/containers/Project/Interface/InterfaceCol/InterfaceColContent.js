@@ -52,18 +52,19 @@ export default class InterfaceColContent extends Component {
                 result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
                 result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
+    this.props.fetchCaseList(currColId);
     this.props.setColData({currColId: +currColId, isShowCol: true})
   }
 
   componentWillReceiveProps(nextProps) {
     const { interfaceColList } = nextProps;
-    const { actionId: oldCaseId, id } = this.props.match.params
-    let newCaseId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newCaseId)) {
+    const { actionId: oldColId, id } = this.props.match.params
+    let newColId = nextProps.match.params.actionId
+    if (!interfaceColList.find(item => +item._id === +newColId)) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    } else if (oldCaseId !== newCaseId) {
-      this.props.fetchCaseList(newCaseId);
-      this.props.setColData({currColId: +newCaseId, isShowCol: true})
+    } else if (oldColId !== newColId) {
+      this.props.fetchCaseList(newColId);
+      this.props.setColData({currColId: +newColId, isShowCol: true})
     }
   }
 
@@ -74,7 +75,10 @@ export default class InterfaceColContent extends Component {
     const columns = [{
       title: '用例名称',
       dataIndex: 'casename',
-      key: 'casename'
+      key: 'casename',
+      render: (text, item)=>{
+        return <Link to={"/project/" + item.project_id + "/interface/case/" + item._id} >{text}</Link>
+      }
     }, {
       title: '接口路径',
       dataIndex: 'path',
