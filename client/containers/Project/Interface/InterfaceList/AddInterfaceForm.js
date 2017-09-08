@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Form, Input, Select, Button } from 'antd';
 
 import constants from '../../../../constants/variable.js'
-import { handlePath } from '../../../../common.js'
+import { handlePath, nameLengthLimit } from '../../../../common.js'
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 
@@ -83,9 +83,7 @@ class AddInterfaceForm extends Component {
           label="接口名称"
         >
           {getFieldDecorator('title', {
-            rules: [{
-              required: true, message: '清输入接口名称!'
-            }]
+            rules: nameLengthLimit('接口')
           })(
             <Input placeholder="接口名称" />
             )}

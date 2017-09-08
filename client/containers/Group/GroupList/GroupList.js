@@ -172,7 +172,7 @@ export default class GroupList extends Component {
       title: "确认删除 "+that.props.currGroup.group_name+" 分组吗？",
       content: <div style={{marginTop:'10px', fontSize: '12px', lineHeight: '25px'}}>
         <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
-        <div style={{marginTop: '15px'}}>
+        <div style={{marginTop: '16px'}}>
           <p><b>请输入分组名称确认此操作:</b></p>
           <Input id="group_name" />
         </div>
