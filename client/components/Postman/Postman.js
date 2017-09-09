@@ -204,6 +204,7 @@ export default class Run extends Component {
       headers: this.getHeadersObj(headers),
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
+      file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header) => {
         try {
           if(isJsonData(header)){
@@ -673,9 +674,9 @@ export default class Run extends Component {
                 </div>
               }
               {
-                method === 'POST' && bodyType === 'file' &&
+                HTTP_METHOD[method].request_body && bodyType === 'file' &&
                 <div>
-                  <Input type="file"></Input>
+                  <Input type="file" id="single-file"></Input>
                 </div>
               }
               {/*
