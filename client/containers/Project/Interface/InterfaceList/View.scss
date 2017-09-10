@@ -36,7 +36,15 @@
             padding-bottom: 0px;
         }
     }
-    
+    .colBody{
+        .ant-table-row{
+            span{
+                i{
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
     .colDesc{
         margin-bottom: 0px;
         padding-bottom: 0px;

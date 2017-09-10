@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Tag, Button, Modal, message, Tooltip
+  Table, Button, Modal, message, Tooltip
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
@@ -134,16 +134,16 @@ class InterfaceList extends Component {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 12,
+      width: 14,
       render: (item) => {
         return <div>{item === 'done' ?
-          <Tag color="#87d068">完成</Tag>
+          <span className="tag-status done">已完成</span>
           :
-          <Tag color="#f50">未完成</Tag>
+          <span className="tag-status undone">未完成</span>
         }</div>
       },
       filters: [{
-        text: '完成',
+        text: '已完成',
         value: 'done'
       }, {
         text: '未完成',
