@@ -204,6 +204,7 @@ export default class Run extends Component {
       headers: this.getHeadersObj(headers),
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
+      file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header) => {
         try {
           if(isJsonData(header)){
@@ -538,7 +539,7 @@ export default class Run extends Component {
                 <div>
                   <a
                     target="blank"
-                    href="/attachment/cross-request-v1.7.zip"
+                    href="/attachment/cross-request-v2.0.1.zip"
                   > [手动下载] </a>
                   <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/ </span>
                   <a
@@ -673,9 +674,9 @@ export default class Run extends Component {
                 </div>
               }
               {
-                method === 'POST' && bodyType === 'file' &&
+                HTTP_METHOD[method].request_body && bodyType === 'file' &&
                 <div>
-                  <Input type="file"></Input>
+                  <Input type="file" id="single-file"></Input>
                 </div>
               }
               {/*
