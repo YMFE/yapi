@@ -97,3 +97,22 @@ em {
     width: min-content !important;
   }
 }
+
+.tag-status {
+  &::before {
+    content: '';
+    display: inline-block;
+    margin-right: 6px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 1px;
+  }
+  &.done::before {
+    background-color: #57cf27;
+  }
+  &.undone::before {
+    background-color: #ff561b;
+  }
+}
