@@ -2,7 +2,7 @@ import './View.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Table } from 'antd'
+import { Table,Icon } from 'antd'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
@@ -42,7 +42,11 @@ class View extends Component {
       }, {
         title: '参数类型',
         dataIndex: 'type',
-        key: 'type'
+        key: 'type',
+        render: (text)=>{
+          text = text || "";
+          return text.toLowerCase()==="text"?<span><i className="TextIcon">T</i>文本</span>:<span><Icon type="file" />文件</span>
+        }
       },{
         title: '是否必须',
         dataIndex: 'required',
@@ -61,8 +65,8 @@ class View extends Component {
             key: i,
             name: item.name,
             value: item.desc,
-            required: item.required?"必须":"非必须",
-            type: item.type === "text"?"文本":"文件"
+            required: item.required?"是":"否",
+            type: item.type
           })
         })
       }
@@ -125,7 +129,7 @@ class View extends Component {
           key: i,
           name: item.name,
           value: item.desc,
-          required: item.required?"必须":"非必须"
+          required: item.required?"是":"否"
         })
       })
     }
@@ -185,7 +189,7 @@ class View extends Component {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required?"必须":"非必须",
+          required: item.required?"是":"否",
           value: item.value,
           desc: item.desc
         })
@@ -234,20 +238,10 @@ class View extends Component {
     }];
     let status = {
       undone: "未完成",
-      done: "完成"
-    }
-    let statusColor = {
-      undone: {
-        bac: "rgb(255, 85, 0)",
-        color: "white"
-      },
-      done:{
-        bac: "rgb(135, 208, 104)",
-        color: "white"
-      }
+      done: "已完成"
     }
     let methodColor = variable.METHOD_COLOR[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
-    statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
+    // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
     const aceEditor = <div style={{display:this.props.curData.req_body_other&&this.props.curData.req_body_type==="json"?"block":"none"}} className="colBody">
       <span className="colKey">请求Body：</span>
@@ -269,7 +263,7 @@ class View extends Component {
       </div>
       <div className="colstatus">
         <span className="colKey">状态：</span>
-        <span style={{backgroundColor:statusColor.bac,color: statusColor.color}} className="colValue">{status[this.props.curData.status]}</span>
+        <span className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</span>
       </div>
       <div className="colAddTime">
         <span className="colKey">创建时间：</span>
