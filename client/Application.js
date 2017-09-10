@@ -38,7 +38,6 @@ export default class App extends Component {
 
 
   componentDidMount() {
-    message.warning('YApi平台正在公测，发布正式版会删除所有公测数据！', 10)
     this.props.checkLoginState();
   }
 
