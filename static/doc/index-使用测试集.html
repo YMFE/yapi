@@ -28,14 +28,9 @@
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
-                        <li class="">
-                            
-                            <a href="index.html">首页</a> 
-                        </li>
-                        
                         <li class="active">
                             
-                            <a href="usage.html">使用手册</a> 
+                            <a href="index.html">使用手册</a> 
                         </li>
                         
                         <li class="">
@@ -74,82 +69,85 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-认识 YApi.html">认识 YApi</a> 
+                                    <a href="index-认识 YApi.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-创建第一个API.html">创建第一个API</a> 
+                                    <a href="index-创建第一个API.html">创建第一个API</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-项目操作.html">项目操作</a> 
+                                    <a href="index-项目操作.html">项目操作</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-接口操作.html">接口操作</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-使用mock功能.html">使用mock功能</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="usage-接口操作.html">接口操作</a> 
+                                    <a href="index-使用测试集.html">使用测试集</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#接口配置">接口配置</a>
+                                        <a href="#介绍">介绍</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#接口运行">接口运行</a>
+                                        <a href="#添加测试集">添加测试集</a>
                                     </li>
-                                
-                                </ul>
-                                            
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-使用mock功能.html">使用mock功能</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-使用测试集.html">使用测试集</a> 
-                                </li>
+                                     
+                                    <li >
+                                        <a href="#添加接口用例">添加接口用例</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#查看接口用例">查看接口用例</a>
+                                    </li>
                                  
+                                </ul>
+                                  
                             </ul>
                         </nav>
                     </div>
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
-<ul>
-<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
-<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./usage-创建第一个API.html#新建_编辑接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
-<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
-<ul>
-<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
-<blockquote>
-<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
-</blockquote>
-</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
-</li></ul>
-<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
-<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
-<blockquote>
-<p>安装完插件记得刷新页面</p>
-</blockquote>
-<p><img src="./images/interface_run.jpg" /></p>
-<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
+                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
+
+<h2 class="subject" id="添加测试集">添加测试集 <a class="hashlink" href="#添加测试集">#</a></h2><p>添加测试集，我们可以创建个人测试集、环境测试集或者功能测试集等等。每个测试集只是接口用例的集合，可以按照任何维度去创建。</p>
+<p>项目接口页面，测试集合 tab 下面『加号』按钮添加测试集。</p>
+<p><img src="./images/case_col_add.jpg" /></p>
+<p>添加测试集必须填写集合名，然后可以选填集合简介。</p>
+<p><img src="./images/case_col_add_modal.jpg" /></p>
+<h2 class="subject" id="添加接口用例">添加接口用例 <a class="hashlink" href="#添加接口用例">#</a></h2><p>当我们在运行、调试某个接口时，为了把当前的测试请求数据保存下来，方便下次测试。我们可以将接口当前的测试数据，保存为该接口的测试用例。</p>
+<p>在接口运行页面，点击保存按钮，添加接口用例。</p>
+<p><img src="./images/case_add.jpg" /></p>
+<p>然后选择用例需要添加到的集合。如何还没有集合，可以新建。</p>
+<p><img src="./images/case_add_modal.jpg" /></p>
+<h2 class="subject" id="查看接口用例">查看接口用例 <a class="hashlink" href="#查看接口用例">#</a></h2><p>添加完用例，我们可以在接口集合 tab 下面看到，当前项目的所有测试集合和接口用例。接口用例和接口运行一样，只不过默认带上了一些请求参数。
+<img src="./images/case_list.jpg" /></p>
 
                     </div>
                 </div>
