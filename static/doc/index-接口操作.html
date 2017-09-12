@@ -28,14 +28,9 @@
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
-                        <li class="">
-                            
-                            <a href="index.html">首页</a> 
-                        </li>
-                        
                         <li class="active">
                             
-                            <a href="usage.html">使用手册</a> 
+                            <a href="index.html">使用手册</a> 
                         </li>
                         
                         <li class="">
@@ -74,27 +69,41 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-认识 YApi.html">认识 YApi</a> 
+                                    <a href="index-认识 YApi.html">认识 YApi</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-项目操作.html">项目操作</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="usage-创建第一个API.html">创建第一个API</a> 
+                                    <a href="index-接口操作.html">接口操作</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#获取权限">获取权限</a>
+                                        <a href="#接口配置">接口配置</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#选择项目">选择项目</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#新建接口">新建接口</a>
+                                        <a href="#接口运行">接口运行</a>
                                     </li>
                                 
                                 </ul>
@@ -102,31 +111,13 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="index-使用mock功能.html">使用mock功能</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-项目操作.html">项目操作</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-接口操作.html">接口操作</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-使用mock功能.html">使用mock功能</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-使用测试集.html">使用测试集</a> 
+                                    <a href="index-使用测试集.html">使用测试集</a> 
                                 </li>
                                  
                             </ul>
@@ -135,33 +126,25 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h3 class="subject" id="如何创建项目？">如何创建项目？ <a class="hashlink" href="#如何创建项目？">#</a></h3><p>把大象装进冰箱分几步？三步：把冰箱门打开，把大象装进去，关门，搞定~</p>
-<p>新建接口分几步？也是三步：</p>
+                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
 <ul>
-<li><a href="#获取权限">获取权限</a></li><li><a href="#选择项目">找到一个项目</a></li><li><a href="#新建_编辑接口">新建接口</a></li></ul>
-<p>搞定~</p>
-<h2 class="subject" id="获取权限">获取权限 <a class="hashlink" href="#获取权限">#</a></h2><ul>
-<li>登录后查看项目，如果找不到对应分组或项目，需要联系组长获取项目权限。</li></ul>
-<h2 class="subject" id="选择项目">选择项目 <a class="hashlink" href="#选择项目">#</a></h2><ul>
-<li><p>如果你已经登录，会在首页右侧看到一些项目 (可以在左侧的分组列表切换分组来查看不同分组下的项目)。</p>
-</li><li><p>点击一个项目，进入该项目的详情页。</p>
+<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
+<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./usage-创建第一个API.html#新建_编辑接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
+<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
+<ul>
+<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
+<blockquote>
+<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
+</blockquote>
+</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
 </li></ul>
+<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
+<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
 <blockquote>
-<p>如果没有找到项目，请联系组长</p>
+<p>安装完插件记得刷新页面</p>
 </blockquote>
-<p><img src="./images/project_list.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center /></p>
-<h2 class="subject" id="新建接口">新建接口 <a class="hashlink" href="#新建接口">#</a></h2><ul>
-<li>点击左侧接口分组右侧的菜单按钮，选择 <code>添加接口</code>，或者点击接口列表右上角的 <code>添加接口</code>。</li></ul>
-<p><img src="./images/usage/api_add_btn.png" /></p>
-<ul>
-<li>选择接口分类，输入接口名称和接口路径，点击 <code>提交</code>。</li></ul>
-<p><img src="./images/usage/api_add_panel.png" /></p>
-<blockquote>
-<p>如果没有新建项目权限，请联系组长</p>
-</blockquote>
-<ul>
-<li>恭喜你！创建了第一个YApi的接口，你可以看到在左侧看到接口名称，右侧有该接口的信息预览。</li></ul>
-<p><img src="./images/usage/api_res.png" /></p>
+<p><img src="./images/interface_run.jpg" /></p>
+<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
 
                     </div>
                 </div>

@@ -28,14 +28,9 @@
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
-                        <li class="">
-                            
-                            <a href="index.html">首页</a> 
-                        </li>
-                        
                         <li class="active">
                             
-                            <a href="usage.html">使用手册</a> 
+                            <a href="index.html">使用手册</a> 
                         </li>
                         
                         <li class="">
@@ -74,29 +69,39 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-认识 YApi.html">认识 YApi</a> 
+                                    <a href="index-认识 YApi.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-创建第一个API.html">创建第一个API</a> 
+                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="usage-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="index-项目操作.html">项目操作</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#认识组长">认识组长</a>
+                                        <a href="#新建项目">新建项目</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#权限列表">权限列表</a>
+                                        <a href="#修改项目">修改项目</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#删除项目">删除项目</a>
                                     </li>
                                 
                                 </ul>
@@ -104,25 +109,19 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-项目操作.html">项目操作</a> 
+                                    <a href="index-接口操作.html">接口操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-接口操作.html">接口操作</a> 
+                                    <a href="index-使用mock功能.html">使用mock功能</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="usage-使用mock功能.html">使用mock功能</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="usage-使用测试集.html">使用测试集</a> 
+                                    <a href="index-使用测试集.html">使用测试集</a> 
                                 </li>
                                  
                             </ul>
@@ -131,121 +130,25 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <p>接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
-<p>YAPI 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
-<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，组长对分组或项目负责，拥有分组或项目下的所有权限，二者区别如下：</p>
-<p><code>分组组长</code> 有权限修改分组、删除分组，可以创建分组下的项目。一般来说，组长只需要对项目负责，将项目的操作任务安排给项目组长处理即可。</p>
-<p><code>项目组长</code> 无法操作分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
-<h2 class="subject" id="权限列表">权限列表 <a class="hashlink" href="#权限列表">#</a></h2><h3 class="subject" id="项目权限">项目权限 <a class="hashlink" href="#项目权限">#</a></h3><table>
-<thead>
-<tr>
-<th style="text-align:left">操作</th>
-<th style="text-align:center">游客</th>
-<th style="text-align:center">开发者</th>
-<th style="text-align:center">组长</th>
-<th style="text-align:center">超级管理员</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">浏览公开项目与接口</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">浏览私有项目与接口</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">编辑项目信息</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">新建接口</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">编辑接口</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">编辑项目头像</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">删除项目</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-</tbody>
-</table>
-<h3 class="subject" id="分组权限">分组权限 <a class="hashlink" href="#分组权限">#</a></h3><table>
-<thead>
-<tr>
-<th style="text-align:left">操作</th>
-<th style="text-align:center">游客</th>
-<th style="text-align:center">开发者</th>
-<th style="text-align:center">组长</th>
-<th style="text-align:center">超级管理员</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">浏览分组</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">在分组中新建项目</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">编辑分组信息</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">管理分组成员</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-<tr>
-<td style="text-align:left">删除分组</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">✓</td>
-<td style="text-align:center">✓</td>
-</tr>
-</tbody>
-</table>
+                         <h2 class="subject" id="新建项目">新建项目 <a class="hashlink" href="#新建项目">#</a></h2><p>点击右上角的 <code>+</code> 新建项目，进入新建项目页面。</p>
+<p><img src="./images/usage/project_add.png" /></p>
+<p>在新建项目页，填写项目信息：</p>
+<blockquote>
+<ul>
+<li>项目名称不允许重复，包括其他分组</li><li>基本路径为接口统一添加了前缀</li><li>新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。</li></ul>
+</blockquote>
+<p><img src="./images/usage/project_add_panel.png" /></p>
+<h2 class="subject" id="修改项目">修改项目 <a class="hashlink" href="#修改项目">#</a></h2><p>在项目页点击上方的 <code>设置</code> Tab 进入项目设置面板，这个面板涵盖了项目的所有配置。</p>
+<p><img src="./images/usage/project_setting.png" /></p>
+<p>这里比新建项目页面新增的功能如下：</p>
+<h3 class="subject" id="修改项目图标">修改项目图标 <a class="hashlink" href="#修改项目图标">#</a></h3><p>点击项目图标，可以修改图标及背景色：</p>
+<p><img src="./images/usage/project_setting_logo.png" /></p>
+<h3 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h3><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用。</p>
+<p><img src="./images/usage/project_setting_env.png" /></p>
+<h2 class="subject" id="删除项目">删除项目 <a class="hashlink" href="#删除项目">#</a></h2><p>点击下方的删除按钮，输入项目名称进行删除。</p>
+<blockquote>
+<p>删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。</p>
+</blockquote>
 
                     </div>
                 </div>
