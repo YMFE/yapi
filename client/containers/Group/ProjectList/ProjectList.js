@@ -101,7 +101,7 @@ class ProjectList extends Component {
   render() {
     const projectData = this.state.projectData;
     return (      
-      <div style={{paddingTop: '15px'}} className="m-panel card-panel card-panel-s project-list" >
+      <div style={{paddingTop: '20px'}} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
           <Col span={16} style={{textAlign: 'left'}}>
             {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
