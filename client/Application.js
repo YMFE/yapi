@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home, Group, Project, Follows, AddProject, Login } from './containers/index';
-import {message} from 'antd'
 import User from './containers/User/User.js';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -38,7 +37,6 @@ export default class App extends Component {
 
 
   componentDidMount() {
-    message.warning('YApi平台正在公测，发布正式版会删除所有公测数据！', 10)
     this.props.checkLoginState();
   }
 
