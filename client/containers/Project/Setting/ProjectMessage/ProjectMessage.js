@@ -328,7 +328,7 @@ class ProjectMessage extends Component {
           </Col>
           <Col xs={18} sm={15} lg={19} className="setting-intro">
             <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
-            <p className="ui-desc">{projectMsg.desc}</p>
+            {/* <p className="ui-desc">{projectMsg.desc}</p> */}
           </Col>
         </Row>
         <hr className="breakline" />
@@ -403,10 +403,10 @@ class ProjectMessage extends Component {
             {getFieldDecorator('desc', {
               initialValue: initFormValues.desc,
               rules: [{
-                required: false, message: '描述不超过100字!', max: 100
+                required: false
               }]
             })(
-              <TextArea rows={4} />
+              <TextArea rows={8} />
               )}
           </FormItem>
 
