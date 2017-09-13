@@ -76,9 +76,22 @@ class interfaceController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
         }
 
-        if (!yapi.commons.verifyPath(params.path)) {
+        let http_path = url.parse(params.path);
+
+        if (!yapi.commons.verifyPath(http_path.path)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
+        
+        params.req_query = params.req_query || [];
+        if(!params.req_query){
+            params.req_query = [];
+            Object.keys(http_path.query).forEach((item)=>{
+                params.req_query.push({
+                    name: item
+                })
+            })
+        }
+        
 
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 

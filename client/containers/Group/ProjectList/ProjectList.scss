@@ -3,6 +3,7 @@
   margin-bottom: 0;
 }
 
+
 .m-panel{
   background-color: #fff;
   padding: 24px;
@@ -11,6 +12,20 @@
   min-height: 4.68rem;
   margin-top: 0;
 }
+
+.project-list{
+  .project-list-header{
+    background: #eee;
+    height: 48px;
+    line-height: 40px;
+    border-radius: 4px;
+    text-align: right;
+    padding: 7px 15px;
+    margin-bottom: 15px;
+  }
+}
+
+
 
 .ant-input-group-wrapper {
   width: 100%;

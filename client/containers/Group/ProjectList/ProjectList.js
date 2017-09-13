@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
+import {  Link } from 'react-router-dom';
 import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
@@ -10,7 +11,7 @@ import { setBreadcrumb } from  '../../../reducer/modules/user';
 
 import './ProjectList.scss'
 
-@connect(
+@connect(  
   state => {
     return {
       projectList: state.project.projectList,
@@ -75,7 +76,7 @@ class ProjectList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.setBreadcrumb([{name: '分组: ' + (nextProps.currGroup.group_name || '')}]);
+    this.props.setBreadcrumb([{name: '' + (nextProps.currGroup.group_name || '')}]);
 
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
@@ -99,8 +100,17 @@ class ProjectList extends Component {
 
   render() {
     const projectData = this.state.projectData;
-    return (
-      <div className="m-panel card-panel card-panel-s">
+    return (      
+      <div style={{paddingTop: '15px'}} className="m-panel card-panel card-panel-s project-list" >
+        <Row className="project-list-header">
+          <Col span={16} style={{textAlign: 'left'}}>
+            {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
+          </Col>
+          <Col>
+            <Link to="/add-project"> <Button type="primary" >添加项目</Button></Link>
+          </Col>
+          
+        </Row>         
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
