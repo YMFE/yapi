@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col, Button } from 'antd';
-import {  Link } from 'react-router-dom';
-import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../reducer/modules/project';
+import { Row, Col, Button, Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
+import { addProject, fetchProjectList, delProject, changeUpdateModal } from '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import { autobind } from 'core-decorators';
-import { setBreadcrumb } from  '../../../reducer/modules/user';
+import { setBreadcrumb } from '../../../reducer/modules/user';
 
 import './ProjectList.scss'
 
-@connect(  
+@connect(
   state => {
     return {
       projectList: state.project.projectList,
@@ -76,7 +76,7 @@ class ProjectList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.setBreadcrumb([{name: '' + (nextProps.currGroup.group_name || '')}]);
+    this.props.setBreadcrumb([{ name: '' + (nextProps.currGroup.group_name || '') }]);
 
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
@@ -100,24 +100,30 @@ class ProjectList extends Component {
 
   render() {
     const projectData = this.state.projectData;
-    return (      
-      <div style={{paddingTop: '20px'}} className="m-panel card-panel card-panel-s project-list" >
+    return (
+      <div style={{ paddingTop: '20px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
-          <Col span={16} style={{textAlign: 'left'}}>
+          <Col span={16} style={{ textAlign: 'left' }}>
             {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
           </Col>
           <Col>
-            <Link to="/add-project"> <Button type="primary" >添加项目</Button></Link>
+
+            <Tooltip title="您没有权限,请联系该分组组长或管理员">
+              {this.props.currGroup.role ?
+                <Button type="primary" ><Link to="/add-project">添加项目</Link></Button> :
+                <Button type="primary" disabled >添加项目</Button>}
+            </Tooltip>
+
           </Col>
-          
-        </Row>         
+
+        </Row>
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
               <Col span={8} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
-          }) : <ErrMsg type="noProject"/>}
+          }) : <ErrMsg type="noProject" />}
         </Row>
       </div>
     );
