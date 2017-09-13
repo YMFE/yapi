@@ -58,7 +58,7 @@ class ErrMsg extends Component {
           break;
         case 'noProject':
           title = '该分组还没有项目呢';
-          desc = <span>请点击右上角 “<Icon type="plus-circle" />” 按钮新建项目</span>;
+          desc = <span>请点击右上角添加项目按钮新建项目</span>;
           break;
         case 'noData':
           title = '暂无数据';
