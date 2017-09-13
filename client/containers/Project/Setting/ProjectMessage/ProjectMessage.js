@@ -403,7 +403,7 @@ class ProjectMessage extends Component {
             {getFieldDecorator('desc', {
               initialValue: initFormValues.desc,
               rules: [{
-                required: false, message: '描述不超过50字!', max: 50
+                required: false, message: '描述不超过100字!', max: 100
               }]
             })(
               <TextArea rows={4} />
