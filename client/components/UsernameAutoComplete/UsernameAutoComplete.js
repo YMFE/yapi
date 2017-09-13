@@ -91,15 +91,8 @@ class UsernameAutoComplete extends Component {
             dataSource: userList
           });
           if (userList.length) {
-            userList.forEach((item) => {
-              if (item.username === this.state.changeName) {
-                // 每次取回搜索值后，没选择时默认选择第一位
-                this.changeState(userList[0].id, userList[0].username);
-              } else {
-                // 有候选词但没有对应输入框中的字符串，此时应清空候选 uid 和 username
-                this.changeState(-1, '');
-              }
-            });
+            // 每次取回搜索值后，没选择时默认选择第一位
+            this.changeState(userList[0].id, userList[0].username);
           } else {
             // 如果没有搜索结果，则清空候选 uid 和 username
             this.changeState(-1, '');

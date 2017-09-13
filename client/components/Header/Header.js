@@ -45,7 +45,7 @@ const ToolUser = (props)=> (
     </Link>
     <Tooltip placement="bottom" title={'使用文档'}>
       <li className="toolbar-li">
-        <a target="_blank" href="/doc/index.html"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+        <a target="_blank" href="https://ued.qunar.com/yapi/" rel="noopener noreferrer"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
       </li>
     </Tooltip>
     <li className="toolbar-li">

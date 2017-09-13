@@ -32,7 +32,8 @@ const formItemLayout = {
 @connect(
   state => {
     return {
-      groupList: state.group.groupList
+      groupList: state.group.groupList,
+      currGroup: state.group.currGroup
     }
   },
   {
@@ -46,12 +47,14 @@ class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupList: []
+      groupList: [],
+      currGroupId: null
     }
   }
   static propTypes = {
     groupList: PropTypes.array,
     form: PropTypes.object,
+    currGroup: PropTypes.object,
     addProject: PropTypes.func,
     history: PropTypes.object,
     setBreadcrumb: PropTypes.func,
@@ -88,7 +91,15 @@ class ProjectList extends Component {
 
   async componentWillMount() {
     this.props.setBreadcrumb([{name: '新建项目'}]);
-    await this.props.fetchGroupList();
+    if(!this.props.currGroup._id){
+      await this.props.fetchGroupList();
+    }
+    if(this.props.groupList.length === 0){
+      return null;
+    }
+    this.setState({
+      currGroupId: this.props.currGroup._id ? this.props.currGroup._id : this.props.groupList[0]._id
+    })
     this.setState({groupList: this.props.groupList});
   }
 
@@ -114,7 +125,7 @@ class ProjectList extends Component {
             label="所属分组"
           >
             {getFieldDecorator('group', {
-              initialValue: this.state.groupList.length > 0? this.state.groupList[0]._id.toString() : null ,
+              initialValue: this.state.currGroupId+'' ,
               rules: [{
                 required: true, message: '请选择项目所属的分组!'
               }]
