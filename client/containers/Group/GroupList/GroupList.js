@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Icon, Modal, Alert, Input, message, Menu, Row, Col } from 'antd'
+import { Icon, Modal, Alert, Input, message, Menu, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 const { TextArea } = Input;
 const Search = Input.Search;
 const TYPE_EDIT = 'edit';
@@ -223,9 +223,9 @@ export default class GroupList extends Component {
 
   render() {
     const { currGroup } = this.props;
-    const delmark = <Icon className="edit-group" type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
-    const editmark = <Icon className="delete-group" onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
-    const addmark = <Icon className="edit-group" onClick={this.showModal} type="plus" title="删除分组" />
+    const delmark = <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
+    const editmark = <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
+    const addmark = <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
 
 
     return (
@@ -251,10 +251,6 @@ export default class GroupList extends Component {
             <div className="search">
               <Search placeholder="Filter by name" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
             </div>
-
-            <Link to="/add-project"> <Button type="primary" >添加项目</Button></Link>
-
-
           </div>
           <Menu
             className="group-list"
