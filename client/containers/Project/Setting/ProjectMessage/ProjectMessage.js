@@ -231,14 +231,14 @@ class ProjectMessage extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境域名');
+                        callback('请输入环境名称');
                       } else if (!/\S/.test(value)) {
-                        callback('请输入环境域名');
+                        callback('请输入环境名称');
                       } else {
                         return callback();
                       }
                     } else {
-                      callback('请输入环境域名');
+                      callback('请输入环境名称');
                     }
                   }
                 }]
@@ -266,8 +266,6 @@ class ProjectMessage extends Component {
                         callback('请输入环境域名!');
                       } else if (/\s/.test(value)) {
                         callback('环境域名不允许出现空格!');
-                      } else if (/\//.test(value)) {
-                        callback('环境域名不允许出现‘\/’!');
                       } else {
                         return callback();
                       }

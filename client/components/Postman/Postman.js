@@ -192,7 +192,7 @@ export default class Run extends Component {
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: path,
+      pathname: urlObj.pathname? urlObj.pathname + path :  path,
       query: this.getQueryObj(query)
     });
 
