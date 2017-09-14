@@ -5,7 +5,7 @@ import constants from '../../../../constants/variable.js'
 import { handlePath, nameLengthLimit } from '../../../../common.js'
 import json5 from 'json5'
 import { message, Tabs } from 'antd'
-import Editor from  'wangeditor'
+import Editor from 'wangeditor'
 const TabPane = Tabs.TabPane;
 
 const validJson = (json) => {
@@ -100,7 +100,7 @@ class InterfaceEditForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {        
+      if (!err) {
         values.desc = this.editor.txt.html();
         if (values.res_body_type === 'json') {
           if (this.state.res_body && validJson(this.state.res_body) === false) {
@@ -118,7 +118,7 @@ class InterfaceEditForm extends Component {
         values.method = this.state.method;
         values.req_params = values.req_params || [];
         let isfile = false, isHavaContentType = false;
-        if (values.req_body_type === 'form') {          
+        if (values.req_body_type === 'form') {
           values.req_body_form.forEach((item) => {
             if (item.type === 'file') {
               isfile = true;
@@ -218,7 +218,7 @@ class InterfaceEditForm extends Component {
     this.setState(newValue)
   }
 
-  handleJsonType = (key)=>{
+  handleJsonType = (key) => {
     key = key || 'tpl';
     this.setState({
       jsonType: key
@@ -260,14 +260,14 @@ class InterfaceEditForm extends Component {
 
     const queryTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="4">
+        <Col span="6">
           {getFieldDecorator('req_query[' + index + '].name', {
             initialValue: data.name
           })(
             <Input placeholder="参数名称" />
             )}
         </Col>
-        <Col span="4" >
+        <Col span="3" >
           {getFieldDecorator('req_query[' + index + '].required', {
             initialValue: data.required
           })(
@@ -277,14 +277,14 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="8" >
+        <Col span="14" >
           {getFieldDecorator('req_query[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input placeholder="备注" />
             )}
         </Col>
-        <Col span="2" >
+        <Col span="1" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_query')} />
         </Col>
 
@@ -311,7 +311,7 @@ class InterfaceEditForm extends Component {
             <Input placeholder="参数值" />
             )}
         </Col>
-        <Col span="8" >
+        <Col span="10" >
           {getFieldDecorator('req_headers[' + index + '].desc', {
             initialValue: data.desc
           })(
@@ -334,7 +334,7 @@ class InterfaceEditForm extends Component {
             <Input placeholder="name" />
             )}
         </Col>
-        <Col span="4" >
+        <Col span="3" >
           {getFieldDecorator('req_body_form[' + index + '].type', {
             initialValue: data.type
           })(
@@ -344,7 +344,7 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="4" >
+        <Col span="3" >
           {getFieldDecorator('req_body_form[' + index + '].required', {
             initialValue: data.required
           })(
@@ -354,14 +354,14 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="8">
+        <Col span="11">
           {getFieldDecorator('req_body_form[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input placeholder="备注" />
             )}
         </Col>
-        <Col span="2" >
+        <Col span="1" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_body_form')} />
         </Col>
       </Row>
@@ -376,7 +376,7 @@ class InterfaceEditForm extends Component {
             <Input disabled placeholder="参数名称" />
             )}
         </Col>
-        <Col span="8" >
+        <Col span="14" >
           {getFieldDecorator('req_params[' + index + '].desc', {
             initialValue: data.desc
           })(
@@ -540,24 +540,23 @@ class InterfaceEditForm extends Component {
               )}
 
           </FormItem>
-          {this.props.form.getFieldValue('req_body_type') === 'form' ?
-            <Row className="interface-edit-item">
-              <Col span={18} offset={4} style={{ minHeight: "50px" }}>
-                <Row>
-                  <Col span="24" className="interface-edit-item">
 
-                    <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
+          <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'form' ? 'block' : 'none' }}>
+            <Col span={18} offset={4} style={{ minHeight: "50px" }}>
+              <Row>
+                <Col span="24" className="interface-edit-item">
 
-                  </Col>
+                  <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
 
-                </Row>
-                {requestBodyList}
-              </Col>
+                </Col>
 
-            </Row>
-            :
-            null
-          }
+              </Row>
+              {requestBodyList}
+            </Col>
+
+          </Row>
+
+
         </div>
           : null}
 
@@ -621,9 +620,9 @@ class InterfaceEditForm extends Component {
 
             </Tabs>
             <div>
-              <h3 style={{padding: '10px 0'}}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
-              <div  id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl'? 'block': 'none' }}  ></div>
-              <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview'? 'block': 'none' }}></div>
+              <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
+              <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
+              <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
             </div>
 
           </Col>
@@ -639,20 +638,15 @@ class InterfaceEditForm extends Component {
 
         </Row>
 
-
         <FormItem
           className="interface-edit-item"
           {...formItemLayout}
           label="备注"
         >
-          <div id="desc" ></div>
-          {/* {getFieldDecorator('desc', { initialValue: this.state.desc })(
-            <Input.TextArea style={{minHeight: '200px'}} placeholder="接口备注信息" />
-          )} */}
+          <div >
+            <div  id="desc" ></div>
+          </div>
         </FormItem>
-
-
-       
 
         <FormItem
           className="interface-edit-item"

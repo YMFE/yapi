@@ -360,11 +360,11 @@ class projectController extends baseController {
                 })
                 if (f) {
                     item.follow = true;
+                    project_list.unshift(item);
                 } else {
                     item.follow = false;
+                    project_list.push(item);
                 }
-                project_list.push(item);
-
             };
 
             ctx.body = yapi.commons.resReturn({
