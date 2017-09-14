@@ -14,9 +14,9 @@ const TreeNode = Tree.TreeNode;
 
 
 @connect(
-  
+
   state => {
-    
+
     return {
       list: state.inter.list,
       inter: state.inter.curdata,
@@ -174,12 +174,12 @@ class InterfaceMenu extends Component {
       title: '您确认删除此接口',
       content: '温馨提示：接口删除后，无法恢复',
       async onOk() {
-        
+
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
         ref.destroy()
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
-        
+
       },
       async onCancel() {
         ref.destroy()
@@ -227,8 +227,8 @@ class InterfaceMenu extends Component {
     const matchParams = this.props.match.params;
     let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
-      <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" style={{ width: "70%" }} />
-      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} style={{ marginLeft: "16px" }} ><Icon type="plus"  /></Tag>
+      <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" />
+      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" ><Icon type="plus"  /></Tag>
       <Modal
         title="添加接口"
         visible={this.state.visible}
@@ -250,7 +250,7 @@ class InterfaceMenu extends Component {
       <Modal
         title="修改分类"
         visible={this.state.change_cat_modal_visible}
-        onCancel={() => this.changeModal('change_cat_modal_visible', false)} 
+        onCancel={() => this.changeModal('change_cat_modal_visible', false)}
         footer={null}
       >
         <AddInterfaceCatForm catdata={this.state.curCatdata} onCancel={() => this.changeModal('change_cat_modal_visible', false)} onSubmit={this.handleChangeInterfaceCat} />
@@ -297,7 +297,7 @@ class InterfaceMenu extends Component {
       //   case 'DELETE': color = 'red'; break;
       //   default: color = "yellow";
       // }
-      return <TreeNode        
+      return <TreeNode
         title={<div className="aa" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
@@ -335,7 +335,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
-   
+
     if (this.state.filter) {
       let arr = [];
       menuList = menuList.filter( (item) => {
@@ -343,12 +343,12 @@ class InterfaceMenu extends Component {
         if (item.name.indexOf(this.state.filter) === -1) {
           item.list = item.list.filter(inter=>{
             if(inter.title.indexOf(this.state.filter) === -1 && inter.path.indexOf(this.state.filter)){
-              return false;  
+              return false;
             }
             //arr.push('cat_' + inter.catid)
             interfaceFilter = true;
             return true;
-            
+
           })
           return interfaceFilter === true
         }
@@ -379,7 +379,7 @@ class InterfaceMenu extends Component {
                 <Icon type='setting' className="interface-delete-icon" />
               </Dropdown>
             </div>}
-             key={'cat_' + item._id} 
+             key={'cat_' + item._id}
              className={`interface-item-nav ${item.list.length?"":"cat_switch_hidden"}`}
              >
               {item.list.map(item_interface_create)}

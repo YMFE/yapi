@@ -27,6 +27,12 @@ class interfaceColController extends baseController{
     async list(ctx){
         try {
             let id = ctx.query.project_id;
+            let project = await this.projectModel.getBaseInfo(id);
+            if (project.project_type === 'private') {
+                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
             let result = await this.colModel.list(id);
 
             for(let i=0; i< result.length;i++){
@@ -110,8 +116,19 @@ class interfaceColController extends baseController{
     async getCaseList(ctx){
         try {
             let id = ctx.query.col_id;
-            let inst = yapi.getInst(interfaceCaseModel);
-            let result = await inst.list(id, 'all');
+            if(!id || id == 0){
+                return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
+            }
+            let result = await this.caseModel.list(id, 'all');
+            let colData = await this.colModel.get(id);            
+            let project = await this.projectModel.getBaseInfo(colData.project_id);
+            
+            if (project.project_type === 'private') {
+                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
+
             for(let index=0; index< result.length; index++){
 
                 result[index] = result[index].toObject();
@@ -120,7 +137,7 @@ class interfaceColController extends baseController{
                     await this.caseModel.del(result[index]._id);
                     result[index] = undefined;
                     continue;
-                }
+                }                
                 let projectData = await this.projectModel.getBaseInfo(interfaceData.project_id);
                 result[index].path = projectData.basepath +  interfaceData.path;
                 result[index].method = interfaceData.method;
