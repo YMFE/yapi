@@ -34,8 +34,8 @@ class ProjectData extends Component {
     basePath: PropTypes.string
   }
 
-  componentWillMount(){
-    axios.get(`/api/interface/getCatMenu?project_id=${this.props.projectId}`).then((data)=>{
+  componentWillMount(){    
+    axios.get(`/api/interface/getCatMenu?project_id=${this.props.match.params.id}`).then((data)=>{
       let menuList = data.data.data;
       this.setState({
         menuList: menuList
@@ -269,7 +269,7 @@ class ProjectData extends Component {
       onChange: this.uploadChnange.bind(this)
     }
     return (
-      <div className="m-panel">
+      <div className="m-panel g-row"  style={{paddingTop: '15px'}}>
         <div className="postman-dataImport">
 
           <div className="dataImportCon">

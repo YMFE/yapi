@@ -9,7 +9,8 @@ import { getProject } from '../../reducer/modules/project';
 import Interface from './Interface/Interface.js'
 import Activity from './Activity/Activity.js'
 import Setting from './Setting/Setting.js'
-
+import ProjectMember from './Setting/ProjectMember/ProjectMember.js';
+import ProjectData from './Setting/ProjectData/ProjectData.js';
 
 @connect(
   state => {
@@ -55,7 +56,9 @@ export default class Project extends Component {
     const routers = {
       activity: { name: '动态', path: "/project/:id/activity" },
       interface: { name: '接口', path: "/project/:id/interface/:action" },
-      setting: { name: '设置', path: "/project/:id/setting" }
+      setting: { name: '设置', path: "/project/:id/setting" },
+      members: { name: '成员管理', path: "/project/:id/members" },
+      data: { name: '数据管理', path: "/project/:id/data" }
     }
 
     let key, defaultName;
@@ -81,12 +84,20 @@ export default class Project extends Component {
           }, {
             name: routers.activity.name,
             path: `/project/${match.params.id}/activity`
+          }, {
+            name: routers.members.name,
+            path: `/project/${match.params.id}/members`
+          }, {
+            name: routers.data.name,
+            path: `/project/${match.params.id}/data`
           }]} />
         <Switch>
           <Redirect exact from="/project/:id" to={`/project/${match.params.id}/interface/api`} />
           <Route path={routers.activity.path} component={Activity} />
           <Route path={routers.interface.path} component={Interface} />
           <Route path={routers.setting.path} component={Setting} />
+          <Route path={routers.members.path} component={ProjectMember} />
+          <Route path={routers.data.path} component={ProjectData} />
         </Switch>
       </div>
     )
