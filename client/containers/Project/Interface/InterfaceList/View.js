@@ -278,8 +278,8 @@ class View extends Component {
         <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
       </div>
       {this.props.curData.desc?<div className="colDesc">
-        <span className="colKey">接口描述：</span>
-        <span className="colValue">{this.props.curData.desc}</span>
+        <span className="colKey">接口备注：</span>
+        <span className="colValue" dangerouslySetInnerHTML={{__html: this.props.curData.desc}}></span>
       </div>:""}
       {req_dataSource.length?<div className="colHeader">
         <span className="colKey">路径参数：</span>

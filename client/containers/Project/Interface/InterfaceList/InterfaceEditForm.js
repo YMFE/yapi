@@ -4,13 +4,15 @@ import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
 import { handlePath, nameLengthLimit } from '../../../../common.js'
 import json5 from 'json5'
-import {message} from 'antd'
+import { message, Tabs } from 'antd'
+import Editor from  'wangeditor'
+const TabPane = Tabs.TabPane;
 
-const validJson = (json)=>{
-  try{
+const validJson = (json) => {
+  try {
     json5.parse(json);
     return true;
-  }catch(e){
+  } catch (e) {
     return false;
   }
 }
@@ -90,34 +92,33 @@ class InterfaceEditForm extends Component {
       res_body: '',
       desc: '',
       res_body_mock: '',
+      jsonType: 'tpl',
       mockUrl: this.props.mockUrl
     }, curdata)
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     this.props.form.validateFields((err, values) => {
-      if (!err) {
+      if (!err) {        
+        values.desc = this.editor.txt.html();
         if (values.res_body_type === 'json') {
-          if(this.state.res_body && validJson(this.state.res_body) === false){
+          if (this.state.res_body && validJson(this.state.res_body) === false) {
             return message.error('返回body json格式有问题，请检查！')
           }
           values.res_body = this.state.res_body;
         }
         if (values.req_body_type === 'json') {
-          if(this.state.req_body_other && validJson(this.state.req_body_other) === false){
+          if (this.state.req_body_other && validJson(this.state.req_body_other) === false) {
             return message.error('响应Body json格式有问题，请检查！');
           }
           values.req_body_other = this.state.req_body_other;
         }
 
-
-
         values.method = this.state.method;
         values.req_params = values.req_params || [];
         let isfile = false, isHavaContentType = false;
-        if (values.req_body_type === 'form') {
+        if (values.req_body_type === 'form') {          
           values.req_body_form.forEach((item) => {
             if (item.type === 'file') {
               isfile = true;
@@ -179,7 +180,7 @@ class InterfaceEditForm extends Component {
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
-        if (d.format === true){
+        if (d.format === true) {
           mockPreview.editor.setValue(d.mockText)
         }
         that.setState({
@@ -194,6 +195,9 @@ class InterfaceEditForm extends Component {
       data: resBodyEditor.curData.mockText,
       readOnly: true
     })
+
+    let editor = this.editor = new Editor('#desc');
+    editor.create();
   }
 
   addParams = (name, data) => {
@@ -212,6 +216,13 @@ class InterfaceEditForm extends Component {
     })
     this.props.form.setFieldsValue(newValue)
     this.setState(newValue)
+  }
+
+  handleJsonType = (key)=>{
+    key = key || 'tpl';
+    this.setState({
+      jsonType: key
+    })
   }
 
   handlePath = (e) => {
@@ -484,16 +495,6 @@ class InterfaceEditForm extends Component {
         <FormItem
           className="interface-edit-item"
           {...formItemLayout}
-          label="接口描述"
-        >
-          {getFieldDecorator('desc', { initialValue: this.state.desc })(
-            <Input.TextArea placeholder="接口描述" />
-          )}
-        </FormItem>
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
           label="Query"
         >
           <Button size="small" type="primary" onClick={() => this.addParams('req_query')}>添加Query参数</Button>
@@ -606,34 +607,27 @@ class InterfaceEditForm extends Component {
             )}
 
         </FormItem>
-        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
 
-          <Col span={17} offset={4} >
-            <h3>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
-            <div id="res_body_json" style={{ minHeight: "300px" }}  ></div>
+
+        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
+          <Col span={18} offset={4} >
+            <Tabs defaultActiveKey="tpl" onChange={this.handleJsonType} >
+              <TabPane tab="模板" key="tpl">
+
+              </TabPane>
+              <TabPane tab="预览" key="preview">
+
+              </TabPane>
+
+            </Tabs>
+            <div>
+              <h3 style={{padding: '10px 0'}}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
+              <div  id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl'? 'block': 'none' }}  ></div>
+              <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview'? 'block': 'none' }}></div>
+            </div>
+
           </Col>
         </Row>
-
-        <FormItem
-          style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="mock地址"
-        >
-          <Input disabled onChange={() => { }} value={this.state.mockUrl} />
-        </FormItem>
-
-        <FormItem
-          style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="预览"
-        >
-          <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px" }}>
-
-          </div>
-        </FormItem>
-
 
         <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
           <Col span={18} offset={4} >
@@ -645,12 +639,27 @@ class InterfaceEditForm extends Component {
 
         </Row>
 
+
+        <FormItem
+          className="interface-edit-item"
+          {...formItemLayout}
+          label="备注"
+        >
+          <div id="desc" ></div>
+          {/* {getFieldDecorator('desc', { initialValue: this.state.desc })(
+            <Input.TextArea style={{minHeight: '200px'}} placeholder="接口备注信息" />
+          )} */}
+        </FormItem>
+
+
+       
+
         <FormItem
           className="interface-edit-item"
           {...formItemLayout}
           label="是否开启邮件通知"
         >
-          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
+          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: true })(
             <Switch checkedChildren="开" unCheckedChildren="关" />
           )}
         </FormItem>
