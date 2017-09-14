@@ -15,7 +15,8 @@ import './Edit.scss';
   state => {
     return {
       curData: state.inter.curdata,
-      curProject: state.project.currProject
+      curProject: state.project.currProject,
+      catList: state.inter.list
     }
   },{
     fetchInterfaceList
@@ -36,6 +37,7 @@ class InterfaceList extends Component {
 
   static propTypes = {
     curData: PropTypes.object,
+    catList: PropTypes.array,
     match: PropTypes.object,
     curProject: PropTypes.object,
     history: PropTypes.object,
@@ -151,15 +153,21 @@ class InterfaceList extends Component {
       }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
-
+    let intername = '';
+    if(this.props.curProject.cat){
+      for(let i = 0;i<this.props.curProject.cat.length;i++){
+        if(this.props.curProject.cat[i]._id === this.state.catid){
+          intername = this.props.curProject.cat[i].name;
+        }
+      }
+    }
     const data = this.state.data.map(item => {
       item.key = item._id;
       return item;
     });
-
     return (
       <div style={{ padding: '16px' }}>
-        <h2 style={{ display: 'inline-block'}}>接口列表</h2>
+        <h2 style={{ display: 'inline-block'}}>{intername?intername:'全部接口'}</h2>
         <Button style={{float: 'right'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
