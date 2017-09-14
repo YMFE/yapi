@@ -162,7 +162,7 @@ class ProjectMember extends Component {
 
   render () {
     const columns = [{
-      title: ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
+      title: this.props.projectMsg.name + ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => {
