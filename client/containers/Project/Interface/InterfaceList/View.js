@@ -250,7 +250,7 @@ class View extends Component {
     if(!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <div className="colName">
-        <span className="colKey">接口名：</span>
+        <span className="colKey">接口名称：</span>
         <span className="colValue">{this.props.curData.title}</span>
       </div>
       <div className="colMethod">
@@ -262,7 +262,7 @@ class View extends Component {
         <span className="colValue">{this.props.currProject.basepath}{this.props.curData.path}</span>
       </div>
       <div className="colstatus">
-        <span className="colKey">状态：</span>
+        <span className="colKey">状&emsp;&emsp;态：</span>
         <span className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</span>
       </div>
       <div className="colAddTime">
