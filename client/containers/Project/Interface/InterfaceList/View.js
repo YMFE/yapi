@@ -65,7 +65,7 @@ class View extends Component {
             key: i,
             name: item.name,
             value: item.desc,
-            required: item.required?"是":"否",
+            required: item.required==0?"否":"是",
             type: item.type
           })
         })
@@ -129,7 +129,7 @@ class View extends Component {
           key: i,
           name: item.name,
           value: item.desc,
-          required: item.required?"是":"否"
+          required: item.required==0?"否":"是"
         })
       })
     }
@@ -189,7 +189,7 @@ class View extends Component {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required?"是":"否",
+          required: item.required==0?"否":"是",
           value: item.value,
           desc: item.desc
         })
