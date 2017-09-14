@@ -45,7 +45,7 @@ class View extends Component {
         key: 'type',
         render: (text)=>{
           text = text || "";
-          return text.toLowerCase()==="text"?<span><i className="TextIcon">T</i>文本</span>:<span><Icon type="file" />文件</span>
+          return text.toLowerCase()==="text"?<span><i className="query-icon text">T</i>文本</span>:<span><Icon type="file" className="query-icon" />文件</span>
         }
       },{
         title: '是否必须',
