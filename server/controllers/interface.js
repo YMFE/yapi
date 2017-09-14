@@ -654,28 +654,30 @@ class interfaceController extends baseController {
 
 
     /**
- * 获取分类列表
- * @interface /interface/getCatMenu
- * @method GET
- * @category interface
- * @foldnumber 10
- * @param {Number}   project_id 项目id，不能为空
- * @returns {Object}
- * @example ./api/interface/getCatMenu
- */
+     * 获取分类列表
+     * @interface /interface/getCatMenu
+     * @method GET
+     * @category interface
+     * @foldnumber 10
+     * @param {Number}   project_id 项目id，不能为空
+     * @returns {Object}
+     * @example ./api/interface/getCatMenu
+     */
 
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
-        if (!project_id) {
+        
+        if (!project_id || !isNaN(project_id)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        let project = await this.projectModel.getBaseInfo(project_id);
-        if (project.project_type === 'private') {
-            if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
-                return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
-            }
-        }
+        
         try {
+            let project = await this.projectModel.getBaseInfo(project_id);
+            if (project.project_type === 'private') {
+                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
             let res = await this.catModel.list(project_id);
             return ctx.body = yapi.commons.resReturn(res);
         } catch (e) {
