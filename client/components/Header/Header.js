@@ -72,7 +72,7 @@ const ToolUser = (props)=> (
           <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
           {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
           {/*<span className="name">{props.user}</span>*/}
-          <span className="name"><Icon type="down-circle-o" /></span>
+          <span className="name"><Icon type="down" /></span>
         </a>
       </Dropdown>
       
