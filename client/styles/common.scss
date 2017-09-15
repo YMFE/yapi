@@ -99,6 +99,9 @@ em {
 .pannel-without-tab {
   min-height: 5rem;
 }
+.ant-tabs-tabpane .m-panel {
+  border-top-left-radius: 0px;
+}
 
 @media (max-width: 768px) {
   html {
@@ -123,4 +126,12 @@ em {
   &.undone::before {
     background-color: #ff561b;
   }
+}
+
+
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+  border: none;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+  border: none;
 }
