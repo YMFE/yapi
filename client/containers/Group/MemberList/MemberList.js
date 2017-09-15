@@ -194,8 +194,8 @@ class MemberList extends Component {
           return (
             <div>
               <Select value={ record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
-                <Option value={ 'owner-'+record.uid}>组长{record.role}</Option>
-                <Option value={'dev-'+record.uid}>开发者{record.role}</Option>
+                <Option value={ 'owner-'+record.uid}>组长</Option>
+                <Option value={'dev-'+record.uid}>开发者</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
