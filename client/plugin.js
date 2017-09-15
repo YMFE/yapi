@@ -32,7 +32,7 @@ pluginModule = {
   emitHook: emitHook
 }
 
-systemPlugins = ['postman']
+systemPlugins = ['import-postman', 'import-har']
 
 config.plugins = config.plugins && Array.isArray(config.plugins) ? config.plugins: [];
 
@@ -69,7 +69,6 @@ function emitHook(name, ...args){
   }
   
 }
-
 
 
 if (config.plugins && Array.isArray(config.plugins)) {

@@ -9,7 +9,7 @@ const Option = Select.Option;
 
 const plugin = require('client/plugin.js');
 
-let importDataModule = {};
+const importDataModule = {};
 
 @connect(
   state => {
