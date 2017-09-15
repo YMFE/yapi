@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
 import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
-import Plugins from '../../plugin.js'
+const plugin = require('client/plugin.js');
+
+const ThirdLogin = plugin.emitHook('third_login');
 const HomeGuest = () => (
   <div className="g-body">
     <div className="m-bg">
@@ -36,8 +38,8 @@ const HomeGuest = () => (
               <div className="detail">高效、易用、功能强大的API管理平台<br /><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                {Plugins.third_login.listener != null ?
-                  <Plugins.third_login.listener />
+                {ThirdLogin != null ?
+                  <ThirdLogin />
                   : null
                 }
 
