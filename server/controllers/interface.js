@@ -667,7 +667,7 @@ class interfaceController extends baseController {
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
         
-        if (!project_id || !isNaN(project_id)) {
+        if (!project_id || isNaN(project_id)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
         
