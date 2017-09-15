@@ -286,8 +286,8 @@ class groupController extends baseController {
             if(result && result.length > 0){
                 for(let i=0; i< result.length; i++){
                     result[i] = result[i].toObject();
-                    result[i].role = await this.checkAuth(result[i]._id, 'group', 'edit');
-                    if(result[i].role){
+                    result[i].role = await this.getProjectRole(result[i]._id, 'group');
+                    if(result[i].role !== 'member'){
                         newResult.unshift(result[i]);
                     }else{
                         newResult.push(result[i]);
