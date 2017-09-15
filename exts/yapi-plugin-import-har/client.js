@@ -43,9 +43,7 @@ function postman(importDataModule){
     if(query&&query.length){
       for(let item in query){
         res.push({
-          name: query[item].key,
-          desc: query[item].description,
-          required: query[item].enable
+          name: query[item].name
         });
       }
     }

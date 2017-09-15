@@ -183,7 +183,7 @@ class ProjectMember extends Component {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select defaultValue={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
+              <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
               </Select>
