@@ -128,11 +128,16 @@ function postman(importDataModule){
       }else if(item === "req_body_form"){
         res[item] = handleReq_body_form.bind(this)(data[reflect[item]]);
       }else if(item === "req_body_type"){
-        if(data.headers.indexOf('application/json')>-1){
-          res[item] = "json";
+        if(data[reflect[item]] === 'urlencoded' || data[reflect[item]] === 'params'){
+          res[item] = 'form';
         }else{
-          res[item] = "raw";
+          if(data.headers.indexOf('application/json')>-1){
+            res[item] = "json";
+          }else{
+            res[item] = "raw";
+          }
         }
+        
       }else if(item === "path"){
         res[item] = handlePath.bind(this)(data[reflect[item]]);
         if(res[item] && res[item].indexOf("/:") > -1){
