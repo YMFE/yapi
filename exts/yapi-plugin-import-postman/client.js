@@ -1,7 +1,7 @@
 
 import {message} from 'antd'
 
-function postman(obj){
+function postman(importDataModule){
 
   function parseUrl(url){
     let parser = document.createElement('a');
@@ -169,12 +169,12 @@ function postman(obj){
     return res;
   }
   
-  if(!obj || typeof obj !== 'object'){
+  if(!importDataModule || typeof importDataModule !== 'object'){
     console.error('obj参数必需是一个对象');
     return null;
   }
 
-  obj.postman = {
+  importDataModule.postman = {
     name: 'Postman',
     run: run,
     desc: '注意：只支持json格式数据'
