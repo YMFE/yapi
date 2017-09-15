@@ -31,7 +31,7 @@
     right: 0;
     width: .48rem;
     height: .48rem;
-    background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
+    // background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
     border-top-right-radius: 4px;
     .icon {
       cursor: pointer;
@@ -40,6 +40,9 @@
       position: absolute;
       right: 0;
       top: 0;
+    }
+    .icon.active {
+      color: #fac200;
     }
   }
 }
