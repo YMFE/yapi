@@ -14,9 +14,15 @@
     float: left;
     line-height: .56rem;
     height: .56rem;
-    
+    width: 56px;
+    border-left: 1px solid #55616d;
+    border-right: 1px solid #55616d;
+    &:hover{
+      background-color: #38495a;
+    }
     .href {
       text-decoration: none;
+      display: block;
     }
     .logo-name {
       color: $color-white;
@@ -28,7 +34,8 @@
       position: absolute;
       left: 0;
       top: 50%;
-      transform: translateY(-17px);
+      left: 50%;
+      transform: translate(-16px,-17px);
     }
     .ui-badge {
       position: absolute;

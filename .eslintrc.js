@@ -29,14 +29,7 @@ module.exports = {
             "error",
             "unix"
         ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+      
         "strict": 0,
         "comma-dangle": ["error", "never"],
         "no-console": ["off"]
