@@ -15,7 +15,7 @@ let importDataModule = {};
   state => {
     // console.log(state);
     return {
-      curCatid: state.inter.curdata.catid,
+      curCatid: -(-state.inter.curdata.catid),
       basePath: state.project.currProject.basepath
     }
   }, {
