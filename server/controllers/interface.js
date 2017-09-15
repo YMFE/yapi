@@ -59,6 +59,14 @@ class interfaceController extends baseController {
             catid: 'number'
         });
 
+        if (!params.project_id) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        }
+
+        if (!params.path) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
+        }
+
         let auth = await this.checkAuth(params.project_id, 'project', 'edit')
         if (!auth) {
             return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
@@ -68,13 +76,7 @@ class interfaceController extends baseController {
         params.req_params = params.req_params || [];
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
-        if (!params.project_id) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
-        }
-
-        if (!params.path) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口请求路径不能为空');
-        }
+        
 
         let http_path = url.parse(params.path, true);
         params.path = http_path.pathname;
