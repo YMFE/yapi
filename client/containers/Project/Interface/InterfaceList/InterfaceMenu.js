@@ -114,7 +114,7 @@ class InterfaceMenu extends Component {
     })
   }
 
-  handleAddInterface = (data) => {
+  handleAddInterface = (data,cb) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {
       if (res.data.errcode !== 0) {
@@ -127,7 +127,9 @@ class InterfaceMenu extends Component {
       this.setState({
         visible: false
       });
-
+      if(cb){
+        cb();
+      }
 
     })
   }
