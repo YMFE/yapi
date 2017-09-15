@@ -50,6 +50,9 @@
                 "name": "使用测试集",
                 "content": "./doc/page/usage/case.md"
             },{
+                "name": "数据导入(重要)",
+                "content": "./doc/page/usage/data.md"
+            },{
                 "name": "常见问题",
                 "content": "./doc/page/usage/qa.md"
             }
