@@ -103,8 +103,10 @@ module.exports = {
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
+        baseConfig.resolve.alias.client = '/client';
         baseConfig.resolve.alias.common = '/common';
         baseConfig.resolve.alias.plugins = '/plugins';
+        baseConfig.resolve.alias.exts = '/exts';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'

@@ -73,7 +73,7 @@ class Follows extends Component {
           <Row gutter={24} className="follow-box card-panel pannel-without-tab">
             {data.length ? data.map((item, index) => {
               return (
-                <Col span={8} key={index}>
+                <Col span={6} key={index}>
                   <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
                 </Col>);
             }): <ErrMsg type="noFollow"/>}
