@@ -10,7 +10,7 @@ import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
-const arrayAddKey = (arr) => {
+function arrayAddKey (arr) {
   return arr.map((item, index) => {
     return {
       ...item,
@@ -137,6 +137,9 @@ class MemberList extends Component {
 
 
   componentWillReceiveProps(nextProps) {
+    if(this._groupId !== this._groupId){
+      return null;
+    }
     if (this.props.currGroup !== nextProps.currGroup) {
       this.props.fetchGroupMemberList(nextProps.currGroup._id).then((res) => {
         this.setState({
@@ -152,7 +155,7 @@ class MemberList extends Component {
   }
 
   componentDidMount() {
-    const currGroupId = this.props.currGroup._id;
+    const currGroupId = this._groupId = this.props.currGroup._id;
     this.props.fetchGroupMsg(currGroupId).then((res) => {
       this.setState({
         role: res.payload.data.data.role
@@ -195,8 +198,8 @@ class MemberList extends Component {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select defaultValue={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
-                <Option value={'owner-'+record.uid}>组长</Option>
+              <Select value={ record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
+                <Option value={ 'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
