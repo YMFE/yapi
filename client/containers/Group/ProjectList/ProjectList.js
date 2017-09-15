@@ -120,7 +120,7 @@ class ProjectList extends Component {
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col span={8} key={index}>
+              <Col span={6} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
           }) : <ErrMsg type="noProject" />}
