@@ -26,7 +26,10 @@ class AddInterfaceForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onSubmit(values)
+        this.props.onSubmit(values,()=>{
+          this.props.form.resetFields();
+        });
+        
       }
     });
   }
@@ -37,7 +40,6 @@ class AddInterfaceForm extends Component {
       path: handlePath(val)
     })
   }
-
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const prefixSelector = getFieldDecorator('method', {
