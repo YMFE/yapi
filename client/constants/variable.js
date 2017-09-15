@@ -1,6 +1,6 @@
 export default {
   PAGE_LIMIT: 10, // 默认每页展示10条数据
-  NAME_LIMIT: 20, // 限制名称的字符长度(中文算两个长度)
+  NAME_LIMIT: 30, // 限制名称的字符长度(中文算两个长度)
   HTTP_METHOD: {
     'GET': {
       request_body: false
