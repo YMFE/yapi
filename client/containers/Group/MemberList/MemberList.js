@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import {Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import { Link } from 'react-router-dom'
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'
@@ -178,8 +179,12 @@ class MemberList extends Component {
       key: 'username',
       render: (text, record) => {
         return (<div className="m-user">
-          <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
-          <p className="m-user-name">{text}</p>
+          <Link to={`/user/profile/${record.uid}`}>
+            <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
+          </Link>
+          <Link to={`/user/profile/${record.uid}`}>
+            <p className="m-user-name">{text}</p>
+          </Link>
         </div>);
       }
     }, {
@@ -211,6 +216,18 @@ class MemberList extends Component {
         }
       }
     }];
+    let userinfo = this.state.userInfo;
+    let ownerinfo = [];
+    let devinfo = [];
+    for(let i = 0;i<userinfo.length;i++){
+      if(userinfo[i].role === "owner"){
+        ownerinfo.push(userinfo[i]);
+      }
+      if(userinfo[i].role === "dev"){
+        devinfo.push(userinfo[i]);
+      }
+    }
+    userinfo = [...ownerinfo,...devinfo];
     return (
       <div className="m-panel">
         <Modal
@@ -235,7 +252,7 @@ class MemberList extends Component {
             </Col>
           </Row>
         </Modal>
-        <Table columns={columns} dataSource={this.state.userInfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
+        <Table columns={columns} dataSource={userinfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
       </div>
     );
   }
