@@ -109,8 +109,8 @@ module.exports = async (ctx, next) => {
                 yapi.commons.log(e, 'error')
                 return ctx.body = {
                     errcode: 400,
-                    errmsg: 'mock json数据格式有误, '+ e.message,
-                    data: interfaceData.res_body
+                    errmsg: '解析出错，请检查。Error: '+ e.message,
+                    data: null
                 }
             }
         }
