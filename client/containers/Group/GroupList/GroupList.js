@@ -238,7 +238,7 @@ export default class GroupList extends Component {
                 this.props.curUserRole === "admin" ? (editmark) : ''
               }
               {
-                this.props.curUserRole === "admin" ? (delmark) : ''
+                this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
               }
               {
                 this.props.curUserRole === 'admin' ? (addmark) : ''

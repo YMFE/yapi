@@ -21,7 +21,7 @@
         margin: 0px;
         .colKey{
             padding-bottom: 0px;
-            
+
         }
     }
     .ace_print-margin{
@@ -37,12 +37,19 @@
         }
     }
     .colBody{
-        .ant-table-row{
-            span{
-                i{
-                    margin-right: 4px;
-                }
-            }
+        .query-icon {
+          display: inline-block;
+          width: .12rem;
+          margin-right: 4px;
+          position: relative;
+          &.text:after {
+              content: 'T';
+              display: block;
+              position: absolute;
+              right: 2px;
+              bottom: -2px;
+              transform: scale(.7);
+          }
         }
     }
     .colDesc{
