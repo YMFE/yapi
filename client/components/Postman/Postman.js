@@ -19,24 +19,24 @@ function json_parse(data) {
   }
 }
 
-function isValidJson(json){
-  if(!json) return false;
-  if(typeof json === 'object') return true;
-  try{
-    if(typeof json === 'string'){
+function isValidJson(json) {
+  if (!json) return false;
+  if (typeof json === 'object') return true;
+  try {
+    if (typeof json === 'string') {
       json5.parse(json);
       return true;
     }
-  }catch(e){
+  } catch (e) {
     return false;
   }
 }
 
-function isJsonData(headers, res){
-  if(isValidJson(res)){
+function isJsonData(headers, res) {
+  if (isValidJson(res)) {
     return true;
   }
-  if(!headers || typeof headers !== 'object') return false;
+  if (!headers || typeof headers !== 'object') return false;
   let isResJson = false;
   Object.keys(headers).map(key => {
     if (/content-type/i.test(key) && /application\/json/i.test(headers[key])) {
@@ -192,7 +192,7 @@ export default class Run extends Component {
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname? urlObj.pathname + path :  path,
+      pathname: urlObj.pathname ? urlObj.pathname + path : path,
       query: this.getQueryObj(query)
     });
 
@@ -207,7 +207,7 @@ export default class Run extends Component {
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header) => {
         try {
-          if(isJsonData(header)){
+          if (isJsonData(header)) {
             res = json_parse(res);
           }
 
@@ -243,9 +243,9 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          if(isJsonData(header)){
+          if (isJsonData(header)) {
             err = json_parse(err);
-          }         
+          }
         } catch (e) {
           message.error(e.message)
         }
@@ -554,20 +554,24 @@ export default class Run extends Component {
           }
         </div>
 
-        <Card title="请求部分" noHovering className="req-part">
+        <Card title={<Tooltip placement="top" title="在项目设置配置domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
           <div className="url">
+
             <InputGroup compact style={{ display: 'flex' }}>
               <Select disabled value={method} style={{ flexBasis: 60 }} onChange={this.changeMethod} >
                 <Option value="GET">GET</Option>
                 <Option value="POST">POST</Option>
               </Select>
+
               <Select value={caseEnv} style={{ flexBasis: 180, flexGrow: 1 }} onSelect={this.selectDomain}>
                 {
                   domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
+              
               <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
             </InputGroup>
+
             <Tooltip placement="bottom" title="请求真实接口">
               <Button
                 disabled={!hasPlugin}
@@ -635,21 +639,21 @@ export default class Run extends Component {
             <Panel
               header={
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div>BODY</div>   
+                  <div>BODY</div>
                 </div>
               }
               key="3"
-              className={HTTP_METHOD[method].request_body?'POST':'hidden'}
+              className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
             >
 
-              <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file'? 'block': 'none' }}>
-                <div id="body-other-edit" style={{ marginTop: 10, minHeight:150 }} className="pretty-editor"></div>
+              <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file' ? 'block' : 'none' }}>
+                <div id="body-other-edit" style={{ marginTop: 10, minHeight: 150 }} className="pretty-editor"></div>
               </div>
 
               {
                 HTTP_METHOD[method].request_body && bodyType === 'form' &&
                 <div>
-                  {                    
+                  {
                     bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
