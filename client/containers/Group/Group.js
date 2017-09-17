@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GroupList from './GroupList/GroupList.js';
 import ProjectList from './ProjectList/ProjectList.js';
 import MemberList from './MemberList/MemberList.js';
-import Subnav from '../../components/Subnav/Subnav.js';
+// import Subnav from '../../components/Subnav/Subnav.js';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Row, Col, Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -32,8 +32,8 @@ export default class Group extends Component {
       </div>
     )
     return (
-      <div>
-        <Subnav
+      <div className='projectGround'>
+        {/*<Subnav
           default={'项目广场'}
           data={[{
             name: '项目广场',
@@ -41,7 +41,7 @@ export default class Group extends Component {
           }, {
             name: '我的关注',
             path: '/follow'
-          }]}/>
+          }]}/>*/}
         <Switch>
           <Redirect exact from='/group' to='/group/0' />
           <Route path="/group/:groupId" render={() => GroupContent} />

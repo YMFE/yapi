@@ -12,7 +12,14 @@
       transform: translateY(-4px);
     }
     .m-card .ant-card-body {
+      background-color: $color-bg-gray;
       box-shadow: 0 4px 8px rgba(50, 50, 93, 0.11), 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
+    .card-btns .icon {
+      color: rgba(39, 56, 72, 0.85);
+    }
+    .card-btns .icon.active {
+      color: #fac200;
     }
   }
   &:active {
@@ -31,7 +38,7 @@
     right: 0;
     width: .48rem;
     height: .48rem;
-    background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
+    // background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
     border-top-right-radius: 4px;
     .icon {
       cursor: pointer;
@@ -40,20 +47,25 @@
       position: absolute;
       right: 0;
       top: 0;
+      color: #fff;
+    }
+    .icon.active {
+      color: #fff;
     }
   }
 }
 .m-card {
   cursor: pointer;
   text-align: center;
-  margin-bottom: .36rem;
+  margin-bottom: .16rem;
   transition: all .4s;
   position: relative;
   .ant-card-body {
-    background-color: $color-bg-gray;
+    background-color: #fff;
     border-radius: 4px;
     padding-top: .24rem + .16rem + 1rem;
-    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 4px 6px rgba(255,255,255,.11), 0 1px 3px rgba(255,255,255,.08);
+    // box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
     transition: all .2s;
   }
   .ui-logo {

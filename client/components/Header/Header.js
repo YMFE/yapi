@@ -9,11 +9,11 @@ import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
-import { logoSVG, betaSVG } from '../../common.js';
+import { logoSVG } from '../../common.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 
 const MenuUser = (props) => (
-  <Menu className="user-menu" >
+  <Menu theme="dark" className="user-menu" >
     <Menu.Item key="0">
       <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
@@ -36,6 +36,13 @@ const ToolUser = (props)=> (
     <li className="toolbar-li item-search">
       <Srch groupList={props.groupList}/>
     </li>
+    <Link to="/follow">
+      <Tooltip placement="bottom" title={'我的关注'}>
+        <li className="toolbar-li">
+          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="star" />
+        </li>
+      </Tooltip>
+    </Link>
     <Link to="/add-project">
       <Tooltip placement="bottom" title={'新建项目'}>
         <li className="toolbar-li">
@@ -49,6 +56,7 @@ const ToolUser = (props)=> (
       </li>
     </Tooltip>
     <li className="toolbar-li">
+      
       <Dropdown
         placement = "bottomRight"
         overlay={
@@ -63,10 +71,11 @@ const ToolUser = (props)=> (
         <a className="dropdown-link">
           <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
           {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
-          <span className="name">{props.user}</span>
-
+          {/*<span className="name">{props.user}</span>*/}
+          <span className="name"><Icon type="down" /></span>
         </a>
       </Dropdown>
+      
     </li>
   </ul>
 );
@@ -168,7 +177,8 @@ export default class HeaderCom extends Component {
         <div className="content g-row">
           <div className="logo">
             <Link to="/group" onClick={this.relieveLink} className="href">
-              <span className="img">{logoSVG('32px')}</span><span className="logo-name">YAPI<span className="ui-badge">{betaSVG}</span></span>
+              <span className="img">{logoSVG('32px')}</span>
+              {/*<span className="logo-name">YApi<span className="ui-badge">{betaSVG}</span></span>*/}
             </Link>
           </div>
           <Breadcrumb />

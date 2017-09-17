@@ -6051,7 +6051,7 @@
       "dependencies": {
         "async": {
           "version": "1.5.0",
-          "resolved": "https://registry.npmjs.org/async/-/async-1.5.0.tgz",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/async/-/async-1.5.0.tgz",
           "integrity": "sha1-J5ZkJyNXOFlWVjP8YnRES+4vjOM="
         },
         "loader-utils": {
@@ -14435,6 +14435,11 @@
       "requires": {
         "makeerror": "1.0.11"
       }
+    },
+    "wangeditor": {
+      "version": "3.0.8",
+      "resolved": "https://registry.npmjs.org/wangeditor/-/wangeditor-3.0.8.tgz",
+      "integrity": "sha1-qm5FetXmDiFbwuYE7uIB2TFdAXY="
     },
     "warning": {
       "version": "3.0.0",

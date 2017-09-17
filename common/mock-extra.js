@@ -16,10 +16,10 @@ function mock(mockJSON, context) {
       if (!p.hasOwnProperty(i)) {
         continue;
       }
-      if (typeof p[i] === 'object') {
+      if (p[i] && typeof p[i] === 'object') {
         c[i] = (p[i].constructor === Array) ? [] : {};
         parse(p[i], c[i]);
-      } else {
+      } else if(p[i] && typeof p[i] === 'string'){
         p[i] = handleStr(p[i]);
         var filters = i.split(mockSplit), newFilters = [].concat(filters);
         c[i] = p[i];
@@ -34,6 +34,8 @@ function mock(mockJSON, context) {
             }
           }
         }
+      }else{
+        c[i] = p[i];
       }
     }
     return c;

@@ -10,8 +10,12 @@ html, body {
              SimSun, sans-serif;
   margin: 0;
   padding: 0;
-  background: #ececec;
 }
+
+html {
+  background-color: #202d3a;
+}
+
 ::selection {
   background-color: #2395f1;
 }
@@ -62,6 +66,10 @@ em {
   display: none;
 }
 
+.router-main {
+  background-color: #ececec;
+}
+
 // 布局容器 guitter: 16px
 .g-row {
   max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
@@ -91,6 +99,9 @@ em {
 .pannel-without-tab {
   min-height: 5rem;
 }
+.ant-tabs-tabpane .m-panel {
+  border-top-left-radius: 0px;
+}
 
 @media (max-width: 768px) {
   html {
@@ -115,4 +126,12 @@ em {
   &.undone::before {
     background-color: #ff561b;
   }
+}
+
+
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+  border: none;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+  border: none;
 }
