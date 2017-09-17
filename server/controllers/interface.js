@@ -225,6 +225,9 @@ class interfaceController extends baseController {
     async list(ctx) {
         let project_id = ctx.request.query.project_id;
         let project = await this.projectModel.getBaseInfo(project_id);
+        if(!project){
+            return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
+        }
         if (project.project_type === 'private') {
             if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
@@ -497,6 +500,7 @@ class interfaceController extends baseController {
 
             let inter = await this.Model.get(id);
             let result = await this.Model.del(id);
+            yapi.emitHook('interface_del', id).then();
             await this.caseModel.delByInterfaceId(id);
             let username = this.getUsername();
             this.catModel.get(inter.catid).then((cate) => {
@@ -645,7 +649,17 @@ class interfaceController extends baseController {
                 username: username,
                 typeid: catData.project_id
             });
-
+            
+            let interfaceData = await this.Model.listByCatid(id);
+            interfaceData.forEach(async item=>{
+                try{
+                    yapi.emitHook('interface_del', item._id).then();
+                    await this.caseModel.delByInterfaceId(item._id);
+                }catch(e){
+                    yapi.commons.log(e.message, 'error');
+                }
+                
+            })
             await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
             return ctx.body = yapi.commons.resReturn(r);
