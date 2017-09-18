@@ -8,24 +8,34 @@
         // .item-all-interface {
         //   background-color: red;
         // }
-        .ant-tabs-bar{
-            border-bottom: none;
-            margin-bottom: 0
-        }
+        // .ant-tabs-bar{
+        //     border-bottom: none;
+        //     margin-bottom: 0
+        // }
         .ant-tabs-nav{
             width:100%;
-            background-color: #ececec
         }
         .ant-tabs-tab{
             min-width: 50%;
         }
         .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
-            background-color: #fff;
+            height: 39px;
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-bottom: 0; 
+        }
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-of-type(2) {
+            border-left: 0;
+        }
+        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-of-type {
+            border-right: 0;
         }
         .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+            height: 40px;
             background-color: #efefef;
             color:#021b2d;
             font-weight: 500;
+            // margin-bottom: 0;
         }
 
         .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
@@ -34,13 +44,13 @@
 
         .ant-tabs.ant-tabs-card > .ant-tabs-bar{
             text-align: center;
-            line-height: 40px;
-            height:40px;
+            background: #ececec;
         }
 
         .ant-tabs-nav-wrap{
             height: 40px;
             line-height: 31px;
+            // border-bottom: 1px solid #d9d9d9;
         }
         .ant-input {
             width: 100%;
