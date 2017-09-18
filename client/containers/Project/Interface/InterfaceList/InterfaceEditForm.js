@@ -282,7 +282,7 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_query[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input placeholder="备注" />
+            <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="1" >
@@ -309,14 +309,14 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_headers[' + index + '].value', {
             initialValue: data.value
           })(
-            <Input placeholder="参数值" />
+            <Input  placeholder="参数值" />
             )}
         </Col>
         <Col span="10" >
           {getFieldDecorator('req_headers[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input placeholder="备注" />
+            <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="2" >
@@ -359,7 +359,7 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_body_form[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input placeholder="备注" />
+            <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="1" >
@@ -381,7 +381,7 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_params[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input placeholder="备注" />
+            <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
 
