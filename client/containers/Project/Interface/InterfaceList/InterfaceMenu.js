@@ -16,7 +16,6 @@ const TreeNode = Tree.TreeNode;
 @connect(
 
   state => {
-
     return {
       list: state.inter.list,
       inter: state.inter.curdata,
@@ -96,6 +95,14 @@ class InterfaceMenu extends Component {
 
   componentWillMount() {
     this.handleRequest()
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (this.props.list !== nextProps.list) {
+      this.setState({
+        list: nextProps.list
+      })
+    }
   }
 
 

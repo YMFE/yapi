@@ -97,15 +97,14 @@ class List extends Component {
       data = this.state.data;
     }
     let columns = [{
-      title: 'UID',
-      dataIndex: '_id',
-      key: '_id',
-      width: 100
-    }, {
       title: '用户名',
       dataIndex: 'username',
       key: 'username',
-      width: 180
+      width: 180,
+      render: (username, item)=>{
+        console.log(item)
+        return <Link to={"/user/profile/" + item._id} >{item.username}</Link>
+      }
     }, {
       title: 'Email',
       dataIndex: 'email',
@@ -126,8 +125,7 @@ class List extends Component {
       width: "90px",
       render: (item) => {
         return (
-          <span>
-            <Link to={"/user/profile/" + item._id} >查看</Link>
+          <span>            
             <span className="ant-divider" />
             <Popconfirm title="确认删除此用户?" onConfirm={() => { this.confirm(item._id) }} okText="确定" cancelText="取消">
               <a href="#">删除</a>
