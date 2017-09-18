@@ -109,7 +109,7 @@ class ProjectList extends Component {
           <Col>
 
             <Tooltip title="您没有权限,请联系该分组组长或管理员">
-              {this.props.currGroup.role ?
+              {this.props.currGroup.role!== 'member' ?
                 <Button type="primary" ><Link to="/add-project">添加项目</Link></Button> :
                 <Button type="primary" disabled >添加项目</Button>}
             </Tooltip>
