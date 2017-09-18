@@ -198,6 +198,7 @@ class InterfaceEditForm extends Component {
 
     let editor = this.editor = new Editor('#desc');
     editor.create();
+    editor.txt.html(this.state.desc)
   }
 
   addParams = (name, data) => {
