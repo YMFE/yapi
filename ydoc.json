@@ -85,6 +85,17 @@
 //           }]
 //       }
 //   },
+  {
+    "name": "releases",
+    "title": "版本记录",
+    "banner": {
+        "title": "YApi",
+        "description": "Releases"
+    },
+    "compile": "markdown",
+    "menuLevel": 2,
+    "content": "./CHANGELOG.md"
+  },
     {
         "name": "api",
         "title": "",

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
-    <title>YApi 使用手册</title>
+    <title>YApi 版本记录</title>
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -28,12 +28,12 @@
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
-                        <li class="active">
+                        <li class="">
                             
                             <a href="index.html">使用手册</a> 
                         </li>
                         
-                        <li class="">
+                        <li class="active">
                             
                             <a href="releases.html">版本记录</a> 
                         </li>
@@ -56,7 +56,7 @@
             <div class="ydoc-banner ">
                 <div class="ydoc-banner-area">
                     <h1 >YApi</h1>
-                    <p class="desc ">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    <p class="desc ">Releases</p>
                     
                 </div>
             </div>
@@ -74,94 +74,31 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-认识 YApi.html">认识 YApi</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-创建第一个API.html">创建第一个API</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-项目操作.html">项目操作</a> 
-                                </li>
-                                  
-                                <!-- <li  class="active"   class="active" > -->
-                                <li  class="active" >
-                                    
-                                    <a href="index-接口操作.html">接口操作</a> 
+                                    <a href="#1.0.1">1.0.1</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#接口配置">接口配置</a>
+                                        <a href="#产品优化_和_Bug_修复">产品优化 和 Bug 修复</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#接口运行">接口运行</a>
+                                        <a href="#Features">Features</a>
                                     </li>
-                                
-                                </ul>
-                                            
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-使用mock功能.html">使用mock功能</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-使用测试集.html">使用测试集</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-数据导入(重要).html">数据导入(重要)</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-常见问题.html">常见问题</a> 
-                                </li>
                                  
+                                </ul>
+                                  
                             </ul>
                         </nav>
                     </div>
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
-<ul>
-<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
-<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./usage-创建第一个API.html#新建_编辑接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
-<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
-<ul>
-<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
-<blockquote>
-<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
-</blockquote>
-</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
-</li></ul>
-<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
-<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
-<blockquote>
-<p>安装完插件记得刷新页面</p>
-</blockquote>
-<p><img src="./images/interface_run.jpg" /></p>
-<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
+                         <h2 class="subject" id="1.0.1">1.0.1 <a class="hashlink" href="#1.0.1">#</a></h2><h3 class="subject" id="产品优化_和_Bug_修复">产品优化 和 Bug 修复 <a class="hashlink" href="#产品优化_和_Bug_修复">#</a></h3><ul>
+<li>fix 修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字 </li><li>fix mockJson出现null，mock是出现格式不对问题 </li><li>opti 没有权限的分组不可选  </li><li>opti 项目列表图标设计大小优化下 </li><li>opti 设计粗糙  </li><li>opti 关注的项目不显眼  </li><li>opti logo区域的设计  </li><li>opti 修改下注册成功邮件内容，标题 ypai 改成 YApi可视化接口平台 </li><li>fix 添加接口之后，再次选择添加接口，会保留上次填写的信息 </li><li>opti 重新设计“设置”  </li><li>opti 项目列表应该优先显示关注的项目 </li><li>fix 用例名称太长，导致无法使用删除功能 </li><li>fix 别人知道项目id虽然没有权限，但能看到里面所有内容 </li></ul>
+<h3 class="subject" id="Features">Features <a class="hashlink" href="#Features">#</a></h3><ul>
+<li>opti 接口备注集成了富文本编辑 </li><li>feat 支持har协议的接口数据导入 </li></ul>
 
                     </div>
                 </div>
