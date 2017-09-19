@@ -131,6 +131,8 @@ export default class GroupList extends Component {
       this.setState({
         editGroupModalVisible: false
       });
+      await this.props.fetchGroupList();
+      this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id });
     }
   }
@@ -227,7 +229,6 @@ export default class GroupList extends Component {
     const editmark = <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
     const addmark = <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
 
-
     return (
       <div className="m-group">
         <div className="group-bar">
@@ -267,32 +268,35 @@ export default class GroupList extends Component {
             }
           </Menu>
         </div>
-        <Modal
-          title="添加分组"
-          visible={this.state.addGroupModalVisible}
-          onOk={this.addGroup}
-          onCancel={this.hideModal}
-          className="add-group-modal"
-        >
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">分组名：</div></Col>
-            <Col span="15">
-              <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">简介：</div></Col>
-            <Col span="15">
-              <TextArea rows={3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">组长：</div></Col>
-            <Col span="15">
-              <UsernameAutoComplete callbackState={this.onUserSelect} />
-            </Col>
-          </Row>
-        </Modal>
+        {
+          this.state.addGroupModalVisible?<Modal
+            title="添加分组"
+            visible={this.state.addGroupModalVisible}
+            onOk={this.addGroup}
+            onCancel={this.hideModal}
+            className="add-group-modal"
+          >
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">分组名：</div></Col>
+              <Col span="15">
+                <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
+              </Col>
+            </Row>
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">简介：</div></Col>
+              <Col span="15">
+                <TextArea rows={3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
+              </Col>
+            </Row>
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">组长：</div></Col>
+              <Col span="15">
+                <UsernameAutoComplete callbackState={this.onUserSelect} />
+              </Col>
+            </Row>
+          </Modal>:''
+        }
+        
         <Modal
           title="编辑分组"
           visible={this.state.editGroupModalVisible}
