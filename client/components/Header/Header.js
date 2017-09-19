@@ -56,7 +56,7 @@ const ToolUser = (props)=> (
       </li>
     </Tooltip>
     <li className="toolbar-li">
-      
+
       <Dropdown
         placement = "bottomRight"
         overlay={
@@ -75,7 +75,7 @@ const ToolUser = (props)=> (
           <span className="name"><Icon type="down" /></span>
         </a>
       </Dropdown>
-      
+
     </li>
   </ul>
 );
@@ -174,11 +174,11 @@ export default class HeaderCom extends Component {
     const { login, user, msg, uid } = this.props;
     return (
       <Header className="header-box m-header">
-        <div className="content g-row">
+        <div className="content">
           <div className="logo">
             <Link to="/group" onClick={this.relieveLink} className="href">
               <span className="img">{logoSVG('32px')}</span>
-              {/*<span className="logo-name">YApi<span className="ui-badge">{betaSVG}</span></span>*/}
+              {/*<span className="logo-name">YApi</span>*/}
             </Link>
           </div>
           <Breadcrumb />
