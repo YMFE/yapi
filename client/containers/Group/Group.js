@@ -19,11 +19,11 @@ export default class Group extends Component {
 
     const GroupContent = (
       <Layout>
-        <Sider style={{ height: 'auto'}} width={300}>
+        <Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: '56px', marginLeft: '16px', marginTop: '24px' }} width={300}>
           <div className="logo" />
           <GroupList></GroupList>
         </Sider>
-        <Layout>
+        <Layout style={{ marginLeft: 316 }}>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <Tabs type="card" className="m-tab">
               <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
@@ -31,7 +31,7 @@ export default class Group extends Component {
             </Tabs>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2016 Created by Ant UED
+            © 2017 YMFE 京ICP备17044220号
           </Footer>
         </Layout>
       </Layout>
