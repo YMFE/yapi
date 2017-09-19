@@ -12,7 +12,6 @@ import { Link, withRouter } from 'react-router-dom';
 const confirm = Modal.confirm;
 const TreeNode = Tree.TreeNode;
 
-
 @connect(
 
   state => {
@@ -384,8 +383,8 @@ class InterfaceMenu extends Component {
           {menuList.map((item) => {
             return <TreeNode title={<div>
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
-              <Dropdown overlay={menu(item)}>
-                <Icon type='setting' className="interface-delete-icon" />
+              <Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
+                <Icon type='ellipsis' className="interface-delete-icon" />
               </Dropdown>
             </div>}
              key={'cat_' + item._id}
