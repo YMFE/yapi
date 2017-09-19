@@ -172,6 +172,15 @@ exports.verifyPath = (path) => {
     }
 };
 
+exports.sandbox = (sandbox, script) => {
+    const vm = require('vm');
+    sandbox = sandbox || {};
+    script = new vm.Script(script);
+    const context = new vm.createContext(sandbox);
+    script.runInContext(context);
+    return sandbox;
+}
+
 function trim(str) {
     if (!str) {
         return str;
@@ -241,7 +250,7 @@ exports.saveLog = (logData) => {
         logInst.save(data).then(
 
         );
-    } catch(e) {
+    } catch (e) {
         yapi.commons.log(e, 'error'); // eslint-disable-line
     }
 };

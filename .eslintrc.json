@@ -31,7 +31,6 @@
         "/fekit_modules/*",
         "/node_modules/*",
         "/bower_components/*",
-        "/plugins/*",
         "/dev/*",
         "/prd/*"
     ]
