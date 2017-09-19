@@ -70,7 +70,7 @@ class Follows extends Component {
             path: '/follow'
           }]}/>*/}
         <div className="g-row">
-          <Row gutter={24} className="follow-box card-panel pannel-without-tab">
+          <Row gutter={24} className="follow-box pannel-without-tab">
             {data.length ? data.map((item, index) => {
               return (
                 <Col span={6} key={index}>
