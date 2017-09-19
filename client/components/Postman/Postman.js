@@ -10,6 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
+import {handleMockWord} from '../../common.js'
 
 function json_parse(data) {
   try {
@@ -428,11 +429,12 @@ export default class Run extends Component {
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.type !== 'file') {
-        obj[item.name] = item.value || '';
+        obj[item.name] = handleMockWord(item.value);
       }
     })
     return obj;
   }
+
   getFiles(bodyForm) {
     const files = {};
     bodyForm.forEach(item => {
@@ -446,7 +448,7 @@ export default class Run extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name) {
-        queryObj[item.name] = item.value || '';
+        queryObj[item.name] = handleMockWord(item.value);
       }
     })
     return queryObj;
@@ -587,7 +589,7 @@ export default class Run extends Component {
                 onClick={this.props.save}
                 type="primary"
                 style={{ marginLeft: 10 }}
-              >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
+              >{this.props.type === 'inter' ? '保存' : '保存'}</Button>
             </Tooltip>
           </div>
 
