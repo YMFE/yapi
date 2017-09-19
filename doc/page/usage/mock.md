@@ -1,6 +1,6 @@
 ## Mock介绍
 
- <p style='text-indent:2em;line-height:1.8em'>yapi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+ <p style='text-indent:2em;line-height:1.8em'>YApi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
  
  **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
 
@@ -87,7 +87,7 @@ proxy_pass   http://yapi.corp.qunar.com/mock/2817/baseapi; #baseapi后面没有"
 
 <img src="./images/ykit.jpg" />
 
-
+<span id="mock"></span>
 ## Mock语法规范
 >了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
 
