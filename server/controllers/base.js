@@ -24,7 +24,8 @@ class baseController {
       '/api/user/login',
       '/api/user/reg',
       '/api/user/status',
-      '/api/user/logout'
+      '/api/user/logout',
+      '/api/user/avatar'
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;

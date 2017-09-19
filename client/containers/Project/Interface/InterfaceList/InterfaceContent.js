@@ -8,7 +8,7 @@ import View from './View.js'
 import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
 import Run from './Run/Run.js'
-
+const plugin = require('client/plugin.js');
 
 const TabPane = Tabs.TabPane;
 @connect(
@@ -72,24 +72,33 @@ class Content extends Component {
   }
 
   render() {
-    const tabs = <Tabs onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
-      <TabPane tab="预览" key="view">
-        {/* <View /> */}
-      </TabPane>
-      <TabPane tab="编辑" key="edit">
+    let InterfaceTabs = {
+      view: {
+        component: View,
+        name: '预览'
+      },
+      edit: {
+        component: Edit,
+        name: '编辑'
+      },
+      run: {
+        component: Run,
+        name: '运行'
+      }
+    }
 
-      </TabPane>
-      <TabPane tab="运行" key="run">
-        {/* <Run /> */}
-      </TabPane>
+    plugin.emitHook('interface_tab', InterfaceTabs);
+
+    const tabs = <Tabs onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
+      {Object.keys(InterfaceTabs).map(key=>{
+        let item = InterfaceTabs[key];
+        return <TabPane tab={item.name} key={key}></TabPane>
+      })}
     </Tabs>;
-    let tabContent;
-    if (this.state.curtab === 'view') {
-      tabContent = <View />;
-    } else if (this.state.curtab === 'edit') {
-      tabContent = <Edit switchToView={this.switchToView} />
-    } else if (this.state.curtab === 'run') {
-      tabContent = <Run />
+    let tabContent = null;
+    if (this.state.curtab) {
+      let C = InterfaceTabs[this.state.curtab].component;
+      tabContent = <C switchToView={this.switchToView} />;
     }
 
     return <div className="interface-content">
