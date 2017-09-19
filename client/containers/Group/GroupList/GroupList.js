@@ -232,22 +232,23 @@ export default class GroupList extends Component {
     return (
       <div className="m-group">
         <div className="group-bar">
-          <div className="curr-group">
-            <div className="curr-group-name">
-              <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
-              {
-                this.props.curUserRole === "admin" ? (editmark) : ''
-              }
-              {
-                this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-              }
-              {
-                this.props.curUserRole === 'admin' ? (addmark) : ''
-              }
+          {
+            this.props.curUserRole === "admin" || currGroup.role ==='owner' ?
+              <div className="curr-group">
+                <div className="curr-group-name">{currGroup.group_name} 分组管理：
+                  {
+                    this.props.curUserRole === "admin" ? (editmark) : ''
+                  }
+                  {
+                    this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+                  }
+                  {
+                    this.props.curUserRole === 'admin' ? (addmark) : ''
+                  }
+                </div>
+              </div> : ''
+          }
 
-            </div>
-            <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
-          </div>
           <div className="group-operate">
             <div className="search">
               <Search placeholder="Filter by name" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
@@ -296,7 +297,7 @@ export default class GroupList extends Component {
             </Row>
           </Modal>:''
         }
-        
+
         <Modal
           title="编辑分组"
           visible={this.state.editGroupModalVisible}
