@@ -215,9 +215,9 @@ export default class InterfaceColMenu extends Component {
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="Filter by name" style={{ width: "70%" }} onChange={this.filterCol} />
+          <Input placeholder="Filter by name" onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
-            <Tag color="#108ee9" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
+            <Tag color="#108ee9" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} className="btn-filter" ><Icon type="plus" /></Tag>
           </Tooltip>
         </div>
         <Tree
@@ -235,8 +235,8 @@ export default class InterfaceColMenu extends Component {
                 title={
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
-                    <Dropdown overlay={menu(col)}>
-                      <Icon type='bars'/>
+                    <Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+                      <Icon className="opts-icon" type='ellipsis'/>
                     </Dropdown>
                   </div>
                 }

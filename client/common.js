@@ -2,6 +2,25 @@ import React from 'react';
 import moment from 'moment';
 import constants from './constants/variable';
 
+const Roles = {
+  0 : 'admin',
+  10: 'owner',
+  20: 'dev',
+  30: 'guest',
+  40: 'member'
+}
+
+const roleAction = {
+  'manageUserlist' : 'admin',
+  'changeMemberRole': 'owner',
+  'editInterface': 'dev',
+  'viewPrivateInterface': 'guest',
+  'viewGroup': 'guest'
+}
+
+exports.checkAuth = (action, role)=>{
+  return Roles[roleAction[action]] <= Roles[role];
+}
 
 exports.formatTime = (timestamp) => {
   return moment.unix(timestamp).format("YYYY-MM-DD HH:mm:ss")
