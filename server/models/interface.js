@@ -20,6 +20,12 @@ class interfaceModel extends baseModel {
             add_time: Number,
             up_time: Number,
             type: {type: String, enum: ['static', 'var'], default:'static'},
+            query_path: {
+                path: String,
+                params: [{
+                    name: String, value: String
+                }],
+            },
             req_query:[{
                 name: String, value: String, desc: String, required: {
                     type:String,
@@ -81,6 +87,15 @@ class interfaceModel extends baseModel {
             type: 'var',
             method: method
         }).select('_id path').exec()
+    }
+
+    getByQueryPath(project_id, path, method) {
+        return this.model.find({
+            project_id: project_id,
+            "query_path.path": path,
+            method: method
+        })
+            .exec();
     }
 
     getByPath(project_id, path, method) {

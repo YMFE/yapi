@@ -247,8 +247,8 @@ export default class InterfaceColMenu extends Component {
                       style={{width: '100%'}}
                       key={'case_' + interfaceCase._id}
                       title={
-                        <div className="menu-title">
-                          <span>{interfaceCase.casename}</span>
+                        <div className="menu-title" title={interfaceCase.casename}>
+                          <span className="casename">{interfaceCase.casename}</span>
                           <Icon type='delete' className="case-delete-icon" onClick={() => { this.showDelCaseConfirm(interfaceCase._id) }} />
                         </div>
                       }
