@@ -118,7 +118,7 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#yapiMock跟mockjs区别">yapiMock跟mockjs区别</a>
+                                        <a href="#YApi_Mock_跟_mockjs_区别">YApi Mock 跟 mockjs 区别</a>
                                     </li>
                                      
                                     <li >
@@ -179,10 +179,15 @@
             <span class="token punctuation">}</span>
         <span class="token punctuation">]</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><h2 class="subject" id="yapiMock跟mockjs区别">yapiMock跟mockjs区别 <a class="hashlink" href="#yapiMock跟mockjs区别">#</a></h2><p>因为yapi基于json定义mock，无法使用mockjs原有的函数功能，正则表达式需要基于rule书写，示例如下：</p>
+</code></pre><h2 class="subject" id="YApi_Mock_跟_mockjs_区别">YApi Mock 跟 mockjs 区别 <a class="hashlink" href="#YApi_Mock_跟_mockjs_区别">#</a></h2><p>1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
 <pre><code><span class="token punctuation">{</span>
   "name|regexp"<span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>
   "type|regexp"<span class="token operator">:</span> "json|text|xml" //枚举数据类型可这样实现
+<span class="token punctuation">}</span>
+</code></pre><p>2 支持替换请求的query,body参数</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"${query.name}"</span><span class="token punctuation">,</span> //请求的url是/path?name=xiaoming<span class="token punctuation">,</span> 返回的name字段是xiaoming
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"${body.type}"</span>   //请求的requestBody type=<span class="token number">1</span><span class="token punctuation">,</span>返回的type字段是<span class="token number">1</span>
 <span class="token punctuation">}</span>
 </code></pre><h2 class="subject" id="如何使用Mock?">如何使用Mock? <a class="hashlink" href="#如何使用Mock?">#</a></h2><h3 class="subject" id="1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题） <a class="hashlink" href="#1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求yapi提供的mock地址，以jQuery为例：</p>
 <pre><code class="lang-javascript"><span class="token keyword">let</span> prefix <span class="token operator">=</span> <span class="token string">'http://yapi.local.qunar.com:3000/mock/2817'</span>
