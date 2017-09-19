@@ -1,0 +1,33 @@
+.case-content {
+  padding: 6px 0;
+  .case-title {
+    display: flex;
+    .case-name {
+      margin-left: 8px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 0 5px;
+      background-color: #eee;
+      font-size: 20px;
+      flex-grow: 1;
+      cursor: pointer;
+    }
+    .case-name:hover {
+      color: rgba(0,0,0,.65);
+      border: 1px solid #d9d9d9;
+    }
+    .edit-case-name {
+      margin-left: 8px;
+      display: flex;
+      flex-grow: 1;
+    }
+    .inter-link {
+      flex-basis: 50px;
+      position: relative;
+    }
+    .inter-link .text {
+      position: absolute;
+      bottom: 4px;
+    }
+  }
+}
