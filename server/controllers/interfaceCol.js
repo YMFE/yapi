@@ -412,24 +412,14 @@ class interfaceColController extends baseController{
             if(!params || !Array.isArray(params)){
                 ctx.body =  yapi.commons.resReturn(null, 400, "请求参数必须是数组")
             }
-            // let caseName = "";
             params.forEach((item) => {
-                if(item.id && item.index){
+                if(item.id){
                     this.caseModel.upCaseIndex(item.id, item.index).then((res) => {}, (err) => {
                         yapi.commons.log(err.message, 'error')
                     })
                 }
 
             });
-
-            // let username = this.getUsername();
-            // yapi.commons.saveLog({
-            //     content: `用户 "${username}" 更新了接口集 "${params.col_name}"`,
-            //     type: 'project',
-            //     uid: this.getUid(),
-            //     username: username,
-            //     typeid: params.project_id
-            // });
 
             return ctx.body = yapi.commons.resReturn('成功！')
         }catch(e){
