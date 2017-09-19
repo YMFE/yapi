@@ -308,6 +308,11 @@ class projectController extends baseController {
             if (!result) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
             }
+            if (result.project_type === 'private') {
+                if (await this.checkAuth(result._id, 'project', 'edit') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
             result = result.toObject();
             let catInst = yapi.getInst(interfaceCatModel);
             let cat = await catInst.list(params.id);
@@ -355,11 +360,11 @@ class projectController extends baseController {
                 })
                 if (f) {
                     item.follow = true;
+                    project_list.unshift(item);
                 } else {
                     item.follow = false;
+                    project_list.push(item);
                 }
-                project_list.push(item);
-
             };
 
             ctx.body = yapi.commons.resReturn({

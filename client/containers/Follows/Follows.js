@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { getFollowList } from  '../../reducer/modules/follow';
 import { setBreadcrumb } from  '../../reducer/modules/user';
-import Subnav from '../../components/Subnav/Subnav.js';
+// import Subnav from '../../components/Subnav/Subnav.js';
 import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
 
@@ -60,7 +60,7 @@ class Follows extends Component {
     const data = this.state.data;
     return (
       <div>
-        <Subnav
+        {/*<Subnav
           default={'我的关注'}
           data={[{
             name: '项目广场',
@@ -68,12 +68,12 @@ class Follows extends Component {
           }, {
             name: '我的关注',
             path: '/follow'
-          }]}/>
+          }]}/>*/}
         <div className="g-row">
           <Row gutter={24} className="follow-box card-panel pannel-without-tab">
             {data.length ? data.map((item, index) => {
               return (
-                <Col span={8} key={index}>
+                <Col span={6} key={index}>
                   <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
                 </Col>);
             }): <ErrMsg type="noFollow"/>}

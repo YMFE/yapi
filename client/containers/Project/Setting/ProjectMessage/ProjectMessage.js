@@ -231,14 +231,14 @@ class ProjectMessage extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境域名');
+                        callback('请输入环境名称');
                       } else if (!/\S/.test(value)) {
-                        callback('请输入环境域名');
+                        callback('请输入环境名称');
                       } else {
                         return callback();
                       }
                     } else {
-                      callback('请输入环境域名');
+                      callback('请输入环境名称');
                     }
                   }
                 }]
@@ -266,8 +266,6 @@ class ProjectMessage extends Component {
                         callback('请输入环境域名!');
                       } else if (/\s/.test(value)) {
                         callback('环境域名不允许出现空格!');
-                      } else if (/\//.test(value)) {
-                        callback('环境域名不允许出现‘\/’!');
                       } else {
                         return callback();
                       }
@@ -328,7 +326,7 @@ class ProjectMessage extends Component {
           </Col>
           <Col xs={18} sm={15} lg={19} className="setting-intro">
             <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
-            <p className="ui-desc">{projectMsg.desc}</p>
+            {/* <p className="ui-desc">{projectMsg.desc}</p> */}
           </Col>
         </Row>
         <hr className="breakline" />
@@ -403,10 +401,10 @@ class ProjectMessage extends Component {
             {getFieldDecorator('desc', {
               initialValue: initFormValues.desc,
               rules: [{
-                required: false, message: '描述不超过50字!', max: 50
+                required: false
               }]
             })(
-              <TextArea rows={4} />
+              <TextArea rows={8} />
               )}
           </FormItem>
 

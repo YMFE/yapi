@@ -6,7 +6,11 @@
     display: flex;
     justify-content: space-between;
     overflow: hidden;
+    .casename {
+      overflow: hidden;
+    }
     .case-delete-icon{
+      margin-left: 5px;
       display: none;
     }
     i:before{

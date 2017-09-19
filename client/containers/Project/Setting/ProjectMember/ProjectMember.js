@@ -6,7 +6,7 @@ import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
-import { getProjectMsg, getProjectMemberList, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
+import { getProjectMsg, getProjectMemberList,getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
 import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import '../Setting.scss';
 
@@ -24,7 +24,7 @@ const arrayAddKey = (arr) => {
 @connect(
   state => {
     return {
-      projectMsg: state.project.projectMsg,
+      projectMsg: state.project.currProject,
       uid: state.user.uid
     }
   },
@@ -35,7 +35,8 @@ const arrayAddKey = (arr) => {
     addMember,
     delMember,
     fetchGroupMsg,
-    changeMemberRole
+    changeMemberRole,
+    getProject
   }
 )
 class ProjectMember extends Component {
@@ -49,16 +50,18 @@ class ProjectMember extends Component {
       visible: false,
       dataSource: [],
       inputUid: 0,
-      inputRole: 'dev'
+      inputRole: 'dev'      
     }
   }
   static propTypes = {
+    match: PropTypes.object,
     projectId: PropTypes.number,
     projectMsg: PropTypes.object,
     uid: PropTypes.number,
     addMember: PropTypes.func,
     delMember: PropTypes.func,
     changeMemberRole: PropTypes.func,
+    getProject: PropTypes.func,
     fetchGroupMemberList: PropTypes.func,
     getProjectMsg: PropTypes.func,
     fetchGroupMsg: PropTypes.func,
@@ -74,7 +77,7 @@ class ProjectMember extends Component {
   // 重新获取列表
   @autobind
   reFetchList() {
-    this.props.getProjectMemberList(this.props.projectId).then((res) => {
+    this.props.getProjectMemberList(this.props.match.params.id).then((res) => {
       this.setState({
         projectMemberList: arrayAddKey(res.payload.data.data),
         visible: false
@@ -86,7 +89,7 @@ class ProjectMember extends Component {
   @autobind
   handleOk() {
     this.props.addMember({
-      id: this.props.projectId,
+      id: this.props.match.params.id,
       member_uid: this.state.inputUid,
       role: this.state.inputRole
     }).then((res) => {
@@ -108,7 +111,7 @@ class ProjectMember extends Component {
   @autobind
   deleteConfirm(member_uid) {
     return () => {
-      const id = this.props.projectId;
+      const id = this.props.match.params.id;
       this.props.delMember({ id, member_uid }).then((res) => {
         if (!res.payload.data.errcode) {
           message.success(res.payload.data.errmsg);
@@ -121,7 +124,7 @@ class ProjectMember extends Component {
   // 改 - 修改成员权限
   @autobind
   changeUserRole(e) {
-    const id = this.props.projectId;
+    const id = this.props.match.params.id;
     const role = e.split('-')[0];
     const member_uid = e.split('-')[1];
     this.props.changeMemberRole({ id, member_uid, role }).then((res) => {
@@ -147,11 +150,12 @@ class ProjectMember extends Component {
     })
   }
 
-  async componentWillMount() {
+  async componentWillMount() {    
+    await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
-    const rojectMsg = await this.props.getProjectMsg(this.props.projectId);
-    const projectMemberList = await this.props.getProjectMemberList(this.props.projectId);
+    const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);
+    const projectMemberList = await this.props.getProjectMemberList(this.props.match.params.id);
     this.setState({
       groupMemberList: groupMemberList.payload.data.data,
       groupName: groupMsg.payload.data.data.group_name,
@@ -162,7 +166,7 @@ class ProjectMember extends Component {
 
   render () {
     const columns = [{
-      title: ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
+      title: this.props.projectMsg.name + ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => {
@@ -179,7 +183,7 @@ class ProjectMember extends Component {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select defaultValue={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
+              <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
               </Select>
@@ -201,7 +205,7 @@ class ProjectMember extends Component {
       }
     }];
     return (
-      <div className="m-panel">
+      <div className="m-panel g-row" style={{paddingTop: '15px'}}>
         <Modal
           title="添加成员"
           visible={this.state.visible}
