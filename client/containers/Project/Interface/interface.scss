@@ -94,6 +94,7 @@
                 overflow: hidden;
                 top: 0px;
                 line-height: 100%;
+                text-decoration: none;
             }
             .interface-item-nav{
                 line-height:25px;
@@ -110,6 +111,11 @@
                 float: right;
                 line-height: 25px;
                 width: 30px;
+            }
+            .interface-delete-icon:hover {
+                color: #2395f1;
+                border-radius: 4px;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
             }
         }
     }

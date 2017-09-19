@@ -235,8 +235,8 @@ export default class InterfaceColMenu extends Component {
                 title={
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
-                    <Dropdown overlay={menu(col)}>
-                      <Icon type='bars'/>
+                    <Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+                      <Icon className="opts-icon" type='ellipsis'/>
                     </Dropdown>
                   </div>
                 }
