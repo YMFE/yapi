@@ -290,7 +290,7 @@ class userController extends baseController {
             });
             yapi.commons.sendMail({
                 to: user.email,
-                contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi,您的账号 ${params.email} 已经注册成功</p>`
+                contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${params.email} 已经注册成功</p>`
             });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 401, e.message);
@@ -317,6 +317,7 @@ class userController extends baseController {
             let user = await userInst.listWithPaging(page, limit);
             let count = await userInst.listCount();
             return ctx.body = yapi.commons.resReturn({
+                count: count,
                 total: Math.ceil(count / limit),
                 list: user
             });

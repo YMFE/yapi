@@ -36,69 +36,6 @@ function initPlugins(){
 initPlugins();
 
 
-function handleCommonsChunk(webpackConfig) {
-  var commonsChunk = {
-    vendors: {
-      lib: ['react', 'redux',
-        'redux-thunk',
-        'react-dom',
-        'redux-promise',
-        'react-router',
-        'react-router-dom',
-        'prop-types',
-        'axios',
-        'moment'
-
-      ],
-      lib2: [
-        'brace',
-        'mockjs',
-        'json5'
-      ]
-    }
-  },
-    chunks = [],
-    filenameTpl = webpackConfig.output[this.env],
-    vendors;
-
-
-
-  if (typeof commonsChunk === 'object' && commonsChunk !== undefined) {
-    if (typeof commonsChunk.name === 'string' && commonsChunk) {
-      chunks.push(commonsChunk.name);
-    }
-    vendors = commonsChunk.vendors;
-    if (typeof vendors === 'object' && vendors !== undefined) {
-      var i = 0;
-      for (var name in vendors) {
-        if (vendors.hasOwnProperty(name) && vendors[name]) {
-          i++;
-          chunks.push(name);
-          webpackConfig.entry[name] = Array.isArray(vendors[name]) ? vendors[name] : [vendors[name]];
-        }
-      }
-      if (i > 0) {
-        chunks.push('manifest');
-      }
-
-    }
-
-    if (chunks.length > 0) {
-      let chunkFilename = filenameTpl.filename
-      chunkFilename = chunkFilename.replace("[ext]", '.js')
-      webpackConfig.plugins.push(
-        new this.webpack.optimize.CommonsChunkPlugin({
-          name: chunks,
-          filename: chunkFilename,
-          minChunks: commonsChunk.minChunks ? commonsChunk.minChunks : 2
-        })
-      );
-
-    }
-  }
-}
-
-
 module.exports = {
   plugins: [{
     name: 'antd',
@@ -122,6 +59,26 @@ module.exports = {
       exports: [
         './index.js'
       ],
+      commonsChunk: {
+        vendors: {
+          lib: ['react', 'redux',
+            'redux-thunk',
+            'react-dom',
+            'redux-promise',
+            'react-router',
+            'react-router-dom',
+            'prop-types',
+            'axios',
+            'moment'
+    
+          ],
+          lib2: [
+            'brace',
+            'mockjs',
+            'json5'
+          ]
+        }
+      },
       modifyWebpackConfig: function (baseConfig) {
 
         var ENV_PARAMS = {};
@@ -146,14 +103,16 @@ module.exports = {
         //初始化配置
         baseConfig.devtool = 'cheap-module-eval-source-map'
         baseConfig.context = path.resolve(__dirname, './client');
+        baseConfig.resolve.alias.client = '/client';
         baseConfig.resolve.alias.common = '/common';
         baseConfig.resolve.alias.plugins = '/plugins';
+        baseConfig.resolve.alias.exts = '/exts';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
 
-        //commonsChunk
-        handleCommonsChunk.call(this, baseConfig)
+       
+        
         baseConfig.module.loaders.push({
           test: /\.less$/,
           loader: ykit.ExtractTextPlugin.extract(
