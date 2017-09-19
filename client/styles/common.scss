@@ -13,7 +13,7 @@ html, body {
 }
 
 html {
-  // background-color: #202d3a;
+  // background-color: #32363a;
 }
 
 ::selection {
@@ -69,7 +69,6 @@ em {
 
 // 布局容器 guitter: 16px
 .g-row {
-  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
   min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
   padding: 0 .24rem;
@@ -95,9 +94,6 @@ em {
 
 .pannel-without-tab {
   min-height: 5rem;
-}
-.ant-tabs-tabpane .m-panel {
-  border-top-left-radius: 0px;
 }
 
 @media (max-width: 768px) {

@@ -1,132 +1,127 @@
-.web-content{
-    .left-menu{
-        min-height: 5rem;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-        background: #FFF;
-        border-radius:5px;
-        margin: 3px;
-        // .item-all-interface {
-        //   background-color: red;
-        // }
-        // .ant-tabs-bar{
-        //     border-bottom: none;
-        //     margin-bottom: 0
-        // }
-        .ant-tabs-nav{
-            width:100%;
-        }
-        .ant-tabs-tab{
-            min-width: 50%;
-        }
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
-            height: 39px;
-            background: #fff;
-            border: 1px solid #d9d9d9;
-            border-bottom: 0; 
-        }
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-of-type(2) {
-            border-left: 0;
-        }
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-of-type {
-            border-right: 0;
-        }
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
-            height: 40px;
-            background-color: #efefef;
-            color:#021b2d;
-            font-weight: 500;
-            // margin-bottom: 0;
-        }
-
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
-            height: 40px;
-        }
-
-        .ant-tabs.ant-tabs-card > .ant-tabs-bar{
-            text-align: center;
-            background: #ececec;
-        }
-
-        .ant-tabs-nav-wrap{
-            height: 40px;
-            line-height: 31px;
-            // border-bottom: 1px solid #d9d9d9;
-        }
-        .ant-input {
-            width: 100%;
-        }
-        .interface-filter{
-            padding-top:7px;
-            padding-left: 10px;
-            padding-right: 50px;
-            height:45px;
-            line-height: 32px;
-            background-color: #efefef;
-            position: relative;
-        }
-        .btn-filter {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .interface-list{
-            .cat_switch_hidden{
-                .ant-tree-switcher{
-                    visibility: hidden;
-                }
-            }
-
-
-            a{
-                color: #333
-            }
-
-            .btn-http{
-                height: 23px;
-                font-size: 10px;
-                margin-right: 7px;
-                padding: 0 5px;
-                width:auto !important;
-            }
-            .interface-item{
-                display: inline-block;
-                overflow: hidden;
-                top: 0px;
-                line-height: 100%;
-            }
-            .interface-item-nav{
-                line-height:25px;
-            }
-
-            .ant-tree-node-content-wrapper{
-                width: 100%
-            }
-
-            .interface-delete-icon{
-                position: relative;
-                right: 21px;
-                // top: 2px;
-                float: right;
-                line-height: 25px;
-                width: 30px;
-            }
-        }
+.left-menu{
+    min-height: 5rem;
+    // background: #FFF;
+    // .item-all-interface {
+    //   background-color: red;
+    // }
+    // .ant-tabs-bar{
+    //     border-bottom: none;
+    //     margin-bottom: 0
+    // }
+    .ant-tabs-nav{
+        width:100%;
+    }
+    .ant-tabs-tab{
+        min-width: 50%;
+    }
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+        height: 39px;
+        // background: #fff;
+        border: 1px solid #d9d9d9;
+        border-bottom: 0;
+    }
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-of-type(2) {
+        border-left: 0;
+    }
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-of-type {
+        border-right: 0;
+    }
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+        height: 40px;
+        // background-color: #efefef;
+        // color:#021b2d;
+        font-weight: 500;
+        // margin-bottom: 0;
     }
 
-    .right-content{
-        margin:3px;
-        min-height: 5rem;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-        background: #FFF;
-        border-radius:5px;
-        .interface-content{
-            .ant-tabs-nav{
-                width:100%
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
+        height: 40px;
+    }
+
+    .ant-tabs.ant-tabs-card > .ant-tabs-bar{
+        text-align: center;
+        // background: #ececec;
+    }
+
+    .ant-tabs-nav-wrap{
+        height: 40px;
+        line-height: 31px;
+        // border-bottom: 1px solid #d9d9d9;
+    }
+    .ant-input {
+        width: 100%;
+    }
+    .interface-filter{
+        padding-top:7px;
+        padding-left: 10px;
+        padding-right: 50px;
+        height:45px;
+        line-height: 32px;
+        background-color: #efefef;
+        position: relative;
+    }
+    .btn-filter {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .interface-list{
+        .cat_switch_hidden{
+            .ant-tree-switcher{
+                visibility: hidden;
             }
-            .ant-tabs-nav-wrap{
-                text-align: left;
-            }
+        }
+
+
+        a{
+            color: #333
+        }
+
+        .btn-http{
+            height: 23px;
+            font-size: 10px;
+            margin-right: 7px;
+            padding: 0 5px;
+            width:auto !important;
+        }
+        .interface-item{
+            display: inline-block;
+            overflow: hidden;
+            top: 0px;
+            line-height: 100%;
+        }
+        .interface-item-nav{
+            line-height:25px;
+        }
+
+        .ant-tree-node-content-wrapper{
+            width: 100%
+        }
+
+        .interface-delete-icon{
+            position: relative;
+            right: 21px;
+            // top: 2px;
+            float: right;
+            line-height: 25px;
+            width: 30px;
+        }
+    }
+}
+
+.right-content{
+    margin:3px;
+    min-height: 5rem;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+    background: #fff;
+    border-radius:5px;
+    .interface-content{
+        .ant-tabs-nav{
+            width:100%
+        }
+        .ant-tabs-nav-wrap{
+            text-align: left;
         }
     }
 }

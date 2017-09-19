@@ -29,7 +29,7 @@ class Activity extends Component {
     let {currProject} = this.props;
     return (
       <div className="g-row">
-        <section className="news-box">
+        <section className="news-box m-panel">
           <div style={{display: "none"}} className="logHead">
             {/*<Breadcrumb />*/}
             <div className = "projectDes">
