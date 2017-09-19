@@ -3,9 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Table, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
-import { formatTime } from '../../../../common.js'
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
+// import { formatTime } from '../../../../common.js'
+import * as Table from 'reactabular-table';
+import * as dnd from 'reactabular-dnd';
+import * as resolve from 'table-resolver';
+import axios from 'axios'
+
 
 @connect(
   state => {
@@ -24,7 +32,8 @@ import { formatTime } from '../../../../common.js'
   }
 )
 @withRouter
-export default class InterfaceColContent extends Component {
+@DragDropContext(HTML5Backend)
+class InterfaceColContent extends Component {
 
   static propTypes = {
     match: PropTypes.object,
@@ -40,7 +49,13 @@ export default class InterfaceColContent extends Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = {
+      rows: []
+    };
+    this.onRow = this.onRow.bind(this);
+    this.onMoveRow = this.onMoveRow.bind(this);
   }
 
   async componentWillMount() {
@@ -49,14 +64,55 @@ export default class InterfaceColContent extends Component {
     const params = this.props.match.params;
     const { actionId } = params;
     currColId = +actionId ||
-                result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
-                result.payload.data.data[0]._id;
+      result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
+      result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
-    if(currColId && currColId != 0){
-      this.props.fetchCaseList(currColId);
-      this.props.setColData({currColId: +currColId, isShowCol: true})
+    if (currColId && currColId != 0) {
+      await this.props.fetchCaseList(currColId);
+      this.props.setColData({ currColId: +currColId, isShowCol: true })
+      this.handleColdata(this.props.currCaseList)
     }
-    
+
+  }
+
+  handleColdata = (rows)=>{
+    rows = rows.map((item) => {
+      item.id = item._id;
+      return item;
+    })
+    rows = rows.sort((n, o)=>{
+      return n.index>o.index
+    })
+    this.setState({
+      rows: rows
+    })
+  }
+
+
+
+  onRow(row) {
+    return {
+      rowId: row.id,
+      onMove: this.onMoveRow
+    };
+  }
+  onMoveRow({ sourceRowId, targetRowId }) {
+    let rows = dnd.moveRows({
+      sourceRowId,
+      targetRowId
+    })(this.state.rows);
+    let changes = [];
+    rows.forEach((item, index)=>{
+      changes.push({
+        id: item._id,
+        index: index
+      })
+    })
+
+    axios.post('/api/col/up_col_index', changes).then()
+    if (rows) {
+      this.setState({ rows });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,56 +122,96 @@ export default class InterfaceColContent extends Component {
     if (!interfaceColList.find(item => +item._id === +newColId)) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
     } else if (oldColId !== newColId) {
-      if(newColId && newColId != 0){
+      if (newColId && newColId != 0) {
         this.props.fetchCaseList(newColId);
-        this.props.setColData({currColId: +newColId, isShowCol: true})
+        this.props.setColData({ currColId: +newColId, isShowCol: true })
+        this.handleColdata(this.props.currCaseList)
       }
-      
+
     }
   }
 
   render() {
-
-    const { currCaseList } = this.props;
-
     const columns = [{
-      title: '用例名称',
-      dataIndex: 'casename',
-      key: 'casename',
-      render: (text, item)=>{
-        return <Link to={"/project/" + item.project_id + "/interface/case/" + item._id} >{text}</Link>
+      property: 'casename',
+      header: {
+        label: '用例名称'
+      },
+      cell: {
+        formatters: [
+          (text,{rowData}) => {
+            let record = rowData;
+            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename}</Link>
+          }            
+        ]
       }
     }, {
-      title: '接口路径',
-      dataIndex: 'path',
-      key: 'path',
-      render: (path, record) => {
-        return (
-          <Tooltip title="跳转到对应接口">
-            <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{path}</Link>
-          </Tooltip>
-        )
+      property: 'path',
+      header: {
+        label: '接口路径'
+      },
+      cell: {
+        formatters: [
+          (text,{rowData}) => {
+            let record = rowData;
+            return (
+              <Tooltip title="跳转到对应接口">
+                <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{record.path}</Link>
+              </Tooltip>
+            )
+          }
+        ]
       }
     }, {
-      title: '请求方法',
-      dataIndex: 'method',
-      key: 'method'
-    }, {
-      title: '更新时间',
-      dataIndex: 'up_time',
-      key: 'up_time',
-      render: (item) => {
-        return <span>{formatTime(item)}</span>
+      header: {
+        label: '请求方法'
+      },
+      property: 'method'
+    }
+    ];
+    const { rows } = this.state;
+    if (rows.length === 0) {
+      return null;
+    }
+    const components = {
+      header: {
+        cell: dnd.Header
+      },
+      body: {
+        row: dnd.Row
       }
-    }];
+    };
+
+    const resolvedColumns = resolve.columnChildren({ columns });
+    const resolvedRows = resolve.resolve({
+      columns: resolvedColumns,
+      method: resolve.nested
+    })(rows);
 
     return (
       <div>
-        <div style={{padding:"16px"}}>
-          <h2 style={{marginBottom: '10px'}}>测试集合</h2>
-          <Table dataSource={currCaseList} columns={columns} pagination={false} rowKey="_id"/>
+        <div style={{ padding: "16px" }}>
+          <h2 style={{ marginBottom: '10px' }}>测试集合</h2>
+          <Table.Provider
+            components={components}
+            columns={resolvedColumns}
+            style={{width:'100%', lineHeight: '30px'}}
+          >
+            <Table.Header
+              style={{textAlign: 'left'}}
+              headerRows={resolve.headerRows({ columns })}
+            />
+
+            <Table.Body
+              rows={resolvedRows}
+              rowKey="id"
+              onRow={this.onRow}
+            />
+          </Table.Provider>
         </div>
       </div>
     )
   }
 }
+
+export default InterfaceColContent

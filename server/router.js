@@ -407,7 +407,6 @@ for(let ctrl in routerConfig){
  * @param {*} action controller_action_name
  */
 function createAction(controller, action, path, method) {
-	console.log(method)
     router[method]("/api" +  INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
         let inst = new INTERFACE_CONFIG[controller].controller(ctx);
 
