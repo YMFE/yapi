@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import constants from './constants/variable';
+import Mock from 'mockjs'
 
 
 exports.formatTime = (timestamp) => {
@@ -51,6 +52,11 @@ exports.debounce = (func, wait) => {
     timeout = setTimeout(func, wait);
   };
 };
+
+exports.handleMockWord =(word) =>{
+  if(!word || typeof word !== 'string' || word[0] !== '@') return word;
+  return Mock.mock(word);
+}
 
 // 从 Javascript 对象中选取随机属性
 exports.pickRandomProperty = (obj) => {
