@@ -210,6 +210,23 @@ class InterfaceMenu extends Component {
     });
   }
 
+  copyInterface = (data) => {
+    data.title = data.title + '_copy';
+    data.path = data.path + '_' + Date.now();
+    axios.post('/api/interface/add', data).then((res) => {
+      if (res.data.errcode !== 0) {
+        return message.error(res.data.errmsg);
+      }
+      message.success('接口添加成功')
+      let interfaceId = res.data.data._id;
+      this.props.history.push("/project/" + this.props.projectId + "/interface/api/" + interfaceId)
+      this.getList()
+      this.setState({
+        visible: false
+      });
+    })
+  }
+
   enterItem = (id) => {
     this.setState({ delIcon: id })
   }
@@ -305,10 +322,26 @@ class InterfaceMenu extends Component {
       //   case 'DELETE': color = 'red'; break;
       //   default: color = "yellow";
       // }
+      const menu = (item) => {
+        return <Menu>
+          <Menu.Item>
+            <span onClick={() => { this.showConfirm(item._id) }}>删除接口</span>
+          </Menu.Item>
+          <Menu.Item>
+            <span onClick={() => {
+              this.copyInterface(item)
+            }}>复制接口</span>
+          </Menu.Item>
+        </Menu>
+      };
+
       return <TreeNode
         title={<div className="aa" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
-          <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+          {/*<Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />*/}
+          <Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
+            <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
+          </Dropdown>
         </div>}
         key={'' + item._id} />
 
