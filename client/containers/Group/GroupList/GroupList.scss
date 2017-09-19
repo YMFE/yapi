@@ -2,12 +2,10 @@
 
 .group-bar {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-  border-radius: 4px;
   background-color: #fff;
   min-height: 5rem;
   .curr-group {
     background: $color-bg-dark;
-    border-radius: 4px 4px 0 0;
     padding: 24px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
@@ -60,12 +58,9 @@
 
   }
   .group-list {
-    max-height: 650px;
-    overflow-y: scroll;
     overflow-x: hidden;
     border-bottom: 1px solid #e9e9e9;
     padding-bottom: 24px;
-    border-radius: 0 0 4px 4px;
     border: none;
     .group-item {
       // height: 48px;
