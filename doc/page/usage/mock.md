@@ -32,12 +32,24 @@
 
 ```
 
-## yapiMock跟mockjs区别
-因为yapi基于json定义mock，无法使用mockjs原有的函数功能，正则表达式需要基于rule书写，示例如下：
+## YApi Mock 跟 mockjs 区别
+
+1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
+
 ```
 {
   "name|regexp": "[a-z0-9_]+?",
   "type|regexp": "json|text|xml" //枚举数据类型可这样实现
+}
+
+```
+
+2 支持替换请求的query,body参数
+
+```
+{
+  "name": "${query.name}", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming
+  "type": "${body.type}"   //请求的requestBody type=1,返回的type字段是1
 }
 
 ```
