@@ -98,7 +98,7 @@ class Content extends Component {
     let tabContent = null;
     if (this.state.curtab) {
       let C = InterfaceTabs[this.state.curtab].component;
-      tabContent = <C />;
+      tabContent = <C switchToView={this.switchToView} />;
     }
 
     return <div className="interface-content">

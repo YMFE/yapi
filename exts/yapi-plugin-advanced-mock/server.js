@@ -44,12 +44,18 @@ module.exports = function(){
     }
     let script = data.mock_script;
     let sandbox = {
+      header: context.ctx.header,
       query: context.ctx.query,
       body: context.ctx.request.body,
       mockJson: context.mockJson
     }
+    sandbox.cookie = {};
+    
+    context.ctx.header.cookie && context.ctx.header.cookie.split(';').forEach(function( Cookie ) {
+        var parts = Cookie.split('=');
+        sandbox.cookie[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
+    });
     sandbox = yapi.commons.sandbox(sandbox, script);
     context.mockJson = sandbox.mockJson;
-    console.log(11111, context.mockJson)
   })
 }
