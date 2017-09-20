@@ -336,7 +336,7 @@ class InterfaceMenu extends Component {
       };
 
       return <TreeNode
-        title={<div className="aa" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
+        title={<div onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           {/*<Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />*/}
           <Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>

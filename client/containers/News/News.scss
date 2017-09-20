@@ -34,7 +34,7 @@
     }
     .logtime{
       padding-right: 16px;
-      
+
     }
     .logcontent{
       display: block;
@@ -64,10 +64,10 @@
     width: 100%;
     border-bottom: 1px solid #e9e9e9;
     padding: 24px 0px;
-    overflow: hidden; 
+    overflow: hidden;
     .breadcrumb-container{
       float: left;
-      min-width:100px; 
+      min-width:100px;
     }
     .Mockurl{
       width: 500px;
@@ -89,10 +89,9 @@
         background-color: #fff;
         background-image: none;
         border: 1px solid #d9d9d9;
-        border-radius: 4px;
         -webkit-transition: all .3s;
         transition: all .3s;
-        overflow-x:auto; 
+        overflow-x:auto;
       }
       button{
         float: right;
@@ -100,4 +99,3 @@
     }
   }
 }
-

@@ -206,7 +206,7 @@ class ProjectMember extends Component {
     }];
     return (
       <div className="g-row">
-        <div className="m-panel" style={{paddingTop: '15px'}}>
+        <div className="m-panel">
           <Modal
             title="添加成员"
             visible={this.state.visible}
