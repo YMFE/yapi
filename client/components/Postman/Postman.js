@@ -20,23 +20,8 @@ function json_parse(data) {
   }
 }
 
-function isValidJson(json) {
-  if (!json) return false;
-  if (typeof json === 'object') return true;
-  try {
-    if (typeof json === 'string') {
-      json5.parse(json);
-      return true;
-    }
-  } catch (e) {
-    return false;
-  }
-}
 
-function isJsonData(headers, res) {
-  if (isValidJson(res)) {
-    return true;
-  }
+function isJsonData(headers) {
   if (!headers || typeof headers !== 'object') return false;
   let isResJson = false;
   Object.keys(headers).map(key => {
@@ -524,10 +509,10 @@ export default class Run extends Component {
   }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes, res } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
-    let isResJson = isJsonData(resHeader, res);
+    let isResJson = isJsonData(resHeader);
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
