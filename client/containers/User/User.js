@@ -46,7 +46,7 @@ class User extends Component {
           default={'个人资料'}
           data={navData}/>
         <div className="g-doc">
-          <Row gutter={16} className="user-box">
+          <Row className="user-box">
             <Route path={this.props.match.path + '/list'} component={List} />
             <Route path={this.props.match.path + '/profile/:uid'} component={Profile} />
           </Row>

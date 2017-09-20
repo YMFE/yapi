@@ -112,7 +112,7 @@ class InterfaceList extends Component {
       },
       sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
       render: (text, item)=>{
-        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} >{text}</Link>
+        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
       }
     }, {
       title: '接口路径',
