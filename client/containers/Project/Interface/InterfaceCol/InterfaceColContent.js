@@ -3,17 +3,29 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
+import { Tooltip, Icon, Button, Spin, Modal, message } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-
+import { handleMockWord } from '../../../../common.js'
 // import { formatTime } from '../../../../common.js'
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
 import axios from 'axios'
+import URL from 'url';
+import Mock from 'mockjs'
+import json5 from 'json5'
+import CaseReport from './CaseReport.js'
+const MockExtra = require('common/mock-extra.js')
 
+function json_parse(data) {
+  try {
+    return json5.parse(data)
+  } catch (e) {
+    return data
+  }
+}
 
 @connect(
   state => {
@@ -22,7 +34,8 @@ import axios from 'axios'
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
       isShowCol: state.interfaceCol.isShowCol,
-      currCaseList: state.interfaceCol.currCaseList
+      currCaseList: state.interfaceCol.currCaseList,
+      currProject: state.project.currProject
     }
   },
   {
@@ -45,14 +58,18 @@ class InterfaceColContent extends Component {
     currCaseList: PropTypes.array,
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
-    isShowCol: PropTypes.bool
+    isShowCol: PropTypes.bool,
+    currProject: PropTypes.object
   }
 
   constructor(props) {
     super(props);
-
+    this.reports = {};
     this.state = {
-      rows: []
+      rows: [],
+      reports: {},
+      visible: false,
+      curCaseid: null
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -76,9 +93,9 @@ class InterfaceColContent extends Component {
   }
 
   handleColdata = (rows) => {
-    console.log(rows);
     rows = rows.map((item) => {
       item.id = item._id;
+      item._test_status = item.test_status;
       return item;
     })
     rows = rows.sort((n, o) => {
@@ -89,7 +106,134 @@ class InterfaceColContent extends Component {
     })
   }
 
+  executeTests = async () => {
+    for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
+      let { rows } = this.state;
+      curitem = Object.assign({}, rows[i], { test_status: 'loading' });
+      newRows = [].concat([], rows);
+      newRows[i] = curitem;
+      this.setState({
+        rows: newRows
+      })
+      let status = 'error';
+      try {
+        let result = await this.handleTest(curitem);
+        if (result.code === 400) {
+          status = 'error';
+        } else if (result.code === 0) {
+          status = 'ok';
+        } else if (result.code === 1) {
+          status = 'invalid'
+        }
+        this.reports[curitem._id] = result;
+      } catch (e) {
+        status = 'error';
+        console.error(e);
+      }
 
+      curitem = Object.assign({}, rows[i], { test_status: status });
+      newRows = [].concat([], rows);
+      newRows[i] = curitem;
+      this.setState({
+        rows: newRows
+      })
+    }
+  }
+
+  handleTest = (interfaceData) => {
+    const { currProject } = this.props;
+    const { case_env } = interfaceData;
+    let path = URL.resolve(currProject.basepath, interfaceData.path);
+    interfaceData.req_params = interfaceData.req_params || [];
+    interfaceData.req_params.forEach(item => {
+      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+    });
+    const domains = currProject.env.concat();
+    const urlObj = URL.parse(domains.find(item => item.name === case_env).domain);
+    const href = URL.format({
+      protocol: urlObj.protocol || 'http',
+      host: urlObj.host,
+      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, path) : path,
+      query: this.getQueryObj(interfaceData.req_query)
+    });
+
+
+    return new Promise((resolve, reject) => {
+      let result = { code: 400, msg: '数据异常', validRes: [] };
+      let that = this;
+      window.crossRequest({
+        url: href,
+        method: interfaceData.method,
+        headers: that.getHeadersObj(interfaceData.req_headers),
+        data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
+        success: (res, header) => {
+          res = json_parse(res);
+          result.url = href;
+          result.method = interfaceData.method;
+          result.headers = that.getHeadersObj(interfaceData.req_headers);
+          result.body = interfaceData.req_body_type === 'form' ? (that.arrToObj(interfaceData.req_body_form), null, '   ') : interfaceData.req_body_other
+          result.res_header = header;
+          result.res_body = res;
+          if (res && typeof res === 'object') {
+            let tpl = MockExtra(json_parse(interfaceData.res_body), {
+              query: interfaceData.req_query,
+              body: interfaceData.req_body_form
+            })
+            let validRes = Mock.valid(tpl, res);
+
+            if (validRes.length === 0) {
+              result.code = 0;
+              result.validRes = [{message: '验证通过'}];
+              resolve(result);
+            } else if (validRes.length > 0) {
+              result.code = 1;
+              result.validRes = validRes;
+              resolve(result)
+            }
+          } else {
+            reject(result)
+          }
+        },
+        error: (res) => {
+          result.code = 400;
+          result.msg = '请求异常'
+          reject(res)
+        }
+      })
+    })
+  }
+
+  arrToObj(arr) {
+    arr = arr || [];
+    const obj = {};
+    arr.forEach(item => {
+      if (item.name && item.type !== 'file') {
+        obj[item.name] = handleMockWord(item.value);
+      }
+    })
+    return obj;
+  }
+
+  getQueryObj(query) {
+    query = query || [];
+    const queryObj = {};
+    query.forEach(item => {
+      if (item.name) {
+        queryObj[item.name] = handleMockWord(item.value);
+      }
+    })
+    return queryObj;
+  }
+  getHeadersObj(headers) {
+    headers = headers || [];
+    const headersObj = {};
+    headers.forEach(item => {
+      if (item.name && item.value) {
+        headersObj[item.name] = item.value;
+      }
+    })
+    return headersObj;
+  }
 
   onRow(row) {
     return {
@@ -132,6 +276,23 @@ class InterfaceColContent extends Component {
     }
   }
 
+  openReport = (id) => {
+    if (!this.reports[id]) {
+      return message.warn('还没有生成报告')
+    }
+    this.setState({
+      visible: true,
+      curCaseid: id
+    })
+
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  }
+
   render() {
     const columns = [{
       property: 'casename',
@@ -161,6 +322,27 @@ class InterfaceColContent extends Component {
           }]
       }
     }, {
+      property: 'test_status',
+      header: {
+        label: '状态'
+      },
+      cell: {
+        formatters: [(value, { rowData }) => {
+          switch (rowData.test_status) {
+            case 'ok':
+              return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
+            case 'error':
+              return <div ><Tooltip title="请求异常"><Icon type="info-circle" style={{ color: '#f04134' }} /></Tooltip></div>
+            case 'invalid':
+              return <div ><Tooltip title="返回数据校验未通过"><Icon type="exclamation-circle" style={{ color: '#ffbf00' }} /></Tooltip></div>
+            case 'loading':
+              return <div ><Spin /></div>
+            default:
+              return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
+          }
+        }]
+      }
+    }, {
       property: 'path',
       header: {
         label: '接口路径'
@@ -176,6 +358,16 @@ class InterfaceColContent extends Component {
             )
           }
         ]
+      }
+    }, {
+      header: {
+        label: '测试报告'
+
+      },
+      cell: {
+        formatters: [(text, { rowData }) => {
+          return <Button onClick={() => this.openReport(rowData.id)}>报告</Button>
+        }]
       }
     }
     ];
@@ -196,26 +388,35 @@ class InterfaceColContent extends Component {
     })(rows);
 
     return (
-      <div>
-        <div style={{ padding: "16px" }}>
-          <h2 style={{ marginBottom: '10px' }}>测试集合</h2>
-          <Table.Provider
-            components={components}
-            columns={resolvedColumns}
-            style={{ width: '100%', lineHeight: '30px' }}
-          >
-            <Table.Header
-              style={{ textAlign: 'left' }}
-              headerRows={resolve.headerRows({ columns })}
-            />
+      <div className="interface-col">
+        <h2 style={{ marginBottom: '10px', display: 'inline-block' }}>测试集合</h2>
+        <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>
+        <Table.Provider
+          components={components}
+          columns={resolvedColumns}
+          style={{ width: '100%', lineHeight: '36px' }}
+        >
+          <Table.Header
+            style={{ textAlign: 'left' }}
+            headerRows={resolve.headerRows({ columns })}
+          />
 
-            <Table.Body
-              rows={resolvedRows}
-              rowKey="id"
-              onRow={this.onRow}
-            />
-          </Table.Provider>
-        </div>
+          <Table.Body
+            rows={resolvedRows}
+            rowKey="id"
+            onRow={this.onRow}
+          />
+        </Table.Provider>
+        <Modal
+          title="测试报告"
+          width="660"
+          style={{ minHeight: '500px' }}
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          footer={null}
+        >
+          <CaseReport {...this.reports[this.state.curCaseid]} />
+        </Modal>
       </div>
     )
   }

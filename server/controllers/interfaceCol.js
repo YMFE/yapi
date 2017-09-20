@@ -119,7 +119,7 @@ class interfaceColController extends baseController{
             if(!id || id == 0){
                 return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
             }
-            let result = await this.caseModel.list(id, 'all');
+            let resultList = await this.caseModel.list(id, 'all');
             let colData = await this.colModel.get(id);            
             let project = await this.projectModel.getBaseInfo(colData.project_id);
             
@@ -129,20 +129,26 @@ class interfaceColController extends baseController{
                 }
             }
 
-            for(let index=0; index< result.length; index++){
-
-                result[index] = result[index].toObject();
-                let interfaceData = await this.interfaceModel.getBaseinfo(result[index].interface_id);
-                if(!interfaceData){
-                    await this.caseModel.del(result[index]._id);
-                    result[index] = undefined;
+            for(let index=0; index< resultList.length; index++){
+                let result = resultList[index].toObject();
+                let data = await this.interfaceModel.get(result.interface_id);
+                if(!data){
+                    await this.caseModel.del(result._id);
                     continue;
                 }                
-                let projectData = await this.projectModel.getBaseInfo(interfaceData.project_id);
-                result[index].path = projectData.basepath +  interfaceData.path;
-                result[index].method = interfaceData.method;
+                let projectData = await this.projectModel.getBaseInfo(data.project_id);                
+                result.path = projectData.basepath + data.path;
+                result.method = data.method;
+                result.req_body_type = data.req_body_type;
+                result.req_headers = data.req_headers;
+                result.res_body = data.res_body;
+                result.res_body_type = data.res_body_type;                
+                result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
+                result.req_query = this.handleParamsValue(data.req_query, result.req_query)
+                result.req_params = this.handleParamsValue(data.req_params, result.req_params)
+                resultList[index] = result;
             }
-            ctx.body = yapi.commons.resReturn(result);
+            ctx.body = yapi.commons.resReturn(resultList);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
@@ -316,7 +322,7 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '不存在的case');
             }
             result = result.toObject();
-            let data = await this.interfaceModel.get(result.interface_id);
+            let data = await this.interfaceModel.get(result.interface_id);            
             if(!data){
                 return ctx.body = yapi.commons.resReturn(null, 400, '找不到对应的接口，请联系管理员')
             }
