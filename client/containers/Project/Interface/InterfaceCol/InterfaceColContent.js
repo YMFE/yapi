@@ -75,13 +75,14 @@ class InterfaceColContent extends Component {
 
   }
 
-  handleColdata = (rows)=>{
+  handleColdata = (rows) => {
+    console.log(rows);
     rows = rows.map((item) => {
       item.id = item._id;
       return item;
     })
-    rows = rows.sort((n, o)=>{
-      return n.index>o.index
+    rows = rows.sort((n, o) => {
+      return n.index > o.index
     })
     this.setState({
       rows: rows
@@ -102,7 +103,7 @@ class InterfaceColContent extends Component {
       targetRowId
     })(this.state.rows);
     let changes = [];
-    rows.forEach((item, index)=>{
+    rows.forEach((item, index) => {
       changes.push({
         id: item._id,
         index: index
@@ -115,7 +116,7 @@ class InterfaceColContent extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const { interfaceColList } = nextProps;
     const { actionId: oldColId, id } = this.props.match.params
     let newColId = nextProps.match.params.actionId
@@ -123,7 +124,7 @@ class InterfaceColContent extends Component {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
     } else if (oldColId !== newColId) {
       if (newColId && newColId != 0) {
-        this.props.fetchCaseList(newColId);
+        await this.props.fetchCaseList(newColId);
         this.props.setColData({ currColId: +newColId, isShowCol: true })
         this.handleColdata(this.props.currCaseList)
       }
@@ -139,11 +140,25 @@ class InterfaceColContent extends Component {
       },
       cell: {
         formatters: [
-          (text,{rowData}) => {
+          (text, { rowData }) => {
             let record = rowData;
             return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename}</Link>
-          }            
+          }
         ]
+      }
+    }, {
+      header: {
+        label: 'key',
+        formatters: [() => {
+          return <Tooltip title="每个用例都有一个独一无二的key，可用来获取匹配的接口响应数据">
+            Key</Tooltip>
+        }]
+      },
+      cell: {
+        formatters: [
+          (value, { rowData }) => {
+            return <span>{rowData._id}</span>
+          }]
       }
     }, {
       property: 'path',
@@ -152,7 +167,7 @@ class InterfaceColContent extends Component {
       },
       cell: {
         formatters: [
-          (text,{rowData}) => {
+          (text, { rowData }) => {
             let record = rowData;
             return (
               <Tooltip title="跳转到对应接口">
@@ -162,17 +177,9 @@ class InterfaceColContent extends Component {
           }
         ]
       }
-    }, {
-      header: {
-        label: '请求方法'
-      },
-      property: 'method'
     }
     ];
     const { rows } = this.state;
-    if (rows.length === 0) {
-      return null;
-    }
     const components = {
       header: {
         cell: dnd.Header
@@ -195,10 +202,10 @@ class InterfaceColContent extends Component {
           <Table.Provider
             components={components}
             columns={resolvedColumns}
-            style={{width:'100%', lineHeight: '30px'}}
+            style={{ width: '100%', lineHeight: '30px' }}
           >
             <Table.Header
-              style={{textAlign: 'left'}}
+              style={{ textAlign: 'left' }}
               headerRows={resolve.headerRows({ columns })}
             />
 
