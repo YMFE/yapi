@@ -15,7 +15,6 @@
     line-height: .56rem;
     height: .56rem;
     width: 56px;
-    border-left: 1px solid #55616d;
     border-right: 1px solid #55616d;
     &:hover{
       background-color: #38495a;
@@ -85,6 +84,7 @@
     height: .54rem;
     display: flex;
     align-items: center;
+    padding-right: .16rem;
     .item-search {
       width: 2rem;
     }

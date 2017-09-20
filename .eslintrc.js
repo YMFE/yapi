@@ -5,7 +5,7 @@ module.exports = {
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    extends: ["eslint:recommended", "plugin:react/recommended"],
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
@@ -14,8 +14,9 @@ module.exports = {
         },
         "sourceType": "module"
     },
-    "plugins": [
-        "react"
+    plugins: [
+        "react",
+        "import"
     ],
     "rules": {
         "indent": [

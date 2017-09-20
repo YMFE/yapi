@@ -125,20 +125,28 @@ module.exports = async (ctx, next) => {
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
             try {
-                const res = mockExtra(
+                let res = mockExtra(
                     yapi.commons.json_parse(interfaceData.res_body),
                     {
                         query: ctx.request.query,
                         body: ctx.request.body
                     }
                 );
-                return ctx.body = Mock.mock(res);
+                res = Mock.mock(res);
+                let context = {
+                    projectData: project,
+                    interfaceData: interfaceData,
+                    ctx: ctx,
+                    mockJson: res
+                }
+                await yapi.emitHook('mock_after', context);
+                return ctx.body = context.mockJson;
             } catch (e) {
                 yapi.commons.log(e, 'error')
                 return ctx.body = {
                     errcode: 400,
-                    errmsg: 'mock json数据格式有误',
-                    data: interfaceData.res_body
+                    errmsg: '解析出错，请检查。Error: '+ e.message,
+                    data: null
                 }
             }
         }
