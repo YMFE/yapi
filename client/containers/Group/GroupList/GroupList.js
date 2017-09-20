@@ -172,7 +172,7 @@ export default class GroupList extends Component {
     let that = this;
     confirm({
       title: "确认删除 " + that.props.currGroup.group_name + " 分组吗？",
-      content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
+      content: <div style={{ marginTop: '10px', fontSize: '13px', lineHeight: '25px' }}>
         <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
         <div style={{ marginTop: '16px' }}>
           <p><b>请输入分组名称确认此操作:</b></p>
@@ -232,22 +232,23 @@ export default class GroupList extends Component {
     return (
       <div className="m-group">
         <div className="group-bar">
-          {
-            this.props.curUserRole === "admin" || currGroup.role ==='owner' ?
-              <div className="curr-group">
-                <div className="curr-group-name">{currGroup.group_name} 分组管理：
-                  {
-                    this.props.curUserRole === "admin" ? (editmark) : ''
-                  }
-                  {
-                    this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-                  }
-                  {
-                    this.props.curUserRole === 'admin' ? (addmark) : ''
-                  }
-                </div>
-              </div> : ''
-          }
+          <div className="curr-group">
+            <div className="curr-group-name">
+              <span className="name">{currGroup.group_name}</span>
+              <span className="operate">
+                {
+                  this.props.curUserRole === "admin" ? (editmark) : ''
+                }
+                {
+                  this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+                }
+                {
+                  this.props.curUserRole === 'admin' ? (addmark) : ''
+                }
+              </span>
+            </div>
+            <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
+          </div>
 
           <div className="group-operate">
             <div className="search">

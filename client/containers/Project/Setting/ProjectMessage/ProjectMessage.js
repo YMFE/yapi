@@ -141,7 +141,7 @@ class ProjectMessage extends Component {
     let that = this;
     confirm({
       title: "确认删除 " + that.props.projectMsg.name + " 项目吗？",
-      content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
+      content: <div style={{ marginTop: '10px', fontSize: '13px', lineHeight: '25px' }}>
         <Alert message="警告：此操作非常危险,会删除该项目下面所有接口，并且无法恢复!" type="warning" banner />
         <div style={{ marginTop: '16px' }}>
           <p style={{ marginBottom: '8px' }}><b>请输入项目名称确认此操作:</b></p>

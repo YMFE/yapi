@@ -20,6 +20,25 @@ html {
   background-color: #2395f1;
 }
 
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255,0,0,0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset006pxrgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0,0,0,0.2);
+}
+
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
   margin: 0;
   padding: 0;
