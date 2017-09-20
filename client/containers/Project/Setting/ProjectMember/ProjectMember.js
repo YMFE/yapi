@@ -206,7 +206,7 @@ class ProjectMember extends Component {
     }];
     return (
       <div className="g-row">
-        <div className="m-panel" style={{paddingTop: '15px'}}>
+        <div className="m-panel">
           <Modal
             title="添加成员"
             visible={this.state.visible}
@@ -234,7 +234,7 @@ class ProjectMember extends Component {
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
               return (<div key={index} className="card-item">
                 <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
-                <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '12px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
+                <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '13px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
                 {item.role === 'owner' ? <p className="item-role">组长</p> : null}
                 {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
               </div>);

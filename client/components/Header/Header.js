@@ -174,7 +174,7 @@ export default class HeaderCom extends Component {
     const { login, user, msg, uid } = this.props;
     return (
       <Header className="header-box m-header">
-        <div className="content">
+        <div className="content g-row">
           <div className="logo">
             <Link to="/group" onClick={this.relieveLink} className="href">
               <span className="img">{logoSVG('32px')}</span>

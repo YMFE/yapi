@@ -112,7 +112,7 @@ class InterfaceList extends Component {
       },
       sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
       render: (text, item)=>{
-        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} >{text}</Link>
+        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
       }
     }, {
       title: '接口路径',
@@ -166,7 +166,7 @@ class InterfaceList extends Component {
       return item;
     });
     return (
-      <div style={{ padding: '16px' }}>
+      <div style={{ padding: '24px' }}>
         <h2 style={{ display: 'inline-block'}}>{intername?intername:'全部接口'}</h2>
         <Button style={{float: 'right'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
