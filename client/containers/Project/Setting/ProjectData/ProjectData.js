@@ -133,7 +133,7 @@ class ProjectData extends Component {
     }
     return (
       <div className="g-row">
-        <div className="m-panel" style={{ paddingTop: '15px' }}>
+        <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">
               <div ><h3>数据导入</h3></div>
