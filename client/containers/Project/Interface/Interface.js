@@ -83,7 +83,7 @@ class Interface extends Component {
     // console.log(matchPath(this.props.location.pathname, contentRouter));
     return (
       <Layout style={{marginTop: '-24px'}}>
-        <Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: '113px', marginLeft: '16px', marginTop: '24px' }} width={300}>
+        <Sider style={{ marginLeft: '24px', marginTop: '24px' }} width={300}>
           <div className="left-menu">
             <Tabs type="card" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
@@ -95,8 +95,8 @@ class Interface extends Component {
             </Tabs>
           </div>
         </Sider>
-        <Layout style={{ marginLeft: 316 }}>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Layout>
+          <Content style={{ margin: '24px 24px 0 16px', overflow: 'initial' }}>
             <div className="right-content">
               <Switch>
                 <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
