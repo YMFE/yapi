@@ -13,7 +13,7 @@ html, body {
 }
 
 html {
-  // background-color: #202d3a;
+  // background-color: #32363a;
 }
 
 ::selection {
@@ -50,29 +50,25 @@ em {
 }
 // 页面最外层元素 样式
 .router-main {
-  padding-bottom: .24rem;
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin-bottom: -2.4rem;
-  &::after {
-    content: '';
-    display: block;
-    height: 2.4rem;
-  }
+  // padding-bottom: .24rem;
+  // min-height: 100%;
+  // height: auto !important;
+  // height: 100%;
+  // margin-bottom: -2.4rem;
+  background-color: #ececec;
+  // &::after {
+  //   content: '';
+  //   display: block;
+  //   height: 2.4rem;
+  // }
 }
 
 .hidden {
   display: none;
 }
 
-.router-main {
-  background-color: #ececec;
-}
-
 // 布局容器 guitter: 16px
 .g-row {
-  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
   min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
   padding: 0 .24rem;
@@ -98,9 +94,6 @@ em {
 
 .pannel-without-tab {
   min-height: 5rem;
-}
-.ant-tabs-tabpane .m-panel {
-  border-top-left-radius: 0px;
 }
 
 @media (max-width: 768px) {

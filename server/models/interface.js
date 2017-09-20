@@ -131,11 +131,10 @@ class interfaceModel extends baseModel {
             .exec();
     }
 
-    listByCatid(catid, select){
-        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
+    listByCatid(catid){
         return this.model.find({
             catid: catid
-        }).select(select).exec();
+        }).exec();
     }
 
     del(id) {

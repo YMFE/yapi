@@ -1,6 +1,5 @@
 const yapi = require('../yapi.js');
 const baseModel = require('./base.js');
-// const userModel = require('../models/user.js');
 
 class avatarModel extends baseModel {
     getName() {
