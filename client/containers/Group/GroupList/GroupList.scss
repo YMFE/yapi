@@ -6,9 +6,15 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
              SimSun, sans-serif;
+    background-color: $color-bg-dark;
+    color: $color-white;
+    padding: .24rem .24rem 0;
     .curr-group-name {
-      padding: .08rem;
-      font-size: .14rem;
+      color: $color-white;
+      font-size: .22rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       .text {
         display: inline-block;
         overflow: hidden;
@@ -18,13 +24,15 @@
         font-weight: 200;
         vertical-align: bottom;
       }
+      .operate {
+        font-size: 0;
+      }
     }
     .curr-group-desc {
-      color: #fff;
+      color: $color-white-secondary;
       font-size: 13px;
       max-height: 54px;
       margin-top: .16rem;
-      color: #ccc;
       text-overflow:ellipsis;
       overflow:hidden;
       -webkit-line-clamp: 3;
@@ -32,24 +40,37 @@
       display: -webkit-box;
     }
     .delete-group, .edit-group {
-      font-size: 18px;
-      margin-left: 13px;
+      font-size: 14px;
+      margin-left: .08rem;
       cursor: pointer;
+      border: 1px solid $color-white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: all .2s;
     }
     .delete-group:hover, .edit-group:hover {
-      color: #ccc;
+      color: $color-blue;
+      background-color: $color-white;
     }
   }
   .group-operate {
-    height: 48px;
-    padding: 10px 6px;
+    padding: 16px 24px;
     display: flex;
     justify-content: space-around;
+    background-color: $color-bg-dark;
     .search {
-      margin-right: 6px;
       flex-grow: 1;
     }
-
+    .ant-input {
+      color: $color-white;
+      background-color: $color-bg-dark;
+    }
+    .ant-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: $color-white-secondary;
+    }
+    .ant-input-suffix {
+      color: $color-white;
+    }
   }
   .group-list {
     overflow-x: hidden;
@@ -64,7 +85,7 @@
     }
     .group-item:hover {
       // background: #34495E;
-      // color: #fff;
+      // color: $color-white;
     }
     .group-item.selected {
       // background: #34495E;

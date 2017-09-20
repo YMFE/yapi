@@ -232,22 +232,23 @@ export default class GroupList extends Component {
     return (
       <div className="m-group">
         <div className="group-bar">
-          {
-            this.props.curUserRole === "admin" || currGroup.role ==='owner' ?
-              <div className="curr-group">
-                <div className="curr-group-name">{currGroup.group_name} 分组管理：
-                  {
-                    this.props.curUserRole === "admin" ? (editmark) : ''
-                  }
-                  {
-                    this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-                  }
-                  {
-                    this.props.curUserRole === 'admin' ? (addmark) : ''
-                  }
-                </div>
-              </div> : ''
-          }
+          <div className="curr-group">
+            <div className="curr-group-name">
+              <span className="name">{currGroup.group_name}</span>
+              <span className="operate">
+                {
+                  this.props.curUserRole === "admin" ? (editmark) : ''
+                }
+                {
+                  this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+                }
+                {
+                  this.props.curUserRole === 'admin' ? (addmark) : ''
+                }
+              </span>
+            </div>
+            <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
+          </div>
 
           <div className="group-operate">
             <div className="search">
