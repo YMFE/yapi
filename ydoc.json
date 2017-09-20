@@ -90,7 +90,7 @@
     "title": "版本记录",
     "banner": {
         "title": "YApi",
-        "description": "Releases"
+        "description": "这里列举了 YApi 的历史版本、发布时间及变更记录，帮助你追溯到每个版本的演进过程。"
     },
     "compile": "markdown",
     "menuLevel": 2,
