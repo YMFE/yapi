@@ -43,9 +43,7 @@
   .user-table {
     -webkit-box-flex: 1;
     padding: 24px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-    background: #FFF;
+    background: #fff;
     min-height: 5rem;
     .ant-table-wrapper table {
       // font-size: .14rem;
@@ -59,9 +57,7 @@
 
   .user-profile {
     -webkit-box-flex: 1;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-    background: #FFF;
-    border-radius: .04rem;
+    background: #fff;
     min-height: 5rem;
     position: relative;
     .bacToPer{
@@ -105,7 +101,7 @@
         position: relative;
         z-index: 3;
         padding: 8px 0px;
-        
+
         .maoboli{
           // background-color: rgba(225,225,225,0.16);
           position: absolute;
@@ -114,7 +110,7 @@
           left: 0px;
           top: 0px;
         }
-        
+
       }
 
     }
@@ -206,9 +202,9 @@
     width: 100%;
     overflow: hidden;
     position: relative;
-    
+
   }
-  
+
   .avatar-uploader-trigger {
     display: table-cell;
     vertical-align: middle;
