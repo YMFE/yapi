@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { Table,Icon } from 'antd'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
-import { Link } from 'react-router-dom';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 // import { Card } from 'antd'
@@ -276,9 +275,7 @@ class View extends Component {
       </div>
       <div className="colMockUrl">
         <span className="colKey">Mock地址：</span>
-        <Link to={'https://baidu.com/'}>
-          <span className="colValue">{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
-        </Link>
+        <span className="colValue" onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
       </div>
       {this.props.curData.desc?<div className="colDesc">
         <span className="colKey">接口备注：</span>
