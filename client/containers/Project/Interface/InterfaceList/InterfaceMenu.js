@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { fetchInterfaceList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
-import { Menu, Input, Icon, Tag, Modal, message, Tree, Dropdown } from 'antd';
+import { Menu, Input, Icon, Button, Modal, message, Tree, Dropdown } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios'
@@ -252,8 +252,8 @@ class InterfaceMenu extends Component {
     const matchParams = this.props.match.params;
     let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
-      <Input onChange={this.onFilter} value={this.state.filter} placeholder="Filter by name" />
-      <Tag color="#108ee9" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" ><Icon type="plus"  /></Tag>
+      <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索接口" />
+      <Button type="primary" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" >添加接口</Button>
       <Modal
         title="添加接口"
         visible={this.state.visible}

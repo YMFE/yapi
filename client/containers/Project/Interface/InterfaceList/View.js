@@ -275,7 +275,7 @@ class View extends Component {
       </div>
       <div className="colMockUrl">
         <span className="colKey">Mock地址：</span>
-        <span className="colValue" onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
+        <span className="colValue href" onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
       </div>
       {this.props.curData.desc?<div className="colDesc">
         <span className="colKey">接口备注：</span>
