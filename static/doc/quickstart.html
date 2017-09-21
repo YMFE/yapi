@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 使用手册</title>
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="active">
+                            
+                            <a href="index.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >YApi</h1>
+                    <p class="desc ">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="getfamiliar.html">认识 YApi</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="quickstart.html">创建第一个API</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#获取权限">获取权限</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#选择项目">选择项目</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#新建接口">新建接口</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="manage.html">管理分组与项目</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="project.html">项目操作</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="interface.html">接口操作</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="mock.html">使用mock功能</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h3 class="subject" id="如何创建接口？">如何创建接口？ <a class="hashlink" href="#如何创建接口？">#</a></h3><p>把大象装进冰箱分几步？三步：把冰箱门打开，把大象装进去，关门，搞定~</p>
+<p>新建接口分几步？也是三步：</p>
+<ul>
+<li><a href="#获取权限">获取权限</a></li><li><a href="#选择项目">找到一个项目</a></li><li><a href="#新建接口">新建接口</a></li></ul>
+<p>搞定~</p>
+<h2 class="subject" id="获取权限">获取权限 <a class="hashlink" href="#获取权限">#</a></h2><p>新用户登录后没有任何项目或分组的权限，只能浏览已存在分组下面的公开项目。</p>
+<p>如果找不到想找的项目，可能是未成为项目成员，此时应联系 <code>项目组长</code> 将你加入该项目。</p>
+<p><a href="./qa.html#Q__怎样联系组长？">怎样联系组长？</a></p>
+<p><img src="./images/usage/manage_ask.png" /></p>
+<ul>
+<li>想创建分组，请看: <a href="./manage.html#创建分组">创建分组</a></li><li>想创建项目，请看: <a href="./manage.html#创建项目">创建项目</a></li></ul>
+<blockquote>
+<p>想了解更多权限信息，请查看<a href="./manage#权限列表">权限列表</a></p>
+</blockquote>
+<h2 class="subject" id="选择项目">选择项目 <a class="hashlink" href="#选择项目">#</a></h2><ul>
+<li><p>如果你已经登录，会在首页右侧看到一些项目 (可以在左侧的分组列表切换分组来查看不同分组下的项目)。</p>
+</li><li><p>点击一个项目，进入该项目的详情页。</p>
+</li></ul>
+<p><img src="./images/project_list.png" width = "800" style="margin:0px auto;display:block;" alt="图片名称" align=center /></p>
+<h2 class="subject" id="新建接口">新建接口 <a class="hashlink" href="#新建接口">#</a></h2><ul>
+<li>点击左侧接口分组右侧的菜单按钮，选择 <code>添加接口</code>，或者点击接口列表右上角的 <code>添加接口</code>。</li></ul>
+<p><img src="./images/usage/api_add_btn.png" /></p>
+<ul>
+<li>选择接口分类，输入接口名称和接口路径，点击 <code>提交</code>。</li></ul>
+<p><img src="./images/usage/api_add_panel.png" /></p>
+<ul>
+<li>恭喜你！创建了第一个YApi的接口，你可以看到在左侧看到接口名称，右侧有该接口的信息预览。</li></ul>
+<p><img src="./images/usage/api_res.png" /></p>
+
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+    
+    <script>
+        var lineHeight = 18;
+        var EXAMPLE_MAX_HEIGHT;
+
+        function fold() {
+            // 折叠code
+            $('.markdown-body pre').css({
+                "line-height": lineHeight + "px"
+            });
+            $('.markdown-body pre').map(function(i, item) {
+                var $item = $(item);
+                var foldnumber = $item.data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
+                    $item.css({
+                        "padding-bottom": 30
+                    });
+                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
+                    $item.append('<span class="extend">展开更多……</span>');
+                };
+            });
+            $('.ydoc-example').delegate('.extend', 'click', function() {
+                var $this = $(this);
+                $this.removeClass('extend').addClass('fold');
+                $this.html('折叠代码');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
+            });
+            $('.ydoc-example').delegate('.fold', 'click', function() {
+                var $this = $(this);
+                var foldnumber = $this.parent().data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                $this.removeClass('fold').addClass('extend');
+                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.html("展开更多……");
+            });
+        }
+        $(document).ready(fold);
+    </script>
+        
+
+    </body>
+
+</html>
