@@ -15,7 +15,7 @@
     "message": "请求完成", //消息提示
     "data": {
         "counts":"@integer", //统计数量
-        "totalSubjectType|4-10": [
+        "totalSubjectType|4-10": [ //4-10意味着可以随机生成4-10组数据
             { 
               "subjectName|regexp": "大数据|机器学习|工具", //主题名
               "subjectType|+1": 1 //类型
@@ -100,6 +100,29 @@ proxy_pass   http://yapi.corp.qunar.com/mock/2817/baseapi; #baseapi后面没有"
 <img src="./images/ykit.jpg" />
 
 <span id="mock"></span>
+
+## 高级Mock
+在前端开发阶段，对于某些接口，业务相对复杂，而 UI 端也需要根据接口返回的不同内容去做相应的处理
+YApi 提供了写 js 脚本方式处理这一问题，可以根据用户请求的参数修改返回内容。
+
+### 全局变量
+1. mockJson
+2. query
+3. body
+4. header
+5. cookie
+
+### 使用方法
+1. 首先开启此功能
+2. mock脚本就是用 javascript 对 mockJson 变量修改
+
+
+### 示例：
+<img class="doc-img" style="width: 80%" src="./images/usage/adv-mock.jpg" />
+
+
+
+
 ## Mock语法规范
 >了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
 
