@@ -51,7 +51,7 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited{
+  &:active, &:hover, &:visited, &:focus{
     text-decoration: none
   }
 }
