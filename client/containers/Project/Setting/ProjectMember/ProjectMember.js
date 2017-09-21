@@ -241,6 +241,7 @@ class ProjectMember extends Component {
                 <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '13px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
                 {item.role === 'owner' ? <p className="item-role">组长</p> : null}
                 {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
+                {item.role === 'guest' ? <p className="item-role">访客</p> : null}
               </div>);
             }): <ErrMsg type="noMemberInGroup"/>}
           </Card>

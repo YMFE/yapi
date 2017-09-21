@@ -205,7 +205,7 @@ class interfaceController extends baseController {
             let result = await this.Model.get(params.id);
             let project = await this.projectModel.getBaseInfo(result.project_id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
