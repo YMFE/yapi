@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 使用手册</title>
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="active">
+                            
+                            <a href="index.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >YApi</h1>
+                    <p class="desc ">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="getfamiliar.html">认识 YApi</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="quickstart.html">创建第一个API</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="manage.html">管理分组与项目</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="project.html">项目操作</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="interface.html">接口操作</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="mock.html">使用mock功能</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#Mock介绍">Mock介绍</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#定义mock数据示例">定义mock数据示例</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#YApi_Mock_跟_mockjs_区别">YApi Mock 跟 mockjs 区别</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#如何使用Mock?">如何使用Mock?</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#Mock语法规范">Mock语法规范</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h2 class="subject" id="Mock介绍">Mock介绍 <a class="hashlink" href="#Mock介绍">#</a></h2> <p style='text-indent:2em;line-height:1.8em'>YApi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则(<a href="#mock">点击到Mock规则</a>）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+
+<p> <strong>mock地址解析</strong>：yapi平台网址+mock+<strong>您的项目id</strong>+<strong>接口实际请求path</strong></p>
+<pre><code>mockd地址： http<span class="token operator">:</span>//yapi.corp.qunar.com/mock/<span class="token number">29</span>/api/hackathon/login
+</code></pre><p> 注：项目id可以在项目设置里查看到</p>
+<h2 class="subject" id="定义mock数据示例">定义mock数据示例 <a class="hashlink" href="#定义mock数据示例">#</a></h2><pre><code><span class="token punctuation">{</span>
+    <span class="token property">"status|0-1"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> //接口状态
+    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"请求完成"</span><span class="token punctuation">,</span> //消息提示
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"counts"</span><span class="token operator">:</span><span class="token string">"@integer"</span><span class="token punctuation">,</span> //统计数量
+        <span class="token property">"totalSubjectType|4-10"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span> 
+              <span class="token property">"subjectName|regexp"</span><span class="token operator">:</span> <span class="token string">"大数据|机器学习|工具"</span><span class="token punctuation">,</span> //主题名
+              <span class="token property">"subjectType|+1"</span><span class="token operator">:</span> <span class="token number">1</span> //类型
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">"data"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"@name"</span><span class="token punctuation">,</span> //用户名
+                <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"@email"</span><span class="token punctuation">,</span> //email
+                <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"@datetime"</span> //时间
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 class="subject" id="YApi_Mock_跟_mockjs_区别">YApi Mock 跟 mockjs 区别 <a class="hashlink" href="#YApi_Mock_跟_mockjs_区别">#</a></h2><p>1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"name|regexp"</span><span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>
+  <span class="token property">"type|regexp"</span><span class="token operator">:</span> <span class="token string">"json|text|xml"</span> //枚举数据类型可这样实现
+<span class="token punctuation">}</span>
+</code></pre><p>2 支持替换请求的query,body参数</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"${query.name}"</span><span class="token punctuation">,</span> //请求的url是/path?name=xiaoming<span class="token punctuation">,</span> 返回的name字段是xiaoming
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"${body.type}"</span>   //请求的requestBody type=<span class="token number">1</span><span class="token punctuation">,</span>返回的type字段是<span class="token number">1</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 class="subject" id="如何使用Mock?">如何使用Mock? <a class="hashlink" href="#如何使用Mock?">#</a></h2><h3 class="subject" id="1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题） <a class="hashlink" href="#1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求yapi提供的mock地址，以jQuery为例：</p>
+<pre><code class="lang-javascript"><span class="token keyword">let</span> prefix <span class="token operator">=</span> <span class="token string">'http://yapi.local.qunar.com:3000/mock/2817'</span>
+$<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>prefix<span class="token operator">+</span><span class="token string">'/baseapi/path'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>username<span class="token punctuation">:</span> <span class="token string">'xxx'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//返回上图预览部分的数据</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 class="subject" id="2_基于本地服务器反向代理">2 基于本地服务器反向代理 <a class="hashlink" href="#2_基于本地服务器反向代理">#</a></h3><p>优点:不用修改项目代码</p>
+<h4 class="subject" id="2.1_基于nginx反向代理">2.1 基于nginx反向代理 <a class="hashlink" href="#2.1_基于nginx反向代理">#</a></h4><pre><code class="lang-nginx"><span class="token keyword">location</span> <span class="token operator">/</span>baseapi
+<span class="token punctuation">{</span>
+<span class="token keyword">proxy_pass</span>   <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yapi<span class="token punctuation">.</span>corp<span class="token punctuation">.</span>qunar<span class="token punctuation">.</span>com<span class="token operator">/</span>mock<span class="token operator">/</span><span class="token number">2817</span><span class="token operator">/</span>baseapi<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">#baseapi后面没有"/"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 class="subject" id="2.2_基于ykit_mock功能">2.2 基于ykit mock功能 <a class="hashlink" href="#2.2_基于ykit_mock功能">#</a></h4><pre><code class="lang-javascript"><span class="token punctuation">{</span>
+    pattern<span class="token punctuation">:</span> <span class="token regex">/\/api\/(.*)/</span><span class="token punctuation">,</span>
+    responder<span class="token punctuation">:</span> <span class="token string">'http://yapi.corp.qunar.com/mock/58/api/$1'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>上面通过正则匹配，将所有接口转到 <a href="http://yapi.corp.qunar.com">http://yapi.corp.qunar.com</a> 上，比如 <code>http://localhost/api/user/status</code> 会成为 <code>http://yapi.corp.qunar.com/mock/58/api/user/status</code></p>
+<p>详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a></p>
+<h4 class="subject" id="2.3_基于ykit_Jerry代理">2.3 基于ykit Jerry代理 <a class="hashlink" href="#2.3_基于ykit_Jerry代理">#</a></h4><p>假设您本地服务器访问地址是： <a href="http://xxx.com">http://xxx.com</a></p>
+<p><img src="./images/ykit.jpg" /></p>
+<p><span id="mock"></span></p>
+<h2 class="subject" id="Mock语法规范">Mock语法规范 <a class="hashlink" href="#Mock语法规范">#</a></h2><blockquote>
+<p>了解更多Mock详情：<a href="https://github.com/nuysoft/Mock/wiki/Syntax-Specification">Mock.js 官方文档</a></p>
+</blockquote>
+<p>Mock.js 的语法规范包括两部分：</p>
+<p><a href="#DTD">1. 数据模板定义规范（Data Template Definition，DTD）</a></p>
+<p><a href="#DPD">2. 数据占位符定义规范（Data Placeholder Definition，DPD）</a></p>
+<p><span id = "DTD"></span></p>
+<h3 class="subject" id="数据模板定义规范（Data_Template_Definition，DTD）">数据模板定义规范（Data Template Definition，DTD） <a class="hashlink" href="#数据模板定义规范（Data_Template_Definition，DTD）">#</a></h3><p>数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：</p>
+<pre><code>// 属性名   name （与生成规则之间用 <span class="token string">"|"</span> 隔开）
+// 生成规则 rule（生成规则有<span class="token number">7</span>种详见下面的生成规则）
+// 属性值   value（可以含有 <span class="token string">"@占位符"</span> 同时也指定了最终值的初始值和类型）
+
+'name|rule'<span class="token operator">:</span> value
+
+生成规则：
+'name|min-max'<span class="token operator">:</span> value
+'name|count'<span class="token operator">:</span> value
+'name|min-max.dmin-dmax'<span class="token operator">:</span> value
+'name|min-max.dcount'<span class="token operator">:</span> value
+'name|count.dmin-dmax'<span class="token operator">:</span> value
+'name|count.dcount'<span class="token operator">:</span> value
+'name|+step'<span class="token operator">:</span> value
+</code></pre><p>下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：</p>
+<h3 class="subject" id="1._属性值是字符串_String">1. 属性值是字符串 String <a class="hashlink" href="#1._属性值是字符串_String">#</a></h3><pre><code><span class="token number">1</span>. 'name|min-max'<span class="token operator">:</span> string
+
+通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。
+
+<span class="token number">2</span>. 'name|count'<span class="token operator">:</span> string
+
+通过重复 string 生成一个字符串，重复次数等于 count。
+</code></pre><h3 class="subject" id="2._属性值是数字_Number">2. 属性值是数字 Number <a class="hashlink" href="#2._属性值是数字_Number">#</a></h3><pre><code><span class="token number">1</span>. 'name|+<span class="token number">1</span>'<span class="token operator">:</span> number
+
+属性值自动加 <span class="token number">1</span>，初始值为 number。
+
+<span class="token number">2</span>. 'name|min-max'<span class="token operator">:</span> number
+
+生成一个大于等于 min、小于等于 max 的整数，属性值 number 只是用来确定类型。
+
+<span class="token number">3</span>. 'name|min-max.dmin-dmax'<span class="token operator">:</span> number
+
+生成一个浮点数，整数部分大于等于 min、小于等于 max，小数部分保留 dmin 到 dmax 位。
+
+例如：
+Mock.mock(<span class="token punctuation">{</span>
+    'number1|<span class="token number">1</span>-<span class="token number">100.1</span>-<span class="token number">10</span>'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    'number2|<span class="token number">123.1</span>-<span class="token number">10</span>'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    'number3|<span class="token number">123.3</span>'<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    'number4|<span class="token number">123.10</span>'<span class="token operator">:</span> <span class="token number">1.123</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+// =>
+<span class="token punctuation">{</span>
+    <span class="token property">"number1"</span><span class="token operator">:</span> <span class="token number">12.92</span><span class="token punctuation">,</span>
+    <span class="token property">"number2"</span><span class="token operator">:</span> <span class="token number">123.51</span><span class="token punctuation">,</span>
+    <span class="token property">"number3"</span><span class="token operator">:</span> <span class="token number">123.777</span><span class="token punctuation">,</span>
+    <span class="token property">"number4"</span><span class="token operator">:</span> <span class="token number">123.1231091814</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 class="subject" id="3._属性值是布尔型_Boolean">3. 属性值是布尔型 Boolean <a class="hashlink" href="#3._属性值是布尔型_Boolean">#</a></h3><pre><code><span class="token number">1</span>. 'name|<span class="token number">1</span>'<span class="token operator">:</span> boolean
+
+随机生成一个布尔值，值为 <span class="token boolean">true</span> 的概率是 <span class="token number">1</span>/<span class="token number">2</span>，值为 <span class="token boolean">false</span> 的概率同样是 <span class="token number">1</span>/<span class="token number">2</span>。
+
+<span class="token number">2</span>. 'name|min-max'<span class="token operator">:</span> value
+
+随机生成一个布尔值，值为 value 的概率是 min / (min + max<span class="token punctuation">)</span>，值为 !value 的概率是 max / (min + max<span class="token punctuation">)</span>。
+</code></pre><h3 class="subject" id="4._属性值是对象_Object">4. 属性值是对象 Object <a class="hashlink" href="#4._属性值是对象_Object">#</a></h3><pre><code><span class="token number">1</span>. 'name|count'<span class="token operator">:</span> object
+
+从属性值 object 中随机选取 count 个属性。
+
+<span class="token number">2</span>. 'name|min-max'<span class="token operator">:</span> object
+
+从属性值 object 中随机选取 min 到 max 个属性。
+</code></pre><h3 class="subject" id="5._属性值是数组_Array">5. 属性值是数组 Array <a class="hashlink" href="#5._属性值是数组_Array">#</a></h3><pre><code><span class="token number">1</span>. 'name|<span class="token number">1</span>'<span class="token operator">:</span> array
+
+从属性值 array 中随机选取 <span class="token number">1</span> 个元素，作为最终值。
+
+<span class="token number">2</span>. 'name|+<span class="token number">1</span>'<span class="token operator">:</span> array
+
+从属性值 array 中顺序选取 <span class="token number">1</span> 个元素，作为最终值。
+
+<span class="token number">3</span>. 'name|min-max'<span class="token operator">:</span> array
+
+通过重复属性值 array 生成一个新数组，重复次数大于等于 min，小于等于 max。
+
+<span class="token number">4</span>. 'name|count'<span class="token operator">:</span> array
+
+通过重复属性值 array 生成一个新数组，重复次数为 count。
+</code></pre><p><span id = "DPD"></span></p>
+<h3 class="subject" id="数据占位符定义规范（Data_Placeholder_Definition，DPD）">数据占位符定义规范（Data Placeholder Definition，DPD） <a class="hashlink" href="#数据占位符定义规范（Data_Placeholder_Definition，DPD）">#</a></h3><pre><code>占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
+
+占位符 的格式为：
+
+@占位符
+
+说明：
+<span class="token number">1</span>. 用 @ 来标识其后的字符串是 占位符，在YApi提供的Mock输入框在输入“@”后会自动提示占位符。
+
+例如：
+name<span class="token operator">:</span> <span class="token punctuation">{</span>
+    first<span class="token operator">:</span> '@FIRST'<span class="token punctuation">,</span>
+    middle<span class="token operator">:</span> '@FIRST'<span class="token punctuation">,</span>
+    last<span class="token operator">:</span> '@LAST'<span class="token punctuation">,</span>
+    full<span class="token operator">:</span> '@first @middle @last'
+<span class="token punctuation">}</span>
+// 上面的示例可以得到如下结果：
+<span class="token property">"name"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"first"</span><span class="token operator">:</span> <span class="token string">"Charles"</span><span class="token punctuation">,</span>
+    <span class="token property">"middle"</span><span class="token operator">:</span> <span class="token string">"Brenda"</span><span class="token punctuation">,</span>
+    <span class="token property">"last"</span><span class="token operator">:</span> <span class="token string">"Lopez"</span><span class="token punctuation">,</span>
+    <span class="token property">"full"</span><span class="token operator">:</span> <span class="token string">"Charles Brenda Lopez"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+    
+    <script>
+        var lineHeight = 18;
+        var EXAMPLE_MAX_HEIGHT;
+
+        function fold() {
+            // 折叠code
+            $('.markdown-body pre').css({
+                "line-height": lineHeight + "px"
+            });
+            $('.markdown-body pre').map(function(i, item) {
+                var $item = $(item);
+                var foldnumber = $item.data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
+                    $item.css({
+                        "padding-bottom": 30
+                    });
+                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
+                    $item.append('<span class="extend">展开更多……</span>');
+                };
+            });
+            $('.ydoc-example').delegate('.extend', 'click', function() {
+                var $this = $(this);
+                $this.removeClass('extend').addClass('fold');
+                $this.html('折叠代码');
+                $this.parent().children('.js-code').height('auto');
+                $this.parent().height('auto');
+            });
+            $('.ydoc-example').delegate('.fold', 'click', function() {
+                var $this = $(this);
+                var foldnumber = $this.parent().data('foldnumber');
+                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
+                $this.removeClass('fold').addClass('extend');
+                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
+                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
+                $this.html("展开更多……");
+            });
+        }
+        $(document).ready(fold);
+    </script>
+        
+
+    </body>
+
+</html>
