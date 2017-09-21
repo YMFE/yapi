@@ -142,8 +142,9 @@ class interfaceColController extends baseController{
                 result.req_body_type = data.req_body_type;
                 result.req_headers = data.req_headers;
                 result.res_body = data.res_body;
-                result.res_body_type = data.res_body_type;                
-                result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
+                result.res_body_type = data.res_body_type;
+                
+                result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)                
                 result.req_query = this.handleParamsValue(data.req_query, result.req_query)
                 result.req_params = this.handleParamsValue(data.req_params, result.req_params)
                 resultList[index] = result;
@@ -333,8 +334,7 @@ class interfaceColController extends baseController{
             result.req_body_type = data.req_body_type;
             result.req_headers = data.req_headers;
             result.res_body = data.res_body;
-            result.res_body_type = data.res_body_type;
-            
+            result.res_body_type = data.res_body_type;            
             result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
             result.req_query = this.handleParamsValue(data.req_query, result.req_query)
             result.req_params = this.handleParamsValue(data.req_params, result.req_params)
@@ -347,6 +347,9 @@ class interfaceColController extends baseController{
 
     handleParamsValue(params, val){
         let value = {};
+        try{
+            params = params.toObject();
+        }catch(e){  }
         if(params.length === 0 || val.length === 0){
             return params;
         }
@@ -355,7 +358,7 @@ class interfaceColController extends baseController{
         })
         params.forEach((item, index)=>{
             if(!value[item.name] || typeof value[item.name] !== 'object') return null;
-            params[index].value = value[item.name].value;
+            params[index].value = value[item.name].value;                 
         })
         return params;
     }

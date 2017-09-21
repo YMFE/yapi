@@ -175,7 +175,7 @@ class InterfaceColContent extends Component {
           result.url = href;
           result.method = interfaceData.method;
           result.headers = that.getHeadersObj(interfaceData.req_headers);
-          result.body = interfaceData.req_body_type === 'form' ? (that.arrToObj(interfaceData.req_body_form), null, '   ') : interfaceData.req_body_other
+          result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other
           result.res_header = header;
           result.res_body = res;
           if (res && typeof res === 'object') {
@@ -209,7 +209,6 @@ class InterfaceColContent extends Component {
 
   
   handleVarWord(val){
-    console.log(val, this.records)
     return simpleJsonPathParse(val, this.records)
   }
 
@@ -430,7 +429,7 @@ class InterfaceColContent extends Component {
         </Table.Provider>
         <Modal
           title="测试报告"
-          width="660"
+          width="660px"
           style={{ minHeight: '500px' }}
           visible={this.state.visible}
           onCancel={this.handleCancel}
