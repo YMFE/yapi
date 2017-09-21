@@ -76,7 +76,6 @@ exports.debounce = (func, wait) => {
 
 exports.simpleJsonPathParse = function (key, json){
   if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
-    console.error('key 格式有误')
     return null;
   }
   let keys = key.substr(2).split(".");
@@ -94,7 +93,6 @@ exports.simpleJsonPathParse = function (key, json){
       
       
     }catch(e){
-      console.error(e);
       json = null;
       break;
     }
