@@ -5,7 +5,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { Home, Group, Project, Follows, AddProject, Login } from './containers/index';
 import User from './containers/User/User.js';
 import Header from './components/Header/Header';
-// import Footer from './components/Footer/Footer';
+import Footer from './components/Footer/Footer';
 import Loading from './components/Loading/Loading';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
@@ -61,6 +61,7 @@ export default class App extends Component {
                 <Route path="/login" component={Login} />
               </div>
             </div>
+            <Footer/>
           </div>
         </Router>
 

@@ -4,7 +4,7 @@ import ProjectList from './ProjectList/ProjectList.js';
 import MemberList from './MemberList/MemberList.js';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Tabs, Layout } from 'antd';
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 const TabPane = Tabs.TabPane;
 
 import './Group.scss';
@@ -29,9 +29,6 @@ export default class Group extends Component {
               <TabPane tab="成员列表" key="2"><MemberList/></TabPane>
             </Tabs>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            © 2017 YMFE 京ICP备17044220号
-          </Footer>
         </Layout>
       </Layout>
     )
