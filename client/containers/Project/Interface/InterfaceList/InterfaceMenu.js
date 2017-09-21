@@ -253,7 +253,7 @@ class InterfaceMenu extends Component {
     let menuList = this.state.list;
     const searchBox = <div className="interface-filter">
       <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索接口" />
-      <Button type="primary" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" >添加接口</Button>
+      <Button type="primary" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" >添加分类</Button>
       <Modal
         title="添加接口"
         visible={this.state.visible}
