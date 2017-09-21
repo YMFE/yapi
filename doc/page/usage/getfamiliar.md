@@ -34,7 +34,7 @@ YApi 是高效、易用、功能强大的api管理平台。
 
 <span class="list-index">2</span>点击左侧的某个接口，右侧会出现“预览”、“编辑”和“运行”。
 
-<span class="list-index">3</span>点击左侧的 “测试集合” 使用[测试集](./index-使用测试集.html)功能。
+<span class="list-index">3</span>点击左侧的 “测试集合” 使用[测试集](./case.html)功能。
 
 <span class="list-index">4</span>点击二级导航的“设置”，项目组长即可编辑项目信息和管理成员列表。
 
