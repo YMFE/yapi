@@ -1,10 +1,19 @@
 const controller = require('./controller');
 const advModel = require('./model.js');
 const yapi = require('yapi.js');
+const mongoose = require('mongoose');
 
 
 module.exports = function(){
-  
+  yapi.connect.then(function () {
+    let Col = mongoose.connection.db.collection('adv_mock')
+    Col.ensureIndex({
+        interface_id: 1        
+    })
+    Col.ensureIndex({
+      project_id: 1
+    })
+  })
   this.bindHook('add_router', function(addRouter){
     addRouter({
       controller: controller,

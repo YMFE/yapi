@@ -49,8 +49,8 @@
       transition: all .2s;
     }
     .delete-group:hover, .edit-group:hover {
-      color: $color-blue;
-      background-color: $color-white;
+      background-color: $color-blue;
+      border: 1px solid $color-blue;
     }
   }
   .group-operate {

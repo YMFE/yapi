@@ -96,6 +96,7 @@ export default class InterfaceCaseContent extends Component {
   }
 
   updateCase = async () => {
+    
     const {
       caseEnv: case_env,
       pathname: path,
@@ -107,9 +108,10 @@ export default class InterfaceCaseContent extends Component {
       bodyForm: req_body_form,
       bodyOther: req_body_other
     } = this.postman.state;
+    
     const {editCasename: casename} = this.state;
     const {_id: id} = this.props.currCase;
-    const res = await axios.post('/api/col/up_case', {
+    let params = {
       id,
       casename,
       case_env,
@@ -121,7 +123,20 @@ export default class InterfaceCaseContent extends Component {
       req_body_type,
       req_body_form,
       req_body_other
-    });
+    };
+    if(this.postman.state.test_status !== 'error'){
+      params.test_res_body = this.postman.state.res;
+      params.test_report = this.postman.state.validRes;
+      params.test_status = this.postman.state.test_status;
+      params.test_res_header = this.postman.state.resHeader;
+    }
+
+ 
+    if(params.test_res_body && typeof params.test_res_body === 'object'){
+      params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
+    }
+
+    const res = await axios.post('/api/col/up_case', params);
     if (this.props.currCase.casename !== casename) {
       this.props.fetchInterfaceColList(this.props.match.params.id);
     }
