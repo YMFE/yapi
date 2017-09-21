@@ -150,17 +150,39 @@
 }
 
 .right-content{
-    margin:3px;
-    min-height: 5rem;
-    background: #fff;
-    .interface-content{
-        .ant-tabs-nav{
-            width:100%;
-            // background-color: #ddd;
-            // color: $color-white;
-        }
-        .ant-tabs-nav-wrap{
-            text-align: left;
-        }
+  margin:3px;
+  min-height: 5rem;
+  background: #fff;
+  .interface-content{
+    .ant-tabs-nav{
+      width:100%;
+      // background-color: #ddd;
+      // color: $color-white;
     }
+    .ant-tabs-nav-wrap{
+      text-align: left;
+    }
+  }
+  .interface-title {
+    font-weight: normal;
+    margin-top: .48rem;
+    margin-bottom: .16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
+  }
+  .container-radiogroup {
+    text-align: center;
+    margin-bottom: .16rem;
+  }
+  .panel-sub {
+    background: #eceef1;
+    padding: .16rem;
+  }
+  .ant-radio-button-wrapper-checked {
+    color: #fff;
+    background-color: #2395f1;
+    &:hover {
+      color: #ddd;
+    }
+  }
 }

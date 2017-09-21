@@ -3,25 +3,32 @@ export default {
   NAME_LIMIT: 30, // 限制名称的字符长度(中文算两个长度)
   HTTP_METHOD: {
     'GET': {
-      request_body: false
+      request_body: false,
+      default_tab: 'query'
     },
     'POST': {
-      request_body: true
+      request_body: true,
+      default_tab: 'body'
     },
     'PUT': {
-      request_body: true
+      request_body: true,
+      default_tab: 'body'
     },
     'DELETE': {
-      request_body: true
+      request_body: true,
+      default_tab: 'body'
     },
     'HEAD': {
-      request_body: false
+      request_body: false,
+      default_tab: 'query'
     },
     'OPTIONS': {
-      request_body: false
+      request_body: false,
+      default_tab: 'query'
     },
     'PATCH': {
-      request_body: true
+      request_body: true,
+      default_tab: 'body'
     }
   },
   PROJECT_COLOR: {

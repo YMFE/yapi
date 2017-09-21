@@ -91,7 +91,7 @@ class InterfaceEdit extends Component {
 
     }
 
-    s.onerror = () => {      
+    s.onerror = () => {
       console.error('websocket connect failed.')
     }
 

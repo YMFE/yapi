@@ -25,6 +25,7 @@ import {
 const FormItem = Form.Item;
 const Option = Select.Option;
 const InputGroup = Input.Group;
+const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const dataTpl = {
   req_query: { name: "", required: "1", desc: "" },
@@ -61,6 +62,20 @@ class InterfaceEditForm extends Component {
         return item
       })
     }
+    // 设置标签的展开与折叠
+    curdata['hideTabs'] = {
+      req: {
+        body: 'hide',
+        query: 'hide',
+        headers: 'hide'
+      },
+      other: {
+        remark: '',
+        mail: 'hide'
+      }
+    };
+    curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
+    console.log(curdata);
     this.state = Object.assign({
       title: '',
       path: '',
@@ -94,6 +109,8 @@ class InterfaceEditForm extends Component {
       res_body_mock: '',
       jsonType: 'tpl',
       mockUrl: this.props.mockUrl
+
+
     }, curdata)
   }
 
@@ -252,6 +269,24 @@ class InterfaceEditForm extends Component {
 
   }
 
+  // 点击切换radio
+  changeRadioGroup = (e) => {
+    const res = e.target.value.split('-');
+    const obj = {}
+    // 先全部隐藏
+    for (let key in this.state.hideTabs[res[0]]) {
+      obj[key] = 'hide';
+    }
+    // 再取消选中项目的隐藏
+    obj[res[1]] = '';
+    this.setState({
+      hideTabs: {
+        ...this.state.hideTabs,
+        [res[0]]: obj
+      }
+    })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -404,276 +439,287 @@ class InterfaceEditForm extends Component {
     const requestBodyList = this.state.req_body_form.map((item, index) => {
       return requestBodyTpl(item, index)
     })
-
+    console.log(this.state.hideTabs);
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="接口名称"
-        >
-          {getFieldDecorator('title', {
-            initialValue: this.state.title,
-            rules: nameLengthLimit('接口')
-          })(
-            <Input placeholder="接口名称" />
-            )}
-        </FormItem>
 
-        <FormItem
-          {...formItemLayout}
-          label="选择分类"
-        >
-          {getFieldDecorator('catid', {
-            initialValue: this.state.catid + "",
-            rules: [
-              { required: true, message: '请选择一个分类' }
-            ]
-          })(
-            <Select placeholder="请选择一个分类">
-              {this.props.cat.map(item => {
-                return <Option key={item._id} value={item._id + ""} >{item.name}</Option>
-              })}
-            </Select>
-            )}
-        </FormItem>
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label={(
-            <span>
-              接口路径&nbsp;
-              <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
-                <Icon type="question-circle-o" style={{ width: "10px" }} />
-              </Tooltip>
-
-            </span>
-          )}
-        >
-          <InputGroup compact>
-            <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
-              {HTTP_METHOD_KEYS.map(item => {
-                return <Option key={item} value={item}>{item}</Option>
-              })}
-            </Select>
-
-            <Tooltip title="接口基本路径，可在项目配置里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
-              <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
-            </Tooltip>
-            {getFieldDecorator('path', {
-              initialValue: this.state.path,
-              rules: [{
-                required: true, message: '请输入接口路径!'
-              }]
-            })(
-              <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
-              )}
-          </InputGroup>
-          <Row className="interface-edit-item">
-            <Col span={18} offset={0}>
-              {paramsList}
-            </Col>
-
-          </Row>
-
-
-        </FormItem>
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="状态"
-        >
-          {getFieldDecorator('status', { initialValue: this.state.status })(
-            <Select>
-              <Option value="done">已完成</Option>
-              <Option value="undone">未完成</Option>
-            </Select>
-          )}
-        </FormItem>
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="Query"
-        >
-          <Button size="small" type="primary" onClick={() => this.addParams('req_query')}>添加Query参数</Button>
-        </FormItem>
-
-        <Row className="interface-edit-item">
-          <Col span={18} offset={4}>
-            {QueryList}
-          </Col>
-
-        </Row>
-
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="请求Headers"
-        >
-          <Button size="small" type="primary" onClick={() => this.addParams('req_headers')}>添加Header</Button>
-        </FormItem>
-
-        <Row className="interface-edit-item">
-          <Col span={18} offset={4}>
-            {headerList}
-          </Col>
-
-        </Row>
-        {HTTP_METHOD[this.state.method].request_body ? <div >
+        <h2 className="interface-title" style={{marginTop: 0}}>基本设置</h2>
+        <div className="panel-sub">
           <FormItem
             className="interface-edit-item"
             {...formItemLayout}
-            label="请求Body"
+            label="接口名称"
           >
-            {getFieldDecorator('req_body_type', {
-              initialValue: this.state.req_body_type
+            {getFieldDecorator('title', {
+              initialValue: this.state.title,
+              rules: nameLengthLimit('接口')
             })(
-              <RadioGroup>
-                <Radio value="form">form</Radio>
-                <Radio value="json">json</Radio>
-                <Radio value="file">file</Radio>
-                <Radio value="raw">raw</Radio>
-              </RadioGroup>
+              <Input placeholder="接口名称" />
               )}
+          </FormItem>
+
+          <FormItem
+            className="interface-edit-item"
+            {...formItemLayout}
+            label="选择分类"
+          >
+            {getFieldDecorator('catid', {
+              initialValue: this.state.catid + "",
+              rules: [
+                { required: true, message: '请选择一个分类' }
+              ]
+            })(
+              <Select placeholder="请选择一个分类">
+                {this.props.cat.map(item => {
+                  return <Option key={item._id} value={item._id + ""} >{item.name}</Option>
+                })}
+              </Select>
+              )}
+          </FormItem>
+
+          <FormItem
+            className="interface-edit-item"
+            {...formItemLayout}
+            label={(
+              <span>
+                接口路径&nbsp;
+                <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
+                  <Icon type="question-circle-o" style={{ width: "10px" }} />
+                </Tooltip>
+
+              </span>
+            )}
+          >
+            <InputGroup compact>
+              <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
+                {HTTP_METHOD_KEYS.map(item => {
+                  return <Option key={item} value={item}>{item}</Option>
+                })}
+              </Select>
+
+              <Tooltip title="接口基本路径，可在项目配置里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
+                <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
+              </Tooltip>
+              {getFieldDecorator('path', {
+                initialValue: this.state.path,
+                rules: [{
+                  required: true, message: '请输入接口路径!'
+                }]
+              })(
+                <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+                )}
+            </InputGroup>
+            <Row className="interface-edit-item">
+              <Col span={18} offset={0}>
+                {paramsList}
+              </Col>
+
+            </Row>
+
 
           </FormItem>
 
-          <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'form' ? 'block' : 'none' }}>
-            <Col span={18} offset={4} style={{ minHeight: "50px" }}>
-              <Row>
-                <Col span="24" className="interface-edit-item">
-
-                  <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
-
-                </Col>
-
-              </Row>
-              {requestBodyList}
-            </Col>
-
-          </Row>
-
-
+          <FormItem
+            className="interface-edit-item"
+            {...formItemLayout}
+            label="状态"
+          >
+            {getFieldDecorator('status', { initialValue: this.state.status })(
+              <Select>
+                <Option value="done">已完成</Option>
+                <Option value="undone">未完成</Option>
+              </Select>
+            )}
+          </FormItem>
         </div>
-          : null}
 
 
-        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('req_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={18} offset={4} id="req_body_json" style={{ minHeight: "300px" }}>
-          </Col>
-        </Row>
+        <h2 className="interface-title">Request 设置</h2>
 
-        {this.props.form.getFieldValue('req_body_type') === 'file' ?
-          <Row className="interface-edit-item" >
-            <Col span={18} offset={4}>
-              {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                <Input.TextArea placeholder="备注信息" />
-              )}
-            </Col>
+        <div className="container-radiogroup">
+          <RadioGroup defaultValue={HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'} size="large" className="radioGroup" onChange={this.changeRadioGroup}>
+            {HTTP_METHOD[this.state.method].request_body ? <RadioButton value="req-body">Body</RadioButton> : null}
+            <RadioButton value="req-query">Query</RadioButton>
+            <RadioButton value="req-headers">Headers</RadioButton>
+          </RadioGroup>
+        </div>
 
+        <div className="panel-sub">
+          <FormItem
+            className={'interface-edit-item ' + this.state.hideTabs.req.query}
+          >
+            <Button size="small" type="primary" onClick={() => this.addParams('req_query')}>添加Query参数</Button>
+          </FormItem>
 
-          </Row>
-          :
-          null
-        }
-        {this.props.form.getFieldValue('req_body_type') === 'raw' ?
-          <Row>
-            <Col span={18} offset={4} >
-              {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                <Input.TextArea placeholder="备注信息" />
-              )}
+          <Row className={'interface-edit-item ' + this.state.hideTabs.req.query}>
+            <Col>
+              {QueryList}
             </Col>
           </Row>
-          : null
-        }
 
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="响应Body"
-        >
+
+          <FormItem
+            className={'interface-edit-item ' + this.state.hideTabs.req.headers}
+          >
+            <Button size="small" type="primary" onClick={() => this.addParams('req_headers')}>添加Header</Button>
+          </FormItem>
+
+          <Row className={'interface-edit-item ' + this.state.hideTabs.req.headers}>
+            <Col>
+              {headerList}
+            </Col>
+
+          </Row>
+          {HTTP_METHOD[this.state.method].request_body ? <div >
+            <FormItem
+               className={'interface-edit-item ' + this.state.hideTabs.req.body}
+            >
+              {getFieldDecorator('req_body_type', {
+                initialValue: this.state.req_body_type
+              })(
+                <RadioGroup>
+                  <Radio value="form">form</Radio>
+                  <Radio value="json">json</Radio>
+                  <Radio value="file">file</Radio>
+                  <Radio value="raw">raw</Radio>
+                </RadioGroup>
+                )}
+
+            </FormItem>
+
+            <Row className={'interface-edit-item ' + this.state.hideTabs.req.body} style={{ display: this.props.form.getFieldValue('req_body_type') === 'form' ? 'block' : 'none' }}>
+              <Col style={{ minHeight: "50px" }}>
+                <Row>
+                  <Col span="24" className="interface-edit-item">
+
+                    <Button size="small" type="primary" onClick={() => this.addParams('req_body_form')}>添加form参数</Button>
+
+                  </Col>
+
+                </Row>
+                {requestBodyList}
+              </Col>
+            </Row>
+
+
+          </div>
+            : null}
+
+
+          <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'json' ? this.state.hideTabs.req.body  : 'hide')}>
+            <Col id="req_body_json" style={{ minHeight: "300px" }}>
+            </Col>
+          </Row>
+
+          {this.props.form.getFieldValue('req_body_type') === 'file' ?
+            <Row className="interface-edit-item" >
+              <Col>
+                {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
+                  <Input.TextArea placeholder="备注信息" />
+                )}
+              </Col>
+
+
+            </Row>
+            :
+            null
+          }
+          {this.props.form.getFieldValue('req_body_type') === 'raw' ?
+            <Row>
+              <Col>
+                {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
+                  <Input.TextArea placeholder="备注信息" />
+                )}
+              </Col>
+            </Row>
+            : null
+          }
+        </div>
+
+        {/* ----------- Response ------------- */}
+
+        <h2 className="interface-title">Response 设置</h2>
+        <div className="container-radiogroup">
           {getFieldDecorator('res_body_type', {
             initialValue: this.state.res_body_type
           })(
-            <RadioGroup>
-              <Radio value="json">json(mock)</Radio>
-              <Radio value="raw">raw</Radio>
-
+            <RadioGroup size="large" className="radioGroup">
+              <RadioButton value="json">json(mock)</RadioButton>
+              <RadioButton value="raw">raw</RadioButton>
             </RadioGroup>
             )}
+        </div>
+        <div className="panel-sub">
+          <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
+            <Col>
+              <Tabs defaultActiveKey="tpl" onChange={this.handleJsonType} >
+                <TabPane tab="模板" key="tpl">
 
-        </FormItem>
+                </TabPane>
+                <TabPane tab="预览" key="preview">
+
+                </TabPane>
+
+              </Tabs>
+              <div>
+                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请<span onClick={() => window.open('https://ued.qunar.com/yapi/mock.html', '_blank')}>查看文档</span></h3>
+                <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
+                <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
+              </div>
+
+            </Col>
+          </Row>
+
+          <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
+            <Col>
+              {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
+                <Input.TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
+              )}
+            </Col>
+          </Row>
+        </div>
 
 
-        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
-          <Col span={18} offset={4} >
-            <Tabs defaultActiveKey="tpl" onChange={this.handleJsonType} >
-              <TabPane tab="模板" key="tpl">
+        {/* ----------- other ------------- */}
 
-              </TabPane>
-              <TabPane tab="预览" key="preview">
-
-              </TabPane>
-
-            </Tabs>
-            <div>
-              <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请查看文档</h3>
-              <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
-              <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
+        <h2 className="interface-title">其 他</h2>
+        <div className="container-radiogroup">
+          <RadioGroup defaultValue="other-remark" size="large" className="radioGroup" onChange={this.changeRadioGroup}>
+            <RadioButton value="other-remark">备 注</RadioButton>
+            <RadioButton value="other-mail">邮 件</RadioButton>
+          </RadioGroup>
+        </div>
+        <div className="panel-sub">
+          <FormItem
+            className={'interface-edit-item ' + this.state.hideTabs.other.remark}
+          >
+            <div >
+              <div id="desc" ></div>
             </div>
-
-          </Col>
-        </Row>
-
-        <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
-          <Col span={18} offset={4} >
-            {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
-              <Input.TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
+          </FormItem>
+          <FormItem
+            className={'interface-edit-item ' + this.state.hideTabs.other.mail}
+            {...formItemLayout}
+            label="是否开启邮件通知"
+          >
+            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: true })(
+              <Switch checkedChildren="开" unCheckedChildren="关" />
             )}
-          </Col>
-
-
-        </Row>
-
-        <FormItem
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="备注"
-        >
-          <div >
-            <div  id="desc" ></div>
-          </div>
-        </FormItem>
+          </FormItem>
+          <FormItem
+            className={'interface-edit-item ' + (this.props.form.getFieldValue('switch_notice') === true ? this.state.hideTabs.other.mail : '')}
+            {...formItemLayout}
+            label="改动日志"
+          >
+            {getFieldDecorator('message', { initialValue: "" })(
+              <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+            )}
+          </FormItem>
+        </div>
 
         <FormItem
           className="interface-edit-item"
-          {...formItemLayout}
-          label="是否开启邮件通知"
-        >
-          {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: true })(
-            <Switch checkedChildren="开" unCheckedChildren="关" />
-          )}
-        </FormItem>
-
-        <FormItem
-          style={{ display: this.props.form.getFieldValue('switch_notice') === true ? 'block' : 'none' }}
-          className="interface-edit-item"
-          {...formItemLayout}
-          label="改动日志"
-        >
-          {getFieldDecorator('message', { initialValue: "" })(
-            <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
-          )}
-        </FormItem>
-
-
-        <FormItem
-          className="interface-edit-item"
-          wrapperCol={{ span: 14, offset: 10 }}
+          style={{textAlign: 'center', marginTop: '16px'}}
         >
           <Button type="primary" htmlType="submit">保存</Button>
         </FormItem>
