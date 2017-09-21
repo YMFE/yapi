@@ -186,6 +186,7 @@ class ProjectMember extends Component {
               <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
+                <Option value={'guest-'+record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -198,6 +199,8 @@ class ProjectMember extends Component {
             return '组长';
           } else if (record.role === 'dev') {
             return '开发者';
+          } else if (record.role === 'guest') {
+            return '访客';
           } else {
             return '';
           }
@@ -225,6 +228,7 @@ class ProjectMember extends Component {
                 <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                   <Option value="owner">组长</Option>
                   <Option value="dev">开发者</Option>
+                  <Option value="guest">访客</Option>
                 </Select>
               </Col>
             </Row>
@@ -237,6 +241,7 @@ class ProjectMember extends Component {
                 <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '13px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
                 {item.role === 'owner' ? <p className="item-role">组长</p> : null}
                 {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
+                {item.role === 'guest' ? <p className="item-role">访客</p> : null}
               </div>);
             }): <ErrMsg type="noMemberInGroup"/>}
           </Card>

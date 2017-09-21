@@ -105,7 +105,7 @@ module.exports = async (ctx, next) => {
                     ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
                     return ctx.body = 'ok'
                 }
-                return ctx.body = yapi.commons.resReturn(null, 404, '不存在的api');
+                return ctx.body = yapi.commons.resReturn(null, 404, `不存在的api, 当前请求path为 ${newpath}， 请求方法为 ${ctx.method} ，请确认是否定义此请求。`);
             }
             interfaceData = [
                 await interfaceInst.get(findInterface._id)
