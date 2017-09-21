@@ -69,13 +69,18 @@ module.exports = {
             'react-router-dom',
             'prop-types',
             'axios',
-            'moment'
-    
+            'moment',
+            'react-dnd-html5-backend',
+            'react-dnd',
+            'reactabular-table',
+            'reactabular-dnd',
+            'table-resolver'
           ],
           lib2: [
             'brace',
             'mockjs',
-            'json5'
+            'json5',
+            'url'
           ]
         }
       },

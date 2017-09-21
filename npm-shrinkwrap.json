@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -3194,6 +3194,22 @@
         "bn.js": "4.11.8",
         "miller-rabin": "4.0.0",
         "randombytes": "2.0.5"
+      }
+    },
+    "disposables": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/disposables/-/disposables-1.0.1.tgz",
+      "integrity": "sha1-BkcnoltU9QK9griaot+4358bOeM="
+    },
+    "dnd-core": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/dnd-core/-/dnd-core-2.5.1.tgz",
+      "integrity": "sha1-F49a1lJs4C3VlQjxFVNfe/wM6U4=",
+      "requires": {
+        "asap": "2.0.6",
+        "invariant": "2.2.2",
+        "lodash": "4.17.4",
+        "redux": "3.7.2"
       }
     },
     "dns-equal": {
@@ -11438,6 +11454,27 @@
         }
       }
     },
+    "react-dnd": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/react-dnd/-/react-dnd-2.5.1.tgz",
+      "integrity": "sha1-7O8dnYR4y3av1Zdc1RI+98O+v+U=",
+      "requires": {
+        "disposables": "1.0.1",
+        "dnd-core": "2.5.1",
+        "hoist-non-react-statics": "2.3.1",
+        "invariant": "2.2.2",
+        "lodash": "4.17.4",
+        "prop-types": "15.5.10"
+      }
+    },
+    "react-dnd-html5-backend": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-2.5.1.tgz",
+      "integrity": "sha1-02VuUUsMRpkCpIX/+nX4aE4hx3c=",
+      "requires": {
+        "lodash": "4.17.4"
+      }
+    },
     "react-dock": {
       "version": "0.2.4",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/react-dock/-/react-dock-0.2.4.tgz",
@@ -12180,6 +12217,19 @@
         "json2mq": "0.2.0",
         "object-assign": "4.1.1",
         "slick-carousel": "1.7.1"
+      }
+    },
+    "reactabular-dnd": {
+      "version": "8.9.0",
+      "resolved": "https://registry.npmjs.org/reactabular-dnd/-/reactabular-dnd-8.9.0.tgz",
+      "integrity": "sha1-B5LeSto2H5Qlj4pqGg1svYPSpaA="
+    },
+    "reactabular-table": {
+      "version": "8.9.0",
+      "resolved": "https://registry.npmjs.org/reactabular-table/-/reactabular-table-8.9.0.tgz",
+      "integrity": "sha1-RvbO9jnNm9SyuvHxTiaG+ys14oQ=",
+      "requires": {
+        "classnames": "2.2.5"
       }
     },
     "read-all-stream": {
@@ -13643,6 +13693,11 @@
           }
         }
       }
+    },
+    "table-resolver": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/table-resolver/-/table-resolver-3.2.0.tgz",
+      "integrity": "sha512-DQrDHFdJPnvIhyjAcTqF4vhu/Uhp5eNRst9Url9KmBNqxYSMrPXOJoxhU7HPCd3efi1Hua7lMIDnBAphsdhPQw=="
     },
     "tapable": {
       "version": "0.2.8",

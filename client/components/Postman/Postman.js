@@ -10,6 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
+import { handleMockWord } from '../../common.js'
 
 function json_parse(data) {
   try {
@@ -19,23 +20,8 @@ function json_parse(data) {
   }
 }
 
-function isValidJson(json) {
-  if (!json) return false;
-  if (typeof json === 'object') return true;
-  try {
-    if (typeof json === 'string') {
-      json5.parse(json);
-      return true;
-    }
-  } catch (e) {
-    return false;
-  }
-}
 
-function isJsonData(headers, res) {
-  if (isValidJson(res)) {
-    return true;
-  }
+function isJsonData(headers) {
   if (!headers || typeof headers !== 'object') return false;
   let isResJson = false;
   Object.keys(headers).map(key => {
@@ -75,8 +61,9 @@ export default class Run extends Component {
     bodyType: '',
     bodyOther: '',
     loading: false,
-    validRes: null,
-    hasPlugin: true
+    validRes: [],
+    hasPlugin: true,
+    test_status: null
   }
 
   constructor(props) {
@@ -136,8 +123,13 @@ export default class Run extends Component {
       req_body_form = [],
       basepath = '',
       env = [],
-      case_env = ''
+      case_env = '',
+      test_status = '',
+      test_res_body = '',
+      test_report = [],
+      test_res_header=''
     } = data;
+
     // case 任意编辑 pathname，不管项目的 basepath
     const pathname = (type === 'inter' ? (basepath + url) : url).replace(/\/+/g, '/');
 
@@ -168,12 +160,21 @@ export default class Run extends Component {
       bodyOther: req_body_other,
       caseEnv: case_env || (env[0] && env[0].name),
       bodyType: req_body_type || 'form',
-      loading: false
+      loading: false,
+      test_status: test_status,
+      validRes: test_report,
+      res: test_res_body,
+      resHeader: test_res_header
     }, () => {
       if (req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
         this.loadBodyEditor()
       }
+      if(test_res_body){
+        this.bindAceEditor();
+      }
+      
     });
+    
   }
 
   @autobind
@@ -192,7 +193,7 @@ export default class Run extends Component {
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? urlObj.pathname + path : path,
+      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, path) : path,
       query: this.getQueryObj(query)
     });
 
@@ -212,7 +213,7 @@ export default class Run extends Component {
           }
 
           const { res_body, res_body_type } = that.props.data;
-          let validRes = '';
+          let validRes = [];
           let query = {};
           that.state.query.forEach(item => {
             query[item.name] = item.value;
@@ -233,8 +234,17 @@ export default class Run extends Component {
             validRes = Mock.valid(tpl, res)
           }
 
-          message.success('请求完成')
-          that.setState({ res, resHeader: header, validRes })
+
+          if (Array.isArray(validRes) && validRes.length > 0) {
+            message.warn('请求完成, 返回数据跟接口定义不匹配');
+            validRes = validRes.map(item => {
+              return item.message
+            })
+            that.setState({ res, resHeader: header, validRes, test_status: 'invalid' })
+          } else if (Array.isArray(validRes) && validRes.length === 0) {
+            message.success('请求完成');
+            that.setState({ res, resHeader: header, validRes: ['验证通过'], test_status: 'ok' })
+          }
           that.setState({ loading: false })
           that.bindAceEditor()
         } catch (e) {
@@ -250,7 +260,7 @@ export default class Run extends Component {
           message.error(e.message)
         }
         message.error('请求异常')
-        that.setState({ res: err || '请求失败', resHeader: header, validRes: null })
+        that.setState({ res: err || '请求失败', resHeader: header, validRes: [], test_status: 'error' })
         that.setState({ loading: false })
         that.bindAceEditor()
       }
@@ -428,11 +438,12 @@ export default class Run extends Component {
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.type !== 'file') {
-        obj[item.name] = item.value || '';
+        obj[item.name] = handleMockWord(item.value);
       }
     })
     return obj;
   }
+
   getFiles(bodyForm) {
     const files = {};
     bodyForm.forEach(item => {
@@ -446,7 +457,7 @@ export default class Run extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name) {
-        queryObj[item.name] = item.value || '';
+        queryObj[item.name] = handleMockWord(item.value);
       }
     })
     return queryObj;
@@ -498,11 +509,10 @@ export default class Run extends Component {
   }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes, res } = this.state;
+    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
-    let isResJson = isJsonData(resHeader, res);
-
+    let isResJson = isJsonData(resHeader);
     let path = pathname;
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
@@ -510,16 +520,10 @@ export default class Run extends Component {
     const search = decodeURIComponent(URL.format({ query: this.getQueryObj(query) }));
 
     let validResView;
-    if (!validRes) {
-      validResView = '请定义返回json'
-    }
-    if (Array.isArray(validRes) && validRes.length > 0) {
-      validResView = validRes.map((item, index) => {
-        return <div key={index}>{item.message}</div>
-      })
-    } else if (Array.isArray(validRes)) {
-      validResView = <p>验证通过</p>
-    }
+    validResView = validRes.map((item, index) => {
+      return <div key={index}>{item}</div>
+    })
+
 
 
 
@@ -569,7 +573,7 @@ export default class Run extends Component {
                   domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
                 }
               </Select>
-              
+
               <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
             </InputGroup>
 
@@ -587,7 +591,7 @@ export default class Run extends Component {
                 onClick={this.props.save}
                 type="primary"
                 style={{ marginLeft: 10 }}
-              >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
+              >{this.props.type === 'inter' ? '保存' : '保存'}</Button>
             </Tooltip>
           </div>
 

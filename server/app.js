@@ -5,6 +5,7 @@ const yapi = require('./yapi.js');
 const commons = require('./utils/commons');
 yapi.commons = commons;
 const dbModule = require('./utils/db.js');
+yapi.connect = dbModule.connect();  
 const mockServer = require('./middleware/mockServer.js');
 const plugins = require('./plugin.js');
 const websockify = require('koa-websocket');
@@ -17,7 +18,7 @@ const router = require('./router.js');
 
 let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 
-yapi.connect = dbModule.connect();  
+
 const app = websockify(new Koa());
 yapi.app = app;
 app.use(mockServer);
@@ -26,6 +27,8 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 websocket(app);
+
+
 
 app.use( async (ctx, next) => {
     if( /^\/(?!api)[a-zA-Z0-9\/\-_]*$/.test(ctx.path) ){

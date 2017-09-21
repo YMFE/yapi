@@ -3,6 +3,7 @@ const interfaceController = require('./controllers/interface.js');
 const groupController = require('./controllers/group.js');
 const userController = require('./controllers/user.js');
 const interfaceColController = require('./controllers/interfaceCol.js');
+const testController = require('./controllers/test.js');
 
 const yapi = require('./yapi.js');
 const projectController = require('./controllers/project.js');
@@ -47,6 +48,10 @@ let INTERFACE_CONFIG = {
 	col: {
 		prefix: '/col/',
 		controller: interfaceColController
+	},
+	test: {
+		prefix: '/test/',
+		controller: testController
 	}
 };
 
@@ -347,7 +352,44 @@ let routerConfig = {
 		path: "del_case",
 		method: "get"
 	}
-	]
+	],
+	"test": [{
+		action: "testPost",
+		path: "post",
+		method: "post"
+	}, {
+		action: "testGet",
+		path: "get",
+		method: "get"
+	}, {
+		action: "testPut",
+		path: "put",
+		method: "put"
+	}, {
+		action: "testDelete",
+		path: "delete",
+		method: "del"
+	}, {
+		action: "testHead",
+		path: "head",
+		method: "head"
+	}, {
+		action: "testOptions",
+		path: "options",
+		method: "options"
+	}, {
+		action: "testPatch",
+		path: "patch",
+		method: "patch"
+	}, {
+		action: "testFilesUpload",
+		path: "files/upload",
+		method: "post"
+	}, {
+		action: "testSingleUpload",
+		path: "single/upload",
+		method: "post"
+	}]
 }
 
 let pluginsRouterPath = [];
