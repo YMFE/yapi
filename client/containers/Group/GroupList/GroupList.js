@@ -252,7 +252,7 @@ export default class GroupList extends Component {
 
           <div className="group-operate">
             <div className="search">
-              <Search placeholder="Filter by name" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
+              <Search placeholder="搜索分类" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
             </div>
           </div>
           <Menu

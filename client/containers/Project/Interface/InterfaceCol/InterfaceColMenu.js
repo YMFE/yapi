@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { Input, Icon, Tag, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
+import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -215,9 +215,9 @@ export default class InterfaceColMenu extends Component {
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="Filter by name" onChange={this.filterCol} />
+          <Input placeholder="搜索测试集合" onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
-            <Tag color="#108ee9" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} className="btn-filter" ><Icon type="plus" /></Tag>
+            <Button type="primary" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} className="btn-filter" >添加集合</Button>
           </Tooltip>
         </div>
         <Tree
