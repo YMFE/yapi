@@ -28,10 +28,10 @@ const InputGroup = Input.Group;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const dataTpl = {
-  req_query: { name: "", required: "1", desc: "" },
-  req_headers: { name: "", required: "1", desc: "" },
-  req_params: { name: "", desc: "" },
-  req_body_form: { name: "", type: "text", required: "1", desc: "" }
+  req_query: { name: "", required: "1", desc: "", example: "" },
+  req_headers: { name: "", required: "1", desc: "", example: "" },
+  req_params: { name: "", desc: "", example: "" },
+  req_body_form: { name: "", type: "text", required: "1", desc: "", example: "" }
 }
 
 const mockEditor = require('./mockEditor.js');
@@ -107,8 +107,8 @@ class InterfaceEditForm extends Component {
       desc: '',
       res_body_mock: '',
       jsonType: 'tpl',
-      mockUrl: this.props.mockUrl
-
+      mockUrl: this.props.mockUrl,
+      req_radio_type: 'req-query'
 
     }, curdata)
   }
@@ -180,7 +180,26 @@ class InterfaceEditForm extends Component {
     });
   }
 
+  onChangeMethod = (val) => {
+    let radio = [];
+    if(HTTP_METHOD[val].request_body){
+      radio = ['req', 'body'];
+    }else{
+      radio = ['req', 'query'];
+    }
+    this.setState({
+      req_radio_type: radio.join("-")
+    })
+
+    this.setState({ method: val }, ()=>{
+      this._changeRadioGroup(radio[0] , radio[1])
+    })
+  }
+
   componentDidMount() {
+    this.setState({
+      req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
+    })
     let that = this, mockPreview, resBodyEditor;
     mockEditor({
       container: 'req_body_json',
@@ -269,19 +288,28 @@ class InterfaceEditForm extends Component {
   }
 
   // 点击切换radio
-  changeRadioGroup = (e) => {
+  changeRadioGroup = (e) => {    
     const res = e.target.value.split('-');
+    if(res[0] === 'req'){
+      this.setState({
+        req_radio_type: e.target.value
+      })
+    }
+    this._changeRadioGroup(res[0], res[1]);
+  }
+
+  _changeRadioGroup = (group, item) => {
     const obj = {}
     // 先全部隐藏
-    for (let key in this.state.hideTabs[res[0]]) {
+    for (let key in this.state.hideTabs[group]) {
       obj[key] = 'hide';
     }
     // 再取消选中项目的隐藏
-    obj[res[1]] = '';
+    obj[item] = '';
     this.setState({
       hideTabs: {
         ...this.state.hideTabs,
-        [res[0]]: obj
+        [group]: obj
       }
     })
   }
@@ -295,14 +323,14 @@ class InterfaceEditForm extends Component {
 
     const queryTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="6">
+        <Col span="5" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].name', {
             initialValue: data.name
           })(
             <Input placeholder="参数名称" />
             )}
         </Col>
-        <Col span="3" >
+        <Col span="3" className="interface-edit-item-content-col" >
           {getFieldDecorator('req_query[' + index + '].required', {
             initialValue: data.required
           })(
@@ -312,14 +340,21 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="14" >
+        <Col span="6" className="interface-edit-item-content-col" >
+          {getFieldDecorator('req_query[' + index + '].example', {
+            initialValue: data.example
+          })(
+            <Input.TextArea autosize={true} placeholder="参数示例" />
+            )}
+        </Col>
+        <Col span="9" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
-        <Col span="1" >
+        <Col span="1" className="interface-edit-item-content-col" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_query')} />
         </Col>
 
@@ -328,7 +363,7 @@ class InterfaceEditForm extends Component {
 
     const headerTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="6">
+        <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].name', {
             initialValue: data.name
           })(
@@ -339,21 +374,28 @@ class InterfaceEditForm extends Component {
             />
             )}
         </Col>
-        <Col span="6" >
+        <Col span="6" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].value', {
             initialValue: data.value
           })(
-            <Input  placeholder="参数值" />
+            <Input placeholder="参数值" />
             )}
         </Col>
-        <Col span="10" >
+        <Col span="5" className="interface-edit-item-content-col">
+          {getFieldDecorator('req_headers[' + index + '].example', {
+            initialValue: data.example
+          })(
+            <Input.TextArea autosize={true} placeholder="参数示例" />
+            )}
+        </Col>
+        <Col span="8" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
-        <Col span="2" >
+        <Col span="1" className="interface-edit-item-content-col" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_headers')} />
         </Col>
 
@@ -362,14 +404,14 @@ class InterfaceEditForm extends Component {
 
     const requestBodyTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="4">
+        <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].name', {
             initialValue: data.name
           })(
             <Input placeholder="name" />
             )}
         </Col>
-        <Col span="3" >
+        <Col span="3" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].type', {
             initialValue: data.type
           })(
@@ -379,7 +421,7 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="3" >
+        <Col span="3" className="interface-edit-item-content-col" >
           {getFieldDecorator('req_body_form[' + index + '].required', {
             initialValue: data.required
           })(
@@ -389,14 +431,21 @@ class InterfaceEditForm extends Component {
             </Select>
             )}
         </Col>
-        <Col span="11">
+        <Col span="5" className="interface-edit-item-content-col">
+          {getFieldDecorator('req_body_form[' + index + '].example', {
+            initialValue: data.example
+          })(
+            <Input.TextArea autosize={true} placeholder="参数示例" />
+            )}
+        </Col>
+        <Col span="8" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].desc', {
             initialValue: data.desc
           })(
             <Input.TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
-        <Col span="1" >
+        <Col span="1" className="interface-edit-item-content-col" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_body_form')} />
         </Col>
       </Row>
@@ -404,14 +453,21 @@ class InterfaceEditForm extends Component {
 
     const paramsTpl = (data, index) => {
       return <Row key={index} className="interface-edit-item-content">
-        <Col span="6">
+        <Col span="6" className="interface-edit-item-content-col">
           {getFieldDecorator('req_params[' + index + '].name', {
             initialValue: data.name
           })(
             <Input disabled placeholder="参数名称" />
             )}
         </Col>
-        <Col span="14" >
+        <Col span="7" className="interface-edit-item-content-col">
+          {getFieldDecorator('req_params[' + index + '].example', {
+            initialValue: data.desc
+          })(
+            <Input.TextArea autosize={true} placeholder="参数示例" />
+            )}
+        </Col>
+        <Col span="11" className="interface-edit-item-content-col">
           {getFieldDecorator('req_params[' + index + '].desc', {
             initialValue: data.desc
           })(
@@ -441,7 +497,7 @@ class InterfaceEditForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
 
-        <h2 className="interface-title" style={{marginTop: 0}}>基本设置</h2>
+        <h2 className="interface-title" style={{ marginTop: 0 }}>基本设置</h2>
         <div className="panel-sub">
           <FormItem
             className="interface-edit-item"
@@ -489,7 +545,7 @@ class InterfaceEditForm extends Component {
             )}
           >
             <InputGroup compact>
-              <Select value={this.state.method} onChange={val => this.setState({ method: val })} style={{ width: "15%" }}>
+              <Select value={this.state.method} onChange={this.onChangeMethod} style={{ width: "15%" }}>
                 {HTTP_METHOD_KEYS.map(item => {
                   return <Option key={item} value={item}>{item}</Option>
                 })}
@@ -508,7 +564,7 @@ class InterfaceEditForm extends Component {
                 )}
             </InputGroup>
             <Row className="interface-edit-item">
-              <Col span={18} offset={0}>
+              <Col span={24} offset={0}>
                 {paramsList}
               </Col>
 
@@ -535,7 +591,7 @@ class InterfaceEditForm extends Component {
         <h2 className="interface-title">Request 设置</h2>
 
         <div className="container-radiogroup">
-          <RadioGroup defaultValue={HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'} size="large" className="radioGroup" onChange={this.changeRadioGroup}>
+          <RadioGroup value={this.state.req_radio_type} size="large" className="radioGroup" onChange={this.changeRadioGroup}>
             {HTTP_METHOD[this.state.method].request_body ? <RadioButton value="req-body">Body</RadioButton> : null}
             <RadioButton value="req-query">Query</RadioButton>
             <RadioButton value="req-headers">Headers</RadioButton>
@@ -570,7 +626,7 @@ class InterfaceEditForm extends Component {
           </Row>
           {HTTP_METHOD[this.state.method].request_body ? <div >
             <FormItem
-               className={'interface-edit-item ' + this.state.hideTabs.req.body}
+              className={'interface-edit-item ' + this.state.hideTabs.req.body}
             >
               {getFieldDecorator('req_body_type', {
                 initialValue: this.state.req_body_type
@@ -585,7 +641,7 @@ class InterfaceEditForm extends Component {
 
             </FormItem>
 
-            <Row className={'interface-edit-item ' + this.state.hideTabs.req.body} style={{ display: this.props.form.getFieldValue('req_body_type') === 'form' ? 'block' : 'none' }}>
+            <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'form' ? this.state.hideTabs.req.body : 'hide')} >
               <Col style={{ minHeight: "50px" }}>
                 <Row>
                   <Col span="24" className="interface-edit-item">
@@ -604,7 +660,7 @@ class InterfaceEditForm extends Component {
             : null}
 
 
-          <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'json' ? this.state.hideTabs.req.body  : 'hide')}>
+          <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'json' ? this.state.hideTabs.req.body : 'hide')}>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
           </Row>
@@ -717,7 +773,7 @@ class InterfaceEditForm extends Component {
 
         <FormItem
           className="interface-edit-item"
-          style={{textAlign: 'center', marginTop: '16px'}}
+          style={{ textAlign: 'center', marginTop: '16px' }}
         >
           <Button type="primary" htmlType="submit">保存</Button>
         </FormItem>
