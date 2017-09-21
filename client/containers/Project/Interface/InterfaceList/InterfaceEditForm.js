@@ -75,7 +75,6 @@ class InterfaceEditForm extends Component {
       }
     };
     curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
-    console.log(curdata);
     this.state = Object.assign({
       title: '',
       path: '',
@@ -439,7 +438,6 @@ class InterfaceEditForm extends Component {
     const requestBodyList = this.state.req_body_form.map((item, index) => {
       return requestBodyTpl(item, index)
     })
-    console.log(this.state.hideTabs);
     return (
       <Form onSubmit={this.handleSubmit}>
 
@@ -662,7 +660,7 @@ class InterfaceEditForm extends Component {
 
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请<span onClick={() => window.open('https://ued.qunar.com/yapi/mock.html', '_blank')}>查看文档</span></h3>
+                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请 <span className="href" onClick={() => window.open('https://ued.qunar.com/yapi/mock.html', '_blank')}>查看文档</span></h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
