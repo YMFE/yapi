@@ -95,7 +95,7 @@ class AdvMock extends Component {
       
       <Form onSubmit={this.handleSubmit}>
         <FormItem
-          label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer" title="点击查看文档"  href="https://yapi.ymfe.org/adv-mock.html" ><Icon type="question-circle-o" /></a></span>}
+          label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer" title="点击查看文档"  href="https://yapi.ymfe.org/mock.html#高级Mock" ><Icon type="question-circle-o" /></a></span>}
           {...formItemLayout}
         >
           <Switch checked={this.state.enable} onChange={this.onChange} checkedChildren="开" unCheckedChildren="关" />
