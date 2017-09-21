@@ -35,16 +35,11 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-.container:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.2);
 }
 /*
  * note that styling gu-mirror directly is a bad practice because it's too generic.
  * you're better off giving the draggable elements a unique class and styling that directly!
  */
-.container div,
 .gu-mirror {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
@@ -84,7 +79,7 @@
   }
   .case-report{
     margin: 10px;
-    
+
     .case-report-title{
       font-size: 14px;
       font-weight: bold;
