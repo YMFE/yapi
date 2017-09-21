@@ -100,7 +100,6 @@ class ProjectList extends Component {
 
   render() {
     const projectData = this.state.projectData;
-    console.log(this.props.currGroup.role)
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
