@@ -100,6 +100,7 @@ class ProjectList extends Component {
 
   render() {
     const projectData = this.state.projectData;
+    console.log(this.props.currGroup.role)
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -109,7 +110,7 @@ class ProjectList extends Component {
           <Col>
 
             <Tooltip title="您没有权限,请联系该分组组长或管理员">
-              {this.props.currGroup.role!== 'member' ?
+              { /(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
                 <Button type="primary" ><Link to="/add-project">添加项目</Link></Button> :
                 <Button type="primary" disabled >添加项目</Button>}
             </Tooltip>

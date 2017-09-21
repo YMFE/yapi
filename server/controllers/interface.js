@@ -232,7 +232,7 @@ class interfaceController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
         }
         if (project.project_type === 'private') {
-            if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+            if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
             }
         }
@@ -257,7 +257,7 @@ class interfaceController extends baseController {
             let catdata = await this.catModel.get(catid);
             let project = await this.projectModel.getBaseInfo(catdata.project_id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -278,7 +278,7 @@ class interfaceController extends baseController {
 
         let project = await this.projectModel.getBaseInfo(project_id);
         if (project.project_type === 'private') {
-            if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+            if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
             }
         }

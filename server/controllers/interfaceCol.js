@@ -29,7 +29,7 @@ class interfaceColController extends baseController{
             let id = ctx.query.project_id;
             let project = await this.projectModel.getBaseInfo(id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -124,7 +124,7 @@ class interfaceColController extends baseController{
             let project = await this.projectModel.getBaseInfo(colData.project_id);
             
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
