@@ -186,6 +186,7 @@ class ProjectMember extends Component {
               <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
+                <Option value={'guest-'+record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -198,6 +199,8 @@ class ProjectMember extends Component {
             return '组长';
           } else if (record.role === 'dev') {
             return '开发者';
+          } else if (record.role === 'guest') {
+            return '访客';
           } else {
             return '';
           }
@@ -225,6 +228,7 @@ class ProjectMember extends Component {
                 <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                   <Option value="owner">组长</Option>
                   <Option value="dev">开发者</Option>
+                  <Option value="guest">访客</Option>
                 </Select>
               </Col>
             </Row>
