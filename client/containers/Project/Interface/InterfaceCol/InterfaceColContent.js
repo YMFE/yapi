@@ -7,7 +7,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { handleMockWord } from '../../../../common.js'
+import { handleMockWord, simpleJsonPathParse } from '../../../../common.js'
 // import { formatTime } from '../../../../common.js'
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -26,6 +26,8 @@ function json_parse(data) {
     return data
   }
 }
+
+
 
 @connect(
   state => {
@@ -65,6 +67,7 @@ class InterfaceColContent extends Component {
   constructor(props) {
     super(props);
     this.reports = {};
+    this.records = {};
     this.state = {
       rows: [],
       reports: {},
@@ -126,6 +129,7 @@ class InterfaceColContent extends Component {
           status = 'invalid'
         }
         this.reports[curitem._id] = result;
+        this.records[curitem._id] = result.res_body;
       } catch (e) {
         status = 'error';
         console.error(e);
@@ -203,28 +207,45 @@ class InterfaceColContent extends Component {
     })
   }
 
-  arrToObj(arr) {
+  
+  handleVarWord(val){
+    console.log(val, this.records)
+    return simpleJsonPathParse(val, this.records)
+  }
+
+  handleValue(val){
+    if(!val || typeof val !== 'string'){
+      return val;
+    }else if(val[0] === '@'){
+      return handleMockWord(val);
+    }else if(val.indexOf('$.') === 0){
+      return this.handleVarWord(val);
+    }
+    return val;
+  }
+
+  arrToObj =(arr) =>{
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.type !== 'file') {
-        obj[item.name] = handleMockWord(item.value);
+        obj[item.name] = this.handleValue(item.value);
       }
     })
     return obj;
   }
 
-  getQueryObj(query) {
+  getQueryObj =(query)=> {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
       if (item.name) {
-        queryObj[item.name] = handleMockWord(item.value);
+        queryObj[item.name] = this.handleValue(item.value);
       }
     })
     return queryObj;
   }
-  getHeadersObj(headers) {
+  getHeadersObj = (headers) =>{
     headers = headers || [];
     const headersObj = {};
     headers.forEach(item => {
