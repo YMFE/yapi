@@ -175,7 +175,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
         }
 
-        params.role = params.role === 'owner' ? 'owner' : 'dev';
+        params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
 
         let userdata = await this.getUserdata(params.member_uid, params.role);
         if (userdata === null) {
@@ -309,7 +309,7 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
             }
             if (result.project_type === 'private') {
-                if (await this.checkAuth(result._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(result._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -342,7 +342,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
-        let auth = await this.checkAuth(group_id, 'group', 'edit')
+        let auth = await this.checkAuth(group_id, 'group', 'view')
         try {
             let result = await this.Model.list(group_id);
             let follow = await this.followModel.list(this.getUid());
@@ -358,6 +358,7 @@ class projectController extends baseController {
                 let f = _.find(follow, (fol) => {
                     return fol.projectid === item._id
                 })
+                // 排序：收藏的项目放前面
                 if (f) {
                     item.follow = true;
                     project_list.unshift(item);
@@ -440,7 +441,7 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
-        params.role = params.role === 'owner' ? 'owner' : 'dev';
+        params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
 
         try {
             let result = await projectInst.changeMemberRole(params.id, params.member_uid, params.role);
