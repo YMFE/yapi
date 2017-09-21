@@ -79,8 +79,10 @@
         float: right;
         line-height: 25px;
         width: 30px;
-        transform: rotate(90deg);
         font-weight: bold;
+    }
+    .anticon-ellipsis {
+      transform: rotate(90deg);
     }
     .interface-delete-icon:hover {
         color: #2395f1;
