@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 import './interface.scss'
 
@@ -104,9 +104,6 @@ class Interface extends Component {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            © 2017 YMFE 京ICP备17044220号
-          </Footer>
         </Layout>
       </Layout>)
   }

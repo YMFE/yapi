@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Affix } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Tabs, Affix } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -14,6 +14,7 @@ import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
 import { nameLengthLimit } from '../../../../common';
 import '../Setting.scss';
+const TabPane = Tabs.TabPane;
 // layout
 const formItemLayout = {
   labelCol: {
@@ -317,148 +318,157 @@ class ProjectMessage extends Component {
       })}
     </RadioGroup>);
     return (
-      <div className="m-panel">
-        <Row className="project-setting">
-          <Col xs={6} lg={{offset: 1, span: 3}} className="setting-logo">
-            <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
-              <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
-            </Popover>
-          </Col>
-          <Col xs={18} sm={15} lg={19} className="setting-intro">
-            <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
-            {/* <p className="ui-desc">{projectMsg.desc}</p> */}
-          </Col>
-        </Row>
-        <hr className="breakline" />
-        <Form>
-          <FormItem
-            {...formItemLayout}
-            label="项目ID"
-          >
-            <span >{this.props.projectMsg._id}</span>
+      <div>
+        <Tabs type="card" className="has-affix-footer">
+          <TabPane tab="项目配置" key="1">
+            <div className="m-panel">
+              <Row className="project-setting">
+                <Col xs={6} lg={{offset: 1, span: 3}} className="setting-logo">
+                  <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
+                    <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
+                  </Popover>
+                </Col>
+                <Col xs={18} sm={15} lg={19} className="setting-intro">
+                  <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
+                  {/* <p className="ui-desc">{projectMsg.desc}</p> */}
+                </Col>
+              </Row>
+              <hr className="breakline" />
+              <Form>
+                <FormItem
+                  {...formItemLayout}
+                  label="项目ID"
+                >
+                  <span >{this.props.projectMsg._id}</span>
 
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label="项目名称"
-          >
-            {getFieldDecorator('name', {
-              initialValue: initFormValues.name,
-              rules: nameLengthLimit('项目')
-            })(
-              <Input />
-              )}
-          </FormItem>
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="项目名称"
+                >
+                  {getFieldDecorator('name', {
+                    initialValue: initFormValues.name,
+                    rules: nameLengthLimit('项目')
+                  })(
+                    <Input />
+                    )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="所属分组"
-          >
-            <Input value={this.state.currGroup} disabled={true} />
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="所属分组"
+                >
+                  <Input value={this.state.currGroup} disabled={true} />
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label={(
-              <span>
-                接口基本路径&nbsp;
-                <Tooltip title="基本路径为空表示根路径">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
-          >
-            {getFieldDecorator('basepath', {
-              initialValue: initFormValues.basepath,
-              rules: [{
-                required: false, message: '请输入基本路径! '
-              }]
-            })(
-              <Input />
-              )}
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label={(
+                    <span>
+                      接口基本路径&nbsp;
+                      <Tooltip title="基本路径为空表示根路径">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </span>
+                  )}
+                >
+                  {getFieldDecorator('basepath', {
+                    initialValue: initFormValues.basepath,
+                    rules: [{
+                      required: false, message: '请输入基本路径! '
+                    }]
+                  })(
+                    <Input />
+                    )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label={(
-              <span>
-                MOCK地址&nbsp;
-                <Tooltip title="具体使用方法请查看文档">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
-          >
+                <FormItem
+                  {...formItemLayout}
+                  label={(
+                    <span>
+                      MOCK地址&nbsp;
+                      <Tooltip title="具体使用方法请查看文档">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </span>
+                  )}
+                >
 
-            <Input disabled value={mockUrl} onChange={()=>{}} />
+                  <Input disabled value={mockUrl} onChange={()=>{}} />
 
-          </FormItem>
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="描述"
-          >
-            {getFieldDecorator('desc', {
-              initialValue: initFormValues.desc,
-              rules: [{
-                required: false
-              }]
-            })(
-              <TextArea rows={8} />
-              )}
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="描述"
+                >
+                  {getFieldDecorator('desc', {
+                    initialValue: initFormValues.desc,
+                    rules: [{
+                      required: false
+                    }]
+                  })(
+                    <TextArea rows={8} />
+                    )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="环境配置"
-          >
-            {envSettingItems}
-            <Button type="default" onClick={this.add} style={{ width: '50%' }}>
-              <Icon type="plus" /> 添加环境配置
-            </Button>
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="权限"
+                >
+                  {getFieldDecorator('project_type', {
+                    rules: [{
+                      required: true
+                    }],
+                    initialValue: initFormValues.project_type
+                  })(
+                    <RadioGroup>
+                      <Radio value="private" className="radio">
+                        <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
+                      </Radio>
+                      <br />
+                      <Radio value="public" className="radio">
+                        <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
+                      </Radio>
+                    </RadioGroup>
+                    )}
+                </FormItem>
+              </Form>
 
-          <FormItem
-            {...formItemLayout}
-            label="权限"
-          >
-            {getFieldDecorator('project_type', {
-              rules: [{
-                required: true
-              }],
-              initialValue: initFormValues.project_type
-            })(
-              <RadioGroup>
-                <Radio value="private" className="radio">
-                  <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
-                </Radio>
-                <br />
-                <Radio value="public" className="radio">
-                  <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
-                </Radio>
-              </RadioGroup>
-              )}
-          </FormItem>
-        </Form>
+              <FormItem
+                {...formItemLayout}
+                label="危险操作"
+                className="danger-container"
+              >
+                <Card noHovering={true} className="card-danger">
+                  <div className="card-danger-content">
+                    <h3>删除项目</h3>
+                    <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
+                  </div>
+                  <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
+                </Card>
+              </FormItem>
+            </div>
+          </TabPane>
+          <TabPane tab="环境配置" key="2">
+            <div className="m-panel">
+              <FormItem
+                {...formItemLayout}
+              >
+                {envSettingItems}
+                <Button type="default" onClick={this.add} style={{ width: '50%' }}>
+                  <Icon type="plus" /> 添加环境配置
+                </Button>
+              </FormItem>
+            </div>
+          </TabPane>
+        </Tabs>
+
         <Affix offsetBottom={0}>
           <div className="btnwrap-changeproject">
-            <Button className="m-btn btn-save" icon="save" type="primary" onClick={this.handleOk} >保 存</Button>
+            <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
           </div>
         </Affix>
-
-        <FormItem
-          {...formItemLayout}
-          label="危险操作"
-          className="danger-container"
-        >
-          <Card noHovering={true} className="card-danger">
-            <div className="card-danger-content">
-              <h3>删除项目</h3>
-              <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
-            </div>
-            <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
-          </Card>
-        </FormItem>
       </div>
     )
   }
