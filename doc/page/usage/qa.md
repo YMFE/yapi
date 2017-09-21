@@ -18,4 +18,4 @@ A: 组长分为 `分组组长` 和 `项目组长`:
 
 第三步 将Har数据导入到YApi平台
 
-具体使用方法请参考YApi<a  href="./index-%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5(%E9%87%8D%E8%A6%81).html#HAR%08%08_数据导入">文档</a>
+具体使用方法请参考YApi<a  href="./data.html#HAR%08%08_数据导入">文档</a>

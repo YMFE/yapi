@@ -30,30 +30,39 @@
             "index": "./doc/page/usage/getfamiliar.md",
             "pages": [{
                 "name": "认识 YApi",
+                "index": "getfamiliar",
                 "content": "./doc/page/usage/getfamiliar.md"
             },{
                 "name": "创建第一个API",
+                "index": "quickstart",
                 "content": "./doc/page/usage/quickstart.md"
             },{
                 "name": "管理分组与项目",
+                "index": "manage",
                 "content": "./doc/page/usage/manage.md"
             },{
                 "name": "项目操作",
+                "index": "project",
                 "content": "./doc/page/usage/project.md"
             },{
                 "name": "接口操作",
+                "index": "interface",
                 "content": "./doc/page/usage/api.md"
             },{
                 "name": "使用mock功能",
+                "index": "mock",
                 "content": "./doc/page/usage/mock.md"
             },{
                 "name": "使用测试集",
+                "index": "case",
                 "content": "./doc/page/usage/case.md"
             },{
-                "name": "数据导入(重要)",
+                "name": "数据导入",
+                "index": "data",
                 "content": "./doc/page/usage/data.md"
             },{
                 "name": "常见问题",
+                "index": "qa",
                 "content": "./doc/page/usage/qa.md"
             }
         ]
