@@ -72,6 +72,37 @@ exports.debounce = (func, wait) => {
   };
 };
 
+
+
+exports.simpleJsonPathParse = function (key, json){
+  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
+    console.error('key 格式有误')
+    return null;
+  }
+  let keys = key.substr(2).split(".");
+  keys = keys.filter(item=>{
+    return item;
+  })
+  for(let i=0, l = keys.length; i< l; i++){
+    try{
+      let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
+      if(m){
+        json = json[m[1]][m[2]]; 
+      }else{
+        json = json[keys[i]]; 
+      }
+      
+      
+    }catch(e){
+      console.error(e);
+      json = null;
+      break;
+    }
+  }
+  return json;
+
+}
+
 exports.handleMockWord =(word) =>{
   if(!word || typeof word !== 'string' || word[0] !== '@') return word;
   return Mock.mock(word);
