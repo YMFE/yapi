@@ -90,4 +90,24 @@
 
 .interface-col{
   padding: 16px;
+  .interface-col-table-header{
+    background-color: rgb(238, 238, 238);
+    height: 50px;
+    line-height: 50px;
+    font-size:14px;
+    text-align: left;
+  }
+
+  .interface-col-table-body{
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .interface-col-table-header th{
+    padding-left:5px;
+  }
+
+  .interface-col-table-body td{
+    padding-left:5px;
+  }
 }
