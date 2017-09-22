@@ -517,9 +517,6 @@ class projectController extends baseController {
      * @param {String} name 项目名称，不能为空
      * @param {String} basepath 项目基本路径，不能为空
      * @param {String} [desc] 项目描述
-     * @param {Array} [env] 项目环境配置
-     * @param {String} [env[].name] 环境名称
-     * @param {String} [env[].domain] 环境域名
      * @returns {Object}
      * @example ./api/project/up.json
      */
@@ -540,7 +537,7 @@ class projectController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
             }
 
-            if (await this.checkAuth(id, 'project', 'edit') !== true) {
+            if (await this.checkAuth(id, 'project', 'danger') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
             }
 
@@ -572,7 +569,6 @@ class projectController extends baseController {
             if (!_.isUndefined(params.name)) data.name = params.name;
             if (!_.isUndefined(params.desc)) data.desc = params.desc;
             data.basepath = params.basepath;            
-            if (!_.isUndefined(params.env)) data.env = params.env;
             if (!_.isUndefined(params.color)) data.color = params.color;
             if (!_.isUndefined(params.icon)) data.icon = params.icon;
             let result = await this.Model.up(id, data);
@@ -588,7 +584,58 @@ class projectController extends baseController {
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
-    }
+    }    
+
+
+    /**
+     * 编辑项目
+     * @interface /project/up_env
+     * @method POST
+     * @category project
+     * @foldnumber 10
+     * @param {Number} id 项目id，不能为空
+     * @param {Array} [env] 项目环境配置
+     * @param {String} [env[].name] 环境名称
+     * @param {String} [env[].domain] 环境域名
+     * @returns {Object}
+     * @example 
+     */
+    async upEnv(ctx) {
+        try {
+            let id = ctx.request.body.id;
+            let params = ctx.request.body;
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
+            }
+
+            if (await this.checkAuth(id, 'project', 'edit') !== true) {
+                return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
+            }
+
+            if(!params.env || !Array.isArray(params.env)){
+                return ctx.body = yapi.commons.resReturn(null, 405, 'env参数格式有误');
+            }
+
+            let projectData = await this.Model.get(id);
+            let data = {
+                up_time: yapi.commons.time()
+            };
+
+            data.env = params.env;
+            let result = await this.Model.up(id, data);
+            let username = this.getUsername();
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 更新了项目 "${projectData.name}" 环境`,
+                type: 'project',
+                uid: this.getUid(),
+                username: username,
+                typeid: id
+            });
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }    
 
     /**
      * 模糊搜索项目名称或者组名称
