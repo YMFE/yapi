@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Alert, Input, message, Menu, Row, Col } from 'antd'
+import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -225,27 +225,41 @@ export default class GroupList extends Component {
 
   render() {
     const { currGroup } = this.props;
-    const delmark = <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
-    const editmark = <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
-    const addmark = <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
-
+    const delmark = <Menu.Item>
+      <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
+    </Menu.Item>
+    //  <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
+    const editmark = <Menu.Item>
+      <span onClick={() => { this.showConfirm() }}>删除分组</span>
+    </Menu.Item>
+    // <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
+    const addmark = <Menu.Item>
+      <span onClick={this.showModal}>添加分组</span>
+    </Menu.Item>
+    //  <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
+    let menu = <Menu>
+      {
+        this.props.curUserRole === "admin" ? (editmark) : ''
+      }
+      {
+        this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+      }
+      {
+        this.props.curUserRole === 'admin' ? (addmark) : ''
+      }
+    </Menu>;
+    menu = currGroup.role ==='owner'?<a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a>:<Dropdown overlay={menu}>
+      <a className="ant-dropdown-link" href="#">
+        <Icon type="setting" />
+      </a>
+    </Dropdown>;
     return (
       <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              <span className="operate">
-                {
-                  this.props.curUserRole === "admin" ? (editmark) : ''
-                }
-                {
-                  this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-                }
-                {
-                  this.props.curUserRole === 'admin' ? (addmark) : ''
-                }
-              </span>
+              { this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (menu) : '' }
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
