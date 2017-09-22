@@ -261,13 +261,11 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          if (isJsonData(header)) {
-            err = json_parse(err);
-          }
+          err = json_parse(err);
         } catch (e) {
-          message.error(e.message)
+          console.log(e)
         }
-        message.error('请求异常')
+        message.error(err || '请求异常')
         that.setState({ res: err || '请求失败', resHeader: header, validRes: [], test_status: 'error' })
         that.setState({ loading: false })
         that.bindAceEditor()
