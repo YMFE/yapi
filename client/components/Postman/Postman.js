@@ -549,7 +549,7 @@ export default class Run extends Component {
           }
         </div>
 
-        <Card title={<Tooltip placement="top" title="在项目设置配置domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
+        <Card title={<Tooltip placement="top" title="在 '设置->环境配置' 配置 domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
           <div className="url">
 
             <InputGroup compact style={{ display: 'flex' }}>
@@ -567,7 +567,13 @@ export default class Run extends Component {
               <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
             </InputGroup>
 
-            <Tooltip placement="bottom" title="请求真实接口">
+            <Tooltip placement="bottom" title={(() => {
+              if (hasPlugin) {
+                return '发送请求'
+              } else {
+                return '请安装cross-request插件'
+              }
+            })()}>
               <Button
                 disabled={!hasPlugin}
                 onClick={this.reqRealInterface}
@@ -593,14 +599,14 @@ export default class Run extends Component {
                     <div key={index} className="key-value-wrap">
                       <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
-                      <AutoComplete                       
+                      <AutoComplete
                         value={item.value}
                         onChange={e => this.changePathParam(e, index)}
                         className="value"
                         dataSource={mockDataSource}
                         placeholder="参数值"
                         optionLabelProp="value"
-                      />  
+                      />
                       <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                     </div>
                   )
@@ -673,7 +679,7 @@ export default class Run extends Component {
                     bodyForm.map((item, index) => {
                       return (
                         <div key={index} className="key-value-wrap">
-                          <Input  disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                          <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
                           <span>[</span>
                           <Select disabled value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
                             <Option value="file">File</Option>
