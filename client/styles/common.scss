@@ -81,6 +81,11 @@ em {
     height: 2.4rem;
   }
 }
+.m-tab {
+  .ant-tabs-nav-wrap {
+    background-color: #eceef1;
+  }
+}
 
 .hidden {
   display: none;

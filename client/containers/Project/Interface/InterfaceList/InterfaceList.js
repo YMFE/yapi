@@ -100,14 +100,16 @@ class InterfaceList extends Component {
     })
   }
 
-  changeInterfaceStatus = (e) => {
-    console.log(e);
-    // this.props.changeMemberRole({ id, member_uid, role }).then((res) => {
-    //   if (!res.payload.data.errcode) {
-    //     message.success(res.payload.data.errmsg);
-    //     this.reFetchList(); // 添加成功后重新获取分组成员列表
-    //   }
-    // });
+  changeInterfaceStatus = async (value) => {
+    const params = {
+      id: value.split('-')[0],
+      status: value.split('-')[1]
+    };
+    let result = await axios.post('/api/interface/up', params);
+    if (result.data.errcode === 0) {
+      message.success('修改成功');
+      this.handleRequest(this.props);
+    }
   }
 
   render() {
@@ -148,11 +150,11 @@ class InterfaceList extends Component {
       dataIndex: 'status',
       key: 'status',
       width: 14,
-      render: (item) => {
-        console.log(item);
-        return <Select value={item} className="select" onChange={this.changeInterfaceStatus}>
-          <Option value={'done'}><span className="tag-status done">已完成</span></Option>
-          <Option value={'undone'}><span className="tag-status undone">未完成</span></Option>
+      render: (text, record) => {
+        const key = record.key;
+        return <Select value={key + '-' + text} className="select" onChange={this.changeInterfaceStatus}>
+          <Option value={key + '-done'}><span className="tag-status done">已完成</span></Option>
+          <Option value={key + '-undone'}><span className="tag-status undone">未完成</span></Option>
         </Select>
       },
       filters: [{
