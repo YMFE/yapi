@@ -314,7 +314,7 @@ class View extends Component {
           <Col span={18} className="colValue href"><span onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span></Col>
         </Row>
         {this.props.curData.desc?
-          <Row className="row">
+          <Row className="row remark">
             <Col span={4} className="colKey">接口备注：</Col>
             <Col span={18} className="colValue" dangerouslySetInnerHTML={{__html: this.props.curData.desc}}></Col>
           </Row>:""}
