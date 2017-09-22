@@ -69,7 +69,7 @@
         transform: translateY(-50%);
     }
     .ant-tree li .ant-tree-node-content-wrapper {
-      width: calc(100% - 24px);
+      width: calc(100% - 28px);
       position: relative;
     }
 
@@ -97,7 +97,7 @@
 
 
         a{
-            color: #333
+            color: rgba(13, 27, 62, 0.65);
         }
 
         .btn-http{
@@ -121,11 +121,6 @@
                 .ant-tree-switcher{
                     visibility: hidden;
                 }
-            }
-
-
-            a{
-                color: #333;
             }
 
             .btn-http{
@@ -166,6 +161,7 @@
     }
   }
   .interface-title {
+    clear: both;
     font-weight: normal;
     margin-top: .48rem;
     margin-bottom: .16rem;
@@ -191,4 +187,18 @@
     color: #2395f1;
     cursor: pointer;
   }
+  .remark-editor {
+    background-color: #fff;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  th {
+    text-align: left;
+  }
+  th, td {
+    border: 1px solid #e9e9e9;
+    padding: 8px;
+  }
+  tr:nth-child(odd){background: rgba(236, 238, 241, 0.67);}
 }
