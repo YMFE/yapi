@@ -26,10 +26,19 @@
       }
       .name{
         display: inline-block;
-        width: 117px;
+        // width: 117px;
+        margin-right: 20px;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
+      }
+      .ant-dropdown-link{
+        float: right;
+        display: block;
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
       }
       .operate {
         font-size: 0;
