@@ -118,22 +118,22 @@ class InterfaceColContent extends Component {
       this.setState({
         rows: newRows
       })
-      let status = 'error';
+      let status = 'error', result;
       try {
-        let result = await this.handleTest(curitem);
+        result = await this.handleTest(curitem);
         if (result.code === 400) {
           status = 'error';
         } else if (result.code === 0) {
           status = 'ok';
         } else if (result.code === 1) {
           status = 'invalid'
-        }
-        this.reports[curitem._id] = result;
-        this.records[curitem._id] = result.res_body;
+        }        
       } catch (e) {
-        status = 'error';
-        console.error(e);
+        status = 'error';        
+        result = e;
       }
+      this.reports[curitem._id] = result;
+      this.records[curitem._id] = result.res_body;
 
       curitem = Object.assign({}, rows[i], { test_status: status });
       newRows = [].concat([], rows);
@@ -165,17 +165,19 @@ class InterfaceColContent extends Component {
     return new Promise((resolve, reject) => {
       let result = { code: 400, msg: '数据异常', validRes: [] };
       let that = this;
+
+      result.url = href;
+      result.method = interfaceData.method;
+      result.headers = that.getHeadersObj(interfaceData.req_headers);
+      result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other;
+
       window.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
         data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
         success: (res, header) => {
-          res = json_parse(res);
-          result.url = href;
-          result.method = interfaceData.method;
-          result.headers = that.getHeadersObj(interfaceData.req_headers);
-          result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other
+          res = json_parse(res);          
           result.res_header = header;
           result.res_body = res;
           if (res && typeof res === 'object') {
@@ -198,10 +200,18 @@ class InterfaceColContent extends Component {
             reject(result)
           }
         },
-        error: (res) => {
+        error: (err, header) => {
+          try {
+            err = json_parse(err);
+          } catch (e) {
+            console.log(e)
+          }
+          
+          err = err || '请求异常';
           result.code = 400;
-          result.msg = '请求异常'
-          reject(res)
+          result.res_header = header;
+          result.res_body = err;
+          reject(result)
         }
       })
     })
@@ -318,12 +328,12 @@ class InterfaceColContent extends Component {
       property: 'casename',
       header: {
         label: '用例名称'
-      },  
+      },
       props: {
-        style:{
+        style: {
           width: '250px'
         }
-      },    
+      },
       cell: {
         formatters: [
           (text, { rowData }) => {
@@ -341,7 +351,7 @@ class InterfaceColContent extends Component {
         }]
       },
       props: {
-        style:{
+        style: {
           width: '100px'
         }
       },
@@ -357,7 +367,7 @@ class InterfaceColContent extends Component {
         label: '状态'
       },
       props: {
-        style:{
+        style: {
           width: '100px'
         }
       },
@@ -400,13 +410,13 @@ class InterfaceColContent extends Component {
 
       },
       props: {
-        style:{
+        style: {
           width: '100px'
         }
       },
       cell: {
         formatters: [(text, { rowData }) => {
-          if(!this.reports[rowData.id]){
+          if (!this.reports[rowData.id]) {
             return null;
           }
           return <Button onClick={() => this.openReport(rowData.id)}>报告</Button>
@@ -439,7 +449,7 @@ class InterfaceColContent extends Component {
         <Table.Provider
           components={components}
           columns={resolvedColumns}
-          style={{ width: '100%',borderCollapse: 'collapse' }}
+          style={{ width: '100%', borderCollapse: 'collapse' }}
         >
           <Table.Header
             className="interface-col-table-header"
