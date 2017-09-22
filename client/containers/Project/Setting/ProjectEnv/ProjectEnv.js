@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, Select, Button, Row, Col, message } from 'antd';
 import PropTypes from 'prop-types';
-import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
+import { updateEnv, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -25,7 +25,7 @@ let uuid = 0; // 环境配置的计数
     }
   },
   {
-    updateProject,
+    updateEnv,
     delProject,
     getProjectMsg,
     fetchGroupMsg,
@@ -45,7 +45,7 @@ class PrpjectEnv extends Component {
   static propTypes = {
     projectId: PropTypes.number,
     form: PropTypes.object,
-    updateProject: PropTypes.func,
+    updateEnv: PropTypes.func,
     delProject: PropTypes.func,
     getProjectMsg: PropTypes.func,
     history: PropTypes.object,
@@ -91,7 +91,7 @@ class PrpjectEnv extends Component {
   // 确认修改
   handleOk = (e) => {
     e.preventDefault();
-    const { form, updateProject, projectMsg } = this.props;
+    const { form, updateEnv, projectMsg } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         let assignValue = Object.assign(projectMsg, values);
@@ -104,7 +104,7 @@ class PrpjectEnv extends Component {
         });
         console.log(assignValue);
 
-        updateProject(assignValue).then((res) => {
+        updateEnv(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
             this.props.getProjectMsg(this.props.projectId);
             message.success('修改成功! ');
