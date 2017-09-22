@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Tabs, Affix } from 'antd';
+import { Form, Input, Icon, Tooltip, Select, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover, Tabs } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -435,19 +435,25 @@ class ProjectMessage extends Component {
                 </FormItem>
               </Form>
 
-              <FormItem
-                {...formItemLayout}
-                label="危险操作"
-                className="danger-container"
-              >
-                <Card noHovering={true} className="card-danger">
-                  <div className="card-danger-content">
-                    <h3>删除项目</h3>
-                    <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
-                  </div>
-                  <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
-                </Card>
-              </FormItem>
+              <div className="btnwrap-changeproject">
+                <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
+              </div>
+
+              {projectMsg.role === 'owner' || projectMsg.role === 'admin' ?
+                <FormItem
+                  {...formItemLayout}
+                  label="危险操作"
+                  className="danger-container"
+                >
+                  <Card noHovering={true} className="card-danger">
+                    <div className="card-danger-content">
+                      <h3>删除项目</h3>
+                      <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
+                    </div>
+                    <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
+                  </Card>
+                </FormItem> : null}
+
             </div>
           </TabPane>
           <TabPane tab="环境配置" key="2">
@@ -464,11 +470,6 @@ class ProjectMessage extends Component {
           </TabPane>
         </Tabs>
 
-        <Affix offsetBottom={0}>
-          <div className="btnwrap-changeproject">
-            <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
-          </div>
-        </Affix>
       </div>
     )
   }
