@@ -12,8 +12,9 @@
         float: left;
         .colKey{
             font-weight: bold;
-            text-align: right;
-            max-width: 100px;
+            text-align: left;
+            width: 100px;
+            padding-left: 10px;
         }
     }
     .colValue.href {

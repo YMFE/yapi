@@ -2,7 +2,7 @@ import './View.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Table,Icon, Row, Col } from 'antd'
+import { Table, Icon, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
@@ -11,7 +11,7 @@ import variable from '../../../../constants/variable';
 // import { Card } from 'antd'
 // import { getMockUrl } from '../../reducer/modules/news.js'
 
-@connect(state=>{
+@connect(state => {
   return {
     curData: state.inter.curdata,
     currProject: state.project.currProject
@@ -30,11 +30,11 @@ class View extends Component {
     currProject: PropTypes.object
   }
 
-  req_body_form(req_body_type,req_body_form){
+  req_body_form(req_body_type, req_body_form) {
 
 
 
-    if(req_body_type === 'form'){
+    if (req_body_type === 'form') {
 
       const columns = [{
         title: '参数名称',
@@ -44,15 +44,15 @@ class View extends Component {
         title: '参数类型',
         dataIndex: 'type',
         key: 'type',
-        render: (text)=>{
+        render: (text) => {
           text = text || "";
-          return text.toLowerCase()==="text"?<span><i className="query-icon text">T</i>文本</span>:<span><Icon type="file" className="query-icon" />文件</span>
+          return text.toLowerCase() === "text" ? <span><i className="query-icon text">T</i>文本</span> : <span><Icon type="file" className="query-icon" />文件</span>
         }
-      },{
+      }, {
         title: '是否必须',
         dataIndex: 'required',
         key: 'required'
-      },{
+      }, {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
@@ -60,7 +60,7 @@ class View extends Component {
         render(_, item) {
           return <pre>{item.example}</pre>;
         }
-      },{
+      }, {
         title: '备注',
         dataIndex: 'value',
         key: 'value',
@@ -71,54 +71,53 @@ class View extends Component {
       }];
 
       const dataSource = [];
-      if(req_body_form&&req_body_form.length){
-        req_body_form.map((item,i)=>{
-          console.log(item);
+      if (req_body_form && req_body_form.length) {
+        req_body_form.map((item, i) => {
           dataSource.push({
             key: i,
             name: item.name,
             value: item.desc,
             example: item.example,
-            required: item.required==0?"否":"是",
+            required: item.required == 0 ? "否" : "是",
             type: item.type
           })
         })
       }
 
-      return <div style={{display:dataSource.length?"":"none"}} className="colBody">
+      return <div style={{ display: dataSource.length ? "" : "none" }} className="colBody">
         <h3 className="col-title">Body：</h3>
-        <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />
+        <Table bordered size="small" pagination={false} columns={columns} dataSource={dataSource} />
       </div>
 
-    }else if(req_body_type === 'file'){
+    } else if (req_body_type === 'file') {
 
-      return <div style={{display:this.props.curData.req_body_other?"":"none"}} className="colBody">
+      return <div style={{ display: this.props.curData.req_body_other ? "" : "none" }} className="colBody">
         <h3 className="col-title">Body：</h3>
         <div>{this.props.curData.req_body_other}</div>
       </div>
 
-    }else if(req_body_type === 'raw'){
+    } else if (req_body_type === 'raw') {
 
-      return <div style={{display:this.props.curData.req_body_other?"":"none"}} className="colBody">
+      return <div style={{ display: this.props.curData.req_body_other ? "" : "none" }} className="colBody">
         <h3 className="col-title">Body：</h3>
         <div>{this.props.curData.req_body_other}</div>
       </div>
     }
   }
-  res_body(res_body_type,res_body){
-    if(res_body_type === 'json'){
+  res_body(res_body_type, res_body) {
+    if (res_body_type === 'json') {
       let h = this.countEnter(this.props.curData.res_body);
-      return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
-        <div id="vres_body_json" style={{ minHeight: h*16+20 }}></div>
+      return <div  className="colBody">
+        <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div>
       </div>
-    }else if(res_body_type === 'raw'){
-      return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
+    } else if (res_body_type === 'raw') {
+      return <div  className="colBody">
         <div>{res_body}</div>
       </div>
     }
   }
 
-  req_query(query){
+  req_query(query) {
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
@@ -148,84 +147,85 @@ class View extends Component {
     }];
 
     const dataSource = [];
-    if(query&&query.length){
-      query.map((item,i)=>{
+    if (query && query.length) {
+      query.map((item, i) => {
         dataSource.push({
           key: i,
           name: item.name,
           value: item.desc,
           example: item.example,
-          required: item.required==0?"否":"是"
+          required: item.required == 0 ? "否" : "是"
         })
       })
     }
 
-    return  <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />;
+    return <Table bordered size="small" pagination={false} columns={columns} dataSource={dataSource} />;
   }
 
-  countEnter(str){
+  countEnter(str) {
     let i = 0;
     let c = 0;
-    if(!str||!str.indexOf) return 0;
-    while(str.indexOf('\n',i)>-1){
-      i = str.indexOf('\n',i) + 2;
+    if (!str || !str.indexOf) return 0;
+    while (str.indexOf('\n', i) > -1) {
+      i = str.indexOf('\n', i) + 2;
       c++;
     }
     return c;
   }
-  bindAceEditor(){
-    if(this.props.curData.req_body_type === "json"&&this.props.curData.title){
+  bindAceEditor() {
+    if (this.props.curData.req_body_type === "json" && this.props.curData.title) {
       mockEditor({
         container: 'vreq_body_json',
         data: this.props.curData.req_body_other,
-        readOnly:true,
-        onChange: function () {}
+        readOnly: true,
+        onChange: function () { }
       })
     }
-    if(this.props.curData.title&&this.props.curData.res_body_type === "json"){
+    if (this.props.curData.title && this.props.curData.res_body_type === "json") {
+      let content = this.props.curData.res_body ? this.props.curData.res_body: '没有定义';
       mockEditor({
         container: 'vres_body_json',
-        data: this.props.curData.res_body,
-        readOnly:true,
-        onChange: function () {}
+        data: content,
+        readOnly: true,
+        onChange: function () { }
       })
     }
   }
-  componentDidMount(){
+  componentDidMount() {
 
-    if(this.props.curData.title){
+    if (this.props.curData.title) {
       this.bindAceEditor.bind(this)();
     }
-    if(!this.props.curData.title&&this.state.init){
-      this.setState({init: false});
+    if (!this.props.curData.title && this.state.init) {
+      this.setState({ init: false });
     }
   }
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.bindAceEditor.bind(this)();
   }
-  componentWillUpdate(){
-    if(!this.props.curData.title&&this.state.init){
-      this.setState({init: false});
+  componentWillUpdate() {
+    if (!this.props.curData.title && this.state.init) {
+      this.setState({ init: false });
     }
   }
-  render () {
+  render() {
     const dataSource = [];
-    if(this.props.curData.req_headers&&this.props.curData.req_headers.length){
-      this.props.curData.req_headers.map((item,i)=>{
+    if (this.props.curData.req_headers && this.props.curData.req_headers.length) {
+      this.props.curData.req_headers.map((item, i) => {
         dataSource.push({
           key: i,
           name: item.name,
-          required: item.required==0?"否":"是",
+          required: item.required == 0 ? "否" : "是",
           value: item.value,
           example: item.example,
           desc: item.desc
         })
       })
     }
-    console.log(this.props);
+
     const req_dataSource = [];
-    if(this.props.curData.req_params&&this.props.curData.req_params.length){
-      this.props.curData.req_params.map((item,i)=>{
+    if (this.props.curData.req_params && this.props.curData.req_params.length) {
+      this.props.curData.req_params.map((item, i) => {
         req_dataSource.push({
           key: i,
           name: item.name,
@@ -237,7 +237,7 @@ class View extends Component {
       title: '参数名称',
       dataIndex: 'name',
       key: 'name'
-    },{
+    }, {
       title: '备注',
       dataIndex: 'value',
       key: 'value'
@@ -258,7 +258,7 @@ class View extends Component {
       dataIndex: 'required',
       key: 'required',
       width: 1
-    },{
+    }, {
       title: '示例',
       dataIndex: 'example',
       key: 'example',
@@ -266,7 +266,7 @@ class View extends Component {
       render(_, item) {
         return <pre>{item.example}</pre>;
       }
-    },{
+    }, {
       title: '备注',
       dataIndex: 'desc',
       key: 'desc',
@@ -279,14 +279,16 @@ class View extends Component {
       undone: "未完成",
       done: "已完成"
     }
-    let methodColor = variable.METHOD_COLOR[this.props.curData.method?this.props.curData.method.toLowerCase():"get"];
+
+    let requestShow = (dataSource&& dataSource.length) || (req_dataSource && req_dataSource.length) || (this.props.curData.req_query && this.props.curData.req_query.length) || (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
+    let methodColor = variable.METHOD_COLOR[this.props.curData.method ? this.props.curData.method.toLowerCase() : "get"];
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
-    const aceEditor = <div style={{display:this.props.curData.req_body_other&&this.props.curData.req_body_type==="json"?"block":"none"}} className="colBody">
+    const aceEditor = <div style={{ display: this.props.curData.req_body_other && this.props.curData.req_body_type === "json" ? "block" : "none" }} className="colBody">
       <span className="colKey">请求Body：</span>
-      <div id="vreq_body_json" style={{ minHeight: h*16+20 }}></div>
+      <div id="vreq_body_json" style={{ minHeight: h * 16 + 20 }}></div>
     </div>
-    if(!methodColor) methodColor = "get";
+    if (!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <h2 className="interface-title" style={{ marginTop: 0 }}>基本信息</h2>
       <div className="panel-sub">
@@ -305,50 +307,56 @@ class View extends Component {
         <Row className="row">
           <Col span={4} className="colKey">接口路径：</Col>
           <Col span={18} className="colValue">
-            <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue tag-method">{this.props.curData.method}</span>
+            <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue tag-method">{this.props.curData.method}</span>
             <span className="colValue">{this.props.currProject.basepath}{this.props.curData.path}</span>
           </Col>
         </Row>
         <Row className="row">
           <Col span={4} className="colKey">Mock地址：</Col>
-          <Col span={18} className="colValue href"><span onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span></Col>
+          <Col span={18} className="colValue href">
+            <span onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span></Col>
         </Row>
-        {this.props.curData.desc?
+        {this.props.curData.desc ?
           <Row className="row remark">
             <Col span={4} className="colKey">接口备注：</Col>
-            <Col span={18} className="colValue" dangerouslySetInnerHTML={{__html: this.props.curData.desc}}></Col>
-          </Row>:""}
+            <Col span={18} className="colValue" dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></Col>
+          </Row> : ""}
       </div>
-      <h2 className="interface-title">Request</h2>
-      {req_dataSource.length?<div className="colHeader">
+      <h2
+        className="interface-title"
+        style={{ display: requestShow ? '' : 'none' }}
+      >
+        Request
+      </h2>
+      {req_dataSource.length ? <div className="colHeader">
         <h3 className="col-title">路径参数：</h3>
-        <Table bordered size="small" pagination = {false} columns= {req_params_columns} dataSource = {req_dataSource} />
-      </div>:""}
-      {dataSource.length?<div className="colHeader">
+        <Table bordered size="small" pagination={false} columns={req_params_columns} dataSource={req_dataSource} />
+      </div> : ""}
+      {dataSource.length ? <div className="colHeader">
         <h3 className="col-title">Headers：</h3>
-        <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />
-      </div>:""}
-      {this.props.curData.req_query&&this.props.curData.req_query.length?<div className="colQuery">
+        <Table bordered size="small" pagination={false} columns={columns} dataSource={dataSource} />
+      </div> : ""}
+      {this.props.curData.req_query && this.props.curData.req_query.length ? <div className="colQuery">
         <h3 className="col-title">Query：</h3>
         {this.req_query(this.props.curData.req_query)}
-      </div>:""}
+      </div> : ""}
       {/*<div className="colreqBodyType">
         <span className="colKey">请求Body类型：</span>
         <span className="colValue">{this.props.curData.req_body_type}</span>
       </div>*/}
-      { aceEditor }
-      {this.req_body_form(this.props.curData.req_body_type,this.props.curData.req_body_form)}
+      {aceEditor}
+      {this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)}
       {/*<div className="colreqBodyType">
         <span className="colKey">返回Body类型：</span>
         <span className="colValue">{this.props.curData.res_body_type}</span>
       </div>*/}
       <h2 className="interface-title">Response</h2>
-      {this.res_body(this.props.curData.res_body_type,this.props.curData.res_body)}
+      {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body)}
     </div>;
-    if(!this.props.curData.title){
-      if(this.state.init){
+    if (!this.props.curData.title) {
+      if (this.state.init) {
         res = <div></div>;
-      }else{
+      } else {
         res = <ErrMsg type="noData" />;
       }
     }
