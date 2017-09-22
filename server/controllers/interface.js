@@ -76,7 +76,7 @@ class interfaceController extends baseController {
         params.req_params = params.req_params || [];
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
-        
+
 
         let http_path = url.parse(params.path, true);
 
@@ -94,7 +94,7 @@ class interfaceController extends baseController {
                 value: http_path.query[item]
             })
         })
-        
+
 
 
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
@@ -203,12 +203,18 @@ class interfaceController extends baseController {
 
         try {
             let result = await this.Model.get(params.id);
+            if(!result){
+              return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
+            }
+            let userinfo = await this.userModel.findById(result.uid);
             let project = await this.projectModel.getBaseInfo(result.project_id);
             if (project.project_type === 'private') {
                 if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
+            result = result.toObject();
+            result.username = userinfo.username;
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -668,7 +674,7 @@ class interfaceController extends baseController {
                 username: username,
                 typeid: catData.project_id
             });
-            
+
             let interfaceData = await this.Model.listByCatid(id);
             interfaceData.forEach(async item=>{
                 try{
@@ -677,7 +683,7 @@ class interfaceController extends baseController {
                 }catch(e){
                     yapi.commons.log(e.message, 'error');
                 }
-                
+
             })
             await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
@@ -701,11 +707,11 @@ class interfaceController extends baseController {
 
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
-        
+
         if (!project_id || isNaN(project_id)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        
+
         try {
             let project = await this.projectModel.getBaseInfo(project_id);
             if (project.project_type === 'private') {

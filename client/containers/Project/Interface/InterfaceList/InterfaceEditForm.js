@@ -288,7 +288,7 @@ class InterfaceEditForm extends Component {
   }
 
   // 点击切换radio
-  changeRadioGroup = (e) => {    
+  changeRadioGroup = (e) => {
     const res = e.target.value.split('-');
     if(res[0] === 'req'){
       this.setState({
@@ -748,7 +748,7 @@ class InterfaceEditForm extends Component {
             className={'interface-edit-item ' + this.state.hideTabs.other.remark}
           >
             <div >
-              <div id="desc" ></div>
+              <div id="desc" className="remark-editor"></div>
             </div>
           </FormItem>
           <FormItem
