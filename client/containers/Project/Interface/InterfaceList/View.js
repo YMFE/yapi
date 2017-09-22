@@ -2,7 +2,8 @@ import './View.scss'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Table,Icon } from 'antd'
+import { Table,Icon, Row, Col } from 'antd'
+import { Link } from 'react-router-dom'
 const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
@@ -51,20 +52,33 @@ class View extends Component {
         title: '是否必须',
         dataIndex: 'required',
         key: 'required'
-      }, {
+      },{
+        title: '示例',
+        dataIndex: 'example',
+        key: 'example',
+        width: 4,
+        render(_, item) {
+          return <pre>{item.example}</pre>;
+        }
+      },{
         title: '备注',
         dataIndex: 'value',
         key: 'value',
-        width: '45%'
+        width: 4,
+        render(_, item) {
+          return <pre>{item.value}</pre>;
+        }
       }];
 
       const dataSource = [];
       if(req_body_form&&req_body_form.length){
         req_body_form.map((item,i)=>{
+          console.log(item);
           dataSource.push({
             key: i,
             name: item.name,
             value: item.desc,
+            example: item.example,
             required: item.required==0?"否":"是",
             type: item.type
           })
@@ -72,21 +86,21 @@ class View extends Component {
       }
 
       return <div style={{display:dataSource.length?"":"none"}} className="colBody">
-        <span className="colKey">请求Body：</span>
+        <h3 className="col-title">Body：</h3>
         <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />
       </div>
 
     }else if(req_body_type === 'file'){
 
       return <div style={{display:this.props.curData.req_body_other?"":"none"}} className="colBody">
-        <span className="colKey">请求Body：</span>
+        <h3 className="col-title">Body：</h3>
         <div>{this.props.curData.req_body_other}</div>
       </div>
 
     }else if(req_body_type === 'raw'){
 
       return <div style={{display:this.props.curData.req_body_other?"":"none"}} className="colBody">
-        <span className="colKey">请求Body：</span>
+        <h3 className="col-title">Body：</h3>
         <div>{this.props.curData.req_body_other}</div>
       </div>
     }
@@ -95,12 +109,10 @@ class View extends Component {
     if(res_body_type === 'json'){
       let h = this.countEnter(this.props.curData.res_body);
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
-        <span className="colKey">返回Body：</span>
         <div id="vres_body_json" style={{ minHeight: h*16+20 }}></div>
       </div>
     }else if(res_body_type === 'raw'){
       return <div style={{display:this.props.curData.res_body?"":"none"}} className="colBody">
-        <span className="colKey">返回Body：</span>
         <div>{res_body}</div>
       </div>
     }
@@ -110,16 +122,29 @@ class View extends Component {
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
+      width: 4,
       key: 'name'
     }, {
       title: '是否必须',
+      width: 4,
       dataIndex: 'required',
       key: 'required'
+    }, {
+      title: '示例',
+      dataIndex: 'example',
+      key: 'example',
+      width: 4,
+      render(_, item) {
+        return <pre>{item.example}</pre>;
+      }
     }, {
       title: '备注',
       dataIndex: 'value',
       key: 'value',
-      width: '45%'
+      width: 4,
+      render(_, item) {
+        return <pre>{item.value}</pre>;
+      }
     }];
 
     const dataSource = [];
@@ -129,6 +154,7 @@ class View extends Component {
           key: i,
           name: item.name,
           value: item.desc,
+          example: item.example,
           required: item.required==0?"否":"是"
         })
       })
@@ -191,10 +217,12 @@ class View extends Component {
           name: item.name,
           required: item.required==0?"否":"是",
           value: item.value,
+          example: item.example,
           desc: item.desc
         })
       })
     }
+    console.log(this.props);
     const req_dataSource = [];
     if(this.props.curData.req_params&&this.props.curData.req_params.length){
       this.props.curData.req_params.map((item,i)=>{
@@ -231,10 +259,21 @@ class View extends Component {
       key: 'required',
       width: 1
     },{
+      title: '示例',
+      dataIndex: 'example',
+      key: 'example',
+      width: 4,
+      render(_, item) {
+        return <pre>{item.example}</pre>;
+      }
+    },{
       title: '备注',
       dataIndex: 'desc',
       key: 'desc',
-      width: 4
+      width: 4,
+      render(_, item) {
+        return <pre>{item.desc}</pre>;
+      }
     }];
     let status = {
       undone: "未完成",
@@ -249,48 +288,48 @@ class View extends Component {
     </div>
     if(!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
-      <div className="colName">
-        <span className="colKey">接口名称：</span>
-        <span className="colValue">{this.props.curData.title}</span>
+      <h2 className="interface-title" style={{ marginTop: 0 }}>基本信息</h2>
+      <div className="panel-sub">
+        <Row className="row">
+          <Col span={4} className="colKey">接口名称：</Col>
+          <Col span={8}>{this.props.curData.title}</Col>
+          <Col span={4} className="colKey">创建人：</Col>
+          <Col span={8} className="colValue"><Link className="user-name" to={"/user/profile/" + this.props.curData.uid} ><img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />{this.props.curData.username}</Link></Col>
+        </Row>
+        <Row className="row">
+          <Col span={4} className="colKey">状 态：</Col>
+          <Col span={8} className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</Col>
+          <Col span={4} className="colKey">更新时间：</Col>
+          <Col span={8}>{formatTime(this.props.curData.up_time)}</Col>
+        </Row>
+        <Row className="row">
+          <Col span={4} className="colKey">接口路径：</Col>
+          <Col span={18} className="colValue">
+            <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue tag-method">{this.props.curData.method}</span>
+            <span className="colValue">{this.props.currProject.basepath}{this.props.curData.path}</span>
+          </Col>
+        </Row>
+        <Row className="row">
+          <Col span={4} className="colKey">Mock地址：</Col>
+          <Col span={18} className="colValue href"><span onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span></Col>
+        </Row>
+        {this.props.curData.desc?
+          <Row className="row">
+            <Col span={4} className="colKey">接口备注：</Col>
+            <Col span={18} className="colValue" dangerouslySetInnerHTML={{__html: this.props.curData.desc}}></Col>
+          </Row>:""}
       </div>
-      <div className="colMethod">
-        <span className="colKey">请求方法：</span>
-        <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{this.props.curData.method}</span>
-      </div>
-      <div className="colPath">
-        <span className="colKey">接口路径：</span>
-        <span className="colValue">{this.props.currProject.basepath}{this.props.curData.path}</span>
-      </div>
-      <div className="colstatus">
-        <span className="colKey">状&emsp;&emsp;态：</span>
-        <span className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</span>
-      </div>
-      <div className="colAddTime">
-        <span className="colKey">创建时间：</span>
-        <span className="colValue">{formatTime(this.props.curData.add_time)}</span>
-      </div>
-      <div className="colUpTime">
-        <span className="colKey">更新时间：</span>
-        <span className="colValue">{formatTime(this.props.curData.up_time)}</span>
-      </div>
-      <div className="colMockUrl">
-        <span className="colKey">Mock地址：</span>
-        <span className="colValue href" onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span>
-      </div>
-      {this.props.curData.desc?<div className="colDesc">
-        <span className="colKey">接口备注：</span>
-        <span className="colValue" dangerouslySetInnerHTML={{__html: this.props.curData.desc}}></span>
-      </div>:""}
+      <h2 className="interface-title">Request</h2>
       {req_dataSource.length?<div className="colHeader">
-        <span className="colKey">路径参数：</span>
+        <h3 className="col-title">路径参数：</h3>
         <Table bordered size="small" pagination = {false} columns= {req_params_columns} dataSource = {req_dataSource} />
       </div>:""}
       {dataSource.length?<div className="colHeader">
-        <span className="colKey">请求Headers：</span>
+        <h3 className="col-title">Headers：</h3>
         <Table bordered size="small" pagination = {false} columns= {columns} dataSource = {dataSource} />
       </div>:""}
       {this.props.curData.req_query&&this.props.curData.req_query.length?<div className="colQuery">
-        <span className="colKey">Query：</span>
+        <h3 className="col-title">Query：</h3>
         {this.req_query(this.props.curData.req_query)}
       </div>:""}
       {/*<div className="colreqBodyType">
@@ -303,6 +342,7 @@ class View extends Component {
         <span className="colKey">返回Body类型：</span>
         <span className="colValue">{this.props.curData.res_body_type}</span>
       </div>*/}
+      <h2 className="interface-title">Response</h2>
       {this.res_body(this.props.curData.res_body_type,this.props.curData.res_body)}
     </div>;
     if(!this.props.curData.title){
