@@ -17,14 +17,14 @@ export default class Group extends Component {
   render () {
 
     const GroupContent = (
-      <Layout>
-        <Sider style={{ height: 'auto', marginLeft: '24px', marginTop: '24px' }} width={300}>
+      <Layout style={{minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px'}}>
+        <Sider style={{ height: '100%', overflowY: 'scroll'}} width={300}>
           <div className="logo" />
           <GroupList></GroupList>
         </Sider>
         <Layout>
-          <Content style={{ margin: '24px 24px 0 16px', overflow: 'initial' }}>
-            <Tabs type="card" className="m-tab">
+          <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
+            <Tabs type="card" className="m-tab" style={{height: '100%'}}>
               <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
               <TabPane tab="成员列表" key="2"><MemberList/></TabPane>
             </Tabs>
