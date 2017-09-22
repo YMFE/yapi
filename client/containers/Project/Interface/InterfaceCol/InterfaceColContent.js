@@ -187,7 +187,7 @@ class InterfaceColContent extends Component {
 
             if (validRes.length === 0) {
               result.code = 0;
-              result.validRes = [{message: '验证通过'}];
+              result.validRes = [{ message: '验证通过' }];
               resolve(result);
             } else if (validRes.length > 0) {
               result.code = 1;
@@ -207,23 +207,23 @@ class InterfaceColContent extends Component {
     })
   }
 
-  
-  handleVarWord(val){
+
+  handleVarWord(val) {
     return simpleJsonPathParse(val, this.records)
   }
 
-  handleValue(val){
-    if(!val || typeof val !== 'string'){
+  handleValue(val) {
+    if (!val || typeof val !== 'string') {
       return val;
-    }else if(val[0] === '@'){
+    } else if (val[0] === '@') {
       return handleMockWord(val);
-    }else if(val.indexOf('$.') === 0){
+    } else if (val.indexOf('$.') === 0) {
       return this.handleVarWord(val);
     }
     return val;
   }
 
-  arrToObj =(arr) =>{
+  arrToObj = (arr) => {
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
@@ -234,7 +234,7 @@ class InterfaceColContent extends Component {
     return obj;
   }
 
-  getQueryObj =(query)=> {
+  getQueryObj = (query) => {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
@@ -244,7 +244,7 @@ class InterfaceColContent extends Component {
     })
     return queryObj;
   }
-  getHeadersObj = (headers) =>{
+  getHeadersObj = (headers) => {
     headers = headers || [];
     const headersObj = {};
     headers.forEach(item => {
@@ -409,7 +409,9 @@ class InterfaceColContent extends Component {
 
     return (
       <div className="interface-col">
-        <h2 style={{ marginBottom: '10px', display: 'inline-block' }}>测试集合</h2>
+        <h2 style={{ marginBottom: '10px', display: 'inline-block' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
+          <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+        </a></h2>
         <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>
         <Table.Provider
           components={components}
