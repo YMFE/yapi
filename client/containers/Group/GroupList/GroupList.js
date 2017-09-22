@@ -237,7 +237,7 @@ export default class GroupList extends Component {
       <span onClick={this.showModal}>添加分组</span>
     </Menu.Item>
     //  <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
-    const menu = <Menu>
+    let menu = <Menu>
       {
         this.props.curUserRole === "admin" ? (editmark) : ''
       }
@@ -247,19 +247,19 @@ export default class GroupList extends Component {
       {
         this.props.curUserRole === 'admin' ? (addmark) : ''
       }
-    </Menu>
+    </Menu>;
+    menu = currGroup.role ==='owner'?<a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a>:<Dropdown overlay={menu}>
+      <a className="ant-dropdown-link" href="#">
+        <Icon type="setting" />
+      </a>
+    </Dropdown>;
     return (
       <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              <Dropdown overlay={menu}>
-                <a className="ant-dropdown-link" href="#">
-                  <Icon type="setting" />
-                </a>
-              </Dropdown>
-              
+              { this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (menu) : '' }
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
