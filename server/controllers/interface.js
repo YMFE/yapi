@@ -357,28 +357,39 @@ class interfaceController extends baseController {
         }
 
         let interfaceData = await this.Model.get(id);
+        if(!interfaceData){
+          return ctx.body = yapi.commons.resReturn(null, 400, '不存在的接口');
+        }
         let auth = await this.checkAuth(interfaceData.project_id, 'project', 'edit')
         if (!auth) {
             return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
         }
 
+        let data = {
+            up_time: yapi.commons.time()
+        };
 
+        if(params.path){
+          let http_path = url.parse(params.path, true);
 
-        let http_path = url.parse(params.path, true);
-
-        if (!yapi.commons.verifyPath(http_path.pathname)) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+          if (!yapi.commons.verifyPath(http_path.pathname)) {
+              return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+          }
+          params.query_path = {};
+          params.query_path.path = http_path.pathname;
+          params.query_path.params = [];
+          Object.keys(http_path.query).forEach((item) => {
+              params.query_path.params.push({
+                  name: item,
+                  value: http_path.query[item]
+              })
+          })
+          data.query_path = params.query_path
         }
 
-        params.query_path = {};
-        params.query_path.path = http_path.pathname;
-        params.query_path.params = [];
-        Object.keys(http_path.query).forEach((item) => {
-            params.query_path.params.push({
-                name: item,
-                value: http_path.query[item]
-            })
-        })
+
+
+
 
         if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method)) {
             let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
@@ -387,10 +398,7 @@ class interfaceController extends baseController {
             }
         }
 
-        let data = {
-            up_time: yapi.commons.time(),
-            query_path: params.query_path
-        };
+
 
         if (!_.isUndefined(params.path)) {
             data.path = params.path;
@@ -416,12 +424,15 @@ class interfaceController extends baseController {
         if (!_.isUndefined(params.req_body_form)) {
             data.req_body_form = params.req_body_form;
         }
-        if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+        if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
+          if(Array.isArray(params.req_params) && params.req_params.length > 0){
             data.type = 'var'
             data.req_params = params.req_params;
-        } else {
+          }else{
             data.type = 'static'
             data.req_params = [];
+          }
+
         }
 
         if (!_.isUndefined(params.req_query)) {
