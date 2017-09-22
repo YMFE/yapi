@@ -32,6 +32,12 @@
         text-overflow:ellipsis;
         white-space: nowrap;
       }
+      .editSet{
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
+      }
       .ant-dropdown-link{
         float: right;
         display: block;
@@ -130,5 +136,12 @@
   .label {
     text-align: right;
     line-height: 28px;
+  }
+}
+.user-menu{
+  a{
+    &:hover{
+      color: #ccc;
+    }
   }
 }

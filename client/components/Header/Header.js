@@ -14,11 +14,11 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 
 const MenuUser = (props) => (
   <Menu theme="dark" className="user-menu" >
-    <Menu.Item style={{"background":"#32363a"}} key="0">
-      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
+    <Menu.Item style={{"background":"#32363a",color:"white"}} key="0">
+      <Link style={{color:"white"}} to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item key="1">
-      <a onClick={props.logout}><Icon type="logout" />退出</a>
+    <Menu.Item  key="1">
+      <a style={{color:"white"}} onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
 );
