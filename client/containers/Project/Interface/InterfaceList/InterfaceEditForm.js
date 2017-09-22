@@ -698,8 +698,8 @@ class InterfaceEditForm extends Component {
             initialValue: this.state.res_body_type
           })(
             <RadioGroup size="large" className="radioGroup">
-              <RadioButton value="json">json(mock)</RadioButton>
-              <RadioButton value="raw">raw</RadioButton>
+              <RadioButton value="json">JSON</RadioButton>
+              <RadioButton value="raw">RAW</RadioButton>
             </RadioGroup>
             )}
         </div>
@@ -756,12 +756,12 @@ class InterfaceEditForm extends Component {
             {...formItemLayout}
             label="是否开启邮件通知"
           >
-            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: true })(
+            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
               <Switch checkedChildren="开" unCheckedChildren="关" />
             )}
           </FormItem>
           <FormItem
-            className={'interface-edit-item ' + (this.props.form.getFieldValue('switch_notice') === true ? this.state.hideTabs.other.mail : '')}
+            className={'interface-edit-item ' + (this.props.form.getFieldValue('switch_notice') === false ? this.state.hideTabs.other.mail : '')}
             {...formItemLayout}
             label="改动日志"
           >

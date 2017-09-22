@@ -291,7 +291,7 @@ class View extends Component {
     if (!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
       <h2 className="interface-title" style={{ marginTop: 0 }}>基本信息</h2>
-      <div className="panel-sub">
+      <div className="panel-view">
         <Row className="row">
           <Col span={4} className="colKey">接口名称：</Col>
           <Col span={8}>{this.props.curData.title}</Col>
