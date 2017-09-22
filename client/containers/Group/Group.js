@@ -18,7 +18,7 @@ export default class Group extends Component {
 
     const GroupContent = (
       <Layout>
-        <Sider style={{ height: '100vh', marginLeft: '24px', marginTop: '24px' }} width={300}>
+        <Sider style={{ height: 'auto', marginLeft: '24px', marginTop: '24px' }} width={300}>
           <div className="logo" />
           <GroupList></GroupList>
         </Sider>
