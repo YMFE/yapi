@@ -228,9 +228,13 @@ class PrpjectEnv extends Component {
     });
     return (
       <div className="m-panel">
+        <div className="panel-title">
+          <h2 className="title">在这里添加项目的环境配置</h2>
+          <p className="desc">你可以添加多个环境，用于区分不同的使用场景。</p>
+        </div>
         <FormItem {...formItemLayout}>
           {envSettingItems}
-          <Button type="default" onClick={this.add} style={{ width: '50%' }}>
+          <Button type="default" onClick={this.add} >
             <Icon type="plus" /> 添加环境配置
           </Button>
         </FormItem>
