@@ -115,6 +115,20 @@ em {
   min-height: 5rem;
 }
 
+.panel-title {
+  margin-bottom: .16rem;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  .title {
+    font-weight: normal;
+  }
+  .desc {
+    font-size: 13px;
+    color: #919191;
+
+  }
+}
+
 @media (max-width: 768px) {
   html {
     width: min-content !important;

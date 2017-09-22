@@ -228,9 +228,9 @@ let routerConfig = {
 			"method": "get"
 		},
 		{
-			"action": "download",
-			"path": "download",
-			"method": "get"
+			"action": "upEnv",
+			"path": "up_env",
+			"method": "post"
 		}
 	],
 	"interface": [

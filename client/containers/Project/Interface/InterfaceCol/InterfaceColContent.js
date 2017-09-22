@@ -318,7 +318,12 @@ class InterfaceColContent extends Component {
       property: 'casename',
       header: {
         label: '用例名称'
-      },
+      },  
+      props: {
+        style:{
+          width: '250px'
+        }
+      },    
       cell: {
         formatters: [
           (text, { rowData }) => {
@@ -335,6 +340,11 @@ class InterfaceColContent extends Component {
             Key</Tooltip>
         }]
       },
+      props: {
+        style:{
+          width: '100px'
+        }
+      },
       cell: {
         formatters: [
           (value, { rowData }) => {
@@ -345,6 +355,11 @@ class InterfaceColContent extends Component {
       property: 'test_status',
       header: {
         label: '状态'
+      },
+      props: {
+        style:{
+          width: '100px'
+        }
       },
       cell: {
         formatters: [(value, { rowData }) => {
@@ -384,8 +399,16 @@ class InterfaceColContent extends Component {
         label: '测试报告'
 
       },
+      props: {
+        style:{
+          width: '100px'
+        }
+      },
       cell: {
         formatters: [(text, { rowData }) => {
+          if(!this.reports[rowData.id]){
+            return null;
+          }
           return <Button onClick={() => this.openReport(rowData.id)}>报告</Button>
         }]
       }
@@ -416,14 +439,15 @@ class InterfaceColContent extends Component {
         <Table.Provider
           components={components}
           columns={resolvedColumns}
-          style={{ width: '100%', lineHeight: '36px' }}
+          style={{ width: '100%',borderCollapse: 'collapse' }}
         >
           <Table.Header
-            style={{ textAlign: 'left' }}
+            className="interface-col-table-header"
             headerRows={resolve.headerRows({ columns })}
           />
 
           <Table.Body
+            className="interface-col-table-body"
             rows={resolvedRows}
             rowKey="id"
             onRow={this.onRow}
