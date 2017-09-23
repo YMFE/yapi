@@ -39,11 +39,13 @@ class View extends Component {
       const columns = [{
         title: '参数名称',
         dataIndex: 'name',
-        key: 'name'
+        key: 'name',
+        width: 140
       }, {
         title: '参数类型',
         dataIndex: 'type',
         key: 'type',
+        width: 100,
         render: (text) => {
           text = text || "";
           return text.toLowerCase() === "text" ? <span><i className="query-icon text">T</i>文本</span> : <span><Icon type="file" className="query-icon" />文件</span>
@@ -51,22 +53,21 @@ class View extends Component {
       }, {
         title: '是否必须',
         dataIndex: 'required',
-        key: 'required'
+        key: 'required',
+        width: 100
       }, {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
-        width: 4,
         render(_, item) {
-          return <pre>{item.example}</pre>;
+          return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
         }
       }, {
         title: '备注',
         dataIndex: 'value',
         key: 'value',
-        width: 4,
         render(_, item) {
-          return <pre>{item.value}</pre>;
+          return <p style={{whiteSpace: 'pre-wrap'}}>{item.value}</p>;
         }
       }];
 
@@ -121,28 +122,26 @@ class View extends Component {
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
-      width: 4,
+      width: 140,
       key: 'name'
     }, {
       title: '是否必须',
-      width: 4,
+      width: 100,
       dataIndex: 'required',
       key: 'required'
     }, {
       title: '示例',
       dataIndex: 'example',
       key: 'example',
-      width: 4,
       render(_, item) {
-        return <pre>{item.example}</pre>;
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
       }
     }, {
       title: '备注',
       dataIndex: 'value',
       key: 'value',
-      width: 4,
       render(_, item) {
-        return <pre>{item.value}</pre>;
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.value}</p>;
       }
     }];
 
@@ -229,50 +228,60 @@ class View extends Component {
         req_dataSource.push({
           key: i,
           name: item.name,
-          value: item.desc
+          desc: item.desc,
+          example: item.example
         })
       })
     }
     const req_params_columns = [{
       title: '参数名称',
       dataIndex: 'name',
-      key: 'name'
+      key: 'name',
+      width: 140
+    }, {
+      title: '示例',
+      dataIndex: 'example',
+      key: 'example',
+      render(_, item) {
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
+      }
     }, {
       title: '备注',
-      dataIndex: 'value',
-      key: 'value'
+      dataIndex: 'desc',
+      key: 'desc',
+      render(_, item) {
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.desc}</p>;
+      }
     }];
 
     const columns = [{
       title: '参数名称',
       dataIndex: 'name',
       key: 'name',
-      width: 2
+      width: '100px'
     }, {
       title: '参数值',
       dataIndex: 'value',
       key: 'value',
-      width: 2
+      width: '100px'
     }, {
       title: '是否必须',
       dataIndex: 'required',
       key: 'required',
-      width: 1
+      width: '100px'
     }, {
       title: '示例',
       dataIndex: 'example',
       key: 'example',
-      width: 4,
       render(_, item) {
-        return <pre>{item.example}</pre>;
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
       }
     }, {
-      title: '备注',
+      title: '备注',   
       dataIndex: 'desc',
       key: 'desc',
-      width: 4,
       render(_, item) {
-        return <pre>{item.desc}</pre>;
+        return <p style={{whiteSpace: 'pre-wrap'}}>{item.desc}</p>;
       }
     }];
     let status = {
