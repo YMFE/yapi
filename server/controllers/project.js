@@ -318,6 +318,8 @@ class projectController extends baseController {
             let cat = await catInst.list(params.id);
             result.cat = cat;
             result.role = await this.getProjectRole(params.id, 'project');
+            
+            yapi.emitHook('project_add', params.id).then();
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
