@@ -61,10 +61,10 @@ export default class App extends Component {
                 <Route path="/login" component={Login} />
               </div>
             </div>
-            <Footer />
+            <Footer/>
           </div>
         </Router>
-        
+
       )
     }
     return r;

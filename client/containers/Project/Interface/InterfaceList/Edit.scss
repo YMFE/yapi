@@ -1,10 +1,16 @@
 .interface-edit{
-  padding:10px;
+  padding: 24px;
   .interface-edit-item{
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  .interface-edit-item.hide {
+    display: none;
   }
   .interface-edit-item-content{
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    .interface-edit-item-content-col{
+      padding:0 1px;
+    }
   }
   .interface-edit-del-icon{
     margin-top: 10px;
@@ -44,6 +50,10 @@
     font-size: 10px;
     margin-right: 7px;
     padding: 0 5px;
+  }
+  .ant-select-selection {
+    background-color: transparent;
+    border: none;
   }
 }
 

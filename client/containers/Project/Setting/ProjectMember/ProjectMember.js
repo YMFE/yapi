@@ -50,7 +50,7 @@ class ProjectMember extends Component {
       visible: false,
       dataSource: [],
       inputUid: 0,
-      inputRole: 'dev'      
+      inputRole: 'dev'
     }
   }
   static propTypes = {
@@ -150,7 +150,7 @@ class ProjectMember extends Component {
     })
   }
 
-  async componentWillMount() {    
+  async componentWillMount() {
     await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
@@ -171,7 +171,7 @@ class ProjectMember extends Component {
       key: 'username',
       render: (text, record) => {
         return (<div className="m-user">
-          <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
+          <img src={'/api/user/avatar?uid=' + record.uid} className="m-user-img" />
           <p className="m-user-name">{text}</p>
         </div>);
       }
@@ -186,6 +186,7 @@ class ProjectMember extends Component {
               <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
+                <Option value={'guest-'+record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -198,6 +199,8 @@ class ProjectMember extends Component {
             return '组长';
           } else if (record.role === 'dev') {
             return '开发者';
+          } else if (record.role === 'guest') {
+            return '访客';
           } else {
             return '';
           }
@@ -205,40 +208,44 @@ class ProjectMember extends Component {
       }
     }];
     return (
-      <div className="m-panel g-row" style={{paddingTop: '15px'}}>
-        <Modal
-          title="添加成员"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          >
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">用户名: </div></Col>
-            <Col span="15">
-              <UsernameAutoComplete callbackState={this.onUserSelect} />
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">权限: </div></Col>
-            <Col span="15">
-              <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
-                <Option value="owner">组长</Option>
-                <Option value="dev">开发者</Option>
-              </Select>
-            </Col>
-          </Row>
-        </Modal>
-        <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
-        <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
-          {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
-            return (<div key={index} className="card-item">
-              <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
-              <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '12px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
-              {item.role === 'owner' ? <p className="item-role">组长</p> : null}
-              {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
-            </div>);
-          }): <ErrMsg type="noMemberInGroup"/>}
-        </Card>
+      <div className="g-row">
+        <div className="m-panel">
+          <Modal
+            title="添加成员"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            >
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">用户名: </div></Col>
+              <Col span="15">
+                <UsernameAutoComplete callbackState={this.onUserSelect} />
+              </Col>
+            </Row>
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">权限: </div></Col>
+              <Col span="15">
+                <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
+                  <Option value="owner">组长</Option>
+                  <Option value="dev">开发者</Option>
+                  <Option value="guest">访客</Option>
+                </Select>
+              </Col>
+            </Row>
+          </Modal>
+          <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
+          <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
+            {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
+              return (<div key={index} className="card-item">
+                <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
+                <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '13px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
+                {item.role === 'owner' ? <p className="item-role">组长</p> : null}
+                {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
+                {item.role === 'guest' ? <p className="item-role">访客</p> : null}
+              </div>);
+            }): <ErrMsg type="noMemberInGroup"/>}
+          </Card>
+        </div>
       </div>
     )
   }

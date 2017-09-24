@@ -14,11 +14,11 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 
 const MenuUser = (props) => (
   <Menu theme="dark" className="user-menu" >
-    <Menu.Item key="0">
-      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
+    <Menu.Item style={{"background":"#32363a",color:"white"}} key="0">
+      <Link style={{color:"white"}} to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item key="1">
-      <a onClick={props.logout}><Icon type="logout" />退出</a>
+    <Menu.Item  key="1">
+      <a style={{color:"white"}} onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
 );
@@ -56,7 +56,7 @@ const ToolUser = (props)=> (
       </li>
     </Tooltip>
     <li className="toolbar-li">
-      
+
       <Dropdown
         placement = "bottomRight"
         overlay={
@@ -75,7 +75,7 @@ const ToolUser = (props)=> (
           <span className="name"><Icon type="down" /></span>
         </a>
       </Dropdown>
-      
+
     </li>
   </ul>
 );
@@ -178,7 +178,7 @@ export default class HeaderCom extends Component {
           <div className="logo">
             <Link to="/group" onClick={this.relieveLink} className="href">
               <span className="img">{logoSVG('32px')}</span>
-              {/*<span className="logo-name">YApi<span className="ui-badge">{betaSVG}</span></span>*/}
+              {/*<span className="logo-name">YApi</span>*/}
             </Link>
           </div>
           <Breadcrumb />

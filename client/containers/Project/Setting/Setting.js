@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Tabs } from 'antd';
 import PropTypes from 'prop-types';
-const TabPane = Tabs.TabPane;
 import ProjectMessage from './ProjectMessage/ProjectMessage.js';
+import ProjectEnv from './ProjectEnv/ProjectEnv.js';
+const TabPane = Tabs.TabPane;
 
 import './Setting.scss';
 
@@ -14,9 +15,13 @@ class Setting extends Component {
     const id = this.props.match.params.id;
     return (
       <div className="g-row">
-        <Tabs type="card" className="m-tab">
-          <TabPane tab="项目信息" key="1"><ProjectMessage projectId={+id}/></TabPane>
-
+        <Tabs type="card" className="has-affix-footer">
+          <TabPane tab="项目配置" key="1">
+            <ProjectMessage projectId={+id}/>
+          </TabPane>
+          <TabPane tab="环境配置" key="2">
+            <ProjectEnv projectId={+id} />
+          </TabPane>
         </Tabs>
       </div>
     )

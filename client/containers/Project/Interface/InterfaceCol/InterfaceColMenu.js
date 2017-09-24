@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { Input, Icon, Tag, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
+import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -212,12 +212,14 @@ export default class InterfaceColMenu extends Component {
       )
     };
 
+    let isFilterCat = false;
+
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="Filter by name" style={{ width: "70%" }} onChange={this.filterCol} />
+          <Input placeholder="搜索测试集合" onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
-            <Tag color="#108ee9" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} ><Icon type="plus" /></Tag>
+            <Button type="primary" style={{ marginLeft: "16px" }} onClick={() => this.showColModal('add')} className="btn-filter" >添加集合</Button>
           </Tooltip>
         </div>
         <Tree
@@ -229,26 +231,42 @@ export default class InterfaceColMenu extends Component {
           onExpand={this.onExpand}
         >
           {
-            this.props.interfaceColList.filter(col => col.name.indexOf(filterValue) !== -1).map((col) => (
+            this.props.interfaceColList.filter(col =>{
+              if(col.name.indexOf(filterValue) !== -1){
+                isFilterCat = true;
+                return true;
+              }
+              isFilterCat = false;
+              
+              let caseList = col.caseList.filter(item=>{
+                return item.casename.indexOf(filterValue) !== -1
+              })
+              return caseList.length > 0;
+            }).map((col) => (
               <TreeNode
                 key={'col_' + col._id}
                 title={
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
-                    <Dropdown overlay={menu(col)}>
-                      <Icon type='bars'/>
+                    <Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+                      <Icon className="opts-icon" type='ellipsis'/>
                     </Dropdown>
                   </div>
                 }
               >
                 {
-                  col.caseList && col.caseList.map((interfaceCase) => (
+                  col.caseList && col.caseList.filter((item)=>{
+                    if(isFilterCat){
+                      return true;
+                    }
+                    return item.casename.indexOf(filterValue) !== -1
+                  }).map((interfaceCase) => (
                     <TreeNode
                       style={{width: '100%'}}
                       key={'case_' + interfaceCase._id}
                       title={
-                        <div className="menu-title">
-                          <span>{interfaceCase.casename}</span>
+                        <div className="menu-title" title={interfaceCase.casename}>
+                          <span className="casename">{interfaceCase.casename}</span>
                           <Icon type='delete' className="case-delete-icon" onClick={() => { this.showDelCaseConfirm(interfaceCase._id) }} />
                         </div>
                       }

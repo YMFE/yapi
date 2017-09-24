@@ -60,20 +60,11 @@ class Follows extends Component {
     const data = this.state.data;
     return (
       <div>
-        {/*<Subnav
-          default={'我的关注'}
-          data={[{
-            name: '项目广场',
-            path: '/group'
-          }, {
-            name: '我的关注',
-            path: '/follow'
-          }]}/>*/}
-        <div className="g-row">
-          <Row gutter={24} className="follow-box card-panel pannel-without-tab">
+        <div className="g-row" style={{paddingLeft: '32px', paddingRight: '32px'}}>
+          <Row gutter={16} className="follow-box pannel-without-tab">
             {data.length ? data.map((item, index) => {
               return (
-                <Col span={6} key={index}>
+                <Col xs={6} md={4} xl={3} key={index}>
                   <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
                 </Col>);
             }): <ErrMsg type="noFollow"/>}

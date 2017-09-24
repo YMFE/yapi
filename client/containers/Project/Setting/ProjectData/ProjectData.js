@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Upload, Icon, message, Select } from 'antd';
+import { Upload, Icon, message, Select, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -117,9 +117,9 @@ class ProjectData extends Component {
   }
 
   /**
-   * 
-   * 
-   * @returns 
+   *
+   *
+   * @returns
    * @memberof ProjectData
    */
   render() {
@@ -132,42 +132,46 @@ class ProjectData extends Component {
       onChange: this.uploadChnange.bind(this)
     }
     return (
-      <div className="m-panel g-row" style={{ paddingTop: '15px' }}>
-        <div className="postman-dataImport">
-          <div className="dataImportCon">
-            <div ><h3>数据导入</h3></div>
-            <div className="dataImportTile">
-              <Select placeholder="请选择导入数据的方式" onChange={this.handleImportType}>
-                {Object.keys(importDataModule).map((name) => {
-                  return <Option key={name} value={name}>{importDataModule[name].name}</Option>
-                })}
+      <div className="g-row">
+        <div className="m-panel">
+          <div className="postman-dataImport">
+            <div className="dataImportCon">
+              <div ><h3>数据导入&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/data.html" >
+                <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+              </a></h3></div>
+              <div className="dataImportTile">
+                <Select placeholder="请选择导入数据的方式" onChange={this.handleImportType}>
+                  {Object.keys(importDataModule).map((name) => {
+                    return <Option key={name} value={name}>{importDataModule[name].name}</Option>
+                  })}
 
 
-              </Select>
-            </div>
-            <div className="catidSelect">
-              <Select
-                showSearch
-                style={{ width: '100%' }}
-                placeholder="请选择数据导入的接口分类"
-                optionFilterProp="children"
-                onChange={this.selectChange.bind(this)}
-                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-              >
-                {this.state.menuList.map((item, key) => {
-                  return <Option key={key} value={item._id + ""}>{item.name}</Option>;
-                })}
+                </Select>
+              </div>
+              <div className="catidSelect">
+                <Select
+                  showSearch
+                  style={{ width: '100%' }}
+                  placeholder="请选择数据导入的接口分类"
+                  optionFilterProp="children"
+                  onChange={this.selectChange.bind(this)}
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {this.state.menuList.map((item, key) => {
+                    return <Option key={key} value={item._id + ""}>{item.name}</Option>;
+                  })}
 
-              </Select>
-            </div>
-            <div style={{ marginTop: 16, height: 180 }}>
-              <Dragger {...uploadMess}>
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
-                <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
-              </Dragger>
+                </Select>
+              </div>
+              <div style={{ marginTop: 16, height: 180 }}>
+                <Dragger {...uploadMess}>
+                  <p className="ant-upload-drag-icon">
+                    <Icon type="inbox" />
+                  </p>
+                  <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
+                  <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
+                </Dragger>
+              </div>
             </div>
           </div>
         </div>

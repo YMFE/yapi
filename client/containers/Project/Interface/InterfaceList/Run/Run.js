@@ -59,7 +59,8 @@ export default class Run extends Component {
       bodyForm: req_body_form,
       bodyOther: req_body_other
     } = this.postman.state;
-    const res = await axios.post('/api/col/add_case', {
+
+    let params = {
       interface_id,
       casename: caseName,
       col_id: colId,
@@ -73,7 +74,20 @@ export default class Run extends Component {
       req_body_type,
       req_body_form,
       req_body_other
-    });
+    };
+
+    if(this.postman.state.test_status !== 'error'){
+      params.test_res_body = this.postman.state.res;
+      params.test_report = this.postman.state.validRes;
+      params.test_status = this.postman.state.test_status;
+      params.test_res_header = this.postman.state.resHeader;
+    }
+
+    if(params.test_res_body && typeof params.test_res_body === 'object'){
+      params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
+    }
+
+    const res = await axios.post('/api/col/add_case', params);
     if (res.data.errcode) {
       message.error(res.data.errmsg)
     } else {
@@ -85,7 +99,6 @@ export default class Run extends Component {
   render () {
     const { currInterface, currProject } = this.props;
     const data = Object.assign({}, currInterface, currProject, {_id: currInterface._id})
-
     return (
       <div>
         <Postman data={data} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />

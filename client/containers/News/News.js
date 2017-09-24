@@ -57,7 +57,7 @@ class News extends Component {
             path: '/follow'
           }]}/>
         <div className="g-row">
-          <section className="news-box">
+          <section className="news-box m-panel">
             <div className="logHead">
               <Breadcrumb />
               <div className="Mockurl">

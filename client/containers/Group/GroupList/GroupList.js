@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Alert, Input, message, Menu, Row, Col } from 'antd'
+import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -131,6 +131,8 @@ export default class GroupList extends Component {
       this.setState({
         editGroupModalVisible: false
       });
+      await this.props.fetchGroupList();
+      this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id });
     }
   }
@@ -170,7 +172,7 @@ export default class GroupList extends Component {
     let that = this;
     confirm({
       title: "确认删除 " + that.props.currGroup.group_name + " 分组吗？",
-      content: <div style={{ marginTop: '10px', fontSize: '12px', lineHeight: '25px' }}>
+      content: <div style={{ marginTop: '10px', fontSize: '13px', lineHeight: '25px' }}>
         <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
         <div style={{ marginTop: '16px' }}>
           <p><b>请输入分组名称确认此操作:</b></p>
@@ -223,33 +225,48 @@ export default class GroupList extends Component {
 
   render() {
     const { currGroup } = this.props;
-    const delmark = <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
-    const editmark = <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
-    const addmark = <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
-
-
+    const delmark = <Menu.Item>
+      <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
+    </Menu.Item>
+    //  <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
+    const editmark = <Menu.Item>
+      <span onClick={() => { this.showConfirm() }}>删除分组</span>
+    </Menu.Item>
+    // <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
+    const addmark = <Menu.Item>
+      <span onClick={this.showModal}>添加分组</span>
+    </Menu.Item>
+    //  <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
+    let menu = <Menu>
+      {
+        this.props.curUserRole === "admin" ? (editmark) : ''
+      }
+      {
+        this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+      }
+      {
+        this.props.curUserRole === 'admin' ? (addmark) : ''
+      }
+    </Menu>;
+    menu = currGroup.role ==='owner'?<a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a>:<Dropdown overlay={menu}>
+      <a className="ant-dropdown-link" href="#">
+        <Icon type="setting" />
+      </a>
+    </Dropdown>;
     return (
       <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
-              <div className="text" title={currGroup.group_name}>{currGroup.group_name}</div>
-              {
-                this.props.curUserRole === "admin" ? (editmark) : ''
-              }
-              {
-                this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-              }
-              {
-                this.props.curUserRole === 'admin' ? (addmark) : ''
-              }
-
+              <span className="name">{currGroup.group_name}</span>
+              { this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (menu) : '' }
             </div>
-            <div className="curr-group-desc" title={currGroup.group_desc}>简介：{currGroup.group_desc}</div>
+            <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
+
           <div className="group-operate">
             <div className="search">
-              <Search placeholder="Filter by name" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
+              <Search placeholder="搜索分类" onChange={this.searchGroup} onSearch={(v) => this.searchGroup(null, v)} />
             </div>
           </div>
           <Menu
@@ -267,32 +284,35 @@ export default class GroupList extends Component {
             }
           </Menu>
         </div>
-        <Modal
-          title="添加分组"
-          visible={this.state.addGroupModalVisible}
-          onOk={this.addGroup}
-          onCancel={this.hideModal}
-          className="add-group-modal"
-        >
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">分组名：</div></Col>
-            <Col span="15">
-              <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">简介：</div></Col>
-            <Col span="15">
-              <TextArea rows={3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">组长：</div></Col>
-            <Col span="15">
-              <UsernameAutoComplete callbackState={this.onUserSelect} />
-            </Col>
-          </Row>
-        </Modal>
+        {
+          this.state.addGroupModalVisible?<Modal
+            title="添加分组"
+            visible={this.state.addGroupModalVisible}
+            onOk={this.addGroup}
+            onCancel={this.hideModal}
+            className="add-group-modal"
+          >
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">分组名：</div></Col>
+              <Col span="15">
+                <Input placeholder="请输入分组名称" onChange={this.inputNewGroupName}></Input>
+              </Col>
+            </Row>
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">简介：</div></Col>
+              <Col span="15">
+                <TextArea rows={3} placeholder="请输入分组描述" onChange={this.inputNewGroupDesc}></TextArea>
+              </Col>
+            </Row>
+            <Row gutter={6} className="modal-input">
+              <Col span="5"><div className="label">组长：</div></Col>
+              <Col span="15">
+                <UsernameAutoComplete callbackState={this.onUserSelect} />
+              </Col>
+            </Row>
+          </Modal>:''
+        }
+
         <Modal
           title="编辑分组"
           visible={this.state.editGroupModalVisible}
