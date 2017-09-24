@@ -551,7 +551,7 @@ class InterfaceEditForm extends Component {
                 })}
               </Select>
 
-              <Tooltip title="接口基本路径，可在项目配置里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
+              <Tooltip title="接口基本路径，可在 项目设置->环境配置 里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
                 <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
               </Tooltip>
               {getFieldDecorator('path', {
@@ -560,7 +560,9 @@ class InterfaceEditForm extends Component {
                   required: true, message: '请输入接口路径!'
                 }]
               })(
-                <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+                <Tooltip title="支持类似 ?controller=xxx&action=xxx 的QueryRouter， 默认接口Query参数请定义到 Request设置 -> Query ">
+                  <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
+                </Tooltip>
                 )}
             </InputGroup>
             <Row className="interface-edit-item">
