@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -3196,6 +3196,22 @@
         "randombytes": "2.0.5"
       }
     },
+    "disposables": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/disposables/-/disposables-1.0.1.tgz",
+      "integrity": "sha1-BkcnoltU9QK9griaot+4358bOeM="
+    },
+    "dnd-core": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/dnd-core/-/dnd-core-2.5.1.tgz",
+      "integrity": "sha1-F49a1lJs4C3VlQjxFVNfe/wM6U4=",
+      "requires": {
+        "asap": "2.0.6",
+        "invariant": "2.2.2",
+        "lodash": "4.17.4",
+        "redux": "3.7.2"
+      }
+    },
     "dns-equal": {
       "version": "1.0.0",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/dns-equal/-/dns-equal-1.0.0.tgz",
@@ -5296,14 +5312,6 @@
             }
           }
         },
-        "string_decoder": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
-          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
-          "requires": {
-            "safe-buffer": "5.0.1"
-          }
-        },
         "string-width": {
           "version": "1.0.2",
           "resolved": "https://registry.npmjs.org/string-width/-/string-width-1.0.2.tgz",
@@ -5312,6 +5320,14 @@
             "code-point-at": "1.1.0",
             "is-fullwidth-code-point": "1.0.0",
             "strip-ansi": "3.0.1"
+          }
+        },
+        "string_decoder": {
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.1.tgz",
+          "integrity": "sha1-YuIA8DmVWmgQ2N8KM//A8BNmLZg=",
+          "requires": {
+            "safe-buffer": "5.0.1"
           }
         },
         "stringstream": {
@@ -6051,7 +6067,7 @@
       "dependencies": {
         "async": {
           "version": "1.5.0",
-          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/async/-/async-1.5.0.tgz",
+          "resolved": "https://registry.npmjs.org/async/-/async-1.5.0.tgz",
           "integrity": "sha1-J5ZkJyNXOFlWVjP8YnRES+4vjOM="
         },
         "loader-utils": {
@@ -11438,6 +11454,27 @@
         }
       }
     },
+    "react-dnd": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/react-dnd/-/react-dnd-2.5.1.tgz",
+      "integrity": "sha1-7O8dnYR4y3av1Zdc1RI+98O+v+U=",
+      "requires": {
+        "disposables": "1.0.1",
+        "dnd-core": "2.5.1",
+        "hoist-non-react-statics": "2.3.1",
+        "invariant": "2.2.2",
+        "lodash": "4.17.4",
+        "prop-types": "15.5.10"
+      }
+    },
+    "react-dnd-html5-backend": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-2.5.1.tgz",
+      "integrity": "sha1-02VuUUsMRpkCpIX/+nX4aE4hx3c=",
+      "requires": {
+        "lodash": "4.17.4"
+      }
+    },
     "react-dock": {
       "version": "0.2.4",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/react-dock/-/react-dock-0.2.4.tgz",
@@ -12182,6 +12219,19 @@
         "slick-carousel": "1.7.1"
       }
     },
+    "reactabular-dnd": {
+      "version": "8.9.0",
+      "resolved": "https://registry.npmjs.org/reactabular-dnd/-/reactabular-dnd-8.9.0.tgz",
+      "integrity": "sha1-B5LeSto2H5Qlj4pqGg1svYPSpaA="
+    },
+    "reactabular-table": {
+      "version": "8.9.0",
+      "resolved": "https://registry.npmjs.org/reactabular-table/-/reactabular-table-8.9.0.tgz",
+      "integrity": "sha1-RvbO9jnNm9SyuvHxTiaG+ys14oQ=",
+      "requires": {
+        "classnames": "2.2.5"
+      }
+    },
     "read-all-stream": {
       "version": "3.1.0",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/read-all-stream/-/read-all-stream-3.1.0.tgz",
@@ -12588,22 +12638,6 @@
         }
       }
     },
-    "require_optional": {
-      "version": "1.0.1",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
-      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
-      "requires": {
-        "resolve-from": "2.0.0",
-        "semver": "5.4.1"
-      },
-      "dependencies": {
-        "resolve-from": {
-          "version": "2.0.0",
-          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
-          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
-        }
-      }
-    },
     "require-directory": {
       "version": "2.1.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require-directory/-/require-directory-2.1.1.tgz",
@@ -12626,6 +12660,22 @@
       "requires": {
         "caller-path": "0.1.0",
         "resolve-from": "1.0.1"
+      }
+    },
+    "require_optional": {
+      "version": "1.0.1",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/require_optional/-/require_optional-1.0.1.tgz",
+      "integrity": "sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=",
+      "requires": {
+        "resolve-from": "2.0.0",
+        "semver": "5.4.1"
+      },
+      "dependencies": {
+        "resolve-from": {
+          "version": "2.0.0",
+          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/resolve-from/-/resolve-from-2.0.0.tgz",
+          "integrity": "sha1-lICrIOlP+h2egKgEx+oUdhGWa1c="
+        }
       }
     },
     "requires-port": {
@@ -13301,14 +13351,6 @@
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
     },
-    "string_decoder": {
-      "version": "1.0.3",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
-      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
-      "requires": {
-        "safe-buffer": "5.1.1"
-      }
-    },
     "string-convert": {
       "version": "0.2.1",
       "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string-convert/-/string-convert-0.2.1.tgz",
@@ -13393,6 +13435,14 @@
         "code-point-at": "1.1.0",
         "is-fullwidth-code-point": "1.0.0",
         "strip-ansi": "3.0.1"
+      }
+    },
+    "string_decoder": {
+      "version": "1.0.3",
+      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/string_decoder/-/string_decoder-1.0.3.tgz",
+      "integrity": "sha1-D8Z9fBQYJd6UKC3VNr7GubzoYKs=",
+      "requires": {
+        "safe-buffer": "5.1.1"
       }
     },
     "stringstream": {
@@ -13643,6 +13693,11 @@
           }
         }
       }
+    },
+    "table-resolver": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/table-resolver/-/table-resolver-3.2.0.tgz",
+      "integrity": "sha512-DQrDHFdJPnvIhyjAcTqF4vhu/Uhp5eNRst9Url9KmBNqxYSMrPXOJoxhU7HPCd3efi1Hua7lMIDnBAphsdhPQw=="
     },
     "tapable": {
       "version": "0.2.8",
@@ -14679,7 +14734,7 @@
     },
     "webpack-dev-middleware": {
       "version": "1.12.0",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/webpack-dev-middleware/-/webpack-dev-middleware-1.12.0.tgz",
+      "resolved": "https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-1.12.0.tgz",
       "integrity": "sha1-007++y7dp+HTtdvgcolRMhllFwk=",
       "requires": {
         "memory-fs": "0.4.1",
@@ -14691,7 +14746,7 @@
       "dependencies": {
         "time-stamp": {
           "version": "2.0.0",
-          "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/time-stamp/-/time-stamp-2.0.0.tgz",
+          "resolved": "https://registry.npmjs.org/time-stamp/-/time-stamp-2.0.0.tgz",
           "integrity": "sha1-lcakRTDhW6jW9KPsuMOj+sRto1c="
         }
       }
@@ -15215,7 +15270,7 @@
     },
     "ykit-config-antd": {
       "version": "0.1.3",
-      "resolved": "https://repo.corp.qunar.com/artifactory/api/npm/npm-qunar/ykit-config-antd/-/ykit-config-antd-0.1.3.tgz",
+      "resolved": "https://registry.npmjs.org/ykit-config-antd/-/ykit-config-antd-0.1.3.tgz",
       "integrity": "sha1-qUWmV0EHgAd0OrPgz3eBbD9KPN4=",
       "requires": {
         "antd": "2.12.8",

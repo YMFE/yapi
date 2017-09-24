@@ -127,7 +127,7 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} id 项目分组id
      * @param {String} member_uid 项目分组成员uid
-     * @param {String} role 成员角色，owner or dev
+     * @param {String} role 成员角色，owner or dev or guest
      * @returns {Object}
      * @example
      */
@@ -145,7 +145,7 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组id不能为空');
         }
 
-        params.role = params.role === 'owner' ? 'owner' : 'dev';
+        params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
 
         var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
         if (check > 0) {
@@ -197,7 +197,7 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
-        params.role = params.role === 'owner' ? 'owner' : 'dev';
+        params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
 
         try {
             let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);

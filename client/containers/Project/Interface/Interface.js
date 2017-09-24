@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Tabs } from 'antd';
+import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
+const { Content, Sider } = Layout;
 
 import './interface.scss'
 
@@ -80,9 +81,9 @@ class Interface extends Component {
     const { action } = this.props.match.params;
     const activeKey = action === 'api' ? 'api' : 'colOrCase';
     // console.log(matchPath(this.props.location.pathname, contentRouter));
-    return <div className="web-content g-row" style={{ marginBottom: "16px" }}>
-      <Row gutter={16} >
-        <Col span={6}>
+    return (
+      <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
+        <Sider style={{ height: '100%', overflowY: 'scroll'}} width={300}>
           <div className="left-menu">
             <Tabs type="card" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
@@ -93,19 +94,18 @@ class Interface extends Component {
               </Tabs.TabPane>
             </Tabs>
           </div>
-
-
-        </Col>
-        <Col span={18} >
-          <div className="right-content">
-            <Switch>
-              <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
-              <Route {...contentRouter} component={InterfaceRoute} />
-            </Switch>
-          </div>
-        </Col>
-      </Row>
-    </div>
+        </Sider>
+        <Layout>
+          <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
+            <div className="right-content">
+              <Switch>
+                <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
+                <Route {...contentRouter} component={InterfaceRoute} />
+              </Switch>
+            </div>
+          </Content>
+        </Layout>
+      </Layout>)
   }
 }
 

@@ -76,23 +76,25 @@ class interfaceController extends baseController {
         params.req_params = params.req_params || [];
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
-        
+
 
         let http_path = url.parse(params.path, true);
-        params.path = http_path.pathname;
 
         if (!yapi.commons.verifyPath(http_path.pathname)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
         }
 
-        if (!params.req_query) {
-            params.req_query = [];
-            Object.keys(http_path.query).forEach((item) => {
-                params.req_query.push({
-                    name: item
-                })
+
+        params.query_path = {};
+        params.query_path.path = http_path.pathname;
+        params.query_path.params = [];
+        Object.keys(http_path.query).forEach((item) => {
+            params.query_path.params.push({
+                name: item,
+                value: http_path.query[item]
             })
-        }
+        })
+
 
 
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
@@ -109,6 +111,7 @@ class interfaceController extends baseController {
                 path: params.path,
                 desc: params.desc,
                 method: params.method,
+                query_path: params.query_path,
                 req_headers: params.req_headers,
                 req_body_type: params.req_body_type,
                 res_body: params.res_body,
@@ -118,11 +121,11 @@ class interfaceController extends baseController {
                 up_time: yapi.commons.time()
             };
 
-            if (params.req_query) {
+            if (!_.isUndefined(params.req_query)) {
                 data.req_query = params.req_query;
             }
 
-            if (params.req_body_form) {
+            if (!_.isUndefined(params.req_body_form)) {
                 data.req_body_form = params.req_body_form;
             }
 
@@ -147,7 +150,7 @@ class interfaceController extends baseController {
             } else {
                 data.type = 'static'
             }
-            if (params.req_body_other) {
+            if (!_.isUndefined(params.req_body_other)) {
                 data.req_body_other = params.req_body_other;
             }
 
@@ -200,12 +203,18 @@ class interfaceController extends baseController {
 
         try {
             let result = await this.Model.get(params.id);
+            if(!result){
+              return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
+            }
+            let userinfo = await this.userModel.findById(result.uid);
             let project = await this.projectModel.getBaseInfo(result.project_id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
+            result = result.toObject();
+            result.username = userinfo.username;
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -225,8 +234,11 @@ class interfaceController extends baseController {
     async list(ctx) {
         let project_id = ctx.request.query.project_id;
         let project = await this.projectModel.getBaseInfo(project_id);
+        if(!project){
+            return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
+        }
         if (project.project_type === 'private') {
-            if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+            if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
             }
         }
@@ -251,7 +263,7 @@ class interfaceController extends baseController {
             let catdata = await this.catModel.get(catid);
             let project = await this.projectModel.getBaseInfo(catdata.project_id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -272,7 +284,7 @@ class interfaceController extends baseController {
 
         let project = await this.projectModel.getBaseInfo(project_id);
         if (project.project_type === 'private') {
-            if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+            if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
             }
         }
@@ -345,14 +357,39 @@ class interfaceController extends baseController {
         }
 
         let interfaceData = await this.Model.get(id);
+        if(!interfaceData){
+          return ctx.body = yapi.commons.resReturn(null, 400, '不存在的接口');
+        }
         let auth = await this.checkAuth(interfaceData.project_id, 'project', 'edit')
         if (!auth) {
             return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
         }
 
-        if (params.path && !yapi.commons.verifyPath(params.path)) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+        let data = {
+            up_time: yapi.commons.time()
+        };
+
+        if(params.path){
+          let http_path = url.parse(params.path, true);
+
+          if (!yapi.commons.verifyPath(http_path.pathname)) {
+              return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+          }
+          params.query_path = {};
+          params.query_path.path = http_path.pathname;
+          params.query_path.params = [];
+          Object.keys(http_path.query).forEach((item) => {
+              params.query_path.params.push({
+                  name: item,
+                  value: http_path.query[item]
+              })
+          })
+          data.query_path = params.query_path
         }
+
+
+
+
 
         if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method)) {
             let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
@@ -361,9 +398,7 @@ class interfaceController extends baseController {
             }
         }
 
-        let data = {
-            up_time: yapi.commons.time()
-        };
+
 
         if (!_.isUndefined(params.path)) {
             data.path = params.path;
@@ -389,17 +424,21 @@ class interfaceController extends baseController {
         if (!_.isUndefined(params.req_body_form)) {
             data.req_body_form = params.req_body_form;
         }
-        if (params.req_params && Array.isArray(params.req_params) && params.req_params.length > 0) {
+        if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
+          if(Array.isArray(params.req_params) && params.req_params.length > 0){
             data.type = 'var'
             data.req_params = params.req_params;
-        } else {
+          }else{
             data.type = 'static'
             data.req_params = [];
+          }
+
         }
 
         if (!_.isUndefined(params.req_query)) {
             data.req_query = params.req_query;
         }
+
         if (!_.isUndefined(params.req_body_other)) {
             data.req_body_other = params.req_body_other;
         }
@@ -497,6 +536,7 @@ class interfaceController extends baseController {
 
             let inter = await this.Model.get(id);
             let result = await this.Model.del(id);
+            yapi.emitHook('interface_del', id).then();
             await this.caseModel.delByInterfaceId(id);
             let username = this.getUsername();
             this.catModel.get(inter.catid).then((cate) => {
@@ -646,6 +686,16 @@ class interfaceController extends baseController {
                 typeid: catData.project_id
             });
 
+            let interfaceData = await this.Model.listByCatid(id);
+            interfaceData.forEach(async item=>{
+                try{
+                    yapi.emitHook('interface_del', item._id).then();
+                    await this.caseModel.delByInterfaceId(item._id);
+                }catch(e){
+                    yapi.commons.log(e.message, 'error');
+                }
+
+            })
             await this.catModel.del(id);
             let r = await this.Model.delByCatid(id);
             return ctx.body = yapi.commons.resReturn(r);
@@ -668,11 +718,11 @@ class interfaceController extends baseController {
 
     async getCatMenu(ctx) {
         let project_id = ctx.request.query.project_id;
-        
+
         if (!project_id || isNaN(project_id)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
         }
-        
+
         try {
             let project = await this.projectModel.getBaseInfo(project_id);
             if (project.project_type === 'private') {

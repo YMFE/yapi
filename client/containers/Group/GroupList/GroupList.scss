@@ -1,18 +1,20 @@
 @import '../../../styles/mixin.scss';
 
 .group-bar {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-  border-radius: 4px;
-  background-color: #fff;
   min-height: 5rem;
   .curr-group {
-    background: $color-bg-dark;
-    border-radius: 4px 4px 0 0;
-    padding: 24px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
              SimSun, sans-serif;
+    background-color: $color-bg-dark;
+    color: $color-white;
+    padding: .24rem .24rem 0;
     .curr-group-name {
+      color: $color-white;
+      font-size: .22rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       .text {
         display: inline-block;
         overflow: hidden;
@@ -22,16 +24,45 @@
         font-weight: 200;
         vertical-align: bottom;
       }
-
-      color: #fff;
-      font-size: 24px;
+      .name{
+        display: inline-block;
+        // width: 117px;
+        margin-right: 20px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      .editSet{
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
+      }
+      .ant-dropdown-link{
+        float: right;
+        display: block;
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
+      }
+      .operate {
+        font-size: 0;
+        width: 150px;
+        display: inline-block;
+        i{
+          margin-left: 4px;
+        }
+        ::-webkit-scrollbar {
+          width: 0px;
+        }
+      }
     }
     .curr-group-desc {
-      color: #fff;
-      font-size: 12px;
+      color: $color-white-secondary;
+      font-size: 13px;
       max-height: 54px;
       margin-top: .16rem;
-      color: #ccc;
       text-overflow:ellipsis;
       overflow:hidden;
       -webkit-line-clamp: 3;
@@ -39,33 +70,42 @@
       display: -webkit-box;
     }
     .delete-group, .edit-group {
-      font-size: 18px;
-      margin-left: 12px;
+      font-size: 14px;
+      margin-left: .08rem;
       cursor: pointer;
+      border: 1px solid $color-white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: all .2s;
     }
     .delete-group:hover, .edit-group:hover {
-      color: #ccc;
+      background-color: $color-blue;
+      border: 1px solid $color-blue;
     }
   }
   .group-operate {
-    height: 48px;
-    padding: 10px 6px;
-    background: #eee;
+    padding: 16px 24px;
     display: flex;
     justify-content: space-around;
+    background-color: $color-bg-dark;
     .search {
-      margin-right: 6px;
       flex-grow: 1;
     }
-
+    .ant-input {
+      color: $color-white;
+      background-color: $color-bg-dark;
+    }
+    .ant-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: $color-white-secondary;
+    }
+    .ant-input-suffix {
+      color: $color-white;
+    }
   }
   .group-list {
-    max-height: 650px;
-    overflow-y: scroll;
     overflow-x: hidden;
     border-bottom: 1px solid #e9e9e9;
     padding-bottom: 24px;
-    border-radius: 0 0 4px 4px;
     border: none;
     .group-item {
       // height: 48px;
@@ -75,7 +115,7 @@
     }
     .group-item:hover {
       // background: #34495E;
-      // color: #fff;
+      // color: $color-white;
     }
     .group-item.selected {
       // background: #34495E;
@@ -96,5 +136,12 @@
   .label {
     text-align: right;
     line-height: 28px;
+  }
+}
+.user-menu{
+  a{
+    &:hover{
+      color: #ccc;
+    }
   }
 }

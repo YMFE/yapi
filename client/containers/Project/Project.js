@@ -79,17 +79,17 @@ export default class Project extends Component {
             name: routers.interface.name,
             path: `/project/${match.params.id}/interface/api`
           }, {
-            name: routers.setting.name,
-            path: `/project/${match.params.id}/setting`
-          }, {
             name: routers.activity.name,
             path: `/project/${match.params.id}/activity`
           }, {
+            name: routers.data.name,
+            path: `/project/${match.params.id}/data`
+          },{
             name: routers.members.name,
             path: `/project/${match.params.id}/members`
           }, {
-            name: routers.data.name,
-            path: `/project/${match.params.id}/data`
+            name: routers.setting.name,
+            path: `/project/${match.params.id}/setting`
           }]} />
         <Switch>
           <Redirect exact from="/project/:id" to={`/project/${match.params.id}/interface/api`} />

@@ -1,5 +1,7 @@
 const yapi = require('../yapi.js');
 const baseModel = require('./base.js');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 class interfaceCase extends baseModel {
     getName() {
@@ -17,25 +19,21 @@ class interfaceCase extends baseModel {
             add_time: Number,
             up_time: Number,
             case_env: { type: String },
-            // path: { type: String },
-            // method: { type: String },
             req_params: [{
                 name: String, value: String
             }],
             req_query: [{
                 name: String, value: String
             }],
-            // req_headers: [{
-            //     name: String, value: String
-            // }],
-            // req_body_type: {
-            //     type: String,
-            //     enum: ['form', 'json', 'text', 'xml']
-            // },
+
             req_body_form: [{
                 name: String, value: String
             }],
-            req_body_other: String
+            req_body_other: String,
+            test_res_body: String,
+            test_status: {type: String, enum: ['ok', 'invalid', 'error', '']},
+            test_report: [],
+            test_res_header: Schema.Types.Mixed
 
         };
     }

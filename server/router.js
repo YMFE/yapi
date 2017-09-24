@@ -3,6 +3,7 @@ const interfaceController = require('./controllers/interface.js');
 const groupController = require('./controllers/group.js');
 const userController = require('./controllers/user.js');
 const interfaceColController = require('./controllers/interfaceCol.js');
+const testController = require('./controllers/test.js');
 
 const yapi = require('./yapi.js');
 const projectController = require('./controllers/project.js');
@@ -19,7 +20,7 @@ const authLevel = {
     guest:100
 }
 
-const INTERFACE_CONFIG = {
+let INTERFACE_CONFIG = {
     interface: {
         prefix: '/interface/',
         controller: interfaceController
@@ -47,10 +48,14 @@ const INTERFACE_CONFIG = {
 	col: {
 		prefix: '/col/',
 		controller: interfaceColController
+	},
+	test: {
+		prefix: '/test/',
+		controller: testController
 	}
 };
 
-const routerConfig = {
+let routerConfig = {
 	"group": [
 		{
 			"action": "list",
@@ -223,9 +228,9 @@ const routerConfig = {
 			"method": "get"
 		},
 		{
-			"action": "download",
-			"path": "download",
-			"method": "get"
+			"action": "upEnv",
+			"path": "up_env",
+			"method": "post"
 		}
 	],
 	"interface": [
@@ -347,26 +352,82 @@ const routerConfig = {
 		path: "del_case",
 		method: "get"
 	}
-	]
+	],
+	"test": [{
+		action: "testPost",
+		path: "post",
+		method: "post"
+	}, {
+		action: "testGet",
+		path: "get",
+		method: "get"
+	}, {
+		action: "testPut",
+		path: "put",
+		method: "put"
+	}, {
+		action: "testDelete",
+		path: "delete",
+		method: "del"
+	}, {
+		action: "testHead",
+		path: "head",
+		method: "head"
+	}, {
+		action: "testOptions",
+		path: "options",
+		method: "options"
+	}, {
+		action: "testPatch",
+		path: "patch",
+		method: "patch"
+	}, {
+		action: "testFilesUpload",
+		path: "files/upload",
+		method: "post"
+	}, {
+		action: "testSingleUpload",
+		path: "single/upload",
+		method: "post"
+	}]
 }
+
+let pluginsRouterPath = [];
+
+function addPluginRouter(config){
+	if(!config.path || !config.controller || !config.action){
+		throw new Error('Plugin Route config Error');
+	}
+	let method = config.method || 'GET';
+	let routerPath = '/plugin/' + config.path;
+	if(pluginsRouterPath.indexOf(routerPath) > -1){
+		throw new Error('Plugin Route path conflict, please try rename the path')
+	}
+	pluginsRouterPath.push(routerPath);
+	createAction(config.controller, config.action, routerPath, method);
+}
+
+yapi.emitHookSync('add_router', addPluginRouter);
 
 for(let ctrl in routerConfig){
     let actions = routerConfig[ctrl];
     actions.forEach( (item) => {
-        createAction(ctrl, item.action, item.path, item.method);
+				let routerController = INTERFACE_CONFIG[ctrl].controller;
+				let routerPath = INTERFACE_CONFIG[ctrl].prefix + item.path;
+        createAction(routerController, item.action, routerPath, item.method);
     } )
 }
 
 /**
  *
- * @param {*} controller controller_name
- * @param {*} path  request_path
+ * @param {*} routerController controller
+ * @param {*} path  routerPath
  * @param {*} method request_method , post get put delete ...
- * @param {*} action controller_action_name
+ * @param {*} action controller action_name
  */
-function createAction(controller, action, path, method) {
-    router[method]("/api" +  INTERFACE_CONFIG[controller].prefix + path, async (ctx) => {
-        let inst = new INTERFACE_CONFIG[controller].controller(ctx);
+function createAction(routerController, action, path, method) {
+    router[method]("/api" +  path, async (ctx) => {
+        let inst = new routerController(ctx);
 
         await inst.init(ctx);
 

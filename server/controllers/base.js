@@ -24,7 +24,8 @@ class baseController {
       '/api/user/login',
       '/api/user/reg',
       '/api/user/status',
-      '/api/user/logout'
+      '/api/user/logout',
+      '/api/user/avatar'
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
@@ -92,6 +93,7 @@ class baseController {
         let interfaceInst = yapi.getInst(interfaceModel);
         let interfaceData = await interfaceInst.get(id)
         result.interfaceData = interfaceData;
+        // 项目创建者相当于 owner
         if (interfaceData.uid === this.getUid()) {
           return 'owner';
         }
@@ -114,8 +116,10 @@ class baseController {
         if (memberData && memberData.role) {
           if (memberData.role === 'owner') {
             return 'owner';
-          } else {
+          } else if (memberData.role === 'dev') {
             return 'dev';
+          } else {
+            return 'guest';
           }
         }
         type = 'group';
@@ -133,8 +137,10 @@ class baseController {
         if (groupMemberData && groupMemberData.role) {
           if (groupMemberData.role === 'owner') {
             return 'owner';
-          } else {
+          } else if (groupMemberData.role === 'dev') {
             return 'dev'
+          } else {
+            return 'guest'
           }
         }
       }
@@ -150,7 +156,7 @@ class baseController {
    * 
    * @param {*} id type对应的id
    * @param {*} type enum[interface, project, group] 
-   * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+   * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
@@ -160,6 +166,10 @@ class baseController {
       }
     } else if (action === 'edit') {
       if (role === 'admin' || role === 'owner' || role === 'dev') {
+        return true;
+      }
+    } else if (action === 'view') {
+      if (role === 'admin' || role === 'owner' || role === 'dev' || role === 'guest') {
         return true;
       }
     }

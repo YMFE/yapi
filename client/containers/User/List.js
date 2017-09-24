@@ -126,9 +126,9 @@ class List extends Component {
       render: (item) => {
         return (
           <span>            
-            <span className="ant-divider" />
+            {/* <span className="ant-divider" /> */}
             <Popconfirm title="确认删除此用户?" onConfirm={() => { this.confirm(item._id) }} okText="确定" cancelText="取消">
-              <a href="#">删除</a>
+              <a style={{display:"block",textAlign:"center"}} href="#">删除</a>
             </Popconfirm>
           </span>
         )

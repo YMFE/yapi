@@ -13,11 +13,30 @@ html, body {
 }
 
 html {
-  background-color: #202d3a;
+  // background-color: #32363a;
 }
 
 ::selection {
   background-color: #2395f1;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255,0,0,0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset006pxrgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0,0,0,0.2);
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -32,7 +51,7 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited{
+  &:active, &:hover, &:visited, &:focus{
     text-decoration: none
   }
 }
@@ -55,10 +74,16 @@ em {
   height: auto !important;
   height: 100%;
   margin-bottom: -2.4rem;
+  background-color: #eceef1;
   &::after {
     content: '';
     display: block;
     height: 2.4rem;
+  }
+}
+.m-tab {
+  .ant-tabs-nav-wrap {
+    background-color: #eceef1;
   }
 }
 
@@ -66,13 +91,8 @@ em {
   display: none;
 }
 
-.router-main {
-  background-color: #ececec;
-}
-
 // 布局容器 guitter: 16px
 .g-row {
-  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
   min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
   padding: 0 .24rem;
@@ -99,8 +119,19 @@ em {
 .pannel-without-tab {
   min-height: 5rem;
 }
-.ant-tabs-tabpane .m-panel {
-  border-top-left-radius: 0px;
+
+.panel-title {
+  margin-bottom: .16rem;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  .title {
+    font-weight: normal;
+  }
+  .desc {
+    font-size: 13px;
+    color: #919191;
+
+  }
 }
 
 @media (max-width: 768px) {
@@ -134,4 +165,9 @@ em {
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
   border: none;
+}
+
+// 页面级底部固定 需要添加padding以保证页面底部不被覆盖
+.has-affix-footer {
+  padding-bottom: .92rem;
 }
