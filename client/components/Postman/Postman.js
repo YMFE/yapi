@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Tooltip, message } from 'antd'
+import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -20,7 +20,6 @@ function json_parse(data) {
   }
 }
 
-
 function isJsonData(headers) {
   if (!headers || typeof headers !== 'object') return false;
   let isResJson = false;
@@ -31,6 +30,15 @@ function isJsonData(headers) {
   })
   return isResJson;
 }
+
+const wordList = constants.MOCK_SOURCE;
+
+const mockDataSource = wordList.map(item => {
+  return <AutoComplete.Option key={item.mock} value={item.mock}>
+    {item.mock}&nbsp; &nbsp;随机{item.name}
+  </AutoComplete.Option>
+});
+
 
 const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -127,7 +135,7 @@ export default class Run extends Component {
       test_status = '',
       test_res_body = '',
       test_report = [],
-      test_res_header=''
+      test_res_header = ''
     } = data;
 
     // case 任意编辑 pathname，不管项目的 basepath
@@ -169,12 +177,12 @@ export default class Run extends Component {
       if (req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
         this.loadBodyEditor()
       }
-      if(test_res_body){
+      if (test_res_body) {
         this.bindAceEditor();
       }
-      
+
     });
-    
+
   }
 
   @autobind
@@ -253,13 +261,11 @@ export default class Run extends Component {
       },
       error: (err, header) => {
         try {
-          if (isJsonData(header)) {
-            err = json_parse(err);
-          }
+          err = json_parse(err);
         } catch (e) {
-          message.error(e.message)
+          console.log(e)
         }
-        message.error('请求异常')
+        message.error(err || '请求异常')
         that.setState({ res: err || '请求失败', resHeader: header, validRes: [], test_status: 'error' })
         that.setState({ loading: false })
         that.bindAceEditor()
@@ -278,9 +284,8 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeHeader(e, index, isName) {
+  changeHeader(v, index, isName) {
     const headers = json_parse(JSON.stringify(this.state.headers));
-    const v = e.target.value;
     if (isName) {
       headers[index].name = v;
     } else {
@@ -306,9 +311,8 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeQuery(e, index, isKey) {
+  changeQuery(v, index, isKey) {
     const query = json_parse(JSON.stringify(this.state.query));
-    const v = e.target.value;
     if (isKey) {
       query[index].name = v;
     } else {
@@ -328,9 +332,8 @@ export default class Run extends Component {
   }
 
   @autobind
-  changePathParam(e, index, isKey) {
+  changePathParam(v, index, isKey) {
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
-    const v = e.target.value;
     const name = pathParam[index].name;
     let newPathname = this.state.pathname;
     if (isKey) {
@@ -359,27 +362,12 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeBody(e, index, type) {
+  changeBody(v, index) {
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
-    switch (type) {
-      case 'key':
-        bodyForm[index].name = e.target.value
-        break;
-      case 'type':
-        bodyForm[index].type = e
-        break;
-      case 'value':
-        if (bodyForm[index].type === 'file') {
-          bodyForm[index].value = e.target.id
-        } else {
-          bodyForm[index].value = e.target.value
-        }
-        break;
-      default:
-        break;
-    }
-    if (type === 'type' && e === 'file') {
-      //this.setContentType('multipart/form-data')
+    if (bodyForm[index].type === 'file') {
+      bodyForm[index].value = 'file_' + index
+    } else {
+      bodyForm[index].value = v
     }
     this.setState({ bodyForm });
   }
@@ -559,7 +547,7 @@ export default class Run extends Component {
           }
         </div>
 
-        <Card title={<Tooltip placement="top" title="在项目设置配置domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
+        <Card title={<Tooltip placement="top" title="在 '设置->环境配置' 配置 domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
           <div className="url">
 
             <InputGroup compact style={{ display: 'flex' }}>
@@ -577,7 +565,13 @@ export default class Run extends Component {
               <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
             </InputGroup>
 
-            <Tooltip placement="bottom" title="请求真实接口">
+            <Tooltip placement="bottom" title={(() => {
+              if (hasPlugin) {
+                return '发送请求'
+              } else {
+                return '请安装cross-request插件'
+              }
+            })()}>
               <Button
                 disabled={!hasPlugin}
                 onClick={this.reqRealInterface}
@@ -603,7 +597,14 @@ export default class Run extends Component {
                     <div key={index} className="key-value-wrap">
                       <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
-                      <Input value={item.value} onChange={e => this.changePathParam(e, index)} className="value" />
+                      <AutoComplete
+                        value={item.value}
+                        onChange={e => this.changePathParam(e, index)}
+                        className="value"
+                        dataSource={mockDataSource}
+                        placeholder="参数值"
+                        optionLabelProp="value"
+                      />
                       <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                     </div>
                   )
@@ -618,7 +619,14 @@ export default class Run extends Component {
                     <div key={index} className="key-value-wrap">
                       <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
-                      <Input value={item.value} onChange={e => this.changeQuery(e, index)} className="value" />
+                      <AutoComplete
+                        value={item.value}
+                        onChange={e => this.changeQuery(e, index)}
+                        className="value"
+                        dataSource={mockDataSource}
+                        placeholder="参数值"
+                        optionLabelProp="value"
+                      />
                       <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                     </div>
                   )
@@ -633,7 +641,14 @@ export default class Run extends Component {
                     <div key={index} className="key-value-wrap">
                       <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
                       <span className="eq-symbol">=</span>
-                      <Input value={item.value} onChange={e => this.changeHeader(e, index)} className="value" />
+                      <AutoComplete
+                        value={item.value}
+                        onChange={e => this.changeHeader(e, index)}
+                        className="value"
+                        dataSource={mockDataSource}
+                        placeholder="参数值"
+                        optionLabelProp="value"
+                      />
                       <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                     </div>
                   )
@@ -672,7 +687,15 @@ export default class Run extends Component {
                           <span className="eq-symbol">=</span>
                           {item.type === 'file' ?
                             <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                            <Input value={item.value} onChange={e => this.changeBody(e, index, 'value')} className="value" />
+                            <AutoComplete
+                              value={item.value}
+                              onChange={e => this.changeBody(e, index, 'value')}
+                              className="value"
+                              dataSource={mockDataSource}
+                              placeholder="参数值"
+                              optionLabelProp="value"
+                            />
+
                           }
                           <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
                         </div>

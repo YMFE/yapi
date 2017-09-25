@@ -24,8 +24,38 @@
         font-weight: 200;
         vertical-align: bottom;
       }
+      .name{
+        display: inline-block;
+        // width: 117px;
+        margin-right: 20px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      .editSet{
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
+      }
+      .ant-dropdown-link{
+        float: right;
+        display: block;
+        color: rgba(255, 255, 255, 0.85);
+        &:hover{
+          color: #2395f1;
+        }
+      }
       .operate {
         font-size: 0;
+        width: 150px;
+        display: inline-block;
+        i{
+          margin-left: 4px;
+        }
+        ::-webkit-scrollbar {
+          width: 0px;
+        }
       }
     }
     .curr-group-desc {
@@ -106,5 +136,12 @@
   .label {
     text-align: right;
     line-height: 28px;
+  }
+}
+.user-menu{
+  a{
+    &:hover{
+      color: #ccc;
+    }
   }
 }

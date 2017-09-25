@@ -171,7 +171,7 @@ class ProjectMember extends Component {
       key: 'username',
       render: (text, record) => {
         return (<div className="m-user">
-          <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
+          <img src={'/api/user/avatar?uid=' + record.uid} className="m-user-img" />
           <p className="m-user-name">{text}</p>
         </div>);
       }

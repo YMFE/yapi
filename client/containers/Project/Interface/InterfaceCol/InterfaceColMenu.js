@@ -212,6 +212,8 @@ export default class InterfaceColMenu extends Component {
       )
     };
 
+    let isFilterCat = false;
+
     return (
       <div>
         <div className="interface-filter">
@@ -229,7 +231,18 @@ export default class InterfaceColMenu extends Component {
           onExpand={this.onExpand}
         >
           {
-            this.props.interfaceColList.filter(col => col.name.indexOf(filterValue) !== -1).map((col) => (
+            this.props.interfaceColList.filter(col =>{
+              if(col.name.indexOf(filterValue) !== -1){
+                isFilterCat = true;
+                return true;
+              }
+              isFilterCat = false;
+              
+              let caseList = col.caseList.filter(item=>{
+                return item.casename.indexOf(filterValue) !== -1
+              })
+              return caseList.length > 0;
+            }).map((col) => (
               <TreeNode
                 key={'col_' + col._id}
                 title={
@@ -242,7 +255,12 @@ export default class InterfaceColMenu extends Component {
                 }
               >
                 {
-                  col.caseList && col.caseList.map((interfaceCase) => (
+                  col.caseList && col.caseList.filter((item)=>{
+                    if(isFilterCat){
+                      return true;
+                    }
+                    return item.casename.indexOf(filterValue) !== -1
+                  }).map((interfaceCase) => (
                     <TreeNode
                       style={{width: '100%'}}
                       key={'case_' + interfaceCase._id}
