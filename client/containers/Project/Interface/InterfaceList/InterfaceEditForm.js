@@ -111,6 +111,7 @@ class InterfaceEditForm extends Component {
       req_radio_type: 'req-query'
 
     }, curdata)
+    console.log(this.state.path)
   }
 
   handleSubmit = (e) => {
@@ -182,17 +183,17 @@ class InterfaceEditForm extends Component {
 
   onChangeMethod = (val) => {
     let radio = [];
-    if(HTTP_METHOD[val].request_body){
+    if (HTTP_METHOD[val].request_body) {
       radio = ['req', 'body'];
-    }else{
+    } else {
       radio = ['req', 'query'];
     }
     this.setState({
       req_radio_type: radio.join("-")
     })
 
-    this.setState({ method: val }, ()=>{
-      this._changeRadioGroup(radio[0] , radio[1])
+    this.setState({ method: val }, () => {
+      this._changeRadioGroup(radio[0], radio[1])
     })
   }
 
@@ -290,7 +291,7 @@ class InterfaceEditForm extends Component {
   // 点击切换radio
   changeRadioGroup = (e) => {
     const res = e.target.value.split('-');
-    if(res[0] === 'req'){
+    if (res[0] === 'req') {
       this.setState({
         req_radio_type: e.target.value
       })
@@ -537,7 +538,10 @@ class InterfaceEditForm extends Component {
             label={(
               <span>
                 接口路径&nbsp;
-                <Tooltip title="接口路径，支持动态路由,例如:'/api/user/:id'">
+                <Tooltip title={<div>
+                  <p>1. 支持动态路由,例如:/api/user/:id</p>
+                  <p>2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到 Request设置-&#62;Query</p>
+                </div>}>
                   <Icon type="question-circle-o" style={{ width: "10px" }} />
                 </Tooltip>
 
@@ -560,10 +564,9 @@ class InterfaceEditForm extends Component {
                   required: true, message: '请输入接口路径!'
                 }]
               })(
-                <Tooltip title="支持类似 ?controller=xxx&action=xxx 的QueryRouter， 默认接口Query参数请定义到 Request设置 -> Query ">
-                  <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
-                </Tooltip>
+                <Input onChange={this.handlePath} placeholder="/path" style={{ width: '60%' }} />
                 )}
+
             </InputGroup>
             <Row className="interface-edit-item">
               <Col span={24} offset={0}>
