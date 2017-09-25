@@ -51,7 +51,7 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited{
+  &:active, &:hover, &:visited, &:focus{
     text-decoration: none
   }
 }
@@ -74,11 +74,16 @@ em {
   height: auto !important;
   height: 100%;
   margin-bottom: -2.4rem;
-  background-color: #ececec;
+  background-color: #eceef1;
   &::after {
     content: '';
     display: block;
     height: 2.4rem;
+  }
+}
+.m-tab {
+  .ant-tabs-nav-wrap {
+    background-color: #eceef1;
   }
 }
 
@@ -113,6 +118,20 @@ em {
 
 .pannel-without-tab {
   min-height: 5rem;
+}
+
+.panel-title {
+  margin-bottom: .16rem;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  .title {
+    font-weight: normal;
+  }
+  .desc {
+    font-size: 13px;
+    color: #919191;
+
+  }
 }
 
 @media (max-width: 768px) {

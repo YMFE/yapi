@@ -108,11 +108,12 @@ class ProjectList extends Component {
           </Col>
           <Col>
 
-            <Tooltip title="您没有权限,请联系该分组组长或管理员">
-              { /(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
-                <Button type="primary" ><Link to="/add-project">添加项目</Link></Button> :
-                <Button type="primary" disabled >添加项目</Button>}
-            </Tooltip>
+
+            {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
+              <Button type="primary" ><Link to="/add-project">添加项目</Link></Button> :
+              <Tooltip title="您没有权限,请联系该分组组长或管理员">
+                <Button type="primary" disabled >添加项目</Button>
+              </Tooltip>}
 
           </Col>
 
@@ -120,7 +121,7 @@ class ProjectList extends Component {
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col span={6} key={index}>
+              <Col xs={8} md={6} xl={4}  key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
           }) : <ErrMsg type="noProject" />}

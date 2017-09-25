@@ -1,12 +1,11 @@
 .col-list-tree {
   line-height: 25px;
   .ant-tree-node-content-wrapper {
-    width: calc(100% - 24px);
+    width: calc(100% - 28px);
   }
   .opts-icon, .case-delete-icon {
     line-height: 25px;
     width: 30px;
-    transform: rotate(90deg);
     font-weight: bold;
   }
   .opts-icon:hover, .case-delete-icon:hover {
@@ -91,4 +90,24 @@
 
 .interface-col{
   padding: 16px;
+  .interface-col-table-header{
+    background-color: rgb(238, 238, 238);
+    height: 50px;
+    line-height: 50px;
+    font-size:14px;
+    text-align: left;
+  }
+
+  .interface-col-table-body{
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .interface-col-table-header th{
+    padding-left:5px;
+  }
+
+  .interface-col-table-body td{
+    padding-left:5px;
+  }
 }
