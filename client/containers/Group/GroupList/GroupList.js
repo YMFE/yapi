@@ -10,6 +10,7 @@ const Search = Input.Search;
 const TYPE_EDIT = 'edit';
 const confirm = Modal.confirm;
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import { fetchNewsData } from '../../../reducer/modules/news.js';
 import {
   fetchGroupList,
   setCurrGroup,
@@ -27,7 +28,8 @@ import './GroupList.scss'
   {
     fetchGroupList,
     setCurrGroup,
-    setGroupList
+    setGroupList,
+    fetchNewsData
   }
 )
 @withRouter
@@ -41,7 +43,8 @@ export default class GroupList extends Component {
     setGroupList: PropTypes.func,
     match: PropTypes.object,
     history: PropTypes.object,
-    curUserRole: PropTypes.string
+    curUserRole: PropTypes.string,
+    fetchNewsData: PropTypes.func
   }
 
   state = {
@@ -122,6 +125,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup(res.data.data)
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 8)
     } else {
       message.error(res.data.errmsg)
     }
@@ -140,6 +144,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id });
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 8)
     }
   }
   @autobind
@@ -165,6 +170,7 @@ export default class GroupList extends Component {
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
+    this.props.fetchNewsData(groupId, "group", 1, 8)
   }
 
   @autobind
