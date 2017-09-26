@@ -175,12 +175,12 @@ export default class HeaderCom extends Component {
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
-          <div className="logo">
-            <Link to="/group" onClick={this.relieveLink} className="href">
+          <Link onClick={this.relieveLink} to="/group" className="logo">
+            <div   className="href">
               <span className="img">{logoSVG('32px')}</span>
               {/*<span className="logo-name">YApi</span>*/}
-            </Link>
-          </div>
+            </div>
+          </Link>
           <Breadcrumb />
           <div className="user-toolbar">
             {login?
