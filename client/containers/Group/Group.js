@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GroupList from './GroupList/GroupList.js';
 import ProjectList from './ProjectList/ProjectList.js';
 import MemberList from './MemberList/MemberList.js';
+import GroupLog from './GroupLog/GroupLog.js';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Tabs, Layout } from 'antd';
 const { Content, Sider } = Layout;
@@ -27,6 +28,7 @@ export default class Group extends Component {
             <Tabs type="card" className="m-tab" style={{height: '100%'}}>
               <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
               <TabPane tab="成员列表" key="2"><MemberList/></TabPane>
+              <TabPane tab="分组动态" key="3"><GroupLog/></TabPane>
             </Tabs>
           </Content>
         </Layout>

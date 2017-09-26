@@ -100,6 +100,14 @@ class groupController extends baseController {
             let result = await groupInst.save(data);
 
             result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members']);
+            let username = this.getUsername();
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 新增了分组 "${params.group_name}"`,
+                type: 'group',
+                uid: this.getUid(),
+                username: username,
+                typeid: result._id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -165,6 +173,19 @@ class groupController extends baseController {
         delete groupUserdata._role;
         try {
             let result = await groupInst.addMember(params.id, groupUserdata);
+            let username = this.getUsername();
+            let rolename = {
+                owner: "组长",
+                dev: "开发者",
+                guest: "访客"
+            };
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 新增了分组成员 "${groupUserdata.username}" 为 "${rolename[params.role]}"`,
+                type: 'group',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -205,6 +226,20 @@ class groupController extends baseController {
 
         try {
             let result = await groupInst.changeMemberRole(params.id, params.member_uid, params.role);
+            let username = this.getUsername();
+            let rolename = {
+                owner: "组长",
+                dev: "开发者",
+                guest: "访客"
+            };
+            let groupUserdata = await this.getUserdata(params.member_uid, params.role);
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 更改了分组成员 "${groupUserdata.username}" 的权限为 "${rolename[params.role]}"`,
+                type: 'group',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -267,6 +302,20 @@ class groupController extends baseController {
 
         try {
             let result = await groupInst.delMember(params.id, params.member_uid);
+            let username = this.getUsername();
+            let rolename = {
+                owner: "组长",
+                dev: "开发者",
+                guest: "访客"
+            };
+            let groupUserdata = await this.getUserdata(params.member_uid, params.role);
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 删除了分组成员 "${groupUserdata.username}"`,
+                type: 'group',
+                uid: this.getUid(),
+                username: username,
+                typeid: params.id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -379,6 +428,14 @@ class groupController extends baseController {
                 ctx.body = yapi.commons.resReturn(null, 404, '分组名和分组描述不能为空');
             }
             let result = await groupInst.up(id, data);
+            let username = this.getUsername();
+            yapi.commons.saveLog({
+                content: `用户 "${username}" 更新了 "${data.group_name}" 分组`,
+                type: 'group',
+                uid: this.getUid(),
+                username: username,
+                typeid: id
+            });
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
