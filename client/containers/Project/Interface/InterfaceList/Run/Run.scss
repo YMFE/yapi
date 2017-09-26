@@ -1,6 +1,6 @@
 .interface-test {
   .has-plugin, .req-part, .resp-part {
-    margin: 8px;
+    margin-bottom: 16px;
   }
   .url {
     display: flex;
@@ -25,7 +25,7 @@
     margin-left: 6px;
   }
   .icon-btn:hover {
-    color: #108ee9;
+    color: #2395f1;
   }
 }
 .add-col-modal {
@@ -41,7 +41,8 @@
       background: #fa0;
     }
     .col-item.selected {
-      background: #108ee9;
+      background: #2395f1;
+      color: rgba(255, 255, 255, 1);
     }
   }
 }
