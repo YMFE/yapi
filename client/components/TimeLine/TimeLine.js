@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Timeline, Spin, Avatar } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { formatTime } from '../../../../common.js';
+import { formatTime } from '../../common.js';
 import { Link } from 'react-router-dom'
-import { fetchNewsData, fetchMoreNews } from '../../../../reducer/modules/news.js'
-import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
+import { fetchNewsData, fetchMoreNews } from '../../reducer/modules/news.js'
+import ErrMsg from '../ErrMsg/ErrMsg.js';
 
 function timeago(timestamp) {
   let minutes, hours, days, seconds, mouth, year;
@@ -78,7 +78,8 @@ class TimeTree extends Component {
     loading: PropTypes.bool,
     curpage: PropTypes.number,
     typeid: PropTypes.number,
-    curUid: PropTypes.number
+    curUid: PropTypes.number,
+    type: PropTypes.string
   }
 
   constructor(props) {
@@ -95,7 +96,7 @@ class TimeTree extends Component {
     if (this.props.curpage <= this.props.newsData.total) {
 
       this.setState({ loading: true });
-      this.props.fetchMoreNews(this.props.typeid, 'project', this.props.curpage+1, 8).then(function () {
+      this.props.fetchMoreNews(this.props.typeid, this.props.type, this.props.curpage+1, 8).then(function () {
         that.setState({ loading: false });
         if (that.props.newsData.total === that.props.curpage) {
           that.setState({ bidden: "logbidden" })
@@ -106,7 +107,7 @@ class TimeTree extends Component {
 
   componentWillMount() {
     
-    this.props.fetchNewsData(this.props.typeid, 'project', 1, 8)
+    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 8)
   }
 
   render() {
