@@ -10,19 +10,13 @@ yapi.connect = dbModule.connect();
 
 
 function install() {
-    try {
-        let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+    let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
 
-        if (exist) {
-            throw new Error('init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉init.lock文件');
-        }
-        fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
-
-        setupSql();
-    } catch (err) {
-        console.error(err.message);
+    if (exist) {
+        throw new Error('init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉init.lock文件');
     }
 
+    setupSql();
 }
 
 function setupSql() {
@@ -38,7 +32,7 @@ function setupSql() {
         up_time: yapi.commons.time()
     });
 
-    yapi.connect.then(function () {
+    yapi.connect.then(function () {        
         let userCol = mongoose.connection.db.collection('user')
         userCol.ensureIndex({
             username: 1
@@ -129,15 +123,20 @@ function setupSql() {
         followCol.ensureIndex({
             project_id: 1
         })
-
+        
         result.then(function () {
-            console.log(`初始化管理员账号成功，账号名： "${yapi.WEBCONFIG.adminAccount}",默认密码：qunar.com`); // eslint-disable-line
+            fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
             process.exit(0);
         }, function (err) {
-            throw new Error(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
+            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
+            process.exit(0);
         });
+    
 
-    })
+    }.catch(function(err){
+        console.log(err.message)
+    }))
 
 }
 
