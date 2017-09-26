@@ -14,7 +14,7 @@ const WEBCONFIG = config;
 
 fs.ensureDirSync(WEBROOT_LOG);
 
-if (WEBCONFIG.mail) {
+if (WEBCONFIG.mail && WEBCONFIG.mail.enable ) {
     mail = nodemailer.createTransport(WEBCONFIG.mail);
 }
 
