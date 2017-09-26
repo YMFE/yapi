@@ -1,6 +1,6 @@
 import './Activity.scss'
 import React, { Component } from 'react'
-import TimeTree from './Timeline/Timeline'
+import TimeTree from '../../../components/TimeLine/TimeLine'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button } from 'antd'
@@ -41,7 +41,7 @@ class Activity extends Component {
               <Button type="primary"><a href = {`/api/project/download?project_id=${this.props.match.params.id}`}>下载Mock数据</a></Button>
             </div>
           </div>
-          <TimeTree typeid = {+this.props.match.params.id} />
+          <TimeTree type={"project"} typeid = {+this.props.match.params.id} />
         </section>
       </div>
     )
