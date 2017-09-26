@@ -277,7 +277,7 @@ class View extends Component {
         return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
       }
     }, {
-      title: '备注',   
+      title: '备注',
       dataIndex: 'desc',
       key: 'desc',
       render(_, item) {
@@ -304,11 +304,11 @@ class View extends Component {
         <Row className="row">
           <Col span={4} className="colKey">接口名称：</Col>
           <Col span={8}>{this.props.curData.title}</Col>
-          <Col span={4} className="colKey">创建人：</Col>
+          <Col span={4} className="colKey">创&ensp;建&ensp;人：</Col>
           <Col span={8} className="colValue"><Link className="user-name" to={"/user/profile/" + this.props.curData.uid} ><img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />{this.props.curData.username}</Link></Col>
         </Row>
         <Row className="row">
-          <Col span={4} className="colKey">状 态：</Col>
+          <Col span={4} className="colKey">状&emsp;&emsp;态：</Col>
           <Col span={8} className={'tag-status ' + this.props.curData.status}>{status[this.props.curData.status]}</Col>
           <Col span={4} className="colKey">更新时间：</Col>
           <Col span={8}>{formatTime(this.props.curData.up_time)}</Col>
