@@ -16,7 +16,7 @@ function connect(callback) {
     mongoose.Promise = global.Promise;
 
     let config = yapi.WEBCONFIG;
-    let options = {};
+    let options = {useMongoClient: true};
 
     if (config.db.user) {
         options.user = config.db.user;
