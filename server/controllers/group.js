@@ -67,14 +67,18 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组名不能为空');
         }
 
-        if (!params.owner_uid) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目分组必须添加一个组长');
-        }
+        // if (!params.owner_uid) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '项目分组必须添加一个组长');
+        // }
 
-        let groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
-        if (groupUserdata === null) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
+        let groupUserdata = null;
+        if (params.owner_uid) {
+            groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
+            if (groupUserdata === null) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
+            }
         }
+        
         let groupInst = yapi.getInst(groupModel);
 
         let checkRepeat = await groupInst.checkRepeat(params.group_name);
@@ -89,7 +93,7 @@ class groupController extends baseController {
             uid: this.getUid(),
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            members: [groupUserdata]
+            members: groupUserdata ? [groupUserdata] : []
         };
 
         try {

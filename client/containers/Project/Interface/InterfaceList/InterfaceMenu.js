@@ -189,7 +189,7 @@ class InterfaceMenu extends Component {
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
 
       },
-      async onCancel() {
+      onCancel() {
         ref.destroy()
       }
     });
