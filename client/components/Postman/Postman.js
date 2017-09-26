@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete } from 'antd'
+import { Button, Input, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -71,7 +71,8 @@ export default class Run extends Component {
     loading: false,
     validRes: [],
     hasPlugin: true,
-    test_status: null
+    test_status: null,
+    resTest: false
   }
 
   constructor(props) {
@@ -214,7 +215,8 @@ export default class Run extends Component {
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
-      success: (res, header) => {
+      success: (res, header, third) => {
+        console.log(third.res.status);
         try {
           if (isJsonData(header)) {
             res = json_parse(res);
@@ -496,6 +498,13 @@ export default class Run extends Component {
     console.log(index)
   }
 
+  @autobind
+  onTestSwitched(checked) {
+    this.setState({
+      resTest: checked
+    });
+  }
+
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
@@ -732,10 +741,6 @@ export default class Run extends Component {
                 value={this.state.res && this.state.res.toString()}
                 autosize={{ minRows: 10, maxRows: 20 }}
               ></TextArea>
-              <h3 style={{ marginTop: '15px', display: isResJson ? '' : 'none' }}>返回 Body 验证结果：</h3>
-              <div style={{ display: isResJson ? '' : 'none' }}>
-                {validResView}
-              </div>
             </Panel>
             <Panel header="HEADERS" key="1" >
               {/*<TextArea
@@ -746,6 +751,13 @@ export default class Run extends Component {
             </Panel>
           </Collapse>
         </Spin>
+
+        <h2 className="interface-title">数据结构验证
+          <Switch style={{verticalAlign: 'text-bottom', marginLeft: '8px'}} checked={this.state.resTest} onChange={this.onTestSwitched} />
+        </h2>
+        <div className={(isResJson && this.state.resTest) ? '' : 'none' }>
+          {(isResJson && this.state.resTest) ?  validResView : <div><p>若开启此功能，则发送请求后在这里查看验证结果。</p><p>数据结构验证在接口编辑页面配置，YApi 将根据 Response body 验证请求返回的结果。</p></div>}
+        </div>
       </div>
     )
   }
