@@ -40,7 +40,7 @@ const mockDataSource = wordList.map(item => {
 });
 
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -72,7 +72,9 @@ export default class Run extends Component {
     validRes: [],
     hasPlugin: true,
     test_status: null,
-    resTest: false
+    resTest: false,
+    resStatusCode: null,
+    resStatusText: ''
   }
 
   constructor(props) {
@@ -216,7 +218,11 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header, third) => {
-        console.log(third.res.status);
+        console.log('suc',third);
+        this.setState({
+          resStatusCode: third.res.status,
+          resStatusText: third.res.statusText
+        })
         try {
           if (isJsonData(header)) {
             res = json_parse(res);
@@ -261,7 +267,12 @@ export default class Run extends Component {
           console.error(e.message)
         }
       },
-      error: (err, header) => {
+      error: (err, header, third) => {
+        console.log('err',third);
+        this.setState({
+          resStatusCode: third.res.status,
+          resStatusText: third.res.statusText
+        })
         try {
           err = json_parse(err);
         } catch (e) {
@@ -731,26 +742,52 @@ export default class Run extends Component {
         </Collapse>
 
         <h2 className="interface-title">返回结果</h2>
-        <Spin spinning={this.state.loading}>
-          <div className="res-code"></div>
-          <Collapse defaultActiveKey={['0', '1']} bordered={true}>
+        {this.state.resStatusCode ?
+          <Spin spinning={this.state.loading}>
+            <h2 className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>{this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
+
+            <div className="container-header-body">
+              <div className="header">
+                <div className="container-title">
+                  <h4>Headers</h4>
+                </div>
+                <div id="res-headers-pretty" className="pretty-editor-header"></div>
+              </div>
+              <div className="resizer">
+                <div className="container-title">
+                  <h4 style={{visibility: 'hidden'}}>1</h4>
+                </div>
+              </div>
+              <div className="body">
+                <div className="container-title">
+                  <h4>Body</h4>
+                </div>
+                <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
+                <div
+                  style={{display: isResJson ? 'none' : ''}}
+                  className="res-body-text"
+                >{this.state.res && this.state.res.toString()}</div>
+              </div>
+            </div>
+          </Spin> : <p>发送请求后在这里查看返回结果。</p>}
+
+        {/*<Collapse defaultActiveKey={['0', '1']} bordered={true}>
             <Panel header="BODY" key="0" >
-              <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
-              <TextArea
+              <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>*/}
+        {/*<TextArea
                 style={{ display: isResJson ? 'none' : '' }}
                 value={this.state.res && this.state.res.toString()}
                 autosize={{ minRows: 10, maxRows: 20 }}
-              ></TextArea>
-            </Panel>
-            <Panel header="HEADERS" key="1" >
-              {/*<TextArea
+              ></TextArea>*/}
+        {/*</Panel>
+            <Panel header="HEADERS" key="1" >*/}
+        {/*<TextArea
                 value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
                 autosize={{ minRows: 2, maxRows: 10 }}
               ></TextArea>*/}
-              <div id="res-headers-pretty" className="pretty-editor-header"></div>
+        {/*<div id="res-headers-pretty" className="pretty-editor-header"></div>
             </Panel>
-          </Collapse>
-        </Spin>
+          </Collapse>*/}
 
         <h2 className="interface-title">数据结构验证
           <Switch style={{verticalAlign: 'text-bottom', marginLeft: '8px'}} checked={this.state.resTest} onChange={this.onTestSwitched} />
