@@ -101,6 +101,9 @@ export default class GroupList extends Component {
       });
     } else {
       this.setState({
+        newGroupName: '',
+        group_name: '',
+        owner_uid: 0,
         addGroupModalVisible: false
       });
     }
@@ -111,6 +114,9 @@ export default class GroupList extends Component {
     const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uid })
     if (!res.data.errcode) {
       this.setState({
+        newGroupName: '',
+        group_name: '',
+        owner_uid: 0,
         addGroupModalVisible: false
       });
       await this.props.fetchGroupList();
