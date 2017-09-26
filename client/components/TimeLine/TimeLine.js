@@ -50,13 +50,15 @@ function timeago(timestamp) {
     }
 
   } else {
-    return new Date(timestamp);
+    return "刚刚";
   }
 }
 // timeago(new Date().getTime() - 40);
 
 @connect(
+  
   state => {
+    console.log(11);
     return {
       newsData: state.news.newsData,
       curpage: state.news.curpage,
@@ -106,10 +108,8 @@ class TimeTree extends Component {
   }
 
   componentWillMount() {
-    
     this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 8)
   }
-
   render() {
     let data = this.props.newsData ? this.props.newsData.list : [];
     let logType = {
@@ -121,7 +121,7 @@ class TimeTree extends Component {
       other: "其他"
     };
     if (data && data.length) {
-
+      console.log(data);
       data = data.map(function (item, i) {
         return (<Timeline.Item dot={<Link to={`/user/profile/${item.uid}`}><Avatar src={`/api/user/avatar?uid=${item.uid}`} /></Link>} key={i}>
           <div className="logMesHeade">

@@ -71,6 +71,25 @@
     .ant-tree li .ant-tree-node-content-wrapper {
       width: calc(100% - 28px);
       position: relative;
+      .container-title {
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      .btns {
+        background-color: #eef7fe;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-60%);
+        transition: all .2s;
+      }
+    }
+    .ant-tree li .ant-tree-node-selected {
+      .btns {
+        background-color: #d5ebfc;
+        transition: all .2s;
+      }
     }
 
     .interface-delete-icon{
@@ -78,7 +97,7 @@
         right: 0;
         float: right;
         line-height: 25px;
-        width: 30px;
+        width: 24px;
         font-weight: bold;
     }
     .anticon-ellipsis {
