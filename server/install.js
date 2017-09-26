@@ -134,9 +134,9 @@ function setupSql() {
         });
     
 
-    }.catch(function(err){
-        console.log(err.message)
-    }))
+    }).catch(function(err){        
+        console.log('Error:', err.message)
+    })
 
 }
 
