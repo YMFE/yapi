@@ -555,7 +555,7 @@ class InterfaceEditForm extends Component {
                 })}
               </Select>
 
-              <Tooltip title="接口基本路径，可在 项目设置->环境配置 里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
+              <Tooltip title="接口基本路径，可在 项目设置 里修改" style={{ display: this.props.basepath == '' ? 'block' : 'none' }}>
                 <Input disabled value={this.props.basepath} readOnly onChange={() => { }} style={{ width: '25%' }} />
               </Tooltip>
               {getFieldDecorator('path', {
