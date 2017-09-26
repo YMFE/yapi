@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 // import { Button } from 'antd'
 @connect(
   state => {
-    console.log(state);
     return {
       uid: state.user.uid + '',
       curGroupId: state.group.currGroup._id
