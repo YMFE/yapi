@@ -10,13 +10,19 @@ yapi.connect = dbModule.connect();
 
 
 function install() {
-    let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+    try {
+        let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
 
-    if (exist) {
-        throw new Error('init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉init.lock文件');
+        if (exist) {
+            throw new Error('init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉init.lock文件');
+        }
+        fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+
+        setupSql();
+    } catch (err) {
+        console.error(err.message);
     }
 
-    setupSql();
 }
 
 function setupSql() {
@@ -123,14 +129,12 @@ function setupSql() {
         followCol.ensureIndex({
             project_id: 1
         })
-        
+
         result.then(function () {
-            fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
-            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
+            console.log(`初始化管理员账号成功，账号名： "${yapi.WEBCONFIG.adminAccount}",默认密码：qunar.com`); // eslint-disable-line
             process.exit(0);
         }, function (err) {
-            console.error(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
-            process.exit();
+            throw new Error(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
         });
 
     })
