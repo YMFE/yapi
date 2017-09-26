@@ -8,7 +8,7 @@
     "install-server": " node server/install.js",
     "dev-client": "ykit s -p 4000",
     "dev": "npm run dev-server & npm run dev-client",
-    "server": " node server/app.js"
+    "start": " node server/app.js"
   },
   "repository": {
     "type": "git",
