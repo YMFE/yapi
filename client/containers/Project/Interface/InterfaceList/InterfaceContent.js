@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
-import { Tabs } from 'antd';
-import Edit from './Edit.js'
-import View from './View.js'
+import PropTypes from 'prop-types';
+import { Tabs, Modal, Button } from 'antd';
+import Edit from './Edit.js';
+import View from './View.js';
 
 import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
@@ -33,7 +33,9 @@ class Content extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      curtab: 'view'
+      curtab: 'view',
+      visible: false,
+      nextTab: ''
     }
   }
 
@@ -66,11 +68,36 @@ class Content extends Component {
   }
 
   onChange = (key) => {
+    if (this.state.curtab === 'edit') {
+      this.showModal();
+    } else {
+      this.setState({
+        curtab: key
+      });
+    }
     this.setState({
-      curtab: key
-    })
+      nextTab: key
+    });
   }
-
+  // 确定离开页面
+  handleOk = () => {
+    this.setState({
+      visible: false,
+      curtab: this.state.nextTab
+    });
+  }
+  // 离开编辑页面的提示
+  showModal = () => {
+    this.setState({
+      visible: true
+    });
+  }
+  // 取消离开编辑页面
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  }
   render() {
     let InterfaceTabs = {
       view: {
@@ -104,6 +131,16 @@ class Content extends Component {
     return <div className="interface-content">
       {tabs}
       {tabContent}
+      <Modal
+        title="你即将离开编辑页面"
+        visible={this.state.visible}
+        footer={[
+          <Button key="back" onClick={this.handleCancel}>取 消</Button>,
+          <Button key="submit" onClick={this.handleOk}>确 定</Button>
+        ]}
+      >
+        <p>离开页面会丢失当前编辑的内容，确定要离开吗？</p>
+      </Modal>
     </div>
   }
 }
