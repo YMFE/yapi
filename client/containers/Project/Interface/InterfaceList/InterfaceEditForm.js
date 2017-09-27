@@ -111,7 +111,7 @@ class InterfaceEditForm extends Component {
       req_radio_type: 'req-query'
 
     }, curdata)
-    console.log(this.state.path)
+    // console.log(this.state.path)
   }
 
   handleSubmit = (e) => {
