@@ -99,7 +99,10 @@ class ProjectList extends Component {
   }
 
   render() {
-    const projectData = this.state.projectData;
+    let projectData = this.state.projectData;
+    projectData = projectData.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -114,9 +117,7 @@ class ProjectList extends Component {
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
               </Tooltip>}
-
           </Col>
-
         </Row>
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
