@@ -52,7 +52,7 @@ export default class GroupList extends Component {
     currGroupName: '',
     currGroupDesc: '',
     groupList: [],
-    owner_uid: 0
+    owner_uids: []
   }
 
   constructor(props) {
@@ -103,20 +103,20 @@ export default class GroupList extends Component {
       this.setState({
         newGroupName: '',
         group_name: '',
-        owner_uid: 0,
+        owner_uids: [],
         addGroupModalVisible: false
       });
     }
   }
   @autobind
   async addGroup() {
-    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uid } = this.state;
-    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uid })
+    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uids } = this.state;
+    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uids })
     if (!res.data.errcode) {
       this.setState({
         newGroupName: '',
         group_name: '',
-        owner_uid: 0,
+        owner_uids: [],
         addGroupModalVisible: false
       });
       await this.props.fetchGroupList();
@@ -168,9 +168,9 @@ export default class GroupList extends Component {
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      owner_uid: childState.uid
+      owner_uids: uids
     })
   }
 
