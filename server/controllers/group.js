@@ -334,6 +334,7 @@ class groupController extends baseController {
     async list(ctx) {
         try {
             var groupInst = yapi.getInst(groupModel);
+            let projectInst = yapi.getInst(projectModel);
             let result = await groupInst.list();
             let newResult = [];
             if(result && result.length > 0){
@@ -343,7 +344,11 @@ class groupController extends baseController {
                     if(result[i].role !== 'member'){
                         newResult.unshift(result[i]);
                     }else{
-                        newResult.push(result[i]);
+                        let publicCount = await projectInst.countWithPublic(result[i].id);
+                        if(publicCount > 0){
+                            newResult.push(result[i]);
+                        }
+                        
                     }
                 }
             }

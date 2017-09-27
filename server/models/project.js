@@ -69,6 +69,11 @@ class projectModel extends baseModel {
         return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
     }
 
+    countWithPublic(group_id){
+        let params = {group_id: group_id, project_type: 'public'};
+        return this.model.count(params);
+    }
+
     listWithPaging(group_id, page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
