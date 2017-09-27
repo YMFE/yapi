@@ -144,7 +144,7 @@ class userController extends baseController {
                     type: 'third'
                 };
                 user = await userInst.save(data);
-                await this.handlePrivateGroup(user._id);
+                await this.handlePrivateGroup(user._id, username, email);
                 yapi.commons.sendMail({
                     to: email,
                     contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台，你的邮箱账号是：${email}</p>`
@@ -211,20 +211,14 @@ class userController extends baseController {
         }
     }
 
-    async handlePrivateGroup(uid){
+    async handlePrivateGroup(uid, username, email){
         var groupInst = yapi.getInst(groupModel);
         await groupInst.save({
             uid: uid,
             group_name: 'User-' + uid,
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            type: 'public',
-            members: [{
-                uid: uid,
-                role: 'owner',
-                username: this.getUsername(),
-                email: this.getEmail()
-            }]
+            type: 'private'
         })
 
     }
@@ -298,7 +292,7 @@ class userController extends baseController {
             let user = await userInst.save(data);
 
             this.setLoginCookie(user._id, user.passsalt);
-            await handlePrivateGroup(user._id);
+            await this.handlePrivateGroup(user._id, user.username, user.email);
             ctx.body = yapi.commons.resReturn({
                 uid: user._id,
                 email: user.email,

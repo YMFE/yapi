@@ -349,13 +349,7 @@ class groupController extends baseController {
                     group_name: 'User-' + this.getUid(),
                     add_time: yapi.commons.time(),
                     up_time: yapi.commons.time(),
-                    type: 'private',
-                    members: [{
-                        uid: this.getUid(),
-                        role: 'owner',
-                        username: this.getUsername(),
-                        email: this.getEmail()
-                    }]
+                    type: 'private'
                 })
             }
             

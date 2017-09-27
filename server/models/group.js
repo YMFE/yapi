@@ -96,7 +96,7 @@ class groupModel extends baseModel {
     list() {
         return this.model.find({
             type: 'public'
-        }).select('group_name _id group_desc add_time up_time type').exec();
+        }).select('group_name _id group_desc add_time up_time type uid').exec();
     }
 
     del(id) {
