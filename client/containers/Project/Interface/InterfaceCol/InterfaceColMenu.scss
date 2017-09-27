@@ -22,9 +22,15 @@
       margin-left: 5px;
       display: none;
     }
+    .btns {
+      display: none;
+    }
   }
   .menu-title:hover {
     .case-delete-icon {
+      display: block;
+    }
+    .btns {
       display: block;
     }
   }

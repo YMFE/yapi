@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
-import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
+import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -197,20 +197,20 @@ export default class InterfaceColMenu extends Component {
     const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, filterValue } = this.state;
 
-    const menu = (col) => {
-      return (
-        <Menu>
-          <Menu.Item>
-            <span onClick={() => this.showColModal('edit', col)}>修改集合</span>
-          </Menu.Item>
-          <Menu.Item>
-            <span onClick={() => {
-              this.showDelColConfirm(col._id)
-            }}>删除集合</span>
-          </Menu.Item>
-        </Menu>
-      )
-    };
+    // const menu = (col) => {
+    //   return (
+    //     <Menu>
+    //       <Menu.Item>
+    //         <span onClick={() => this.showColModal('edit', col)}>修改集合</span>
+    //       </Menu.Item>
+    //       <Menu.Item>
+    //         <span onClick={() => {
+    //           this.showDelColConfirm(col._id)
+    //         }}>删除集合</span>
+    //       </Menu.Item>
+    //     </Menu>
+    //   )
+    // };
 
     let isFilterCat = false;
 
@@ -237,7 +237,7 @@ export default class InterfaceColMenu extends Component {
                 return true;
               }
               isFilterCat = false;
-              
+
               let caseList = col.caseList.filter(item=>{
                 return item.casename.indexOf(filterValue) !== -1
               })
@@ -248,9 +248,13 @@ export default class InterfaceColMenu extends Component {
                 title={
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
-                    <Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+                    <div className="btns">
+                      <Icon type='delete' className="interface-delete-icon" onClick={() => {this.showDelColConfirm(col._id)}} />
+                      <Icon type='edit' className="interface-delete-icon" onClick={() => {this.showColModal('edit', col)}} />
+                    </div>
+                    {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
                       <Icon className="opts-icon" type='ellipsis'/>
-                    </Dropdown>
+                    </Dropdown>*/}
                   </div>
                 }
               >
