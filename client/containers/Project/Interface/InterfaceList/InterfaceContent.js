@@ -45,7 +45,7 @@ class Content extends Component {
     const params = this.props.match.params;
     this.actionId = params.actionId;
     this.handleRequest(this.props);
-    window.confirm = () => {};
+    // window.confirm = () => {};
   }
 
   componentWillReceiveProps(nextProps) {
