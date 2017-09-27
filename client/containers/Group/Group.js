@@ -16,7 +16,8 @@ import './Group.scss';
   state => {
     return {
       curGroupId: state.group.currGroup._id,
-      curUserRole: state.group.currGroup.role
+      curUserRole: state.group.currGroup.role,
+      currGroup: state.group.currGroup
     }
   },
   {
@@ -30,7 +31,8 @@ export default class Group extends Component {
   static propTypes = {
     fetchNewsData: PropTypes.func,
     curGroupId: PropTypes.number,
-    curUserRole: PropTypes.string
+    curUserRole: PropTypes.string,
+    currGroup: PropTypes.object
   }
   onTabClick(key){
     if(key == 3){
@@ -40,7 +42,7 @@ export default class Group extends Component {
   render () {
     const GroupContent = (
       <Layout style={{minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px'}}>
-        <Sider style={{ height: '100%', overflowY: 'scroll'}} width={300}>
+        <Sider style={{ height: '100%' }} width={300}>
           <div className="logo" />
           <GroupList></GroupList>
         </Sider>
@@ -48,7 +50,7 @@ export default class Group extends Component {
           <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
             <Tabs onTabClick={this.onTabClick.bind(this)} type="card" className="m-tab" style={{height: '100%'}}>
               <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
-              <TabPane tab="成员列表" key="2"><MemberList/></TabPane>
+              {this.props.currGroup.type === 'public'?<TabPane tab="成员列表" key="2"><MemberList/></TabPane>:null}
               {["admin","owner","guest","dev"].indexOf(this.props.curUserRole)>-1?<TabPane tab="分组动态" key="3"><GroupLog/></TabPane>:""}
             </Tabs>
           </Content>

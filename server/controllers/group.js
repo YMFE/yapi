@@ -31,6 +31,9 @@ class groupController extends baseController {
             let result = await groupInst.getGroupById(params.id);
             result = result.toObject();
             result.role = await this.getProjectRole(params.id, 'group');
+            if(result.type === 'private'){
+                result.group_name = '个人空间';
+            }
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
@@ -334,8 +337,23 @@ class groupController extends baseController {
     async list(ctx) {
         try {
             var groupInst = yapi.getInst(groupModel);
+            let projectInst = yapi.getInst(projectModel);
+            let userInst = yapi.getInst(userModel);
             let result = await groupInst.list();
+            let privateGroup = await groupInst.getByPrivateUid(this.getUid())
             let newResult = [];
+
+            if(!privateGroup){
+                privateGroup = await groupInst.save({
+                    uid: this.getUid(),
+                    group_name: 'User-' + this.getUid(),
+                    add_time: yapi.commons.time(),
+                    up_time: yapi.commons.time(),
+                    type: 'private'
+                })
+            }
+            
+
             if(result && result.length > 0){
                 for(let i=0; i< result.length; i++){
                     result[i] = result[i].toObject();
@@ -343,11 +361,21 @@ class groupController extends baseController {
                     if(result[i].role !== 'member'){
                         newResult.unshift(result[i]);
                     }else{
-                        newResult.push(result[i]);
+                        let publicCount = await projectInst.countWithPublic(result[i].id);
+                        if(publicCount > 0){
+                            newResult.push(result[i]);
+                        }
+                        
                     }
                 }
             }
-          
+            if(privateGroup){
+                privateGroup = privateGroup.toObject();
+                privateGroup.group_name = '个人空间';
+                privateGroup.role = 'owner';
+                newResult.unshift(privateGroup);
+            }
+            
             ctx.body = yapi.commons.resReturn(newResult);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
