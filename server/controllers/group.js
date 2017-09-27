@@ -46,7 +46,7 @@ class groupController extends baseController {
      * @foldnumber 10
      * @param {String} group_name 项目分组名称，不能为空
      * @param {String} [group_desc] 项目分组描述
-     * @param {String} owner_uid  组长uid
+     * @param {String} [owner_uids]  组长[uid]
      * @returns {Object}
      * @example ./api/group/add.json
      */
@@ -67,16 +67,21 @@ class groupController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组名不能为空');
         }
 
-        // if (!params.owner_uid) {
-        //     return ctx.body = yapi.commons.resReturn(null, 400, '项目分组必须添加一个组长');
-        // }
+        if (!params.owner_uids || !params.owner_uids.length) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '项目分组必须添加一个组长');
+        }
 
-        let groupUserdata = null;
-        if (params.owner_uid) {
-            groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
-            if (groupUserdata === null) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
+        let owners = [];
+        for(let i = 0, len = params.owner_uids.length; i < len; i++) {
+            let id = params.owner_uids[i]
+            let groupUserdata = await this.getUserdata(id, 'owner');
+            if (groupUserdata) {
+                owners.push(groupUserdata)
             }
+        }
+        // groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
+        if (!owners.length) {
+            return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
         }
         
         let groupInst = yapi.getInst(groupModel);
@@ -93,7 +98,7 @@ class groupController extends baseController {
             uid: this.getUid(),
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            members: groupUserdata ? [groupUserdata] : []
+            members: owners
         };
 
         try {
@@ -130,7 +135,7 @@ class groupController extends baseController {
      * @category group
      * @foldnumber 10
      * @param {String} id 项目分组id
-     * @param {String} member_uid 项目分组成员uid
+     * @param {String} member_uids 项目分组成员[uid]
      * @param {String} role 成员角色，owner or dev or guest
      * @returns {Object}
      * @example
@@ -142,7 +147,7 @@ class groupController extends baseController {
 
         let params = ctx.request.body;
         let groupInst = yapi.getInst(groupModel);
-        if (!params.member_uid) {
+        if (!params.member_uids || !params.member_uids.length) {
             return ctx.body = yapi.commons.resReturn(null, 400, '分组成员uid不能为空');
         }
         if (!params.id) {
@@ -150,22 +155,46 @@ class groupController extends baseController {
         }
 
         params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
+        let add_members = [];
+        let exist_members = [];
+        let no_members = []
+        for(let i = 0, len = params.member_uids.length; i < len; i++) {
+            let id = params.member_uids[i];
+            let check = await groupInst.checkMemberRepeat(params.id, id); 
+            let userdata = await this.getUserdata(id, params.role);
+            console.log(userdata)
+            if (check > 0) {
+                exist_members.push(userdata)
+            } else if (!userdata) {
+                no_members.push(id)
+            } else {
+                userdata.role !== 'admin' && add_members.push(userdata);
+                delete userdata._role;
+            }
+        }
 
-        var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
-        if (check > 0) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '成员已存在');
-        }
-        let groupUserdata = await this.getUserdata(params.member_uid, params.role);
-        if (groupUserdata === null) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
-        }
-        if (groupUserdata._role === 'admin') {
-            return ctx.body = yapi.commons.resReturn(null, 400, '不能邀请管理员')
-        }
-        delete groupUserdata._role;
+        // params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
+
+        // var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
+        // if (check > 0) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '成员已存在');
+        // }
+        // let groupUserdata = await this.getUserdata(params.member_uid, params.role);
+        // if (groupUserdata === null) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
+        // }
+        // if (groupUserdata._role === 'admin') {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '不能邀请管理员')
+        // }
+        // delete groupUserdata._role;
         try {
-            let result = await groupInst.addMember(params.id, groupUserdata);
-            ctx.body = yapi.commons.resReturn(result);
+            let result = await groupInst.addMember(params.id, add_members);
+            ctx.body = yapi.commons.resReturn({
+                result,
+                add_members,
+                exist_members,
+                no_members
+            });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }

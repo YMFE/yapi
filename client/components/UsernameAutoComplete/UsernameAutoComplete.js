@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AutoComplete } from 'antd';
+import { Select } from 'antd';
 import axios from 'axios';
+
+const Option = Select.Option;
 
 /**
  * 用户名输入框自动完成组件
@@ -12,7 +14,7 @@ import axios from 'axios';
  * * 用户名输入框自动完成组件
  * * 用户名输入框自动完成组件
  *
- *
+ *s
  */
 
  /**
@@ -37,12 +39,14 @@ import axios from 'axios';
 class UsernameAutoComplete extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dataSource: [],
-      uid: 0,
-      username: '',
-      changeName: ''
-    }
+  }
+
+  state = {
+    dataSource: []
+    // value: []
+    // uid: 0,
+    // username: ''
+    // changeName: ''
   }
 
   static propTypes = {
@@ -50,27 +54,38 @@ class UsernameAutoComplete extends Component {
   }
 
   // 改变本组件 state，并回调给父组件
-  changeState = (uid, username) => {
-    // 设置本组件 state
-    this.setState({ uid, username });
-    // 回调 将当前选中的uid和username回调给父组件
-    this.props.callbackState({ uid, username });
-  }
+  // changeState = (value) => {
+  //   // 设置本组件 state
+  //   // this.setState({ value });
+  //   // 回调 将当前选中的uid和username回调给父组件
+  //   this.props.callbackState({ value });
+  // }
 
   // 输入框中的值改变时
-  onChange = (userName) => {
-    this.setState({
-      changeName: userName
-    });
-  }
+  // onChange = (userName) => {
+  //   this.setState({
+  //     changeName: userName
+  //   });
+  // }
+
+  // process(value) {
+  //   return value.map(item => {
+  //     const index = item.index('_')
+  //     const id = item.substring(0, index);
+  //     const username = item.substring(index + 1);
+  //     return { id, username }
+  //   });
+  // }
 
   // 选中候选词时
-  onSelect = (userName) => {
-    this.state.dataSource.forEach((item) => {
-      if (item.username === userName) {
-        this.changeState(item.id, item.username);
-      }
-    });
+  handleChange = (value) => {
+    // this.state.dataSource.forEach((item) => {
+    //   if (item.username === userName) {
+    //     this.changeState(item.id, item.username);
+    //   }
+    // });
+    // this.changeState({ value: this.process(value) })
+    this.props.callbackState(value);
   }
 
   // 搜索回调
@@ -90,28 +105,45 @@ class UsernameAutoComplete extends Component {
           this.setState({
             dataSource: userList
           });
-          if (userList.length) {
-            // 每次取回搜索值后，没选择时默认选择第一位
-            this.changeState(userList[0].id, userList[0].username);
-          } else {
-            // 如果没有搜索结果，则清空候选 uid 和 username
-            this.changeState(-1, '');
-          }
+          // if (userList.length) {
+          //   // 每次取回搜索值后，没选择时默认选择第一位
+          //   // this.changeState(userList[0].id, userList[0].username);
+          // } else {
+          //   // 如果没有搜索结果，则清空候选 uid 和 username
+          //   // this.changeState(-1, '');
+          //   this.changeState([]);
+          // }
         }
       });
   }
 
   render () {
+
+    const { dataSource } = this.state;
+
     return (
-      <AutoComplete
-        dataSource={this.state.dataSource.map(i => i.username)}
+      // <AutoComplete
+      //   dataSource={this.state.dataSource.map(i => i.username)}
+      //   style={{ width: '100%' }}
+      //   onChange={this.onChange}
+      //   onSelect={this.onSelect}
+      //   onSearch={this.handleSearch}
+      //   placeholder="请输入用户名"
+      //   size="large"
+      // />
+      <Select
+        mode="multiple" 
         style={{ width: '100%' }}
-        onChange={this.onChange}
-        onSelect={this.onSelect}
-        onSearch={this.handleSearch}
         placeholder="请输入用户名"
+        onSearch={this.handleSearch}
+        onChange={this.handleChange}
+        onBlur={() => this.setState({dataSource: []})}
         size="large"
-      />
+      >
+        {dataSource.map((item, index) => (
+          <Option key={index} value={'' + item.id}>{item.username}</Option>
+        ))} 
+      </Select>
     )
   }
 }
