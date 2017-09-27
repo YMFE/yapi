@@ -95,6 +95,7 @@ class interfaceColController extends baseController{
                 username: username,
                 typeid: params.project_id
             });
+            // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
             ctx.body = yapi.commons.resReturn(result);
 
         }catch(e){
@@ -226,7 +227,7 @@ class interfaceColController extends baseController{
                     typeid: params.project_id
                 });
             });
-
+            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -295,7 +296,7 @@ class interfaceColController extends baseController{
                 });
             });
 
-
+            this.projectModel.up(caseData.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -398,6 +399,7 @@ class interfaceColController extends baseController{
                 username: username,
                 typeid: colData.project_id
             });
+            
             ctx.body = yapi.commons.resReturn(result)
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
@@ -510,7 +512,7 @@ class interfaceColController extends baseController{
                 });
             });
 
-
+            this.projectModel.up(caseData.project_id,{up_time: new Date().getTime()}).then();
             return ctx.body = yapi.commons.resReturn(result);
 
 
