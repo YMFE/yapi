@@ -83,6 +83,11 @@ class baseController {
   getUsername() {
     return this.$user.username;
   }
+
+  getEmail(){
+    return this.$user.email;
+  }
+
   async getProjectRole(id, type) {
     let result = {};
     try {
