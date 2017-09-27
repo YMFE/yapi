@@ -159,7 +159,7 @@ class projectController extends baseController {
     */
     async addMember(ctx) {
         let params = ctx.request.body;
-        if (!params.member_uid) {
+        if (!params.member_uids || !params.member_uids.length) {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目成员uid不能为空');
         }
         if (!params.id) {
@@ -170,30 +170,53 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
 
-        var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
-        if (check > 0) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
-        }
 
         params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
-
-        let userdata = await this.getUserdata(params.member_uid, params.role);
-        if (userdata === null) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
+        let add_members = [];
+        let exist_members = [];
+        let no_members = []
+        for(let i = 0, len = params.member_uids.length; i < len; i++) {
+            let id = params.member_uids[i]
+            let check = await this.Model.checkMemberRepeat(params.id, id); 
+            let userdata = await this.getUserdata(id, params.role);
+            if (check > 0) {
+                exist_members.push(userdata)
+            } else if (!userdata) {
+                no_members.push(id)
+            } else {
+                add_members.push(userdata)
+            }
         }
+
+        // var check = await this.Model.checkMemberRepeat(params.id, params.member_uids);
+        // if (check > 0) {
+        //     // return ctx.body = yapi.commons.resReturn(null, 400, '项目成员已存在');
+        // }
+
+        // params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
+
+        // let userdata = await this.getUserdata(params.member_uid, params.role);
+        // if (!add_members.length) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
+        // }
 
 
         try {
-            let result = await this.Model.addMember(params.id, userdata);
+            let result = await this.Model.addMember(params.id, add_members);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `用户 "${username}" 添加了项目成员 "${userdata.username}"`,
+                content: `用户 "${username}" 添加了项目成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}"`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
                 typeid: params.id
             });
-            ctx.body = yapi.commons.resReturn(result);
+            ctx.body = yapi.commons.resReturn({
+                result,
+                add_members,
+                exist_members,
+                no_members
+            });
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }

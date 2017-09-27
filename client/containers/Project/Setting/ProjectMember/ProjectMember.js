@@ -49,7 +49,7 @@ class ProjectMember extends Component {
       role: '',
       visible: false,
       dataSource: [],
-      inputUid: 0,
+      inputUids: [],
       inputRole: 'dev'
     }
   }
@@ -90,7 +90,7 @@ class ProjectMember extends Component {
   handleOk() {
     this.props.addMember({
       id: this.props.match.params.id,
-      member_uid: this.state.inputUid,
+      member_uids: this.state.inputUids,
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
@@ -144,9 +144,9 @@ class ProjectMember extends Component {
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      inputUid: childState.uid
+      inputUids: uids
     })
   }
 
