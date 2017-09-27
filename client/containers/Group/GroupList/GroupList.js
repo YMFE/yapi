@@ -10,6 +10,7 @@ const Search = Input.Search;
 const TYPE_EDIT = 'edit';
 const confirm = Modal.confirm;
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import { fetchNewsData } from '../../../reducer/modules/news.js';
 import {
   fetchGroupList,
   setCurrGroup,
@@ -27,7 +28,8 @@ import './GroupList.scss'
   {
     fetchGroupList,
     setCurrGroup,
-    setGroupList
+    setGroupList,
+    fetchNewsData
   }
 )
 @withRouter
@@ -41,7 +43,8 @@ export default class GroupList extends Component {
     setGroupList: PropTypes.func,
     match: PropTypes.object,
     history: PropTypes.object,
-    curUserRole: PropTypes.string
+    curUserRole: PropTypes.string,
+    fetchNewsData: PropTypes.func
   }
 
   state = {
@@ -122,6 +125,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup(res.data.data)
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
       message.error(res.data.errmsg)
     }
@@ -140,6 +144,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id });
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
   }
   @autobind
@@ -165,6 +170,7 @@ export default class GroupList extends Component {
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
+    this.props.fetchNewsData(groupId, "group", 1, 10)
   }
 
   @autobind
@@ -234,38 +240,42 @@ export default class GroupList extends Component {
     const delmark = <Menu.Item>
       <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
     </Menu.Item>
-    //  <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
     const editmark = <Menu.Item>
       <span onClick={() => { this.showConfirm() }}>删除分组</span>
-    </Menu.Item>
-    // <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
+    </Menu.Item>   
     const addmark = <Menu.Item>
       <span onClick={this.showModal}>添加分组</span>
     </Menu.Item>
-    //  <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
+
     let menu = <Menu>
       {
-        this.props.curUserRole === "admin" ? (editmark) : ''
+        this.props.curUserRole === "admin"  ? (editmark) : ''
       }
       {
-        this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
+        this.props.curUserRole === "admin" || currGroup.role === 'owner' ? (delmark) : ''
       }
       {
         this.props.curUserRole === 'admin' ? (addmark) : ''
       }
     </Menu>;
-    menu = currGroup.role ==='owner'?<a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a>:<Dropdown overlay={menu}>
+    menu = currGroup.role === 'owner' ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" href="#">
         <Icon type="setting" />
       </a>
     </Dropdown>;
+
+    if( this.props.currGroup.type==='private'){
+      menu = null;
+    }
+
+
     return (
       <div className="m-group">
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              { this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (menu) : '' }
+              {this.props.curUserRole === "admin" || currGroup.role === 'owner' ? (menu) : ''}
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
@@ -284,14 +294,17 @@ export default class GroupList extends Component {
             {
               this.state.groupList.map((group) => (
                 <Menu.Item key={`${group._id}`} className="group-item">
-                  <Icon type="folder-open" />{group.group_name}
+                  {group.type === 'private' ?
+                    <Icon type="user" /> :
+                    <Icon type="folder-open" />
+                  }{group.group_name}
                 </Menu.Item>
               ))
             }
           </Menu>
         </div>
         {
-          this.state.addGroupModalVisible?<Modal
+          this.state.addGroupModalVisible ? <Modal
             title="添加分组"
             visible={this.state.addGroupModalVisible}
             onOk={this.addGroup}
@@ -316,7 +329,7 @@ export default class GroupList extends Component {
                 <UsernameAutoComplete callbackState={this.onUserSelect} />
               </Col>
             </Row>
-          </Modal>:''
+          </Modal> : ''
         }
 
         <Modal

@@ -22,9 +22,15 @@
       margin-left: 5px;
       display: none;
     }
+    .btns {
+      display: none;
+    }
   }
   .menu-title:hover {
     .case-delete-icon {
+      display: block;
+    }
+    .btns {
       display: block;
     }
   }
@@ -89,12 +95,11 @@
 }
 
 .interface-col{
-  padding: 16px;
+  padding: 24px;
   .interface-col-table-header{
     background-color: rgb(238, 238, 238);
     height: 50px;
     line-height: 50px;
-    font-size:14px;
     text-align: left;
   }
 

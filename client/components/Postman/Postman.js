@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Select, Card, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete } from 'antd'
+import { Button, Input, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -40,7 +40,7 @@ const mockDataSource = wordList.map(item => {
 });
 
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -71,7 +71,10 @@ export default class Run extends Component {
     loading: false,
     validRes: [],
     hasPlugin: true,
-    test_status: null
+    test_status: null,
+    resTest: false,
+    resStatusCode: null,
+    resStatusText: ''
   }
 
   constructor(props) {
@@ -214,7 +217,12 @@ export default class Run extends Component {
       data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
-      success: (res, header) => {
+      success: (res, header, third) => {
+        console.log('suc',third);
+        this.setState({
+          resStatusCode: third.res.status,
+          resStatusText: third.res.statusText
+        })
         try {
           if (isJsonData(header)) {
             res = json_parse(res);
@@ -259,7 +267,12 @@ export default class Run extends Component {
           console.error(e.message)
         }
       },
-      error: (err, header) => {
+      error: (err, header, third) => {
+        console.log('err',third);
+        this.setState({
+          resStatusCode: third.res.status,
+          resStatusText: third.res.statusText
+        })
         try {
           err = json_parse(err);
         } catch (e) {
@@ -496,6 +509,13 @@ export default class Run extends Component {
     console.log(index)
   }
 
+  @autobind
+  onTestSwitched(checked) {
+    this.setState({
+      resTest: checked
+    });
+  }
+
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
@@ -517,7 +537,7 @@ export default class Run extends Component {
 
     return (
       <div className="interface-test postman">
-        <div className="has-plugin">
+        <div className={ hasPlugin? null : 'has-plugin' } >
           {hasPlugin ? '' : <Alert
             message={
               <div>
@@ -547,204 +567,234 @@ export default class Run extends Component {
           }
         </div>
 
-        <Card title={<Tooltip placement="top" title="在 '设置->环境配置' 配置 domain">请求部分&nbsp;<Icon type="question-circle-o" /></Tooltip>} noHovering className="req-part">
-          <div className="url">
 
-            <InputGroup compact style={{ display: 'flex' }}>
-              <Select disabled value={method} style={{ flexBasis: 60 }} onChange={this.changeMethod} >
-                <Option value="GET">GET</Option>
-                <Option value="POST">POST</Option>
-              </Select>
+        <h2 className="interface-title" style={{ marginTop: 0 }}>请求部分&nbsp;
+          <Tooltip placement="top" title="在 '设置->环境配置' 配置 domain"><Icon type="question-circle-o" /></Tooltip>
+        </h2>
+        <div className="url">
 
-              <Select value={caseEnv} style={{ flexBasis: 180, flexGrow: 1 }} onSelect={this.selectDomain}>
-                {
-                  domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
-                }
-              </Select>
+          <InputGroup compact style={{ display: 'flex' }}>
+            <Select disabled value={method} style={{ flexBasis: 60 }} onChange={this.changeMethod} >
+              <Option value="GET">GET</Option>
+              <Option value="POST">POST</Option>
+            </Select>
 
-              <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
-            </InputGroup>
-
-            <Tooltip placement="bottom" title={(() => {
-              if (hasPlugin) {
-                return '发送请求'
-              } else {
-                return '请安装cross-request插件'
-              }
-            })()}>
-              <Button
-                disabled={!hasPlugin}
-                onClick={this.reqRealInterface}
-                type="primary"
-                style={{ marginLeft: 10 }}
-                icon={loading ? 'loading' : ''}
-              >{loading ? '取消' : '发送'}</Button>
-            </Tooltip>
-            <Tooltip placement="bottom" title={this.props.saveTip}>
-              <Button
-                onClick={this.props.save}
-                type="primary"
-                style={{ marginLeft: 10 }}
-              >{this.props.type === 'inter' ? '保存' : '保存'}</Button>
-            </Tooltip>
-          </div>
-
-          <Collapse defaultActiveKey={['0', '1', '2', '3']} bordered={true}>
-            <Panel header="PATH PARAMETERS" key="0" className={pathParam.length === 0 ? 'hidden' : ''}>
+            <Select value={caseEnv} style={{ flexBasis: 180, flexGrow: 1 }} onSelect={this.selectDomain}>
               {
-                pathParam.map((item, index) => {
-                  return (
-                    <div key={index} className="key-value-wrap">
-                      <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
-                      <span className="eq-symbol">=</span>
-                      <AutoComplete
-                        value={item.value}
-                        onChange={e => this.changePathParam(e, index)}
-                        className="value"
-                        dataSource={mockDataSource}
-                        placeholder="参数值"
-                        optionLabelProp="value"
-                      />
-                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
-                    </div>
-                  )
-                })
+                domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
               }
-              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
-            </Panel>
-            <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
-              {
-                query.map((item, index) => {
-                  return (
-                    <div key={index} className="key-value-wrap">
-                      <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
-                      <span className="eq-symbol">=</span>
-                      <AutoComplete
-                        value={item.value}
-                        onChange={e => this.changeQuery(e, index)}
-                        className="value"
-                        dataSource={mockDataSource}
-                        placeholder="参数值"
-                        optionLabelProp="value"
-                      />
-                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
-                    </div>
-                  )
-                })
-              }
-              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
-            </Panel>
-            <Panel header="HEADERS" key="2" className={headers.length === 0 ? 'hidden' : ''}>
-              {
-                headers.map((item, index) => {
-                  return (
-                    <div key={index} className="key-value-wrap">
-                      <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
-                      <span className="eq-symbol">=</span>
-                      <AutoComplete
-                        value={item.value}
-                        onChange={e => this.changeHeader(e, index)}
-                        className="value"
-                        dataSource={mockDataSource}
-                        placeholder="参数值"
-                        optionLabelProp="value"
-                      />
-                      <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
-                    </div>
-                  )
-                })
-              }
-              <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
-            </Panel>
-            <Panel
-              header={
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div>BODY</div>
-                </div>
-              }
-              key="3"
-              className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
-            >
+            </Select>
 
-              <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file' ? 'block' : 'none' }}>
-                <div id="body-other-edit" style={{ marginTop: 10, minHeight: 150 }} className="pretty-editor"></div>
+            <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
+          </InputGroup>
+
+          <Tooltip placement="bottom" title={(() => {
+            if (hasPlugin) {
+              return '发送请求'
+            } else {
+              return '请安装cross-request插件'
+            }
+          })()}>
+            <Button
+              disabled={!hasPlugin}
+              onClick={this.reqRealInterface}
+              type="primary"
+              style={{ marginLeft: 10 }}
+              icon={loading ? 'loading' : ''}
+            >{loading ? '取消' : '发送'}</Button>
+          </Tooltip>
+          <Tooltip placement="bottom" title={this.props.saveTip}>
+            <Button
+              onClick={this.props.save}
+              type="primary"
+              style={{ marginLeft: 10 }}
+            >{this.props.type === 'inter' ? '保存' : '保存'}</Button>
+          </Tooltip>
+        </div>
+
+        <Collapse defaultActiveKey={['0', '1', '2', '3']} bordered={true}>
+          <Panel header="PATH PARAMETERS" key="0" className={pathParam.length === 0 ? 'hidden' : ''}>
+            {
+              pathParam.map((item, index) => {
+                return (
+                  <div key={index} className="key-value-wrap">
+                    <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                    <span className="eq-symbol">=</span>
+                    <AutoComplete
+                      value={item.value}
+                      onChange={e => this.changePathParam(e, index)}
+                      className="value"
+                      dataSource={mockDataSource}
+                      placeholder="参数值"
+                      optionLabelProp="value"
+                    />
+                    <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
+                  </div>
+                )
+              })
+            }
+            <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addPathParam}>添加Path参数</Button>
+          </Panel>
+          <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
+            {
+              query.map((item, index) => {
+                return (
+                  <div key={index} className="key-value-wrap">
+                    <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
+                    <span className="eq-symbol">=</span>
+                    <AutoComplete
+                      value={item.value}
+                      onChange={e => this.changeQuery(e, index)}
+                      className="value"
+                      dataSource={mockDataSource}
+                      placeholder="参数值"
+                      optionLabelProp="value"
+                    />
+                    <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
+                  </div>
+                )
+              })
+            }
+            <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addQuery}>添加Query参数</Button>
+          </Panel>
+          <Panel header="HEADERS" key="2" className={headers.length === 0 ? 'hidden' : ''}>
+            {
+              headers.map((item, index) => {
+                return (
+                  <div key={index} className="key-value-wrap">
+                    <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
+                    <span className="eq-symbol">=</span>
+                    <AutoComplete
+                      value={item.value}
+                      onChange={e => this.changeHeader(e, index)}
+                      className="value"
+                      dataSource={mockDataSource}
+                      placeholder="参数值"
+                      optionLabelProp="value"
+                    />
+                    <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
+                  </div>
+                )
+              })
+            }
+            <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addHeader}>添加Header</Button>
+          </Panel>
+          <Panel
+            header={
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>BODY</div>
               </div>
+            }
+            key="3"
+            className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
+          >
 
-              {
-                HTTP_METHOD[method].request_body && bodyType === 'form' &&
-                <div>
-                  {
-                    bodyForm.map((item, index) => {
-                      return (
-                        <div key={index} className="key-value-wrap">
-                          <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
-                          <span>[</span>
-                          <Select disabled value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
-                            <Option value="file">File</Option>
-                            <Option value="text">Text</Option>
-                          </Select>
-                          <span>]</span>
-                          <span className="eq-symbol">=</span>
-                          {item.type === 'file' ?
-                            <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                            <AutoComplete
-                              value={item.value}
-                              onChange={e => this.changeBody(e, index, 'value')}
-                              className="value"
-                              dataSource={mockDataSource}
-                              placeholder="参数值"
-                              optionLabelProp="value"
-                            />
+            <div style={{ display: HTTP_METHOD[method].request_body && bodyType !== 'form' && bodyType !== 'file' ? 'block' : 'none' }}>
+              <div id="body-other-edit" style={{ marginTop: 10, minHeight: 150 }} className="pretty-editor"></div>
+            </div>
 
-                          }
-                          <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
-                        </div>
-                      )
-                    })
-                  }
-                  <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
-                </div>
-              }
-              {
-                HTTP_METHOD[method].request_body && bodyType === 'file' &&
-                <div>
-                  <Input type="file" id="single-file"></Input>
-                </div>
-              }
-              {/*
-                method !== 'POST' &&
-                <div>GET 请求没有 BODY。</div>
-              */}
-            </Panel>
-          </Collapse>
-        </Card>
+            {
+              HTTP_METHOD[method].request_body && bodyType === 'form' &&
+              <div>
+                {
+                  bodyForm.map((item, index) => {
+                    return (
+                      <div key={index} className="key-value-wrap">
+                        <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                        <span>[</span>
+                        <Select disabled value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
+                          <Option value="file">File</Option>
+                          <Option value="text">Text</Option>
+                        </Select>
+                        <span>]</span>
+                        <span className="eq-symbol">=</span>
+                        {item.type === 'file' ?
+                          <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
+                          <AutoComplete
+                            value={item.value}
+                            onChange={e => this.changeBody(e, index, 'value')}
+                            className="value"
+                            dataSource={mockDataSource}
+                            placeholder="参数值"
+                            optionLabelProp="value"
+                          />
 
-        <Card title="返回结果" noHovering className="resp-part">
+                        }
+                        <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteBody(index)} />
+                      </div>
+                    )
+                  })
+                }
+                <Button style={{ display: 'none' }} type="primary" icon="plus" onClick={this.addBody}>添加Form参数</Button>
+              </div>
+            }
+            {
+              HTTP_METHOD[method].request_body && bodyType === 'file' &&
+              <div>
+                <Input type="file" id="single-file"></Input>
+              </div>
+            }
+            {/*
+              method !== 'POST' &&
+              <div>GET 请求没有 BODY。</div>
+            */}
+          </Panel>
+        </Collapse>
+
+        <h2 className="interface-title">返回结果</h2>
+        {this.state.resStatusCode ?
           <Spin spinning={this.state.loading}>
-            <div className="res-code"></div>
-            <Collapse defaultActiveKey={['0', '1']} bordered={true}>
-              <Panel header="BODY" key="0" >
-                <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
-                <TextArea
-                  style={{ display: isResJson ? 'none' : '' }}
-                  value={this.state.res && this.state.res.toString()}
-                  autosize={{ minRows: 10, maxRows: 20 }}
-                ></TextArea>
-                <h3 style={{ marginTop: '15px', display: isResJson ? '' : 'none' }}>返回 Body 验证结果：</h3>
-                <div style={{ display: isResJson ? '' : 'none' }}>
-                  {validResView}
+            <h2 className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>{this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
+
+            <div className="container-header-body">
+              <div className="header">
+                <div className="container-title">
+                  <h4>Headers</h4>
                 </div>
-              </Panel>
-              <Panel header="HEADERS" key="1" >
-                {/*<TextArea
-                  value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
-                  autosize={{ minRows: 2, maxRows: 10 }}
-                ></TextArea>*/}
                 <div id="res-headers-pretty" className="pretty-editor-header"></div>
-              </Panel>
-            </Collapse>
-          </Spin>
-        </Card>
+              </div>
+              <div className="resizer">
+                <div className="container-title">
+                  <h4 style={{visibility: 'hidden'}}>1</h4>
+                </div>
+              </div>
+              <div className="body">
+                <div className="container-title">
+                  <h4>Body</h4>
+                </div>
+                <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
+                <div
+                  style={{display: isResJson ? 'none' : ''}}
+                  className="res-body-text"
+                >{this.state.res && this.state.res.toString()}</div>
+              </div>
+            </div>
+          </Spin> : <p>发送请求后在这里查看返回结果。</p>}
+
+        {/*<Collapse defaultActiveKey={['0', '1']} bordered={true}>
+            <Panel header="BODY" key="0" >
+              <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>*/}
+        {/*<TextArea
+                style={{ display: isResJson ? 'none' : '' }}
+                value={this.state.res && this.state.res.toString()}
+                autosize={{ minRows: 10, maxRows: 20 }}
+              ></TextArea>*/}
+        {/*</Panel>
+            <Panel header="HEADERS" key="1" >*/}
+        {/*<TextArea
+                value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
+                autosize={{ minRows: 2, maxRows: 10 }}
+              ></TextArea>*/}
+        {/*<div id="res-headers-pretty" className="pretty-editor-header"></div>
+            </Panel>
+          </Collapse>*/}
+
+        <h2 className="interface-title">数据结构验证
+          <Switch style={{verticalAlign: 'text-bottom', marginLeft: '8px'}} checked={this.state.resTest} onChange={this.onTestSwitched} />
+        </h2>
+        <div className={(isResJson && this.state.resTest) ? '' : 'none' }>
+          {(isResJson && this.state.resTest) ?  validResView : <div><p>若开启此功能，则发送请求后在这里查看验证结果。</p><p>数据结构验证在接口编辑页面配置，YApi 将根据 Response body 验证请求返回的结果。</p></div>}
+        </div>
       </div>
     )
   }

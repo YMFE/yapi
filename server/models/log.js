@@ -58,13 +58,35 @@ class logModel extends baseModel {
     listWithPaging(typeid,type, page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
-
         return this.model.find({
             type: type,
             typeid: typeid
         }).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
     }
-
+    listWithPagingByGroup(typeid, pidList, page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+        return this.model.find({
+            "$or":[{
+                type: "project",
+                typeid: {"$in": pidList}
+            },{
+                type: "group",
+                typeid: typeid
+            }]
+        }).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
+    }
+    listCountByGroup(typeid,pidList) {
+        return this.model.count({
+            "$or":[{
+                type: "project",
+                typeid: {"$in": pidList}
+            },{
+                type: "group",
+                typeid: typeid
+            }]
+        });
+    }
     listCount(typeid,type) {
         return this.model.count({
             typeid: typeid,

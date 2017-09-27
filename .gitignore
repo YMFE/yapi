@@ -35,7 +35,7 @@ Thumbs.db
 
 node_modules/
 runtime/
-prd/
+./prd/
 plugins/
 dev/
 .tags
