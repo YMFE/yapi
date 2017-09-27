@@ -175,17 +175,18 @@ class projectController extends baseController {
         let add_members = [];
         let exist_members = [];
         let no_members = []
-        params.member_uids.forEach(async id => {
+        for(let i = 0, len = params.member_uids.length; i < len; i++) {
+            let id = params.member_uids[i]
             let check = await this.Model.checkMemberRepeat(params.id, id); 
             let userdata = await this.getUserdata(id, params.role);
-            if (!check) {
+            if (check > 0) {
                 exist_members.push(userdata)
             } else if (!userdata) {
                 no_members.push(id)
             } else {
                 add_members.push(userdata)
             }
-        });
+        }
 
         // var check = await this.Model.checkMemberRepeat(params.id, params.member_uids);
         // if (check > 0) {
@@ -195,8 +196,8 @@ class projectController extends baseController {
         // params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
 
         // let userdata = await this.getUserdata(params.member_uid, params.role);
-        // if (userdata === null) {
-        //     // return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
+        // if (!add_members.length) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '成员uid不存在')
         // }
 
 

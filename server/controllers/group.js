@@ -80,9 +80,9 @@ class groupController extends baseController {
             }
         }
         // groupUserdata = await this.getUserdata(params.owner_uid, 'owner');
-        if (!owners.length) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
-        }
+        // if (!owners.length) {
+        //     return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
+        // }
         
         let groupInst = yapi.getInst(groupModel);
 
@@ -162,7 +162,6 @@ class groupController extends baseController {
             let id = params.member_uids[i];
             let check = await groupInst.checkMemberRepeat(params.id, id); 
             let userdata = await this.getUserdata(id, params.role);
-            console.log(userdata)
             if (check > 0) {
                 exist_members.push(userdata)
             } else if (!userdata) {
