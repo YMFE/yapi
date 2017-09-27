@@ -125,7 +125,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup(res.data.data)
-      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 8)
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
       message.error(res.data.errmsg)
     }
@@ -144,7 +144,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id });
-      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 8)
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
   }
   @autobind
@@ -170,7 +170,7 @@ export default class GroupList extends Component {
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
-    this.props.fetchNewsData(groupId, "group", 1, 8)
+    this.props.fetchNewsData(groupId, "group", 1, 10)
   }
 
   @autobind
