@@ -151,6 +151,7 @@ class userController extends baseController {
             }
 
             this.setLoginCookie(user._id, user.passsalt);
+            await handlePrivateGroup(user._id);
             return true;
         } catch (e) {
             console.error('third_login:', e.message); // eslint-disable-line
@@ -208,6 +209,24 @@ class userController extends baseController {
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 401, e.message);
         }
+    }
+
+    async handlePrivateGroup(uid){
+        var groupInst = yapi.getInst(groupModel);
+        await groupInst.save({
+            uid: uid,
+            group_name: 'User-' + uid,
+            add_time: yapi.commons.time(),
+            up_time: yapi.commons.time(),
+            type: 'public',
+            members: [{
+                uid: uid,
+                role: 'owner',
+                username: this.getUsername(),
+                email: this.getEmail()
+            }]
+        })
+        
     }
 
     setLoginCookie(uid, passsalt) {
@@ -279,6 +298,7 @@ class userController extends baseController {
             let user = await userInst.save(data);
 
             this.setLoginCookie(user._id, user.passsalt);
+            await handlePrivateGroup(user._id);
             ctx.body = yapi.commons.resReturn({
                 uid: user._id,
                 email: user.email,
