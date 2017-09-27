@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 import _ from 'underscore'
 import constants from '../../../../constants/variable.js'
 import { handlePath, nameLengthLimit } from '../../../../common.js'
+import { changeEditStatus } from '../../../../reducer/modules/interface.js';
 import json5 from 'json5'
 import { message, Tabs } from 'antd'
 import Editor from 'wangeditor'
 const TabPane = Tabs.TabPane;
-
+let EditFormContext;
 const validJson = (json) => {
   try {
     json5.parse(json);
@@ -39,6 +41,12 @@ const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
 
+@connect(
+  null,
+  {
+    changeEditStatus
+  }
+)
 class InterfaceEditForm extends Component {
   static propTypes = {
     form: PropTypes.object,
@@ -46,7 +54,8 @@ class InterfaceEditForm extends Component {
     mockUrl: PropTypes.string,
     onSubmit: PropTypes.func,
     basepath: PropTypes.string,
-    cat: PropTypes.array
+    cat: PropTypes.array,
+    changeEditStatus: PropTypes.func
   }
 
   constructor(props) {
@@ -109,7 +118,6 @@ class InterfaceEditForm extends Component {
       jsonType: 'tpl',
       mockUrl: this.props.mockUrl,
       req_radio_type: 'req-query'
-
     }, curdata)
     // console.log(this.state.path)
   }
@@ -198,6 +206,7 @@ class InterfaceEditForm extends Component {
   }
 
   componentDidMount() {
+    EditFormContext = this;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
     })
@@ -235,6 +244,10 @@ class InterfaceEditForm extends Component {
     let editor = this.editor = new Editor('#desc');
     editor.create();
     editor.txt.html(this.state.desc)
+  }
+
+  componentWillUnmount() {
+    EditFormContext.props.changeEditStatus(false);
   }
 
   addParams = (name, data) => {
@@ -787,4 +800,8 @@ class InterfaceEditForm extends Component {
   }
 }
 
-export default Form.create()(InterfaceEditForm);
+export default Form.create({
+  onValuesChange() {
+    EditFormContext.props.changeEditStatus(true);
+  }
+})(InterfaceEditForm);
