@@ -166,6 +166,7 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
+            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
                 //let project = await this.projectModel.getBaseInfo(params.project_id);
                 // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
                 // this.sendNotice(params.project_id, {
@@ -473,6 +474,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             } else {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
@@ -484,6 +486,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             }
             if (params.switch_notice === true) {
                 let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -548,7 +551,7 @@ class interfaceController extends baseController {
                     typeid: cate.project_id
                 });
             })
-
+            this.projectModel.up(data.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {

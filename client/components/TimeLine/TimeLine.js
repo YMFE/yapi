@@ -58,7 +58,6 @@ function timeago(timestamp) {
 @connect(
   
   state => {
-    console.log(11);
     return {
       newsData: state.news.newsData,
       curpage: state.news.curpage,
@@ -98,7 +97,7 @@ class TimeTree extends Component {
     if (this.props.curpage <= this.props.newsData.total) {
 
       this.setState({ loading: true });
-      this.props.fetchMoreNews(this.props.typeid, this.props.type, this.props.curpage+1, 8).then(function () {
+      this.props.fetchMoreNews(this.props.typeid, this.props.type, this.props.curpage+1, 10).then(function () {
         that.setState({ loading: false });
         if (that.props.newsData.total === that.props.curpage) {
           that.setState({ bidden: "logbidden" })
@@ -108,7 +107,7 @@ class TimeTree extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 8)
+    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10)
   }
   render() {
     let data = this.props.newsData ? this.props.newsData.list : [];
@@ -121,7 +120,6 @@ class TimeTree extends Component {
       other: "其他"
     };
     if (data && data.length) {
-      console.log(data);
       data = data.map(function (item, i) {
         return (<Timeline.Item dot={<Link to={`/user/profile/${item.uid}`}><Avatar src={`/api/user/avatar?uid=${item.uid}`} /></Link>} key={i}>
           <div className="logMesHeade">

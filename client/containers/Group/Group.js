@@ -12,9 +12,11 @@ const TabPane = Tabs.TabPane;
 import { fetchNewsData } from '../../reducer/modules/news.js';
 import './Group.scss';
 @connect(
+  
   state => {
     return {
       curGroupId: state.group.currGroup._id,
+      curUserRole: state.group.currGroup.role,
       currGroup: state.group.currGroup
     }
   },
@@ -29,15 +31,15 @@ export default class Group extends Component {
   static propTypes = {
     fetchNewsData: PropTypes.func,
     curGroupId: PropTypes.number,
+    curUserRole: PropTypes.string,
     currGroup: PropTypes.object
   }
   onTabClick(key){
     if(key == 3){
-      this.props.fetchNewsData(this.props.curGroupId, "group", 1, 8)
+      this.props.fetchNewsData(this.props.curGroupId, "group", 1, 10)
     }
   }
   render () {
-    console.log(this.props.currGroup)
     const GroupContent = (
       <Layout style={{minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px'}}>
         <Sider style={{ height: '100%' }} width={300}>
@@ -48,10 +50,8 @@ export default class Group extends Component {
           <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
             <Tabs onTabClick={this.onTabClick.bind(this)} type="card" className="m-tab" style={{height: '100%'}}>
               <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
-              {
-                this.props.currGroup.type === 'public'?<TabPane tab="成员列表" key="2"><MemberList/></TabPane>:null
-              }
-              <TabPane tab="分组动态" key="3"><GroupLog/></TabPane>
+              {this.props.currGroup.type === 'public'?<TabPane tab="成员列表" key="2"><MemberList/></TabPane>:null}
+              {["admin","owner","guest","dev"].indexOf(this.props.curUserRole)>-1?<TabPane tab="分组动态" key="3"><GroupLog/></TabPane>:""}
             </Tabs>
           </Content>
         </Layout>
