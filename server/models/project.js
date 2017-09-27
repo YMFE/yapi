@@ -113,7 +113,8 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $push: { members: data }
+                // $push: { members: data }
+                $push: { members: { $each: data } }
             }
         );
     }
