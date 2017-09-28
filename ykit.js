@@ -27,7 +27,7 @@ function fileExist (filePath){
 
 function initPlugins(){
   var scripts = [] ;
-  if(config.plugins && Array.isArray(config.plugins)){
+  if(config.plugins && Array.isArray(config.plugins) && config.plugins.length){
     config.plugins = config.plugins.filter(item=>{
       return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
     })

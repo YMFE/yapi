@@ -79,13 +79,20 @@ pluginModule = {
   bindHook: bindHook,
   emitHook: emitHook
 }
+let pluginModuleList;
+try{
+  pluginModuleList = require('./plugin-module.js');
+}catch(err){pluginModuleList = {}}
 
-let pluginModuleList = require('./plugin-module.js');
+
 config.plugins.forEach(plugin=>{
   if (!plugin) return null;
   if (!plugin.enable) return null;
   if(plugin.client){
-    pluginModuleList[plugin.name].call(pluginModule, plugin)
+    if(pluginModuleList[plugin.name] && typeof pluginModuleList[plugin.name] === 'function'){
+      pluginModuleList[plugin.name].call(pluginModule, plugin)
+    }
+    
   }
 })
 
