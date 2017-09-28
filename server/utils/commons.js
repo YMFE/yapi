@@ -79,7 +79,7 @@ exports.fieldSelect = (data, field) => {
     var arr = {};
 
     field.forEach((f) => {
-        data[f] && (arr[f] = data[f]);
+        (typeof data[f] !== 'undefined') && (arr[f] = data[f]);
     });
 
     return arr;
