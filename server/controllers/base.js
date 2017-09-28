@@ -69,7 +69,6 @@ class baseController {
 
   async getLoginStatus(ctx) {
     if (await this.checkLogin(ctx) === true) {
-      console.log(this.$user);
       let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
       return ctx.body = yapi.commons.resReturn(result);
     }
