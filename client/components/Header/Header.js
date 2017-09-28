@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
@@ -11,6 +11,7 @@ import Srch from './Search/Search'
 const { Header } = Layout;
 import { logoSVG } from '../../common.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
+import GuideBtns from '../GuideBtns/GuideBtns.js';
 
 const MenuUser = (props) => (
   <Menu theme="dark" className="user-menu" >
@@ -22,6 +23,15 @@ const MenuUser = (props) => (
     </Menu.Item>
   </Menu>
 );
+
+const tip = (<div className="title-container">
+  <h3 className="title">工具栏</h3>
+  <p><Icon type="search" /> 搜索功能: 搜索分组与项目;</p>
+  <p><Icon type="heart" /> 关注功能: 属于自己的收藏夹;</p>
+  <p><Icon type="plus-circle" /> 新建项目: 在任何页面都可以快速新建项目;</p>
+  <p><Icon type="question-circle" /> 使用文档: 遇到问题的时候随时可以查看文档;</p>
+  <p>你还可以更换头像，便于同事在 YApi 里找到你 ~</p>
+</div>);
 
 MenuUser.propTypes={
   user: PropTypes.string,
@@ -96,7 +106,9 @@ ToolUser.propTypes={
       user: state.user.userName,
       uid: state.user.uid,
       msg: null,
-      login:state.user.isLogin
+      login:state.user.isLogin,
+      studyTip: state.user.studyTip,
+      study: state.user.study
     }
   },
   {
@@ -123,7 +135,9 @@ export default class HeaderCom extends Component {
     loginTypeAction:PropTypes.func,
     changeMenuItem:PropTypes.func,
     history: PropTypes.object,
-    location: PropTypes.object
+    location: PropTypes.object,
+    study: PropTypes.bool,
+    studyTip: PropTypes.number
   }
   linkTo = (e) =>{
     if(e.key != '/doc'){
@@ -184,13 +198,21 @@ export default class HeaderCom extends Component {
           <Breadcrumb />
           <div className="user-toolbar">
             {login?
-              <ToolUser
-                user = { user }
-                msg = { msg }
-                uid = { uid }
-                relieveLink = { this.relieveLink }
-                logout = { this.logout }
-              />
+              <Popover
+                overlayClassName="popover-index"
+                content={<GuideBtns/>}
+                title={tip}
+                placement="bottomRight"
+                visible={(this.props.studyTip === 1 && !this.props.study) ? true : false}
+                >
+                <ToolUser
+                  user = { user }
+                  msg = { msg }
+                  uid = { uid }
+                  relieveLink = { this.relieveLink }
+                  logout = { this.logout }
+                />
+              </Popover>
               :""}
           </div>
         </div>
