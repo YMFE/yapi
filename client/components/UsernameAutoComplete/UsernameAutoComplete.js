@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Spin } from 'antd';
+// import lodash from 'lodash';
 import axios from 'axios';
 
+// const debounce = lodash.debounce;
 const Option = Select.Option;
 
 /**
@@ -39,6 +41,8 @@ const Option = Select.Option;
 class UsernameAutoComplete extends Component {
   constructor(props) {
     super(props);
+    // this.lastFetchId = 0;
+    // this.fetchUser = debounce(this.fetchUser, 800);
   }
 
   state = {
@@ -50,22 +54,17 @@ class UsernameAutoComplete extends Component {
     callbackState: PropTypes.func
   }
 
-
-  // 选中候选词时
-  handleChange = (value) => {
-    this.setState({
-      dataSource: [],
-      fetching: false
-    });
-    this.props.callbackState(value);
-  }
-
   // 搜索回调
   handleSearch = (value) => {
     const params = { q: value}
+    // this.lastFetchId += 1;
+    // const fetchId = this.lastFetchId;
     this.setState({ fetching: true });
     axios.get('/api/user/search', { params })
       .then(data => {
+        // if (fetchId !== this.lastFetchId) { // for fetch callback order
+        //   return;
+        // }
         const userList = [];
         data = data.data.data;
 
@@ -82,9 +81,19 @@ class UsernameAutoComplete extends Component {
       });
   }
 
+  // 选中候选词时
+  handleChange = (value) => {
+    this.setState({
+      dataSource: [],
+      // value,
+      fetching: false
+    });
+    this.props.callbackState(value);
+  }
+
   render () {
 
-    const { dataSource, fetching } = this.state;
+    const { dataSource, fetching, value } = this.state;
     const children = dataSource.map((item, index) => (
       <Option key={index} value={'' + item.id}>{item.username}</Option>
     ))
@@ -94,6 +103,7 @@ class UsernameAutoComplete extends Component {
         mode="multiple" 
         style={{ width: '100%' }}
         placeholder="请输入用户名"
+        filterOption={false}
         notFoundContent={fetching ? <Spin size="small" /> : null}
         onSearch={this.handleSearch}
         onChange={this.handleChange}
