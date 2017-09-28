@@ -41,7 +41,8 @@ export default (state = initialState, action) => {
         loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
         uid: action.payload.data.data ? action.payload.data.data._id : null,
-        type: action.payload.data.data ? action.payload.data.data.type : null
+        type: action.payload.data.data ? action.payload.data.data.type : null,
+        study: action.payload.data.data ? action.payload.data.data.study : false
       };
     }
     case LOGIN: {
@@ -53,7 +54,8 @@ export default (state = initialState, action) => {
           uid: action.payload.data.data.uid,
           userName: action.payload.data.data.username,
           role: action.payload.data.data.role,
-          type: action.payload.data.data.type
+          type: action.payload.data.data.type,
+          study: action.payload.data.data.study
         };
       } else {
         return state;
