@@ -86,7 +86,7 @@ class userController extends baseController {
      * @category user
      * @foldnumber 10
      * @returns {Object}
-     * @example 
+     * @example
      */
 
     async upStudy(ctx) {
@@ -306,7 +306,8 @@ class userController extends baseController {
             role: 'member',
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            type: "site"
+            type: "site",
+            study: false
         };
 
         if (!data.username) {

@@ -7,6 +7,8 @@ const LOGIN_TYPE = 'yapi/user/LOGIN_TYPE';
 const GET_LOGIN_STATE = 'yapi/user/GET_LOGIN_STATE';
 const REGISTER = 'yapi/user/REGISTER';
 const SET_BREADCRUMB = 'yapi/user/SET_BREADCRUMB';
+const CHANGE_STUDY_TIP = 'yapi/user/CHANGE_STUDY_TIP';
+const FINISH_STUDY = 'yapi/user/FINISH_STUDY';
 
 // Reducer
 const LOADING_STATUS = 0;
@@ -28,7 +30,8 @@ const initialState = {
   // }, {
   //   name: '当前页面'
   // }]
-  breadcrumb: []
+  breadcrumb: [],
+  studyTip: 0
 };
 
 export default (state = initialState, action) => {
@@ -94,6 +97,18 @@ export default (state = initialState, action) => {
         breadcrumb: action.data
       };
     }
+    case CHANGE_STUDY_TIP: {
+      return {
+        ...state,
+        studyTip:  state.studyTip + 1
+      }
+    }
+    case FINISH_STUDY: {
+      return {
+        ...state,
+        study: true
+      };
+    }
     default:
       return state;
   }
@@ -149,5 +164,18 @@ export function setBreadcrumb(data) {
   return{
     type: SET_BREADCRUMB,
     data
+  }
+}
+
+export function changeStudyTip() {
+  return {
+    type: CHANGE_STUDY_TIP
+  }
+}
+
+export function finishStudy() {
+  return {
+    type: FINISH_STUDY,
+    payload: axios.get('/api/user/up_study')
   }
 }
