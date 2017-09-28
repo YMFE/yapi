@@ -10,7 +10,6 @@ import Loading from './components/Loading/Loading';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
-
 const LOADING_STATUS = 0;
 
 @connect(
