@@ -72,7 +72,7 @@ export default class Run extends Component {
     validRes: [],
     hasPlugin: true,
     test_status: null,
-    resTest: false,
+    resTest: true,
     resStatusCode: null,
     resStatusText: ''
   }
