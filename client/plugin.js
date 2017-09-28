@@ -80,20 +80,17 @@ pluginModule = {
   emitHook: emitHook
 }
 
-config.plugins.forEach(plugin => {
+let pluginModuleList = require('./plugin-module.js');
+config.plugins.forEach(plugin=>{
   if (!plugin) return null;
   if (!plugin.enable) return null;
-  if (plugin.client) {
-    let p = require(`plugins/yapi-plugin-${plugin.name}/client.js`);
-    p.call(pluginModule, plugin);
+  if(plugin.client){
+    pluginModuleList[plugin.name].call(pluginModule, plugin)
   }
-
 })
 
-
 systemPlugins.forEach(plugin => {
-  if (!plugin) return null;
-  if (!plugin.enable) return null;
+  
   if (plugin.client) {
     let p = require(`exts/yapi-plugin-${plugin.name}/client.js`);
     p.call(pluginModule, plugin);

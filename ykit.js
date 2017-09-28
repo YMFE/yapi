@@ -26,10 +26,16 @@ function fileExist (filePath){
 };
 
 function initPlugins(){
+  var scripts = [] ;
   if(config.plugins && Array.isArray(config.plugins)){
     config.plugins = config.plugins.filter(item=>{
-      return fileExist(path.resolve(__dirname, 'plugins/yapi-plugin-' + item + '/client.js'))
+      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
     })
+    config.plugins.forEach((plugin)=>{
+      scripts.push(`${plugin} : require('plugins/yapi-plugin-${plugin}/client.js')`)
+    })
+    scripts = "module.exports = {" + scripts.join(",") + "}";
+    fs.writeFileSync('client/plugin-module.js', scripts);
   }
 }
 
@@ -50,13 +56,13 @@ module.exports = {
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       },
-      exclude: /node_modules/
-    }
+      exclude: /node_modules\/(?!yapi-plugin)/
+    }    
   }],
   // devtool:  'cheap-source-map',
   config: function (ykit) {
     return {
-      exports: [
+      exports: [  
         './index.js'
       ],
       commonsChunk: {
@@ -110,7 +116,7 @@ module.exports = {
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.client = '/client';
         baseConfig.resolve.alias.common = '/common';
-        baseConfig.resolve.alias.plugins = '/plugins';
+        baseConfig.resolve.alias.plugins = '/node_modules';
         baseConfig.resolve.alias.exts = '/exts';
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';

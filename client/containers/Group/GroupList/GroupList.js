@@ -246,7 +246,6 @@ export default class GroupList extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { currGroup } = this.props;
     const delmark = <Menu.Item>
       <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
