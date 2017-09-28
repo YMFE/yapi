@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown } from 'antd'
+import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown, Popover } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -10,6 +10,7 @@ const Search = Input.Search;
 const TYPE_EDIT = 'edit';
 const confirm = Modal.confirm;
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import GuideBtns from '../../../components/GuideBtns/GuideBtns.js';
 import { fetchNewsData } from '../../../reducer/modules/news.js';
 import {
   fetchGroupList,
@@ -17,13 +18,20 @@ import {
   setGroupList
 } from '../../../reducer/modules/group.js'
 
-import './GroupList.scss'
+import './GroupList.scss';
+
+const tip = (<div className="title-container">
+  <h3 className="title">欢迎使用 YApi ~</h3>
+  <p>这里的 <b>“个人空间”</b> 是你自己才能看到的分组，你拥有这个分组的全部权限，可以在这个分组里尝试 YApi 的功能。</p>
+</div>);
 
 @connect(
   state => ({
     groupList: state.group.groupList,
     currGroup: state.group.currGroup,
-    curUserRole: state.user.role
+    curUserRole: state.user.role,
+    studyTip: state.user.studyTip,
+    study: state.user.study
   }),
   {
     fetchGroupList,
@@ -44,6 +52,8 @@ export default class GroupList extends Component {
     match: PropTypes.object,
     history: PropTypes.object,
     curUserRole: PropTypes.string,
+    studyTip: PropTypes.number,
+    study: PropTypes.bool,
     fetchNewsData: PropTypes.func
   }
 
@@ -236,13 +246,14 @@ export default class GroupList extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { currGroup } = this.props;
     const delmark = <Menu.Item>
       <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
     </Menu.Item>
     const editmark = <Menu.Item>
       <span onClick={() => { this.showConfirm() }}>删除分组</span>
-    </Menu.Item>   
+    </Menu.Item>
     const addmark = <Menu.Item>
       <span onClick={this.showModal}>添加分组</span>
     </Menu.Item>
@@ -291,16 +302,27 @@ export default class GroupList extends Component {
             onClick={this.selectGroup}
             selectedKeys={[`${currGroup._id}`]}
           >
-            {
-              this.state.groupList.map((group) => (
-                <Menu.Item key={`${group._id}`} className="group-item">
-                  {group.type === 'private' ?
-                    <Icon type="user" /> :
-                    <Icon type="folder-open" />
-                  }{group.group_name}
+            {this.state.groupList.map((group) => {
+              if(group.type === 'private') {
+                return <Menu.Item key={`${group._id}`} className="group-item">
+                  <Icon type="user" />
+                  <Popover
+                    overlayClassName="popover-index"
+                    content={<GuideBtns/>}
+                    title={tip}
+                    placement="right"
+                    visible={(this.props.studyTip === 0 && !this.props.study) ? true : false}
+                    >
+                    {group.group_name}
+                  </Popover>
                 </Menu.Item>
-              ))
-            }
+              } else {
+                return <Menu.Item key={`${group._id}`} className="group-item">
+                  <Icon type="folder-open" />
+                  {group.group_name}
+                </Menu.Item>
+              }
+            })}
           </Menu>
         </div>
         {
