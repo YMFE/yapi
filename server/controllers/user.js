@@ -55,7 +55,8 @@ class userController extends baseController {
                 add_time: result.add_time,
                 up_time: result.up_time,
                 server_ip: yapi.WEBCONFIG.server_ip,
-                type: 'site'
+                type: 'site',
+                study: result.study
             }, 0, 'logout success...');
         } else {
             return ctx.body = yapi.commons.resReturn(null, 405, '密码错误');
@@ -76,6 +77,30 @@ class userController extends baseController {
         ctx.cookies.set('_yapi_token', null);
         ctx.cookies.set('_yapi_uid', null);
         ctx.body = yapi.commons.resReturn('ok');
+    }
+
+    /**
+     * 退出登录接口
+     * @interface /user/up_study
+     * @method GET
+     * @category user
+     * @foldnumber 10
+     * @returns {Object}
+     * @example
+     */
+
+    async upStudy(ctx) {
+        let userInst = yapi.getInst(userModel); //创建user实体
+        let data = {
+            up_time: yapi.commons.time(),
+            study: true
+        };
+        try {
+            let result = await userInst.update(this.getUid(), data);
+            ctx.body = yapi.commons.resReturn(result);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 401, e.message);
+        }
     }
 
 
@@ -281,7 +306,8 @@ class userController extends baseController {
             role: 'member',
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            type: "site"
+            type: "site",
+            study: false
         };
 
         if (!data.username) {

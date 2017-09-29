@@ -100,7 +100,7 @@ class UsernameAutoComplete extends Component {
 
     return (
       <Select
-        mode="multiple" 
+        mode="multiple"
         style={{ width: '100%' }}
         placeholder="请输入用户名"
         filterOption={false}
@@ -109,7 +109,7 @@ class UsernameAutoComplete extends Component {
         onChange={this.handleChange}
         size="large"
       >
-        {children} 
+        {children}
       </Select>
     )
   }
