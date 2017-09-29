@@ -306,8 +306,7 @@ class userController extends baseController {
             role: 'member',
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time(),
-            type: "site",
-            study: false
+            type: "site"
         };
 
         if (!data.username) {
@@ -326,7 +325,8 @@ class userController extends baseController {
                 add_time: user.add_time,
                 up_time: user.up_time,
                 role: 'member',
-                type: user.type
+                type: user.type,
+                study: false
             });
             yapi.commons.sendMail({
                 to: user.email,

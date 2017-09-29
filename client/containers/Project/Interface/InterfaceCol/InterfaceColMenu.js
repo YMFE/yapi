@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
+import { fetchInterfaceColList, fetchInterfaceCaseList, setColData, fetchCaseList } from '../../../../reducer/modules/interfaceCol'
 import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
-import { autobind } from 'core-decorators';
 import axios from 'axios';
 // import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 import ImportInterface from './ImportInterface'
@@ -56,6 +55,7 @@ const ColModalForm = Form.create()((props) => {
     fetchInterfaceColList,
     fetchInterfaceCaseList,
     fetchInterfaceList,
+    fetchCaseList,
     setColData
   }
 )
@@ -68,6 +68,7 @@ export default class InterfaceColMenu extends Component {
     fetchInterfaceColList: PropTypes.func,
     fetchInterfaceCaseList: PropTypes.func,
     fetchInterfaceList: PropTypes.func,
+    fetchCaseList: PropTypes.func,
     setColData: PropTypes.func,
     history: PropTypes.object,
     currColId: PropTypes.number,
@@ -82,8 +83,9 @@ export default class InterfaceColMenu extends Component {
     colModalVisible: false,
     editColId: 0,
     filterValue: '',
-    // importInterVisible: false,
-    importInterIds: []
+    importInterVisible: false,
+    importInterIds: [],
+    importColId: 0
   }
 
   constructor(props) {
@@ -106,8 +108,7 @@ export default class InterfaceColMenu extends Component {
     this.setState({expandedKeys})
   }
 
-  @autobind
-  async addorEditCol() {
+  addorEditCol = async () => {
     const { colName: name, colDesc: desc } = this.form.getFieldsValue();
     const { colModalType, editColId: col_id } = this.state;
     const project_id = this.props.match.params.id;
@@ -198,22 +199,36 @@ export default class InterfaceColMenu extends Component {
   }
 
   selectInterface = (importInterIds) => {
+    // console.log(importInterIds)
     this.setState({ importInterIds })
   }
 
-  showImportInterface = async (colId) => {
+  showImportInterfaceModal = async (colId) => {
     const projectId = this.props.match.params.id;
-    await fetchInterfaceList(projectId)
-    confirm({
-      title: '请选择添加到集合的接口',
-      content: <ImportInterface onSelect={this.selectInterface} list={this.props.list} />,
-      onOk() {
-        console.log(colId);
-      },
-      onCancel() {
-        console.log('Cancel');
-      }
-    });
+    await this.props.fetchInterfaceList(projectId)
+    this.setState({ importInterVisible: true, importColId: colId })
+  }
+  handleImportOk = async () => {
+    const project_id = this.props.match.params.id;
+    const { importColId, importInterIds } = this.state;
+    const res = await axios.post('/api/col/add_case_list', {
+      interface_list: importInterIds,
+      col_id: importColId,
+      project_id
+    })
+    if (!res.data.errcode) {
+      this.setState({ importInterVisible: false })
+      message.success('导入集合成功');
+      await this.props.fetchInterfaceColList(project_id);
+      // if (this.props.isShowCol) {
+      //   await this.props.fetchCaseList(this.props.currColId);
+      // }
+    } else {
+      message.error(res.data.errmsg);
+    }
+  }
+  handleImportCancel = () => {
+    this.setState({ importInterVisible: false })
   }
 
   filterCol = (e) => {
@@ -223,7 +238,7 @@ export default class InterfaceColMenu extends Component {
 
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
-    const { colModalType, colModalVisible, filterValue } = this.state;
+    const { colModalType, colModalVisible, filterValue, importInterVisible } = this.state;
 
     // const menu = (col) => {
     //   return (
@@ -282,7 +297,7 @@ export default class InterfaceColMenu extends Component {
                     <div className="btns">
                       <Icon type='delete' className="interface-delete-icon" onClick={() => {this.showDelColConfirm(col._id)}} />
                       <Icon type='edit' className="interface-delete-icon" onClick={() => {this.showColModal('edit', col)}} />
-                      <Icon type='plus' className="interface-delete-icon" onClick={() => this.showImportInterface(col._id)} />
+                      <Icon type='plus' className="interface-delete-icon" onClick={() => this.showImportInterfaceModal(col._id)} />
                     </div>
                     {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
                       <Icon className="opts-icon" type='ellipsis'/>
@@ -320,6 +335,15 @@ export default class InterfaceColMenu extends Component {
           onCancel={() => { this.setState({ colModalVisible: false }) }}
           onCreate={this.addorEditCol}
         ></ColModalForm>
+        <Modal
+          title="导入接口到集合"
+          visible={importInterVisible}
+          onOk={this.handleImportOk}
+          onCancel={this.handleImportCancel}
+          width={800}
+        >
+          <ImportInterface onChange={this.selectInterface} list={this.props.list} />
+        </Modal>
       </div>
     )
   }
