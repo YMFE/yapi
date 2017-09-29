@@ -299,8 +299,8 @@ class InterfaceColContent extends Component {
     let newColId = nextProps.match.params.actionId
     if (!interfaceColList.find(item => +item._id === +newColId)) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    } else if (oldColId !== newColId) {
-      if ((newColId && newColId != 0) || interfaceColList !== this.props.interfaceColList) {
+    } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
+      if (newColId && newColId != 0) {
         await this.props.fetchCaseList(newColId);
         this.props.setColData({ currColId: +newColId, isShowCol: true })
         this.handleColdata(this.props.currCaseList)
