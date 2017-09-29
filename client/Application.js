@@ -17,8 +17,7 @@ const LOADING_STATUS = 0;
 @connect(
   state => {
     return {
-      loginState: state.user.loginState,
-      study: state.user.study
+      loginState: state.user.loginState
     };
   },
   {
@@ -35,8 +34,7 @@ export default class App extends Component {
 
   static propTypes = {
     checkLoginState: PropTypes.func,
-    loginState: PropTypes.number,
-    study: PropTypes.bool
+    loginState: PropTypes.number
   };
 
 
@@ -73,7 +71,6 @@ export default class App extends Component {
               </div>
             </div>
             <Footer/>
-            {!this.props.study ? <div className="study-mask"></div> : null}
           </div>
         </Router>
 

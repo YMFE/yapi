@@ -132,7 +132,7 @@ class ProjectList extends Component {
                 placement="right"
                 visible={(this.props.studyTip === 2 && !this.props.study) ? true : false}
                 >
-                <Button type="primary" ><Link to="/add-project">添加项目</Link></Button>
+                <Button type="primary" style={{ position: 'relative', boxShadow: this.props.studyTip === 2 ? '0 0 2px 3px #fff' : '' , zIndex: this.props.studyTip === 2 ? 3 : 1}}><Link to="/add-project">添加项目</Link></Button>
               </Popover> :
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
