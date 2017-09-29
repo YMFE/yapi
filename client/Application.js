@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
@@ -7,6 +8,7 @@ import User from './containers/User/User.js';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Loading from './components/Loading/Loading';
+import MyPopConfirm from './components/MyPopConfirm/MyPopConfirm';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
@@ -15,7 +17,8 @@ const LOADING_STATUS = 0;
 @connect(
   state => {
     return {
-      loginState: state.user.loginState
+      loginState: state.user.loginState,
+      study: state.user.study
     };
   },
   {
@@ -32,7 +35,8 @@ export default class App extends Component {
 
   static propTypes = {
     checkLoginState: PropTypes.func,
-    loginState: PropTypes.number
+    loginState: PropTypes.number,
+    study: PropTypes.bool
   };
 
 
@@ -46,7 +50,15 @@ export default class App extends Component {
       return <Loading visible />;
     } else {
       r = (
-        <Router >
+        <Router getUserConfirmation={(msg, callback) => {
+          // 自定义 window.confirm
+          // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
+          let container = document.createElement('div');
+          document.body.appendChild(container);
+          ReactDOM.render((
+            <MyPopConfirm msg={msg} callback={callback} />
+          ), container);
+        }}>
           <div className="g-main">
             <div className="router-main">
               {this.props.loginState !== 1 ? <Header /> : null}
@@ -61,6 +73,7 @@ export default class App extends Component {
               </div>
             </div>
             <Footer/>
+            {!this.props.study ? <div className="study-mask"></div> : null}
           </div>
         </Router>
 
