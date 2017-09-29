@@ -57,7 +57,9 @@ export default class Run extends Component {
       headers: req_headers,
       bodyType: req_body_type,
       bodyForm: req_body_form,
-      bodyOther: req_body_other
+      bodyOther: req_body_other,
+      resMockTest: mock_verify
+
     } = this.postman.state;
 
     let params = {
@@ -73,7 +75,8 @@ export default class Run extends Component {
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other
+      req_body_other,
+      mock_verify
     };
 
     if(this.postman.state.test_status !== 'error'){

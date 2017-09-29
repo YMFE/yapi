@@ -72,7 +72,7 @@ export default class Run extends Component {
     validRes: [],
     hasPlugin: true,
     test_status: null,
-    resTest: true,
+    resMockTest: true,
     resStatusCode: null,
     resStatusText: ''
   }
@@ -138,7 +138,8 @@ export default class Run extends Component {
       test_status = '',
       test_res_body = '',
       test_report = [],
-      test_res_header = ''
+      test_res_header = '',
+      mock_verify = true
     } = data;
 
     // case 任意编辑 pathname，不管项目的 basepath
@@ -175,7 +176,8 @@ export default class Run extends Component {
       test_status: test_status,
       validRes: test_report,
       res: test_res_body,
-      resHeader: test_res_header
+      resHeader: test_res_header,
+      resMockTest: mock_verify
     }, () => {
       if (req_body_type && req_body_type !== 'file' && req_body_type !== 'form') {
         this.loadBodyEditor()
@@ -218,7 +220,7 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header, third) => {
-        console.log('suc',third);
+        console.log('suc', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -268,7 +270,7 @@ export default class Run extends Component {
         }
       },
       error: (err, header, third) => {
-        console.log('err',third);
+        console.log('err', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -480,6 +482,8 @@ export default class Run extends Component {
       readOnly: true,
       onChange: function () { }
     })
+    
+
     mockEditor({
       container: 'res-headers-pretty',
       data: this.state.resHeader,
@@ -512,7 +516,7 @@ export default class Run extends Component {
   @autobind
   onTestSwitched(checked) {
     this.setState({
-      resTest: checked
+      resMockTest: checked
     });
   }
 
@@ -537,7 +541,7 @@ export default class Run extends Component {
 
     return (
       <div className="interface-test postman">
-        <div className={ hasPlugin? null : 'has-plugin' } >
+        <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
               <div>
@@ -742,58 +746,42 @@ export default class Run extends Component {
         </Collapse>
 
         <h2 className="interface-title">返回结果</h2>
-        {this.state.resStatusCode ?
-          <Spin spinning={this.state.loading}>
-            <h2 className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>{this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
 
-            <div className="container-header-body">
-              <div className="header">
-                <div className="container-title">
-                  <h4>Headers</h4>
-                </div>
-                <div id="res-headers-pretty" className="pretty-editor-header"></div>
+        <Spin  spinning={this.state.loading}>
+          <h2 style={{ display: this.state.resStatusCode !== null ? '' : 'none' }}  className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>{this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
+
+          <div style={{ display: this.state.res ? '' : 'none' }}  className="container-header-body">
+            <div className="header">
+              <div className="container-title">
+                <h4>Headers</h4>
               </div>
-              <div className="resizer">
-                <div className="container-title">
-                  <h4 style={{visibility: 'hidden'}}>1</h4>
-                </div>
-              </div>
-              <div className="body">
-                <div className="container-title">
-                  <h4>Body</h4>
-                </div>
-                <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
-                <div
-                  style={{display: isResJson ? 'none' : ''}}
-                  className="res-body-text"
-                >{this.state.res && this.state.res.toString()}</div>
+              <div id="res-headers-pretty" className="pretty-editor-header"></div>
+            </div>
+            <div className="resizer">
+              <div className="container-title">
+                <h4 style={{ visibility: 'hidden' }}>1</h4>
               </div>
             </div>
-          </Spin> : <p>发送请求后在这里查看返回结果。</p>}
-
-        {/*<Collapse defaultActiveKey={['0', '1']} bordered={true}>
-            <Panel header="BODY" key="0" >
-              <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>*/}
-        {/*<TextArea
+            <div className="body">
+              <div className="container-title">
+                <h4>Body</h4>
+              </div>
+              <div id="res-body-pretty" className="pretty-editor-body" style={{ display: isResJson ? '' : 'none' }}></div>
+              <div
                 style={{ display: isResJson ? 'none' : '' }}
-                value={this.state.res && this.state.res.toString()}
-                autosize={{ minRows: 10, maxRows: 20 }}
-              ></TextArea>*/}
-        {/*</Panel>
-            <Panel header="HEADERS" key="1" >*/}
-        {/*<TextArea
-                value={typeof this.state.resHeader === 'object' ? JSON.stringify(this.state.resHeader, null, 2) : this.state.resHeader.toString()}
-                autosize={{ minRows: 2, maxRows: 10 }}
-              ></TextArea>*/}
-        {/*<div id="res-headers-pretty" className="pretty-editor-header"></div>
-            </Panel>
-          </Collapse>*/}
+                className="res-body-text"
+              >{this.state.res && this.state.res.toString()}</div>
+            </div>
+          </div>
+        </Spin>
+
+        <p style={{ display: this.state.resStatusCode===null ? '' : 'none' }}>发送请求后在这里查看返回结果。</p>
 
         <h2 className="interface-title">数据结构验证
-          <Switch style={{verticalAlign: 'text-bottom', marginLeft: '8px'}} checked={this.state.resTest} onChange={this.onTestSwitched} />
+          <Switch style={{ verticalAlign: 'text-bottom', marginLeft: '8px' }} checked={this.state.resMockTest} onChange={this.onTestSwitched} />
         </h2>
-        <div className={(isResJson && this.state.resTest) ? '' : 'none' }>
-          {(isResJson && this.state.resTest) ?  validResView : <div><p>若开启此功能，则发送请求后在这里查看验证结果。</p><p>数据结构验证在接口编辑页面配置，YApi 将根据 Response body 验证请求返回的结果。</p></div>}
+        <div className={(isResJson && this.state.resMockTest) ? '' : 'none'}>
+          {(isResJson && this.state.resMockTest) ? validResView : <div><p>若开启此功能，则发送请求后在这里查看验证结果。</p><p>数据结构验证在接口编辑页面配置，YApi 将根据 Response body 验证请求返回的结果。</p></div>}
         </div>
       </div>
     )

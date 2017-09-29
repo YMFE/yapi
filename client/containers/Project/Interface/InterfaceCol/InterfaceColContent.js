@@ -185,8 +185,11 @@ class InterfaceColContent extends Component {
               query: interfaceData.req_query,
               body: interfaceData.req_body_form
             })
-            let validRes = Mock.valid(tpl, res);
 
+            let validRes = [];
+            if(interfaceData.mock_verify){
+              validRes = Mock.valid(tpl, res);
+            }
             if (validRes.length === 0) {
               result.code = 0;
               result.validRes = [{ message: '验证通过' }];
