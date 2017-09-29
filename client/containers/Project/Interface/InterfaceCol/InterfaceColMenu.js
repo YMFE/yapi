@@ -335,7 +335,7 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           width={800}
         >
-          <ImportInterface onSelect={this.selectInterface} list={this.props.list} />
+          <ImportInterface onChange={this.selectInterface} list={this.props.list} />
         </Modal>
       </div>
     )
