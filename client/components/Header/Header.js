@@ -46,7 +46,6 @@ MenuUser.propTypes={
 }
 
 const ToolUser = (props)=> {
-  console.log(props);
   return (
     <ul>
       <li className="toolbar-li item-search">
