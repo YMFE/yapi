@@ -295,9 +295,9 @@ export default class InterfaceColMenu extends Component {
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
                     <div className="btns">
-                      <Icon type='delete' className="interface-delete-icon" onClick={() => {this.showDelColConfirm(col._id)}} />
-                      <Icon type='edit' className="interface-delete-icon" onClick={() => {this.showColModal('edit', col)}} />
-                      <Icon type='plus' className="interface-delete-icon" onClick={() => this.showImportInterfaceModal(col._id)} />
+                      <Icon type='delete' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showDelColConfirm(col._id)}} />
+                      <Icon type='edit' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showColModal('edit', col)}} />
+                      <Icon type='plus' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showImportInterfaceModal(col._id)}} />
                     </div>
                     {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
                       <Icon className="opts-icon" type='ellipsis'/>
@@ -318,7 +318,7 @@ export default class InterfaceColMenu extends Component {
                       title={
                         <div className="menu-title" title={interfaceCase.casename}>
                           <span className="casename">{interfaceCase.casename}</span>
-                          <Icon type='delete' className="case-delete-icon" onClick={() => { this.showDelCaseConfirm(interfaceCase._id) }} />
+                          <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCaseConfirm(interfaceCase._id) }} />
                         </div>
                       }
                     ></TreeNode>
