@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
@@ -24,13 +24,17 @@ const MenuUser = (props) => (
   </Menu>
 );
 
-const tip = (<div className="title-container">
-  <h3 className="title">工具栏</h3>
-  <p><Icon type="search" /> 搜索功能: 搜索分组与项目;</p>
-  <p><Icon type="heart" /> 关注功能: 属于自己的收藏夹;</p>
-  <p><Icon type="plus-circle" /> 新建项目: 在任何页面都可以快速新建项目;</p>
-  <p><Icon type="question-circle" /> 使用文档: 遇到问题的时候随时可以查看文档;</p>
-  <p>你还可以更换头像，便于同事在 YApi 里找到你 ~</p>
+const tipFollow = (<div className="title-container">
+  <h3 className="title"><Icon type="star" /> 关注</h3>
+  <p>这里是你的专属收藏夹，便于你找到自己的项目</p>
+</div>);
+const tipAdd = (<div className="title-container">
+  <h3 className="title"><Icon type="plus-circle" /> 新建项目</h3>
+  <p>在任何页面都可以快速新建项目</p>
+</div>);
+const tipDoc = (<div className="title-container">
+  <h3 className="title">使用文档 <Tag color="orange">推荐!</Tag></h3>
+  <p>初次使用 YApi，强烈建议你阅读 <a target="_blank" href="https://ued.qunar.com/yapi/" rel="noopener noreferrer">使用文档</a> ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！ </p>
 </div>);
 
 MenuUser.propTypes={
@@ -41,61 +45,93 @@ MenuUser.propTypes={
   logout: PropTypes.func
 }
 
-const ToolUser = (props)=> (
-  <ul>
-    <li className="toolbar-li item-search">
-      <Srch groupList={props.groupList}/>
-    </li>
-    <Link to="/follow">
-      <Tooltip placement="bottom" title={'我的关注'}>
-        <li className="toolbar-li">
-          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="star" />
-        </li>
-      </Tooltip>
-    </Link>
-    <Link to="/add-project">
-      <Tooltip placement="bottom" title={'新建项目'}>
-        <li className="toolbar-li">
-          <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
-        </li>
-      </Tooltip>
-    </Link>
-    <Tooltip placement="bottom" title={'使用文档'}>
-      <li className="toolbar-li">
-        <a target="_blank" href="https://ued.qunar.com/yapi/" rel="noopener noreferrer"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+const ToolUser = (props)=> {
+  console.log(props);
+  return (
+    <ul>
+      <li className="toolbar-li item-search">
+        <Srch groupList={props.groupList}/>
       </li>
-    </Tooltip>
-    <li className="toolbar-li">
+      <Popover
+        overlayClassName="popover-index"
+        content={<GuideBtns/>}
+        title={tipFollow}
+        placement="bottomRight"
+        arrowPointAtCenter
+        visible={props.studyTip === 1 && !props.study}
+        >
+        <Tooltip placement="bottom" title={'我的关注'}>
+          <li className="toolbar-li">
+            <Link to="/follow">
+              <Icon className="dropdown-link" style={{ fontSize: 16  }} type="star" />
+            </Link>
+          </li>
+        </Tooltip>
+      </Popover>
+      <Popover
+        overlayClassName="popover-index"
+        content={<GuideBtns/>}
+        title={tipAdd}
+        placement="bottomRight"
+        arrowPointAtCenter
+        visible={props.studyTip === 2 && !props.study}
+        >
+        <Tooltip placement="bottom" title={'新建项目'}>
+          <li className="toolbar-li">
+            <Link to="/add-project">
+              <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
+            </Link>
+          </li>
+        </Tooltip>
+      </Popover>
+      <Popover
+        overlayClassName="popover-index"
+        content={<GuideBtns isLast={true}/>}
+        title={tipDoc}
+        placement="bottomRight"
+        arrowPointAtCenter
+        visible={props.studyTip === 3 && !props.study}
+        >
+        <Tooltip placement="bottom" title={'使用文档'}>
+          <li className="toolbar-li">
+            <a target="_blank" href="https://ued.qunar.com/yapi/" rel="noopener noreferrer"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+          </li>
+        </Tooltip>
+      </Popover>
+      <li className="toolbar-li">
 
-      <Dropdown
-        placement = "bottomRight"
-        overlay={
-          <MenuUser
-            user={props.user}
-            msg={props.msg}
-            uid={props.uid}
-            relieveLink={props.relieveLink}
-            logout={props.logout}
-          />
-      }>
-        <a className="dropdown-link">
-          <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
-          {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
-          {/*<span className="name">{props.user}</span>*/}
-          <span className="name"><Icon type="down" /></span>
-        </a>
-      </Dropdown>
+        <Dropdown
+          placement = "bottomRight"
+          overlay={
+            <MenuUser
+              user={props.user}
+              msg={props.msg}
+              uid={props.uid}
+              relieveLink={props.relieveLink}
+              logout={props.logout}
+            />
+        }>
+          <a className="dropdown-link">
+            <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+            {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
+            {/*<span className="name">{props.user}</span>*/}
+            <span className="name"><Icon type="down" /></span>
+          </a>
+        </Dropdown>
 
-    </li>
-  </ul>
-);
+      </li>
+    </ul>
+  )
+};
 ToolUser.propTypes={
   user: PropTypes.string,
   msg: PropTypes.string,
   uid: PropTypes.number,
   relieveLink: PropTypes.func,
   logout: PropTypes.func,
-  groupList: PropTypes.array
+  groupList: PropTypes.array,
+  studyTip: PropTypes.number,
+  study: PropTypes.bool
 };
 
 
@@ -185,7 +221,7 @@ export default class HeaderCom extends Component {
 
 
   render () {
-    const { login, user, msg, uid } = this.props;
+    const { login, user, msg, uid, studyTip, study } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
@@ -196,23 +232,13 @@ export default class HeaderCom extends Component {
             </div>
           </Link>
           <Breadcrumb />
-          <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip === 1 ? 3 : 1}}>
+          <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1}}>
             {login?
-              <Popover
-                overlayClassName="popover-index"
-                content={<GuideBtns/>}
-                title={tip}
-                placement="bottomRight"
-                visible={(this.props.studyTip === 1 && !this.props.study) ? true : false}
-                >
-                <ToolUser
-                  user = { user }
-                  msg = { msg }
-                  uid = { uid }
-                  relieveLink = { this.relieveLink }
-                  logout = { this.logout }
-                />
-              </Popover>
+              <ToolUser
+                {...{studyTip, study, user, msg, uid}}
+                relieveLink={ this.relieveLink }
+                logout={ this.logout }
+              />
               :""}
           </div>
         </div>

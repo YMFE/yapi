@@ -36,7 +36,6 @@ class GuideBtns extends Component {
   }
 
   render () {
-    console.log(this.props);
     return (
       <div className="btn-container">
         <Button className="btn" type="primary" onClick={this.nextStep}>{this.props.isLast ? '完 成' : '下一步'}</Button>
