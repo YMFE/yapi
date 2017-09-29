@@ -107,6 +107,7 @@ export default class Run extends Component {
         <Postman data={data} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
+          caseName={currInterface.title}
           onCancel={() => this.setState({saveCaseModalVisible: false})}
           onOk={this.saveCase}
         ></AddColModal>

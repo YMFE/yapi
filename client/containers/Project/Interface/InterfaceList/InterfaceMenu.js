@@ -339,8 +339,8 @@ class InterfaceMenu extends Component {
         title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem}  >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <div className="btns">
-            <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
-            <Icon type='copy' className="interface-delete-icon" onClick={() => { this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+            <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+            <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
           </div>
           {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
             <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
@@ -420,14 +420,16 @@ class InterfaceMenu extends Component {
             return <TreeNode title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <div className="btns">
-                <Icon type='delete' className="interface-delete-icon" onClick={() => { this.showDelCatConfirm(item._id) }}  style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}/>
-                <Icon type='edit' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={() => {
+                <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCatConfirm(item._id) }}  style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}/>
+                <Icon type='edit' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
+                  e.stopPropagation();
                   this.changeModal('change_cat_modal_visible', true);
                   this.setState({
                     curCatdata: item
                   })
                 }} />
-                <Icon type='plus' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={() => {
+                <Icon type='plus' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
+                  e.stopPropagation();
                   this.changeModal('visible', true);
                   this.setState({
                     curCatid: item._id
