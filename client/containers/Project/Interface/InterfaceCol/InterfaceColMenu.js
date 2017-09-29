@@ -295,9 +295,15 @@ export default class InterfaceColMenu extends Component {
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
                     <div className="btns">
-                      <Icon type='delete' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showDelColConfirm(col._id)}} />
-                      <Icon type='edit' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showColModal('edit', col)}} />
-                      <Icon type='plus' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showImportInterfaceModal(col._id)}} />
+                      <Tooltip title="删除集合">
+                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showDelColConfirm(col._id)}} />
+                      </Tooltip>
+                      <Tooltip title="编辑集合">
+                        <Icon type='edit' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showColModal('edit', col)}} />
+                      </Tooltip>
+                      <Tooltip title="添加集合">
+                        <Icon type='plus' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showImportInterfaceModal(col._id)}} />
+                      </Tooltip>
                     </div>
                     {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
                       <Icon className="opts-icon" type='ellipsis'/>
@@ -318,7 +324,9 @@ export default class InterfaceColMenu extends Component {
                       title={
                         <div className="menu-title" title={interfaceCase.casename}>
                           <span className="casename">{interfaceCase.casename}</span>
-                          <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCaseConfirm(interfaceCase._id) }} />
+                          <Tooltip title="删除用例">
+                            <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCaseConfirm(interfaceCase._id) }} />
+                          </Tooltip>
                         </div>
                       }
                     ></TreeNode>

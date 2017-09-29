@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { fetchInterfaceList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
-import { Input, Icon, Button, Modal, message, Tree } from 'antd';
+import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios'
@@ -339,8 +339,12 @@ class InterfaceMenu extends Component {
         title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem}  >
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <div className="btns">
-            <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
-            <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+            <Tooltip title="删除接口">
+              <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+            </Tooltip>
+            <Tooltip title="复制接口">
+              <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+            </Tooltip>
           </div>
           {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
             <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
@@ -420,21 +424,27 @@ class InterfaceMenu extends Component {
             return <TreeNode title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <div className="btns">
-                <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCatConfirm(item._id) }}  style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}/>
-                <Icon type='edit' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
-                  e.stopPropagation();
-                  this.changeModal('change_cat_modal_visible', true);
-                  this.setState({
-                    curCatdata: item
-                  })
-                }} />
-                <Icon type='plus' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
-                  e.stopPropagation();
-                  this.changeModal('visible', true);
-                  this.setState({
-                    curCatid: item._id
-                  });
-                }} />
+                <Tooltip title="删除集合">
+                  <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCatConfirm(item._id) }}  style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}/>
+                </Tooltip>
+                <Tooltip title="编辑集合">
+                  <Icon type='edit' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
+                    e.stopPropagation();
+                    this.changeModal('change_cat_modal_visible', true);
+                    this.setState({
+                      curCatdata: item
+                    })
+                  }} />
+                </Tooltip>
+                <Tooltip title="添加集合">
+                  <Icon type='plus' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
+                    e.stopPropagation();
+                    this.changeModal('visible', true);
+                    this.setState({
+                      curCatid: item._id
+                    });
+                  }} />
+                </Tooltip>
               </div>
 
               {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
