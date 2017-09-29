@@ -104,6 +104,10 @@
     "compile": "markdown",
     "menuLevel": 2,
     "content": "./CHANGELOG.md"
+  },{
+    "name": "YApi Demo",
+    "title": "YApi Demo",
+    "url": "http://yapi.demo.qunar.com/"
   },
     {
         "name": "api",
