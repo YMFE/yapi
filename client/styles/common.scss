@@ -171,3 +171,22 @@ em {
 .has-affix-footer {
   padding-bottom: .92rem;
 }
+
+.popover-index {
+  max-width: 3.2rem;
+  .ant-popover-title {
+    height: auto;
+  }
+  .title-container {
+    padding: .16rem 0;
+    .title {
+      text-align: center;
+    }
+  }
+  .btn-container {
+    text-align: center;
+    .btn {
+      margin: 0 .04rem;
+    }
+  }
+}

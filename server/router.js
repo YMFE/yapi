@@ -149,6 +149,11 @@ let routerConfig = {
 			"method": "post"
 		},
 		{
+			action: 'upStudy',
+			path: 'up_study',
+			method: 'get'
+		},
+		{
 			"action": "changePassword",
 			"path": "change_password",
 			"method": "post"
