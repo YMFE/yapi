@@ -200,13 +200,15 @@ class groupController extends baseController {
                 dev: "开发者",
                 guest: "访客"
             };
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 新增了分组成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}" 为 "${rolename[params.role]}"`,
-                type: 'group',
-                uid: this.getUid(),
-                username: username,
-                typeid: params.id
-            });
+            if(add_members.length){
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 新增了分组成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}" 为 "${rolename[params.role]}"`,
+                    type: 'group',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: params.id
+                });
+            }
             ctx.body = yapi.commons.resReturn({
                 result,
                 add_members,
