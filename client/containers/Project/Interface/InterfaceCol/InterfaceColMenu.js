@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { fetchInterfaceColList, fetchInterfaceCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
+import { fetchInterfaceColList, fetchInterfaceCaseList, setColData, fetchCaseList } from '../../../../reducer/modules/interfaceCol'
 import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
 import axios from 'axios';
 // import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
@@ -55,6 +55,7 @@ const ColModalForm = Form.create()((props) => {
     fetchInterfaceColList,
     fetchInterfaceCaseList,
     fetchInterfaceList,
+    fetchCaseList,
     setColData
   }
 )
@@ -67,6 +68,7 @@ export default class InterfaceColMenu extends Component {
     fetchInterfaceColList: PropTypes.func,
     fetchInterfaceCaseList: PropTypes.func,
     fetchInterfaceList: PropTypes.func,
+    fetchCaseList: PropTypes.func,
     setColData: PropTypes.func,
     history: PropTypes.object,
     currColId: PropTypes.number,
@@ -197,6 +199,7 @@ export default class InterfaceColMenu extends Component {
   }
 
   selectInterface = (importInterIds) => {
+    // console.log(importInterIds)
     this.setState({ importInterIds })
   }
 
@@ -204,21 +207,25 @@ export default class InterfaceColMenu extends Component {
     const projectId = this.props.match.params.id;
     await this.props.fetchInterfaceList(projectId)
     this.setState({ importInterVisible: true, importColId: colId })
-    // confirm({
-    //   title: '导入接口到集合',
-    //   content: <ImportInterface onSelect={this.selectInterface} list={this.props.list} />,
-    //   onOk() {
-    //     console.log(colId)
-    //     console.log(this.state.importInterIds);
-    //   },
-    //   onCancel() {
-    //     console.log('Cancel');
-    //   },
-    //   width: 800
-    // });
   }
-  handleImportOk = () => {
-    this.setState({ importInterVisible: false })
+  handleImportOk = async () => {
+    const project_id = this.props.match.params.id;
+    const { importColId, importInterIds } = this.state;
+    const res = await axios.post('/api/col/add_case_list', {
+      interface_list: importInterIds,
+      col_id: importColId,
+      project_id
+    })
+    if (!res.data.errcode) {
+      this.setState({ importInterVisible: false })
+      message.success('导入集合成功');
+      await this.props.fetchInterfaceColList(project_id);
+      // if (this.props.isShowCol) {
+      //   await this.props.fetchCaseList(this.props.currColId);
+      // }
+    } else {
+      message.error(res.data.errmsg);
+    }
   }
   handleImportCancel = () => {
     this.setState({ importInterVisible: false })
