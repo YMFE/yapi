@@ -268,13 +268,13 @@ export default class GroupList extends Component {
         this.props.curUserRole === 'admin' ? (addmark) : ''
       }
     </Menu>;
-    menu = currGroup.role === 'owner'  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
+    menu = (currGroup.role === 'owner' && this.props.curUserRole !== 'admin')  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" href="#">
         <Icon type="setting" />
       </a>
     </Dropdown>;
 
-    if(this.props.currGroup.type!=='private' && currGroup.role === 'owner'){
+    if(this.props.currGroup.type==='private' && currGroup.role === 'owner' && this.props.curUserRole !== 'admin'){
       menu = null;
     }
 
