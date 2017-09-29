@@ -521,7 +521,6 @@ export default class Run extends Component {
   }
 
   render() {
-    console.log(this.state.resStatusCode)
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
