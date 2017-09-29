@@ -36,6 +36,8 @@ function initPlugins(){
     })
     scripts = "module.exports = {" + scripts.join(",") + "}";
     fs.writeFileSync('client/plugin-module.js', scripts);
+  }else{
+    fs.writeFileSync('client/plugin-module.js', 'module.exports = {}');
   }
 }
 
