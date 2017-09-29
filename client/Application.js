@@ -49,6 +49,8 @@ export default class App extends Component {
     } else {
       r = (
         <Router getUserConfirmation={(msg, callback) => {
+          // 自定义 window.confirm
+          // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
           let container = document.createElement('div');
           document.body.appendChild(container);
           ReactDOM.render((
