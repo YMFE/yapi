@@ -203,14 +203,16 @@ class projectController extends baseController {
 
         try {
             let result = await this.Model.addMember(params.id, add_members);
-            let username = this.getUsername();
-            yapi.commons.saveLog({
-                content: `用户 "${username}" 添加了项目成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}"`,
-                type: 'project',
-                uid: this.getUid(),
-                username: username,
-                typeid: params.id
-            });
+            if(add_members.length){
+                let username = this.getUsername();
+                yapi.commons.saveLog({
+                    content: `用户 "${username}" 添加了项目成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}"`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: params.id
+                });
+            }
             ctx.body = yapi.commons.resReturn({
                 result,
                 add_members,
