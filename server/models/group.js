@@ -13,7 +13,7 @@ class groupModel extends baseModel {
             group_desc: String,
             add_time: Number,
             up_time: Number,
-            type: {type:String,default: 'private', enum: ['public', 'private']},
+            type: {type:String,default: 'public', enum: ['public', 'private']},
             members: [
                 {
                     uid: Number,
