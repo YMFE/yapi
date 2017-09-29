@@ -31,7 +31,8 @@ const initialState = {
   //   name: '当前页面'
   // }]
   breadcrumb: [],
-  studyTip: 0
+  studyTip: 0,
+  study: false
 };
 
 export default (state = initialState, action) => {
@@ -88,7 +89,8 @@ export default (state = initialState, action) => {
         loginState: MEMBER_STATUS,
         uid: action.payload.data.data.uid,
         userName: action.payload.data.data.username,
-        type: action.payload.data.data.type
+        type: action.payload.data.data.type,
+        study: action.payload.data.data ? action.payload.data.data.study : false
       };
     }
     case SET_BREADCRUMB: {
@@ -106,7 +108,8 @@ export default (state = initialState, action) => {
     case FINISH_STUDY: {
       return {
         ...state,
-        study: true
+        study: true,
+        studyTip: 0
       };
     }
     default:

@@ -278,9 +278,9 @@ export default class GroupList extends Component {
       menu = null;
     }
 
-
     return (
       <div className="m-group">
+        {!this.props.study ? <div className="study-mask"></div> : null}
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
@@ -303,14 +303,14 @@ export default class GroupList extends Component {
           >
             {this.state.groupList.map((group) => {
               if(group.type === 'private') {
-                return <Menu.Item key={`${group._id}`} className="group-item">
+                return <Menu.Item key={`${group._id}`} className="group-item" style={{zIndex: this.props.studyTip === 0 ? 3 : 1}}>
                   <Icon type="user" />
                   <Popover
                     overlayClassName="popover-index"
                     content={<GuideBtns/>}
                     title={tip}
                     placement="right"
-                    visible={(this.props.studyTip === 0 && !this.props.study) ? true : false}
+                    visible={(this.props.studyTip === 0) && !this.props.study}
                     >
                     {group.group_name}
                   </Popover>
