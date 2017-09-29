@@ -46,19 +46,20 @@ export default class ImportInterface extends Component {
         }) : []
       }
     });
+    const self = this;
     const rowSelection = {
-      onChange: (selectedRowKeys) => {
+      // onChange: (selectedRowKeys) => {
         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         // if (selectedRows.isCategory) {
         //   const selectedRowKeys = selectedRows.children.map(item => item._id)
         //   this.setState({ selectedRowKeys })
         // }
-        this.props.onChange(selectedRowKeys.filter(id => id.indexOf('category') === -1));
-      },
+        // this.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
+      // },
       onSelect: (record, selected) => {
         // console.log(record, selected, selectedRows);
-        const oldSelecteds = this.state.selectedRowKeys;
-        const categoryCount = this.state.categoryCount;
+        const oldSelecteds = self.state.selectedRowKeys;
+        const categoryCount = self.state.categoryCount;
         const categoryKey = record.categoryKey;
         const categoryLength = record.categoryLength;
         let selectedRowKeys = [];
@@ -90,12 +91,13 @@ export default class ImportInterface extends Component {
             selectedRowKeys = selectedRowKeys.filter(id => id !== categoryKey)
           }
         }
-        this.setState({ selectedRowKeys, categoryCount })
+        self.setState({ selectedRowKeys, categoryCount })
+        self.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
       },
       onSelectAll: (selected) => {
         // console.log(selected, selectedRows, changeRows);
         let selectedRowKeys = [];
-        let categoryCount = this.state.categoryCount;
+        let categoryCount = self.state.categoryCount;
         if (selected) {
           data.forEach(item => {
             if(item.children) {
@@ -108,9 +110,10 @@ export default class ImportInterface extends Component {
           categoryCount = {};
           selectedRowKeys = [];
         }
-        this.setState({ selectedRowKeys, categoryCount })
+        self.setState({ selectedRowKeys, categoryCount })
+        self.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
       },
-      selectedRowKeys: this.state.selectedRowKeys
+      selectedRowKeys: self.state.selectedRowKeys
     };
 
     const columns = [{
