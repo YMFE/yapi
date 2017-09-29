@@ -197,6 +197,7 @@ export default class InterfaceColMenu extends Component {
   }
 
   selectInterface = (importInterIds) => {
+    // console.log(importInterIds)
     this.setState({ importInterIds })
   }
 
@@ -204,20 +205,9 @@ export default class InterfaceColMenu extends Component {
     const projectId = this.props.match.params.id;
     await this.props.fetchInterfaceList(projectId)
     this.setState({ importInterVisible: true, importColId: colId })
-    // confirm({
-    //   title: '导入接口到集合',
-    //   content: <ImportInterface onSelect={this.selectInterface} list={this.props.list} />,
-    //   onOk() {
-    //     console.log(colId)
-    //     console.log(this.state.importInterIds);
-    //   },
-    //   onCancel() {
-    //     console.log('Cancel');
-    //   },
-    //   width: 800
-    // });
   }
   handleImportOk = () => {
+
     this.setState({ importInterVisible: false })
   }
   handleImportCancel = () => {
