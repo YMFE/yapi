@@ -277,8 +277,7 @@ export default class GroupList extends Component {
     if( this.props.currGroup.type==='private'){
       menu = null;
     }
-    console.log(this.props.studyTip, !this.props.study);
-    console.log((this.props.studyTip === 0) && !this.props.study);
+
     return (
       <div className="m-group">
         {!this.props.study ? <div className="study-mask"></div> : null}
@@ -304,7 +303,7 @@ export default class GroupList extends Component {
           >
             {this.state.groupList.map((group) => {
               if(group.type === 'private') {
-                return <Menu.Item key={`${group._id}`} className="group-item">
+                return <Menu.Item key={`${group._id}`} className="group-item" style={{zIndex: this.props.studyTip === 0 ? 3 : 1}}>
                   <Icon type="user" />
                   <Popover
                     overlayClassName="popover-index"
