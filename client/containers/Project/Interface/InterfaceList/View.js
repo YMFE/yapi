@@ -263,7 +263,7 @@ class View extends Component {
       title: '参数值',
       dataIndex: 'value',
       key: 'value',
-      width: '100px'
+      width: '300px'
     }, {
       title: '是否必须',
       dataIndex: 'required',
