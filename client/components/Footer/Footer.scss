@@ -2,11 +2,12 @@
 @import '../../styles/mixin.scss';
 
 .footer-wrapper{
-  border-top: 1px solid #ddd;
   height: 2.4rem;
   width: 100%;
   background-color: $color-bg-dark;
   overflow: hidden;
+  position: relative;
+  z-index: 0;
 }
 
 .footer-container{
