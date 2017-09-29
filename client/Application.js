@@ -17,7 +17,8 @@ const LOADING_STATUS = 0;
 @connect(
   state => {
     return {
-      loginState: state.user.loginState
+      loginState: state.user.loginState,
+      study: state.user.study
     };
   },
   {
@@ -34,7 +35,8 @@ export default class App extends Component {
 
   static propTypes = {
     checkLoginState: PropTypes.func,
-    loginState: PropTypes.number
+    loginState: PropTypes.number,
+    study: PropTypes.bool
   };
 
 
@@ -49,6 +51,8 @@ export default class App extends Component {
     } else {
       r = (
         <Router getUserConfirmation={(msg, callback) => {
+          // 自定义 window.confirm
+          // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
           let container = document.createElement('div');
           document.body.appendChild(container);
           ReactDOM.render((
@@ -69,6 +73,7 @@ export default class App extends Component {
               </div>
             </div>
             <Footer/>
+            {!this.props.study ? <div className="study-mask"></div> : null}
           </div>
         </Router>
 
