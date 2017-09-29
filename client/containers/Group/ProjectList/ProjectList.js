@@ -102,9 +102,22 @@ class ProjectList extends Component {
 
   render() {
     let projectData = this.state.projectData;
-    projectData = projectData.sort((a,b)=>{
+    let noFollow = [];
+    let followProject = [];
+    for(var i in projectData){
+      if(projectData[i].follow){
+        followProject.push(projectData[i]);
+      }else{
+        noFollow.push(projectData[i]);
+      }
+    }
+    followProject = followProject.sort((a,b)=>{
       return b.up_time - a.up_time;
     })
+    noFollow = noFollow.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
+    projectData = [...followProject,...noFollow]
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -112,8 +125,6 @@ class ProjectList extends Component {
             {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
           </Col>
           <Col>
-
-
             {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
               <Button type="primary"><Link to="/add-project">添加项目</Link></Button>:
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
