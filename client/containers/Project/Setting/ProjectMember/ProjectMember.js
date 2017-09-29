@@ -49,7 +49,7 @@ class ProjectMember extends Component {
       role: '',
       visible: false,
       dataSource: [],
-      inputUid: 0,
+      inputUids: [],
       inputRole: 'dev'
     }
   }
@@ -90,7 +90,7 @@ class ProjectMember extends Component {
   handleOk() {
     this.props.addMember({
       id: this.props.match.params.id,
-      member_uid: this.state.inputUid,
+      member_uids: this.state.inputUids,
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
@@ -144,9 +144,9 @@ class ProjectMember extends Component {
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      inputUid: childState.uid
+      inputUids: uids
     })
   }
 
@@ -234,7 +234,7 @@ class ProjectMember extends Component {
             </Row>
           </Modal>
           <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
-          <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
+          <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
               return (<div key={index} className="card-item">
                 <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />

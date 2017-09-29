@@ -57,7 +57,9 @@ export default class Run extends Component {
       headers: req_headers,
       bodyType: req_body_type,
       bodyForm: req_body_form,
-      bodyOther: req_body_other
+      bodyOther: req_body_other,
+      resMockTest: mock_verify
+
     } = this.postman.state;
 
     let params = {
@@ -73,7 +75,8 @@ export default class Run extends Component {
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other
+      req_body_other,
+      mock_verify
     };
 
     if(this.postman.state.test_status !== 'error'){
@@ -104,6 +107,7 @@ export default class Run extends Component {
         <Postman data={data} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
+          caseName={currInterface.title}
           onCancel={() => this.setState({saveCaseModalVisible: false})}
           onOk={this.saveCase}
         ></AddColModal>

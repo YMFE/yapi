@@ -166,6 +166,7 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
+            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
                 //let project = await this.projectModel.getBaseInfo(params.project_id);
                 // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
                 // this.sendNotice(params.project_id, {
@@ -252,6 +253,14 @@ class interfaceController extends baseController {
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
+    }
+
+    async downloadCrx(ctx){
+        let filename = 'crossRequest.zip';
+        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.0.1.zip'));
+        ctx.set('Content-disposition', 'attachment; filename=' + filename);
+        ctx.set('Content-Type', 'application/zip');
+        ctx.body = dataBuffer;
     }
 
     async listByCat(ctx) {
@@ -473,6 +482,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             } else {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
@@ -484,6 +494,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             }
             if (params.switch_notice === true) {
                 let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -548,7 +559,7 @@ class interfaceController extends baseController {
                     typeid: cate.project_id
                 });
             })
-
+            this.projectModel.up(data.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {

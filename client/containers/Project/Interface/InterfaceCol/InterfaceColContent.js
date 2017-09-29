@@ -72,7 +72,8 @@ class InterfaceColContent extends Component {
       rows: [],
       reports: {},
       visible: false,
-      curCaseid: null
+      curCaseid: null,
+      hasPlugin: false
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -93,6 +94,29 @@ class InterfaceColContent extends Component {
       this.handleColdata(this.props.currCaseList)
     }
 
+    let startTime = 0;
+    this.interval = setInterval(() => {
+      startTime += 500;
+      if (startTime > 5000) {
+        clearInterval(this.interval);
+      }
+      if (window.crossRequest) {
+        clearInterval(this.interval);
+        this.setState({
+          hasPlugin: true
+        })
+      } else {
+        this.setState({
+          hasPlugin: false
+        })
+      }
+    }, 500)
+    this.getInterfaceState()
+
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   handleColdata = (rows) => {
@@ -127,9 +151,9 @@ class InterfaceColContent extends Component {
           status = 'ok';
         } else if (result.code === 1) {
           status = 'invalid'
-        }        
+        }
       } catch (e) {
-        status = 'error';        
+        status = 'error';
         result = e;
       }
       this.reports[curitem._id] = result;
@@ -177,7 +201,7 @@ class InterfaceColContent extends Component {
         headers: that.getHeadersObj(interfaceData.req_headers),
         data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
         success: (res, header) => {
-          res = json_parse(res);          
+          res = json_parse(res);
           result.res_header = header;
           result.res_body = res;
           if (res && typeof res === 'object') {
@@ -185,8 +209,11 @@ class InterfaceColContent extends Component {
               query: interfaceData.req_query,
               body: interfaceData.req_body_form
             })
-            let validRes = Mock.valid(tpl, res);
 
+            let validRes = [];
+            if (interfaceData.mock_verify) {
+              validRes = Mock.valid(tpl, res);
+            }
             if (validRes.length === 0) {
               result.code = 0;
               result.validRes = [{ message: '验证通过' }];
@@ -206,7 +233,7 @@ class InterfaceColContent extends Component {
           } catch (e) {
             console.log(e)
           }
-          
+
           err = err || '请求异常';
           result.code = 400;
           result.res_header = header;
@@ -296,13 +323,12 @@ class InterfaceColContent extends Component {
     let newColId = nextProps.match.params.actionId
     if (!interfaceColList.find(item => +item._id === +newColId)) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    } else if (oldColId !== newColId) {
+    } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
       if (newColId && newColId != 0) {
         await this.props.fetchCaseList(newColId);
         this.props.setColData({ currColId: +newColId, isShowCol: true })
         this.handleColdata(this.props.currCaseList)
       }
-
     }
   }
 
@@ -442,10 +468,16 @@ class InterfaceColContent extends Component {
 
     return (
       <div className="interface-col">
-        <h2 style={{ marginBottom: '10px', display: 'inline-block' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
-        <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>
+        {this.state.hasPlugin?
+          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>:
+          <Tooltip title="请安装 cross-request Chrome 插件">
+            <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
+          </Tooltip>
+        }
+        
         <Table.Provider
           components={components}
           columns={resolvedColumns}

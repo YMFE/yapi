@@ -2,12 +2,14 @@ const logModel = require('../models/log.js');
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const groupModel = require('../models/group');
+const projectModel = require('../models/project');
 
 class logController extends baseController {
     constructor(ctx) {
         super(ctx);
         this.Model = yapi.getInst(logModel);
         this.groupModel = yapi.getInst(groupModel);
+        this.projectModel = yapi.getInst(projectModel);
     }
 
     /**
@@ -35,13 +37,27 @@ class logController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, 'type不能为空');
         }
         try {
-            let result = await this.Model.listWithPaging(typeid,type, page, limit);
-            let count = await this.Model.listCount(typeid,type);
+            if(type === "group"){
+                let projectList = await this.projectModel.list(typeid);
+                for(let i in projectList){
+                    projectList[i] = projectList[i]._id;
+                }
+                let projectLogList = await this.Model.listWithPagingByGroup(typeid,projectList,page,limit);
+                let total = await this.Model.listCountByGroup(typeid,projectList);
+                ctx.body = yapi.commons.resReturn({
+                    list: projectLogList,
+                    total: Math.ceil(total / limit)
+                });
+            }else if(type === "project"){
+                let result = await this.Model.listWithPaging(typeid,type, page, limit);
+                let count = await this.Model.listCount(typeid,type);
+                
+                ctx.body = yapi.commons.resReturn({
+                    total: Math.ceil(count / limit),
+                    list: result
+                });
+            }
             
-            ctx.body = yapi.commons.resReturn({
-                total: Math.ceil(count / limit),
-                list: result
-            });
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }

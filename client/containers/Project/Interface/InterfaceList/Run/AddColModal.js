@@ -25,7 +25,8 @@ export default class AddColModal extends Component {
     fetchInterfaceColList: PropTypes.func,
     match: PropTypes.object,
     onOk: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    caseName: PropTypes.string
   }
 
   state = {
@@ -42,10 +43,12 @@ export default class AddColModal extends Component {
 
   componentWillMount() {
     this.props.fetchInterfaceColList(this.props.match.params.id)
+    this.setState({caseName: this.props.caseName})
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({id: nextProps.interfaceColList[0]._id})
+    this.setState({caseName: nextProps.caseName})
   }
 
   addCol = async () => {

@@ -92,6 +92,9 @@
       color: #ccc;
       margin-left: .16rem;
       transition: color .2s;
+      & a {
+        color: #ccc;
+      }
       .dropdown-link {
         color: #ccc;
         transition: color .2s;
@@ -101,6 +104,9 @@
         .ant-avatar > img{
           height: auto;
         }
+      }
+      .anticon.active {
+        color: #2395f1;
       }
       &:hover{
         .dropdown-link {

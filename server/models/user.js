@@ -20,6 +20,7 @@ class userModel extends baseModel {
                 required: true
             },
             passsalt: String,
+            study: {type: Boolean, default: false},
             role: String,
             add_time: Number,
             up_time: Number,
@@ -39,19 +40,19 @@ class userModel extends baseModel {
     }
 
     list() {
-        return this.model.find().select('_id username email role type  add_time up_time').exec();  //显示id name email role 
+        return this.model.find().select('_id username email role type  add_time up_time study').exec();  //显示id name email role 
     }
 
     findByUids(uids) {
         return this.model.find({
             _id: { $in: uids }
-        }).select('_id username email role type  add_time up_time').exec();
+        }).select('_id username email role type  add_time up_time study').exec();
     }
 
     listWithPaging(page, limit) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role type  add_time up_time').exec();
+        return this.model.find().sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).select('_id username email role type  add_time up_time study').exec();
     }
 
     listCount() {

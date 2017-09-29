@@ -69,8 +69,7 @@ class baseController {
 
   async getLoginStatus(ctx) {
     if (await this.checkLogin(ctx) === true) {
-      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type']);
-      result.server_ip = yapi.WEBCONFIG.server_ip;
+      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
       return ctx.body = yapi.commons.resReturn(result);
     }
     return ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
@@ -83,6 +82,11 @@ class baseController {
   getUsername() {
     return this.$user.username;
   }
+
+  getEmail(){
+    return this.$user.email;
+  }
+
   async getProjectRole(id, type) {
     let result = {};
     try {
@@ -129,6 +133,11 @@ class baseController {
       if (type === 'group') {
         let groupInst = yapi.getInst(groupModel);
         let groupData = await groupInst.get(id);
+        if (groupData.uid === this.getUid()) {
+          return 'owner';
+        }
+
+
         let groupMemberData = _.find(groupData.members, (m) => {
           if (m.uid === this.getUid()) {
             return true;

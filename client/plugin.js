@@ -79,21 +79,25 @@ pluginModule = {
   bindHook: bindHook,
   emitHook: emitHook
 }
+let pluginModuleList;
+try{
+  pluginModuleList = require('./plugin-module.js');
+}catch(err){pluginModuleList = {}}
 
-config.plugins.forEach(plugin => {
+
+config.plugins.forEach(plugin=>{
   if (!plugin) return null;
   if (!plugin.enable) return null;
-  if (plugin.client) {
-    let p = require(`plugins/yapi-plugin-${plugin.name}/client.js`);
-    p.call(pluginModule, plugin);
+  if(plugin.client){
+    if(pluginModuleList[plugin.name] && typeof pluginModuleList[plugin.name] === 'function'){
+      pluginModuleList[plugin.name].call(pluginModule, plugin)
+    }
+    
   }
-
 })
 
-
 systemPlugins.forEach(plugin => {
-  if (!plugin) return null;
-  if (!plugin.enable) return null;
+  
   if (plugin.client) {
     let p = require(`exts/yapi-plugin-${plugin.name}/client.js`);
     p.call(pluginModule, plugin);

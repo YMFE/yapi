@@ -13,6 +13,7 @@ class groupModel extends baseModel {
             group_desc: String,
             add_time: Number,
             up_time: Number,
+            type: {type:String,default: 'public', enum: ['public', 'private']},
             members: [
                 {
                     uid: Number,
@@ -35,10 +36,17 @@ class groupModel extends baseModel {
         }).exec();
     }
 
+    getByPrivateUid(uid){
+        return this.model.findOne({
+            uid: uid,
+            type: 'private'
+        }).select('group_name _id group_desc add_time up_time type').exec();
+    }
+
     getGroupById(id) {
         return this.model.findOne({
             _id: id
-        }).select("uid group_name group_desc add_time up_time").exec();
+        }).select("uid group_name group_desc add_time up_time type").exec();
     }
 
     checkRepeat(name) {
@@ -52,7 +60,8 @@ class groupModel extends baseModel {
             {
                 _id: id
             }, {
-                $push: { members: data }
+                // $push: { members: data },
+                $push: { members: { $each: data } }
             }
         );
     }
@@ -86,7 +95,9 @@ class groupModel extends baseModel {
     }
 
     list() {
-        return this.model.find().select('group_name _id group_desc add_time up_time').exec();
+        return this.model.find({
+            type: 'public'
+        }).select('group_name _id group_desc add_time up_time type uid').exec();
     }
 
     del(id) {
