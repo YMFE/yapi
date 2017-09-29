@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col, Button, Tooltip, Popover } from 'antd';
+import { Row, Col, Button, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { addProject, fetchProjectList, delProject, changeUpdateModal } from '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import { autobind } from 'core-decorators';
 import { setBreadcrumb } from '../../../reducer/modules/user';
-import GuideBtns from '../../../components/GuideBtns/GuideBtns.js';
 
 import './ProjectList.scss';
-
-const tip = (<div className="title-container">
-  <h3 className="title">项目列表</h3>
-  <p>这里列出了分组下的所有项目。</p>
-  <p>成为分组成员即可在该分组下添加项目。</p>
-  <p>赶快创建属于你的第一个项目把 ~</p>
-</div>);
 
 @connect(
   state => {
@@ -26,9 +18,7 @@ const tip = (<div className="title-container">
       userInfo: state.project.userInfo,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup,
-      currPage: state.project.currPage,
-      studyTip: state.user.studyTip,
-      study: state.user.study
+      currPage: state.project.currPage
     }
   },
   {
@@ -125,15 +115,7 @@ class ProjectList extends Component {
 
 
             {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
-              <Popover
-                overlayClassName="popover-index"
-                content={<GuideBtns isLast={true}/>}
-                title={tip}
-                placement="right"
-                visible={(this.props.studyTip === 2 && !this.props.study) ? true : false}
-                >
-                <Button type="primary" style={{ position: 'relative', boxShadow: this.props.studyTip === 2 ? '0 0 2px 3px #fff' : '' , zIndex: this.props.studyTip === 2 ? 3 : 1}}><Link to="/add-project">添加项目</Link></Button>
-              </Popover> :
+              <Button type="primary"><Link to="/add-project">添加项目</Link></Button>:
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
               </Tooltip>}
