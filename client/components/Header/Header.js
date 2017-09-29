@@ -196,7 +196,7 @@ export default class HeaderCom extends Component {
             </div>
           </Link>
           <Breadcrumb />
-          <div className="user-toolbar">
+          <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip === 1 ? 3 : 1}}>
             {login?
               <Popover
                 overlayClassName="popover-index"
