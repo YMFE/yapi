@@ -106,7 +106,8 @@ export default class InterfaceCaseContent extends Component {
       headers: req_headers,
       bodyType: req_body_type,
       bodyForm: req_body_form,
-      bodyOther: req_body_other
+      bodyOther: req_body_other,
+      resMockTest: mock_verify
     } = this.postman.state;
     
     const {editCasename: casename} = this.state;
@@ -122,7 +123,8 @@ export default class InterfaceCaseContent extends Component {
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other
+      req_body_other,
+      mock_verify
     };
     if(this.postman.state.test_status !== 'error'){
       params.test_res_body = this.postman.state.res;
