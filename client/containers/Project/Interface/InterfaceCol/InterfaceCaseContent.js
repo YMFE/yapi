@@ -59,7 +59,7 @@ export default class InterfaceCaseContent extends Component {
     let currColId = 0;
     colList.forEach(col => {
       col.caseList.forEach(caseItem => {
-        if (+caseItem._id === currCaseId) {
+        if (+caseItem._id === +currCaseId) {
           currColId = col._id;
         }
       })
@@ -83,8 +83,12 @@ export default class InterfaceCaseContent extends Component {
   async componentWillReceiveProps(nextProps) {
     const oldCaseId = this.props.match.params.actionId
     const newCaseId = nextProps.match.params.actionId
-    if (oldCaseId !== newCaseId) {
-      let currColId = this.getColId(this.props.interfaceColList, newCaseId);
+    const id = this.props.match.params.id;
+    const { interfaceColList } = nextProps;
+    let currColId = this.getColId(interfaceColList, newCaseId);
+    if(!currColId) {
+      this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
+    } else if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({currCaseId: +newCaseId, currColId, isShowCol: false})
       this.setState({editCasename: this.props.currCase.casename})
