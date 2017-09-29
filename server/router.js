@@ -149,6 +149,11 @@ let routerConfig = {
 			"method": "post"
 		},
 		{
+			action: 'upStudy',
+			path: 'up_study',
+			method: 'get'
+		},
+		{
 			"action": "changePassword",
 			"path": "change_password",
 			"method": "post"
@@ -240,6 +245,11 @@ let routerConfig = {
 			"method": "post"
 		},
 		{
+			"action": "downloadCrx",
+			"path"  : "download_crx",
+			"method": "get"
+		},
+		{
 			"action": "getCatMenu",
 			"path": "getCatMenu",
 			"method": "get"
@@ -315,6 +325,11 @@ let routerConfig = {
 		action: "addCol",
 		path: "add_col",
 		method: "post"
+	},{
+		action: 'addCaseList',
+		path: 'add_case_list',
+		method: 'post'	
+		
 	}, {
 		action: "list",
 		path: "list",
