@@ -1,1 +1,1 @@
-module.exports = {}
+module.exports = {qsso : require('plugins/yapi-plugin-qsso/client.js')}
