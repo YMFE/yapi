@@ -93,7 +93,7 @@ class UsernameAutoComplete extends Component {
 
   render () {
 
-    const { dataSource, fetching, value } = this.state;
+    const { dataSource, fetching } = this.state;
     const children = dataSource.map((item, index) => (
       <Option key={index} value={'' + item.id}>{item.username}</Option>
     ))
