@@ -13,8 +13,7 @@ function install() {
     let exist = yapi.commons.fileExist(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
 
     if (exist) {
-        yapi.commons.log('runtime/init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉runtime/init.lock文件');
-        process.exit(0);
+        throw new Error('init.lock文件已存在，请确认您是否已安装。如果需要重新安装，请删掉init.lock文件');
     }
 
     setupSql();
@@ -26,14 +25,14 @@ function setupSql() {
     let result = userInst.save({
         username: yapi.WEBCONFIG.adminAccount.substr(0, yapi.WEBCONFIG.adminAccount.indexOf('@')),
         email: yapi.WEBCONFIG.adminAccount,
-        password: yapi.commons.generatePassword('qunar.com', passsalt),
+        password: yapi.commons.generatePassword('ymfe.org', passsalt),
         passsalt: passsalt,
         role: 'admin',
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
     });
 
-    yapi.connect.then(function () {
+    yapi.connect.then(function () {        
         let userCol = mongoose.connection.db.collection('user')
         userCol.ensureIndex({
             username: 1
@@ -127,13 +126,16 @@ function setupSql() {
         
         result.then(function () {
             fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
-            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 成功`); // eslint-disable-line
+            console.log(`初始化管理员账号成功,账号名："${yapi.WEBCONFIG.adminAccount}"，密码："ymfe.org"`); // eslint-disable-line
             process.exit(0);
         }, function (err) {
-            console.log(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
-            process.exit(0);
+            throw new Error(`初始化管理员账号 "${yapi.WEBCONFIG.adminAccount}" 失败, ${err.message}`); // eslint-disable-line
+            
         });
+    
 
+    }).catch(function(err){
+        throw new Error(err.message);        
     })
 
 }

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AutoComplete } from 'antd';
+import { Select, Spin } from 'antd';
+// import lodash from 'lodash';
 import axios from 'axios';
+
+// const debounce = lodash.debounce;
+const Option = Select.Option;
 
 /**
  * 用户名输入框自动完成组件
@@ -12,7 +16,7 @@ import axios from 'axios';
  * * 用户名输入框自动完成组件
  * * 用户名输入框自动完成组件
  *
- *
+ *s
  */
 
  /**
@@ -37,47 +41,30 @@ import axios from 'axios';
 class UsernameAutoComplete extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dataSource: [],
-      uid: 0,
-      username: '',
-      changeName: ''
-    }
+    // this.lastFetchId = 0;
+    // this.fetchUser = debounce(this.fetchUser, 800);
+  }
+
+  state = {
+    dataSource: [],
+    fetching: false
   }
 
   static propTypes = {
     callbackState: PropTypes.func
   }
 
-  // 改变本组件 state，并回调给父组件
-  changeState = (uid, username) => {
-    // 设置本组件 state
-    this.setState({ uid, username });
-    // 回调 将当前选中的uid和username回调给父组件
-    this.props.callbackState({ uid, username });
-  }
-
-  // 输入框中的值改变时
-  onChange = (userName) => {
-    this.setState({
-      changeName: userName
-    });
-  }
-
-  // 选中候选词时
-  onSelect = (userName) => {
-    this.state.dataSource.forEach((item) => {
-      if (item.username === userName) {
-        this.changeState(item.id, item.username);
-      }
-    });
-  }
-
   // 搜索回调
   handleSearch = (value) => {
     const params = { q: value}
+    // this.lastFetchId += 1;
+    // const fetchId = this.lastFetchId;
+    this.setState({ fetching: true });
     axios.get('/api/user/search', { params })
       .then(data => {
+        // if (fetchId !== this.lastFetchId) { // for fetch callback order
+        //   return;
+        // }
         const userList = [];
         data = data.data.data;
 
@@ -90,28 +77,40 @@ class UsernameAutoComplete extends Component {
           this.setState({
             dataSource: userList
           });
-          if (userList.length) {
-            // 每次取回搜索值后，没选择时默认选择第一位
-            this.changeState(userList[0].id, userList[0].username);
-          } else {
-            // 如果没有搜索结果，则清空候选 uid 和 username
-            this.changeState(-1, '');
-          }
         }
       });
   }
 
+  // 选中候选词时
+  handleChange = (value) => {
+    this.setState({
+      dataSource: [],
+      // value,
+      fetching: false
+    });
+    this.props.callbackState(value);
+  }
+
   render () {
+
+    const { dataSource, fetching } = this.state;
+    const children = dataSource.map((item, index) => (
+      <Option key={index} value={'' + item.id}>{item.username}</Option>
+    ))
+
     return (
-      <AutoComplete
-        dataSource={this.state.dataSource.map(i => i.username)}
+      <Select
+        mode="multiple"
         style={{ width: '100%' }}
-        onChange={this.onChange}
-        onSelect={this.onSelect}
-        onSearch={this.handleSearch}
         placeholder="请输入用户名"
+        filterOption={false}
+        notFoundContent={fetching ? <Spin size="small" /> : null}
+        onSearch={this.handleSearch}
+        onChange={this.handleChange}
         size="large"
-      />
+      >
+        {children}
+      </Select>
     )
   }
 }

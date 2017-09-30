@@ -1,5 +1,5 @@
 const yapi = require('./yapi.js');
-const plugin_path = yapi.path.join(yapi.WEBROOT, 'plugins');
+const plugin_path = yapi.path.join(yapi.WEBROOT, 'node_modules');
 const plugin_system_path = yapi.path.join(yapi.WEBROOT, 'exts');
 const initPlugins = require('../common/lib.js').initPlugins;
 var extConfig = require('../common/config.js').exts;

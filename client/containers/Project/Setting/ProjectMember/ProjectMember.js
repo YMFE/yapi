@@ -49,7 +49,7 @@ class ProjectMember extends Component {
       role: '',
       visible: false,
       dataSource: [],
-      inputUid: 0,
+      inputUids: [],
       inputRole: 'dev'
     }
   }
@@ -90,7 +90,7 @@ class ProjectMember extends Component {
   handleOk() {
     this.props.addMember({
       id: this.props.match.params.id,
-      member_uid: this.state.inputUid,
+      member_uids: this.state.inputUids,
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
@@ -144,9 +144,9 @@ class ProjectMember extends Component {
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      inputUid: childState.uid
+      inputUids: uids
     })
   }
 
@@ -171,7 +171,7 @@ class ProjectMember extends Component {
       key: 'username',
       render: (text, record) => {
         return (<div className="m-user">
-          <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
+          <img src={'/api/user/avatar?uid=' + record.uid} className="m-user-img" />
           <p className="m-user-name">{text}</p>
         </div>);
       }
@@ -186,6 +186,7 @@ class ProjectMember extends Component {
               <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
                 <Option value={'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
+                <Option value={'guest-'+record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -198,6 +199,8 @@ class ProjectMember extends Component {
             return '组长';
           } else if (record.role === 'dev') {
             return '开发者';
+          } else if (record.role === 'guest') {
+            return '访客';
           } else {
             return '';
           }
@@ -225,18 +228,20 @@ class ProjectMember extends Component {
                 <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                   <Option value="owner">组长</Option>
                   <Option value="dev">开发者</Option>
+                  <Option value="guest">访客</Option>
                 </Select>
               </Col>
             </Row>
           </Modal>
           <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
-          <Card title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
+          <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
               return (<div key={index} className="card-item">
                 <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />
                 <p className="item-name">{item.username}{item.uid === this.props.uid ? <Badge count={'我'} style={{ backgroundColor: '#689bd0', fontSize: '13px', marginLeft: '8px', borderRadius: '4px' }} /> : null}</p>
                 {item.role === 'owner' ? <p className="item-role">组长</p> : null}
                 {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
+                {item.role === 'guest' ? <p className="item-role">访客</p> : null}
               </div>);
             }): <ErrMsg type="noMemberInGroup"/>}
           </Card>
