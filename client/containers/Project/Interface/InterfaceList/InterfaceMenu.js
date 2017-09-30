@@ -424,10 +424,10 @@ class InterfaceMenu extends Component {
             return <TreeNode title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
               <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <div className="btns">
-                <Tooltip title="删除集合">
+                <Tooltip title="删除分类">
                   <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCatConfirm(item._id) }}  style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}/>
                 </Tooltip>
-                <Tooltip title="编辑集合">
+                <Tooltip title="修改分类">
                   <Icon type='edit' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
                     e.stopPropagation();
                     this.changeModal('change_cat_modal_visible', true);
@@ -436,7 +436,7 @@ class InterfaceMenu extends Component {
                     })
                   }} />
                 </Tooltip>
-                <Tooltip title="添加集合">
+                <Tooltip title="添加接口">
                   <Icon type='plus' className="interface-delete-icon" style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} onClick={(e) => {
                     e.stopPropagation();
                     this.changeModal('visible', true);
