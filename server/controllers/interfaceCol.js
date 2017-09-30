@@ -29,7 +29,7 @@ class interfaceColController extends baseController{
             let id = ctx.query.project_id;
             let project = await this.projectModel.getBaseInfo(id);
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -95,6 +95,7 @@ class interfaceColController extends baseController{
                 username: username,
                 typeid: params.project_id
             });
+            // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
             ctx.body = yapi.commons.resReturn(result);
 
         }catch(e){
@@ -124,7 +125,7 @@ class interfaceColController extends baseController{
             let project = await this.projectModel.getBaseInfo(colData.project_id);
             
             if (project.project_type === 'private') {
-                if (await this.checkAuth(project._id, 'project', 'edit') !== true) {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
@@ -226,9 +227,69 @@ class interfaceColController extends baseController{
                     typeid: params.project_id
                 });
             });
-
+            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
+
+        }catch(e){
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
+    async addCaseList(ctx){
+        try{
+            let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                project_id: 'number',
+                col_id: 'number'
+            });
+            if(!params.interface_list || !Array.isArray(params.interface_list)){
+                return ctx.body = yapi.commons.resReturn(null, 400, 'interface_list 参数有误');
+            }
+
+            if (!params.project_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+            }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit');
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
+
+
+            if (!params.col_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '接口集id不能为空');
+            }
+
+            let data = {
+                uid: this.getUid(),
+                index: 0,
+                add_time: yapi.commons.time(),
+                up_time: yapi.commons.time(),
+                project_id: params.project_id,
+                col_id: params.col_id
+            }
+
+            for(let i=0; i<params.interface_list.length; i++){
+                let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
+                data.interface_id = params.interface_list[i];
+                data.casename = interfaceData.title;
+                await this.caseModel.save(data);
+                let username = this.getUsername();
+                this.colModel.get(params.col_id).then((col)=>{
+                    yapi.commons.saveLog({
+                        content: `用户 "${username}" 在接口集 "${col.name}" 下导入了接口 ${data.casename}`,
+                        type: 'project',
+                        uid: this.getUid(),
+                        username: username,
+                        typeid: params.project_id
+                    });
+                });
+            }
+
+            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
+
+            ctx.body = yapi.commons.resReturn('ok');
 
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -295,7 +356,7 @@ class interfaceColController extends baseController{
                 });
             });
 
-
+            this.projectModel.up(caseData.project_id,{up_time: new Date().getTime()}).then();
 
             ctx.body = yapi.commons.resReturn(result);
 
@@ -398,6 +459,7 @@ class interfaceColController extends baseController{
                 username: username,
                 typeid: colData.project_id
             });
+            
             ctx.body = yapi.commons.resReturn(result)
         }catch(e){
             ctx.body = yapi.commons.resReturn(null, 400, e.message)
@@ -510,7 +572,7 @@ class interfaceColController extends baseController{
                 });
             });
 
-
+            this.projectModel.up(caseData.project_id,{up_time: new Date().getTime()}).then();
             return ctx.body = yapi.commons.resReturn(result);
 
 

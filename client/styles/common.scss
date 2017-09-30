@@ -51,7 +51,7 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited{
+  &:active, &:hover, &:visited, &:focus{
     text-decoration: none
   }
 }
@@ -69,17 +69,22 @@ em {
 }
 // 页面最外层元素 样式
 .router-main {
-  // padding-bottom: .24rem;
-  // min-height: 100%;
-  // height: auto !important;
-  // height: 100%;
-  // margin-bottom: -2.4rem;
-  background-color: #ececec;
-  // &::after {
-  //   content: '';
-  //   display: block;
-  //   height: 2.4rem;
-  // }
+  padding-bottom: .24rem;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -2.4rem;
+  background-color: #eceef1;
+  &::after {
+    content: '';
+    display: block;
+    height: 2.4rem;
+  }
+}
+.m-tab {
+  .ant-tabs-nav-wrap {
+    background-color: #eceef1;
+  }
 }
 
 .hidden {
@@ -115,6 +120,20 @@ em {
   min-height: 5rem;
 }
 
+.panel-title {
+  margin-bottom: .16rem;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  .title {
+    font-weight: normal;
+  }
+  .desc {
+    font-size: 13px;
+    color: #919191;
+
+  }
+}
+
 @media (max-width: 768px) {
   html {
     width: min-content !important;
@@ -146,4 +165,38 @@ em {
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
   border: none;
+}
+
+// 页面级底部固定 需要添加padding以保证页面底部不被覆盖
+.has-affix-footer {
+  padding-bottom: .92rem;
+}
+
+.popover-index {
+  max-width: 3.2rem;
+  .ant-popover-title {
+    height: auto;
+  }
+  .title-container {
+    padding: .16rem 0;
+    .title {
+      text-align: center;
+    }
+  }
+  .btn-container {
+    text-align: center;
+    .btn {
+      margin: 0 .04rem;
+    }
+  }
+}
+
+.study-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.35);
+  z-index: 2;
 }

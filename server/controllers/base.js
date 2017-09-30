@@ -69,8 +69,7 @@ class baseController {
 
   async getLoginStatus(ctx) {
     if (await this.checkLogin(ctx) === true) {
-      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type']);
-      result.server_ip = yapi.WEBCONFIG.server_ip;
+      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
       return ctx.body = yapi.commons.resReturn(result);
     }
     return ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
@@ -83,6 +82,11 @@ class baseController {
   getUsername() {
     return this.$user.username;
   }
+
+  getEmail(){
+    return this.$user.email;
+  }
+
   async getProjectRole(id, type) {
     let result = {};
     try {
@@ -93,6 +97,7 @@ class baseController {
         let interfaceInst = yapi.getInst(interfaceModel);
         let interfaceData = await interfaceInst.get(id)
         result.interfaceData = interfaceData;
+        // 项目创建者相当于 owner
         if (interfaceData.uid === this.getUid()) {
           return 'owner';
         }
@@ -115,8 +120,10 @@ class baseController {
         if (memberData && memberData.role) {
           if (memberData.role === 'owner') {
             return 'owner';
-          } else {
+          } else if (memberData.role === 'dev') {
             return 'dev';
+          } else {
+            return 'guest';
           }
         }
         type = 'group';
@@ -126,6 +133,11 @@ class baseController {
       if (type === 'group') {
         let groupInst = yapi.getInst(groupModel);
         let groupData = await groupInst.get(id);
+        if (groupData.uid === this.getUid()) {
+          return 'owner';
+        }
+
+
         let groupMemberData = _.find(groupData.members, (m) => {
           if (m.uid === this.getUid()) {
             return true;
@@ -134,8 +146,10 @@ class baseController {
         if (groupMemberData && groupMemberData.role) {
           if (groupMemberData.role === 'owner') {
             return 'owner';
-          } else {
+          } else if (groupMemberData.role === 'dev') {
             return 'dev'
+          } else {
+            return 'guest'
           }
         }
       }
@@ -151,7 +165,7 @@ class baseController {
    * 
    * @param {*} id type对应的id
    * @param {*} type enum[interface, project, group] 
-   * @param {*} action enum[ danger , edit ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
+   * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
@@ -161,6 +175,10 @@ class baseController {
       }
     } else if (action === 'edit') {
       if (role === 'admin' || role === 'owner' || role === 'dev') {
+        return true;
+      }
+    } else if (action === 'view') {
+      if (role === 'admin' || role === 'owner' || role === 'dev' || role === 'guest') {
         return true;
       }
     }

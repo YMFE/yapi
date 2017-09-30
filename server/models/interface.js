@@ -27,14 +27,14 @@ class interfaceModel extends baseModel {
                 }],
             },
             req_query:[{
-                name: String, value: String, desc: String, required: {
+                name: String, value: String,example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"
                 }
             }],
             req_headers: [{
-                name: String, value: String, desc: String, required: {
+                name: String, value: String,example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"
@@ -42,14 +42,15 @@ class interfaceModel extends baseModel {
             }],
             req_params:[{
                 name: String,
-                desc: String
+                desc: String,
+                example:String
             }],
             req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'file', 'raw']
             },
             req_body_form: [{
-                name: String,  type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                name: String,  type: { type: String, enum: ['text', 'file'] },example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"

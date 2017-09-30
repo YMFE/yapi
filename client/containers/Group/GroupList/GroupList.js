@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Alert, Input, message, Menu, Row, Col } from 'antd'
+import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown, Popover } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -10,24 +10,36 @@ const Search = Input.Search;
 const TYPE_EDIT = 'edit';
 const confirm = Modal.confirm;
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
+import GuideBtns from '../../../components/GuideBtns/GuideBtns.js';
+import { fetchNewsData } from '../../../reducer/modules/news.js';
 import {
   fetchGroupList,
   setCurrGroup,
-  setGroupList
+  setGroupList,
+  fetchGroupMsg
 } from '../../../reducer/modules/group.js'
 
-import './GroupList.scss'
+import './GroupList.scss';
+
+const tip = (<div className="title-container">
+  <h3 className="title">欢迎使用 YApi ~</h3>
+  <p>这里的 <b>“个人空间”</b> 是你自己才能看到的分组，你拥有这个分组的全部权限，可以在这个分组里探索 YApi 的功能。</p>
+</div>);
 
 @connect(
   state => ({
     groupList: state.group.groupList,
     currGroup: state.group.currGroup,
-    curUserRole: state.user.role
+    curUserRole: state.user.role,
+    studyTip: state.user.studyTip,
+    study: state.user.study
   }),
   {
     fetchGroupList,
     setCurrGroup,
-    setGroupList
+    setGroupList,
+    fetchNewsData,
+    fetchGroupMsg
   }
 )
 @withRouter
@@ -41,7 +53,11 @@ export default class GroupList extends Component {
     setGroupList: PropTypes.func,
     match: PropTypes.object,
     history: PropTypes.object,
-    curUserRole: PropTypes.string
+    curUserRole: PropTypes.string,
+    studyTip: PropTypes.number,
+    study: PropTypes.bool,
+    fetchNewsData: PropTypes.func,
+    fetchGroupMsg: PropTypes.func
   }
 
   state = {
@@ -52,7 +68,7 @@ export default class GroupList extends Component {
     currGroupName: '',
     currGroupDesc: '',
     groupList: [],
-    owner_uid: 0
+    owner_uids: []
   }
 
   constructor(props) {
@@ -101,21 +117,29 @@ export default class GroupList extends Component {
       });
     } else {
       this.setState({
+        newGroupName: '',
+        group_name: '',
+        owner_uids: [],
         addGroupModalVisible: false
       });
     }
   }
   @autobind
   async addGroup() {
-    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uid } = this.state;
-    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uid })
+    const { newGroupName: group_name, newGroupDesc: group_desc, owner_uids } = this.state;
+    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uids })
     if (!res.data.errcode) {
       this.setState({
+        newGroupName: '',
+        group_name: '',
+        owner_uids: [],
         addGroupModalVisible: false
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup(res.data.data)
+      this.props.setCurrGroup(res.data.data);
+      this.props.fetchGroupMsg(this.props.currGroup._id);
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
       message.error(res.data.errmsg)
     }
@@ -133,7 +157,8 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup({ group_name, group_desc, _id: id });
+      this.props.setCurrGroup({ group_name, group_desc, _id: id});
+      this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
   }
   @autobind
@@ -159,12 +184,13 @@ export default class GroupList extends Component {
     const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
+    this.props.fetchNewsData(groupId, "group", 1, 10)
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      owner_uid: childState.uid
+      owner_uids: uids
     })
   }
 
@@ -225,27 +251,46 @@ export default class GroupList extends Component {
 
   render() {
     const { currGroup } = this.props;
-    const delmark = <Icon className="edit-group"  type="edit" title="编辑分组" onClick={() => this.showModal(TYPE_EDIT)} />
-    const editmark = <Icon className="delete-group"   onClick={() => { this.showConfirm() }} type="delete" title="删除分组" />
-    const addmark = <Icon className="edit-group"  onClick={this.showModal} type="plus" title="添加分组" />
+    const delmark = <Menu.Item>
+      <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
+    </Menu.Item>
+    const editmark = <Menu.Item>
+      <span onClick={() => { this.showConfirm() }}>删除分组</span>
+    </Menu.Item>
+    const addmark = <Menu.Item>
+      <span onClick={this.showModal}>添加分组</span>
+    </Menu.Item>
+
+    let menu = <Menu>
+      {
+        this.props.curUserRole === "admin" && this.props.currGroup.type!=='private'  ? (editmark) : ''
+      }
+      {
+        (this.props.curUserRole === "admin" || currGroup.role === 'owner') && this.props.currGroup.type!=='private' ? (delmark) : ''
+      }
+      {
+        this.props.curUserRole === 'admin' ? (addmark) : ''
+      }
+    </Menu>;
+    menu = (currGroup.role === 'owner' && this.props.curUserRole !== 'admin')  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
+      <a className="ant-dropdown-link" href="#">
+        <Icon type="setting" />
+      </a>
+    </Dropdown>;
+
+    if(this.props.currGroup.type==='private' && currGroup.role === 'owner' && this.props.curUserRole !== 'admin'){
+      menu = null;
+    }
+
 
     return (
       <div className="m-group">
+        {!this.props.study ? <div className="study-mask"></div> : null}
         <div className="group-bar">
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              <span className="operate">
-                {
-                  this.props.curUserRole === "admin" ? (editmark) : ''
-                }
-                {
-                  this.props.curUserRole === "admin" || currGroup.role ==='owner' ? (delmark) : ''
-                }
-                {
-                  this.props.curUserRole === 'admin' ? (addmark) : ''
-                }
-              </span>
+              {this.props.curUserRole === "admin" || currGroup.role === 'owner' ? (menu) : ''}
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
@@ -261,17 +306,31 @@ export default class GroupList extends Component {
             onClick={this.selectGroup}
             selectedKeys={[`${currGroup._id}`]}
           >
-            {
-              this.state.groupList.map((group) => (
-                <Menu.Item key={`${group._id}`} className="group-item">
-                  <Icon type="folder-open" />{group.group_name}
+            {this.state.groupList.map((group) => {
+              if(group.type === 'private') {
+                return <Menu.Item key={`${group._id}`} className="group-item" style={{zIndex: this.props.studyTip === 0 ? 3 : 1}}>
+                  <Icon type="user" />
+                  <Popover
+                    overlayClassName="popover-index"
+                    content={<GuideBtns/>}
+                    title={tip}
+                    placement="right"
+                    visible={(this.props.studyTip === 0) && !this.props.study}
+                    >
+                    {group.group_name}
+                  </Popover>
                 </Menu.Item>
-              ))
-            }
+              } else {
+                return <Menu.Item key={`${group._id}`} className="group-item">
+                  <Icon type="folder-open" />
+                  {group.group_name}
+                </Menu.Item>
+              }
+            })}
           </Menu>
         </div>
         {
-          this.state.addGroupModalVisible?<Modal
+          this.state.addGroupModalVisible ? <Modal
             title="添加分组"
             visible={this.state.addGroupModalVisible}
             onOk={this.addGroup}
@@ -296,7 +355,7 @@ export default class GroupList extends Component {
                 <UsernameAutoComplete callbackState={this.onUserSelect} />
               </Col>
             </Row>
-          </Modal>:''
+          </Modal> : ''
         }
 
         <Modal

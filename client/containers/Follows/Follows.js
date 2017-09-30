@@ -57,7 +57,10 @@ class Follows extends Component {
   }
 
   render () {
-    const data = this.state.data;
+    let data = this.state.data;
+    data = data.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
     return (
       <div>
         <div className="g-row" style={{paddingLeft: '32px', paddingRight: '32px'}}>

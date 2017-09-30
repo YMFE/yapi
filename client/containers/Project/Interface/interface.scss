@@ -69,8 +69,27 @@
         transform: translateY(-50%);
     }
     .ant-tree li .ant-tree-node-content-wrapper {
-      width: calc(100% - 24px);
+      width: calc(100% - 28px);
       position: relative;
+      .container-title {
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      .btns {
+        background-color: #eef7fe;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-60%);
+        transition: all .2s;
+      }
+    }
+    .ant-tree li .ant-tree-node-selected {
+      .btns {
+        background-color: #d5ebfc;
+        transition: all .2s;
+      }
     }
 
     .interface-delete-icon{
@@ -78,9 +97,11 @@
         right: 0;
         float: right;
         line-height: 25px;
-        width: 30px;
-        transform: rotate(90deg);
+        width: 24px;
         font-weight: bold;
+    }
+    .anticon-ellipsis {
+      transform: rotate(90deg);
     }
     .interface-delete-icon:hover {
         color: #2395f1;
@@ -95,7 +116,7 @@
 
 
         a{
-            color: #333
+            color: rgba(13, 27, 62, 0.65);
         }
 
         .btn-http{
@@ -119,11 +140,6 @@
                 .ant-tree-switcher{
                     visibility: hidden;
                 }
-            }
-
-
-            a{
-                color: #333;
             }
 
             .btn-http{
@@ -150,17 +166,76 @@
 }
 
 .right-content{
-    margin:3px;
-    min-height: 5rem;
-    background: #fff;
-    .interface-content{
-        .ant-tabs-nav{
-            width:100%;
-            // background-color: #ddd;
-            // color: $color-white;
-        }
-        .ant-tabs-nav-wrap{
-            text-align: left;
-        }
+  min-height: 5rem;
+  background: #fff;
+  .caseContainer {
+    table {
+      border-radius: 4px;
+      // border-collapse: collapse;
     }
+    .ant-table-small .ant-table-thead > tr > th {
+      text-align: left;
+      background-color: #f8f8f8;
+    }
+    tr:nth-child(even){background: #f8f8f8;}
+  }
+  .interface-content{
+    .ant-tabs-nav{
+      width:100%;
+      // background-color: #ddd;
+      // color: $color-white;
+    }
+    .ant-tabs-nav-wrap{
+      text-align: left;
+    }
+  }
+  .interface-title {
+    clear: both;
+    font-weight: normal;
+    margin-top: .48rem;
+    margin-bottom: .16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
+  }
+  .container-radiogroup {
+    text-align: center;
+    margin-bottom: .16rem;
+  }
+  .panel-sub {
+    background: rgba(236, 238, 241, 0.67);
+    padding: .16rem;
+  }
+  .ant-radio-button-wrapper-checked {
+    color: #fff;
+    background-color: #2395f1;
+    &:hover {
+      color: #ddd;
+    }
+  }
+  .href {
+    color: #2395f1;
+    cursor: pointer;
+  }
+  .remark-editor {
+    background-color: #fff;
+  }
+  .remark {
+    table {
+      border-collapse: collapse;
+    }
+    th {
+      text-align: left;
+      font-weight: normal;
+      background-color: #f8f8f8;
+      text-indent: .4em;
+    }
+    tr {
+      text-indent: .4em;
+    }
+    th, td {
+      border: 1px solid #e9e9e9;
+    }
+    tr:nth-child(odd){background: #f8f8f8;}
+    tr:nth-child(even){background: #fff;}
+  }
 }

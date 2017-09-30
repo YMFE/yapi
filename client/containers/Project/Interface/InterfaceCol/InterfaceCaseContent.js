@@ -59,7 +59,7 @@ export default class InterfaceCaseContent extends Component {
     let currColId = 0;
     colList.forEach(col => {
       col.caseList.forEach(caseItem => {
-        if (+caseItem._id === currCaseId) {
+        if (+caseItem._id === +currCaseId) {
           currColId = col._id;
         }
       })
@@ -83,8 +83,12 @@ export default class InterfaceCaseContent extends Component {
   async componentWillReceiveProps(nextProps) {
     const oldCaseId = this.props.match.params.actionId
     const newCaseId = nextProps.match.params.actionId
-    if (oldCaseId !== newCaseId) {
-      let currColId = this.getColId(this.props.interfaceColList, newCaseId);
+    const id = this.props.match.params.id;
+    const { interfaceColList } = nextProps;
+    let currColId = this.getColId(interfaceColList, newCaseId);
+    if(!currColId) {
+      this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
+    } else if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({currCaseId: +newCaseId, currColId, isShowCol: false})
       this.setState({editCasename: this.props.currCase.casename})
@@ -106,7 +110,8 @@ export default class InterfaceCaseContent extends Component {
       headers: req_headers,
       bodyType: req_body_type,
       bodyForm: req_body_form,
-      bodyOther: req_body_other
+      bodyOther: req_body_other,
+      resMockTest: mock_verify
     } = this.postman.state;
     
     const {editCasename: casename} = this.state;
@@ -122,7 +127,8 @@ export default class InterfaceCaseContent extends Component {
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other
+      req_body_other,
+      mock_verify
     };
     if(this.postman.state.test_status !== 'error'){
       params.test_res_body = this.postman.state.res;

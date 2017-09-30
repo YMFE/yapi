@@ -11,34 +11,19 @@
         box-sizing: border-box;
         float: left;
         .colKey{
-            font-weight: bolder;
-            margin-right: 16px;
-            padding-bottom: 16px;
-            display: inline-block;
+            font-weight: bold;
+            text-align: left;
+            width: 100px;
+            padding-left: 10px;
         }
     }
-    .colreqBodyType{
-        margin: 0px;
-        .colKey{
-            padding-bottom: 0px;
-
-        }
-    }
+    .col-title{margin-bottom: 5px}
     .colValue.href {
       color: #2395f1;
       cursor: pointer;
     }
     .ace_print-margin{
         display: none;
-    }
-    .colName,.colPath,.colstatus,.colAddTime,.colUpTime,.colMethod{
-        width: 50%;
-        float: left;
-        padding: 8px 16px;
-        height: 40px;
-        .colKey{
-            padding-bottom: 0px;
-        }
     }
     .colBody{
         .query-icon {
@@ -97,26 +82,44 @@
             color: white;
         }
     }
-    .colMockUrl{
-        margin-bottom: 0px;
+    .user-img {
+      width: .3rem;
+      height: .3rem;
+      border-radius: 50%;
+      border: 2px solid #eee;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .tag-method {
+      padding: 4px 6px;
+      margin-right: 8px;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+}
+
+.colHalf {
+    width: 50%;
+    float: left;
+    margin-bottom: .16rem;
+    .colKey{
         padding-bottom: 0px;
-        line-height: 1.5em;
+        text-align: right;
     }
-    .colDesc{
-        line-height: 1.5em;
-        .colKey{
-            margin-right: 0px;
-            float: left;
-            margin-bottom: 8px;
-        }
-        .colValue{
-            float: left;
-            text-indent: 2em;
-        }
-    }
-    // .ace_scroller{
-    //     position: relative;
-    //     margin-left: 50px;
-    //     overflow:visible;
-    // }
+}
+
+.panel-view {
+  .row {
+    margin-bottom: .16rem;
+    line-height: 36px;
+  }
+  .user-img {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  .user-name {
+    padding-left: .38rem;
+  }
 }

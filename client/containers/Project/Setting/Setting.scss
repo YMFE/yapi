@@ -25,14 +25,15 @@
   }
 }
 
-.setting-project-member {
-  border: 1px solid #e9e9e9;
-  border-radius: 2px;
-}
+// .setting-project-member {
+//   border: 1px solid #e9e9e9;
+//   border-radius: 4px;
+// }
 
 .setting-group {
   margin-top: .48rem;
   border-radius: 2px;
+  border-bottom: 1px solid #eee;
   .ant-card-head {
     background-color: #eee;
     padding: 0 .08rem !important;
@@ -169,34 +170,25 @@
 }
 .btnwrap-changeproject {
   text-align: center;
-  padding: .24rem 0;
-  margin: 0 -.24rem;
+  padding: .16rem 0;
   background: #fff;
-  background-image: linear-gradient(45deg, #d9d9d9 25%, transparent 0),linear-gradient(45deg, transparent 75%, #d9d9d9 0);
+  background-color: #fff;
+  margin: 0 -.4rem;
+  // background-image: linear-gradient(45deg, #d9d9d9 25%, transparent 0),linear-gradient(45deg, transparent 75%, #d9d9d9 0);
   background-size: 4px 4px;
   .btn-save {
-    background-color: #32325d;
     font-size: .15rem;
     font-weight: 200;
     letter-spacing: 1px;
     border: none;
-    line-height: .4rem;
-    height: .4rem;
-    padding: 0 .24rem;
-    margin-right: .24rem;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
     transform: translateY(0);
     transition: all .2s;
-    &:focus {
-      background-color: #43458b;
-    }
     &:hover {
       transform: translateY(-1px);
-      background-color: #43458b;
     }
     &:active {
       transform: translateY(1px);
-      background-color: #32325d;
     }
   }
 }

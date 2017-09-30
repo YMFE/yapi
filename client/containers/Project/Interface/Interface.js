@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 import './interface.scss'
 
@@ -82,8 +82,8 @@ class Interface extends Component {
     const activeKey = action === 'api' ? 'api' : 'colOrCase';
     // console.log(matchPath(this.props.location.pathname, contentRouter));
     return (
-      <Layout style={{marginTop: '-24px'}}>
-        <Sider style={{ height: '100vh', marginLeft: '24px', marginTop: '24px' }} width={300}>
+      <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
+        <Sider style={{ height: '100%' }} width={300}>
           <div className="left-menu">
             <Tabs type="card" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
@@ -96,7 +96,7 @@ class Interface extends Component {
           </div>
         </Sider>
         <Layout>
-          <Content style={{ margin: '24px 24px 0 16px', overflow: 'initial' }}>
+          <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
             <div className="right-content">
               <Switch>
                 <Route exact path="/project/:id/interface/:action" component={InterfaceRoute} />
@@ -104,9 +104,6 @@ class Interface extends Component {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            © 2017 YMFE 京ICP备17044220号
-          </Footer>
         </Layout>
       </Layout>)
   }

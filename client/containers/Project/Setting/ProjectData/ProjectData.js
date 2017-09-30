@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Upload, Icon, message, Select } from 'antd';
+import { Upload, Icon, message, Select, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -136,7 +136,9 @@ class ProjectData extends Component {
         <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">
-              <div ><h3>数据导入</h3></div>
+              <div ><h3>数据导入&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/data.html" >
+                <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+              </a></h3></div>
               <div className="dataImportTile">
                 <Select placeholder="请选择导入数据的方式" onChange={this.handleImportType}>
                   {Object.keys(importDataModule).map((name) => {
