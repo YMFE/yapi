@@ -301,7 +301,7 @@ export default class InterfaceColMenu extends Component {
                       <Tooltip title="编辑集合">
                         <Icon type='edit' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showColModal('edit', col)}} />
                       </Tooltip>
-                      <Tooltip title="添加集合">
+                      <Tooltip title="导入接口">
                         <Icon type='plus' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showImportInterfaceModal(col._id)}} />
                       </Tooltip>
                     </div>
