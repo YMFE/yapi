@@ -472,8 +472,8 @@ class interfaceController extends baseController {
         try {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
-            if (params.catid) {
-                this.catModel.get(+params.catid).then((cate) => {
+            if (data.catid) {
+                this.catModel.get(+data.catid).then((cate) => {
                     yapi.commons.saveLog({
                         content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
                         type: 'project',
