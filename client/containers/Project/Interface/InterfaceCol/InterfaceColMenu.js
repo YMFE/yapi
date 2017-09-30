@@ -171,6 +171,7 @@ export default class InterfaceColMenu extends Component {
   }
   showDelCaseConfirm = (caseId) => {
     let that = this;
+    const params = this.props.match.params;
     confirm({
       title: '您确认删除此测试用例',
       content: '温馨提示：用例删除后无法恢复',
@@ -178,7 +179,13 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId)
         if (!res.data.errcode) {
           message.success('删除用例成功');
-          await that.props.fetchInterfaceColList(that.props.match.params.id);
+
+          // 如果删除当前选中 case，切换路由到集合 
+          if (+caseId === +that.props.currCaseId) {
+            that.props.history.push('/project/' + params.id + '/interface/col/')
+          } else {
+            that.props.fetchInterfaceColList(that.props.match.params.id);
+          }
         } else {
           message.error(res.data.errmsg);
         }
