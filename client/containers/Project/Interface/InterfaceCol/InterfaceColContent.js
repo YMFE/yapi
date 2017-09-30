@@ -111,8 +111,6 @@ class InterfaceColContent extends Component {
         })
       }
     }, 500)
-    this.getInterfaceState()
-
   }
 
   componentWillUnmount() {
