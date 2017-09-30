@@ -15,7 +15,8 @@ import { fetchNewsData } from '../../../reducer/modules/news.js';
 import {
   fetchGroupList,
   setCurrGroup,
-  setGroupList
+  setGroupList,
+  fetchGroupMsg
 } from '../../../reducer/modules/group.js'
 
 import './GroupList.scss';
@@ -37,7 +38,8 @@ const tip = (<div className="title-container">
     fetchGroupList,
     setCurrGroup,
     setGroupList,
-    fetchNewsData
+    fetchNewsData,
+    fetchGroupMsg
   }
 )
 @withRouter
@@ -54,7 +56,8 @@ export default class GroupList extends Component {
     curUserRole: PropTypes.string,
     studyTip: PropTypes.number,
     study: PropTypes.bool,
-    fetchNewsData: PropTypes.func
+    fetchNewsData: PropTypes.func,
+    fetchGroupMsg: PropTypes.func
   }
 
   state = {
@@ -134,7 +137,8 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup(res.data.data)
+      this.props.setCurrGroup(res.data.data);
+      this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
       message.error(res.data.errmsg)
@@ -153,7 +157,7 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup({ group_name, group_desc, _id: id });
+      this.props.setCurrGroup({ group_name, group_desc, _id: id});
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
   }
