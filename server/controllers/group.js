@@ -102,7 +102,7 @@ class groupController extends baseController {
         try {
             let result = await groupInst.save(data);
 
-            result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members']);
+            result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members','type']);
             let username = this.getUsername();
             yapi.commons.saveLog({
                 content: `用户 "${username}" 新增了分组 "${params.group_name}"`,
