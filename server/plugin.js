@@ -157,30 +157,27 @@ yapi.emitHookSync = emitHookSync;
 
 
 
-let pluginsConfig = initPlugins(yapi.WEBCONFIG.plugins);
-
+let pluginsConfig = initPlugins(yapi.WEBCONFIG.plugins, 'plugin');
 pluginsConfig.forEach(plugin => {
     if (!plugin || plugin.enable === false || plugin.server === false) return null;
 
     if (!yapi.commons.fileExist(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin.name + '/server.js'))) {
-        console.error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
-        process.exit();
+        throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
     }
     let pluginModule = require(yapi.path.join(plugin_path, 'yapi-plugin-' + plugin.name + '/server.js'));
-    pluginModule.call(yapi, plugin)
+    pluginModule.call(yapi, plugin.options)
 })
 
-extConfig = initPlugins(extConfig);
+extConfig = initPlugins(extConfig, 'ext');
 
 extConfig.forEach(plugin => {
     if (!plugin || plugin.enable === false || plugin.server === false) return null;
 
     if (!yapi.commons.fileExist(yapi.path.join(plugin_system_path, 'yapi-plugin-' + plugin.name + '/server.js'))) {
-        console.error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
-        process.exit();
+        throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
     }
     let pluginModule = require(yapi.path.join(plugin_system_path, 'yapi-plugin-' + plugin.name + '/server.js'));
-    pluginModule.call(yapi, plugin)
+    pluginModule.call(yapi, plugin.options)
     yapi.commons.log('init plugins success...')
 })
 
