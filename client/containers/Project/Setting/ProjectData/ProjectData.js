@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
+import _ from 'underscore';
 const Dragger = Upload.Dragger;
 const Option = Select.Option;
 
@@ -67,19 +68,39 @@ class ProjectData extends Component {
     }
   }
 
+  async handleAddCat(cats){
+    let menuList = this.state.menuList;
+    let catsObj = {};
+    if(cats && Array.isArray(cats)){
+      cats.forEach(async cat=>{
+        let findCat =_.find(menuList, menu=>menu.name === cat.name)
+        catsObj[cat.name] = cat;
+        if(findCat){
+          cat.id = findCat._id;
+        }else{
+          let result = await axios.post('/api/interface/add_cat', {
+            name: cat.name,
+            project_id: this.props.match.params.id,
+            desc: cat.desc
+          })
+          cat.id = result._id;
+        }
+      })
+    }
+    return catsObj;
+  }
+
   handleAddInterface(info) {
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
     }
     if (this.state.selectCatid) {
-      // let filename = info.file.name;
-      // let filetype = filename.substr(filename.lastIndexOf(".")).toLowerCase();
-      // console.log(filename,filetype);
-      //if(filetype != ".json") return message.error("文件格式只能为json");
       let reader = new FileReader();
       reader.readAsText(info.file);
-      reader.onload = (res) => {
+      reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
+        const cats =await this.handleAddCat(res.cats);
+
         res = res.apis;
         let len = res.length;
         let count = 0;
@@ -92,6 +113,9 @@ class ProjectData extends Component {
           }
           if (this.props.basePath) {
             data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
+          }
+          if(data.catname && cats[data.catname].id){
+            data.catid = cats[data.catname].id;
           }
 
           let result = await axios.post('/api/interface/add', data);
@@ -106,7 +130,7 @@ class ProjectData extends Component {
         })
       }
     } else {
-      message.error("请选择上传的分类");
+      message.error("请选择上传的默认分类");
     }
   }
 
@@ -152,7 +176,7 @@ class ProjectData extends Component {
                 <Select
                   showSearch
                   style={{ width: '100%' }}
-                  placeholder="请选择数据导入的接口分类"
+                  placeholder="请选择数据导入的默认分类"
                   optionFilterProp="children"
                   onChange={this.selectChange.bind(this)}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

@@ -5,5 +5,7 @@ module.exports = {
     name: 'import-har'
   },{
     name: 'advanced-mock'
+  },{
+    name: 'import-swagger'
   }]
 }

@@ -1,6 +1,5 @@
-let initPlugins = require('common/lib.js').initPlugins;
-const config = process.env.config;
-let hooks, pluginModule, systemPlugins;
+
+let hooks, pluginModule;
 
 /**
  * type component  组件
@@ -31,14 +30,6 @@ hooks = {
     listener: []
   }
 };
-
-
-//初始化配置
-systemPlugins = require('common/config.js').exts;
-systemPlugins = initPlugins(systemPlugins);
-
-config.plugins = config.plugins && Array.isArray(config.plugins) ? config.plugins : [];
-config.plugins = initPlugins(config.plugins);
 
 function bindHook(name, listener) {
   if (!name) throw new Error('缺少hookname');
@@ -85,24 +76,11 @@ try{
 }catch(err){pluginModuleList = {}}
 
 
-config.plugins.forEach(plugin=>{
-  if (!plugin) return null;
-  if (!plugin.enable) return null;
-  if(plugin.client){
-    if(pluginModuleList[plugin.name] && typeof pluginModuleList[plugin.name] === 'function'){
-      pluginModuleList[plugin.name].call(pluginModule, plugin)
-    }
-    
+Object.keys(pluginModuleList).forEach(plugin=>{
+  if (!pluginModuleList[plugin]) return null;
+  if(pluginModuleList[plugin] && typeof pluginModuleList[plugin].module === 'function'){
+    pluginModuleList[plugin].module.call(pluginModule, pluginModuleList[plugin].options)
   }
-})
-
-systemPlugins.forEach(plugin => {
-  
-  if (plugin.client) {
-    let p = require(`exts/yapi-plugin-${plugin.name}/client.js`);
-    p.call(pluginModule, plugin);
-  }
-  
 })
 
 module.exports = pluginModule;
