@@ -1,4 +1,4 @@
-## YApi  http://yapi.demo.qunar.com 
+## YApi  可视化接口管理平台，QQ交流群: 644642474
 
 ### 平台介绍
 ![avatar](yapi-base-flow.jpg)
@@ -21,12 +21,11 @@ YApi是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大<
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
     yapi-cli server 
 ### 在线demo
-http://yapi.demo.qunar.com
+<p><a href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
 
-管理员账号： yapi.demo@qunar.com ymfe.org
-
-### 意见反馈
-QQ群： 644642474
+管理员账号
+* yapi.demo@qunar.com
+* ymfe.org
 
 ### License
 Apache 2.0
