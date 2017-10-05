@@ -155,7 +155,7 @@ class interfaceController extends baseController {
             }
 
             let result = await this.Model.save(data);
-
+            yapi.emitHook('interface_add', result._id).then();
             this.catModel.get(params.catid).then((cate) => {
                 let username = this.getUsername();
                 let title = `用户 "${username}" 为分类 "${cate.name}" 添加了接口 "${data.title}"`
@@ -214,8 +214,12 @@ class interfaceController extends baseController {
                     return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
                 }
             }
+
+            yapi.emitHook('interface_get', params.id).then();
+
             result = result.toObject();
             result.username = userinfo.username;
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -250,6 +254,7 @@ class interfaceController extends baseController {
         try {
             let result = await this.Model.list(project_id);
             ctx.body = yapi.commons.resReturn(result);
+            yapi.emitHook('interface_list', project_id).then();
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
@@ -472,8 +477,8 @@ class interfaceController extends baseController {
         try {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
-            if (params.catid) {
-                this.catModel.get(+params.catid).then((cate) => {
+            if (data.catid) {
+                this.catModel.get(+data.catid).then((cate) => {
                     yapi.commons.saveLog({
                         content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
                         type: 'project',
@@ -511,6 +516,7 @@ class interfaceController extends baseController {
             }
 
             ctx.body = yapi.commons.resReturn(result);
+            yapi.emitHook('interface_update', id).then();
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }

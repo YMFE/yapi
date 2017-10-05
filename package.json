@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.0.2",
+  "version": "1.1",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,7 @@
     "clipboard": "^1.7.1",
     "fs-extra": "^3.0.1",
     "happypack": "^4.0.0-beta.5",
+    "json-schema-faker": "^0.5.0-rc11",
     "json5": "^0.5.1",
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",
