@@ -1,9 +1,11 @@
-## YApi  可视化接口管理平台，QQ交流群: 644642474
+## YApi  可视化接口管理平台
 
 ### 平台介绍
 ![avatar](yapi-base-flow.jpg)
 
 YApi是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大</strong>的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。
+
+QQ交流群: 644642474
 
 ### 特性
 1.  基于 Json5 和 Mockjs 定义接口返回数据的结构和文档，效率提升多倍
@@ -21,12 +23,12 @@ YApi是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大<
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
     yapi-cli server 
 ### 在线demo
-<p><a href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
+<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
 
 管理员账号
 * yapi.demo@qunar.com
 * ymfe.org
 
 ### License
-Apache 2.0
+Apache Licene 2.0
 
