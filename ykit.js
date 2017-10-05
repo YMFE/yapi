@@ -1,13 +1,14 @@
 var path = require('path');
 var AssetsPlugin = require('assets-webpack-plugin')
 var CompressionPlugin = require('compression-webpack-plugin')
+var commonLib = require('./common/lib.js');
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
 })
-var config = require('../config.json');
+
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -25,24 +26,40 @@ function fileExist (filePath){
   }
 };
 
-function initPlugins(){
+function createScript(plugin, pathAlias){
+  let options = plugin.options ? JSON.stringify(plugin.options) : null
+  return `"${plugin.name}" : {module: require('${pathAlias}/yapi-plugin-${plugin.name}/client.js'),options: ${options}}`
+}
+
+function initPlugins(configPlugin){
+  var configPlugin = require('../config.json').plugins;
+  var systemConfigPlugin = require('./common/config.js').exts;
+
   var scripts = [] ;
-  if(config.plugins && Array.isArray(config.plugins) && config.plugins.length){
-    config.plugins = config.plugins.filter(item=>{
-      return fileExist(path.resolve(__dirname, 'node_modules/yapi-plugin-' + item + '/client.js'))
+  if(configPlugin && Array.isArray(configPlugin) && configPlugin.length){
+    configPlugin = commonLib.initPlugins(configPlugin, 'plugin');
+    configPlugin.forEach((plugin)=>{
+      if(plugin.client && plugin.enable){
+        scripts.push(createScript(plugin, 'plugins'))
+      }
+      
     })
-    config.plugins.forEach((plugin)=>{
-      scripts.push(`${plugin} : require('plugins/yapi-plugin-${plugin}/client.js')`)
-    })
-    scripts = "module.exports = {" + scripts.join(",") + "}";
-    fs.writeFileSync('client/plugin-module.js', scripts);
-  }else{
-    fs.writeFileSync('client/plugin-module.js', 'module.exports = {}');
+    
   }
+  
+  systemConfigPlugin = commonLib.initPlugins(systemConfigPlugin, 'ext');
+  systemConfigPlugin.forEach(plugin=>{
+    if(plugin.client && plugin.enable){
+      scripts.push(createScript(plugin, 'exts'))
+    }
+    
+  })
+
+  scripts = "module.exports = {" + scripts.join(",") + "}";
+  fs.writeFileSync('client/plugin-module.js', scripts);
 }
 
 initPlugins();
-
 
 module.exports = {
   plugins: [{
@@ -109,8 +126,7 @@ module.exports = {
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
-          'process.env.config': JSON.stringify(config)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
         }))
 
         //初始化配置
