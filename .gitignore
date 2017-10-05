@@ -42,3 +42,4 @@ dev/
 .tags1
 tsconfig.json
 client/plugin-module.js
+package-lock.json
