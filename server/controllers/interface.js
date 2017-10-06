@@ -218,8 +218,10 @@ class interfaceController extends baseController {
             yapi.emitHook('interface_get', params.id).then();
 
             result = result.toObject();
-            result.username = userinfo.username;
-
+            if(userinfo){
+                result.username = userinfo.username;
+            }
+            
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -262,7 +264,7 @@ class interfaceController extends baseController {
 
     async downloadCrx(ctx){
         let filename = 'crossRequest.zip';
-        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.0.1.zip'));
+        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.1.zip'));
         ctx.set('Content-disposition', 'attachment; filename=' + filename);
         ctx.set('Content-Type', 'application/zip');
         ctx.body = dataBuffer;
