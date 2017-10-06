@@ -218,8 +218,10 @@ class interfaceController extends baseController {
             yapi.emitHook('interface_get', params.id).then();
 
             result = result.toObject();
-            result.username = userinfo.username;
-
+            if(userinfo){
+                result.username = userinfo.username;
+            }
+            
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
