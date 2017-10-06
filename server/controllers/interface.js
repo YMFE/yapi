@@ -262,7 +262,7 @@ class interfaceController extends baseController {
 
     async downloadCrx(ctx){
         let filename = 'crossRequest.zip';
-        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.0.1.zip'));
+        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.1.zip'));
         ctx.set('Content-disposition', 'attachment; filename=' + filename);
         ctx.set('Content-Type', 'application/zip');
         ctx.body = dataBuffer;
