@@ -15,7 +15,7 @@
     "url": "git@gitlab.corp.qunar.com:mfe/yapi.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache2.0",
   "dependencies": {
     "axios": "^0.16.2",
     "chalk": "^2.0.1",
@@ -129,7 +129,7 @@
     }
   },
   "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">= 7.6.0",
+    "npm": ">= 4.1.2"
   }
 }
