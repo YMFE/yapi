@@ -9,6 +9,7 @@
     "pass": "test1"
   },
   "mail": {
+    "enable": true,
     "host": "smtp.163.com",
     "port": 465,
     "from": "***@163.com",
