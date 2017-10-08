@@ -52,7 +52,7 @@ Footer.defaultProps = {
       iconType: 'github',
       linkList: [
         {
-          itemTitle: '源码仓库',
+          itemTitle: 'YApi 源码仓库',
           itemLink: 'https://github.com/YMFE/yapi'
         }
       ]
@@ -62,6 +62,10 @@ Footer.defaultProps = {
       title: '相关站点',
       iconType: 'link',
       linkList: [
+        {
+          itemTitle: 'YApi',
+          itemLink: 'https://github.com/YMFE/yapi'
+        },
         {
           itemTitle: 'YMFE',
           itemLink: 'http://ued.qunar.com/ymfe/about'
@@ -77,22 +81,12 @@ Footer.defaultProps = {
 
     },
     {
-      title: '其他项目',
-      iconType: 'appstore-o',
+      title: '反馈',
+      iconType: 'aliwangwang-o',
       linkList: [
         {
-          itemTitle: 'Yo',
-          itemLink: 'http://ued.qunar.com/hy2/yo/'
-        },
-        {
-          itemTitle: 'YIcon',
-          itemLink: 'http://ued.qunar.com/yicon/'
-        },{
-          itemTitle: 'YKit',
-          itemLink: 'http://ued.qunar.com/ykit/'
-        },{
-          itemTitle: 'YDoc',
-          itemLink: 'http://ued.qunar.com/ydoc/'
+          itemTitle: 'qq群：644642474',
+          itemLink: 'javascript:'
         }
       ]
     },
