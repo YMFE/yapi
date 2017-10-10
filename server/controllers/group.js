@@ -293,7 +293,13 @@ class groupController extends baseController {
         try {
             let groupInst = yapi.getInst(groupModel);
             let group = await groupInst.get(params.id);
-            ctx.body = yapi.commons.resReturn(group.members);
+            const members = [];
+            for(let i = 0, len = group.members.length; i < len; i++) {
+                let item = group.members[i];
+                let member = await this.getUserdata(item.uid, item.role)
+                members.push(member)
+            }
+            ctx.body = yapi.commons.resReturn(members);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
