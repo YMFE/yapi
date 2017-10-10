@@ -734,7 +734,7 @@ class InterfaceEditForm extends Component {
 
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请 <span className="href" onClick={() => window.open('https://ued.qunar.com/yapi/mock.html', '_blank')}>查看文档</span></h3>
+                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请 <span className="href" onClick={() => window.open('https://yapi.ymfe.org/mock.html', '_blank')}>查看文档</span></h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
