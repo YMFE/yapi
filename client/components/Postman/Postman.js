@@ -202,11 +202,16 @@ export default class Run extends Component {
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
+    if(urlObj.pathname){
+      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+        urlObj.pathname += '/'
+      }
+    }
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, path) : path,
+      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
       query: this.getQueryObj(query)
     });
 
