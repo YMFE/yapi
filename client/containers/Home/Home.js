@@ -24,7 +24,7 @@ const HomeGuest = () => (
           <Col span={24}>
             <div className="home-header">
               <a href="#" className="item">YAPI</a>
-              <a target="_blank" rel="noopener noreferrer" href="https://ued.qunar.com/yapi/" className="item">使用文档</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/" className="item">使用文档</a>
             </div>
           </Col>
         </Row>
@@ -210,7 +210,7 @@ class Home extends Component {
             <div className="tip-btns">
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                <Button className="btn-home btn-home-normal"><a target="_blank" rel="noopener noreferrer" href="https://ued.qunar.com/yapi/" >使用文档</a></Button>
+                <Button className="btn-home btn-home-normal"><a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/" >使用文档</a></Button>
               </div>
             </div>
           </div>
