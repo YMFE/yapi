@@ -192,3 +192,10 @@
     }
   }
 }
+
+.env-first-row {
+  .ant-col-2 {
+    position: relative;
+    bottom: .16rem;
+  }
+}

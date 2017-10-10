@@ -17,9 +17,7 @@ class groupModel extends baseModel {
             members: [
                 {
                     uid: Number,
-                    role: {type: String, enum:['owner', 'dev']},
-                    username: String,
-                    email: String
+                    role: {type: String, enum:['owner', 'dev']}
                 }
             ]
         };
