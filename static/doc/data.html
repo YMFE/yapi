@@ -35,6 +35,11 @@
                         
                         <li class="">
                             
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="releases.html">版本记录</a> 
                         </li>
                         
@@ -194,47 +199,6 @@
 
     <script src="source/main.js"></script>
     <script src="source/app.js"></script>
-    
-    <script>
-        var lineHeight = 18;
-        var EXAMPLE_MAX_HEIGHT;
-
-        function fold() {
-            // 折叠code
-            $('.markdown-body pre').css({
-                "line-height": lineHeight + "px"
-            });
-            $('.markdown-body pre').map(function(i, item) {
-                var $item = $(item);
-                var foldnumber = $item.data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
-                    $item.css({
-                        "padding-bottom": 30
-                    });
-                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
-                    $item.append('<span class="extend">展开更多……</span>');
-                };
-            });
-            $('.ydoc-example').delegate('.extend', 'click', function() {
-                var $this = $(this);
-                $this.removeClass('extend').addClass('fold');
-                $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
-            });
-            $('.ydoc-example').delegate('.fold', 'click', function() {
-                var $this = $(this);
-                var foldnumber = $this.parent().data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                $this.removeClass('fold').addClass('extend');
-                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
-                $this.html("展开更多……");
-            });
-        }
-        $(document).ready(fold);
-    </script>
         
 
     </body>
