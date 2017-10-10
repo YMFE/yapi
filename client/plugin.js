@@ -49,15 +49,17 @@ function emitHook(name, ...args) {
   let hook = hooks[name];
   if (hook.mulit === true && hook.type === 'listener') {
     if (Array.isArray(hook.listener)) {
+      let promiseAll = [];
       hook.listener.forEach(item => {
         if (typeof item === 'function') {
-          item.call(pluginModule, ...args)
+          promiseAll.push(Promise.resolve(item.call(pluginModule, ...args)))
         }
       })
+      return Promise.all(promiseAll);
     }
   } else if (hook.mulit === false && hook.type === 'listener') {
     if (typeof hook.listener === 'function') {
-      hook.listener.call(pluginModule, ...args);
+      return Promise.resolve(hook.listener.call(pluginModule, ...args));
     }
   } else if (hook.type === 'component') {
     return hook.listener;
