@@ -15,7 +15,7 @@ class projectModel extends baseModel {
             group_id: { type: Number, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
-                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
+                {uid: Number, role: {type: String, enum:['owner', 'dev']}}
             ],
             env: [
                 { name: String, domain: String }
