@@ -39,11 +39,20 @@ class logController extends baseController {
         try {
             if(type === "group"){
                 let projectList = await this.projectModel.list(typeid);
+                let projectIds = [], projectDatas = {};
                 for(let i in projectList){
-                    projectList[i] = projectList[i]._id;
+                    projectDatas[projectList[i]._id] = projectList[i];
+                    projectIds[i] = projectList[i]._id;
                 }
-                let projectLogList = await this.Model.listWithPagingByGroup(typeid,projectList,page,limit);
-                let total = await this.Model.listCountByGroup(typeid,projectList);
+                let projectLogList = await this.Model.listWithPagingByGroup(typeid,projectIds,page,limit);
+                projectLogList.forEach((item, index)=>{
+                    item = item.toObject();
+                    if(item.type === 'project'){
+                        item.content = `在 ${projectDatas[item.typeid].name} 项目: ` + item.content;
+                    }
+                    projectLogList[index] = item;
+                })
+                let total = await this.Model.listCountByGroup(typeid,projectIds);
                 ctx.body = yapi.commons.resReturn({
                     list: projectLogList,
                     total: Math.ceil(total / limit)
