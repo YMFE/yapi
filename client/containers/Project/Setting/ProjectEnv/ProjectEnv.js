@@ -135,7 +135,7 @@ class PrpjectEnv extends Component {
     const envSettingItems = envs.map((k, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
-        <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
+        <Row key={index} type="flex" justify="space-between" className={index === 0 ? 'env-first-row' : null} align={index === 0 ? 'bottom' : 'top'}>
           <Col span={11}>
             <FormItem
               label={index === 0 ? (
@@ -227,7 +227,7 @@ class PrpjectEnv extends Component {
       );
     });
     return (
-      <div className="m-panel">
+      <div className="m-panel env">
         <div className="panel-title">
           <h2 className="title">在这里添加项目的环境配置</h2>
           <p className="desc">你可以添加多个环境，用于区分不同的使用场景。</p>
