@@ -135,7 +135,7 @@ class projectController extends baseController {
             let username = this.getUsername();
             yapi.commons.saveLog({
                 content: `用户 "${username}" 添加了项目 "${params.name}"`,
-                type: 'project',
+                type: 'group',
                 uid: this.getUid(),
                 username: username,
                 typeid: params.group_id
