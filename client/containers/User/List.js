@@ -117,7 +117,7 @@ class List extends Component {
       title: '更新日期',
       dataIndex: 'up_time',
       key: 'up_time',
-      width: 150
+      width: 160
     }, {
       title: '功能',
       key: 'action',

@@ -191,7 +191,7 @@ class MemberList extends Component {
         </div>);
       }
     }, {
-      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
+      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
       key: 'action',
       className: 'member-opration',
       render: (text, record) => {
