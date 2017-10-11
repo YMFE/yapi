@@ -21,18 +21,16 @@ class advMockController extends baseController{
     let params = ctx.request.body;
     try{
       if(!params.interface_id){
-        return yapi.commons.resReturn(null, 408, '缺少interface_id');
+        return ctx.body =yapi.commons.resReturn(null, 408, '缺少interface_id');
       }
       if(!params.project_id){
-        return yapi.commons.resReturn(null, 408, '缺少project_id');
+        return ctx.body =yapi.commons.resReturn(null, 408, '缺少project_id');
       }
-      if(!params.mock_script){
-        return yapi.commons.resReturn(null, 408, '缺少mock_script');
-      }
+
   
       let data = {
         interface_id: params.interface_id,
-        mock_script: params.mock_script,
+        mock_script: params.mock_script || '',
         project_id: params.project_id,
         uid: this.getUid(),
         enable: params.enable === true ? true : false

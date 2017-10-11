@@ -121,18 +121,25 @@ function bindHook(name, listener) {
 
 }
 
-async function emitHook(name) {
+/**
+ * 
+ * @param {*} hookname
+ * @return promise 
+ */
+function emitHook(name) {
     if (hooks[name] && typeof hooks[name] === 'object') {
         let args = Array.prototype.slice.call(arguments, 1);
         if (hooks[name].type === 'single' && typeof hooks[name].listener === 'function') {
-            return await hooks[name].listener.apply(yapi, args);
+            return  Promise.resolve(hooks[name].listener.apply(yapi, args));
         }
+        let promiseAll = [];
         if (Array.isArray(hooks[name].listener)) {
             let listenerList = hooks[name].listener;
             for(let i=0, l = listenerList.length; i< l; i++){
-                await listenerList[i].apply(yapi, args);
+                promiseAll.push(Promise.resolve(listenerList[i].apply(yapi, args)));
             }
         }
+        return Promise.all(promiseAll);
     }
 }
 
@@ -153,7 +160,7 @@ function emitHookSync(name) {
 
 yapi.bindHook = bindHook;
 yapi.emitHook = emitHook;
-yapi.emitHookSync = emitHookSync;
+yapi.emitHookSync = emitHook;
 
 
 
