@@ -17,7 +17,9 @@ class groupModel extends baseModel {
             members: [
                 {
                     uid: Number,
-                    role: {type: String, enum:['owner', 'dev']}
+                    role: {type: String, enum:['owner', 'dev']},
+                    username: String,
+                    email: String
                 }
             ]
         };
@@ -32,6 +34,19 @@ class groupModel extends baseModel {
         return this.model.findOne({
             _id: id
         }).exec();
+    }
+
+    updateMember(data) {
+        return this.model.update(
+            {
+                "members.uid": data.uid
+            }, {
+                "$set": { 
+                    "members.$.username": data.username,
+                    "members.$.email": data.email
+                }
+            }, { multi: true }
+        );
     }
 
     getByPrivateUid(uid){
