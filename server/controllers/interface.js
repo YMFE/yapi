@@ -360,8 +360,10 @@ class interfaceController extends baseController {
             catid: 'number'
         });
 
-        params.method = params.method || 'GET';
-        params.method = params.method.toUpperCase();
+        if (!_.isUndefined(params.method)) {
+            params.method = params.method || 'GET';
+            params.method = params.method.toUpperCase();
+        }
 
         let id = ctx.request.body.id;
 
