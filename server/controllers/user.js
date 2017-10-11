@@ -494,9 +494,9 @@ class userController extends baseController {
                 email: data.email || userData.email
             }
             let groupInst = yapi.getInst(groupModel);
-            groupInst.updateMember(member)
+            await groupInst.updateMember(member)
             let projectInst = yapi.getInst(projectModel);
-            projectInst.updateMember(member)
+            await projectInst.updateMember(member)
 
             let result = await userInst.update(id, data);
             ctx.body = yapi.commons.resReturn(result);
