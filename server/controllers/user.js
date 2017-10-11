@@ -469,6 +469,11 @@ class userController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
             }
 
+            let userData = await userInst.findById(id);
+            if (!userData) {
+                return ctx.body = yapi.commons.resReturn(null, 400, 'uid不存在');
+            }
+
             let data = {
                 up_time: yapi.commons.time()
             };
@@ -483,8 +488,17 @@ class userController extends baseController {
                 }
             }
 
-            let result = await userInst.update(id, data);
+            let member = {
+                uid: id,
+                username: data.username || userData.username,
+                email: data.email || userData.email
+            }
+            let groupInst = yapi.getInst(groupModel);
+            groupInst.updateMember(member)
+            let projectInst = yapi.getInst(projectModel);
+            projectInst.updateMember(member)
 
+            let result = await userInst.update(id, data);
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
