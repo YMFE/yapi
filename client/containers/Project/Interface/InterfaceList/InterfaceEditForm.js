@@ -241,8 +241,6 @@ class InterfaceEditForm extends Component {
       readOnly: true
     })
 
-    mockPreview.setValue('bbbb')
-
     let editor = this.editor = new Editor('#desc');
     editor.create();
     editor.txt.html(this.state.desc)
