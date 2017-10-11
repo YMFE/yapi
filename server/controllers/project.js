@@ -306,13 +306,7 @@ class projectController extends baseController {
 
         try {
             let project = await this.Model.get(params.id);
-            const members = [];
-            for(let i = 0, len = project.members.length; i < len; i++) {
-                let item = project.members[i];
-                let member = await this.getUserdata(item.uid, item.role)
-                members.push(member)
-            }
-            ctx.body = yapi.commons.resReturn(members);
+            ctx.body = yapi.commons.resReturn(project.members);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }

@@ -15,7 +15,7 @@ class projectModel extends baseModel {
             group_id: { type: Number, required: true },
             project_type: {type:String, required: true, enum: ['public', 'private']},
             members: [
-                {uid: Number, role: {type: String, enum:['owner', 'dev']}}
+                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
             ],
             env: [
                 { name: String, domain: String }
@@ -25,6 +25,19 @@ class projectModel extends baseModel {
             add_time: Number,
             up_time: Number
         };
+    }
+
+    updateMember(data) {
+        return this.model.update(
+            {
+                'members.uid': data.uid
+            }, {
+                "$set": { 
+                    "members.$.username": data.username,
+                    "members.$.email": data.email
+                }
+            }
+        );
     }
 
     save(data) {
