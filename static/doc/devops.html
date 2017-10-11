@@ -102,8 +102,13 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h1 class="subject" id="内网部署">内网部署 <a class="hashlink" href="#内网部署">#</a></h1><p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。</p>
-<h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
+                         <h1 class="subject" id="内网部署">内网部署 <a class="hashlink" href="#内网部署">#</a></h1><p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致 测试功能的文件上传功能异常。</p>
+<p>如果您是将服务器代理到 nginx 服务器，请配置 nginx 支持 websocket。</p>
+<pre><code>在location /添加
+proxy_http_version <span class="token number">1.1</span><span class="token punctuation">;</span>
+proxy_set_header Upgrade $http_upgrade<span class="token punctuation">;</span>
+proxy_set_header Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
+</code></pre><h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
 <li>nodejs（7.6+)</li><li>mongodb（2.6+）</li></ul>
 <h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><p>执行 yapi-cli server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
 <pre><code>npm install -g yapi-cli --registry https<span class="token operator">:</span>//registry.npm.taobao.org
