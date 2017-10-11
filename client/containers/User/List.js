@@ -102,7 +102,6 @@ class List extends Component {
       key: 'username',
       width: 180,
       render: (username, item)=>{
-        console.log(item)
         return <Link to={"/user/profile/" + item._id} >{item.username}</Link>
       }
     }, {
