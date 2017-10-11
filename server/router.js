@@ -433,6 +433,7 @@ for(let ctrl in routerConfig){
     } )
 }
 
+
 /**
  *
  * @param {*} routerController controller
