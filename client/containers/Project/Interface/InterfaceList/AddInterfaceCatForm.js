@@ -41,7 +41,7 @@ class AddInterfaceForm extends Component {
       
       <Form onSubmit={this.handleSubmit}>
         <FormItem
-          {...formItemLayout}
+          {...formItemLayout} 
           label="分类名"
         >
           {getFieldDecorator('name', {
@@ -55,8 +55,7 @@ class AddInterfaceForm extends Component {
         </FormItem>
 
       
-        <br />
-        <FormItem wrapperCol={{ span: 24, offset: 8 }} >
+        <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >
           <Button  onClick={this.props.onCancel} style={{marginRight: "10px"}}  >取消</Button>
           <Button
             type="primary"

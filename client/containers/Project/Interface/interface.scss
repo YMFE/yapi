@@ -239,3 +239,25 @@
     tr:nth-child(even){background: #fff;}
   }
 }
+.addcatmodal{
+    .ant-modal-body{
+        padding: 10px 0px;
+        .ant-form-item{
+            margin-bottom: 10px;
+        }
+        .catModalfoot{
+            border-top: 1px solid #e9e9e9;
+            margin-bottom: 0px;
+            padding-top: 10px;
+            margin-top: 0px;
+            .ant-form-item-control-wrapper{
+                margin-left: 0px;
+            }
+            .ant-form-item-control {
+                float: right;
+                margin-right: 10px;
+            }
+            
+        }
+    }
+}
