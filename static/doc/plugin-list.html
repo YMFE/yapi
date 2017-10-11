@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
-    <title>YApi 版本记录</title>
+    <title>YApi 插件Wiki</title>
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -38,12 +38,12 @@
                             <a href="devops.html">内网部署</a> 
                         </li>
                         
-                        <li class="">
+                        <li class="active">
                             
                             <a href="plugin.html">插件Wiki</a> 
                         </li>
                         
-                        <li class="active">
+                        <li class="">
                             
                             <a href="releases.html">版本记录</a> 
                         </li>
@@ -70,8 +70,8 @@
         <div class="ydoc-banner-bg">
             <div class="ydoc-banner ">
                 <div class="ydoc-banner-area">
-                    <h1 >YApi</h1>
-                    <p class="desc ">这里列举了 YApi 的历史版本、发布时间及变更记录，帮助你追溯到每个版本的演进过程。</p>
+                    <h1 >插件</h1>
+                    <p class="desc ">可根据业务需求，定制化功能</p>
                     
                 </div>
             </div>
@@ -89,45 +89,31 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="#1.1">1.1</a> 
+                                    <a href="plugin-index.html">插件管理</a> 
                                 </li>
-                                   
-                                <ul class="nav docs-sidenav-extend"  >
-                                
-                                    <li >
-                                        <a href="#Features">Features</a>
-                                    </li>
-                                
-                                </ul>
-                                            
+                                  
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="#1.0.2">1.0.2</a> 
+                                    <a href="plugin-dev.html">插件开发</a> 
                                 </li>
-                                   
-                                <ul class="nav docs-sidenav-extend"  >
-                                
-                                    <li >
-                                        <a href="#Features">Features</a>
-                                    </li>
-                                
-                                </ul>
-                                            
+                                  
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="#1.0.1">1.0.1</a> 
+                                    <a href="plugin-hooks.html">钩子列表</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"  > -->
+                                <li  class="active" >
+                                    
+                                    <a href="plugin-list.html">插件列表</a> 
                                 </li>
                                    
-                                <ul class="nav docs-sidenav-extend"  >
+                                <ul class="nav docs-sidenav-extend"  style="display:block;"  >
                                 
-                                    <li >
-                                        <a href="#Fix_Bug">Fix Bug</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#Features">Features</a>
+                                    <li  class="active" >
+                                        <a href="#插件列表">插件列表</a>
                                     </li>
                                  
                                 </ul>
@@ -138,23 +124,23 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="1.1">1.1 <a class="hashlink" href="#1.1">#</a></h2><h3 class="subject" id="Features">Features <a class="hashlink" href="#Features">#</a></h3><ul>
-<li>新增个人空间功能，拥有这个分组的全部权限，可以在这个分组里探索 YApi 的功能</li><li>新增分组动态功能</li><li>优化接口运行页面交互</li><li>CrossRequest 扩展支持 https</li><li>增加了 Swagger 数据导入功能</li></ul>
-<h2 class="subject" id="1.0.2">1.0.2 <a class="hashlink" href="#1.0.2">#</a></h2><h3 class="subject" id="Features">Features <a class="hashlink" href="#Features">#</a></h3><ul>
-<li><p>网站改为100%布局</p>
-</li><li><p>优化搜索的提示</p>
-</li><li><p>支持了 queryPath</p>
-</li><li><p>接口浏览页面和编辑页面交互</p>
-</li><li><p>新增高级 Mock 功能，可通过 js 代码去控制 mock 数据的生成</p>
-</li><li><p>测试集支持了自动化测试</p>
-</li><li><p>增加复制接口功能</p>
-</li><li><p>在组长和开发者权限基础上，添加了 查看着 权限</p>
-</li></ul>
-<h2 class="subject" id="1.0.1">1.0.1 <a class="hashlink" href="#1.0.1">#</a></h2><h3 class="subject" id="Fix_Bug">Fix Bug <a class="hashlink" href="#Fix_Bug">#</a></h3><ul>
-<li>修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字 </li><li>mockJson 出现 null，mock 出现格式不对问题 </li><li>没有权限的分组不可选  </li><li>项目列表图标设计大小优化下 </li><li>关注的项目不显眼  </li><li>添加接口之后，再次选择添加接口，会保留上次填写的信息 </li><li>用例名称太长，导致无法使用删除功能 </li><li>别人知道项目id虽然没有权限，但能看到里面所有内容 </li></ul>
-<h3 class="subject" id="Features">Features <a class="hashlink" href="#Features">#</a></h3><ul>
-<li>接口备注集成了富文本编辑 </li><li>支持 har 协议的接口数据导入 </li></ul>
+                         <h2 class="subject" id="插件列表">插件列表 <a class="hashlink" href="#插件列表">#</a></h2><ul id="list">
 
+</ul>
+
+<script>
+window.onload = function(){
+  var list = [{
+    title: 'yapi-plugin-qsso',
+    url: 'https://github.com/ymfe/yapi-plugin-qsso',
+    desc: 'qunar 专用 sso 第三方登录'
+  }];
+  var el = $('#list');
+  list.forEach(function(item){
+    el.append("<li>" + '<a target="_black" href=' + item.url + ">" + item.title + "</a>" + "&nbsp;" + item.desc + "</li>")
+  })
+}
+</script>
                     </div>
                 </div>
                  
