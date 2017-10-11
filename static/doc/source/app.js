@@ -1,3 +1,6 @@
+var EXAMPLE_MAX_HEIGHT = 98,
+    DEFAULT_SHOW_PARAMS = 5;
+
 $(document).ready(function() {
     // 移动端导航
     var $openPanel = $('.open-panel');
@@ -8,6 +11,7 @@ $(document).ready(function() {
     var $versionSelector = $('.version-selector');
     var $versionMask = $('.m-version-mask');
     var isPanelHide = true;
+    var winWidth = $(window).width();
     var h2 = $('.content-right').find('h2');
     var h3 = $('.content-right').find('h3');
     var a = $('.content-left').find('a');
@@ -121,6 +125,7 @@ $(document).ready(function() {
     })
     $versionSelector.click(function(e) {
         $versionMask.show();
+        console.log('e');
     });
 
     $('.markdown-body pre').map(function(i, item) {
@@ -128,61 +133,59 @@ $(document).ready(function() {
         $(item).children('code').addClass('js-code-'+i);
     });
 
-    // var winHeight = $(window).height() - 44,
-        // sidebar = $('.docs-sidebar');
+    var winHeight = $(window).height() - 44,
+        sidebar = $('.docs-sidebar');
+    var docSideNav = $('.docs-sidenav');
+    if (winWidth > 767) {
+        docSideNav.width($contentLeftWidth);
+    }
+    if (sidebar.height() > winHeight) {
+        sidebar.css('max-height', winHeight + 'px');
+        $('.docs-sidenav').css('max-height', winHeight + 'px');
+        if (winWidth < 768) {
+            $('.docs-sidenav').css({
+                'overflow-x': 'hidden'
+            });
+        }
+        var activeMenu,
+            barScroll = false;
 
-    // var docSideNav = $('.docs-sidenav');
-    // if (winWidth > 767) {
-    //     docSideNav.width($contentLeftWidth);
-    // }
+        sidebar.on('mouseover', function() {
+            barScroll = true;
+        });
+        sidebar.on('mouseout', function() {
+            barScroll = false;
+        });
+    };
 
-    // if (sidebar.height() > winHeight) {
-    //     sidebar.css('max-height', winHeight + 'px');
-    //     $('.docs-sidenav').css('max-height', winHeight + 'px');
-    //     if (winWidth < 768) {
-    //         $('.docs-sidenav').css({
-    //             'overflow-x': 'hidden'
-    //         });
-    //     }
-    //     var activeMenu,
-    //         barScroll = false;
-    //
-    //     sidebar.on('mouseover', function() {
-    //         barScroll = true;
-    //     });
-    //     sidebar.on('mouseout', function() {
-    //         barScroll = false;
-    //     });
-    // };
+    $(window).on('scroll', function(e) {
+        if ($(this).scrollTop() > ($('.footer').offset().top - $(window).height())) {
+            winHeight = $(window).height() - $('.footer').outerHeight() - 44;
+            sidebar.css('max-height', winHeight + 'px');
+            $('.docs-sidenav').css('max-height', winHeight + 'px');
+        } else {
+            winHeight = $(window).height() - 44;
+            sidebar.css('max-height', winHeight + 'px');
+            $('.docs-sidenav').css('max-height', winHeight + 'px');
+        }
 
-    // $(window).on('scroll', function(e) {
-    //     if ($(this).scrollTop() > ($('.footer').offset().top - $(window).height())) {
-    //         winHeight = $(window).height() - $('.footer').outerHeight() - 44;
-    //         sidebar.css('max-height', winHeight + 'px');
-    //         $('.docs-sidenav').css('max-height', winHeight + 'px');
-    //     } else {
-    //         winHeight = $(window).height() - 44;
-    //         sidebar.css('max-height', winHeight + 'px');
-    //         $('.docs-sidenav').css('max-height', winHeight + 'px');
-    //     }
-    //
-    //     if (!barScroll) {
-    //         var activeItem = $('.docs-sidebar li.active a');
-    //         if (activeItem.length) {
-    //             if (!activeMenu || (activeMenu.attr('href') != activeItem.attr('href'))) {
-    //                 activeMenu = activeItem;
-    //                 var top = activeMenu.offset().top - sidebar.offset().top;
-    //                 if (top < 0) {
-    //                     //sidebar.scrollTop(sidebar.scrollTop() + top);
-    //                     $('.docs-sidenav').scrollTop($('.docs-sidenav').scrollTop() + top);
-    //                 } else if (top > winHeight - 88) {
-    //                     //sidebar.scrollTop(sidebar.scrollTop() + top - winHeight + 44);
-    //                     $('.docs-sidenav').scrollTop($('.docs-sidenav').scrollTop() + top - winHeight + 88);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
+        if (!barScroll) {
+            var activeItem = $('.docs-sidebar li.active a');
+            if (activeItem.length) {
+                if (!activeMenu || (activeMenu.attr('href') != activeItem.attr('href'))) {
+                    activeMenu = activeItem;
+                    var top = activeMenu.offset().top - sidebar.offset().top;
+                    if (top < 0) {
+                        //sidebar.scrollTop(sidebar.scrollTop() + top);
+                        $('.docs-sidenav').scrollTop($('.docs-sidenav').scrollTop() + top);
+                    } else if (top > winHeight - 88) {
+                        //sidebar.scrollTop(sidebar.scrollTop() + top - winHeight + 44);
+                        $('.docs-sidenav').scrollTop($('.docs-sidenav').scrollTop() + top - winHeight + 88);
+                    }
+                }
+            }
+        }
+    });
 
     // 退出全屏浏览器窗口大小改变，不触发resize
     $(window).on('resize', function(e) {
