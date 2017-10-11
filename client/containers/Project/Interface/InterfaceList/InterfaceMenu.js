@@ -259,6 +259,7 @@ class InterfaceMenu extends Component {
         visible={this.state.visible}
         onCancel={() => this.changeModal('visible', false)}
         footer={null}
+        className="addcatmodal"
       >
         <AddInterfaceForm catdata={this.props.curProject.cat} catid={this.state.curCatid} onCancel={() => this.changeModal('visible', false)} onSubmit={this.handleAddInterface} />
       </Modal>
@@ -268,6 +269,7 @@ class InterfaceMenu extends Component {
         visible={this.state.add_cat_modal_visible}
         onCancel={() => this.changeModal('add_cat_modal_visible', false)}
         footer={null}
+        className="addcatmodal"
       >
         <AddInterfaceCatForm onCancel={() => this.changeModal('add_cat_modal_visible', false)} onSubmit={this.handleAddInterfaceCat} />
       </Modal>
@@ -277,6 +279,7 @@ class InterfaceMenu extends Component {
         visible={this.state.change_cat_modal_visible}
         onCancel={() => this.changeModal('change_cat_modal_visible', false)}
         footer={null}
+        className="addcatmodal"
       >
         <AddInterfaceCatForm catdata={this.state.curCatdata} onCancel={() => this.changeModal('change_cat_modal_visible', false)} onSubmit={this.handleChangeInterfaceCat} />
       </Modal>

@@ -103,8 +103,7 @@ class AddInterfaceForm extends Component {
             <Input onBlur={this.handlePath} addonBefore={prefixSelector} placeholder="/path" />
             )}
         </FormItem>
-        <br />
-        <FormItem wrapperCol={{ span: 24, offset: 8 }} >
+        <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >
           <Button onClick={this.props.onCancel} style={{ marginRight: "10px" }}  >取消</Button>
           <Button
             type="primary"

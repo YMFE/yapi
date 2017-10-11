@@ -193,9 +193,22 @@
   }
 }
 
+// 环境配置中首个item的删除按钮定位调整
 .env-first-row {
   .ant-col-2 {
     position: relative;
     bottom: .16rem;
+  }
+}
+
+// 危险操作
+.danger-container {
+  .title {
+    margin-bottom: .48rem;
+    text-align: center;
+    .content {
+      color: rgba(39, 56, 72, 0.65);
+      margin-bottom: .16rem;
+    }
   }
 }
