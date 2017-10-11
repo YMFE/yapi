@@ -49,7 +49,8 @@ class ProjectMessage extends Component {
     super(props);
     this.state = {
       protocol: 'http:\/\/',
-      projectMsg: {}
+      projectMsg: {},
+      showDangerOptions: false
     }
   }
   static propTypes = {
@@ -136,6 +137,14 @@ class ProjectMessage extends Component {
       if (res.payload.data.errcode === 0) {
         this.props.getProjectMsg(this.props.projectId);
       }
+    });
+  }
+
+  // 点击“查看危险操作”按钮
+  toggleDangerOptions = () => {
+    // console.log(this.state.showDangerOptions);
+    this.setState({
+      showDangerOptions: !this.state.showDangerOptions
     });
   }
 
@@ -288,19 +297,20 @@ class ProjectMessage extends Component {
 
           {/* 只有组长和管理员有权限删除项目 */}
           {projectMsg.role === 'owner' || projectMsg.role === 'admin' ?
-            <FormItem
-              {...formItemLayout}
-              label="危险操作"
-              className="danger-container"
-            >
-              <Card noHovering={true} className="card-danger">
+            <div className="danger-container">
+              <div className="title">
+                <h2 className="content"><Icon type="exclamation-circle-o" /> 危险操作</h2>
+                <Button onClick={this.toggleDangerOptions}>查 看<Icon type={this.state.showDangerOptions ? 'up' : 'down'} /></Button>
+              </div>
+              {this.state.showDangerOptions ? <Card noHovering={true} className="card-danger">
                 <div className="card-danger-content">
                   <h3>删除项目</h3>
                   <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>
+                  <p>只有组长和管理员有权限删除项目。</p>
                 </div>
                 <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
-              </Card>
-            </FormItem> : null}
+              </Card> : null}
+            </div> : null}
         </div>
       </div>
     )
