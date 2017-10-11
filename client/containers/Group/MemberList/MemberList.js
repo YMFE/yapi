@@ -247,13 +247,13 @@ class MemberList extends Component {
           onCancel={this.handleCancel}
           >
           <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">用户名: </div></Col>
+            <Col span="5"><div className="label usernamelabel">用户名: </div></Col>
             <Col span="15">
               <UsernameAutoComplete callbackState={this.onUserSelect} />
             </Col>
           </Row>
           <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">权限: </div></Col>
+            <Col span="5"><div className="label usernameauth">权限: </div></Col>
             <Col span="15">
               <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                 <Option value="owner">组长</Option>
