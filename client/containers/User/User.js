@@ -6,7 +6,6 @@ import List from './List.js'
 import PropTypes from 'prop-types'
 import Profile from './Profile.js'
 import { Row } from 'antd';
-import Subnav from '../../components/Subnav/Subnav.js';
 @connect(state=>{
   return {
     curUid: state.user.uid,
@@ -29,22 +28,8 @@ class User extends Component {
   }
 
   render () {
-    let navData = [{
-      name: '用户资料',
-      path: `/user/profile/${this.props.curUid}`
-    }];
-    if(this.props.role === "admin"){
-      navData.push({
-        name: '用户管理',
-        path: '/user/list'
-      })
-    }
-
     return (
       <div>
-        <Subnav
-          default={'个人资料'}
-          data={navData}/>
         <div className="g-doc">
           <Row className="user-box">
             <Route path={this.props.match.path + '/list'} component={List} />

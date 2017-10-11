@@ -18,7 +18,13 @@ const MenuUser = (props) => (
     <Menu.Item style={{"background":"#32363a",color:"white"}} key="0">
       <Link style={{color:"white"}} to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
     </Menu.Item>
-    <Menu.Item  key="1">
+    {
+      props.role === "admin"?<Menu.Item style={{"background":"#32363a",color:"white"}} key="1">
+        <Link style={{color:"white"}} to={`/user/list`}><Icon type="solution" />用户管理</Link>
+      </Menu.Item>:""
+    }
+    
+    <Menu.Item  key="2">
       <a style={{color:"white"}} onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
@@ -40,6 +46,7 @@ const tipDoc = (<div className="title-container">
 MenuUser.propTypes={
   user: PropTypes.string,
   msg: PropTypes.string,
+  role: PropTypes.string,
   uid: PropTypes.number,
   relieveLink: PropTypes.func,
   logout: PropTypes.func
@@ -106,6 +113,7 @@ const ToolUser = (props)=> {
               user={props.user}
               msg={props.msg}
               uid={props.uid}
+              role={props.role}
               relieveLink={props.relieveLink}
               logout={props.logout}
             />
@@ -125,6 +133,7 @@ const ToolUser = (props)=> {
 ToolUser.propTypes={
   user: PropTypes.string,
   msg: PropTypes.string,
+  role: PropTypes.string,
   uid: PropTypes.number,
   relieveLink: PropTypes.func,
   logout: PropTypes.func,
@@ -141,6 +150,7 @@ ToolUser.propTypes={
       user: state.user.userName,
       uid: state.user.uid,
       msg: null,
+      role: state.user.role,
       login:state.user.isLogin,
       studyTip: state.user.studyTip,
       study: state.user.study
@@ -163,6 +173,7 @@ export default class HeaderCom extends Component {
     user: PropTypes.string,
     msg: PropTypes.string,
     uid: PropTypes.number,
+    role: PropTypes.string,
     login:PropTypes.bool,
     relieveLink:PropTypes.func,
     logoutActions:PropTypes.func,
@@ -220,7 +231,7 @@ export default class HeaderCom extends Component {
 
 
   render () {
-    const { login, user, msg, uid, studyTip, study } = this.props;
+    const { login, user, msg, uid, role, studyTip, study } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
@@ -234,7 +245,7 @@ export default class HeaderCom extends Component {
           <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1}}>
             {login?
               <ToolUser
-                {...{studyTip, study, user, msg, uid}}
+                {...{studyTip, study, user, msg, uid, role}}
                 relieveLink={ this.relieveLink }
                 logout={ this.logout }
               />
