@@ -191,7 +191,7 @@ class MemberList extends Component {
         </div>);
       }
     }, {
-      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
+      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
       key: 'action',
       className: 'member-opration',
       render: (text, record) => {
@@ -240,7 +240,7 @@ class MemberList extends Component {
     userinfo = [...ownerinfo,...devinfo,...guestinfo];
     return (
       <div className="m-panel">
-        <Modal
+        {this.state.visible?<Modal
           title="添加成员"
           visible={this.state.visible}
           onOk={this.handleOk}
@@ -262,7 +262,7 @@ class MemberList extends Component {
               </Select>
             </Col>
           </Row>
-        </Modal>
+        </Modal>:""}
         <Table columns={columns} dataSource={userinfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
       </div>
     );

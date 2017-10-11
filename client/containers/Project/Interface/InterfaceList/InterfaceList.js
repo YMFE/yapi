@@ -188,6 +188,7 @@ class InterfaceList extends Component {
           visible={this.state.visible}
           onCancel={() => this.setState({ 'visible': false })}
           footer={null}
+          className="addcatmodal"
         >
           <AddInterfaceForm catid={this.state.catid} catdata={this.props.curProject.cat} onCancel={() => this.setState({ 'visible': false })} onSubmit={this.handleAddInterface} />
         </Modal>

@@ -210,7 +210,7 @@ class ProjectMember extends Component {
     return (
       <div className="g-row">
         <div className="m-panel">
-          <Modal
+          {this.state.visible?<Modal
             title="添加成员"
             visible={this.state.visible}
             onOk={this.handleOk}
@@ -232,7 +232,7 @@ class ProjectMember extends Component {
                 </Select>
               </Col>
             </Row>
-          </Modal>
+          </Modal>:""}
           <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
           <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
