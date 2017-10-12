@@ -389,6 +389,11 @@ class groupController extends baseController {
                         let publicCount = await projectInst.countWithPublic(result[i].id);
                         if(publicCount > 0){
                             newResult.push(result[i]);
+                        }else{
+                            let projectCountWithAuth = await projectInst.getProjectWithAuth(result[i]._id, this.getUid());
+                            if(projectCountWithAuth > 0){
+                                newResult.push(result[i]);
+                            }
                         }
                         
                     }
