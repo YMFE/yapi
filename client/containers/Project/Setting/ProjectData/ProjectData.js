@@ -12,6 +12,10 @@ const plugin = require('client/plugin.js');
 
 const importDataModule = {};
 const exportDataModule = {};
+exportDataModule.pdf = {
+  name: 'Pdf',
+  route: '/api/1111'
+}
 @connect(
   state => {
     // console.log(state);
@@ -149,6 +153,10 @@ class ProjectData extends Component {
     })
   }
 
+  exportData = ()=>{
+    console.log(exportDataModule[this.state.curExportType].route)
+  }
+
   /**
    *
    *
@@ -204,10 +212,8 @@ class ProjectData extends Component {
               </div>
             </div>
 
-            <div className="dataImportCon" style={{marginLeft: '20px'}}>
-              <div ><h3>数据导出&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/data.html" >
-                <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
-              </a></h3></div>
+            <div  className="dataImportCon" style={{marginLeft: '20px', display: Object.keys(exportDataModule).length > 0? '' : 'none'}}>
+              <div ><h3>数据导出</h3></div>
               <div className="dataImportTile">
                 <Select placeholder="请选择导出数据的方式" onChange={this.handleExportType}>
                   {Object.keys(exportDataModule).map((name) => {
@@ -216,7 +222,7 @@ class ProjectData extends Component {
                 </Select>
               </div>
               <div style={{marginTop: '16px', textAlign: 'center', backgroundColor: '#eee'}}>
-                <Button style={{width: '100px', height: '35px'}} type="primary" size="large"> 导出 </Button>
+                <Button onClick={this.exportData} style={{width: '100px', height: '35px'}} type="primary" size="large"> 导出 </Button>
               </div>
             </div>
           </div>
