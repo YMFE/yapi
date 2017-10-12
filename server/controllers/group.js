@@ -464,7 +464,9 @@ class groupController extends baseController {
         let groupInst = yapi.getInst(groupModel);
         let id = ctx.request.body.id;
         let data = {};
-
+        if (!id) {
+            return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
+        }
         if (await this.checkAuth(id, 'group', 'danger') !== true) {
             return ctx.body = yapi.commons.resReturn(null, 405, '没有权限');
         }
@@ -474,12 +476,16 @@ class groupController extends baseController {
                 group_name: 'string',
                 group_desc: 'string'
             });
-
-            ctx.request.body.group_name && (data.group_name = ctx.request.body.group_name);
-            ctx.request.body.group_desc && (data.group_desc = ctx.request.body.group_desc);
-            if (Object.keys(data).length === 0) {
-                ctx.body = yapi.commons.resReturn(null, 404, '分组名和分组描述不能为空');
+            if (!id) {
+                return ctx.body = yapi.commons.resReturn(null, 402, 'id不能为空');
             }
+            if(!ctx.request.body.group_name){
+                return ctx.body = yapi.commons.resReturn(null, 402, '分组名称不能为空');
+            }
+
+            data.group_name = ctx.request.body.group_name;
+            data.group_desc = ctx.request.body.group_desc;
+
             let result = await groupInst.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({

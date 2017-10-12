@@ -86,12 +86,12 @@ exports.simpleJsonPathParse = function (key, json){
     try{
       let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
       if(m){
-        json = json[m[1]][m[2]]; 
+        json = json[m[1]][m[2]];
       }else{
-        json = json[keys[i]]; 
+        json = json[keys[i]];
       }
-      
-      
+
+
     }catch(e){
       json = null;
       break;
@@ -165,4 +165,13 @@ exports.nameLengthLimit = (type) => {
       }
     }
   }]
+}
+
+// 实现 Object.entries() 方法
+exports.entries = (obj) => {
+  let res = [];
+  for(let key in obj) {
+    res.push([key, obj[key]]);
+  }
+  return res;
 }

@@ -72,7 +72,8 @@ class ProjectData extends Component {
     let menuList = this.state.menuList;
     let catsObj = {};
     if(cats && Array.isArray(cats)){
-      cats.forEach(async cat=>{
+      for(let i=0; i< cats.length; i++){
+        let cat = cats[i];
         let findCat =_.find(menuList, menu=>menu.name === cat.name)
         catsObj[cat.name] = cat;
         if(findCat){
@@ -83,9 +84,9 @@ class ProjectData extends Component {
             project_id: this.props.match.params.id,
             desc: cat.desc
           })
-          cat.id = result._id;
+          cat.id = result.data.data._id;
         }
-      })
+      }
     }
     return catsObj;
   }

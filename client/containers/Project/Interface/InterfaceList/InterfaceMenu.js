@@ -250,11 +250,14 @@ class InterfaceMenu extends Component {
 
   onDrop = async (e) => {
     const dropCatIndex = e.node.props.pos.split('-')[1] - 1;
+    const dragCatIndex = e.dragNode.props.pos.split('-')[1] - 1;
+    if (dropCatIndex < 0 || dragCatIndex < 0) {
+      return ;
+    }
     const dropCatId = this.props.list[dropCatIndex]._id;
     const id = e.dragNode.props.eventKey;
-    const dragCatIndex = e.dragNode.props.pos.split('-')[1] - 1;
     const dragCatId = this.props.list[dragCatIndex]._id;
-    if (id.indexOf('cat') === -1 && dragCatIndex > -1 && dropCatId !== dragCatId) {
+    if (id.indexOf('cat') === -1 && dropCatId !== dragCatId) {
       await axios.post('/api/interface/up', {id, catid: dropCatId});
       this.props.fetchInterfaceList(this.props.projectId);
     }
