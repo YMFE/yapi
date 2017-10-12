@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
-    <title>YApi 使用手册</title>
+    <title>YApi 插件Wiki</title>
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -28,7 +28,7 @@
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
-                        <li class="active">
+                        <li class="">
                             
                             <a href="index.html">使用手册</a> 
                         </li>
@@ -38,7 +38,7 @@
                             <a href="devops.html">内网部署</a> 
                         </li>
                         
-                        <li class="">
+                        <li class="active">
                             
                             <a href="plugin.html">插件Wiki</a> 
                         </li>
@@ -70,8 +70,8 @@
         <div class="ydoc-banner-bg">
             <div class="ydoc-banner ">
                 <div class="ydoc-banner-area">
-                    <h1 >YApi</h1>
-                    <p class="desc ">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    <h1 >插件</h1>
+                    <p class="desc ">可根据业务需求，定制化功能</p>
                     
                 </div>
             </div>
@@ -89,41 +89,35 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="getfamiliar.html">认识 YApi</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="quickstart.html">创建第一个API</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="manage.html">管理分组与项目</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="project.html">项目操作</a> 
+                                    <a href="plugin-index.html">插件管理</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="interface.html">接口操作</a> 
+                                    <a href="plugin-dev.html">插件开发</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#接口配置">接口配置</a>
+                                        <a href="#运行开发服务器">运行开发服务器</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#接口运行">接口运行</a>
+                                        <a href="#初始化目录">初始化目录</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#index.js_配置说明">index.js 配置说明</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#server.js">server.js</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#client.js">client.js</a>
                                     </li>
                                 
                                 </ul>
@@ -131,25 +125,13 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="mock.html">使用mock功能</a> 
+                                    <a href="plugin-hooks.html">钩子列表</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="case.html">使用测试集</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="data.html">数据导入</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="qa.html">常见问题</a> 
+                                    <a href="plugin-list.html">插件列表</a> 
                                 </li>
                                  
                             </ul>
@@ -158,26 +140,38 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
-<ul>
-<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
-<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./quickstart.html#新建接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
-<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
-<ul>
-<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
-<blockquote>
-<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
-</blockquote>
-</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
-</li></ul>
-<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
-<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
-<blockquote>
-<p>安装完插件记得刷新页面</p>
-</blockquote>
-<p><img src="./images/interface_run.jpg" /></p>
-<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
-
+                         <h2 class="subject" id="运行开发服务器">运行开发服务器 <a class="hashlink" href="#运行开发服务器">#</a></h2><pre><code>npm install
+npm install -g ykit //依赖 ykit 
+npm run dev
+</code></pre><h2 class="subject" id="初始化目录">初始化目录 <a class="hashlink" href="#初始化目录">#</a></h2><p>可参考 项目vendors/exts 目录下的插件</p>
+<p>在 vendors/node_modules 下新建 yapi-plugin-demo 目录和 npm init,最后生成的目录接口如下</p>
+<pre><code>yapi-plugin-demo
+  client.js  //客户端入口文件
+  server.js  //服务端入口文件
+  packjson.json //插件依赖管理
+  index.js //插件配置文件
+</code></pre><h2 class="subject" id="index.js_配置说明">index.js 配置说明 <a class="hashlink" href="#index.js_配置说明">#</a></h2><pre><code>server<span class="token operator">:</span> <span class="token boolean">true</span> // 如果为<span class="token boolean">true</span><span class="token punctuation">,</span>表名该插件需要经过后端服务器加载
+client<span class="token operator">:</span> <span class="token boolean">true</span> // 如果为<span class="token boolean">true</span><span class="token punctuation">,</span>表名该插件需要经过前端编译
+</code></pre><h2 class="subject" id="server.js">server.js <a class="hashlink" href="#server.js">#</a></h2><p>在server.js 需要导出一个 function ,例如： module.exports = function(options){}</p>
+<p>options 可在 config.json 配置</p>
+<h3 class="subject" id="绑定钩子">绑定钩子 <a class="hashlink" href="#绑定钩子">#</a></h3><pre><code>this.bindHook(hookname<span class="token punctuation">,</span> listener<span class="token punctuation">)</span> //绑定钩子
+hookname //钩子名
+listener //监听函数，可以是普通函数，也可以是 asyncFunction
+</code></pre><h3 class="subject" id="如何使用_YApi_vendors_server_目录下的模块">如何使用 YApi vendors/server 目录下的模块 <a class="hashlink" href="#如何使用_YApi_vendors_server_目录下的模块">#</a></h3><p>可以直接 require vendors 目录下的模块，注意：后端 node 不能使用 import关键字，只能使用 require
+例如： require(&#39;yapi&#39;)</p>
+<h3 class="subject" id="加载插件">加载插件 <a class="hashlink" href="#加载插件">#</a></h3><p>在config.json plugins配置项，加入 demo,例如：</p>
+<pre><code><span class="token punctuation">{</span>
+  ...
+  plugins<span class="token operator">:</span> <span class="token punctuation">{</span>
+    name<span class="token operator">:</span> 'demo'
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 class="subject" id="controller_和_model">controller 和 model <a class="hashlink" href="#controller_和_model">#</a></h3><p>新增 controller 需要继承 baseController(controller/base.js)</p>
+<p>新增 model 需要继承 baseModel(model/base.js)</p>
+<h2 class="subject" id="client.js">client.js <a class="hashlink" href="#client.js">#</a></h2><h3 class="subject" id="绑定钩子_同后端_server.js__">绑定钩子(同后端 server.js ) <a class="hashlink" href="#绑定钩子_同后端_server.js__">#</a></h3><pre><code>this.bindHook(hookname<span class="token punctuation">,</span> listener<span class="token punctuation">)</span> //绑定钩子
+hookname //钩子名
+listener //监听函数，可以是普通函数，也可以是 asyncFunction
+</code></pre>
                     </div>
                 </div>
                  
