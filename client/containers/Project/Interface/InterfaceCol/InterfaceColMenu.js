@@ -243,6 +243,19 @@ export default class InterfaceColMenu extends Component {
     this.setState({filterValue: value})
   }
 
+  onDrop = async (e) => {
+    const projectId = this.props.match.params.id;
+    const dropColIndex = e.node.props.pos.split('-')[1];
+    const dropColId = this.props.interfaceColList[dropColIndex]._id;
+    const id = e.dragNode.props.eventKey;
+    const dragColIndex = e.dragNode.props.pos.split('-')[1];
+    const dragColId = this.props.interfaceColList[dragColIndex]._id;
+    if (id.indexOf('col') === -1 && dropColId !== dragColId) {
+      await axios.post('/api/col/up_case', {id: id.split('_')[1], col_id: dropColId});
+      this.props.fetchInterfaceColList(projectId);
+    }
+  }
+
   render() {
     const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, filterValue, importInterVisible } = this.state;
@@ -282,6 +295,8 @@ export default class InterfaceColMenu extends Component {
           onSelect={this.onSelect}
           autoExpandParent
           onExpand={this.onExpand}
+          draggable
+          onDrop={this.onDrop}
         >
           {
             this.props.interfaceColList.filter(col =>{
