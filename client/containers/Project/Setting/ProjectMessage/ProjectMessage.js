@@ -11,7 +11,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
-import { nameLengthLimit } from '../../../../common';
+import { nameLengthLimit, entries } from '../../../../common';
 import '../Setting.scss';
 // layout
 const formItemLayout = {
@@ -164,7 +164,7 @@ class ProjectMessage extends Component {
     const { name, basepath, desc, project_type } = projectMsg;
     initFormValues = { name, basepath, desc, project_type };
 
-    const colorArr = Object.entries(constants.PROJECT_COLOR);
+    const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
       {colorArr.map((item, index) => {
         return (<RadioButton key={index} value={item[0]} style={{ backgroundColor: item[1], color: '#fff', fontWeight: 'bold' }}>{item[0] === projectMsg.color ? <Icon type="check" /> : null}</RadioButton>);
