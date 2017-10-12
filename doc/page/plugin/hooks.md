@@ -8,6 +8,7 @@ var hooks = {
     /**
      * 第三方sso登录钩子，暂只支持设置一个
      * @param ctx 
+     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})
      */
     'third_login': {
         type: 'single',
@@ -120,6 +121,23 @@ hooks = {
     type: 'component',
     mulit: false,
     listener: null
+  },
+  /**
+   * 导出数据
+   * @param Object exportDataModule
+   * @param projectId
+   * @info
+   * exportDataModule = {}; 
+   * exportDataModule.pdf = {
+   *   name: 'Pdf',
+   *   route: '/api/plugin/export/pdf',
+   *   desc: '导出项目接口文档为 pdf 文件'
+   * }
+   */
+  export_data: {
+    type: 'listener',
+    mulit: true,
+    listener: []
   },
   /**
    * 导入数据
