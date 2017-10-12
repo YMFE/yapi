@@ -136,6 +136,7 @@ var hooks = <span class="token punctuation">{</span>
     /**
      * 第三方sso登录钩子，暂只支持设置一个
      * @param ctx 
+     * @return 必需返回一个 promise 对象，resolve(<span class="token punctuation">{</span>username<span class="token operator">:</span> ''<span class="token punctuation">,</span> email<span class="token operator">:</span> ''<span class="token punctuation">}</span><span class="token punctuation">)</span>
      */
     'third_login'<span class="token operator">:</span> <span class="token punctuation">{</span>
         type<span class="token operator">:</span> 'single'<span class="token punctuation">,</span>
@@ -244,6 +245,23 @@ hooks = <span class="token punctuation">{</span>
     type<span class="token operator">:</span> 'component'<span class="token punctuation">,</span>
     mulit<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
     listener<span class="token operator">:</span> <span class="token null">null</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  /**
+   * 导出数据
+   * @param Object exportDataModule
+   * @param projectId
+   * @info
+   * exportDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
+   * exportDataModule.pdf = <span class="token punctuation">{</span>
+   *   name<span class="token operator">:</span> 'Pdf'<span class="token punctuation">,</span>
+   *   route<span class="token operator">:</span> '/api/plugin/export/pdf'<span class="token punctuation">,</span>
+   *   desc<span class="token operator">:</span> '导出项目接口文档为 pdf 文件'
+   * <span class="token punctuation">}</span>
+   */
+  export_data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> 'listener'<span class="token punctuation">,</span>
+    mulit<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
   /**
    * 导入数据
