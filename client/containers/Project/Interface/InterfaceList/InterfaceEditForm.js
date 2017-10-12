@@ -211,6 +211,8 @@ class InterfaceEditForm extends Component {
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
     })
     let that = this, mockPreview, resBodyEditor;
+    const initReqBody = that.state.req_body_other;
+    const initResBody = that.state.res_body;
     mockEditor({
       container: 'req_body_json',
       data: that.state.req_body_other,
@@ -218,6 +220,7 @@ class InterfaceEditForm extends Component {
         that.setState({
           req_body_other: d.text
         })
+        EditFormContext.props.changeEditStatus(initReqBody !== d.text);
       }
     })
 
@@ -231,7 +234,8 @@ class InterfaceEditForm extends Component {
         that.setState({
           res_body: d.text,
           res_body_mock: d.mockText
-        })
+        });
+        EditFormContext.props.changeEditStatus(initResBody !== d.text);
       }
     })
 
@@ -242,6 +246,10 @@ class InterfaceEditForm extends Component {
     })
 
     let editor = this.editor = new Editor('#desc');
+    const initEditorHTML = this.state.desc;
+    editor.customConfig.onchange = function (html) {
+      EditFormContext.props.changeEditStatus(initEditorHTML !== html);
+    }
     editor.create();
     editor.txt.html(this.state.desc)
   }

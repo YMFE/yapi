@@ -136,7 +136,6 @@ class Content extends Component {
         when={this.state.curtab === 'edit' && this.props.editStatus ? true : false}
         message={() => {
           // this.showModal();
-          console.log('e');
           return '离开页面会丢失当前编辑的内容，确定要离开吗？';
         }}
       />
