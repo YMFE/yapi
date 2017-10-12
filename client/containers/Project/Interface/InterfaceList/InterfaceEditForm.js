@@ -242,6 +242,14 @@ class InterfaceEditForm extends Component {
     })
 
     let editor = this.editor = new Editor('#desc');
+    const initEditorHTML = this.state.desc;
+    editor.customConfig.onchange = function (html) {
+      if (initEditorHTML === html) {
+        EditFormContext.props.changeEditStatus(false);
+      } else {
+        EditFormContext.props.changeEditStatus(true);
+      }
+    }
     editor.create();
     editor.txt.html(this.state.desc)
   }
