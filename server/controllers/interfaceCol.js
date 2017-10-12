@@ -328,9 +328,9 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '用例id不能为空');
             }
 
-            if(!params.casename){
-                return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
-            }
+            // if(!params.casename){
+            //     return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
+            // }
 
             let caseData = await this.caseModel.get(params.id);
             let auth = await this.checkAuth(caseData.project_id, 'project', 'edit');
@@ -342,13 +342,13 @@ class interfaceColController extends baseController{
 
             delete params.interface_id;
             delete params.project_id;
-            delete params.col_id;
+            // delete params.col_id;
 
             let result = await this.caseModel.up(params.id, params);
             let username = this.getUsername();
             this.colModel.get(caseData.col_id).then((col)=>{
                 yapi.commons.saveLog({
-                    content: `用户 "${username}" 在接口集 "${col.name}" 更新了接口用例 "${params.casename}"`,
+                    content: `用户 "${username}" 在接口集 "${col.name}" 更新了接口用例 "${params.casename || caseData.casename}"`,
                     type: 'project',
                     uid: this.getUid(),
                     username: username,

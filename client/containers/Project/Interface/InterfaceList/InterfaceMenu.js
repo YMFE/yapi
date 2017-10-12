@@ -248,6 +248,21 @@ class InterfaceMenu extends Component {
     })
   }
 
+  onDrop = async (e) => {
+    const dropCatIndex = e.node.props.pos.split('-')[1] - 1;
+    const dragCatIndex = e.dragNode.props.pos.split('-')[1] - 1;
+    if (dropCatIndex < 0 || dragCatIndex < 0) {
+      return ;
+    }
+    const dropCatId = this.props.list[dropCatIndex]._id;
+    const id = e.dragNode.props.eventKey;
+    const dragCatId = this.props.list[dragCatIndex]._id;
+    if (id.indexOf('cat') === -1 && dropCatId !== dragCatId) {
+      await axios.post('/api/interface/up', {id, catid: dropCatId});
+      this.props.fetchInterfaceList(this.props.projectId);
+    }
+  }
+
   render() {
     const matchParams = this.props.match.params;
     let menuList = this.state.list;
@@ -421,6 +436,8 @@ class InterfaceMenu extends Component {
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
           onExpand={this.onExpand}
+          draggable
+          onDrop={this.onDrop}
         >
           <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
