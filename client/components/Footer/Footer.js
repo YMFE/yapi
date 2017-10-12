@@ -74,9 +74,6 @@ Footer.defaultProps = {
       iconType: 'aliwangwang-o',
       linkList: [
         {
-          itemTitle: 'qq群：644642474',
-          itemLink: 'javascript:'
-        },{
           itemTitle: 'Github Issues',
           itemLink: 'https://github.com/YMFE/yapi/issues'
         },{
@@ -90,7 +87,10 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: '版本： ' + packageJson.version,
-          itemLink: 'https://yapi.ymfe.org//'
+          itemLink: 'https://yapi.ymfe.org/releases.html'
+        }, {
+          itemTitle: '使用文档',
+          itemLink: 'https://yapi.ymfe.org/'
         }
       ]
     }
