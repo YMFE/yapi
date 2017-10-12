@@ -37,7 +37,11 @@ hooks = {
    * @param projectId
    * @info
    * exportDataModule = {}; 
-   * 
+   * exportDataModule.pdf = {
+   *   name: 'Pdf',
+   *   route: '/api/plugin/export/pdf',
+   *   desc: '导出项目接口文档为 pdf 文件'
+   * }
    */
   export_data: {
     type: 'listener',
