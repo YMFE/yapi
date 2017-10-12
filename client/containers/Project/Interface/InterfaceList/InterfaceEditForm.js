@@ -226,7 +226,7 @@ class InterfaceEditForm extends Component {
       data: that.state.res_body,
       onChange: function (d) {
         if (d.format === true) {
-          mockPreview.editor.setValue(d.mockText)
+          mockPreview.setValue(d.mockText)
         }
         that.setState({
           res_body: d.text,
@@ -269,6 +269,7 @@ class InterfaceEditForm extends Component {
   }
 
   handleJsonType = (key) => {
+
     key = key || 'tpl';
     this.setState({
       jsonType: key
