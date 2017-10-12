@@ -18,9 +18,28 @@ hooks = {
     listener: null
   },
   /**
-   * 第三方登录 //可参考 yapi-plugin-qsso 插件
+   * 导入数据
+   * @param Object importDataModule
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
+   * importDataModule = {}; 
+   * 
    */
   import_data: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * 导出数据
+   * @param Object exportDataModule
+   * @param projectId
+   * @info
+   * exportDataModule = {}; 
+   * 
+   */
+  export_data: {
     type: 'listener',
     mulit: true,
     listener: []
