@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -11,7 +11,7 @@ const Option = Select.Option;
 const plugin = require('client/plugin.js');
 
 const importDataModule = {};
-
+const exportDataModule = {};
 @connect(
   state => {
     // console.log(state);
@@ -30,7 +30,8 @@ class ProjectData extends Component {
     this.state = {
       selectCatid: "",
       menuList: [],
-      curImportType: null
+      curImportType: null,
+      curExportType: null
     }
   }
   static propTypes = {
@@ -46,7 +47,8 @@ class ProjectData extends Component {
         menuList: menuList
       })
     });
-    plugin.emitHook('import_data', importDataModule, this.props);
+    plugin.emitHook('import_data', importDataModule);
+    plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
   }
   selectChange(value) {
     this.setState({
@@ -141,6 +143,12 @@ class ProjectData extends Component {
     })
   }
 
+  handleExportType = (val) => {
+    this.setState({
+      curExportType: val
+    })
+  }
+
   /**
    *
    *
@@ -169,8 +177,6 @@ class ProjectData extends Component {
                   {Object.keys(importDataModule).map((name) => {
                     return <Option key={name} value={name}>{importDataModule[name].name}</Option>
                   })}
-
-
                 </Select>
               </div>
               <div className="catidSelect">
@@ -185,7 +191,6 @@ class ProjectData extends Component {
                   {this.state.menuList.map((item, key) => {
                     return <Option key={key} value={item._id + ""}>{item.name}</Option>;
                   })}
-
                 </Select>
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
@@ -196,6 +201,22 @@ class ProjectData extends Component {
                   <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
                   <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
                 </Dragger>
+              </div>
+            </div>
+
+            <div className="dataImportCon" style={{marginLeft: '20px'}}>
+              <div ><h3>数据导出&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/data.html" >
+                <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+              </a></h3></div>
+              <div className="dataImportTile">
+                <Select placeholder="请选择导出数据的方式" onChange={this.handleExportType}>
+                  {Object.keys(exportDataModule).map((name) => {
+                    return <Option key={name} value={exportDataModule[name].route}>{exportDataModule[name].name}</Option>
+                  })}
+                </Select>
+              </div>
+              <div style={{marginTop: '16px', textAlign: 'center', backgroundColor: '#eee'}}>
+                <Button style={{width: '100px', height: '35px'}} type="primary" size="large"> 导出 </Button>
               </div>
             </div>
           </div>
