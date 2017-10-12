@@ -29,3 +29,18 @@
 3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入方式，选择刚才保存的文件路径，开始导入数据
 
 <div><img class="doc-img"   style="width:50%"  src="./images/usage/chrome-3.jpg" /></div>
+
+## Swagger 数据导入
+<p>什么是 Swagger ？</p>
+<div>[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)</div>
+
+<br />
+1.生成 JSON 语言编写的 Swagger API 文档文件<div>  例如这样的数据 （<a href="http://petstore.swagger.io/v2/swagger.json" target="blank">http://petstore.swagger.io/v2/swagger.json</a>），可以将其内容复制到 JSON 文件中。</div>
+
+2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入方式，选择刚才的文件，开始导入数据
+
+<div><img class="doc-img"   style="width:50%"  src="./images/usage/chrome-4.jpg" /></div>
+
+<div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-5.jpg" /></div>
+
+<div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-6.jpg" /></div>
