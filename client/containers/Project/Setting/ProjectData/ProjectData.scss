@@ -1,19 +1,24 @@
-.dataImportCon{
-    display: inline-block;
-    background-color: #ececec;
-    padding: 16px;
-    border-radius: 4px;
-    .ant-upload-drag{
+.postman-dataImport{
+    display: flex;
+    .dataImportCon{
+        min-width: 274px;
+        background-color: #ececec;
         padding: 16px;
-        background-color: white;
-    }
-    .dataImportTile{
-        color: #2395f1;
-        padding: 16px 0px;
-        font-weight: 500;
-        width: 100%;
-        .ant-select{
+        border-radius: 4px;
+
+        .ant-upload-drag{
+            padding: 16px;
+            background-color: white;
+        }
+        .dataImportTile{
+            color: #2395f1;
+            padding: 16px 0px;
+            font-weight: 500;
             width: 100%;
+            .ant-select{
+                width: 100%;
+            }
         }
     }
 }
+
