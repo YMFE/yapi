@@ -51,6 +51,13 @@ class projectModel extends baseModel {
         }).exec();
     }
 
+    getProjectWithAuth(group_id, uid){
+        return this.model.count({
+            "group_id": group_id,
+            "members.uid": uid 
+        })
+    }
+
     getBaseInfo(id){
         return this.model.findOne({
             _id: id
