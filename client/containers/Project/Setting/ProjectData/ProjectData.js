@@ -12,10 +12,11 @@ const plugin = require('client/plugin.js');
 
 const importDataModule = {};
 const exportDataModule = {};
-exportDataModule.pdf = {
-  name: 'Pdf',
-  route: '/api/1111'
-}
+// exportDataModule.pdf = {
+//   name: 'Pdf',
+//   route: '/api/interface/download_crx',
+//   desc: '导出项目接口文档为 pdf 文件'
+// }
 @connect(
   state => {
     // console.log(state);
@@ -74,17 +75,17 @@ class ProjectData extends Component {
     }
   }
 
-  async handleAddCat(cats){
+  async handleAddCat(cats) {
     let menuList = this.state.menuList;
     let catsObj = {};
-    if(cats && Array.isArray(cats)){
-      for(let i=0; i< cats.length; i++){
+    if (cats && Array.isArray(cats)) {
+      for (let i = 0; i < cats.length; i++) {
         let cat = cats[i];
-        let findCat =_.find(menuList, menu=>menu.name === cat.name)
+        let findCat = _.find(menuList, menu => menu.name === cat.name)
         catsObj[cat.name] = cat;
-        if(findCat){
+        if (findCat) {
           cat.id = findCat._id;
-        }else{
+        } else {
           let result = await axios.post('/api/interface/add_cat', {
             name: cat.name,
             project_id: this.props.match.params.id,
@@ -106,7 +107,7 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
-        const cats =await this.handleAddCat(res.cats);
+        const cats = await this.handleAddCat(res.cats);
 
         res = res.apis;
         let len = res.length;
@@ -121,7 +122,7 @@ class ProjectData extends Component {
           if (this.props.basePath) {
             data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
           }
-          if(data.catname && cats[data.catname].id){
+          if (data.catname && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
 
@@ -151,10 +152,6 @@ class ProjectData extends Component {
     this.setState({
       curExportType: val
     })
-  }
-
-  exportData = ()=>{
-    console.log(exportDataModule[this.state.curExportType].route)
   }
 
   /**
@@ -212,17 +209,29 @@ class ProjectData extends Component {
               </div>
             </div>
 
-            <div  className="dataImportCon" style={{marginLeft: '20px', display: Object.keys(exportDataModule).length > 0? '' : 'none'}}>
+            <div className="dataImportCon" style={{ marginLeft: '20px', display: Object.keys(exportDataModule).length > 0 ? '' : 'none' }}>
               <div ><h3>数据导出</h3></div>
               <div className="dataImportTile">
                 <Select placeholder="请选择导出数据的方式" onChange={this.handleExportType}>
                   {Object.keys(exportDataModule).map((name) => {
-                    return <Option key={name} value={exportDataModule[name].route}>{exportDataModule[name].name}</Option>
+                    return <Option key={name} value={name}>{exportDataModule[name].name}</Option>
                   })}
                 </Select>
               </div>
-              <div style={{marginTop: '16px', textAlign: 'center', backgroundColor: '#eee'}}>
-                <Button onClick={this.exportData} style={{width: '100px', height: '35px'}} type="primary" size="large"> 导出 </Button>
+              <div className="export-content">
+                {this.state.curExportType ?
+                  <div>
+                    <p className="export-desc">{exportDataModule[this.state.curExportType].desc}</p>
+                    <a target="_blank" href={this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route} >
+                      <Button className="export-button" type="primary" size="large"> 导出 </Button>
+
+                    </a>
+                  </div>
+                  :
+                  <Button disabled className="export-button" type="primary" size="large"> 导出 </Button>
+                }
+
+
               </div>
             </div>
           </div>
