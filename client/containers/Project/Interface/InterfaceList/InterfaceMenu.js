@@ -254,7 +254,7 @@ class InterfaceMenu extends Component {
     const searchBox = <div className="interface-filter">
       <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索接口" />
       <Button type="primary" onClick={() => this.changeModal('add_cat_modal_visible', true)} className="btn-filter" >添加分类</Button>
-      <Modal
+      {this.state.visible?<Modal
         title="添加接口"
         visible={this.state.visible}
         onCancel={() => this.changeModal('visible', false)}
@@ -262,9 +262,9 @@ class InterfaceMenu extends Component {
         className="addcatmodal"
       >
         <AddInterfaceForm catdata={this.props.curProject.cat} catid={this.state.curCatid} onCancel={() => this.changeModal('visible', false)} onSubmit={this.handleAddInterface} />
-      </Modal>
+      </Modal>:""}
 
-      <Modal
+      {this.state.add_cat_modal_visible?<Modal
         title="添加分类"
         visible={this.state.add_cat_modal_visible}
         onCancel={() => this.changeModal('add_cat_modal_visible', false)}
@@ -272,9 +272,9 @@ class InterfaceMenu extends Component {
         className="addcatmodal"
       >
         <AddInterfaceCatForm onCancel={() => this.changeModal('add_cat_modal_visible', false)} onSubmit={this.handleAddInterfaceCat} />
-      </Modal>
+      </Modal>:""}
 
-      <Modal
+      {this.state.change_cat_modal_visible?<Modal
         title="修改分类"
         visible={this.state.change_cat_modal_visible}
         onCancel={() => this.changeModal('change_cat_modal_visible', false)}
@@ -282,7 +282,7 @@ class InterfaceMenu extends Component {
         className="addcatmodal"
       >
         <AddInterfaceCatForm catdata={this.state.curCatdata} onCancel={() => this.changeModal('change_cat_modal_visible', false)} onSubmit={this.handleChangeInterfaceCat} />
-      </Modal>
+      </Modal>:""}
     </div>
     if(menuList.length === 0){
       return searchBox;

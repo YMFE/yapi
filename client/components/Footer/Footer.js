@@ -59,23 +59,12 @@ Footer.defaultProps = {
 
     },
     {
-      title: '相关站点',
-      iconType: 'link',
+      title: '团队',
+      iconType: 'team',
       linkList: [
-        {
-          itemTitle: 'YApi',
-          itemLink: 'https://github.com/YMFE/yapi'
-        },
         {
           itemTitle: 'YMFE',
           itemLink: 'http://ued.qunar.com/ymfe/about'
-        },
-        {
-          itemTitle: 'UED',
-          itemLink: 'http://ued.qunar.com/'
-        },{
-          itemTitle: '去哪儿网',
-          itemLink: 'http://www.qunar.com/'
         }
       ]
 
@@ -87,15 +76,21 @@ Footer.defaultProps = {
         {
           itemTitle: 'qq群：644642474',
           itemLink: 'javascript:'
+        },{
+          itemTitle: 'Github Issues',
+          itemLink: 'https://github.com/YMFE/yapi/issues'
+        },{
+          itemTitle: 'Github Pull Requests',
+          itemLink: 'https://github.com/YMFE/yapi/pulls'
         }
       ]
     },
     {
-      title: 'Copyright © 2017 YApi',
+      title: 'Copyright © 2017 YMFE',
       linkList: [
         {
-          itemTitle: '版本： '+packageJson.version,
-          itemLink: 'javascript:'
+          itemTitle: '版本： ' + packageJson.version,
+          itemLink: 'https://yapi.ymfe.org//'
         }
       ]
     }

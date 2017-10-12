@@ -25,6 +25,7 @@ function mock(mockJSON, context) {
         c[i] = p[i];
         if (filters.length > 1) {
           for (var f = 1, l = filters.length, index; f < l; f++) {
+            filters[f] = filters[f].toLowerCase();
             if (filters[f] in filtersMap) {
               if ((index = newFilters.indexOf(filters[f])) !== -1) {
                 newFilters.splice(index, 1);

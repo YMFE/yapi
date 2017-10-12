@@ -360,8 +360,10 @@ class interfaceController extends baseController {
             catid: 'number'
         });
 
-        params.method = params.method || 'GET';
-        params.method = params.method.toUpperCase();
+        if (!_.isUndefined(params.method)) {
+            params.method = params.method || 'GET';
+            params.method = params.method.toUpperCase();
+        }
 
         let id = ctx.request.body.id;
 
@@ -482,7 +484,7 @@ class interfaceController extends baseController {
             if (data.catid) {
                 this.catModel.get(+data.catid).then((cate) => {
                     yapi.commons.saveLog({
-                        content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
+                        content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${interfaceData.title}"`,
                         type: 'project',
                         uid: this.getUid(),
                         username: username,
@@ -494,7 +496,7 @@ class interfaceController extends baseController {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
                     yapi.commons.saveLog({
-                        content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${data.title}"`,
+                        content: `用户 "${username}" 更新了分类 "${cate.name}" 下的接口 "${interfaceData.title}"`,
                         type: 'project',
                         uid: this.getUid(),
                         username: username,
