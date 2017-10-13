@@ -21,7 +21,7 @@ class AddInterfaceForm extends Component {
     });
   }
 
-  
+
 
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
@@ -35,18 +35,18 @@ class AddInterfaceForm extends Component {
         sm: { span: 14 }
       }
     };
-    
+
 
     return (
-      
+
       <Form onSubmit={this.handleSubmit}>
         <FormItem
-          {...formItemLayout} 
+          {...formItemLayout}
           label="分类名"
         >
           {getFieldDecorator('name', {
             rules: [{
-              required: true, message: '清输入分类名称!'
+              required: true, message: '请输入分类名称!'
             }],
             initialValue: this.props.catdata? this.props.catdata.name || null: null
           })(
@@ -54,7 +54,7 @@ class AddInterfaceForm extends Component {
           )}
         </FormItem>
 
-      
+
         <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >
           <Button  onClick={this.props.onCancel} style={{marginRight: "10px"}}  >取消</Button>
           <Button
@@ -65,7 +65,7 @@ class AddInterfaceForm extends Component {
             提交
           </Button>
         </FormItem>
-          
+
       </Form>
 
     );
