@@ -105,7 +105,7 @@ class groupController extends baseController {
             result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members','type']);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `用户 "${username}" 新增了分组 "${params.group_name}"`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组 "${params.group_name}"`,
                 type: 'group',
                 uid: this.getUid(),
                 username: username,
@@ -201,8 +201,12 @@ class groupController extends baseController {
                 guest: "访客"
             };
             if(add_members.length){
+                let members = add_members.map((item)=>{
+                    return `<a href = "/user/profile/${item.uid}">${item.username}</a>`
+                })
+                members = members.join("、");
                 yapi.commons.saveLog({
-                    content: `用户 "${username}" 新增了分组成员 "${add_members.reduce((str, item) => (str ? str + '、' : '') + item.username, '')}" 为 "${rolename[params.role]}"`,
+                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组成员 ${members} 为 ${rolename[params.role]}`,
                     type: 'group',
                     uid: this.getUid(),
                     username: username,
@@ -262,7 +266,7 @@ class groupController extends baseController {
             };
             let groupUserdata = await this.getUserdata(params.member_uid, params.role);
             yapi.commons.saveLog({
-                content: `用户 "${username}" 更改了分组成员 "${groupUserdata.username}" 的权限为 "${rolename[params.role]}"`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更改了分组成员 <a href="/user/profile/${params.member_uid}">${groupUserdata.username}</a> 的权限为 "${rolename[params.role]}"`,
                 type: 'group',
                 uid: this.getUid(),
                 username: username,
@@ -338,7 +342,7 @@ class groupController extends baseController {
             };
             let groupUserdata = await this.getUserdata(params.member_uid, params.role);
             yapi.commons.saveLog({
-                content: `用户 "${username}" 删除了分组成员 "${groupUserdata.username}"`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分组成员 <a href="/user/profile/${params.member_uid}">${groupUserdata.username}</a>`,
                 type: 'group',
                 uid: this.getUid(),
                 username: username,
@@ -494,7 +498,7 @@ class groupController extends baseController {
             let result = await groupInst.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `用户 "${username}" 更新了 "${data.group_name}" 分组`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了 <a href="/group/${id}">${data.group_name}</a> 分组`,
                 type: 'group',
                 uid: this.getUid(),
                 username: username,
