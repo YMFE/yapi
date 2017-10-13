@@ -609,7 +609,7 @@ class projectController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}}">${projectData.name}</a> ""`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}}">${projectData.name}</a>`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -660,7 +660,7 @@ class projectController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}">${projectData.name}"</a> 环境`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}">${projectData.name}</a> 的环境`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
