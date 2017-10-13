@@ -386,7 +386,7 @@ class groupController extends baseController {
                     if(result[i].role !== 'member'){
                         newResult.unshift(result[i]);
                     }else{
-                        let publicCount = await projectInst.countWithPublic(result[i].id);
+                        let publicCount = await projectInst.countWithPublic(result[i]._id);
                         if(publicCount > 0){
                             newResult.push(result[i]);
                         }else{
