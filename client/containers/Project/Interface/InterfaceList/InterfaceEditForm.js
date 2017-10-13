@@ -252,6 +252,10 @@ class InterfaceEditForm extends Component {
     }
     editor.create();
     editor.txt.html(this.state.desc)
+    if(navigator.userAgent.indexOf("Firefox")>0){
+      document.getElementById('title').focus()
+    }
+    
   }
 
   componentWillUnmount() {
@@ -518,7 +522,7 @@ class InterfaceEditForm extends Component {
       return requestBodyTpl(item, index)
     })
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form  onSubmit={this.handleSubmit}>
 
         <h2 className="interface-title" style={{ marginTop: 0 }}>基本设置</h2>
         <div className="panel-sub">
@@ -531,7 +535,7 @@ class InterfaceEditForm extends Component {
               initialValue: this.state.title,
               rules: nameLengthLimit('接口')
             })(
-              <Input placeholder="接口名称" />
+              <Input id="title" placeholder="接口名称"  />
               )}
           </FormItem>
 
