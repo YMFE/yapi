@@ -29,7 +29,7 @@ class AddInterfaceForm extends Component {
         this.props.onSubmit(values,()=>{
           this.props.form.resetFields();
         });
-        
+
       }
     });
   }
@@ -97,7 +97,7 @@ class AddInterfaceForm extends Component {
         >
           {getFieldDecorator('path', {
             rules: [{
-              required: true, message: '清输入接口路径!'
+              required: true, message: '请输入接口路径!'
             }]
           })(
             <Input onBlur={this.handlePath} addonBefore={prefixSelector} placeholder="/path" />
