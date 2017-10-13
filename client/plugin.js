@@ -9,21 +9,66 @@ let hooks, pluginModule;
  */
 
 hooks = {
+  /**
+   * 第三方登录 //可参考 yapi-plugin-qsso 插件
+   */
   third_login: {
     type: 'component',
     mulit: false,
     listener: null
   },
-  add_interface: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
+  /**
+   * 导入数据
+   * @param Object importDataModule
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
+   * importDataModule = {}; 
+   * 
+   */
   import_data: {
     type: 'listener',
     mulit: true,
     listener: []
   },
+  /**
+   * 导出数据
+   * @param Object exportDataModule
+   * @param projectId
+   * @info
+   * exportDataModule = {}; 
+   * exportDataModule.pdf = {
+   *   name: 'Pdf',
+   *   route: '/api/plugin/export/pdf',
+   *   desc: '导出项目接口文档为 pdf 文件'
+   * }
+   */
+  export_data: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+   /**
+   * 接口页面 tab 钩子
+   * @param InterfaceTabs
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-advanced-mock
+   * let InterfaceTabs = {
+      view: {
+        component: View,
+        name: '预览'
+      },
+      edit: {
+        component: Edit,
+        name: '编辑'
+      },
+      run: {
+        component: Run,
+        name: '运行'
+      }
+    }
+   */
   interface_tab: {
     type: 'listener',
     mulit: true,
@@ -73,14 +118,14 @@ pluginModule = {
   emitHook: emitHook
 }
 let pluginModuleList;
-try{
+try {
   pluginModuleList = require('./plugin-module.js');
-}catch(err){pluginModuleList = {}}
+} catch (err) { pluginModuleList = {} }
 
 
-Object.keys(pluginModuleList).forEach(plugin=>{
+Object.keys(pluginModuleList).forEach(plugin => {
   if (!pluginModuleList[plugin]) return null;
-  if(pluginModuleList[plugin] && typeof pluginModuleList[plugin].module === 'function'){
+  if (pluginModuleList[plugin] && typeof pluginModuleList[plugin].module === 'function') {
     pluginModuleList[plugin].module.call(pluginModule, pluginModuleList[plugin].options)
   }
 })

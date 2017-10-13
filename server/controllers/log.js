@@ -48,7 +48,7 @@ class logController extends baseController {
                 projectLogList.forEach((item, index)=>{
                     item = item.toObject();
                     if(item.type === 'project'){
-                        item.content = `在 ${projectDatas[item.typeid].name} 项目: ` + item.content;
+                        item.content = `在 <a href="/group/${item.typeid}">${projectDatas[item.typeid].name}</a> 项目: ` + item.content;
                     }
                     projectLogList[index] = item;
                 })
