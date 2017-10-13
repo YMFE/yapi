@@ -168,9 +168,10 @@
 
                          <p>接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
 <p>YApi 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
-<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，组长对分组或项目负责，拥有分组或项目下的所有权限，二者区别如下：</p>
-<p><code>分组组长</code> 有权限修改分组、删除分组，可以创建分组下的项目。一般来说，组长只需要对项目负责，将项目的操作任务安排给项目组长处理即可。</p>
-<p><code>项目组长</code> 无法操作分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
+<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，他们的关系就是 一个分组内有若干 <code>分组组长</code> ，这些 <code>分组组长</code> 在创建项目时就可以指定 <code>项目组长</code>。因此他们在职责上的区别就在于 <code>分组组长</code> 对分组负责 <code>项目组长</code> 对项目负责，二者其他具体区别如下：</p>
+<p><img src="./images/usage/manage_intro_group.png" /></p>
+<p><code>分组组长</code> 的权限包括修改分组、删除分组、创建分组下的项目。一般来说，<code>分组组长</code> 只需要对项目负责，将项目的操作任务安排给 <code>项目组长</code> 处理即可。</p>
+<p><code>项目组长</code> 只属于某一个项目因此它无法操作项目所属分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
 <h2 class="subject" id="创建分组">创建分组 <a class="hashlink" href="#创建分组">#</a></h2><p>只有 <code>超级管理员</code> 有权限创建分组</p>
 <ul>
 <li>联系超级管理员<code>(Qtalk: wenbo.dong; wenxiong.su; wenjie.zhang.)</code>，说明要创建的分组名称和自己的用户名。</li><li>分组一般以 BU 作为维度。</li></ul>
