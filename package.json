@@ -45,8 +45,7 @@
     "sha1": "^1.1.1",
     "underscore": "^1.8.3",
     "universal-cookie": "^2.0.8",
-    "url": "^0.11.0",
-    "yapi-plugin-qsso": "^1.0.7"
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "prop-types": "^15.5.10",
