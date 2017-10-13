@@ -11,6 +11,7 @@ var hooks = {
     /**
      * 第三方sso登录钩子，暂只支持设置一个
      * @param ctx 
+     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})
      */
     'third_login': {
         type: 'single',

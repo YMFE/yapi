@@ -128,7 +128,7 @@ class TimeTree extends Component {
             <span className="logtype">{logType[item.type]}动态</span>
             <span className="logtime">{formatTime(item.add_time)}</span>
           </div>
-          <span className="logcontent">{item.content}</span>
+          <span className="logcontent" dangerouslySetInnerHTML={{__html: item.content}}></span>
         </Timeline.Item>);
       });
     } else {

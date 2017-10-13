@@ -77,26 +77,32 @@ function improtData(importDataModule){
     api.res_body = handleResponse(data.responses);
     
     //处理参数
-    data.parameters.forEach(param=>{
-      let defaultParam = {
-        name: param.name,
-        desc: param.description,
-        required: param.required? "1" : "0"
-      }
-      switch(param.in){
-        case 'path' : api.req_params.push(defaultParam); break;
-        case 'query': api.req_query.push(defaultParam); break;
-        case 'body' : api.req_body_other = handleSchema(param.schema); break;
-        case 'formData' : defaultParam.type = param.type === 'file'? 'file' : 'text'; api.req_body_form.push(defaultParam); break;
-        case 'header' : api.req_headers.push(defaultParam);break;
-      }
-    })
+    if(data.parameters && Array.isArray(data.parameters)){
+      data.parameters.forEach(param=>{
+        let defaultParam = {
+          name: param.name,
+          desc: param.description,
+          required: param.required? "1" : "0"
+        }
+        switch(param.in){
+          case 'path' : api.req_params.push(defaultParam); break;
+          case 'query': api.req_query.push(defaultParam); break;
+          case 'body' : api.req_body_other = handleSchema(param.schema); break;
+          case 'formData' : defaultParam.type = param.type === 'file'? 'file' : 'text'; api.req_body_form.push(defaultParam); break;
+          case 'header' : api.req_headers.push(defaultParam);break;
+        }
+      })
+    }
+    
 
     return api;
   }
 
   function handleResponse(api){
     let res_body = '';
+    if(!api || !Array.isArray(api)){
+      return res_body;
+    }
     _.each(api, (res, code)=>{
       if(code == 200 || code === 'default'){
         res_body = handleSchema(res.schema);

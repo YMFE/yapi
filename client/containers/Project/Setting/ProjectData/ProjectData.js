@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -11,7 +11,12 @@ const Option = Select.Option;
 const plugin = require('client/plugin.js');
 
 const importDataModule = {};
-
+const exportDataModule = {};
+// exportDataModule.pdf = {
+//   name: 'Pdf',
+//   route: '/api/interface/download_crx',
+//   desc: '导出项目接口文档为 pdf 文件'
+// }
 @connect(
   state => {
     // console.log(state);
@@ -30,7 +35,8 @@ class ProjectData extends Component {
     this.state = {
       selectCatid: "",
       menuList: [],
-      curImportType: null
+      curImportType: null,
+      curExportType: null
     }
   }
   static propTypes = {
@@ -46,7 +52,8 @@ class ProjectData extends Component {
         menuList: menuList
       })
     });
-    plugin.emitHook('import_data', importDataModule, this.props);
+    plugin.emitHook('import_data', importDataModule);
+    plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
   }
   selectChange(value) {
     this.setState({
@@ -68,17 +75,17 @@ class ProjectData extends Component {
     }
   }
 
-  async handleAddCat(cats){
+  async handleAddCat(cats) {
     let menuList = this.state.menuList;
     let catsObj = {};
-    if(cats && Array.isArray(cats)){
-      for(let i=0; i< cats.length; i++){
+    if (cats && Array.isArray(cats)) {
+      for (let i = 0; i < cats.length; i++) {
         let cat = cats[i];
-        let findCat =_.find(menuList, menu=>menu.name === cat.name)
+        let findCat = _.find(menuList, menu => menu.name === cat.name)
         catsObj[cat.name] = cat;
-        if(findCat){
+        if (findCat) {
           cat.id = findCat._id;
-        }else{
+        } else {
           let result = await axios.post('/api/interface/add_cat', {
             name: cat.name,
             project_id: this.props.match.params.id,
@@ -100,7 +107,7 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
-        const cats =await this.handleAddCat(res.cats);
+        const cats = await this.handleAddCat(res.cats);
 
         res = res.apis;
         let len = res.length;
@@ -115,7 +122,7 @@ class ProjectData extends Component {
           if (this.props.basePath) {
             data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
           }
-          if(data.catname && cats[data.catname].id){
+          if (data.catname && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
 
@@ -138,6 +145,12 @@ class ProjectData extends Component {
   handleImportType = (val) => {
     this.setState({
       curImportType: val
+    })
+  }
+
+  handleExportType = (val) => {
+    this.setState({
+      curExportType: val
     })
   }
 
@@ -169,8 +182,6 @@ class ProjectData extends Component {
                   {Object.keys(importDataModule).map((name) => {
                     return <Option key={name} value={name}>{importDataModule[name].name}</Option>
                   })}
-
-
                 </Select>
               </div>
               <div className="catidSelect">
@@ -185,7 +196,6 @@ class ProjectData extends Component {
                   {this.state.menuList.map((item, key) => {
                     return <Option key={key} value={item._id + ""}>{item.name}</Option>;
                   })}
-
                 </Select>
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
@@ -196,6 +206,32 @@ class ProjectData extends Component {
                   <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
                   <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
                 </Dragger>
+              </div>
+            </div>
+
+            <div className="dataImportCon" style={{ marginLeft: '20px', display: Object.keys(exportDataModule).length > 0 ? '' : 'none' }}>
+              <div ><h3>数据导出</h3></div>
+              <div className="dataImportTile">
+                <Select placeholder="请选择导出数据的方式" onChange={this.handleExportType}>
+                  {Object.keys(exportDataModule).map((name) => {
+                    return <Option key={name} value={name}>{exportDataModule[name].name}</Option>
+                  })}
+                </Select>
+              </div>
+              <div className="export-content">
+                {this.state.curExportType ?
+                  <div>
+                    <p className="export-desc">{exportDataModule[this.state.curExportType].desc}</p>
+                    <a target="_blank" href={this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route} >
+                      <Button className="export-button" type="primary" size="large"> 导出 </Button>
+
+                    </a>
+                  </div>
+                  :
+                  <Button disabled className="export-button" type="primary" size="large"> 导出 </Button>
+                }
+
+
               </div>
             </div>
           </div>
