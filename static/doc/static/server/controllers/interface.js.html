@@ -316,9 +316,11 @@ class interfaceController extends baseController {
             desc: 'string',
             catid: 'number'
         });
-
-        params.method = params.method || 'GET';
-        params.method = params.method.toUpperCase();
+        if (!_.isUndefined(params.method)) {
+            params.method = params.method || 'GET';
+            params.method = params.method.toUpperCase();
+        }
+        
 
         let id = ctx.request.body.id;
 
