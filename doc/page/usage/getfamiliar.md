@@ -4,7 +4,7 @@ YApi 是高效、易用、功能强大的api管理平台。
 在开始使用 YApi 之前，我们先来熟悉一下 YApi 的网站结构，这将让你快速了解YApi。
 
 ## 登录与注册
-想要使用 YApi ，首先要拥有账号，目前支持注册账号登录与QSSO登录两种方式。
+想要使用 YApi ，首先要注册账号。
 
 <img src="./images/usage/login.png" />
 
