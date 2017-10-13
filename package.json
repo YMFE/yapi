@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
