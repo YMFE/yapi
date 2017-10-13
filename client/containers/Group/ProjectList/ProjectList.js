@@ -126,7 +126,7 @@ class ProjectList extends Component {
           </Col>
           <Col>
             {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
-              <Button type="primary"><Link to="/add-project">添加项目</Link></Button>:
+              <Link to="/add-project"><Button type="primary">添加项目</Button></Link>:
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
               </Tooltip>}
