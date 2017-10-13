@@ -11,7 +11,10 @@ function mock(mockJSON, context) {
   return parse(mockJSON);
 
   function parse(p, c) {
-    c = c || {};
+    if(!c){
+      c = Array.isArray(p) ? [] :  {}
+    }
+
     for (var i in p) {
       if (!p.hasOwnProperty(i)) {
         continue;
