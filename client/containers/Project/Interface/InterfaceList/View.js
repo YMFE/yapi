@@ -258,7 +258,7 @@ class View extends Component {
       title: '参数名称',
       dataIndex: 'name',
       key: 'name',
-      width: '100px'
+      width: '200px'
     }, {
       title: '参数值',
       dataIndex: 'value',

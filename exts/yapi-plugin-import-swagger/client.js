@@ -100,12 +100,17 @@ function improtData(importDataModule){
 
   function handleResponse(api){
     let res_body = '';
-    if(!api || !Array.isArray(api)){
+    if(!api || typeof api !== 'object'){
       return res_body;
     }
     _.each(api, (res, code)=>{
-      if(code == 200 || code === 'default'){
-        res_body = handleSchema(res.schema);
+      if(code == 200){
+        if(res && typeof res === 'object'){
+          res_body = handleSchema(res.schema);
+        }else{
+          res_body = '';
+        }
+        
       }
     })
     return res_body;
@@ -118,7 +123,8 @@ function improtData(importDataModule){
     }
     try{
       data.definitions = SwaggerData.definitions;
-      return JSON.stringify(jsf(data), null, 2);
+      let jsfData = JSON.stringify(jsf(data), null, 2);
+      return jsfData;
     }catch(e){
       return '';
     }
