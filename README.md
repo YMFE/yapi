@@ -24,7 +24,8 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
     yapi-cli server 
 
-#### 更新
+#### 升级
+升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
     cd  {项目目录}
     yapi-cli ls //查看版本号列表
     yapi-cli update //更新到最新版本

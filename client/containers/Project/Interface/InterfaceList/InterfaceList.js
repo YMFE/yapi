@@ -109,6 +109,8 @@ class InterfaceList extends Component {
     if (result.data.errcode === 0) {
       message.success('修改成功');
       this.handleRequest(this.props);
+    } else {
+      message.error(result.data.errmsg)
     }
   }
 
