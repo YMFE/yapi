@@ -4,6 +4,14 @@
   color: red;
 }
 
+.user-menu.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background: #32363a;
+  color: rgba(255, 255, 255, 0.67);
+}
+.user-menu.ant-menu-dark .ant-menu-item-selected > a {
+  color: rgba(255, 255, 255, 0.67);
+}
+
 /* .header-box.css */
 .header-box {
   height: .56rem;

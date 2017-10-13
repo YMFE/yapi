@@ -111,6 +111,7 @@ const ToolUser = (props)=> {
 
         <Dropdown
           placement = "bottomRight"
+          trigger={['click']}
           overlay={
             <MenuUser
               user={props.user}
