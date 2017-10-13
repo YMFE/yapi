@@ -20,10 +20,13 @@ npm install -g yapi-cli --registry https://registry.npm.taobao.org
 yapi-cli server
 ``` 
 
-## 更新
+## 升级
+升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
+
     cd  {项目目录}
     yapi-cli ls //查看版本号列表
-    yapi-cli update -v v1.1.0
+    yapi-cli update //升级到最新版本
+    yapi-cli update -v v1.1.0 //升级到指定版本
 
 ## 配置邮箱 (仅支持 SMTP)
 打开项目目录 config.json 文件，新增 mail 配置， 替换默认的邮箱配置
