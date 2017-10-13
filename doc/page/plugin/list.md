@@ -1,3 +1,6 @@
+## 怎么分享我的插件？
+Fork github.com/ymfe/yapi ，编辑根目录下的 plugin.json 文件， 然后 Pull-Request 到 ymfe/yapi
+
 ## 插件列表
 <ul id="list">
 
