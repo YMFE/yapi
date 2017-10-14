@@ -15,8 +15,7 @@ YApi 将扁平化管理模式的思想引入到产品的权限管理中，`超�
 ## 创建分组
 只有 `超级管理员` 有权限创建分组
 
-- 联系超级管理员`(Qtalk: wenbo.dong; wenxiong.su; wenjie.zhang.)`，说明要创建的分组名称和自己的用户名。
-- 分组一般以 BU 作为维度。
+<img style="width: 300px" src="./images/usage/add-group.png" />
 
 ## 创建项目
 成为 `分组成员`，即可在分组中创建项目。
