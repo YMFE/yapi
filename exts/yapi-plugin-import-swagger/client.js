@@ -67,12 +67,13 @@ function improtData(importDataModule){
     }
     
     if(data.consumes && Array.isArray(data.consumes)){
-      if(data.consumes.indexOf('application/x-www-form-urlencoded') > -1 || data.consumes.indexOf('multipart/form-data' > -1)){
+      if(data.consumes.indexOf('application/x-www-form-urlencoded') > -1 || data.consumes.indexOf('multipart/form-data') > -1 ){
         api.req_body_type = 'form';
       }else if(data.consumes.indexOf('application/json') > -1){
         api.req_body_type = 'json';
       }
     }
+
     //处理response
     api.res_body = handleResponse(data.responses);
     
@@ -87,7 +88,7 @@ function improtData(importDataModule){
         switch(param.in){
           case 'path' : api.req_params.push(defaultParam); break;
           case 'query': api.req_query.push(defaultParam); break;
-          case 'body' : api.req_body_other = handleSchema(param.schema); break;
+          case 'body' : handleBodyPamras(param.schema, api); break;
           case 'formData' : defaultParam.type = param.type === 'file'? 'file' : 'text'; api.req_body_form.push(defaultParam); break;
           case 'header' : api.req_headers.push(defaultParam);break;
         }
@@ -96,6 +97,21 @@ function improtData(importDataModule){
     
 
     return api;
+  }
+
+  function isJson(json){
+    try{
+      return JSON.parse(json);
+    }catch(e){
+      return false;
+    }
+  }
+
+  function handleBodyPamras(data, api){
+    api.req_body_other = handleSchema(data);
+    if(isJson(api.req_body_other)){
+      api.req_body_type = 'json';
+    }
   }
 
   function handleResponse(api){

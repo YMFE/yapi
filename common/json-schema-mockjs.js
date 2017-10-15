@@ -664,10 +664,11 @@ var anyType = { type: ['string', 'number', 'integer', 'boolean'] };
 var objectType = function objectType(value, path, resolve, traverseCallback) {
   var props = {};
   var properties = value.properties || {};
+  var propertyKeys = value.required = Object.keys(properties);
   var patternProperties = value.patternProperties || {};
   var requiredProperties = (value.required || []).slice();
   var allowsAdditional = value.additionalProperties === false ? false : true;
-  var propertyKeys = Object.keys(properties);
+  
   var patternPropertyKeys = Object.keys(patternProperties);
   var additionalProperties = allowsAdditional
     ? (value.additionalProperties === true ? {} : value.additionalProperties)
@@ -1110,3 +1111,43 @@ var VERSION = "0.5.0-rc11";
 jsf.version = VERSION;
 
 module.exports = jsf;
+var a =  {
+  "type": "array",
+  "items": {
+     "type": "object",
+     "properties": {
+        "id": {
+           "type": "integer",
+           "format": "int64"
+        },
+        "username": {
+           "type": "string"
+        },
+        "firstName": {
+           "type": "string"
+        },
+        "lastName": {
+           "type": "string"
+        },
+        "email": {
+           "type": "string"
+        },
+        "password": {
+           "type": "string"
+        },
+        "phone": {
+           "type": "string"
+        },
+        "userStatus": {
+           "type": "integer",
+           "format": "int32",
+           "description": "User Status"
+        }
+     },
+     "xml": {
+        "name": "User"
+     }
+  }
+}
+
+console.log(jsf(a))
