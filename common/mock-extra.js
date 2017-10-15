@@ -7,6 +7,9 @@ function mock(mockJSON, context) {
   var filtersMap = {
     regexp: handleRegexp
   };
+  if(!mockJSON || typeof mockJSON !== 'object'){
+    return mockJSON;
+  }
 
   return parse(mockJSON);
 

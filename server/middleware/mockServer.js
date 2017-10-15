@@ -22,6 +22,17 @@ function matchApi(apiPath, apiRule) {
     return true;
 }
 
+function handleCorsRequest(ctx) {
+    let header = ctx.request.header;
+    ctx.set('Access-Control-Allow-Origin', header.origin);
+    ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEADER, PATCH, OPTIONS");
+    ctx.set('Access-Control-Allow-Headers', header['access-control-request-headers']);
+    ctx.set('Access-Control-Allow-Credentials', true);
+    ctx.set('Access-Control-Max-Age', 1728000);
+    ctx.body = 'ok';
+
+}
+
 module.exports = async (ctx, next) => {
     // no used variable 'hostname' & 'config'
     // let hostname = ctx.hostname;
@@ -60,7 +71,7 @@ module.exports = async (ctx, next) => {
     try {
         newpath = path.substr(project.basepath.length);
         interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
-       
+
         //处理query_path情况
         if (!interfaceData || interfaceData.length === 0) {
             interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
@@ -77,7 +88,7 @@ module.exports = async (ctx, next) => {
                     if (ctx.query[curQuery.params[j].name] !== curQuery.params[j].value) {
                         continue;
                     }
-                    if(j === len -1){
+                    if (j === len - 1) {
                         match = true;
                     }
                 }
@@ -85,12 +96,12 @@ module.exports = async (ctx, next) => {
                     interfaceData = [currentInterfaceData];
                     break;
                 }
-                if(i === l -1){
+                if (i === l - 1) {
                     interfaceData = [];
                 }
             }
         }
-        
+
         //处理动态路由
         if (!interfaceData || interfaceData.length === 0) {
             let newData = await interfaceInst.getVar(project._id, ctx.method);
@@ -99,11 +110,9 @@ module.exports = async (ctx, next) => {
             });
 
             if (!findInterface) {
-                //非正常跨域预检请求回应    
-                if (ctx.method === 'OPTIONS') {
-                    ctx.set("Access-Control-Allow-Origin", "*")
-                    ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-                    return ctx.body = 'ok'
+                //非正常跨域预检请求回应
+                if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
+                    return handleCorsRequest(ctx);
                 }
                 return ctx.body = yapi.commons.resReturn(null, 404, `不存在的api, 当前请求path为 ${newpath}， 请求方法为 ${ctx.method} ，请确认是否定义此请求。`);
             }
@@ -114,13 +123,10 @@ module.exports = async (ctx, next) => {
         }
 
         if (interfaceData.length > 1) {
-            
-
             return ctx.body = yapi.commons.resReturn(null, 405, '存在多个api，请检查数据库');
         } else {
             interfaceData = interfaceData[0];
         }
-
 
         ctx.set("Access-Control-Allow-Origin", "*")
         if (interfaceData.res_body_type === 'json') {
@@ -145,7 +151,7 @@ module.exports = async (ctx, next) => {
                 yapi.commons.log(e, 'error')
                 return ctx.body = {
                     errcode: 400,
-                    errmsg: '解析出错，请检查。Error: '+ e.message,
+                    errmsg: '解析出错，请检查。Error: ' + e.message,
                     data: null
                 }
             }
