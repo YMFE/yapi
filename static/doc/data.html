@@ -35,6 +35,26 @@
                         
                         <li class="">
                             
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="api.html"></a> 
                         </li>
                          
@@ -69,43 +89,49 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-认识 YApi.html">认识 YApi</a> 
+                                    <a href="getfamiliar.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                    <a href="quickstart.html">创建第一个API</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="manage.html">管理分组与项目</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-项目操作.html">项目操作</a> 
+                                    <a href="project.html">项目操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-接口操作.html">接口操作</a> 
+                                    <a href="interface.html">接口操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用mock功能.html">使用mock功能</a> 
+                                    <a href="mock.html">使用mock功能</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="case.html">使用测试集</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="index-使用测试集.html">使用测试集</a> 
+                                    <a href="data.html">数据导入</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
@@ -115,40 +141,64 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#添加测试集">添加测试集</a>
+                                        <a href="#Postman_数据导入">Postman 数据导入</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#添加接口用例">添加接口用例</a>
+                                        <a href="#HAR_数据导入">HAR 数据导入</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#查看接口用例">查看接口用例</a>
+                                        <a href="#Swagger_数据导入">Swagger 数据导入</a>
                                     </li>
-                                 
+                                
                                 </ul>
-                                  
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
+                                </li>
+                                 
                             </ul>
                         </nav>
                     </div>
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
+                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p >在数据管理可快速导入其他格式的接口数据，方便快速添加接口。</p>
 
-<h2 class="subject" id="添加测试集">添加测试集 <a class="hashlink" href="#添加测试集">#</a></h2><p>添加测试集，我们可以创建个人测试集、环境测试集或者功能测试集等等。每个测试集只是接口用例的集合，可以按照任何维度去创建。</p>
-<p>项目接口页面，测试集合 tab 下面『加号』按钮添加测试集。</p>
-<p><img src="./images/case_col_add.jpg" /></p>
-<p>添加测试集必须填写集合名，然后可以选填集合简介。</p>
-<p><img src="./images/case_col_add_modal.jpg" /></p>
-<h2 class="subject" id="添加接口用例">添加接口用例 <a class="hashlink" href="#添加接口用例">#</a></h2><p>当我们在运行、调试某个接口时，为了把当前的测试请求数据保存下来，方便下次测试。我们可以将接口当前的测试数据，保存为该接口的测试用例。</p>
-<p>在接口运行页面，点击保存按钮，添加接口用例。</p>
-<p><img src="./images/case_add.jpg" /></p>
-<p>然后选择用例需要添加到的集合。如何还没有集合，可以新建。</p>
-<p><img src="./images/case_add_modal.jpg" /></p>
-<h2 class="subject" id="查看接口用例">查看接口用例 <a class="hashlink" href="#查看接口用例">#</a></h2><p>添加完用例，我们可以在接口集合 tab 下面看到，当前项目的所有测试集合和接口用例。接口用例和接口运行一样，只不过默认带上了一些请求参数。
-<img src="./images/case_list.jpg" /></p>
+<h2 class="subject" id="Postman_数据导入">Postman 数据导入 <a class="hashlink" href="#Postman_数据导入">#</a></h2><p>1.首先在postman导出接口</p>
+<div><img class="doc-img" style="width:50%"  src="./images/usage/postman-1.jpg" /></div>
 
+<p>2.选择collection_v1,点击export导出接口到文件xxx</p>
+<div><img  class="doc-img"  style="width:70%"  src="./images/usage/postman-2.jpg" /></div>
+
+<p>3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和postman导入方式，选择刚才保存的文件路径，开始导入数据</p>
+<div><img  class="doc-img"  style="width:90%"  src="./images/usage/postman-3.jpg" /></div>
+
+<h2 class="subject" id="HAR_数据导入">HAR 数据导入 <a class="hashlink" href="#HAR_数据导入">#</a></h2><p>可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口</p>
+
+<p>1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）</p>
+<div><img  class="doc-img" style="width:70%" src="./images/usage/chrome-1.jpg" /></div>
+
+<p>2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx</p>
+<div><img  class="doc-img" style="width:70%" src="./images/usage/chrome-2.jpg" /></div>
+
+<p>3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入方式，选择刚才保存的文件路径，开始导入数据</p>
+<div><img class="doc-img"   style="width:50%"  src="./images/usage/chrome-3.jpg" /></div>
+
+<h2 class="subject" id="Swagger_数据导入">Swagger 数据导入 <a class="hashlink" href="#Swagger_数据导入">#</a></h2><p><p>什么是 Swagger ？</p></p>
+<div><a href="https://www.gitbook.com/book/huangwenchao/swagger/details">Swagger从入门到精通</a></div>
+
+<p><br />
+1.生成 JSON 语言编写的 Swagger API 文档文件<div>  例如这样的数据 （<a href="http://petstore.swagger.io/v2/swagger.json" target="blank">http://petstore.swagger.io/v2/swagger.json</a>），可以将其内容复制到 JSON 文件中。</div></p>
+<p>2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入方式，选择刚才的文件，开始导入数据</p>
+<div><img class="doc-img"   style="width:50%"  src="./images/usage/chrome-4.jpg" /></div>
+
+<div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-5.jpg" /></div>
+
+<div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-6.jpg" /></div>
                     </div>
                 </div>
                  
@@ -170,47 +220,6 @@
 
     <script src="source/main.js"></script>
     <script src="source/app.js"></script>
-    
-    <script>
-        var lineHeight = 18;
-        var EXAMPLE_MAX_HEIGHT;
-
-        function fold() {
-            // 折叠code
-            $('.markdown-body pre').css({
-                "line-height": lineHeight + "px"
-            });
-            $('.markdown-body pre').map(function(i, item) {
-                var $item = $(item);
-                var foldnumber = $item.data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
-                    $item.css({
-                        "padding-bottom": 30
-                    });
-                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
-                    $item.append('<span class="extend">展开更多……</span>');
-                };
-            });
-            $('.ydoc-example').delegate('.extend', 'click', function() {
-                var $this = $(this);
-                $this.removeClass('extend').addClass('fold');
-                $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
-            });
-            $('.ydoc-example').delegate('.fold', 'click', function() {
-                var $this = $(this);
-                var foldnumber = $this.parent().data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                $this.removeClass('fold').addClass('extend');
-                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
-                $this.html("展开更多……");
-            });
-        }
-        $(document).ready(fold);
-    </script>
         
 
     </body>

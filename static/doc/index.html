@@ -35,6 +35,26 @@
                         
                         <li class="">
                             
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="api.html"></a> 
                         </li>
                          
@@ -69,43 +89,55 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-认识 YApi.html">认识 YApi</a> 
+                                    <a href="getfamiliar.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                    <a href="quickstart.html">创建第一个API</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="manage.html">管理分组与项目</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-项目操作.html">项目操作</a> 
+                                    <a href="project.html">项目操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-接口操作.html">接口操作</a> 
+                                    <a href="interface.html">接口操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用mock功能.html">使用mock功能</a> 
+                                    <a href="mock.html">使用mock功能</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用测试集.html">使用测试集</a> 
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
                                 </li>
                                  
                             </ul>
@@ -117,7 +149,7 @@
                          <p>YApi 是高效、易用、功能强大的api管理平台。
 <!-- 它有扁平化的管理结构(`超管`-`组长`-`组员`)，有清晰的接口组织方式(`分组`-`项目`-`接口`)，有更方便的mock方案。 --></p>
 <p>在开始使用 YApi 之前，我们先来熟悉一下 YApi 的网站结构，这将让你快速了解YApi。</p>
-<h2 class="subject" id="登录与注册">登录与注册 <a class="hashlink" href="#登录与注册">#</a></h2><p>想要使用 YApi ，首先要拥有账号，目前支持注册账号登录与QSSO登录两种方式。</p>
+<h2 class="subject" id="登录与注册">登录与注册 <a class="hashlink" href="#登录与注册">#</a></h2><p>想要使用 YApi ，首先要注册账号。</p>
 <p><img src="./images/usage/login.png" /></p>
 <h2 class="subject" id="首页">首页 <a class="hashlink" href="#首页">#</a></h2><p>登录后进入首页，首页展示了分组与项目。</p>
 <p>此时你作为新用户，没有任何分组与项目的权限，因此只能搜索、浏览 “公开项目” 的接口，如果在首页找不到任何项目，请联系管理员将你加入对应项目。</p>
@@ -160,47 +192,6 @@
 
     <script src="source/main.js"></script>
     <script src="source/app.js"></script>
-    
-    <script>
-        var lineHeight = 18;
-        var EXAMPLE_MAX_HEIGHT;
-
-        function fold() {
-            // 折叠code
-            $('.markdown-body pre').css({
-                "line-height": lineHeight + "px"
-            });
-            $('.markdown-body pre').map(function(i, item) {
-                var $item = $(item);
-                var foldnumber = $item.data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
-                    $item.css({
-                        "padding-bottom": 30
-                    });
-                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
-                    $item.append('<span class="extend">展开更多……</span>');
-                };
-            });
-            $('.ydoc-example').delegate('.extend', 'click', function() {
-                var $this = $(this);
-                $this.removeClass('extend').addClass('fold');
-                $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
-            });
-            $('.ydoc-example').delegate('.fold', 'click', function() {
-                var $this = $(this);
-                var foldnumber = $this.parent().data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                $this.removeClass('fold').addClass('extend');
-                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
-                $this.html("展开更多……");
-            });
-        }
-        $(document).ready(fold);
-    </script>
         
 
     </body>
