@@ -4,7 +4,9 @@
  
  **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
 
-    mockd地址： http://yapi.corp.qunar.com/mock/29/api/hackathon/login
+ 假设你 YApi 的部署地址为：http://yapi.xxx.com，然后后面的都可以用这个地址作为示例
+
+    mockd地址： http://yapi.xxx.com/mock/29/api/hackathon/login
 
  注：项目id可以在项目设置里查看到
  
@@ -32,7 +34,9 @@
 
 ```
 
-## YApi Mock 跟 mockjs 区别
+## YApi-Mock 跟 Mockjs 区别
+
+<a href="http://mockjs.com">Mockjs 官网</a>
 
 1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
 
@@ -59,7 +63,7 @@
 在代码直接请求yapi提供的mock地址，以jQuery为例：
 
 ````javascript
-let prefix = 'http://yapi.local.qunar.com:3000/mock/2817'
+let prefix = 'http://yapi.xxx.com/mock/2817'
 $.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
     console.log(res) //返回上图预览部分的数据
 })
@@ -74,7 +78,7 @@ $.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
 ```` nginx
 location /baseapi
 {
-proxy_pass   http://yapi.corp.qunar.com/mock/2817/baseapi; #baseapi后面没有"/"
+proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 }
 ````
 
@@ -83,11 +87,11 @@ proxy_pass   http://yapi.corp.qunar.com/mock/2817/baseapi; #baseapi后面没有"
 ```javascript
 {
     pattern: /\/api\/(.*)/,
-    responder: 'http://yapi.corp.qunar.com/mock/58/api/$1'
+    responder: 'http://yapi.xxx.com/mock/58/api/$1'
 }
 ```
 
-上面通过正则匹配，将所有接口转到 http://yapi.corp.qunar.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.corp.qunar.com/mock/58/api/user/status`
+上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.xxx.com/mock/58/api/user/status`
 
 详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a>
 
