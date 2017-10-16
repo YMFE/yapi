@@ -151,6 +151,7 @@ class InterfaceColContent extends Component {
           status = 'invalid'
         }
       } catch (e) {
+        console.error(e);
         status = 'error';
         result = e;
       }
@@ -174,12 +175,22 @@ class InterfaceColContent extends Component {
     interfaceData.req_params.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
-    const domains = currProject.env.concat();
-    const urlObj = URL.parse(domains.find(item => item.name === case_env).domain);
+    const domains = currProject.env.concat();    
+    let currDomain = domains.find(item => item.name === case_env);
+    if(!currDomain){
+      currDomain = domains[0];
+    }
+    const urlObj = URL.parse(currDomain.domain);
+    if(urlObj.pathname){
+      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+        urlObj.pathname += '/'
+      }
+    }
+
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, path) : path,
+      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
       query: this.getQueryObj(interfaceData.req_query)
     });
 
