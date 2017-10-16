@@ -9,7 +9,11 @@
 * 修复接口状态将接口方法重置为 get
 * 环境配置域名带 path 无效
 * 修复Swagger数据导入分类 bug
-
+* MockServer 支持 CORS 跨域
+* 优化JSON-SCHEMA转化为JSON的逻辑，由原来随机转换不被required字段改为转换全部字段
+* 修复了项目成员无法看到该项目的Bug
+* 修复了无法查看公共项目的Bug
+* 优化了部分样式和交互
 
 ## 1.1.0
 ### Features
