@@ -15,8 +15,8 @@ import './Group.scss';
   state => {
     return {
       curGroupId: state.group.currGroup._id,
-      curUserRole: state.group.role,
-      curUserRoleInGroup: state.group.currGroup.role,
+      curUserRole: state.user.role,
+      curUserRoleInGroup: state.group.currGroup.role || state.group.role,
       currGroup: state.group.currGroup
 
     }
