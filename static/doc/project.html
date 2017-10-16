@@ -35,6 +35,26 @@
                         
                         <li class="">
                             
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="api.html"></a> 
                         </li>
                          
@@ -69,41 +89,39 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-认识 YApi.html">认识 YApi</a> 
+                                    <a href="getfamiliar.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                    <a href="quickstart.html">创建第一个API</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
-                                </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="index-项目操作.html">项目操作</a> 
+                                    <a href="manage.html">管理分组与项目</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="index-接口操作.html">接口操作</a> 
+                                    <a href="project.html">项目操作</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#接口配置">接口配置</a>
+                                        <a href="#新建项目">新建项目</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#接口运行">接口运行</a>
+                                        <a href="#修改项目">修改项目</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#删除项目">删除项目</a>
                                     </li>
                                 
                                 </ul>
@@ -111,13 +129,31 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用mock功能.html">使用mock功能</a> 
+                                    <a href="interface.html">接口操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用测试集.html">使用测试集</a> 
+                                    <a href="mock.html">使用mock功能</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
                                 </li>
                                  
                             </ul>
@@ -126,25 +162,25 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
-<ul>
-<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
-<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./usage-创建第一个API.html#新建_编辑接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
-<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
-<ul>
-<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
+                         <h2 class="subject" id="新建项目">新建项目 <a class="hashlink" href="#新建项目">#</a></h2><p>点击右上角的 <code>+</code> 新建项目，进入新建项目页面。</p>
+<p><img src="./images/usage/project_add.png" /></p>
+<p>在新建项目页，填写项目信息：</p>
 <blockquote>
-<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
+<ul>
+<li>项目名称不允许重复，包括其他分组</li><li>基本路径为接口统一添加了前缀</li><li>新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。</li></ul>
 </blockquote>
-</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
-</li></ul>
-<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
-<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
+<p><img src="./images/usage/project_add_panel.png" /></p>
+<h2 class="subject" id="修改项目">修改项目 <a class="hashlink" href="#修改项目">#</a></h2><p>在项目页点击上方的 <code>设置</code> Tab 进入项目设置面板，这个面板涵盖了项目的所有配置。</p>
+<p><img src="./images/usage/project_setting.png" /></p>
+<p>这里比新建项目页面新增的功能如下：</p>
+<h3 class="subject" id="修改项目图标">修改项目图标 <a class="hashlink" href="#修改项目图标">#</a></h3><p>点击项目图标，可以修改图标及背景色：</p>
+<p><img src="./images/usage/project_setting_logo.png" /></p>
+<h3 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h3><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用。</p>
+<p><img src="./images/usage/project_setting_env.png" /></p>
+<h2 class="subject" id="删除项目">删除项目 <a class="hashlink" href="#删除项目">#</a></h2><p>点击下方的删除按钮，输入项目名称进行删除。</p>
 <blockquote>
-<p>安装完插件记得刷新页面</p>
+<p>删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。</p>
 </blockquote>
-<p><img src="./images/interface_run.jpg" /></p>
-<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
 
                     </div>
                 </div>
@@ -167,47 +203,6 @@
 
     <script src="source/main.js"></script>
     <script src="source/app.js"></script>
-    
-    <script>
-        var lineHeight = 18;
-        var EXAMPLE_MAX_HEIGHT;
-
-        function fold() {
-            // 折叠code
-            $('.markdown-body pre').css({
-                "line-height": lineHeight + "px"
-            });
-            $('.markdown-body pre').map(function(i, item) {
-                var $item = $(item);
-                var foldnumber = $item.data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
-                    $item.css({
-                        "padding-bottom": 30
-                    });
-                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
-                    $item.append('<span class="extend">展开更多……</span>');
-                };
-            });
-            $('.ydoc-example').delegate('.extend', 'click', function() {
-                var $this = $(this);
-                $this.removeClass('extend').addClass('fold');
-                $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
-            });
-            $('.ydoc-example').delegate('.fold', 'click', function() {
-                var $this = $(this);
-                var foldnumber = $this.parent().data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                $this.removeClass('fold').addClass('extend');
-                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
-                $this.html("展开更多……");
-            });
-        }
-        $(document).ready(fold);
-    </script>
         
 
     </body>
