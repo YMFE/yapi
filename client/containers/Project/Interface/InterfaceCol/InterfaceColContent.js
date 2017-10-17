@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Tooltip, Icon, Button, Spin, Modal, message } from 'antd'
+import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
@@ -18,7 +18,7 @@ import Mock from 'mockjs'
 import json5 from 'json5'
 import CaseReport from './CaseReport.js'
 const MockExtra = require('common/mock-extra.js')
-
+const Option = Select.Option;
 function json_parse(data) {
   try {
     return json5.parse(data)
@@ -175,7 +175,7 @@ class InterfaceColContent extends Component {
     interfaceData.req_params.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
-    const domains = currProject.env.concat();    
+    const domains = currProject.env.concat();
     let currDomain = domains.find(item => item.name === case_env);
     if(!currDomain){
       currDomain = domains[0];
@@ -358,6 +358,16 @@ class InterfaceColContent extends Component {
     });
   }
 
+  colEnvChange = (envName) => {
+    let rows = [...this.state.rows];
+    for(var i in rows){
+      rows[i].case_env = envName;
+    }
+    this.setState({
+      rows: [...rows]
+    });
+  }
+
   render() {
     const columns = [{
       property: 'casename',
@@ -474,12 +484,21 @@ class InterfaceColContent extends Component {
       columns: resolvedColumns,
       method: resolve.nested
     })(rows);
-
+    let colEnv = this.props.currProject.env || [];
     return (
       <div className="interface-col">
-        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
+        <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
+          <Select defaultValue={"选择测试集合执行环境（不选即为默认环境）"} style={{ width: "300px" }} onChange={this.colEnvChange}>
+            {
+              colEnv.map((item)=>{
+                return <Option key={item._id} value={item.name}>{item.name+": "+item.domain}</Option>;
+              })
+            }
+          </Select>
+        </div>
         {this.state.hasPlugin?
           <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>:
           <Tooltip title="请安装 cross-request Chrome 插件">
