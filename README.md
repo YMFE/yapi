@@ -59,7 +59,6 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 维拉假日科技有限公司
 * 小斑马科技（天津）有限公司
 * 梅州幻麟网络科技有限公司
-* 华生恒业
 * 安百科技
 * 好玩友
 * Nexusguard
