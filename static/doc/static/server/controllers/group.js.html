@@ -132,7 +132,7 @@ class groupController extends baseController {
             result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members','type']);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组 "${params.group_name}"`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组 <a href="/group/${result._id}">${params.group_name}</a>`,
                 type: 'group',
                 uid: this.getUid(),
                 username: username,

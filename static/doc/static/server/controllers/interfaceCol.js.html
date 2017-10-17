@@ -554,7 +554,7 @@ class interfaceColController extends baseController{
             await this.caseModel.delByCol(id);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 及其下面的接口`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 ${colData.name} 及其下面的接口`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -591,7 +591,7 @@ class interfaceColController extends baseController{
             let username = this.getUsername();
             this.colModel.get(caseData.col_id).then((col)=>{
                 yapi.commons.saveLog({
-                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 下的接口 <a href="/project/${caseData.project_id}/interface/case/${caseid}">${caseData.casename}</a>`,
+                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 下的接口 ${caseData.casename}`,
                     type: 'project',
                     uid: this.getUid(),
                     username: username,
