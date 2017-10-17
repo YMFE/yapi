@@ -273,7 +273,7 @@ class InterfaceColContent extends Component {
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
-      if (item.name && item.type !== 'file') {
+      if (item.name && item.enable && item.type !== 'file') {
         obj[item.name] = this.handleValue(item.value);
       }
     })
@@ -284,7 +284,7 @@ class InterfaceColContent extends Component {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
-      if (item.name) {
+      if (item.name && item.enable) {
         queryObj[item.name] = this.handleValue(item.value);
       }
     })
