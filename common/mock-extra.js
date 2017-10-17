@@ -1,6 +1,13 @@
 var strRegex = /\${([a-zA-Z0-9_\.]+)\}/g;
 var varSplit = '.';
 var mockSplit = '|';
+var Mock = require('mockjs');
+Mock.Random.extend({
+  timestamp: function(){
+    var time = new Date().getTime() + '';
+    return +time.substr(0, time.length - 3)
+  }
+})
 
 function mock(mockJSON, context) {
   context = context || {};

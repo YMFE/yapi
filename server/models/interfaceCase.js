@@ -23,11 +23,11 @@ class interfaceCase extends baseModel {
                 name: String, value: String
             }],
             req_query: [{
-                name: String, value: String
+                name: String, value: String, enable: {type: Boolean, default: true}
             }],
 
             req_body_form: [{
-                name: String, value: String
+                name: String, value: String, enable: {type: Boolean, default: true}
             }],
             req_body_other: String,
             test_res_body: String,
