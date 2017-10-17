@@ -1,4 +1,12 @@
 
+## 1.1.2
+### Features
+* 接口运行增加了 query 和 body 的 enable 选项，可选择是否请求该字段
+* Mock 支持了时间戳占位符 @timestamp
+
+### Bug Fixed
+* 修复了接口集运行功能会忽略 domain path 的 bug
+
 ## 1.1.1
 ### Features
 * 添加插件开发文档
