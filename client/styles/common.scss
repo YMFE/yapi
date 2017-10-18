@@ -200,3 +200,11 @@ em {
   background-color: rgba(0,0,0,.35);
   z-index: 2;
 }
+
+// tooltip 中的链接
+.link-tooltip {
+  color: #56b2fd;
+  &:hover {
+    color: #2395f1;
+  }
+}

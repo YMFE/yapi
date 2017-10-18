@@ -370,7 +370,7 @@ class InterfaceColContent extends Component {
       header: {
         label: 'key',
         formatters: [() => {
-          return <Tooltip title="每个用例都有一个独一无二的key，可用来获取匹配的接口响应数据">
+          return <Tooltip title={<span>每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 <a href="https://yapi.ymfe.org/case.html#变量参数" className="link-tooltip" target="blank">变量参数</a> 功能</span>}>
             Key</Tooltip>
         }]
       },
@@ -475,7 +475,7 @@ class InterfaceColContent extends Component {
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
         }
-        
+
         <Table.Provider
           components={components}
           columns={resolvedColumns}
