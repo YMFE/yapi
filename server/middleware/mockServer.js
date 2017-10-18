@@ -143,7 +143,10 @@ module.exports = async (ctx, next) => {
                     projectData: project,
                     interfaceData: interfaceData,
                     ctx: ctx,
-                    mockJson: res
+                    mockJson: res,
+                    resHeader: {},
+                    httpCode: 200,
+                    delay: 0
                 }
                 await yapi.emitHook('mock_after', context);
                 return ctx.body = context.mockJson;

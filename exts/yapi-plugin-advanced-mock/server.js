@@ -103,7 +103,11 @@ module.exports = function(){
       header: context.ctx.header,
       query: context.ctx.query,
       body: context.ctx.request.body,
-      mockJson: context.mockJson
+      mockJson: context.mockJson,
+      params: Object.assign({}, context.ctx.query, context.ctx.request.body),
+      resHeader: context.resHeader,
+      httpCode: context.httpCode,
+      delay: context.httpCode
     }
     sandbox.cookie = {};
     
@@ -112,6 +116,16 @@ module.exports = function(){
         sandbox.cookie[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
     });
     sandbox = yapi.commons.sandbox(sandbox, script);
+    sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
+    let handleMock = new Promise(resolve=>{
+      setTimeout(()=>{
+        resolve(true)
+      }, sandbox.delay)
+    })
+    await handleMock;
     context.mockJson = sandbox.mockJson;
+    context.resHeader = sandbox.resHeader;
+    context.httpCode = sandbox.httpCode;
+    context.delay = sandbox.delay;
   })
 }
