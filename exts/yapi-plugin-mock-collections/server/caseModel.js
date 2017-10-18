@@ -3,21 +3,14 @@ const baseModel = require('models/base.js');
 
 class caseModel extends baseModel {
   getName() {
-    return 'mock_collections';
+    return 'mock_collections_cases';
   }
 
   getSchema() {
     return {
       interface_id: { type: Number, required: true },
       project_id: {type: Number, required: true},
-      ip: {type: String, required: true,
-        validate: {
-          validator: function(v) {
-            return /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/.test(v);
-          },
-          message: '{VALUE} is not a valid Ip!'
-        },
-      },
+      col_id: {type: Number, required: true},
       name: {type: String, required: true},
       code: {type: Number, required: true, default: 200},
       deplay: {type: Number,  default: 0},
@@ -35,13 +28,13 @@ class caseModel extends baseModel {
   }
 
   delByInterfaceId(interface_id) {
-    return this.model.deleteOne({
+    return this.model.remove({
       interface_id: interface_id
     });
   }
 
   delByProjectId(project_id){
-    return this.model.deleteMany({
+    return this.model.remove({
       project_id: project_id
     })
   }

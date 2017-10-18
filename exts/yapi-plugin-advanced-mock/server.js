@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 module.exports = function(){
   yapi.connect.then(function () {
     let Col = mongoose.connection.db.collection('adv_mock')
-    Col.ensureIndex({
+    Col.createIndex({
         interface_id: 1        
     })
-    Col.ensureIndex({
+    Col.createIndex({
       project_id: 1
     })
   })
