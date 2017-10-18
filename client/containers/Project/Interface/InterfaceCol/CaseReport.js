@@ -11,9 +11,13 @@ const CaseReport = function (props) {
   let headers = json_format(props.headers, null, '   ');
   let res_header = json_format(props.res_header, null, '   ');
   let res_body = json_format(props.res_body);
-  let validRes = props.validRes.map((item, index) => {
-    return <div key={index}>{item.message}</div>
-  })
+  let validRes ;
+  if(props.validRes && Array.isArray(props.validRes)){
+    validRes = props.validRes.map((item, index) => {
+      return <div key={index}>{item.message}</div>
+    })
+  }
+  
 
   return <div className="report">
     <Tabs defaultActiveKey="request" >
