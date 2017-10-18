@@ -19,6 +19,16 @@ const roleAction = {
   'viewGroup': 'guest'
 }
 
+exports.isJson = function(json){
+  if(!json) return false;
+  try{
+    json = JSON.parse(json);
+    return json;
+  }catch(e){
+    return false;
+  }
+}
+
 exports.checkAuth = (action, role)=>{
   return Roles[roleAction[action]] <= Roles[role];
 }
@@ -72,39 +82,6 @@ exports.debounce = (func, wait) => {
   };
 };
 
-
-
-exports.simpleJsonPathParse = function (key, json){
-  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
-    return null;
-  }
-  let keys = key.substr(2).split(".");
-  keys = keys.filter(item=>{
-    return item;
-  })
-  for(let i=0, l = keys.length; i< l; i++){
-    try{
-      let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
-      if(m){
-        json = json[m[1]][m[2]];
-      }else{
-        json = json[keys[i]];
-      }
-
-
-    }catch(e){
-      json = null;
-      break;
-    }
-  }
-  return json;
-
-}
-
-exports.handleMockWord =(word) =>{
-  if(!word || typeof word !== 'string' || word[0] !== '@') return word;
-  return Mock.mock(word);
-}
 
 // 从 Javascript 对象中选取随机属性
 exports.pickRandomProperty = (obj) => {
@@ -175,3 +152,39 @@ exports.entries = (obj) => {
   }
   return res;
 }
+
+
+function simpleJsonPathParse(key, json){
+  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
+    return null;
+  }
+  let keys = key.substr(2).split(".");
+  keys = keys.filter(item=>{
+    return item;
+  })
+  for(let i=0, l = keys.length; i< l; i++){
+    try{
+      let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
+      if(m){
+        json = json[m[1]][m[2]];
+      }else{
+        json = json[keys[i]];
+      }
+
+
+    }catch(e){
+      json = null;
+      break;
+    }
+  }
+  return json;
+}
+
+function handleMockWord(word) {
+  if(!word || typeof word !== 'string' || word[0] !== '@') return word;
+  return Mock.mock(word);
+}
+
+
+exports.simpleJsonPathParse = simpleJsonPathParse;
+exports.handleMockWord = handleMockWord;

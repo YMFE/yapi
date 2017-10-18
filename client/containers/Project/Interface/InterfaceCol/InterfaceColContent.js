@@ -7,8 +7,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { handleMockWord, simpleJsonPathParse } from '../../../../common.js'
-// import { formatTime } from '../../../../common.js'
+import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
@@ -202,13 +201,23 @@ class InterfaceColContent extends Component {
       result.url = href;
       result.method = interfaceData.method;
       result.headers = that.getHeadersObj(interfaceData.req_headers);
-      result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other;
-
+      if(interfaceData.req_body_type === 'form'){
+        result.body = that.arrToObj(interfaceData.req_body_form)
+      }else{
+        let reqBody = isJson(interfaceData.req_body_other);
+        if(reqBody === false){
+          result.body = this.handleValue(interfaceData.req_body_other)
+        }else{
+          result.body = JSON.stringify(this.handleJson(reqBody))
+        }
+        
+      }
+     
       window.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
+        data: result.body,
         success: (res, header) => {
           res = json_parse(res);
           result.res_header = header;
@@ -253,18 +262,29 @@ class InterfaceColContent extends Component {
     })
   }
 
-
-  handleVarWord(val) {
-    return simpleJsonPathParse(val, this.records)
+  handleJson = (data)=>{
+    if(!data){
+      return data;
+    }
+    if(typeof data === 'string'){
+      return this.handleValue(data);
+    }else if(typeof data === 'object'){
+      for(let i in data){
+        data[i] = this.handleJson(data[i]);
+      }
+    }else{
+      return data;
+    }
+    return data;    
   }
 
-  handleValue(val) {
+  handleValue = (val) => {
     if (!val || typeof val !== 'string') {
       return val;
     } else if (val[0] === '@') {
       return handleMockWord(val);
     } else if (val.indexOf('$.') === 0) {
-      return this.handleVarWord(val);
+      return simpleJsonPathParse(val, this.records);
     }
     return val;
   }
@@ -279,6 +299,8 @@ class InterfaceColContent extends Component {
     })
     return obj;
   }
+
+  
 
   getQueryObj = (query) => {
     query = query || [];
