@@ -31,6 +31,7 @@ const tip = (<div className="title-container">
     groupList: state.group.groupList,
     currGroup: state.group.currGroup,
     curUserRole: state.user.role,
+    curUserRoleInGroup: state.group.currGroup.role || state.group.role,
     studyTip: state.user.studyTip,
     study: state.user.study
   }),
@@ -54,6 +55,7 @@ export default class GroupList extends Component {
     match: PropTypes.object,
     history: PropTypes.object,
     curUserRole: PropTypes.string,
+    curUserRoleInGroup: PropTypes.string,
     studyTip: PropTypes.number,
     study: PropTypes.bool,
     fetchNewsData: PropTypes.func,
@@ -159,6 +161,7 @@ export default class GroupList extends Component {
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
       this.props.setCurrGroup({ group_name, group_desc, _id: id});
+      this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
   }
@@ -267,21 +270,21 @@ export default class GroupList extends Component {
         this.props.curUserRole === "admin" && this.props.currGroup.type!=='private'  ? (editmark) : ''
       }
       {
-        (this.props.curUserRole === "admin" || currGroup.role === 'owner') && this.props.currGroup.type!=='private' ? (delmark) : ''
+        (this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner') && this.props.currGroup.type !== 'private' ? (delmark) : ''
       }
       {
         this.props.curUserRole === 'admin' ? (addmark) : ''
       }
     </Menu>;
-    menu = (currGroup.role === 'owner' && this.props.curUserRole !== 'admin')  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
+    menu = (this.props.curUserRoleInGroup === 'owner' && this.props.curUserRole !== 'admin')  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" href="#">
         <Icon type="setting" />
       </a>
     </Dropdown>;
-
-    if(this.props.currGroup.type==='private' && currGroup.role === 'owner' && this.props.curUserRole !== 'admin'){
-      menu = null;
-    }
+    // console.log(this.props.currGroup.type,this.props.curUserRoleInGroup,this.props.curUserRole);
+    // if(!(this.props.currGroup.type !=='private') && !(this.props.curUserRoleInGroup === 'owner' || this.props.curUserRole === 'admin')){
+    //   menu = null;
+    // }
 
 
     return (
@@ -291,7 +294,7 @@ export default class GroupList extends Component {
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              {this.props.curUserRole === "admin" || currGroup.role === 'owner' ? (menu) : ''}
+              {this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner' ? (menu) : ''}
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>

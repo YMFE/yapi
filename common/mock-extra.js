@@ -1,17 +1,30 @@
 var strRegex = /\${([a-zA-Z0-9_\.]+)\}/g;
 var varSplit = '.';
 var mockSplit = '|';
+var Mock = require('mockjs');
+Mock.Random.extend({
+  timestamp: function(){
+    var time = new Date().getTime() + '';
+    return +time.substr(0, time.length - 3)
+  }
+})
 
 function mock(mockJSON, context) {
   context = context || {};
   var filtersMap = {
     regexp: handleRegexp
   };
+  if(!mockJSON || typeof mockJSON !== 'object'){
+    return mockJSON;
+  }
 
   return parse(mockJSON);
 
   function parse(p, c) {
-    c = c || {};
+    if(!c){
+      c = Array.isArray(p) ? [] :  {}
+    }
+
     for (var i in p) {
       if (!p.hasOwnProperty(i)) {
         continue;

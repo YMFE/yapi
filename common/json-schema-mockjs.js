@@ -664,10 +664,11 @@ var anyType = { type: ['string', 'number', 'integer', 'boolean'] };
 var objectType = function objectType(value, path, resolve, traverseCallback) {
   var props = {};
   var properties = value.properties || {};
+  var propertyKeys = value.required = Object.keys(properties);
   var patternProperties = value.patternProperties || {};
   var requiredProperties = (value.required || []).slice();
   var allowsAdditional = value.additionalProperties === false ? false : true;
-  var propertyKeys = Object.keys(properties);
+  
   var patternPropertyKeys = Object.keys(patternProperties);
   var additionalProperties = allowsAdditional
     ? (value.additionalProperties === true ? {} : value.additionalProperties)

@@ -35,6 +35,26 @@
                         
                         <li class="">
                             
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="api.html"></a> 
                         </li>
                          
@@ -69,25 +89,33 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-认识 YApi.html">认识 YApi</a> 
+                                    <a href="getfamiliar.html">认识 YApi</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-创建第一个API.html">创建第一个API</a> 
+                                    <a href="quickstart.html">创建第一个API</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="index-管理分组与项目.html">管理分组与项目</a> 
+                                    <a href="manage.html">管理分组与项目</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
                                         <a href="#认识组长">认识组长</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#创建分组">创建分组</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#创建项目">创建项目</a>
                                     </li>
                                      
                                     <li >
@@ -99,25 +127,37 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-项目操作.html">项目操作</a> 
+                                    <a href="project.html">项目操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-接口操作.html">接口操作</a> 
+                                    <a href="interface.html">接口操作</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用mock功能.html">使用mock功能</a> 
+                                    <a href="mock.html">使用mock功能</a> 
                                 </li>
                                   
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="index-使用测试集.html">使用测试集</a> 
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="qa.html">常见问题</a> 
                                 </li>
                                  
                             </ul>
@@ -127,17 +167,27 @@
                     <div class="content-right markdown-body use-sidebar" role="main">
 
                          <p>接口管理的逻辑较为复杂，操作频率高，层层审批将严重拖慢生产效率，因此传统的金字塔管理模式并不适用。</p>
-<p>YAPI 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
-<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，组长对分组或项目负责，拥有分组或项目下的所有权限，二者区别如下：</p>
-<p><code>分组组长</code> 有权限修改分组、删除分组，可以创建分组下的项目。一般来说，组长只需要对项目负责，将项目的操作任务安排给项目组长处理即可。</p>
-<p><code>项目组长</code> 无法操作分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
-<h2 class="subject" id="权限列表">权限列表 <a class="hashlink" href="#权限列表">#</a></h2><h3 class="subject" id="项目权限">项目权限 <a class="hashlink" href="#项目权限">#</a></h3><table>
+<p>YApi 将扁平化管理模式的思想引入到产品的权限管理中，<code>超级管理员</code> 拥有最高的权限，并将权限分配给若干 <code>组长</code>，<code>超级管理员</code> 只需管理<code>组长</code> 即可，实际上管理YAPI各大分组与项目的是“<code>组长</code>”。<code>组长</code>对分组或项目负责，一般由BU负责人/项目负责人担任。</p>
+<h2 class="subject" id="认识组长">认识组长 <a class="hashlink" href="#认识组长">#</a></h2><p>组长分为 <code>分组组长</code> 与 <code>项目组长</code>，他们的关系就是 一个分组内有若干 <code>分组组长</code> ，这些 <code>分组组长</code> 在创建项目时就可以指定 <code>项目组长</code>。因此他们在职责上的区别就在于 <code>分组组长</code> 对分组负责 <code>项目组长</code> 对项目负责，二者其他具体区别如下：</p>
+<p><img src="./images/usage/manage_intro_group.png" /></p>
+<p><code>分组组长</code> 的权限包括修改分组、删除分组、创建分组下的项目。一般来说，<code>分组组长</code> 只需要对项目负责，将项目的操作任务安排给 <code>项目组长</code> 处理即可。</p>
+<p><code>项目组长</code> 只属于某一个项目因此它无法操作项目所属分组，但拥有项目的全部权限，<code>项目组长</code> 是 YApi 的基层管理者，承担了 YApi 绝大部分的日常管理工作。</p>
+<h2 class="subject" id="创建分组">创建分组 <a class="hashlink" href="#创建分组">#</a></h2><p>只有 <code>超级管理员</code> 有权限创建分组</p>
+<p><img style="width: 300px" src="./images/usage/add-group.png" /></p>
+<h2 class="subject" id="创建项目">创建项目 <a class="hashlink" href="#创建项目">#</a></h2><p>成为 <code>分组成员</code>，即可在分组中创建项目。</p>
+<p><img src="./images/usage/manage_ask_group.png" /></p>
+<blockquote>
+<p>想成为 <code>分组组长</code> ，在分组成员列表中找到 <code>分组组长</code>，联系 <code>分组组长</code> 将你设置为分组组长。</p>
+</blockquote>
+<p><a href="./qa.html#Q__怎样联系组长？">怎样联系组长？</a></p>
+<h2 class="subject" id="权限列表">权限列表 <a class="hashlink" href="#权限列表">#</a></h2><p>新用户未加入项目或分组时，我们称为 <code>“游客”</code>。</p>
+<h3 class="subject" id="项目权限">项目权限 <a class="hashlink" href="#项目权限">#</a></h3><table>
 <thead>
 <tr>
 <th style="text-align:left">操作</th>
 <th style="text-align:center">游客</th>
-<th style="text-align:center">开发者</th>
-<th style="text-align:center">组长</th>
+<th style="text-align:center">项目开发者</th>
+<th style="text-align:center">项目组长</th>
 <th style="text-align:center">超级管理员</th>
 </tr>
 </thead>
@@ -198,8 +248,8 @@
 <tr>
 <th style="text-align:left">操作</th>
 <th style="text-align:center">游客</th>
-<th style="text-align:center">开发者</th>
-<th style="text-align:center">组长</th>
+<th style="text-align:center">分组开发者</th>
+<th style="text-align:center">分组组长</th>
 <th style="text-align:center">超级管理员</th>
 </tr>
 </thead>
@@ -263,47 +313,6 @@
 
     <script src="source/main.js"></script>
     <script src="source/app.js"></script>
-    
-    <script>
-        var lineHeight = 18;
-        var EXAMPLE_MAX_HEIGHT;
-
-        function fold() {
-            // 折叠code
-            $('.markdown-body pre').css({
-                "line-height": lineHeight + "px"
-            });
-            $('.markdown-body pre').map(function(i, item) {
-                var $item = $(item);
-                var foldnumber = $item.data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                if ($item.height() > EXAMPLE_MAX_HEIGHT) {
-                    $item.css({
-                        "padding-bottom": 30
-                    });
-                    $item.find('code').height(EXAMPLE_MAX_HEIGHT);
-                    $item.append('<span class="extend">展开更多……</span>');
-                };
-            });
-            $('.ydoc-example').delegate('.extend', 'click', function() {
-                var $this = $(this);
-                $this.removeClass('extend').addClass('fold');
-                $this.html('折叠代码');
-                $this.parent().children('.js-code').height('auto');
-                $this.parent().height('auto');
-            });
-            $('.ydoc-example').delegate('.fold', 'click', function() {
-                var $this = $(this);
-                var foldnumber = $this.parent().data('foldnumber');
-                EXAMPLE_MAX_HEIGHT = lineHeight * (foldnumber || 6);
-                $this.removeClass('fold').addClass('extend');
-                $this.parent().height(EXAMPLE_MAX_HEIGHT); // pre
-                $this.parent().children('.js-code').height(EXAMPLE_MAX_HEIGHT); // code
-                $this.html("展开更多……");
-            });
-        }
-        $(document).ready(fold);
-    </script>
         
 
     </body>
