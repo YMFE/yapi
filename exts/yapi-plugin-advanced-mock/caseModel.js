@@ -3,16 +3,17 @@ const baseModel = require('models/base.js');
 
 class caseModel extends baseModel {
   getName() {
-    return 'mock_collections_cases';
+    return 'adv_mock_case';
   }
 
   getSchema() {
     return {
       interface_id: { type: Number, required: true },
       project_id: {type: Number, required: true},
-      col_id: {type: Number, required: true},
+      ip: {type: String},
+      ip_enable: {type: Boolean,  default: false},
       name: {type: String, required: true},
-      code: {type: Number, required: true, default: 200},
+      code: {type: Number, default: 200},
       deplay: {type: Number,  default: 0},
       headers: [{
         name: {type: String, required: true},
@@ -25,6 +26,12 @@ class caseModel extends baseModel {
 
   get(data) {
     return this.model.findOne(data);
+  }
+
+  list(id){
+    return this.model.find({
+      interface_id: id
+    })
   }
 
   delByInterfaceId(interface_id) {
@@ -40,11 +47,24 @@ class caseModel extends baseModel {
   }
 
   save(data) {
-    
+    data.up_time = yapi.commons.time();
+    let m = new this.model(data);
+    return m.save();
   }
 
   up(data) {
-  
+    let id = data.id;
+    delete data.id;
+    data.up_time = yapi.commons.time();
+    return this.model.update({
+      _id: id
+    }, data)
+  }
+
+  del(id){
+    return this.model.remove({
+      _id: id
+    })
   }
 
 }

@@ -7,7 +7,5 @@ module.exports = {
     name: 'advanced-mock'
   },{
     name: 'import-swagger'
-  },{
-    name: 'mock-collections'
   }]
 }

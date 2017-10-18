@@ -1,5 +1,5 @@
 const controller = require('./controller');
-const advModel = require('./model.js');
+const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
 const mongoose = require('mongoose');
 
@@ -11,6 +11,14 @@ module.exports = function(){
         interface_id: 1        
     })
     Col.createIndex({
+      project_id: 1
+    })
+
+    let caseCol = mongoose.connection.db.collection('adv_mock_case')
+    caseCol.createIndex({
+        interface_id: 1        
+    })
+    caseCol.createIndex({
       project_id: 1
     })
   })
@@ -26,6 +34,45 @@ module.exports = function(){
       method: 'post',
       path: 'advmock/save',
       action: 'upMock'
+    })
+    addRouter({
+      /**
+       * 保存期望
+       */
+      controller: controller,
+      method: 'post',
+      path: 'advmock/case/save',
+      action: 'saveCase'
+    })
+
+    addRouter({
+      /**
+       * 保存期望
+       */
+      controller: controller,
+      method: 'get',
+      path: 'advmock/case/get',
+      action: 'getCase'
+    })
+
+    addRouter({
+      /**
+       * 获取期望列表
+       */
+      controller: controller,
+      method: 'get',
+      path: 'advmock/case/list',
+      action: 'list'
+    })
+
+    addRouter({
+      /**
+       * 获取期望列表
+       */
+      controller: controller,
+      method: 'post',
+      path: 'advmock/case/del',
+      action: 'delCase'
     })
   })
   this.bindHook('interface_del', async function(id){
