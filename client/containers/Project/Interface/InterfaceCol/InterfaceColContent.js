@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import constants from '../../../../constants/variable.js'
 import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -25,7 +26,7 @@ function json_parse(data) {
     return data
   }
 }
-
+const HTTP_METHOD = constants.HTTP_METHOD;
 
 
 @connect(
@@ -155,8 +156,30 @@ class InterfaceColContent extends Component {
         status = 'error';
         result = e;
       }
-      this.reports[curitem._id] = result;
-      this.records[curitem._id] = result.res_body;
+      
+      let query = this.arrToObj(curitem.req_query);
+      if(!query || typeof query !== 'object'){
+        query = {};
+      }
+      let body = {};
+      if(HTTP_METHOD[curitem.method].request_body){
+        if(curitem.req_body_type === 'form'){
+          body = this.arrToObj(curitem.req_body_form);
+        }else {
+          body = isJson(curitem.req_body_other);
+        }
+        
+        if(!body || typeof body !== 'object'){
+          body = {};
+        }
+      }
+
+      let params = Object.assign({}, query, body);
+      this.reports = result;
+      this.records[curitem._id] = {
+        params: params,
+        body: result.res_body
+      };
 
       curitem = Object.assign({}, rows[i], { test_status: status });
       newRows = [].concat([], rows);
