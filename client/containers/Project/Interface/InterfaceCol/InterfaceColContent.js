@@ -125,6 +125,7 @@ class InterfaceColContent extends Component {
     rows = rows.sort((n, o) => {
       return n.index > o.index
     })
+    console.log(rows);
     this.setState({
       rows: rows
     })
@@ -500,12 +501,13 @@ class InterfaceColContent extends Component {
         row: dnd.Row
       }
     };
-
+    console.log(rows);
     const resolvedColumns = resolve.columnChildren({ columns });
     const resolvedRows = resolve.resolve({
       columns: resolvedColumns,
       method: resolve.nested
     })(rows);
+    console.log(resolvedRows);
     let colEnv = this.props.currProject.env || [];
     return (
       <div className="interface-col">
