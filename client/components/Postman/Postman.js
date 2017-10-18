@@ -10,7 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import { handleMockWord } from '../../common.js'
+import {  handleMockWord, isJson } from '../../common.js'
 
 function json_parse(data) {
   try {
@@ -214,6 +214,18 @@ export default class Run extends Component {
       pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
       query: this.getQueryObj(query)
     });
+    let reqBody;
+    if(bodyType === 'form'){
+      reqBody = this.arrToObj(bodyForm)
+    }else{
+      let resBody = isJson(bodyOther);
+      if(resBody === false){
+        resBody = bodyOther;
+      }else{
+        reqBody = this.handleJson(resBody)     
+      }
+      
+    }
 
     this.setState({ loading: true })
     let that = this;
@@ -221,7 +233,7 @@ export default class Run extends Component {
       url: href,
       method,
       headers: this.getHeadersObj(headers),
-      data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
+      data: reqBody,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header, third) => {
@@ -275,7 +287,6 @@ export default class Run extends Component {
         }
       },
       error: (err, header, third) => {
-        console.log('err', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -488,6 +499,22 @@ export default class Run extends Component {
       }
     })
     return headersObj;
+  }
+
+  handleJson = (data)=>{
+    if(!data){
+      return data;
+    }
+    if(typeof data === 'string'){
+      return handleMockWord(data);
+    }else if(typeof data === 'object'){
+      for(let i in data){
+        data[i] = this.handleJson(data[i]);
+      }
+    }else{
+      return data;
+    }
+    return data;    
   }
 
   bindAceEditor = () => {

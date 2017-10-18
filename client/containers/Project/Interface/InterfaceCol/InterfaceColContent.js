@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import constants from '../../../../constants/variable.js'
 import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { handleMockWord, simpleJsonPathParse } from '../../../../common.js'
-// import { formatTime } from '../../../../common.js'
+import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
@@ -26,7 +26,7 @@ function json_parse(data) {
     return data
   }
 }
-
+const HTTP_METHOD = constants.HTTP_METHOD;
 
 
 @connect(
@@ -155,8 +155,30 @@ class InterfaceColContent extends Component {
         status = 'error';
         result = e;
       }
-      this.reports[curitem._id] = result;
-      this.records[curitem._id] = result.res_body;
+      
+      let query = this.arrToObj(curitem.req_query);
+      if(!query || typeof query !== 'object'){
+        query = {};
+      }
+      let body = {};
+      if(HTTP_METHOD[curitem.method].request_body){
+        if(curitem.req_body_type === 'form'){
+          body = this.arrToObj(curitem.req_body_form);
+        }else {
+          body = isJson(curitem.req_body_other);
+        }
+        
+        if(!body || typeof body !== 'object'){
+          body = {};
+        }
+      }
+
+      let params = Object.assign({}, query, body);
+      this.reports = result;
+      this.records[curitem._id] = {
+        params: params,
+        body: result.res_body
+      };
 
       curitem = Object.assign({}, rows[i], { test_status: status });
       newRows = [].concat([], rows);
@@ -202,13 +224,23 @@ class InterfaceColContent extends Component {
       result.url = href;
       result.method = interfaceData.method;
       result.headers = that.getHeadersObj(interfaceData.req_headers);
-      result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other;
-
+      if(interfaceData.req_body_type === 'form'){
+        result.body = that.arrToObj(interfaceData.req_body_form)
+      }else{
+        let reqBody = isJson(interfaceData.req_body_other);
+        if(reqBody === false){
+          result.body = this.handleValue(interfaceData.req_body_other)
+        }else{
+          result.body = JSON.stringify(this.handleJson(reqBody))
+        }
+        
+      }
+     
       window.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
+        data: result.body,
         success: (res, header) => {
           res = json_parse(res);
           result.res_header = header;
@@ -253,18 +285,29 @@ class InterfaceColContent extends Component {
     })
   }
 
-
-  handleVarWord(val) {
-    return simpleJsonPathParse(val, this.records)
+  handleJson = (data)=>{
+    if(!data){
+      return data;
+    }
+    if(typeof data === 'string'){
+      return this.handleValue(data);
+    }else if(typeof data === 'object'){
+      for(let i in data){
+        data[i] = this.handleJson(data[i]);
+      }
+    }else{
+      return data;
+    }
+    return data;    
   }
 
-  handleValue(val) {
+  handleValue = (val) => {
     if (!val || typeof val !== 'string') {
       return val;
     } else if (val[0] === '@') {
       return handleMockWord(val);
     } else if (val.indexOf('$.') === 0) {
-      return this.handleVarWord(val);
+      return simpleJsonPathParse(val, this.records);
     }
     return val;
   }
@@ -279,6 +322,8 @@ class InterfaceColContent extends Component {
     })
     return obj;
   }
+
+  
 
   getQueryObj = (query) => {
     query = query || [];
@@ -391,7 +436,7 @@ class InterfaceColContent extends Component {
       header: {
         label: 'key',
         formatters: [() => {
-          return <Tooltip title="每个用例都有一个独一无二的key，可用来获取匹配的接口响应数据">
+          return <Tooltip title={<span>每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 <a href="https://yapi.ymfe.org/case.html#变量参数" className="link-tooltip" target="blank">变量参数</a> 功能</span>}>
             Key</Tooltip>
         }]
       },
@@ -505,7 +550,7 @@ class InterfaceColContent extends Component {
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
         }
-        
+
         <Table.Provider
           components={components}
           columns={resolvedColumns}
