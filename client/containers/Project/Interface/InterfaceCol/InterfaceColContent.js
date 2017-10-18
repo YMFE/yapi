@@ -162,7 +162,12 @@ class InterfaceColContent extends Component {
       }
       let body = {};
       if(HTTP_METHOD[curitem.method].request_body){
-        body = isJson(curitem.req_body_other);
+        if(curitem.req_body_type === 'form'){
+          body = this.arrToObj(curitem.req_body_form);
+        }else {
+          body = isJson(curitem.req_body_other);
+        }
+        
         if(!body || typeof body !== 'object'){
           body = {};
         }
