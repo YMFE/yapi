@@ -265,7 +265,7 @@ class interfaceController extends baseController {
 
     async downloadCrx(ctx){
         let filename = 'crossRequest.zip';
-        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request-v2.1.zip'));
+        let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request.zip'));
         ctx.set('Content-disposition', 'attachment; filename=' + filename);
         ctx.set('Content-Type', 'application/zip');
         ctx.body = dataBuffer;
@@ -485,7 +485,7 @@ class interfaceController extends baseController {
             if (data.catid) {
                 this.catModel.get(+data.catid).then((cate) => {
                     yapi.commons.saveLog({
-                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${data.catid}">${cate.name}</a> 下的接口 <a href="project/${cate.project_id}/interface/api/${id}">${interfaceData.title}</a>`,
+                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${data.catid}">${cate.name}</a> 下的接口 <a href="/project/${cate.project_id}/interface/api/${id}">${interfaceData.title}</a>`,
                         type: 'project',
                         uid: this.getUid(),
                         username: username,
@@ -497,7 +497,7 @@ class interfaceController extends baseController {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
                     yapi.commons.saveLog({
-                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${cateid}">${cate.name}</a> 下的接口 <a href="project/${cate.project_id}/interface/api/${id}>${interfaceData.title}</a>`,
+                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${cateid}">${cate.name}</a> 下的接口 <a href="/project/${cate.project_id}/interface/api/${id}>${interfaceData.title}</a>`,
                         type: 'project',
                         uid: this.getUid(),
                         username: username,
@@ -701,7 +701,7 @@ class interfaceController extends baseController {
 
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分类 <a href="/project/${catData.project_id}/interface/api/cat_${id}">${catData.name}</a> 及该分类下的接口`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分类 "${catData.name}" 及该分类下的接口`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,

@@ -1,29 +1,35 @@
 ## 介绍
-<p style='text-indent:2em;line-height:1.8em'>测试集是接口用例的集合。接口用例用来保存接口运行请求参数，方便我们下次再测试接口，无需再填请求参数。</p>
+<p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集可以保存之前填写的参数，方便下次的调试。YApi测试集还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串。</p>
 
-## 添加测试集
-添加测试集，我们可以创建个人测试集、环境测试集或者功能测试集等等。每个测试集只是接口用例的集合，可以按照任何维度去创建。
+## 测试列表
 
-项目接口页面，测试集合 tab 下面『加号』按钮添加测试集。
+<img  class="doc-img" style="width:100%" src="./images/usage/case-list.jpg"  />
 
-<img src="./images/case_col_add.jpg" />
+在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
 
-添加测试集必须填写集合名，然后可以选填集合简介。
+点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整
 
-<img src="./images/case_col_add_modal.jpg" />
+测试完成之后，点击报告查看该次请求的结果
 
-## 添加接口用例
-当我们在运行、调试某个接口时，为了把当前的测试请求数据保存下来，方便下次测试。我们可以将接口当前的测试数据，保存为该接口的测试用例。
+## 编辑测试用例
 
-在接口运行页面，点击保存按钮，添加接口用例。
+### Mock参数
+Mock 参数每次请求都会生成随机字符串
 
-<img src="./images/case_add.jpg" />
+<img  class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg"  />
 
-然后选择用例需要添加到的集合。如何还没有集合，可以新建。
+#### 变量参数
 
-<img src="./images/case_add_modal.jpg" />
+<img  class="doc-img" style="width:100%" src="./images/usage/mock-var-param.jpg"  />
 
-## 查看接口用例
-添加完用例，我们可以在接口集合 tab 下面看到，当前项目的所有测试集合和接口用例。接口用例和接口运行一样，只不过默认带上了一些请求参数。
-<img src="./images/case_list.jpg" />
+
+      $.371.data._id
+
+$. 是使用动态变量的标志
+
+371 是用例 key ,可在用例列表查看到
+
+data._id 是接口返回数据指向的实际字段
+
+
 

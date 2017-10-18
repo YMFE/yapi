@@ -609,7 +609,7 @@ class projectController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}}">${projectData.name}</a>`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api}">${projectData.name}</a>`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -660,7 +660,7 @@ class projectController extends baseController {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/user/profile/${id}">${projectData.name}</a> 的环境`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api">${projectData.name}</a> 的环境`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -724,72 +724,6 @@ class projectController extends baseController {
         };
 
         return ctx.body = yapi.commons.resReturn(queryList, 0, 'ok');
-    }
-
-    /**
-     * 下载项目的 Mock 数据
-     * @interface /project/download
-     * @method GET
-     * @category project
-     * @foldnumber 10
-     * @author wenbo.dong
-     * @param {String} project_id
-    */
-    async download(ctx) {
-        const project_id = ctx.request.query.project_id;
-        let interfaceInst = yapi.getInst(interfaceModel);
-        // 根据 project_id 获取接口数据
-        let count = await interfaceInst.list(project_id);
-
-        if (!project_id) {
-            return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
-        } else if (!count) {
-            return ctx.body = yapi.commons.resReturn(null, 401, '项目id不存在');
-        }
-
-        const arr = JSON.stringify(count.map(function (item) {
-            // 返回的json模板数据: item.res_body
-            const mockData = Mock.mock(
-                yapi.commons.json_parse(item.res_body)
-            );
-            return {
-                path: item.path,
-                mock: mockData
-            }
-        }));
-
-        const fileName = 'mock.js';
-        ctx.attachment(fileName);
-        await send(ctx, fileName, { root: __dirname + '/public' });
-
-        const res = `
-        var Mock = require('mockjs');
-        var xhook = require('xhook');
-        var data = ${arr};
-        function run() {
-            xhook.before(function(request, callback) {
-                setTimeout(function() {
-                    var res;
-                    data.forEach((item) => {
-                        // 请求的接口在 data 中存在
-                         if(request.url === item.path) {
-                            res = {
-                                status: 200,
-                                text: Mock.mock(item.mock)
-                            }
-                        }
-                    });
-                    if (res) {
-                        callback(res);
-                    }else {
-                        callback({ status: 405, text: '接口不存在' });
-                    }
-              }, 500);
-            });
-        }
-        module.exports = run;`
-            .trim();
-        return ctx.body = res;
     }
 }
 
