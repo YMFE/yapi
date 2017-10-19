@@ -85,6 +85,7 @@ class interfaceModel extends baseModel {
 
     getVar(project_id, method){
         return this.model.find({
+            project_id: project_id,
             type: 'var',
             method: method
         }).select('_id path').exec()
