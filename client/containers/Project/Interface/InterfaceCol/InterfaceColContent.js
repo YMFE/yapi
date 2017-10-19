@@ -174,7 +174,7 @@ class InterfaceColContent extends Component {
       }
 
       let params = Object.assign({}, query, body);
-      this.reports = result;
+      this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: params,
         body: result.res_body
