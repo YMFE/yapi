@@ -61,13 +61,12 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 403, e.message);
     }
 
-    if (project === false) {
+    if (!project) {
         return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
 
     let interfaceData, newpath;
     let interfaceInst = yapi.getInst(interfaceModel);
-
     try {
         newpath = path.substr(project.basepath.length);
         interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
