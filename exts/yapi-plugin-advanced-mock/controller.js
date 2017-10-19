@@ -2,6 +2,7 @@ const baseController = require('controllers/base.js');
 const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
 const caseModel = require('./caseModel.js');
+const config = require('./index.js');
 
 class advMockController extends baseController{
   constructor(ctx){
@@ -86,11 +87,17 @@ class advMockController extends baseController{
       params: params.params || [],
       uid: this.getUid(),
       code: params.code || 200,
-      delay: +params.delay || 0,
+      delay: params.delay || 0,
       headers: params.headers || [],
       up_time: yapi.commons.time(),
       res_body: params.res_body || '',
       ip: params.ip
+    }
+
+    data.code = isNaN(data.code) ? 200 : +data.code;
+    data.delay = isNaN(data.delay) ? 0 : +data.delay;
+    if(config.httpCodes.indexOf(data.code) === -1){
+      return ctx.body =yapi.commons.resReturn(null, 408, '非法的 httpCode');
     }
 
     let findRepeat, findRepeatParams;
