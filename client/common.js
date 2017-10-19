@@ -153,7 +153,16 @@ exports.entries = (obj) => {
   return res;
 }
 
-
+/**
+ * 作用：解析规则串 key ，然后根据规则串的规则以及路径找到在 json 中对应的数据
+ * 规则串：$.{key}.{body||params}.{dataPath} 其中 body 为返回数据，params 为请求数据，datapath 为数据的路径
+ * 数组：$.key.body.data.arr[0]._id  (获取 key 所指向请求的返回数据的 arr 数组的第 0 项元素的 _id 属性)
+ * 对象：$.key.body.data.obj._id ((获取 key 所指向请求的返回数据的 obj 对象的 _id 属性))
+ * 
+ * @param String key 规则串
+ * @param Object json 数据
+ * @returns 
+ */
 function simpleJsonPathParse(key, json){
   if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
     return null;
