@@ -603,6 +603,7 @@ class projectController extends baseController {
 
             if (!_.isUndefined(params.name)) data.name = params.name;
             if (!_.isUndefined(params.desc)) data.desc = params.desc;
+            if (!_.isUndefined(params.group_id)) data.group_id = params.group_id;
             data.basepath = params.basepath;            
             if (!_.isUndefined(params.color)) data.color = params.color;
             if (!_.isUndefined(params.icon)) data.icon = params.icon;
