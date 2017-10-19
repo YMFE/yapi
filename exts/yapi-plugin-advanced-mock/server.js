@@ -1,8 +1,17 @@
 const controller = require('./controller');
 const advModel = require('./advMockModel.js');
+const caseModel = require('./caseModel.js');
 const yapi = require('yapi.js');
 const mongoose = require('mongoose');
+const _ = require('underscore');
 
+function arrToObj(arr){
+  let obj = {};
+  arr.forEach(item=>{
+    obj[item.name] = item.value;
+  })
+  return obj;
+}
 
 module.exports = function(){
   yapi.connect.then(function () {
@@ -22,6 +31,54 @@ module.exports = function(){
       project_id: 1
     })
   })
+
+  async  function checkCase(ctx, interfaceId){
+    let reqParams = Object.assign({}, ctx.query, ctx.body);
+    let caseInst = yapi.getInst(caseModel);
+    let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+    let listWithIp =await caseInst.model.find({
+      interface_id: interfaceId,
+      ip_enable: true,
+      ip: ip
+    }).select('_id params');
+    let matchList = [];
+    listWithIp.forEach(item=>{
+      let params = arrToObj(item.params);
+      if(_.isMatch(reqParams, params)){
+        matchList.push(item); 
+      }
+    })
+    if(matchList.length === 0){
+      let list =await caseInst.model.find({
+        interface_id: interfaceId,
+        ip_enable: false
+      }).select('_id params')
+      list.forEach(item=>{
+        let params = arrToObj(item.params);
+        if(_.isMatch(reqParams, item.params)){
+          matchList.push(item); 
+        }
+      })
+    }
+    if(matchList.length > 0){
+      let maxItem = _.max(matchList, item=> item.params.length);
+      return maxItem;
+    }
+    return null;
+
+
+
+  }
+  
+  async function handleByCase(caseData, context){
+    let caseInst = yapi.getInst(caseModel);
+    let result = await caseInst.get({
+      _id: caseData._id
+    })
+    return result;
+  }
+
+
   this.bindHook('add_router', function(addRouter){
     addRouter({
       controller: controller,
@@ -93,6 +150,15 @@ module.exports = function(){
    */
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
+    let caseData = await checkCase(context.ctx, interfaceId);
+    if(caseData !== null){
+      let data = await  handleByCase(caseData, context);
+      context.mockJson = data.res_body;
+      context.resHeader = arrToObj(data.headers);
+      context.httpCode = data.httpCode;
+      context.delay = data.delay;
+      return true;
+    }
     let inst = yapi.getInst(advModel);
     let data = await inst.get(interfaceId);
     if(!data || !data.enable || !data.mock_script){
@@ -122,7 +188,8 @@ module.exports = function(){
         resolve(true)
       }, sandbox.delay)
     })
-    await handleMock;
+    await handleMock;   
+    
     context.mockJson = sandbox.mockJson;
     context.resHeader = sandbox.resHeader;
     context.httpCode = sandbox.httpCode;

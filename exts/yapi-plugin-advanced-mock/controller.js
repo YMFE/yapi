@@ -83,11 +83,14 @@ class advMockController extends baseController{
       project_id: params.project_id,
       ip_enable: params.ip_enable,
       name: params.name,
+      params: params.params || [],
       uid: this.getUid(),
       code: params.code || 200,
       deplay: +params.deplay || 0,
-      headers: params.headers,
-      up_time: yapi.commons.time()
+      headers: params.headers || [],
+      up_time: yapi.commons.time(),
+      res_body: params.res_body || '',
+      ip: params.ip
     }
 
     let result;

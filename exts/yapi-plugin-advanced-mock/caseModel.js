@@ -19,8 +19,13 @@ class caseModel extends baseModel {
         name: {type: String, required: true},
         value: {type: String}
       }],
+      params: [{
+        name: {type: String, required: true},
+        value: {type: String}
+      }],
       uid: String,
-      up_time: Number
+      up_time: Number,
+      res_body: {type: String, required: true}
     };
   }
 
