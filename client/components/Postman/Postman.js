@@ -139,7 +139,7 @@ export default class Run extends Component {
       test_res_body = '',
       test_report = [],
       test_res_header = '',
-      mock_verify = true
+      mock_verify = false
     } = data;
 
     // case 任意编辑 pathname，不管项目的 basepath
