@@ -61,7 +61,7 @@ module.exports = function(){
       })
     }
     if(matchList.length > 0){
-      let maxItem = _.max(matchList, item=> item.params.length);
+      let maxItem = _.max(matchList, item=> Object.keys(item.params).length);
       return maxItem;
     }
     return null;
@@ -151,7 +151,7 @@ module.exports = function(){
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
-    if(caseData !== null){
+    if(caseData){
       let data = await  handleByCase(caseData, context);
       context.mockJson = data.res_body;
       context.resHeader = arrToObj(data.headers);
@@ -183,12 +183,6 @@ module.exports = function(){
     });
     sandbox = yapi.commons.sandbox(sandbox, script);
     sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
-    let handleMock = new Promise(resolve=>{
-      setTimeout(()=>{
-        resolve(true)
-      }, sandbox.delay)
-    })
-    await handleMock;   
     
     context.mockJson = sandbox.mockJson;
     context.resHeader = sandbox.resHeader;

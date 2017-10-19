@@ -148,6 +148,18 @@ module.exports = async (ctx, next) => {
                     delay: 0
                 }
                 await yapi.emitHook('mock_after', context);
+                let handleMock = new Promise(resolve=>{
+                    setTimeout(()=>{
+                      resolve(true)
+                    }, context.delay)
+                  })
+                await handleMock;   
+                if(context.resHeader && typeof context.resHeader === 'object'){
+                    for(let i in context.resHeader){
+                        ctx.set(i, context.resHeader[i]);
+                    }
+                }
+                ctx.statusCode = context.httpCode;
                 return ctx.body = context.mockJson;
             } catch (e) {
                 yapi.commons.log(e, 'error')
