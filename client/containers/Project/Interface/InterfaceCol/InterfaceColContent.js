@@ -124,7 +124,7 @@ class InterfaceColContent extends Component {
       return item;
     })
     rows = rows.sort((n, o) => {
-      return n.index > o.index
+      return n.index - o.index;
     })
     this.setState({
       rows: rows
@@ -174,7 +174,7 @@ class InterfaceColContent extends Component {
       }
 
       let params = Object.assign({}, query, body);
-      this.reports = result;
+      this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: params,
         body: result.res_body
@@ -523,7 +523,6 @@ class InterfaceColContent extends Component {
         row: dnd.Row
       }
     };
-
     const resolvedColumns = resolve.columnChildren({ columns });
     const resolvedRows = resolve.resolve({
       columns: resolvedColumns,

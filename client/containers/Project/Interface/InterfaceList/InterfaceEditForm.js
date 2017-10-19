@@ -163,13 +163,14 @@ class InterfaceEditForm extends Component {
             })
           }
         } else if (values.req_body_type === 'json') {
-          values.req_headers.map((item) => {
+          values.req_headers?values.req_headers.map((item) => {
             if (item.name === 'Content-Type') {
               item.value = 'application/json'
               isHavaContentType = true;
             }
-          })
+          }):[];
           if (isHavaContentType === false) {
+            values.req_headers = values.req_headers || [];
             values.req_headers.unshift({
               name: 'Content-Type',
               value: 'application/json'
@@ -514,9 +515,9 @@ class InterfaceEditForm extends Component {
       return queryTpl(item, index)
     })
 
-    const headerList = this.state.req_headers.map((item, index) => {
+    const headerList = this.state.req_headers?this.state.req_headers.map((item, index) => {
       return headerTpl(item, index)
-    })
+    }):[];
 
     const requestBodyList = this.state.req_body_form.map((item, index) => {
       return requestBodyTpl(item, index)

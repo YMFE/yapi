@@ -137,7 +137,13 @@ module.exports = async (ctx, next) => {
                         body: ctx.request.body
                     }
                 );
-                res = Mock.mock(res);
+
+                try{
+                    res = Mock.mock(res);
+                }catch(e){
+                    res = res;
+                }
+                
                 let context = {
                     projectData: project,
                     interfaceData: interfaceData,
