@@ -156,6 +156,8 @@ function postman(importDataModule){
           res[item] = [];
         }
         
+      }else if(item === 'req_body_other' && reqType === 'json' && data.request.postData){
+        res[item] = json_format(data.request.postData.text);
       }else if(item === "req_headers"){
         res[item] = [{
           name: 'Content-Type',
