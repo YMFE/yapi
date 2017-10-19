@@ -159,7 +159,8 @@ module.exports = async (ctx, next) => {
                         ctx.set(i, context.resHeader[i]);
                     }
                 }
-                ctx.statusCode = context.httpCode;
+                
+                ctx.status = context.httpCode;
                 return ctx.body = context.mockJson;
             } catch (e) {
                 yapi.commons.log(e, 'error')

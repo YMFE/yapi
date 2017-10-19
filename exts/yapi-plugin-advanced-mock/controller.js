@@ -86,7 +86,7 @@ class advMockController extends baseController{
       params: params.params || [],
       uid: this.getUid(),
       code: params.code || 200,
-      deplay: +params.deplay || 0,
+      delay: +params.delay || 0,
       headers: params.headers || [],
       up_time: yapi.commons.time(),
       res_body: params.res_body || '',

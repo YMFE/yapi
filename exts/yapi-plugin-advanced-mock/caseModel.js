@@ -15,7 +15,7 @@ class caseModel extends baseModel {
       ip_enable: {type: Boolean,  default: false},
       name: {type: String, required: true},
       code: {type: Number, default: 200},
-      deplay: {type: Number,  default: 0},
+      delay: {type: Number,  default: 0},
       headers: [{
         name: {type: String, required: true},
         value: {type: String}

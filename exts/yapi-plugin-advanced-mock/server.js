@@ -155,7 +155,7 @@ module.exports = function(){
       let data = await  handleByCase(caseData, context);
       context.mockJson = data.res_body;
       context.resHeader = arrToObj(data.headers);
-      context.httpCode = data.httpCode;
+      context.httpCode = data.code;
       context.delay = data.delay;
       return true;
     }
