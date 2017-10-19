@@ -8,11 +8,12 @@
     "install-server": " node server/install.js",
     "dev-client": "ykit s -p 4000",
     "dev": "npm run dev-server & npm run dev-client",
-    "start": " node server/app.js"
+    "start": " node server/app.js",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.corp.qunar.com:mfe/yapi.git"
+    "url": "git@github.com:YMFE/yapi.git"
   },
   "author": "",
   "license": "Apache2.0",
@@ -25,6 +26,7 @@
     "json-schema-ref-parser": "^4.0.0",
     "json5": "^0.5.1",
     "jsonwebtoken": "^7.4.1",
+    "kerberos": "0.0.23",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-multer": "^1.0.2",
@@ -50,11 +52,8 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "happypack": "^4.0.0-beta.5",
-    "prop-types": "^15.5.10",
-    "rc-queue-anim": "^1.2.0",
-    "rc-scroll-anim": "^1.0.7",
     "assets-webpack-plugin": "^3.5.1",
+    "ava": "^0.22.0",
     "babel": "^6.5.2",
     "babel-core": "^6.8.0",
     "babel-eslint": "^7.2.3",
@@ -81,10 +80,14 @@
     "extract-text-webpack-plugin": "2.0.0",
     "fast-sass-loader-china": "^1.2.5",
     "ghooks": "^2.0.0",
+    "happypack": "^4.0.0-beta.5",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "node-sass-china": "^4.5.0",
     "nodemon": "^1.11.0",
+    "prop-types": "^15.5.10",
+    "rc-queue-anim": "^1.2.0",
+    "rc-scroll-anim": "^1.0.7",
     "react": "^15.6.1",
     "react-dnd": "^2.5.1",
     "react-dnd-html5-backend": "^2.5.1",
@@ -135,5 +138,8 @@
   "engines": {
     "node": ">= 7.6.0",
     "npm": ">= 4.1.2"
+  },
+  "ava":{
+    "files": ["test/**/*.js"]
   }
 }
