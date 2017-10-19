@@ -43,7 +43,7 @@ module.exports = function(){
     }).select('_id params');
     let matchList = [];
     listWithIp.forEach(item=>{
-      let params = arrToObj(item.params);
+      let params = item.params;
       if(_.isMatch(reqParams, params)){
         matchList.push(item); 
       }
@@ -54,7 +54,7 @@ module.exports = function(){
         ip_enable: false
       }).select('_id params')
       list.forEach(item=>{
-        let params = arrToObj(item.params);
+        let params = item.params;
         if(_.isMatch(reqParams, item.params)){
           matchList.push(item); 
         }

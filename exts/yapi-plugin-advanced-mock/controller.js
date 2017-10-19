@@ -93,6 +93,29 @@ class advMockController extends baseController{
       ip: params.ip
     }
 
+    let findRepeat, findRepeatParams;
+    findRepeatParams = {
+      project_id: data.project_id,
+      interface_id: data.interface_id,
+      ip_enable: data.ip_enable,
+    }
+
+    if(data.params && typeof data.params === 'object'){
+      for(let i in data.params){
+        findRepeatParams['params.' + i] = data.params[i];
+      }
+    }
+
+    if(data.ip_enable){
+      findRepeatParams.ip = data.ip;
+    }
+
+    findRepeat = await this.caseModel.get(findRepeatParams);
+    
+    if(findRepeat){
+      return ctx.body = yapi.commons.resReturn(null,400, '已存在的期望');
+    }
+
     let result;
     if(params.id && !isNan(params.id)){
       data.id = +params.id;
