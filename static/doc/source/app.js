@@ -8,7 +8,6 @@ $(document).ready(function() {
     var $versionSelector = $('.version-selector');
     var $versionMask = $('.m-version-mask');
     var isPanelHide = true;
-    var winWidth = $(window).width();
     var h2 = $('.content-right').find('h2');
     var h3 = $('.content-right').find('h3');
     var a = $('.content-left').find('a');
