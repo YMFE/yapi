@@ -375,7 +375,7 @@ class InterfaceColContent extends Component {
     const { interfaceColList } = nextProps;
     const { actionId: oldColId, id } = this.props.match.params
     let newColId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newColId)) {
+    if (!interfaceColList.find(item => +item._id === +newColId)&&interfaceColList[0]._id) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
     } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
       if (newColId && newColId != 0) {

@@ -62,8 +62,13 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 安百科技
 * 好玩友
 * Nexusguard
+* 木木工作室
 
-
+### Authors
+* [suxiaoxin](https://github.com/suxiaoxin)
+* [zwjamnsss](https://github.com/amnsss)
+* [dwb1994](https://github.com/dwb1994)
+* [fungezi](https://github.com/fungezi)
 ### License
 Apache Licene 2.0
 
