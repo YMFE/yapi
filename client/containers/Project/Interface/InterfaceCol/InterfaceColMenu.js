@@ -257,7 +257,7 @@ export default class InterfaceColMenu extends Component {
   }
 
   render() {
-    const { currColId, currCaseId, isShowCol } = this.props;
+    let { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, filterValue, importInterVisible } = this.state;
 
     // const menu = (col) => {
@@ -279,7 +279,18 @@ export default class InterfaceColMenu extends Component {
     // };
 
     let isFilterCat = false;
-
+    // console.log();
+    // let caseList = this.props.interfaceColList.caseList;
+    // if(caseList&&caseList.length>1){
+    //   caseList = caseList.sort((a,b)=>{
+    //     return a.index-b.index;
+    //   });
+    //   this.props.interfaceColList.caseList = caseList;
+    // }
+    
+    // console.log(this.props.match);
+    console.log(currColId)
+    // currColId = this.props.match.params.id?this.props.match.params.id:currColId;
     return (
       <div>
         <div className="interface-filter">
@@ -339,6 +350,8 @@ export default class InterfaceColMenu extends Component {
                       return true;
                     }
                     return item.casename.indexOf(filterValue) !== -1
+                  }).sort((a,b)=>{
+                    return a.index-b.index;
                   }).map((interfaceCase) => (
                     <TreeNode
                       style={{width: '100%'}}
