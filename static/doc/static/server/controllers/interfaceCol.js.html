@@ -305,6 +305,8 @@ class interfaceColController extends baseController{
                 let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
                 data.interface_id = params.interface_list[i];
                 data.casename = interfaceData.title;
+                data.req_body_other = interfaceData.req_body_other;
+                data.req_body_type = interfaceData.req_body_type;
                 await this.caseModel.save(data);
                 let username = this.getUsername();
                 this.colModel.get(params.col_id).then((col)=>{
