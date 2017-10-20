@@ -198,7 +198,7 @@ class InterfaceMenu extends Component {
   showDelCatConfirm = (catid) => {
     let that = this;
     const ref = confirm({
-      title: '您确认删除此接口分类',
+      title: '确定删除此接口分类吗？',
       content: '温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复',
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)

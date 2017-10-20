@@ -4,6 +4,7 @@ const interfaceModel = require('../models/interface.js');
 const projectModel = require('../models/project.js');
 const baseController = require('./base.js');
 const yapi = require('../yapi.js');
+const _ = require('underscore');
 
 class interfaceColController extends baseController{
     constructor(ctx) {
@@ -150,6 +151,9 @@ class interfaceColController extends baseController{
                 result.req_params = this.handleParamsValue(data.req_params, result.req_params)
                 resultList[index] = result;
             }
+            resultList = resultList.sort((a,b)=>{
+                return a.index - b.index;
+            });
             ctx.body = yapi.commons.resReturn(resultList);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -274,6 +278,8 @@ class interfaceColController extends baseController{
                 let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
                 data.interface_id = params.interface_list[i];
                 data.casename = interfaceData.title;
+                data.req_body_other = interfaceData.req_body_other;
+                data.req_body_type = interfaceData.req_body_type;
                 await this.caseModel.save(data);
                 let username = this.getUsername();
                 this.colModel.get(params.col_id).then((col)=>{
@@ -406,6 +412,11 @@ class interfaceColController extends baseController{
         }
     }
 
+    /**
+     * 
+     * @param {*} params 接口定义的参数
+     * @param {*} val  接口case 定义的参数值
+     */
     handleParamsValue(params, val){
         let value = {};
         try{
@@ -419,7 +430,10 @@ class interfaceColController extends baseController{
         })
         params.forEach((item, index)=>{
             if(!value[item.name] || typeof value[item.name] !== 'object') return null;
-            params[index].value = value[item.name].value;                 
+            params[index].value = value[item.name].value;
+            if(!_.isUndefined(value[item.name].enable)){
+                params[index].enable = value[item.name].enable
+            }
         })
         return params;
     }
@@ -527,7 +541,7 @@ class interfaceColController extends baseController{
             await this.caseModel.delByCol(id);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 及其下面的接口`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 ${colData.name} 及其下面的接口`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -564,7 +578,7 @@ class interfaceColController extends baseController{
             let username = this.getUsername();
             this.colModel.get(caseData.col_id).then((col)=>{
                 yapi.commons.saveLog({
-                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 下的接口 <a href="/project/${caseData.project_id}/interface/case/${caseid}">${caseData.casename}</a>`,
+                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 下的接口 ${caseData.casename}`,
                     type: 'project',
                     uid: this.getUid(),
                     username: username,

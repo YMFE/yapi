@@ -69,33 +69,38 @@ class InterfaceEdit extends Component {
       curdata: this.props.curdata,
       status: 1
     })
+    let s;
+    //因后端 node 仅支持 ws， 暂不支持 wss
+    let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
 
-    let s = new WebSocket('ws://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
-    s.onopen = () => {
-      this.WebSocket = s;
-    }
-
-    s.onmessage = (e) => {
-      let result = JSON.parse(e.data);
-      if (result.errno === 0) {
-        this.setState({
-          curdata: result.data,
-          status: 1
-        })
-      } else {
-        this.setState({
-          curdata: result.data,
-          status: 2
-        })
+    try{
+      s = new WebSocket( wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
+      s.onopen = () => {
+        this.WebSocket = s;
       }
-
+  
+      s.onmessage = (e) => {
+        let result = JSON.parse(e.data);
+        if (result.errno === 0) {
+          this.setState({
+            curdata: result.data,
+            status: 1
+          })
+        } else {
+          this.setState({
+            curdata: result.data,
+            status: 2
+          })
+        }
+  
+      }
+  
+      s.onerror = () => {
+        console.error('websocket connect failed.')
+      }
+    }catch(e){
+      console.error(e);
     }
-
-    s.onerror = () => {
-      console.error('websocket connect failed.')
-    }
-
-
 
   }
 

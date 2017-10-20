@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
+import { Form, Input,Select, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
+import { fetchGroupList } from '../../../../reducer/modules/group.js'
 import { connect } from 'react-redux';
 const { TextArea } = Input;
 import { withRouter } from 'react-router';
@@ -28,10 +29,13 @@ const formItemLayout = {
   className: 'form-item'
 };
 
+const Option = Select.Option;
+
 @connect(
   state => {
     return {
       projectList: state.project.projectList,
+      groupList: state.group.groupList,
       projectMsg: state.project.projectMsg
     }
   },
@@ -40,7 +44,8 @@ const formItemLayout = {
     delProject,
     getProjectMsg,
     fetchGroupMsg,
-    upsetProject
+    upsetProject,
+    fetchGroupList
   }
 )
 @withRouter
@@ -62,9 +67,13 @@ class ProjectMessage extends Component {
     history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
     upsetProject: PropTypes.func,
+    groupList: PropTypes.array,
     projectList: PropTypes.array,
-    projectMsg: PropTypes.object
+    projectMsg: PropTypes.object,
+    fetchGroupList: PropTypes.func
   }
+
+
 
   // 确认修改
   handleOk = (e) => {
@@ -149,6 +158,7 @@ class ProjectMessage extends Component {
   }
 
   async componentWillMount() {
+    await this.props.fetchGroupList();
     await this.props.getProjectMsg(this.props.projectId);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     this.setState({
@@ -161,8 +171,8 @@ class ProjectMessage extends Component {
     const { projectMsg } = this.props;
     const mockUrl =  location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`
     let initFormValues = {};
-    const { name, basepath, desc, project_type } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type };
+    const { name, basepath, desc, project_type, group_id } = projectMsg;
+    initFormValues = { name, basepath, desc, project_type, group_id };
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
@@ -185,7 +195,7 @@ class ProjectMessage extends Component {
               </Popover>
             </Col>
             <Col xs={18} sm={15} lg={19} className="setting-intro">
-              <h2 className="ui-title">{this.state.currGroup + ' / ' + projectMsg.name}</h2>
+              <h2 className="ui-title">{(this.state.currGroup || '') + ' / ' + (projectMsg.name || '')}</h2>
               {/* <p className="ui-desc">{projectMsg.desc}</p> */}
             </Col>
           </Row>
@@ -209,13 +219,24 @@ class ProjectMessage extends Component {
                 <Input />
                 )}
             </FormItem>
-
             <FormItem
               {...formItemLayout}
               label="所属分组"
             >
-              <Input value={this.state.currGroup} disabled={true} />
+              {getFieldDecorator('group_id', {
+                initialValue: initFormValues.group_id+'' ,
+                rules: [{
+                  required: true, message: '请选择项目所属的分组!'
+                }]
+              })(
+                <Select>
+                  {this.props.groupList.map((item, index) => (
+                    <Option value={item._id.toString()} key={index}>{item.group_name}</Option>
+                  ))}
+                </Select>
+              )}
             </FormItem>
+
 
             <FormItem
               {...formItemLayout}

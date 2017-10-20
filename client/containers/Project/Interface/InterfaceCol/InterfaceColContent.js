@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Tooltip, Icon, Button, Spin, Modal, message } from 'antd'
+import constants from '../../../../constants/variable.js'
+import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { handleMockWord, simpleJsonPathParse } from '../../../../common.js'
-// import { formatTime } from '../../../../common.js'
+import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
@@ -18,7 +18,7 @@ import Mock from 'mockjs'
 import json5 from 'json5'
 import CaseReport from './CaseReport.js'
 const MockExtra = require('common/mock-extra.js')
-
+const Option = Select.Option;
 function json_parse(data) {
   try {
     return json5.parse(data)
@@ -26,7 +26,7 @@ function json_parse(data) {
     return data
   }
 }
-
+const HTTP_METHOD = constants.HTTP_METHOD;
 
 
 @connect(
@@ -124,7 +124,7 @@ class InterfaceColContent extends Component {
       return item;
     })
     rows = rows.sort((n, o) => {
-      return n.index > o.index
+      return n.index - o.index;
     })
     this.setState({
       rows: rows
@@ -151,11 +151,34 @@ class InterfaceColContent extends Component {
           status = 'invalid'
         }
       } catch (e) {
+        console.error(e);
         status = 'error';
         result = e;
       }
+      
+      let query = this.arrToObj(curitem.req_query);
+      if(!query || typeof query !== 'object'){
+        query = {};
+      }
+      let body = {};
+      if(HTTP_METHOD[curitem.method].request_body){
+        if(curitem.req_body_type === 'form'){
+          body = this.arrToObj(curitem.req_body_form);
+        }else {
+          body = isJson(curitem.req_body_other);
+        }
+        
+        if(!body || typeof body !== 'object'){
+          body = {};
+        }
+      }
+
+      let params = Object.assign({}, query, body);
       this.reports[curitem._id] = result;
-      this.records[curitem._id] = result.res_body;
+      this.records[curitem._id] = {
+        params: params,
+        body: result.res_body
+      };
 
       curitem = Object.assign({}, rows[i], { test_status: status });
       newRows = [].concat([], rows);
@@ -175,11 +198,21 @@ class InterfaceColContent extends Component {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
     const domains = currProject.env.concat();
-    const urlObj = URL.parse(domains.find(item => item.name === case_env).domain);
+    let currDomain = domains.find(item => item.name === case_env);
+    if(!currDomain){
+      currDomain = domains[0];
+    }
+    const urlObj = URL.parse(currDomain.domain);
+    if(urlObj.pathname){
+      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+        urlObj.pathname += '/'
+      }
+    }
+
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, path) : path,
+      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
       query: this.getQueryObj(interfaceData.req_query)
     });
 
@@ -191,13 +224,23 @@ class InterfaceColContent extends Component {
       result.url = href;
       result.method = interfaceData.method;
       result.headers = that.getHeadersObj(interfaceData.req_headers);
-      result.body = interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other;
-
+      if(interfaceData.req_body_type === 'form'){
+        result.body = that.arrToObj(interfaceData.req_body_form)
+      }else{
+        let reqBody = isJson(interfaceData.req_body_other);
+        if(reqBody === false){
+          result.body = this.handleValue(interfaceData.req_body_other)
+        }else{
+          result.body = JSON.stringify(this.handleJson(reqBody))
+        }
+        
+      }
+     
       window.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: interfaceData.req_body_type === 'form' ? that.arrToObj(interfaceData.req_body_form) : interfaceData.req_body_other,
+        data: result.body,
         success: (res, header) => {
           res = json_parse(res);
           result.res_header = header;
@@ -242,18 +285,29 @@ class InterfaceColContent extends Component {
     })
   }
 
-
-  handleVarWord(val) {
-    return simpleJsonPathParse(val, this.records)
+  handleJson = (data)=>{
+    if(!data){
+      return data;
+    }
+    if(typeof data === 'string'){
+      return this.handleValue(data);
+    }else if(typeof data === 'object'){
+      for(let i in data){
+        data[i] = this.handleJson(data[i]);
+      }
+    }else{
+      return data;
+    }
+    return data;    
   }
 
-  handleValue(val) {
+  handleValue = (val) => {
     if (!val || typeof val !== 'string') {
       return val;
     } else if (val[0] === '@') {
       return handleMockWord(val);
     } else if (val.indexOf('$.') === 0) {
-      return this.handleVarWord(val);
+      return simpleJsonPathParse(val, this.records);
     }
     return val;
   }
@@ -262,18 +316,20 @@ class InterfaceColContent extends Component {
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
-      if (item.name && item.type !== 'file') {
+      if (item.name && item.enable && item.type !== 'file') {
         obj[item.name] = this.handleValue(item.value);
       }
     })
     return obj;
   }
 
+  
+
   getQueryObj = (query) => {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
-      if (item.name) {
+      if (item.name && item.enable) {
         queryObj[item.name] = this.handleValue(item.value);
       }
     })
@@ -319,7 +375,7 @@ class InterfaceColContent extends Component {
     const { interfaceColList } = nextProps;
     const { actionId: oldColId, id } = this.props.match.params
     let newColId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newColId)) {
+    if (!interfaceColList.find(item => +item._id === +newColId)&&interfaceColList[0]._id) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
     } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
       if (newColId && newColId != 0) {
@@ -347,6 +403,16 @@ class InterfaceColContent extends Component {
     });
   }
 
+  colEnvChange = (envName) => {
+    let rows = [...this.state.rows];
+    for(var i in rows){
+      rows[i].case_env = envName;
+    }
+    this.setState({
+      rows: [...rows]
+    });
+  }
+
   render() {
     const columns = [{
       property: 'casename',
@@ -370,7 +436,7 @@ class InterfaceColContent extends Component {
       header: {
         label: 'key',
         formatters: [() => {
-          return <Tooltip title="每个用例都有一个独一无二的key，可用来获取匹配的接口响应数据">
+          return <Tooltip title={<span>每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 <a href="https://yapi.ymfe.org/case.html#变量参数" className="link-tooltip" target="blank">变量参数</a> 功能</span>}>
             Key</Tooltip>
         }]
       },
@@ -457,25 +523,33 @@ class InterfaceColContent extends Component {
         row: dnd.Row
       }
     };
-
     const resolvedColumns = resolve.columnChildren({ columns });
     const resolvedRows = resolve.resolve({
       columns: resolvedColumns,
       method: resolve.nested
     })(rows);
-
+    let colEnv = this.props.currProject.env || [];
     return (
       <div className="interface-col">
-        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
+        <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
+          <Select defaultValue={"选择测试集合执行环境（不选即为默认环境）"} style={{ width: "300px" }} onChange={this.colEnvChange}>
+            {
+              colEnv.map((item)=>{
+                return <Option key={item._id} value={item.name}>{item.name+": "+item.domain}</Option>;
+              })
+            }
+          </Select>
+        </div>
         {this.state.hasPlugin?
           <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>:
           <Tooltip title="请安装 cross-request Chrome 插件">
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
         }
-        
+
         <Table.Provider
           components={components}
           columns={resolvedColumns}
