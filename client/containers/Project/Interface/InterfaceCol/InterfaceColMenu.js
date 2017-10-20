@@ -257,7 +257,7 @@ export default class InterfaceColMenu extends Component {
   }
 
   render() {
-    let { currColId, currCaseId, isShowCol } = this.props;
+    const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, filterValue, importInterVisible } = this.state;
 
     // const menu = (col) => {
@@ -288,9 +288,7 @@ export default class InterfaceColMenu extends Component {
     //   this.props.interfaceColList.caseList = caseList;
     // }
     
-    // console.log(this.props.match);
-    console.log(currColId)
-    // currColId = this.props.match.params.id?this.props.match.params.id:currColId;
+    
     return (
       <div>
         <div className="interface-filter">
