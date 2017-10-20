@@ -20,15 +20,21 @@ class interfaceModel extends baseModel {
             add_time: Number,
             up_time: Number,
             type: {type: String, enum: ['static', 'var'], default:'static'},
+            query_path: {
+                path: String,
+                params: [{
+                    name: String, value: String
+                }],
+            },
             req_query:[{
-                name: String, value: String, desc: String, required: {
+                name: String, value: String,example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"
                 }
             }],
             req_headers: [{
-                name: String, value: String, desc: String, required: {
+                name: String, value: String,example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"
@@ -36,14 +42,15 @@ class interfaceModel extends baseModel {
             }],
             req_params:[{
                 name: String,
-                desc: String
+                desc: String,
+                example:String
             }],
             req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'file', 'raw']
             },
             req_body_form: [{
-                name: String,  type: { type: String, enum: ['text', 'file'] }, desc: String, required: {
+                name: String,  type: { type: String, enum: ['text', 'file'] },example:String, desc: String, required: {
                     type:String,
                     enum: ["1", "0"],
                     default: "1"
@@ -73,14 +80,24 @@ class interfaceModel extends baseModel {
     getBaseinfo(id){
         return this.model.findOne({
             _id: id
-        }).select('path method uid title project_id cat_id status').exec()
+        }).select('path method uid title project_id cat_id status req_body_other req_body_type').exec()
     }
 
     getVar(project_id, method){
         return this.model.find({
+            project_id: project_id,
             type: 'var',
             method: method
         }).select('_id path').exec()
+    }
+
+    getByQueryPath(project_id, path, method) {
+        return this.model.find({
+            project_id: project_id,
+            "query_path.path": path,
+            method: method
+        })
+            .exec();
     }
 
     getByPath(project_id, path, method) {
@@ -116,11 +133,10 @@ class interfaceModel extends baseModel {
             .exec();
     }
 
-    listByCatid(catid, select){
-        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
+    listByCatid(catid){
         return this.model.find({
             catid: catid
-        }).select(select).exec();
+        }).exec();
     }
 
     del(id) {

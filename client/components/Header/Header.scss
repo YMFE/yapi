@@ -1,8 +1,15 @@
-@import '../../styles/common.scss';
 @import '../../styles/mixin.scss';
 
 .nav-tooltip {
   color: red;
+}
+
+.user-menu.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background: #32363a;
+  color: rgba(255, 255, 255, 0.67);
+}
+.user-menu.ant-menu-dark .ant-menu-item-selected > a {
+  color: rgba(255, 255, 255, 0.67);
 }
 
 /* .header-box.css */
@@ -15,8 +22,17 @@
     float: left;
     line-height: .56rem;
     height: .56rem;
+    width: 56px;
+    border-right: 1px solid #55616d;
+    border-left: 1px solid #55616d;
+    background-color: inherit;
+    transition: all .2s;
+    &:hover{
+      background-color: #2395f1;
+    }
     .href {
       text-decoration: none;
+      display: block;
     }
     .logo-name {
       color: $color-white;
@@ -28,7 +44,8 @@
       position: absolute;
       left: 0;
       top: 50%;
-      transform: translateY(-17px);
+      left: 50%;
+      transform: translate(-16px,-17px);
     }
     .ui-badge {
       position: absolute;
@@ -39,30 +56,25 @@
       background-size: 236px 21px;
       background-repeat: no-repeat;
       background-image: none;
-      animation: flag .8s steps(8) infinite;
     }
-    @keyframes flag {
-      from { background-position: 0px; }
-      to { background-position: -240px; }
-    }
-    &:before, &:after {
-      content: '';
-      display: block;
-      width: 2px;
-      height: .56rem;
-      background-color: #222;
-      border-left: 1px solid #575D67;
-      position: relative;
-      top: 0;
-    }
-    &:before {
-      float: left;
-      left: -.08rem;
-    }
-    &:after {
-      float: right;
-      right: -.27rem;
-    }
+    // &:before, &:after {
+    //   content: '';
+    //   display: block;
+    //   width: 2px;
+    //   height: .56rem;
+    //   background-color: #222;
+    //   border-left: 1px solid #575D67;
+    //   position: relative;
+    //   top: 0;
+    // }
+    // &:before {
+    //   float: left;
+    //   left: -.08rem;
+    // }
+    // &:after {
+    //   float: right;
+    //   right: -.27rem;
+    // }
   }
 
   .nav-toolbar {
@@ -70,7 +82,9 @@
     float: left;
 
   }
-
+  .user-menu{
+    margin-top: 20px;
+  }
   .user-toolbar{
     float: right;
     height: .54rem;
@@ -85,10 +99,13 @@
       cursor: pointer;
       color: #ccc;
       margin-left: .16rem;
-      transition: color .4s;
+      transition: color .2s;
+      & a {
+        color: #ccc;
+      }
       .dropdown-link {
         color: #ccc;
-        transition: color .4s;
+        transition: color .2s;
         .ant-avatar-image{
           margin-bottom: -10px;
         }
@@ -96,9 +113,12 @@
           height: auto;
         }
       }
+      .anticon.active {
+        color: #2395f1;
+      }
       &:hover{
         .dropdown-link {
-          color: #ccc;
+          color: #2395f1;
         }
       }
       .name {

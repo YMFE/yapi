@@ -32,7 +32,8 @@ const formItemLayout = {
 @connect(
   state => {
     return {
-      groupList: state.group.groupList
+      groupList: state.group.groupList,
+      currGroup: state.group.currGroup
     }
   },
   {
@@ -46,12 +47,14 @@ class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupList: []
+      groupList: [],
+      currGroupId: null
     }
   }
   static propTypes = {
     groupList: PropTypes.array,
     form: PropTypes.object,
+    currGroup: PropTypes.object,
     addProject: PropTypes.func,
     history: PropTypes.object,
     setBreadcrumb: PropTypes.func,
@@ -88,107 +91,119 @@ class ProjectList extends Component {
 
   async componentWillMount() {
     this.props.setBreadcrumb([{name: '新建项目'}]);
-    await this.props.fetchGroupList();
+    if(!this.props.currGroup._id){
+      await this.props.fetchGroupList();
+    }
+    if(this.props.groupList.length === 0){
+      return null;
+    }
+    this.setState({
+      currGroupId: this.props.currGroup._id ? this.props.currGroup._id : this.props.groupList[0]._id
+    })
     this.setState({groupList: this.props.groupList});
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="g-row m-container">
-        <Form>
+      <div className="g-row">
+        <div className="g-row m-container">
+          <Form>
 
-          <FormItem
-            {...formItemLayout}
-            label="项目名称"
-          >
-            {getFieldDecorator('name', {
-              rules: nameLengthLimit('项目')
-            })(
-              <Input />
-            )}
-          </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="项目名称"
+            >
+              {getFieldDecorator('name', {
+                rules: nameLengthLimit('项目')
+              })(
+                <Input />
+              )}
+            </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="所属分组"
-          >
-            {getFieldDecorator('group', {
-              initialValue: this.state.groupList.length > 0? this.state.groupList[0]._id.toString() : null ,
-              rules: [{
-                required: true, message: '请选择项目所属的分组!'
-              }]
-            })(
-              <Select>
-                {this.state.groupList.map((item, index) => <Option value={item._id.toString()} key={index}>{item.group_name}</Option>)}
-              </Select>
-            )}
-          </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="所属分组"
+            >
+              {getFieldDecorator('group', {
+                initialValue: this.state.currGroupId+'' ,
+                rules: [{
+                  required: true, message: '请选择项目所属的分组!'
+                }]
+              })(
+                <Select>
+                  {this.state.groupList.map((item, index) => (
+                    <Option disabled={!(item.role === 'dev' || item.role === 'owner')} value={item._id.toString()} key={index}>{item.group_name}</Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
 
-          <hr className="breakline" />
+            <hr className="breakline" />
 
-          <FormItem
-            {...formItemLayout}
-            label={(
-              <span>
-                基本路径&nbsp;
-                <Tooltip title="接口基本路径，为空是根路径">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
-          >
-            {getFieldDecorator('basepath', {
-              rules: [{
-                required: false, message: '请输入项目基本路径'
-              }]
-            })(
-              <Input onBlur={this.handlePath} />
-            )}
-          </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={(
+                <span>
+                  基本路径&nbsp;
+                  <Tooltip title="接口基本路径，为空是根路径">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              )}
+            >
+              {getFieldDecorator('basepath', {
+                rules: [{
+                  required: false, message: '请输入项目基本路径'
+                }]
+              })(
+                <Input onBlur={this.handlePath} />
+              )}
+            </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="描述"
-          >
-            {getFieldDecorator('desc', {
-              rules: [{
-                required: false, message: '描述不超过50字!', max: 50
-              }]
-            })(
-              <TextArea rows={4} />
-            )}
-          </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="描述"
+            >
+              {getFieldDecorator('desc', {
+                rules: [{
+                  required: false, message: '描述不超过50字!', max: 50
+                }]
+              })(
+                <TextArea rows={4} />
+              )}
+            </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="权限"
-          >
-            {getFieldDecorator('project_type', {
-              rules: [{
-                required: true
-              }],
-              initialValue: 'private'
-            })(
-              <RadioGroup>
-                <Radio value="private" className="radio">
-                  <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
-                </Radio>
-                <br />
-                <Radio value="public" className="radio">
-                  <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
-                </Radio>
-              </RadioGroup>
-            )}
-          </FormItem>
-        </Form>
-        <Row>
-          <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
-            <Button className="m-btn" icon="plus" type="primary"
-              onClick={this.handleOk}
-              >创建项目</Button>
-          </Col>
-        </Row>
+            <FormItem
+              {...formItemLayout}
+              label="权限"
+            >
+              {getFieldDecorator('project_type', {
+                rules: [{
+                  required: true
+                }],
+                initialValue: 'private'
+              })(
+                <RadioGroup>
+                  <Radio value="private" className="radio">
+                    <Icon type="lock" />私有<br /><span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
+                  </Radio>
+                  <br />
+                  <Radio value="public" className="radio">
+                    <Icon type="unlock" />公开<br /><span className="radio-desc">任何人都可以索引并查看项目信息</span>
+                  </Radio>
+                </RadioGroup>
+              )}
+            </FormItem>
+          </Form>
+          <Row>
+            <Col sm={{ offset: 6 }} lg={{ offset: 3 }}>
+              <Button className="m-btn" icon="plus" type="primary"
+                onClick={this.handleOk}
+                >创建项目</Button>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

@@ -45,6 +45,11 @@
                         
                         <li class="">
                             
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="releases.html">版本记录</a> 
                         </li>
                         
@@ -149,6 +154,10 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-user-up_study">/user/up_study</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-user-change_password">/user/change_password</a>
                                     </li>
                                      
@@ -239,11 +248,11 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#-project-search">/project/search</a>
+                                        <a href="#-project-up_env">/project/up_env</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#-project-download">/project/download</a>
+                                        <a href="#-project-search">/project/search</a>
                                     </li>
                                 
                                 </ul>
@@ -454,7 +463,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#40" target="_blank">./server/controllers/group.js:40</a>
+        <a href="./static/server/controllers/group.js.html#43" target="_blank">./server/controllers/group.js:43</a>
     </p>
     
     
@@ -502,12 +511,10 @@
             </tr>
             
             <tr>
-                <td>owner_uid</td>
+                <td>owner_uids</td>
                 <td>String</td>
-                <td>组长uid</td>
+                <td>组长[uid]</td>
                 <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
                     
                 </td>
                 <td></td>
@@ -549,7 +556,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#121" target="_blank">./server/controllers/group.js:121</a>
+        <a href="./static/server/controllers/group.js.html#136" target="_blank">./server/controllers/group.js:136</a>
     </p>
     
     
@@ -587,9 +594,9 @@
             </tr>
             
             <tr>
-                <td>member_uid</td>
+                <td>member_uids</td>
                 <td>String</td>
-                <td>项目分组成员uid</td>
+                <td>项目分组成员[uid]</td>
                 <td>
                     
                     <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
@@ -601,7 +608,7 @@
             <tr>
                 <td>role</td>
                 <td>String</td>
-                <td>成员角色，owner or dev</td>
+                <td>成员角色，owner or dev or guest</td>
                 <td>
                     
                     <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
@@ -635,7 +642,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#170" target="_blank">./server/controllers/group.js:170</a>
+        <a href="./static/server/controllers/group.js.html#227" target="_blank">./server/controllers/group.js:227</a>
     </p>
     
     
@@ -721,7 +728,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#208" target="_blank">./server/controllers/group.js:208</a>
+        <a href="./static/server/controllers/group.js.html#279" target="_blank">./server/controllers/group.js:279</a>
     </p>
     
     
@@ -783,7 +790,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#234" target="_blank">./server/controllers/group.js:234</a>
+        <a href="./static/server/controllers/group.js.html#305" target="_blank">./server/controllers/group.js:305</a>
     </p>
     
     
@@ -857,7 +864,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#271" target="_blank">./server/controllers/group.js:271</a>
+        <a href="./static/server/controllers/group.js.html#356" target="_blank">./server/controllers/group.js:356</a>
     </p>
     
     
@@ -919,7 +926,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#290" target="_blank">./server/controllers/group.js:290</a>
+        <a href="./static/server/controllers/group.js.html#418" target="_blank">./server/controllers/group.js:418</a>
     </p>
     
     
@@ -991,7 +998,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/group.js.html#330" target="_blank">./server/controllers/group.js:330</a>
+        <a href="./static/server/controllers/group.js.html#458" target="_blank">./server/controllers/group.js:458</a>
     </p>
     
     
@@ -1178,7 +1185,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#64" target="_blank">./server/controllers/user.js:64</a>
+        <a href="./static/server/controllers/user.js.html#65" target="_blank">./server/controllers/user.js:65</a>
     </p>
     
     
@@ -1189,6 +1196,32 @@
     <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
     <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token string">"ok"</span>
 <span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-up_study" class="page-header subject">
+            /user/up_study
+            
+            <span class="ui-badge">GET</span>
+            
+            
+            <a class="hashlink" href="#-user-up_study">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        退出登录接口
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#81" target="_blank">./server/controllers/user.js:81</a>
+    </p>
+    
+    
     
     
 </div>
@@ -1211,7 +1244,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#160" target="_blank">./server/controllers/user.js:160</a>
+        <a href="./static/server/controllers/user.js.html#186" target="_blank">./server/controllers/user.js:186</a>
     </p>
     
     
@@ -1307,7 +1340,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#225" target="_blank">./server/controllers/user.js:225</a>
+        <a href="./static/server/controllers/user.js.html#263" target="_blank">./server/controllers/user.js:263</a>
     </p>
     
     
@@ -1404,7 +1437,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#299" target="_blank">./server/controllers/user.js:299</a>
+        <a href="./static/server/controllers/user.js.html#339" target="_blank">./server/controllers/user.js:339</a>
     </p>
     
     
@@ -1474,7 +1507,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#327" target="_blank">./server/controllers/user.js:327</a>
+        <a href="./static/server/controllers/user.js.html#368" target="_blank">./server/controllers/user.js:368</a>
     </p>
     
     
@@ -1536,7 +1569,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#366" target="_blank">./server/controllers/user.js:366</a>
+        <a href="./static/server/controllers/user.js.html#407" target="_blank">./server/controllers/user.js:407</a>
     </p>
     
     
@@ -1598,7 +1631,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#397" target="_blank">./server/controllers/user.js:397</a>
+        <a href="./static/server/controllers/user.js.html#438" target="_blank">./server/controllers/user.js:438</a>
     </p>
     
     
@@ -1690,7 +1723,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#452" target="_blank">./server/controllers/user.js:452</a>
+        <a href="./static/server/controllers/user.js.html#507" target="_blank">./server/controllers/user.js:507</a>
     </p>
     
     
@@ -1752,7 +1785,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#495" target="_blank">./server/controllers/user.js:495</a>
+        <a href="./static/server/controllers/user.js.html#550" target="_blank">./server/controllers/user.js:550</a>
     </p>
     
     
@@ -1814,7 +1847,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#527" target="_blank">./server/controllers/user.js:527</a>
+        <a href="./static/server/controllers/user.js.html#582" target="_blank">./server/controllers/user.js:582</a>
     </p>
     
     
@@ -1892,7 +1925,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#572" target="_blank">./server/controllers/user.js:572</a>
+        <a href="./static/server/controllers/user.js.html#627" target="_blank">./server/controllers/user.js:627</a>
     </p>
     
     
@@ -2194,7 +2227,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#201" target="_blank">./server/controllers/project.js:201</a>
+        <a href="./static/server/controllers/project.js.html#230" target="_blank">./server/controllers/project.js:230</a>
     </p>
     
     
@@ -2278,7 +2311,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#264" target="_blank">./server/controllers/project.js:264</a>
+        <a href="./static/server/controllers/project.js.html#293" target="_blank">./server/controllers/project.js:293</a>
     </p>
     
     
@@ -2356,7 +2389,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#289" target="_blank">./server/controllers/project.js:289</a>
+        <a href="./static/server/controllers/project.js.html#318" target="_blank">./server/controllers/project.js:318</a>
     </p>
     
     
@@ -2439,7 +2472,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#321" target="_blank">./server/controllers/project.js:321</a>
+        <a href="./static/server/controllers/project.js.html#357" target="_blank">./server/controllers/project.js:357</a>
     </p>
     
     
@@ -2655,7 +2688,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#372" target="_blank">./server/controllers/project.js:372</a>
+        <a href="./static/server/controllers/project.js.html#409" target="_blank">./server/controllers/project.js:409</a>
     </p>
     
     
@@ -2727,7 +2760,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#408" target="_blank">./server/controllers/project.js:408</a>
+        <a href="./static/server/controllers/project.js.html#445" target="_blank">./server/controllers/project.js:445</a>
     </p>
     
     
@@ -2813,7 +2846,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#458" target="_blank">./server/controllers/project.js:458</a>
+        <a href="./static/server/controllers/project.js.html#499" target="_blank">./server/controllers/project.js:499</a>
     </p>
     
     
@@ -2902,7 +2935,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#503" target="_blank">./server/controllers/project.js:503</a>
+        <a href="./static/server/controllers/project.js.html#544" target="_blank">./server/controllers/project.js:544</a>
     </p>
     
     
@@ -2973,6 +3006,90 @@
                 <td></td>
             </tr>
             
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
+<span class="token comment" spellcheck="true">//请求示例</span>
+<span class="token punctuation">{</span>
+    <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+    <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"本地开发环境"</span><span class="token punctuation">,</span>
+        <span class="token string">"domain"</span><span class="token punctuation">:</span> <span class="token string">"http://api.quar.com"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"yapi项目"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//返回示例</span>
+<span class="token punctuation">{</span>
+    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-project-up_env" class="page-header subject">
+            /project/up_env
+            
+            <span class="ui-badge">POST</span>
+            
+            
+            <a class="hashlink" href="#-project-up_env">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        编辑项目
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/project.js.html#625" target="_blank">./server/controllers/project.js:625</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>id</td>
+                <td>Number</td>
+                <td>项目id，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
             <tr>
                 <td>env</td>
                 <td>Array</td>
@@ -3007,28 +3124,6 @@
     </div>
     
     
-    <div>示例：</div>
-    <pre class="ydoc-example" data-foldnumber=10><code class="js-code">
-<span class="token comment" spellcheck="true">//请求示例</span>
-<span class="token punctuation">{</span>
-    <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
-    <span class="token string">"env"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
-        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"本地开发环境"</span><span class="token punctuation">,</span>
-        <span class="token string">"domain"</span><span class="token punctuation">:</span> <span class="token string">"http://api.quar.com"</span>
-    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token string">"desc"</span><span class="token punctuation">:</span> <span class="token string">"yapi项目"</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">//返回示例</span>
-<span class="token punctuation">{</span>
-    <span class="token string">"errcode"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-    <span class="token string">"errmsg"</span><span class="token punctuation">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
-    <span class="token string">"data"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"n"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-        <span class="token string">"ok"</span><span class="token punctuation">:</span> <span class="token number">1</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-    
     
 </div>
 
@@ -3050,7 +3145,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#586" target="_blank">./server/controllers/project.js:586</a>
+        <a href="./static/server/controllers/project.js.html#675" target="_blank">./server/controllers/project.js:675</a>
     </p>
     
     
@@ -3123,68 +3218,6 @@
         <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-    
-    
-</div>
-
-<div class="con-list-item">
-    <blockquote class="api">
-        <h3 id="-project-download" class="page-header subject">
-            /project/download
-            
-            <span class="ui-badge">GET</span>
-            
-            
-            <a class="hashlink" href="#-project-download">#</a>
-        </h3>
-    </blockquote>
-    <p>
-        <small class="text-muted">描述:</small>
-        下载项目的 Mock 数据
-    </p>
-    
-    <p>
-        <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#640" target="_blank">./server/controllers/project.js:640</a>
-    </p>
-    
-    
-    <p>
-        <small class="text-muted">参数:</small>
-    </p>
-    <div class="docs-table">
-        <table class="yo-table yo-table-border">
-            <colgroup>
-                <col class="c1">
-                <col class="c2">
-                <col class="c3">
-                <col class="c4">
-            </colgroup>
-            <thead>
-                <tr class="active">
-                    <th>参数名</th>
-                    <th>类型</th>
-                    <th>描述</th>
-                    <th>必选</th>
-                    <th>支持版本</th>
-                </tr>
-            </thead>
-            
-            <tr>
-                <td>project_id</td>
-                <td>String</td>
-                <td></td>
-                <td>
-                    
-                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
-                    
-                </td>
-                <td></td>
-            </tr>
-            
-        </table>
-    </div>
-    
     
     
 </div>
@@ -3531,7 +3564,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#168" target="_blank">./server/controllers/interface.js:168</a>
+        <a href="./static/server/controllers/interface.js.html#188" target="_blank">./server/controllers/interface.js:188</a>
     </p>
     
     
@@ -3596,7 +3629,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#193" target="_blank">./server/controllers/interface.js:193</a>
+        <a href="./static/server/controllers/interface.js.html#231" target="_blank">./server/controllers/interface.js:231</a>
     </p>
     
     
@@ -3661,7 +3694,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#255" target="_blank">./server/controllers/interface.js:255</a>
+        <a href="./static/server/controllers/interface.js.html#326" target="_blank">./server/controllers/interface.js:326</a>
     </p>
     
     
@@ -3894,7 +3927,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#429" target="_blank">./server/controllers/interface.js:429</a>
+        <a href="./static/server/controllers/interface.js.html#530" target="_blank">./server/controllers/interface.js:530</a>
     </p>
     
     
@@ -3966,7 +3999,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#617" target="_blank">./server/controllers/interface.js:617</a>
+        <a href="./static/server/controllers/interface.js.html#729" target="_blank">./server/controllers/interface.js:729</a>
     </p>
     
     
@@ -4264,7 +4297,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#16" target="_blank">./server/controllers/interfaceCol.js:16</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#17" target="_blank">./server/controllers/interfaceCol.js:17</a>
     </p>
     
     
@@ -4326,7 +4359,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#41" target="_blank">./server/controllers/interfaceCol.js:41</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#48" target="_blank">./server/controllers/interfaceCol.js:48</a>
     </p>
     
     
@@ -4412,7 +4445,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#98" target="_blank">./server/controllers/interfaceCol.js:98</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#106" target="_blank">./server/controllers/interfaceCol.js:106</a>
     </p>
     
     
@@ -4474,7 +4507,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#133" target="_blank">./server/controllers/interfaceCol.js:133</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#162" target="_blank">./server/controllers/interfaceCol.js:162</a>
     </p>
     
     
@@ -4656,7 +4689,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#213" target="_blank">./server/controllers/interfaceCol.js:213</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#302" target="_blank">./server/controllers/interfaceCol.js:302</a>
     </p>
     
     
@@ -4826,7 +4859,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#282" target="_blank">./server/controllers/interfaceCol.js:282</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#371" target="_blank">./server/controllers/interfaceCol.js:371</a>
     </p>
     
     
@@ -4888,7 +4921,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#339" target="_blank">./server/controllers/interfaceCol.js:339</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#438" target="_blank">./server/controllers/interfaceCol.js:438</a>
     </p>
     
     
@@ -4962,7 +4995,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#380" target="_blank">./server/controllers/interfaceCol.js:380</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#480" target="_blank">./server/controllers/interfaceCol.js:480</a>
     </p>
     
     
@@ -5022,7 +5055,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#422" target="_blank">./server/controllers/interfaceCol.js:422</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#512" target="_blank">./server/controllers/interfaceCol.js:512</a>
     </p>
     
     
@@ -5087,7 +5120,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/log.js.html#12" target="_blank">./server/controllers/log.js:12</a>
+        <a href="./static/server/controllers/log.js.html#14" target="_blank">./server/controllers/log.js:14</a>
     </p>
     
     

@@ -1,6 +1,6 @@
 import './Activity.scss'
 import React, { Component } from 'react'
-import TimeTree from './Timeline/Timeline'
+import TimeTree from '../../../components/TimeLine/TimeLine'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button } from 'antd'
@@ -29,7 +29,7 @@ class Activity extends Component {
     let {currProject} = this.props;
     return (
       <div className="g-row">
-        <section className="news-box">
+        <section className="news-box m-panel">
           <div style={{display: "none"}} className="logHead">
             {/*<Breadcrumb />*/}
             <div className = "projectDes">
@@ -41,7 +41,7 @@ class Activity extends Component {
               <Button type="primary"><a href = {`/api/project/download?project_id=${this.props.match.params.id}`}>下载Mock数据</a></Button>
             </div>
           </div>
-          <TimeTree typeid = {+this.props.match.params.id} />
+          <TimeTree type={"project"} typeid = {+this.props.match.params.id} />
         </section>
       </div>
     )

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import {Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import { Link } from 'react-router-dom'
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
 import { fetchGroupMemberList, fetchGroupMsg, addMember, delMember, changeMemberRole } from '../../../reducer/modules/group.js'
@@ -9,7 +10,7 @@ import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
-const arrayAddKey = (arr) => {
+function arrayAddKey (arr) {
   return arr.map((item, index) => {
     return {
       ...item,
@@ -42,7 +43,7 @@ class MemberList extends Component {
       role: '',
       visible: false,
       dataSource: [],
-      inputUid: 0,
+      inputUids: [],
       inputRole: 'dev'
     }
   }
@@ -81,7 +82,7 @@ class MemberList extends Component {
   handleOk() {
     this.props.addMember({
       id: this.props.currGroup._id,
-      member_uid: this.state.inputUid,
+      member_uids: this.state.inputUids,
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
@@ -136,6 +137,9 @@ class MemberList extends Component {
 
 
   componentWillReceiveProps(nextProps) {
+    if(this._groupId !== this._groupId){
+      return null;
+    }
     if (this.props.currGroup !== nextProps.currGroup) {
       this.props.fetchGroupMemberList(nextProps.currGroup._id).then((res) => {
         this.setState({
@@ -151,7 +155,7 @@ class MemberList extends Component {
   }
 
   componentDidMount() {
-    const currGroupId = this.props.currGroup._id;
+    const currGroupId = this._groupId = this.props.currGroup._id;
     this.props.fetchGroupMsg(currGroupId).then((res) => {
       this.setState({
         role: res.payload.data.data.role
@@ -165,9 +169,9 @@ class MemberList extends Component {
   }
 
   @autobind
-  onUserSelect(childState) {
+  onUserSelect(uids) {
     this.setState({
-      inputUid: childState.uid
+      inputUids: uids
     })
   }
 
@@ -178,21 +182,26 @@ class MemberList extends Component {
       key: 'username',
       render: (text, record) => {
         return (<div className="m-user">
-          <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
-          <p className="m-user-name">{text}</p>
+          <Link to={`/user/profile/${record.uid}`}>
+            <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + record.uid} className="m-user-img" />
+          </Link>
+          <Link to={`/user/profile/${record.uid}`}>
+            <p className="m-user-name">{text}</p>
+          </Link>
         </div>);
       }
     }, {
-      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" icon="plus" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
+      title: (this.state.role === 'owner' || this.state.role === 'admin') ? <div className="btn-container"><Button className="btn" type="primary" onClick={this.showAddMemberModal}>添加成员</Button></div> : '',
       key: 'action',
       className: 'member-opration',
       render: (text, record) => {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select defaultValue={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
-                <Option value={'owner-'+record.uid}>组长</Option>
+              <Select value={ record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
+                <Option value={ 'owner-'+record.uid}>组长</Option>
                 <Option value={'dev-'+record.uid}>开发者</Option>
+                <Option value={'guest-'+record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -205,37 +214,56 @@ class MemberList extends Component {
             return '组长';
           } else if (record.role === 'dev') {
             return '开发者';
+          } else if (record.role === 'guest') {
+            return '访客';
           } else {
             return '';
           }
         }
       }
     }];
+    let userinfo = this.state.userInfo;
+    let ownerinfo = [];
+    let devinfo = [];
+    let guestinfo = [];
+    for(let i = 0;i<userinfo.length;i++){
+      if(userinfo[i].role === "owner"){
+        ownerinfo.push(userinfo[i]);
+      }
+      if(userinfo[i].role === "dev"){
+        devinfo.push(userinfo[i]);
+      }
+      if(userinfo[i].role === "guest"){
+        guestinfo.push(userinfo[i]);
+      }
+    }
+    userinfo = [...ownerinfo,...devinfo,...guestinfo];
     return (
       <div className="m-panel">
-        <Modal
+        {this.state.visible?<Modal
           title="添加成员"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           >
           <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">用户名: </div></Col>
+            <Col span="5"><div className="label usernamelabel">用户名: </div></Col>
             <Col span="15">
               <UsernameAutoComplete callbackState={this.onUserSelect} />
             </Col>
           </Row>
           <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">权限: </div></Col>
+            <Col span="5"><div className="label usernameauth">权限: </div></Col>
             <Col span="15">
               <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                 <Option value="owner">组长</Option>
                 <Option value="dev">开发者</Option>
+                <Option value="guest">访客</Option>
               </Select>
             </Col>
           </Row>
-        </Modal>
-        <Table columns={columns} dataSource={this.state.userInfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
+        </Modal>:""}
+        <Table columns={columns} dataSource={userinfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
       </div>
     );
   }

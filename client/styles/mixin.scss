@@ -1,11 +1,22 @@
-$color-white: #fff;
+$color-white: rgba(255,255,255, .85);
+$color-white-secondary: rgba(255,255,255, .67);
 $color-bg-gray: #ececec;
 $color-blue: #2395f1;
 $color-blue-deeper: #34495E;
 $color-grey-deep: #929aac;
 $color-black-light: #404040;
-$color-bg-dark: #202d3a;            // 背景色 - header 用的深蓝色
+$color-bg-dark: #32363a;            // 背景色 - header 用的深蓝色
 $box-shadow-panel: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+
+$color-text-dark: rgba(13, 27, 62, 0.65);
+
+$color-antd-green: #00a854;
+$color-antd-yellow: #ffbf00;
+$color-antd-red: #f56a00;
+$color-antd-pink: #f5317f;
+$color-antd-cyan: #00a2ae;
+$color-antd-gray: #bfbfbf;
+$color-antd-purple: #7265e6;
 
 @mixin row-width-limit {
   max-width: 12.2rem;

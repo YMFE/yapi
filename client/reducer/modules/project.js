@@ -8,6 +8,7 @@ const PROJECT_ADD = 'yapi/project/PROJECT_ADD';
 const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 // const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
+const PROJECT_UPDATE_ENV = 'yapi/project/PROJECT_UPDATE_ENV';
 const PROJECT_UPSET = 'yapi/project/PROJECT_UPSET';
 const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT'
 const GET_PEOJECT_MEMBER = 'yapi/project/GET_PEOJECT_MEMBER';
@@ -161,18 +162,32 @@ export function addProject(data) {
 
 // 修改项目
 export function updateProject(data) {
-  const { name, project_type, basepath, desc, _id, env } = data;
+  const { name, project_type, basepath, desc, _id, env, group_id } = data;
   const param = {
     name,
     project_type,
     basepath,
     desc,
     id: _id,
-    env
+    env,
+    group_id
   };
   return {
     type: PROJECT_UPDATE,
     payload: axios.post('/api/project/up', param)
+  };
+}
+
+// 修改项目环境配置
+export function updateEnv(data) {
+  const { env, _id } = data;
+  const param = {
+    id: _id,
+    env
+  };
+  return {
+    type: PROJECT_UPDATE_ENV,
+    payload: axios.post('/api/project/up_env', param)
   };
 }
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
 import { getFollowList } from  '../../reducer/modules/follow';
 import { setBreadcrumb } from  '../../reducer/modules/user';
-import Subnav from '../../components/Subnav/Subnav.js';
+// import Subnav from '../../components/Subnav/Subnav.js';
 import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
 
@@ -57,23 +57,17 @@ class Follows extends Component {
   }
 
   render () {
-    const data = this.state.data;
+    let data = this.state.data;
+    data = data.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
     return (
       <div>
-        <Subnav
-          default={'我的关注'}
-          data={[{
-            name: '项目广场',
-            path: '/group'
-          }, {
-            name: '我的关注',
-            path: '/follow'
-          }]}/>
-        <div className="g-row">
-          <Row gutter={24} className="follow-box card-panel pannel-without-tab">
+        <div className="g-row" style={{paddingLeft: '32px', paddingRight: '32px'}}>
+          <Row gutter={16} className="follow-box pannel-without-tab">
             {data.length ? data.map((item, index) => {
               return (
-                <Col span={8} key={index}>
+                <Col xs={6} md={4} xl={3} key={index}>
                   <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
                 </Col>);
             }): <ErrMsg type="noFollow"/>}

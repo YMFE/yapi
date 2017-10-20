@@ -1,198 +1,69 @@
 import React, { Component } from 'react'
-import { Upload, Icon, message, Select } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
+import _ from 'underscore';
 const Dragger = Upload.Dragger;
 const Option = Select.Option;
 
+const plugin = require('client/plugin.js');
+
+const importDataModule = {};
+const exportDataModule = {};
+// exportDataModule.pdf = {
+//   name: 'Pdf',
+//   route: '/api/interface/download_crx',
+//   desc: '导出项目接口文档为 pdf 文件'
+// }
 @connect(
-  state=>{
+  state => {
     // console.log(state);
     return {
-      curCatid: state.inter.curdata.catid,
+      curCatid: -(-state.inter.curdata.catid),
       basePath: state.project.currProject.basepath
     }
-  },{
+  }, {
 
   }
 )
 
 class ProjectData extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      selectCatid:"",
-      menuList:[]
+      selectCatid: "",
+      menuList: [],
+      curImportType: null,
+      curExportType: null
     }
   }
   static propTypes = {
     match: PropTypes.object,
-    projectId: PropTypes.number,
     curCatid: PropTypes.number,
     basePath: PropTypes.string
   }
 
-  componentWillMount(){
-    axios.get(`/api/interface/getCatMenu?project_id=${this.props.projectId}`).then((data)=>{
+  componentWillMount() {
+    axios.get(`/api/interface/getCatMenu?project_id=${this.props.match.params.id}`).then((data) => {
       let menuList = data.data.data;
       this.setState({
         menuList: menuList
       })
     });
+    plugin.emitHook('import_data', importDataModule);
+    plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
   }
-  selectChange(value){
+  selectChange(value) {
     this.setState({
       selectCatid: +value
     })
   }
 
-  parseUrl(url){
-    let parser = document.createElement('a');
-    parser.href = url;
-    return {
-      protocol: parser.protocol,
-      hostname: parser.hostname,
-      port: parser.port,
-      pathname: parser.pathname,
-      search: parser.search,
-      host: parser.host
-    }
-  }
 
-  checkInterRepeat(interData){
-    let obj = {};
-    let arr = [];
-    for(let item in interData){
-      // console.log(interData[item].url + "-" + interData[item].method);
-      if(!obj[interData[item].url + "-" + interData[item].method+ "-"+interData[item].method]){
-        arr.push(interData[item]);
-        obj[interData[item].url + "-" + interData[item].method+ "-"+interData[item].method] = true;
-      }
-    }
-    return arr;
-  }
 
-  handleReq_query(query){
-    let res = [];
-    if(query&&query.length){
-      for(let item in query){
-        res.push({
-          name: query[item].key,
-          desc: query[item].description,
-          required: query[item].enable
-        });
-      }
-    }
-    return res;
-  }
-  handleReq_headers(headers){
-    let res = [];
-    if(headers&&headers.length){
-      for(let item in headers){
-        res.push({
-          name: headers[item].key,
-          desc: headers[item].description,
-          value: headers[item].value,
-          required: headers[item].enable
-        });
-      }
-    }
-    return res;
-  }
-
-  handleReq_body_form(body_form){
-    let res = [];
-    if(body_form&&body_form.length){
-      for(let item in body_form){
-        res.push({
-          name: body_form[item].key,
-          value: body_form[item].value,
-          type: body_form[item].type
-        });
-      }
-    }
-    return res;
-  }
-
-  handlePath(path){
-    path = path.replace(/{{(\w*)}}/,"");
-    path = this.parseUrl(path).pathname;
-    if(path.indexOf(this.props.basePath)>-1){
-      path = path.substr(this.props.basePath.length);
-    }
-    if(path.charAt(0) != "/"){
-      path = "/" + path;
-    }
-    if(path.charAt(path.length-1) === "/"){
-      path = path.substr(0,path.length-1);
-    }
-    return path;
-  }
-
-  importPostman(data,key){
-    let reflect = {//数据字段映射关系
-      title: "name",
-      path: "url",
-      method: "method",
-      desc: "description",
-      req_query: "queryParams",
-      req_headers: "headerData",
-      req_params: "",
-      req_body_type: "dataMode",
-      req_body_form: "data",
-      req_body_other: "rawModeData"
-    };
-    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other"];
-    key = key || allKey;
-    let res = {};
-    for(let item in key){
-      item = key[item];
-      if(item === "req_query"){
-        res[item] = this.handleReq_query.bind(this)(data[reflect[item]]);
-      }else if(item === "req_headers"){
-        res[item] = this.handleReq_headers.bind(this)(data[reflect[item]]);
-      }else if(item === "req_body_form"){
-        res[item] = this.handleReq_body_form.bind(this)(data[reflect[item]]);
-      }else if(item === "req_body_type"){
-        if(data.headers.indexOf('application/json')>-1){
-          res[item] = "json";
-        }else{
-          res[item] = "raw";
-        }
-      }else if(item === "path"){
-        res[item] = this.handlePath.bind(this)(data[reflect[item]]);
-        if(res[item] && res[item].indexOf("/:") > -1){
-          let params = res[item].substr(res[item].indexOf("/:")+2).split("/:");
-          // res[item] = res[item].substr(0,res[item].indexOf("/:"));
-          let arr = [];
-          for(let i in params){
-            arr.push({
-              name: params[i],
-              desc: ""
-            });
-          }
-          res["req_params"] = arr;
-        }
-      }else if(item === "title"){
-        let path = this.handlePath.bind(this)(data[reflect["path"]]);
-        if(data[reflect[item]].indexOf(path) > -1){
-          res[item] = path;
-          if(res[item] && res[item].indexOf("/:") > -1){
-            res[item] = res[item].substr(0,res[item].indexOf("/:"));
-          }
-        }else{
-          res[item] = data[reflect[item]];
-        }
-      }else{
-        res[item] = data[reflect[item]];
-      }
-    }
-    return res;
-  }
-
-  uploadChnange(info){
+  uploadChnange(info) {
     const status = info.file.status;
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -204,59 +75,89 @@ class ProjectData extends Component {
     }
   }
 
-  handleAddInterface(info){
-    if(this.state.selectCatid){
-      let filename = info.file.name;
-      let filetype = filename.substr(filename.lastIndexOf(".")).toLowerCase();
-      // console.log(filename,filetype);
-      if(filetype != ".json") return message.error("文件格式只能为json");
+  async handleAddCat(cats) {
+    let menuList = this.state.menuList;
+    let catsObj = {};
+    if (cats && Array.isArray(cats)) {
+      for (let i = 0; i < cats.length; i++) {
+        let cat = cats[i];
+        let findCat = _.find(menuList, menu => menu.name === cat.name)
+        catsObj[cat.name] = cat;
+        if (findCat) {
+          cat.id = findCat._id;
+        } else {
+          let result = await axios.post('/api/interface/add_cat', {
+            name: cat.name,
+            project_id: this.props.match.params.id,
+            desc: cat.desc
+          })
+          cat.id = result.data.data._id;
+        }
+      }
+    }
+    return catsObj;
+  }
+
+  handleAddInterface(info) {
+    if (!this.state.curImportType) {
+      return message.error('请选择导入数据的方式');
+    }
+    if (this.state.selectCatid) {
       let reader = new FileReader();
       reader.readAsText(info.file);
-      reader.onload = (res)=>{
-        
-        res = res.target.result;
-        try{
-          res = JSON.parse(res);
-          let interData = res.requests;
-          interData = this.checkInterRepeat.bind(this)(interData);
+      reader.onload = async res => {
+        res = importDataModule[this.state.curImportType].run(res.target.result);
+        const cats = await this.handleAddCat(res.cats);
 
-          if(interData && interData.length){
-            let len = interData.length;
-            let count = 0;
-            let successNum = len;
-            for(let item in interData){
-              let data = this.importPostman.bind(this)(interData[item]);
-              data = {
-                ...data,
-                project_id: this.props.projectId,
-                catid: this.state.selectCatid
-              }
-              axios.post('/api/interface/add',data).then((res)=>{
-                count++;
-                if(res.data.errcode){
-                  successNum--;
-                }
-                if(count === len){
-                  message.success(`成功导入接口 ${successNum} 个`);
-                }
-              });
-            }
+        res = res.apis;
+        let len = res.length;
+        let count = 0;
+        let successNum = len;
+        res.forEach(async (item) => {
+          let data = {
+            ...item,
+            project_id: this.props.match.params.id,
+            catid: this.state.selectCatid
           }
-          
-        }catch(e){
-          message.error("文件格式必须为JSON");
-        }
-        
+          if (this.props.basePath) {
+            data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
+          }
+          if (data.catname && cats[data.catname].id) {
+            data.catid = cats[data.catname].id;
+          }
+
+          let result = await axios.post('/api/interface/add', data);
+          count++;
+          if (result.data.errcode) {
+            successNum--;
+          }
+          if (count === len) {
+            message.success(`成功导入接口 ${successNum} 个`);
+          }
+
+        })
       }
-    }else{
-      message.error("请选择上传的分类");
+    } else {
+      message.error("请选择上传的默认分类");
     }
   }
 
+  handleImportType = (val) => {
+    this.setState({
+      curImportType: val
+    })
+  }
+
+  handleExportType = (val) => {
+    this.setState({
+      curExportType: val
+    })
+  }
+
   /**
-   * 
-   * 
-   * @returns 
+   *
+   *
+   * @returns
    * @memberof ProjectData
    */
   render() {
@@ -269,34 +170,69 @@ class ProjectData extends Component {
       onChange: this.uploadChnange.bind(this)
     }
     return (
-      <div className="m-panel">
-        <div className="postman-dataImport">
-
-          <div className="dataImportCon">
-            <h3 className="dataImportTile">Postman 数据导入</h3>
-            <div className="catidSelect">
-              <Select
-                showSearch
-                style={{ width: '100%' }}
-                placeholder="请选择数据导入的接口分类"
-                optionFilterProp="children"
-                onChange={this.selectChange.bind(this)}
-                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-              >
-                {this.state.menuList.map((item,key)=>{
-                  return <Option key = {key} value={item._id+""}>{item.name}</Option>;
-                })}
-                
-              </Select>
+      <div className="g-row">
+        <div className="m-panel">
+          <div className="postman-dataImport">
+            <div className="dataImportCon">
+              <div ><h3>数据导入&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/data.html" >
+                <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+              </a></h3></div>
+              <div className="dataImportTile">
+                <Select placeholder="请选择导入数据的方式" onChange={this.handleImportType}>
+                  {Object.keys(importDataModule).map((name) => {
+                    return <Option key={name} value={name}>{importDataModule[name].name}</Option>
+                  })}
+                </Select>
+              </div>
+              <div className="catidSelect">
+                <Select
+                  showSearch
+                  style={{ width: '100%' }}
+                  placeholder="请选择数据导入的默认分类"
+                  optionFilterProp="children"
+                  onChange={this.selectChange.bind(this)}
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {this.state.menuList.map((item, key) => {
+                    return <Option key={key} value={item._id + ""}>{item.name}</Option>;
+                  })}
+                </Select>
+              </div>
+              <div style={{ marginTop: 16, height: 180 }}>
+                <Dragger {...uploadMess}>
+                  <p className="ant-upload-drag-icon">
+                    <Icon type="inbox" />
+                  </p>
+                  <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
+                  <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
+                </Dragger>
+              </div>
             </div>
-            <div style={{ marginTop: 16, height: 180 }}>
-              <Dragger {...uploadMess}>
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
-                <p className="ant-upload-hint">注意：只支持json格式数据</p>
-              </Dragger>
+
+            <div className="dataImportCon" style={{ marginLeft: '20px', display: Object.keys(exportDataModule).length > 0 ? '' : 'none' }}>
+              <div ><h3>数据导出</h3></div>
+              <div className="dataImportTile">
+                <Select placeholder="请选择导出数据的方式" onChange={this.handleExportType}>
+                  {Object.keys(exportDataModule).map((name) => {
+                    return <Option key={name} value={name}>{exportDataModule[name].name}</Option>
+                  })}
+                </Select>
+              </div>
+              <div className="export-content">
+                {this.state.curExportType ?
+                  <div>
+                    <p className="export-desc">{exportDataModule[this.state.curExportType].desc}</p>
+                    <a target="_blank" href={this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route} >
+                      <Button className="export-button" type="primary" size="large"> 导出 </Button>
+
+                    </a>
+                  </div>
+                  :
+                  <Button disabled className="export-button" type="primary" size="large"> 导出 </Button>
+                }
+
+
+              </div>
             </div>
           </div>
         </div>

@@ -3,14 +3,28 @@
   margin-bottom: 0;
 }
 
+
 .m-panel{
   background-color: #fff;
   padding: 24px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-  border-radius: 4px;
   min-height: 4.68rem;
   margin-top: 0;
 }
+
+.project-list{
+  .project-list-header{
+    background: #eee;
+    height: 64px;
+    line-height: 40px;
+    border-radius: 4px;
+    text-align: right;
+    padding: 13px 15px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+}
+
+
 
 .ant-input-group-wrapper {
   width: 100%;

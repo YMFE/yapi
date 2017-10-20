@@ -20,16 +20,31 @@ Mock 参数每次请求都会生成随机字符串
 
 #### 变量参数
 
-<img  class="doc-img" style="width:100%" src="./images/usage/mock-var-param.jpg"  />
+YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 `参数` 或 `返回值` 作为 `后面接口的参数`，即使接口之间存在依赖，也可以轻松 **一键测试~**
 
+格式：
+```
+$.{key}.{params|body}.{path}
+```
 
-      $.371.data._id
+例如：现有两个接口，分别是“导航标题”和“文章列表”
+<img class="doc-img" style="width: 678px;" src="./images/usage/case_key_list.png" />
 
-$. 是使用动态变量的标志
+文章列表接口需要传参数: `当前标题(id)`，而这个 id 需要通过 `导航标题` 的返回值获取，这时应在 `文章列表` 的参数输入框中根据前者的 key 找到对应 id。
 
-371 是用例 key ,可在用例列表查看到
+`导航标题` 的参数和返回值有如下结构：
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">参数：</span>
+  <img style="width: 165px;" src="./images/usage/case_key_res_query.png" />
+</div>
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">返回值：</span>
+  <img style="width: 122px;" src="./images/usage/case_key_res.png" />
+</div>
 
-data._id 是接口返回数据指向的实际字段
+则 `文章列表` 的参数可以如下配置：
+<img  class="doc-img" style="width: 624px;" src="./images/usage/case_key_query.png" />
 
+其中 **$.** 是使用 **动态变量** 的标志，$.269.**params** 即表示 key 值为 269 用例的请求参数，$.269.**body** 即表示 key 值为 269 用例的返回值。
 
-
+> Tips: 上下拖动测试集合的列表项可以调整测试的顺序。

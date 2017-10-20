@@ -79,7 +79,7 @@ exports.fieldSelect = (data, field) => {
     var arr = {};
 
     field.forEach((f) => {
-        data[f] && (arr[f] = data[f]);
+        (typeof data[f] !== 'undefined') && (arr[f] = data[f]);
     });
 
     return arr;
@@ -113,7 +113,7 @@ exports.expireDate = (day) => {
 
 exports.sendMail = (options, cb) => {
     if (!yapi.mail) return false;
-    options.subject = options.subject ? options.subject + '-yapi平台' : 'ypai平台';
+    options.subject = options.subject ? options.subject + '-YApi 平台' : 'YApi 平台';
 
     cb = cb || function (err) {
         if (err) {
@@ -171,6 +171,15 @@ exports.verifyPath = (path) => {
         return false;
     }
 };
+
+exports.sandbox = (sandbox, script) => {
+    const vm = require('vm');
+    sandbox = sandbox || {};
+    script = new vm.Script(script);
+    const context = new vm.createContext(sandbox);
+    script.runInContext(context);
+    return sandbox;
+}
 
 function trim(str) {
     if (!str) {
@@ -241,7 +250,7 @@ exports.saveLog = (logData) => {
         logInst.save(data).then(
 
         );
-    } catch(e) {
+    } catch (e) {
         yapi.commons.log(e, 'error'); // eslint-disable-line
     }
 };

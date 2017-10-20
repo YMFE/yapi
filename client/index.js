@@ -5,6 +5,7 @@ import App from './Application'
 import { Provider } from 'react-redux'
 import createStore from './reducer/create';
 import './styles/theme.less'
+import './styles/common.scss';
 const store = createStore();
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(

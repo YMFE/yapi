@@ -1,21 +1,118 @@
 .col-list-tree {
+  line-height: 25px;
   .ant-tree-node-content-wrapper {
-    width: calc(100% - 24px);
+    width: calc(100% - 28px);
+  }
+  .opts-icon, .case-delete-icon {
+    line-height: 25px;
+    width: 30px;
+    font-weight: bold;
+  }
+  .opts-icon:hover, .case-delete-icon:hover {
+    color: #2395f1;
   }
   .menu-title {
     display: flex;
     justify-content: space-between;
     overflow: hidden;
+    .casename {
+      overflow: hidden;
+    }
     .case-delete-icon{
+      margin-left: 5px;
       display: none;
     }
-    i:before{
-      line-height: 17px;
+    .btns {
+      display: none;
     }
   }
   .menu-title:hover {
     .case-delete-icon {
       display: block;
     }
+    .btns {
+      display: block;
+    }
+  }
+}
+
+.container {
+  display: block;
+  width: 100%;
+  padding: 10px;
+}
+/*
+ * note that styling gu-mirror directly is a bad practice because it's too generic.
+ * you're better off giving the draggable elements a unique class and styling that directly!
+ */
+.gu-mirror {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 0.4s ease-in-out;
+}
+.container div {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  margin-bottom: 10px;
+}
+.container div:last-child {
+  margin-bottom: 0;
+}
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.container .ex-moved {
+  background-color: #e74c3c;
+}
+.container.ex-over {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.handle {
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: move;
+}
+.report{
+  min-height: 400px;
+  .case-report-pane{
+    margin-top: 10px;
+  }
+  .case-report{
+    margin: 10px;
+
+    .case-report-title{
+      font-size: 14px;
+      font-weight: bold;
+      text-align: right;
+      padding-right: 20px;
+    }
+  }
+}
+
+.interface-col{
+  padding: 24px;
+  .interface-col-table-header{
+    background-color: rgb(238, 238, 238);
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+  }
+
+  .interface-col-table-body{
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .interface-col-table-header th{
+    padding-left:5px;
+  }
+
+  .interface-col-table-body td{
+    padding-left:5px;
   }
 }

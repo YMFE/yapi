@@ -60,10 +60,6 @@
                 "name": "数据导入",
                 "index": "data",
                 "content": "./doc/page/usage/data.md"
-            },{
-                "name": "常见问题",
-                "index": "qa",
-                "content": "./doc/page/usage/qa.md"
             }
         ]
         }
@@ -137,6 +133,13 @@
       }
   },
   {
+    "name": "qa",
+    "title": "常见问题",
+    "compile": "markdown",
+    "menuLevel": 2,
+    "content": "./doc/page/usage/qa.md"
+  },
+  {
     "name": "releases",
     "title": "版本记录",
     "banner": {
@@ -158,7 +161,7 @@
             "title": "api",
             "description": "api文档"
         },
-        "content": "./server/controllers/*.js",
+        "content": "./server/controllers/+(follow|base|group|interface|interfaceCol|log|project|user).js",
         "options": {
             "type": "interface",
             "source": true,

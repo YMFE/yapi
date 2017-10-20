@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
-import { addProject, fetchProjectList, delProject, changeUpdateModal } from  '../../../reducer/modules/project';
+import { Row, Col, Button, Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
+import { addProject, fetchProjectList, delProject, changeUpdateModal } from '../../../reducer/modules/project';
 import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import { autobind } from 'core-decorators';
-import { setBreadcrumb } from  '../../../reducer/modules/user';
+import { setBreadcrumb } from '../../../reducer/modules/user';
 
-import './ProjectList.scss'
+import './ProjectList.scss';
 
 @connect(
   state => {
@@ -48,7 +49,9 @@ class ProjectList extends Component {
     tableLoading: PropTypes.bool,
     currGroup: PropTypes.object,
     setBreadcrumb: PropTypes.func,
-    currPage: PropTypes.number
+    currPage: PropTypes.number,
+    studyTip: PropTypes.number,
+    study: PropTypes.bool
   }
 
   // 取消修改
@@ -75,7 +78,7 @@ class ProjectList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.setBreadcrumb([{name: '分组: ' + (nextProps.currGroup.group_name || '')}]);
+    this.props.setBreadcrumb([{ name: '' + (nextProps.currGroup.group_name || '') }]);
 
     // 切换分组
     if (this.props.currGroup !== nextProps.currGroup) {
@@ -98,16 +101,44 @@ class ProjectList extends Component {
   }
 
   render() {
-    const projectData = this.state.projectData;
+    let projectData = this.state.projectData;
+    let noFollow = [];
+    let followProject = [];
+    for(var i in projectData){
+      if(projectData[i].follow){
+        followProject.push(projectData[i]);
+      }else{
+        noFollow.push(projectData[i]);
+      }
+    }
+    followProject = followProject.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
+    noFollow = noFollow.sort((a,b)=>{
+      return b.up_time - a.up_time;
+    })
+    projectData = [...followProject,...noFollow]
     return (
-      <div className="m-panel card-panel card-panel-s">
+      <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
+        <Row className="project-list-header">
+          <Col span={16} style={{ textAlign: 'left' }}>
+            {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
+          </Col>
+          <Col>
+            {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
+              <Link to="/add-project"><Button type="primary">添加项目</Button></Link>:
+              <Tooltip title="您没有权限,请联系该分组组长或管理员">
+                <Button type="primary" disabled >添加项目</Button>
+              </Tooltip>}
+          </Col>
+        </Row>
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col span={8} key={index}>
+              <Col xs={8} md={6} xl={4}  key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
-          }) : <ErrMsg type="noProject"/>}
+          }) : <ErrMsg type="noProject" />}
         </Row>
       </div>
     );

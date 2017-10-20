@@ -10,10 +10,33 @@ html, body {
              SimSun, sans-serif;
   margin: 0;
   padding: 0;
-  background: #ececec;
 }
+
+html {
+  // background-color: #32363a;
+}
+
 ::selection {
   background-color: #2395f1;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255,0,0,0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset006pxrgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0,0,0,0.2);
 }
 
 div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
@@ -28,7 +51,7 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited{
+  &:active, &:hover, &:visited, &:focus{
     text-decoration: none
   }
 }
@@ -51,10 +74,16 @@ em {
   height: auto !important;
   height: 100%;
   margin-bottom: -2.4rem;
+  background-color: #eceef1;
   &::after {
     content: '';
     display: block;
     height: 2.4rem;
+  }
+}
+.m-tab {
+  .ant-tabs-nav-wrap {
+    background-color: #eceef1;
   }
 }
 
@@ -64,7 +93,6 @@ em {
 
 // 布局容器 guitter: 16px
 .g-row {
-  max-width: 12.08rem;  // Col宽度 (1208+16)/24 = 51
   min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
   padding: 0 .24rem;
@@ -92,6 +120,20 @@ em {
   min-height: 5rem;
 }
 
+.panel-title {
+  margin-bottom: .16rem;
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  .title {
+    font-weight: normal;
+  }
+  .desc {
+    font-size: 13px;
+    color: #919191;
+
+  }
+}
+
 @media (max-width: 768px) {
   html {
     width: min-content !important;
@@ -114,5 +156,55 @@ em {
   }
   &.undone::before {
     background-color: #ff561b;
+  }
+}
+
+
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+  border: none;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+  border: none;
+}
+
+// 页面级底部固定 需要添加padding以保证页面底部不被覆盖
+// .has-affix-footer {
+//   padding-bottom: .92rem;
+// }
+
+.popover-index {
+  max-width: 3.2rem;
+  .ant-popover-title {
+    height: auto;
+  }
+  .title-container {
+    padding: .16rem 0;
+    .title {
+      text-align: center;
+    }
+  }
+  .btn-container {
+    text-align: center;
+    .btn {
+      margin: 0 .04rem;
+    }
+  }
+}
+
+.study-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.35);
+  z-index: 2;
+}
+
+// tooltip 中的链接
+.link-tooltip {
+  color: #56b2fd;
+  &:hover {
+    color: #2395f1;
   }
 }

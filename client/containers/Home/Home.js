@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
 import { logoSVG, getImgPath } from '../../common.js';
 import { changeMenuItem } from '../../reducer/modules/menu'
-import Plugins from '../../plugin.js'
+const plugin = require('client/plugin.js');
+
+const ThirdLogin = plugin.emitHook('third_login');
 const HomeGuest = () => (
   <div className="g-body">
     <div className="m-bg">
@@ -22,7 +24,7 @@ const HomeGuest = () => (
           <Col span={24}>
             <div className="home-header">
               <a href="#" className="item">YAPI</a>
-              <a target="_blank" href="/doc/index.html" className="item">使用文档</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/" className="item">使用文档</a>
             </div>
           </Col>
         </Row>
@@ -36,8 +38,8 @@ const HomeGuest = () => (
               <div className="detail">高效、易用、功能强大的API管理平台<br /><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                {Plugins.third_login.listener != null ?
-                  <Plugins.third_login.listener />
+                {ThirdLogin != null ?
+                  <ThirdLogin />
                   : null
                 }
 
@@ -208,7 +210,7 @@ class Home extends Component {
             <div className="tip-btns">
               <div className="btn-group">
                 <Link to="/login"><Button type="primary" className="btn-home btn-login">登录 / 注册</Button></Link>
-                <Button className="btn-home btn-home-normal"><a target="_blank" href="/doc/index.html" >使用文档</a></Button>
+                <Button className="btn-home btn-home-normal"><a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/" >使用文档</a></Button>
               </div>
             </div>
           </div>

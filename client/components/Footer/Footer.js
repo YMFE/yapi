@@ -52,56 +52,45 @@ Footer.defaultProps = {
       iconType: 'github',
       linkList: [
         {
-          itemTitle: '源码仓库',
+          itemTitle: 'YApi 源码仓库',
           itemLink: 'https://github.com/YMFE/yapi'
         }
       ]
 
     },
     {
-      title: '相关站点',
-      iconType: 'link',
+      title: '团队',
+      iconType: 'team',
       linkList: [
         {
           itemTitle: 'YMFE',
           itemLink: 'http://ued.qunar.com/ymfe/about'
-        },
-        {
-          itemTitle: 'UED',
-          itemLink: 'http://ued.qunar.com/'
-        },{
-          itemTitle: '去哪儿网',
-          itemLink: 'http://www.qunar.com/'
         }
       ]
 
     },
     {
-      title: '其他项目',
-      iconType: 'appstore-o',
+      title: '反馈',
+      iconType: 'aliwangwang-o',
       linkList: [
         {
-          itemTitle: 'Yo',
-          itemLink: 'http://ued.qunar.com/hy2/yo/'
-        },
-        {
-          itemTitle: 'YIcon',
-          itemLink: 'http://ued.qunar.com/yicon/'
+          itemTitle: 'Github Issues',
+          itemLink: 'https://github.com/YMFE/yapi/issues'
         },{
-          itemTitle: 'YKit',
-          itemLink: 'http://ued.qunar.com/ykit/'
-        },{
-          itemTitle: 'YDoc',
-          itemLink: 'http://ued.qunar.com/ydoc/'
+          itemTitle: 'Github Pull Requests',
+          itemLink: 'https://github.com/YMFE/yapi/pulls'
         }
       ]
     },
     {
-      title: 'Copyright © 2017 YApi',
+      title: 'Copyright © 2017 YMFE',
       linkList: [
         {
-          itemTitle: '版本： '+packageJson.version,
-          itemLink: 'javascript:'
+          itemTitle: '版本： ' + packageJson.version,
+          itemLink: 'https://yapi.ymfe.org/releases.html'
+        }, {
+          itemTitle: '使用文档',
+          itemLink: 'https://yapi.ymfe.org/'
         }
       ]
     }

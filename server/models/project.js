@@ -27,6 +27,19 @@ class projectModel extends baseModel {
         };
     }
 
+    updateMember(data) {
+        return this.model.update(
+            {
+                'members.uid': data.uid
+            }, {
+                "$set": { 
+                    "members.$.username": data.username,
+                    "members.$.email": data.email
+                }
+            }
+        );
+    }
+
     save(data) {
         let m = new this.model(data);
         return m.save();
@@ -36,6 +49,13 @@ class projectModel extends baseModel {
         return this.model.findOne({
             _id: id
         }).exec();
+    }
+
+    getProjectWithAuth(group_id, uid){
+        return this.model.count({
+            "group_id": group_id,
+            "members.uid": uid 
+        })
     }
 
     getBaseInfo(id){
@@ -67,6 +87,11 @@ class projectModel extends baseModel {
     list(group_id) {
         let params = {group_id: group_id}
         return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
+    }
+
+    countWithPublic(group_id){
+        let params = {group_id: group_id, project_type: 'public'};
+        return this.model.count(params);
     }
 
     listWithPaging(group_id, page, limit) {
@@ -113,7 +138,8 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $push: { members: data }
+                // $push: { members: data }
+                $push: { members: { $each: data } }
             }
         );
     }

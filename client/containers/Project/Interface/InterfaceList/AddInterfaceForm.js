@@ -26,7 +26,10 @@ class AddInterfaceForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onSubmit(values)
+        this.props.onSubmit(values,()=>{
+          this.props.form.resetFields();
+        });
+
       }
     });
   }
@@ -37,7 +40,6 @@ class AddInterfaceForm extends Component {
       path: handlePath(val)
     })
   }
-
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const prefixSelector = getFieldDecorator('method', {
@@ -95,14 +97,13 @@ class AddInterfaceForm extends Component {
         >
           {getFieldDecorator('path', {
             rules: [{
-              required: true, message: '清输入接口路径!'
+              required: true, message: '请输入接口路径!'
             }]
           })(
             <Input onBlur={this.handlePath} addonBefore={prefixSelector} placeholder="/path" />
             )}
         </FormItem>
-        <br />
-        <FormItem wrapperCol={{ span: 24, offset: 8 }} >
+        <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >
           <Button onClick={this.props.onCancel} style={{ marginRight: "10px" }}  >取消</Button>
           <Button
             type="primary"
