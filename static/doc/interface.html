@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 使用手册</title>
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="active">
+                            
+                            <a href="index.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >YApi</h1>
+                    <p class="desc ">高效、易用、功能强大的api管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="getfamiliar.html">认识 YApi</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="quickstart.html">创建第一个API</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="manage.html">管理分组与项目</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="project.html">项目操作</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="interface.html">接口操作</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#接口配置">接口配置</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#接口运行">接口运行</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="mock.html">使用mock功能</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="case.html">使用测试集</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="data.html">数据导入</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <p>进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 <code>接口集合</code> 和 <code>测试集合</code> 两个概念。</p>
+<ul>
+<li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
+<h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./quickstart.html#新建接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
+<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
+<ul>
+<li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
+<blockquote>
+<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
+</blockquote>
+</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员。</p>
+</li></ul>
+<h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
+<p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。</p>
+<blockquote>
+<p>安装完插件记得刷新页面</p>
+</blockquote>
+<p><img src="./images/interface_run.jpg" /></p>
+<p>点击保存按钮可把当前测试保存到测试集，方便下次调试。</p>
+
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+        
+
+    </body>
+
+</html>

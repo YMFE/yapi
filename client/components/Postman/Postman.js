@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
+import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -10,7 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import { handleMockWord } from '../../common.js'
+import {  handleMockWord, isJson } from '../../common.js'
 
 function json_parse(data) {
   try {
@@ -139,7 +139,7 @@ export default class Run extends Component {
       test_res_body = '',
       test_report = [],
       test_res_header = '',
-      mock_verify = true
+      mock_verify = false
     } = data;
 
     // case 任意编辑 pathname，不管项目的 basepath
@@ -202,8 +202,8 @@ export default class Run extends Component {
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
-    if(urlObj.pathname){
-      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+    if (urlObj.pathname) {
+      if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
         urlObj.pathname += '/'
       }
     }
@@ -214,6 +214,18 @@ export default class Run extends Component {
       pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
       query: this.getQueryObj(query)
     });
+    let reqBody;
+    if(bodyType === 'form'){
+      reqBody = this.arrToObj(bodyForm)
+    }else{
+      let resBody = isJson(bodyOther);
+      if(resBody === false){
+        resBody = bodyOther;
+      }else{
+        reqBody = this.handleJson(resBody)     
+      }
+      
+    }
 
     this.setState({ loading: true })
     let that = this;
@@ -221,7 +233,7 @@ export default class Run extends Component {
       url: href,
       method,
       headers: this.getHeadersObj(headers),
-      data: bodyType === 'form' ? this.arrToObj(bodyForm) : bodyOther,
+      data: reqBody,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header, third) => {
@@ -275,7 +287,6 @@ export default class Run extends Component {
         }
       },
       error: (err, header, third) => {
-        console.log('err', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -331,12 +342,14 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeQuery(v, index, isKey) {
+  changeQuery(v, index, key) {
+    key = key || 'value';
     const query = json_parse(JSON.stringify(this.state.query));
-    if (isKey) {
-      query[index].name = v;
+    if (key == 'enable') {
+      query[index].enable = v;
     } else {
       query[index].value = v;
+      query[index].enable = true;
     }
     this.setState({ query });
   }
@@ -382,13 +395,20 @@ export default class Run extends Component {
   }
 
   @autobind
-  changeBody(v, index) {
+  changeBody(v, index, key) {
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
-    if (bodyForm[index].type === 'file') {
-      bodyForm[index].value = 'file_' + index
-    } else {
-      bodyForm[index].value = v
+    key = key || 'value';
+    if (key === 'value') {
+      bodyForm[index].enable = true;
+      if (bodyForm[index].type === 'file') {
+        bodyForm[index].value = 'file_' + index
+      } else {        
+        bodyForm[index].value = v
+      }
+    } else if (key === 'enable') {
+      bodyForm[index].enable = v
     }
+
     this.setState({ bodyForm });
   }
   @autobind
@@ -445,9 +465,10 @@ export default class Run extends Component {
   arrToObj(arr) {
     const obj = {};
     arr.forEach(item => {
-      if (item.name && item.type !== 'file') {
-        obj[item.name] = handleMockWord(item.value);
-      }
+      if (item)
+        if (item.name && item.type !== 'file' && item.enable) {
+          obj[item.name] = handleMockWord(item.value);
+        }
     })
     return obj;
   }
@@ -455,7 +476,7 @@ export default class Run extends Component {
   getFiles(bodyForm) {
     const files = {};
     bodyForm.forEach(item => {
-      if (item.name && item.type === 'file') {
+      if (item.name && item.enable === true && item.type === 'file') {
         files[item.name] = item.value
       }
     })
@@ -464,7 +485,7 @@ export default class Run extends Component {
   getQueryObj(query) {
     const queryObj = {};
     query.forEach(item => {
-      if (item.name) {
+      if (item.name && item.enable) {
         queryObj[item.name] = handleMockWord(item.value);
       }
     })
@@ -480,6 +501,22 @@ export default class Run extends Component {
     return headersObj;
   }
 
+  handleJson = (data)=>{
+    if(!data){
+      return data;
+    }
+    if(typeof data === 'string'){
+      return handleMockWord(data);
+    }else if(typeof data === 'object'){
+      for(let i in data){
+        data[i] = this.handleJson(data[i]);
+      }
+    }else{
+      return data;
+    }
+    return data;    
+  }
+
   bindAceEditor = () => {
     mockEditor({
       container: 'res-body-pretty',
@@ -487,7 +524,7 @@ export default class Run extends Component {
       readOnly: true,
       onChange: function () { }
     })
-    
+
 
     mockEditor({
       container: 'res-headers-pretty',
@@ -649,7 +686,12 @@ export default class Run extends Component {
               query.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name} onChange={e => this.changeQuery(e, index, true)} className="key" />
+                    <Input disabled value={item.name}  className="key" />
+                    &nbsp;
+                    {item.required == 1 ?
+                      <Checkbox checked={true} disabled >enable</Checkbox> :
+                      <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
+                    }
                     <span className="eq-symbol">=</span>
                     <AutoComplete
                       value={item.value}
@@ -710,12 +752,13 @@ export default class Run extends Component {
                     return (
                       <div key={index} className="key-value-wrap">
                         <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
-                        <span>[</span>
-                        <Select disabled value={item.type} onChange={e => this.changeBody(e, index, 'type')}>
-                          <Option value="file">File</Option>
-                          <Option value="text">Text</Option>
-                        </Select>
-                        <span>]</span>
+                        &nbsp;
+                        {item.required == 1 ?
+                          <Checkbox checked={true} disabled >enable</Checkbox> :
+                          <Checkbox checked={item.enable} onChange={e => this.changeBody(e.target.checked, index, 'enable')}>enable</Checkbox>
+                        }
+
+
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
                           <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
@@ -752,10 +795,11 @@ export default class Run extends Component {
 
         <h2 className="interface-title">返回结果</h2>
 
-        <Spin  spinning={this.state.loading}>
-          <h2 style={{ display: this.state.resStatusCode !== null ? '' : 'none' }}  className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>{this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
+        <Spin spinning={this.state.loading}>
+          <h2 style={{ display: this.state.resStatusCode ? '' : 'none' }} className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>
+            {this.state.resStatusCode + '  ' + this.state.resStatusText}</h2>
 
-          <div style={{ display: this.state.res ? '' : 'none' }}  className="container-header-body">
+          <div style={{ display: this.state.res ? '' : 'none' }} className="container-header-body">
             <div className="header">
               <div className="container-title">
                 <h4>Headers</h4>
@@ -780,7 +824,7 @@ export default class Run extends Component {
           </div>
         </Spin>
 
-        <p style={{ display: this.state.resStatusCode===null ? '' : 'none' }}>发送请求后在这里查看返回结果。</p>
+        <p style={{ display: this.state.resStatusCode === null ? '' : 'none' }}>发送请求后在这里查看返回结果。</p>
 
         <h2 className="interface-title">数据结构验证
           <Switch style={{ verticalAlign: 'text-bottom', marginLeft: '8px' }} checked={this.state.resMockTest} onChange={this.onTestSwitched} />

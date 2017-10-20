@@ -80,11 +80,12 @@ class interfaceModel extends baseModel {
     getBaseinfo(id){
         return this.model.findOne({
             _id: id
-        }).select('path method uid title project_id cat_id status').exec()
+        }).select('path method uid title project_id cat_id status req_body_other req_body_type').exec()
     }
 
     getVar(project_id, method){
         return this.model.find({
+            project_id: project_id,
             type: 'var',
             method: method
         }).select('_id path').exec()

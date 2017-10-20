@@ -19,18 +19,18 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * nodejs（7.6+)
 * mongodb（2.6+）
 #### 安装
-使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。执行 yapi-cli server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码为 ymfe.org 登录系统（默认密码可在个人中心修改）。
+使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码为 ymfe.org 登录系统（默认密码可在个人中心修改）。
 
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
-    yapi-cli server 
+    yapi server 
 
 #### 升级
 升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
 
     cd  {项目目录}
-    yapi-cli ls //查看版本号列表
-    yapi-cli update //更新到最新版本
-    yapi-cli update -v {Version} //更新到指定版本
+    yapi ls //查看版本号列表
+    yapi update //更新到最新版本
+    yapi update -v {Version} //更新到指定版本
 
 
 
@@ -43,6 +43,34 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
 密码： ymfe.org
 
+### YApi 的客户
+* 去哪儿 
+* 唯品支付 
+* 链家网
+* 快手
+* 中山市鲣鸟网络科技有限公司
+* 广州大象健康科技有限公司
+* 杭州数慧科技有限公司
+* 厦门凌拓通信科技有限公司
+* 北京星度网络科技有限公司
+* 广州奥睿智能科技有限公司
+* 厦门彩虹狗科技有限公司
+* 企智互联科技
+* 西安市唐朝商贸有限公司
+* 华生基因
+* 维拉假日科技有限公司
+* 小斑马科技（天津）有限公司
+* 梅州幻麟网络科技有限公司
+* 安百科技
+* 好玩友
+* Nexusguard
+* 木木工作室
+
+### Authors
+* [suxiaoxin](https://github.com/suxiaoxin)
+* [zwjamnsss](https://github.com/amnsss)
+* [dwb1994](https://github.com/dwb1994)
+* [fungezi](https://github.com/fungezi)
 ### License
 Apache Licene 2.0
 

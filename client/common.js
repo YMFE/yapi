@@ -19,6 +19,16 @@ const roleAction = {
   'viewGroup': 'guest'
 }
 
+exports.isJson = function(json){
+  if(!json) return false;
+  try{
+    json = JSON.parse(json);
+    return json;
+  }catch(e){
+    return false;
+  }
+}
+
 exports.checkAuth = (action, role)=>{
   return Roles[roleAction[action]] <= Roles[role];
 }
@@ -72,39 +82,6 @@ exports.debounce = (func, wait) => {
   };
 };
 
-
-
-exports.simpleJsonPathParse = function (key, json){
-  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
-    return null;
-  }
-  let keys = key.substr(2).split(".");
-  keys = keys.filter(item=>{
-    return item;
-  })
-  for(let i=0, l = keys.length; i< l; i++){
-    try{
-      let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
-      if(m){
-        json = json[m[1]][m[2]];
-      }else{
-        json = json[keys[i]];
-      }
-
-
-    }catch(e){
-      json = null;
-      break;
-    }
-  }
-  return json;
-
-}
-
-exports.handleMockWord =(word) =>{
-  if(!word || typeof word !== 'string' || word[0] !== '@') return word;
-  return Mock.mock(word);
-}
 
 // 从 Javascript 对象中选取随机属性
 exports.pickRandomProperty = (obj) => {
@@ -175,3 +152,48 @@ exports.entries = (obj) => {
   }
   return res;
 }
+
+/**
+ * 作用：解析规则串 key ，然后根据规则串的规则以及路径找到在 json 中对应的数据
+ * 规则串：$.{key}.{body||params}.{dataPath} 其中 body 为返回数据，params 为请求数据，datapath 为数据的路径
+ * 数组：$.key.body.data.arr[0]._id  (获取 key 所指向请求的返回数据的 arr 数组的第 0 项元素的 _id 属性)
+ * 对象：$.key.body.data.obj._id ((获取 key 所指向请求的返回数据的 obj 对象的 _id 属性))
+ * 
+ * @param String key 规则串
+ * @param Object json 数据
+ * @returns 
+ */
+function simpleJsonPathParse(key, json){
+  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
+    return null;
+  }
+  let keys = key.substr(2).split(".");
+  keys = keys.filter(item=>{
+    return item;
+  })
+  for(let i=0, l = keys.length; i< l; i++){
+    try{
+      let m = keys[i].match(/(.*?)\[([0-9]+)\]/)
+      if(m){
+        json = json[m[1]][m[2]];
+      }else{
+        json = json[keys[i]];
+      }
+
+
+    }catch(e){
+      json = null;
+      break;
+    }
+  }
+  return json;
+}
+
+function handleMockWord(word) {
+  if(!word || typeof word !== 'string' || word[0] !== '@') return word;
+  return Mock.mock(word);
+}
+
+
+exports.simpleJsonPathParse = simpleJsonPathParse;
+exports.handleMockWord = handleMockWord;

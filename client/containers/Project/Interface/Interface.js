@@ -15,6 +15,7 @@ import InterfaceColMenu from './InterfaceCol/InterfaceColMenu.js'
 import InterfaceColContent from './InterfaceCol/InterfaceColContent.js'
 import InterfaceCaseContent from './InterfaceCol/InterfaceCaseContent.js'
 import { getProject } from '../../../reducer/modules/project';
+import { setColData } from '../../../reducer/modules/interfaceCol.js';
 const contentRouter = {
   path: '/project/:id/interface/:action/:actionId',
   exact: true
@@ -48,6 +49,7 @@ InterfaceRoute.propTypes = {
       isShowCol: state.interfaceCol.isShowCol
     }
   },{
+    setColData,
     getProject
   }
 )
@@ -57,7 +59,8 @@ class Interface extends Component {
     history: PropTypes.object,
     location: PropTypes.object,
     isShowCol: PropTypes.bool,
-    getProject: PropTypes.func
+    getProject: PropTypes.func,
+    setColData: PropTypes.func
   }
 
   constructor(props) {
@@ -75,6 +78,9 @@ class Interface extends Component {
     this.props.history.push('/project/' + params.id + '/interface/' + action)
   }
   componentWillMount(){
+    this.props.setColData({
+      isShowCol: true
+    })
     this.props.getProject(this.props.match.params.id)
   }
   render() {

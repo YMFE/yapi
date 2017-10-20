@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 内网部署</title>
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="">
+                            
+                            <a href="index.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="active">
+                            
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="plugin.html">插件Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="#环境要求">环境要求</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="#安装">安装</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="#升级">升级</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="#配置邮箱__仅支持_SMTP_">配置邮箱 (仅支持 SMTP)</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h1 class="subject" id="内网部署">内网部署 <a class="hashlink" href="#内网部署">#</a></h1><p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致 测试功能的文件上传功能异常。</p>
+<p>如果您是将服务器代理到 nginx 服务器，请配置 nginx 支持 websocket。</p>
+<pre><code>在location /添加
+proxy_http_version <span class="token number">1.1</span><span class="token punctuation">;</span>
+proxy_set_header Upgrade $http_upgrade<span class="token punctuation">;</span>
+proxy_set_header Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
+</code></pre><h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
+<li>nodejs（7.6+)</li><li>mongodb（2.6+）</li></ul>
+<h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
+<pre><code>npm install -g yapi-cli --registry https<span class="token operator">:</span>//registry.npm.taobao.org
+yapi server
+</code></pre><h2 class="subject" id="升级">升级 <a class="hashlink" href="#升级">#</a></h2><p>升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。</p>
+<pre><code>cd  <span class="token punctuation">{</span>项目目录<span class="token punctuation">}</span>
+yapi ls //查看版本号列表
+yapi update //升级到最新版本
+yapi update -v v1<span class="token number">.1</span>.<span class="token number">0</span> //升级到指定版本
+</code></pre><h2 class="subject" id="配置邮箱__仅支持_SMTP_">配置邮箱 (仅支持 SMTP) <a class="hashlink" href="#配置邮箱__仅支持_SMTP_">#</a></h2><p>打开项目目录 config.json 文件，新增 mail 配置， 替换默认的邮箱配置</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"adminAccount"</span><span class="token operator">:</span> <span class="token string">"********"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"mail"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"enable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"host"</span><span class="token operator">:</span> <span class="token string">"smtp.163.com"</span><span class="token punctuation">,</span>    //邮箱服务器
+    <span class="token property">"port"</span><span class="token operator">:</span> <span class="token number">465</span><span class="token punctuation">,</span>               //端口
+    <span class="token property">"from"</span><span class="token operator">:</span> <span class="token string">"***@163.com"</span><span class="token punctuation">,</span>     //发送人邮箱
+    <span class="token property">"auth"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"user"</span><span class="token operator">:</span> <span class="token string">"***@163.com"</span><span class="token punctuation">,</span> //邮箱服务器账号
+        <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token string">"*****"</span>        //邮箱服务器密码
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p><br><br><br><br><br></p>
+
+                    </div>
+                </div>
+                 
+            </div>
+            
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+        
+
+    </body>
+
+</html>
