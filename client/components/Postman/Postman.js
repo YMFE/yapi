@@ -222,9 +222,9 @@ export default class Run extends Component {
       if(resBody === false){
         resBody = bodyOther;
       }else{
-        reqBody = this.handleJson(resBody)     
+        reqBody = this.handleJson(resBody)
       }
-      
+
     }
 
     this.setState({ loading: true })
@@ -237,7 +237,7 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       success: (res, header, third) => {
-        console.log('suc', third);
+        // console.log('suc', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -402,7 +402,7 @@ export default class Run extends Component {
       bodyForm[index].enable = true;
       if (bodyForm[index].type === 'file') {
         bodyForm[index].value = 'file_' + index
-      } else {        
+      } else {
         bodyForm[index].value = v
       }
     } else if (key === 'enable') {
@@ -514,7 +514,7 @@ export default class Run extends Component {
     }else{
       return data;
     }
-    return data;    
+    return data;
   }
 
   bindAceEditor = () => {
@@ -549,11 +549,11 @@ export default class Run extends Component {
     }, 0);
   }
 
-  @autobind
-  fileChange(e, index) {
-    console.log(e)
-    console.log(index)
-  }
+  // @autobind
+  // fileChange(e, index) {
+  //   console.log(e)
+  //   console.log(index)
+  // }
 
   @autobind
   onTestSwitched(checked) {
