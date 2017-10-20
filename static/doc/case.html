@@ -45,6 +45,11 @@
                         
                         <li class="">
                             
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
                             <a href="releases.html">版本记录</a> 
                         </li>
                         
@@ -149,12 +154,6 @@
                                     
                                     <a href="data.html">数据导入</a> 
                                 </li>
-                                  
-                                <!-- <li  > -->
-                                <li >
-                                    
-                                    <a href="qa.html">常见问题</a> 
-                                </li>
                                  
                             </ul>
                         </nav>
@@ -170,15 +169,25 @@
 <p>测试完成之后，点击报告查看该次请求的结果</p>
 <h2 class="subject" id="编辑测试用例">编辑测试用例 <a class="hashlink" href="#编辑测试用例">#</a></h2><h3 class="subject" id="Mock参数">Mock参数 <a class="hashlink" href="#Mock参数">#</a></h3><p>Mock 参数每次请求都会生成随机字符串</p>
 <p><img  class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg"  /></p>
-<h4 class="subject" id="变量参数">变量参数 <a class="hashlink" href="#变量参数">#</a></h4><p>YApi 提供了强大的变量参数功能，你可以在测试的时候使用 <code>前面接口的返回值</code> 作为 <code>后面接口的参数</code>，即使接口之间存在依赖，也可以 <strong>一键测试~</strong></p>
-<p>例如：现有两个接口，分别是“导航标题”和“文章列表”</p>
-<p><img class="doc-img" style="width: 678px;" src="./images/usage/case_key_list.png" /></p>
+<h4 class="subject" id="变量参数">变量参数 <a class="hashlink" href="#变量参数">#</a></h4><p>YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 <code>参数</code> 或 <code>返回值</code> 作为 <code>后面接口的参数</code>，即使接口之间存在依赖，也可以轻松 <strong>一键测试~</strong></p>
+<p>格式：</p>
+<pre><code>$.<span class="token punctuation">{</span>key<span class="token punctuation">}</span>.<span class="token punctuation">{</span>params|body<span class="token punctuation">}</span>.<span class="token punctuation">{</span>path<span class="token punctuation">}</span>
+</code></pre><p>例如：现有两个接口，分别是“导航标题”和“文章列表”
+<img class="doc-img" style="width: 678px;" src="./images/usage/case_key_list.png" /></p>
 <p>文章列表接口需要传参数: <code>当前标题(id)</code>，而这个 id 需要通过 <code>导航标题</code> 的返回值获取，这时应在 <code>文章列表</code> 的参数输入框中根据前者的 key 找到对应 id。</p>
-<p><code>导航标题</code> 的返回值：
-<img class="doc-img" style="width: 122px;" src="./images/usage/case_key_res.png" /></p>
-<p><code>文章列表</code> 的参数配置：
-<img  class="doc-img" style="width: 682px;" src="./images/usage/case_key_query.png" />
-$. 是使用动态变量的标志，<strong>$.269 即表示 key 值为 269 的用例返回的数据</strong>。</p>
+<p><code>导航标题</code> 的参数和返回值有如下结构：</p>
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">参数：</span>
+  <img style="width: 165px;" src="./images/usage/case_key_res_query.png" />
+</div>
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">返回值：</span>
+  <img style="width: 122px;" src="./images/usage/case_key_res.png" />
+</div>
+
+<p>则 <code>文章列表</code> 的参数可以如下配置：
+<img  class="doc-img" style="width: 624px;" src="./images/usage/case_key_query.png" /></p>
+<p>其中 <strong>$.</strong> 是使用 <strong>动态变量</strong> 的标志，$.269.<strong>params</strong> 即表示 key 值为 269 用例的请求参数，$.269.<strong>body</strong> 即表示 key 值为 269 用例的返回值。</p>
 <blockquote>
 <p>Tips: 上下拖动测试集合的列表项可以调整测试的顺序。</p>
 </blockquote>
