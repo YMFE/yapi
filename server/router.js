@@ -146,7 +146,7 @@ let routerConfig = {
 		{
 			"action": "loginByToken",
 			"path": "login_by_token",
-			"method": "post"
+			"method": "all"
 		},
 		{
 			action: 'upStudy',
