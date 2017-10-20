@@ -5,7 +5,11 @@ const mockExtra = require('../../common/mock-extra.js');
 const _ = require('underscore');
 const Mock = require('mockjs');
 
-
+/**
+ * 
+ * @param {*} apiPath /user/tom
+ * @param {*} apiRule /user/:username
+ */
 function matchApi(apiPath, apiRule) {
     let apiRules = apiRule.split("/");
     let apiPaths = apiPath.split("/");
