@@ -8,6 +8,9 @@ const mockEditor = require('./mockEditor.js')
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
+import constants from '../../../../constants/variable.js'
+
+const HTTP_METHOD = constants.HTTP_METHOD;
 // import { Card } from 'antd'
 // import { getMockUrl } from '../../reducer/modules/news.js'
 
@@ -353,8 +356,12 @@ class View extends Component {
         <span className="colKey">请求Body类型：</span>
         <span className="colValue">{this.props.curData.req_body_type}</span>
       </div>*/}
-      {aceEditor}
-      {this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)}
+      <div style={{display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none'}}>
+        { aceEditor }
+        { 
+          this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
+        }
+      </div>
       {/*<div className="colreqBodyType">
         <span className="colKey">返回Body类型：</span>
         <span className="colValue">{this.props.curData.res_body_type}</span>
