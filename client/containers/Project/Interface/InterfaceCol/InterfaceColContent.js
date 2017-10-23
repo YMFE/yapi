@@ -73,7 +73,8 @@ class InterfaceColContent extends Component {
       reports: {},
       visible: false,
       curCaseid: null,
-      hasPlugin: false
+      hasPlugin: false,
+      currColEnv: ''
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -118,16 +119,21 @@ class InterfaceColContent extends Component {
   }
 
   handleColdata = (rows) => {
+    let { currColEnv } = this.state;
+    const colEnv = this.props.currProject.env;
+    currColEnv = currColEnv || colEnv[0].name;
     rows = rows.map((item) => {
       item.id = item._id;
       item._test_status = item.test_status;
+      item.case_env = currColEnv;
       return item;
     })
     rows = rows.sort((n, o) => {
       return n.index - o.index;
     })
     this.setState({
-      rows: rows
+      rows: rows,
+      currColEnv
     })
   }
 
@@ -409,7 +415,8 @@ class InterfaceColContent extends Component {
       rows[i].case_env = envName;
     }
     this.setState({
-      rows: [...rows]
+      rows: [...rows],
+      currColEnv: envName
     });
   }
 
@@ -514,7 +521,7 @@ class InterfaceColContent extends Component {
       }
     }
     ];
-    const { rows } = this.state;
+    const { rows, currColEnv } = this.state;
     const components = {
       header: {
         cell: dnd.Header
@@ -535,7 +542,7 @@ class InterfaceColContent extends Component {
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
-          <Select defaultValue={"选择测试集合执行环境（不选即为默认环境）"} style={{ width: "300px" }} onChange={this.colEnvChange}>
+          <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
             {
               colEnv.map((item)=>{
                 return <Option key={item._id} value={item.name}>{item.name+": "+item.domain}</Option>;
