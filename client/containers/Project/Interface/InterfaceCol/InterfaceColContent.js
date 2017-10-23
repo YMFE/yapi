@@ -4,11 +4,12 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
+import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
+import mockEditor from '../InterfaceList/mockEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
@@ -74,7 +75,9 @@ class InterfaceColContent extends Component {
       visible: false,
       curCaseid: null,
       hasPlugin: false,
-      currColEnv: ''
+      currColEnv: '',
+      scriptVisible: false,
+      curScript: ''
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -112,6 +115,7 @@ class InterfaceColContent extends Component {
         })
       }
     }, 500)
+
   }
 
   componentWillUnmount() {
@@ -159,22 +163,22 @@ class InterfaceColContent extends Component {
       } catch (e) {
         console.error(e);
         status = 'error';
-        result = e;        
+        result = e;
       }
-      
+
       let query = this.arrToObj(curitem.req_query);
-      if(!query || typeof query !== 'object'){
+      if (!query || typeof query !== 'object') {
         query = {};
       }
       let body = {};
-      if(HTTP_METHOD[curitem.method].request_body){
-        if(curitem.req_body_type === 'form'){
+      if (HTTP_METHOD[curitem.method].request_body) {
+        if (curitem.req_body_type === 'form') {
           body = this.arrToObj(curitem.req_body_form);
-        }else {
+        } else {
           body = isJson(curitem.req_body_other);
         }
-        
-        if(!body || typeof body !== 'object'){
+
+        if (!body || typeof body !== 'object') {
           body = {};
         }
       }
@@ -192,7 +196,7 @@ class InterfaceColContent extends Component {
       this.setState({
         rows: newRows
       })
-      if(status === 'error') break;
+      if (status === 'error') break;
     }
   }
 
@@ -206,12 +210,12 @@ class InterfaceColContent extends Component {
     });
     const domains = currProject.env.concat();
     let currDomain = domains.find(item => item.name === case_env);
-    if(!currDomain){
+    if (!currDomain) {
       currDomain = domains[0];
     }
     const urlObj = URL.parse(currDomain.domain);
-    if(urlObj.pathname){
-      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+    if (urlObj.pathname) {
+      if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
         urlObj.pathname += '/'
       }
     }
@@ -231,18 +235,18 @@ class InterfaceColContent extends Component {
       result.url = href;
       result.method = interfaceData.method;
       result.headers = that.getHeadersObj(interfaceData.req_headers);
-      if(interfaceData.req_body_type === 'form'){
+      if (interfaceData.req_body_type === 'form') {
         result.body = that.arrToObj(interfaceData.req_body_form)
-      }else{
+      } else {
         let reqBody = isJson(interfaceData.req_body_other);
-        if(reqBody === false){
+        if (reqBody === false) {
           result.body = this.handleValue(interfaceData.req_body_other)
-        }else{
+        } else {
           result.body = JSON.stringify(this.handleJson(reqBody))
         }
-        
+
       }
-     
+
       window.crossRequest({
         url: href,
         method: interfaceData.method,
@@ -292,20 +296,20 @@ class InterfaceColContent extends Component {
     })
   }
 
-  handleJson = (data)=>{
-    if(!data){
+  handleJson = (data) => {
+    if (!data) {
       return data;
     }
-    if(typeof data === 'string'){
+    if (typeof data === 'string') {
       return this.handleValue(data);
-    }else if(typeof data === 'object'){
-      for(let i in data){
+    } else if (typeof data === 'object') {
+      for (let i in data) {
         data[i] = this.handleJson(data[i]);
       }
-    }else{
+    } else {
       return data;
     }
-    return data;    
+    return data;
   }
 
   handleValue = (val) => {
@@ -330,7 +334,7 @@ class InterfaceColContent extends Component {
     return obj;
   }
 
-  
+
 
   getQueryObj = (query) => {
     query = query || [];
@@ -382,7 +386,7 @@ class InterfaceColContent extends Component {
     const { interfaceColList } = nextProps;
     const { actionId: oldColId, id } = this.props.match.params
     let newColId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newColId)&&interfaceColList[0]._id) {
+    if (!interfaceColList.find(item => +item._id === +newColId) && interfaceColList[0]._id) {
       this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
     } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
       if (newColId && newColId != 0) {
@@ -401,7 +405,37 @@ class InterfaceColContent extends Component {
       visible: true,
       curCaseid: id
     })
+  }
 
+  openScript = (id) => {
+    this.setState({
+      scriptVisible: true,
+      curCaseid: id
+    }, () => {
+      let that = this;
+      if(that.Editor){
+        that.Editor.setValue(this.state.curScript);
+      }else{
+        that.Editor = mockEditor({
+          container: 'case-script',
+          data: this.state.curScript,
+          onChange: function (d) {
+            that.setState({
+              curScript: d.text
+            })
+          }
+        })
+      }      
+    })
+
+
+
+  }
+
+  handleScriptCancel = () => {
+    this.setState({
+      scriptVisible: false
+    });
   }
 
   handleCancel = () => {
@@ -412,7 +446,7 @@ class InterfaceColContent extends Component {
 
   colEnvChange = (envName) => {
     let rows = [...this.state.rows];
-    for(var i in rows){
+    for (var i in rows) {
       rows[i].case_env = envName;
     }
     this.setState({
@@ -502,22 +536,29 @@ class InterfaceColContent extends Component {
           }
         ]
       }
-    }, {
+    },
+    {
       header: {
-        label: '测试报告'
+        label: '操作'
 
       },
       props: {
         style: {
-          width: '100px'
+          width: '200px'
         }
       },
       cell: {
         formatters: [(text, { rowData }) => {
-          if (!this.reports[rowData.id]) {
-            return null;
+          let reportFun = () => {
+            if (!this.reports[rowData.id]) {
+              return null;
+            }
+            return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
-          return <Button onClick={() => this.openReport(rowData.id)}>报告</Button>
+          return <div className="interface-col-table-action">
+            <Button onClick={() => this.openScript(rowData.id)} type="primary">自定义脚本</Button>
+            {reportFun()}
+          </div>
         }]
       }
     }
@@ -545,14 +586,14 @@ class InterfaceColContent extends Component {
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
           <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
             {
-              colEnv.map((item)=>{
-                return <Option key={item._id} value={item.name}>{item.name+": "+item.domain}</Option>;
+              colEnv.map((item) => {
+                return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
               })
             }
           </Select>
         </div>
-        {this.state.hasPlugin?
-          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>:
+        {this.state.hasPlugin ?
+          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button> :
           <Tooltip title="请安装 cross-request Chrome 插件">
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
@@ -584,6 +625,20 @@ class InterfaceColContent extends Component {
           footer={null}
         >
           <CaseReport {...this.reports[this.state.curCaseid]} />
+        </Modal>
+
+        <Modal
+          title="自定义测试脚本"
+          width="660px"
+          style={{ minHeight: '500px' }}
+          visible={this.state.scriptVisible}
+          onCancel={this.handleScriptCancel}
+        >
+          <h3>
+            是否开启:&nbsp;
+            <Switch defaultChecked={false} />
+          </h3>
+          <div className="case-script" id="case-script" style={{ minHeight: 500 }}></div>
         </Modal>
       </div>
     )
