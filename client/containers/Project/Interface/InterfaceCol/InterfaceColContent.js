@@ -159,7 +159,7 @@ class InterfaceColContent extends Component {
       } catch (e) {
         console.error(e);
         status = 'error';
-        result = e;
+        result = e;        
       }
       
       let query = this.arrToObj(curitem.req_query);
@@ -192,6 +192,7 @@ class InterfaceColContent extends Component {
       this.setState({
         rows: newRows
       })
+      if(status === 'error') break;
     }
   }
 
