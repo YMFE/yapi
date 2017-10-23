@@ -104,7 +104,7 @@ class advMockController extends baseController{
     findRepeatParams = {
       project_id: data.project_id,
       interface_id: data.interface_id,
-      ip_enable: data.ip_enable,
+      ip_enable: data.ip_enable
     }
 
     if(data.params && typeof data.params === 'object'){
@@ -124,7 +124,7 @@ class advMockController extends baseController{
     }
 
     let result;
-    if(params.id && !isNan(params.id)){
+    if(params.id && !isNaN(params.id)){
       data.id = +params.id;
       result = await this.caseModel.up(data);
     }else{

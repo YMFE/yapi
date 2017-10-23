@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import axios from 'axios'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Table, Button } from 'antd';
+import { Table, Button, message } from 'antd';
 import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
 import { formatTime } from '../../../client/common.js';
 import CaseDesModal from './CaseDesModal';
@@ -41,19 +41,24 @@ export default class MockCol extends Component {
     this.props.fetchMockCol(interfaceId);
   }
 
-  handleOk = (caseData) => {
-    if (this.state.isAdd) {
-      caseData = Object.assign({
-        ...caseData,
-        interface_id: 0,
-        project_id: 0,
-        uid: 0
-      })
-      // addCase()
-    } else {
-      // saveCase()
+  handleOk = async (caseData) => {
+    const interface_id = this.props.match.params.action;
+    const project_id = this.props.match.params.id;
+    caseData = Object.assign({
+      ...caseData,
+      interface_id: interface_id,
+      project_id: project_id
+    })
+    if (!this.state.isAdd) {
+      caseData.id = 0;
     }
-    console.log(caseData)
+    axios.post('/api/plugin/advmock/case/save', caseData).then(res => {
+      if (res.data.errcode === 0) {
+        message.success(this.state.isAdd ? '添加成功' : '保存成功');
+      } else {
+        message.error(res.data.errmsg);
+      }
+    })
   }
 
   saveFormRef = (form) => {

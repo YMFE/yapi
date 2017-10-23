@@ -109,12 +109,6 @@ export default class CaseDesModal extends Component {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { isAdd, visible, onCancel } = this.props;
-    // const { caseData } = this.props;
-    // const headers = caseData.headers || [{name: '', value: ''}];
-    // const params = caseData.params || {'': ''};
-    // const paramsArr = Object.keys(params).map(key => {
-    //   return { name: key, value: params[key] }
-    // })
 
     return (
       <Modal
@@ -135,17 +129,13 @@ export default class CaseDesModal extends Component {
               <Input placeholder="请输入期望名称" />
             )}
           </FormItem>
-          <FormItem label="IP 过滤">
+          <FormItem {...formItemLayout} label="IP 过滤">
             {getFieldDecorator('ip_enable', {
               valuePropName: 'checked',
               rules: [{ type: 'boolean' }]
             })(
               <Switch />
             )}
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-          >
             {getFieldDecorator('ip')(
               <Input placeholder="请输入过滤的 IP 地址" />
             )}
@@ -191,12 +181,19 @@ export default class CaseDesModal extends Component {
                   {getFieldDecorator(`headers[${index}].value`)(
                     <Input />
                   )}
+                  {getFieldValue('headers').length > 1 ? (
+                    <Icon
+                      className="dynamic-delete-button"
+                      type="minus-circle-o"
+                      onClick={() => this.removeHeaders(index)}
+                    />
+                  ) : null}
                 </FormItem>
               </div>
             ))
           }
           <FormItem>
-            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+            <Button type="dashed" onClick={this.addHeaders} style={{ width: '60%' }}>
               <Icon type="plus" /> 添加 HTTP 头
             </Button>
           </FormItem>
@@ -206,18 +203,12 @@ export default class CaseDesModal extends Component {
             getFieldValue('paramsArr').map((item, index) => (
               <div  key={index}>
                 <FormItem
+                  {...formItemLayout}
                   label={index ? '' : '参数'}
                 >
                   {getFieldDecorator(`paramsArr[${index}].name`)(
                     <Input />
                   )}
-                  {getFieldValue('paramsArr').length > 1 ? (
-                    <Icon
-                      className="dynamic-delete-button"
-                      type="minus-circle-o"
-                      onClick={() => this.remove(index)}
-                    />
-                  ) : null}
                 </FormItem>
                 <FormItem
                 >
@@ -228,7 +219,7 @@ export default class CaseDesModal extends Component {
                     <Icon
                       className="dynamic-delete-button"
                       type="minus-circle-o"
-                      onClick={() => this.remove(index)}
+                      onClick={() => this.removeParams(index)}
                     />
                   ) : null}
                 </FormItem>
@@ -236,7 +227,7 @@ export default class CaseDesModal extends Component {
             ))
           }
           <FormItem>
-            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+            <Button type="dashed" onClick={this.addParams} style={{ width: '60%' }}>
               <Icon type="plus" /> 添加参数
             </Button>
           </FormItem>
