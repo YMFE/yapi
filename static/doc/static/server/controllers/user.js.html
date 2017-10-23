@@ -234,16 +234,17 @@ class userController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '密码不能为空');
         }
 
-
+        let user = await userInst.findById(params.uid);
         if (this.getRole() !== 'admin' && params.uid != this.getUid()) {
             return ctx.body = yapi.commons.resReturn(null, 402, '没有权限');
         }
-        if (this.getRole() !== 'admin') {
+        
+        if (this.getRole() !== 'admin' || user.role === 'admin') {
             if (!params.old_password) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '旧密码不能为空');
             }
 
-            let user = await userInst.findById(params.uid);
+            
             if (yapi.commons.generatePassword(params.old_password, user.passsalt) !== user.password) {
                 return ctx.body = yapi.commons.resReturn(null, 402, '旧密码错误');
             }
