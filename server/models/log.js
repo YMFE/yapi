@@ -41,7 +41,7 @@ class logModel extends baseModel {
     }
     
     del(id) {
-        return this.model.deleteOne({
+        return this.model.remove({
             _id: id
         });
     }

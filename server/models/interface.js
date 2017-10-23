@@ -140,19 +140,19 @@ class interfaceModel extends baseModel {
     }
 
     del(id) {
-        return this.model.deleteOne({
+        return this.model.remove({
             _id: id
         });
     }
 
     delByCatid(id){
-        return this.model.deleteMany({
+        return this.model.remove({
             catid: id
         })
     }
 
     delByProjectId(id){
-        return this.model.deleteMany({
+        return this.model.remove({
             project_id: id
         })
     }

@@ -5,7 +5,11 @@ const mockExtra = require('../../common/mock-extra.js');
 const _ = require('underscore');
 const Mock = require('mockjs');
 
-
+/**
+ * 
+ * @param {*} apiPath /user/tom
+ * @param {*} apiRule /user/:username
+ */
 function matchApi(apiPath, apiRule) {
     let apiRules = apiRule.split("/");
     let apiPaths = apiPath.split("/");
@@ -61,13 +65,12 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 403, e.message);
     }
 
-    if (project === false) {
+    if (!project) {
         return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
 
     let interfaceData, newpath;
     let interfaceInst = yapi.getInst(interfaceModel);
-
     try {
         newpath = path.substr(project.basepath.length);
         interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
@@ -149,9 +152,25 @@ module.exports = async (ctx, next) => {
                     projectData: project,
                     interfaceData: interfaceData,
                     ctx: ctx,
-                    mockJson: res
+                    mockJson: res,
+                    resHeader: {},
+                    httpCode: 200,
+                    delay: 0
                 }
                 await yapi.emitHook('mock_after', context);
+                let handleMock = new Promise(resolve=>{
+                    setTimeout(()=>{
+                      resolve(true)
+                    }, context.delay)
+                  })
+                await handleMock;   
+                if(context.resHeader && typeof context.resHeader === 'object'){
+                    for(let i in context.resHeader){
+                        ctx.set(i, context.resHeader[i]);
+                    }
+                }
+                
+                ctx.status = context.httpCode;
                 return ctx.body = context.mockJson;
             } catch (e) {
                 yapi.commons.log(e, 'error')

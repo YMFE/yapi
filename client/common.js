@@ -194,6 +194,23 @@ function handleMockWord(word) {
   return Mock.mock(word);
 }
 
+/**
+ * 合并后新的对象属性与 Obj 一致，nextObj 有对应属性则取 nextObj 属性值，否则取 Obj 属性值
+ * @param  {Object} Obj     旧对象
+ * @param  {Object} nextObj 新对象
+ * @return {Object}           合并后的对象
+ */
+exports.safeAssign = (Obj, nextObj) => {
+  let keys = Object.keys(nextObj);
+  return Object.keys(Obj).reduce((result, value) => {
+      if (keys.indexOf(value) >= 0) {
+          result[value] = nextObj[value];
+      } else {
+          result[value] = Obj[value];
+      }
+      return result;
+  }, {});
+};
 
 exports.simpleJsonPathParse = simpleJsonPathParse;
 exports.handleMockWord = handleMockWord;

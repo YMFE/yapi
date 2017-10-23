@@ -160,6 +160,10 @@ exports.filterRes = (list, rules) => {
     });
 };
 
+/**
+ * 验证一个 path 是否合法
+ * path第一位必需为 /, path只容许由 字母数字-/_:. 组成, 最后一位不容许为 /
+ */
 exports.verifyPath = (path) => {
     if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
         if (path[path.length - 1] === '/') {
@@ -172,6 +176,15 @@ exports.verifyPath = (path) => {
     }
 };
 
+/**
+ * 沙盒执行 js 代码 
+ * @sandbox Object context
+ * @script String script
+ * @return sandbox
+ * 
+ * @example let a = sandbox({a: 1}, 'a=2')
+ * a = {a: 2}
+ */
 exports.sandbox = (sandbox, script) => {
     const vm = require('vm');
     sandbox = sandbox || {};
@@ -215,6 +228,12 @@ exports.trim = trim;
 exports.ltrim = ltrim;
 exports.rtrim = rtrim;
 
+/**
+ * 处理请求参数类型，String 字符串去除两边空格，Number 使用parseInt 转换为数字
+ * @params Object {a: ' ab ', b: ' 123 '}
+ * @keys Object {a: 'string', b: 'number'}
+ * @return Object {a: 'ab', b: 123}
+ */
 exports.handleParams = (params, keys) => {
     if (!params || typeof params !== 'object' || !keys || typeof keys !== 'object') {
         return false;
@@ -226,7 +245,7 @@ exports.handleParams = (params, keys) => {
             switch (filter) {
                 case 'string': params[key] = trim(params[key] + '');
                     break;
-                case 'number': params[key] = parseInt(params[key], 10);
+                case 'number': params[key] =!isNaN(params[key])? parseInt(params[key], 10) : 0;
                     break;
                 default: params[key] = trim(params + '');
             }

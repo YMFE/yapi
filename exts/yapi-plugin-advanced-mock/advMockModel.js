@@ -25,13 +25,13 @@ class advMockModel extends baseModel {
   }
 
   delByInterfaceId(interface_id) {
-    return this.model.deleteOne({
+    return this.model.remove({
       interface_id: interface_id
     });
   }
 
   delByProjectId(project_id){
-    return this.model.deleteMany({
+    return this.model.remove({
       project_id: project_id
     })
   }

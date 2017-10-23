@@ -35,7 +35,7 @@ class followModel extends baseModel {
     }
 
     del(projectid, uid){
-        return this.model.deleteOne({
+        return this.model.remove({
             projectid: projectid,
             uid: uid
         });

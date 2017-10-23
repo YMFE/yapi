@@ -34,93 +34,93 @@ function setupSql() {
 
     yapi.connect.then(function () {        
         let userCol = mongoose.connection.db.collection('user')
-        userCol.ensureIndex({
+        userCol.createIndex({
             username: 1
         })
-        userCol.ensureIndex({
+        userCol.createIndex({
             email: 1
         }, {
                 unique: true
             })
 
         let projectCol = mongoose.connection.db.collection('project')
-        projectCol.ensureIndex({
+        projectCol.createIndex({
             uid: 1
         })
-        projectCol.ensureIndex({
+        projectCol.createIndex({
             name: 1
         })
-        projectCol.ensureIndex({
+        projectCol.createIndex({
             group_id: 1
         })
 
         let logCol = mongoose.connection.db.collection('log')
-        logCol.ensureIndex({
+        logCol.createIndex({
             uid: 1
         })
 
-        logCol.ensureIndex({
+        logCol.createIndex({
             typeid: 1,
             type: 1
         })
 
         let interfaceColCol = mongoose.connection.db.collection('interface_col')
-        interfaceColCol.ensureIndex({
+        interfaceColCol.createIndex({
             uid: 1
         })
-        interfaceColCol.ensureIndex({
+        interfaceColCol.createIndex({
             project_id: 1
         })
 
         let interfaceCatCol = mongoose.connection.db.collection('interface_cat')
-        interfaceCatCol.ensureIndex({
+        interfaceCatCol.createIndex({
             uid: 1
         })
-        interfaceCatCol.ensureIndex({
+        interfaceCatCol.createIndex({
             project_id: 1
         })
 
         let interfaceCaseCol = mongoose.connection.db.collection('interface_case')
-        interfaceCaseCol.ensureIndex({
+        interfaceCaseCol.createIndex({
             uid: 1
         })
-        interfaceCaseCol.ensureIndex({
+        interfaceCaseCol.createIndex({
             col_id: 1
         })
-        interfaceCaseCol.ensureIndex({
+        interfaceCaseCol.createIndex({
             project_id: 1
         })
 
         let interfaceCol = mongoose.connection.db.collection('interface')
-        interfaceCol.ensureIndex({
+        interfaceCol.createIndex({
             uid: 1
         })
-        interfaceCol.ensureIndex({
+        interfaceCol.createIndex({
             path: 1,
             method: 1
         })
-        interfaceCol.ensureIndex({
+        interfaceCol.createIndex({
             project_id: 1
         })
 
         let groupCol = mongoose.connection.db.collection('group')
-        groupCol.ensureIndex({
+        groupCol.createIndex({
             uid: 1
         })
-        groupCol.ensureIndex({
+        groupCol.createIndex({
             group_name: 1
         })
 
         let avatarCol = mongoose.connection.db.collection('avatar')
-        avatarCol.ensureIndex({
+        avatarCol.createIndex({
             uid: 1
         })
 
         let followCol = mongoose.connection.db.collection('follow')
-        followCol.ensureIndex({
+        followCol.createIndex({
             uid: 1
         })
-        followCol.ensureIndex({
+        followCol.createIndex({
             project_id: 1
         })
         
