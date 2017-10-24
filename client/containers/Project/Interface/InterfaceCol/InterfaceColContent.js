@@ -18,6 +18,9 @@ import URL from 'url';
 import Mock from 'mockjs'
 import json5 from 'json5'
 import CaseReport from './CaseReport.js'
+import _ from 'underscore'
+//import assert from "assert"
+
 const MockExtra = require('common/mock-extra.js')
 const Option = Select.Option;
 function json_parse(data) {
@@ -76,8 +79,9 @@ class InterfaceColContent extends Component {
       curCaseid: null,
       hasPlugin: false,
       currColEnv: '',
-      scriptVisible: false,
-      curScript: ''
+      advVisible: false,
+      curScript: '',
+      enableScript: false
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -88,7 +92,7 @@ class InterfaceColContent extends Component {
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    currColId = +actionId ||
+    this.currColId = +actionId ||
       result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
       result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
@@ -196,7 +200,6 @@ class InterfaceColContent extends Component {
       this.setState({
         rows: newRows
       })
-      if (status === 'error') break;
     }
   }
 
@@ -252,31 +255,35 @@ class InterfaceColContent extends Component {
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
         data: result.body,
-        success: (res, header) => {
+        success: (res, header, data) => {
           res = json_parse(res);
           result.res_header = header;
           result.res_body = res;
-          if (res && typeof res === 'object') {
-            let tpl = MockExtra(json_parse(interfaceData.res_body), {
-              query: interfaceData.req_query,
-              body: interfaceData.req_body_form
-            })
-
-            let validRes = [];
+          let validRes = [];
+          if (res && typeof res === 'object') {            
             if (interfaceData.mock_verify) {
+              let tpl = MockExtra(json_parse(interfaceData.res_body), {
+                query: interfaceData.req_query,
+                body: interfaceData.req_body_form
+              })
               validRes = Mock.valid(tpl, res);
             }
-            if (validRes.length === 0) {
-              result.code = 0;
-              result.validRes = [{ message: '验证通过' }];
-              resolve(result);
-            } else if (validRes.length > 0) {
-              result.code = 1;
-              result.validRes = validRes;
-              resolve(result)
-            }
-          } else {
-            reject(result)
+          }
+          let responseData = Object.assign({}, {
+            status:data.res.status,
+            body: res,
+            header: data.res.header,
+            statusText: data.res.statusText
+          })
+          that.handleScriptTest(interfaceData, responseData, validRes);
+          if (validRes.length === 0) {
+            result.code = 0;
+            result.validRes = [{ message: '验证通过' }];
+            resolve(result);
+          } else if (validRes.length > 0) {
+            result.code = 1;
+            result.validRes = validRes;
+            resolve(result)
           }
         },
         error: (err, header) => {
@@ -294,6 +301,22 @@ class InterfaceColContent extends Component {
         }
       })
     })
+  }
+
+  //,response, validRes
+  handleScriptTest =(interfaceData,response, validRes)=>{
+    if(interfaceData.enable_script !== true){
+      return null;
+    }
+    try{
+      let fun = new Function(response, this.records, interfaceData.test_script);
+      fun();
+    }catch(err){
+      console.log(err);
+      validRes.push({
+        message: err.message
+      })
+    }
   }
 
   handleJson = (data) => {
@@ -407,9 +430,13 @@ class InterfaceColContent extends Component {
     })
   }
 
-  openScript = (id) => {
-    this.setState({
-      scriptVisible: true,
+  openAdv = (id) => {
+    let findCase = _.find(this.props.currCaseList, item=> item.id === id)
+
+    this.setState({   
+      enableScript: findCase.enable_script,
+      curScript: findCase.test_script,
+      advVisible: true,
       curCaseid: id
     }, () => {
       let that = this;
@@ -432,10 +459,29 @@ class InterfaceColContent extends Component {
 
   }
 
-  handleScriptCancel = () => {
+  handleAdvCancel = () => {
     this.setState({
-      scriptVisible: false
+      advVisible: false
     });
+  }
+
+  handleAdvOk = async () => {
+    const {curCaseid, enableScript, curScript} = this.state;
+    const res = await axios.post('/api/col/up_case', {
+      id: curCaseid,
+      test_script: curScript,
+      enable_script: enableScript
+    });
+    if(res.data.errno === 0){
+      message.success('更新成功');
+    }
+    this.setState({
+      advVisible: false
+    });
+    let currColId = this.currColId;
+    await this.props.fetchCaseList(currColId);
+    this.props.setColData({ currColId: +currColId, isShowCol: true })
+    this.handleColdata(this.props.currCaseList)
   }
 
   handleCancel = () => {
@@ -556,7 +602,7 @@ class InterfaceColContent extends Component {
             return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
           return <div className="interface-col-table-action">
-            <Button onClick={() => this.openScript(rowData.id)} type="primary">自定义脚本</Button>
+            <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button>
             {reportFun()}
           </div>
         }]
@@ -631,12 +677,13 @@ class InterfaceColContent extends Component {
           title="自定义测试脚本"
           width="660px"
           style={{ minHeight: '500px' }}
-          visible={this.state.scriptVisible}
-          onCancel={this.handleScriptCancel}
+          visible={this.state.advVisible}
+          onCancel={this.handleAdvCancel}
+          onOk={this.handleAdvOk}
         >
           <h3>
             是否开启:&nbsp;
-            <Switch defaultChecked={false} />
+            <Switch checked={this.state.enableScript} onChange={e=>this.setState({enableScript: e})} />
           </h3>
           <div className="case-script" id="case-script" style={{ minHeight: 500 }}></div>
         </Modal>

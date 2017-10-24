@@ -590,16 +590,6 @@ class interfaceColController extends baseController{
             yapi.commons.resReturn(null, 400, e.message)
         }
     }
-
-    async runCaseScript(ctx){
-        let caseid = ctx.request.body.caseid;
-        
-        let caseData = await this.caseModel.get(caseid);
-        if(!caseData){
-            ctx.body =  yapi.commons.resReturn(null, 400, "不存在的caseid")
-        }
-    }
-
 }
 
 module.exports = interfaceColController
