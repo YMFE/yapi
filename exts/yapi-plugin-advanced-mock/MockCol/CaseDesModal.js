@@ -223,7 +223,7 @@ export default class CaseDesModal extends Component {
         visible={visible}
         maskClosable={false}
         onOk={this.handleOk}
-        width={600}
+        width={780}
         onCancel={() => onCancel()}
         className="case-des-modal"
       >
@@ -303,7 +303,7 @@ export default class CaseDesModal extends Component {
               <Icon type="plus" /> 添加参数
             </Button>
           </FormItem>
-          <FormItem {...formItemLayout} wrapperCol={{ span: 19 }} label="返回 JSON" required>
+          <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="返回 JSON" required>
             <div id="res_body_json" style={{
               minHeight: "300px",
               border: "1px solid #d9d9d9",
