@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case FETCH_MOCK_COL:
       return {
         ...state,
-        list: action.payload.data.data
+        list: action.payload.data
       }
     default:
       return state

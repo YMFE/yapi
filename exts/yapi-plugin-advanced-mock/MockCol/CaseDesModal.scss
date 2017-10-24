@@ -1,0 +1,12 @@
+.case-des-modal {
+  .ant-modal-body {
+    max-height: 520px;
+    overflow-y: scroll;
+  }
+  .ip-filter .ip>.ant-form-item, .ip-filter .ip-switch>.ant-form-item {
+    margin-bottom: 0;
+  }
+  .headers>.ant-form-item, .paramsArr>.ant-form-item {
+    margin-bottom: 0;
+  }
+}

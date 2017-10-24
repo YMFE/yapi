@@ -1,4 +1,4 @@
-import AdvMock from './MockCol/MockCol.js'
+import AdvMock from './AdvMock'
 
 module.exports = function(){
   this.bindHook('interface_tab', function(tabs){
