@@ -92,7 +92,7 @@ class InterfaceColContent extends Component {
     const params = this.props.match.params;
     const { actionId } = params;
     this.currColId = +actionId ||
-      result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
+      _.find(result.payload.data.data, item => +item._id === +currColId) && +currColId
       result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     if (currColId && currColId != 0) {
@@ -211,7 +211,7 @@ class InterfaceColContent extends Component {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
     });
     const domains = currProject.env.concat();
-    let currDomain = domains.find(item => item.name === case_env);
+    let currDomain = _.find(domains, item => item.name === case_env);
     if (!currDomain) {
       currDomain = domains[0];
     }
@@ -428,18 +428,28 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const { interfaceColList } = nextProps;
-    const { actionId: oldColId, id } = this.props.match.params
+    //const { interfaceColList } = nextProps;
+    //const { actionId: oldColId, id } = this.props.match.params
     let newColId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newColId) && interfaceColList[0]._id) {
-      this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
+
+    if(newColId !== this.currColId){
       if (newColId && newColId != 0) {
         await this.props.fetchCaseList(newColId);
         this.props.setColData({ currColId: +newColId, isShowCol: true })
         this.handleColdata(this.props.currCaseList)
       }
     }
+
+
+    // if (!interfaceColList.find(item => +item._id === +newColId) && interfaceColList[0]._id) {
+    //   this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
+    // } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
+    //   if (newColId && newColId != 0) {
+    //     await this.props.fetchCaseList(newColId);
+    //     this.props.setColData({ currColId: +newColId, isShowCol: true })
+    //     this.handleColdata(this.props.currCaseList)
+    //   }
+    // }
   }
 
   openReport = (id) => {
