@@ -76,8 +76,8 @@ export default class InterfaceCaseContent extends Component {
     let currColId = this.getColId(result.payload.data.data, currCaseId);
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
     await this.props.fetchCaseData(currCaseId)
-    this.props.setColData({currCaseId: +currCaseId, currColId, isShowCol: false})
-    this.setState({editCasename: this.props.currCase.casename})
+    this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false })
+    this.setState({ editCasename: this.props.currCase.casename })
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -87,8 +87,8 @@ export default class InterfaceCaseContent extends Component {
     let currColId = this.getColId(interfaceColList, newCaseId);
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
-      this.props.setColData({currCaseId: +newCaseId, currColId, isShowCol: false})
-      this.setState({editCasename: this.props.currCase.casename})
+      this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false })
+      this.setState({ editCasename: this.props.currCase.casename })
     }
   }
 
@@ -97,7 +97,7 @@ export default class InterfaceCaseContent extends Component {
   }
 
   updateCase = async () => {
-    
+
     const {
       caseEnv: case_env,
       pathname: path,
@@ -110,9 +110,9 @@ export default class InterfaceCaseContent extends Component {
       bodyOther: req_body_other,
       resMockTest: mock_verify
     } = this.postman.state;
-    
-    const {editCasename: casename} = this.state;
-    const {_id: id} = this.props.currCase;
+
+    const { editCasename: casename } = this.state;
+    const { _id: id } = this.props.currCase;
     let params = {
       id,
       casename,
@@ -127,15 +127,15 @@ export default class InterfaceCaseContent extends Component {
       req_body_other,
       mock_verify
     };
-    if(this.postman.state.test_status !== 'error'){
+    if (this.postman.state.test_status !== 'error') {
       params.test_res_body = this.postman.state.res;
       params.test_report = this.postman.state.validRes;
       params.test_status = this.postman.state.test_status;
       params.test_res_header = this.postman.state.resHeader;
     }
 
- 
-    if(params.test_res_body && typeof params.test_res_body === 'object'){
+
+    if (params.test_res_body && typeof params.test_res_body === 'object') {
       params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
     }
 
@@ -167,30 +167,18 @@ export default class InterfaceCaseContent extends Component {
   render() {
     const { currCase, currProject } = this.props;
     const { isEditingCasename, editCasename } = this.state;
-    const data = Object.assign({}, currCase, currProject, {_id: currCase._id});
+    const data = Object.assign({}, currCase, currProject, { _id: currCase._id });
     return (
-      <div style={{padding: '6px 0'}} className="case-content">
+      <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">
           {!isEditingCasename && <Tooltip title="点击编辑" placement="bottom"><div className="case-name" onClick={this.triggerEditCasename}>
             {currCase.casename}
           </div></Tooltip>}
 
           {isEditingCasename && <div className="edit-case-name">
-            <Input value={editCasename} onChange={e => this.setState({editCasename: e.target.value})} style={{fontSize: 18}} />
-            {/*<Button
-              title="Enter"
-              onClick={this.saveCasename}
-              type="primary"
-              style={{ marginLeft: 8 }}
-            >保存</Button>
-            <Button
-              title="Esc"
-              onClick={this.cancelEditCasename}
-              type="primary"
-              style={{ marginLeft: 8 }}
-            >取消</Button>*/}
+            <Input value={editCasename} onChange={e => this.setState({ editCasename: e.target.value })} style={{ fontSize: 18 }} />
           </div>}
-          <span className="inter-link" style={{margin: '0px 8px 0px 6px', fontSize: 12}}>
+          <span className="inter-link" style={{ margin: '0px 8px 0px 6px', fontSize: 12 }}>
             <Link className="text" to={`/project/${currProject._id}/interface/api/${currCase.interface_id}`}>对应接口</Link>
           </span>
         </div>

@@ -334,10 +334,6 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '用例id不能为空');
             }
 
-            // if(!params.casename){
-            //     return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
-            // }
-
             let caseData = await this.caseModel.get(params.id);
             let auth = await this.checkAuth(caseData.project_id, 'project', 'edit');
             if (!auth) {
@@ -346,9 +342,9 @@ class interfaceColController extends baseController{
 
             params.uid = this.getUid();
 
+            //不允许修改接口id和项目id
             delete params.interface_id;
             delete params.project_id;
-            // delete params.col_id;
 
             let result = await this.caseModel.up(params.id, params);
             let username = this.getUsername();
@@ -595,6 +591,28 @@ class interfaceColController extends baseController{
         }
     }
 
+    async runCaseScript(ctx){
+        let params = ctx.request.body;
+        let script = params.script;
+        if(!script){
+            return ctx.body =  yapi.commons.resReturn('ok');
+        }
+
+        try{
+            let a = yapi.commons.sandbox({
+                assert: require('assert'),
+                status: params.response.status,
+                body: params.response.body,
+                header: params.response.header,
+                records: params.records
+            }, script);
+            return ctx.body = yapi.commons.resReturn('ok');
+          }catch(err){
+            let errArr = err.stack.split("\n");
+            return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)
+        }
+        
+    }
 
 }
 
