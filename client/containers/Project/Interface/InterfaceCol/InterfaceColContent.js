@@ -253,7 +253,7 @@ class InterfaceColContent extends Component {
         headers: that.getHeadersObj(interfaceData.req_headers),
         data: result.body
       })
-      let res = data.res.body;
+      let res = data.res.body = json_parse(data.res.body);
       let header = data.res.header;
       result.res_header = header;
       result.res_body = res;
@@ -300,61 +300,6 @@ class InterfaceColContent extends Component {
       result.code = 400;
       return result;
     }
-    
-
-
-    // return new Promise((resolve, reject) => {
-    //   window.crossRequest({
-    //     url: href,
-    //     method: interfaceData.method,
-    //     headers: that.getHeadersObj(interfaceData.req_headers),
-    //     data: result.body,
-    //     success: (res, header, data) => {
-    //       res = json_parse(res);
-    //       result.res_header = header;
-    //       result.res_body = res;
-    //       let validRes = [];
-    //       if (res && typeof res === 'object') {            
-    //         if (interfaceData.mock_verify) {
-    //           let tpl = MockExtra(json_parse(interfaceData.res_body), {
-    //             query: interfaceData.req_query,
-    //             body: interfaceData.req_body_form
-    //           })
-    //           validRes = Mock.valid(tpl, res);
-    //         }
-    //       }
-    //       let responseData = Object.assign({}, {
-    //         status:data.res.status,
-    //         body: res,
-    //         header: data.res.header,
-    //         statusText: data.res.statusText
-    //       })
-    //       await that.handleScriptTest(interfaceData, responseData, validRes);
-    //       if (validRes.length === 0) {
-    //         result.code = 0;
-    //         result.validRes = [{ message: '验证通过' }];
-    //         resolve(result);
-    //       } else if (validRes.length > 0) {
-    //         result.code = 1;
-    //         result.validRes = validRes;
-    //         resolve(result)
-    //       }
-    //     },
-    //     error: (err, header) => {
-    //       try {
-    //         err = json_parse(err);
-    //       } catch (e) {
-    //         console.log(e)
-    //       }
-
-    //       err = err || '请求异常';
-    //       result.code = 400;
-    //       result.res_header = header;
-    //       result.res_body = err;
-    //       reject(result)
-    //     }
-    //   })
-    // })
   }
 
   crossRequest = (options)=>{
@@ -383,7 +328,7 @@ class InterfaceColContent extends Component {
         records: this.records,
         script: interfaceData.test_script
       })
-      if(test.data.errno !== 0){
+      if(test.data.errcode !== 0){
         validRes.push({
           message: test.data.data[0]
         })
@@ -549,7 +494,7 @@ class InterfaceColContent extends Component {
       test_script: curScript,
       enable_script: enableScript
     });
-    if(res.data.errno === 0){
+    if(res.data.errcode === 0){
       message.success('更新成功');
     }
     this.setState({

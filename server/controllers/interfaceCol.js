@@ -599,7 +599,7 @@ class interfaceColController extends baseController{
         }
 
         try{
-            yapi.commons.sandbox({
+            let a = yapi.commons.sandbox({
                 assert: require('assert'),
                 status: params.response.status,
                 body: params.response.body,
