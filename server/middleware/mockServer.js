@@ -145,6 +145,7 @@ module.exports = async (ctx, next) => {
                 try{
                     res = Mock.mock(res);
                 }catch(e){
+                    yapi.commons.log(e, 'error')
                     res = res;
                 }
                 
