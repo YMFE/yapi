@@ -19,7 +19,6 @@ import Mock from 'mockjs'
 import json5 from 'json5'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-//import assert from "assert"
 
 const MockExtra = require('common/mock-extra.js')
 const Option = Select.Option;
@@ -203,7 +202,7 @@ class InterfaceColContent extends Component {
     }
   }
 
-  handleTest = (interfaceData) => {
+  handleTest = async (interfaceData) => {
     const { currProject } = this.props;
     const { case_env } = interfaceData;
     let path = URL.resolve(currProject.basepath, interfaceData.path);
@@ -230,87 +229,165 @@ class InterfaceColContent extends Component {
       query: this.getQueryObj(interfaceData.req_query)
     });
 
+    let result = { code: 400, msg: '数据异常', validRes: [] };
+    let that = this;
 
-    return new Promise((resolve, reject) => {
-      let result = { code: 400, msg: '数据异常', validRes: [] };
-      let that = this;
-
-      result.url = href;
-      result.method = interfaceData.method;
-      result.headers = that.getHeadersObj(interfaceData.req_headers);
-      if (interfaceData.req_body_type === 'form') {
-        result.body = that.arrToObj(interfaceData.req_body_form)
+    result.url = href;
+    result.method = interfaceData.method;
+    result.headers = that.getHeadersObj(interfaceData.req_headers);
+    if (interfaceData.req_body_type === 'form') {
+      result.body = that.arrToObj(interfaceData.req_body_form)
+    } else {
+      let reqBody = isJson(interfaceData.req_body_other);
+      if (reqBody === false) {
+        result.body = this.handleValue(interfaceData.req_body_other)
       } else {
-        let reqBody = isJson(interfaceData.req_body_other);
-        if (reqBody === false) {
-          result.body = this.handleValue(interfaceData.req_body_other)
-        } else {
-          result.body = JSON.stringify(this.handleJson(reqBody))
-        }
-
+        result.body = JSON.stringify(this.handleJson(reqBody))
       }
 
-      window.crossRequest({
+    }
+    try{
+      let data =await this.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: result.body,
-        success: (res, header, data) => {
-          res = json_parse(res);
-          result.res_header = header;
-          result.res_body = res;
-          let validRes = [];
-          if (res && typeof res === 'object') {            
-            if (interfaceData.mock_verify) {
-              let tpl = MockExtra(json_parse(interfaceData.res_body), {
-                query: interfaceData.req_query,
-                body: interfaceData.req_body_form
-              })
-              validRes = Mock.valid(tpl, res);
-            }
-          }
-          let responseData = Object.assign({}, {
-            status:data.res.status,
-            body: res,
-            header: data.res.header,
-            statusText: data.res.statusText
-          })
-          that.handleScriptTest(interfaceData, responseData, validRes);
-          if (validRes.length === 0) {
-            result.code = 0;
-            result.validRes = [{ message: '验证通过' }];
-            resolve(result);
-          } else if (validRes.length > 0) {
-            result.code = 1;
-            result.validRes = validRes;
-            resolve(result)
-          }
-        },
-        error: (err, header) => {
-          try {
-            err = json_parse(err);
-          } catch (e) {
-            console.log(e)
-          }
-
-          err = err || '请求异常';
-          result.code = 400;
-          result.res_header = header;
-          result.res_body = err;
-          reject(result)
-        }
+        data: result.body
       })
+      let res = data.res.body;
+      let header = data.res.header;
+      result.res_header = header;
+      result.res_body = res;
+      let validRes = [];
+      if (res && typeof res === 'object') {            
+        if (interfaceData.mock_verify) {
+          let tpl = MockExtra(json_parse(interfaceData.res_body), {
+            query: interfaceData.req_query,
+            body: interfaceData.req_body_form
+          })
+          validRes = Mock.valid(tpl, res);
+        }
+      }
+      let responseData = Object.assign({}, {
+        status:data.res.status,
+        body: res,
+        header: data.res.header,
+        statusText: data.res.statusText
+      })
+      await that.handleScriptTest(interfaceData, responseData, validRes);
+      if (validRes.length === 0) {
+        result.code = 0;
+        result.validRes = [{ message: '验证通过' }];
+      } else if (validRes.length > 0) {
+        result.code = 1;
+        result.validRes = validRes;
+      }
+      return result;
+
+    }catch(data){
+      if(data.err){
+        data.err = data.err || '请求异常';
+        try {
+          data.err = json_parse( data.err);
+        } catch (e) {
+          console.log(e)
+        }
+        result.res_body = data.err;
+        result.res_header = data.header;       
+      }else{
+        result.res_body = data.message;
+      }
+      
+      result.code = 400;
+      return result;
+    }
+    
+
+
+    // return new Promise((resolve, reject) => {
+    //   window.crossRequest({
+    //     url: href,
+    //     method: interfaceData.method,
+    //     headers: that.getHeadersObj(interfaceData.req_headers),
+    //     data: result.body,
+    //     success: (res, header, data) => {
+    //       res = json_parse(res);
+    //       result.res_header = header;
+    //       result.res_body = res;
+    //       let validRes = [];
+    //       if (res && typeof res === 'object') {            
+    //         if (interfaceData.mock_verify) {
+    //           let tpl = MockExtra(json_parse(interfaceData.res_body), {
+    //             query: interfaceData.req_query,
+    //             body: interfaceData.req_body_form
+    //           })
+    //           validRes = Mock.valid(tpl, res);
+    //         }
+    //       }
+    //       let responseData = Object.assign({}, {
+    //         status:data.res.status,
+    //         body: res,
+    //         header: data.res.header,
+    //         statusText: data.res.statusText
+    //       })
+    //       await that.handleScriptTest(interfaceData, responseData, validRes);
+    //       if (validRes.length === 0) {
+    //         result.code = 0;
+    //         result.validRes = [{ message: '验证通过' }];
+    //         resolve(result);
+    //       } else if (validRes.length > 0) {
+    //         result.code = 1;
+    //         result.validRes = validRes;
+    //         resolve(result)
+    //       }
+    //     },
+    //     error: (err, header) => {
+    //       try {
+    //         err = json_parse(err);
+    //       } catch (e) {
+    //         console.log(e)
+    //       }
+
+    //       err = err || '请求异常';
+    //       result.code = 400;
+    //       result.res_header = header;
+    //       result.res_body = err;
+    //       reject(result)
+    //     }
+    //   })
+    // })
+  }
+
+  crossRequest = (options)=>{
+    return new Promise((resolve, reject)=>{
+      options.success = function(res, header, data){
+        resolve(data);
+      }
+      options.error = function(err, header){
+        reject({
+          err,
+          header
+        })
+      }
+      window.crossRequest(options);
     })
   }
 
-  //,response, validRes
-  handleScriptTest =(interfaceData,response, validRes)=>{
+  //response, validRes
+  handleScriptTest =async (interfaceData,response, validRes)=>{
     if(interfaceData.enable_script !== true){
       return null;
     }
     try{
-      let fun = new Function(response, this.records, interfaceData.test_script);
-      fun();
+      let test = await axios.post('/api/col/run_script', {
+        response: response,
+        records: this.records,
+        script: interfaceData.test_script
+      })
+      if(test.data.errno !== 0){
+        validRes.push({
+          message: test.data.data[0]
+        })
+      }
     }catch(err){
       console.log(err);
       validRes.push({

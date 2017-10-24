@@ -590,6 +590,30 @@ class interfaceColController extends baseController{
             yapi.commons.resReturn(null, 400, e.message)
         }
     }
+
+    async runCaseScript(ctx){
+        let params = ctx.request.body;
+        let script = params.script;
+        if(!script){
+            return ctx.body =  yapi.commons.resReturn('ok');
+        }
+
+        try{
+            yapi.commons.sandbox({
+                assert: require('assert'),
+                status: params.response.status,
+                body: params.response.body,
+                header: params.response.header,
+                records: params.records
+            }, script);
+            return ctx.body = yapi.commons.resReturn('ok');
+          }catch(err){
+            let errArr = err.stack.split("\n");
+            return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)
+        }
+        
+    }
+
 }
 
 module.exports = interfaceColController
