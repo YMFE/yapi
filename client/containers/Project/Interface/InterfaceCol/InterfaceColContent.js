@@ -91,8 +91,7 @@ class InterfaceColContent extends Component {
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    this.currColId = +actionId ||
-      _.find(result.payload.data.data, item => +item._id === +currColId) && +currColId
+    this.currColId = currColId = +actionId ||
       result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     if (currColId && currColId != 0) {
@@ -433,6 +432,7 @@ class InterfaceColContent extends Component {
     let newColId = nextProps.match.params.actionId
 
     if(newColId !== this.currColId){
+      this.currColId = newColId;
       if (newColId && newColId != 0) {
         await this.props.fetchCaseList(newColId);
         this.props.setColData({ currColId: +newColId, isShowCol: true })
