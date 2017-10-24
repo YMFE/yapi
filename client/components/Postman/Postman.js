@@ -11,6 +11,7 @@ const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
 import {  handleMockWord, isJson } from '../../common.js'
+import _ from "underscore"
 
 function json_parse(data) {
   try {
@@ -197,7 +198,7 @@ export default class Run extends Component {
       return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
-    const urlObj = URL.parse(domains.find(item => item.name === caseEnv).domain);
+    const urlObj = URL.parse(_.find(domains, item => item.name === caseEnv).domain);
     let path = pathname
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
