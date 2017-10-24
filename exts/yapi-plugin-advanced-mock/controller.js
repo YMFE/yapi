@@ -126,8 +126,7 @@ class advMockController extends baseController{
     }
 
     findRepeat = await this.caseModel.get(findRepeatParams);
-    
-    if(findRepeat){
+    if(findRepeat && findRepeat._id !== params.id){
       return ctx.body = yapi.commons.resReturn(null,400, '已存在的期望');
     }
 
@@ -146,7 +145,8 @@ class advMockController extends baseController{
     if(!id){
       return ctx.body =yapi.commons.resReturn(null, 408, '缺少 id');
     }
-    ctx.body = await this.caseModel.del(id);
+    let result = await this.caseModel.del(id);
+    return ctx.body = yapi.commons.resReturn(result);
   }
 
 

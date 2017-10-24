@@ -103,7 +103,7 @@ class AdvMock extends Component {
     const isShowCase = tab === 'case';
     return <div style={{ padding: '20px 10px' }}>
       <div style={{textAlign: 'center', marginBottom: 20}}>
-        <Radio.Group value={tab} onChange={this.handleTapChange}>
+        <Radio.Group value={tab} size="large" onChange={this.handleTapChange}>
           <Radio.Button value="case">期望</Radio.Button>
           <Radio.Button value="script">脚本</Radio.Button>
         </Radio.Group>

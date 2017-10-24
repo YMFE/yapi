@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 // import axios from 'axios'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row } from 'antd';
+import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row, InputNumber } from 'antd';
 import { safeAssign } from '../../../client/common.js';
 import mockEditor from '../../../client/containers/Project/Interface/InterfaceList/mockEditor';
+import constants from '../../../client/constants/variable.js'
 import { httpCodes } from '../index.js';
 
 import './CaseDesModal.scss'
@@ -63,22 +64,22 @@ export default class CaseDesModal extends Component {
       ip_enable: false,
       name: '',
       code: '200',
-      deplay: 0
-      // headers，paramsArr 放在 state 中
-      // headers: [{name: '', value: ''}],
-      // paramsArr: [{name: '', value: ''}],
-      // res_body: ''
+      deplay: 0,
+      headers: [{name: '', value: ''}],
+      paramsArr: [{name: '', value: ''}],
+      res_body: ''
     }
 
     const paramsArr = caseData.params && Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
       return { name: key, value: caseData.params[key] }
     }) : [{name: '', value: ''}];
     const headers = caseData.headers && caseData.headers.length ? caseData.headers : [{name: '', value: ''}];
-    caseData = safeAssign(initCaseData, caseData);
+    caseData.code = ''+caseData.code;
     this.setState({
       headers,
       paramsArr
     })
+    caseData = safeAssign(initCaseData, { ...caseData, headers, paramsArr });
     return caseData;
   }
 
@@ -119,7 +120,10 @@ export default class CaseDesModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.caseData !== nextProps.caseData) {
+    if (
+      this.props.caseData !== nextProps.caseData ||
+      this.props.visible !== nextProps.visible
+    ) {
       this.props.form.setFieldsValue(this.preProcess(nextProps.caseData))
       this.shouldLoadBodyEditor = true
     }
@@ -127,22 +131,31 @@ export default class CaseDesModal extends Component {
 
   handleOk = () => {
     const form = this.props.form;
-    this.props.onOk(this.endProcess(form.getFieldsValue()));
+    form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onOk(this.endProcess(values));
+      }
+    })
   }
 
   addValues = (key) => {
-    let values = this.state[key];
+    const { setFieldsValue, getFieldValue } = this.props.form;
+    let values = getFieldValue(key);
     values = values.concat({ name: '', value: ''});
     this.setState({ [key]: values })
+    setFieldsValue({ [key]: values })
   }
   removeValues = (key, index) => {
-    let values = this.state[key];
+    const { setFieldsValue, getFieldValue } = this.props.form;
+    let values = getFieldValue(key);
     values = values.filter((item, index2) => index !== index2);
     this.setState({ [key]: values })
+    setFieldsValue({ [key]: values })
   }
 
   loadBodyEditor = () => {
     const that = this;
+    const { setFieldsValue } = this.props.form;
     this.props.visible && mockEditor({
       container: 'res_body_json',
       data: that.props.caseData.res_body,
@@ -151,6 +164,7 @@ export default class CaseDesModal extends Component {
         that.setState({
           res_body: d.text
         })
+        setFieldsValue({ res_body: d.text })
       }
     });
   }
@@ -161,6 +175,7 @@ export default class CaseDesModal extends Component {
     const { headers, paramsArr } = this.state;
 
     const valuesTpl = (name, values, title) => {
+      getFieldDecorator(name)
       return values.map((item, index) => (
         <div key={index} className={name}>
           <FormItem
@@ -170,15 +185,19 @@ export default class CaseDesModal extends Component {
           >
             <Row gutter={8}>
               <Col span={10}>
-                <FormItem >
-                  {getFieldDecorator(`${name}[${index}].name`)(
-                    <Input />
+                <FormItem>
+                  {getFieldDecorator(`${name}[${index}].name`, { initialValue: item.name })(
+                    name === 'headers' ? <Select showSearch>
+                      {constants.HTTP_REQUEST_HEADER.map(item => (
+                        <Option value={item} key={item}>{item}</Option>
+                      ))}
+                    </Select> : <Input /> 
                   )}
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem>
-                  {getFieldDecorator(`${name}[${index}].value`)(
+                  {getFieldDecorator(`${name}[${index}].value`, { initialValue: item.value })(
                     <Input />
                   )}
                 </FormItem>
@@ -233,7 +252,9 @@ export default class CaseDesModal extends Component {
             <Col span={18}>
               <div style={{display: getFieldValue('ip_enable') ? '' : 'none'}} className="ip">
                 <FormItem>
-                  {getFieldDecorator('ip')(
+                  {getFieldDecorator('ip', getFieldValue('ip_enable') ? {
+                    rules: [{ pattern: constants.IP_REGEXP, message: '请填写正确的 IP 地址' }]
+                  } : {})(
                     <Input placeholder="请输入过滤的 IP 地址" />
                   )}
                 </FormItem>
@@ -242,10 +263,11 @@ export default class CaseDesModal extends Component {
           </FormItem>
           <FormItem
             {...formItemLayout}
+            required
             label="HTTP CODE"
           >
             {getFieldDecorator('code')(
-              <Select search>
+              <Select showSearch>
                 {
                   httpCodes.map(code => <Option key={''+code} value={''+code}>{''+code}</Option>)
                 }
@@ -260,8 +282,9 @@ export default class CaseDesModal extends Component {
               initialValue: 0,
               rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(
-              <Input placeholder="请输入延时时间" />
+              <InputNumber placeholder="请输入延时时间"/>
             )}
+            <span>ms</span>
           </FormItem>
           {
             valuesTpl('headers', headers, 'HTTP 头')
@@ -280,12 +303,21 @@ export default class CaseDesModal extends Component {
               <Icon type="plus" /> 添加参数
             </Button>
           </FormItem>
-          <FormItem {...formItemLayout} wrapperCol={{ span: 19 }} label="返回 JSON">
+          <FormItem {...formItemLayout} wrapperCol={{ span: 19 }} label="返回 JSON" required>
             <div id="res_body_json" style={{
               minHeight: "300px",
               border: "1px solid #d9d9d9",
               borderRadius: 4
             }} ></div>
+            <FormItem
+              {...formItemLayoutWithOutLabel}
+            >
+              {getFieldDecorator('res_body', {
+                rules: [{ required: true, message: '请输入返回 JSON！' }]
+              })(
+                <Input placeholder="请输入期望名称" style={{display: 'none'}} />
+              )}
+            </FormItem>
           </FormItem>
         </Form>
       </Modal>

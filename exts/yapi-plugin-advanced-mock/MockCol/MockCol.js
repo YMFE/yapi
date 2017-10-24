@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Table, Button, message } from 'antd';
+import { Table, Button, message, Popconfirm } from 'antd';
 import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
 import { formatTime } from '../../../client/common.js';
 import CaseDesModal from './CaseDesModal';
@@ -11,7 +11,8 @@ import CaseDesModal from './CaseDesModal';
 @connect(
   state => {
     return {
-      list: state.mockCol.list
+      list: state.mockCol.list,
+      currInterface: state.inter.curdata
     }
   },
   {
@@ -22,6 +23,7 @@ import CaseDesModal from './CaseDesModal';
 export default class MockCol extends Component {
   static propTypes = {
     list: PropTypes.array,
+    currInterface: PropTypes.object,
     match: PropTypes.object,
     fetchMockCol: PropTypes.func
   }
@@ -64,6 +66,19 @@ export default class MockCol extends Component {
     })
   }
 
+  deleteCase = async (id) => {
+    console.log(id)
+    const interface_id = this.props.match.params.actionId;
+    await axios.post('/api/plugin/advmock/case/del', {id}).then(async res => {
+      if (res.data.errcode === 0) {
+        message.success('删除成功');
+        await this.props.fetchMockCol(interface_id);
+      } else {
+        message.error(res.data.errmsg);
+      }
+    })
+  }
+
   saveFormRef = (form) => {
     this.form = form;
   }
@@ -75,7 +90,7 @@ export default class MockCol extends Component {
     const initCaseData = {
       ip: '',
       ip_enable: false,
-      name: '',
+      name: this.props.currInterface.title,
       code: '200',
       deplay: 0,
       headers: [{name: '', value: ''}],
@@ -115,7 +130,14 @@ export default class MockCol extends Component {
               })}>编辑</Button>
             </span>
             <span>
-              <Button size="small" onClick={() => {}}>删除</Button>
+              <Popconfirm
+                title="你确定要删除此条期望?"
+                onConfirm={() => this.deleteCase(_id)}
+                okText="确定"
+                cancelText="取消"
+              >
+                <Button size="small" onClick={() => {}}>删除</Button>
+              </Popconfirm>
             </span>
           </div>
         )
