@@ -2,6 +2,7 @@ const baseController = require('controllers/base.js');
 const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
 const caseModel = require('./caseModel.js');
+const userModel = require('../../server/models/user.js');
 const config = require('./index.js');
 
 class advMockController extends baseController{
@@ -9,6 +10,7 @@ class advMockController extends baseController{
     super(ctx);
     this.Model = yapi.getInst(advModel);
     this.caseModel = yapi.getInst(caseModel);
+    this.userModel = yapi.getInst(userModel);
   }
 
   async getMock(ctx){
@@ -56,6 +58,11 @@ class advMockController extends baseController{
       return ctx.body = yapi.commons.resReturn(null, 400, '缺少 interface_id');
     }
     let result = await this.caseModel.list(id);
+    for(let i = 0, len = result.length; i < len; i++) {
+      let userinfo = await this.userModel.findById(result[i].uid);
+      result[i] = result[i].toObject();
+      result[i].username = userinfo.username;
+    }
 
     ctx.body = yapi.commons.resReturn(result);
   }
@@ -68,6 +75,7 @@ class advMockController extends baseController{
     let result = await this.caseModel.get({
       _id: id
     })
+
     ctx.body = yapi.commons.resReturn(result);
   }
 
