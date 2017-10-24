@@ -164,5 +164,6 @@ export default {
     { name: '挑选（枚举）', mock: '@pick' },
     { name: '打乱数组', mock: '@shuffle' },
     { name: '协议', mock: '@protocol' }
-  ]
+  ],
+  IP_REGEXP: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$/
 }

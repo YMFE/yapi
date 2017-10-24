@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Form, Switch, Button, message, Icon, Tooltip } from 'antd';
+import { Form, Switch, Button, message, Icon, Tooltip, Radio } from 'antd';
+import MockCol from './MockCol/MockCol.js'
 import mockEditor from 'client/containers/Project/Interface/InterfaceList/mockEditor';
 const FormItem = Form.Item;
 
@@ -18,7 +19,8 @@ class AdvMock extends Component {
     super(props);
     this.state = {
       enable: false,
-      mock_script: ''
+      mock_script: '',
+      tab: 'case'
     }
   }
 
@@ -74,6 +76,12 @@ class AdvMock extends Component {
     })
   }
 
+  handleTapChange = (e) => {
+    this.setState({
+      tab: e.target.value
+    })
+  }
+
   render() {
     const formItemLayout = {
       labelCol: {
@@ -91,27 +99,39 @@ class AdvMock extends Component {
         }
       }
     };
+    const { tab } = this.state;
+    const isShowCase = tab === 'case';
     return <div style={{ padding: '20px 10px' }}>
-      
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer"   href="https://yapi.ymfe.org/mock.html#高级Mock" ><Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip></a></span>}
-          {...formItemLayout}
-        >
-          <Switch checked={this.state.enable} onChange={this.onChange} checkedChildren="开" unCheckedChildren="关" />
-        </FormItem>
+      <div style={{textAlign: 'center', marginBottom: 20}}>
+        <Radio.Group value={tab} size="large" onChange={this.handleTapChange}>
+          <Radio.Button value="case">期望</Radio.Button>
+          <Radio.Button value="script">脚本</Radio.Button>
+        </Radio.Group>
+      </div>
+      <div style={{display: isShowCase ? 'none' : ''}}>
+        <Form onSubmit={this.handleSubmit}>
+          <FormItem
+            label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer"   href="https://yapi.ymfe.org/mock.html#高级Mock" ><Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip></a></span>}
+            {...formItemLayout}
+          >
+            <Switch checked={this.state.enable} onChange={this.onChange} checkedChildren="开" unCheckedChildren="关" />
+          </FormItem>
 
-        <FormItem
-          label="Mock脚本"
-          {...formItemLayout}
-        >
-          <div id="mock-script" style={{ minHeight: '500px' }} ></div>
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">保存</Button>
-        </FormItem>
+          <FormItem
+            label="Mock脚本"
+            {...formItemLayout}
+          >
+            <div id="mock-script" style={{ minHeight: '500px' }} ></div>
+          </FormItem>
+          <FormItem {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">保存</Button>
+          </FormItem>
 
-      </Form>
+        </Form>
+      </div>
+      <div style={{display: isShowCase ? '' : 'none'}}>
+        <MockCol/>
+      </div>
     </div>
   }
 }

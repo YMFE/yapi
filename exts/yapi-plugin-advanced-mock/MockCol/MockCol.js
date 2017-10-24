@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Table, Button, message } from 'antd';
+import { Table, Button, message, Popconfirm } from 'antd';
 import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
 import { formatTime } from '../../../client/common.js';
 import CaseDesModal from './CaseDesModal';
@@ -11,7 +11,8 @@ import CaseDesModal from './CaseDesModal';
 @connect(
   state => {
     return {
-      list: state.mockCol.list
+      list: state.mockCol.list,
+      currInterface: state.inter.curdata
     }
   },
   {
@@ -22,6 +23,7 @@ import CaseDesModal from './CaseDesModal';
 export default class MockCol extends Component {
   static propTypes = {
     list: PropTypes.array,
+    currInterface: PropTypes.object,
     match: PropTypes.object,
     fetchMockCol: PropTypes.func
   }
@@ -42,7 +44,8 @@ export default class MockCol extends Component {
   }
 
   handleOk = async (caseData) => {
-    const interface_id = this.props.match.params.action;
+    const { caseData: currcase } = this.state;
+    const interface_id = this.props.match.params.actionId;
     const project_id = this.props.match.params.id;
     caseData = Object.assign({
       ...caseData,
@@ -50,11 +53,26 @@ export default class MockCol extends Component {
       project_id: project_id
     })
     if (!this.state.isAdd) {
-      caseData.id = 0;
+      caseData.id = currcase._id;
     }
-    axios.post('/api/plugin/advmock/case/save', caseData).then(res => {
+    await axios.post('/api/plugin/advmock/case/save', caseData).then(async res => {
       if (res.data.errcode === 0) {
         message.success(this.state.isAdd ? '添加成功' : '保存成功');
+        await this.props.fetchMockCol(interface_id);
+        this.setState({ caseDesModalVisible: false })
+      } else {
+        message.error(res.data.errmsg);
+      }
+    })
+  }
+
+  deleteCase = async (id) => {
+    console.log(id)
+    const interface_id = this.props.match.params.actionId;
+    await axios.post('/api/plugin/advmock/case/del', {id}).then(async res => {
+      if (res.data.errcode === 0) {
+        message.success('删除成功');
+        await this.props.fetchMockCol(interface_id);
       } else {
         message.error(res.data.errmsg);
       }
@@ -69,12 +87,21 @@ export default class MockCol extends Component {
 
     const data = this.props.list;
     const { isAdd, caseData, caseDesModalVisible } = this.state;
+    const initCaseData = {
+      ip: '',
+      ip_enable: false,
+      name: this.props.currInterface.title,
+      code: '200',
+      deplay: 0,
+      headers: [{name: '', value: ''}],
+      paramsArr: [{name: '', value: ''}],
+      res_body: ''
+    }
 
     const columns = [{
       title: '期望名称',
       dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>
+      key: 'name'
     }, {
       title: 'ip',
       dataIndex: 'ip',
@@ -85,18 +112,48 @@ export default class MockCol extends Component {
       key: 'username'
     }, {
       title: '编辑时间',
-      key: 'action',
+      dataIndex: 'up_time',
+      key: 'up_time',
       render: text => formatTime(text)
     }, {
       title: '操作',
-      dataIndex: 'address',
-      key: 'address'
+      dataIndex: '_id',
+      key: '_id',
+      render: (_id, recode) => {
+        return (
+          <div>
+            <span style={{marginRight: 5}}>
+              <Button size="small" onClick={() => this.setState({
+                isAdd: false,
+                caseDesModalVisible: true,
+                caseData: recode
+              })}>编辑</Button>
+            </span>
+            <span>
+              <Popconfirm
+                title="你确定要删除此条期望?"
+                onConfirm={() => this.deleteCase(_id)}
+                okText="确定"
+                cancelText="取消"
+              >
+                <Button size="small" onClick={() => {}}>删除</Button>
+              </Popconfirm>
+            </span>
+          </div>
+        )
+      }
     }];
 
     return (
-      <div style={{ padding: '20px 10px' }}>
-        <Button type="primary" onClick={() => this.setState({isAdd: true, caseDesModalVisible: true})}>添加期望</Button>
-        <Table columns={columns} dataSource={data} />
+      <div>
+        <div style={{marginBottom: 8}}>
+          <Button type="primary" onClick={() => this.setState({
+            isAdd: true,
+            caseDesModalVisible: true,
+            caseData: initCaseData
+          })}>添加期望</Button>
+        </div>
+        <Table columns={columns} dataSource={data} pagination={false} rowKey='_id' />
         <CaseDesModal
           visible={caseDesModalVisible}
           isAdd={isAdd}
