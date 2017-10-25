@@ -137,21 +137,16 @@ class InterfaceColContent extends Component {
   }
 
   handleColdata = (rows) => {
-    let { currColEnv } = this.state;
-    const colEnv = this.props.currProject.env;
-    currColEnv = currColEnv || colEnv[0].name;
     rows = rows.map((item) => {
       item.id = item._id;
       item._test_status = item.test_status;
-      item.case_env = currColEnv;
       return item;
     })
     rows = rows.sort((n, o) => {
       return n.index - o.index;
     })
     this.setState({
-      rows: rows,
-      currColEnv
+      rows: rows
     })
   }
 
@@ -216,7 +211,7 @@ class InterfaceColContent extends Component {
 
   handleTest = async (interfaceData) => {
     const { currProject } = this.props;
-    const { case_env } = interfaceData;
+    let { case_env } = interfaceData;
     let path = URL.resolve(currProject.basepath, interfaceData.path);
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
@@ -224,6 +219,9 @@ class InterfaceColContent extends Component {
       path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const domains = currProject.env.concat();
+
+    case_env = this.state.currColEnv ? this.state.currColEnv : case_env ;
+    
     let currDomain = _.find(domains, item => item.name === case_env);
     if (!currDomain) {
       currDomain = domains[0];
@@ -483,9 +481,6 @@ class InterfaceColContent extends Component {
         })
       }      
     })
-
-
-
   }
 
   handleAdvCancel = () => {
@@ -663,7 +658,8 @@ class InterfaceColContent extends Component {
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
-          <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
+          <Select  value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
+            <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
             {
               colEnv.map((item) => {
                 return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
