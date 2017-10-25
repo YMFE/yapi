@@ -1,4 +1,4 @@
-var strRegex = /\${(body|query)([a-zA-Z0-9_\.]*)\}/i;
+var strRegex = /\${([a-zA-Z]+)\.?([a-zA-Z0-9_\.]*)\}/i;
 var varSplit = '.';
 var mockSplit = '|';
 var Mock = require('mockjs');
@@ -66,10 +66,14 @@ function mock(mockJSON, context) {
 
     let matchs = str.match(strRegex);
     if(matchs){
-      let name = matchs[1] + matchs[2];
+      let name = matchs[1] + (matchs[2]? '.' + matchs[2] : '');
       if(!name) return str;
       var names = name.split(varSplit);
       var data = context;
+      
+      if(typeof context[names[0]] === undefined){
+        return str;
+      }
       names.forEach(function (n) {
         if (data === '') return '';
         if (n in data) {
