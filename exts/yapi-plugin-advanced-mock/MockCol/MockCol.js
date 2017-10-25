@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Table, Button, message, Popconfirm } from 'antd';
+import { Table, Button, message, Popconfirm, Tooltip, Icon } from 'antd';
 import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
 import { formatTime } from '../../../client/common.js';
+import constants from '../../../client/constants/variable.js'
 import CaseDesModal from './CaseDesModal';
 
 @connect(
@@ -98,6 +99,22 @@ export default class MockCol extends Component {
       res_body: ''
     }
 
+    let ipFilters = [];
+    let ipObj = {};
+    let userFilters = [];
+    let userObj = {};
+    data.forEach(item => {
+      ipObj[item.ip_enable ? item.ip : ''] = '';
+      userObj[item.username] = '';
+    })
+    ipFilters = Object.keys(Object.assign(ipObj)).map(value => {
+      if (!value) {
+        value = '无过滤'
+      }
+      return { text: value, value }
+    })
+    userFilters = Object.keys(Object.assign(userObj)).map(value => { return { text: value, value } })
+    console.log(ipFilters)
     const columns = [{
       title: '期望名称',
       dataIndex: 'name',
@@ -105,11 +122,21 @@ export default class MockCol extends Component {
     }, {
       title: 'ip',
       dataIndex: 'ip',
-      key: 'ip'
+      key: 'ip',
+      render: (text, recode) => {
+        if (!recode.ip_enable) {
+          text = '';
+        }
+        return text;
+      },
+      onFilter: (value, record) => (record.ip === value && record.ip_enable) || (value === '无过滤' && !record.ip_enable),
+      filters: ipFilters
     }, {
       title: '创建人',
       dataIndex: 'username',
-      key: 'username'
+      key: 'username',
+      onFilter: (value, record) => record.name === value,
+      filters: userFilters
     }, {
       title: '编辑时间',
       dataIndex: 'up_time',
@@ -152,6 +179,9 @@ export default class MockCol extends Component {
             caseDesModalVisible: true,
             caseData: initCaseData
           })}>添加期望</Button>
+          <a target="_blank" rel="noopener noreferrer" href={constants.docHref.adv_mock_case} style={{marginLeft: 8}} >
+            <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+          </a>
         </div>
         <Table columns={columns} dataSource={data} pagination={false} rowKey='_id' />
         <CaseDesModal
