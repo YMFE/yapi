@@ -2,13 +2,13 @@
 
  <p style='text-indent:2em;line-height:1.8em'>YApi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
  
- **mock地址解析**：yapi平台网址+mock+**您的项目id**+**接口实际请求path**
+ **mock地址解析**：`YApi平台网址 + mock + 您的项目id + 接口实际请求path`
 
- 假设你 YApi 的部署地址为：http://yapi.xxx.com，然后后面的都可以用这个地址作为示例
+ 假设你 YApi 的部署地址为：http://yapi.xxx.com 然后用这个地址作为示例
 
     mockd地址： http://yapi.xxx.com/mock/29/api/hackathon/login
 
- 注：项目id可以在项目设置里查看到
+ > 注：项目 id 可以在项目设置里查看到
  
 ## 定义mock数据示例
 ```
@@ -105,29 +105,8 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <span id="mock"></span>
 
-## 高级Mock
-在前端开发阶段，对于某些接口，业务相对复杂，而 UI 端也需要根据接口返回的不同内容去做相应的处理
 
-YApi 提供了写 js 脚本方式处理这一问题，可以根据用户请求的参数修改返回内容。
-
-### 全局变量
-1. mockJson
-2. query
-3. body
-4. header
-5. cookie
-
-### 使用方法
-1. 首先开启此功能
-2. mock脚本就是用 javascript 对 mockJson 变量修改
-
-
-### 示例：
-<img class="doc-img" style="width: 80%" src="./images/usage/adv-mock.jpg" />
-
-
-
-
+  
 ## Mock语法规范
 >了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
 

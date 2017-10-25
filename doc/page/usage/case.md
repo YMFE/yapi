@@ -3,7 +3,7 @@
 
 ## 测试列表
 
-<img  class="doc-img" style="width:100%" src="./images/usage/case-list.jpg"  />
+<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  />
 
 在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
 
