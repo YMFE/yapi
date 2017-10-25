@@ -1,16 +1,16 @@
 ## Mock介绍
 
- <p style='text-indent:2em;line-height:1.8em'>YApi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则([点击到Mock规则](#mock)）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+ <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock 规则([点击到 Mock 规则](#mock)）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的 Mock 方式如将 Mock 写在代码里和JS拦截等相比 yapi 的 Mock 在使用场景和效率和复杂度上是相差甚远的，正是由于 yapi 的 Mock 是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
  
  **mock地址解析**：`YApi平台网址 + mock + 您的项目id + 接口实际请求path`
 
  假设你 YApi 的部署地址为：http://yapi.xxx.com 然后用这个地址作为示例
 
-    mockd地址： http://yapi.xxx.com/mock/29/api/hackathon/login
+    mockd 地址： http://yapi.xxx.com/mock/29/api/hackathon/login
 
  > 注：项目 id 可以在项目设置里查看到
  
-## 定义mock数据示例
+## 定义 mock 数据示例
 ```
 {
     "status|0-1": 0, //接口状态
@@ -48,7 +48,7 @@
 
 ```
 
-2 支持替换请求的query,body参数
+2 支持替换请求的 query, body 参数
 
 ```
 {
@@ -60,9 +60,9 @@
 
 ## 如何使用 Mock
 
-### 1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题）
+### 1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）
 
-在代码直接请求yapi提供的mock地址，以jQuery为例：
+在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：
 
 ````javascript
 let prefix = 'http://yapi.xxx.com/mock/2817'
@@ -75,7 +75,7 @@ $.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
 
 优点:不用修改项目代码
 
-#### 2.1 基于nginx反向代理
+#### 2.1 基于 nginx 反向代理
 
 ```` nginx
 location /baseapi
@@ -84,7 +84,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 }
 ````
 
-#### 2.2 基于ykit mock功能
+#### 2.2 基于 ykit mock功能
 
 ```javascript
 {
@@ -99,7 +99,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 
 
-#### 2.3 基于ykit Jerry代理
+#### 2.3 基于 ykit Jerry 代理
 
 假设您本地服务器访问地址是： http://xxx.com
 
@@ -109,7 +109,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 
   
-## Mock语法规范
+## Mock 语法规范
 >了解更多Mock详情：[Mock.js 官方文档](http://mockjs.com/examples.html)
 
 Mock.js 的语法规范包括两部分：
