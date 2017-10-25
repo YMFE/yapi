@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import axios from 'axios'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row, InputNumber } from 'antd';
 import { safeAssign } from '../../../client/common.js';
@@ -238,6 +237,7 @@ export default class CaseDesModal extends Component {
               <Input placeholder="请输入期望名称" />
             )}
           </FormItem>
+          <h2 className="sub-title">请求</h2>
           <FormItem {...formItemLayout} label="IP 过滤" className="ip-filter">
             <Col span={6} className="ip-switch">
               <FormItem>
@@ -261,10 +261,19 @@ export default class CaseDesModal extends Component {
               </div>
             </Col>
           </FormItem>
+          {
+            valuesTpl('paramsArr', paramsArr, '参数过滤')
+          }
+          <FormItem wrapperCol={{ span: 6, offset: 5 }}>
+            <Button size="default" type="primary" onClick={() => this.addValues('paramsArr')} style={{ width: '100%' }}>
+              <Icon type="plus" /> 添加参数
+            </Button>
+          </FormItem>
+          <h2 className="sub-title">响应</h2>
           <FormItem
             {...formItemLayout}
             required
-            label="HTTP CODE"
+            label="HTTP Code"
           >
             {getFieldDecorator('code')(
               <Select showSearch>
@@ -289,18 +298,9 @@ export default class CaseDesModal extends Component {
           {
             valuesTpl('headers', headers, 'HTTP 头')
           }
-          <FormItem {...formItemLayoutWithOutLabel}>
-            <Button type="dashed" onClick={() => this.addValues('headers')} style={{ width: '80%' }}>
+          <FormItem wrapperCol={{ span: 6, offset: 5 }}>
+            <Button size="default" type="primary" onClick={() => this.addValues('headers')} style={{ width: '100%' }}>
               <Icon type="plus" /> 添加 HTTP 头
-            </Button>
-          </FormItem>
-
-          {
-            valuesTpl('paramsArr', paramsArr, '参数')
-          }
-          <FormItem {...formItemLayoutWithOutLabel}>
-            <Button type="dashed" onClick={() => this.addValues('paramsArr')} style={{ width: '80%' }}>
-              <Icon type="plus" /> 添加参数
             </Button>
           </FormItem>
           <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="返回 JSON" required>
