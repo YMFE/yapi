@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Loading from './components/Loading/Loading';
 import MyPopConfirm from './components/MyPopConfirm/MyPopConfirm';
+import statisticsPage from '../exts/yapi-plugin-statistics/statisticsClientPage/index';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
 
@@ -78,6 +79,7 @@ export default class App extends Component {
                 <Route path="/follow" component={requireAuthentication(Follows)} />
                 <Route path="/add-project" component={requireAuthentication(AddProject)} />
                 <Route path="/login" component={Login} />
+                <Route path="/statistic" component={statisticsPage} />
               </div>
             </div>
             <Footer/>

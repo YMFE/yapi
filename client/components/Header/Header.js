@@ -1,52 +1,98 @@
 import './Header.scss'
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
-import { changeMenuItem } from '../../reducer/modules/menu'
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag} from 'antd'
+import {checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
+import {changeMenuItem} from '../../reducer/modules/menu'
+import {withRouter} from 'react-router';
 import Srch from './Search/Search'
-const { Header } = Layout;
-import { logoSVG } from '../../common.js';
+const {Header} = Layout;
+import {logoSVG} from '../../common.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 import GuideBtns from '../GuideBtns/GuideBtns.js';
+const plugin = require('client/plugin.js');
+
+let HeaderMenu = {
+  user: {
+    path: '/user/profile',
+    name: '个人中心',
+    icon: 'user',
+    adminFlag: false
+  },
+  star: {
+    path: '/follow',
+    name: '我的关注',
+    icon: 'star-o',
+    adminFlag: false
+  },
+  solution: {
+    path: '/user/list',
+    name: '用户管理',
+    icon: 'solution',
+    adminFlag: true
+  }
+};
+
+plugin.emitHook('header_menu', HeaderMenu);
 
 const MenuUser = (props) => (
-  <Menu theme="dark" className="user-menu" >
-    <Menu.Item key="0">
-      <Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>
-    </Menu.Item>
-    <Menu.Item key="1">
-      <Link to={`/follow`} onClick={props.relieveLink}><Icon type="star-o"/>我的关注</Link>
-    </Menu.Item>
-    {
-      props.role === "admin"?<Menu.Item key="2">
-        <Link to={`/user/list`}><Icon type="solution" />用户管理</Link>
-      </Menu.Item>:""
-    }
+  <Menu theme="dark" className="user-menu">
+    {Object.keys(HeaderMenu).map(key => {
+      let item = HeaderMenu[key];
+      const isAdmin = props.role === 'admin';
+      if (item.adminFlag && !isAdmin) {
+        return null
+      }
+      return (
+        <Menu.Item key={key}>
+          {
+            item.name === '个人中心' ? <Link to={item.path + `/${props.uid}`}>
+              <Icon type={item.icon}/>
+              {item.name}
+            </Link> : !item.adminFlag ? <Link to={item.path}><Icon type={item.icon}/>
+              {item.name}
+            </Link> : <Link to={item.path}><Icon type={item.icon}/>
+              {item.name}
+            </Link>
+          }
+        </Menu.Item>
+      )
+    })}
+    {/*<Menu.Item key="0">*/}
+    {/*<Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>*/}
+    {/*</Menu.Item>*/}
+    {/*<Menu.Item key="1">*/}
+    {/*<Link to={`/follow`} onClick={props.relieveLink}><Icon type="star-o"/>我的关注</Link>*/}
+    {/*</Menu.Item>*/}
+    {/*{*/}
+    {/*props.role === "admin" ? <Menu.Item key="2">*/}
+    {/*<Link to={`/user/list`}><Icon type="solution"/>用户管理</Link>*/}
+    {/*</Menu.Item> : ""*/}
+    {/*}*/}
 
-    <Menu.Item key="3">
-      <a onClick={props.logout}><Icon type="logout" />退出</a>
+    <Menu.Item key="9">
+      <a onClick={props.logout}><Icon type="logout"/>退出</a>
     </Menu.Item>
   </Menu>
 );
 
 const tipFollow = (<div className="title-container">
-  <h3 className="title"><Icon type="star" /> 关注</h3>
+  <h3 className="title"><Icon type="star"/> 关注</h3>
   <p>这里是你的专属收藏夹，便于你找到自己的项目</p>
 </div>);
 const tipAdd = (<div className="title-container">
-  <h3 className="title"><Icon type="plus-circle" /> 新建项目</h3>
+  <h3 className="title"><Icon type="plus-circle"/> 新建项目</h3>
   <p>在任何页面都可以快速新建项目</p>
 </div>);
 const tipDoc = (<div className="title-container">
   <h3 className="title">使用文档 <Tag color="orange">推荐!</Tag></h3>
-  <p>初次使用 YApi，强烈建议你阅读 <a target="_blank" href="https://yapi.ymfe.org/" rel="noopener noreferrer">使用文档</a> ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！ </p>
+  <p>初次使用 YApi，强烈建议你阅读 <a target="_blank" href="https://yapi.ymfe.org/" rel="noopener noreferrer">使用文档</a>
+    ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！ </p>
 </div>);
 
-MenuUser.propTypes={
+MenuUser.propTypes = {
   user: PropTypes.string,
   msg: PropTypes.string,
   role: PropTypes.string,
@@ -55,7 +101,7 @@ MenuUser.propTypes={
   logout: PropTypes.func
 }
 
-const ToolUser = (props)=> {
+const ToolUser = (props) => {
   return (
     <ul>
       <li className="toolbar-li item-search">
@@ -68,11 +114,11 @@ const ToolUser = (props)=> {
         placement="bottomRight"
         arrowPointAtCenter
         visible={props.studyTip === 1 && !props.study}
-        >
+      >
         <Tooltip placement="bottom" title={'我的关注'}>
           <li className="toolbar-li">
             <Link to="/follow">
-              <Icon className="dropdown-link" style={{ fontSize: 16  }} type="star" />
+              <Icon className="dropdown-link" style={{fontSize: 16}} type="star"/>
             </Link>
           </li>
         </Tooltip>
@@ -84,11 +130,11 @@ const ToolUser = (props)=> {
         placement="bottomRight"
         arrowPointAtCenter
         visible={props.studyTip === 2 && !props.study}
-        >
+      >
         <Tooltip placement="bottom" title={'新建项目'}>
           <li className="toolbar-li">
             <Link to="/add-project">
-              <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
+              <Icon className="dropdown-link" style={{fontSize: 16}} type="plus-circle"/>
             </Link>
           </li>
         </Tooltip>
@@ -100,17 +146,18 @@ const ToolUser = (props)=> {
         placement="bottomRight"
         arrowPointAtCenter
         visible={props.studyTip === 3 && !props.study}
-        >
+      >
         <Tooltip placement="bottom" title={'使用文档'}>
           <li className="toolbar-li">
-            <a target="_blank" href="https://yapi.ymfe.org/" rel="noopener noreferrer"><Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+            <a target="_blank" href="https://yapi.ymfe.org/" rel="noopener noreferrer"><Icon
+              className="dropdown-link" style={{fontSize: 16}} type="question-circle"/></a>
           </li>
         </Tooltip>
       </Popover>
       <li className="toolbar-li">
 
         <Dropdown
-          placement = "bottomRight"
+          placement="bottomRight"
           trigger={['click']}
           overlay={
             <MenuUser
@@ -121,12 +168,12 @@ const ToolUser = (props)=> {
               relieveLink={props.relieveLink}
               logout={props.logout}
             />
-        }>
+          }>
           <a className="dropdown-link">
-            <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+            <Avatar src={`/api/user/avatar?uid=${props.uid}`}/>
             {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
             {/*<span className="name">{props.user}</span>*/}
-            <span className="name"><Icon type="down" /></span>
+            <span className="name"><Icon type="down"/></span>
           </a>
         </Dropdown>
 
@@ -134,7 +181,7 @@ const ToolUser = (props)=> {
     </ul>
   )
 };
-ToolUser.propTypes={
+ToolUser.propTypes = {
   user: PropTypes.string,
   msg: PropTypes.string,
   role: PropTypes.string,
@@ -147,15 +194,14 @@ ToolUser.propTypes={
 };
 
 
-
 @connect(
   (state) => {
-    return{
+    return {
       user: state.user.userName,
       uid: state.user.uid,
       msg: null,
       role: state.user.role,
-      login:state.user.isLogin,
+      login: state.user.isLogin,
       studyTip: state.user.studyTip,
       study: state.user.study
     }
@@ -172,28 +218,29 @@ export default class HeaderCom extends Component {
   constructor(props) {
     super(props);
   }
-  static propTypes ={
+
+  static propTypes = {
     router: PropTypes.object,
     user: PropTypes.string,
     msg: PropTypes.string,
     uid: PropTypes.number,
     role: PropTypes.string,
-    login:PropTypes.bool,
-    relieveLink:PropTypes.func,
-    logoutActions:PropTypes.func,
-    checkLoginState:PropTypes.func,
-    loginTypeAction:PropTypes.func,
-    changeMenuItem:PropTypes.func,
+    login: PropTypes.bool,
+    relieveLink: PropTypes.func,
+    logoutActions: PropTypes.func,
+    checkLoginState: PropTypes.func,
+    loginTypeAction: PropTypes.func,
+    changeMenuItem: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
     study: PropTypes.bool,
     studyTip: PropTypes.number
   }
-  linkTo = (e) =>{
-    if(e.key != '/doc'){
+  linkTo = (e) => {
+    if (e.key != '/doc') {
       this.props.changeMenuItem(e.key);
-      if(!this.props.login){
-        message.info('请先登录',1);
+      if (!this.props.login) {
+        message.info('请先登录', 1);
       }
     }
   }
@@ -218,7 +265,7 @@ export default class HeaderCom extends Component {
     e.preventDefault();
     this.props.loginTypeAction("1");
   }
-  handleReg = (e)=>{
+  handleReg = (e) => {
     e.preventDefault();
     this.props.loginTypeAction("2");
   }
@@ -233,27 +280,27 @@ export default class HeaderCom extends Component {
   }
 
 
-
-  render () {
-    const { login, user, msg, uid, role, studyTip, study } = this.props;
+  render() {
+    const {login, user, msg, uid, role, studyTip, study} = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
           <Link onClick={this.relieveLink} to="/group" className="logo">
-            <div   className="href">
+            <div className="href">
               <span className="img">{logoSVG('32px')}</span>
               {/*<span className="logo-name">YApi</span>*/}
             </div>
           </Link>
           <Breadcrumb />
-          <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1}}>
-            {login?
+          <div className="user-toolbar"
+               style={{position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1}}>
+            {login ?
               <ToolUser
                 {...{studyTip, study, user, msg, uid, role}}
                 relieveLink={ this.relieveLink }
                 logout={ this.logout }
               />
-              :""}
+              : ""}
           </div>
         </div>
       </Header>

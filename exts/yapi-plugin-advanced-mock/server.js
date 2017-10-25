@@ -15,7 +15,7 @@ function arrToObj(arr){
 
 module.exports = function(){
   yapi.connect.then(function () {
-    let Col = mongoose.connection.db.collection('adv_mock')
+    let Col = mongoose.connection.db.collection('adv_mock');
     Col.createIndex({
         interface_id: 1        
     })
@@ -23,7 +23,7 @@ module.exports = function(){
       project_id: 1
     })
 
-    let caseCol = mongoose.connection.db.collection('adv_mock_case')
+    let caseCol = mongoose.connection.db.collection('adv_mock_case');
     caseCol.createIndex({
         interface_id: 1        
     })
@@ -36,6 +36,7 @@ module.exports = function(){
     let reqParams = Object.assign({}, ctx.query, ctx.body);
     let caseInst = yapi.getInst(caseModel);
     let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+    //   数据库信息查询
     let listWithIp =await caseInst.model.find({
       interface_id: interfaceId,
       ip_enable: true,
@@ -65,8 +66,6 @@ module.exports = function(){
       return maxItem;
     }
     return null;
-
-
 
   }
   
@@ -104,7 +103,7 @@ module.exports = function(){
 
     addRouter({
       /**
-       * 保存期望
+       *
        */
       controller: controller,
       method: 'get',
@@ -124,7 +123,7 @@ module.exports = function(){
 
     addRouter({
       /**
-       * 获取期望列表
+       * 删除期望列表
        */
       controller: controller,
       method: 'post',

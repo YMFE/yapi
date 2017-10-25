@@ -430,7 +430,7 @@ for(let ctrl in routerConfig){
 				let routerController = INTERFACE_CONFIG[ctrl].controller;
 				let routerPath = INTERFACE_CONFIG[ctrl].prefix + item.path;
         createAction(routerController, item.action, routerPath, item.method);
-    } )
+    })
 }
 
 

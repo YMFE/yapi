@@ -1,0 +1,43 @@
+@import '../../../client/styles/mixin';
+
+.g-statistic {
+  @include row-width-limit;
+  margin: 0 auto .24rem;
+  margin-top: 24px;
+  .statis-content {
+    -webkit-box-flex: 1;
+    padding: 24px;
+    background: #fff;
+    min-height: 5rem;
+  }
+  .m-row {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 16px;
+  }
+
+  .m-help {
+    margin-left: 5px;
+    border-radius: 12px;
+    color: #2395f1;
+  }
+
+  .gutter-row {
+    padding-left: 24px;
+    border-left: 1px solid #f0f0f0;
+  }
+
+  .gutter-row:first-child {
+    border-left: 0
+  }
+
+  .gutter-box {
+    margin-top: 8px;
+    //margin-bottom: 16px;
+    //margin: 8px 0 16px;
+  }
+
+  .statis-select {
+    margin-top: 8px;
+  }
+}
+
