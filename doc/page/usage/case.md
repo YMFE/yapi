@@ -1,5 +1,5 @@
 ## 介绍
-<p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集可以保存之前填写的参数，方便下次的调试。YApi测试集还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串。</p>
+<p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集不但能够保存之前填写的参数，方便下次的调试，还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串，通过设置断言脚本验证返回数据的正确性，</p>
 
 ## 测试列表
 
@@ -48,3 +48,33 @@ $.{key}.{params|body}.{path}
 其中 **$.** 是使用 **动态变量** 的标志，$.269.**params** 即表示 key 值为 269 用例的请求参数，$.269.**body** 即表示 key 值为 269 用例的返回值。
 
 > Tips: 上下拖动测试集合的列表项可以调整测试的顺序。
+
+### 高级
+可通过写断言脚本，实现精准测试,支持 js 所有语法
+
+#### 公共变量
+* assert 
+
+  断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
+
+* status
+
+  http 状态码
+
+* body  
+
+  返回 response body
+
+* header 
+
+  返回 response header
+
+* records 
+
+  记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
+
+#### 示例
+```
+assert.equal(body.errcode, 0)
+assert.equal(body.data.group_name, 'testGroup')
+```
