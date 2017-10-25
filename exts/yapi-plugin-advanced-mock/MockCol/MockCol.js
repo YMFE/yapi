@@ -131,7 +131,7 @@ export default class MockCol extends Component {
             </span>
             <span>
               <Popconfirm
-                title="你确定要删除此条期望?"
+                title="你确定要删除这条期望?"
                 onConfirm={() => this.deleteCase(_id)}
                 okText="确定"
                 cancelText="取消"

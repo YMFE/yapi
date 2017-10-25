@@ -49,9 +49,13 @@
                 "index": "interface",
                 "content": "./doc/page/usage/api.md"
             },{
-                "name": "使用mock功能",
+                "name": "普通 Mock",
                 "index": "mock",
                 "content": "./doc/page/usage/mock.md"
+            },{
+                "name": "高级 Mock",
+                "index": "adv_mock",
+                "content": "./doc/page/usage/adv_mock.md"
             },{
                 "name": "使用测试集",
                 "index": "case",
