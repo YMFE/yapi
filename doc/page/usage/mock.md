@@ -58,8 +58,10 @@
 
 ```
 
-##  如何使用Mock?
+## 如何使用 Mock
+
 ### 1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题）
+
 在代码直接请求yapi提供的mock地址，以jQuery为例：
 
 ````javascript

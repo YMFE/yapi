@@ -142,7 +142,7 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#如何使用Mock?">如何使用Mock?</a>
+                                        <a href="#如何使用_Mock">如何使用 Mock</a>
                                     </li>
                                      
                                     <li >
@@ -213,7 +213,7 @@
   <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"${query.name}"</span><span class="token punctuation">,</span> //请求的url是/path?name=xiaoming<span class="token punctuation">,</span> 返回的name字段是xiaoming
   <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"${body.type}"</span>   //请求的requestBody type=<span class="token number">1</span><span class="token punctuation">,</span>返回的type字段是<span class="token number">1</span>
 <span class="token punctuation">}</span>
-</code></pre><h2 class="subject" id="如何使用Mock?">如何使用Mock? <a class="hashlink" href="#如何使用Mock?">#</a></h2><h3 class="subject" id="1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题） <a class="hashlink" href="#1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求yapi提供的mock地址，以jQuery为例：</p>
+</code></pre><h2 class="subject" id="如何使用_Mock">如何使用 Mock <a class="hashlink" href="#如何使用_Mock">#</a></h2><h3 class="subject" id="1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题） <a class="hashlink" href="#1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求yapi提供的mock地址，以jQuery为例：</p>
 <pre><code class="lang-javascript"><span class="token keyword">let</span> prefix <span class="token operator">=</span> <span class="token string">'http://yapi.xxx.com/mock/2817'</span>
 $<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>prefix<span class="token operator">+</span><span class="token string">'/baseapi/path'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>username<span class="token punctuation">:</span> <span class="token string">'xxx'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//返回上图预览部分的数据</span>
