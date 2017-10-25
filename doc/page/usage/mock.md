@@ -36,7 +36,7 @@
 
 ## YApi-Mock 跟 Mockjs 区别
 
-<a href="http://mockjs.com">Mockjs 官网</a>
+<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
 
 1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
 
@@ -110,7 +110,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
   
 ## Mock语法规范
->了解更多Mock详情：[Mock.js 官方文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
+>了解更多Mock详情：[Mock.js 官方文档](http://mockjs.com/examples.html)
 
 Mock.js 的语法规范包括两部分：
 
