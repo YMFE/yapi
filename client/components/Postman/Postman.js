@@ -138,7 +138,6 @@ export default class Run extends Component {
       case_env = '',
       test_status = '',
       test_res_body = '',
-      test_report = [],
       test_res_header = '',
       mock_verify = false
     } = data;
@@ -175,7 +174,7 @@ export default class Run extends Component {
       bodyType: req_body_type || 'form',
       loading: false,
       test_status: test_status,
-      validRes: test_report,
+      validRes: [],
       res: test_res_body,
       resHeader: test_res_header,
       resMockTest: mock_verify
@@ -378,6 +377,7 @@ export default class Run extends Component {
       }
       pathParam[index].name = v;
     } else {
+
       pathParam[index].value = v;
     }
     this.setState({ pathParam, pathname: newPathname });
@@ -570,7 +570,8 @@ export default class Run extends Component {
     let isResJson = isJsonData(resHeader);
     let path = pathname;
     pathParam.forEach(item => {
-      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+      let val = handleMockWord(item.value);
+      path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const search = decodeURIComponent(URL.format({ query: this.getQueryObj(query) }));
 

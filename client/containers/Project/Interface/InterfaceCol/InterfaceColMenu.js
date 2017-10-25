@@ -356,7 +356,9 @@ export default class InterfaceColMenu extends Component {
                       key={'case_' + interfaceCase._id}
                       title={
                         <div className="menu-title" title={interfaceCase.casename}>
-                          <span className="casename">{interfaceCase.casename}</span>
+                          <Tooltip title={'key: ' + interfaceCase._id}>
+                            <span className="casename">{interfaceCase.casename}</span>
+                          </Tooltip>
                           <Tooltip title="删除用例">
                             <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCaseConfirm(interfaceCase._id) }} />
                           </Tooltip>

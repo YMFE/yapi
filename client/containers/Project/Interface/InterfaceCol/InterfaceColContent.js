@@ -31,6 +31,14 @@ function json_parse(data) {
 }
 const HTTP_METHOD = constants.HTTP_METHOD;
 
+function handleReport(json){
+  try{
+    return JSON.parse(json);
+  }catch(e){
+    return {};
+  }
+}
+
 
 @connect(
   state => {
@@ -95,7 +103,11 @@ class InterfaceColContent extends Component {
       result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     if (currColId && currColId != 0) {
-      await this.props.fetchCaseList(currColId);
+      let result = await this.props.fetchCaseList(currColId);
+      if(result.payload.data.errcode === 0){
+        this.reports = handleReport(result.payload.data.colData.test_report);
+      }
+      
       this.props.setColData({ currColId: +currColId, isShowCol: true })
       this.handleColdata(this.props.currCaseList)
     }
@@ -199,6 +211,7 @@ class InterfaceColContent extends Component {
         rows: newRows
       })
     }
+    await axios.post('/api/col/up_col', { col_id: this.props.currColId, test_report: JSON.stringify(this.reports) })
   }
 
   handleTest = async (interfaceData) => {
@@ -207,7 +220,8 @@ class InterfaceColContent extends Component {
     let path = URL.resolve(currProject.basepath, interfaceData.path);
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
-      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+      let val = this.handleValue(item.value);
+      path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const domains = currProject.env.concat();
     let currDomain = _.find(domains, item => item.name === case_env);
@@ -419,7 +433,6 @@ class InterfaceColContent extends Component {
         index: index
       })
     })
-
     axios.post('/api/col/up_col_index', changes).then()
     if (rows) {
       this.setState({ rows });
@@ -427,29 +440,13 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    //const { interfaceColList } = nextProps;
-    //const { actionId: oldColId, id } = this.props.match.params
-    let newColId = nextProps.match.params.actionId
-
-    if(newColId !== this.currColId){
-      this.currColId = newColId;
-      if (newColId && newColId != 0) {
-        await this.props.fetchCaseList(newColId);
-        this.props.setColData({ currColId: +newColId, isShowCol: true })
-        this.handleColdata(this.props.currCaseList)
-      }
+    let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId :  0;
+    if(newColId && this.currColId && newColId !== this.currColId){
+      this.currColId = newColId;    
+      await this.props.fetchCaseList(newColId);
+      this.props.setColData({ currColId: +newColId, isShowCol: true })
+      this.handleColdata(this.props.currCaseList)
     }
-
-
-    // if (!interfaceColList.find(item => +item._id === +newColId) && interfaceColList[0]._id) {
-    //   this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    // } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
-    //   if (newColId && newColId != 0) {
-    //     await this.props.fetchCaseList(newColId);
-    //     this.props.setColData({ currColId: +newColId, isShowCol: true })
-    //     this.handleColdata(this.props.currCaseList)
-    //   }
-    // }
   }
 
   openReport = (id) => {
@@ -583,15 +580,19 @@ class InterfaceColContent extends Component {
       },
       cell: {
         formatters: [(value, { rowData }) => {
-          switch (rowData.test_status) {
-            case 'ok':
-              return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
-            case 'error':
+          let id = rowData._id;
+          let code = this.reports[id] ? this.reports[id].code : 0;
+          if(rowData.test_status === 'loading'){
+            return <div ><Spin /></div>
+          }
+
+          switch (code) {
+            case 0:
+              return <div ><Tooltip title="Pass"><Icon style={{ color: '#00a854' }} type="check-circle" /></Tooltip></div>
+            case 400:
               return <div ><Tooltip title="请求异常"><Icon type="info-circle" style={{ color: '#f04134' }} /></Tooltip></div>
-            case 'invalid':
-              return <div ><Tooltip title="返回数据校验未通过"><Icon type="exclamation-circle" style={{ color: '#ffbf00' }} /></Tooltip></div>
-            case 'loading':
-              return <div ><Spin /></div>
+            case 1:
+              return <div ><Tooltip title="验证失败"><Icon type="exclamation-circle" style={{ color: '#ffbf00' }} /></Tooltip></div>
             default:
               return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
           }

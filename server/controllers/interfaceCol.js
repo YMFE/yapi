@@ -154,7 +154,9 @@ class interfaceColController extends baseController{
             resultList = resultList.sort((a,b)=>{
                 return a.index - b.index;
             });
-            ctx.body = yapi.commons.resReturn(resultList);
+            let ctxBody = yapi.commons.resReturn(resultList);
+            ctxBody.colData = colData;
+            ctx.body = ctxBody;
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
@@ -450,20 +452,22 @@ class interfaceColController extends baseController{
         try{
             let params = ctx.request.body;
             let id = params.col_id;
+            if(!id){
+                return ctx.body = yapi.commons.resReturn(null, 400, '缺少 col_id 参数');
+            }
             let colData = await this.colModel.get(id);
+            if(!colData){
+                return ctx.body = yapi.commons.resReturn(null, 400, '不存在');
+            }
             let auth = await this.checkAuth(colData.project_id, 'project', 'edit')
             if (!auth) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
-
-            let result = await this.colModel.up(params.col_id, {
-                name: params.name,
-                desc: params.desc,
-                up_time: yapi.commons.time()
-            });
+            delete params.col_id;
+            let result = await this.colModel.up(id, params);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                contnet: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了接口集 <a href="/project/${colData.project_id}/interface/col/${params.col_id}">${params.name}</a> 的信息`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了接口集 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 的信息`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,

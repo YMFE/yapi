@@ -1,6 +1,9 @@
 ## 1.1.3
 ### Bug Fixed
 * 修复了切换集合环境的 Bug
+* 修复了 mockServer 拿不到 Post 请求 Body
+* 修复了接口调试 pathParams 无法使用 mock 参数和变量参数
+
 
 
 ## 1.1.2

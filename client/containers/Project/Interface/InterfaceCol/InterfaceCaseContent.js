@@ -129,7 +129,6 @@ export default class InterfaceCaseContent extends Component {
     };
     if (this.postman.state.test_status !== 'error') {
       params.test_res_body = this.postman.state.res;
-      params.test_report = this.postman.state.validRes;
       params.test_status = this.postman.state.test_status;
       params.test_res_header = this.postman.state.resHeader;
     }
