@@ -42,19 +42,58 @@ YApi 提供了写 JS 脚本方式处理这一问题，可以根据用户请求�
 
 响应
 
-- `mockJson` 接口定义的响应数据 Mock 模板
-- `resHeader` 响应的 HTTP 头
-- `httpCode` 响应的 HTTP 状态码
-- `delay` Mock 响应延时
+- `mockJson` 
+  接口定义的响应数据 Mock 模板
 
+- `resHeader` 
+响应的 HTTP 头
+
+- `httpCode` 
+响应的 HTTP 状态码
+
+- `delay` 
+Mock 响应延时，单位为 ms
+
+- `Random` 
+Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
 
 ### 使用方法
 1. 首先开启此功能
-2. Mock 脚本就是用 JavaScript 对 `mockJson` 变量修改
+2. Mock 脚本就是用 JavaScript 对 `mockJson` 变量修改,请避免被全局变量(httpCode, resHeader, delay)的修改
 
 
-### 示例：
-<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock.jpg" /></div>
+### 示例1, 根据请求参数重写 mockJson
+```
+if(params.type == 1){
+  mockJson.errcode = 400;
+  mockJson.errmsg = 'error;
+}
+
+if(header.token == 't'){
+  mockJson.errcode = 300;
+  mockJson.errmsg = 'error;
+}
+
+if(cookie.type == 'a'){
+  mockJson.errcode = 500;
+  mockJson.errmsg = 'error;
+}
+
+```
+
+### 示例2, 生成高度自定义数据内容
+```
+var a = [1,1,1,1,1,1,1,1,1,1]
+
+mockJson = {
+    errcode: 0,
+    email: Random.email('qq.com'),
+    data: a.map(function(item){
+        return Random.city() + '银行'
+    })
+}
+
+```
 
 ## Mock 优先级说明
 请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。
