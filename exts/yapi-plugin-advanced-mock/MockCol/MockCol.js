@@ -135,7 +135,7 @@ export default class MockCol extends Component {
       title: '创建人',
       dataIndex: 'username',
       key: 'username',
-      onFilter: (value, record) => record.name === value,
+      onFilter: (value, record) => record.username === value,
       filters: userFilters
     }, {
       title: '编辑时间',
