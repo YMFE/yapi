@@ -1,4 +1,5 @@
 import AdvMock from './AdvMock'
+import mockCol from './MockCol/mockColReducer.js'
 
 module.exports = function(){
   this.bindHook('interface_tab', function(tabs){
@@ -6,5 +7,8 @@ module.exports = function(){
       name: '高级Mock',
       component: AdvMock
     }
+  })
+  this.bindHook('add_reducer', function(reducerModules){
+    reducerModules.mockCol = mockCol;
   })
 }

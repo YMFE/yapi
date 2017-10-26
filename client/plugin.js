@@ -72,6 +72,20 @@ hooks = {
     type: 'listener',
     mulit: true,
     listener: []
+  },
+  /**
+   * 添加 reducer
+   * @param Object reducerModules
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
+   * importDataModule = {}; 
+   * 
+   */
+  add_reducer: {
+    type: 'listener',
+    mulit: true,
+    listener: []
   }
 };
 

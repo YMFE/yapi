@@ -41,7 +41,6 @@ export default class CaseDesModal extends Component {
   state = {
     headers: [],
     paramsArr: []
-    // res_body: ''
   }
   
   constructor(props) {
@@ -94,7 +93,6 @@ export default class CaseDesModal extends Component {
   endProcess = caseData => {
     const headers = [];
     const params = {};
-    // const { res_body } = this.state;
     caseData.headers.forEach(item => {
       if (item.name) {
         headers.push({
@@ -110,7 +108,6 @@ export default class CaseDesModal extends Component {
     })
     caseData.headers = headers;
     caseData.params = params;
-    // caseData.res_body = res_body;
     delete caseData.paramsArr;
     return caseData;
   }
@@ -183,9 +180,6 @@ export default class CaseDesModal extends Component {
       data: that.props.caseData.res_body,
       onChange: function (d) {
         if (d.format !== true) return false;
-        // that.setState({
-        //   res_body: d.text
-        // })
         setFieldsValue({ res_body: d.text })
       }
     });
@@ -276,7 +270,7 @@ export default class CaseDesModal extends Component {
               <div style={{display: getFieldValue('ip_enable') ? '' : 'none'}} className="ip">
                 <FormItem>
                   {getFieldDecorator('ip', getFieldValue('ip_enable') ? {
-                    rules: [{ pattern: constants.IP_REGEXP, message: '请填写正确的 IP 地址' }]
+                    rules: [{ pattern: constants.IP_REGEXP, message: '请填写正确的 IP 地址', required: true }]
                   } : {})(
                     <Input placeholder="请输入过滤的 IP 地址" />
                   )}
