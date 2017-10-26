@@ -68,7 +68,6 @@ export default class MockCol extends Component {
   }
 
   deleteCase = async (id) => {
-    console.log(id)
     const interface_id = this.props.match.params.actionId;
     await axios.post('/api/plugin/advmock/case/del', {id}).then(async res => {
       if (res.data.errcode === 0) {
@@ -114,7 +113,6 @@ export default class MockCol extends Component {
       return { text: value, value }
     })
     userFilters = Object.keys(Object.assign(userObj)).map(value => { return { text: value, value } })
-    console.log(ipFilters)
     const columns = [{
       title: '期望名称',
       dataIndex: 'name',

@@ -40,8 +40,8 @@ export default class CaseDesModal extends Component {
 
   state = {
     headers: [],
-    paramsArr: [],
-    res_body: ''
+    paramsArr: []
+    // res_body: ''
   }
   
   constructor(props) {
@@ -94,7 +94,7 @@ export default class CaseDesModal extends Component {
   endProcess = caseData => {
     const headers = [];
     const params = {};
-    const { res_body } = this.state;
+    // const { res_body } = this.state;
     caseData.headers.forEach(item => {
       if (item.name) {
         headers.push({
@@ -110,7 +110,7 @@ export default class CaseDesModal extends Component {
     })
     caseData.headers = headers;
     caseData.params = params;
-    caseData.res_body = res_body;
+    // caseData.res_body = res_body;
     delete caseData.paramsArr;
     return caseData;
   }
@@ -183,9 +183,9 @@ export default class CaseDesModal extends Component {
       data: that.props.caseData.res_body,
       onChange: function (d) {
         if (d.format !== true) return false;
-        that.setState({
-          res_body: d.text
-        })
+        // that.setState({
+        //   res_body: d.text
+        // })
         setFieldsValue({ res_body: d.text })
       }
     });
