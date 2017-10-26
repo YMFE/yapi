@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row, InputNumber } from 'antd';
+import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row, InputNumber, AutoComplete } from 'antd';
 import { safeAssign } from '../../../client/common.js';
 import mockEditor from '../../../client/containers/Project/Interface/InterfaceList/mockEditor';
 import constants from '../../../client/constants/variable.js'
-import { httpCodes } from '../index.js';
+import { httpCodes } from '../index.js'
+import { connect } from 'react-redux'
 
 import './CaseDesModal.scss'
 
@@ -18,6 +19,13 @@ const formItemLayoutWithOutLabel = {
   wrapperCol: { span: 12, offset: 5 }
 };
 
+@connect(
+  state => {
+    return {
+      currInterface: state.inter.curdata
+    }
+  }
+)
 @Form.create()
 export default class CaseDesModal extends Component {
   static propTypes = {
@@ -26,13 +34,14 @@ export default class CaseDesModal extends Component {
     onCancel: PropTypes.func,
     onOk: PropTypes.func,
     isAdd: PropTypes.bool,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    currInterface: PropTypes.object
   }
 
   state = {
     headers: [],
-    paramsArr: [],
-    res_body: ''
+    paramsArr: []
+    // res_body: ''
   }
   
   constructor(props) {
@@ -85,7 +94,7 @@ export default class CaseDesModal extends Component {
   endProcess = caseData => {
     const headers = [];
     const params = {};
-    const { res_body } = this.state;
+    // const { res_body } = this.state;
     caseData.headers.forEach(item => {
       if (item.name) {
         headers.push({
@@ -101,7 +110,7 @@ export default class CaseDesModal extends Component {
     })
     caseData.headers = headers;
     caseData.params = params;
-    caseData.res_body = res_body;
+    // caseData.res_body = res_body;
     delete caseData.paramsArr;
     return caseData;
   }
@@ -152,6 +161,20 @@ export default class CaseDesModal extends Component {
     setFieldsValue({ [key]: values })
   }
 
+  getParamsKey = () => {
+    const { req_query, req_body_form, req_body_type } = this.props.currInterface;
+    const keys = [];
+    req_query.forEach(item => {
+      keys.push(item.name)
+    })
+    if (req_body_type === 'form') {
+      req_body_form.forEach(item => {
+        keys.push(item.name)
+      })
+    }
+    return keys
+  }
+
   loadBodyEditor = () => {
     const that = this;
     const { setFieldsValue } = this.props.form;
@@ -160,9 +183,9 @@ export default class CaseDesModal extends Component {
       data: that.props.caseData.res_body,
       onChange: function (d) {
         if (d.format !== true) return false;
-        that.setState({
-          res_body: d.text
-        })
+        // that.setState({
+        //   res_body: d.text
+        // })
         setFieldsValue({ res_body: d.text })
       }
     });
@@ -175,6 +198,7 @@ export default class CaseDesModal extends Component {
 
     const valuesTpl = (name, values, title) => {
       getFieldDecorator(name)
+      const dataSource = name === 'headers' ? constants.HTTP_REQUEST_HEADER : this.getParamsKey();
       return values.map((item, index) => (
         <div key={index} className={name}>
           <FormItem
@@ -186,11 +210,10 @@ export default class CaseDesModal extends Component {
               <Col span={10}>
                 <FormItem>
                   {getFieldDecorator(`${name}[${index}].name`, { initialValue: item.name })(
-                    name === 'headers' ? <Select showSearch>
-                      {constants.HTTP_REQUEST_HEADER.map(item => (
-                        <Option value={item} key={item}>{item}</Option>
-                      ))}
-                    </Select> : <Input /> 
+                    <AutoComplete
+                      dataSource={dataSource}
+                      filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -291,7 +314,7 @@ export default class CaseDesModal extends Component {
               initialValue: 0,
               rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(
-              <InputNumber placeholder="请输入延时时间"/>
+              <InputNumber placeholder="请输入延时时间" min={0}/>
             )}
             <span>ms</span>
           </FormItem>

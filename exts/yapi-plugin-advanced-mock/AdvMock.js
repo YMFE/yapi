@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { Form, Switch, Button, message, Icon, Tooltip, Radio } from 'antd';
 import MockCol from './MockCol/MockCol.js'
 import mockEditor from 'client/containers/Project/Interface/InterfaceList/mockEditor';
+import constants from '../../client/constants/variable.js'
 const FormItem = Form.Item;
 
 
@@ -111,7 +112,7 @@ class AdvMock extends Component {
       <div style={{display: isShowCase ? 'none' : ''}}>
         <Form onSubmit={this.handleSubmit}>
           <FormItem
-            label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer"   href="https://yapi.ymfe.org/mock.html#高级Mock" ><Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip></a></span>}
+            label={<span>是否开启&nbsp;<a target="_blank" rel="noopener noreferrer"   href={constants.docHref.adv_mock_script} ><Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip></a></span>}
             {...formItemLayout}
           >
             <Switch checked={this.state.enable} onChange={this.onChange} checkedChildren="开" unCheckedChildren="关" />
