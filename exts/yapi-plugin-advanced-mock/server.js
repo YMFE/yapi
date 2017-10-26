@@ -4,6 +4,8 @@ const caseModel = require('./caseModel.js');
 const yapi = require('yapi.js');
 const mongoose = require('mongoose');
 const _ = require('underscore');
+const path = require('path');
+const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
 
 function arrToObj(arr){
   let obj = {};
@@ -44,7 +46,7 @@ module.exports = function(){
     let matchList = [];
     listWithIp.forEach(item=>{
       let params = item.params;
-      if(_.isMatch(reqParams, params)){
+      if(lib.isDeepMatch(reqParams, params)){
         matchList.push(item); 
       }
     })
@@ -55,7 +57,7 @@ module.exports = function(){
       }).select('_id params')
       list.forEach(item=>{
         let params = item.params;
-        if(_.isMatch(reqParams, item.params)){
+        if(lib.isDeepMatch(reqParams, item.params)){
           matchList.push(item); 
         }
       })
