@@ -95,7 +95,7 @@ export default class MockCol extends Component {
       delay: 0,
       headers: [{name: '', value: ''}],
       params: {},
-      res_body: getMockText(currInterface.res_body)
+      res_body: currInterface.res_body && getMockText(currInterface.res_body)
     }
 
     let ipFilters = [];
