@@ -52,7 +52,6 @@ exports.getDateInterval = (time = 30) => {
 exports.getTimeInterval = (date) => {
     const startTime = (getNowMidnightDate(date).getTime()-86400000)/1000;
     const endTime =(getNowMidnightDate(date).getTime()-1000)/1000;
-    // console.log('start',formatDate(startTime))
     return [startTime, endTime];
 }
 

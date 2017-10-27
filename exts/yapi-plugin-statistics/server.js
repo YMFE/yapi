@@ -48,12 +48,10 @@ module.exports = function () {
     // MockServer生成mock数据后触发
     this.bindHook('mock_after', async function (context) {
 
-        // console.log('context', context);
         let interfaceId = context.interfaceData._id;
         let projectId = context.projectData._id;
         let groupId = context.projectData.group_id;
         let ip = context.ctx.originalUrl;
-        // let date = commons.formatYMD(new Date());
 
         let data = {
             interface_id: interfaceId,
@@ -68,9 +66,8 @@ module.exports = function () {
         try {
             let result = await inst.save(data);
             result = yapi.commons.fieldSelect(result, ['interface_id', 'project_id', 'group_id', 'time', 'ip', 'date']);
-            console.log('result', result);
         } catch (e) {
-            console.log('mockStatisError', e);
+            yapi.commons.log('mockStatisError', e);
         }
     })
 };

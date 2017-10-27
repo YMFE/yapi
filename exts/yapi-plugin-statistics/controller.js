@@ -31,16 +31,12 @@ class statisMockController extends baseController {
      * @returns {Object}
      */
   async getStatisCount(ctx) {
-    // let id = ctx.query.interface_id;
-    // let mockData = await this.Model.get(id);
+
     let groupCount = await this.groupModel.getGroupListCount();
     let projectCount = await this.projectModel.getProjectListCount();
     let interfaceCount = await this.interfaceModel.getInterfaceListCount();
     let interfaceCaseCount = await this.interfaceCaseModel.getInterfaceCaseListCount();
 
-    // if(!mockData){
-    //     return ctx.body = yapi.commons.resReturn(null, 408, 'mock脚本不存在');
-    // }
     return ctx.body = yapi.commons.resReturn({ groupCount, projectCount, interfaceCount, interfaceCaseCount });
   }
 
@@ -62,7 +58,6 @@ class statisMockController extends baseController {
     }
     //  默认时间是30 天为一周期
     let dateInterval = commons.getDateRange();
-    // console.log('interval', dateInterval);
     mockDateList = await this.Model.getDayCount(dateInterval);
     return ctx.body = yapi.commons.resReturn({ mockCount, mockDateList });
   }
