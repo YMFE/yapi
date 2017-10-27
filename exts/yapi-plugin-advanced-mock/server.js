@@ -36,7 +36,7 @@ module.exports = function(){
   })
 
   async  function checkCase(ctx, interfaceId){
-    let reqParams = Object.assign({}, ctx.query, ctx.body);
+    let reqParams = Object.assign({}, ctx.query, ctx.request.body);
     let caseInst = yapi.getInst(caseModel);
     let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
     //   数据库信息查询

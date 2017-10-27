@@ -22,6 +22,8 @@ let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 const app = websockify(new Koa());
 yapi.app = app;
 app.use(bodyParser({multipart: true}));
+
+
 app.use(mockServer);
 app.use(router.routes());
 app.use(router.allowedMethods());
