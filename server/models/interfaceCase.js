@@ -44,6 +44,11 @@ class interfaceCase extends baseModel {
         return m.save();
     }
 
+    //获取全部测试接口信息
+    getInterfaceCaseListCount() {
+        return this.model.count({});
+    }
+
     get(id) {
         return this.model.findOne({
             _id: id

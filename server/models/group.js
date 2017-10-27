@@ -13,11 +13,11 @@ class groupModel extends baseModel {
             group_desc: String,
             add_time: Number,
             up_time: Number,
-            type: {type:String,default: 'public', enum: ['public', 'private']},
+            type: {type: String, default: 'public', enum: ['public', 'private']},
             members: [
                 {
                     uid: Number,
-                    role: {type: String, enum:['owner', 'dev']},
+                    role: {type: String, enum: ['owner', 'dev']},
                     username: String,
                     email: String
                 }
@@ -41,15 +41,15 @@ class groupModel extends baseModel {
             {
                 "members.uid": data.uid
             }, {
-                "$set": { 
+                "$set": {
                     "members.$.username": data.username,
                     "members.$.email": data.email
                 }
-            }, { multi: true }
+            }, {multi: true}
         );
     }
 
-    getByPrivateUid(uid){
+    getByPrivateUid(uid) {
         return this.model.findOne({
             uid: uid,
             type: 'private'
@@ -67,14 +67,18 @@ class groupModel extends baseModel {
             group_name: name
         });
     }
+    //  分组数量统计
+    getGroupListCount() {
+        return this.model.count({ type: 'public' });
+    }
 
-    addMember(id, data){
+    addMember(id, data) {
         return this.model.update(
             {
                 _id: id
             }, {
                 // $push: { members: data },
-                $push: { members: { $each: data } }
+                $push: {members: {$each: data}}
             }
         );
     }
@@ -84,7 +88,7 @@ class groupModel extends baseModel {
             {
                 _id: id
             }, {
-                $pull: { members: {uid: uid} }
+                $pull: {members: {uid: uid}}
             }
         );
     }
@@ -93,14 +97,14 @@ class groupModel extends baseModel {
         return this.model.update(
             {
                 _id: id,
-                 "members.uid": uid
+                "members.uid": uid
             }, {
-                "$set": { "members.$.role": role}
+                "$set": {"members.$.role": role}
             }
         );
     }
 
-    checkMemberRepeat(id, uid){
+    checkMemberRepeat(id, uid) {
         return this.model.count({
             _id: id,
             "members.uid": uid

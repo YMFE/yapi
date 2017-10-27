@@ -162,7 +162,7 @@ class baseController {
     }
   }
   /**
-   * 
+   * 身份验证
    * @param {*} id type对应的id
    * @param {*} type enum[interface, project, group] 
    * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行

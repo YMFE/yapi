@@ -8,50 +8,50 @@ class interfaceModel extends baseModel {
 
     getSchema() {
         return {
-            title: { type: String, required: true },
-            uid: { type: Number, required: true },
-            path: { type: String, required: true },
-            method: { type: String, required: true },
-            project_id: { type: Number, required: true },
+            title: {type: String, required: true},
+            uid: {type: Number, required: true},
+            path: {type: String, required: true},
+            method: {type: String, required: true},
+            project_id: {type: Number, required: true},
             catid: {type: Number, required: true},
             edit_uid: {type: Number, default: 0},
             status: {type: String, enum: ['undone', 'done'], default: 'undone'},
             desc: String,
             add_time: Number,
             up_time: Number,
-            type: {type: String, enum: ['static', 'var'], default:'static'},
+            type: {type: String, enum: ['static', 'var'], default: 'static'},
             query_path: {
                 path: String,
                 params: [{
                     name: String, value: String
                 }],
             },
-            req_query:[{
-                name: String, value: String,example:String, desc: String, required: {
-                    type:String,
+            req_query: [{
+                name: String, value: String, example: String, desc: String, required: {
+                    type: String,
                     enum: ["1", "0"],
                     default: "1"
                 }
             }],
             req_headers: [{
-                name: String, value: String,example:String, desc: String, required: {
-                    type:String,
+                name: String, value: String, example: String, desc: String, required: {
+                    type: String,
                     enum: ["1", "0"],
                     default: "1"
                 }
             }],
-            req_params:[{
+            req_params: [{
                 name: String,
                 desc: String,
-                example:String
+                example: String
             }],
             req_body_type: {
                 type: String,
                 enum: ['form', 'json', 'text', 'file', 'raw']
             },
             req_body_form: [{
-                name: String,  type: { type: String, enum: ['text', 'file'] },example:String, desc: String, required: {
-                    type:String,
+                name: String, type: {type: String, enum: ['text', 'file']}, example: String, desc: String, required: {
+                    type: String,
                     enum: ["1", "0"],
                     default: "1"
                 }
@@ -77,13 +77,13 @@ class interfaceModel extends baseModel {
             .exec();
     }
 
-    getBaseinfo(id){
+    getBaseinfo(id) {
         return this.model.findOne({
             _id: id
         }).select('path method uid title project_id cat_id status req_body_other req_body_type').exec()
     }
 
-    getVar(project_id, method){
+    getVar(project_id, method) {
         return this.model.find({
             project_id: project_id,
             type: 'var',
@@ -129,11 +129,16 @@ class interfaceModel extends baseModel {
             project_id: project_id
         })
             .select(select)
-            .sort({ _id: -1 })
+            .sort({_id: -1})
             .exec();
     }
 
-    listByCatid(catid){
+    //获取全部接口信息
+    getInterfaceListCount() {
+        return this.model.count({});
+    }
+
+    listByCatid(catid) {
         return this.model.find({
             catid: catid
         }).exec();
@@ -145,13 +150,13 @@ class interfaceModel extends baseModel {
         });
     }
 
-    delByCatid(id){
+    delByCatid(id) {
         return this.model.remove({
             catid: id
         })
     }
 
-    delByProjectId(id){
+    delByProjectId(id) {
         return this.model.remove({
             project_id: id
         })
@@ -161,15 +166,15 @@ class interfaceModel extends baseModel {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id
-        }, data, {runValidators: true });
+        }, data, {runValidators: true});
     }
 
-    upEditUid(id, uid){
+    upEditUid(id, uid) {
         return this.model.update({
-            _id: id
-        },
-        {edit_uid: uid},
-        {runValidators: true });
+                _id: id
+            },
+            {edit_uid: uid},
+            {runValidators: true});
     }
 }
 
