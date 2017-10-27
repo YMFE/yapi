@@ -188,16 +188,23 @@ export default class CaseDesModal extends Component {
   }
 
   getParamsKey = () => {
-    let { req_query, req_body_form, req_body_type, method } = this.props.currInterface;
-    const keys = [];
+    let { req_query, req_body_form, req_body_type, method, req_body_other } = this.props.currInterface;
+    let keys = [];
 
     req_query && Array.isArray(req_query) && req_query.forEach(item => {
       keys.push(item.name)
     })
-    if (req_body_type === 'form' && method === '') {
+    if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'form') {
       req_body_form && Array.isArray(req_body_form) && req_body_form.forEach(item => {
         keys.push(item.name)
       })
+    } else if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'json') {
+      try {
+        const bodyObj = JSON.parse(req_body_other)
+        keys = keys.concat(Object.keys(bodyObj))
+      } catch (error) {
+        console.log(error)
+      }
     }
     return keys
   }
