@@ -85,7 +85,8 @@ export default class CaseDesModal extends Component {
       params: {},
       res_body: ''
     }
-    const paramsArr = caseData.params && Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
+    caseData.params = caseData.params || {};
+    const paramsArr = Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
       return { name: key, value: caseData.params[key] }
     }).filter(item => {
       if (typeof item.value === 'object') {
@@ -218,7 +219,7 @@ export default class CaseDesModal extends Component {
     const { setFieldsValue } = this.props.form;
     this.props.visible && mockEditor({
       container: 'case_modal_params',
-      data: that.props.caseData.params,
+      data: that.props.caseData.params || {},
       onChange: function (d) {
         // if (d.format !== true) return false;
         setFieldsValue({ params: d.text })
