@@ -52,6 +52,11 @@ $.{key}.{params|body}.{path}
 ## 自动化测试
 可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用
 
+<video style="width:800px" controls="controls" autoplay="autoplay">
+  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
+Your browser does not support the video tag.
+</video>
+
 ### 公共变量
 * assert 
 
