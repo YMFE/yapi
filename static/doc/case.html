@@ -152,6 +152,10 @@
                                     <li >
                                         <a href="#编辑测试用例">编辑测试用例</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#自动化测试">自动化测试</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -197,8 +201,8 @@
 <blockquote>
 <p>Tips: 上下拖动测试集合的列表项可以调整测试的顺序。</p>
 </blockquote>
-<h3 class="subject" id="高级">高级 <a class="hashlink" href="#高级">#</a></h3><p>可通过写断言脚本，实现精准测试,支持 js 所有语法</p>
-<h4 class="subject" id="公共变量">公共变量 <a class="hashlink" href="#公共变量">#</a></h4><ul>
+<h2 class="subject" id="自动化测试">自动化测试 <a class="hashlink" href="#自动化测试">#</a></h2><p>可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用</p>
+<h3 class="subject" id="公共变量">公共变量 <a class="hashlink" href="#公共变量">#</a></h3><ul>
 <li><p>assert </p>
 <p>断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a></p>
 </li><li><p>status</p>
@@ -210,7 +214,7 @@
 </li><li><p>records </p>
 <p>记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
 </li></ul>
-<h4 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h4><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<h3 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h3><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
 assert.equal(body.data.group_name<span class="token punctuation">,</span> 'testGroup'<span class="token punctuation">)</span>
 </code></pre>
                     </div>
