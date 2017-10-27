@@ -4,9 +4,9 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { Table, Button, message, Popconfirm, Tooltip, Icon } from 'antd';
-import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
-import { formatTime } from '../../../client/common.js';
-import constants from '../../../client/constants/variable.js'
+import { fetchMockCol } from 'client/reducer/modules/mockCol'
+import { formatTime, getMockText } from 'client/common.js';
+import constants from 'client/constants/variable.js'
 import CaseDesModal from './CaseDesModal';
 
 @connect(
@@ -85,17 +85,17 @@ export default class MockCol extends Component {
 
   render() {
 
-    const data = this.props.list;
+    const { list: data, currInterface } = this.props;
     const { isAdd, caseData, caseDesModalVisible } = this.state;
     const initCaseData = {
       ip: '',
       ip_enable: false,
-      name: this.props.currInterface.title,
+      name: currInterface.title,
       code: '200',
       deplay: 0,
       headers: [{name: '', value: ''}],
       paramsArr: [{name: '', value: ''}],
-      res_body: ''
+      res_body: getMockText(currInterface.res_body)
     }
 
     let ipFilters = [];

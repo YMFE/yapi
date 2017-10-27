@@ -1,7 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import constants from './constants/variable';
+import constants from './constants/variable'
 import Mock from 'mockjs'
+import json5 from 'json5'
+import MockExtra from 'common/mock-extra.js'
 
 const Roles = {
   0 : 'admin',
@@ -192,6 +194,10 @@ function simpleJsonPathParse(key, json){
 function handleMockWord(word) {
   if(!word || typeof word !== 'string' || word[0] !== '@') return word;
   return Mock.mock(word);
+}
+
+exports.getMockText = (mockTpl) => {
+  return JSON.stringify(Mock.mock(MockExtra(json5.parse(mockTpl), {})), null, "  ")
 }
 
 /**

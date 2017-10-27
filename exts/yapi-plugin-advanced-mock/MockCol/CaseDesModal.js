@@ -11,6 +11,8 @@ import './CaseDesModal.scss'
 
 const Option = Select.Option;
 const FormItem = Form.Item;
+// const RadioButton = Radio.Button;
+// const RadioGroup = Radio.Group;
 const formItemLayout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 12 }
@@ -40,7 +42,8 @@ export default class CaseDesModal extends Component {
 
   state = {
     headers: [],
-    paramsArr: []
+    paramsArr: [],
+    paramsForm: 'form' 
   }
   
   constructor(props) {
@@ -48,6 +51,11 @@ export default class CaseDesModal extends Component {
   }
 
   preProcess = caseData => {
+    try {
+      caseData = JSON.parse(JSON.stringify(caseData))
+    } catch (error) {
+      console.log(error)
+    }
     // caseModel
     // const a = {
     //   interface_id: { type: Number, required: true },
@@ -74,14 +82,20 @@ export default class CaseDesModal extends Component {
       deplay: 0,
       headers: [{name: '', value: ''}],
       paramsArr: [{name: '', value: ''}],
+      params: '',
       res_body: ''
     }
-
     const paramsArr = caseData.params && Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
       return { name: key, value: caseData.params[key] }
+    }).filter(item => {
+      if (typeof item.value === 'object') {
+        this.setState({ paramsForm: 'json' })
+      }
+      return typeof item.value !== 'object'
     }) : [{name: '', value: ''}];
     const headers = caseData.headers && caseData.headers.length ? caseData.headers : [{name: '', value: ''}];
     caseData.code = ''+caseData.code;
+    caseData.params = JSON.stringify(caseData.params, null, 2);
     this.setState({
       headers,
       paramsArr
@@ -93,6 +107,7 @@ export default class CaseDesModal extends Component {
   endProcess = caseData => {
     const headers = [];
     const params = {};
+    const { paramsForm } = this.state;
     caseData.headers.forEach(item => {
       if (item.name) {
         headers.push({
@@ -107,20 +122,29 @@ export default class CaseDesModal extends Component {
       }
     })
     caseData.headers = headers;
-    caseData.params = params;
+    if (paramsForm === 'form') {
+      caseData.params = params;
+    } else {
+      try {
+        caseData.params = JSON.parse(caseData.params)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     delete caseData.paramsArr;
     return caseData;
   }
 
   componentDidMount() {
     this.props.form.setFieldsValue(this.preProcess(this.props.caseData))
-    this.shouldLoadBodyEditor = true
+    this.shouldLoadEditor = true
   }
 
   componentDidUpdate() {
-    if (this.shouldLoadBodyEditor) {
+    if (this.shouldLoadEditor) {
       this.loadBodyEditor()
-      this.shouldLoadBodyEditor = false
+      this.loadParamsEditor()
+      this.shouldLoadEditor = false
     }
   }
 
@@ -130,13 +154,13 @@ export default class CaseDesModal extends Component {
       this.props.visible !== nextProps.visible
     ) {
       this.props.form.setFieldsValue(this.preProcess(nextProps.caseData))
-      this.shouldLoadBodyEditor = true
+      this.shouldLoadEditor = true
     }
   }
 
   handleOk = () => {
     const form = this.props.form;
-    form.validateFields((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.onOk(this.endProcess(values));
       }
@@ -184,17 +208,39 @@ export default class CaseDesModal extends Component {
       }
     });
   }
+  loadParamsEditor = () => {
+    const that = this;
+    const { setFieldsValue } = this.props.form;
+    this.props.visible && mockEditor({
+      container: 'case_modal_params',
+      data: that.props.caseData.params,
+      onChange: function (d) {
+        if (d.format !== true) return false;
+        setFieldsValue({ params: d.text })
+      }
+    });
+  }
+
+  jsonValidator = (rule, value, callback) => {
+    try {
+      JSON.parse(value)
+      callback()
+    } catch (error) {
+      callback(new Error())
+    }
+  }
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { isAdd, visible, onCancel } = this.props;
-    const { headers, paramsArr } = this.state;
+    const { headers, paramsArr, paramsForm } = this.state;
 
     const valuesTpl = (name, values, title) => {
       getFieldDecorator(name)
       const dataSource = name === 'headers' ? constants.HTTP_REQUEST_HEADER : this.getParamsKey();
+      const display = (name === 'paramsArr' && paramsForm === 'json') ? 'none': ''
       return values.map((item, index) => (
-        <div key={index} className={name}>
+        <div key={index} className={name} style={{ display }}>
           <FormItem
             {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
             wrapperCol={index === 0 ? { span: 19 } : { span: 19, offset: 5 }}
@@ -232,6 +278,7 @@ export default class CaseDesModal extends Component {
         </div>
       ))
     }
+    getFieldDecorator('params')
 
     return (
       <Modal
@@ -241,6 +288,7 @@ export default class CaseDesModal extends Component {
         onOk={this.handleOk}
         width={780}
         onCancel={() => onCancel()}
+        afterClose={() => this.setState({paramsForm: 'form'})}
         className="case-des-modal"
       >
         <Form>
@@ -278,13 +326,55 @@ export default class CaseDesModal extends Component {
               </div>
             </Col>
           </FormItem>
+          <div className="params-form">
+            <FormItem {...formItemLayoutWithOutLabel}>
+              <Switch
+                checkedChildren="JSON"
+                unCheckedChildren="JSON"
+                checked={paramsForm === 'json'}
+                onChange={bool => { 
+                  this.setState({ paramsForm: bool ? 'json' : 'form' }, () => {
+                    if (paramsForm === 'json') {
+                      this.loadParamsEditor()
+                    }
+                  })
+                }}
+              />
+              {
+              // <RadioGroup
+              //   value={paramsForm}
+              //   size="small"
+              //   onChange={e => this.setState({ paramsForm: e.target.value })}
+              // >
+              //   <RadioButton value="form">Form</RadioButton>
+              //   <RadioButton value="json">JSON</RadioButton>
+              // </RadioGroup>
+              }
+            </FormItem>
+          </div>
           {
             valuesTpl('paramsArr', paramsArr, '参数过滤')
           }
-          <FormItem wrapperCol={{ span: 6, offset: 5 }}>
+          <FormItem wrapperCol={{ span: 6, offset: 5 }} style={{display: paramsForm === 'form' ? '': 'none'}}>
             <Button size="default" type="primary" onClick={() => this.addValues('paramsArr')} style={{ width: '100%' }}>
               <Icon type="plus" /> 添加参数
             </Button>
+          </FormItem>
+          <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="参数过滤" style={{display: paramsForm === 'form' ? 'none': ''}}>
+            <div id="case_modal_params" style={{
+              minHeight: "300px",
+              border: "1px solid #d9d9d9",
+              borderRadius: 4
+            }} ></div>
+            <FormItem
+              {...formItemLayoutWithOutLabel}
+            >
+              {getFieldDecorator('params', {
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON！' }]
+              })(
+                <Input style={{display: 'none'}} />
+              )}
+            </FormItem>
           </FormItem>
           <h2 className="sub-title">响应</h2>
           <FormItem
@@ -330,9 +420,9 @@ export default class CaseDesModal extends Component {
               {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('res_body', {
-                rules: [{ required: true, message: '请输入返回 JSON！' }]
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON！' }]
               })(
-                <Input placeholder="请输入期望名称" style={{display: 'none'}} />
+                <Input style={{display: 'none'}} />
               )}
             </FormItem>
           </FormItem>
