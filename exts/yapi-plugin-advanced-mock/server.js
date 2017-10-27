@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const _ = require('underscore');
 const path = require('path');
 const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
+const Mock = require('mockjs');
 
 function arrToObj(arr){
   let obj = {};
@@ -155,7 +156,7 @@ module.exports = function(){
     let caseData = await checkCase(context.ctx, interfaceId);
     if(caseData){
       let data = await  handleByCase(caseData, context);
-      context.mockJson = data.res_body;
+      context.mockJson = yapi.commons.json_parse(data.res_body);
       context.resHeader = arrToObj(data.headers);
       context.httpCode = data.code;
       context.delay = data.delay;
@@ -175,7 +176,8 @@ module.exports = function(){
       params: Object.assign({}, context.ctx.query, context.ctx.request.body),
       resHeader: context.resHeader,
       httpCode: context.httpCode,
-      delay: context.httpCode
+      delay: context.httpCode,
+      Random: Mock.Random
     }
     sandbox.cookie = {};
     
