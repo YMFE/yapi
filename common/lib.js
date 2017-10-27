@@ -1,4 +1,5 @@
 const path = require('path');
+const _ =require('underscore');
 
 function getPluginConfig(name, type) {
   let pluginConfig;
@@ -71,7 +72,7 @@ exports.initPlugins = function (plugins, type) {
     throw new Error('插件配置有误，请检查', plugins);
   }
 
-  return plugins.map(item => {
+  plugins =  plugins.map(item => {
     let pluginConfig;
     if (item && typeof item === 'string') {
       pluginConfig = getPluginConfig(item, type);
@@ -87,6 +88,11 @@ exports.initPlugins = function (plugins, type) {
         })
     }
   })
+  plugins =  plugins.filter(item=>{
+    return item.enable === true && (item.server || item.client)
+  })
+
+  return _.uniq(plugins, item=>item.name)
 }
 exports.jsonEqual = Compare;
 
