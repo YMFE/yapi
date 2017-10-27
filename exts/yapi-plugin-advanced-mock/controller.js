@@ -115,10 +115,12 @@ class advMockController extends baseController{
       ip_enable: data.ip_enable
     }
 
-    if(data.params && typeof data.params === 'object'){
+    if(data.params && typeof data.params === 'object' && Object.keys(data.params).length >0){
       for(let i in data.params){
         findRepeatParams['params.' + i] = data.params[i];
       }
+    }else{
+      findRepeatParams.params = null;
     }
 
     if(data.ip_enable){
