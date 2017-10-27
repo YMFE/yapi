@@ -18,6 +18,7 @@ import {
   setGroupList,
   fetchGroupMsg
 } from '../../../reducer/modules/group.js'
+import _ from 'underscore'
 
 import './GroupList.scss';
 
@@ -185,7 +186,8 @@ export default class GroupList extends Component {
   @autobind
   selectGroup(e) {
     const groupId = e.key;
-    const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
+    //const currGroup = this.props.groupList.find((group) => { return +group._id === +groupId });
+    const currGroup = _.find(this.props.groupList, (group) => { return +group._id === +groupId });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
     this.props.fetchNewsData(groupId, "group", 1, 10)

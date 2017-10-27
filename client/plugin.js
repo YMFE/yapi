@@ -156,6 +156,20 @@ hooks = {
     type: 'listener',
     mulit: true,
     listener: []
+  },
+  /*
+   * 添加 reducer
+   * @param Object reducerModules
+   * 
+   * @info
+   * importDataModule = {}; 
+   * 
+   */
+
+  add_reducer: {
+    type: 'listener',
+    mulit: true,
+    listener: []
   }
 };
 

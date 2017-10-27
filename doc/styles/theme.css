@@ -8,6 +8,18 @@ body, h1, h2, h3, h4, h5, h6 {
   margin-top: 3em;
 }
 
+.doc-img-wrapper {
+  background: #f7f7f7;
+  padding: 16px;
+  display: inline-block;
+  text-align: center;
+  width: 80%;
+  position: relative;
+  border-radius: 4px;
+}
+.doc-img-r {
+  display: block;
+}
 .doc-img {
   width: 50%;
   display: block;

@@ -1,4 +1,4 @@
-var strRegex = /\${([a-zA-Z0-9_\.]+)\}/g;
+var strRegex = /\${([a-zA-Z]+)\.?([a-zA-Z0-9_\.]*)\}/i;
 var varSplit = '.';
 var mockSplit = '|';
 var Mock = require('mockjs');
@@ -33,7 +33,7 @@ function mock(mockJSON, context) {
         c[i] = (p[i].constructor === Array) ? [] : {};
         parse(p[i], c[i]);
       } else if(p[i] && typeof p[i] === 'string'){
-        p[i] = handleStr(p[i]);
+        p[i] = handleStr(p[i]);        
         var filters = i.split(mockSplit), newFilters = [].concat(filters);
         c[i] = p[i];
         if (filters.length > 1) {
@@ -63,9 +63,17 @@ function mock(mockJSON, context) {
     if (typeof str !== 'string' || str.indexOf('{') === -1 || str.indexOf('}') === -1 || str.indexOf('$') === -1) {
       return str;
     }
-    str = str.replace(strRegex, function (matchs, name) {
+
+    let matchs = str.match(strRegex);
+    if(matchs){
+      let name = matchs[1] + (matchs[2]? '.' + matchs[2] : '');
+      if(!name) return str;
       var names = name.split(varSplit);
       var data = context;
+      
+      if(typeof context[names[0]] === undefined){
+        return str;
+      }
       names.forEach(function (n) {
         if (data === '') return '';
         if (n in data) {
@@ -75,7 +83,7 @@ function mock(mockJSON, context) {
         }
       });
       return data;
-    });
+    }
     return str;
   }
 }

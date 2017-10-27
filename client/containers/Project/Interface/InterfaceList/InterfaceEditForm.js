@@ -211,7 +211,7 @@ class InterfaceEditForm extends Component {
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
     })
-    let that = this, mockPreview, resBodyEditor;
+    let that = this;
     const initReqBody = that.state.req_body_other;
     const initResBody = that.state.res_body;
     mockEditor({
@@ -225,24 +225,20 @@ class InterfaceEditForm extends Component {
       }
     })
 
-    resBodyEditor = mockEditor({
+    this.resBodyEditor = mockEditor({
       container: 'res_body_json',
       data: that.state.res_body,
       onChange: function (d) {
-        if (d.format === true) {
-          mockPreview.setValue(d.mockText)
-        }
         that.setState({
-          res_body: d.text,
-          res_body_mock: d.mockText
+          res_body: d.text
         });
         EditFormContext.props.changeEditStatus(initResBody !== d.text);
       }
     })
 
-    mockPreview = mockEditor({
+    this.mockPreview = mockEditor({
       container: 'mock-preview',
-      data: resBodyEditor.curData.mockText,
+      data: '',
       readOnly: true
     })
 
@@ -281,9 +277,28 @@ class InterfaceEditForm extends Component {
     this.setState(newValue)
   }
 
-  handleJsonType = (key) => {
+  handleMockPreview = ()=>{
+    let str = '';
+    try{
+      if(this.resBodyEditor.curData.format === true){
+        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null , '  ');
+      }else{
+        str = '解析出错: ' + this.resBodyEditor.curData.format;
+      }
+      
+    }catch(err){
+      str = '解析出错: ' + err.message;
+    }
+    this.mockPreview.setValue(
+      str
+    )
+  }
 
+  handleJsonType = (key) => {
     key = key || 'tpl';
+    if(key === 'preview'){
+      this.handleMockPreview()
+    }
     this.setState({
       jsonType: key
     })
@@ -742,7 +757,7 @@ class InterfaceEditForm extends Component {
                 <TabPane tab="模板" key="tpl">
 
                 </TabPane>
-                <TabPane tab="预览" key="preview">
+                <TabPane  tab="预览" key="preview">
 
                 </TabPane>
 

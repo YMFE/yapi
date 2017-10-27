@@ -205,20 +205,6 @@ class groupController extends baseController {
             }
         }
 
-        // params.role = ['owner', 'dev', 'guest'].find(v => v === params.role) || 'dev';
-
-        // var check = await groupInst.checkMemberRepeat(params.id, params.member_uid);
-        // if (check > 0) {
-        //     return ctx.body = yapi.commons.resReturn(null, 400, '成员已存在');
-        // }
-        // let groupUserdata = await this.getUserdata(params.member_uid, params.role);
-        // if (groupUserdata === null) {
-        //     return ctx.body = yapi.commons.resReturn(null, 400, '组长uid不存在')
-        // }
-        // if (groupUserdata._role === 'admin') {
-        //     return ctx.body = yapi.commons.resReturn(null, 400, '不能邀请管理员')
-        // }
-        // delete groupUserdata._role;
         try {
             let result = await groupInst.addMember(params.id, add_members);
             let username = this.getUsername();
@@ -475,10 +461,14 @@ class groupController extends baseController {
                 await interfaceCaseInst.delByProjectId(p._id)
                 await interfaceColInst.delByProjectId(p._id)
             })
-            await projectInst.delByGroupid(id);
+            if(projectList.length > 0){
+                await projectInst.delByGroupid(id);
+            }
+            
             let result = await groupInst.del(id);
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
+            console.error(err);
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
         }
     }
