@@ -128,6 +128,7 @@ export default class CaseDesModal extends Component {
       try {
         caseData.params = JSON.parse(caseData.params)
       } catch (error) {
+        caseData.params = {}
         console.log(error)
       }
     }
@@ -183,14 +184,14 @@ export default class CaseDesModal extends Component {
   }
 
   getParamsKey = () => {
-    let { req_query, req_body_form, req_body_type } = this.props.currInterface;
+    let { req_query, req_body_form, req_body_type, method } = this.props.currInterface;
     const keys = [];
 
     req_query.forEach(item => {
       keys.push(item.name)
     })
-    if (req_body_type === 'form') {
-      req_body_form.forEach(item => {
+    if (req_body_type === 'form' && method === '') {
+      req_body_form && req_body_form.forEach(item => {
         keys.push(item.name)
       })
     }
@@ -253,6 +254,7 @@ export default class CaseDesModal extends Component {
                   {getFieldDecorator(`${name}[${index}].name`, { initialValue: item.name })(
                     <AutoComplete
                       dataSource={dataSource}
+                      placeholder="参数名称"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                     />
                   )}
@@ -261,7 +263,7 @@ export default class CaseDesModal extends Component {
               <Col span={10}>
                 <FormItem>
                   {getFieldDecorator(`${name}[${index}].value`, { initialValue: item.value })(
-                    <Input />
+                    <Input placeholder="参数值" />
                   )}
                 </FormItem>
               </Col>
@@ -293,6 +295,7 @@ export default class CaseDesModal extends Component {
         className="case-des-modal"
       >
         <Form>
+          <h2 className="sub-title" style={{ marginTop: 0 }}>基本信息</h2>
           <FormItem
             {...formItemLayout}
             label="期望名称"
@@ -303,7 +306,6 @@ export default class CaseDesModal extends Component {
               <Input placeholder="请输入期望名称" />
             )}
           </FormItem>
-          <h2 className="sub-title">请求</h2>
           <FormItem {...formItemLayout} label="IP 过滤" className="ip-filter">
             <Col span={6} className="ip-switch">
               <FormItem>
@@ -327,9 +329,10 @@ export default class CaseDesModal extends Component {
               </div>
             </Col>
           </FormItem>
-          <div className="params-form">
-            <FormItem {...formItemLayoutWithOutLabel}>
+          <Row className="params-form" style={{marginBottom: 8}}>
+            <Col {...{ span: 12, offset: 5 }}>
               <Switch
+                size="small"
                 checkedChildren="JSON"
                 unCheckedChildren="JSON"
                 checked={paramsForm === 'json'}
@@ -351,8 +354,8 @@ export default class CaseDesModal extends Component {
               //   <RadioButton value="json">JSON</RadioButton>
               // </RadioGroup>
               }
-            </FormItem>
-          </div>
+            </Col>
+          </Row>
           {
             valuesTpl('paramsArr', paramsArr, '参数过滤')
           }
@@ -371,7 +374,7 @@ export default class CaseDesModal extends Component {
               {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('params', paramsForm === 'json' ? {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON！' }]
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON 字符串！' }]
               } : {})(
                 <Input style={{display: 'none'}} />
               )}
@@ -421,7 +424,7 @@ export default class CaseDesModal extends Component {
               {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('res_body', {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON！' }]
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON 字符串！' }]
               })(
                 <Input style={{display: 'none'}} />
               )}
