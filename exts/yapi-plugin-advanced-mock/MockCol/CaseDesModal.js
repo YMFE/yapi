@@ -183,8 +183,9 @@ export default class CaseDesModal extends Component {
   }
 
   getParamsKey = () => {
-    const { req_query, req_body_form, req_body_type } = this.props.currInterface;
+    let { req_query, req_body_form, req_body_type } = this.props.currInterface;
     const keys = [];
+
     req_query.forEach(item => {
       keys.push(item.name)
     })
@@ -369,9 +370,9 @@ export default class CaseDesModal extends Component {
             <FormItem
               {...formItemLayoutWithOutLabel}
             >
-              {getFieldDecorator('params', {
+              {getFieldDecorator('params', paramsForm === 'json' ? {
                 rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON！' }]
-              })(
+              } : {})(
                 <Input style={{display: 'none'}} />
               )}
             </FormItem>
