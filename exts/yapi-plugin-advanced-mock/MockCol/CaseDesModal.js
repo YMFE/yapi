@@ -64,7 +64,7 @@ export default class CaseDesModal extends Component {
     //   ip_enable: {type: Boolean,  default: false},
     //   name: {type: String, required: true},
     //   code: {type: Number, default: 200},
-    //   deplay: {type: Number,  default: 0},
+    //   delay: {type: Number,  default: 0},
     //   headers: [{
     //     name: {type: String, required: true},
     //     value: {type: String}
@@ -79,13 +79,14 @@ export default class CaseDesModal extends Component {
       ip_enable: false,
       name: '',
       code: '200',
-      deplay: 0,
+      delay: 0,
       headers: [{name: '', value: ''}],
       paramsArr: [{name: '', value: ''}],
-      params: '',
+      params: {},
       res_body: ''
     }
-    const paramsArr = caseData.params && Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
+    caseData.params = caseData.params || {};
+    const paramsArr = Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
       return { name: key, value: caseData.params[key] }
     }).filter(item => {
       if (typeof item.value === 'object') {
@@ -128,6 +129,7 @@ export default class CaseDesModal extends Component {
       try {
         caseData.params = JSON.parse(caseData.params)
       } catch (error) {
+        caseData.params = {}
         console.log(error)
       }
     }
@@ -144,8 +146,11 @@ export default class CaseDesModal extends Component {
     if (this.shouldLoadEditor) {
       this.loadBodyEditor()
       this.loadParamsEditor()
-      this.shouldLoadEditor = false
+    } else if (this.shouldLoadParamsEditor) {
+      this.loadParamsEditor()
     }
+    this.shouldLoadEditor = false
+    this.shouldLoadParamsEditor = false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -183,14 +188,14 @@ export default class CaseDesModal extends Component {
   }
 
   getParamsKey = () => {
-    let { req_query, req_body_form, req_body_type } = this.props.currInterface;
+    let { req_query, req_body_form, req_body_type, method } = this.props.currInterface;
     const keys = [];
 
-    req_query.forEach(item => {
+    req_query && Array.isArray(req_query) && req_query.forEach(item => {
       keys.push(item.name)
     })
-    if (req_body_type === 'form') {
-      req_body_form.forEach(item => {
+    if (req_body_type === 'form' && method === '') {
+      req_body_form && Array.isArray(req_body_form) && req_body_form.forEach(item => {
         keys.push(item.name)
       })
     }
@@ -204,7 +209,7 @@ export default class CaseDesModal extends Component {
       container: 'res_body_json',
       data: that.props.caseData.res_body,
       onChange: function (d) {
-        if (d.format !== true) return false;
+        // if (d.format !== true) return false;
         setFieldsValue({ res_body: d.text })
       }
     });
@@ -214,9 +219,9 @@ export default class CaseDesModal extends Component {
     const { setFieldsValue } = this.props.form;
     this.props.visible && mockEditor({
       container: 'case_modal_params',
-      data: that.props.caseData.params,
+      data: that.props.caseData.params || {},
       onChange: function (d) {
-        if (d.format !== true) return false;
+        // if (d.format !== true) return false;
         setFieldsValue({ params: d.text })
       }
     });
@@ -253,6 +258,7 @@ export default class CaseDesModal extends Component {
                   {getFieldDecorator(`${name}[${index}].name`, { initialValue: item.name })(
                     <AutoComplete
                       dataSource={dataSource}
+                      placeholder="参数名称"
                       filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                     />
                   )}
@@ -261,7 +267,7 @@ export default class CaseDesModal extends Component {
               <Col span={10}>
                 <FormItem>
                   {getFieldDecorator(`${name}[${index}].value`, { initialValue: item.value })(
-                    <Input />
+                    <Input placeholder="参数值" />
                   )}
                 </FormItem>
               </Col>
@@ -280,6 +286,9 @@ export default class CaseDesModal extends Component {
       ))
     }
     getFieldDecorator('params')
+    // if (paramsForm === 'json') {
+    //   this.loadParamsEditor()
+    // }
 
     return (
       <Modal
@@ -293,6 +302,7 @@ export default class CaseDesModal extends Component {
         className="case-des-modal"
       >
         <Form>
+          <h2 className="sub-title" style={{ marginTop: 0 }}>基本信息</h2>
           <FormItem
             {...formItemLayout}
             label="期望名称"
@@ -303,7 +313,6 @@ export default class CaseDesModal extends Component {
               <Input placeholder="请输入期望名称" />
             )}
           </FormItem>
-          <h2 className="sub-title">请求</h2>
           <FormItem {...formItemLayout} label="IP 过滤" className="ip-filter">
             <Col span={6} className="ip-switch">
               <FormItem>
@@ -327,18 +336,18 @@ export default class CaseDesModal extends Component {
               </div>
             </Col>
           </FormItem>
-          <div className="params-form">
-            <FormItem {...formItemLayoutWithOutLabel}>
+          <Row className="params-form" style={{marginBottom: 8}}>
+            <Col {...{ span: 12, offset: 5 }}>
               <Switch
+                size="small"
                 checkedChildren="JSON"
                 unCheckedChildren="JSON"
                 checked={paramsForm === 'json'}
                 onChange={bool => { 
-                  this.setState({ paramsForm: bool ? 'json' : 'form' }, () => {
-                    if (paramsForm === 'json') {
-                      this.loadParamsEditor()
-                    }
-                  })
+                  if (bool) {
+                    this.shouldLoadParamsEditor = true
+                  }
+                  this.setState({ paramsForm: bool ? 'json' : 'form' })
                 }}
               />
               {
@@ -351,8 +360,8 @@ export default class CaseDesModal extends Component {
               //   <RadioButton value="json">JSON</RadioButton>
               // </RadioGroup>
               }
-            </FormItem>
-          </div>
+            </Col>
+          </Row>
           {
             valuesTpl('paramsArr', paramsArr, '参数过滤')
           }
@@ -371,7 +380,7 @@ export default class CaseDesModal extends Component {
               {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('params', paramsForm === 'json' ? {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON！' }]
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON 字符串！' }]
               } : {})(
                 <Input style={{display: 'none'}} />
               )}
@@ -395,7 +404,7 @@ export default class CaseDesModal extends Component {
             {...formItemLayout}
             label="延时"
           >
-            {getFieldDecorator('deplay', {
+            {getFieldDecorator('delay', {
               initialValue: 0,
               rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(
@@ -421,7 +430,7 @@ export default class CaseDesModal extends Component {
               {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('res_body', {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON！' }]
+                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON 字符串！' }]
               })(
                 <Input style={{display: 'none'}} />
               )}
