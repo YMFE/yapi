@@ -97,6 +97,7 @@
     "react-scripts": "1.0.10",
     "reactabular-dnd": "^8.9.0",
     "reactabular-table": "^8.9.0",
+    "recharts": "^1.0.0-beta.0",
     "redux": "^3.7.1",
     "redux-devtools": "^3.4.0",
     "redux-devtools-dock-monitor": "^1.1.2",

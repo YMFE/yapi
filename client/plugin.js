@@ -112,6 +112,50 @@ hooks = {
     type: 'listener',
     mulit: true,
     listener: []
+  },
+  /**
+   * Route路由列表钩子
+   * @param AppRoute
+   *
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-statistics
+   * 添加位置在Application.js 中
+   * let AppRoute = {
+  home: {
+    path: '/',
+    component: Home
+  },
+  group: {
+    path: '/group',
+    component: Group
+  },
+  project: {
+    path: '/project/:id',
+    component: Project
+  },
+  user: {
+    path: '/user',
+    component: User
+  },
+  follow: {
+    path: '/follow',
+    component: Follows
+  },
+  addProject: {
+    path: '/add-project',
+    component: AddProject
+  },
+  login: {
+    path: '/login',
+    component: Login
+  }
+};
+};
+   */
+  app_route: {
+    type: 'listener',
+    mulit: true,
+    listener: []
   }
 };
 

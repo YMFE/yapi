@@ -1,15 +1,15 @@
 import './Header.scss'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag} from 'antd'
-import {checkLoginState, logoutActions, loginTypeAction} from '../../reducer/modules/user'
-import {changeMenuItem} from '../../reducer/modules/menu'
-import {withRouter} from 'react-router';
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag } from 'antd'
+import { checkLoginState, logoutActions, loginTypeAction } from '../../reducer/modules/user'
+import { changeMenuItem } from '../../reducer/modules/menu'
+import { withRouter } from 'react-router';
 import Srch from './Search/Search'
-const {Header} = Layout;
-import {logoSVG} from '../../common.js';
+const { Header } = Layout;
+import { logoSVG } from '../../common.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 import GuideBtns from '../GuideBtns/GuideBtns.js';
 const plugin = require('client/plugin.js');
@@ -49,11 +49,11 @@ const MenuUser = (props) => (
         <Menu.Item key={key}>
           {
             item.name === '个人中心' ? <Link to={item.path + `/${props.uid}`}>
-              <Icon type={item.icon}/>
+              <Icon type={item.icon} />
               {item.name}
-            </Link> : !item.adminFlag ? <Link to={item.path}><Icon type={item.icon}/>
+            </Link> : !item.adminFlag ? <Link to={item.path}><Icon type={item.icon} />
               {item.name}
-            </Link> : <Link to={item.path}><Icon type={item.icon}/>
+            </Link> : <Link to={item.path}><Icon type={item.icon} />
               {item.name}
             </Link>
           }
@@ -73,17 +73,17 @@ const MenuUser = (props) => (
     {/*}*/}
 
     <Menu.Item key="9">
-      <a onClick={props.logout}><Icon type="logout"/>退出</a>
+      <a onClick={props.logout}><Icon type="logout" />退出</a>
     </Menu.Item>
   </Menu>
 );
 
 const tipFollow = (<div className="title-container">
-  <h3 className="title"><Icon type="star"/> 关注</h3>
+  <h3 className="title"><Icon type="star" /> 关注</h3>
   <p>这里是你的专属收藏夹，便于你找到自己的项目</p>
 </div>);
 const tipAdd = (<div className="title-container">
-  <h3 className="title"><Icon type="plus-circle"/> 新建项目</h3>
+  <h3 className="title"><Icon type="plus-circle" /> 新建项目</h3>
   <p>在任何页面都可以快速新建项目</p>
 </div>);
 const tipDoc = (<div className="title-container">
@@ -105,11 +105,11 @@ const ToolUser = (props) => {
   return (
     <ul>
       <li className="toolbar-li item-search">
-        <Srch groupList={props.groupList}/>
+        <Srch groupList={props.groupList} />
       </li>
       <Popover
         overlayClassName="popover-index"
-        content={<GuideBtns/>}
+        content={<GuideBtns />}
         title={tipFollow}
         placement="bottomRight"
         arrowPointAtCenter
@@ -118,14 +118,14 @@ const ToolUser = (props) => {
         <Tooltip placement="bottom" title={'我的关注'}>
           <li className="toolbar-li">
             <Link to="/follow">
-              <Icon className="dropdown-link" style={{fontSize: 16}} type="star"/>
+              <Icon className="dropdown-link" style={{ fontSize: 16 }} type="star" />
             </Link>
           </li>
         </Tooltip>
       </Popover>
       <Popover
         overlayClassName="popover-index"
-        content={<GuideBtns/>}
+        content={<GuideBtns />}
         title={tipAdd}
         placement="bottomRight"
         arrowPointAtCenter
@@ -134,14 +134,14 @@ const ToolUser = (props) => {
         <Tooltip placement="bottom" title={'新建项目'}>
           <li className="toolbar-li">
             <Link to="/add-project">
-              <Icon className="dropdown-link" style={{fontSize: 16}} type="plus-circle"/>
+              <Icon className="dropdown-link" style={{ fontSize: 16 }} type="plus-circle" />
             </Link>
           </li>
         </Tooltip>
       </Popover>
       <Popover
         overlayClassName="popover-index"
-        content={<GuideBtns isLast={true}/>}
+        content={<GuideBtns isLast={true} />}
         title={tipDoc}
         placement="bottomRight"
         arrowPointAtCenter
@@ -150,7 +150,7 @@ const ToolUser = (props) => {
         <Tooltip placement="bottom" title={'使用文档'}>
           <li className="toolbar-li">
             <a target="_blank" href="https://yapi.ymfe.org/" rel="noopener noreferrer"><Icon
-              className="dropdown-link" style={{fontSize: 16}} type="question-circle"/></a>
+              className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
           </li>
         </Tooltip>
       </Popover>
@@ -170,10 +170,10 @@ const ToolUser = (props) => {
             />
           }>
           <a className="dropdown-link">
-            <Avatar src={`/api/user/avatar?uid=${props.uid}`}/>
+            <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
             {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
             {/*<span className="name">{props.user}</span>*/}
-            <span className="name"><Icon type="down"/></span>
+            <span className="name"><Icon type="down" /></span>
           </a>
         </Dropdown>
 
@@ -281,7 +281,7 @@ export default class HeaderCom extends Component {
 
 
   render() {
-    const {login, user, msg, uid, role, studyTip, study} = this.props;
+    const { login, user, msg, uid, role, studyTip, study } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
@@ -293,12 +293,12 @@ export default class HeaderCom extends Component {
           </Link>
           <Breadcrumb />
           <div className="user-toolbar"
-               style={{position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1}}>
+            style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}>
             {login ?
               <ToolUser
-                {...{studyTip, study, user, msg, uid, role}}
-                relieveLink={ this.relieveLink }
-                logout={ this.logout }
+                {...{ studyTip, study, user, msg, uid, role }}
+                relieveLink={this.relieveLink}
+                logout={this.logout}
               />
               : ""}
           </div>
