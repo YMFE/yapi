@@ -61,9 +61,7 @@ CountOverview.propTypes = {
 
 
 @connect(
-  state => {
-    return {}
-  }, {
+  null, {
     setBreadcrumb
   }
 )

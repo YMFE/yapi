@@ -1,7 +1,7 @@
 /**
  * 获取所需要的日期区间点
  * @param time {Number} Number是ele日期区间选择组件返回的结果
- *      Number是之前时刻距离今天的间隔天数，默认是3天
+ *      Number是之前时刻距离今天的间隔天数，默认是90天
  * @param start {String} 日期对象，日期区间的开始点 '2017-01-17 00:00:00'
  * @param withToday {Boolean} 是否包含今天
  * @return {Array} ['2017-01-17 00:00:00', '2017-01-20 23:59:59']
