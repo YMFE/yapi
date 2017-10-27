@@ -19,7 +19,6 @@ const exportDataModule = {};
 // }
 @connect(
   state => {
-    // console.log(state);
     return {
       curCatid: -(-state.inter.curdata.catid),
       basePath: state.project.currProject.basepath
