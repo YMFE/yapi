@@ -46,7 +46,7 @@ class StatisChart extends Component {
     const { mockCount, mockDateList } = this.state.chartDate;
     return (
       <div className="statis-chart-content">
-        <h3 className="statis-title">mock 接口访问总数为：{mockCount}</h3>
+        <h3 className="statis-title">mock 接口访问总数为：{mockCount.toLocaleString()}</h3>
         <div className="statis-chart">
           <LineChart width={width} height={300} data={mockDateList}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
