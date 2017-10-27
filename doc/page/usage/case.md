@@ -49,10 +49,10 @@ $.{key}.{params|body}.{path}
 
 > Tips: 上下拖动测试集合的列表项可以调整测试的顺序。
 
-### 高级
-可通过写断言脚本，实现精准测试,支持 js 所有语法
+## 自动化测试
+可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用
 
-#### 公共变量
+### 公共变量
 * assert 
 
   断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
@@ -73,7 +73,7 @@ $.{key}.{params|body}.{path}
 
   记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
 
-#### 示例
+### 示例
 ```
 assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
