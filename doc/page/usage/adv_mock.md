@@ -13,10 +13,10 @@ Mock 期望就是根据设置的请求过滤规则，返回期望数据。
 <div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case5.png"/></div>
 
 ### 期望填写
+
+基本信息
+
 * 期望名称：给此条期望命名
-
-请求
-
 * IP 过滤：请求的 IP 是设置的地址才可能返回期望。默认 IP 过滤关闭，任何 IP 地址都可能返回期望。
 * 参数过滤：请求必须包含设置的参数，并且值相等才可能返回期望。参数可以在 Body 或 Query 中。
 

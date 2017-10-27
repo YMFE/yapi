@@ -64,7 +64,7 @@ export default class CaseDesModal extends Component {
     //   ip_enable: {type: Boolean,  default: false},
     //   name: {type: String, required: true},
     //   code: {type: Number, default: 200},
-    //   deplay: {type: Number,  default: 0},
+    //   delay: {type: Number,  default: 0},
     //   headers: [{
     //     name: {type: String, required: true},
     //     value: {type: String}
@@ -79,7 +79,7 @@ export default class CaseDesModal extends Component {
       ip_enable: false,
       name: '',
       code: '200',
-      deplay: 0,
+      delay: 0,
       headers: [{name: '', value: ''}],
       paramsArr: [{name: '', value: ''}],
       params: {},
@@ -191,11 +191,11 @@ export default class CaseDesModal extends Component {
     let { req_query, req_body_form, req_body_type, method } = this.props.currInterface;
     const keys = [];
 
-    req_query.forEach(item => {
+    req_query && Array.isArray(req_query) && req_query.forEach(item => {
       keys.push(item.name)
     })
     if (req_body_type === 'form' && method === '') {
-      req_body_form && req_body_form.forEach(item => {
+      req_body_form && Array.isArray(req_body_form) && req_body_form.forEach(item => {
         keys.push(item.name)
       })
     }
@@ -404,7 +404,7 @@ export default class CaseDesModal extends Component {
             {...formItemLayout}
             label="延时"
           >
-            {getFieldDecorator('deplay', {
+            {getFieldDecorator('delay', {
               initialValue: 0,
               rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(

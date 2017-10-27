@@ -92,7 +92,7 @@ export default class MockCol extends Component {
       ip_enable: false,
       name: currInterface.title,
       code: '200',
-      deplay: 0,
+      delay: 0,
       headers: [{name: '', value: ''}],
       params: {},
       res_body: getMockText(currInterface.res_body)
