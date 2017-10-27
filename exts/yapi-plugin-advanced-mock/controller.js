@@ -2,6 +2,7 @@ const baseController = require('controllers/base.js');
 const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
 const caseModel = require('./caseModel.js');
+const userModel = require('../../server/models/user.js');
 const config = require('./index.js');
 
 class advMockController extends baseController{
@@ -9,6 +10,7 @@ class advMockController extends baseController{
     super(ctx);
     this.Model = yapi.getInst(advModel);
     this.caseModel = yapi.getInst(caseModel);
+    this.userModel = yapi.getInst(userModel);
   }
 
   async getMock(ctx){
@@ -56,6 +58,11 @@ class advMockController extends baseController{
       return ctx.body = yapi.commons.resReturn(null, 400, '缺少 interface_id');
     }
     let result = await this.caseModel.list(id);
+    for(let i = 0, len = result.length; i < len; i++) {
+      let userinfo = await this.userModel.findById(result[i].uid);
+      result[i] = result[i].toObject();
+      result[i].username = userinfo.username;
+    }
 
     ctx.body = yapi.commons.resReturn(result);
   }
@@ -68,6 +75,7 @@ class advMockController extends baseController{
     let result = await this.caseModel.get({
       _id: id
     })
+
     ctx.body = yapi.commons.resReturn(result);
   }
 
@@ -107,10 +115,12 @@ class advMockController extends baseController{
       ip_enable: data.ip_enable
     }
 
-    if(data.params && typeof data.params === 'object'){
+    if(data.params && typeof data.params === 'object' && Object.keys(data.params).length >0){
       for(let i in data.params){
         findRepeatParams['params.' + i] = data.params[i];
       }
+    }else{
+      findRepeatParams.params = null;
     }
 
     if(data.ip_enable){
@@ -118,8 +128,7 @@ class advMockController extends baseController{
     }
 
     findRepeat = await this.caseModel.get(findRepeatParams);
-    
-    if(findRepeat){
+    if(findRepeat && findRepeat._id !== params.id){
       return ctx.body = yapi.commons.resReturn(null,400, '已存在的期望');
     }
 
@@ -138,7 +147,8 @@ class advMockController extends baseController{
     if(!id){
       return ctx.body =yapi.commons.resReturn(null, 408, '缺少 id');
     }
-    ctx.body = await this.caseModel.del(id);
+    let result = await this.caseModel.del(id);
+    return ctx.body = yapi.commons.resReturn(result);
   }
 
 

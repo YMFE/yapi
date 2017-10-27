@@ -32,10 +32,10 @@ class interfaceCase extends baseModel {
             req_body_other: String,
             test_res_body: String,
             test_status: {type: String, enum: ['ok', 'invalid', 'error', '']},
-            test_report: [],
             test_res_header: Schema.Types.Mixed,
-            mock_verify: {type: Boolean, default: false}
-
+            mock_verify: {type: Boolean, default: false},
+            enable_script: {type: Boolean, default: false},
+            test_script: String
         };
     }
 

@@ -366,6 +366,10 @@ let routerConfig = {
 		action: "delCase",
 		path: "del_case",
 		method: "get"
+	},{
+		action: "runCaseScript",
+		path: "run_script",
+		method: "post"
 	}
 	],
 	"test": [{
