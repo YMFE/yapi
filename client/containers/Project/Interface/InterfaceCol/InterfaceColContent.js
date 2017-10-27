@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import constants from '../../../../constants/variable.js'
+//import constants from '../../../../constants/variable.js'
 import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -29,7 +29,6 @@ function json_parse(data) {
     return data
   }
 }
-const HTTP_METHOD = constants.HTTP_METHOD;
 
 function handleReport(json){
   try{
@@ -175,27 +174,9 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
-      let query = this.arrToObj(curitem.req_query);
-      if (!query || typeof query !== 'object') {
-        query = {};
-      }
-      let body = {};
-      if (HTTP_METHOD[curitem.method].request_body) {
-        if (curitem.req_body_type === 'form') {
-          body = this.arrToObj(curitem.req_body_form);
-        } else {
-          body = isJson(curitem.req_body_other);
-        }
-
-        if (!body || typeof body !== 'object') {
-          body = {};
-        }
-      }
-
-      let params = Object.assign({}, query, body);
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
-        params: params,
+        params: result.params,
         body: result.res_body
       };
 
@@ -256,7 +237,7 @@ class InterfaceColContent extends Component {
         result.body = this.handleValue(interfaceData.req_body_other)
       } else {
         reqBody = this.handleJson(reqBody)
-        requestParams = OBject.assign(requestParams, reqBody);
+        requestParams = Object.assign(requestParams, reqBody);
         result.body = JSON.stringify(reqBody)
       }
 
@@ -272,6 +253,7 @@ class InterfaceColContent extends Component {
       let header = data.res.header;
       result.res_header = header;
       result.res_body = res;
+      result.params = requestParams;
       let validRes = [];
       if (res && typeof res === 'object') {            
         if (interfaceData.mock_verify) {
@@ -342,7 +324,7 @@ class InterfaceColContent extends Component {
         response: response,
         records: this.records,
         script: interfaceData.test_script,
-        params: params
+        params: requestParams
       })
       if(test.data.errcode !== 0){
         validRes.push({
@@ -389,7 +371,10 @@ class InterfaceColContent extends Component {
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.enable && item.type !== 'file') {
-        requestParams[item.name] = obj[item.name] = this.handleValue(item.value);
+         obj[item.name] = this.handleValue(item.value);
+         if(requestParams){
+          requestParams[item.name] = obj[item.name];
+         }
       }
     })
     return obj;
@@ -402,7 +387,10 @@ class InterfaceColContent extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
-        queryObj[item.name] = requestParams[item.name]  = this.handleValue(item.value);
+        queryObj[item.name] = this.handleValue(item.value);
+        if(requestParams){
+          requestParams[item.name] = queryObj[item.name];
+         }
       }
     })
     return queryObj;
