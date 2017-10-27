@@ -23,9 +23,9 @@ const formatYMD = (val, joinStr = '-') => {
 }
 
 function run() {
-    let time = yapi.commons.time() - 1000000;
+    let time = yapi.commons.time() - 10000000;
     let data = i => {
-      time = time - yapi.commons.rand(100, 100000);
+      time = time - yapi.commons.rand(10000, 1000000);
       return {
         interface_id: 94,
         project_id: 25,

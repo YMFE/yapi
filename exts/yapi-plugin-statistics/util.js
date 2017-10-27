@@ -6,7 +6,7 @@
  * @param withToday {Boolean} 是否包含今天
  * @return {Array} ['2017-01-17 00:00:00', '2017-01-20 23:59:59']
  */
-exports.getDateRange = (time = 30, start = false, withToday = true) => {
+exports.getDateRange = (time = 90, start = false, withToday = true) => {
     const gapTime = time * 24 * 3600 * 1000;
     if (!start) {
         // 没有规定start时间

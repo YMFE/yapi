@@ -89,13 +89,14 @@ class StatisChart extends Component {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <XAxis dataKey="_id"/>
             <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="7 3" />
             <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Legend/>
+            <Line name="mock统计值" type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
             {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
           </LineChart>
         </div>
+        <div className="statis-footer">过去3个月mock接口调用情况</div>
 
       </div>
     );
