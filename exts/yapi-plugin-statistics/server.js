@@ -23,6 +23,9 @@ module.exports = function () {
         Col.createIndex({
             time: 1
         })
+        Col.createIndex({
+            date: 1
+        })
 
     });
 

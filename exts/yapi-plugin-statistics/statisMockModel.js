@@ -44,6 +44,9 @@ class statisMockModel extends baseModel {
                     _id: '$date',  //$region is the column name in collection
                     count: { $sum: 1 }
                 }
+            },
+            {
+                $sort: { _id: 1 }
             }
         ]);
     }

@@ -80,11 +80,6 @@ class statisticsPage extends Component {
         projectCount: 0,
         interfaceCount: 0,
         interfactCaseCount: 0
-      },
-      chartDate: {
-        mockCount: 0,
-        mockDateList: []
-
       }
     }
   }
@@ -92,7 +87,6 @@ class statisticsPage extends Component {
   async componentWillMount() {
     this.props.setBreadcrumb([{ name: '数据统计' }]);
     this.getStatisData();
-    this.getMockData();
   }
 
   // 获取统计数据
@@ -105,26 +99,17 @@ class statisticsPage extends Component {
       });
     }
   }
-  // 获取mock 请求次数信息
-  async getMockData() {
-    let result = await axios.get('/api/plugin/statismock/get');
-    if (result.data.errcode === 0) {
-      let mockStatisData = result.data.data;
-      this.setState({
-        chartDate: { ...mockStatisData }
-      });
-    }
-  }
+  
 
   render() {
-    const { count, chartDate } = this.state;
+    const { count } = this.state;
     // console.log('state', this.state)
 
     return (
       <div className="g-statistic">
         <div className="statis-content">
           <CountOverview date={count}></CountOverview>
-          <StatisChart data={chartDate} />
+          <StatisChart />
         </div>
       </div>
 
