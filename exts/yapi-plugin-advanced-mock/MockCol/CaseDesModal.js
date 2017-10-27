@@ -82,7 +82,7 @@ export default class CaseDesModal extends Component {
       deplay: 0,
       headers: [{name: '', value: ''}],
       paramsArr: [{name: '', value: ''}],
-      params: '',
+      params: {},
       res_body: ''
     }
     const paramsArr = caseData.params && Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
@@ -145,8 +145,11 @@ export default class CaseDesModal extends Component {
     if (this.shouldLoadEditor) {
       this.loadBodyEditor()
       this.loadParamsEditor()
-      this.shouldLoadEditor = false
+    } else if (this.shouldLoadParamsEditor) {
+      this.loadParamsEditor()
     }
+    this.shouldLoadEditor = false
+    this.shouldLoadParamsEditor = false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -205,7 +208,7 @@ export default class CaseDesModal extends Component {
       container: 'res_body_json',
       data: that.props.caseData.res_body,
       onChange: function (d) {
-        if (d.format !== true) return false;
+        // if (d.format !== true) return false;
         setFieldsValue({ res_body: d.text })
       }
     });
@@ -217,7 +220,7 @@ export default class CaseDesModal extends Component {
       container: 'case_modal_params',
       data: that.props.caseData.params,
       onChange: function (d) {
-        if (d.format !== true) return false;
+        // if (d.format !== true) return false;
         setFieldsValue({ params: d.text })
       }
     });
@@ -282,6 +285,9 @@ export default class CaseDesModal extends Component {
       ))
     }
     getFieldDecorator('params')
+    // if (paramsForm === 'json') {
+    //   this.loadParamsEditor()
+    // }
 
     return (
       <Modal
@@ -337,11 +343,10 @@ export default class CaseDesModal extends Component {
                 unCheckedChildren="JSON"
                 checked={paramsForm === 'json'}
                 onChange={bool => { 
-                  this.setState({ paramsForm: bool ? 'json' : 'form' }, () => {
-                    if (paramsForm === 'json') {
-                      this.loadParamsEditor()
-                    }
-                  })
+                  if (bool) {
+                    this.shouldLoadParamsEditor = true
+                  }
+                  this.setState({ paramsForm: bool ? 'json' : 'form' })
                 }}
               />
               {
