@@ -51,7 +51,7 @@ function improtData(importDataModule){
     let api = {};
     //处理基本信息
     api.method = data.method.toUpperCase();
-    api.title = data.summary;
+    api.title = data.summary || data.path;
     api.desc = data.description;
     api.catname = data.tags && Array.isArray(data.tags)? data.tags[0] : null;
     api.path = handlePath(data.path);
@@ -122,11 +122,16 @@ function improtData(importDataModule){
     _.each(api, (res, code)=>{
       if(code == 200){
         if(res && typeof res === 'object'){
-          res_body = handleSchema(res.schema);
+          if(res.schema){
+            res_body = handleSchema(res.schema);
+          }else if(res.description){
+            res_body = res.description;
+          }          
+        }else if(typeof res === 'string'){
+          res_body = res;
         }else{
           res_body = '';
-        }
-        
+        }        
       }
     })
     return res_body;

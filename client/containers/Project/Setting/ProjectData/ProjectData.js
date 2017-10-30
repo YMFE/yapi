@@ -122,10 +122,9 @@ class ProjectData extends Component {
           if (this.props.basePath) {
             data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
           }
-          if (data.catname && cats[data.catname].id) {
+          if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
-
           let result = await axios.post('/api/interface/add', data);
           count++;
           if (result.data.errcode) {
