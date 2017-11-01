@@ -8,8 +8,8 @@ module.exports = function(){
     addRouter({
       controller: controller,
       method: 'get',
-      path: 'export/markdown',
-      action: 'exportMarkdown'
+      path: 'export/html',
+      action: 'exportHtml'
     })
   })
 

@@ -7,5 +7,11 @@ module.exports = {
     name: 'advanced-mock'
   },{
     name: 'import-swagger'
+  },{
+    name: 'export-markdown'
+  },{
+    name: 'export-pdf'
+  },{
+    name: 'export-html'
   }]
 }

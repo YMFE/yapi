@@ -132,6 +132,14 @@ class interfaceModel extends baseModel {
             .sort({ _id: -1 })
             .exec();
     }
+    
+    listByPid(project_id){
+        return this.model.find({
+            project_id: project_id
+        })
+        .sort({_id: -1})
+        .exec();
+    }
 
     listByCatid(catid){
         return this.model.find({

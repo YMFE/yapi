@@ -74,6 +74,21 @@ var hooks = {
         listener: []
     },
     /**
+     * 导出 markdown 数据
+     * @param context Object
+     * {
+     *  projectData: project,
+        interfaceData: interfaceData,
+        ctx: ctx,
+        mockJson: res 
+     * }
+     * 
+     */
+    'export_markdown': {
+        type: 'multi',
+        listener: []
+    },
+    /**
      * MockServer生成mock数据后触发
      * @param context Object
      * {
@@ -92,12 +107,22 @@ var hooks = {
      * 增加路由的钩子
      * type Sync
      * @param addPluginRouter Function 
+     * @info 
      * addPLuginPLugin(config)
+     * 
      * config = {
-     *  path,      // String
-     *  method,    // String
+     *  path,      // String 路由名称
+     *  method,    // String 请求方法 get post ...
      *  controller // Class 继承baseController的class
      *  action     // String controller的Action
+     * }
+     * 
+     * 示例：
+     * config = {
+     *  path:  "export/pdf",
+     *  method: "get",
+     *  controller: controller,
+     *  action: "exportPdf"
      * }
      */
     add_router: {
