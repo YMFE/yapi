@@ -162,15 +162,11 @@ exports.filterRes = (list, rules) => {
 
 /**
  * 验证一个 path 是否合法
- * path第一位必需为 /, path只容许由 字母数字-/_:. 组成, 最后一位不容许为 /
+ * path第一位必需为 /, path 只允许由 字母数字-/_:. 组成
  */
 exports.verifyPath = (path) => {
     if (/^\/[a-zA-Z0-9\-\/_:\.]+$/.test(path)) {
-        if (path[path.length - 1] === '/') {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     } else {
         return false;
     }

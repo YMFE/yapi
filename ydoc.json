@@ -7,9 +7,9 @@
     "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi", //page title
-        "footer": "&copy; 2016 <a href=\"http://ued.qunar.com/ymfe/\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>.", // 通用尾
+        "footer": "&copy; 2016 <a href=\"https://github.com/ymfe/yapi\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>", // 通用尾
         "home": "YMFE", // logo
-        "homeUrl": "http://ued.qunar.com/ymfe/" // logourl
+        "homeUrl": "https://github.com/ymfe" // logourl
     },
     "options": {
         "foldcode": false,
