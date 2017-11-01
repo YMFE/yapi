@@ -8,11 +8,13 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 **QQ交流群**: 644642474
 
 ### 特性
-1.  基于 Json5 和 Mockjs 定义接口返回数据的结构和文档，效率提升多倍
-2.  扁平化权限设计，即保证了大型企业级项目的管理，又保证了易用性
-3.  不仅有类似 postman 的接口调试，还有强大的测试集功能
-4.  支持 postman, har, swagger 数据导入
-5.  免费开源，内网部署，信息再也不怕泄露了！
+*  基于 Json5 和 Mockjs 定义接口返回数据的结构和文档，效率提升多倍
+*  扁平化权限设计，即保证了大型企业级项目的管理，又保证了易用性
+*  类似 postman 的接口调试
+*  自动化测试, 支持对 Response 断言
+*  MockServer 除支持普通的随机 mock 外，还增加了 Mock 期望功能，根据设置的请求过滤规则，返回期望数据
+*  支持 postman, har, swagger 数据导入
+*  免费开源，内网部署，信息再也不怕泄露了
 
 ### 内网部署
 #### 环境要求
@@ -26,10 +28,12 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
 #### 升级
 升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
+
     cd  {项目目录}
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
+
 
 
 ### 在线 Demo

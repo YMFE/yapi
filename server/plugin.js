@@ -37,7 +37,7 @@ var hooks = {
     * 客户端更新接口成功后触发
     * @param id 接口id
     */
-    'interface_update':{
+    'interface_update': {
         type: 'multi',
         listener: []
     },
@@ -45,7 +45,7 @@ var hooks = {
      * 客户端获取接口数据列表
      * @param id project_id
      */
-    'interface_list':{
+    'interface_list': {
         type: 'multi',
         listener: []
     },
@@ -53,7 +53,7 @@ var hooks = {
      * 客户端获取一条接口信息触发
      * @param id 接口id
      */
-    'interface_get':{
+    'interface_get': {
         type: 'multi',
         listener: []
     },
@@ -61,7 +61,7 @@ var hooks = {
      * 客户端增加一个新项目
      * @param id 项目id
      */
-    'project_add':{
+    'project_add': {
         type: 'multi',
         listener: []
     },
@@ -69,7 +69,7 @@ var hooks = {
      * 客户端删除删除一个项目
      * @param id 项目id
      */
-    'project_del':{
+    'project_del': {
         type: 'multi',
         listener: []
     },
@@ -156,12 +156,12 @@ function emitHook(name) {
     if (hooks[name] && typeof hooks[name] === 'object') {
         let args = Array.prototype.slice.call(arguments, 1);
         if (hooks[name].type === 'single' && typeof hooks[name].listener === 'function') {
-            return  Promise.resolve(hooks[name].listener.apply(yapi, args));
+            return Promise.resolve(hooks[name].listener.apply(yapi, args));
         }
         let promiseAll = [];
         if (Array.isArray(hooks[name].listener)) {
             let listenerList = hooks[name].listener;
-            for(let i=0, l = listenerList.length; i< l; i++){
+            for (let i = 0, l = listenerList.length; i < l; i++) {
                 promiseAll.push(Promise.resolve(listenerList[i].apply(yapi, args)));
             }
         }

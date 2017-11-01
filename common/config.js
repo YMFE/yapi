@@ -8,10 +8,6 @@ module.exports = {
   },{
     name: 'import-swagger'
   },{
-    name: 'export-markdown'
-  },{
-    name: 'export-pdf'
-  },{
-    name: 'export-html'
+    name: 'statistics'
   }]
 }

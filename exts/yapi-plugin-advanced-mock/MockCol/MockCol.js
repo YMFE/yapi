@@ -3,15 +3,17 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-import { Table, Button, message } from 'antd';
-import { fetchMockCol } from '../../../client/reducer/modules/mockCol'
-import { formatTime } from '../../../client/common.js';
+import { Table, Button, message, Popconfirm, Tooltip, Icon } from 'antd';
+import { fetchMockCol } from 'client/reducer/modules/mockCol'
+import { formatTime, getMockText } from 'client/common.js';
+import constants from 'client/constants/variable.js'
 import CaseDesModal from './CaseDesModal';
 
 @connect(
   state => {
     return {
-      list: state.mockCol.list
+      list: state.mockCol.list,
+      currInterface: state.inter.curdata
     }
   },
   {
@@ -22,6 +24,7 @@ import CaseDesModal from './CaseDesModal';
 export default class MockCol extends Component {
   static propTypes = {
     list: PropTypes.array,
+    currInterface: PropTypes.object,
     match: PropTypes.object,
     fetchMockCol: PropTypes.func
   }
@@ -42,7 +45,8 @@ export default class MockCol extends Component {
   }
 
   handleOk = async (caseData) => {
-    const interface_id = this.props.match.params.action;
+    const { caseData: currcase } = this.state;
+    const interface_id = this.props.match.params.actionId;
     const project_id = this.props.match.params.id;
     caseData = Object.assign({
       ...caseData,
@@ -50,11 +54,25 @@ export default class MockCol extends Component {
       project_id: project_id
     })
     if (!this.state.isAdd) {
-      caseData.id = 0;
+      caseData.id = currcase._id;
     }
-    axios.post('/api/plugin/advmock/case/save', caseData).then(res => {
+    await axios.post('/api/plugin/advmock/case/save', caseData).then(async res => {
       if (res.data.errcode === 0) {
         message.success(this.state.isAdd ? '添加成功' : '保存成功');
+        await this.props.fetchMockCol(interface_id);
+        this.setState({ caseDesModalVisible: false })
+      } else {
+        message.error(res.data.errmsg);
+      }
+    })
+  }
+
+  deleteCase = async (id) => {
+    const interface_id = this.props.match.params.actionId;
+    await axios.post('/api/plugin/advmock/case/del', {id}).then(async res => {
+      if (res.data.errcode === 0) {
+        message.success('删除成功');
+        await this.props.fetchMockCol(interface_id);
       } else {
         message.error(res.data.errmsg);
       }
@@ -67,36 +85,103 @@ export default class MockCol extends Component {
 
   render() {
 
-    const data = this.props.list;
+    const { list: data, currInterface } = this.props;
     const { isAdd, caseData, caseDesModalVisible } = this.state;
+    const initCaseData = {
+      ip: '',
+      ip_enable: false,
+      name: currInterface.title,
+      code: '200',
+      delay: 0,
+      headers: [{name: '', value: ''}],
+      params: {},
+      res_body: currInterface.res_body && getMockText(currInterface.res_body)
+    }
 
+    let ipFilters = [];
+    let ipObj = {};
+    let userFilters = [];
+    let userObj = {};
+    data.forEach(item => {
+      ipObj[item.ip_enable ? item.ip : ''] = '';
+      userObj[item.username] = '';
+    })
+    ipFilters = Object.keys(Object.assign(ipObj)).map(value => {
+      if (!value) {
+        value = '无过滤'
+      }
+      return { text: value, value }
+    })
+    userFilters = Object.keys(Object.assign(userObj)).map(value => { return { text: value, value } })
     const columns = [{
       title: '期望名称',
       dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>
+      key: 'name'
     }, {
       title: 'ip',
       dataIndex: 'ip',
-      key: 'ip'
+      key: 'ip',
+      render: (text, recode) => {
+        if (!recode.ip_enable) {
+          text = '';
+        }
+        return text;
+      },
+      onFilter: (value, record) => (record.ip === value && record.ip_enable) || (value === '无过滤' && !record.ip_enable),
+      filters: ipFilters
     }, {
       title: '创建人',
       dataIndex: 'username',
-      key: 'username'
+      key: 'username',
+      onFilter: (value, record) => record.username === value,
+      filters: userFilters
     }, {
       title: '编辑时间',
-      key: 'action',
+      dataIndex: 'up_time',
+      key: 'up_time',
       render: text => formatTime(text)
     }, {
       title: '操作',
-      dataIndex: 'address',
-      key: 'address'
+      dataIndex: '_id',
+      key: '_id',
+      render: (_id, recode) => {
+        return (
+          <div>
+            <span style={{marginRight: 5}}>
+              <Button size="small" onClick={() => this.setState({
+                isAdd: false,
+                caseDesModalVisible: true,
+                caseData: recode
+              })}>编辑</Button>
+            </span>
+            <span>
+              <Popconfirm
+                title="你确定要删除这条期望?"
+                onConfirm={() => this.deleteCase(_id)}
+                okText="确定"
+                cancelText="取消"
+              >
+                <Button size="small" onClick={() => {}}>删除</Button>
+              </Popconfirm>
+            </span>
+          </div>
+        )
+      }
     }];
 
     return (
-      <div style={{ padding: '20px 10px' }}>
-        <Button type="primary" onClick={() => this.setState({isAdd: true, caseDesModalVisible: true})}>添加期望</Button>
-        <Table columns={columns} dataSource={data} />
+      <div>
+        <div style={{marginBottom: 8}}>
+          <Button type="primary" onClick={() => this.setState({
+            isAdd: true,
+            caseDesModalVisible: true,
+            caseData: initCaseData
+          })}>添加期望</Button>
+          <a target="_blank" rel="noopener noreferrer" href={constants.docHref.adv_mock_case} style={{marginLeft: 8}} >
+            <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
+          </a>
+        </div>
+        <Table columns={columns} dataSource={data} pagination={false} rowKey='_id' />
         <CaseDesModal
           visible={caseDesModalVisible}
           isAdd={isAdd}

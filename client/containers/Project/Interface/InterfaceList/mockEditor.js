@@ -68,10 +68,8 @@ function run(options) {
       var obj = json5.parse(json);
       curData.format = true;
       curData.jsonData = obj;
-      curData.mockData = Mock.mock(MockExtra(obj, {}));
-      curData.mockText = JSON.stringify(curData.mockData, null, "  ");
+      curData.mockData = ()=>Mock.mock(MockExtra(obj, {})); //为防止时时 mock 导致页面卡死的问题，改成函数式需要用到再计算
     } catch (e) {
-
       curData.format = e.message;
     }
   }

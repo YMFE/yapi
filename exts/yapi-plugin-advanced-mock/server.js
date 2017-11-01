@@ -4,6 +4,9 @@ const caseModel = require('./caseModel.js');
 const yapi = require('yapi.js');
 const mongoose = require('mongoose');
 const _ = require('underscore');
+const path = require('path');
+const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
+const Mock = require('mockjs');
 
 function arrToObj(arr){
   let obj = {};
@@ -15,7 +18,7 @@ function arrToObj(arr){
 
 module.exports = function(){
   yapi.connect.then(function () {
-    let Col = mongoose.connection.db.collection('adv_mock')
+    let Col = mongoose.connection.db.collection('adv_mock');
     Col.createIndex({
         interface_id: 1        
     })
@@ -23,7 +26,7 @@ module.exports = function(){
       project_id: 1
     })
 
-    let caseCol = mongoose.connection.db.collection('adv_mock_case')
+    let caseCol = mongoose.connection.db.collection('adv_mock_case');
     caseCol.createIndex({
         interface_id: 1        
     })
@@ -33,9 +36,10 @@ module.exports = function(){
   })
 
   async  function checkCase(ctx, interfaceId){
-    let reqParams = Object.assign({}, ctx.query, ctx.body);
+    let reqParams = Object.assign({}, ctx.query, ctx.request.body);
     let caseInst = yapi.getInst(caseModel);
     let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+    //   数据库信息查询
     let listWithIp =await caseInst.model.find({
       interface_id: interfaceId,
       ip_enable: true,
@@ -44,7 +48,7 @@ module.exports = function(){
     let matchList = [];
     listWithIp.forEach(item=>{
       let params = item.params;
-      if(_.isMatch(reqParams, params)){
+      if(lib.isDeepMatch(reqParams, params)){
         matchList.push(item); 
       }
     })
@@ -55,7 +59,7 @@ module.exports = function(){
       }).select('_id params')
       list.forEach(item=>{
         let params = item.params;
-        if(_.isMatch(reqParams, item.params)){
+        if(lib.isDeepMatch(reqParams, item.params)){
           matchList.push(item); 
         }
       })
@@ -65,8 +69,6 @@ module.exports = function(){
       return maxItem;
     }
     return null;
-
-
 
   }
   
@@ -104,7 +106,7 @@ module.exports = function(){
 
     addRouter({
       /**
-       * 保存期望
+       *
        */
       controller: controller,
       method: 'get',
@@ -124,7 +126,7 @@ module.exports = function(){
 
     addRouter({
       /**
-       * 获取期望列表
+       * 删除期望列表
        */
       controller: controller,
       method: 'post',
@@ -153,7 +155,7 @@ module.exports = function(){
     let caseData = await checkCase(context.ctx, interfaceId);
     if(caseData){
       let data = await  handleByCase(caseData, context);
-      context.mockJson = data.res_body;
+      context.mockJson = yapi.commons.json_parse(data.res_body);
       context.resHeader = arrToObj(data.headers);
       context.httpCode = data.code;
       context.delay = data.delay;
@@ -173,7 +175,8 @@ module.exports = function(){
       params: Object.assign({}, context.ctx.query, context.ctx.request.body),
       resHeader: context.resHeader,
       httpCode: context.httpCode,
-      delay: context.httpCode
+      delay: context.httpCode,
+      Random: Mock.Random
     }
     sandbox.cookie = {};
     

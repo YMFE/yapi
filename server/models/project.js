@@ -9,16 +9,16 @@ class projectModel extends baseModel {
     getSchema() {
         return {
             uid: {type: Number, required: true},
-            name: { type: String, required: true },
-            basepath: {type: String  },
+            name: {type: String, required: true},
+            basepath: {type: String},
             desc: String,
-            group_id: { type: Number, required: true },
-            project_type: {type:String, required: true, enum: ['public', 'private']},
+            group_id: {type: Number, required: true},
+            project_type: {type: String, required: true, enum: ['public', 'private']},
             members: [
-                {uid: Number, role: {type: String, enum:['owner', 'dev']},username: String, email: String}
+                {uid: Number, role: {type: String, enum: ['owner', 'dev']}, username: String, email: String}
             ],
             env: [
-                { name: String, domain: String }
+                {name: String, domain: String}
             ],
             icon: String,
             color: String,
@@ -32,7 +32,7 @@ class projectModel extends baseModel {
             {
                 'members.uid': data.uid
             }, {
-                "$set": { 
+                "$set": {
                     "members.$.username": data.username,
                     "members.$.email": data.email
                 }
@@ -51,18 +51,18 @@ class projectModel extends baseModel {
         }).exec();
     }
 
-    getProjectWithAuth(group_id, uid){
+    getProjectWithAuth(group_id, uid) {
         return this.model.count({
             "group_id": group_id,
-            "members.uid": uid 
+            "members.uid": uid
         })
     }
 
-    getBaseInfo(id){
+    getBaseInfo(id) {
         return this.model.findOne({
             _id: id
         }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time')
-        .exec()
+            .exec()
     }
 
     getByDomain(domain) {
@@ -86,10 +86,15 @@ class projectModel extends baseModel {
 
     list(group_id) {
         let params = {group_id: group_id}
-        return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
+        return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({_id: -1}).exec();
     }
 
-    countWithPublic(group_id){
+    // 获取项目数量统计
+    getProjectListCount() {
+        return this.model.count();
+    }
+
+    countWithPublic(group_id) {
         let params = {group_id: group_id, project_type: 'public'};
         return this.model.count(params);
     }
@@ -99,7 +104,7 @@ class projectModel extends baseModel {
         limit = parseInt(limit);
         return this.model.find({
             group_id: group_id
-        }).sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).exec();
+        }).sort({_id: -1}).skip((page - 1) * limit).limit(limit).exec();
     }
 
     listCount(group_id) {
@@ -120,7 +125,7 @@ class projectModel extends baseModel {
         });
     }
 
-    delByGroupid(groupId){
+    delByGroupid(groupId) {
         return this.model.remove({
             group_id: groupId
         })
@@ -130,7 +135,7 @@ class projectModel extends baseModel {
         data.up_time = yapi.commons.time();
         return this.model.update({
             _id: id
-        }, data, { runValidators: true });
+        }, data, {runValidators: true});
     }
 
     addMember(id, data) {
@@ -139,7 +144,7 @@ class projectModel extends baseModel {
                 _id: id
             }, {
                 // $push: { members: data }
-                $push: { members: { $each: data } }
+                $push: {members: {$each: data}}
             }
         );
     }
@@ -149,7 +154,7 @@ class projectModel extends baseModel {
             {
                 _id: id
             }, {
-                $pull: { members: {uid: uid} }
+                $pull: {members: {uid: uid}}
             }
         );
     }
@@ -165,9 +170,9 @@ class projectModel extends baseModel {
         return this.model.update(
             {
                 _id: id,
-                 "members.uid": uid
+                "members.uid": uid
             }, {
-                "$set": { "members.$.role": role}
+                "$set": {"members.$.role": role}
             }
         );
     }
@@ -180,7 +185,7 @@ class projectModel extends baseModel {
     }
 
     download(id) {
-      console.log('models in download');
+        console.log('models in download');
         // return this.model.find({
         //     name: new RegExp(id, 'ig')
         // })

@@ -1,0 +1,20 @@
+.case-des-modal {
+  .ant-modal-body {
+    max-height: 520px;
+    overflow-y: scroll;
+  }
+  .ip-filter .ip>.ant-form-item, .ip-filter .ip-switch>.ant-form-item {
+    margin-bottom: 0;
+  }
+  .headers>.ant-form-item, .paramsArr>.ant-form-item, .params-form>.ant-form-item {
+    margin-bottom: 0;
+  }
+  .sub-title {
+    clear: both;
+    font-weight: normal;
+    margin-top: .48rem;
+    margin-bottom: .16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
+  }
+}
