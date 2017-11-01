@@ -40,9 +40,7 @@ class StatisChart extends Component {
   }
 
   render() {
-    // console.log('date', this.props.date);
     const width = 1050;
-    // console.log('width', document.querySelector('body').offsetWidth);
     const { mockCount, mockDateList } = this.state.chartDate;
     return (
       <div className="statis-chart-content">
