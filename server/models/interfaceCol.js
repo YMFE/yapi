@@ -13,10 +13,11 @@ class interfaceCol extends baseModel {
             project_id: { type: Number, required: true },
             desc: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            test_report: {type:String, default: '{}'}
         };
     }
-
+    
     save(data) {
         let m = new this.model(data);
         return m.save();
@@ -37,17 +38,17 @@ class interfaceCol extends baseModel {
     list(project_id) {
         return this.model.find({
             project_id: project_id
-        }).exec();
+        }).select('name uid project_id desc add_time up_time').exec();
     }
 
     del(id) {
-        return this.model.deleteOne({
+        return this.model.remove({
             _id: id
         });
     }
 
     delByProjectId(id){
-        return this.model.deleteMany({
+        return this.model.remove({
             project_id: id
         })
     }

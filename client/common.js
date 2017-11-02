@@ -1,7 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import constants from './constants/variable';
+import constants from './constants/variable'
 import Mock from 'mockjs'
+import json5 from 'json5'
+import MockExtra from 'common/mock-extra.js'
 
 const Roles = {
   0 : 'admin',
@@ -118,6 +120,13 @@ exports.handlePath = (path) => {
   return path;
 }
 
+exports.handleApiPath = (path) => {
+  if (!path) return '';
+  path = trim(path);  
+  path = path[0] !== '/' ? '/' + path : path;
+  return path;
+}
+
 // 名称限制 constants.NAME_LIMIT 字符
 exports.nameLengthLimit = (type) => {
   // 返回字符串长度，汉字计数为2
@@ -194,6 +203,27 @@ function handleMockWord(word) {
   return Mock.mock(word);
 }
 
+exports.getMockText = (mockTpl) => {
+  return JSON.stringify(Mock.mock(MockExtra(json5.parse(mockTpl), {})), null, "  ")
+}
+
+/**
+ * 合并后新的对象属性与 Obj 一致，nextObj 有对应属性则取 nextObj 属性值，否则取 Obj 属性值
+ * @param  {Object} Obj     旧对象
+ * @param  {Object} nextObj 新对象
+ * @return {Object}           合并后的对象
+ */
+exports.safeAssign = (Obj, nextObj) => {
+  let keys = Object.keys(nextObj);
+  return Object.keys(Obj).reduce((result, value) => {
+      if (keys.indexOf(value) >= 0) {
+          result[value] = nextObj[value];
+      } else {
+          result[value] = Obj[value];
+      }
+      return result;
+  }, {});
+};
 
 exports.simpleJsonPathParse = simpleJsonPathParse;
 exports.handleMockWord = handleMockWord;

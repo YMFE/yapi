@@ -9,7 +9,9 @@ import addInterface from './addInterface.js'
 import menu from './menu.js'
 import follow from './follow.js'
 
-export default combineReducers({
+import { emitHook } from 'client/plugin.js'
+
+const reducerModules = {
   group,
   user,
   inter,
@@ -19,4 +21,8 @@ export default combineReducers({
   addInterface,
   menu,
   follow
-})
+}
+emitHook('add_reducer', reducerModules);
+
+
+export default combineReducers(reducerModules)

@@ -69,7 +69,7 @@ class interfaceController extends baseController {
 
         let auth = await this.checkAuth(params.project_id, 'project', 'edit')
         if (!auth) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
         }
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
@@ -81,7 +81,7 @@ class interfaceController extends baseController {
         let http_path = url.parse(params.path, true);
 
         if (!yapi.commons.verifyPath(http_path.pathname)) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+            return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
         }
 
 
@@ -100,7 +100,7 @@ class interfaceController extends baseController {
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 
         if (checkRepeat > 0) {
-            return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
+            return ctx.body = yapi.commons.resReturn(null, 40022, '已存在的接口:' + params.path + '[' + params.method + ']');
         }
 
         try {
@@ -300,6 +300,9 @@ class interfaceController extends baseController {
         }
 
         let project = await this.projectModel.getBaseInfo(project_id);
+        if(!project){
+            return ctx.body = yapi.commons.resReturn(null, 406, '不存在的项目');
+        }
         if (project.project_type === 'private') {
             if (await this.checkAuth(project._id, 'project', 'view') !== true) {
                 return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
@@ -392,7 +395,7 @@ class interfaceController extends baseController {
           let http_path = url.parse(params.path, true);
 
           if (!yapi.commons.verifyPath(http_path.pathname)) {
-              return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+              return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
           }
           params.query_path = {};
           params.query_path.path = http_path.pathname;

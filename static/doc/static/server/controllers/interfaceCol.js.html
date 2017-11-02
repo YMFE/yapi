@@ -181,7 +181,9 @@ class interfaceColController extends baseController{
             resultList = resultList.sort((a,b)=>{
                 return a.index - b.index;
             });
-            ctx.body = yapi.commons.resReturn(resultList);
+            let ctxBody = yapi.commons.resReturn(resultList);
+            ctxBody.colData = colData;
+            ctx.body = ctxBody;
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
@@ -305,6 +307,8 @@ class interfaceColController extends baseController{
                 let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
                 data.interface_id = params.interface_list[i];
                 data.casename = interfaceData.title;
+                data.req_body_other = interfaceData.req_body_other;
+                data.req_body_type = interfaceData.req_body_type;
                 await this.caseModel.save(data);
                 let username = this.getUsername();
                 this.colModel.get(params.col_id).then((col)=>{
@@ -359,10 +363,6 @@ class interfaceColController extends baseController{
                 return ctx.body = yapi.commons.resReturn(null, 400, '用例id不能为空');
             }
 
-            // if(!params.casename){
-            //     return ctx.body = yapi.commons.resReturn(null, 400, '用例名称不能为空');
-            // }
-
             let caseData = await this.caseModel.get(params.id);
             let auth = await this.checkAuth(caseData.project_id, 'project', 'edit');
             if (!auth) {
@@ -371,9 +371,9 @@ class interfaceColController extends baseController{
 
             params.uid = this.getUid();
 
+            //不允许修改接口id和项目id
             delete params.interface_id;
             delete params.project_id;
-            // delete params.col_id;
 
             let result = await this.caseModel.up(params.id, params);
             let username = this.getUsername();
@@ -479,20 +479,22 @@ class interfaceColController extends baseController{
         try{
             let params = ctx.request.body;
             let id = params.col_id;
+            if(!id){
+                return ctx.body = yapi.commons.resReturn(null, 400, '缺少 col_id 参数');
+            }
             let colData = await this.colModel.get(id);
+            if(!colData){
+                return ctx.body = yapi.commons.resReturn(null, 400, '不存在');
+            }
             let auth = await this.checkAuth(colData.project_id, 'project', 'edit')
             if (!auth) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
             }
-
-            let result = await this.colModel.up(params.col_id, {
-                name: params.name,
-                desc: params.desc,
-                up_time: yapi.commons.time()
-            });
+            delete params.col_id;
+            let result = await this.colModel.up(id, params);
             let username = this.getUsername();
             yapi.commons.saveLog({
-                contnet: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了接口集 <a href="/project/${colData.project_id}/interface/col/${params.col_id}">${params.name}</a> 的信息`,
+                content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了接口集 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 的信息`,
                 type: 'project',
                 uid: this.getUid(),
                 username: username,
@@ -620,6 +622,30 @@ class interfaceColController extends baseController{
         }
     }
 
+    async runCaseScript(ctx){
+        let params = ctx.request.body;
+        let script = params.script;
+        if(!script){
+            return ctx.body =  yapi.commons.resReturn('ok');
+        }
+
+        try{
+            let result = yapi.commons.sandbox({
+                assert: require('assert'),
+                status: params.response.status,
+                body: params.response.body,
+                header: params.response.header,
+                records: params.records,
+                params: params.params,
+                log: []
+            }, script);
+            return ctx.body = yapi.commons.resReturn(result);
+          }catch(err){
+            let errArr = err.stack.split("\n");
+            return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)
+        }
+        
+    }
 
 }
 

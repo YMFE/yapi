@@ -91,6 +91,10 @@ class ProjectData extends Component {
             project_id: this.props.match.params.id,
             desc: cat.desc
           })
+          if(result.data.errcode){
+            message.error(result.data.errmsg);
+            return false;
+          }
           cat.id = result.data.data._id;
         }
       }
@@ -108,12 +112,17 @@ class ProjectData extends Component {
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
         const cats = await this.handleAddCat(res.cats);
-
+        if(cats === false){
+          return;
+        }
         res = res.apis;
         let len = res.length;
         let count = 0;
         let successNum = len;
-        res.forEach(async (item) => {
+        let existNum = 0;
+ 
+        for(let index=0; index< res.length; index++){
+          let item = res[index];
           let data = {
             ...item,
             project_id: this.props.match.params.id,
@@ -122,20 +131,26 @@ class ProjectData extends Component {
           if (this.props.basePath) {
             data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
           }
-          if (data.catname && cats[data.catname].id) {
+          if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
-
           let result = await axios.post('/api/interface/add', data);
           count++;
           if (result.data.errcode) {
             successNum--;
+            if(result.data.errcode == 40022){
+              existNum++;
+            }
+            if(result.data.errcode == 40033){
+              message.error('没有权限')
+              break;
+            }
           }
           if (count === len) {
-            message.success(`成功导入接口 ${successNum} 个`);
+            message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
           }
 
-        })
+        }
       }
     } else {
       message.error("请选择上传的默认分类");

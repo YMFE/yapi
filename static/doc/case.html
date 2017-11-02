@@ -22,15 +22,20 @@
         <header class="ydoc-header">
             <div class="ydoc-header-area">
                 
-                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                <a href="https://github.com/ymfe" class="navbar-brand">YMFE</a>
                 
                 <button class="ydocIcon navbar-toggle">&#xf020;</button>
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
+                        <li class="">
+                            
+                            <a href="index.html">首页</a> 
+                        </li>
+                        
                         <li class="active">
                             
-                            <a href="index.html">使用手册</a> 
+                            <a href="usage.html">使用手册</a> 
                         </li>
                         
                         <li class="">
@@ -124,7 +129,13 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="mock.html">使用mock功能</a> 
+                                    <a href="mock.html">普通 Mock</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="adv_mock.html">高级 Mock</a> 
                                 </li>
                                   
                                 <!-- <li  class="active"   class="active" > -->
@@ -146,6 +157,10 @@
                                     <li >
                                         <a href="#编辑测试用例">编辑测试用例</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#自动化测试">自动化测试</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -161,9 +176,9 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集可以保存之前填写的参数，方便下次的调试。YApi测试集还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串。</p>
+                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集不但能够保存之前填写的参数，方便下次的调试，还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串，通过设置断言脚本验证返回数据的正确性，</p>
 
-<h2 class="subject" id="测试列表">测试列表 <a class="hashlink" href="#测试列表">#</a></h2><p><img  class="doc-img" style="width:100%" src="./images/usage/case-list.jpg"  /></p>
+<h2 class="subject" id="测试列表">测试列表 <a class="hashlink" href="#测试列表">#</a></h2><p><img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  /></p>
 <p>在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能</p>
 <p>点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整</p>
 <p>测试完成之后，点击报告查看该次请求的结果</p>
@@ -191,7 +206,27 @@
 <blockquote>
 <p>Tips: 上下拖动测试集合的列表项可以调整测试的顺序。</p>
 </blockquote>
+<h2 class="subject" id="自动化测试">自动化测试 <a class="hashlink" href="#自动化测试">#</a></h2><p>可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用</p>
+<video style="width:800px" controls="controls" autoplay="autoplay">
+  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
+Your browser does not support the video tag.
+</video>
 
+<h3 class="subject" id="公共变量">公共变量 <a class="hashlink" href="#公共变量">#</a></h3><ul>
+<li><p>assert </p>
+<p>断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a></p>
+</li><li><p>status</p>
+<p>http 状态码</p>
+</li><li><p>body  </p>
+<p>返回 response body</p>
+</li><li><p>header </p>
+<p>返回 response header</p>
+</li><li><p>records </p>
+<p>记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
+</li></ul>
+<h3 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h3><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+assert.equal(body.data.group_name<span class="token punctuation">,</span> 'testGroup'<span class="token punctuation">)</span>
+</code></pre>
                     </div>
                 </div>
                  
@@ -201,7 +236,7 @@
         
         <footer class="footer">
             <div class="copyright">
-                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+                &copy; 2016 <a href="https://github.com/ymfe/yapi">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
             </div>
         </footer>
     </div>

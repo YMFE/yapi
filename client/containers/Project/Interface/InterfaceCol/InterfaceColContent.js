@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon, Button, Spin, Modal, message ,Select} from 'antd'
+//import constants from '../../../../constants/variable.js'
+import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
+import mockEditor from '../InterfaceList/mockEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
@@ -17,6 +18,8 @@ import URL from 'url';
 import Mock from 'mockjs'
 import json5 from 'json5'
 import CaseReport from './CaseReport.js'
+import _ from 'underscore'
+
 const MockExtra = require('common/mock-extra.js')
 const Option = Select.Option;
 function json_parse(data) {
@@ -26,7 +29,14 @@ function json_parse(data) {
     return data
   }
 }
-const HTTP_METHOD = constants.HTTP_METHOD;
+
+function handleReport(json){
+  try{
+    return JSON.parse(json);
+  }catch(e){
+    return {};
+  }
+}
 
 
 @connect(
@@ -73,7 +83,11 @@ class InterfaceColContent extends Component {
       reports: {},
       visible: false,
       curCaseid: null,
-      hasPlugin: false
+      hasPlugin: false,
+      currColEnv: '',
+      advVisible: false,
+      curScript: '',
+      enableScript: false
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -84,12 +98,15 @@ class InterfaceColContent extends Component {
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    currColId = +actionId ||
-      result.payload.data.data.find(item => +item._id === +currColId) && +currColId ||
+    this.currColId = currColId = +actionId ||
       result.payload.data.data[0]._id;
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     if (currColId && currColId != 0) {
-      await this.props.fetchCaseList(currColId);
+      let result = await this.props.fetchCaseList(currColId);
+      if(result.payload.data.errcode === 0){
+        this.reports = handleReport(result.payload.data.colData.test_report);
+      }
+      
       this.props.setColData({ currColId: +currColId, isShowCol: true })
       this.handleColdata(this.props.currCaseList)
     }
@@ -111,6 +128,7 @@ class InterfaceColContent extends Component {
         })
       }
     }, 500)
+
   }
 
   componentWillUnmount() {
@@ -155,28 +173,10 @@ class InterfaceColContent extends Component {
         status = 'error';
         result = e;
       }
-      
-      let query = this.arrToObj(curitem.req_query);
-      if(!query || typeof query !== 'object'){
-        query = {};
-      }
-      let body = {};
-      if(HTTP_METHOD[curitem.method].request_body){
-        if(curitem.req_body_type === 'form'){
-          body = this.arrToObj(curitem.req_body_form);
-        }else {
-          body = isJson(curitem.req_body_other);
-        }
-        
-        if(!body || typeof body !== 'object'){
-          body = {};
-        }
-      }
 
-      let params = Object.assign({}, query, body);
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
-        params: params,
+        params: result.params,
         body: result.res_body
       };
 
@@ -187,24 +187,31 @@ class InterfaceColContent extends Component {
         rows: newRows
       })
     }
+    await axios.post('/api/col/up_col', { col_id: this.props.currColId, test_report: JSON.stringify(this.reports) })
   }
 
-  handleTest = (interfaceData) => {
+  handleTest = async (interfaceData) => {
     const { currProject } = this.props;
-    const { case_env } = interfaceData;
+    let requestParams = {};
+    let { case_env } = interfaceData;
     let path = URL.resolve(currProject.basepath, interfaceData.path);
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
-      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+      let val = this.handleValue(item.value);
+      requestParams[item.name] = val;
+      path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const domains = currProject.env.concat();
-    let currDomain = domains.find(item => item.name === case_env);
-    if(!currDomain){
+
+    case_env = this.state.currColEnv ? this.state.currColEnv : case_env ;
+    
+    let currDomain = _.find(domains, item => item.name === case_env);
+    if (!currDomain) {
       currDomain = domains[0];
     }
     const urlObj = URL.parse(currDomain.domain);
-    if(urlObj.pathname){
-      if(urlObj.pathname[urlObj.pathname.length - 1] !== '/'){
+    if (urlObj.pathname) {
+      if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
         urlObj.pathname += '/'
       }
     }
@@ -213,92 +220,139 @@ class InterfaceColContent extends Component {
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
       pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
-      query: this.getQueryObj(interfaceData.req_query)
+      query: this.getQueryObj(interfaceData.req_query, requestParams)
     });
 
+    let result = { code: 400, msg: '数据异常', validRes: [] };
+    let that = this;
 
-    return new Promise((resolve, reject) => {
-      let result = { code: 400, msg: '数据异常', validRes: [] };
-      let that = this;
-
-      result.url = href;
-      result.method = interfaceData.method;
-      result.headers = that.getHeadersObj(interfaceData.req_headers);
-      if(interfaceData.req_body_type === 'form'){
-        result.body = that.arrToObj(interfaceData.req_body_form)
-      }else{
-        let reqBody = isJson(interfaceData.req_body_other);
-        if(reqBody === false){
-          result.body = this.handleValue(interfaceData.req_body_other)
-        }else{
-          result.body = JSON.stringify(this.handleJson(reqBody))
-        }
-        
+    result.url = href;
+    result.method = interfaceData.method;
+    result.headers = that.getHeadersObj(interfaceData.req_headers);
+    if (interfaceData.req_body_type === 'form') {
+      result.body = that.arrToObj(interfaceData.req_body_form, requestParams)
+    } else {
+      let reqBody = isJson(interfaceData.req_body_other);
+      if (reqBody === false) {
+        result.body = this.handleValue(interfaceData.req_body_other)
+      } else {
+        reqBody = this.handleJson(reqBody)
+        requestParams = Object.assign(requestParams, reqBody);
+        result.body = JSON.stringify(reqBody)
       }
-     
-      window.crossRequest({
+
+    }
+    try{
+      let data =await this.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: result.body,
-        success: (res, header) => {
-          res = json_parse(res);
-          result.res_header = header;
-          result.res_body = res;
-          if (res && typeof res === 'object') {
-            let tpl = MockExtra(json_parse(interfaceData.res_body), {
-              query: interfaceData.req_query,
-              body: interfaceData.req_body_form
-            })
-
-            let validRes = [];
-            if (interfaceData.mock_verify) {
-              validRes = Mock.valid(tpl, res);
-            }
-            if (validRes.length === 0) {
-              result.code = 0;
-              result.validRes = [{ message: '验证通过' }];
-              resolve(result);
-            } else if (validRes.length > 0) {
-              result.code = 1;
-              result.validRes = validRes;
-              resolve(result)
-            }
-          } else {
-            reject(result)
-          }
-        },
-        error: (err, header) => {
-          try {
-            err = json_parse(err);
-          } catch (e) {
-            console.log(e)
-          }
-
-          err = err || '请求异常';
-          result.code = 400;
-          result.res_header = header;
-          result.res_body = err;
-          reject(result)
-        }
+        data: result.body
       })
+      let res = data.res.body = json_parse(data.res.body);
+      let header = data.res.header;
+      result.res_header = header;
+      result.res_body = res;
+      result.params = requestParams;
+      let validRes = [];
+      if (res && typeof res === 'object') {            
+        if (interfaceData.mock_verify) {
+          let tpl = MockExtra(json_parse(interfaceData.res_body), {
+            query: interfaceData.req_query,
+            body: interfaceData.req_body_form
+          })
+          validRes = Mock.valid(tpl, res);
+        }
+      }
+      let responseData = Object.assign({}, {
+        status:data.res.status,
+        body: res,
+        header: data.res.header,
+        statusText: data.res.statusText
+      })
+      await that.handleScriptTest(interfaceData, responseData, validRes, requestParams);
+      if (validRes.length === 0) {
+        result.code = 0;
+        result.validRes = [{ message: '验证通过' }];
+      } else if (validRes.length > 0) {
+        result.code = 1;
+        result.validRes = validRes;
+      }
+      return result;
+
+    }catch(data){
+      if(data.err){
+        data.err = data.err || '请求异常';
+        try {
+          data.err = json_parse( data.err);
+        } catch (e) {
+          console.log(e)
+        }
+        result.res_body = data.err;
+        result.res_header = data.header;       
+      }else{
+        result.res_body = data.message;
+      }
+      
+      result.code = 400;
+      return result;
+    }
+  }
+
+  crossRequest = (options)=>{
+    return new Promise((resolve, reject)=>{
+      options.success = function(res, header, data){
+        resolve(data);
+      }
+      options.error = function(err, header){
+        reject({
+          err,
+          header
+        })
+      }
+      window.crossRequest(options);
     })
   }
 
-  handleJson = (data)=>{
-    if(!data){
+  //response, validRes
+  handleScriptTest =async (interfaceData,response, validRes, requestParams)=>{
+    if(interfaceData.enable_script !== true){
+      return null;
+    }
+    try{
+      let test = await axios.post('/api/col/run_script', {
+        response: response,
+        records: this.records,
+        script: interfaceData.test_script,
+        params: requestParams
+      })
+      if(test.data.errcode !== 0){
+        validRes.push({
+          message: test.data.data[0]
+        })
+      }
+    }catch(err){
+      console.log(err);
+      validRes.push({
+        message: err.message
+      })
+    }
+  }
+
+  handleJson = (data) => {
+    if (!data) {
       return data;
     }
-    if(typeof data === 'string'){
+    if (typeof data === 'string') {
       return this.handleValue(data);
-    }else if(typeof data === 'object'){
-      for(let i in data){
+    } else if (typeof data === 'object') {
+      for (let i in data) {
         data[i] = this.handleJson(data[i]);
       }
-    }else{
+    } else {
       return data;
     }
-    return data;    
+    return data;
   }
 
   handleValue = (val) => {
@@ -312,25 +366,31 @@ class InterfaceColContent extends Component {
     return val;
   }
 
-  arrToObj = (arr) => {
+  arrToObj = (arr, requestParams) => {
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.enable && item.type !== 'file') {
-        obj[item.name] = this.handleValue(item.value);
+         obj[item.name] = this.handleValue(item.value);
+         if(requestParams){
+          requestParams[item.name] = obj[item.name];
+         }
       }
     })
     return obj;
   }
 
-  
 
-  getQueryObj = (query) => {
+
+  getQueryObj = (query, requestParams) => {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
         queryObj[item.name] = this.handleValue(item.value);
+        if(requestParams){
+          requestParams[item.name] = queryObj[item.name];
+         }
       }
     })
     return queryObj;
@@ -364,7 +424,6 @@ class InterfaceColContent extends Component {
         index: index
       })
     })
-
     axios.post('/api/col/up_col_index', changes).then()
     if (rows) {
       this.setState({ rows });
@@ -372,17 +431,12 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    const { interfaceColList } = nextProps;
-    const { actionId: oldColId, id } = this.props.match.params
-    let newColId = nextProps.match.params.actionId
-    if (!interfaceColList.find(item => +item._id === +newColId)) {
-      this.props.history.push('/project/' + id + '/interface/col/' + interfaceColList[0]._id)
-    } else if ((oldColId !== newColId) || interfaceColList !== this.props.interfaceColList) {
-      if (newColId && newColId != 0) {
-        await this.props.fetchCaseList(newColId);
-        this.props.setColData({ currColId: +newColId, isShowCol: true })
-        this.handleColdata(this.props.currCaseList)
-      }
+    let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId :  0;
+    if(newColId && this.currColId && newColId !== this.currColId){
+      this.currColId = newColId;    
+      await this.props.fetchCaseList(newColId);
+      this.props.setColData({ currColId: +newColId, isShowCol: true })
+      this.handleColdata(this.props.currCaseList)
     }
   }
 
@@ -394,7 +448,57 @@ class InterfaceColContent extends Component {
       visible: true,
       curCaseid: id
     })
+  }
 
+  openAdv = (id) => {
+    let findCase = _.find(this.props.currCaseList, item=> item.id === id)
+
+    this.setState({   
+      enableScript: findCase.enable_script,
+      curScript: findCase.test_script,
+      advVisible: true,
+      curCaseid: id
+    }, () => {
+      let that = this;
+      if(that.Editor){
+        that.Editor.setValue(this.state.curScript);
+      }else{
+        that.Editor = mockEditor({
+          container: 'case-script',
+          data: this.state.curScript,
+          onChange: function (d) {
+            that.setState({
+              curScript: d.text
+            })
+          }
+        })
+      }      
+    })
+  }
+
+  handleAdvCancel = () => {
+    this.setState({
+      advVisible: false
+    });
+  }
+
+  handleAdvOk = async () => {
+    const {curCaseid, enableScript, curScript} = this.state;
+    const res = await axios.post('/api/col/up_case', {
+      id: curCaseid,
+      test_script: curScript,
+      enable_script: enableScript
+    });
+    if(res.data.errcode === 0){
+      message.success('更新成功');
+    }
+    this.setState({
+      advVisible: false
+    });
+    let currColId = this.currColId;
+    await this.props.fetchCaseList(currColId);
+    this.props.setColData({ currColId: +currColId, isShowCol: true })
+    this.handleColdata(this.props.currCaseList)
   }
 
   handleCancel = () => {
@@ -405,11 +509,12 @@ class InterfaceColContent extends Component {
 
   colEnvChange = (envName) => {
     let rows = [...this.state.rows];
-    for(var i in rows){
+    for (var i in rows) {
       rows[i].case_env = envName;
     }
     this.setState({
-      rows: [...rows]
+      rows: [...rows],
+      currColEnv: envName
     });
   }
 
@@ -463,15 +568,19 @@ class InterfaceColContent extends Component {
       },
       cell: {
         formatters: [(value, { rowData }) => {
-          switch (rowData.test_status) {
-            case 'ok':
-              return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
-            case 'error':
+          let id = rowData._id;
+          let code = this.reports[id] ? this.reports[id].code : 0;
+          if(rowData.test_status === 'loading'){
+            return <div ><Spin /></div>
+          }
+
+          switch (code) {
+            case 0:
+              return <div ><Tooltip title="Pass"><Icon style={{ color: '#00a854' }} type="check-circle" /></Tooltip></div>
+            case 400:
               return <div ><Tooltip title="请求异常"><Icon type="info-circle" style={{ color: '#f04134' }} /></Tooltip></div>
-            case 'invalid':
-              return <div ><Tooltip title="返回数据校验未通过"><Icon type="exclamation-circle" style={{ color: '#ffbf00' }} /></Tooltip></div>
-            case 'loading':
-              return <div ><Spin /></div>
+            case 1:
+              return <div ><Tooltip title="验证失败"><Icon type="exclamation-circle" style={{ color: '#ffbf00' }} /></Tooltip></div>
             default:
               return <div ><Icon style={{ color: '#00a854' }} type="check-circle" /></div>
           }
@@ -494,27 +603,34 @@ class InterfaceColContent extends Component {
           }
         ]
       }
-    }, {
+    },
+    {
       header: {
-        label: '测试报告'
+        label: '操作'
 
       },
       props: {
         style: {
-          width: '100px'
+          width: '200px'
         }
       },
       cell: {
         formatters: [(text, { rowData }) => {
-          if (!this.reports[rowData.id]) {
-            return null;
+          let reportFun = () => {
+            if (!this.reports[rowData.id]) {
+              return null;
+            }
+            return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
-          return <Button onClick={() => this.openReport(rowData.id)}>报告</Button>
+          return <div className="interface-col-table-action">
+            <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button>
+            {reportFun()}
+          </div>
         }]
       }
     }
     ];
-    const { rows } = this.state;
+    const { rows, currColEnv } = this.state;
     const components = {
       header: {
         cell: dnd.Header
@@ -535,16 +651,17 @@ class InterfaceColContent extends Component {
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
-          <Select defaultValue={"选择测试集合执行环境（不选即为默认环境）"} style={{ width: "300px" }} onChange={this.colEnvChange}>
+          <Select  value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
+            <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
             {
-              colEnv.map((item)=>{
-                return <Option key={item._id} value={item.name}>{item.name+": "+item.domain}</Option>;
+              colEnv.map((item) => {
+                return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
               })
             }
           </Select>
         </div>
-        {this.state.hasPlugin?
-          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button>:
+        {this.state.hasPlugin ?
+          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button> :
           <Tooltip title="请安装 cross-request Chrome 插件">
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
@@ -576,6 +693,21 @@ class InterfaceColContent extends Component {
           footer={null}
         >
           <CaseReport {...this.reports[this.state.curCaseid]} />
+        </Modal>
+
+        <Modal
+          title="自定义测试脚本"
+          width="660px"
+          style={{ minHeight: '500px' }}
+          visible={this.state.advVisible}
+          onCancel={this.handleAdvCancel}
+          onOk={this.handleAdvOk}
+        >
+          <h3>
+            是否开启:&nbsp;
+            <Switch checked={this.state.enableScript} onChange={e=>this.setState({enableScript: e})} />
+          </h3>
+          <div className="case-script" id="case-script" style={{ minHeight: 500 }}></div>
         </Modal>
       </div>
     )

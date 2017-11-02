@@ -10,18 +10,53 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Loading from './components/Loading/Loading';
 import MyPopConfirm from './components/MyPopConfirm/MyPopConfirm';
+// import statisticsPage from '../exts/yapi-plugin-statistics/statisticsClientPage/index';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
+const plugin = require('client/plugin.js');
 
 const LOADING_STATUS = 0;
 
 const alertContent = () => {
   const ua = window.navigator.userAgent,
-        isChrome = ua.indexOf("Chrome") && window.chrome;
+    isChrome = ua.indexOf("Chrome") && window.chrome;
   if (!isChrome) {
-    return <Alert style={{zIndex: 99}} message={'YApi 的接口测试等功能仅支持 Chrome 浏览器，请使用 Chrome 浏览器获得完整功能。'} banner closable />
+    return <Alert style={{ zIndex: 99 }} message={'YApi 的接口测试等功能仅支持 Chrome 浏览器，请使用 Chrome 浏览器获得完整功能。'} banner closable />
   }
 }
+
+let AppRoute = {
+  home: {
+    path: '/',
+    component: Home
+  },
+  group: {
+    path: '/group',
+    component: Group
+  },
+  project: {
+    path: '/project/:id',
+    component: Project
+  },
+  user: {
+    path: '/user',
+    component: User
+  },
+  follow: {
+    path: '/follow',
+    component: Follows
+  },
+  addProject: {
+    path: '/add-project',
+    component: AddProject
+  },
+  login: {
+    path: '/login',
+    component: Login
+  }
+};
+// 增加路由钩子
+plugin.emitHook('app_route', AppRoute);
 
 @connect(
   state => {
@@ -71,6 +106,18 @@ export default class App extends Component {
               {alertContent()}
               {this.props.loginState !== 1 ? <Header /> : null}
               <div className="router-container">
+                {Object.keys(AppRoute).map(key => {
+                  let item = AppRoute[key];
+                  return (
+                    key === 'login' ?
+                      <Route key={key} path={item.path} component={item.component} />
+                      : key === 'home' ? <Route key={key} exact path={item.path} component={item.component} />
+                        : <Route key={key} path={item.path} component={requireAuthentication(item.component)} />
+                  )
+                })
+                }
+              </div>
+              {/* <div className="router-container">
                 <Route exact path="/" component={Home} />
                 <Route path="/group" component={requireAuthentication(Group)} />
                 <Route path="/project/:id" component={requireAuthentication(Project)} />
@@ -78,11 +125,12 @@ export default class App extends Component {
                 <Route path="/follow" component={requireAuthentication(Follows)} />
                 <Route path="/add-project" component={requireAuthentication(AddProject)} />
                 <Route path="/login" component={Login} />
-              </div>
+                {/* <Route path="/statistic" component={statisticsPage} /> */}
+              {/* </div> */}
             </div>
-            <Footer/>
+            <Footer />
           </div>
-        </Router>
+        </Router >
 
       )
     }

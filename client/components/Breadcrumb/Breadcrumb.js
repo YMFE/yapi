@@ -1,10 +1,10 @@
 import './Breadcrumb.scss';
-import { withRouter } from 'react-router-dom';
-import { Breadcrumb } from 'antd';
+import {withRouter} from 'react-router-dom';
+import {Breadcrumb} from 'antd';
 import PropTypes from 'prop-types'
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom'
 
 @connect(
   state => {
@@ -18,10 +18,12 @@ export default class BreadcrumbNavigation extends Component {
   constructor(props) {
     super(props);
   }
+
   static propTypes = {
     breadcrumb: PropTypes.array
   }
-  render () {
+
+  render() {
     const getItem = this.props.breadcrumb.map((item, index) => {
       if (item.href) {
         return (<Breadcrumb.Item key={index}><Link to={item.href}>{item.name}</Link></Breadcrumb.Item>);

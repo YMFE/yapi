@@ -1,11 +1,16 @@
 const baseController = require('controllers/base.js');
-const advModel = require('./model.js');
+const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
+const caseModel = require('./caseModel.js');
+const userModel = require('models/user.js');
+const config = require('./index.js');
 
 class advMockController extends baseController{
   constructor(ctx){
     super(ctx);
     this.Model = yapi.getInst(advModel);
+    this.caseModel = yapi.getInst(caseModel);
+    this.userModel = yapi.getInst(userModel);
   }
 
   async getMock(ctx){
@@ -27,7 +32,6 @@ class advMockController extends baseController{
         return ctx.body =yapi.commons.resReturn(null, 408, '缺少project_id');
       }
 
-  
       let data = {
         interface_id: params.interface_id,
         mock_script: params.mock_script || '',
@@ -47,6 +51,107 @@ class advMockController extends baseController{
       return ctx.body = yapi.commons.resReturn(null, 400, e.message);
     }
   }
+
+  async list(ctx){
+    let id = ctx.query.interface_id;
+    if(!id){
+      return ctx.body = yapi.commons.resReturn(null, 400, '缺少 interface_id');
+    }
+    let result = await this.caseModel.list(id);
+    for(let i = 0, len = result.length; i < len; i++) {
+      let userinfo = await this.userModel.findById(result[i].uid);
+      result[i] = result[i].toObject();
+      result[i].username = userinfo.username;
+    }
+
+    ctx.body = yapi.commons.resReturn(result);
+  }
+
+  async getCase(ctx){
+    let id = ctx.query.id;
+    if(!id){
+      return ctx.body = yapi.commons.resReturn(null, 400, '缺少 id');
+    }
+    let result = await this.caseModel.get({
+      _id: id
+    })
+
+    ctx.body = yapi.commons.resReturn(result);
+  }
+
+  async saveCase(ctx){
+    let params = ctx.request.body;
+    if(!params.interface_id){
+      return ctx.body =yapi.commons.resReturn(null, 408, '缺少interface_id');
+    }
+    if(!params.project_id){
+      return ctx.body =yapi.commons.resReturn(null, 408, '缺少project_id');
+    }
+    let data = {
+      interface_id: params.interface_id,      
+      project_id: params.project_id,
+      ip_enable: params.ip_enable,
+      name: params.name,
+      params: params.params || [],
+      uid: this.getUid(),
+      code: params.code || 200,
+      delay: params.delay || 0,
+      headers: params.headers || [],
+      up_time: yapi.commons.time(),
+      res_body: params.res_body || '',
+      ip: params.ip
+    }
+
+    data.code = isNaN(data.code) ? 200 : +data.code;
+    data.delay = isNaN(data.delay) ? 0 : +data.delay;
+    if(config.httpCodes.indexOf(data.code) === -1){
+      return ctx.body =yapi.commons.resReturn(null, 408, '非法的 httpCode');
+    }
+
+    let findRepeat, findRepeatParams;
+    findRepeatParams = {
+      project_id: data.project_id,
+      interface_id: data.interface_id,
+      ip_enable: data.ip_enable
+    }
+
+    if(data.params && typeof data.params === 'object' && Object.keys(data.params).length >0){
+      for(let i in data.params){
+        findRepeatParams['params.' + i] = data.params[i];
+      }
+    }else{
+      findRepeatParams.params = null;
+    }
+
+    if(data.ip_enable){
+      findRepeatParams.ip = data.ip;
+    }
+
+    findRepeat = await this.caseModel.get(findRepeatParams);
+    if(findRepeat && findRepeat._id !== params.id){
+      return ctx.body = yapi.commons.resReturn(null,400, '已存在的期望');
+    }
+
+    let result;
+    if(params.id && !isNaN(params.id)){
+      data.id = +params.id;
+      result = await this.caseModel.up(data);
+    }else{
+      result = await this.caseModel.save(data);
+    }
+    return ctx.body = yapi.commons.resReturn(result);    
+  }
+
+  async delCase(ctx){
+    let id = ctx.request.body.id;
+    if(!id){
+      return ctx.body =yapi.commons.resReturn(null, 408, '缺少 id');
+    }
+    let result = await this.caseModel.del(id);
+    return ctx.body = yapi.commons.resReturn(result);
+  }
+
+
 }
 
 module.exports = advMockController;

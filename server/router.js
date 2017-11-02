@@ -146,7 +146,7 @@ let routerConfig = {
 		{
 			"action": "loginByToken",
 			"path": "login_by_token",
-			"method": "post"
+			"method": "all"
 		},
 		{
 			action: 'upStudy',
@@ -366,6 +366,10 @@ let routerConfig = {
 		action: "delCase",
 		path: "del_case",
 		method: "get"
+	},{
+		action: "runCaseScript",
+		path: "run_script",
+		method: "post"
 	}
 	],
 	"test": [{
@@ -430,7 +434,7 @@ for(let ctrl in routerConfig){
 				let routerController = INTERFACE_CONFIG[ctrl].controller;
 				let routerPath = INTERFACE_CONFIG[ctrl].prefix + item.path;
         createAction(routerController, item.action, routerPath, item.method);
-    } )
+    })
 }
 
 

@@ -22,15 +22,20 @@
         <header class="ydoc-header">
             <div class="ydoc-header-area">
                 
-                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                <a href="https://github.com/ymfe" class="navbar-brand">YMFE</a>
                 
                 <button class="ydocIcon navbar-toggle">&#xf020;</button>
                 <nav class="ydoc-nav">
                     <ul class="navbar-left">
                          
+                        <li class="">
+                            
+                            <a href="index.html">首页</a> 
+                        </li>
+                        
                         <li class="active">
                             
-                            <a href="index.html">使用手册</a> 
+                            <a href="usage.html">使用手册</a> 
                         </li>
                         
                         <li class="">
@@ -124,7 +129,7 @@
                                 <!-- <li  class="active"   class="active" > -->
                                 <li  class="active" >
                                     
-                                    <a href="mock.html">使用mock功能</a> 
+                                    <a href="mock.html">普通 Mock</a> 
                                 </li>
                                    
                                 <ul class="nav docs-sidenav-extend"  >
@@ -134,27 +139,29 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#定义mock数据示例">定义mock数据示例</a>
+                                        <a href="#定义 mock 数据示例">定义 mock 数据示例</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别</a>
+                                        <a href="#YApi-Mock 跟 Mockjs 区别">YApi-Mock 跟 Mockjs 区别</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#如何使用Mock?">如何使用Mock?</a>
+                                        <a href="#如何使用 Mock">如何使用 Mock</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#高级Mock">高级Mock</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#Mock语法规范">Mock语法规范</a>
+                                        <a href="#Mock 语法规范">Mock 语法规范</a>
                                     </li>
                                 
                                 </ul>
                                             
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="adv_mock.html">高级 Mock</a> 
+                                </li>
+                                  
                                 <!-- <li  > -->
                                 <li >
                                     
@@ -173,13 +180,15 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="Mock介绍">Mock介绍 <a class="hashlink" href="#Mock介绍">#</a></h2> <p style='text-indent:2em;line-height:1.8em'>YApi的Mock功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock规则(<a href="#mock">点击到Mock规则</a>）生成Mock接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的Mock方式如将Mock写在代码里和JS拦截等相比yapi的Mock在使用场景和效率和复杂度上是相差甚远的，正是由于yapi的Mock是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+                         <h2 class="subject" id="Mock介绍">Mock介绍 <a class="hashlink" href="#Mock介绍">#</a></h2> <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock 规则(<a href="#mock">点击到 Mock 规则</a>）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的 Mock 方式如将 Mock 写在代码里和JS拦截等相比 yapi 的 Mock 在使用场景和效率和复杂度上是相差甚远的，正是由于 yapi 的 Mock 是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
 
-<p> <strong>mock地址解析</strong>：yapi平台网址+mock+<strong>您的项目id</strong>+<strong>接口实际请求path</strong></p>
-<p> 假设你 YApi 的部署地址为：<a href="http://yapi.xxx.com，然后后面的都可以用这个地址作为示例">http://yapi.xxx.com，然后后面的都可以用这个地址作为示例</a></p>
-<pre><code>mockd地址： http<span class="token operator">:</span>//yapi.xxx.com/mock/<span class="token number">29</span>/api/hackathon/login
-</code></pre><p> 注：项目id可以在项目设置里查看到</p>
-<h2 class="subject" id="定义mock数据示例">定义mock数据示例 <a class="hashlink" href="#定义mock数据示例">#</a></h2><pre><code><span class="token punctuation">{</span>
+<p> <strong>mock地址解析</strong>：<code>YApi平台网址 + mock + 您的项目id + 接口实际请求path</code></p>
+<p> 假设你 YApi 的部署地址为：<a href="http://yapi.xxx.com">http://yapi.xxx.com</a> 然后用这个地址作为示例</p>
+<pre><code>mockd 地址： http<span class="token operator">:</span>//yapi.xxx.com/mock/<span class="token number">29</span>/api/hackathon/login
+</code></pre><blockquote>
+<p>注：项目 id 可以在项目设置里查看到</p>
+</blockquote>
+<h2 class="subject" id="定义_mock_数据示例">定义 mock 数据示例 <a class="hashlink" href="#定义_mock_数据示例">#</a></h2><pre><code><span class="token punctuation">{</span>
     <span class="token property">"status|0-1"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> //接口状态
     <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"请求完成"</span><span class="token punctuation">,</span> //消息提示
     <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -198,48 +207,41 @@
             <span class="token punctuation">}</span>
         <span class="token punctuation">]</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><h2 class="subject" id="YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别 <a class="hashlink" href="#YApi-Mock_跟_Mockjs_区别">#</a></h2><p><a href="http://mockjs.com">Mockjs 官网</a></p>
+</code></pre><h2 class="subject" id="YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别 <a class="hashlink" href="#YApi-Mock_跟_Mockjs_区别">#</a></h2><p><a href="http://mockjs.com/examples.html">Mockjs 官网</a></p>
 <p>1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
 <pre><code><span class="token punctuation">{</span>
   <span class="token property">"name|regexp"</span><span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>
   <span class="token property">"type|regexp"</span><span class="token operator">:</span> <span class="token string">"json|text|xml"</span> //枚举数据类型可这样实现
 <span class="token punctuation">}</span>
-</code></pre><p>2 支持替换请求的query,body参数</p>
+</code></pre><p>2 支持替换请求的 query, body 参数</p>
 <pre><code><span class="token punctuation">{</span>
   <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"${query.name}"</span><span class="token punctuation">,</span> //请求的url是/path?name=xiaoming<span class="token punctuation">,</span> 返回的name字段是xiaoming
   <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"${body.type}"</span>   //请求的requestBody type=<span class="token number">1</span><span class="token punctuation">,</span>返回的type字段是<span class="token number">1</span>
 <span class="token punctuation">}</span>
-</code></pre><h2 class="subject" id="如何使用Mock?">如何使用Mock? <a class="hashlink" href="#如何使用Mock?">#</a></h2><h3 class="subject" id="1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">1 在js代码直接请求yapi提供的mock地址（不用担心跨域问题） <a class="hashlink" href="#1_在js代码直接请求yapi提供的mock地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求yapi提供的mock地址，以jQuery为例：</p>
+</code></pre><h2 class="subject" id="如何使用_Mock">如何使用 Mock <a class="hashlink" href="#如何使用_Mock">#</a></h2><h3 class="subject" id="1_在_js_代码直接请求yapi提供的_mock_地址（不用担心跨域问题）">1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题） <a class="hashlink" href="#1_在_js_代码直接请求yapi提供的_mock_地址（不用担心跨域问题）">#</a></h3><p>在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：</p>
 <pre><code class="lang-javascript"><span class="token keyword">let</span> prefix <span class="token operator">=</span> <span class="token string">'http://yapi.xxx.com/mock/2817'</span>
 $<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>prefix<span class="token operator">+</span><span class="token string">'/baseapi/path'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>username<span class="token punctuation">:</span> <span class="token string">'xxx'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//返回上图预览部分的数据</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <h3 class="subject" id="2_基于本地服务器反向代理">2 基于本地服务器反向代理 <a class="hashlink" href="#2_基于本地服务器反向代理">#</a></h3><p>优点:不用修改项目代码</p>
-<h4 class="subject" id="2.1_基于nginx反向代理">2.1 基于nginx反向代理 <a class="hashlink" href="#2.1_基于nginx反向代理">#</a></h4><pre><code class="lang-nginx"><span class="token keyword">location</span> <span class="token operator">/</span>baseapi
+<h4 class="subject" id="2.1_基于_nginx_反向代理">2.1 基于 nginx 反向代理 <a class="hashlink" href="#2.1_基于_nginx_反向代理">#</a></h4><pre><code class="lang-nginx"><span class="token keyword">location</span> <span class="token operator">/</span>baseapi
 <span class="token punctuation">{</span>
 <span class="token keyword">proxy_pass</span>   <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yapi<span class="token punctuation">.</span>xxx<span class="token punctuation">.</span>com<span class="token operator">/</span>mock<span class="token operator">/</span><span class="token number">2817</span><span class="token operator">/</span>baseapi<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">#baseapi后面没有"/"</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h4 class="subject" id="2.2_基于ykit_mock功能">2.2 基于ykit mock功能 <a class="hashlink" href="#2.2_基于ykit_mock功能">#</a></h4><pre><code class="lang-javascript"><span class="token punctuation">{</span>
+<h4 class="subject" id="2.2_基于_ykit_mock功能">2.2 基于 ykit mock功能 <a class="hashlink" href="#2.2_基于_ykit_mock功能">#</a></h4><pre><code class="lang-javascript"><span class="token punctuation">{</span>
     pattern<span class="token punctuation">:</span> <span class="token regex">/\/api\/(.*)/</span><span class="token punctuation">,</span>
     responder<span class="token punctuation">:</span> <span class="token string">'http://yapi.xxx.com/mock/58/api/$1'</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>上面通过正则匹配，将所有接口转到 <a href="http://yapi.xxx.com">http://yapi.xxx.com</a> 上，比如 <code>http://localhost/api/user/status</code> 会成为 <code>http://yapi.xxx.com/mock/58/api/user/status</code></p>
 <p>详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a></p>
-<h4 class="subject" id="2.3_基于ykit_Jerry代理">2.3 基于ykit Jerry代理 <a class="hashlink" href="#2.3_基于ykit_Jerry代理">#</a></h4><p>假设您本地服务器访问地址是： <a href="http://xxx.com">http://xxx.com</a></p>
+<h4 class="subject" id="2.3_基于_ykit_Jerry_代理">2.3 基于 ykit Jerry 代理 <a class="hashlink" href="#2.3_基于_ykit_Jerry_代理">#</a></h4><p>假设您本地服务器访问地址是： <a href="http://xxx.com">http://xxx.com</a></p>
 <p><img src="./images/ykit.jpg" /></p>
 <p><span id="mock"></span></p>
-<h2 class="subject" id="高级Mock">高级Mock <a class="hashlink" href="#高级Mock">#</a></h2><p>在前端开发阶段，对于某些接口，业务相对复杂，而 UI 端也需要根据接口返回的不同内容去做相应的处理</p>
-<p>YApi 提供了写 js 脚本方式处理这一问题，可以根据用户请求的参数修改返回内容。</p>
-<h3 class="subject" id="全局变量">全局变量 <a class="hashlink" href="#全局变量">#</a></h3><ol>
-<li>mockJson</li><li>query</li><li>body</li><li>header</li><li>cookie</li></ol>
-<h3 class="subject" id="使用方法">使用方法 <a class="hashlink" href="#使用方法">#</a></h3><ol>
-<li>首先开启此功能</li><li>mock脚本就是用 javascript 对 mockJson 变量修改</li></ol>
-<h3 class="subject" id="示例：">示例： <a class="hashlink" href="#示例：">#</a></h3><p><img class="doc-img" style="width: 80%" src="./images/usage/adv-mock.jpg" /></p>
-<h2 class="subject" id="Mock语法规范">Mock语法规范 <a class="hashlink" href="#Mock语法规范">#</a></h2><blockquote>
-<p>了解更多Mock详情：<a href="https://github.com/nuysoft/Mock/wiki/Syntax-Specification">Mock.js 官方文档</a></p>
+<h2 class="subject" id="Mock_语法规范">Mock 语法规范 <a class="hashlink" href="#Mock_语法规范">#</a></h2><blockquote>
+<p>了解更多Mock详情：<a href="http://mockjs.com/examples.html">Mock.js 官方文档</a></p>
 </blockquote>
 <p>Mock.js 的语法规范包括两部分：</p>
 <p><a href="#DTD">1. 数据模板定义规范（Data Template Definition，DTD）</a></p>
@@ -357,7 +359,7 @@ name<span class="token operator">:</span> <span class="token punctuation">{</spa
         
         <footer class="footer">
             <div class="copyright">
-                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+                &copy; 2016 <a href="https://github.com/ymfe/yapi">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
             </div>
         </footer>
     </div>
