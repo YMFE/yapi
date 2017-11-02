@@ -8,7 +8,7 @@ module.exports = function(){
     addRouter({
       controller: controller,
       method: 'get',
-      path: 'export/html',
+      path: 'export/htdasml',
       action: 'exportHtml'
     })
   })
