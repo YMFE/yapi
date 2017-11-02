@@ -71,3 +71,32 @@ body, h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 }
+
+.ydoc .ydoc-banner-home .home-desc{
+  padding: 0 1rem .16rem;
+  font-weight: normal;
+  font-size: 20px;
+}
+.logo {
+  align-items: center;
+  padding: 0 .24rem;
+}
+
+.logo .name{
+  font-size: 50px
+}
+
+.svg {
+  animation: spin 5s linear infinite;
+}
+
+
+@keyframes spin
+{
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
