@@ -9,6 +9,7 @@ const REGISTER = 'yapi/user/REGISTER';
 const SET_BREADCRUMB = 'yapi/user/SET_BREADCRUMB';
 const CHANGE_STUDY_TIP = 'yapi/user/CHANGE_STUDY_TIP';
 const FINISH_STUDY = 'yapi/user/FINISH_STUDY';
+const SET_IMAGE_URL = 'yapi/user/SET_IMAGE_URL';
 
 // Reducer
 const LOADING_STATUS = 0;
@@ -32,7 +33,8 @@ const initialState = {
   // }]
   breadcrumb: [],
   studyTip: 0,
-  study: false
+  study: false,
+  imageUrl: ''
 };
 
 export default (state = initialState, action) => {
@@ -41,8 +43,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: (action.payload.data.errcode == 0),
-        role: action.payload.data.data ? action.payload.data.data.role:null,
-        loginState: (action.payload.data.errcode == 0)?MEMBER_STATUS:GUEST_STATUS,
+        role: action.payload.data.data ? action.payload.data.data.role : null,
+        loginState: (action.payload.data.errcode == 0) ? MEMBER_STATUS : GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
         uid: action.payload.data.data ? action.payload.data.data._id : null,
         type: action.payload.data.data ? action.payload.data.data.type : null,
@@ -66,7 +68,7 @@ export default (state = initialState, action) => {
       }
     }
     case LOGIN_OUT: {
-      return{
+      return {
         ...state,
         isLogin: false,
         loginState: GUEST_STATUS,
@@ -102,7 +104,7 @@ export default (state = initialState, action) => {
     case CHANGE_STUDY_TIP: {
       return {
         ...state,
-        studyTip:  state.studyTip + 1
+        studyTip: state.studyTip + 1
       }
     }
     case FINISH_STUDY: {
@@ -112,6 +114,14 @@ export default (state = initialState, action) => {
         studyTip: 0
       };
     }
+
+    case SET_IMAGE_URL: {
+      // console.log('state', state);
+      return {
+        ...state,
+        imageUrl: action.data
+      }
+    }
     default:
       return state;
   }
@@ -119,7 +129,7 @@ export default (state = initialState, action) => {
 
 // Action Creators
 export function checkLoginState() {
-  return(dispatch)=> {
+  return (dispatch) => {
     axios.get('/api/user/status').then((res) => {
       dispatch({
         type: GET_LOGIN_STATE,
@@ -157,17 +167,26 @@ export function logoutActions() {
 }
 
 export function loginTypeAction(index) {
-  return{
+  return {
     type: LOGIN_TYPE,
     index
   }
 }
 
 export function setBreadcrumb(data) {
-  return{
+  return {
     type: SET_BREADCRUMB,
     data
   }
+}
+
+export function setImageUrl(data) {
+  
+  return {
+    type: SET_IMAGE_URL,
+    data
+  }
+
 }
 
 export function changeStudyTip() {

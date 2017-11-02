@@ -170,7 +170,11 @@ const ToolUser = (props) => {
             />
           }>
           <a className="dropdown-link">
-            <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+            {/* <Avatar src={props.url + props.uid}></Avatar> */}
+            {
+              props.imageUrl? <Avatar src={props.imageUrl} />: <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
+            }
+           
             {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
             {/*<span className="name">{props.user}</span>*/}
             <span className="name"><Icon type="down" /></span>
@@ -190,7 +194,8 @@ ToolUser.propTypes = {
   logout: PropTypes.func,
   groupList: PropTypes.array,
   studyTip: PropTypes.number,
-  study: PropTypes.bool
+  study: PropTypes.bool,
+  imageUrl: PropTypes.any
 };
 
 
@@ -203,7 +208,8 @@ ToolUser.propTypes = {
       role: state.user.role,
       login: state.user.isLogin,
       studyTip: state.user.studyTip,
-      study: state.user.study
+      study: state.user.study,
+      imageUrl: state.user.imageUrl
     }
   },
   {
@@ -234,7 +240,8 @@ export default class HeaderCom extends Component {
     history: PropTypes.object,
     location: PropTypes.object,
     study: PropTypes.bool,
-    studyTip: PropTypes.number
+    studyTip: PropTypes.number,
+    imageUrl:PropTypes.any
   }
   linkTo = (e) => {
     if (e.key != '/doc') {
@@ -281,7 +288,7 @@ export default class HeaderCom extends Component {
 
 
   render() {
-    const { login, user, msg, uid, role, studyTip, study } = this.props;
+    const { login, user, msg, uid, role, studyTip, study,imageUrl } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
@@ -296,7 +303,7 @@ export default class HeaderCom extends Component {
             style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}>
             {login ?
               <ToolUser
-                {...{ studyTip, study, user, msg, uid, role }}
+                {...{ studyTip, study, user, msg, uid, role, imageUrl }}
                 relieveLink={this.relieveLink}
                 logout={this.logout}
               />

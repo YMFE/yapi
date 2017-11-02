@@ -2,6 +2,7 @@
 
 .interface-edit{
   padding: 24px;
+  // overflow: hidden;
   .interface-edit-item{
     margin-bottom: 16px;
   }
@@ -19,11 +20,30 @@
     margin-left: 5px;
     cursor: pointer
   }
+  .interface-edit-direc-icon{
+    margin-top: 5px;
+    margin-left: 5px;
+    cursor: pointer
+  }
   .ant-select-selection__rendered{
     line-height: 34px;
   }
   .interace-edit-desc{
     height: 250px;
+  }
+  .ant-affix{
+    background-color: #f3f4f6;
+     padding: 16px 0;
+     z-index: 10002;
+  }
+  .interface-edit-submit-button{
+      background-color: #32325d;
+      color: #fff;
+  }
+
+  .interface-edit-submit-button:hover{
+    color: #32325d;
+    border-color: #32325d;
   }
 }
 

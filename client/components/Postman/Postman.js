@@ -262,7 +262,7 @@ export default class Run extends Component {
           } else if (that.state.bodyType === 'json') {
             body = json_parse(that.state.bodyOther);
           }
-          if (res_body && res_body_type === 'json' && typeof res === 'object') {
+          if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
             let tpl = MockExtra(json_parse(res_body), {
               query: query,
               body: body

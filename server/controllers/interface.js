@@ -120,11 +120,13 @@ class interfaceController extends baseController {
             };
 
             if (!_.isUndefined(params.req_query)) {
-                data.req_query = params.req_query;
+                data.req_query = this.requiredSort(params.req_query);
+                // data.req_query = params.req_query;
             }
 
             if (!_.isUndefined(params.req_body_form)) {
-                data.req_body_form = params.req_body_form;
+                data.req_body_form = this.requiredSort(params.req_body_form);
+                // data.req_body_form = params.req_body_form;
             }
 
             if (params.path.indexOf(":") > 0) {
@@ -132,7 +134,7 @@ class interfaceController extends baseController {
                 for (i = 1; i < paths.length; i++) {
                     if (paths[i][0] === ':') {
                         name = paths[i].substr(1);
-                        if (!_.find(params.req_params, {name: name})) {
+                        if (!_.find(params.req_params, { name: name })) {
                             params.req_params.push({
                                 name: name,
                                 desc: ''
@@ -165,7 +167,7 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
-                this.projectModel.up(params.project_id, {up_time: new Date().getTime()}).then();
+                this.projectModel.up(params.project_id, { up_time: new Date().getTime() }).then();
                 //let project = await this.projectModel.getBaseInfo(params.project_id);
                 // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
                 // this.sendNotice(params.project_id, {
@@ -441,7 +443,8 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_body_form)) {
-            data.req_body_form = params.req_body_form;
+            data.req_body_form = this.requiredSort(params.req_body_form);
+            // data.req_body_form = params.req_body_form;
         }
         if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
             if (Array.isArray(params.req_params) && params.req_params.length > 0) {
@@ -455,7 +458,9 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_query)) {
-            data.req_query = params.req_query;
+            // data.req_query = params.req_query;
+            data.req_query = this.requiredSort(params.req_query);
+            // console.log("req",this.requiredSort(params.req_query));
         }
 
         if (!_.isUndefined(params.req_body_other)) {
@@ -491,7 +496,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
-                this.projectModel.up(interfaceData.project_id, {up_time: new Date().getTime()}).then();
+                this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
             } else {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
@@ -503,7 +508,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
-                this.projectModel.up(interfaceData.project_id, {up_time: new Date().getTime()}).then();
+                this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
             }
             if (params.switch_notice === true) {
                 let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -569,7 +574,7 @@ class interfaceController extends baseController {
                     typeid: cate.project_id
                 });
             })
-            this.projectModel.up(data.project_id, {up_time: new Date().getTime()}).then();
+            this.projectModel.up(data.project_id, { up_time: new Date().getTime() }).then();
 
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
@@ -588,7 +593,7 @@ class interfaceController extends baseController {
                 userinfo = await userInst.findById(result.edit_uid);
                 data = {
                     errno: result.edit_uid,
-                    data: {uid: result.edit_uid, username: userinfo.username}
+                    data: { uid: result.edit_uid, username: userinfo.username }
                 }
             } else {
                 this.Model.upEditUid(id, this.getUid()).then()
@@ -777,6 +782,12 @@ class interfaceController extends baseController {
 
         });
 
+    }
+
+    requiredSort(params) {
+        return params.sort((item1, item2) => {
+            return item2.required - item1.required;
+        })
     }
 
 }

@@ -104,20 +104,21 @@ class ProjectList extends Component {
     let projectData = this.state.projectData;
     let noFollow = [];
     let followProject = [];
-    for(var i in projectData){
-      if(projectData[i].follow){
+    for (var i in projectData) {
+      if (projectData[i].follow) {
         followProject.push(projectData[i]);
-      }else{
+      } else {
         noFollow.push(projectData[i]);
       }
     }
-    followProject = followProject.sort((a,b)=>{
+    followProject = followProject.sort((a, b) => {
       return b.up_time - a.up_time;
     })
-    noFollow = noFollow.sort((a,b)=>{
+    noFollow = noFollow.sort((a, b) => {
       return b.up_time - a.up_time;
     })
-    projectData = [...followProject,...noFollow]
+    projectData = [...followProject, ...noFollow]
+    console.log('role', this.props.currGroup.role);
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -126,7 +127,7 @@ class ProjectList extends Component {
           </Col>
           <Col>
             {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
-              <Link to="/add-project"><Button type="primary">添加项目</Button></Link>:
+              <Link to="/add-project"><Button type="primary">添加项目</Button></Link> :
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
               </Tooltip>}
@@ -135,7 +136,7 @@ class ProjectList extends Component {
         <Row gutter={16}>
           {projectData.length ? projectData.map((item, index) => {
             return (
-              <Col xs={8} md={6} xl={4}  key={index}>
+              <Col xs={8} md={6} xl={4} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
           }) : <ErrMsg type="noProject" />}
