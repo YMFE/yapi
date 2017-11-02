@@ -81,7 +81,7 @@ class interfaceController extends baseController {
         let http_path = url.parse(params.path, true);
 
         if (!yapi.commons.verifyPath(http_path.pathname)) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+            return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
         }
 
 
@@ -395,7 +395,7 @@ class interfaceController extends baseController {
           let http_path = url.parse(params.path, true);
 
           if (!yapi.commons.verifyPath(http_path.pathname)) {
-              return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+              return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
           }
           params.query_path = {};
           params.query_path.path = http_path.pathname;
