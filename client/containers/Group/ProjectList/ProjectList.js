@@ -118,7 +118,6 @@ class ProjectList extends Component {
       return b.up_time - a.up_time;
     })
     projectData = [...followProject, ...noFollow]
-    console.log('role', this.props.currGroup.role);
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">

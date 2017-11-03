@@ -142,10 +142,9 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      console.log('add', res.data.data);
-      console.log('groupList', this.state.groupList);
-      // this.props.setCurrGroup(res.data.data);
-      this.props.setCurrGroup(this.state.groupList[1]);
+      const id = res.data.data._id;
+      const currGroup = _.find(this.props.groupList, (group) => { return +group._id === +id });
+      this.props.setCurrGroup(currGroup);
       this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
@@ -167,6 +166,7 @@ export default class GroupList extends Component {
 
       this.setState({ groupList: this.props.groupList });
       const currGroup = _.find(this.props.groupList, (group) => { return +group._id === +id });
+
       this.props.setCurrGroup(currGroup);
       // this.props.setCurrGroup({ group_name, group_desc, _id: id });
       this.props.fetchGroupMsg(this.props.currGroup._id);
