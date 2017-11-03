@@ -71,7 +71,10 @@ body, h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 }
-
+.ydoc .ydoc-banner-bg {
+  background: url(https://ws1.sinaimg.cn/large/006cGJIjly1fl42tf966mj31dr0aqahp.jpg) 0 top repeat-x;
+  background-color: #232323;
+}
 .ydoc .ydoc-banner-home .home-desc{
   padding: 0 1rem .16rem;
   font-weight: normal;
@@ -80,16 +83,41 @@ body, h1, h2, h3, h4, h5, h6 {
 .logo {
   align-items: center;
   padding: 0 .24rem;
+  display: flex;
+  justify-content: center;
 }
 
-.logo .name{
-  font-size: 50px
+.logo .name {
+  font-size: 50px;
+  color: #fff;
+  margin-left: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.ydoc .ydoc-banner-home {
+  padding: .6rem 0;
+}
+.ydoc .ydoc-banner-home .home-desc {
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
 }
 
 .svg {
   animation: spin 5s linear infinite;
 }
-
+.ydoc-container {
+  background-color: #fff;
+}
+.ydoc-container-content {
+  box-shadow: none;
+}
+.ydoc-banner-area h1 {
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+}
+.ydoc .ydoc-banner-bg .desc {
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+}
 
 @keyframes spin
 {
