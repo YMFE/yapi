@@ -7,7 +7,7 @@ module.exports = {
     "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi", //page title
-        "footer": "&copy; 2016 <a href=\"https://github.com/ymfe/yapi\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
+        "footer": "&copy; 2017 <a href=\"https://github.com/ymfe/yapi\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
         "home": "YMFE", // logo
         "homeUrl": "https://github.com/ymfe" // logourl
     },
@@ -34,21 +34,21 @@ module.exports = {
                     "title": "为 API 开发者设计的管理平台", // 介绍板块标题
                     "desc": "YApi 让接口开发更简单高效，让接口的管理更具可读性、可维护性，让团队协作更合理。" // 介绍板块描述
                 },{
-                    "title": "功能",
+                    "title": "",
                     "detail": {
                         "type": "thumbnail", // 三列布局的介绍板块
                         "content": [{ // 三列布局的内容，每项的key值非必需，但建议每列的key值一致
                             "name": "项目管理", // 板块名称
                             "src": "http://ojk406wln.bkt.clouddn.com/intro_muti.png", // 缩略图
-                            "desc": "YApi 成熟的团队管理，扁平化项目权限配置满足各类企业的需求" // 描述
+                            "desc": "YApi 成熟的团队管理<br>扁平化项目权限配置满足各类企业的需求" // 描述
                         },{
                             "name": "接口管理",
                             "src": "http://ojk406wln.bkt.clouddn.com/intro_md.png",
-                            "desc": "友好的接口文档，基于 websocket 的多人协作接口编辑功能和类 postman 测试工具，让多人协作成倍提升开发效率"
+                            "desc": "友好的接口文档<br>基于 websocket 的多人协作接口编辑功能和类 postman 测试工具，让多人协作成倍提升开发效率"
                         },{
                             "name": "MockServer",
                             "src": "http://ojk406wln.bkt.clouddn.com/intro_theme.png",
-                            "desc": "基于 Mockjs，使用简单功能强大"
+                            "desc": "基于 Mockjs<br>使用简单功能强大"
                         }]
                     }
                 }]
@@ -147,17 +147,17 @@ module.exports = {
     {
     "name": "devops",
     "title": "内网部署",
-    // "banner": {
-    //     "title": "YApi",
-    //     "description": "这里列举了 YApi 的历史版本、发布时间及变更记录，帮助你追溯到每个版本的演进过程。"
-    // },
+    "banner": {
+        "title": "内网部署",
+        "description": "部署 YApi 平台是非常容易的，即便您不懂 nodejs 或者 mongodb"
+    },
     "compile": "markdown",
     "menuLevel": 2,
     "content": "./doc/page/manage/build.md"
   },
     {
       "name": "plugin",
-      "title": "插件Wiki",
+      "title": "插件 Wiki",
       "banner": {
           "title": "插件",
           "description": "可根据业务需求，定制化功能"
@@ -165,8 +165,12 @@ module.exports = {
       "content": {
           "sidebar": true,
           "multi": true,
-          "index": "./doc/page/plugin/index.md",
+          "index": "./doc/page/plugin/redev.md",
           "pages": [{
+            "name": "二次开发",
+            "index": "redev",
+            "content": "./doc/page/plugin/redev.md"
+        },{
               "name": "插件管理",
               "index": "plugin-index",
               "content": "./doc/page/plugin/index.md"
@@ -189,6 +193,10 @@ module.exports = {
   {
     "name": "qa",
     "title": "常见问题",
+    "banner": {
+        "title": "常见问题",
+        "description": "这里列举了常见的问题"
+    },
     "compile": "markdown",
     "menuLevel": 2,
     "content": "./doc/page/usage/qa.md"
@@ -205,7 +213,7 @@ module.exports = {
     "content": "./CHANGELOG.md"
   },{
     "name": "demo站点",
-    "title": "demo站点",
+    "title": "demo 站点",
     "url": "http://yapi.demo.qunar.com/"
   },
     {

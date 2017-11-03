@@ -72,9 +72,14 @@ body, h1, h2, h3, h4, h5, h6 {
   font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 }
 .ydoc .ydoc-banner-bg {
-  background: url(https://ws1.sinaimg.cn/large/006cGJIjly1fl42tf966mj31dr0aqahp.jpg) 0 top repeat-x;
-  background-color: #232323;
+  /* background: url(https://ws1.sinaimg.cn/large/006cGJIjly1fl42tf966mj31dr0aqahp.jpg) 0 top repeat-x; */
+  /* background-color: #232323; */
+  /* background: linear-gradient(45deg,#020031 0,#6d3353 100%); */
+  background: linear-gradient(45deg,#03010e 0,#a75afb 100%);
+
 }
+
+
 .ydoc .ydoc-banner-home .home-desc{
   padding: 0 1rem .16rem;
   font-weight: normal;
@@ -127,4 +132,34 @@ body, h1, h2, h3, h4, h5, h6 {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.ydoc .ydoc-banner-home .home-btn{
+  color: #e5e6e6;
+  font-weight: 400;
+}
+
+.ydoc .ydoc-banner-home .home-version{
+  /* color: #969594; */
+  color: #cfcdd1;
+}
+
+.ydoc-header{
+  background: #fff;
+}
+
+.ydoc-header a, .ydoc-nav{
+  color: #333;
+}
+
+.ydoc-nav li a {
+  padding: 0 15px;
+  color: #4f2a7c;
+  font-weight: 400;
+  transition: all .4s;
+}
+
+.ydoc .home-page-desc{
+  color: #6b6868;
 }
