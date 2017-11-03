@@ -141,3 +141,26 @@ test('isDeepMatch', t=>{
 test('isDeepMatch', t=>{
   t.true(lib.isDeepMatch({a:1, b:2, c: {t:'ttt'}}, {c: {t:'ttt'}}))
 })
+
+test('isDeepMatch', t=>{
+  t.true(lib.isDeepMatch({}, undefined))
+})
+
+test('isDeepMatch', t=>{
+  t.true(lib.isDeepMatch(undefined, {}))
+})
+
+test('isDeepMatch', t=>{
+  t.false(lib.isDeepMatch(undefined, {a:1}))
+})
+
+test('isDeepMatch', t=>{
+  t.true(lib.isDeepMatch({ t: 1,
+    b: '2',
+    ip: '127.0.0.1',
+    interface_id: 1857,
+    ip_enable: true,
+    params: { a: 'x', b: 'y' },
+    res_body: '111',
+    code: 1 }, {t:'1'}))
+})

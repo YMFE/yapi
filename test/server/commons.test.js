@@ -39,7 +39,7 @@ test('handleParams', t=>{
 test('verifyPath', t=>{
     t.false(verifyPath('a/b'));
     t.true(verifyPath('/a:b/t/.api/k_-/tt'))
-    t.false(verifyPath('/a:b/t/.api/k_-/tt/'))
+    t.true(verifyPath('/a:b/t/.api/k_-/tt/'))
 })
 
 test('sandbox', t=>{

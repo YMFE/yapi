@@ -71,3 +71,113 @@ body, h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 }
+.ydoc .ydoc-banner-bg {
+  /* background: url(https://ws1.sinaimg.cn/large/006cGJIjly1fl42tf966mj31dr0aqahp.jpg) 0 top repeat-x; */
+  /* background-color: #232323; */
+  /* background: linear-gradient(45deg,#020031 0,#6d3353 100%); */
+  background: linear-gradient(45deg,#03010e 0,#a75afb 100%);
+
+}
+
+
+.ydoc .ydoc-banner-home .home-desc{
+  padding: 0 1rem .16rem;
+  font-weight: normal;
+  font-size: 20px;
+}
+.logo {
+  align-items: center;
+  padding: 0 .24rem;
+  display: flex;
+  justify-content: center;
+}
+
+.logo .name {
+  font-size: 50px;
+  color: #fff;
+  margin-left: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.ydoc .ydoc-banner-home {
+  padding: .6rem 0;
+}
+.ydoc .ydoc-banner-home .home-desc {
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.svg {
+  animation: spin 5s linear infinite;
+}
+.ydoc-container {
+  background-color: #fff;
+}
+.ydoc-container-content {
+  box-shadow: none;
+}
+.ydoc-banner-area h1 {
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+}
+.ydoc .ydoc-banner-bg .desc {
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+}
+
+@keyframes spin
+{
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.ydoc .ydoc-banner-home .home-btn{
+  color: #e5e6e6;
+  font-weight: 400;
+}
+
+.ydoc .ydoc-banner-home .home-version{
+  /* color: #969594; */
+  color: #cfcdd1;
+}
+
+.ydoc-header{
+  background: #fff;
+}
+
+.ydoc-header a, .ydoc-nav{
+  color: #333;
+}
+
+.ydoc-nav li a {
+  padding: 0 15px;
+  color: #4f2a7c;
+  font-weight: 400;
+  transition: all .4s;
+}
+
+.ydoc .home-page-desc{
+  color: #6b6868;
+}
+
+.ydoc .footer{
+  background-color: #f7f7f7;
+}
+
+.ydoc .footer .copyright {
+  font-size: 14px;
+  text-align: center;
+  color: #868e96;
+}
+
+.ydoc .footer .copyright a {
+  color: #495057;
+}
+
+.ydoc .ydoc-header .navbar-brand img{
+  width: 32px;
+}

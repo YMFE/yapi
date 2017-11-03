@@ -361,9 +361,7 @@ class groupController extends baseController {
             let projectInst = yapi.getInst(projectModel);
             let userInst = yapi.getInst(userModel);
             let result = await groupInst.list();
-            // let count = await groupInst.getListCount();
-            // let count = await projectInst.getProjectListCount();
-            // console.log('count', count);
+
             let privateGroup = await groupInst.getByPrivateUid(this.getUid());
             let newResult = [];
 

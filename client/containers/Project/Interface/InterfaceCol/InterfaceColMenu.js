@@ -180,7 +180,7 @@ export default class InterfaceColMenu extends Component {
         if (!res.data.errcode) {
           message.success('删除用例成功');
 
-          // 如果删除当前选中 case，切换路由到集合 
+          // 如果删除当前选中 case，切换路由到集合
           if (+caseId === +that.props.currCaseId) {
             that.props.history.push('/project/' + params.id + '/interface/col/')
           } else {
@@ -287,8 +287,6 @@ export default class InterfaceColMenu extends Component {
     //   });
     //   this.props.interfaceColList.caseList = caseList;
     // }
-    
-    
     return (
       <div>
         <div className="interface-filter">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Switch, Select, Icon, Modal, Col, Row, InputNumber, AutoComplete } from 'antd';
+import { Button, Form, Input, Switch, Select, Icon,message, Modal, Col, Row, InputNumber, AutoComplete } from 'antd';
 import { safeAssign } from '../../../client/common.js';
 import mockEditor from '../../../client/containers/Project/Interface/InterfaceList/mockEditor';
 import constants from '../../../client/constants/variable.js'
@@ -8,6 +8,8 @@ import { httpCodes } from '../index.js'
 import { connect } from 'react-redux'
 
 import './CaseDesModal.scss'
+require('brace/mode/text');
+const json5 = require('json5');
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -127,10 +129,11 @@ export default class CaseDesModal extends Component {
       caseData.params = params;
     } else {
       try {
-        caseData.params = JSON.parse(caseData.params)
+        caseData.params = json5.parse(caseData.params)
       } catch (error) {
-        caseData.params = {}
         console.log(error)
+        message.error('请求参数 json 格式有误，请修改')
+        return false;           
       }
     }
     delete caseData.paramsArr;
@@ -200,7 +203,7 @@ export default class CaseDesModal extends Component {
       })
     } else if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'json') {
       try {
-        const bodyObj = JSON.parse(req_body_other)
+        const bodyObj = json5.parse(req_body_other)
         keys = keys.concat(Object.keys(bodyObj))
       } catch (error) {
         console.log(error)
@@ -212,14 +215,23 @@ export default class CaseDesModal extends Component {
   loadBodyEditor = () => {
     const that = this;
     const { setFieldsValue } = this.props.form;
-    this.props.visible && mockEditor({
-      container: 'res_body_json',
-      data: that.props.caseData.res_body,
-      onChange: function (d) {
-        // if (d.format !== true) return false;
-        setFieldsValue({ res_body: d.text })
+    let editor;
+    if(this.props.visible){
+      editor = mockEditor({
+        container: 'res_body_json',
+        data: that.props.caseData.res_body,
+        onChange: function (d) {
+          // if (d.format !== true) return false;
+          setFieldsValue({ res_body: d.text })
+        }
+      })
+      if(this.props.currInterface.res_body_type !== 'json'){
+        editor.editor.getSession().setMode('ace/mode/text');
       }
-    });
+      
+    }
+    
+    
   }
   loadParamsEditor = () => {
     const that = this;
@@ -234,14 +246,14 @@ export default class CaseDesModal extends Component {
     });
   }
 
-  jsonValidator = (rule, value, callback) => {
-    try {
-      JSON.parse(value)
-      callback()
-    } catch (error) {
-      callback(new Error())
-    }
-  }
+  // jsonValidator = (rule, value, callback) => {
+  //   try {
+  //     JSON.parse(value)
+  //     callback()
+  //   } catch (error) {
+  //     callback(new Error())
+  //   }
+  // }
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
@@ -357,16 +369,6 @@ export default class CaseDesModal extends Component {
                   this.setState({ paramsForm: bool ? 'json' : 'form' })
                 }}
               />
-              {
-              // <RadioGroup
-              //   value={paramsForm}
-              //   size="small"
-              //   onChange={e => this.setState({ paramsForm: e.target.value })}
-              // >
-              //   <RadioButton value="form">Form</RadioButton>
-              //   <RadioButton value="json">JSON</RadioButton>
-              // </RadioGroup>
-              }
             </Col>
           </Row>
           {
@@ -427,7 +429,7 @@ export default class CaseDesModal extends Component {
               <Icon type="plus" /> 添加 HTTP 头
             </Button>
           </FormItem>
-          <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="返回 JSON" required>
+          <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="Body" required>
             <div id="res_body_json" style={{
               minHeight: "300px",
               border: "1px solid #d9d9d9",
@@ -436,9 +438,7 @@ export default class CaseDesModal extends Component {
             <FormItem
               {...formItemLayoutWithOutLabel}
             >
-              {getFieldDecorator('res_body', {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的返回 JSON 字符串！' }]
-              })(
+              {getFieldDecorator('res_body')(
                 <Input style={{display: 'none'}} />
               )}
             </FormItem>
