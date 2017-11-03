@@ -9,9 +9,11 @@ const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
 const Mock = require('mockjs');
 
 function arrToObj(arr){
-  let obj = {};
+  let obj = {'Set-Cookie': []};
   arr.forEach(item=>{
-    obj[item.name] = item.value;
+    if(item.name === 'Set-Cookie'){
+      obj['Set-Cookie'].push(item.value);
+    }else obj[item.name] = item.value;
   })
   return obj;
 }
@@ -59,7 +61,6 @@ module.exports = function(){
       }).select('_id params')
       list.forEach(item=>{
         let params = item.params;
-        console.log(reqParams, item.params)
         if(lib.isDeepMatch(reqParams, item.params)){
           matchList.push(item); 
         }
