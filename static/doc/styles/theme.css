@@ -185,3 +185,9 @@ body, h1, h2, h3, h4, h5, h6 {
 .ydoc .navbar-brand{
   font-weight: 500;
 }
+
+.ydoc .ydoc-banner-home .home-btn:hover{
+  background: #552d84;
+  border: 1px solid;
+  border-color: #fff;
+}
