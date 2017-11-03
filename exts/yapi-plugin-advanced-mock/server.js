@@ -36,7 +36,7 @@ module.exports = function(){
   })
 
   async  function checkCase(ctx, interfaceId){
-    let reqParams = Object.assign({}, ctx.query, ctx.body);
+    let reqParams = Object.assign({}, ctx.query, ctx.request.body);
     let caseInst = yapi.getInst(caseModel);
     let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
     //   数据库信息查询
@@ -51,7 +51,7 @@ module.exports = function(){
       if(lib.isDeepMatch(reqParams, params)){
         matchList.push(item); 
       }
-    })
+    })    
     if(matchList.length === 0){
       let list =await caseInst.model.find({
         interface_id: interfaceId,
@@ -65,7 +65,7 @@ module.exports = function(){
       })
     }
     if(matchList.length > 0){
-      let maxItem = _.max(matchList, item=> Object.keys(item.params).length);
+      let maxItem = _.max(matchList, item=> (item.params &&  Object.keys(item.params).length || 0 ));
       return maxItem;
     }
     return null;

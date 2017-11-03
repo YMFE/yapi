@@ -138,32 +138,12 @@
                                     <a href="adv_mock.html">高级 Mock</a> 
                                 </li>
                                   
-                                <!-- <li  class="active"   class="active" > -->
-                                <li  class="active" >
+                                <!-- <li  > -->
+                                <li >
                                     
                                     <a href="case.html">使用测试集</a> 
                                 </li>
-                                   
-                                <ul class="nav docs-sidenav-extend"  >
-                                
-                                    <li >
-                                        <a href="#介绍">介绍</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#测试列表">测试列表</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#编辑测试用例">编辑测试用例</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#自动化测试">自动化测试</a>
-                                    </li>
-                                
-                                </ul>
-                                            
+                                  
                                 <!-- <li  > -->
                                 <li >
                                     
@@ -176,57 +156,31 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="介绍">介绍 <a class="hashlink" href="#介绍">#</a></h2><p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集不但能够保存之前填写的参数，方便下次的调试，还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串，通过设置断言脚本验证返回数据的正确性，</p>
+                         <p>YApi 是高效、易用、功能强大的api管理平台。
+<!-- 它有扁平化的管理结构(`超管`-`组长`-`组员`)，有清晰的接口组织方式(`分组`-`项目`-`接口`)，有更方便的mock方案。 --></p>
+<p>在开始使用 YApi 之前，我们先来熟悉一下 YApi 的网站结构，这将让你快速了解YApi。</p>
+<h2 class="subject" id="登录与注册">登录与注册 <a class="hashlink" href="#登录与注册">#</a></h2><p>想要使用 YApi ，首先要注册账号。</p>
+<p><img src="./images/usage/login.png" /></p>
+<h2 class="subject" id="首页">首页 <a class="hashlink" href="#首页">#</a></h2><p>登录后进入首页，首页展示了分组与项目。</p>
+<p>此时你作为新用户，没有任何分组与项目的权限，因此只能搜索、浏览 “公开项目” 的接口，如果在首页找不到任何项目，请联系管理员将你加入对应项目。</p>
+<p><span class="list-index">1</span>首页头部展示了当前所在的位置、搜索框、新建项目、查看文档和用户信息。</p>
+<p><span class="list-index">2</span>首页左侧展示分组信息，“分组”是“项目”的集合，只有超级管理员可以管理分组。</p>
+<p><span class="list-index">3</span>首页右侧是分组下的项目和成员列表，点击左侧的某个分组，右侧会出现该分组下的项目和成员信息。</p>
+<p><span class="list-index">4</span>点击项目右上角的星星即可关注项目，关注的项目可以在“我的关注”页面查看。</p>
+<p><img src="./images/usage/index.png" /></p>
+<h2 class="subject" id="项目页">项目页 <a class="hashlink" href="#项目页">#</a></h2><p>点击一个项目，进入项目页，项目页展示了属于该项目的全部接口，并提供项目、接口的全部操作。</p>
+<p>此时你作为新用户，只能浏览接口信息，不可以编辑项目或接口，如果需要编辑，请联系管理员将你加入该项目。</p>
+<p><span class="list-index">1</span>项目页左侧的 “接口列表” 展示了该项目下的所有接口，右侧默认显示该项目下所有接口的列表。</p>
+<p><span class="list-index">2</span>点击左侧的某个接口，右侧会出现“预览”、“编辑”和“运行”。</p>
+<p><span class="list-index">3</span>点击左侧的 “测试集合” 使用<a href="./case.html">测试集</a>功能。</p>
+<p><span class="list-index">4</span>点击二级导航的“设置”，项目组长即可编辑项目信息和管理成员列表。</p>
+<p><span class="list-index">5</span>点击二级导航的“动态”，即可查看项目的操作日志。</p>
+<p><img src="./images/usage/project.png" /></p>
+<h2 class="subject" id="个人中心">个人中心 <a class="hashlink" href="#个人中心">#</a></h2><p>鼠标移动到右上角的用户头像或用户名上，即可点击“个人中心”查看个人信息。</p>
+<p><img src="./images/usage/hover.png" /></p>
+<p>在个人信息页面可以查看并修改自己的用户名、密码等信息。</p>
+<p><img src="./images/usage/user.png" /></p>
 
-<h2 class="subject" id="测试列表">测试列表 <a class="hashlink" href="#测试列表">#</a></h2><p><img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  /></p>
-<p>在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能</p>
-<p>点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整</p>
-<p>测试完成之后，点击报告查看该次请求的结果</p>
-<h2 class="subject" id="编辑测试用例">编辑测试用例 <a class="hashlink" href="#编辑测试用例">#</a></h2><h3 class="subject" id="Mock参数">Mock参数 <a class="hashlink" href="#Mock参数">#</a></h3><p>Mock 参数每次请求都会生成随机字符串</p>
-<p><img  class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg"  /></p>
-<h4 class="subject" id="变量参数">变量参数 <a class="hashlink" href="#变量参数">#</a></h4><p>YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 <code>参数</code> 或 <code>返回值</code> 作为 <code>后面接口的参数</code>，即使接口之间存在依赖，也可以轻松 <strong>一键测试~</strong></p>
-<p>格式：</p>
-<pre><code>$.<span class="token punctuation">{</span>key<span class="token punctuation">}</span>.<span class="token punctuation">{</span>params|body<span class="token punctuation">}</span>.<span class="token punctuation">{</span>path<span class="token punctuation">}</span>
-</code></pre><p>例如：现有两个接口，分别是“导航标题”和“文章列表”
-<img class="doc-img" style="width: 678px;" src="./images/usage/case_key_list.png" /></p>
-<p>文章列表接口需要传参数: <code>当前标题(id)</code>，而这个 id 需要通过 <code>导航标题</code> 的返回值获取，这时应在 <code>文章列表</code> 的参数输入框中根据前者的 key 找到对应 id。</p>
-<p><code>导航标题</code> 的参数和返回值有如下结构：</p>
-<div style="margin: 16px 0;">
-  <span style="display: inline-block; width: 60px;vertical-align: top;">参数：</span>
-  <img style="width: 165px;" src="./images/usage/case_key_res_query.png" />
-</div>
-<div style="margin: 16px 0;">
-  <span style="display: inline-block; width: 60px;vertical-align: top;">返回值：</span>
-  <img style="width: 122px;" src="./images/usage/case_key_res.png" />
-</div>
-
-<p>则 <code>文章列表</code> 的参数可以如下配置：
-<img  class="doc-img" style="width: 624px;" src="./images/usage/case_key_query.png" /></p>
-<p>其中 <strong>$.</strong> 是使用 <strong>动态变量</strong> 的标志，$.269.<strong>params</strong> 即表示 key 值为 269 用例的请求参数，$.269.<strong>body</strong> 即表示 key 值为 269 用例的返回值。</p>
-<blockquote>
-<p>Tips: 上下拖动测试集合的列表项可以调整测试的顺序。</p>
-</blockquote>
-<h2 class="subject" id="自动化测试">自动化测试 <a class="hashlink" href="#自动化测试">#</a></h2><p>可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用</p>
-<video style="width:800px" controls="controls" autoplay="autoplay">
-  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
-Your browser does not support the video tag.
-</video>
-
-<h3 class="subject" id="公共变量">公共变量 <a class="hashlink" href="#公共变量">#</a></h3><ul>
-<li><p>assert </p>
-<p>断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a></p>
-</li><li><p>status</p>
-<p>http 状态码</p>
-</li><li><p>body  </p>
-<p>返回 response body</p>
-</li><li><p>header </p>
-<p>返回 response header</p>
-</li><li><p>records </p>
-<p>记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
-</li></ul>
-<h3 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h3><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
-assert.equal(body.data.group_name<span class="token punctuation">,</span> 'testGroup'<span class="token punctuation">)</span>
-</code></pre>
                     </div>
                 </div>
                  

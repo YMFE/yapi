@@ -31,11 +31,11 @@ class statisMockController extends baseController {
      * @returns {Object}
      */
   async getStatisCount(ctx) {
- 
     let groupCount = await this.groupModel.getGroupListCount();
     let projectCount = await this.projectModel.getProjectListCount();
     let interfaceCount = await this.interfaceModel.getInterfaceListCount();
     let interfaceCaseCount = await this.interfaceCaseModel.getInterfaceCaseListCount();
+
     return ctx.body = yapi.commons.resReturn({ groupCount, projectCount, interfaceCount, interfaceCaseCount });
   }
 

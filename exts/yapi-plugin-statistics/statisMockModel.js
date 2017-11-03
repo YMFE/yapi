@@ -30,7 +30,6 @@ class statisMockModel extends baseModel {
     }
 
     getDayCount(timeInterval) {
-        // console.log(this.model.count({}));
         let end = timeInterval[1];
         let start = timeInterval[0];
         return this.model.aggregate([

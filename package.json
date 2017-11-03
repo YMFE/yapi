@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,6 @@
     "json-schema-ref-parser": "^4.0.0",
     "json5": "^0.5.1",
     "jsonwebtoken": "^7.4.1",
-    "kerberos": "0.0.23",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-multer": "^1.0.2",

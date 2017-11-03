@@ -97,12 +97,12 @@ exports.initPlugins = function (plugins, type) {
 exports.jsonEqual = Compare;
 
 exports.isDeepMatch = function(obj, properties){
-  if(!properties || typeof properties !== 'object'){
-    return false;
+  if(!properties || typeof properties !== 'object' || Object.keys(properties).length === 0){
+    return true;
   }
 
-  if(!obj || typeof obj !== 'object'){
-    return true;
+  if(!obj || typeof obj !== 'object' || Object.keys(obj).length === 0){
+    return false;
   }
 
   let match = true;

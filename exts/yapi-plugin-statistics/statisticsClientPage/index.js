@@ -101,7 +101,6 @@ class statisticsPage extends Component {
 
   render() {
     const { count } = this.state;
-    // console.log('state', this.state)
 
     return (
       <div className="g-statistic">

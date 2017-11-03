@@ -52,6 +52,7 @@ module.exports = function () {
         let projectId = context.projectData._id;
         let groupId = context.projectData.group_id;
         let ip = context.ctx.originalUrl;
+
         let data = {
             interface_id: interfaceId,
             project_id: projectId,
@@ -67,7 +68,7 @@ module.exports = function () {
             result = yapi.commons.fieldSelect(result, ['interface_id', 'project_id', 'group_id', 'time', 'ip', 'date']);
 
         } catch (e) {
-            yapi.common.log('mockStatisError', e);
+            yapi.commons.log('mockStatisError', e);
         }
     })
 };
