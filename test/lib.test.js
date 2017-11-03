@@ -141,3 +141,15 @@ test('isDeepMatch', t=>{
 test('isDeepMatch', t=>{
   t.true(lib.isDeepMatch({a:1, b:2, c: {t:'ttt'}}, {c: {t:'ttt'}}))
 })
+
+test('isDeepMatch', t=>{
+  t.true(lib.isDeepMatch({}, undefined))
+})
+
+test('isDeepMatch', t=>{
+  t.true(lib.isDeepMatch(undefined, {}))
+})
+
+test('isDeepMatch', t=>{
+  t.false(lib.isDeepMatch(undefined, {a:1}))
+})

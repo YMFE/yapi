@@ -6,7 +6,7 @@ import {
   Table, Button, Modal, message, Tooltip, Select
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
-import { fetchInterfaceList} from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
 import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
@@ -19,7 +19,7 @@ const Option = Select.Option;
       curProject: state.project.currProject,
       catList: state.inter.list
     }
-  },{
+  }, {
     fetchInterfaceList
   })
 class InterfaceList extends Component {
@@ -87,11 +87,11 @@ class InterfaceList extends Component {
     }
   }
 
-  handleAddInterface =(data)=> {
+  handleAddInterface = (data) => {
     data.project_id = this.props.curProject._id;
     axios.post('/api/interface/add', data).then((res) => {
       if (res.data.errcode !== 0) {
-        return message.error(res.data.errmsg);
+        return message.error(`${res.data.errmsg}, 你可以在左侧的接口列表中对接口进行删改`);
       }
       message.success('接口添加成功')
       let interfaceId = res.data.data._id;
@@ -126,7 +126,7 @@ class InterfaceList extends Component {
         return a.title.localeCompare(b.title) === 1
       },
       sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
-      render: (text, item)=>{
+      render: (text, item) => {
         return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
       }
     }, {
@@ -145,7 +145,7 @@ class InterfaceList extends Component {
       width: 12,
       render: (item) => {
         let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get'];
-        return <span style={{color:methodColor.color,backgroundColor:methodColor.bac}} className="colValue">{item}</span>
+        return <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{item}</span>
       }
     }, {
       title: '状态',
@@ -169,9 +169,9 @@ class InterfaceList extends Component {
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
     let intername = '';
-    if(this.props.curProject.cat){
-      for(let i = 0;i<this.props.curProject.cat.length;i++){
-        if(this.props.curProject.cat[i]._id === this.state.catid){
+    if (this.props.curProject.cat) {
+      for (let i = 0; i < this.props.curProject.cat.length; i++) {
+        if (this.props.curProject.cat[i]._id === this.state.catid) {
           intername = this.props.curProject.cat[i].name;
         }
       }
@@ -180,11 +180,12 @@ class InterfaceList extends Component {
       item.key = item._id;
       return item;
     });
+
     return (
       <div style={{ padding: '24px' }}>
-        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0}}>{intername?intername:'全部接口'}</h2>
-        <Button style={{float: 'right'}} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
-        <Table className="table-interfacelist"  pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}</h2>
+        <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
+        <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
           title="添加接口"
           visible={this.state.visible}

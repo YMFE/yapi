@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import constants from '../../../../constants/variable.js'
+//import constants from '../../../../constants/variable.js'
 import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -29,7 +29,6 @@ function json_parse(data) {
     return data
   }
 }
-const HTTP_METHOD = constants.HTTP_METHOD;
 
 function handleReport(json){
   try{
@@ -175,27 +174,9 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
-      let query = this.arrToObj(curitem.req_query);
-      if (!query || typeof query !== 'object') {
-        query = {};
-      }
-      let body = {};
-      if (HTTP_METHOD[curitem.method].request_body) {
-        if (curitem.req_body_type === 'form') {
-          body = this.arrToObj(curitem.req_body_form);
-        } else {
-          body = isJson(curitem.req_body_other);
-        }
-
-        if (!body || typeof body !== 'object') {
-          body = {};
-        }
-      }
-
-      let params = Object.assign({}, query, body);
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
-        params: params,
+        params: result.params,
         body: result.res_body
       };
 
@@ -211,11 +192,13 @@ class InterfaceColContent extends Component {
 
   handleTest = async (interfaceData) => {
     const { currProject } = this.props;
+    let requestParams = {};
     let { case_env } = interfaceData;
     let path = URL.resolve(currProject.basepath, interfaceData.path);
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
       let val = this.handleValue(item.value);
+      requestParams[item.name] = val;
       path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const domains = currProject.env.concat();
@@ -237,7 +220,7 @@ class InterfaceColContent extends Component {
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
       pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
-      query: this.getQueryObj(interfaceData.req_query)
+      query: this.getQueryObj(interfaceData.req_query, requestParams)
     });
 
     let result = { code: 400, msg: '数据异常', validRes: [] };
@@ -247,13 +230,15 @@ class InterfaceColContent extends Component {
     result.method = interfaceData.method;
     result.headers = that.getHeadersObj(interfaceData.req_headers);
     if (interfaceData.req_body_type === 'form') {
-      result.body = that.arrToObj(interfaceData.req_body_form)
+      result.body = that.arrToObj(interfaceData.req_body_form, requestParams)
     } else {
       let reqBody = isJson(interfaceData.req_body_other);
       if (reqBody === false) {
         result.body = this.handleValue(interfaceData.req_body_other)
       } else {
-        result.body = JSON.stringify(this.handleJson(reqBody))
+        reqBody = this.handleJson(reqBody)
+        requestParams = Object.assign(requestParams, reqBody);
+        result.body = JSON.stringify(reqBody)
       }
 
     }
@@ -268,6 +253,7 @@ class InterfaceColContent extends Component {
       let header = data.res.header;
       result.res_header = header;
       result.res_body = res;
+      result.params = requestParams;
       let validRes = [];
       if (res && typeof res === 'object') {            
         if (interfaceData.mock_verify) {
@@ -284,7 +270,7 @@ class InterfaceColContent extends Component {
         header: data.res.header,
         statusText: data.res.statusText
       })
-      await that.handleScriptTest(interfaceData, responseData, validRes);
+      await that.handleScriptTest(interfaceData, responseData, validRes, requestParams);
       if (validRes.length === 0) {
         result.code = 0;
         result.validRes = [{ message: '验证通过' }];
@@ -329,7 +315,7 @@ class InterfaceColContent extends Component {
   }
 
   //response, validRes
-  handleScriptTest =async (interfaceData,response, validRes)=>{
+  handleScriptTest =async (interfaceData,response, validRes, requestParams)=>{
     if(interfaceData.enable_script !== true){
       return null;
     }
@@ -337,7 +323,8 @@ class InterfaceColContent extends Component {
       let test = await axios.post('/api/col/run_script', {
         response: response,
         records: this.records,
-        script: interfaceData.test_script
+        script: interfaceData.test_script,
+        params: requestParams
       })
       if(test.data.errcode !== 0){
         validRes.push({
@@ -379,12 +366,15 @@ class InterfaceColContent extends Component {
     return val;
   }
 
-  arrToObj = (arr) => {
+  arrToObj = (arr, requestParams) => {
     arr = arr || [];
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.enable && item.type !== 'file') {
-        obj[item.name] = this.handleValue(item.value);
+         obj[item.name] = this.handleValue(item.value);
+         if(requestParams){
+          requestParams[item.name] = obj[item.name];
+         }
       }
     })
     return obj;
@@ -392,12 +382,15 @@ class InterfaceColContent extends Component {
 
 
 
-  getQueryObj = (query) => {
+  getQueryObj = (query, requestParams) => {
     query = query || [];
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
         queryObj[item.name] = this.handleValue(item.value);
+        if(requestParams){
+          requestParams[item.name] = queryObj[item.name];
+         }
       }
     })
     return queryObj;

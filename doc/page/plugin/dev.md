@@ -2,7 +2,7 @@
 ```
 npm install
 npm install -g ykit //依赖 ykit 
-npm run dev
+npm run dev //启动开发服务器
 ```
 ## 初始化目录
 

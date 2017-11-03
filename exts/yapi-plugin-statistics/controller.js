@@ -31,7 +31,6 @@ class statisMockController extends baseController {
      * @returns {Object}
      */
   async getStatisCount(ctx) {
-
     let groupCount = await this.groupModel.getGroupListCount();
     let projectCount = await this.projectModel.getProjectListCount();
     let interfaceCount = await this.interfaceModel.getInterfaceListCount();
@@ -50,7 +49,6 @@ class statisMockController extends baseController {
    */
   async getMockDateList(ctx) {
     let mockCount = await this.Model.getTotalCount();
-    // let list = await this.Model.list();
     let mockDateList = [];
 
     if (!this.getRole() === 'admin') {

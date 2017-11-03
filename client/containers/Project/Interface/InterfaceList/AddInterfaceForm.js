@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Form, Input, Select, Button } from 'antd';
 
 import constants from '../../../../constants/variable.js'
-import { handlePath, nameLengthLimit } from '../../../../common.js'
+import { handleApiPath, nameLengthLimit } from '../../../../common.js'
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 
@@ -37,7 +37,7 @@ class AddInterfaceForm extends Component {
   handlePath = (e) => {
     let val = e.target.value
     this.props.form.setFieldsValue({
-      path: handlePath(val)
+      path: handleApiPath(val)
     })
   }
   render() {

@@ -106,12 +106,33 @@
       .dropdown-link {
         color: #ccc;
         transition: color .2s;
-        .ant-avatar-image{
+        // .ant-avatar-image{
+        //   margin-bottom: -10px;
+        // }
+        // .ant-avatar > img{
+        //   height: auto;
+        // }
+        .avatar-image{
           margin-bottom: -10px;
+          display: inline-block;
+          text-align: center;
+          background: #ccc;
+          color: #fff;
+          white-space: nowrap;
+          position: relative;
+          overflow: hidden;
+          width: 32px;
+          height: 32px;
+          line-height: 32px;
+          border-radius: 16px;
         }
-        .ant-avatar > img{
+
+        .avatar-image > img{
           height: auto;
+          width:100%;
+          display: bloack;
         }
+
       }
       .anticon.active {
         color: #2395f1;

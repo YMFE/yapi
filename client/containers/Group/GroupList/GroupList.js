@@ -81,16 +81,17 @@ export default class GroupList extends Component {
   async componentWillMount() {
     const groupId = !isNaN(this.props.match.params.groupId) ? parseInt(this.props.match.params.groupId) : 0;
     await this.props.fetchGroupList();
-    let currGroup  = false;
+    let currGroup = false;
     if (this.props.groupList.length && groupId) {
       for (let i = 0; i < this.props.groupList.length; i++) {
         if (this.props.groupList[i]._id === groupId) {
           currGroup = this.props.groupList[i];
-        }      }
+        }
+      }
     } else if (!groupId && this.props.groupList.length) {
       this.props.history.push(`/group/${this.props.groupList[0]._id}`);
     }
-    if(!currGroup){
+    if (!currGroup) {
       currGroup = this.props.groupList[0] || { group_name: '', group_desc: '' };
       this.props.history.replace(`${currGroup._id}`);
     }
@@ -141,7 +142,9 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup(res.data.data);
+      const id = res.data.data._id;
+      const currGroup = _.find(this.props.groupList, (group) => { return +group._id === +id });
+      this.props.setCurrGroup(currGroup);
       this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     } else {
@@ -160,8 +163,12 @@ export default class GroupList extends Component {
         editGroupModalVisible: false
       });
       await this.props.fetchGroupList();
+
       this.setState({ groupList: this.props.groupList });
-      this.props.setCurrGroup({ group_name, group_desc, _id: id});
+      const currGroup = _.find(this.props.groupList, (group) => { return +group._id === +id });
+
+      this.props.setCurrGroup(currGroup);
+      // this.props.setCurrGroup({ group_name, group_desc, _id: id });
       this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
     }
@@ -269,7 +276,7 @@ export default class GroupList extends Component {
 
     let menu = <Menu>
       {
-        this.props.curUserRole === "admin" && this.props.currGroup.type!=='private'  ? (editmark) : ''
+        this.props.curUserRole === "admin" && this.props.currGroup.type !== 'private' ? (editmark) : ''
       }
       {
         (this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner') && this.props.currGroup.type !== 'private' ? (delmark) : ''
@@ -278,7 +285,7 @@ export default class GroupList extends Component {
         this.props.curUserRole === 'admin' ? (addmark) : ''
       }
     </Menu>;
-    menu = (this.props.curUserRoleInGroup === 'owner' && this.props.curUserRole !== 'admin')  ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
+    menu = (this.props.curUserRoleInGroup === 'owner' && this.props.curUserRole !== 'admin') ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" href="#">
         <Icon type="setting" />
       </a>
@@ -313,16 +320,16 @@ export default class GroupList extends Component {
             selectedKeys={[`${currGroup._id}`]}
           >
             {this.state.groupList.map((group) => {
-              if(group.type === 'private') {
-                return <Menu.Item key={`${group._id}`} className="group-item" style={{zIndex: this.props.studyTip === 0 ? 3 : 1}}>
+              if (group.type === 'private') {
+                return <Menu.Item key={`${group._id}`} className="group-item" style={{ zIndex: this.props.studyTip === 0 ? 3 : 1 }}>
                   <Icon type="user" />
                   <Popover
                     overlayClassName="popover-index"
-                    content={<GuideBtns/>}
+                    content={<GuideBtns />}
                     title={tip}
                     placement="right"
                     visible={(this.props.studyTip === 0) && !this.props.study}
-                    >
+                  >
                     {group.group_name}
                   </Popover>
                 </Menu.Item>

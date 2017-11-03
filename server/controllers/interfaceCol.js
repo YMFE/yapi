@@ -603,14 +603,16 @@ class interfaceColController extends baseController{
         }
 
         try{
-            let a = yapi.commons.sandbox({
+            let result = yapi.commons.sandbox({
                 assert: require('assert'),
                 status: params.response.status,
                 body: params.response.body,
                 header: params.response.header,
-                records: params.records
+                records: params.records,
+                params: params.params,
+                log: []
             }, script);
-            return ctx.body = yapi.commons.resReturn('ok');
+            return ctx.body = yapi.commons.resReturn(result);
           }catch(err){
             let errArr = err.stack.split("\n");
             return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)

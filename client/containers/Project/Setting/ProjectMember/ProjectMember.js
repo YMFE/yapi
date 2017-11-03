@@ -94,7 +94,10 @@ class ProjectMember extends Component {
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
-        message.success('添加成功!');
+        const { add_members, exist_members } = res.payload.data.data;
+        const addLength = add_members.length;
+        const existLength = exist_members.length;
+        message.success(`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`);
         this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
     });

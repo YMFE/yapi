@@ -1,1 +1,1 @@
-window.WEBPACK_ASSETS = {"index.js":{"js":"index@ce304fe03b9d80e4eb5d.js","css":"index@ce304fe03b9d80e4eb5d.css"},"lib":{"js":"lib@3f16bf22a3fa065597c6.js"},"lib2":{"js":"lib2@4aac905bfc76629cfbba.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}
+window.WEBPACK_ASSETS = {"index.js":{"js":"index@76cbf4c764b0f89cd244.js","css":"index@76cbf4c764b0f89cd244.css"},"lib":{"js":"lib@b06dfa154a558e5f74a9.js"},"lib2":{"js":"lib2@70df7f142a741c00239e.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}
