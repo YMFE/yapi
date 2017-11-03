@@ -6,10 +6,10 @@ module.exports = {
     "instructionsInfoPath": "", //使用说明 内容路径 (需要配合JS-Component注释的@instructions使用)
     "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
     "common": { // 通用默认配置，包括主页配置等
-        "title": "YApi", //page title
-        "footer": "&copy; 2017 <a href=\"https://github.com/ymfe/yapi\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
+        "title": "YApi 接口管理平台", //page title
+        "footer": "&copy; 2017 <a href=\"https://github.com/ymfe\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
         "home": "YMFE", // logo
-        "homeUrl": "https://github.com/ymfe" // logourl
+        "homeUrl": "./index.html" // logourl
     },
     "options": {
         "foldcode": false,

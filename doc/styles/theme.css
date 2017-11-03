@@ -163,3 +163,17 @@ body, h1, h2, h3, h4, h5, h6 {
 .ydoc .home-page-desc{
   color: #6b6868;
 }
+
+.ydoc .footer{
+  background-color: #f7f7f7;
+}
+
+.ydoc .footer .copyright {
+  font-size: 14px;
+  text-align: center;
+  color: #868e96;
+}
+
+.ydoc .footer .copyright a {
+  color: #495057;
+}
