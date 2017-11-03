@@ -8,7 +8,7 @@ module.exports = {
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi 接口管理平台", //page title
         "footer": "&copy; 2017 <a href=\"https://github.com/ymfe\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
-        "home": "YMFE", // logo
+        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YApi', // logo
         "homeUrl": "./index.html" // logourl
     },
     "options": {
@@ -20,7 +20,7 @@ module.exports = {
     "pages": [
         {
             "name": "index", // Page Name 会根据他生成 html 文件，例: index.html
-            "title": "首页", // Page Title
+            "title": "", // Page Title
             "homepage": { // 配置首页，样式区别于其他页面
                 "version": "v" + require('./package.json').version, // 版本信息将显示在banner底部
                 "button": [{ // 按钮组将显示在banner底部
