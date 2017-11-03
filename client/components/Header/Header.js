@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip, Avatar, Popover, Tag } from 'antd'
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Popover, Tag } from 'antd'
 import { checkLoginState, logoutActions, loginTypeAction } from '../../reducer/modules/user'
 import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
@@ -102,6 +102,7 @@ MenuUser.propTypes = {
 }
 
 const ToolUser = (props) => {
+  let imageUrl = props.imageUrl ? props.imageUrl : `/api/user/avatar?uid=${props.uid}`;
   return (
     <ul>
       <li className="toolbar-li item-search">
@@ -170,13 +171,10 @@ const ToolUser = (props) => {
             />
           }>
           <a className="dropdown-link">
-            {/* <Avatar src={props.url + props.uid}></Avatar> */}
-            {
-              props.imageUrl? <Avatar src={props.imageUrl} />: <Avatar src={`/api/user/avatar?uid=${props.uid}`} />
-            }
-           
-            {/*<img style={{width:24,height:24}} src={`/api/user/avatar?uid=${props.uid}`} />*/}
-            {/*<span className="name">{props.user}</span>*/}
+            <span className="avatar-image">
+              <img src={imageUrl} />
+            </span>
+            {/*props.imageUrl? <Avatar src={props.imageUrl} />: <Avatar src={`/api/user/avatar?uid=${props.uid}`} />*/}
             <span className="name"><Icon type="down" /></span>
           </a>
         </Dropdown>
@@ -241,7 +239,7 @@ export default class HeaderCom extends Component {
     location: PropTypes.object,
     study: PropTypes.bool,
     studyTip: PropTypes.number,
-    imageUrl:PropTypes.any
+    imageUrl: PropTypes.any
   }
   linkTo = (e) => {
     if (e.key != '/doc') {
@@ -288,7 +286,7 @@ export default class HeaderCom extends Component {
 
 
   render() {
-    const { login, user, msg, uid, role, studyTip, study,imageUrl } = this.props;
+    const { login, user, msg, uid, role, studyTip, study, imageUrl } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
