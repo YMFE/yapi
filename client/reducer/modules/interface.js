@@ -64,7 +64,6 @@ export function initInterface(){
 }
 
 export function updateInterfaceData(updata) {
-
   return {
     type: UPDATE_INTERFACE_DATA,
     updata: updata,
@@ -93,7 +92,6 @@ export async function deleteInterfaceCatData(id) {
 // Action Creators
 export async function fetchInterfaceData(interfaceId) {
   let result = await axios.get('/api/interface/get?id=' + interfaceId);
-
   return {
     type: FETCH_INTERFACE_DATA,
     payload: result.data

@@ -157,7 +157,8 @@ class InterfaceMenu extends Component {
   }
 
   handleChangeInterfaceCat = (data) => {
-
+    data.project_id = this.props.projectId;
+    console.log('change',data);
     let params = {
       catid: this.state.curCatdata._id,
       name: data.name
@@ -169,6 +170,7 @@ class InterfaceMenu extends Component {
       }
       message.success('接口分类更新成功')
       this.getList()
+      this.props.getProject(data.project_id)
       this.setState({
         change_cat_modal_visible: false
       });
@@ -203,6 +205,7 @@ class InterfaceMenu extends Component {
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
         await that.getList()
+        await that.props.getProject(that.props.projectId)
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
         ref.destroy()
       },

@@ -122,11 +122,13 @@ class interfaceController extends baseController {
             };
 
             if (!_.isUndefined(params.req_query)) {
-                data.req_query = params.req_query;
+                data.req_query = this.requiredSort(params.req_query);
+                // data.req_query = params.req_query;
             }
 
             if (!_.isUndefined(params.req_body_form)) {
-                data.req_body_form = params.req_body_form;
+                data.req_body_form = this.requiredSort(params.req_body_form);
+                // data.req_body_form = params.req_body_form;
             }
 
             if (params.path.indexOf(":") > 0) {
@@ -167,7 +169,8 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
-            this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
+               this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
+
                 //let project = await this.projectModel.getBaseInfo(params.project_id);
                 // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
                 // this.sendNotice(params.project_id, {
@@ -444,7 +447,8 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_body_form)) {
-            data.req_body_form = params.req_body_form;
+            data.req_body_form = this.requiredSort(params.req_body_form);
+            // data.req_body_form = params.req_body_form;
         }
         if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
           if(Array.isArray(params.req_params) && params.req_params.length > 0){
@@ -458,7 +462,9 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_query)) {
-            data.req_query = params.req_query;
+            // data.req_query = params.req_query;
+            data.req_query = this.requiredSort(params.req_query);
+            // console.log("req",this.requiredSort(params.req_query));
         }
 
         if (!_.isUndefined(params.req_body_other)) {
@@ -495,6 +501,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+
                 this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             } else {
                 let cateid = interfaceData.catid;
@@ -507,6 +514,7 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
+
                 this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             }
             if (params.switch_notice === true) {
@@ -574,7 +582,6 @@ class interfaceController extends baseController {
                 });
             })
             this.projectModel.up(data.project_id,{up_time: new Date().getTime()}).then();
-
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
@@ -781,6 +788,12 @@ class interfaceController extends baseController {
 
         });
 
+    }
+
+    requiredSort(params) {
+        return params.sort((item1, item2) => {
+            return item2.required - item1.required;
+        })
     }
 
 }
