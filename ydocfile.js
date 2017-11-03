@@ -8,7 +8,7 @@ module.exports = {
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi 接口管理平台", //page title
         "footer": "&copy; 2017 <a href=\"https://github.com/ymfe\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
-        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YApi', // logo
+        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YAPI', // logo
         "homeUrl": "./index.html" // logourl
     },
     "options": {

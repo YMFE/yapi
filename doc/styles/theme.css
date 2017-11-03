@@ -181,3 +181,7 @@ body, h1, h2, h3, h4, h5, h6 {
 .ydoc .ydoc-header .navbar-brand img{
   width: 32px;
 }
+
+.ydoc .navbar-brand{
+  font-weight: 500;
+}
