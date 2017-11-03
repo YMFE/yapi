@@ -186,7 +186,6 @@ extConfig.forEach(plugin => {
     }
     let pluginModule = require(yapi.path.join(plugin_system_path, 'yapi-plugin-' + plugin.name + '/server.js'));
     pluginModule.call(yapi, plugin.options)
-    yapi.commons.log('init plugins success...')
 })
 
 //delete bindHook方法，避免误操作

@@ -45,6 +45,9 @@ export default class MockCol extends Component {
   }
 
   handleOk = async (caseData) => {
+    if(!caseData){
+      return null;
+    }
     const { caseData: currcase } = this.state;
     const interface_id = this.props.match.params.actionId;
     const project_id = this.props.match.params.id;

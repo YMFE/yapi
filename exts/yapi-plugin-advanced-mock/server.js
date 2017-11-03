@@ -59,6 +59,7 @@ module.exports = function(){
       }).select('_id params')
       list.forEach(item=>{
         let params = item.params;
+        console.log(reqParams, item.params)
         if(lib.isDeepMatch(reqParams, item.params)){
           matchList.push(item); 
         }
