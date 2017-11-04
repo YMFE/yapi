@@ -26,6 +26,17 @@ function matchApi(apiPath, apiRule) {
     return true;
 }
 
+function parseCookie(str){
+    if(!str || typeof str !== 'string'){
+        return str;
+    }
+    if(str.split(';')[0]){
+        let c =  str.split(';')[0].split('=');
+        return {name: c[0], value: c[1] || ''}              
+    }
+    return null;
+}
+
 function handleCorsRequest(ctx) {
     let header = ctx.request.header;
     ctx.set('Access-Control-Allow-Origin', header.origin);
@@ -169,7 +180,26 @@ module.exports = async (ctx, next) => {
             await handleMock;
             if (context.resHeader && typeof context.resHeader === 'object') {
                 for (let i in context.resHeader) {
-                    ctx.set(i, context.resHeader[i]);
+                    let cookie;
+                    if(i === 'Set-Cookie'){
+                        if(context.resHeader[i] && typeof context.resHeader[i] === 'string'){
+                            cookie = parseCookie(context.resHeader[i]);
+                            if(cookie && typeof cookie === 'object'){
+                                ctx.cookies.set(cookie.name, cookie.value, {
+                                    maxAge: 864000000
+                                });
+                            }
+                        }else if(context.resHeader[i] && Array.isArray(context.resHeader[i])){
+                            context.resHeader[i].forEach(item=>{
+                                cookie = parseCookie(item);
+                                if(cookie && typeof cookie === 'object'){
+                                    ctx.cookies.set(cookie.name, cookie.value, {
+                                        maxAge: 864000000
+                                    });
+                                }
+                            })
+                        }
+                    }else ctx.set(i, context.resHeader[i]);
                 }
             }
 

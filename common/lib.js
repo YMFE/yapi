@@ -33,7 +33,7 @@ function getLength(object) {
 
 function Compare(objA, objB) {  
   if (!isObj(objA) && !isObj(objB)){
-    return objA === objB;
+    return objA == objB;
   }
   if (!isObj(objA) || !isObj(objB)) return false;   
   if (getLength(objA) != getLength(objB)) return false;   
