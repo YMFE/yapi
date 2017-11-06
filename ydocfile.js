@@ -8,7 +8,7 @@ module.exports = {
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi 接口管理平台", //page title
         "footer": "&copy; 2017 <a href=\"https://github.com/ymfe\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
-        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YApi', // logo
+        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YAPI', // logo
         "homeUrl": "./index.html" // logourl
     },
     "options": {
@@ -39,15 +39,15 @@ module.exports = {
                         "type": "thumbnail", // 三列布局的介绍板块
                         "content": [{ // 三列布局的内容，每项的key值非必需，但建议每列的key值一致
                             "name": "项目管理", // 板块名称
-                            "src": "http://ojk406wln.bkt.clouddn.com/intro_muti.png", // 缩略图
+                            "src": "./images/intro_page_1.png", // 缩略图
                             "desc": "YApi 成熟的团队管理<br>扁平化项目权限配置满足各类企业的需求" // 描述
                         },{
                             "name": "接口管理",
-                            "src": "http://ojk406wln.bkt.clouddn.com/intro_md.png",
+                            "src": "./images/intro_page_2.png",
                             "desc": "友好的接口文档<br>基于 websocket 的多人协作接口编辑功能和类 postman 测试工具，让多人协作成倍提升开发效率"
                         },{
                             "name": "MockServer",
-                            "src": "http://ojk406wln.bkt.clouddn.com/intro_theme.png",
+                            "src": "./images/intro_page_3.png",
                             "desc": "基于 Mockjs<br>使用简单功能强大"
                         }]
                     }
