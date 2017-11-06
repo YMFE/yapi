@@ -9,7 +9,7 @@ git clone https://github.com/YMFE/yapi.git vendors
 cp vendors/config_example.json ./config.json //复制完成后请修改相关配置
 cd vendors
 npm install
-node run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
 npm run dev //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候
 ```
 
