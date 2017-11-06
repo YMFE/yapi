@@ -1,5 +1,5 @@
 # 内网部署
-使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致 测试功能的文件上传功能异常。
+使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致测试功能在请求 http 站点时文件上传功能异常。
 
 如果您是将服务器代理到 nginx 服务器，请配置 nginx 支持 websocket。
 ```
