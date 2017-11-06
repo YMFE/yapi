@@ -49,7 +49,6 @@ class InterfaceEdit extends Component {
     this.props.fetchInterfaceData(params.id).then()
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
-      console.log('switch');
       message.success('保存成功');
       this.props.switchToView()
     } else {
@@ -69,10 +68,6 @@ class InterfaceEdit extends Component {
 
   componentWillMount() {
     let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
-    this.setState({
-      curdata: this.props.curdata,
-      status: 1
-    })
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
     let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
@@ -86,6 +81,7 @@ class InterfaceEdit extends Component {
       s.onmessage = (e) => {
         let result = JSON.parse(e.data);
         if (result.errno === 0) {
+          console.log(result.data)
           this.setState({
             curdata: result.data,
             status: 1
@@ -100,9 +96,17 @@ class InterfaceEdit extends Component {
       }
 
       s.onerror = () => {
+        this.setState({
+          curdata: this.props.curdata,
+          status: 1
+        })
         console.error('websocket connect failed.')
       }
     } catch (e) {
+      this.setState({
+        curdata: this.props.curdata,
+        status: 1
+      })
       console.error(e);
     }
 

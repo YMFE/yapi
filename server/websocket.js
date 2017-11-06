@@ -4,9 +4,7 @@ const router = koaRouter();
 
 function websocket(app) {
   console.log('load websocket...')
-  app.ws.use(function (ctx, next) {
-    return next(ctx);
-  });
+  
   router.get('/api/interface/solve_conflict', async function (ctx) {
     let inst = new interfaceController(ctx);
     await inst.init(ctx);
@@ -19,6 +17,13 @@ function websocket(app) {
 
   app.ws.use(router.routes())
   app.ws.use(router.allowedMethods());
+  app.ws.use(function (ctx, next) {
+    console.log(1111)
+    return ctx.websocket.send(JSON.stringify({
+      errcode: 404,
+      errmsg: 'No Fount.'
+    }));
+  });
 }
 
 module.exports = websocket
