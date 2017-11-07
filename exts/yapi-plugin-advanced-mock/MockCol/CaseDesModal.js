@@ -111,7 +111,7 @@ export default class CaseDesModal extends Component {
     const headers = [];
     const params = {};
     const { paramsForm } = this.state;
-    caseData.headers.forEach(item => {
+    caseData.headers && Array.isArray(caseData.headers) &&caseData.headers.forEach(item => {
       if (item.name) {
         headers.push({
           name: item.name,
@@ -119,7 +119,7 @@ export default class CaseDesModal extends Component {
         })
       }
     });
-    caseData.paramsArr.forEach(item => {
+    caseData.paramsArr && Array.isArray(caseData.paramsArr) &&caseData.paramsArr.forEach(item => {
       if (item.name) {
         params[item.name] = item.value
       }
