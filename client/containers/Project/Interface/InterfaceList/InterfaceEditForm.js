@@ -58,9 +58,7 @@ class InterfaceEditForm extends Component {
     changeEditStatus: PropTypes.func
   }
 
-  constructor(props) {
-    super(props)
-    const { curdata } = this.props;
+  initState(curdata){
     if (curdata.req_query && curdata.req_query.length === 0) delete curdata.req_query;
     if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
     if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
@@ -84,7 +82,7 @@ class InterfaceEditForm extends Component {
       }
     };
     curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
-    this.state = Object.assign({
+    return Object.assign({
       title: '',
       path: '',
       status: 'undone',
@@ -119,7 +117,13 @@ class InterfaceEditForm extends Component {
       mockUrl: this.props.mockUrl,
       req_radio_type: 'req-query'
     }, curdata)
-    // console.log(this.state.path)
+  }
+
+  constructor(props) {
+    super(props)
+    const { curdata } = this.props;
+    
+    this.state = this.initState(curdata);
   }
 
   handleSubmit = (e) => {

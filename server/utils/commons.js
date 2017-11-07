@@ -186,7 +186,9 @@ exports.sandbox = (sandbox, script) => {
     sandbox = sandbox || {};
     script = new vm.Script(script);
     const context = new vm.createContext(sandbox);
-    script.runInContext(context);
+    script.runInContext(context, {
+        timeout: 3000
+    });
     return sandbox;
 }
 
