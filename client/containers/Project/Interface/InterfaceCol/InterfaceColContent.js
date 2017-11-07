@@ -400,7 +400,7 @@ class InterfaceColContent extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = item.value;
+        headersObj[item.name] = this.handleValue(item.value);
       }
     })
     return headersObj;

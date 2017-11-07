@@ -142,7 +142,7 @@ class interfaceColController extends baseController{
                 result.path = projectData.basepath + data.path;
                 result.method = data.method;
                 result.req_body_type = data.req_body_type;
-                result.req_headers = data.req_headers;
+                result.req_headers = this.handleParamsValue(data.req_headers, result.req_headers);
                 result.res_body = data.res_body;
                 result.res_body_type = data.res_body_type;
                 
@@ -397,7 +397,7 @@ class interfaceColController extends baseController{
             result.path = projectData.basepath + data.path;
             result.method = data.method;
             result.req_body_type = data.req_body_type;
-            result.req_headers = data.req_headers;
+            result.req_headers = this.handleParamsValue(data.req_headers, result.req_headers);
             result.res_body = data.res_body;
             result.res_body_type = data.res_body_type;            
             result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
