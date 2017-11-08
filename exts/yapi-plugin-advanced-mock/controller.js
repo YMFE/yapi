@@ -2,7 +2,7 @@ const baseController = require('controllers/base.js');
 const advModel = require('./advMockModel.js');
 const yapi = require('yapi.js');
 const caseModel = require('./caseModel.js');
-const userModel = require('../../server/models/user.js');
+const userModel = require('models/user.js');
 const config = require('./index.js');
 
 class advMockController extends baseController{
@@ -87,6 +87,11 @@ class advMockController extends baseController{
     if(!params.project_id){
       return ctx.body =yapi.commons.resReturn(null, 408, '缺少project_id');
     }
+
+    if(!params.res_body){
+      return ctx.body =yapi.commons.resReturn(null, 408, '请输入 Response Body');
+    }
+
     let data = {
       interface_id: params.interface_id,      
       project_id: params.project_id,
@@ -98,7 +103,7 @@ class advMockController extends baseController{
       delay: params.delay || 0,
       headers: params.headers || [],
       up_time: yapi.commons.time(),
-      res_body: params.res_body || '',
+      res_body: params.res_body,
       ip: params.ip
     }
 

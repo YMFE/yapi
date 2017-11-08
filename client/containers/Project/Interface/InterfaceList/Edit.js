@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import InterfaceEditForm from './InterfaceEditForm.js'
-import { updateInterfaceData,fetchInterfaceList } from '../../../../reducer/modules/interface.js';
+import { updateInterfaceData, fetchInterfaceList, fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import axios from 'axios'
 import { message } from 'antd'
 import './Edit.scss'
@@ -16,7 +16,8 @@ import { withRouter, Link } from 'react-router-dom';
     }
   }, {
     updateInterfaceData,
-    fetchInterfaceList
+    fetchInterfaceList,
+    fetchInterfaceData
   }
 )
 
@@ -26,6 +27,7 @@ class InterfaceEdit extends Component {
     currProject: PropTypes.object,
     updateInterfaceData: PropTypes.func,
     fetchInterfaceList: PropTypes.func,
+    fetchInterfaceData: PropTypes.func,
     match: PropTypes.object,
     switchToView: PropTypes.func
   }
@@ -44,6 +46,7 @@ class InterfaceEdit extends Component {
     params.id = this.props.match.params.actionId;
     let result = await axios.post('/api/interface/up', params);
     this.props.fetchInterfaceList(this.props.currProject._id).then();
+    this.props.fetchInterfaceData(params.id).then()
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
       message.success('保存成功');
@@ -65,20 +68,16 @@ class InterfaceEdit extends Component {
 
   componentWillMount() {
     let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
-    this.setState({
-      curdata: this.props.curdata,
-      status: 1
-    })
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
     let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
 
-    try{
-      s = new WebSocket( wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
+    try {
+      s = new WebSocket(wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
       s.onopen = () => {
         this.WebSocket = s;
       }
-  
+
       s.onmessage = (e) => {
         let result = JSON.parse(e.data);
         if (result.errno === 0) {
@@ -92,13 +91,21 @@ class InterfaceEdit extends Component {
             status: 2
           })
         }
-  
+
       }
-  
+
       s.onerror = () => {
+        this.setState({
+          curdata: this.props.curdata,
+          status: 1
+        })
         console.error('websocket connect failed.')
       }
-    }catch(e){
+    } catch (e) {
+      this.setState({
+        curdata: this.props.curdata,
+        status: 1
+      })
       console.error(e);
     }
 

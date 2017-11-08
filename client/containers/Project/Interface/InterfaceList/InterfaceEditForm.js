@@ -6,7 +6,7 @@ import constants from '../../../../constants/variable.js'
 import { handlePath, nameLengthLimit } from '../../../../common.js'
 import { changeEditStatus } from '../../../../reducer/modules/interface.js';
 import json5 from 'json5'
-import { message, Tabs } from 'antd'
+import { message, Tabs, Affix } from 'antd'
 import Editor from 'wangeditor'
 const TabPane = Tabs.TabPane;
 let EditFormContext;
@@ -58,9 +58,7 @@ class InterfaceEditForm extends Component {
     changeEditStatus: PropTypes.func
   }
 
-  constructor(props) {
-    super(props)
-    const { curdata } = this.props;
+  initState(curdata){
     if (curdata.req_query && curdata.req_query.length === 0) delete curdata.req_query;
     if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
     if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
@@ -84,7 +82,7 @@ class InterfaceEditForm extends Component {
       }
     };
     curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
-    this.state = Object.assign({
+    return Object.assign({
       title: '',
       path: '',
       status: 'undone',
@@ -119,7 +117,13 @@ class InterfaceEditForm extends Component {
       mockUrl: this.props.mockUrl,
       req_radio_type: 'req-query'
     }, curdata)
-    // console.log(this.state.path)
+  }
+
+  constructor(props) {
+    super(props)
+    const { curdata } = this.props;
+    
+    this.state = this.initState(curdata);
   }
 
   handleSubmit = (e) => {
@@ -163,12 +167,12 @@ class InterfaceEditForm extends Component {
             })
           }
         } else if (values.req_body_type === 'json') {
-          values.req_headers?values.req_headers.map((item) => {
+          values.req_headers ? values.req_headers.map((item) => {
             if (item.name === 'Content-Type') {
               item.value = 'application/json'
               isHavaContentType = true;
             }
-          }):[];
+          }) : [];
           if (isHavaContentType === false) {
             values.req_headers = values.req_headers || [];
             values.req_headers.unshift({
@@ -249,10 +253,10 @@ class InterfaceEditForm extends Component {
     }
     editor.create();
     editor.txt.html(this.state.desc)
-    if(navigator.userAgent.indexOf("Firefox")>0){
+    if (navigator.userAgent.indexOf("Firefox") > 0) {
       document.getElementById('title').focus()
     }
-    
+
   }
 
   componentWillUnmount() {
@@ -277,16 +281,18 @@ class InterfaceEditForm extends Component {
     this.setState(newValue)
   }
 
-  handleMockPreview = ()=>{
+
+
+  handleMockPreview = () => {
     let str = '';
-    try{
-      if(this.resBodyEditor.curData.format === true){
-        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null , '  ');
-      }else{
+    try {
+      if (this.resBodyEditor.curData.format === true) {
+        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null, '  ');
+      } else {
         str = '解析出错: ' + this.resBodyEditor.curData.format;
       }
-      
-    }catch(err){
+
+    } catch (err) {
       str = '解析出错: ' + err.message;
     }
     this.mockPreview.setValue(
@@ -296,7 +302,7 @@ class InterfaceEditForm extends Component {
 
   handleJsonType = (key) => {
     key = key || 'tpl';
-    if(key === 'preview'){
+    if (key === 'preview') {
       this.handleMockPreview()
     }
     this.setState({
@@ -365,6 +371,7 @@ class InterfaceEditForm extends Component {
     };
 
     const queryTpl = (data, index) => {
+  
       return <Row key={index} className="interface-edit-item-content">
         <Col span="5" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].name', {
@@ -400,7 +407,6 @@ class InterfaceEditForm extends Component {
         <Col span="1" className="interface-edit-item-content-col" >
           <Icon type="delete" className="interface-edit-del-icon" onClick={() => this.delParams(index, 'req_query')} />
         </Col>
-
       </Row>
     }
 
@@ -530,15 +536,15 @@ class InterfaceEditForm extends Component {
       return queryTpl(item, index)
     })
 
-    const headerList = this.state.req_headers?this.state.req_headers.map((item, index) => {
+    const headerList = this.state.req_headers ? this.state.req_headers.map((item, index) => {
       return headerTpl(item, index)
-    }):[];
+    }) : [];
 
     const requestBodyList = this.state.req_body_form.map((item, index) => {
       return requestBodyTpl(item, index)
     })
     return (
-      <Form  onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
 
         <h2 className="interface-title" style={{ marginTop: 0 }}>基本设置</h2>
         <div className="panel-sub">
@@ -551,7 +557,7 @@ class InterfaceEditForm extends Component {
               initialValue: this.state.title,
               rules: nameLengthLimit('接口')
             })(
-              <Input id="title" placeholder="接口名称"  />
+              <Input id="title" placeholder="接口名称" />
               )}
           </FormItem>
 
@@ -757,7 +763,7 @@ class InterfaceEditForm extends Component {
                 <TabPane tab="模板" key="tpl">
 
                 </TabPane>
-                <TabPane  tab="预览" key="preview">
+                <TabPane tab="预览" key="preview">
 
                 </TabPane>
 
@@ -822,7 +828,10 @@ class InterfaceEditForm extends Component {
           className="interface-edit-item"
           style={{ textAlign: 'center', marginTop: '16px' }}
         >
-          <Button type="primary" htmlType="submit">保存</Button>
+          {/* <Button type="primary" htmlType="submit">保存1</Button> */}
+          <Affix offsetBottom={0}>
+            <Button className="interface-edit-submit-button" size="large" htmlType="submit">保存</Button>
+          </Affix>
         </FormItem>
       </Form>
     );

@@ -20,6 +20,7 @@ const initialState = {
     ]
   }],
   isShowCol: true,
+  isRender:false,
   currColId: 0,
   currCaseId: 0,
   currCase: {},

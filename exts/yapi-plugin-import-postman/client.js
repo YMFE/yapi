@@ -1,19 +1,11 @@
 
 import {message} from 'antd'
+import URL from 'url';
 
 function postman(importDataModule){
 
   function parseUrl(url){
-    let parser = document.createElement('a');
-    parser.href = url;
-    return {
-      protocol: parser.protocol,
-      hostname: parser.hostname,
-      port: parser.port,  
-      pathname: parser.pathname,
-      search: parser.search,
-      host: parser.host
-    }
+    return URL.parse(url)
   }
   
   function checkInterRepeat(interData){
@@ -72,13 +64,19 @@ function postman(importDataModule){
   }
   
   function handlePath(path){
-    path = path.replace(/{{(\w*)}}/,"");
     path = parseUrl(path).pathname;
-    if(path.charAt(0) != "/"){
+    path = decodeURIComponent(path);
+    if(!path) return '';
+    
+    path = path.replace(/{{\w*}}/g, '');
+    path = path.replace(/{(\w*)}/,function(data, match){
+      if(match){
+        return ':' + match;
+      }
+      return '';
+    });    
+    if(path[0] != "/"){
       path = "/" + path;
-    }
-    if(path.charAt(path.length-1) === "/"){
-      path = path.substr(0,path.length-1);
     }
     return path;
   }

@@ -120,6 +120,13 @@ exports.handlePath = (path) => {
   return path;
 }
 
+exports.handleApiPath = (path) => {
+  if (!path) return '';
+  path = trim(path);  
+  path = path[0] !== '/' ? '/' + path : path;
+  return path;
+}
+
 // 名称限制 constants.NAME_LIMIT 字符
 exports.nameLengthLimit = (type) => {
   // 返回字符串长度，汉字计数为2
