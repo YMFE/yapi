@@ -6,7 +6,7 @@ const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItTableOfContents = require("markdown-it-table-of-contents");
 const defaultTheme = require("./defaultTheme.js");
-const htmlToPdf = require("html-pdf");
+// const htmlToPdf = require("html-pdf");
 class exportController extends baseController{
   constructor(ctx){
     super(ctx);
@@ -32,11 +32,11 @@ class exportController extends baseController{
           ctx.set("Content-Disposition",`attachment; filename=api.md`);
           return ctx.body = tp;
         }
-        case "pdf": {
-          tp = await createPdf.bind(this)(pid,false);
-          ctx.set("Content-Disposition",'filename="api.pdf"');
-          return ctx.body = tp;
-        }
+        // case "pdf": {
+        //   tp = await createPdf.bind(this)(pid,false);
+        //   // ctx.set("Content-Disposition",'filename="api.pdf"');
+        //   return ctx.body = tp;
+        // }
         default: {//默认为html
           tp += await createHtml.bind(this)(pid);
           ctx.set("Content-Disposition",`attachment; filename=api.html`);
@@ -49,29 +49,29 @@ class exportController extends baseController{
       ctx.body = yapi.commons.resReturn(null, 502, "下载出错");
     }
 
-    async function createPdf(){
-      let md = await createMarkdown.bind(this)(pid);
-      let markdown = new markdownIt();
-      markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
-      markdown.use(markdownItTableOfContents,{
-        markerPattern: /^\[toc\]/im
-      });
-      let tp = defaultTheme + unescape(markdown.render(md));
-      tp = createHtml5(tp);
+    // async function createPdf(){
+    //   let md = await createMarkdown.bind(this)(pid);
+    //   let markdown = new markdownIt();
+    //   markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
+    //   markdown.use(markdownItTableOfContents,{
+    //     markerPattern: /^\[toc\]/im
+    //   });
+    //   let tp = defaultTheme + unescape(markdown.render(md));
+    //   tp = createHtml5(tp);
       
-      let htp = htmlToPdf.create(tp);
+    //   let htp = htmlToPdf.create(tp);
 
-      let getPdfBuffer = ()=>{
-        return new Promise((resolve, reject)=>{
-          htp.toBuffer(function(err, buffer){
-            if(err) reject(err);
-            resolve(buffer)
-          })
-        })
-      }
-      let result = await getPdfBuffer();
-      return result;
-    }
+    //   let getPdfBuffer = ()=>{
+    //     return new Promise((resolve, reject)=>{
+    //       htp.toBuffer(function(err, buffer){
+    //         if(err) reject(err);
+    //         resolve(buffer)
+    //       })
+    //     })
+    //   }
+    //   let result = await getPdfBuffer();
+    //   return result;
+    // }
 
     async function createHtml(pid){
       let md = await createMarkdown.bind(this)(pid,true);
