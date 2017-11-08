@@ -23,6 +23,7 @@
     "clipboard": "^1.7.1",
     "deref": "^0.7.0",
     "fs-extra": "^3.0.1",
+    "html-pdf": "^2.2.0",
     "json-schema-ref-parser": "^4.0.0",
     "json5": "^0.5.1",
     "jsonwebtoken": "^7.4.1",
