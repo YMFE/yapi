@@ -145,4 +145,73 @@ sup {
         page-break-inside: avoid;
     }
 }
+html,body{
+    height: 100%;
+}
+.table-of-contents{
+    float: left;
+    width: 240px;
+    overflow: auto;
+    margin-left: -240px;
+    position: fixed;
+    padding-right: 0px;
+    box-sizing: border-box;
+    top: 0px;
+    bottom: 0px;
+    /* left: 0px; */
+    z-index: 3;
+}
+
+.table-of-contents ul{
+    overflow: auto;
+    margin: 0px;
+    height: 100%;
+    padding: 0px 0px;
+    box-sizing: border-box;
+    
+}
+.table-of-contents ul li{
+    padding-left: 20px;
+}
+.table-of-contents ul:before{
+    content: "目录";
+    font-size: 16px;
+    padding: 10px 0px;
+    display: block;
+    line-height: 25px;
+    color:black;
+}
+
+.table-of-contents a{
+    padding: 2px 0px;
+    display: block;
+    text-decoration: none;
+
+}
+
+body>h2{
+    font-size: 30px;
+    padding: 10px 0px;
+}
+body>p{
+    margin-left: 30px;
+}
+body>table{
+    margin-left: 30px;
+}
+body>pre{
+    margin-left: 30px;
+}
+.curProject{
+    position: fixed;
+    top:20px;
+    font-size:25px;
+    color:black;
+    margin-left:-240px;
+    width:240px;
+    padding:5px;
+    line-height:25px;
+    box-sizing:border-box;
+}
+
 </style>`

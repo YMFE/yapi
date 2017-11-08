@@ -80,7 +80,24 @@ class exportController extends baseController{
       markdown.use(markdownItTableOfContents,{
         markerPattern: /^\[toc\]/im
       });
-      let tp = defaultTheme + unescape(markdown.render(md));
+      
+      let tp = defaultTheme + `<style>.table-of-contents:before{
+        content: "项目名:${curProject.name}";
+        font-size: 20px;
+        padding: 10px 0px;
+        display: block;
+        line-height: 25px;
+        color:black;
+        font-weight: bolder;
+    }</style>`+ `<style>.table-of-contents ul:before{
+      content: "项目描述: ${curProject.desc}";
+      font-size: 12px;
+      padding: 10px 0px;
+      padding-right:15px;
+      display: block;
+      line-height: 20px;
+      color:gray;
+  }</style>` + unescape(markdown.render(md));
       tp = createHtml5(tp);
       return tp;
     }
@@ -100,18 +117,20 @@ class exportController extends baseController{
       return html;
     }
     function createBaseMessage(inter){
-        // 基本信息
-        let baseMessage = `### 基本信息\n\n**接口描述：**\n\n${inter.desc?escape(inter.desc):""}\n\n**接口名称：** ${inter.title}\n\n**接口路径：** ${curProject.basepath + inter.path}\n\n`;
+      // 基本信息
+      let baseMessage = `### 基本信息\n\n**接口名称：** ${inter.title}\n\n**接口路径：** ${curProject.basepath + inter.path}\n\n**接口描述：**\n${inter.desc?escape(inter.desc):""}\n`;
       return baseMessage;
     }
-
+    function replaceBr(str){
+      return str.replace("\n",escape("<br/>"));
+    }
     function createReqHeaders(req_headers){
       // Request-headers
       if(req_headers&&req_headers.length){
         let headersTable = `**Headers：**\n\n`;
         headersTable += `| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
         for(let j = 0;j<req_headers.length;j++){
-          headersTable += `| ${escape(req_headers[j].name||"")||""}  |  ${escape(req_headers[j].value||"")||""} | ${req_headers[j].required?"是":"否"}  |  ${escape(req_headers[j].example||"")||""} |  ${escape(req_headers[j].desc||"")||""} |\n`;
+          headersTable += `| ${replaceBr(req_headers[j].name||"")||""}  |  ${replaceBr(req_headers[j].value||"")||""} | ${req_headers[j].required?"是":"否"}  |  ${replaceBr(req_headers[j].example||"")||""} |  ${replaceBr(req_headers[j].desc||"")||""} |\n`;
         }
         return headersTable;
       }
@@ -123,7 +142,7 @@ class exportController extends baseController{
         let paramsTable = `**路径参数**\n`;
         paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
         for(let j = 0;j<req_params.length;j++){
-          paramsTable += `| ${escape(req_params[j].name||"") || ""} |  ${escape(req_params[j].example||"") || ""} |  ${escape(req_params[j].desc||"")||""} |\n`;
+          paramsTable += `| ${replaceBr(req_params[j].name||"") || ""} |  ${replaceBr(req_params[j].example||"") || ""} |  ${replaceBr(req_params[j].desc||"")||""} |\n`;
         }
         return paramsTable;
       }
@@ -135,7 +154,7 @@ class exportController extends baseController{
         let headersTable = `**Query**\n\n`;
         headersTable += `| 参数名称  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ |\n`;
         for(let j = 0;j<req_query.length;j++){
-          headersTable += `| ${escape(req_query[j].name||"") || ""} | ${req_query[j].required?"是":"否"}  |  ${escape(req_query[j].example||"") || ""} |  ${escape(req_query[j].desc||"")||""} |\n`;
+          headersTable += `| ${replaceBr(req_query[j].name||"") || ""} | ${req_query[j].required?"是":"否"}  |  ${replaceBr(req_query[j].example||"") || ""} |  ${replaceBr(req_query[j].desc||"")||""} |\n`;
         }
         return headersTable;
       }
@@ -147,7 +166,7 @@ class exportController extends baseController{
         let bodyTable = `**Body：**\n\n`
         bodyTable += `| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;        let req_body = req_body_form;
         for(let j = 0;j<req_body.length;j++){
-          bodyTable += `| ${escape(req_body[j].name||"") || ""} | ${req_body[j].type || ""}  |  ${req_body[j].required?"是":"否"} |  ${escape(req_body[j].example||"")||""}  |  ${escape(req_body[j].desc||"")||""} |\n`;
+          bodyTable += `| ${replaceBr(req_body[j].name||"") || ""} | ${req_body[j].type || ""}  |  ${req_body[j].required?"是":"否"} |  ${replaceBr(req_body[j].example||"")||""}  |  ${replaceBr(req_body[j].desc||"")||""} |\n`;
         }
         return `${bodyTable}\n\n`;
       }else if(req_body_other){//other
@@ -167,7 +186,7 @@ class exportController extends baseController{
     async function createMarkdown(pid,isToc){//拼接markdown
     //模板
     let mdTemplate = ``;
-    const toc = `**目录 (Table of Contents)**\n\n[TOC]\n\n`;
+    const toc = `[TOC]\n\n`;
     if(isToc){
       mdTemplate += toc;
     }
@@ -175,7 +194,7 @@ class exportController extends baseController{
       const interList = await this.interModel.listByPid(pid);
       for(let i = 0;i<interList.length;i++){//循环拼接 接口
         // 接口名称
-        mdTemplate += `\n## ${interList[i].title}\n`;
+        mdTemplate += `\n## ${escape(`${interList[i].title}\n<a id=${interList[i].title}> </a>`)}\n`;
         // 基本信息
         mdTemplate += createBaseMessage(interList[i]);
         // Request
