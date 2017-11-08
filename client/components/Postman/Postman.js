@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
+import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch, Modal, Row, Col } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -40,6 +40,13 @@ const mockDataSource = wordList.map(item => {
   </AutoComplete.Option>
 });
 
+const MockModalList = wordList.map((item, index) => {
+  return <Row key={index} type="flex" align="middle" className="row">
+    <Col span={6}><label>{item.mock}</label></Col>
+    <Col span={18}><Input /></Col>
+  </Row>
+})
+
 
 // const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -75,7 +82,8 @@ export default class Run extends Component {
     test_status: null,
     resMockTest: true,
     resStatusCode: null,
-    resStatusText: ''
+    resStatusText: '',
+    modalVisible: false
   }
 
   constructor(props) {
@@ -344,6 +352,7 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
+    v = v.target.value;
     key = key || 'value';
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
@@ -564,6 +573,19 @@ export default class Run extends Component {
     });
   }
 
+  // 模态框的相关操作
+  showModal = () => {
+    this.setState({
+      modalVisible: true
+    });
+  }
+  handleOk = () => {
+    this.setState({ modalVisible: false });
+  }
+  handleCancel = () => {
+    this.setState({ modalVisible: false });
+  }
+
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
@@ -586,6 +608,25 @@ export default class Run extends Component {
 
     return (
       <div className="interface-test postman">
+        <Modal
+          title={<p><Icon type="bulb" /> Basic Modal</p>}
+          visible={this.state.modalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          wrapClassName="modal-postman"
+        >
+          <div className="modal-postman-form">
+            {MockModalList}
+          </div>
+          <Row className="modal-postman-expression">
+            <Col span={6}><h3 className="title">输入值</h3></Col>
+            <Col span={18}><h3>输入值</h3></Col>
+          </Row>
+          <Row className="modal-postman-preview">
+            <Col span={6}><h3 className="title">预览</h3></Col>
+            <Col span={18}><h3>输入值</h3></Col>
+          </Row>
+        </Modal>
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -669,14 +710,15 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+                    <Input addonAfter={<Icon type="setting" />} defaultValue={item.value} />
+                    {/*<AutoComplete
                       value={item.value}
                       onChange={e => this.changePathParam(e, index)}
                       className="value"
                       dataSource={mockDataSource}
                       placeholder="参数值"
                       optionLabelProp="value"
-                    />
+                    />*/}
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -687,6 +729,7 @@ export default class Run extends Component {
           <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
             {
               query.map((item, index) => {
+                  console.log(item.value);
                 return (
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name}  className="key" />
@@ -696,14 +739,21 @@ export default class Run extends Component {
                       <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+                    <Input
+                      defaultValue={item.value}
+                      className="value"
+                      onChange={e => this.changeQuery(e, index)}
+                      placeholder="参数值"
+                      addonAfter={<Icon type="bulb" onClick={this.showModal}/>}
+                    />
+                    {/*<AutoComplete
                       value={item.value}
                       onChange={e => this.changeQuery(e, index)}
                       className="value"
                       dataSource={mockDataSource}
                       placeholder="参数值"
                       optionLabelProp="value"
-                    />
+                    />*/}
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
                 )
