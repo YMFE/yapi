@@ -81,7 +81,6 @@ class InterfaceEdit extends Component {
       s.onmessage = (e) => {
         let result = JSON.parse(e.data);
         if (result.errno === 0) {
-          console.log(result.data)
           this.setState({
             curdata: result.data,
             status: 1
