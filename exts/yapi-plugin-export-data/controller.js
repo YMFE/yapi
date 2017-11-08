@@ -7,9 +7,6 @@ const markdownItAnchor = require("markdown-it-anchor");
 const markdownItTableOfContents = require("markdown-it-table-of-contents");
 const defaultTheme = require("./defaultTheme.js");
 const htmlToPdf = require("html-pdf");
-// const nodeWkhtmltopdf = require("node-wkhtmltopdf");
-// const conversion = require("phantom-html-to-pdf")();
-// const pdfkitjs = require("pdfkitjs");
 class exportController extends baseController{
   constructor(ctx){
     super(ctx);

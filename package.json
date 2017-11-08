@@ -46,6 +46,7 @@
     "mongoose-auto-increment": "^5.0.1",
     "nodemailer": "^4.0.1",
     "ora": "^1.3.0",
+    "phantom-html-to-pdf": "^0.5.5",
     "randexp": "^0.4.6",
     "request": "^2.81.0",
     "sha1": "^1.1.1",
