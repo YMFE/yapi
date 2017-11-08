@@ -198,9 +198,10 @@ export default class Run extends Component {
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(_.find(domains, item => item.name === caseEnv).domain);
-    let path = pathname
+    let path = pathname;
+
     pathParam.forEach(item => {
-      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+      path = path.replace(`:${item.name}`, handleMockWord(item.value) || `:${item.name}`);
     });
     if (urlObj.pathname) {
       if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
@@ -222,9 +223,9 @@ export default class Run extends Component {
       if(resBody === false){
         resBody = bodyOther;
       }else{
-        reqBody = this.handleJson(resBody)     
+        reqBody = this.handleJson(resBody)
       }
-      
+
     }
 
     this.setState({ loading: true })
@@ -238,7 +239,7 @@ export default class Run extends Component {
       file: bodyType === 'file' ? 'single-file' : null,
       timeout: 8240000, //因浏览器限制，超时时间最多为两分钟
       success: (res, header, third) => {
-        console.log('suc', third);
+        // console.log('suc', third);
         this.setState({
           resStatusCode: third.res.status,
           resStatusText: third.res.statusText
@@ -262,7 +263,7 @@ export default class Run extends Component {
           } else if (that.state.bodyType === 'json') {
             body = json_parse(that.state.bodyOther);
           }
-          if (res_body && res_body_type === 'json' && typeof res === 'object') {
+          if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
             let tpl = MockExtra(json_parse(res_body), {
               query: query,
               body: body
@@ -404,7 +405,7 @@ export default class Run extends Component {
       bodyForm[index].enable = true;
       if (bodyForm[index].type === 'file') {
         bodyForm[index].value = 'file_' + index
-      } else {        
+      } else {
         bodyForm[index].value = v
       }
     } else if (key === 'enable') {
@@ -497,7 +498,7 @@ export default class Run extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = item.value;
+        headersObj[item.name] = handleMockWord(item.value);
       }
     })
     return headersObj;
@@ -516,7 +517,7 @@ export default class Run extends Component {
     }else{
       return data;
     }
-    return data;    
+    return data;
   }
 
   bindAceEditor = () => {
@@ -551,11 +552,11 @@ export default class Run extends Component {
     }, 0);
   }
 
-  @autobind
-  fileChange(e, index) {
-    console.log(e)
-    console.log(index)
-  }
+  // @autobind
+  // fileChange(e, index) {
+  //   console.log(e)
+  //   console.log(index)
+  // }
 
   @autobind
   onTestSwitched(checked) {

@@ -448,14 +448,19 @@ for(let ctrl in routerConfig){
 function createAction(routerController, action, path, method) {
     router[method]("/api" +  path, async (ctx) => {
         let inst = new routerController(ctx);
-
-        await inst.init(ctx);
-
-        if (inst.$auth === true) {
-            await inst[action].call(inst, ctx);
-        } else {
-            ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
-        }
+				try{
+					await inst.init(ctx);
+					
+									if (inst.$auth === true) {
+											await inst[action].call(inst, ctx);
+									} else {
+											ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
+									}
+				}catch(err){
+					ctx.body = yapi.commons.resReturn(null, 40011, '服务器出错...');
+					yapi.commons.log(err, 'error')
+				}
+        
     });
 }
 

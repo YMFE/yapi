@@ -66,6 +66,7 @@ module.exports = function () {
         try {
             let result = await inst.save(data);
             result = yapi.commons.fieldSelect(result, ['interface_id', 'project_id', 'group_id', 'time', 'ip', 'date']);
+
         } catch (e) {
             yapi.commons.log('mockStatisError', e);
         }

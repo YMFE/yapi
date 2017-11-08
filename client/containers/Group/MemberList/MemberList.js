@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom'
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
@@ -10,7 +10,7 @@ import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 const Option = Select.Option;
 
-function arrayAddKey (arr) {
+function arrayAddKey(arr) {
   return arr.map((item, index) => {
     return {
       ...item,
@@ -86,7 +86,14 @@ class MemberList extends Component {
       role: this.state.inputRole
     }).then((res) => {
       if (!res.payload.data.errcode) {
-        message.success('添加成功!');
+        const { add_members, exist_members } = res.payload.data.data;
+        const addLength = add_members.length;
+        const existLength = exist_members.length;
+        this.setState({
+          inputRole: 'dev',
+          inputUids:[]
+        });
+        message.success(`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`);
         this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
     });
@@ -137,7 +144,7 @@ class MemberList extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if(this._groupId !== this._groupId){
+    if (this._groupId !== this._groupId) {
       return null;
     }
     if (this.props.currGroup !== nextProps.currGroup) {
@@ -177,7 +184,7 @@ class MemberList extends Component {
 
   render() {
     const columns = [{
-      title: this.props.currGroup.group_name + ' 分组成员 ('+this.state.userInfo.length + ') 人',
+      title: this.props.currGroup.group_name + ' 分组成员 (' + this.state.userInfo.length + ') 人',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => {
@@ -198,10 +205,10 @@ class MemberList extends Component {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select value={ record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
-                <Option value={ 'owner-'+record.uid}>组长</Option>
-                <Option value={'dev-'+record.uid}>开发者</Option>
-                <Option value={'guest-'+record.uid}>访客</Option>
+              <Select value={record.role + '-' + record.uid} className="select" onChange={this.changeUserRole}>
+                <Option value={'owner-' + record.uid}>组长</Option>
+                <Option value={'dev-' + record.uid}>开发者</Option>
+                <Option value={'guest-' + record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -226,26 +233,26 @@ class MemberList extends Component {
     let ownerinfo = [];
     let devinfo = [];
     let guestinfo = [];
-    for(let i = 0;i<userinfo.length;i++){
-      if(userinfo[i].role === "owner"){
+    for (let i = 0; i < userinfo.length; i++) {
+      if (userinfo[i].role === "owner") {
         ownerinfo.push(userinfo[i]);
       }
-      if(userinfo[i].role === "dev"){
+      if (userinfo[i].role === "dev") {
         devinfo.push(userinfo[i]);
       }
-      if(userinfo[i].role === "guest"){
+      if (userinfo[i].role === "guest") {
         guestinfo.push(userinfo[i]);
       }
     }
-    userinfo = [...ownerinfo,...devinfo,...guestinfo];
+    userinfo = [...ownerinfo, ...devinfo, ...guestinfo];
     return (
       <div className="m-panel">
-        {this.state.visible?<Modal
+        {this.state.visible ? <Modal
           title="添加成员"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          >
+        >
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label usernamelabel">用户名: </div></Col>
             <Col span="15">
@@ -262,8 +269,8 @@ class MemberList extends Component {
               </Select>
             </Col>
           </Row>
-        </Modal>:""}
-        <Table columns={columns} dataSource={userinfo} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInGroup"/>}} />
+        </Modal> : ""}
+        <Table columns={columns} dataSource={userinfo} pagination={false} locale={{ emptyText: <ErrMsg type="noMemberInGroup" /> }} />
       </div>
     );
   }

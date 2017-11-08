@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 接口管理平台 插件 Wiki</title>
+    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="./index.html" class="navbar-brand"><img src="./images/logo_header@2x.png" /> &nbsp;YAPI</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="">
+                            
+                            <a href="index.html"></a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="usage.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="active">
+                            
+                            <a href="plugin.html">插件 Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo 站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >插件</h1>
+                    <p class="desc ">可根据业务需求，定制化功能</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="redev.html">二次开发</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#运行开发服务器">运行开发服务器</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#安装成功后的目录结构">安装成功后的目录结构</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#技术栈说明">技术栈说明</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#启动 prd 环境服务器">启动 prd 环境服务器</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-index.html">插件管理</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-dev.html">插件开发</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-hooks.html">钩子列表</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-list.html">插件列表</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h2 class="subject" id="运行开发服务器">运行开发服务器 <a class="hashlink" href="#运行开发服务器">#</a></h2><p>首先确保安装了 ykit, 没有安装请执行 npm install -g ykit</p>
+<pre><code>mkdir yapi
+cd yapi
+git clone https<span class="token operator">:</span>//github.com/YMFE/yapi.git vendors
+cp vendors/config_example.json ./config.json //复制完成后请修改相关配置
+cd vendors
+npm install
+npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+npm run dev //启动服务器后，请访问 <span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
+</code></pre><h2 class="subject" id="安装成功后的目录结构">安装成功后的目录结构 <a class="hashlink" href="#安装成功后的目录结构">#</a></h2><pre><code>yapi
+  config.json //服务器配置，可参考 vendors/config_example.json
+  vendors //yapi 
+  init.lock //安装锁文件，重新安装需要删除此文件
+  log //运行日志
+</code></pre><h2 class="subject" id="技术栈说明">技术栈说明 <a class="hashlink" href="#技术栈说明">#</a></h2><p>后端： koa mongoose</p>
+<p>前端： react redux</p>
+<h2 class="subject" id="启动_prd_环境服务器">启动 prd 环境服务器 <a class="hashlink" href="#启动_prd_环境服务器">#</a></h2><pre><code>  cd vendors
+  ykit pack -m
+  node server/app.js
+</code></pre>
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2017 <a href="https://github.com/ymfe">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+        
+
+    </body>
+
+</html>

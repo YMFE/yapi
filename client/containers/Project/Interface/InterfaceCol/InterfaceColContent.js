@@ -30,10 +30,10 @@ function json_parse(data) {
   }
 }
 
-function handleReport(json){
-  try{
+function handleReport(json) {
+  try {
     return JSON.parse(json);
-  }catch(e){
+  } catch (e) {
     return {};
   }
 }
@@ -46,6 +46,7 @@ function handleReport(json){
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
       isShowCol: state.interfaceCol.isShowCol,
+      isRander: state.interfaceCol.isRander,
       currCaseList: state.interfaceCol.currCaseList,
       currProject: state.project.currProject
     }
@@ -71,6 +72,7 @@ class InterfaceColContent extends Component {
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
     isShowCol: PropTypes.bool,
+    isRander: PropTypes.bool,
     currProject: PropTypes.object
   }
 
@@ -103,11 +105,11 @@ class InterfaceColContent extends Component {
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId)
     if (currColId && currColId != 0) {
       let result = await this.props.fetchCaseList(currColId);
-      if(result.payload.data.errcode === 0){
+      if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
       }
-      
-      this.props.setColData({ currColId: +currColId, isShowCol: true })
+
+      this.props.setColData({ currColId: +currColId, isShowCol: true, isRander: false })
       this.handleColdata(this.props.currCaseList)
     }
 
@@ -203,8 +205,8 @@ class InterfaceColContent extends Component {
     });
     const domains = currProject.env.concat();
 
-    case_env = this.state.currColEnv ? this.state.currColEnv : case_env ;
-    
+    case_env = this.state.currColEnv ? this.state.currColEnv : case_env;
+
     let currDomain = _.find(domains, item => item.name === case_env);
     if (!currDomain) {
       currDomain = domains[0];
@@ -242,8 +244,8 @@ class InterfaceColContent extends Component {
       }
 
     }
-    try{
-      let data =await this.crossRequest({
+    try {
+      let data = await this.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
@@ -255,7 +257,7 @@ class InterfaceColContent extends Component {
       result.res_body = res;
       result.params = requestParams;
       let validRes = [];
-      if (res && typeof res === 'object') {            
+      if (res && typeof res === 'object') {
         if (interfaceData.mock_verify) {
           let tpl = MockExtra(json_parse(interfaceData.res_body), {
             query: interfaceData.req_query,
@@ -265,7 +267,7 @@ class InterfaceColContent extends Component {
         }
       }
       let responseData = Object.assign({}, {
-        status:data.res.status,
+        status: data.res.status,
         body: res,
         header: data.res.header,
         statusText: data.res.statusText
@@ -280,31 +282,31 @@ class InterfaceColContent extends Component {
       }
       return result;
 
-    }catch(data){
-      if(data.err){
+    } catch (data) {
+      if (data.err) {
         data.err = data.err || '请求异常';
         try {
-          data.err = json_parse( data.err);
+          data.err = json_parse(data.err);
         } catch (e) {
           console.log(e)
         }
         result.res_body = data.err;
-        result.res_header = data.header;       
-      }else{
+        result.res_header = data.header;
+      } else {
         result.res_body = data.message;
       }
-      
+
       result.code = 400;
       return result;
     }
   }
 
-  crossRequest = (options)=>{
-    return new Promise((resolve, reject)=>{
-      options.success = function(res, header, data){
+  crossRequest = (options) => {
+    return new Promise((resolve, reject) => {
+      options.success = function (res, header, data) {
         resolve(data);
       }
-      options.error = function(err, header){
+      options.error = function (err, header) {
         reject({
           err,
           header
@@ -315,23 +317,23 @@ class InterfaceColContent extends Component {
   }
 
   //response, validRes
-  handleScriptTest =async (interfaceData,response, validRes, requestParams)=>{
-    if(interfaceData.enable_script !== true){
+  handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
+    if (interfaceData.enable_script !== true) {
       return null;
     }
-    try{
+    try {
       let test = await axios.post('/api/col/run_script', {
         response: response,
         records: this.records,
         script: interfaceData.test_script,
         params: requestParams
       })
-      if(test.data.errcode !== 0){
+      if (test.data.errcode !== 0) {
         validRes.push({
           message: test.data.data[0]
         })
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
       validRes.push({
         message: err.message
@@ -371,10 +373,10 @@ class InterfaceColContent extends Component {
     const obj = {};
     arr.forEach(item => {
       if (item.name && item.enable && item.type !== 'file') {
-         obj[item.name] = this.handleValue(item.value);
-         if(requestParams){
+        obj[item.name] = this.handleValue(item.value);
+        if (requestParams) {
           requestParams[item.name] = obj[item.name];
-         }
+        }
       }
     })
     return obj;
@@ -388,9 +390,9 @@ class InterfaceColContent extends Component {
     query.forEach(item => {
       if (item.name && item.enable) {
         queryObj[item.name] = this.handleValue(item.value);
-        if(requestParams){
+        if (requestParams) {
           requestParams[item.name] = queryObj[item.name];
-         }
+        }
       }
     })
     return queryObj;
@@ -400,7 +402,7 @@ class InterfaceColContent extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = item.value;
+        headersObj[item.name] = this.handleValue(item.value);
       }
     })
     return headersObj;
@@ -431,11 +433,11 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId :  0;
-    if(newColId && this.currColId && newColId !== this.currColId){
-      this.currColId = newColId;    
+    let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
+    if (newColId && this.currColId && newColId !== this.currColId || this.props.isRander) {
+      this.currColId = newColId;
       await this.props.fetchCaseList(newColId);
-      this.props.setColData({ currColId: +newColId, isShowCol: true })
+      this.props.setColData({ currColId: +newColId, isShowCol: true, isRander: false })
       this.handleColdata(this.props.currCaseList)
     }
   }
@@ -451,18 +453,18 @@ class InterfaceColContent extends Component {
   }
 
   openAdv = (id) => {
-    let findCase = _.find(this.props.currCaseList, item=> item.id === id)
+    let findCase = _.find(this.props.currCaseList, item => item.id === id)
 
-    this.setState({   
+    this.setState({
       enableScript: findCase.enable_script,
       curScript: findCase.test_script,
       advVisible: true,
       curCaseid: id
     }, () => {
       let that = this;
-      if(that.Editor){
+      if (that.Editor) {
         that.Editor.setValue(this.state.curScript);
-      }else{
+      } else {
         that.Editor = mockEditor({
           container: 'case-script',
           data: this.state.curScript,
@@ -472,7 +474,7 @@ class InterfaceColContent extends Component {
             })
           }
         })
-      }      
+      }
     })
   }
 
@@ -483,13 +485,13 @@ class InterfaceColContent extends Component {
   }
 
   handleAdvOk = async () => {
-    const {curCaseid, enableScript, curScript} = this.state;
+    const { curCaseid, enableScript, curScript } = this.state;
     const res = await axios.post('/api/col/up_case', {
       id: curCaseid,
       test_script: curScript,
       enable_script: enableScript
     });
-    if(res.data.errcode === 0){
+    if (res.data.errcode === 0) {
       message.success('更新成功');
     }
     this.setState({
@@ -497,7 +499,7 @@ class InterfaceColContent extends Component {
     });
     let currColId = this.currColId;
     await this.props.fetchCaseList(currColId);
-    this.props.setColData({ currColId: +currColId, isShowCol: true })
+    this.props.setColData({ currColId: +currColId, isShowCol: true, isRander: false })
     this.handleColdata(this.props.currCaseList)
   }
 
@@ -570,7 +572,7 @@ class InterfaceColContent extends Component {
         formatters: [(value, { rowData }) => {
           let id = rowData._id;
           let code = this.reports[id] ? this.reports[id].code : 0;
-          if(rowData.test_status === 'loading'){
+          if (rowData.test_status === 'loading') {
             return <div ><Spin /></div>
           }
 
@@ -651,7 +653,7 @@ class InterfaceColContent extends Component {
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
-          <Select  value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
+          <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
             <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
             {
               colEnv.map((item) => {
@@ -705,7 +707,7 @@ class InterfaceColContent extends Component {
         >
           <h3>
             是否开启:&nbsp;
-            <Switch checked={this.state.enableScript} onChange={e=>this.setState({enableScript: e})} />
+            <Switch checked={this.state.enableScript} onChange={e => this.setState({ enableScript: e })} />
           </h3>
           <div className="case-script" id="case-script" style={{ minHeight: 500 }}></div>
         </Modal>

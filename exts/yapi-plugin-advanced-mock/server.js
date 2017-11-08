@@ -9,9 +9,11 @@ const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
 const Mock = require('mockjs');
 
 function arrToObj(arr){
-  let obj = {};
+  let obj = {'Set-Cookie': []};
   arr.forEach(item=>{
-    obj[item.name] = item.value;
+    if(item.name === 'Set-Cookie'){
+      obj['Set-Cookie'].push(item.value);
+    }else obj[item.name] = item.value;
   })
   return obj;
 }
@@ -51,7 +53,7 @@ module.exports = function(){
       if(lib.isDeepMatch(reqParams, params)){
         matchList.push(item); 
       }
-    })
+    })    
     if(matchList.length === 0){
       let list =await caseInst.model.find({
         interface_id: interfaceId,
@@ -65,7 +67,7 @@ module.exports = function(){
       })
     }
     if(matchList.length > 0){
-      let maxItem = _.max(matchList, item=> Object.keys(item.params).length);
+      let maxItem = _.max(matchList, item=> (item.params &&  Object.keys(item.params).length || 0 ));
       return maxItem;
     }
     return null;

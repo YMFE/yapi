@@ -36,7 +36,7 @@ class interfaceController extends baseController {
      * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
      * @param {String}  [req_headers[].desc] header描述
      * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
-     * @param {Array} [req_params] 路径参数 name, desc两个参数
+     * @param {Array} [req_params] name, desc两个参数
      * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
      * @param {String} [req_body_form[].name] 请求参数名
      * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
@@ -69,7 +69,7 @@ class interfaceController extends baseController {
 
         let auth = await this.checkAuth(params.project_id, 'project', 'edit')
         if (!auth) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
         }
         params.method = params.method || 'GET';
         params.method = params.method.toUpperCase();
@@ -77,10 +77,11 @@ class interfaceController extends baseController {
         params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
 
 
+
         let http_path = url.parse(params.path, true);
 
         if (!yapi.commons.verifyPath(http_path.pathname)) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
+            return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
         }
 
 
@@ -95,10 +96,11 @@ class interfaceController extends baseController {
         })
 
 
+
         let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 
         if (checkRepeat > 0) {
-            return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
+            return ctx.body = yapi.commons.resReturn(null, 40022, '已存在的接口:' + params.path + '[' + params.method + ']');
         }
 
         try {
@@ -120,11 +122,13 @@ class interfaceController extends baseController {
             };
 
             if (!_.isUndefined(params.req_query)) {
-                data.req_query = params.req_query;
+                data.req_query = this.requiredSort(params.req_query);
+                // data.req_query = params.req_query;
             }
 
             if (!_.isUndefined(params.req_body_form)) {
-                data.req_body_form = params.req_body_form;
+                data.req_body_form = this.requiredSort(params.req_body_form);
+                // data.req_body_form = params.req_body_form;
             }
 
             if (params.path.indexOf(":") > 0) {
@@ -132,7 +136,7 @@ class interfaceController extends baseController {
                 for (i = 1; i < paths.length; i++) {
                     if (paths[i][0] === ':') {
                         name = paths[i].substr(1);
-                        if (!_.find(params.req_params, {name: name})) {
+                        if (!_.find(params.req_params, { name: name })) {
                             params.req_params.push({
                                 name: name,
                                 desc: ''
@@ -157,7 +161,7 @@ class interfaceController extends baseController {
             this.catModel.get(params.catid).then((cate) => {
                 let username = this.getUsername();
                 let title = `<a href="/user/profile/${this.getUid()}">${username}</a> 为分类 <a href="/project/${params.project_id}/interface/api/cat_${params.catid}">${cate.name}</a> 添加了接口 <a href="/project/${params.project_id}/interface/api/${result._id}">${data.title}</a> `
-
+                
                 yapi.commons.saveLog({
                     content: title,
                     type: 'project',
@@ -165,7 +169,8 @@ class interfaceController extends baseController {
                     username: username,
                     typeid: params.project_id
                 });
-                this.projectModel.up(params.project_id, {up_time: new Date().getTime()}).then();
+               this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
+
                 //let project = await this.projectModel.getBaseInfo(params.project_id);
                 // let interfaceUrl = `http://${ctx.request.host}/project/${params.project_id}/interface/api/${result._id}`
                 // this.sendNotice(params.project_id, {
@@ -203,8 +208,8 @@ class interfaceController extends baseController {
 
         try {
             let result = await this.Model.get(params.id);
-            if (!result) {
-                return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
+            if(!result){
+              return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
             }
             let userinfo = await this.userModel.findById(result.uid);
             let project = await this.projectModel.getBaseInfo(result.project_id);
@@ -217,10 +222,10 @@ class interfaceController extends baseController {
             yapi.emitHook('interface_get', params.id).then();
 
             result = result.toObject();
-            if (userinfo) {
+            if(userinfo){
                 result.username = userinfo.username;
             }
-
+            
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -240,10 +245,7 @@ class interfaceController extends baseController {
     async list(ctx) {
         let project_id = ctx.request.query.project_id;
         let project = await this.projectModel.getBaseInfo(project_id);
-        // let count = await this.Model.getInterfaceListCount();
-        // console.log('interfaceCount', count);
-
-        if (!project) {
+        if(!project){
             return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
         }
         if (project.project_type === 'private') {
@@ -264,7 +266,7 @@ class interfaceController extends baseController {
         }
     }
 
-    async downloadCrx(ctx) {
+    async downloadCrx(ctx){
         let filename = 'crossRequest.zip';
         let dataBuffer = yapi.fs.readFileSync(yapi.path.join(yapi.WEBROOT, 'static/attachment/cross-request.zip'));
         ctx.set('Content-disposition', 'attachment; filename=' + filename);
@@ -301,7 +303,7 @@ class interfaceController extends baseController {
         }
 
         let project = await this.projectModel.getBaseInfo(project_id);
-        if (!project) {
+        if(!project){
             return ctx.body = yapi.commons.resReturn(null, 406, '不存在的项目');
         }
         if (project.project_type === 'private') {
@@ -380,8 +382,8 @@ class interfaceController extends baseController {
         }
 
         let interfaceData = await this.Model.get(id);
-        if (!interfaceData) {
-            return ctx.body = yapi.commons.resReturn(null, 400, '不存在的接口');
+        if(!interfaceData){
+          return ctx.body = yapi.commons.resReturn(null, 400, '不存在的接口');
         }
         let auth = await this.checkAuth(interfaceData.project_id, 'project', 'edit')
         if (!auth) {
@@ -392,23 +394,26 @@ class interfaceController extends baseController {
             up_time: yapi.commons.time()
         };
 
-        if (params.path) {
-            let http_path = url.parse(params.path, true);
+        if(params.path){
+          let http_path = url.parse(params.path, true);
 
-            if (!yapi.commons.verifyPath(http_path.pathname)) {
-                return ctx.body = yapi.commons.resReturn(null, 400, '接口path第一位必须是/，最后一位不能为/');
-            }
-            params.query_path = {};
-            params.query_path.path = http_path.pathname;
-            params.query_path.params = [];
-            Object.keys(http_path.query).forEach((item) => {
-                params.query_path.params.push({
-                    name: item,
-                    value: http_path.query[item]
-                })
-            })
-            data.query_path = params.query_path
+          if (!yapi.commons.verifyPath(http_path.pathname)) {
+              return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
+          }
+          params.query_path = {};
+          params.query_path.path = http_path.pathname;
+          params.query_path.params = [];
+          Object.keys(http_path.query).forEach((item) => {
+              params.query_path.params.push({
+                  name: item,
+                  value: http_path.query[item]
+              })
+          })
+          data.query_path = params.query_path
         }
+
+
+
 
 
         if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method)) {
@@ -417,6 +422,7 @@ class interfaceController extends baseController {
                 return ctx.body = yapi.commons.resReturn(null, 401, '已存在的接口:' + params.path + '[' + params.method + ']');
             }
         }
+
 
 
         if (!_.isUndefined(params.path)) {
@@ -441,21 +447,24 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_body_form)) {
-            data.req_body_form = params.req_body_form;
+            data.req_body_form = this.requiredSort(params.req_body_form);
+            // data.req_body_form = params.req_body_form;
         }
         if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
-            if (Array.isArray(params.req_params) && params.req_params.length > 0) {
-                data.type = 'var'
-                data.req_params = params.req_params;
-            } else {
-                data.type = 'static'
-                data.req_params = [];
-            }
+          if(Array.isArray(params.req_params) && params.req_params.length > 0){
+            data.type = 'var'
+            data.req_params = params.req_params;
+          }else{
+            data.type = 'static'
+            data.req_params = [];
+          }
 
         }
 
         if (!_.isUndefined(params.req_query)) {
-            data.req_query = params.req_query;
+            // data.req_query = params.req_query;
+            data.req_query = this.requiredSort(params.req_query);
+            // console.log("req",this.requiredSort(params.req_query));
         }
 
         if (!_.isUndefined(params.req_body_other)) {
@@ -478,6 +487,7 @@ class interfaceController extends baseController {
         }
 
 
+
         try {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
@@ -491,7 +501,8 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
-                this.projectModel.up(interfaceData.project_id, {up_time: new Date().getTime()}).then();
+
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             } else {
                 let cateid = interfaceData.catid;
                 this.catModel.get(cateid).then((cate) => {
@@ -503,7 +514,8 @@ class interfaceController extends baseController {
                         typeid: cate.project_id
                     });
                 });
-                this.projectModel.up(interfaceData.project_id, {up_time: new Date().getTime()}).then();
+
+                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
             }
             if (params.switch_notice === true) {
                 let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -569,8 +581,7 @@ class interfaceController extends baseController {
                     typeid: cate.project_id
                 });
             })
-            this.projectModel.up(data.project_id, {up_time: new Date().getTime()}).then();
-
+            this.projectModel.up(data.project_id,{up_time: new Date().getTime()}).then();
             ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
             ctx.body = yapi.commons.resReturn(null, 402, err.message);
@@ -588,7 +599,7 @@ class interfaceController extends baseController {
                 userinfo = await userInst.findById(result.edit_uid);
                 data = {
                     errno: result.edit_uid,
-                    data: {uid: result.edit_uid, username: userinfo.username}
+                    data: { uid: result.edit_uid, username: userinfo.username }
                 }
             } else {
                 this.Model.upEditUid(id, this.getUid()).then()
@@ -708,11 +719,11 @@ class interfaceController extends baseController {
             });
 
             let interfaceData = await this.Model.listByCatid(id);
-            interfaceData.forEach(async item => {
-                try {
+            interfaceData.forEach(async item=>{
+                try{
                     yapi.emitHook('interface_del', item._id).then();
                     await this.caseModel.delByInterfaceId(item._id);
-                } catch (e) {
+                }catch(e){
                     yapi.commons.log(e.message, 'error');
                 }
 
@@ -777,6 +788,12 @@ class interfaceController extends baseController {
 
         });
 
+    }
+
+    requiredSort(params) {
+        return params.sort((item1, item2) => {
+            return item2.required - item1.required;
+        })
     }
 
 }

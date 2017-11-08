@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
     <meta name="description" content="description of your site">
     <meta name="author" content="author of the site">
-    <title>YApi 内网部署</title>
+    <title>YApi 接口管理平台 内网部署</title>
+    <link rel="shortcut icon" href="./images/favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -22,7 +23,7 @@
         <header class="ydoc-header">
             <div class="ydoc-header-area">
                 
-                <a href="http://ued.qunar.com/ymfe/" class="navbar-brand">YMFE</a>
+                <a href="./index.html" class="navbar-brand"><img src="./images/logo_header@2x.png" /> &nbsp;YAPI</a>
                 
                 <button class="ydocIcon navbar-toggle">&#xf020;</button>
                 <nav class="ydoc-nav">
@@ -30,7 +31,12 @@
                          
                         <li class="">
                             
-                            <a href="index.html">使用手册</a> 
+                            <a href="index.html"></a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="usage.html">使用手册</a> 
                         </li>
                         
                         <li class="active">
@@ -40,7 +46,7 @@
                         
                         <li class="">
                             
-                            <a href="plugin.html">插件Wiki</a> 
+                            <a href="plugin.html">插件 Wiki</a> 
                         </li>
                         
                         <li class="">
@@ -55,7 +61,7 @@
                         
                         <li class="">
                             
-                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo站点</a> 
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo 站点</a> 
                         </li>
                         
                         <li class="">
@@ -72,6 +78,15 @@
         
         <!-- Docs page layout -->
         
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >内网部署</h1>
+                    <p class="desc ">部署 YApi 平台是非常容易的，即便您不懂 nodejs 或者 mongodb</p>
+                    
+                </div>
+            </div>
+            
 
             <div class="ydoc-container">
                  
@@ -93,7 +108,19 @@
                                     
                                     <a href="#安装">安装</a> 
                                 </li>
-                                  
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#方式一. 可视化部署[推荐]">方式一. 可视化部署[推荐]</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#方式二. 命令行部署">方式二. 命令行部署</a>
+                                    </li>
+                                
+                                </ul>
+                                            
                                 <!-- <li  > -->
                                 <li >
                                     
@@ -103,7 +130,7 @@
                                 <!-- <li  > -->
                                 <li >
                                     
-                                    <a href="#配置邮箱__仅支持_SMTP_">配置邮箱 (仅支持 SMTP)</a> 
+                                    <a href="#配置邮箱 (仅支持 SMTP)">配置邮箱 (仅支持 SMTP)</a> 
                                 </li>
                                  
                             </ul>
@@ -112,7 +139,7 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h1 class="subject" id="内网部署">内网部署 <a class="hashlink" href="#内网部署">#</a></h1><p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致 测试功能的文件上传功能异常。</p>
+                         <h1 class="subject" id="内网部署">内网部署 <a class="hashlink" href="#内网部署">#</a></h1><p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致测试功能在请求 http 站点时文件上传功能异常。</p>
 <p>如果您是将服务器代理到 nginx 服务器，请配置 nginx 支持 websocket。</p>
 <pre><code>在location /添加
 proxy_http_version <span class="token number">1.1</span><span class="token punctuation">;</span>
@@ -120,9 +147,18 @@ proxy_set_header Upgrade $http_upgrade<span class="token punctuation">;</span>
 proxy_set_header Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
 </code></pre><h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
 <li>nodejs（7.6+)</li><li>mongodb（2.6+）</li></ul>
-<h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
+<h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><h3 class="subject" id="方式一._可视化部署[推荐]">方式一. 可视化部署[推荐] <a class="hashlink" href="#方式一._可视化部署[推荐]">#</a></h3><p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
 <pre><code>npm install -g yapi-cli --registry https<span class="token operator">:</span>//registry.npm.taobao.org
 yapi server
+</code></pre><h3 class="subject" id="方式二._命令行部署">方式二. 命令行部署 <a class="hashlink" href="#方式二._命令行部署">#</a></h3><p>如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法</p>
+<pre><code>mkdir yapi
+cd yapi
+git clone https<span class="token operator">:</span>//github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录
+cp vendors/config_example.json ./config.json //复制完成后请修改相关配置
+cd vendors
+npm install --production --registry https<span class="token operator">:</span>//registry.npm.taobao.org
+npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+node server/app.js //启动服务器后，请访问 <span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
 </code></pre><h2 class="subject" id="升级">升级 <a class="hashlink" href="#升级">#</a></h2><p>升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。</p>
 <pre><code>cd  <span class="token punctuation">{</span>项目目录<span class="token punctuation">}</span>
 yapi ls //查看版本号列表
@@ -151,9 +187,11 @@ yapi update -v v1<span class="token number">.1</span>.<span class="token number"
                  
             </div>
             
+        </div>
+        
         <footer class="footer">
             <div class="copyright">
-                &copy; 2016 <a href="http://ued.qunar.com/ymfe/">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>.
+                &copy; 2017 <a href="https://github.com/ymfe">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
             </div>
         </footer>
     </div>
