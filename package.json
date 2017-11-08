@@ -34,7 +34,6 @@
     "koa-send": "^3.2.0",
     "koa-session-minimal": "^3.0.3",
     "koa-static": "^3.0.0",
-    "koa-views": "^5.2.0",
     "koa-websocket": "^4.0.0",
     "markdown-it": "^8.4.0",
     "markdown-it-anchor": "^4.0.0",
@@ -48,9 +47,7 @@
     "randexp": "^0.4.6",
     "request": "^2.81.0",
     "sha1": "^1.1.1",
-    "tslib": "^1.8.0",
     "underscore": "^1.8.3",
-    "universal-cookie": "^2.0.8",
     "url": "^0.11.0"
   },
   "devDependencies": {
