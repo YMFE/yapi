@@ -31,7 +31,7 @@ const ColModalForm = Form.create()((props) => {
             rules: [{ required: true, message: '请输入集合命名！' }]
           })(
             <Input />
-          )}
+            )}
         </FormItem>
         <FormItem label="简介">
           {getFieldDecorator('colDesc')(<Input type="textarea" />)}
@@ -48,6 +48,7 @@ const ColModalForm = Form.create()((props) => {
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
       isShowCol: state.interfaceCol.isShowCol,
+      isRander: state.interfaceCol.isRander,
       list: state.inter.list
     }
   },
@@ -74,6 +75,7 @@ export default class InterfaceColMenu extends Component {
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
     isShowCol: PropTypes.bool,
+    isRander: PropTypes.bool,
     list: PropTypes.array
   }
 
@@ -96,16 +98,16 @@ export default class InterfaceColMenu extends Component {
     const { isShowCol, currColId, currCaseId } = this.props;
     const action = isShowCol ? 'col' : 'case';
     const actionId = isShowCol ? currColId : currCaseId;
-    this.setState({expandedKeys: [action+'_'+actionId]})
+    this.setState({ expandedKeys: [action + '_' + actionId] })
   }
 
   async componentWillReceiveProps(nextProps) {
     const { currColId } = nextProps;
     let expandedKeys = this.state.expandedKeys;
-    if (expandedKeys.indexOf('col_'+currColId) === -1) {
-      expandedKeys = expandedKeys.concat(['col_'+currColId])
+    if (expandedKeys.indexOf('col_' + currColId) === -1) {
+      expandedKeys = expandedKeys.concat(['col_' + currColId])
     }
-    this.setState({expandedKeys})
+    this.setState({ expandedKeys })
   }
 
   addorEditCol = async () => {
@@ -130,10 +132,11 @@ export default class InterfaceColMenu extends Component {
   }
 
   onExpand = (keys) => {
-    this.setState({expandedKeys: keys})
+    this.setState({ expandedKeys: keys })
   }
 
   onSelect = (keys) => {
+
     if (keys.length) {
       const type = keys[0].split('_')[0];
       const id = keys[0].split('_')[1];
@@ -141,12 +144,14 @@ export default class InterfaceColMenu extends Component {
       if (type === 'col') {
         this.props.setColData({
           isShowCol: true,
+          isRander: false,
           currColId: +id
         })
         this.props.history.push('/project/' + project_id + '/interface/col/' + id)
       } else {
         this.props.setColData({
           isShowCol: false,
+          isRander: false,
           currCaseId: +id
         })
         this.props.history.push('/project/' + project_id + '/interface/case/' + id)
@@ -193,7 +198,7 @@ export default class InterfaceColMenu extends Component {
     });
   }
   showColModal = (type, col) => {
-    const editCol = type === 'edit' ? {colName: col.name, colDesc: col.desc} : {colName: '', colDesc: ''};
+    const editCol = type === 'edit' ? { colName: col.name, colDesc: col.desc } : { colName: '', colDesc: '' };
     this.setState({
       colModalVisible: true,
       colModalType: type || 'add',
@@ -240,19 +245,45 @@ export default class InterfaceColMenu extends Component {
 
   filterCol = (e) => {
     const value = e.target.value;
-    this.setState({filterValue: value})
+    this.setState({ filterValue: value })
   }
 
   onDrop = async (e) => {
+    console.log('e', e);
     const projectId = this.props.match.params.id;
     const dropColIndex = e.node.props.pos.split('-')[1];
+
     const dropColId = this.props.interfaceColList[dropColIndex]._id;
     const id = e.dragNode.props.eventKey;
     const dragColIndex = e.dragNode.props.pos.split('-')[1];
+
     const dragColId = this.props.interfaceColList[dragColIndex]._id;
-    if (id.indexOf('col') === -1 && dropColId !== dragColId) {
-      await axios.post('/api/col/up_case', {id: id.split('_')[1], col_id: dropColId});
+
+    if (id.indexOf('col') === -1) {
+      if (dropColId !== dragColId) {
+        await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
+      } else {
+        let caseList = this.props.interfaceColList[dropColIndex].caseList;
+        const dropIndex = e.node.props.pos.split('-')[2];
+        const dragIndex = e.dragNode.props.pos.split('-')[2];
+        // caseList[dropIndex] = [caseList[dragIndex], caseList[dragIndex] = caseList[dropIndex]][0]
+        let newArr = [].concat(caseList);
+        newArr[dragIndex] = caseList[dropIndex];
+        newArr[dropIndex] = caseList[dragIndex];
+        let changes = [];
+        newArr.forEach((item, index) => {
+          changes.push({
+            id: item._id,
+            index: index
+          })
+        })
+        axios.post('/api/col/up_col_index', changes).then()
+      }
+
       this.props.fetchInterfaceColList(projectId);
+      this.props.setColData({ currColId: +this.props.currColId, isShowCol: true, isRander: true })
+
+
     }
   }
 
@@ -298,7 +329,7 @@ export default class InterfaceColMenu extends Component {
         <Tree
           className="col-list-tree"
           expandedKeys={this.state.expandedKeys}
-          selectedKeys={[isShowCol ? 'col_'+currColId : 'case_'+currCaseId]}
+          selectedKeys={[isShowCol ? 'col_' + currColId : 'case_' + currCaseId]}
           onSelect={this.onSelect}
           autoExpandParent
           onExpand={this.onExpand}
@@ -306,14 +337,14 @@ export default class InterfaceColMenu extends Component {
           onDrop={this.onDrop}
         >
           {
-            this.props.interfaceColList.filter(col =>{
-              if(col.name.indexOf(filterValue) !== -1){
+            this.props.interfaceColList.filter(col => {
+              if (col.name.indexOf(filterValue) !== -1) {
                 isFilterCat = true;
                 return true;
               }
               isFilterCat = false;
 
-              let caseList = col.caseList.filter(item=>{
+              let caseList = col.caseList.filter(item => {
                 return item.casename.indexOf(filterValue) !== -1
               })
               return caseList.length > 0;
@@ -322,16 +353,16 @@ export default class InterfaceColMenu extends Component {
                 key={'col_' + col._id}
                 title={
                   <div className="menu-title">
-                    <span><Icon type="folder-open" style={{marginRight: 5}} /><span>{col.name}</span></span>
+                    <span><Icon type="folder-open" style={{ marginRight: 5 }} /><span>{col.name}</span></span>
                     <div className="btns">
                       <Tooltip title="删除集合">
-                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showDelColConfirm(col._id)}} />
+                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelColConfirm(col._id) }} />
                       </Tooltip>
                       <Tooltip title="编辑集合">
-                        <Icon type='edit' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showColModal('edit', col)}} />
+                        <Icon type='edit' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showColModal('edit', col) }} />
                       </Tooltip>
                       <Tooltip title="导入接口">
-                        <Icon type='plus' className="interface-delete-icon" onClick={(e) => {e.stopPropagation();this.showImportInterfaceModal(col._id)}} />
+                        <Icon type='plus' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showImportInterfaceModal(col._id) }} />
                       </Tooltip>
                     </div>
                     {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
@@ -341,22 +372,22 @@ export default class InterfaceColMenu extends Component {
                 }
               >
                 {
-                  col.caseList && col.caseList.filter((item)=>{
-                    if(isFilterCat){
+                  col.caseList && col.caseList.filter((item) => {
+                    if (isFilterCat) {
                       return true;
                     }
                     return item.casename.indexOf(filterValue) !== -1
-                  }).sort((a,b)=>{
-                    return a.index-b.index;
+                  }).sort((a, b) => {
+                    return a.index - b.index;
                   }).map((interfaceCase) => (
                     <TreeNode
-                      style={{width: '100%'}}
+                      style={{ width: '100%' }}
                       key={'case_' + interfaceCase._id}
                       title={
                         <div className="menu-title" title={interfaceCase.casename}>
                           <span className="casename">{interfaceCase.casename}</span>
                           <Tooltip title="删除用例">
-                            <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation();this.showDelCaseConfirm(interfaceCase._id) }} />
+                            <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} />
                           </Tooltip>
                         </div>
                       }

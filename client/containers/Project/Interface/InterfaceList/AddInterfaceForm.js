@@ -26,7 +26,7 @@ class AddInterfaceForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onSubmit(values,()=>{
+        this.props.onSubmit(values, () => {
           this.props.form.resetFields();
         });
 
@@ -75,7 +75,7 @@ class AddInterfaceForm extends Component {
           })(
             <Select>
               {this.props.catdata.map(item => {
-                return <Option key={item._id} value={item._id+""}>{item.name}</Option>
+                return <Option key={item._id} value={item._id + ""}>{item.name}</Option>
               })}
             </Select>
             )}
