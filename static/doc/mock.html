@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
-    <meta name="description" content="description of your site">
-    <meta name="author" content="author of the site">
+<head>    
     <title>YApi 接口管理平台 使用手册</title>
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+            
+        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
+    
+            
+        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
+    
+    
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -17,6 +17,10 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -140,19 +144,19 @@
                                     </li>
                                      
                                     <li >
-                                        <a href="#定义 mock 数据示例">定义 mock 数据示例</a>
+                                        <a href="#定义_mock_数据示例">定义 mock 数据示例</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#YApi-Mock 跟 Mockjs 区别">YApi-Mock 跟 Mockjs 区别</a>
+                                        <a href="#YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#如何使用 Mock">如何使用 Mock</a>
+                                        <a href="#如何使用_Mock">如何使用 Mock</a>
                                     </li>
                                      
                                     <li >
-                                        <a href="#Mock 语法规范">Mock 语法规范</a>
+                                        <a href="#Mock_语法规范">Mock 语法规范</a>
                                     </li>
                                 
                                 </ul>
@@ -190,14 +194,14 @@
 <p>注：项目 id 可以在项目设置里查看到</p>
 </blockquote>
 <h2 class="subject" id="定义_mock_数据示例">定义 mock 数据示例 <a class="hashlink" href="#定义_mock_数据示例">#</a></h2><pre><code><span class="token punctuation">{</span>
-    <span class="token property">"status|0-1"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> //接口状态
+    "status|<span class="token number">0</span>-<span class="token number">1</span>"<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> //接口状态
     <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"请求完成"</span><span class="token punctuation">,</span> //消息提示
     <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
         <span class="token property">"counts"</span><span class="token operator">:</span><span class="token string">"@integer"</span><span class="token punctuation">,</span> //统计数量
-        <span class="token property">"totalSubjectType|4-10"</span><span class="token operator">:</span> <span class="token punctuation">[</span> //<span class="token number">4</span>-<span class="token number">10</span>意味着可以随机生成<span class="token number">4</span>-<span class="token number">10</span>组数据
+        "totalSubjectType|<span class="token number">4</span>-<span class="token number">10</span>"<span class="token operator">:</span> <span class="token punctuation">[</span> //<span class="token number">4</span>-<span class="token number">10</span>意味着可以随机生成<span class="token number">4</span>-<span class="token number">10</span>组数据
             <span class="token punctuation">{</span> 
-              <span class="token property">"subjectName|regexp"</span><span class="token operator">:</span> <span class="token string">"大数据|机器学习|工具"</span><span class="token punctuation">,</span> //主题名
-              <span class="token property">"subjectType|+1"</span><span class="token operator">:</span> <span class="token number">1</span> //类型
+              "subjectName|regexp"<span class="token operator">:</span> "大数据|机器学习|工具<span class="token string">", //主题名
+              "</span>subjectType|+<span class="token number">1</span>"<span class="token operator">:</span> <span class="token number">1</span> //类型
             <span class="token punctuation">}</span>
         <span class="token punctuation">]</span><span class="token punctuation">,</span>
         <span class="token property">"data"</span><span class="token operator">:</span><span class="token punctuation">[</span>
@@ -211,8 +215,8 @@
 </code></pre><h2 class="subject" id="YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别 <a class="hashlink" href="#YApi-Mock_跟_Mockjs_区别">#</a></h2><p><a href="http://mockjs.com/examples.html">Mockjs 官网</a></p>
 <p>1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
 <pre><code><span class="token punctuation">{</span>
-  <span class="token property">"name|regexp"</span><span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>
-  <span class="token property">"type|regexp"</span><span class="token operator">:</span> <span class="token string">"json|text|xml"</span> //枚举数据类型可这样实现
+  "name|regexp"<span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>
+  "type|regexp"<span class="token operator">:</span> "json|text|xml" //枚举数据类型可这样实现
 <span class="token punctuation">}</span>
 </code></pre><p>2 支持替换请求的 query, body 参数</p>
 <pre><code><span class="token punctuation">{</span>
@@ -249,9 +253,9 @@ $<span class="token punctuation">.</span><span class="token function">post</span
 <p><a href="#DPD">2. 数据占位符定义规范（Data Placeholder Definition，DPD）</a></p>
 <p><span id = "DTD"></span></p>
 <h3 class="subject" id="数据模板定义规范（Data_Template_Definition，DTD）">数据模板定义规范（Data Template Definition，DTD） <a class="hashlink" href="#数据模板定义规范（Data_Template_Definition，DTD）">#</a></h3><p>数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：</p>
-<pre><code>// 属性名   name （与生成规则之间用 <span class="token string">"|"</span> 隔开）
-// 生成规则 rule（生成规则有<span class="token number">7</span>种详见下面的生成规则）
-// 属性值   value（可以含有 <span class="token string">"@占位符"</span> 同时也指定了最终值的初始值和类型）
+<pre><code>// 属性名   name （与生成规则之间用 "|<span class="token string">" 隔开）
+// 生成规则 rule（生成规则有7种详见下面的生成规则）
+// 属性值   value（可以含有 "</span>@占位符" 同时也指定了最终值的初始值和类型）
 
 'name|rule'<span class="token operator">:</span> value
 
@@ -360,7 +364,7 @@ name<span class="token operator">:</span> <span class="token punctuation">{</spa
         
         <footer class="footer">
             <div class="copyright">
-                &copy; 2017 <a href="https://github.com/ymfe">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
+                &copy; 2017 <a href="https://ymfe.org">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
             </div>
         </footer>
     </div>
