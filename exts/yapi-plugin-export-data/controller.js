@@ -170,7 +170,7 @@ class exportController extends baseController{
         }
         return `${bodyTable}\n\n`;
       }else if(req_body_other){//other
-        return "```javascript"+`\n${req_body_other || ""}`+"\n```";
+        return `**Body：**\n\n`+"```javascript"+`\n${req_body_other || ""}`+"\n```";
       }
       return "";
     }
