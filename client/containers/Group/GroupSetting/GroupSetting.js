@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { autobind } from 'core-decorators';
-import { Row, Col, Input, Button, message, Icon, Card, Alert, Modal } from 'antd';
+import { Input, Button, message, Icon, Card, Alert, Modal } from 'antd';
 import { fetchNewsData } from '../../../reducer/modules/news.js';
 import { changeGroupMsg, fetchGroupList, setCurrGroup, fetchGroupMsg, updateGroupList, deleteGroup } from '../../../reducer/modules/group.js';
 const { TextArea } = Input;
 import _ from 'underscore';
+import './GroupSetting.scss';
 const confirm = Modal.confirm;
 
 @connect(
@@ -156,23 +157,24 @@ class GroupLog extends Component {
 
   render () {
     return (
-      <div className="m-panel card-panel-s">
+      <div className="m-panel card-panel card-panel-s panel-group">
         <div>
-          <Row gutter={6} className="modal-input">
-            <Col span="4"><div className="label">分组名：</div></Col>
-            <Col span="15">
-              <Input placeholder="请输入分组名称" value={this.state.currGroupName} onChange={this.changeName}></Input>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="4"><div className="label">简介：</div></Col>
-            <Col span="15">
-              <TextArea rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={this.changeDesc}></TextArea>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="15" offset="4"><Button type="primary" onClick={this.editGroup}>保存</Button></Col>
-          </Row>
+          <div className="row">
+            <div className="left"><div className="label">分组名：</div></div>
+            <div className="right">
+              <Input size="large" placeholder="请输入分组名称" value={this.state.currGroupName} onChange={this.changeName}></Input>
+            </div>
+          </div>
+          <div className="row">
+            <div className="left"><div className="label">简介：</div></div>
+            <div className="right">
+              <TextArea size="large" rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={this.changeDesc}></TextArea>
+            </div>
+          </div>
+          <div className="row">
+            <div className="left"></div>
+            <div className="right"><Button type="primary" onClick={this.editGroup}>保存</Button></div>
+          </div>
         </div>
         {/* 只有超级管理员能删除分组 */}
         {this.props.curUserRole === "admin" ?
