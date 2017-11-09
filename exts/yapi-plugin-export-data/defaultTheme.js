@@ -12,9 +12,9 @@ blockquote {
 }
 body {
     font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
-    font-size: 13px;
-    line-height: 18px;
-    color: #737373;
+    font-size: 15px;
+    line-height: 25px;
+    color: #393838;
     background-color: white;
     margin: 10px 13px 10px 13px;
 }
@@ -31,10 +31,10 @@ th {
 }
 
 a {
-    color: #0069d6;
+    color: #34495e;
 }
 a:hover {
-    color: #0050a3;
+    color: #42b983;
     text-decoration: none;
 }
 a img {
@@ -53,13 +53,29 @@ h6 {
     line-height: 36px;
 }
 h1 {
-    margin-bottom: 18px;
-    font-size: 30px;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-top: 35px;
+    font-size: 42px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+    line-height: 50px;
 }
 h2 {
-    font-size: 24px;
+    font-size: 28px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+
+
+
 h3 {
+    clear: both;
+    font-weight: 400;
+    margin-top: .48rem;
+    margin-bottom: .16rem;
+    border-left: 3px solid #42b983;
+    padding-left: 8px;
     font-size: 18px;
 }
 h4 {
@@ -116,6 +132,7 @@ pre {
     border: 1px solid #d9d9d9;
     white-space: pre-wrap;
     word-wrap: break-word;
+    background:#f6f6f6;
 }
 pre code {
     background-color: #fff;
@@ -160,6 +177,7 @@ html,body{
     bottom: 0px;
     /* left: 0px; */
     z-index: 3;
+    margin-top: 30px;
 }
 
 .table-of-contents ul{
@@ -175,11 +193,10 @@ html,body{
 }
 .table-of-contents ul:before{
     content: "目录";
-    font-size: 16px;
-    padding: 10px 0px;
-    display: block;
-    line-height: 25px;
-    color:black;
+    font-size: 30px;
+    line-height: 80px;
+    margin: 30px;
+    text-align: center;
 }
 
 .table-of-contents a{
@@ -189,10 +206,6 @@ html,body{
 
 }
 
-body>h2{
-    font-size: 30px;
-    padding: 10px 0px;
-}
 body>p{
     margin-left: 30px;
 }

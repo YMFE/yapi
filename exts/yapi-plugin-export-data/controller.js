@@ -6,6 +6,8 @@ const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItTableOfContents = require("markdown-it-table-of-contents");
 const defaultTheme = require("./defaultTheme.js");
+
+let isMarkdown = false;
 // const htmlToPdf = require("html-pdf");
 class exportController extends baseController{
   constructor(ctx){
@@ -28,6 +30,7 @@ class exportController extends baseController{
       
       switch(type){
         case "markdown": {
+          isMarkdown = true;
           tp = await createMarkdown.bind(this)(pid,false);
           ctx.set("Content-Disposition",`attachment; filename=api.md`);
           return ctx.body = tp;
@@ -45,7 +48,7 @@ class exportController extends baseController{
   
       }
     } catch (error) {
-      console.log(error);
+      yapi.commons.log(error, 'error');
       ctx.body = yapi.commons.resReturn(null, 502, "下载出错");
     }
 
@@ -86,6 +89,10 @@ class exportController extends baseController{
       return tp;
     }
 
+    function escapeStr(str){
+      return !isMarkdown ? escape(str) : str;
+    }
+
     function createHtml5(tp){
       //html5模板
       let html = `<!DOCTYPE html>
@@ -102,16 +109,16 @@ class exportController extends baseController{
     }
     function createBaseMessage(inter){
       // 基本信息
-      let baseMessage = `### 基本信息\n\n**接口名称：** ${inter.title}\n\n**接口路径：** ${curProject.basepath + inter.path}\n\n**接口描述：**\n${inter.desc?escape(inter.desc):""}\n`;
+      let baseMessage = `### 基本信息\n\n**Path：** ${curProject.basepath + inter.path}\n\n**Method：** ${inter.method}\n\n**接口描述：**\n${inter.desc?escapeStr(inter.desc):""}\n`;
       return baseMessage;
     }
     function replaceBr(str){
-      return str.replace("\n",escape("<br/>"));
+      return str.replace("\n",escapeStr("<br/>"));
     }
     function createReqHeaders(req_headers){
       // Request-headers
       if(req_headers&&req_headers.length){
-        let headersTable = `**Headers：**\n\n`;
+        let headersTable = `**Headers**\n\n`;
         headersTable += `| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
         for(let j = 0;j<req_headers.length;j++){
           headersTable += `| ${replaceBr(req_headers[j].name||"")||""}  |  ${replaceBr(req_headers[j].value||"")||""} | ${req_headers[j].required?"是":"否"}  |  ${replaceBr(req_headers[j].example||"")||""} |  ${replaceBr(req_headers[j].desc||"")||""} |\n`;
@@ -147,14 +154,14 @@ class exportController extends baseController{
 
     function createReqBody(req_body_type,req_body_form,req_body_other){
       if(req_body_type === "form" && req_body_form.length){
-        let bodyTable = `**Body：**\n\n`
+        let bodyTable = `**Body**\n\n`
         bodyTable += `| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;        let req_body = req_body_form;
         for(let j = 0;j<req_body.length;j++){
           bodyTable += `| ${replaceBr(req_body[j].name||"") || ""} | ${req_body[j].type || ""}  |  ${req_body[j].required?"是":"否"} |  ${replaceBr(req_body[j].example||"")||""}  |  ${replaceBr(req_body[j].desc||"")||""} |\n`;
         }
         return `${bodyTable}\n\n`;
       }else if(req_body_other){//other
-        return `**Body：**\n\n`+"```javascript"+`\n${req_body_other || ""}`+"\n```";
+        return `**Body**\n\n`+"```javascript"+`\n${req_body_other || ""}`+"\n```";
       }
       return "";
     }
@@ -171,16 +178,15 @@ class exportController extends baseController{
     //模板
     let mdTemplate = ``;
     const toc = `[TOC]\n\n`;
-    if(isToc){
-      mdTemplate += toc;
-    }
     try{
       const interList = await this.interModel.listByPid(pid);
       // 项目名、项目描述
-      mdTemplate += `\n## 项目名：${curProject.name}\n### 项目描述：${curProject.name||""}\n${escape("<hr>")}\n`
+      let title = escapeStr('<h1>' + curProject.name + '</h1>');
+      mdTemplate += `\n ${title} \n ${curProject.desc||""}\n${escapeStr("<br>")}\n`
       for(let i = 0;i<interList.length;i++){//循环拼接 接口
         // 接口名称
-        mdTemplate += `\n## ${escape(`${interList[i].title}\n<a id=${interList[i].title}> </a>`)}\n`;
+        mdTemplate += `\n## ${escapeStr(`${interList[i].title}\n<a id=${interList[i].title}> </a>`)}\n`;
+        isToc && (mdTemplate += toc)
         // 基本信息
         mdTemplate += createBaseMessage(interList[i]);
         // Request
@@ -199,6 +205,7 @@ class exportController extends baseController{
       }
       return mdTemplate;
     }catch(e){
+      yapi.commons.log(e, 'error');
       ctx.body = yapi.commons.resReturn(null, 502, "下载出错");
     }
     }
