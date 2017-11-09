@@ -81,23 +81,7 @@ class exportController extends baseController{
         markerPattern: /^\[toc\]/im
       });
       
-      let tp = defaultTheme + `<style>.table-of-contents:before{
-        content: "项目名:${curProject.name}";
-        font-size: 20px;
-        padding: 10px 0px;
-        display: block;
-        line-height: 25px;
-        color:black;
-        font-weight: bolder;
-    }</style>`+ `<style>.table-of-contents ul:before{
-      content: "项目描述: ${curProject.desc||""}";
-      font-size: 12px;
-      padding: 10px 0px;
-      padding-right:15px;
-      display: block;
-      line-height: 20px;
-      color:gray;
-  }</style>` + unescape(markdown.render(md));
+      let tp = defaultTheme + unescape(markdown.render(md));
       tp = createHtml5(tp);
       return tp;
     }
@@ -192,6 +176,8 @@ class exportController extends baseController{
     }
     try{
       const interList = await this.interModel.listByPid(pid);
+      // 项目名、项目描述
+      mdTemplate += `\n## 项目名：${curProject.name}\n### 项目描述：${curProject.name||""}\n${escape("<hr>")}\n`
       for(let i = 0;i<interList.length;i++){//循环拼接 接口
         // 接口名称
         mdTemplate += `\n## ${escape(`${interList[i].title}\n<a id=${interList[i].title}> </a>`)}\n`;
