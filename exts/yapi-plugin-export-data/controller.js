@@ -90,7 +90,7 @@ class exportController extends baseController{
         color:black;
         font-weight: bolder;
     }</style>`+ `<style>.table-of-contents ul:before{
-      content: "项目描述: ${curProject.desc}";
+      content: "项目描述: ${curProject.desc||""}";
       font-size: 12px;
       padding: 10px 0px;
       padding-right:15px;
