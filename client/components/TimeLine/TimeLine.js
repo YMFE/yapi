@@ -6,7 +6,6 @@ import { formatTime } from '../../common.js';
 import { Link } from 'react-router-dom'
 import { fetchNewsData, fetchMoreNews } from '../../reducer/modules/news.js'
 import ErrMsg from '../ErrMsg/ErrMsg.js';
-import './TimeLine.scss';
 
 function timeago(timestamp) {
   let minutes, hours, days, seconds, mouth, year;
