@@ -46,13 +46,13 @@ module.exports = function () {
     })
 
     // MockServer生成mock数据后触发
-    this.bindHook('mock_after', async function (context) {
+    this.bindHook('mock_after', function (context) {
 
         let interfaceId = context.interfaceData._id;
         let projectId = context.projectData._id;
         let groupId = context.projectData.group_id;
-        let ip = context.ctx.originalUrl;
-
+        //let ip = context.ctx.originalUrl;
+        let ip = context.ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
         let data = {
             interface_id: interfaceId,
             project_id: projectId,
@@ -64,8 +64,7 @@ module.exports = function () {
         let inst = yapi.getInst(statisModel);
 
         try {
-            let result = await inst.save(data);
-            result = yapi.commons.fieldSelect(result, ['interface_id', 'project_id', 'group_id', 'time', 'ip', 'date']);
+            inst.save(data).then();
 
         } catch (e) {
             yapi.commons.log('mockStatisError', e);
