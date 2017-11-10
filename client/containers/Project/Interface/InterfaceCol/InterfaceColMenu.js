@@ -259,27 +259,28 @@ export default class InterfaceColMenu extends Component {
 
     const dragColId = this.props.interfaceColList[dragColIndex]._id;
 
-    if (id.indexOf('col') === -1) {
-      if (dropColId !== dragColId) {
-        await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
-      } else {
-        let caseList = this.props.interfaceColList[dropColIndex].caseList;
-        const dropIndex = e.node.props.pos.split('-')[2];
-        const dragIndex = e.dragNode.props.pos.split('-')[2];
-        // caseList[dropIndex] = [caseList[dragIndex], caseList[dragIndex] = caseList[dropIndex]][0]
-        let newArr = [].concat(caseList);
-        newArr[dragIndex] = caseList[dropIndex];
-        newArr[dropIndex] = caseList[dragIndex];
-        let changes = [];
-        newArr.forEach((item, index) => {
-          changes.push({
-            id: item._id,
-            index: index
-          })
-        })
-        axios.post('/api/col/up_col_index', changes).then()
-      }
-
+    if (id.indexOf('col') === -1 && dropColId !== dragColId) {
+      // if (dropColId !== dragColId) {
+      //  
+      // } 
+      // else {
+      //   let caseList = this.props.interfaceColList[dropColIndex].caseList;
+      //   const dropIndex = e.node.props.pos.split('-')[2];
+      //   const dragIndex = e.dragNode.props.pos.split('-')[2];
+      //   // caseList[dropIndex] = [caseList[dragIndex], caseList[dragIndex] = caseList[dropIndex]][0]
+      //   let newArr = [].concat(caseList);
+      //   newArr[dragIndex] = caseList[dropIndex];
+      //   newArr[dropIndex] = caseList[dragIndex];
+      //   let changes = [];
+      //   newArr.forEach((item, index) => {
+      //     changes.push({
+      //       id: item._id,
+      //       index: index
+      //     })
+      //   })
+      //   axios.post('/api/col/up_col_index', changes).then()
+      // }
+      await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
       this.props.fetchInterfaceColList(projectId);
       this.props.setColData({ currColId: +this.props.currColId, isShowCol: true, isRander: true })
 
