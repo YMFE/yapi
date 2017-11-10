@@ -10,6 +10,16 @@ blockquote {
     margin: 0;
     padding: 0;
 }
+.header{
+    position: fixed;
+    display: block;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    margin-top: 10px;
+}
+
 body {
     font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
     font-size: 15px;
@@ -185,13 +195,7 @@ html,body{
 .table-of-contents ul li{
     padding-left: 20px;
 }
-.table-of-contents ul:before{
-    content: "YAPI 接口文档";
-    font-size: 26px;
-    line-height: 80px;
-    margin: 30px;
-    text-align: center;
-}
+
 
 .table-of-contents a{
     padding: 2px 0px;

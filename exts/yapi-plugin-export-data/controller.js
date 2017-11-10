@@ -106,9 +106,12 @@ class exportController extends baseController{
       <title>${curProject.name}</title>
       </head>
       <body>
+      <a href="#/"><h1 class="header">YAPI 接口文档</h1></a>
+      <div style="margin-top:75px">
       ${left}
       <div id="right" class="content-right">
       ${tp}
+      </div>
       </div>
       </body>
       </html>
