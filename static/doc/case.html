@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-<head>    
+<head>
     <title>YApi 接口管理平台 使用手册</title>
-            
+    
         <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
     
-            
+    
         <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
     
-    
+
+    <link rel="shortcut icon" href="./images/favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -222,12 +223,14 @@ Your browser does not support the video tag.
 <p>断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a></p>
 </li><li><p>status</p>
 <p>http 状态码</p>
+</li><li><p>params</p>
+<p>http request params, 合并了 query 和 body</p>
 </li><li><p>body  </p>
 <p>返回 response body</p>
 </li><li><p>header </p>
 <p>返回 response header</p>
 </li><li><p>records </p>
-<p>记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
+<p>记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
 </li></ul>
 <h3 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h3><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
 assert.equal(body.data.group_name<span class="token punctuation">,</span> 'testGroup'<span class="token punctuation">)</span>
