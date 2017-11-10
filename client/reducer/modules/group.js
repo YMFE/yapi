@@ -8,11 +8,17 @@ const FETCH_GROUP_MSG = 'yapi/group/FETCH_GROUP_MSG';
 const ADD_GROUP_MEMBER = 'yapi/group/ADD_GROUP_MEMBER';
 const DEL_GROUP_MEMBER = 'yapi/group/DEL_GROUP_MEMBER';
 const CHANGE_GROUP_MEMBER = 'yapi/group/CHANGE_GROUP_MEMBER';
+const CHANGE_GROUP_MESSAGE = 'yapi/group/CHANGE_GROUP_MESSAGE';
+const UPDATE_GROUP_LIST = 'yapi/group/UPDATE_GROUP_LIST';
+const DEL_GROUP = 'yapi/group/DEL_GROUP';
 
 // Reducer
 const initialState = {
   groupList: [],
-  currGroup: { group_name: '' },
+  currGroup: {
+    group_name: '',
+    group_desc: ''
+  },
   member: [],
   role: ''
 };
@@ -24,6 +30,12 @@ export default (state = initialState, action) => {
         ...state,
         groupList: action.payload.data.data
       };
+    }
+    case UPDATE_GROUP_LIST: {
+      return {
+        ...state,
+        groupList: action.payload
+      }
     }
     case SET_CURR_GROUP: {
       return {
@@ -80,6 +92,30 @@ export function changeMemberRole(param) {
   return {
     type: CHANGE_GROUP_MEMBER,
     payload: axios.post('/api/group/change_member_role', param)
+  }
+}
+
+// 修改分组信息
+export function changeGroupMsg(param) {
+  return {
+    type: CHANGE_GROUP_MESSAGE,
+    payload: axios.post('/api/group/up', param)
+  }
+}
+
+// 更新左侧的分组列表
+export function updateGroupList(param) {
+  return {
+    type: UPDATE_GROUP_LIST,
+    payload: param
+  }
+}
+
+// 删除分组
+export function deleteGroup(param) {
+  return {
+    type: DEL_GROUP,
+    payload: axios.post('/api/group/del', param)
   }
 }
 

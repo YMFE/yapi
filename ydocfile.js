@@ -8,8 +8,10 @@ module.exports = {
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi 接口管理平台", //page title
         "footer": "&copy; 2017 <a href=\"https://ymfe.org\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
-        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YAPI', // logo
-        "homeUrl": "./index.html" // logourl
+        "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YAPI', 
+        "homeUrl": "./index.html", 
+        "keywords": "api管理,接口管理,接口文档,api文档",
+        "description": "YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。"
     },
     "options": {
         "foldcode": false,

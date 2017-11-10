@@ -18,9 +18,13 @@
     line-height: 40px;
     border-radius: 4px;
     text-align: right;
-    padding: 13px 15px;
+    padding: 0 10px;
     font-weight: bold;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    color: rgba(39, 56, 72, 0.85);
+    font-weight: 500;
   }
 }
 
