@@ -103,6 +103,10 @@
                             <ul class="nav docs-sidenav">
                                   
                                     <li >
+                                        <a href="#v1.2.5">v1.2.5</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#v1.2.4">v1.2.4</a>
                                     </li>
                                      
@@ -138,7 +142,11 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h3 class="subject" id="v1.2.4">v1.2.4 <a class="hashlink" href="#v1.2.4">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+                         <h3 class="subject" id="v1.2.5">v1.2.5 <a class="hashlink" href="#v1.2.5">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+<li>成员如果第一次添加成员时选择组长，接着再添加下一个成员，如果select是默认的开发者，这时候会出现与上次select相同的值</li><li>如果添加了一个不存在的成员还是会提示添加成功，并且发送的数据是原来发送成功的数据，这里需要重置初始值并在未找到对应用户名时对未找到的人名应该提示用户不存在</li><li>测试集合中的左侧 Menu 拖动的时候右侧的List需要跟随变动</li><li>在接口开发阶段，多个人并行改接口，如果最后一个人改之前没刷新页面，会把之前的人修改过的都冲掉了</li><li>修复cross-request，response header字段重复bug</li><li>Fix 接口集自动化测试 header 没有解析 mock 和 变量参数</li></ol>
+<h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
+<li>优化了分组添加，编辑交互</li><li>cross-request 计算了接口请求时间</li><li>新增接口文档导出 html, markdown 功能</li></ol>
+<h3 class="subject" id="v1.2.4">v1.2.4 <a class="hashlink" href="#v1.2.4">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
 <li>期望值输入时候换成字符串，导致diff时因类型不一致匹配不上</li><li>swagger 导入数据时出现的 id 未定义bug</li><li>fix: kerberos dependencies 导致安装依赖需要编译的问题</li><li>修复了高级 mock 期望过滤参数为空时匹配不到的 bug</li><li>将接口编辑页的保存按钮变成一直在窗口底部</li><li>修改需求文档中项目操作处修改项目中的接口测试a链接指向的网页错误问题</li><li>添加接口时重名，现在提示“已存在”，并在提示信息中告知用户删改接口的位置</li><li>已添加的成员，再次添加会提示“添加成功”，优化提示为已成功添加人数，和已存在人数</li><li>添加分组和修改分组时有个权限问题没有更新，切换列表才更新，该问题已解决</li><li>解决修改和删除公共分类名称处，在添加接口时，选择接口分类名称没有修改的问题</li></ol>
 <h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
 <li>接口 path 支持了后面带 /</li><li>cross-request支持了不安全的 header，如 cookie, referer...</li><li>支持了 path 带特殊符号&quot;!&quot;</li><li>请求参数可改变顺序，目前只是对必需和非必需进行自动排序</li><li>用户头像上传问题，txt改成jpg格式上传，用户头像显示空白，然后无法再次上传头像。无法再次上传的问题已经解决</li><li>解决用户头像改变但是header处图片不变的问题。问题描述：用户上传头像成功但是Header处的头像没有改变，并且点击其他页面后再回到个人中心里面的头像又变成没有重新上传时的图片，必须重新刷新才可以将Header处的图片更新</li><li>解决导入 postman 接口动态路由无法导入的 Bug</li></ol>

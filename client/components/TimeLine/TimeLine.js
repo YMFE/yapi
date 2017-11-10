@@ -56,7 +56,7 @@ function timeago(timestamp) {
 // timeago(new Date().getTime() - 40);
 
 @connect(
-  
+
   state => {
     return {
       newsData: state.news.newsData,
@@ -93,7 +93,7 @@ class TimeTree extends Component {
 
   getMore() {
     const that = this;
-    
+
     if (this.props.curpage <= this.props.newsData.total) {
 
       this.setState({ loading: true });

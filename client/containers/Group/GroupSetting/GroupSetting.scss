@@ -1,0 +1,14 @@
+.panel-group {
+  .row {
+    display: flex;
+    align-items: center;
+    margin-bottom: .16rem;
+  }
+  .left {
+    flex: 100px 0 1;
+    text-align: right;
+  }
+  .right {
+    flex: 830px 0 1;
+  }
+}

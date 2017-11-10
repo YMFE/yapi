@@ -193,6 +193,7 @@ class InterfaceColContent extends Component {
   }
 
   handleTest = async (interfaceData) => {
+    console.log(1)
     const { currProject } = this.props;
     let requestParams = {};
     let { case_env } = interfaceData;
@@ -207,22 +208,26 @@ class InterfaceColContent extends Component {
 
     case_env = this.state.currColEnv ? this.state.currColEnv : case_env;
 
+    let pathQuery = {};
     let currDomain = _.find(domains, item => item.name === case_env);
+
     if (!currDomain) {
       currDomain = domains[0];
     }
-    const urlObj = URL.parse(currDomain.domain);
-    if (urlObj.pathname) {
-      if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
-        urlObj.pathname += '/'
+
+    const urlObj = URL.parse(URL.resolve(currDomain.domain, '.' + path));
+    urlObj.query && urlObj.query.split('&').forEach(item=>{
+      if(item){
+        item = item.split('=');
+        pathQuery[item[0]] = item[1];
       }
-    }
+    })
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
-      query: this.getQueryObj(interfaceData.req_query, requestParams)
+      pathname: urlObj.pathname,
+      query:  Object.assign(pathQuery, this.getQueryObj(interfaceData.req_query, requestParams))
     });
 
     let result = { code: 400, msg: '数据异常', validRes: [] };
@@ -543,7 +548,7 @@ class InterfaceColContent extends Component {
       header: {
         label: 'key',
         formatters: [() => {
-          return <Tooltip title={<span>每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 <a href="https://yapi.ymfe.org/case.html#变量参数" className="link-tooltip" target="blank">变量参数</a> 功能</span>}>
+          return <Tooltip title={<span>每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 <a href="http://yapi.qunar.com/case.html#变量参数" className="link-tooltip" target="blank">变量参数</a> 功能</span>}>
             Key</Tooltip>
         }]
       },
@@ -649,7 +654,7 @@ class InterfaceColContent extends Component {
     let colEnv = this.props.currProject.env || [];
     return (
       <div className="interface-col">
-        <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://yapi.qunar.com/case.html" >
           <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
