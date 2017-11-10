@@ -13,6 +13,24 @@ blockquote {
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
 }
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.2);
+}
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
@@ -237,7 +255,7 @@ body {
     top: -20px;
     max-width: 700px;
     margin-left: 290px;
-    padding-left: 50px;
+    padding-left: 70px;
 }
 
 body>p {
