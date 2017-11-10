@@ -197,23 +197,27 @@ export default class Run extends Component {
       return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
-    const urlObj = URL.parse(_.find(domains, item => item.name === caseEnv).domain);
+    
     let path = pathname;
-
+    
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, handleMockWord(item.value) || `:${item.name}`);
     });
-    if (urlObj.pathname) {
-      if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
-        urlObj.pathname += '/'
+    const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
+
+    let pathQuery = {};
+    urlObj.query && urlObj.query.split('&').forEach(item=>{
+      if(item){
+        item = item.split('=');
+        pathQuery[item[0]] = item[1];
       }
-    }
+    })
 
     const href = URL.format({
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
-      pathname: urlObj.pathname ? URL.resolve(urlObj.pathname, '.' + path) : path,
-      query: this.getQueryObj(query)
+      pathname: urlObj.pathname,
+      query: Object.assign(pathQuery, this.getQueryObj(query))
     });
     let reqBody;
     if(bodyType === 'form'){
@@ -575,7 +579,16 @@ export default class Run extends Component {
       let val = handleMockWord(item.value);
       path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
-    const search = decodeURIComponent(URL.format({ query: this.getQueryObj(query) }));
+    const pathObj = URL.parse(path);
+    path = pathObj.pathname;
+    let pathQuery = {};
+    pathObj.query && pathObj.query.split('&').forEach(item=>{
+      if(item){
+        item = item.split('=');
+        pathQuery[item[0]] = item[1];
+      }
+    })
+    const search = decodeURIComponent(URL.format({ query: Object.assign(pathQuery, this.getQueryObj(query)) }));
 
     let validResView;
     validResView = validRes.map((item, index) => {
