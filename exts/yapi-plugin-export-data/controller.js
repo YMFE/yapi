@@ -41,7 +41,7 @@ class exportController extends baseController{
         //   return ctx.body = tp;
         // }
         default: {//默认为html
-          tp += await createHtml.bind(this)(pid);
+          tp = await createHtml.bind(this)(pid);
           ctx.set("Content-Disposition",`attachment; filename=api.html`);
           return ctx.body = tp;
         }
@@ -211,7 +211,7 @@ class exportController extends baseController{
         // 基本信息
         mdTemplate += createBaseMessage(interList[i]);
         // Request
-        mdTemplate +=  `### Request\n`;
+        mdTemplate +=  `\n### Request\n`;
         // Request-headers
         mdTemplate += createReqHeaders(interList[i].req_headers);
         // Request-params
