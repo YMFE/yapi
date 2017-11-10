@@ -89,6 +89,10 @@ class MemberList extends Component {
         const { add_members, exist_members } = res.payload.data.data;
         const addLength = add_members.length;
         const existLength = exist_members.length;
+        this.setState({
+          inputRole: 'dev',
+          inputUids:[]
+        });
         message.success(`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`);
         this.reFetchList(); // 添加成功后重新获取分组成员列表
       }

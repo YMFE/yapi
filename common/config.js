@@ -9,5 +9,7 @@ module.exports = {
     name: 'import-swagger'
   },{
     name: 'statistics'
+  },{
+    name: 'export-data'
   }]
 }

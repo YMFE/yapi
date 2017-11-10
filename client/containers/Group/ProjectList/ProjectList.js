@@ -122,9 +122,9 @@ class ProjectList extends Component {
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
           <Col span={16} style={{ textAlign: 'left' }}>
-            {this.props.currGroup.group_name}分组 共 {projectData.length} 个项目
+            {this.props.currGroup.group_name} 分组共 ({projectData.length}) 个项目
           </Col>
-          <Col>
+          <Col span={8}>
             {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
               <Link to="/add-project"><Button type="primary">添加项目</Button></Link> :
               <Tooltip title="您没有权限,请联系该分组组长或管理员">

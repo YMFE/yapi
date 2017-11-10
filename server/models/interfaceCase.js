@@ -22,6 +22,9 @@ class interfaceCase extends baseModel {
             req_params: [{
                 name: String, value: String
             }],
+            req_headers: [{
+                name: String, value: String
+            }],
             req_query: [{
                 name: String, value: String, enable: {type: Boolean, default: true}
             }],

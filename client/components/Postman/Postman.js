@@ -198,9 +198,10 @@ export default class Run extends Component {
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
     const urlObj = URL.parse(_.find(domains, item => item.name === caseEnv).domain);
-    let path = pathname
+    let path = pathname;
+
     pathParam.forEach(item => {
-      path = path.replace(`:${item.name}`, item.value || `:${item.name}`);
+      path = path.replace(`:${item.name}`, handleMockWord(item.value) || `:${item.name}`);
     });
     if (urlObj.pathname) {
       if (urlObj.pathname[urlObj.pathname.length - 1] !== '/') {
@@ -497,7 +498,7 @@ export default class Run extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = item.value;
+        headersObj[item.name] = handleMockWord(item.value);
       }
     })
     return headersObj;

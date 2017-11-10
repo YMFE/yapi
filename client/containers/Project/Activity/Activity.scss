@@ -14,17 +14,28 @@
     color: #6b6c6d;
     .ant-timeline-item{
       min-height: 60px;
+      .ant-timeline-item-head-custom {
+        padding: 0;
+        width: 0;
+      }
       .ant-timeline-item-head{
-        width: 40px;
-        height: 40px;
-        left: -13px;
-        top:8px;
-        // border-color:#e1e3e4;
-        border:2px solid #e1e3e4;
-        border-radius: 50%;
+        // width: 40px;
+        // height: 40px;
+        // left: -13px;
+        top: 13px;
+        // // border-color:#e1e3e4;
+        // border:2px solid #e1e3e4;
+        // border-radius: 50%;
       }
       .ant-timeline-item-tail{
-        top: 30px;
+        // top: 30px;
+      }
+      .ant-avatar {
+        border: 2px solid #e1e3e4;
+        box-sizing: content-box;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
       }
     }
     .ant-avatar{

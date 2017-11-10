@@ -6,7 +6,7 @@ import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
-import { getProjectMsg, getProjectMemberList,getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
+import { getProjectMsg, getProjectMemberList, getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
 import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import '../Setting.scss';
 
@@ -97,6 +97,10 @@ class ProjectMember extends Component {
         const { add_members, exist_members } = res.payload.data.data;
         const addLength = add_members.length;
         const existLength = exist_members.length;
+        this.setState({
+          inputRole: 'dev',
+          inputUids: []
+        })
         message.success(`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`);
         this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
@@ -167,9 +171,9 @@ class ProjectMember extends Component {
     })
   }
 
-  render () {
+  render() {
     const columns = [{
-      title: this.props.projectMsg.name + ' 项目成员 ('+this.state.projectMemberList.length + ') 人',
+      title: this.props.projectMsg.name + ' 项目成员 (' + this.state.projectMemberList.length + ') 人',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => {
@@ -186,10 +190,10 @@ class ProjectMember extends Component {
         if (this.state.role === 'owner' || this.state.role === 'admin') {
           return (
             <div>
-              <Select value={record.role+'-'+record.uid} className="select" onChange={this.changeUserRole}>
-                <Option value={'owner-'+record.uid}>组长</Option>
-                <Option value={'dev-'+record.uid}>开发者</Option>
-                <Option value={'guest-'+record.uid}>访客</Option>
+              <Select value={record.role + '-' + record.uid} className="select" onChange={this.changeUserRole}>
+                <Option value={'owner-' + record.uid}>组长</Option>
+                <Option value={'dev-' + record.uid}>开发者</Option>
+                <Option value={'guest-' + record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
                 <Button type="danger" icon="minus" className="btn-danger" />
@@ -213,12 +217,12 @@ class ProjectMember extends Component {
     return (
       <div className="g-row">
         <div className="m-panel">
-          {this.state.visible?<Modal
+          {this.state.visible ? <Modal
             title="添加成员"
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
-            >
+          >
             <Row gutter={6} className="modal-input">
               <Col span="5"><div className="label">用户名: </div></Col>
               <Col span="15">
@@ -235,8 +239,8 @@ class ProjectMember extends Component {
                 </Select>
               </Col>
             </Row>
-          </Modal>:""}
-          <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{emptyText: <ErrMsg type="noMemberInProject"/>}} className="setting-project-member"/>
+          </Modal> : ""}
+          <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{ emptyText: <ErrMsg type="noMemberInProject" /> }} className="setting-project-member" />
           <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
               return (<div key={index} className="card-item">
@@ -246,7 +250,7 @@ class ProjectMember extends Component {
                 {item.role === 'dev' ? <p className="item-role">开发者</p> : null}
                 {item.role === 'guest' ? <p className="item-role">访客</p> : null}
               </div>);
-            }): <ErrMsg type="noMemberInGroup"/>}
+            }) : <ErrMsg type="noMemberInGroup" />}
           </Card>
         </div>
       </div>

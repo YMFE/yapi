@@ -66,6 +66,10 @@ Your browser does not support the video tag.
 
   http 状态码
 
+* params
+
+  http request params, 合并了 query 和 body
+
 * body  
 
   返回 response body
@@ -76,7 +80,7 @@ Your browser does not support the video tag.
 
 * records 
 
-  记录的 http 请求信息，假设需要获取 key为555的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
+  记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
 
 ### 示例
 ```
