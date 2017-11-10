@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Modal, Alert, Input, message, Menu, Row, Col, Dropdown, Popover } from 'antd'
+import { Icon, Modal, Input, message, Row, Menu, Col, Popover, Tooltip } from 'antd'
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 const { TextArea } = Input;
 const Search = Input.Search;
-const TYPE_EDIT = 'edit';
-const confirm = Modal.confirm;
 import UsernameAutoComplete from '../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import GuideBtns from '../../../components/GuideBtns/GuideBtns.js';
 import { fetchNewsData } from '../../../reducer/modules/news.js';
@@ -65,7 +63,6 @@ export default class GroupList extends Component {
 
   state = {
     addGroupModalVisible: false,
-    editGroupModalVisible: false,
     newGroupName: '',
     newGroupDesc: '',
     currGroupName: '',
@@ -100,34 +97,19 @@ export default class GroupList extends Component {
   }
 
   @autobind
-  showModal(type) {
-    if (type === 'edit') {
-      const { currGroup } = this.props;
-      this.setState({
-        currGroupName: currGroup.group_name,
-        currGroupDesc: currGroup.group_desc,
-        editGroupModalVisible: true
-      });
-    } else {
-      this.setState({
-        addGroupModalVisible: true
-      });
-    }
+  showModal() {
+    this.setState({
+      addGroupModalVisible: true
+    });
   }
   @autobind
-  hideModal(type) {
-    if (type === TYPE_EDIT) {
-      this.setState({
-        editGroupModalVisible: false
-      });
-    } else {
-      this.setState({
-        newGroupName: '',
-        group_name: '',
-        owner_uids: [],
-        addGroupModalVisible: false
-      });
-    }
+  hideModal() {
+    this.setState({
+      newGroupName: '',
+      group_name: '',
+      owner_uids: [],
+      addGroupModalVisible: false
+    });
   }
   @autobind
   async addGroup() {
@@ -159,9 +141,6 @@ export default class GroupList extends Component {
     if (res.data.errcode) {
       message.error(res.data.errmsg);
     } else {
-      this.setState({
-        editGroupModalVisible: false
-      });
       await this.props.fetchGroupList();
 
       this.setState({ groupList: this.props.groupList });
@@ -174,20 +153,12 @@ export default class GroupList extends Component {
     }
   }
   @autobind
-  inputNewGroupName(e, type) {
-    if (type === TYPE_EDIT) {
-      this.setState({ currGroupName: e.target.value })
-    } else {
-      this.setState({ newGroupName: e.target.value });
-    }
+  inputNewGroupName(e) {
+    this.setState({ newGroupName: e.target.value });
   }
   @autobind
-  inputNewGroupDesc(e, type) {
-    if (type === TYPE_EDIT) {
-      this.setState({ currGroupDesc: e.target.value })
-    } else {
-      this.setState({ newGroupDesc: e.target.value });
-    }
+  inputNewGroupDesc(e) {
+    this.setState({ newGroupDesc: e.target.value });
   }
 
   @autobind
@@ -207,50 +178,6 @@ export default class GroupList extends Component {
     })
   }
 
-  showConfirm = () => {
-    let that = this;
-    confirm({
-      title: "确认删除 " + that.props.currGroup.group_name + " 分组吗？",
-      content: <div style={{ marginTop: '10px', fontSize: '13px', lineHeight: '25px' }}>
-        <Alert message="警告：此操作非常危险,会删除该分组下面所有项目和接口，并且无法恢复!" type="warning" />
-        <div style={{ marginTop: '16px' }}>
-          <p><b>请输入分组名称确认此操作:</b></p>
-          <Input id="group_name" />
-        </div>
-      </div>,
-      onOk() {
-        let groupName = document.getElementById('group_name').value;
-        if (that.props.currGroup.group_name !== groupName) {
-          message.error('分组名称有误')
-          return new Promise((resolve, reject) => {
-            reject('error')
-          })
-        } else {
-          that.deleteGroup()
-        }
-
-      },
-      iconType: 'delete',
-      onCancel() { }
-    });
-  }
-
-  @autobind
-  async deleteGroup() {
-    const self = this;
-    const { currGroup } = self.props;
-    const res = await axios.post('/api/group/del', { id: currGroup._id })
-    if (res.data.errcode) {
-      message.error(res.data.errmsg);
-    } else {
-      message.success('删除成功')
-      await self.props.fetchGroupList()
-      const currGroup = self.props.groupList[0] || { group_name: '', group_desc: '' };
-      self.setState({ groupList: self.props.groupList });
-      self.props.setCurrGroup(currGroup)
-    }
-  }
-
   @autobind
   searchGroup(e, value) {
     const v = value || e.target.value;
@@ -262,40 +189,17 @@ export default class GroupList extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // GroupSetting 组件设置的分组信息，通过redux同步到左侧分组菜单中
+    if (this.props.groupList !== nextProps.groupList) {
+      this.setState({
+        groupList: nextProps.groupList
+      })
+    }
+  }
+
   render() {
     const { currGroup } = this.props;
-    const delmark = <Menu.Item>
-      <span onClick={() => this.showModal(TYPE_EDIT)}>编辑分组</span>
-    </Menu.Item>
-    const editmark = <Menu.Item>
-      <span onClick={() => { this.showConfirm() }}>删除分组</span>
-    </Menu.Item>
-    const addmark = <Menu.Item>
-      <span onClick={this.showModal}>添加分组</span>
-    </Menu.Item>
-
-    let menu = <Menu>
-      {
-        this.props.curUserRole === "admin" && this.props.currGroup.type !== 'private' ? (editmark) : ''
-      }
-      {
-        (this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner') && this.props.currGroup.type !== 'private' ? (delmark) : ''
-      }
-      {
-        this.props.curUserRole === 'admin' ? (addmark) : ''
-      }
-    </Menu>;
-    menu = (this.props.curUserRoleInGroup === 'owner' && this.props.curUserRole !== 'admin') ? <a className="editSet"><Icon type="setting" onClick={() => this.showModal(TYPE_EDIT)} /></a> : <Dropdown overlay={menu}>
-      <a className="ant-dropdown-link" href="#">
-        <Icon type="setting" />
-      </a>
-    </Dropdown>;
-    // console.log(this.props.currGroup.type,this.props.curUserRoleInGroup,this.props.curUserRole);
-    // if(!(this.props.currGroup.type !=='private') && !(this.props.curUserRoleInGroup === 'owner' || this.props.curUserRole === 'admin')){
-    //   menu = null;
-    // }
-
-
     return (
       <div className="m-group">
         {!this.props.study ? <div className="study-mask"></div> : null}
@@ -303,7 +207,10 @@ export default class GroupList extends Component {
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              {this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner' ? (menu) : ''}
+              {/* this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner' ? (menu) : '' */}
+              { /* 只有超级管理员能添加分组 */
+                this.props.curUserRole === 'admin' ? <Tooltip title="添加分组"><a className="editSet"><Icon className="btn" type="folder-add" onClick={this.showModal} /></a></Tooltip> : ''
+              }
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
@@ -370,27 +277,6 @@ export default class GroupList extends Component {
             </Row>
           </Modal> : ''
         }
-
-        <Modal
-          title="编辑分组"
-          visible={this.state.editGroupModalVisible}
-          onOk={this.editGroup}
-          onCancel={() => this.hideModal(TYPE_EDIT)}
-          className="add-group-modal"
-        >
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">分组名：</div></Col>
-            <Col span="15">
-              <Input placeholder="请输入分组名称" value={this.state.currGroupName} onChange={(e) => this.inputNewGroupName(e, TYPE_EDIT)}></Input>
-            </Col>
-          </Row>
-          <Row gutter={6} className="modal-input">
-            <Col span="5"><div className="label">简介：</div></Col>
-            <Col span="15">
-              <TextArea rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={(e) => this.inputNewGroupDesc(e, TYPE_EDIT)}></TextArea>
-            </Col>
-          </Row>
-        </Modal>
       </div>
     )
   }

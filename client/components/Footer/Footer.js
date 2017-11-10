@@ -87,10 +87,10 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: '版本： ' + packageJson.version,
-          itemLink: 'https://yapi.ymfe.org/releases.html'
+          itemLink: 'http://yapi.qunar.com/releases.html'
         }, {
           itemTitle: '使用文档',
-          itemLink: 'https://yapi.ymfe.org/'
+          itemLink: 'http://yapi.qunar.com'
         }
       ]
     }
