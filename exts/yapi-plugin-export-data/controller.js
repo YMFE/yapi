@@ -85,15 +85,20 @@ class exportController extends baseController{
       });
       
       let tp = defaultTheme + unescape(markdown.render(md));
-      tp = createHtml5(tp);
-      return tp;
+      let left;
+
+      let content = tp.replace(/<div\s+?class="table-of-contents"\s*>[\s\S]*?<\/ul>\s*<\/div>/gi, function(match){
+        left = match;
+        return '';
+      });
+      return  createHtml5(left, content);
     }
 
     function escapeStr(str){
       return !isMarkdown ? escape(str) : str;
     }
 
-    function createHtml5(tp){
+    function createHtml5(left, tp){
       //html5模板
       let html = `<!DOCTYPE html>
       <html>
@@ -101,7 +106,10 @@ class exportController extends baseController{
       <title>${curProject.name}</title>
       </head>
       <body>
+      ${left}
+      <div id="right" class="content-right">
       ${tp}
+      </div>
       </body>
       </html>
       `;

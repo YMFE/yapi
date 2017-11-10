@@ -17,6 +17,9 @@ body {
     color: #393838;
     background-color: white;
     margin: 10px 13px 10px 13px;
+    position: relative;
+    padding: 0 60px 30px;
+    overflow-x: hidden;
 }
 table {
     margin: 10px 0 15px 0;
@@ -41,6 +44,7 @@ a img {
     border: none;
 }
 p {
+    padding-left: 10px;
     margin-bottom: 9px;
 }
 h1,
@@ -72,8 +76,8 @@ h2 {
 h3 {
     clear: both;
     font-weight: 400;
-    margin-top: .48rem;
-    margin-bottom: .16rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border-left: 3px solid #42b983;
     padding-left: 8px;
     font-size: 18px;
@@ -135,7 +139,7 @@ pre {
     background:#f6f6f6;
 }
 pre code {
-    background-color: #fff;
+    background-color: #f6f6f6;
     color:#737373;
     font-size: 11px;
     padding: 0;
@@ -148,12 +152,7 @@ sup {
 * {
     -webkit-print-color-adjust: exact;
 }
-@media screen and (min-width: 914px) {
-    body {
-        width: 854px;
-        margin:10px auto;
-    }
-}
+
 @media print {
     body,code,pre code,h1,h2,h3,h4,h5,h6 {
         color: black;
@@ -166,34 +165,29 @@ html,body{
     height: 100%;
 }
 .table-of-contents{
-    float: left;
-    width: 240px;
-    overflow: auto;
-    margin-left: -240px;
-    position: fixed;
-    padding-right: 0px;
-    box-sizing: border-box;
-    top: 0px;
-    bottom: 0px;
-    /* left: 0px; */
-    z-index: 3;
-    margin-top: 30px;
+    top: 61px;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 260px;
 }
 
 .table-of-contents ul{
+    position: fixed;
     overflow: auto;
     margin: 0px;
     height: 100%;
     padding: 0px 0px;
     box-sizing: border-box;
-    
+    list-style-type: none;
 }
 .table-of-contents ul li{
     padding-left: 20px;
 }
 .table-of-contents ul:before{
-    content: "目录";
-    font-size: 30px;
+    content: "YAPI 接口文档";
+    font-size: 26px;
     line-height: 80px;
     margin: 30px;
     text-align: center;
@@ -203,7 +197,13 @@ html,body{
     padding: 2px 0px;
     display: block;
     text-decoration: none;
+}
 
+.content-right{
+    position: relative;
+    max-width: 700px;
+    margin-left: 290px;
+    padding-left: 50px;
 }
 
 body>p{
