@@ -191,3 +191,11 @@ body, h1, h2, h3, h4, h5, h6 {
   border: 1px solid;
   border-color: #fff;
 }
+
+.ydoc .navbar-toggle{
+  color: #333; 
+}
+
+.ydoc .ydoc-nav .navbar-left li:nth-child(1){
+  display: none;
+}
