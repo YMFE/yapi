@@ -173,10 +173,18 @@ exports.entries = (obj) => {
  * @returns 
  */
 function simpleJsonPathParse(key, json){
-  if(!key || typeof key !== 'string' || key.indexOf('$.') !== 0 || key.length <= 2){
+  if(!key || typeof key !== 'string' || key.length <= 2){
     return null;
   }
-  let keys = key.substr(2).split(".");
+  let keys=[];
+  if (key.indexOf('$.') === 0) {
+    keys = key.substr(2).split(".");
+  } else if (key.match(/^\${\d+\..*?\}/g) !== null ){
+    keys = key.substr(2,key.length-3).split(".");
+  } else {
+    return null;
+  }
+  
   keys = keys.filter(item=>{
     return item;
   })

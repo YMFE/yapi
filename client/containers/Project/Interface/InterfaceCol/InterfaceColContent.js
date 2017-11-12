@@ -363,12 +363,18 @@ class InterfaceColContent extends Component {
   }
 
   handleValue = (val) => {
+    const regex = /\${\d+\..*?\}/g;
     if (!val || typeof val !== 'string') {
       return val;
     } else if (val[0] === '@') {
       return handleMockWord(val);
     } else if (val.indexOf('$.') === 0) {
       return simpleJsonPathParse(val, this.records);
+    } else if ( val.match(regex) !== null ){
+      val.match(regex).forEach((match) => {
+        val=val.replace(match, simpleJsonPathParse(match, this.records));
+      });
+      return val;
     }
     return val;
   }
