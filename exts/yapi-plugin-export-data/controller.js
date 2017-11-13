@@ -104,6 +104,7 @@ class exportController extends baseController{
       <html>
       <head>
       <title>${curProject.name}</title>
+      <meta charset="utf-8" />
       ${defaultTheme}
       </head>
       <body>
