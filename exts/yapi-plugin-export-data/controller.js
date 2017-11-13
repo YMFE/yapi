@@ -93,6 +93,7 @@ class exportController extends baseController{
       });
       return  createHtml5(left, content);
     }
+    
 
     function escapeStr(str){
       return !isMarkdown ? escape(str) : str;
