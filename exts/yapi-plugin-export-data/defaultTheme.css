@@ -320,6 +320,7 @@ body > pre {
   font-size: 16px;
   position: absolute;
   right: 32px;
+  top: 0
 }
 .m-header .nav a {
   color: #fff;

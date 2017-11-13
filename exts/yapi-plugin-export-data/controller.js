@@ -93,6 +93,7 @@ class exportController extends baseController{
       });
       return  createHtml5(left, content);
     }
+    
 
     function escapeStr(str){
       return !isMarkdown ? escape(str) : str;
@@ -104,6 +105,7 @@ class exportController extends baseController{
       <html>
       <head>
       <title>${curProject.name}</title>
+      <meta charset="utf-8" />
       ${defaultTheme}
       </head>
       <body>
