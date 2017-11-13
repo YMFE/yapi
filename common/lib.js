@@ -1,4 +1,3 @@
-const path = require('path');
 const _ =require('underscore');
 
 function getPluginConfig(name, type) {
