@@ -216,8 +216,8 @@ class InterfaceColContent extends Component {
     }
 
     const urlObj = URL.parse(URL.resolve(currDomain.domain, '.' + path));
-    urlObj.query && urlObj.query.split('&').forEach(item=>{
-      if(item){
+    urlObj.query && urlObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -227,7 +227,7 @@ class InterfaceColContent extends Component {
       protocol: urlObj.protocol || 'http',
       host: urlObj.host,
       pathname: urlObj.pathname,
-      query:  Object.assign(pathQuery, this.getQueryObj(interfaceData.req_query, requestParams))
+      query: Object.assign(pathQuery, this.getQueryObj(interfaceData.req_query, requestParams))
     });
 
     let result = { code: 400, msg: '数据异常', validRes: [] };
@@ -363,12 +363,22 @@ class InterfaceColContent extends Component {
   }
 
   handleValue = (val) => {
+    const regex = /(\{\$\.\d+\..*?\})|(\{\@\w+\})/g;
     if (!val || typeof val !== 'string') {
       return val;
     } else if (val[0] === '@') {
       return handleMockWord(val);
     } else if (val.indexOf('$.') === 0) {
       return simpleJsonPathParse(val, this.records);
+    } else if (val.match(regex) !== null) {
+      val.match(regex).forEach((match) => {
+        if (match.indexOf("{@") === 0) {
+          val = val.replace(match, handleMockWord(match.substr(1, match.length - 2)))
+        } else {
+          val = val.replace(match, simpleJsonPathParse(match.substr(1, match.length - 2), this.records));
+        }
+      });
+      return val;
     }
     return val;
   }

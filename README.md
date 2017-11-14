@@ -40,10 +40,10 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 <p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
 
 管理员账号
-
-用户名： yapi.demo@qunar.com
-
+```
+用户名： yapi.demo@admin.com
 密码： ymfe.org
+```
 
 ### YApi 的一些客户
 * 去哪儿
