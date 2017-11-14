@@ -10,9 +10,12 @@ const Mock = require('mockjs');
  * @param {*} apiPath /user/tom
  * @param {*} apiRule /user/:username
  */
-function matchApi(apiPath, apiRule) {
+function matchApi(apiPath, apiRule, ctx = null) {
     let apiRules = apiRule.split("/");
     let apiPaths = apiPath.split("/");
+    if ( ctx !== null ){
+        ctx.request.pathRules = {}        
+    }
     if (apiPaths.length !== apiRules.length) {
         return false;
     }
@@ -21,6 +24,8 @@ function matchApi(apiPath, apiRule) {
             if (apiRules[i] !== apiPaths[i]) {
                 return false;
             }
+        } else if (ctx !== null && apiRules[i].indexOf(':') === 0 ) {
+            ctx.request.pathRules[apiRules[i].substr(1)] = apiPaths[i]
         }
     }
     return true;
@@ -120,7 +125,7 @@ module.exports = async (ctx, next) => {
         if (!interfaceData || interfaceData.length === 0) {
             let newData = await interfaceInst.getVar(project._id, ctx.method);
             let findInterface = _.find(newData, (item) => {
-                return matchApi(newpath, item.path)
+                return matchApi(newpath, item.path, ctx)
             });
 
             if (!findInterface) {
@@ -152,7 +157,8 @@ module.exports = async (ctx, next) => {
                     yapi.commons.json_parse(interfaceData.res_body),
                     {
                         query: ctx.request.query,
-                        body: ctx.request.body
+                        body: ctx.request.body,
+                        path: ctx.request.pathRules,
                     }
                 );
                 try {
