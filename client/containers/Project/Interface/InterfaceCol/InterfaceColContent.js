@@ -8,7 +8,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { isJson, handleMockWord, simpleJsonPathParse } from '../../../../common.js'
+import { isJson,  handleJson, handleParamsValue } from '../../../../common.js'
 import mockEditor from '../InterfaceList/mockEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -193,7 +193,6 @@ class InterfaceColContent extends Component {
   }
 
   handleTest = async (interfaceData) => {
-    console.log(1)
     const { currProject } = this.props;
     let requestParams = {};
     let { case_env } = interfaceData;
@@ -243,7 +242,7 @@ class InterfaceColContent extends Component {
       if (reqBody === false) {
         result.body = this.handleValue(interfaceData.req_body_other)
       } else {
-        reqBody = this.handleJson(reqBody)
+        reqBody = handleJson(reqBody, this.handleValue)
         requestParams = Object.assign(requestParams, reqBody);
         result.body = JSON.stringify(reqBody)
       }
@@ -346,42 +345,11 @@ class InterfaceColContent extends Component {
     }
   }
 
-  handleJson = (data) => {
-    if (!data) {
-      return data;
-    }
-    if (typeof data === 'string') {
-      return this.handleValue(data);
-    } else if (typeof data === 'object') {
-      for (let i in data) {
-        data[i] = this.handleJson(data[i]);
-      }
-    } else {
-      return data;
-    }
-    return data;
+  handleValue = (val) => {
+    return handleParamsValue(val, this.recoreds);
   }
 
-  handleValue = (val) => {
-    const regex = /(\{\$\.\d+\..*?\})|(\{\@\w+\})/g;
-    if (!val || typeof val !== 'string') {
-      return val;
-    } else if (val[0] === '@') {
-      return handleMockWord(val);
-    } else if (val.indexOf('$.') === 0) {
-      return simpleJsonPathParse(val, this.records);
-    } else if (val.match(regex) !== null) {
-      val.match(regex).forEach((match) => {
-        if (match.indexOf("{@") === 0) {
-          val = val.replace(match, handleMockWord(match.substr(1, match.length - 2)))
-        } else {
-          val = val.replace(match, simpleJsonPathParse(match.substr(1, match.length - 2), this.records));
-        }
-      });
-      return val;
-    }
-    return val;
-  }
+  
 
   arrToObj = (arr, requestParams) => {
     arr = arr || [];

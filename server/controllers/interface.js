@@ -450,7 +450,7 @@ class interfaceController extends baseController {
             data.req_body_form = this.requiredSort(params.req_body_form);
             // data.req_body_form = params.req_body_form;
         }
-        if (!_.isUndefined(params.req_params) && Array.isArray(params.req_params) && params.req_params.length > 0) {
+        if (!_.isUndefined(params.req_params)) {
           if(Array.isArray(params.req_params) && params.req_params.length > 0){
             data.type = 'var'
             data.req_params = params.req_params;
@@ -458,7 +458,6 @@ class interfaceController extends baseController {
             data.type = 'static'
             data.req_params = [];
           }
-
         }
 
         if (!_.isUndefined(params.req_query)) {

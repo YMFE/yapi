@@ -10,7 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import {  handleMockWord, isJson } from '../../common.js'
+import {  isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
 
 function json_parse(data) {
@@ -32,13 +32,15 @@ function isJsonData(headers) {
   return isResJson;
 }
 
-const wordList = constants.MOCK_SOURCE;
+// const wordList = constants.MOCK_SOURCE;
 
-const mockDataSource = wordList.map(item => {
-  return <AutoComplete.Option key={item.mock} value={item.mock}>
-    {item.mock}&nbsp; &nbsp;随机{item.name}
-  </AutoComplete.Option>
-});
+// const mockDataSource = wordList.map(item => {
+//   return <AutoComplete.Option key={item.mock} value={item.mock}>
+//     {item.mock}&nbsp; &nbsp;随机{item.name}
+//   </AutoComplete.Option>
+// });
+
+const mockDataSource = []
 
 
 // const { TextArea } = Input;
@@ -118,6 +120,10 @@ export default class Run extends Component {
     if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
     }
+  }
+
+  handleValue = (val) => {
+    return handleParamsValue(val, {});
   }
 
   @autobind
@@ -201,8 +207,9 @@ export default class Run extends Component {
     let path = pathname;
     
     pathParam.forEach(item => {
-      path = path.replace(`:${item.name}`, handleMockWord(item.value) || `:${item.name}`);
+      path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
+    
     const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
 
     let pathQuery = {};
@@ -227,7 +234,7 @@ export default class Run extends Component {
       if(resBody === false){
         resBody = bodyOther;
       }else{
-        reqBody = this.handleJson(resBody)
+        reqBody = handleJson(resBody, this.handleValue)
       }
 
     }
@@ -474,7 +481,7 @@ export default class Run extends Component {
     arr.forEach(item => {
       if (item)
         if (item.name && item.type !== 'file' && item.enable) {
-          obj[item.name] = handleMockWord(item.value);
+          obj[item.name] = this.handleValue(item.value);
         }
     })
     return obj;
@@ -493,7 +500,9 @@ export default class Run extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
-        queryObj[item.name] = handleMockWord(item.value);
+        console.log(item.value)
+        queryObj[item.name] = this.handleValue(item.value);
+        console.log(queryObj[item.name])
       }
     })
     return queryObj;
@@ -502,26 +511,10 @@ export default class Run extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = handleMockWord(item.value);
+        headersObj[item.name] = this.handleValue(item.value);
       }
     })
     return headersObj;
-  }
-
-  handleJson = (data)=>{
-    if(!data){
-      return data;
-    }
-    if(typeof data === 'string'){
-      return handleMockWord(data);
-    }else if(typeof data === 'object'){
-      for(let i in data){
-        data[i] = this.handleJson(data[i]);
-      }
-    }else{
-      return data;
-    }
-    return data;
   }
 
   bindAceEditor = () => {
@@ -569,6 +562,7 @@ export default class Run extends Component {
     });
   }
 
+
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
@@ -576,7 +570,7 @@ export default class Run extends Component {
     let isResJson = isJsonData(resHeader);
     let path = pathname;
     pathParam.forEach(item => {
-      let val = handleMockWord(item.value);
+      let val = this.handleValue(item.value);
       path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const pathObj = URL.parse(path);
@@ -690,6 +684,7 @@ export default class Run extends Component {
                       dataSource={mockDataSource}
                       placeholder="参数值"
                       optionLabelProp="value"
+          
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
