@@ -231,7 +231,7 @@ export default class Run extends Component {
     }else{
       reqBody = isJson(bodyOther);
       if(reqBody === false){
-        if(bodyType === 'json'){
+        if(bodyType === 'json' && HTTP_METHOD[method].request_body){
           return message.error('请求 Body 的 json 格式有误')
         }        
         reqBody = bodyOther;
