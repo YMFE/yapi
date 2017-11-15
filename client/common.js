@@ -217,7 +217,7 @@ function handleJson(data, handleValueFn) {
     return handleValueFn(data);
   } else if (typeof data === 'object') {
     for (let i in data) {
-      data[i] = handleJson(data[i]);
+      data[i] = handleJson(data[i], handleValueFn);
     }
   } else {
     return data;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
+import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -40,10 +40,9 @@ function isJsonData(headers) {
 //   </AutoComplete.Option>
 // });
 
-const mockDataSource = []
 
 
-// const { TextArea } = Input;
+const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -122,7 +121,7 @@ export default class Run extends Component {
     }
   }
 
-  handleValue = (val) => {
+  handleValue (val)  {
     return handleParamsValue(val, {});
   }
 
@@ -230,11 +229,14 @@ export default class Run extends Component {
     if(bodyType === 'form'){
       reqBody = this.arrToObj(bodyForm)
     }else{
-      let resBody = isJson(bodyOther);
-      if(resBody === false){
-        resBody = bodyOther;
+      reqBody = isJson(bodyOther);
+      if(reqBody === false){
+        if(bodyType === 'json'){
+          return message.error('请求 Body 的 json 格式有误')
+        }        
+        reqBody = bodyOther;
       }else{
-        reqBody = handleJson(resBody, this.handleValue)
+        reqBody = handleJson(reqBody, this.handleValue)
       }
 
     }
@@ -329,6 +331,7 @@ export default class Run extends Component {
 
   @autobind
   changeHeader(v, index, isName) {
+    v = v.target.value
     const headers = json_parse(JSON.stringify(this.state.headers));
     if (isName) {
       headers[index].name = v;
@@ -356,6 +359,7 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
+    v = v.target.value
     key = key || 'value';
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
@@ -379,6 +383,7 @@ export default class Run extends Component {
 
   @autobind
   changePathParam(v, index, isKey) {
+    v = v.target.value;
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
     const name = pathParam[index].name;
     let newPathname = this.state.pathname;
@@ -410,6 +415,7 @@ export default class Run extends Component {
 
   @autobind
   changeBody(v, index, key) {
+    v = v.target.value
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
     key = key || 'value';
     if (key === 'value') {
@@ -500,9 +506,7 @@ export default class Run extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
-        console.log(item.value)
         queryObj[item.name] = this.handleValue(item.value);
-        console.log(queryObj[item.name])
       }
     })
     return queryObj;
@@ -540,7 +544,6 @@ export default class Run extends Component {
         container: 'body-other-edit',
         data: that.state.bodyOther,
         onChange: function (d) {
-          if (d.format !== true) return false;
           that.setState({
             bodyOther: d.text
           })
@@ -677,15 +680,15 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+
+                    <TextArea
                       value={item.value}
                       onChange={e => this.changePathParam(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
-          
+                      autosize={true}
                     />
+
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -705,13 +708,13 @@ export default class Run extends Component {
                       <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+
+                    <TextArea
                       value={item.value}
                       onChange={e => this.changeQuery(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
+                      autosize={true}
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
@@ -727,13 +730,12 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+                    <TextArea
+                      autosize={true}
                       value={item.value}
                       onChange={e => this.changeHeader(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                   </div>
@@ -774,13 +776,12 @@ export default class Run extends Component {
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
                           <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                          <AutoComplete
+                          <TextArea
                             value={item.value}
                             onChange={e => this.changeBody(e, index, 'value')}
                             className="value"
-                            dataSource={mockDataSource}
                             placeholder="参数值"
-                            optionLabelProp="value"
+                            autosize={true}
                           />
 
                         }

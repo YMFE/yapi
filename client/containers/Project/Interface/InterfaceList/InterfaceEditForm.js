@@ -24,6 +24,7 @@ import {
   Button, Row, Col, Radio, Icon, AutoComplete, Switch
 } from 'antd';
 
+const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const InputGroup = Input.Group;
@@ -394,14 +395,14 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_query[' + index + '].example', {
             initialValue: data.example
           })(
-            <Input.TextArea autosize={true} placeholder="参数示例" />
+            <TextArea autosize={true} placeholder="参数示例" />
             )}
         </Col>
         <Col span="9" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input.TextArea autosize={true} placeholder="备注" />
+            <TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="1" className="interface-edit-item-content-col" >
@@ -434,14 +435,14 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_headers[' + index + '].example', {
             initialValue: data.example
           })(
-            <Input.TextArea autosize={true} placeholder="参数示例" />
+            <TextArea autosize={true} placeholder="参数示例" />
             )}
         </Col>
         <Col span="8" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input.TextArea autosize={true} placeholder="备注" />
+            <TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="1" className="interface-edit-item-content-col" >
@@ -484,14 +485,14 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_body_form[' + index + '].example', {
             initialValue: data.example
           })(
-            <Input.TextArea autosize={true} placeholder="参数示例" />
+            <TextArea autosize={true} placeholder="参数示例" />
             )}
         </Col>
         <Col span="8" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input.TextArea autosize={true} placeholder="备注" />
+            <TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
         <Col span="1" className="interface-edit-item-content-col" >
@@ -513,14 +514,14 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('req_params[' + index + '].example', {
             initialValue: data.desc
           })(
-            <Input.TextArea autosize={true} placeholder="参数示例" />
+            <TextArea autosize={true} placeholder="参数示例" />
             )}
         </Col>
         <Col span="11" className="interface-edit-item-content-col">
           {getFieldDecorator('req_params[' + index + '].desc', {
             initialValue: data.desc
           })(
-            <Input.TextArea autosize={true} placeholder="备注" />
+            <TextArea autosize={true} placeholder="备注" />
             )}
         </Col>
 
@@ -720,9 +721,9 @@ class InterfaceEditForm extends Component {
 
           {this.props.form.getFieldValue('req_body_type') === 'file' ?
             <Row className="interface-edit-item" >
-              <Col>
+              <Col className="interface-edit-item-other-body">
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                  <Input.TextArea placeholder="备注信息" />
+                  <TextArea placeholder="备注信息" autosize={true} />
                 )}
               </Col>
 
@@ -735,7 +736,7 @@ class InterfaceEditForm extends Component {
             <Row>
               <Col>
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                  <Input.TextArea placeholder="备注信息" />
+                  <TextArea placeholder="备注信息" autosize={{minRows: 8}} />
                 )}
               </Col>
             </Row>
@@ -780,7 +781,7 @@ class InterfaceEditForm extends Component {
           <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
             <Col>
               {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
-                <Input.TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
+                <TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
               )}
             </Col>
           </Row>
@@ -819,7 +820,7 @@ class InterfaceEditForm extends Component {
             label="改动日志"
           >
             {getFieldDecorator('message', { initialValue: "" })(
-              <Input.TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
+              <TextArea style={{ minHeight: "150px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
             )}
           </FormItem>
         </div>

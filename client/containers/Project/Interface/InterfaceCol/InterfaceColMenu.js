@@ -334,8 +334,6 @@ export default class InterfaceColMenu extends Component {
           onSelect={this.onSelect}
           autoExpandParent
           onExpand={this.onExpand}
-          draggable
-          onDrop={this.onDrop}
         >
           {
             this.props.interfaceColList.filter(col => {
