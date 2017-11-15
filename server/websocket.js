@@ -1,19 +1,33 @@
 const koaRouter = require('koa-router');
 const interfaceController = require('./controllers/interface.js');
-const router = koaRouter();
+const yapi = require('./yapi.js');
 
+const router = koaRouter();
+const { createAction } = require("./utils/commons.js")
+
+let pluginsRouterPath = [];
+
+
+function addPluginRouter(config) {
+  if (!config.path || !config.controller || !config.action) {
+    throw new Error('Plugin Route config Error');
+  }
+  let method = config.method || 'GET';
+  let routerPath = '/ws_plugin/' + config.path;
+  if (pluginsRouterPath.indexOf(routerPath) > -1) {
+    throw new Error('Plugin Route path conflict, please try rename the path')
+  }
+  pluginsRouterPath.push(routerPath);
+  createAction(router, "/api", config.controller, config.action, routerPath, method, true);
+}
 function websocket(app) {
   console.log('load websocket...')
-  
-  router.get('/api/interface/solve_conflict', async function (ctx) {
-    let inst = new interfaceController(ctx);
-    await inst.init(ctx);
-    if (inst.$auth === true) {
-      await inst.solveConflict.call(inst, ctx);
-    } else {
-      ctx.ws.send('请登录...');
-    }
-  })
+  createAction(router, "/api", interfaceController, "solveConflict", "/interface/solve_conflict", "get")
+
+  yapi.emitHookSync('add_ws_router', addPluginRouter);
+
+
+
 
   app.ws.use(router.routes())
   app.ws.use(router.allowedMethods());
