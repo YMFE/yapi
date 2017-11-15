@@ -128,6 +128,32 @@ var hooks = {
     add_router: {
         type: 'multi',
         listener: []
+    },
+       /**
+     * 增加websocket路由的钩子
+     * type Sync
+     * @param addPluginRouter Function 
+     * @info 
+     * addPLuginPLugin(config)
+     * 
+     * config = {
+     *  path,      // String 路由名称
+     *  method,    // String 请求方法 get post ...
+     *  controller // Class 继承baseController的class
+     *  action     // String controller的Action
+     * }
+     * 
+     * 示例：
+     * config = {
+     *  path:  "export/pdf",
+     *  method: "get",
+     *  controller: controller,
+     *  action: "exportPdf"
+     * }
+     */
+    add_ws_router: {
+        type: 'multi',
+        listener: []
     }
 };
 

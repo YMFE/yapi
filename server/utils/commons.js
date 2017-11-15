@@ -243,7 +243,7 @@ exports.handleParams = (params, keys) => {
             switch (filter) {
                 case 'string': params[key] = trim(params[key] + '');
                     break;
-                case 'number': params[key] =!isNaN(params[key])? parseInt(params[key], 10) : 0;
+                case 'number': params[key] = !isNaN(params[key]) ? parseInt(params[key], 10) : 0;
                     break;
                 default: params[key] = trim(params + '');
             }
@@ -271,3 +271,37 @@ exports.saveLog = (logData) => {
         yapi.commons.log(e, 'error'); // eslint-disable-line
     }
 };
+
+
+/**
+ *
+ * @param {*} router router
+ * @param {*} baseurl base_url_path
+ * @param {*} routerController controller
+ * @param {*} path  routerPath
+ * @param {*} method request_method , post get put delete ...
+ * @param {*} action controller action_name
+ * @param {*} ws enable ws
+ */
+exports.createAction = (router, baseurl, routerController, action, path, method, ws) => {
+    router[method](baseurl + path, async (ctx) => {
+        let inst = new routerController(ctx);
+        try {
+            await inst.init(ctx);
+
+            if (inst.$auth === true) {
+                await inst[action].call(inst, ctx);
+            } else {
+                if (ws === true) {
+                    ctx.ws.send('请登录...');
+                } else {
+                    ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
+                }
+            }
+        } catch (err) {
+            ctx.body = yapi.commons.resReturn(null, 40011, '服务器出错...');
+            yapi.commons.log(err, 'error')
+        }
+
+    });
+}
