@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
 
-import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message,  Switch, Modal, Row, Col } from 'antd'
+import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -11,8 +11,9 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import {  isJson, handleJson, handleParamsValue } from '../../common.js'
+import { isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
+import ModalPostman from '../ModalPostman/index.js'
 
 function json_parse(data) {
   try {
@@ -33,7 +34,7 @@ function isJsonData(headers) {
   return isResJson;
 }
 
-const wordList = constants.MOCK_SOURCE;
+// const wordList = constants.MOCK_SOURCE;
 
 // const mockDataSource = wordList.map(item => {
 //   return <AutoComplete.Option key={item.mock} value={item.mock}>
@@ -41,12 +42,12 @@ const wordList = constants.MOCK_SOURCE;
 //   </AutoComplete.Option>
 // });
 
-const MockModalList = wordList.map((item, index) => {
-  return <Row key={index} type="flex" align="middle" className="row">
-    <Col span={6}><label>{item.mock}</label></Col>
-    <Col span={18}><Input /></Col>
-  </Row>
-})
+// const MockModalList = wordList.map((item, index) => {
+//   return <Row key={index} type="flex" align="middle" className="row">
+//     <Col span={6}><label>{item.mock}</label></Col>
+//     <Col span={18}><Input /></Col>
+//   </Row>
+// })
 
 
 
@@ -130,7 +131,7 @@ export default class Run extends Component {
     }
   }
 
-  handleValue (val)  {
+  handleValue(val) {
     return handleParamsValue(val, {});
   }
 
@@ -211,18 +212,18 @@ export default class Run extends Component {
       return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
-    
+
     let path = pathname;
-    
+
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
-    
+
     const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
 
     let pathQuery = {};
-    urlObj.query && urlObj.query.split('&').forEach(item=>{
-      if(item){
+    urlObj.query && urlObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -235,16 +236,16 @@ export default class Run extends Component {
       query: Object.assign(pathQuery, this.getQueryObj(query))
     });
     let reqBody;
-    if(bodyType === 'form'){
+    if (bodyType === 'form') {
       reqBody = this.arrToObj(bodyForm)
-    }else{
+    } else {
       reqBody = isJson(bodyOther);
-      if(reqBody === false){
-        if(bodyType === 'json'){
+      if (reqBody === false) {
+        if (bodyType === 'json' && HTTP_METHOD[method].request_body) {
           return message.error('请求 Body 的 json 格式有误')
-        }        
+        }
         reqBody = bodyOther;
-      }else{
+      } else {
         reqBody = handleJson(reqBody, this.handleValue)
       }
 
@@ -368,8 +369,8 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
-    v = v.target.value
     key = key || 'value';
+    v = v.target.value;
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
       query[index].enable = v;
@@ -600,8 +601,8 @@ export default class Run extends Component {
     const pathObj = URL.parse(path);
     path = pathObj.pathname;
     let pathQuery = {};
-    pathObj.query && pathObj.query.split('&').forEach(item=>{
-      if(item){
+    pathObj.query && pathObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -618,7 +619,13 @@ export default class Run extends Component {
 
     return (
       <div className="interface-test postman">
-        <Modal
+        <ModalPostman
+          visible={this.state.modalVisible}
+          handleCancel={this.handleCancel}
+          handleOk={this.handleOk}
+        >
+        </ModalPostman>
+        {/* <Modal
           title={<p><Icon type="bulb" /> Basic Modal</p>}
           visible={this.state.modalVisible}
           onOk={this.handleOk}
@@ -636,7 +643,7 @@ export default class Run extends Component {
             <Col span={6}><h3 className="title">预览</h3></Col>
             <Col span={18}><h3>输入值</h3></Col>
           </Row>
-        </Modal>
+        </Modal> */}
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -720,7 +727,7 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <Input addonAfter={<Icon type="setting" />} defaultValue={item.value} />
+                    <Input addonAfter={<Icon type="setting" />} defaultValue={item.value} onChange={e => this.changePathParam(e, index, false)} />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -731,10 +738,10 @@ export default class Run extends Component {
           <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
             {
               query.map((item, index) => {
-                  console.log(item.value);
+                console.log(item.value);
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name}  className="key" />
+                    <Input disabled value={item.name} className="key" />
                     &nbsp;
                     {item.required == 1 ?
                       <Checkbox checked={true} disabled >enable</Checkbox> :
@@ -747,9 +754,9 @@ export default class Run extends Component {
                       className="value"
                       onChange={e => this.changeQuery(e, index)}
                       placeholder="参数值"
-                      addonAfter={<Icon type="bulb" onClick={this.showModal}/>}
+                      addonAfter={<Icon type="edit" onClick={this.showModal} />}
                     />
-     
+
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
                 )
