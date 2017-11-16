@@ -438,6 +438,7 @@ class InterfaceMenu extends Component {
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
           onExpand={this.onExpand}
+          ondragstart = {()=>{return false}}
         >
           <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
