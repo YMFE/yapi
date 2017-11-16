@@ -1,5 +1,5 @@
 import './View.scss'
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Table, Icon, Row, Col } from 'antd'

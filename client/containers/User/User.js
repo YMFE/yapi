@@ -1,5 +1,5 @@
 import './index.scss'
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import List from './List.js'

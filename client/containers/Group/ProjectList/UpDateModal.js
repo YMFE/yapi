@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';

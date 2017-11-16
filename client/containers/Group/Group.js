@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import GroupList from './GroupList/GroupList.js';
 import ProjectList from './ProjectList/ProjectList.js';
 import MemberList from './MemberList/MemberList.js';

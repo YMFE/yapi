@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 
