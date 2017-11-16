@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';

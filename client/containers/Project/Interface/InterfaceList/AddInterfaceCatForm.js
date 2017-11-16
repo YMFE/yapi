@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React,{ PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;

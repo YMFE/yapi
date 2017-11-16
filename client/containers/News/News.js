@@ -1,5 +1,5 @@
 import './News.scss'
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import NewsTimeline from './NewsTimeline/NewsTimeline'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'

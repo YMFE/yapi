@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { Row, Col, Input, Button, Select, message, Upload, Tooltip } from 'antd'
 import axios from 'axios';
 import { formatTime } from '../../common.js'

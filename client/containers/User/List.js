@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { formatTime } from '../../common.js'
 import { Link } from 'react-router-dom'
 import { setBreadcrumb } from '../../reducer/modules/user';

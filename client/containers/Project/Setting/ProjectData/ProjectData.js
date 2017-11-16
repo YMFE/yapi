@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { Upload, Icon, message, Select, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

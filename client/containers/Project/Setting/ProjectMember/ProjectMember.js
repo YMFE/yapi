@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { Table, Card, Badge, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
 import { autobind } from 'core-decorators';

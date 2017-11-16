@@ -2,7 +2,7 @@ import './Breadcrumb.scss';
 import {withRouter} from 'react-router-dom';
 import {Breadcrumb} from 'antd';
 import PropTypes from 'prop-types'
-import React, {Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 

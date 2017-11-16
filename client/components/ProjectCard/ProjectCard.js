@@ -1,5 +1,5 @@
 import './ProjectCard.scss';
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import { Card, Icon, Tooltip } from 'antd';
 import { connect } from 'react-redux'
 import { delFollow, addFollow } from  '../../reducer/modules/follow';
