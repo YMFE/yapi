@@ -122,13 +122,11 @@ class interfaceController extends baseController {
             };
 
             if (!_.isUndefined(params.req_query)) {
-                data.req_query = this.requiredSort(params.req_query);
-                // data.req_query = params.req_query;
+                data.req_query = params.req_query;
             }
 
             if (!_.isUndefined(params.req_body_form)) {
-                data.req_body_form = this.requiredSort(params.req_body_form);
-                // data.req_body_form = params.req_body_form;
+                data.req_body_form = params.req_body_form;
             }
 
             if (params.path.indexOf(":") > 0) {
@@ -446,9 +444,8 @@ class interfaceController extends baseController {
             data.req_headers = params.req_headers;
         }
 
-        if (!_.isUndefined(params.req_body_form)) {
-            data.req_body_form = this.requiredSort(params.req_body_form);
-            // data.req_body_form = params.req_body_form;
+        if (!_.isUndefined(params.req_body_form)) {            
+            data.req_body_form = params.req_body_form;
         }
         if (!_.isUndefined(params.req_params)) {
           if(Array.isArray(params.req_params) && params.req_params.length > 0){
@@ -461,9 +458,7 @@ class interfaceController extends baseController {
         }
 
         if (!_.isUndefined(params.req_query)) {
-            // data.req_query = params.req_query;
-            data.req_query = this.requiredSort(params.req_query);
-            // console.log("req",this.requiredSort(params.req_query));
+            data.req_query = params.req_query;
         }
 
         if (!_.isUndefined(params.req_body_other)) {
