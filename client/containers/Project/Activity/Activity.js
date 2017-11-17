@@ -1,5 +1,5 @@
 import './Activity.scss'
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import TimeTree from '../../../components/TimeLine/TimeLine'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'

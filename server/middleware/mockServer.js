@@ -13,17 +13,25 @@ const Mock = require('mockjs');
 function matchApi(apiPath, apiRule) {
     let apiRules = apiRule.split("/");
     let apiPaths = apiPath.split("/");
+    let pathRules = {}    
     if (apiPaths.length !== apiRules.length) {
         return false;
     }
     for (let i = 0; i < apiRules.length; i++) {
-        if (apiRules[i] && apiRules[i].indexOf(":") !== 0) {
+        if(apiRules[i]){
+            apiRules[i]  = apiRules[i].trim();
+        }else{
+            continue;
+        }        
+        if (apiRules[i].indexOf(":") !== 0) {
             if (apiRules[i] !== apiPaths[i]) {
                 return false;
             }
+        } else {
+            pathRules[apiRules[i].substr(1)] = apiPaths[i]
         }
     }
-    return true;
+    return pathRules;
 }
 
 function parseCookie(str){
@@ -82,6 +90,7 @@ module.exports = async (ctx, next) => {
 
     let interfaceData, newpath;
     let interfaceInst = yapi.getInst(interfaceModel);
+
     try {
         newpath = path.substr(project.basepath.length);
         interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
@@ -93,7 +102,7 @@ module.exports = async (ctx, next) => {
             let i, l, j, len, curQuery, match = false;
             for (i = 0, l = interfaceData.length; i < l; i++) {
                 match = false;
-                currentInterfaceData = interfaceData[i];
+                let currentInterfaceData = interfaceData[i];
                 curQuery = currentInterfaceData.query_path;
                 if (!curQuery || typeof curQuery !== 'object' || !curQuery.path) {
                     continue;
@@ -119,8 +128,14 @@ module.exports = async (ctx, next) => {
         //处理动态路由
         if (!interfaceData || interfaceData.length === 0) {
             let newData = await interfaceInst.getVar(project._id, ctx.method);
-            let findInterface = _.find(newData, (item) => {
-                return matchApi(newpath, item.path)
+            
+            let findInterface = _.find(newData, (item) => {                
+                let m =  matchApi(newpath, item.path)
+                if(m !== false){
+                    ctx.request.query = Object.assign(m , ctx.request.query);
+                    return true;
+                }
+                return false;
             });
 
             if (!findInterface) {
@@ -152,7 +167,8 @@ module.exports = async (ctx, next) => {
                     yapi.commons.json_parse(interfaceData.res_body),
                     {
                         query: ctx.request.query,
-                        body: ctx.request.body
+                        body: ctx.request.body,
+                        params: Object.assign({}, ctx.request.query, ctx.request.body)                     
                     }
                 );
                 try {
@@ -213,8 +229,6 @@ module.exports = async (ctx, next) => {
                 data: null
             }
         }
-
-        return ctx.body = interfaceData.res_body;
     } catch (e) {
         console.error(e)
         return ctx.body = yapi.commons.resReturn(null, 409, e.message);

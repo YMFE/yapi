@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import Login from './LoginWrap';
 import { Row, Col, Card } from 'antd';
 import { logoSVG } from '../../common.js';

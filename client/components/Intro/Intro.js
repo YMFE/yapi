@@ -24,7 +24,7 @@ IntroPart.propTypes = {
   iconType : PropTypes.string
 }
 
-class Intro extends React.Component{
+class Intro extends React.PureComponent{
   constructor(props){
     super(props);
   }

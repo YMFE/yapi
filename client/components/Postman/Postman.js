@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, AutoComplete, Switch } from 'antd'
+import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 
@@ -10,7 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import {  handleMockWord, isJson } from '../../common.js'
+import {  isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
 
 function json_parse(data) {
@@ -32,16 +32,17 @@ function isJsonData(headers) {
   return isResJson;
 }
 
-const wordList = constants.MOCK_SOURCE;
+// const wordList = constants.MOCK_SOURCE;
 
-const mockDataSource = wordList.map(item => {
-  return <AutoComplete.Option key={item.mock} value={item.mock}>
-    {item.mock}&nbsp; &nbsp;随机{item.name}
-  </AutoComplete.Option>
-});
+// const mockDataSource = wordList.map(item => {
+//   return <AutoComplete.Option key={item.mock} value={item.mock}>
+//     {item.mock}&nbsp; &nbsp;随机{item.name}
+//   </AutoComplete.Option>
+// });
 
 
-// const { TextArea } = Input;
+
+const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -118,6 +119,10 @@ export default class Run extends Component {
     if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
     }
+  }
+
+  handleValue (val)  {
+    return handleParamsValue(val, {});
   }
 
   @autobind
@@ -201,8 +206,9 @@ export default class Run extends Component {
     let path = pathname;
     
     pathParam.forEach(item => {
-      path = path.replace(`:${item.name}`, handleMockWord(item.value) || `:${item.name}`);
+      path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
+    
     const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
 
     let pathQuery = {};
@@ -223,11 +229,14 @@ export default class Run extends Component {
     if(bodyType === 'form'){
       reqBody = this.arrToObj(bodyForm)
     }else{
-      let resBody = isJson(bodyOther);
-      if(resBody === false){
-        resBody = bodyOther;
+      reqBody = isJson(bodyOther);
+      if(reqBody === false){
+        if(bodyType === 'json' && HTTP_METHOD[method].request_body){
+          return message.error('请求 Body 的 json 格式有误')
+        }        
+        reqBody = bodyOther;
       }else{
-        reqBody = this.handleJson(resBody)
+        reqBody = handleJson(reqBody, this.handleValue)
       }
 
     }
@@ -322,6 +331,7 @@ export default class Run extends Component {
 
   @autobind
   changeHeader(v, index, isName) {
+    v = v.target.value
     const headers = json_parse(JSON.stringify(this.state.headers));
     if (isName) {
       headers[index].name = v;
@@ -349,6 +359,7 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
+    v = v.target.value
     key = key || 'value';
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
@@ -372,6 +383,7 @@ export default class Run extends Component {
 
   @autobind
   changePathParam(v, index, isKey) {
+    v = v.target.value;
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
     const name = pathParam[index].name;
     let newPathname = this.state.pathname;
@@ -403,6 +415,7 @@ export default class Run extends Component {
 
   @autobind
   changeBody(v, index, key) {
+    v = v.target.value
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
     key = key || 'value';
     if (key === 'value') {
@@ -474,7 +487,7 @@ export default class Run extends Component {
     arr.forEach(item => {
       if (item)
         if (item.name && item.type !== 'file' && item.enable) {
-          obj[item.name] = handleMockWord(item.value);
+          obj[item.name] = this.handleValue(item.value);
         }
     })
     return obj;
@@ -493,7 +506,7 @@ export default class Run extends Component {
     const queryObj = {};
     query.forEach(item => {
       if (item.name && item.enable) {
-        queryObj[item.name] = handleMockWord(item.value);
+        queryObj[item.name] = this.handleValue(item.value);
       }
     })
     return queryObj;
@@ -502,26 +515,10 @@ export default class Run extends Component {
     const headersObj = {};
     headers.forEach(item => {
       if (item.name && item.value) {
-        headersObj[item.name] = handleMockWord(item.value);
+        headersObj[item.name] = this.handleValue(item.value);
       }
     })
     return headersObj;
-  }
-
-  handleJson = (data)=>{
-    if(!data){
-      return data;
-    }
-    if(typeof data === 'string'){
-      return handleMockWord(data);
-    }else if(typeof data === 'object'){
-      for(let i in data){
-        data[i] = this.handleJson(data[i]);
-      }
-    }else{
-      return data;
-    }
-    return data;
   }
 
   bindAceEditor = () => {
@@ -547,7 +544,6 @@ export default class Run extends Component {
         container: 'body-other-edit',
         data: that.state.bodyOther,
         onChange: function (d) {
-          if (d.format !== true) return false;
           that.setState({
             bodyOther: d.text
           })
@@ -569,6 +565,7 @@ export default class Run extends Component {
     });
   }
 
+
   render() {
     const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
@@ -576,7 +573,7 @@ export default class Run extends Component {
     let isResJson = isJsonData(resHeader);
     let path = pathname;
     pathParam.forEach(item => {
-      let val = handleMockWord(item.value);
+      let val = this.handleValue(item.value);
       path = path.replace(`:${item.name}`, val || `:${item.name}`);
     });
     const pathObj = URL.parse(path);
@@ -683,14 +680,15 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+
+                    <TextArea
                       value={item.value}
                       onChange={e => this.changePathParam(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
+                      autosize={true}
                     />
+
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -710,13 +708,13 @@ export default class Run extends Component {
                       <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+
+                    <TextArea
                       value={item.value}
                       onChange={e => this.changeQuery(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
+                      autosize={true}
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
@@ -732,13 +730,12 @@ export default class Run extends Component {
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <AutoComplete
+                    <TextArea
+                      autosize={true}
                       value={item.value}
                       onChange={e => this.changeHeader(e, index)}
                       className="value"
-                      dataSource={mockDataSource}
                       placeholder="参数值"
-                      optionLabelProp="value"
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                   </div>
@@ -779,13 +776,12 @@ export default class Run extends Component {
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
                           <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                          <AutoComplete
+                          <TextArea
                             value={item.value}
                             onChange={e => this.changeBody(e, index, 'value')}
                             className="value"
-                            dataSource={mockDataSource}
                             placeholder="参数值"
-                            optionLabelProp="value"
+                            autosize={true}
                           />
 
                         }

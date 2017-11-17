@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -100,6 +100,21 @@ class InterfaceList extends Component {
     })
   }
 
+  changeInterfaceCat = async (id, catid) => {
+    const params = {
+      id: id,
+      catid
+    };
+    let result = await axios.post('/api/interface/up', params);
+    if (result.data.errcode === 0) {
+      message.success('修改成功');
+      this.handleRequest(this.props);
+      this.props.fetchInterfaceList(this.props.curProject._id)
+    } else {
+      message.error(result.data.errmsg)
+    }
+  }
+
   changeInterfaceStatus = async (value) => {
     const params = {
       id: value.split('-')[0],
@@ -134,18 +149,26 @@ class InterfaceList extends Component {
       dataIndex: 'path',
       key: 'path',
       width: 50,
-      render: (item) => {
+      render: (item, record) => {
         const path = this.props.curProject.basepath + item;
-        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip"><span className="path">{path}</span></Tooltip>
+        let methodColor = variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'];
+        
+        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
+          <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{record.method}</span>
+          <span className="path">{path}</span>
+        </Tooltip>
       }
     }, {
-      title: '请求方法',
-      dataIndex: 'method',
-      key: 'method',
+      title: '接口分类',
+      dataIndex: 'catid',
+      key: 'catid',
       width: 12,
-      render: (item) => {
-        let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get'];
-        return <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{item}</span>
+      render: (item, record) => {
+        return <Select value={item + ''} className="select" onChange={(catid)=> this.changeInterfaceCat(record._id, catid)}>
+          {this.props.catList.map(cat=>{
+            return <Option key={cat.id + ''} value={cat._id + ''}><span >{cat.name}</span></Option>
+          })}
+        </Select>
       }
     }, {
       title: '状态',

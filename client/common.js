@@ -4,6 +4,7 @@ import constants from './constants/variable'
 import Mock from 'mockjs'
 import json5 from 'json5'
 import MockExtra from 'common/mock-extra.js'
+import {filter} from 'common/power-string.js'
 
 const Roles = {
   0 : 'admin',
@@ -191,7 +192,7 @@ function simpleJsonPathParse(key, json){
 
 
     }catch(e){
-      json = null;
+      json = '';
       break;
     }
   }
@@ -202,6 +203,61 @@ function handleMockWord(word) {
   if(!word || typeof word !== 'string' || word[0] !== '@') return word;
   return Mock.mock(word);
 }
+
+/**
+ * 
+ * @param {*} data 
+ * @param {*} handleValueFn 处理参数值函数
+ */
+function handleJson(data, handleValueFn) {
+  if (!data) {
+    return data;
+  }
+  if (typeof data === 'string') {
+    return handleValueFn(data);
+  } else if (typeof data === 'object') {
+    for (let i in data) {
+      data[i] = handleJson(data[i], handleValueFn);
+    }
+  } else {
+    return data;
+  }
+  return data;
+}
+
+function handleValueWithFilter(context){
+  return function(match){
+    if (match[0] === '@') {
+      return handleMockWord(match);
+    } else if (match.indexOf('$.') === 0) {
+      return simpleJsonPathParse(match, context);
+    } else{
+      return match;
+    }
+  }  
+}
+
+function handleParamsValue (val, context){
+  const variableRegexp = /\{\s*((?:\$|\@)?.+?)\}/g;
+  if (!val || typeof val !== 'string') {
+    return val;
+  }
+  val = val.trim();
+  if (val[0] !== '{' && val.indexOf('{') === -1) {
+    val = '{' + val + '}';
+  }
+  return val.replace(variableRegexp, function(str, match){
+    match = match.trim();
+    try{
+      return filter(match, handleValueWithFilter(context))
+    }catch(err){
+      return match;
+    }
+  })
+}
+
+exports.handleJson = handleJson;
+exports.handleParamsValue = handleParamsValue;
 
 exports.getMockText = (mockTpl) => {
   return JSON.stringify(Mock.mock(MockExtra(json5.parse(mockTpl), {})), null, "  ")

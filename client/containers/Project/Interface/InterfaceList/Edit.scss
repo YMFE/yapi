@@ -6,6 +6,7 @@
   .interface-edit-item{
     margin-bottom: 16px;
   }
+
   .interface-edit-item.hide {
     display: none;
   }
@@ -58,7 +59,6 @@
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    display: inline-block;
   }
   .colValue{
     display: inline-block;
