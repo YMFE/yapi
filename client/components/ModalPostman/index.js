@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import './index.scss'
 // import { withRouter } from 'react-router-dom';
 import { Modal, Row, Col, Icon } from 'antd';
-import { autobind } from 'core-decorators';
+// import { autobind } from 'core-decorators';
 import MockList from './MockList.js';
 import MethodsList from './MethodsList.js'
 
@@ -21,7 +21,7 @@ class ModalPostman extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      clickValue: '',
+      clickValue: [],
       methodsShow: false,
       methodsShowMore: false,
       arr: [],
@@ -33,18 +33,19 @@ class ModalPostman extends Component {
   mockClick(index) {
   
     return (e) => {
-      this.setState({
-        clickValue: e.target.value
-      })
-      if (index === -1) {
+      if (index === 0) {
         this.setState({
+          clickValue: [].concat([], e.target.value ),
           arr: []
         })
         this.createArrList([]);
       } else {
         let newArr = [].concat(this.state.arr);
+        let newValue = [].concat(this.state.clickValue);
         newArr.splice(index + 1, newArr.length - index - 1)
+        newValue.splice(index + 1, newValue.length - index - 1)
         this.setState({
+          clickValue: [].concat(newValue, e.target.value ),
           arr: newArr
         })
         this.createArrList(newArr)
@@ -56,16 +57,15 @@ class ModalPostman extends Component {
 
 
   createArrList(arr) {
-    // let arr = [];
+   
     const ListSource = (props) => {
-      console.log(props)
       return <MethodsList
         show={this.state.methodsShowMore}
         click={this.mockClick(props.index)}
-        clickValue={this.state.clickValue}
+        clickValue={this.state.clickValue[props.index]}
       />
     }
-    // this.state.arr.push(ListSource)
+   
     this.setState({
       arr: [].concat(arr, ListSource)
     })
@@ -75,8 +75,8 @@ class ModalPostman extends Component {
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
-    const { clickValue, count } = this.state;
-    console.log('count', count);
+    const { clickValue } = this.state;
+    console.log('clickValue', clickValue);
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -87,24 +87,18 @@ class ModalPostman extends Component {
         width={800}
       >
 
-        <Row className="modal-postman-form" type="flex" flex-flow="row nowrap">
+        <Row className="modal-postman-form" type="flex">
           <Col span={8} className="modal-postman-col">
-            <MockList click={this.mockClick(-1)} clickValue={clickValue}></MockList>
+            <MockList click={this.mockClick(0)} clickValue={clickValue[0]}></MockList>
             <h3>变量</h3>
           </Col>
           {
             this.state.arr.map((ListSourceComponent, index) => {
               return <Col span={8} className="modal-postman-col" key={index}>
-                <ListSourceComponent index={index} />
+                <ListSourceComponent index={index+1} />
               </Col>
             })
-
           }
-          {/* <Col span={8} className="modal-postman-col">
-            {
-              methodsShow ? <MethodsList show={methodsShowMore} click={this.mockClick} clickValue={clickValue}></MethodsList> : <div>没有值</div>
-            }
-          </Col> */}
         </Row>
         <Row className="modal-postman-expression">
           <Col span={6}><h3 className="title">输入值</h3></Col>

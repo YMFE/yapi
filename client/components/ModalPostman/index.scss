@@ -67,7 +67,19 @@
   }
 
   .methods-row{
+    position: relative;
     // border-bottom: 1px solid #e9e9e9;
+    label{
+      position: unset;
+    }
+    .ant-radio-button-wrapper{
+      position: unset;
+    }
+
+    .ant-select-selection__rendered{
+      height: 26px;
+      line-height: 26px;
+    }
   }
 
   .modal-postman-col{
@@ -83,5 +95,12 @@
   .ant-row-flex {
     flex-wrap: nowrap
   }
+  .input-component {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    width: 150px;
+  }
+
   
 }

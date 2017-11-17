@@ -1,28 +1,43 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Input, Radio, Icon } from 'antd';
+import { Row, Radio, Icon, Input, Select } from 'antd';
 import common from 'common/power-string.js'
-import { autobind } from 'core-decorators';
+const Option = Select.Option;
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const Search = Input.Search;
+
+
+// const list = METHODS_LIST.slice(0,4);
+const inputComponent = () => {
+  return <Input size="small" placeholder="small size" />
+}
+
+const selectComponent = (value) => {
+  // console.log('props', props);
+  // const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
+  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" >
+    {
+      value.map((item, index) => {
+        return <Option value={item} key={index}>{item}</Option>
+      })
+    }
+  </Select>
+}
 
 const METHODS_LIST = [
   { name: 'md5', type: false },
   { name: 'lower', type: false },
   { name: 'length', type: false },
   { name: 'substr', type: true },
-  { name: 'sha', type: false, subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
+  { name: 'sha', type: true, component: selectComponent(['sha1', 'sha224', 'sha256', 'sha384', 'sha512']), subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
   { name: 'base64', type: false },
   { name: 'unbase64', type: false },
-  { name: 'concat', type: true },
-  { name: 'lconcat', type: true },
+  { name: 'concat', type: true, component: inputComponent() },
+  { name: 'lconcat', type: true, component: inputComponent() },
   { name: 'upper', type: false }
 
 ]
-
-// const list = METHODS_LIST.slice(0,4);
 
 
 class MethodsList extends Component {
@@ -48,20 +63,14 @@ class MethodsList extends Component {
 
   componentWillReceiveProps(nextProps) {
     // console.log("nextProps",nextProps);
-    if(this.props.show !==nextProps.show){
+    if (this.props.show !== nextProps.show) {
       this.unshowMore();
     }
   }
 
-  @autobind
-  onFilter() {
 
 
-  }
-
-  
-  @autobind
-  showMore() {
+  showMore = () => {
     this.setState({
       list: METHODS_LIST,
       moreFlag: false
@@ -69,8 +78,8 @@ class MethodsList extends Component {
 
   }
 
-  @autobind
-  unshowMore() {
+
+  unshowMore = () => {
     this.setState({
       list: METHODS_LIST.slice(0, 4),
       moreFlag: true
@@ -79,15 +88,21 @@ class MethodsList extends Component {
 
   render() {
     const { list, moreFlag } = this.state;
-    const {click, clickValue} =  this.props;
+    const { click } = this.props;
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
-        <RadioGroup onChange={click} value={clickValue}>
+        <RadioGroup onChange={click}>
           {
             list.map((item, index) => {
               return <Row key={index} type="flex" align="middle" className="row methods-row" >
-                <RadioButton value={item.name}>{item.name}</RadioButton>
+                <RadioButton value={item.name}>
+                  <span>{item.name}</span>
+                  <span className="input-component">
+                    {item.type && item.component}
+                  </span>
+                </RadioButton>
+
               </Row>
             })
           }

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Input, Radio } from 'antd';
 import constants from '../../constants/variable.js'
-import { autobind } from 'core-decorators';
 const wordList = constants.MOCK_SOURCE;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -31,8 +30,8 @@ class MockList extends Component {
     })
   }
 
-  @autobind
-  onFilter(e) {
+ 
+  onFilter= (e)=> {
 
     const list = wordList.filter(item => {
       return item.mock.indexOf(e.target.value) !== -1
@@ -43,10 +42,10 @@ class MockList extends Component {
     })
   }
 
-  @autobind
-  onSearch(v){
-    console.log(v);
-    this.props.click();
+  
+  onSearch=(v)=>{
+    console.log("v",v);
+    // this.props.click(v);
   }
 
   render() {
