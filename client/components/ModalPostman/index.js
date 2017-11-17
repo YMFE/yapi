@@ -24,7 +24,7 @@ class ModalPostman extends Component {
       clickValue: [],
       methodsShow: false,
       methodsShowMore: false,
-      arr: [],
+      methodsList: [],
       count: []
     }
 
@@ -36,17 +36,21 @@ class ModalPostman extends Component {
       if (index === 0) {
         this.setState({
           clickValue: [].concat([], e.target.value ),
-          arr: []
+          // arr: [{
+          //   name: 'substr',
+          //   params: []
+          // }]
+          methodsList:[]
         })
         this.createArrList([]);
       } else {
-        let newArr = [].concat(this.state.arr);
+        let newArr = [].concat(this.state.methodsList);
         let newValue = [].concat(this.state.clickValue);
-        newArr.splice(index + 1, newArr.length - index - 1)
-        newValue.splice(index + 1, newValue.length - index - 1)
+        newArr.splice(index, newArr.length - index)
+        newValue.splice(index, newValue.length - index)
         this.setState({
           clickValue: [].concat(newValue, e.target.value ),
-          arr: newArr
+          methodsList:  newArr
         })
         this.createArrList(newArr)
 
@@ -67,7 +71,7 @@ class ModalPostman extends Component {
     }
    
     this.setState({
-      arr: [].concat(arr, ListSource)
+      methodsList: [].concat(arr, ListSource)
     })
 
   }
@@ -93,7 +97,7 @@ class ModalPostman extends Component {
             <h3>变量</h3>
           </Col>
           {
-            this.state.arr.map((ListSourceComponent, index) => {
+            this.state.methodsList.map((ListSourceComponent, index) => {
               return <Col span={8} className="modal-postman-col" key={index}>
                 <ListSourceComponent index={index+1} />
               </Col>

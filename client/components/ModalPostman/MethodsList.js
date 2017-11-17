@@ -1,28 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Radio, Icon, Input, Select } from 'antd';
-import common from 'common/power-string.js'
+// import common from 'common/power-string.js'
 const Option = Select.Option;
-
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 
-// const list = METHODS_LIST.slice(0,4);
 const inputComponent = () => {
-  return <Input size="small" placeholder="small size" />
+  return <Input size="small" placeholder="small size" onChange={handleChange}/>
 }
 
-const selectComponent = (value) => {
-  // console.log('props', props);
-  // const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
-  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" >
+const selectComponent = () => {
+  const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
+  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={handleChange}>
     {
-      value.map((item, index) => {
+      subname.map((item, index) => {
         return <Option value={item} key={index}>{item}</Option>
       })
     }
   </Select>
+}
+
+const handleChange =(v)=>{
+   console.log('value',v);
 }
 
 const METHODS_LIST = [
@@ -30,7 +31,7 @@ const METHODS_LIST = [
   { name: 'lower', type: false },
   { name: 'length', type: false },
   { name: 'substr', type: true },
-  { name: 'sha', type: true, component: selectComponent(['sha1', 'sha224', 'sha256', 'sha384', 'sha512']), subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
+  { name: 'sha', type: true, component: selectComponent(), subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
   { name: 'base64', type: false },
   { name: 'unbase64', type: false },
   { name: 'concat', type: true, component: inputComponent() },
@@ -39,6 +40,17 @@ const METHODS_LIST = [
 
 ]
 
+const MethodsListSource = (props) => {
+      console.log('props', props);
+      return <div>
+        {props.component}
+      </div>
+}
+
+
+MethodsListSource.propTypes = {
+  component: PropTypes.any
+}
 
 class MethodsList extends Component {
   static propTypes = {
@@ -54,19 +66,18 @@ class MethodsList extends Component {
       list: METHODS_LIST.slice(0, 4),
       moreFlag: true
     }
-
   }
 
-  componentDidMount() {
-    console.log('common', common);
-  }
+  // componentDidMount() {
+  //   console.log('common', common);
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log("nextProps",nextProps);
-    if (this.props.show !== nextProps.show) {
-      this.unshowMore();
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // console.log("nextProps",nextProps);
+  //   if (this.props.show !== nextProps.show) {
+  //     this.unshowMore();
+  //   }
+  // }
 
 
 
@@ -79,12 +90,12 @@ class MethodsList extends Component {
   }
 
 
-  unshowMore = () => {
-    this.setState({
-      list: METHODS_LIST.slice(0, 4),
-      moreFlag: true
-    })
-  }
+  // unshowMore = () => {
+  //   this.setState({
+  //     list: METHODS_LIST.slice(0, 4),
+  //     moreFlag: true
+  //   })
+  // }
 
   render() {
     const { list, moreFlag } = this.state;
@@ -99,7 +110,7 @@ class MethodsList extends Component {
                 <RadioButton value={item.name}>
                   <span>{item.name}</span>
                   <span className="input-component">
-                    {item.type && item.component}
+                    {item.type && <MethodsListSource  component={item.component}/>}
                   </span>
                 </RadioButton>
 
