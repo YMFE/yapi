@@ -346,7 +346,7 @@ class InterfaceColContent extends Component {
   }
 
   handleValue = (val) => {
-    return handleParamsValue(val, this.recoreds);
+    return handleParamsValue(val, this.records);
   }
 
   
