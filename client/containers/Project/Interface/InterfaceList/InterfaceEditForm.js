@@ -143,13 +143,22 @@ class InterfaceEditForm extends Component {
           if (this.state.res_body && validJson(this.state.res_body) === false) {
             return message.error('返回body json格式有问题，请检查！')
           }
-          values.res_body = this.state.res_body;
+          try{
+            values.res_body = JSON.stringify(JSON.parse(this.state.res_body), null, '   ')
+          }catch(e){
+            values.res_body = this.state.res_body;
+          }
+          
         }
         if (values.req_body_type === 'json') {
           if (this.state.req_body_other && validJson(this.state.req_body_other) === false) {
             return message.error('响应Body json格式有问题，请检查！');
           }
-          values.req_body_other = this.state.req_body_other;
+          try{            
+            values.req_body_other = JSON.stringify(JSON.parse(this.state.req_body_other), null, '   ');
+          }catch(e){
+            values.req_body_other = this.state.req_body_other
+          }
         }
 
         values.method = this.state.method;

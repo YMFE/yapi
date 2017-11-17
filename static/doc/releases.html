@@ -103,6 +103,10 @@
                             <ul class="nav docs-sidenav">
                                   
                                     <li >
+                                        <a href="#v1.2.6">v1.2.6</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#v1.2.5">v1.2.5</a>
                                     </li>
                                      
@@ -142,8 +146,12 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h3 class="subject" id="v1.2.5">v1.2.5 <a class="hashlink" href="#v1.2.5">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
-<li>成员如果第一次添加成员时选择组长，接着再添加下一个成员，如果select是默认的开发者，这时候会出现与上次select相同的值</li><li>如果添加了一个不存在的成员还是会提示添加成功，并且发送的数据是原来发送成功的数据，这里需要重置初始值并在未找到对应用户名时对未找到的人名应该提示用户不存在</li><li>测试集合中的左侧 Menu 拖动的时候右侧的List需要跟随变动</li><li>在接口开发阶段，多个人并行改接口，如果最后一个人改之前没刷新页面，会把之前的人修改过的都冲掉了</li><li>修复cross-request，response header字段重复bug</li><li>Fix 接口集自动化测试 header 没有解析 mock 和 变量参数</li></ol>
+                         <h3 class="subject" id="v1.2.6">v1.2.6 <a class="hashlink" href="#v1.2.6">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+<li>修复路径参数无法删除</li></ol>
+<h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
+<li>参数值支持多个动态参数，类似 str{@email}str{$.55.body.id}</li><li>参数值支持管道表达式,例如 {@email | concat: pass | md5 | substr: 1,10}</li><li>接口编辑参数<strong>可拖动排序</strong></li><li>修复路径参数无法删除问题</li></ol>
+<h3 class="subject" id="v1.2.5">v1.2.5 <a class="hashlink" href="#v1.2.5">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+<li>成员如果第一次添加成员时选择组长，接着再添加下一个成员，如果select是默认的开发者，这时候会出现与上次select相同的值</li><li>如果添加了一个不存在的成员还是会提示添加成功，并且发送的数据是原来发送成功的数据，这里需要重置初始值并在未找到对应用户名时对未找到的人名应该提示用户不存在</li><li>Fix 接口集自动化测试 header 没有解析 mock 和 变量参数</li><li>在接口开发阶段，多个人并行改接口，如果最后一个人改之前没刷新页面，会把之前的人修改过的都冲掉了</li><li>修复cross-request，response header字段重复bug</li></ol>
 <h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
 <li>优化了分组添加，编辑交互</li><li>cross-request 计算了接口请求时间</li><li>新增接口文档导出 html, markdown 功能</li></ol>
 <h3 class="subject" id="v1.2.4">v1.2.4 <a class="hashlink" href="#v1.2.4">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
