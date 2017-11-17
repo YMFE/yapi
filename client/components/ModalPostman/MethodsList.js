@@ -7,13 +7,17 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 
-const inputComponent = () => {
-  return <Input size="small" placeholder="small size" onChange={handleChange}/>
+const inputComponent = (props) => {
+  return <Input size="small" placeholder="small size" onChange={props.input} />
 }
 
-const selectComponent = () => {
+inputComponent.propTypes = {
+  input: PropTypes.func
+}
+
+const selectComponent = (props) => {
   const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
-  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={handleChange}>
+  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={props.input}>
     {
       subname.map((item, index) => {
         return <Option value={item} key={index}>{item}</Option>
@@ -21,9 +25,13 @@ const selectComponent = () => {
     }
   </Select>
 }
+selectComponent.propTypes = {
+    input: PropTypes.func
+}
 
-const handleChange =(v)=>{
-   console.log('value',v);
+
+const handleChange = (v) => {
+  console.log('value', v);
 }
 
 const METHODS_LIST = [
@@ -31,32 +39,34 @@ const METHODS_LIST = [
   { name: 'lower', type: false },
   { name: 'length', type: false },
   { name: 'substr', type: true },
-  { name: 'sha', type: true, component: selectComponent(), subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
+  { name: 'sha', type: true, component: selectComponent, subname: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'] },
   { name: 'base64', type: false },
   { name: 'unbase64', type: false },
-  { name: 'concat', type: true, component: inputComponent() },
-  { name: 'lconcat', type: true, component: inputComponent() },
+  { name: 'concat', type: true, component: inputComponent },
+  { name: 'lconcat', type: true, component: inputComponent },
   { name: 'upper', type: false }
 
 ]
 
 const MethodsListSource = (props) => {
-      console.log('props', props);
-      return <div>
-        {props.component}
-      </div>
+  console.log('props', props);
+  return <div>
+    {props.component && <props.component input={props.input} />}
+  </div>
 }
 
 
 MethodsListSource.propTypes = {
-  component: PropTypes.any
+  component: PropTypes.any,
+  input: PropTypes.func
 }
 
 class MethodsList extends Component {
   static propTypes = {
     show: PropTypes.bool,
     click: PropTypes.func,
-    clickValue: PropTypes.string
+    clickValue: PropTypes.string,
+    paramsInput:PropTypes.func
   }
 
   constructor(props) {
@@ -99,7 +109,8 @@ class MethodsList extends Component {
 
   render() {
     const { list, moreFlag } = this.state;
-    const { click } = this.props;
+    const { click, paramsInput } = this.props;
+    console.log('input',paramsInput);
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
@@ -110,7 +121,7 @@ class MethodsList extends Component {
                 <RadioButton value={item.name}>
                   <span>{item.name}</span>
                   <span className="input-component">
-                    {item.type && <MethodsListSource  component={item.component}/>}
+                    {item.type && <MethodsListSource input={paramsInput} component={item.component} />}
                   </span>
                 </RadioButton>
 

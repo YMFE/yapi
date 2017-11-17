@@ -9,6 +9,16 @@ import { Modal, Row, Col, Icon } from 'antd';
 import MockList from './MockList.js';
 import MethodsList from './MethodsList.js'
 
+// 
+function deepEqual(state){
+  return JSON.parse(JSON.stringify(state))
+}
+
+function closeRightTabsAndAddNewTab(arr,index){
+  let newParamsList = [].concat(arr);
+  return newParamsList.splice(index, newParamsList.length - index);
+
+}
 
 class ModalPostman extends Component {
   static propTypes = {
@@ -25,32 +35,57 @@ class ModalPostman extends Component {
       methodsShow: false,
       methodsShowMore: false,
       methodsList: [],
-      count: []
+      methodsParamsList: [{
+        name:'',
+        params:[],
+        component:''
+      }
+      ]
     }
 
   }
 
   mockClick(index) {
-  
     return (e) => {
       if (index === 0) {
+        // let firstParamsItem = {};
+        let firstParamsItem = Object.assign({},
+          {
+            name: e.target.value,
+            params: [],
+            component: this.createArrList([])
+          });
         this.setState({
-          clickValue: [].concat([], e.target.value ),
-          // arr: [{
-          //   name: 'substr',
-          //   params: []
-          // }]
-          methodsList:[]
+          clickValue: [].concat([], e.target.value),
+          methodsList: [],
+          methodsParamsList: [].concat([], firstParamsItem)
         })
         this.createArrList([]);
+
       } else {
         let newArr = [].concat(this.state.methodsList);
         let newValue = [].concat(this.state.clickValue);
         newArr.splice(index, newArr.length - index)
         newValue.splice(index, newValue.length - index)
+
+        let newParamsList = [].concat(this.state.methodsParamsList);
+        newParamsList.splice(index, newParamsList.length - index);
+
+        let paramsItem = Object.assign({},
+          {
+            name: e.target.value,
+            params: [],
+            component: this.createArrList([])
+          });
+
+        var a = JSON.parse(JSON.stringify(this.state.methodsParamsList))
+          a[index].name = 1
+          this.
+
         this.setState({
-          clickValue: [].concat(newValue, e.target.value ),
-          methodsList:  newArr
+          clickValue: [].concat(newValue, e.target.value),
+          methodsList: newArr,
+          methodsParamsList: [].concat(newParamsList, paramsItem)
         })
         this.createArrList(newArr)
 
@@ -59,28 +94,37 @@ class ModalPostman extends Component {
 
   }
 
+  handleParamsInput =(e)=>{
+    console.log('input',e);
+
+  }
+
 
   createArrList(arr) {
-   
     const ListSource = (props) => {
       return <MethodsList
         show={this.state.methodsShowMore}
         click={this.mockClick(props.index)}
         clickValue={this.state.clickValue[props.index]}
+        paramsInput={this.handleParamsInput}
       />
     }
-   
+
     this.setState({
       methodsList: [].concat(arr, ListSource)
     })
+
+    return ListSource;
 
   }
 
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
-    const { clickValue } = this.state;
-    console.log('clickValue', clickValue);
+    const { clickValue, methodsParamsList } = this.state;
+    console.log('state', this.state);
+    const {name} = methodsParamsList[0];
+    console.log('list',name);
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -93,13 +137,14 @@ class ModalPostman extends Component {
 
         <Row className="modal-postman-form" type="flex">
           <Col span={8} className="modal-postman-col">
-            <MockList click={this.mockClick(0)} clickValue={clickValue[0]}></MockList>
+            <MockList click={this.mockClick(0)} clickValue={name}></MockList>
             <h3>变量</h3>
           </Col>
           {
-            this.state.methodsList.map((ListSourceComponent, index) => {
+            methodsParamsList.map((ListSourceComponent, index) => {
               return <Col span={8} className="modal-postman-col" key={index}>
-                <ListSourceComponent index={index+1} />
+                {ListSourceComponent.component&&
+                <ListSourceComponent.component index={index + 1} />}
               </Col>
             })
           }
