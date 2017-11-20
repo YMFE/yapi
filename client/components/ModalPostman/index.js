@@ -9,16 +9,25 @@ import { Modal, Row, Col, Icon } from 'antd';
 import MockList from './MockList.js';
 import MethodsList from './MethodsList.js'
 
-// 
-function deepEqual(state){
+// 深拷贝
+function deepEqual(state) {
   return JSON.parse(JSON.stringify(state))
 }
 
-function closeRightTabsAndAddNewTab(arr,index){
+function closeRightTabsAndAddNewTab(arr, index, curname) {
   let newParamsList = [].concat(arr);
-  return newParamsList.splice(index, newParamsList.length - index);
+  newParamsList.splice(index + 1, newParamsList.length - index);
+  newParamsList.push({
+    name: '', params: []
+  })
+  newParamsList[index] = {
+    ...newParamsList[index],
+    name: curname
+  }
+  return newParamsList;
 
 }
+
 
 class ModalPostman extends Component {
   static propTypes = {
@@ -36,95 +45,54 @@ class ModalPostman extends Component {
       methodsShowMore: false,
       methodsList: [],
       methodsParamsList: [{
-        name:'',
-        params:[],
-        component:''
-      }
-      ]
+        name: '',
+        params: [],
+        type: 'dataSource'
+      }]
     }
 
   }
 
   mockClick(index) {
     return (e) => {
-      if (index === 0) {
-        // let firstParamsItem = {};
-        let firstParamsItem = Object.assign({},
-          {
-            name: e.target.value,
-            params: [],
-            component: this.createArrList([])
-          });
-        this.setState({
-          clickValue: [].concat([], e.target.value),
-          methodsList: [],
-          methodsParamsList: [].concat([], firstParamsItem)
-        })
-        this.createArrList([]);
-
-      } else {
-        let newArr = [].concat(this.state.methodsList);
-        let newValue = [].concat(this.state.clickValue);
-        newArr.splice(index, newArr.length - index)
-        newValue.splice(index, newValue.length - index)
-
-        let newParamsList = [].concat(this.state.methodsParamsList);
-        newParamsList.splice(index, newParamsList.length - index);
-
-        let paramsItem = Object.assign({},
-          {
-            name: e.target.value,
-            params: [],
-            component: this.createArrList([])
-          });
-
-        var a = JSON.parse(JSON.stringify(this.state.methodsParamsList))
-          a[index].name = 1
-          this.
-
-        this.setState({
-          clickValue: [].concat(newValue, e.target.value),
-          methodsList: newArr,
-          methodsParamsList: [].concat(newParamsList, paramsItem)
-        })
-        this.createArrList(newArr)
-
-      }
+      // console.log(e);
+      let curname = e.target.value;
+      let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname)
+      // console.log(newParamsList)
+      this.setState({
+        methodsParamsList: newParamsList
+      })
     }
-
   }
 
-  handleParamsInput =(e)=>{
-    console.log('input',e);
-
-  }
-
-
-  createArrList(arr) {
-    const ListSource = (props) => {
-      return <MethodsList
-        show={this.state.methodsShowMore}
-        click={this.mockClick(props.index)}
-        clickValue={this.state.clickValue[props.index]}
-        paramsInput={this.handleParamsInput}
-      />
-    }
-
+  handleParamsInput = (e,index) => {
+    console.log('input', e);
+    console.log('index',index);
+    // this.mockClick(index+1)(e);
+    let newParamsList = deepEqual(this.state.methodsParamsList);
+    newParamsList[index].params.push(e);
+    console.log('list',newParamsList);
     this.setState({
-      methodsList: [].concat(arr, ListSource)
+      methodsParamsList: newParamsList
     })
-
-    return ListSource;
-
+  }
+  MethodsListSource = (props) => {
+    // console.log(props.value);
+    return <MethodsList
+      click={this.mockClick(props.index)}
+      clickValue={props.value}
+      paramsInput={this.handleParamsInput}
+      clickIndex={props.index}
+    />
   }
 
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
     const { clickValue, methodsParamsList } = this.state;
-    console.log('state', this.state);
-    const {name} = methodsParamsList[0];
-    console.log('list',name);
+
+    const { name } = methodsParamsList[0];
+    console.log('list', this.state.methodsParamsList);
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -136,16 +104,17 @@ class ModalPostman extends Component {
       >
 
         <Row className="modal-postman-form" type="flex">
-          <Col span={8} className="modal-postman-col">
-            <MockList click={this.mockClick(0)} clickValue={name}></MockList>
-            <h3>变量</h3>
-          </Col>
           {
-            methodsParamsList.map((ListSourceComponent, index) => {
-              return <Col span={8} className="modal-postman-col" key={index}>
-                {ListSourceComponent.component&&
-                <ListSourceComponent.component index={index + 1} />}
-              </Col>
+            methodsParamsList.map((item, index) => {
+              return item.type === 'dataSource' ?
+                <Col span={8} className="modal-postman-col" key={index}>
+                  <MockList click={this.mockClick(index)} clickValue={name}></MockList>
+                  <h3>变量</h3>
+                </Col>
+                :
+                <Col span={8} className="modal-postman-col" key={index}>
+                  <this.MethodsListSource index={index} value={item.name} />
+                </Col>
             })
           }
         </Row>

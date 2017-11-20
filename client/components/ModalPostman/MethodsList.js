@@ -8,16 +8,19 @@ const RadioGroup = Radio.Group;
 
 
 const inputComponent = (props) => {
-  return <Input size="small" placeholder="small size" onChange={props.input} />
+  let index = props.index
+  return <Input size="small" placeholder="small size"  onChange={(e) => props.paramsInput(e.target.value,index)} />
 }
 
 inputComponent.propTypes = {
-  input: PropTypes.func
+  paramsInput: PropTypes.func,
+  index:PropTypes.number
 }
 
 const selectComponent = (props) => {
   const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
-  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={props.input}>
+  let index = props.index;
+  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={(e)=>props.paramsInput(e,index)}>
     {
       subname.map((item, index) => {
         return <Option value={item} key={index}>{item}</Option>
@@ -26,13 +29,14 @@ const selectComponent = (props) => {
   </Select>
 }
 selectComponent.propTypes = {
-    input: PropTypes.func
+  paramsInput: PropTypes.func,
+  index: PropTypes.number
 }
 
 
-const handleChange = (v) => {
-  console.log('value', v);
-}
+// const handleChange = (v) => {
+//   console.log('value', v);
+// }
 
 const METHODS_LIST = [
   { name: 'md5', type: false },
@@ -49,16 +53,18 @@ const METHODS_LIST = [
 ]
 
 const MethodsListSource = (props) => {
-  console.log('props', props);
+  console.log("index",props.paramsIndex);
   return <div>
-    {props.component && <props.component input={props.input} />}
+    {props.component && <props.component paramsInput={props.paramsInput} index={props.paramsIndex}/>}
   </div>
 }
 
 
 MethodsListSource.propTypes = {
   component: PropTypes.any,
-  input: PropTypes.func
+  paramsInput: PropTypes.func,
+  paramsIndex: PropTypes.number
+  
 }
 
 class MethodsList extends Component {
@@ -66,7 +72,8 @@ class MethodsList extends Component {
     show: PropTypes.bool,
     click: PropTypes.func,
     clickValue: PropTypes.string,
-    paramsInput:PropTypes.func
+    paramsInput: PropTypes.func,
+    clickIndex: PropTypes.number
   }
 
   constructor(props) {
@@ -78,16 +85,6 @@ class MethodsList extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   console.log('common', common);
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   // console.log("nextProps",nextProps);
-  //   if (this.props.show !== nextProps.show) {
-  //     this.unshowMore();
-  //   }
-  // }
 
 
 
@@ -99,6 +96,12 @@ class MethodsList extends Component {
 
   }
 
+  // handleSelectMethod = (methodName)=>{
+  //   return ()=>{
+      
+  //   }
+  // }
+
 
   // unshowMore = () => {
   //   this.setState({
@@ -109,19 +112,20 @@ class MethodsList extends Component {
 
   render() {
     const { list, moreFlag } = this.state;
-    const { click, paramsInput } = this.props;
-    console.log('input',paramsInput);
+    const { click, paramsInput, clickValue, clickIndex } = this.props;
+    console.log('click', clickValue);
+
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
-        <RadioGroup onChange={click}>
+        <RadioGroup onChange={click} value={clickValue} >
           {
             list.map((item, index) => {
-              return <Row key={index} type="flex" align="middle" className="row methods-row" >
+              return <Row key={index} type="flex" align="middle" className="row methods-row">
                 <RadioButton value={item.name}>
                   <span>{item.name}</span>
                   <span className="input-component">
-                    {item.type && <MethodsListSource input={paramsInput} component={item.component} />}
+                    {item.type && <MethodsListSource paramsInput={paramsInput} component={item.component} paramsIndex={clickIndex}/>}
                   </span>
                 </RadioButton>
 
