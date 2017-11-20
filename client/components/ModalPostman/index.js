@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import './index.scss'
 // import { withRouter } from 'react-router-dom';
 import { Modal, Row, Col, Icon } from 'antd';
-// import { autobind } from 'core-decorators';
 import MockList from './MockList.js';
 import MethodsList from './MethodsList.js'
 
@@ -22,7 +21,8 @@ function closeRightTabsAndAddNewTab(arr, index, curname) {
   })
   newParamsList[index] = {
     ...newParamsList[index],
-    name: curname
+    name: curname,
+    params: []
   }
   return newParamsList;
 
@@ -40,7 +40,6 @@ class ModalPostman extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      clickValue: [],
       methodsShow: false,
       methodsShowMore: false,
       methodsList: [],
@@ -55,29 +54,25 @@ class ModalPostman extends Component {
 
   mockClick(index) {
     return (e) => {
-      // console.log(e);
       let curname = e.target.value;
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname)
-      // console.log(newParamsList)
       this.setState({
         methodsParamsList: newParamsList
       })
     }
   }
 
-  handleParamsInput = (e,index) => {
-    console.log('input', e);
-    console.log('index',index);
-    // this.mockClick(index+1)(e);
+  handleParamsInput = (e, index, ...params) => {
     let newParamsList = deepEqual(this.state.methodsParamsList);
-    newParamsList[index].params.push(e);
-    console.log('list',newParamsList);
+    // newParamsList[index].params.push(e);
+    newParamsList[index].params[0] = e
     this.setState({
       methodsParamsList: newParamsList
     })
   }
+
   MethodsListSource = (props) => {
-    // console.log(props.value);
+
     return <MethodsList
       click={this.mockClick(props.index)}
       clickValue={props.value}
@@ -89,8 +84,7 @@ class ModalPostman extends Component {
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
-    const { clickValue, methodsParamsList } = this.state;
-
+    const {  methodsParamsList } = this.state;
     const { name } = methodsParamsList[0];
     console.log('list', this.state.methodsParamsList);
     return (
@@ -120,7 +114,16 @@ class ModalPostman extends Component {
         </Row>
         <Row className="modal-postman-expression">
           <Col span={6}><h3 className="title">输入值</h3></Col>
-          <Col span={18}><h3>{clickValue}</h3></Col>
+          <Col span={18}>
+            <span>${'{'}</span>
+            {
+              methodsParamsList.map((item, index) => {
+                return item.name && 
+                <span className="expression-item" key={index}>{item.name}({item.params})</span>
+              })
+            }
+            <span>{'}'}</span>
+          </Col>
         </Row>
         <Row className="modal-postman-preview">
           <Col span={6}><h3 className="title">预览</h3></Col>

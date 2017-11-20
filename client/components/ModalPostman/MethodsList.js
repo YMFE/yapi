@@ -9,18 +9,19 @@ const RadioGroup = Radio.Group;
 
 const inputComponent = (props) => {
   let index = props.index
-  return <Input size="small" placeholder="small size"  onChange={(e) => props.paramsInput(e.target.value,index)} />
+  return <Input size="small" placeholder="请输入参数" disabled={!props.disabled} onChange={(e) => props.paramsInput(e.target.value, index)} />
 }
 
 inputComponent.propTypes = {
   paramsInput: PropTypes.func,
-  index:PropTypes.number
+  index: PropTypes.number,
+  disabled: PropTypes.bool
 }
 
 const selectComponent = (props) => {
   const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
   let index = props.index;
-  return <Select defaultValue="sha1" style={{ width: 150 }} size="small" onChange={(e)=>props.paramsInput(e,index)}>
+  return <Select placeholder="请选择" style={{ width: 150 }} size="small" disabled={!props.disabled} onChange={(e) => props.paramsInput(e, index)}>
     {
       subname.map((item, index) => {
         return <Option value={item} key={index}>{item}</Option>
@@ -30,7 +31,8 @@ const selectComponent = (props) => {
 }
 selectComponent.propTypes = {
   paramsInput: PropTypes.func,
-  index: PropTypes.number
+  index: PropTypes.number,
+  disabled: PropTypes.bool
 }
 
 
@@ -53,9 +55,9 @@ const METHODS_LIST = [
 ]
 
 const MethodsListSource = (props) => {
-  console.log("index",props.paramsIndex);
+  // console.log("disabled",props.disabled);
   return <div>
-    {props.component && <props.component paramsInput={props.paramsInput} index={props.paramsIndex}/>}
+    {props.component && <props.component disabled={props.disabled} paramsInput={props.paramsInput} index={props.paramsIndex} />}
   </div>
 }
 
@@ -63,8 +65,9 @@ const MethodsListSource = (props) => {
 MethodsListSource.propTypes = {
   component: PropTypes.any,
   paramsInput: PropTypes.func,
-  paramsIndex: PropTypes.number
-  
+  paramsIndex: PropTypes.number,
+  disabled: PropTypes.bool
+
 }
 
 class MethodsList extends Component {
@@ -98,7 +101,7 @@ class MethodsList extends Component {
 
   // handleSelectMethod = (methodName)=>{
   //   return ()=>{
-      
+
   //   }
   // }
 
@@ -118,14 +121,20 @@ class MethodsList extends Component {
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
-        <RadioGroup onChange={click} value={clickValue} >
+        <RadioGroup onChange={click} value={clickValue}>
           {
             list.map((item, index) => {
               return <Row key={index} type="flex" align="middle" className="row methods-row">
                 <RadioButton value={item.name}>
                   <span>{item.name}</span>
                   <span className="input-component">
-                    {item.type && <MethodsListSource paramsInput={paramsInput} component={item.component} paramsIndex={clickIndex}/>}
+                    {item.type &&
+                      <MethodsListSource
+                        disabled={item.name === clickValue}
+                        paramsInput={paramsInput}
+                        component={item.component}
+                        paramsIndex={clickIndex} />
+                    }
                   </span>
                 </RadioButton>
 

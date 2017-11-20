@@ -103,5 +103,31 @@
     width: 150px;
   }
 
+  .modal-postman-expression{
+    span{
+      color: rgba(39,56,72,0.85);
+      font-size: 1.17em;
+      font-weight: 500;
+      line-height: 1.5em;
+      padding-right: 4px;
+    }
+
+    span:nth-last-child(2){
+      color: #2395f1;
+    }
+
+    // .expression-item :last-of-child{
+    //   color: #2395f1;
+    // }
+    .expression-item:after{
+      content:".";
+    }
+
+    span:nth-last-child(2):after{
+      content:"";
+    }
+
+  }
+
   
 }
