@@ -62,7 +62,7 @@ class ModalPostman extends Component {
     }
   }
 
-  handleParamsInput = (e, index, ...params) => {
+  handleParamsInput = (e, index) => {
     let newParamsList = deepEqual(this.state.methodsParamsList);
     // newParamsList[index].params.push(e);
     newParamsList[index].params[0] = e
@@ -86,7 +86,7 @@ class ModalPostman extends Component {
     const { visible, handleCancel, handleOk } = this.props
     const {  methodsParamsList } = this.state;
     const { name } = methodsParamsList[0];
-    console.log('list', this.state.methodsParamsList);
+    // console.log('list', this.state.methodsParamsList);
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
