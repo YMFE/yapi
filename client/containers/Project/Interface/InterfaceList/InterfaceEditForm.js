@@ -8,6 +8,8 @@ import { changeEditStatus } from '../../../../reducer/modules/interface.js';
 import json5 from 'json5'
 import { message, Tabs, Affix } from 'antd'
 import Editor from 'wangeditor'
+import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js'
+
 const TabPane = Tabs.TabPane;
 let EditFormContext;
 const validJson = (json) => {
@@ -17,13 +19,6 @@ const validJson = (json) => {
   } catch (e) {
     return false;
   }
-}
-
-function arrMove(arr, fromIndex, toIndex){
-  arr = [].concat(arr);
-  let item = arr.splice(fromIndex, 1)[0];
-  arr.splice(toIndex , 0, item);
-  return arr;
 }
 
 import {
@@ -380,12 +375,14 @@ class InterfaceEditForm extends Component {
     })
   }
 
-  handleDragMove = (name, from, to) => {
-    let curValue = this.props.form.getFieldValue(name);
-    let newValue = {};
-    newValue[name] = arrMove(curValue, from, to);
-    this.props.form.setFieldsValue(newValue);
-    this.setState(curValue)
+  handleDragMove = (name) => {
+    return (data) =>{
+      let newValue = {
+        [name] : data
+      }
+      this.props.form.setFieldsValue(newValue);
+      this.setState(newValue)
+    }
   }
 
   render() {
@@ -400,20 +397,6 @@ class InterfaceEditForm extends Component {
       return <Row 
         key={index} 
         className="interface-edit-item-content" 
-        draggable="true" 
-        onDragStart={()=> this.curDragItem = index } 
-        onDragEnter={()=> {
-          this.curDrogItem = index;
-        }}
-        onDragLeave={()=>{
-          this.curDrogItem = index;
-        }}
-        onDragEnd={()=>{
-          this.handleDragMove('req_query', this.curDragItem, this.curDrogItem)
-          this.curDrogItem = null;
-          this.curDragItem = null;
-        }}
-
       >
         <Col span="5" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].name', {
@@ -456,19 +439,6 @@ class InterfaceEditForm extends Component {
       return <Row 
         key={index} 
         className="interface-edit-item-content"
-        draggable="true" 
-        onDragStart={()=> this.curDragItem = index } 
-        onDragEnter={()=> {
-          this.curDrogItem = index;
-        }}
-        onDragLeave={()=>{
-          this.curDrogItem = index;
-        }}
-        onDragEnd={()=>{
-          this.handleDragMove('req_headers', this.curDragItem, this.curDrogItem)
-          this.curDrogItem = null;
-          this.curDragItem = null;
-        }}
       >
         <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].name', {
@@ -513,19 +483,7 @@ class InterfaceEditForm extends Component {
       return <Row 
         key={index} 
         className="interface-edit-item-content"
-        draggable="true" 
-        onDragStart={()=> this.curDragItem = index } 
-        onDragEnter={()=> {
-          this.curDrogItem = index;
-        }}
-        onDragLeave={()=>{
-          this.curDrogItem = index;
-        }}
-        onDragEnd={()=>{
-          this.handleDragMove('req_body_form', this.curDragItem, this.curDrogItem)
-          this.curDrogItem = null;
-          this.curDragItem = null;
-        }}
+        
       >
         <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].name', {
@@ -578,19 +536,7 @@ class InterfaceEditForm extends Component {
       return <Row 
         key={index} 
         className="interface-edit-item-content"
-        draggable="true" 
-        onDragStart={()=> this.curDragItem = index } 
-        onDragEnter={()=> {
-          this.curDrogItem = index;
-        }}
-        onDragLeave={()=>{
-          this.curDrogItem = index;
-        }}
-        onDragEnd={()=>{
-          this.handleDragMove('req_params', this.curDragItem, this.curDrogItem)
-          this.curDrogItem = null;
-          this.curDragItem = null;
-        }}
+        
       >
         <Col span="6" className="interface-edit-item-content-col">
           {getFieldDecorator('req_params[' + index + '].name', {
@@ -750,7 +696,9 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.query}>
             <Col>
-              {QueryList}
+              <EasyDragSort data={this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
+                {QueryList}
+              </EasyDragSort>
             </Col>
           </Row>
 
@@ -763,7 +711,9 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.headers}>
             <Col>
-              {headerList}
+              <EasyDragSort data={this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
+                {headerList}
+              </EasyDragSort> 
             </Col>
 
           </Row>
@@ -794,7 +744,10 @@ class InterfaceEditForm extends Component {
                   </Col>
 
                 </Row>
-                {requestBodyList}
+                <EasyDragSort data={this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
+                  {requestBodyList}
+                </EasyDragSort> 
+                
               </Col>
             </Row>
 
@@ -859,7 +812,7 @@ class InterfaceEditForm extends Component {
 
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>基于mockjs和json5,可直接写mock模板和注释,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span></h3>
+                <h3 style={{ padding: '10px 0' }}>基于 mockjs 和 json5,可直接写 json 模板和注释,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span></h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
