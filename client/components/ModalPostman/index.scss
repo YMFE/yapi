@@ -8,7 +8,7 @@
   .modal-postman-form {
     padding: 16px;
     padding-top: 0;
-    max-height: 300px;
+    max-height: 700px;
     overflow-y: scroll;
     .ant-radio-group{
       width:100%;
@@ -22,26 +22,12 @@
       color:#fff;
       background-color:#2395f1;
       width:100%
-
-      
     }
     .row {
       margin-bottom: 8px;
       width: 100%;
-      height: 32px;
-      line-height: 30px;
-      padding: 0 16px;
+      padding: 8px 16px;
       cursor: pointer;
-
-      .ant-radio-button-wrapper{
-        border: 0;
-        width: 100%;
-      }
-      .ant-radio-button-wrapper-checked{
-        color:#fff;
-        background-color:#2395f1;
-        width:100%
-      }
     }
 
     .checked{
@@ -52,8 +38,6 @@
   .modal-postman-expression, .modal-postman-preview {
     border-top: 1px solid #e9e9e9;
     padding: 8px 16px;
-  }
-  .modal-postman-expression {
   }
   .modal-postman-preview {
     background-color: #f5f5f5;
@@ -76,21 +60,16 @@
     max-height: 300px;
     overflow: auto;
   }
-
   .methods-row{
     position: relative;
     // border-bottom: 1px solid #e9e9e9;
-    label{
-      position: unset;
+    .ant-input-sm{
+      margin-top: 2px;
     }
-    .ant-radio-button-wrapper{
-      position: unset;
-    }
+  }
 
-    .ant-select-selection__rendered{
-      height: 26px;
-      line-height: 26px;
-    }
+  .methods-row:nth-child(5){
+     height: 67px;
   }
 
   .modal-postman-col{
@@ -111,10 +90,12 @@
     top: 2px;
     right: 0;
     width: 150px;
+    padding-top: 2px;
+    margin-right: 4px;
   }
 
   .modal-postman-expression{
-    span{
+    .expression-item,.expression {
       color: rgba(39,56,72,0.85);
       font-size: 1.17em;
       font-weight: 500;
@@ -122,21 +103,32 @@
       padding-right: 4px;
     }
 
-    span:nth-last-child(2){
+    .expression-item:nth-last-child(2){
       color: #2395f1;
     }
 
-    // .expression-item :last-of-child{
-    //   color: #2395f1;
-    // }
     .expression-item:after{
       content:".";
     }
 
-    span:nth-last-child(2):after{
+    .expression-item:nth-last-child(2):after{
       content:"";
     }
 
+    .expression-item-params:after{
+      content:",";
+    }
+
+    .expression-item-params:nth-last-child(1):after{
+      content:"";
+    }
+
+  }
+
+  .modal-postman-preview{
+    h3{
+      word-wrap: break-word;
+    }
   }
 
   

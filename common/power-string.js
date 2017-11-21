@@ -17,6 +17,10 @@ const stringHandles = {
         return  md5(str);
     },
 
+    sha: function(str, arg){
+      return sha(arg).update(str).digest('hex');
+    },
+
     /**
      * type: sha1 sha224 sha256 sha384 sha512
      */

@@ -7,6 +7,8 @@ import './index.scss'
 import { Modal, Row, Col, Icon } from 'antd';
 import MockList from './MockList.js';
 import MethodsList from './MethodsList.js'
+import { handleParamsValue } from '../../common.js'
+import common from 'common/power-string.js'
 
 // 深拷贝
 function deepEqual(state) {
@@ -21,7 +23,7 @@ function closeRightTabsAndAddNewTab(arr, index, curname, params) {
     name: '', params: []
   })
 
-  let curParams = params || []; 
+  let curParams = params || [];
   newParamsList[index] = {
     ...newParamsList[index],
     name: curname,
@@ -50,7 +52,8 @@ class ModalPostman extends Component {
         name: '',
         params: [],
         type: 'dataSource'
-      }]
+      }],
+      result: ''
     }
 
   }
@@ -66,10 +69,10 @@ class ModalPostman extends Component {
     }
   }
 
-  handleParamsInput = (e, index) => {
+  handleParamsInput = (e, clickIndex, paramsIndex) => {
     let newParamsList = deepEqual(this.state.methodsParamsList);
     // newParamsList[index].params.push(e);
-    newParamsList[index].params[0] = e
+    newParamsList[clickIndex].params[paramsIndex] = e
     this.setState({
       methodsParamsList: newParamsList
     })
@@ -85,12 +88,33 @@ class ModalPostman extends Component {
     />
   }
 
+  handleValue(val) {
+    // let val = '{@string |length}'
+    return handleParamsValue(val, {});
+  }
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
     const { methodsParamsList } = this.state;
     const { name } = methodsParamsList[0];
-    console.log('list', this.state.methodsParamsList);
+    // console.log('common', common);
+
+    const outputParams = () => {
+      let str = '';
+      let length = methodsParamsList.length;
+      methodsParamsList.forEach((item, index) => {
+        let isShow = item.name && length-2 !== index;
+        str += item.name;
+        item.params.forEach((item, index)=>{
+          let isParams = index > 0;
+          str += isParams ? ',': ':' ;
+          str += item
+        })
+        str += isShow ? '|': '';
+      })
+      return str
+    }
+
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -98,7 +122,7 @@ class ModalPostman extends Component {
         onOk={handleOk}
         onCancel={handleCancel}
         wrapClassName="modal-postman"
-        width={800}
+        width={1000}
       >
 
         <Row className="modal-postman-form" type="flex">
@@ -119,19 +143,32 @@ class ModalPostman extends Component {
         <Row className="modal-postman-expression">
           <Col span={6}><h3 className="title">输入值</h3></Col>
           <Col span={18}>
-            <span>${'{'}</span>
+            <span className="expression">{'{'}</span>
             {
               methodsParamsList.map((item, index) => {
                 return item.name &&
-                  <span className="expression-item" key={index}>{item.name}({item.params})</span>
+                  <span className="expression-item" key={index}>
+                    {item.name}
+                    (
+                    {
+                      item.params.map((item, index) => {
+                        return <span className="expression-item-params" key={index}>{item}</span>
+                      })
+                    }
+                    )
+                  </span>
               })
             }
-            <span>{'}'}</span>
+            <span className="expression">{'}'}</span>
           </Col>
         </Row>
         <Row className="modal-postman-preview">
           <Col span={6}><h3 className="title">预览</h3></Col>
-          <Col span={18}><h3>输入值</h3></Col>
+          <Col span={18}>
+            <h3>
+              {this.handleValue(outputParams())}
+            </h3>
+          </Col>
         </Row>
       </Modal>
     )
