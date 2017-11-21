@@ -22,6 +22,12 @@ class interfaceColController extends baseController{
         }
     }
 
+    async testHttpCode(ctx){
+        let params = ctx.request.body;
+        ctx.status = +ctx.query.code || 200;
+        ctx.body = yapi.commons.resReturn(params);
+    }
+
     /**
      * 测试 post
      * @interface /test/post

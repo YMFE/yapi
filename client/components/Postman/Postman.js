@@ -10,7 +10,7 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import {  isJson, handleJson, handleParamsValue } from '../../common.js'
+import { isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
 
 function json_parse(data) {
@@ -121,7 +121,7 @@ export default class Run extends Component {
     }
   }
 
-  handleValue (val)  {
+  handleValue(val) {
     return handleParamsValue(val, {});
   }
 
@@ -195,6 +195,63 @@ export default class Run extends Component {
 
   }
 
+  handleResponse = (res, header, third)=> {
+    res = third.res.body || third.res.statusText;
+    try {
+      this.setState({
+        loading: false,
+        resStatusCode: third.res.status,
+        resStatusText: third.res.statusText
+      })
+      res = json_parse(res);
+      let test_status = 'error';
+      let validRes = [];
+      if (isNaN(third.res.status)) {
+        res = res || '请求异常';
+        message.error(res);
+        test_status = 'error';
+
+
+      } else {
+        const { res_body, res_body_type } = this.props.data;
+        let query = {};
+        this.state.query.forEach(item => {
+          query[item.name] = item.value;
+        })
+        let body = {};
+        if (this.state.bodyType === 'form') {
+          this.state.bodyForm.forEach(item => {
+            body[item.name] = item.value;
+          })
+        } else if (this.state.bodyType === 'json') {
+          body = json_parse(this.state.bodyOther);
+        }
+        if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
+          let tpl = MockExtra(json_parse(res_body), {
+            query: query,
+            body: body
+          })
+          validRes = Mock.valid(tpl, res)
+        }
+
+
+        if (Array.isArray(validRes) && validRes.length > 0) {
+          message.warn('请求完成, 返回数据跟接口定义不匹配');
+          validRes = validRes.map(item => {
+            return item.message
+          })
+          test_status = 'invalid';
+        } else if (Array.isArray(validRes) && validRes.length === 0) {
+          message.success('请求完成');
+          test_status = 'ok'
+        }
+      }
+      this.setState({ res, resHeader: header, validRes, test_status }, this.bindAceEditor)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   @autobind
   reqRealInterface() {
     if (this.state.loading) {
@@ -202,18 +259,18 @@ export default class Run extends Component {
       return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
-    
+
     let path = pathname;
-    
+
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
-    
+
     const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
 
     let pathQuery = {};
-    urlObj.query && urlObj.query.split('&').forEach(item=>{
-      if(item){
+    urlObj.query && urlObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -226,23 +283,22 @@ export default class Run extends Component {
       query: Object.assign(pathQuery, this.getQueryObj(query))
     });
     let reqBody;
-    if(bodyType === 'form'){
+    if (bodyType === 'form') {
       reqBody = this.arrToObj(bodyForm)
-    }else{
+    } else {
       reqBody = isJson(bodyOther);
-      if(reqBody === false){
-        if(bodyType === 'json' && HTTP_METHOD[method].request_body){
+      if (reqBody === false) {
+        if (bodyType === 'json' && HTTP_METHOD[method].request_body) {
           return message.error('请求 Body 的 json 格式有误')
-        }        
+        }
         reqBody = bodyOther;
-      }else{
+      } else {
         reqBody = handleJson(reqBody, this.handleValue)
       }
 
     }
 
     this.setState({ loading: true })
-    let that = this;
     window.crossRequest({
       url: href,
       method,
@@ -251,71 +307,8 @@ export default class Run extends Component {
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
       timeout: 8240000, //因浏览器限制，超时时间最多为两分钟
-      success: (res, header, third) => {
-        // console.log('suc', third);
-        this.setState({
-          resStatusCode: third.res.status,
-          resStatusText: third.res.statusText
-        })
-        try {
-          if (isJsonData(header)) {
-            res = json_parse(res);
-          }
-
-          const { res_body, res_body_type } = that.props.data;
-          let validRes = [];
-          let query = {};
-          that.state.query.forEach(item => {
-            query[item.name] = item.value;
-          })
-          let body = {};
-          if (that.state.bodyType === 'form') {
-            that.state.bodyForm.forEach(item => {
-              body[item.name] = item.value;
-            })
-          } else if (that.state.bodyType === 'json') {
-            body = json_parse(that.state.bodyOther);
-          }
-          if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
-            let tpl = MockExtra(json_parse(res_body), {
-              query: query,
-              body: body
-            })
-            validRes = Mock.valid(tpl, res)
-          }
-
-
-          if (Array.isArray(validRes) && validRes.length > 0) {
-            message.warn('请求完成, 返回数据跟接口定义不匹配');
-            validRes = validRes.map(item => {
-              return item.message
-            })
-            that.setState({ res, resHeader: header, validRes, test_status: 'invalid' })
-          } else if (Array.isArray(validRes) && validRes.length === 0) {
-            message.success('请求完成');
-            that.setState({ res, resHeader: header, validRes: ['验证通过'], test_status: 'ok' })
-          }
-          that.setState({ loading: false })
-          that.bindAceEditor()
-        } catch (e) {
-          console.error(e.message)
-        }
-      },
-      error: (err, header, third) => {
-        this.setState({
-          resStatusCode: third.res.status,
-          resStatusText: third.res.statusText
-        })
-        try {
-          err = json_parse(err);
-        } catch (e) {
-          console.log(e)
-        }
-        message.error(err || '请求异常')
-        that.setState({ res: err || '请求失败', resHeader: header, validRes: [], test_status: 'error' })
-        that.setState({ loading: false })
-        that.bindAceEditor()
-      }
+      success: this.handleResponse,
+      error: this.handleResponse
     })
   }
 
@@ -579,8 +572,8 @@ export default class Run extends Component {
     const pathObj = URL.parse(path);
     path = pathObj.pathname;
     let pathQuery = {};
-    pathObj.query && pathObj.query.split('&').forEach(item=>{
-      if(item){
+    pathObj.query && pathObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -701,7 +694,7 @@ export default class Run extends Component {
               query.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name}  className="key" />
+                    <Input disabled value={item.name} className="key" />
                     &nbsp;
                     {item.required == 1 ?
                       <Checkbox checked={true} disabled >enable</Checkbox> :

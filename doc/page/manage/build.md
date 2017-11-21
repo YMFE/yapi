@@ -35,6 +35,12 @@ npm run install-server //安装程序会初始化数据库索引和管理员账�
 node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候
 ```
 
+## 服务器管理
+
+推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：
+* <a href="http://pm2.keymetrics.io/docs/usage/quick-start/">官网文档</a>
+* <a href="http://imweb.io/topic/57c8cbb27f226f687b365636">PM2实用入门指南</a> 
+
 ## 升级
 升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
 
