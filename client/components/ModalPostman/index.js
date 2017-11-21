@@ -58,7 +58,7 @@ class ModalPostman extends Component {
   mockClick(index) {
     return (e, params) => {
       console.log('value', params);
-      let curname = e.target.value;
+      let curname = e;
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
         methodsParamsList: newParamsList

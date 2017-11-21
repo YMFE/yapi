@@ -62,7 +62,6 @@ class MethodsList extends Component {
     return <Input
       size="small"
       placeholder="请输入参数"
-      disabled={!props.disabled}
       onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex)}
     />
   }
@@ -71,7 +70,7 @@ class MethodsList extends Component {
     const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
-    return <Select placeholder="请选择" style={{ width: 150 }} size="small" disabled={!props.disabled} onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex)}>
+    return <Select placeholder="请选择" style={{ width: 150 }} size="small" onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex)}>
       {
         subname.map((item, index) => {
           return <Option value={item} key={index}>{item}</Option>
@@ -97,7 +96,6 @@ class MethodsList extends Component {
   // 组件选择
   handleComponent(item, clickIndex, index) {
     let query = {
-      disabled: item.name === this.props.clickValue,
       clickIndex: clickIndex,
       paramsIndex: index
     }
@@ -113,10 +111,10 @@ class MethodsList extends Component {
 
   handleRadioChange = (e) => {
     console.log(e);
-    this.state.list.forEach(item=>{
-     if(item.name === clickValue) {
+    this.state.list.forEach(item => {
+      if (item.name === clickValue) {
 
-     }
+      }
     })
     this.props.click(e);
     // console.log('state', this.state.index);
@@ -124,29 +122,31 @@ class MethodsList extends Component {
   }
 
   render() {
-    const { list, moreFlag, index } = this.state;
-    const { click,clickValue, clickIndex } = this.props;
+    const { list, moreFlag } = this.state;
+    const { click, clickValue, clickIndex } = this.props;
     console.log('click', clickValue);
     console.log('state', this.state.index);
     let showList = moreFlag ? list.slice(0, 4) : list;
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
-        <RadioGroup onChange={(e) => this.handleRadioChange(e} value={clickValue}>
-          {
-            showList.map((item, index) => {
-              return <Row key={index} type="flex" align="middle" className="row methods-row">
-                <RadioButton value={item.name} onClick={click}>
-                  <span>{item.name}</span>
-                  <span className="input-component">
-                    {item.type && this.handleComponent(item, clickIndex, index)}
-                  </span>
-                </RadioButton>
+        {
+          showList.map((item, index) => {
+            return <Row
+              key={index}
+              type="flex"
+              align="middle"
+              className={'row methods-row ' + (item.name === clickValue ? 'checked' : '')}
+              onClick={() => click(item.name)}>
+              <span>{item.name}</span>
+              <span className="input-component">
+                {item.type && this.handleComponent(item, clickIndex, index)}
+              </span>
 
-              </Row>
-            })
-          }
-        </RadioGroup>
+
+            </Row>
+          })
+        }
         {
           moreFlag && <div className="show-more" onClick={this.showMore}><Icon type="down" /><span style={{ paddingLeft: '4px' }}>更多</span></div>
         }

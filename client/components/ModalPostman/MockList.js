@@ -12,7 +12,7 @@ class MockList extends Component {
   static propTypes = {
     click: PropTypes.func,
     clickValue: PropTypes.string
-   
+
   }
 
   constructor(props) {
@@ -30,8 +30,8 @@ class MockList extends Component {
     })
   }
 
- 
-  onFilter= (e)=> {
+
+  onFilter = (e) => {
 
     const list = wordList.filter(item => {
       return item.mock.indexOf(e.target.value) !== -1
@@ -42,15 +42,15 @@ class MockList extends Component {
     })
   }
 
-  
-  onSearch=(v)=>{
-    console.log("v",v);
+
+  onSearch = (v) => {
+    console.log("v", v);
     // this.props.click(v);
   }
 
   render() {
-    const { list, filter} = this.state;
-    const {click, clickValue} =  this.props;
+    const { list, filter } = this.state;
+    const { click, clickValue } = this.props;
     return (
       <div className="modal-postman-form-mock">
         <h3 className="mock-title title">mock数据</h3>
@@ -61,15 +61,20 @@ class MockList extends Component {
           placeholder="搜索mock数据"
           className="mock-search"
         />
-        <RadioGroup onChange={click} value={clickValue}>
-          {
-            list.map((item, index) => {
-              return <Row key={index} type="flex" align="middle" className="row" >
-                <RadioButton value={item.mock}>{item.mock}</RadioButton>
-              </Row>
-            })
-          }
-        </RadioGroup>
+        {/* <RadioGroup onChange={click} value={clickValue}> */}
+        {
+          list.map((item, index) => {
+            return <Row
+              key={index}
+              type="flex"
+              align="middle"
+              className={'row ' + (item.mock === clickValue ? 'checked' : '')}
+              onClick={() => click(item.mock)} >
+              <span>{item.mock}</span>
+            </Row>
+          })
+        }
+        {/* </RadioGroup> */}
       </div>
     )
 

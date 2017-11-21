@@ -27,7 +27,12 @@
     }
     .row {
       margin-bottom: 8px;
-      width:100%;
+      width: 100%;
+      height: 32px;
+      line-height: 30px;
+      padding: 0 16px;
+      cursor: pointer;
+
       .ant-radio-button-wrapper{
         border: 0;
         width: 100%;
@@ -37,6 +42,11 @@
         background-color:#2395f1;
         width:100%
       }
+    }
+
+    .checked{
+      color:#fff;
+      background-color:#2395f1;
     }
   }
   .modal-postman-expression, .modal-postman-preview {
