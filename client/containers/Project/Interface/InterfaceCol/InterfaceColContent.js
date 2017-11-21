@@ -248,6 +248,7 @@ class InterfaceColContent extends Component {
       }
 
     }
+
     try {
       let data = await this.crossRequest({
         url: href,
@@ -307,14 +308,15 @@ class InterfaceColContent extends Component {
 
   crossRequest = (options) => {
     return new Promise((resolve, reject) => {
-      options.success = function (res, header, data) {
+      options.error = options.success = function (res, header, data) {
+        
+        if(isNaN(data.res.status)){
+          reject({
+            err: res,
+            header
+          })
+        }
         resolve(data);
-      }
-      options.error = function (err, header) {
-        reject({
-          err,
-          header
-        })
       }
       window.crossRequest(options);
     })
@@ -687,6 +689,7 @@ class InterfaceColContent extends Component {
           visible={this.state.advVisible}
           onCancel={this.handleAdvCancel}
           onOk={this.handleAdvOk}
+          maskClosable={false}
         >
           <h3>
             是否开启:&nbsp;
