@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Radio, Icon, Input, Select } from 'antd';
+import { Row, Icon, Input, Select } from 'antd';
 // import common from 'common/power-string.js'
 const Option = Select.Option;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 
 // 深拷贝
 function deepEqual(state) {
@@ -84,11 +82,9 @@ class MethodsList extends Component {
 
     let newList = deepEqual(this.state.list);
     newList[paramsIndex].params[0] = value;
-    // console.log('newList', newList);
     this.setState({
       list: newList
     })
-    // console.log('list', this.state.list);
     this.props.paramsInput(value, clickIndex);
   }
 
@@ -109,17 +105,6 @@ class MethodsList extends Component {
     }
   }
 
-  handleRadioChange = (e) => {
-    console.log(e);
-    this.state.list.forEach(item => {
-      if (item.name === clickValue) {
-
-      }
-    })
-    this.props.click(e);
-    // console.log('state', this.state.index);
-
-  }
 
   render() {
     const { list, moreFlag } = this.state;
@@ -137,25 +122,20 @@ class MethodsList extends Component {
               type="flex"
               align="middle"
               className={'row methods-row ' + (item.name === clickValue ? 'checked' : '')}
-              onClick={() => click(item.name)}>
+              onClick={() => click(item.name,showList[index].params)}>
               <span>{item.name}</span>
               <span className="input-component">
                 {item.type && this.handleComponent(item, clickIndex, index)}
               </span>
-
-
             </Row>
           })
         }
         {
           moreFlag && <div className="show-more" onClick={this.showMore}><Icon type="down" /><span style={{ paddingLeft: '4px' }}>更多</span></div>
         }
-
       </div>
     )
-
   }
-
 }
 
 export default MethodsList;

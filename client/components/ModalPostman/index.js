@@ -14,14 +14,14 @@ function deepEqual(state) {
 }
 
 function closeRightTabsAndAddNewTab(arr, index, curname, params) {
-  console.log(params);
+  // console.log(params);
   let newParamsList = [].concat(arr);
   newParamsList.splice(index + 1, newParamsList.length - index);
   newParamsList.push({
     name: '', params: []
   })
 
-  let curParams = params&&params.name ===curname ? params.params:[]; 
+  let curParams = params || []; 
   newParamsList[index] = {
     ...newParamsList[index],
     name: curname,
@@ -56,9 +56,9 @@ class ModalPostman extends Component {
   }
 
   mockClick(index) {
-    return (e, params) => {
+    return (curname, params) => {
       console.log('value', params);
-      let curname = e;
+      // let curname = e;
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
         methodsParamsList: newParamsList

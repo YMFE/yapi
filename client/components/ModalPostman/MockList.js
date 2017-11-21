@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Input, Radio } from 'antd';
+import { Row, Input } from 'antd';
 import constants from '../../constants/variable.js'
 const wordList = constants.MOCK_SOURCE;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 const Search = Input.Search;
 
 
