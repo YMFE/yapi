@@ -38,7 +38,8 @@ class MethodsList extends Component {
     super(props)
     this.state = {
       list: METHODS_LIST,
-      moreFlag: true
+      moreFlag: true,
+      index: 0
     }
   }
 
@@ -58,7 +59,12 @@ class MethodsList extends Component {
   inputComponent = (props) => {
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
-    return <Input size="small" placeholder="请输入参数" disabled={!props.disabled} onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex)} />
+    return <Input
+      size="small"
+      placeholder="请输入参数"
+      disabled={!props.disabled}
+      onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex)}
+    />
   }
 
   selectComponent = (props) => {
@@ -76,14 +82,14 @@ class MethodsList extends Component {
 
   // 处理参数输入
   handleParamsChange(value, clickIndex, paramsIndex) {
-    
+
     let newList = deepEqual(this.state.list);
     newList[paramsIndex].params[0] = value;
     // console.log('newList', newList);
     this.setState({
       list: newList
     })
-    console.log('list', this.state.list);
+    // console.log('list', this.state.list);
     this.props.paramsInput(value, clickIndex);
   }
 
@@ -105,19 +111,32 @@ class MethodsList extends Component {
     }
   }
 
+  handleRadioChange = (e) => {
+    console.log(e);
+    this.state.list.forEach(item=>{
+     if(item.name === clickValue) {
+
+     }
+    })
+    this.props.click(e);
+    // console.log('state', this.state.index);
+
+  }
+
   render() {
-    const { list, moreFlag } = this.state;
-    const { click, clickValue, clickIndex } = this.props;
-    // console.log('click', clickValue);
-    let showList = moreFlag ? list.slice(0,4) :list; 
+    const { list, moreFlag, index } = this.state;
+    const { click,clickValue, clickIndex } = this.props;
+    console.log('click', clickValue);
+    console.log('state', this.state.index);
+    let showList = moreFlag ? list.slice(0, 4) : list;
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
-        <RadioGroup onChange={click} value={clickValue}>
+        <RadioGroup onChange={(e) => this.handleRadioChange(e} value={clickValue}>
           {
             showList.map((item, index) => {
               return <Row key={index} type="flex" align="middle" className="row methods-row">
-                <RadioButton value={item.name}>
+                <RadioButton value={item.name} onClick={click}>
                   <span>{item.name}</span>
                   <span className="input-component">
                     {item.type && this.handleComponent(item, clickIndex, index)}

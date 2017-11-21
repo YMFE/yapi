@@ -13,16 +13,19 @@ function deepEqual(state) {
   return JSON.parse(JSON.stringify(state))
 }
 
-function closeRightTabsAndAddNewTab(arr, index, curname) {
+function closeRightTabsAndAddNewTab(arr, index, curname, params) {
+  console.log(params);
   let newParamsList = [].concat(arr);
   newParamsList.splice(index + 1, newParamsList.length - index);
   newParamsList.push({
     name: '', params: []
   })
+
+  let curParams = params&&params.name ===curname ? params.params:[]; 
   newParamsList[index] = {
     ...newParamsList[index],
     name: curname,
-    params: []
+    params: curParams
   }
   return newParamsList;
 
@@ -53,9 +56,10 @@ class ModalPostman extends Component {
   }
 
   mockClick(index) {
-    return (e) => {
+    return (e, params) => {
+      console.log('value', params);
       let curname = e.target.value;
-      let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname)
+      let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
         methodsParamsList: newParamsList
       })
@@ -84,9 +88,9 @@ class ModalPostman extends Component {
 
   render() {
     const { visible, handleCancel, handleOk } = this.props
-    const {  methodsParamsList } = this.state;
+    const { methodsParamsList } = this.state;
     const { name } = methodsParamsList[0];
-    // console.log('list', this.state.methodsParamsList);
+    console.log('list', this.state.methodsParamsList);
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -118,8 +122,8 @@ class ModalPostman extends Component {
             <span>${'{'}</span>
             {
               methodsParamsList.map((item, index) => {
-                return item.name && 
-                <span className="expression-item" key={index}>{item.name}({item.params})</span>
+                return item.name &&
+                  <span className="expression-item" key={index}>{item.name}({item.params})</span>
               })
             }
             <span>{'}'}</span>
