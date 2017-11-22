@@ -21,12 +21,6 @@ let HeaderMenu = {
     icon: 'user',
     adminFlag: false
   },
-  star: {
-    path: '/follow',
-    name: '我的关注',
-    icon: 'star-o',
-    adminFlag: false
-  },
   solution: {
     path: '/user/list',
     name: '用户管理',
