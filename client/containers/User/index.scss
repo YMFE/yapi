@@ -60,6 +60,14 @@
     background: #fff;
     min-height: 5rem;
     position: relative;
+
+    .edit-buttons{
+      .edit-button{
+        text-align: center;
+        margin-right:10px;
+      }
+    }
+
     .bacToPer{
       position: absolute;
       right: 8px;

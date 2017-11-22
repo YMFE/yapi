@@ -110,10 +110,12 @@ class Profile extends Component {
     let dom = e.target;
     let name = dom.getAttribute("name");
     let value = dom.value;
-    let userinfo = this.state._userinfo;
-    userinfo[name] = value;
+
     this.setState({
-      _userinfo: userinfo
+      _userinfo: {
+        ...this.state._userinfo,
+        [name]: value
+      }
     })
   }
 
@@ -139,13 +141,15 @@ class Profile extends Component {
       old_password: old_password
     }
 
-
     axios.post('/api/user/change_password', params).then((res) => {
       let data = res.data;
       if (data.errcode === 0) {
         this.handleEdit('secureEdit', false)
         message.success('修改密码成功');
-        location.reload()
+        if(this.props.curUid === this.state.userinfo.uid){
+          location.reload()
+        }
+        
       } else {
         message.error(data.errmsg)
       }
