@@ -82,6 +82,10 @@ Your browser does not support the video tag.
 
   记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
 
+* log 
+
+  log（message） 函数,调试时使用，只有在断言失败后会在测试报告打印 log 信息 
+  
 ### 示例
 ```
 assert.equal(body.errcode, 0)

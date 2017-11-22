@@ -335,14 +335,15 @@ class InterfaceColContent extends Component {
         params: requestParams
       })
       if (test.data.errcode !== 0) {
-        validRes.push({
-          message: test.data.data[0]
+        test.data.data.logs.forEach(item=>{
+          validRes.push({
+            message: item
+          })
         })
       }
     } catch (err) {
-      console.log(err);
       validRes.push({
-        message: err.message
+        message: 'Error: ' + err.message
       })
     }
   }
@@ -520,7 +521,7 @@ class InterfaceColContent extends Component {
         formatters: [
           (text, { rowData }) => {
             let record = rowData;
-            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename}</Link>
+            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename.length > 23 ?record.casename.substr(0, 20) + '...' : record.casename}</Link>
           }
         ]
       }
@@ -584,7 +585,7 @@ class InterfaceColContent extends Component {
             let record = rowData;
             return (
               <Tooltip title="跳转到对应接口">
-                <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{record.path}</Link>
+                <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{record.path.length > 23 ? record.path + '...' : record.path}</Link>
               </Tooltip>
             )
           }

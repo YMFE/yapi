@@ -594,6 +594,17 @@ class interfaceColController extends baseController {
         }
     }
 
+    convertString(variable){
+        if(variable instanceof Error){
+            return variable.name + ': ' +variable.message;
+        }
+        try{
+            return JSON.stringify(variable, null, '   ');
+        }catch(err){
+            return variable || '';
+        }
+    }
+
     async runCaseScript(ctx) {
         let params = ctx.request.body;
         let script = params.script;
@@ -601,20 +612,28 @@ class interfaceColController extends baseController {
             return ctx.body = yapi.commons.resReturn('ok');
         }
 
+        let logs = [];
+
+        let result = {
+            assert: require('assert'),
+            status: params.response.status,
+            body: params.response.body,
+            header: params.response.header,
+            records: params.records,
+            params: params.params,
+            log: (msg) =>{
+                logs.push('log: ' + this.convertString(msg))
+            }
+        }
+
         try {
-            let result = yapi.commons.sandbox({
-                assert: require('assert'),
-                status: params.response.status,
-                body: params.response.body,
-                header: params.response.header,
-                records: params.records,
-                params: params.params,
-                log: []
-            }, script);
+            result = yapi.commons.sandbox(result, script);
+            result.logs = logs;
             return ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
-            let errArr = err.stack.split("\n");
-            return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)
+            logs.push(this.convertString(err));
+            result.logs = logs;
+            return ctx.body = yapi.commons.resReturn(result, 400, err.name + ": " + err.message)
         }
 
     }
