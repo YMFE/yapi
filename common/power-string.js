@@ -152,7 +152,7 @@ function handleSegment(str, index){
     let method, args = [];
     if(str.indexOf(methodAndArgsSeparateChar) > 0){
         str = str.split(methodAndArgsSeparateChar);
-        method = str[0];
+        method = str[0].trim();
         args = str[1].split(argsSeparateChar).map(item=> _handleValue(item.trim()));
     }else{
         method = str;

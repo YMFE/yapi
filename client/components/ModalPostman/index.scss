@@ -42,6 +42,17 @@
   .modal-postman-preview {
     background-color: #f5f5f5;
   }
+  .modal-postman-collapse{
+     .ant-collapse-item > .ant-collapse-header{
+      padding-left: 20px;
+    }
+
+     .ant-collapse-item > .ant-collapse-header .arrow{
+      left: 0;
+      font-size: 1.17em;
+    }
+  }
+
   .title {
     border-left: 3px solid #2395f1;
     padding-left: 8px;
@@ -103,25 +114,10 @@
       padding-right: 4px;
     }
 
-    .expression-item:nth-last-child(2){
+    .expression-item{
       color: #2395f1;
     }
 
-    .expression-item:after{
-      content:".";
-    }
-
-    .expression-item:nth-last-child(2):after{
-      content:"";
-    }
-
-    .expression-item-params:after{
-      content:",";
-    }
-
-    .expression-item-params:nth-last-child(1):after{
-      content:"";
-    }
 
   }
 

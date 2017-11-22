@@ -4,11 +4,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 // import { withRouter } from 'react-router-dom';
-import { Modal, Row, Col, Icon } from 'antd';
-import MockList from './MockList.js';
+import { Modal, Row, Col, Icon, Collapse, Input } from 'antd'
+import MockList from './MockList.js'
 import MethodsList from './MethodsList.js'
+import VariablesSelect from './VariablesSelect.js'
 import { handleParamsValue } from '../../common.js'
-import common from 'common/power-string.js'
+const Panel = Collapse.Panel;
 
 // 深拷贝
 function deepEqual(state) {
@@ -62,11 +63,16 @@ class ModalPostman extends Component {
     return (curname, params) => {
       console.log('value', params);
       // let curname = e;
+      console.log('curname', curname);
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
         methodsParamsList: newParamsList
       })
     }
+  }
+  //  处理常量输入 
+  handleConstantsInput = (val, index) => {
+    this.mockClick(index)(val);
   }
 
   handleParamsInput = (e, clickIndex, paramsIndex) => {
@@ -78,8 +84,8 @@ class ModalPostman extends Component {
     })
   }
 
+  // 方法
   MethodsListSource = (props) => {
-
     return <MethodsList
       click={this.mockClick(props.index)}
       clickValue={props.value}
@@ -88,6 +94,8 @@ class ModalPostman extends Component {
     />
   }
 
+
+  //  处理表达式
   handleValue(val) {
     // let val = '{@string |length}'
     return handleParamsValue(val, {});
@@ -96,21 +104,21 @@ class ModalPostman extends Component {
   render() {
     const { visible, handleCancel, handleOk } = this.props
     const { methodsParamsList } = this.state;
-    const { name } = methodsParamsList[0];
+    // const { name } = methodsParamsList[0];
     // console.log('common', common);
 
     const outputParams = () => {
       let str = '';
       let length = methodsParamsList.length;
       methodsParamsList.forEach((item, index) => {
-        let isShow = item.name && length-2 !== index;
+        let isShow = item.name && length - 2 !== index;
         str += item.name;
-        item.params.forEach((item, index)=>{
+        item.params.forEach((item, index) => {
           let isParams = index > 0;
-          str += isParams ? ',': ':' ;
+          str += isParams ? ' , ' : ' : ';
           str += item
         })
-        str += isShow ? '|': '';
+        str += isShow ? ' | ' : '';
       })
       return str
     }
@@ -123,6 +131,8 @@ class ModalPostman extends Component {
         onCancel={handleCancel}
         wrapClassName="modal-postman"
         width={1000}
+        maskClosable={false}
+        okText="插入"
       >
 
         <Row className="modal-postman-form" type="flex">
@@ -130,8 +140,17 @@ class ModalPostman extends Component {
             methodsParamsList.map((item, index) => {
               return item.type === 'dataSource' ?
                 <Col span={8} className="modal-postman-col" key={index}>
-                  <MockList click={this.mockClick(index)} clickValue={name}></MockList>
-                  <h3>变量</h3>
+                  <Collapse className="modal-postman-collapse" defaultActiveKey={['1']} bordered={false} accordion>
+                    <Panel header={<h3 className="mock-title">常量</h3>} key="1">
+                      <Input placeholder="基础参数值" onChange={(e) => this.handleConstantsInput(e.target.value, index)} />
+                    </Panel>
+                    <Panel header={<h3 className="mock-title">mock数据</h3>} key="2">
+                      <MockList click={this.mockClick(index)} clickValue={item.name}></MockList>
+                    </Panel>
+                    <Panel header={<h3 className="mock-title">变量</h3>} key="3">
+                      <VariablesSelect />
+                    </Panel>
+                  </Collapse>
                 </Col>
                 :
                 <Col span={8} className="modal-postman-col" key={index}>
@@ -141,24 +160,10 @@ class ModalPostman extends Component {
           }
         </Row>
         <Row className="modal-postman-expression">
-          <Col span={6}><h3 className="title">输入值</h3></Col>
+          <Col span={6}><h3 className="title">表达式</h3></Col>
           <Col span={18}>
             <span className="expression">{'{'}</span>
-            {
-              methodsParamsList.map((item, index) => {
-                return item.name &&
-                  <span className="expression-item" key={index}>
-                    {item.name}
-                    (
-                    {
-                      item.params.map((item, index) => {
-                        return <span className="expression-item-params" key={index}>{item}</span>
-                      })
-                    }
-                    )
-                  </span>
-              })
-            }
+            <span className="expression-item">{outputParams()}</span>
             <span className="expression">{'}'}</span>
           </Col>
         </Row>

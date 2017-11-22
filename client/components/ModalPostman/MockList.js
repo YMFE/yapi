@@ -51,7 +51,6 @@ class MockList extends Component {
     const { click, clickValue } = this.props;
     return (
       <div className="modal-postman-form-mock">
-        <h3 className="mock-title title">mock数据</h3>
         <Search
           onChange={this.onFilter}
           onSearch={this.onSearch}
