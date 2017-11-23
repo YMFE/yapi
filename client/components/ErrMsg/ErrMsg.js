@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import './ErrMsg.scss';

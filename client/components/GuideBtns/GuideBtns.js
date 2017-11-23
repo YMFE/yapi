@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { connect } from 'react-redux'

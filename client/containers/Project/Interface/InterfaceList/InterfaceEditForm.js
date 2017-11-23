@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import _ from 'underscore'
@@ -17,6 +17,13 @@ const validJson = (json) => {
   } catch (e) {
     return false;
   }
+}
+
+function arrMove(arr, fromIndex, toIndex){
+  arr = [].concat(arr);
+  let item = arr.splice(fromIndex, 1)[0];
+  arr.splice(toIndex , 0, item);
+  return arr;
 }
 
 import {
@@ -136,13 +143,22 @@ class InterfaceEditForm extends Component {
           if (this.state.res_body && validJson(this.state.res_body) === false) {
             return message.error('返回body json格式有问题，请检查！')
           }
-          values.res_body = this.state.res_body;
+          try{
+            values.res_body = JSON.stringify(JSON.parse(this.state.res_body), null, '   ')
+          }catch(e){
+            values.res_body = this.state.res_body;
+          }
+          
         }
         if (values.req_body_type === 'json') {
           if (this.state.req_body_other && validJson(this.state.req_body_other) === false) {
             return message.error('响应Body json格式有问题，请检查！');
           }
-          values.req_body_other = this.state.req_body_other;
+          try{            
+            values.req_body_other = JSON.stringify(JSON.parse(this.state.req_body_other), null, '   ');
+          }catch(e){
+            values.req_body_other = this.state.req_body_other
+          }
         }
 
         values.method = this.state.method;
@@ -364,6 +380,14 @@ class InterfaceEditForm extends Component {
     })
   }
 
+  handleDragMove = (name, from, to) => {
+    let curValue = this.props.form.getFieldValue(name);
+    let newValue = {};
+    newValue[name] = arrMove(curValue, from, to);
+    this.props.form.setFieldsValue(newValue);
+    this.setState(curValue)
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -373,7 +397,24 @@ class InterfaceEditForm extends Component {
 
     const queryTpl = (data, index) => {
   
-      return <Row key={index} className="interface-edit-item-content">
+      return <Row 
+        key={index} 
+        className="interface-edit-item-content" 
+        draggable="true" 
+        onDragStart={()=> this.curDragItem = index } 
+        onDragEnter={()=> {
+          this.curDrogItem = index;
+        }}
+        onDragLeave={()=>{
+          this.curDrogItem = index;
+        }}
+        onDragEnd={()=>{
+          this.handleDragMove('req_query', this.curDragItem, this.curDrogItem)
+          this.curDrogItem = null;
+          this.curDragItem = null;
+        }}
+
+      >
         <Col span="5" className="interface-edit-item-content-col">
           {getFieldDecorator('req_query[' + index + '].name', {
             initialValue: data.name
@@ -412,7 +453,23 @@ class InterfaceEditForm extends Component {
     }
 
     const headerTpl = (data, index) => {
-      return <Row key={index} className="interface-edit-item-content">
+      return <Row 
+        key={index} 
+        className="interface-edit-item-content"
+        draggable="true" 
+        onDragStart={()=> this.curDragItem = index } 
+        onDragEnter={()=> {
+          this.curDrogItem = index;
+        }}
+        onDragLeave={()=>{
+          this.curDrogItem = index;
+        }}
+        onDragEnd={()=>{
+          this.handleDragMove('req_headers', this.curDragItem, this.curDrogItem)
+          this.curDrogItem = null;
+          this.curDragItem = null;
+        }}
+      >
         <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_headers[' + index + '].name', {
             initialValue: data.name
@@ -453,7 +510,23 @@ class InterfaceEditForm extends Component {
     }
 
     const requestBodyTpl = (data, index) => {
-      return <Row key={index} className="interface-edit-item-content">
+      return <Row 
+        key={index} 
+        className="interface-edit-item-content"
+        draggable="true" 
+        onDragStart={()=> this.curDragItem = index } 
+        onDragEnter={()=> {
+          this.curDrogItem = index;
+        }}
+        onDragLeave={()=>{
+          this.curDrogItem = index;
+        }}
+        onDragEnd={()=>{
+          this.handleDragMove('req_body_form', this.curDragItem, this.curDrogItem)
+          this.curDrogItem = null;
+          this.curDragItem = null;
+        }}
+      >
         <Col span="4" className="interface-edit-item-content-col">
           {getFieldDecorator('req_body_form[' + index + '].name', {
             initialValue: data.name
@@ -502,7 +575,23 @@ class InterfaceEditForm extends Component {
     }
 
     const paramsTpl = (data, index) => {
-      return <Row key={index} className="interface-edit-item-content">
+      return <Row 
+        key={index} 
+        className="interface-edit-item-content"
+        draggable="true" 
+        onDragStart={()=> this.curDragItem = index } 
+        onDragEnter={()=> {
+          this.curDrogItem = index;
+        }}
+        onDragLeave={()=>{
+          this.curDrogItem = index;
+        }}
+        onDragEnd={()=>{
+          this.handleDragMove('req_params', this.curDragItem, this.curDrogItem)
+          this.curDrogItem = null;
+          this.curDragItem = null;
+        }}
+      >
         <Col span="6" className="interface-edit-item-content-col">
           {getFieldDecorator('req_params[' + index + '].name', {
             initialValue: data.name

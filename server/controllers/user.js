@@ -424,7 +424,9 @@ class userController extends baseController {
 
             let userInst = yapi.getInst(userModel);
             let id = ctx.request.body.id;
-
+            if(id == this.getUid()){
+                return ctx.body = yapi.commons.resReturn(null, 403, '禁止删除管理员');
+            }
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空');
             }

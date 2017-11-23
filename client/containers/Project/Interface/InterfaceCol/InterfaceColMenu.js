@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
@@ -334,6 +334,7 @@ export default class InterfaceColMenu extends Component {
           onSelect={this.onSelect}
           autoExpandParent
           onExpand={this.onExpand}
+          ondragstart = {()=>{return false}}
         >
           {
             this.props.interfaceColList.filter(col => {

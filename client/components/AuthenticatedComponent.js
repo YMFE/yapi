@@ -14,7 +14,7 @@ import { changeMenuItem } from '../reducer/modules/menu'
   }
 )
 export function requireAuthentication(Component) {
-  return class AuthenticatedComponent extends React.Component {
+  return class AuthenticatedComponent extends React.PureComponent {
     constructor(props){
       super(props);
     }

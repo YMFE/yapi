@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
 
@@ -33,21 +33,6 @@ function isJsonData(headers) {
   })
   return isResJson;
 }
-
-// const wordList = constants.MOCK_SOURCE;
-
-// const mockDataSource = wordList.map(item => {
-//   return <AutoComplete.Option key={item.mock} value={item.mock}>
-//     {item.mock}&nbsp; &nbsp;随机{item.name}
-//   </AutoComplete.Option>
-// });
-
-// const MockModalList = wordList.map((item, index) => {
-//   return <Row key={index} type="flex" align="middle" className="row">
-//     <Col span={6}><label>{item.mock}</label></Col>
-//     <Col span={18}><Input /></Col>
-//   </Row>
-// })
 
 
 
@@ -86,7 +71,9 @@ export default class Run extends Component {
     resMockTest: true,
     resStatusCode: null,
     resStatusText: '',
-    modalVisible: false
+    modalVisible: false,
+    inputIndex: 0,
+    inputValue: ''
   }
 
   constructor(props) {
@@ -576,12 +563,17 @@ export default class Run extends Component {
   }
 
   // 模态框的相关操作
-  showModal = () => {
+  showModal = (val, index) => {
+    console.log('val',val);
     this.setState({
-      modalVisible: true
+      modalVisible: true,
+      inputIndex: index,
+      inputValue: val
+
     });
   }
-  handleOk = () => {
+  handleOk = (val) => {
+    console.log('val',val);
     this.setState({ modalVisible: false });
   }
   handleCancel = () => {
@@ -589,7 +581,7 @@ export default class Run extends Component {
   }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
+    const { method, domains, pathParam, pathname, query, inputValue, inputIndex, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
     let isResJson = isJsonData(resHeader);
@@ -613,37 +605,17 @@ export default class Run extends Component {
     validResView = validRes.map((item, index) => {
       return <div key={index}>{item}</div>
     })
-
-
-
-
+    
     return (
       <div className="interface-test postman">
         <ModalPostman
           visible={this.state.modalVisible}
           handleCancel={this.handleCancel}
           handleOk={this.handleOk}
+          inputIndex={inputIndex}
+          inputValue={inputValue}
         >
         </ModalPostman>
-        {/* <Modal
-          title={<p><Icon type="bulb" /> Basic Modal</p>}
-          visible={this.state.modalVisible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          wrapClassName="modal-postman"
-        >
-          <div className="modal-postman-form">
-            {MockModalList}
-          </div>
-          <Row className="modal-postman-expression">
-            <Col span={6}><h3 className="title">输入值</h3></Col>
-            <Col span={18}><h3>输入值</h3></Col>
-          </Row>
-          <Row className="modal-postman-preview">
-            <Col span={6}><h3 className="title">预览</h3></Col>
-            <Col span={18}><h3>输入值</h3></Col>
-          </Row>
-        </Modal> */}
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -738,7 +710,6 @@ export default class Run extends Component {
           <Panel header="QUERY PARAMETERS" key="1" className={query.length === 0 ? 'hidden' : ''}>
             {
               query.map((item, index) => {
-                console.log(item.value);
                 return (
                   <div key={index} className="key-value-wrap">
                     <Input disabled value={item.name} className="key" />
@@ -754,7 +725,7 @@ export default class Run extends Component {
                       className="value"
                       onChange={e => this.changeQuery(e, index)}
                       placeholder="参数值"
-                      addonAfter={<Icon type="edit" onClick={this.showModal} />}
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index)} />}
                     />
 
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />

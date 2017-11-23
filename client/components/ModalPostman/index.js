@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 // import { withRouter } from 'react-router-dom';
-import { Modal, Row, Col, Icon, Collapse, Input } from 'antd'
+import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd'
 import MockList from './MockList.js'
 import MethodsList from './MethodsList.js'
 import VariablesSelect from './VariablesSelect.js'
@@ -39,7 +39,9 @@ class ModalPostman extends Component {
   static propTypes = {
     visible: PropTypes.bool,
     handleCancel: PropTypes.func,
-    handleOk: PropTypes.func
+    handleOk: PropTypes.func,
+    inputValue: PropTypes.any,
+    inputIndex: PropTypes.number
 
   }
 
@@ -49,20 +51,32 @@ class ModalPostman extends Component {
       methodsShow: false,
       methodsShowMore: false,
       methodsList: [],
+      constantInput: '',
       methodsParamsList: [{
         name: '',
         params: [],
         type: 'dataSource'
-      }],
-      result: ''
+      }]
     }
 
   }
 
+  componentDidMount() {
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.visible) {
+      console.log('input', nextProps.inputValue);
+      this.setState({
+        constantInput: nextProps.inputValue
+      })
+      nextProps.inputValue && this.handleConstantsInput(nextProps.inputValue, 0);
+    }
+  }
+
   mockClick(index) {
     return (curname, params) => {
-      console.log('value', params);
-      // let curname = e;
       console.log('curname', curname);
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
@@ -72,6 +86,9 @@ class ModalPostman extends Component {
   }
   //  处理常量输入 
   handleConstantsInput = (val, index) => {
+    this.setState({
+      constantInput: val
+    })
     this.mockClick(index)(val);
   }
 
@@ -101,11 +118,45 @@ class ModalPostman extends Component {
     return handleParamsValue(val, {});
   }
 
+  // 处理错误
+  handleError() {
+
+    return <Alert
+      message="请求“变量集”尚未运行,所以我们无法从其响应中提取的值。您可以在测试集合中测试这些变量。"
+      type="warning"
+    />
+  }
+
+  setInit() {
+    let initParamsList = [{
+      name: '',
+      params: [],
+      type: 'dataSource'
+    }]
+    this.setState({
+      methodsParamsList: initParamsList
+    })
+  }
+  // 处理取消插入
+  handleCancel = () => {
+    // console.log(111);
+    this.setInit();
+    this.props.handleCancel();
+  }
+
+  // 处理插入
+  handleOk = (installValue) =>{
+    console.log('installValue',installValue);
+    this.props.handleOk(installValue);
+    this.setInit();
+  }
+
   render() {
-    const { visible, handleCancel, handleOk } = this.props
-    const { methodsParamsList } = this.state;
+    const { visible } = this.props
+    const { methodsParamsList, constantInput } = this.state;
     // const { name } = methodsParamsList[0];
-    // console.log('common', common);
+    // console.log('constantInput', constantInput);
+    // console.log('input2', this.props.inputValue);
 
     const outputParams = () => {
       let str = '';
@@ -127,8 +178,8 @@ class ModalPostman extends Component {
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
         visible={visible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        onOk={()=>this.handleOk(outputParams())}
+        onCancel={this.handleCancel}
         wrapClassName="modal-postman"
         width={1000}
         maskClosable={false}
@@ -142,13 +193,14 @@ class ModalPostman extends Component {
                 <Col span={8} className="modal-postman-col" key={index}>
                   <Collapse className="modal-postman-collapse" defaultActiveKey={['1']} bordered={false} accordion>
                     <Panel header={<h3 className="mock-title">常量</h3>} key="1">
-                      <Input placeholder="基础参数值" onChange={(e) => this.handleConstantsInput(e.target.value, index)} />
+                      <Input placeholder="基础参数值" value={constantInput} onChange={(e) => this.handleConstantsInput(e.target.value, index)} />
                     </Panel>
                     <Panel header={<h3 className="mock-title">mock数据</h3>} key="2">
                       <MockList click={this.mockClick(index)} clickValue={item.name}></MockList>
                     </Panel>
-                    <Panel header={<h3 className="mock-title">变量</h3>} key="3">
-                      <VariablesSelect />
+                    <Panel
+                      header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>} key="3">
+                      <VariablesSelect click={this.mockClick(index)} />
                     </Panel>
                   </Collapse>
                 </Col>
@@ -171,7 +223,7 @@ class ModalPostman extends Component {
           <Col span={6}><h3 className="title">预览</h3></Col>
           <Col span={18}>
             <h3>
-              {this.handleValue(outputParams())}
+              {this.handleValue(outputParams()) || outputParams() && this.handleError()}
             </h3>
           </Col>
         </Row>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { Form, Input,Select, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';

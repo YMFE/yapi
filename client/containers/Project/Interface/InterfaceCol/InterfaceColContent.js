@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
@@ -346,7 +346,7 @@ class InterfaceColContent extends Component {
   }
 
   handleValue = (val) => {
-    return handleParamsValue(val, this.recoreds);
+    return handleParamsValue(val, this.records);
   }
 
   
