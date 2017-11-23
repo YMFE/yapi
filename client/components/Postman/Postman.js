@@ -285,17 +285,15 @@ export default class Run extends Component {
     let reqBody;
     if (bodyType === 'form') {
       reqBody = this.arrToObj(bodyForm)
-    } else {
+    } else if(bodyType === 'json'){      
       reqBody = isJson(bodyOther);
       if (reqBody === false) {
-        if (bodyType === 'json' && HTTP_METHOD[method].request_body) {
-          return message.error('请求 Body 的 json 格式有误')
-        }
-        reqBody = bodyOther;
+        return message.error('请求 Body 的 json 格式有误')
       } else {
         reqBody = handleJson(reqBody, this.handleValue)
       }
-
+    }else{
+      reqBody = bodyOther;
     }
 
     this.setState({ loading: true })
@@ -545,11 +543,6 @@ export default class Run extends Component {
     }, 0);
   }
 
-  // @autobind
-  // fileChange(e, index) {
-  //   console.log(e)
-  //   console.log(index)
-  // }
 
   @autobind
   onTestSwitched(checked) {

@@ -25,7 +25,7 @@ const roleAction = {
 exports.isJson = function(json){
   if(!json) return false;
   try{
-    json = JSON.parse(json);
+    json = json5.parse(json);
     return json;
   }catch(e){
     return false;
@@ -260,7 +260,12 @@ exports.handleJson = handleJson;
 exports.handleParamsValue = handleParamsValue;
 
 exports.getMockText = (mockTpl) => {
-  return JSON.stringify(Mock.mock(MockExtra(json5.parse(mockTpl), {})), null, "  ")
+  try{
+    return JSON.stringify(Mock.mock(MockExtra(json5.parse(mockTpl), {})), null, "  ")
+  }catch(err){
+    return ''
+  }
+  
 }
 
 /**

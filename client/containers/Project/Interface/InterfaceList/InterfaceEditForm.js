@@ -168,8 +168,9 @@ class InterfaceEditForm extends Component {
 
         values.method = this.state.method;
         values.req_params = values.req_params || [];
+        values.req_headers = values.req_headers || [];
         let isfile = false, isHavaContentType = false;
-        if (values.req_body_type === 'form') {
+        if (values.req_body_type === 'form') {          
           values.req_body_form.forEach((item) => {
             if (item.type === 'file') {
               isfile = true;
