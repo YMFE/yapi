@@ -4,7 +4,6 @@ import Mock from 'mockjs'
 import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
-
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
@@ -12,6 +11,7 @@ import './Postman.scss';
 import json5 from 'json5'
 import { isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
+import ModalPostman from '../ModalPostman/index.js'
 
 function json_parse(data) {
   try {
@@ -32,17 +32,6 @@ function isJsonData(headers) {
   return isResJson;
 }
 
-// const wordList = constants.MOCK_SOURCE;
-
-// const mockDataSource = wordList.map(item => {
-//   return <AutoComplete.Option key={item.mock} value={item.mock}>
-//     {item.mock}&nbsp; &nbsp;随机{item.name}
-//   </AutoComplete.Option>
-// });
-
-
-
-const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -76,7 +65,11 @@ export default class Run extends Component {
     test_status: null,
     resMockTest: true,
     resStatusCode: null,
-    resStatusText: ''
+    resStatusText: '',
+    modalVisible: false,
+    inputIndex: 0,
+    inputValue: '',
+    modalType: ''
   }
 
   constructor(props) {
@@ -115,6 +108,7 @@ export default class Run extends Component {
   }
 
   componentDidMount() {
+    // console.log('router',this.props);
     const { bodyType } = this.state;
     if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
@@ -322,7 +316,7 @@ export default class Run extends Component {
 
   @autobind
   changeHeader(v, index, isName) {
-    v = v.target.value
+    // v = v.target.value
     const headers = json_parse(JSON.stringify(this.state.headers));
     if (isName) {
       headers[index].name = v;
@@ -350,8 +344,9 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
-    v = v.target.value
+    console.log(v);
     key = key || 'value';
+    // v = v.target.value;
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
       query[index].enable = v;
@@ -374,7 +369,7 @@ export default class Run extends Component {
 
   @autobind
   changePathParam(v, index, isKey) {
-    v = v.target.value;
+    // v = v.target.value;
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
     const name = pathParam[index].name;
     let newPathname = this.state.pathname;
@@ -406,7 +401,6 @@ export default class Run extends Component {
 
   @autobind
   changeBody(v, index, key) {
-    v = v.target.value
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
     key = key || 'value';
     if (key === 'value') {
@@ -551,9 +545,46 @@ export default class Run extends Component {
     });
   }
 
+  // 模态框的相关操作
+  showModal = (val, index, type) => {
+    // console.log('val',val);
+    this.setState({
+      modalVisible: true,
+      inputIndex: index,
+      inputValue: val,
+      modalType: type
+
+    });
+  }
+  handleOk = (val) => {
+    console.log('val', val);
+    // console.log('inputIndex',this.state.inputIndex);
+    // console.log('modalValue',this.state.modalType);
+    const { inputIndex, modalType } = this.state
+    switch (modalType) {
+      case 'query':
+        this.changeQuery(val, inputIndex);
+        break;
+      case 'body':
+        this.changeBody(val, inputIndex);
+        break;
+      case 'header':
+        this.changeHeader(val, inputIndex);
+        break;
+      case 'pathParam':
+        this.changePathParam(val, inputIndex);
+        break;
+      default:
+        break;
+    }
+    this.setState({ modalVisible: false });
+  }
+  handleCancel = () => {
+    this.setState({ modalVisible: false });
+  }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
+    const { method, domains, pathParam, pathname, query, inputValue, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
     let isResJson = isJsonData(resHeader);
@@ -578,11 +609,16 @@ export default class Run extends Component {
       return <div key={index}>{item}</div>
     })
 
-
-
-
     return (
       <div className="interface-test postman">
+        <ModalPostman
+          visible={this.state.modalVisible}
+          handleCancel={this.handleCancel}
+          handleOk={this.handleOk}
+          inputValue={inputValue}
+          envType={this.props.type}
+        >
+        </ModalPostman>
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -664,17 +700,15 @@ export default class Run extends Component {
               pathParam.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                    <Input disabled value={item.name} onChange={e => this.changePathParam(e.target.value, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-
-                    <TextArea
+                    <Input
                       value={item.value}
-                      onChange={e => this.changePathParam(e, index)}
                       className="value"
+                      onChange={e => this.changePathParam(e.target.value, index)}
                       placeholder="参数值"
-                      autosize={true}
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'pathParam')} />}
                     />
-
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -694,14 +728,14 @@ export default class Run extends Component {
                       <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
-
-                    <TextArea
+                    <Input
                       value={item.value}
-                      onChange={e => this.changeQuery(e, index)}
                       className="value"
+                      onChange={e => this.changeQuery(e.target.value, index)}
                       placeholder="参数值"
-                      autosize={true}
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'query')} />}
                     />
+
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
                 )
@@ -714,14 +748,14 @@ export default class Run extends Component {
               headers.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
+                    <Input disabled value={item.name} onChange={e => this.changeHeader(e.target.value, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <TextArea
-                      autosize={true}
+                    <Input
                       value={item.value}
-                      onChange={e => this.changeHeader(e, index)}
                       className="value"
+                      onChange={e => this.changeHeader(e.target.value, index)}
                       placeholder="参数值"
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'header')} />}
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                   </div>
@@ -751,7 +785,7 @@ export default class Run extends Component {
                   bodyForm.map((item, index) => {
                     return (
                       <div key={index} className="key-value-wrap">
-                        <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                        <Input disabled value={item.name} onChange={e => this.changeBody(e.target.value, index, 'key')} className="key" />
                         &nbsp;
                         {item.required == 1 ?
                           <Checkbox checked={true} disabled >enable</Checkbox> :
@@ -761,13 +795,13 @@ export default class Run extends Component {
 
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
-                          <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                          <TextArea
+                          <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e.target.value, index, 'value')} multiple className="value" /> :
+                          <Input
                             value={item.value}
-                            onChange={e => this.changeBody(e, index, 'value')}
                             className="value"
+                            onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
-                            autosize={true}
+                            addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'body')} />}
                           />
 
                         }

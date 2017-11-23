@@ -332,6 +332,10 @@ let routerConfig = {
 		path: "case_list",
 		method: "get"
 	}, {
+		action: "getCaseListByVariableParams",
+		path: "case_list_by_var_params",
+		method: "get"
+	}, {
 		action: "addCase",
 		path: "add_case",
 		method: "post"
