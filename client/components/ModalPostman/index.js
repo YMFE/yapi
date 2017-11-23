@@ -40,8 +40,9 @@ class ModalPostman extends Component {
     visible: PropTypes.bool,
     handleCancel: PropTypes.func,
     handleOk: PropTypes.func,
-    inputValue: PropTypes.any,
-    inputIndex: PropTypes.number
+    inputValue: PropTypes.any
+    // inputIndex: PropTypes.number,
+    // modalType: PropTypes.string
 
   }
 
@@ -120,13 +121,13 @@ class ModalPostman extends Component {
 
   // 处理错误
   handleError() {
-
     return <Alert
       message="请求“变量集”尚未运行,所以我们无法从其响应中提取的值。您可以在测试集合中测试这些变量。"
       type="warning"
     />
   }
 
+  // 初始化
   setInit() {
     let initParamsList = [{
       name: '',
@@ -145,8 +146,9 @@ class ModalPostman extends Component {
   }
 
   // 处理插入
-  handleOk = (installValue) =>{
-    console.log('installValue',installValue);
+  handleOk = (installValue) => {
+    // console.log('installValue',installValue);
+    // const { inputIndex, modalType } = this.props
     this.props.handleOk(installValue);
     this.setInit();
   }
@@ -178,7 +180,7 @@ class ModalPostman extends Component {
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
         visible={visible}
-        onOk={()=>this.handleOk(outputParams())}
+        onOk={() => this.handleOk(outputParams())}
         onCancel={this.handleCancel}
         wrapClassName="modal-postman"
         width={1000}
@@ -199,7 +201,8 @@ class ModalPostman extends Component {
                       <MockList click={this.mockClick(index)} clickValue={item.name}></MockList>
                     </Panel>
                     <Panel
-                      header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>} key="3">
+                      header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>} 
+                      key="3">
                       <VariablesSelect click={this.mockClick(index)} />
                     </Panel>
                   </Collapse>
