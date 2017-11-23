@@ -108,6 +108,7 @@ export default class Run extends Component {
   }
 
   componentDidMount() {
+    // console.log('router',this.props);
     const { bodyType } = this.state;
     if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
@@ -629,6 +630,7 @@ export default class Run extends Component {
           handleCancel={this.handleCancel}
           handleOk={this.handleOk}
           inputValue={inputValue}
+          envType={this.props.type}
         >
         </ModalPostman>
         <div className={hasPlugin ? null : 'has-plugin'} >

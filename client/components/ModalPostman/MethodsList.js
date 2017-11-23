@@ -46,12 +46,6 @@ class MethodsList extends Component {
     })
   }
 
-  // unshowMore = () => {
-  //   this.setState({
-  //     list: METHODS_LIST.slice(0, 4),
-  //     moreFlag: true
-  //   })
-  // }
 
   inputComponent = (props) => {
     let clickIndex = props.clickIndex;
@@ -127,8 +121,6 @@ class MethodsList extends Component {
   render() {
     const { list, moreFlag } = this.state;
     const { click, clickValue, clickIndex } = this.props;
-    // console.log('click', clickValue);
-    // console.log('list', this.state.list);
     let showList = moreFlag ? list.slice(0, 4) : list;
     return (
       <div className="modal-postman-form-method">

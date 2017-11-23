@@ -1,130 +1,42 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tree } from 'antd';
+import { connect } from 'react-redux';
+import { fetchVariableParamsList } from '../../reducer/modules/interfaceCol.js'
 const TreeNode = Tree.TreeNode;
-
-
-const records = [{
-  _id: 11,
-  casename: 'case-test',
-  params: {
-    id1: '123',
-    name: '小明'
-  },
-  body: {
-    email: 'weriri@qq.com',
-    arr: [
-      {
-        email: 'weriri@qq.com',
-        arr: [{
-          pid: 1,
-          tt: {
-            a: 1
-          }
-        }]
-      },
-      {
-        email: 'weriri@qq.com',
-        arr: [{
-          pid: 1,
-          tt: {
-            a: 1
-          }
-        }]
-      },
-      {
-        email: 'weriri@qq.com',
-        arr: [{
-          pid: 1,
-          tt: {
-            a: 1
-          }
-        }]
-      },
-      {
-        email: 'weriri@qq.com',
-        arr: [{
-          pid: 1,
-          tt: {
-            a: 1
-          }
-        }]
-      }
-    ],
-
-    body: {
-      email: 'weriri@qq.com',
-      body: {
-        email: 'weriri@qq.com',
-        body: {
-          email: 'weriri@qq.com',
-          body: {
-            email: 'weriri@qq.com',
-            arr: [{
-              pid: 1,
-              tt: {
-                a: 1
-              }
-            }]
-          },
-          arr: [{
-            pid: 1,
-            tt: {
-              a: 1
-            }
-          }]
-        },
-        arr: [{
-          pid: 1,
-          tt: {
-            a: 1
-          }
-        }]
-      },
-      arr: [{
-        pid: 1,
-        tt: {
-          a: 1
-        }
-      }]
-    }
-  }
-},
-{
-  _id: 12,
-  casename: 'case-test222',
-  params: {
-    id1: '123333',
-    name: '小明3333'
-  },
-  body: {
-    email: 'weri333ri@qq.com',
-    arr: [{
-      pid: 12,
-      tt: {
-        a: '122222'
-      }
-    }]
-  }
-}
-
-]
-
 const CanSelectPathPrefix = 'CanSelectPath-';
 
+
+@connect(
+  state => {
+    return {
+      currColId: state.interfaceCol.currColId
+    }
+  },
+  {
+    fetchVariableParamsList
+  }
+)
 class VariablesSelect extends Component {
 
-  componentDidMount() {
-
-  }
-
   static propTypes = {
-    click: PropTypes.func
+    click: PropTypes.func,
+    currColId: PropTypes.number,
+    fetchVariableParamsList: PropTypes.func
 
   }
   state = {
-    records: records,
+    records: [],
     expandedKeys: []
+  }
+
+  async componentDidMount() {
+    const { currColId, fetchVariableParamsList } = this.props
+    let result = await fetchVariableParamsList(currColId);
+    this.setState({
+      records: result.payload.data.data
+    })
+
   }
 
   handleSelect = (key) => {
@@ -171,7 +83,6 @@ class VariablesSelect extends Component {
 
       return TreeComponents
     }
-
     return (
       <div className="modal-postman-form-variable">
         <Tree
@@ -183,9 +94,7 @@ class VariablesSelect extends Component {
         </Tree>
       </div>
     )
-
   }
-
 }
 
 export default VariablesSelect;

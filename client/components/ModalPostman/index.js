@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-// import { connect } from 'react-redux'
-// import axios from 'axios'
 import PropTypes from 'prop-types'
 import './index.scss'
-// import { withRouter } from 'react-router-dom';
 import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd'
 import MockList from './MockList.js'
 import MethodsList from './MethodsList.js'
@@ -17,7 +14,6 @@ function deepEqual(state) {
 }
 
 function closeRightTabsAndAddNewTab(arr, index, curname, params) {
-  // console.log(params);
   let newParamsList = [].concat(arr);
   newParamsList.splice(index + 1, newParamsList.length - index);
   newParamsList.push({
@@ -40,10 +36,8 @@ class ModalPostman extends Component {
     visible: PropTypes.bool,
     handleCancel: PropTypes.func,
     handleOk: PropTypes.func,
-    inputValue: PropTypes.any
-    // inputIndex: PropTypes.number,
-    // modalType: PropTypes.string
-
+    inputValue: PropTypes.any,
+    envType: PropTypes.string
   }
 
   constructor(props) {
@@ -62,9 +56,6 @@ class ModalPostman extends Component {
 
   }
 
-  componentDidMount() {
-
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible) {
@@ -95,7 +86,6 @@ class ModalPostman extends Component {
 
   handleParamsInput = (e, clickIndex, paramsIndex) => {
     let newParamsList = deepEqual(this.state.methodsParamsList);
-    // newParamsList[index].params.push(e);
     newParamsList[clickIndex].params[paramsIndex] = e
     this.setState({
       methodsParamsList: newParamsList
@@ -115,7 +105,6 @@ class ModalPostman extends Component {
 
   //  处理表达式
   handleValue(val) {
-    // let val = '{@string |length}'
     return handleParamsValue(val, {});
   }
 
@@ -140,25 +129,19 @@ class ModalPostman extends Component {
   }
   // 处理取消插入
   handleCancel = () => {
-    // console.log(111);
     this.setInit();
     this.props.handleCancel();
   }
 
   // 处理插入
   handleOk = (installValue) => {
-    // console.log('installValue',installValue);
-    // const { inputIndex, modalType } = this.props
     this.props.handleOk(installValue);
     this.setInit();
   }
 
   render() {
-    const { visible } = this.props
+    const { visible, envType } = this.props
     const { methodsParamsList, constantInput } = this.state;
-    // const { name } = methodsParamsList[0];
-    // console.log('constantInput', constantInput);
-    // console.log('input2', this.props.inputValue);
 
     const outputParams = () => {
       let str = '';
@@ -200,11 +183,13 @@ class ModalPostman extends Component {
                     <Panel header={<h3 className="mock-title">mock数据</h3>} key="2">
                       <MockList click={this.mockClick(index)} clickValue={item.name}></MockList>
                     </Panel>
-                    <Panel
-                      header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>} 
-                      key="3">
-                      <VariablesSelect click={this.mockClick(index)} />
-                    </Panel>
+                    {
+                      envType === 'case' && <Panel
+                        header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>}
+                        key="3">
+                        <VariablesSelect click={this.mockClick(index)} />
+                      </Panel>
+                    }
                   </Collapse>
                 </Col>
                 :

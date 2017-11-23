@@ -28,9 +28,7 @@ class MockList extends Component {
     })
   }
 
-
   onFilter = (e) => {
-
     const list = wordList.filter(item => {
       return item.mock.indexOf(e.target.value) !== -1
     });
@@ -41,11 +39,6 @@ class MockList extends Component {
   }
 
 
-  onSearch = (v) => {
-    console.log("v", v);
-    // this.props.click(v);
-  }
-
   render() {
     const { list, filter } = this.state;
     const { click, clickValue } = this.props;
@@ -53,12 +46,10 @@ class MockList extends Component {
       <div className="modal-postman-form-mock">
         <Search
           onChange={this.onFilter}
-          onSearch={this.onSearch}
           value={filter}
           placeholder="搜索mock数据"
           className="mock-search"
         />
-        {/* <RadioGroup onChange={click} value={clickValue}> */}
         {
           list.map((item, index) => {
             return <Row
@@ -71,12 +62,9 @@ class MockList extends Component {
             </Row>
           })
         }
-        {/* </RadioGroup> */}
       </div>
     )
-
   }
-
 }
 
 export default MockList;
