@@ -254,7 +254,8 @@ class InterfaceColContent extends Component {
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: result.body
+        data: result.body,
+        timeout: 8240000
       })
       let res = data.res.body = json_parse(data.res.body);
       let header = data.res.header;
