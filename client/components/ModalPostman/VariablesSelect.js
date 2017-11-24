@@ -85,16 +85,14 @@ class VariablesSelect extends Component {
             elementKeyPrefix + '.' + key : deleteLast(elementKeyPrefix) + '.' + key;
 
         }
-        // console.log('elementKeyPrefix',elementKeyPrefix);
         if (item && typeof item === 'object') {
-          return <TreeNode key={elementKeyPrefix} title={casename || key}>{pathSelctByTree(item, elementKeyPrefix, deepLevel + 1)}</TreeNode>;
+          const isDisable = Array.isArray(item) && item.length === 0;
+          return <TreeNode key={elementKeyPrefix} disabled={isDisable} title={casename || key}>{pathSelctByTree(item, elementKeyPrefix, deepLevel + 1)}</TreeNode>;
         }
-        // elementKeyPrefix = 
         return <TreeNode key={CanSelectPathPrefix + elementKeyPrefix} title={key} />;
 
       })
 
-      // elementKeyPrefix = deleteLast(elementKeyPrefix);
       return TreeComponents
     }
     return (
