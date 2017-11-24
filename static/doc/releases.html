@@ -103,6 +103,10 @@
                             <ul class="nav docs-sidenav">
                                   
                                     <li >
+                                        <a href="#v1.2.7">v1.2.7</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#v1.2.6">v1.2.6</a>
                                     </li>
                                      
@@ -146,7 +150,11 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h3 class="subject" id="v1.2.6">v1.2.6 <a class="hashlink" href="#v1.2.6">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+                         <h3 class="subject" id="v1.2.7">v1.2.7 <a class="hashlink" href="#v1.2.7">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
+<li>修复接口运行功能，当 httpCode 不是200时，导致无法获取 response body 问题</li><li>修复路径参数无法删除优化测试集 table 页面，当文字超出一定长度会换行的问题</li><li>优化测试集断言错误提示</li><li>优化接口编辑 save 按钮样式</li></ol>
+<h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
+<li>测试集断言增加 log 方法，用于输出调试日志</li><li>可视化动态参数表达式生成器，生成类似表达式 {@email | concat: pass | md5 | substr: 1,10} </li></ol>
+<h3 class="subject" id="v1.2.6">v1.2.6 <a class="hashlink" href="#v1.2.6">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
 <li>修复路径参数无法删除</li></ol>
 <h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
 <li>参数值支持多个动态参数，类似 str{@email}str{$.55.body.id}</li><li>参数值支持管道表达式,例如 {@email | concat: pass | md5 | substr: 1,10}</li><li>接口编辑参数<strong>可拖动排序</strong></li><li>修复路径参数无法删除问题</li></ol>
