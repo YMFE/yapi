@@ -76,7 +76,6 @@ module.exports = async (ctx, next) => {
         return ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空');
     }
 
-    yapi.commons.log('MockServer Running...');
     let projectInst = yapi.getInst(projectModel), project;
     try {
         project = await projectInst.get(projectId);
