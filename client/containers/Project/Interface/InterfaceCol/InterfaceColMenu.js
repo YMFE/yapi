@@ -136,7 +136,6 @@ export default class InterfaceColMenu extends Component {
   }
 
   onSelect = (keys) => {
-
     if (keys.length) {
       const type = keys[0].split('_')[0];
       const id = keys[0].split('_')[1];
@@ -160,6 +159,7 @@ export default class InterfaceColMenu extends Component {
   }
   showDelColConfirm = (colId) => {
     let that = this;
+    const params = this.props.match.params;
     confirm({
       title: '您确认删除此测试集合',
       content: '温馨提示：该操作会删除该集合下所有测试用例，用例删除后无法恢复',
@@ -167,11 +167,21 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_col?col_id=' + colId)
         if (!res.data.errcode) {
           message.success('删除集合成功');
-          await that.props.fetchInterfaceColList(that.props.match.params.id);
+          const result = await that.props.fetchInterfaceColList(that.props.match.params.id);
+          const nextColId = result.payload.data.data[0]._id;
+
+          that.props.history.push('/project/' + params.id + '/interface/col/' + nextColId);
         } else {
           message.error(res.data.errmsg);
         }
       }
+    });
+  }
+
+  showNoDelColConfirm = () => {
+    confirm({
+      title: '此测试集合为最后一个集合',
+      content: '温馨提示：建议不要删除'
     });
   }
   showDelCaseConfirm = (caseId) => {
@@ -184,12 +194,12 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId)
         if (!res.data.errcode) {
           message.success('删除用例成功');
-
           // 如果删除当前选中 case，切换路由到集合
           if (+caseId === +that.props.currCaseId) {
             that.props.history.push('/project/' + params.id + '/interface/col/')
           } else {
             that.props.fetchInterfaceColList(that.props.match.params.id);
+            that.props.setColData({ currColId: +that.props.currColId, isRander: true })
           }
         } else {
           message.error(res.data.errmsg);
@@ -232,9 +242,7 @@ export default class InterfaceColMenu extends Component {
       this.setState({ importInterVisible: false })
       message.success('导入集合成功');
       await this.props.fetchInterfaceColList(project_id);
-      // if (this.props.isShowCol) {
-      //   await this.props.fetchCaseList(this.props.currColId);
-      // }
+      this.props.setColData({ currColId: +this.props.currColId, isRander: true })
     } else {
       message.error(res.data.errmsg);
     }
@@ -319,6 +327,19 @@ export default class InterfaceColMenu extends Component {
     //   });
     //   this.props.interfaceColList.caseList = caseList;
     // }
+    const list = this.props.interfaceColList.filter(col => {
+      if (col.name.indexOf(filterValue) !== -1) {
+        isFilterCat = true;
+        return true;
+      }
+      isFilterCat = false;
+
+      let caseList = col.caseList.filter(item => {
+        return item.casename.indexOf(filterValue) !== -1
+      })
+     
+      return caseList.length > 0;
+    });
     return (
       <div>
         <div className="interface-filter">
@@ -334,21 +355,10 @@ export default class InterfaceColMenu extends Component {
           onSelect={this.onSelect}
           autoExpandParent
           onExpand={this.onExpand}
-          ondragstart = {()=>{return false}}
+          ondragstart={() => { return false }}
         >
           {
-            this.props.interfaceColList.filter(col => {
-              if (col.name.indexOf(filterValue) !== -1) {
-                isFilterCat = true;
-                return true;
-              }
-              isFilterCat = false;
-
-              let caseList = col.caseList.filter(item => {
-                return item.casename.indexOf(filterValue) !== -1
-              })
-              return caseList.length > 0;
-            }).map((col) => (
+            list.map((col) => (
               <TreeNode
                 key={'col_' + col._id}
                 title={
@@ -356,7 +366,7 @@ export default class InterfaceColMenu extends Component {
                     <span><Icon type="folder-open" style={{ marginRight: 5 }} /><span>{col.name}</span></span>
                     <div className="btns">
                       <Tooltip title="删除集合">
-                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelColConfirm(col._id) }} />
+                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); list.length > 1 ? this.showDelColConfirm(col._id) : this.showNoDelColConfirm() }} />
                       </Tooltip>
                       <Tooltip title="编辑集合">
                         <Icon type='edit' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showColModal('edit', col) }} />

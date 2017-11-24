@@ -124,7 +124,7 @@ class interfaceModel extends baseModel {
     }
 
     list(project_id, select) {
-        select = select || '_id title uid path method project_id catid edit_uid status desc add_time up_time'
+        select = select || '_id title uid path method project_id catid edit_uid status add_time up_time'
         return this.model.find({
             project_id: project_id
         })

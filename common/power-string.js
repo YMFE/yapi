@@ -17,6 +17,10 @@ const stringHandles = {
         return  md5(str);
     },
 
+    sha: function(str, arg){
+      return sha(arg).update(str).digest('hex');
+    },
+
     /**
      * type: sha1 sha224 sha256 sha384 sha512
      */
@@ -148,7 +152,7 @@ function handleSegment(str, index){
     let method, args = [];
     if(str.indexOf(methodAndArgsSeparateChar) > 0){
         str = str.split(methodAndArgsSeparateChar);
-        method = str[0];
+        method = str[0].trim();
         args = str[1].split(argsSeparateChar).map(item=> _handleValue(item.trim()));
     }else{
         method = str;

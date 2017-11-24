@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
@@ -79,12 +79,12 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "2.0.0",
-    "fast-sass-loader-china": "^1.2.5",
+    "fast-sass-loader-china": "1.2.5",
     "ghooks": "^2.0.0",
     "happypack": "^4.0.0-beta.5",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
-    "node-sass-china": "^4.5.0",
+    "node-sass-china": "4.5.0",
     "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",
     "rc-queue-anim": "^1.2.0",

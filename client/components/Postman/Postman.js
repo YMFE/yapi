@@ -4,14 +4,14 @@ import Mock from 'mockjs'
 import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
-
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
 import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import {  isJson, handleJson, handleParamsValue } from '../../common.js'
+import { isJson, handleJson, handleParamsValue } from '../../common.js'
 import _ from "underscore"
+import ModalPostman from '../ModalPostman/index.js'
 
 function json_parse(data) {
   try {
@@ -32,17 +32,6 @@ function isJsonData(headers) {
   return isResJson;
 }
 
-// const wordList = constants.MOCK_SOURCE;
-
-// const mockDataSource = wordList.map(item => {
-//   return <AutoComplete.Option key={item.mock} value={item.mock}>
-//     {item.mock}&nbsp; &nbsp;随机{item.name}
-//   </AutoComplete.Option>
-// });
-
-
-
-const { TextArea } = Input;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
@@ -76,7 +65,11 @@ export default class Run extends Component {
     test_status: null,
     resMockTest: true,
     resStatusCode: null,
-    resStatusText: ''
+    resStatusText: '',
+    modalVisible: false,
+    inputIndex: 0,
+    inputValue: '',
+    modalType: ''
   }
 
   constructor(props) {
@@ -115,13 +108,14 @@ export default class Run extends Component {
   }
 
   componentDidMount() {
+    // console.log('router',this.props);
     const { bodyType } = this.state;
     if (bodyType && bodyType !== 'file' && bodyType !== 'form') {
       this.loadBodyEditor()
     }
   }
 
-  handleValue (val)  {
+  handleValue(val) {
     return handleParamsValue(val, {});
   }
 
@@ -195,6 +189,63 @@ export default class Run extends Component {
 
   }
 
+  handleResponse = (res, header, third)=> {
+    res = third.res.body || third.res.statusText;
+    try {
+      this.setState({
+        loading: false,
+        resStatusCode: third.res.status,
+        resStatusText: third.res.statusText
+      })
+      res = json_parse(res);
+      let test_status = 'error';
+      let validRes = [];
+      if (isNaN(third.res.status)) {
+        res = res || '请求异常';
+        message.error(res);
+        test_status = 'error';
+
+
+      } else {
+        const { res_body, res_body_type } = this.props.data;
+        let query = {};
+        this.state.query.forEach(item => {
+          query[item.name] = item.value;
+        })
+        let body = {};
+        if (this.state.bodyType === 'form') {
+          this.state.bodyForm.forEach(item => {
+            body[item.name] = item.value;
+          })
+        } else if (this.state.bodyType === 'json') {
+          body = json_parse(this.state.bodyOther);
+        }
+        if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
+          let tpl = MockExtra(json_parse(res_body), {
+            query: query,
+            body: body
+          })
+          validRes = Mock.valid(tpl, res)
+        }
+
+
+        if (Array.isArray(validRes) && validRes.length > 0) {
+          message.warn('请求完成, 返回数据跟接口定义不匹配');
+          validRes = validRes.map(item => {
+            return item.message
+          })
+          test_status = 'invalid';
+        } else if (Array.isArray(validRes) && validRes.length === 0) {
+          message.success('请求完成');
+          test_status = 'ok'
+        }
+      }
+      this.setState({ res, resHeader: header, validRes, test_status }, this.bindAceEditor)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   @autobind
   reqRealInterface() {
     if (this.state.loading) {
@@ -202,18 +253,18 @@ export default class Run extends Component {
       return;
     }
     const { headers, bodyForm, pathParam, bodyOther, caseEnv, domains, method, pathname, query, bodyType } = this.state;
-    
+
     let path = pathname;
-    
+
     pathParam.forEach(item => {
       path = path.replace(`:${item.name}`, this.handleValue(item.value) || `:${item.name}`);
     });
-    
+
     const urlObj = URL.parse(URL.resolve(_.find(domains, item => item.name === caseEnv).domain, '.' + path));
 
     let pathQuery = {};
-    urlObj.query && urlObj.query.split('&').forEach(item=>{
-      if(item){
+    urlObj.query && urlObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -226,23 +277,20 @@ export default class Run extends Component {
       query: Object.assign(pathQuery, this.getQueryObj(query))
     });
     let reqBody;
-    if(bodyType === 'form'){
+    if (bodyType === 'form') {
       reqBody = this.arrToObj(bodyForm)
-    }else{
+    } else if(bodyType === 'json'){      
       reqBody = isJson(bodyOther);
-      if(reqBody === false){
-        if(bodyType === 'json' && HTTP_METHOD[method].request_body){
-          return message.error('请求 Body 的 json 格式有误')
-        }        
-        reqBody = bodyOther;
-      }else{
+      if (reqBody === false) {
+        return message.error('请求 Body 的 json 格式有误')
+      } else {
         reqBody = handleJson(reqBody, this.handleValue)
       }
-
+    }else{
+      reqBody = bodyOther;
     }
 
     this.setState({ loading: true })
-    let that = this;
     window.crossRequest({
       url: href,
       method,
@@ -250,72 +298,9 @@ export default class Run extends Component {
       data: reqBody,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
-      timeout: 8240000, //因浏览器限制，超时时间最多为两分钟
-      success: (res, header, third) => {
-        // console.log('suc', third);
-        this.setState({
-          resStatusCode: third.res.status,
-          resStatusText: third.res.statusText
-        })
-        try {
-          if (isJsonData(header)) {
-            res = json_parse(res);
-          }
-
-          const { res_body, res_body_type } = that.props.data;
-          let validRes = [];
-          let query = {};
-          that.state.query.forEach(item => {
-            query[item.name] = item.value;
-          })
-          let body = {};
-          if (that.state.bodyType === 'form') {
-            that.state.bodyForm.forEach(item => {
-              body[item.name] = item.value;
-            })
-          } else if (that.state.bodyType === 'json') {
-            body = json_parse(that.state.bodyOther);
-          }
-          if (res_body && res_body_type === 'json' && typeof res === 'object' && this.state.resMockTest === true) {
-            let tpl = MockExtra(json_parse(res_body), {
-              query: query,
-              body: body
-            })
-            validRes = Mock.valid(tpl, res)
-          }
-
-
-          if (Array.isArray(validRes) && validRes.length > 0) {
-            message.warn('请求完成, 返回数据跟接口定义不匹配');
-            validRes = validRes.map(item => {
-              return item.message
-            })
-            that.setState({ res, resHeader: header, validRes, test_status: 'invalid' })
-          } else if (Array.isArray(validRes) && validRes.length === 0) {
-            message.success('请求完成');
-            that.setState({ res, resHeader: header, validRes: ['验证通过'], test_status: 'ok' })
-          }
-          that.setState({ loading: false })
-          that.bindAceEditor()
-        } catch (e) {
-          console.error(e.message)
-        }
-      },
-      error: (err, header, third) => {
-        this.setState({
-          resStatusCode: third.res.status,
-          resStatusText: third.res.statusText
-        })
-        try {
-          err = json_parse(err);
-        } catch (e) {
-          console.log(e)
-        }
-        message.error(err || '请求异常')
-        that.setState({ res: err || '请求失败', resHeader: header, validRes: [], test_status: 'error' })
-        that.setState({ loading: false })
-        that.bindAceEditor()
-      }
+      timeout: 8240000,
+      success: this.handleResponse,
+      error: this.handleResponse
     })
   }
 
@@ -331,7 +316,7 @@ export default class Run extends Component {
 
   @autobind
   changeHeader(v, index, isName) {
-    v = v.target.value
+    // v = v.target.value
     const headers = json_parse(JSON.stringify(this.state.headers));
     if (isName) {
       headers[index].name = v;
@@ -359,8 +344,9 @@ export default class Run extends Component {
 
   @autobind
   changeQuery(v, index, key) {
-    v = v.target.value
+    console.log(v);
     key = key || 'value';
+    // v = v.target.value;
     const query = json_parse(JSON.stringify(this.state.query));
     if (key == 'enable') {
       query[index].enable = v;
@@ -383,7 +369,7 @@ export default class Run extends Component {
 
   @autobind
   changePathParam(v, index, isKey) {
-    v = v.target.value;
+    // v = v.target.value;
     const pathParam = JSON.parse(JSON.stringify(this.state.pathParam));
     const name = pathParam[index].name;
     let newPathname = this.state.pathname;
@@ -415,7 +401,6 @@ export default class Run extends Component {
 
   @autobind
   changeBody(v, index, key) {
-    v = v.target.value
     const bodyForm = json_parse(JSON.stringify(this.state.bodyForm));
     key = key || 'value';
     if (key === 'value') {
@@ -552,11 +537,6 @@ export default class Run extends Component {
     }, 0);
   }
 
-  // @autobind
-  // fileChange(e, index) {
-  //   console.log(e)
-  //   console.log(index)
-  // }
 
   @autobind
   onTestSwitched(checked) {
@@ -565,9 +545,42 @@ export default class Run extends Component {
     });
   }
 
+  // 模态框的相关操作
+  showModal = (val, index, type) => {
+    this.setState({
+      modalVisible: true,
+      inputIndex: index,
+      inputValue: val,
+      modalType: type
+
+    });
+  }
+  handleOk = (val) => {
+    const { inputIndex, modalType } = this.state
+    switch (modalType) {
+      case 'query':
+        this.changeQuery(val, inputIndex);
+        break;
+      case 'body':
+        this.changeBody(val, inputIndex);
+        break;
+      case 'header':
+        this.changeHeader(val, inputIndex);
+        break;
+      case 'pathParam':
+        this.changePathParam(val, inputIndex);
+        break;
+      default:
+        break;
+    }
+    this.setState({ modalVisible: false });
+  }
+  handleCancel = () => {
+    this.setState({ modalVisible: false });
+  }
 
   render() {
-    const { method, domains, pathParam, pathname, query, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
+    const { method, domains, pathParam, pathname, query, inputValue, headers, bodyForm, caseEnv, bodyType, resHeader, loading, validRes } = this.state;
     HTTP_METHOD[method] = HTTP_METHOD[method] || {}
     const hasPlugin = this.state.hasPlugin;
     let isResJson = isJsonData(resHeader);
@@ -579,8 +592,8 @@ export default class Run extends Component {
     const pathObj = URL.parse(path);
     path = pathObj.pathname;
     let pathQuery = {};
-    pathObj.query && pathObj.query.split('&').forEach(item=>{
-      if(item){
+    pathObj.query && pathObj.query.split('&').forEach(item => {
+      if (item) {
         item = item.split('=');
         pathQuery[item[0]] = item[1];
       }
@@ -592,11 +605,16 @@ export default class Run extends Component {
       return <div key={index}>{item}</div>
     })
 
-
-
-
     return (
       <div className="interface-test postman">
+        <ModalPostman
+          visible={this.state.modalVisible}
+          handleCancel={this.handleCancel}
+          handleOk={this.handleOk}
+          inputValue={inputValue}
+          envType={this.props.type}
+        >
+        </ModalPostman>
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -678,17 +696,15 @@ export default class Run extends Component {
               pathParam.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name} onChange={e => this.changePathParam(e, index, true)} className="key" />
+                    <Input disabled value={item.name} onChange={e => this.changePathParam(e.target.value, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-
-                    <TextArea
+                    <Input
                       value={item.value}
-                      onChange={e => this.changePathParam(e, index)}
                       className="value"
+                      onChange={e => this.changePathParam(e.target.value, index)}
                       placeholder="参数值"
-                      autosize={true}
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'pathParam')} />}
                     />
-
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deletePathParam(index)} />
                   </div>
                 )
@@ -701,21 +717,21 @@ export default class Run extends Component {
               query.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name}  className="key" />
+                    <Input disabled value={item.name} className="key" />
                     &nbsp;
                     {item.required == 1 ?
                       <Checkbox checked={true} disabled >enable</Checkbox> :
                       <Checkbox checked={item.enable} onChange={e => this.changeQuery(e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
-
-                    <TextArea
+                    <Input
                       value={item.value}
-                      onChange={e => this.changeQuery(e, index)}
                       className="value"
+                      onChange={e => this.changeQuery(e.target.value, index)}
                       placeholder="参数值"
-                      autosize={true}
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'query')} />}
                     />
+
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteQuery(index)} />
                   </div>
                 )
@@ -728,14 +744,14 @@ export default class Run extends Component {
               headers.map((item, index) => {
                 return (
                   <div key={index} className="key-value-wrap">
-                    <Input disabled value={item.name} onChange={e => this.changeHeader(e, index, true)} className="key" />
+                    <Input disabled value={item.name} onChange={e => this.changeHeader(e.target.value, index, true)} className="key" />
                     <span className="eq-symbol">=</span>
-                    <TextArea
-                      autosize={true}
+                    <Input
                       value={item.value}
-                      onChange={e => this.changeHeader(e, index)}
                       className="value"
+                      onChange={e => this.changeHeader(e.target.value, index)}
                       placeholder="参数值"
+                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'header')} />}
                     />
                     <Icon style={{ display: 'none' }} type="delete" className="icon-btn" onClick={() => this.deleteHeader(index)} />
                   </div>
@@ -765,7 +781,7 @@ export default class Run extends Component {
                   bodyForm.map((item, index) => {
                     return (
                       <div key={index} className="key-value-wrap">
-                        <Input disabled value={item.name} onChange={e => this.changeBody(e, index, 'key')} className="key" />
+                        <Input disabled value={item.name} onChange={e => this.changeBody(e.target.value, index, 'key')} className="key" />
                         &nbsp;
                         {item.required == 1 ?
                           <Checkbox checked={true} disabled >enable</Checkbox> :
@@ -775,13 +791,13 @@ export default class Run extends Component {
 
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
-                          <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e, index, 'value')} multiple className="value" /> :
-                          <TextArea
+                          <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e.target.value, index, 'value')} multiple className="value" /> :
+                          <Input
                             value={item.value}
-                            onChange={e => this.changeBody(e, index, 'value')}
                             className="value"
+                            onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
-                            autosize={true}
+                            addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'body')} />}
                           />
 
                         }

@@ -114,7 +114,6 @@ class interfaceColController extends baseController {
      * @returns {Object}
      * @example
      */
-
     async getCaseList(ctx) {
         try {
             let id = ctx.query.col_id;
@@ -161,6 +160,77 @@ class interfaceColController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
+
+    requestParamsToObj(arr){
+      if(!arr || !Array.isArray(arr) || arr.length === 0){
+        return {}
+      }
+      let obj = {};
+      arr.forEach(item=>{
+        obj[item.name] = ''
+      })
+      return obj;
+    }
+
+    /**
+     * 获取一个接口集下的所有的接口用例
+     * @interface /col/case_list_by_var_params
+     * @method GET
+     * @category col
+     * @foldnumber 10
+     * @param {String} col_id 接口集id
+     * @returns {Object}
+     * @example
+     */
+
+    async getCaseListByVariableParams(ctx) {
+      try {
+          let id = ctx.query.col_id;
+          if (!id || id == 0) {
+              return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
+          }
+          let resultList = await this.caseModel.list(id, 'all');
+          if(resultList.length === 0 ){
+            return ctx.body = yapi.commons.resReturn([])
+          }
+          let project = await this.projectModel.getBaseInfo(resultList[0].project_id);
+
+          if (project.project_type === 'private') {
+              if (await this.checkAuth(project._id, 'project', 'view') !== true) {
+                  return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+              }
+          }
+
+          for (let index = 0; index < resultList.length; index++) {
+              let result = resultList[index].toObject();
+              let item = {}, body, query, bodyParams, pathParams;
+              let data = await this.interfaceModel.get(result.interface_id);
+              if (!data) {
+                  await this.caseModel.del(result._id);
+                  continue;
+              }
+              item._id = result._id;
+              item.casename = result.casename;
+              body = yapi.commons.json_parse(data.res_body);
+              body = typeof body === 'object' ? body : {};
+              item.body = Object.assign({}, body);
+              query = this.requestParamsToObj(data.req_query);
+              pathParams = this.requestParamsToObj(data.req_params);
+              if(data.req_body_type === 'form'){
+                bodyParams = this.requestParamsToObj(data.req_body_form);
+              }else{
+                bodyParams = yapi.commons.json_parse(data.req_body_other);
+                bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
+              }
+              item.params = Object.assign(pathParams, query, bodyParams)
+              resultList[index] = item;
+          }
+
+          ctx.body = yapi.commons.resReturn(resultList);          
+      } catch (e) {
+          ctx.body = yapi.commons.resReturn(null, 402, e.message);
+      }
+  }
 
     /**
      * 增加一个接口用例
@@ -594,6 +664,17 @@ class interfaceColController extends baseController {
         }
     }
 
+    convertString(variable){
+        if(variable instanceof Error){
+            return variable.name + ': ' +variable.message;
+        }
+        try{
+            return JSON.stringify(variable, null, '   ');
+        }catch(err){
+            return variable || '';
+        }
+    }
+
     async runCaseScript(ctx) {
         let params = ctx.request.body;
         let script = params.script;
@@ -601,20 +682,28 @@ class interfaceColController extends baseController {
             return ctx.body = yapi.commons.resReturn('ok');
         }
 
+        let logs = [];
+
+        let result = {
+            assert: require('assert'),
+            status: params.response.status,
+            body: params.response.body,
+            header: params.response.header,
+            records: params.records,
+            params: params.params,
+            log: (msg) =>{
+                logs.push('log: ' + this.convertString(msg))
+            }
+        }
+
         try {
-            let result = yapi.commons.sandbox({
-                assert: require('assert'),
-                status: params.response.status,
-                body: params.response.body,
-                header: params.response.header,
-                records: params.records,
-                params: params.params,
-                log: []
-            }, script);
+            result = yapi.commons.sandbox(result, script);
+            result.logs = logs;
             return ctx.body = yapi.commons.resReturn(result);
         } catch (err) {
-            let errArr = err.stack.split("\n");
-            return ctx.body = yapi.commons.resReturn(errArr, 400, err.message)
+            logs.push(this.convertString(err));
+            result.logs = logs;
+            return ctx.body = yapi.commons.resReturn(result, 400, err.name + ": " + err.message)
         }
 
     }

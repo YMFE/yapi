@@ -129,6 +129,12 @@
                                 <!-- <li  > -->
                                 <li >
                                     
+                                    <a href="#服务器管理">服务器管理</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
                                     <a href="#升级">升级</a> 
                                 </li>
                                   
@@ -164,7 +170,10 @@ cd vendors
 npm install --production --registry https<span class="token operator">:</span>//registry.npm.taobao.org
 npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
 node server/app.js //启动服务器后，请访问 <span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
-</code></pre><h2 class="subject" id="升级">升级 <a class="hashlink" href="#升级">#</a></h2><p>升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。</p>
+</code></pre><h2 class="subject" id="服务器管理">服务器管理 <a class="hashlink" href="#服务器管理">#</a></h2><p>推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：</p>
+<ul>
+<li><a href="http://pm2.keymetrics.io/docs/usage/quick-start/">官网文档</a></li><li><a href="http://imweb.io/topic/57c8cbb27f226f687b365636">PM2实用入门指南</a> </li></ul>
+<h2 class="subject" id="升级">升级 <a class="hashlink" href="#升级">#</a></h2><p>升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。</p>
 <pre><code>cd  <span class="token punctuation">{</span>项目目录<span class="token punctuation">}</span>
 yapi ls //查看版本号列表
 yapi update //升级到最新版本

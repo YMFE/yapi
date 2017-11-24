@@ -248,12 +248,14 @@ class InterfaceColContent extends Component {
       }
 
     }
+
     try {
       let data = await this.crossRequest({
         url: href,
         method: interfaceData.method,
         headers: that.getHeadersObj(interfaceData.req_headers),
-        data: result.body
+        data: result.body,
+        timeout: 8240000
       })
       let res = data.res.body = json_parse(data.res.body);
       let header = data.res.header;
@@ -307,14 +309,15 @@ class InterfaceColContent extends Component {
 
   crossRequest = (options) => {
     return new Promise((resolve, reject) => {
-      options.success = function (res, header, data) {
+      options.error = options.success = function (res, header, data) {
+        
+        if(isNaN(data.res.status)){
+          reject({
+            err: res,
+            header
+          })
+        }
         resolve(data);
-      }
-      options.error = function (err, header) {
-        reject({
-          err,
-          header
-        })
       }
       window.crossRequest(options);
     })
@@ -333,20 +336,21 @@ class InterfaceColContent extends Component {
         params: requestParams
       })
       if (test.data.errcode !== 0) {
-        validRes.push({
-          message: test.data.data[0]
+        test.data.data.logs.forEach(item=>{
+          validRes.push({
+            message: item
+          })
         })
       }
     } catch (err) {
-      console.log(err);
       validRes.push({
-        message: err.message
+        message: 'Error: ' + err.message
       })
     }
   }
 
   handleValue = (val) => {
-    return handleParamsValue(val, this.recoreds);
+    return handleParamsValue(val, this.records);
   }
 
   
@@ -409,7 +413,9 @@ class InterfaceColContent extends Component {
         index: index
       })
     })
-    axios.post('/api/col/up_col_index', changes).then()
+    axios.post('/api/col/up_col_index', changes).then(()=>{
+      this.props.fetchInterfaceColList(this.props.match.params.id)
+    })
     if (rows) {
       this.setState({ rows });
     }
@@ -417,7 +423,8 @@ class InterfaceColContent extends Component {
 
   async componentWillReceiveProps(nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
-    if (newColId && this.currColId && newColId !== this.currColId || this.props.isRander) {
+    
+    if (newColId && this.currColId && newColId !== this.currColId || nextProps.isRander) {
       this.currColId = newColId;
       await this.props.fetchCaseList(newColId);
       this.props.setColData({ currColId: +newColId, isShowCol: true, isRander: false })
@@ -518,7 +525,7 @@ class InterfaceColContent extends Component {
         formatters: [
           (text, { rowData }) => {
             let record = rowData;
-            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename}</Link>
+            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename.length > 23 ?record.casename.substr(0, 20) + '...' : record.casename}</Link>
           }
         ]
       }
@@ -582,7 +589,7 @@ class InterfaceColContent extends Component {
             let record = rowData;
             return (
               <Tooltip title="跳转到对应接口">
-                <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{record.path}</Link>
+                <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>{record.path.length > 23 ? record.path + '...' : record.path}</Link>
               </Tooltip>
             )
           }
@@ -687,6 +694,7 @@ class InterfaceColContent extends Component {
           visible={this.state.advVisible}
           onCancel={this.handleAdvCancel}
           onOk={this.handleAdvOk}
+          maskClosable={false}
         >
           <h3>
             是否开启:&nbsp;
