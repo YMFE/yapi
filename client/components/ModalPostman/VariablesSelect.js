@@ -6,6 +6,10 @@ import { fetchVariableParamsList } from '../../reducer/modules/interfaceCol.js'
 const TreeNode = Tree.TreeNode;
 const CanSelectPathPrefix = 'CanSelectPath-';
 
+function deleteLast(str) {
+  return str.split('.').slice(0, -1).join('.');
+
+}
 
 @connect(
   state => {
@@ -35,7 +39,10 @@ class VariablesSelect extends Component {
     let result = await fetchVariableParamsList(currColId);
     this.setState({
       records: result.payload.data.data
+      // records:record
     })
+    // console.log(deleteLast('$.www.rertttty.ffghhh.dddd.wwwww'));
+
 
   }
 
@@ -59,7 +66,7 @@ class VariablesSelect extends Component {
   render() {
     const pathSelctByTree = (data, elementKeyPrefix = '$', deepLevel = 0) => {
       let keys = Object.keys(data);
-      let TreeComponents = keys.map((key) => {
+      let TreeComponents = keys.map((key, index) => {
         let item = data[key], casename;
         if (deepLevel === 0) {
           elementKeyPrefix = '$'
@@ -70,17 +77,24 @@ class VariablesSelect extends Component {
             body: item.body
           }
         } else if (Array.isArray(data)) {
-          elementKeyPrefix = elementKeyPrefix + '[' + key + ']';
-        } else {
-          elementKeyPrefix = elementKeyPrefix + '.' + key
-        }
+          elementKeyPrefix = index === 0 ?
+            elementKeyPrefix + '[' + key + ']' : deleteLast(elementKeyPrefix) + '[' + key + ']';
 
+        } else {
+          elementKeyPrefix = index === 0 ?
+            elementKeyPrefix + '.' + key : deleteLast(elementKeyPrefix) + '.' + key;
+
+        }
+        // console.log('elementKeyPrefix',elementKeyPrefix);
         if (item && typeof item === 'object') {
           return <TreeNode key={elementKeyPrefix} title={casename || key}>{pathSelctByTree(item, elementKeyPrefix, deepLevel + 1)}</TreeNode>;
         }
+        // elementKeyPrefix = 
         return <TreeNode key={CanSelectPathPrefix + elementKeyPrefix} title={key} />;
+
       })
 
+      // elementKeyPrefix = deleteLast(elementKeyPrefix);
       return TreeComponents
     }
     return (
