@@ -298,7 +298,7 @@ export default class Run extends Component {
       data: reqBody,
       files: bodyType === 'form' ? this.getFiles(bodyForm) : {},
       file: bodyType === 'file' ? 'single-file' : null,
-      timeout: 8240000, //因浏览器限制，超时时间最多为两分钟
+      timeout: 8240000,
       success: this.handleResponse,
       error: this.handleResponse
     })
