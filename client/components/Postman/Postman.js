@@ -547,7 +547,6 @@ export default class Run extends Component {
 
   // 模态框的相关操作
   showModal = (val, index, type) => {
-    // console.log('val',val);
     this.setState({
       modalVisible: true,
       inputIndex: index,
@@ -557,9 +556,6 @@ export default class Run extends Component {
     });
   }
   handleOk = (val) => {
-    console.log('val', val);
-    // console.log('inputIndex',this.state.inputIndex);
-    // console.log('modalValue',this.state.modalType);
     const { inputIndex, modalType } = this.state
     switch (modalType) {
       case 'query':

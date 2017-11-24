@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 使用手册</title>
-    
-        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
-    
-    
-        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
-    
-
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -18,10 +17,6 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -231,6 +226,8 @@ Your browser does not support the video tag.
 <p>返回 response header</p>
 </li><li><p>records </p>
 <p>记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  </p>
+</li><li><p>log </p>
+<p>log（message） 函数,调试时使用，只有在断言失败后会在测试报告打印 log 信息 </p>
 </li></ul>
 <h3 class="subject" id="示例">示例 <a class="hashlink" href="#示例">#</a></h3><pre><code>assert.equal(body.errcode<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
 assert.equal(body.data.group_name<span class="token punctuation">,</span> 'testGroup'<span class="token punctuation">)</span>
