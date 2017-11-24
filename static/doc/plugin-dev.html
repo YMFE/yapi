@@ -123,7 +123,11 @@
                                 <ul class="nav docs-sidenav-extend"  >
                                 
                                     <li >
-                                        <a href="#运行开发服务器">运行开发服务器</a>
+                                        <a href="#运行开发服务器_参考二次开发_">运行开发服务器(参考二次开发)</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#加载插件">加载插件</a>
                                     </li>
                                      
                                     <li >
@@ -162,9 +166,22 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="运行开发服务器">运行开发服务器 <a class="hashlink" href="#运行开发服务器">#</a></h2><pre><code>npm install
+                         <h2 class="subject" id="运行开发服务器_参考二次开发_">运行开发服务器(参考二次开发) <a class="hashlink" href="#运行开发服务器_参考二次开发_">#</a></h2><pre><code>npm install
 npm install -g ykit //依赖 ykit 
 npm run dev //启动开发服务器
+</code></pre><h2 class="subject" id="加载插件">加载插件 <a class="hashlink" href="#加载插件">#</a></h2><p>在config.json plugins配置项，加入 demo 插件,</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"3000"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"servername"</span><span class="token operator">:</span> <span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"DATABASE"</span><span class="token operator">:</span> <span class="token string">"yapi"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  ...
+  <span class="token property">"plugins"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"demo"</span>，
+    <span class="token property">"options"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
 </code></pre><h2 class="subject" id="初始化目录">初始化目录 <a class="hashlink" href="#初始化目录">#</a></h2><p>可参考 项目vendors/exts 目录下的插件</p>
 <p>在 vendors/node_modules 下新建 yapi-plugin-demo 目录和 npm init,最后生成的目录接口如下</p>
 <pre><code>yapi-plugin-demo
@@ -181,14 +198,7 @@ hookname //钩子名
 listener //监听函数，可以是普通函数，也可以是 asyncFunction
 </code></pre><h3 class="subject" id="如何使用_YApi_vendors_server_目录下的模块">如何使用 YApi vendors/server 目录下的模块 <a class="hashlink" href="#如何使用_YApi_vendors_server_目录下的模块">#</a></h3><p>可以直接 require vendors 目录下的模块，注意：后端 node 不能使用 import关键字，只能使用 require
 例如： require(&#39;yapi&#39;)</p>
-<h3 class="subject" id="加载插件">加载插件 <a class="hashlink" href="#加载插件">#</a></h3><p>在config.json plugins配置项，加入 demo,例如：</p>
-<pre><code><span class="token punctuation">{</span>
-  ...
-  plugins<span class="token operator">:</span> <span class="token punctuation">{</span>
-    name<span class="token operator">:</span> 'demo'
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre><h3 class="subject" id="controller_和_model">controller 和 model <a class="hashlink" href="#controller_和_model">#</a></h3><p>新增 controller 需要继承 baseController(controller/base.js)</p>
+<h3 class="subject" id="controller_和_model">controller 和 model <a class="hashlink" href="#controller_和_model">#</a></h3><p>新增 controller 需要继承 baseController(controller/base.js)</p>
 <p>新增 model 需要继承 baseModel(model/base.js)</p>
 <h2 class="subject" id="client.js">client.js <a class="hashlink" href="#client.js">#</a></h2><h3 class="subject" id="绑定钩子_同后端_server.js__">绑定钩子(同后端 server.js ) <a class="hashlink" href="#绑定钩子_同后端_server.js__">#</a></h3><pre><code>this.bindHook(hookname<span class="token punctuation">,</span> listener<span class="token punctuation">)</span> //绑定钩子
 hookname //钩子名

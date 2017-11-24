@@ -1,9 +1,27 @@
-## 运行开发服务器
+## 运行开发服务器(参考二次开发)
 ```
 npm install
 npm install -g ykit //依赖 ykit 
 npm run dev //启动开发服务器
 ```
+
+## 加载插件
+在config.json plugins配置项，加入 demo 插件,
+```
+{
+  "port": "3000",
+  "db": {
+    "servername": "127.0.0.1",
+    "DATABASE": "yapi"
+  },
+  ...
+  "plugins": [{
+    "name": "demo"，
+    "options": {}
+  }]
+}
+```
+
 ## 初始化目录
 
 可参考 项目vendors/exts 目录下的插件
@@ -38,16 +56,7 @@ listener //监听函数，可以是普通函数，也可以是 asyncFunction
 可以直接 require vendors 目录下的模块，注意：后端 node 不能使用 import关键字，只能使用 require
 例如： require('yapi')
 
-### 加载插件
-在config.json plugins配置项，加入 demo,例如：
-```
-{
-  ...
-  plugins: {
-    name: 'demo'
-  }
-}
-```
+
 
 ### controller 和 model
 新增 controller 需要继承 baseController(controller/base.js)
