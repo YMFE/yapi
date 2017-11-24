@@ -55,6 +55,9 @@
       left: 14px;
       font-size: 1.17em;
     }
+    .ant-collapse-content > .ant-collapse-content-box{
+      padding-top: 8px;
+    }
   }
 
   .title {
@@ -95,6 +98,7 @@
   .show-more{
     color: #2395f1;
     padding-left: 8px;
+    cursor:pointer;
   }
 
   .ant-row-flex {

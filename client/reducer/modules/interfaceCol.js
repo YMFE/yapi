@@ -76,6 +76,7 @@ export function fetchInterfaceColList (projectId) {
   }
 }
 
+
 export function fetchCaseData(caseId){
   return {
     type: FETCH_CASE_DATA,

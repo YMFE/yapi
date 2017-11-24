@@ -59,7 +59,6 @@ class ModalPostman extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible) {
-      console.log('input', nextProps.inputValue);
       this.setState({
         constantInput: nextProps.inputValue
       })
@@ -166,7 +165,7 @@ class ModalPostman extends Component {
         onOk={() => this.handleOk(outputParams())}
         onCancel={this.handleCancel}
         wrapClassName="modal-postman"
-        width={1000}
+        width={1024}
         maskClosable={false}
         okText="插入"
       >

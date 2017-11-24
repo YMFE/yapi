@@ -420,7 +420,8 @@ class InterfaceColContent extends Component {
 
   async componentWillReceiveProps(nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
-    if (newColId && this.currColId && newColId !== this.currColId || this.props.isRander) {
+    
+    if (newColId && this.currColId && newColId !== this.currColId || nextProps.isRander) {
       this.currColId = newColId;
       await this.props.fetchCaseList(newColId);
       this.props.setColData({ currColId: +newColId, isShowCol: true, isRander: false })

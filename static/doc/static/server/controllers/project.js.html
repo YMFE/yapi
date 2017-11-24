@@ -38,8 +38,7 @@ const commons = require('../utils/commons.js');
 const userModel = require('../models/user.js');
 const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
-const Mock = require('mockjs');
-const send = require('koa-send');
+
 
 class projectController extends baseController {
 
@@ -400,31 +399,45 @@ class projectController extends baseController {
             return ctx.body = yapi.commons.resReturn(null, 400, '项目分组id不能为空');
         }
 
+        let groupData = await this.groupModel.get(group_id);
+        let isPrivateGroup = false;
+        if(groupData.type === 'private' && this.getUid() === groupData.uid){
+            isPrivateGroup = true;
+        }
         let auth = await this.checkAuth(group_id, 'group', 'view')
         try {
             let result = await this.Model.list(group_id);
             let follow = await this.followModel.list(this.getUid());
-            for(let index=0, item, r =  1; index< result.length; index++){
-                item = result[index].toObject();
-                if(item.project_type === 'private' && auth === false){
-                    r = await this.Model.checkMemberRepeat(item._id, this.getUid());
-                    if(r === 0){
-                        continue;
+            if(isPrivateGroup === false){                
+                for(let index=0, item, r =  1; index< result.length; index++){
+                    item = result[index].toObject();
+                    if(item.project_type === 'private' && auth === false){
+                        r = await this.Model.checkMemberRepeat(item._id, this.getUid());
+                        if(r === 0){
+                            continue;
+                        }
+                    }
+                    
+                    let f = _.find(follow, (fol) => {
+                        return fol.projectid === item._id
+                    })
+                    // 排序：收藏的项目放前面
+                    if (f) {
+                        item.follow = true;
+                        project_list.unshift(item);
+                    } else {
+                        item.follow = false;
+                        project_list.push(item);
                     }
                 }
-                
-                let f = _.find(follow, (fol) => {
-                    return fol.projectid === item._id
-                })
-                // 排序：收藏的项目放前面
-                if (f) {
+            }else{                
+                follow = follow.map(item=>{
+                    item = item.toObject();
                     item.follow = true;
-                    project_list.unshift(item);
-                } else {
-                    item.follow = false;
-                    project_list.push(item);
-                }
-            };
+                    return item;
+                })
+                project_list = _.uniq(follow.concat(result), item=>item._id)
+            }          
 
             ctx.body = yapi.commons.resReturn({
                 list: project_list

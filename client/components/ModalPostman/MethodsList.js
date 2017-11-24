@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Icon, Input, Select } from 'antd';
+import { Row, Icon, Input, Select, Tooltip } from 'antd';
 
 const Option = Select.Option;
 
@@ -10,16 +10,16 @@ function deepEqual(state) {
 }
 
 const METHODS_LIST = [
-  { name: 'md5', type: false, params: [] },
-  { name: 'lower', type: false, params: [] },
-  { name: 'length', type: false, params: [] },
-  { name: 'substr', type: true, component: "doubleInput", params: [] },
-  { name: 'sha', type: true, component: "select", params: [] },
-  { name: 'base64', type: false, params: [] },
-  { name: 'unbase64', type: false, params: [] },
-  { name: 'concat', type: true, component: "input", params: [] },
-  { name: 'lconcat', type: true, component: "input", params: [] },
-  { name: 'upper', type: false }
+  { name: 'md5', type: false, params: [], desc: 'md5加密' },
+  { name: 'lower', type: false, params: [], desc: '所有字母变成小写' },
+  { name: 'length', type: false, params: [], desc: '数据长度' },
+  { name: 'substr', type: true, component: "doubleInput", params: [], desc: '截取部分字符串' },
+  { name: 'sha', type: true, component: "select", params: ['sha1'], desc: 'sha加密' },
+  { name: 'base64', type: false, params: [], desc: 'base64加密' },
+  { name: 'unbase64', type: false, params: [], desc: 'base64解密' },
+  { name: 'concat', type: true, component: "input", params: [], desc: '连接字符串' },
+  { name: 'lconcat', type: true, component: "input", params: [], desc: '左连接' },
+  { name: 'upper', type: false, desc: '所有字母变成大写' }
 ]
 
 
@@ -79,7 +79,7 @@ class MethodsList extends Component {
     const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
-    return <Select placeholder="请选择" style={{ width: 150 }} size="small" onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex, 0)}>
+    return <Select defaultValue="sha1" placeholder="请选择" style={{ width: 150 }} size="small" onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex, 0)}>
       {
         subname.map((item, index) => {
           return <Option value={item} key={index}>{item}</Option>
@@ -133,7 +133,9 @@ class MethodsList extends Component {
               align="middle"
               className={'row methods-row ' + (item.name === clickValue ? 'checked' : '')}
               onClick={() => click(item.name, showList[index].params)}>
-              <span>{item.name}</span>
+              <Tooltip title={item.desc}>
+                <span>{item.name}</span>
+              </Tooltip>
               <span className="input-component">
                 {item.type && this.handleComponent(item, clickIndex, index)}
               </span>
