@@ -288,3 +288,14 @@ exports.safeAssign = (Obj, nextObj) => {
 
 exports.simpleJsonPathParse = simpleJsonPathParse;
 exports.handleMockWord = handleMockWord;
+
+exports.joinPath = (domain, joinPath) =>{
+  let l = domain.length;
+  if(domain[l - 1] === '/'){
+    domain = domain.substr(0, l - 1)
+  }
+  if(joinPath[0] !== '/'){
+    joinPath = joinPath.substr(1);
+  }
+  return domain + joinPath;
+}

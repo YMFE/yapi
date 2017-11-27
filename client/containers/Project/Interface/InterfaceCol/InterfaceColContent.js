@@ -8,7 +8,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { isJson,  handleJson, handleParamsValue } from '../../../../common.js'
+import { isJson,  handleJson, handleParamsValue, joinPath } from '../../../../common.js'
 import mockEditor from '../InterfaceList/mockEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -196,7 +196,7 @@ class InterfaceColContent extends Component {
     const { currProject } = this.props;
     let requestParams = {};
     let { case_env } = interfaceData;
-    let path = URL.resolve(currProject.basepath, interfaceData.path);
+    let path = joinPath(currProject.basepath, interfaceData.path);
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
       let val = this.handleValue(item.value);
@@ -214,7 +214,7 @@ class InterfaceColContent extends Component {
       currDomain = domains[0];
     }
 
-    const urlObj = URL.parse(URL.resolve(currDomain.domain, '.' + path));
+    const urlObj = URL.parse(joinPath(currDomain.domain,  path));
     urlObj.query && urlObj.query.split('&').forEach(item => {
       if (item) {
         item = item.split('=');
