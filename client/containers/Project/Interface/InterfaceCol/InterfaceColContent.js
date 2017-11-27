@@ -196,7 +196,7 @@ class InterfaceColContent extends Component {
     const { currProject } = this.props;
     let requestParams = {};
     let { case_env } = interfaceData;
-    let path = joinPath(currProject.basepath, interfaceData.path);
+    let path = interfaceData.path;
     interfaceData.req_params = interfaceData.req_params || [];
     interfaceData.req_params.forEach(item => {
       let val = this.handleValue(item.value);
