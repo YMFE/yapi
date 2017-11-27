@@ -159,9 +159,12 @@
     ],
     "plugins": [
       "transform-runtime",
-      ["webpack-alias", {
-        "config": "webpack.alias.js"
-      }]
+      [
+        "webpack-alias",
+        {
+          "config": "webpack.alias.js"
+        }
+      ]
     ]
   },
   "ava": {
