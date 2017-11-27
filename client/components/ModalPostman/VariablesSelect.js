@@ -6,9 +6,13 @@ import { fetchVariableParamsList } from '../../reducer/modules/interfaceCol.js'
 const TreeNode = Tree.TreeNode;
 const CanSelectPathPrefix = 'CanSelectPath-';
 
-function deleteLast(str) {
+function deleteLastObject(str) {
   return str.split('.').slice(0, -1).join('.');
+}
 
+function deleteLastArr(str) {
+  // return str.split(/[\d]/g).slice(0, -1).join('.');
+  return str.replace(/\[.*?\]/g, '');
 }
 
 @connect(
@@ -78,11 +82,12 @@ class VariablesSelect extends Component {
           }
         } else if (Array.isArray(data)) {
           elementKeyPrefix = index === 0 ?
-            elementKeyPrefix + '[' + key + ']' : deleteLast(elementKeyPrefix) + '[' + key + ']';
+            elementKeyPrefix + '[' + key + ']' : deleteLastArr(elementKeyPrefix) + '[' + key + ']';
+          // elementKeyPrefix = elementKeyPrefix + '[' + key + ']' ;
 
         } else {
           elementKeyPrefix = index === 0 ?
-            elementKeyPrefix + '.' + key : deleteLast(elementKeyPrefix) + '.' + key;
+            elementKeyPrefix + '.' + key : deleteLastObject(elementKeyPrefix) + '.' + key;
 
         }
         if (item && typeof item === 'object') {
