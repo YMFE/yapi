@@ -788,8 +788,6 @@ export default class Run extends Component {
                           <Checkbox checked={true} disabled >enable</Checkbox> :
                           <Checkbox checked={item.enable} onChange={e => this.changeBody(e.target.checked, index, 'enable')}>enable</Checkbox>
                         }
-
-
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?
                           <Input type="file" id={'file_' + index} onChange={e => this.changeBody(e.target.value, index, 'value')} multiple className="value" /> :
