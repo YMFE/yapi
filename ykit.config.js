@@ -1,13 +1,14 @@
 var path = require('path');
 var AssetsPlugin = require('assets-webpack-plugin')
 var CompressionPlugin = require('compression-webpack-plugin')
-var commonLib = require('./common/lib.js');
+var commonLib = require('./common/plugin.js');
 var assetsPluginInstance = new AssetsPlugin({
   filename: 'static/prd/assets.js',
   processOutput: function (assets) {
     return 'window.WEBPACK_ASSETS = ' + JSON.stringify(assets);
   }
 })
+var fs = require('fs');
 
 
 var compressPlugin = new CompressionPlugin({
@@ -18,21 +19,13 @@ var compressPlugin = new CompressionPlugin({
   minRatio: 0.8
 });
 
-function fileExist (filePath){
-  try {
-      return fs.statSync(filePath).isFile();
-  } catch (err) {
-      return false;
-  }
-};
-
 function createScript(plugin, pathAlias){
   let options = plugin.options ? JSON.stringify(plugin.options) : null
   return `"${plugin.name}" : {module: require('${pathAlias}/yapi-plugin-${plugin.name}/client.js'),options: ${options}}`
 }
 
 function initPlugins(configPlugin){
-  var configPlugin = require('../config.json').plugins;
+  configPlugin = require('../config.json').plugins;
   var systemConfigPlugin = require('./common/config.js').exts;
 
   var scripts = [] ;
