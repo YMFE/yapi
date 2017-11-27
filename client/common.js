@@ -240,21 +240,19 @@ function handleValueWithFilter(context){
 }
 
 function handleParamsValue (val, context={}){
-  const variableRegexp = /\{\s*((?:\$|\@)?.+?)\}/g;
+  const variableRegexp = /\{\{\s*((?:\$|\@)?.+?)\}\}/g;
   if (!val || typeof val !== 'string') {
     return val;
   }
   val = val.trim();
-  if (!/^\{[\s\S]+\}$/.test(val)) {
-    try{
-      return filter(val, handleValueWithFilter(context))
-    }catch(err){
+  if (!/^\{\{[\s\S]+\}\}$/.test(val)) {
+    if(val[0] ==='@' || val[0] === '$'){
+      val = '{{' + val + '}}';
+    }else{
       return val;
     }
   }
-  if(isJson(val)){
-    return val;
-  }
+
   return val.replace(variableRegexp, function(str, match){    
     match = match.trim();
     try{
