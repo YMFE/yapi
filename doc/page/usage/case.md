@@ -95,4 +95,5 @@ Your browser does not support the video tag.
 ```
 assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
+assert.equal(status, 200)
 ```
