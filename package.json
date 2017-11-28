@@ -11,6 +11,14 @@
     "start": " node server/app.js",
     "test": "ava"
   },
+  "scripts-info": {
+    "start": "运行生产环境服务器",
+    "install-server": "初始化数据库数据，用于安装",
+    "dev": "运行开发服务器",
+    "dev-server": "运行后端开发服务器",
+    "dev-client": "运行前端开发服务器",
+    "test": "执行测试"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:YMFE/yapi.git"
@@ -159,9 +167,12 @@
     ],
     "plugins": [
       "transform-runtime",
-      ["webpack-alias", {
-        "config": "webpack.alias.js"
-      }]
+      [
+        "webpack-alias",
+        {
+          "config": "webpack.alias.js"
+        }
+      ]
     ]
   },
   "ava": {
