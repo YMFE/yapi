@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import Mock from 'mockjs'
-import { Button, Input, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
+import { Button, Input, Modal, Checkbox, Select, Alert, Spin, Icon, Collapse, Tooltip, message, Switch } from 'antd'
 import { autobind } from 'core-decorators';
 import constants from '../../constants/variable.js'
 import mockEditor from '../../containers/Project/Interface/InterfaceList/mockEditor'
@@ -9,9 +9,11 @@ import URL from 'url';
 const MockExtra = require('common/mock-extra.js')
 import './Postman.scss';
 import json5 from 'json5'
-import { isJson, handleJson, handleParamsValue,joinPath } from '../../common.js'
+import { isJson, handleJson, handleParamsValue, joinPath } from '../../common.js'
 import _ from "underscore"
 import ModalPostman from '../ModalPostman/index.js'
+import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/ProjectEnv.js';
+
 
 function json_parse(data) {
   try {
@@ -44,7 +46,8 @@ export default class Run extends Component {
     data: PropTypes.object,
     save: PropTypes.func,
     saveTip: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    id: PropTypes.number
   }
 
   state = {
@@ -69,7 +72,8 @@ export default class Run extends Component {
     modalVisible: false,
     inputIndex: 0,
     inputValue: '',
-    modalType: ''
+    modalType: '',
+    envModalVisible: false
   }
 
   constructor(props) {
@@ -141,6 +145,9 @@ export default class Run extends Component {
       mock_verify = false
     } = data;
 
+    console.log('props', props);
+
+
     // case 任意编辑 pathname，不管项目的 basepath
     const pathname = (type === 'inter' ? (basepath + url) : url).replace(/\/+/g, '/');
 
@@ -189,7 +196,7 @@ export default class Run extends Component {
 
   }
 
-  handleResponse = (res, header, third)=> {
+  handleResponse = (res, header, third) => {
     res = third.res.body || third.res.statusText;
     try {
       this.setState({
@@ -261,7 +268,7 @@ export default class Run extends Component {
     });
 
     let curdomain = _.find(domains, item => item.name === caseEnv).domain;
-    const urlObj = URL.parse(joinPath(curdomain,  path));
+    const urlObj = URL.parse(joinPath(curdomain, path));
 
     let pathQuery = {};
     urlObj.query && urlObj.query.split('&').forEach(item => {
@@ -280,14 +287,14 @@ export default class Run extends Component {
     let reqBody;
     if (bodyType === 'form') {
       reqBody = this.arrToObj(bodyForm)
-    } else if(bodyType === 'json'){      
+    } else if (bodyType === 'json') {
       reqBody = isJson(bodyOther);
       if (reqBody === false) {
         return message.error('请求 Body 的 json 格式有误')
       } else {
         reqBody = handleJson(reqBody, this.handleValue)
       }
-    }else{
+    } else {
       reqBody = bodyOther;
     }
 
@@ -546,6 +553,25 @@ export default class Run extends Component {
     });
   }
 
+  showEnvModal = () => {
+    console.log(11);
+    this.setState({
+      envModalVisible: true
+    })
+  }
+
+  handleEnvOk = () => {
+
+    this.setState({
+      envModalVisible: false
+    });
+  }
+  handleEnvCancel = () => {
+    this.setState({
+      envModalVisible: false
+    })
+  }
+
   // 模态框的相关操作
   showModal = (val, index, type) => {
     this.setState({
@@ -616,6 +642,15 @@ export default class Run extends Component {
           envType={this.props.type}
         >
         </ModalPostman>
+        <Modal
+          title="Basic Modal"
+          visible={this.state.envModalVisible}
+          onOk={this.handleEnvOk}
+          onCancel={this.handleEnvCancel}
+          footer={null}
+        >
+          <ProjectEnv projectId={this.props.id} onOk={this.handleEnvOk} />
+        </Modal>
         <div className={hasPlugin ? null : 'has-plugin'} >
           {hasPlugin ? '' : <Alert
             message={
@@ -662,6 +697,7 @@ export default class Run extends Component {
               {
                 domains.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
               }
+              <Option value="环境配置" disabled style={{ cursor: 'pointer', color: '#2395f1' }}><div onClick={this.showEnvModal}>环境配置</div></Option>
             </Select>
 
             <Input disabled value={path + search} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />

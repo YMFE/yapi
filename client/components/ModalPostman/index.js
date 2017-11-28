@@ -77,6 +77,11 @@ class ModalPostman extends Component {
   }
   //  处理常量输入 
   handleConstantsInput = (val, index) => {
+
+    // val = val.match(/^\{\{(.+)\}\}$/g);
+    // val = RegExp.$1;
+    val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
+    console.log('val', val);
     this.setState({
       constantInput: val
     })
@@ -201,9 +206,7 @@ class ModalPostman extends Component {
         <Row className="modal-postman-expression">
           <Col span={6}><h3 className="title">表达式</h3></Col>
           <Col span={18}>
-            <span className="expression"></span>
             <span className="expression-item">{outputParams()}</span>
-            <span className="expression"></span>
           </Col>
         </Row>
         <Row className="modal-postman-preview">

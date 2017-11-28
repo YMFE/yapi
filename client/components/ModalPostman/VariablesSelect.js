@@ -45,8 +45,7 @@ class VariablesSelect extends Component {
       records: result.payload.data.data
       // records:record
     })
-    // console.log(deleteLast('$.www.rertttty.ffghhh.dddd.wwwww'));
-
+   
 
   }
 
@@ -83,8 +82,6 @@ class VariablesSelect extends Component {
         } else if (Array.isArray(data)) {
           elementKeyPrefix = index === 0 ?
             elementKeyPrefix + '[' + key + ']' : deleteLastArr(elementKeyPrefix) + '[' + key + ']';
-          // elementKeyPrefix = elementKeyPrefix + '[' + key + ']' ;
-
         } else {
           elementKeyPrefix = index === 0 ?
             elementKeyPrefix + '.' + key : deleteLastObject(elementKeyPrefix) + '.' + key;

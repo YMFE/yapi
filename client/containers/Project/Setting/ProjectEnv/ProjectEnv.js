@@ -52,7 +52,8 @@ class PrpjectEnv extends Component {
     fetchGroupMsg: PropTypes.func,
     upsetProject: PropTypes.func,
     projectList: PropTypes.array,
-    projectMsg: PropTypes.object
+    projectMsg: PropTypes.object,
+    onOk: PropTypes.func
   }
 
   // 项目的修改操作 - 删除一项环境配置
@@ -115,11 +116,12 @@ class PrpjectEnv extends Component {
         form.resetFields();
       }
     });
+    this.props.onOk && this.props.onOk();
   }
 
-  // async componentWillMount() {
-  //   // await this.props.getProjectMsg(this.props.projectId);
-  // }
+  async componentWillMount() {
+    await this.props.getProjectMsg(this.props.projectId);
+  }
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;

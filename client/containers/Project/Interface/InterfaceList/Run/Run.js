@@ -104,7 +104,7 @@ export default class Run extends Component {
     const data = Object.assign({}, currInterface, currProject, {_id: currInterface._id})
     return (
       <div>
-        <Postman data={data} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
+        <Postman data={data} id={currProject._id} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
           caseName={currInterface.title}

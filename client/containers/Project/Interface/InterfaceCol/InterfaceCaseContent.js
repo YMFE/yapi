@@ -182,7 +182,7 @@ export default class InterfaceCaseContent extends Component {
           </span>
         </div>
         <div>
-          <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
+          <Postman data={data}  type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
         </div>
       </div>
     )
