@@ -25,7 +25,7 @@ const roleAction = {
 function isJson(json){
   if(!json) return false;
   try{
-    json = json5.parse(json);
+    json = JSON.parse(json);
     return json;
   }catch(e){
     return false;
@@ -33,6 +33,24 @@ function isJson(json){
 }
 
 exports.isJson = isJson;
+
+function isJson5(json){
+  if(!json) return false;
+  try{
+    json = json5.parse(json);
+    return json;
+  }catch(e){
+    return false;
+  }
+}
+
+function deepCopyJson(json){
+  return JSON.parse(JSON.stringify(json));
+}
+
+exports.deepCopyJson = deepCopyJson;
+
+exports.isJson5 = isJson5;
 
 exports.checkAuth = (action, role)=>{
   return Roles[roleAction[action]] <= Roles[role];
@@ -305,4 +323,8 @@ exports.joinPath = (domain, joinPath) =>{
     joinPath = joinPath.substr(1);
   }
   return domain + joinPath;
+}
+
+exports.safeArray = (arr) => {
+  return Array.isArray(arr) ? arr :  [];
 }
