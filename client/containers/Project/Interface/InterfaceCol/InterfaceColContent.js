@@ -8,27 +8,19 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { isJson,  handleJson, handleParamsValue, joinPath } from '../../../../common.js'
-import mockEditor from '../InterfaceList/mockEditor';
+import { isJson,   handleParamsValue } from '../../../../common.js'
+import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
 import * as resolve from 'table-resolver';
 import axios from 'axios'
-import URL from 'url';
-import Mock from 'mockjs'
-import json5 from 'json5'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
+import { handleParams,   crossRequest } from 'client/components/Postman/postmanLib.js'
+import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
-const MockExtra = require('common/mock-extra.js')
 const Option = Select.Option;
-function json_parse(data) {
-  try {
-    return json5.parse(data)
-  } catch (e) {
-    return data
-  }
-}
+
 
 function handleReport(json) {
   try {
@@ -113,28 +105,16 @@ class InterfaceColContent extends Component {
       this.handleColdata(this.props.currCaseList)
     }
 
-    let startTime = 0;
-    this.interval = setInterval(() => {
-      startTime += 500;
-      if (startTime > 5000) {
-        clearInterval(this.interval);
-      }
-      if (window.crossRequest) {
-        clearInterval(this.interval);
-        this.setState({
-          hasPlugin: true
-        })
-      } else {
-        this.setState({
-          hasPlugin: false
-        })
-      }
-    }, 500)
+    this._crossRequestInterval = initCrossRequest((hasPlugin) => {
+      this.setState({
+        hasPlugin: hasPlugin
+      })
+    });
 
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    clearInterval(this._crossRequestInterval)
   }
 
   handleColdata = (rows) => {
@@ -154,7 +134,7 @@ class InterfaceColContent extends Component {
   executeTests = async () => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
-      curitem = Object.assign({}, rows[i], { test_status: 'loading' });
+      curitem = Object.assign({}, rows[i],{env: this.props.currProject.env}, { test_status: 'loading' });
       newRows = [].concat([], rows);
       newRows[i] = curitem;
       this.setState({
@@ -193,92 +173,44 @@ class InterfaceColContent extends Component {
   }
 
   handleTest = async (interfaceData) => {
-    const { currProject } = this.props;
     let requestParams = {};
-    let { case_env } = interfaceData;
-    let path = interfaceData.path;
-    interfaceData.req_params = interfaceData.req_params || [];
-    interfaceData.req_params.forEach(item => {
-      let val = this.handleValue(item.value);
-      requestParams[item.name] = val;
-      path = path.replace(`:${item.name}`, val || `:${item.name}`);
-    });
-    const domains = currProject.env.concat();
+    let options = handleParams(interfaceData, this.handleValue, requestParams)
 
-    case_env = this.state.currColEnv ? this.state.currColEnv : case_env;
+    let result = { code: 400,
+        msg: '数据异常',
+        validRes: [],
+        ...options
+      };
 
-    let pathQuery = {};
-    let currDomain = _.find(domains, item => item.name === case_env);
-
-    if (!currDomain) {
-      currDomain = domains[0];
-    }
-
-    const urlObj = URL.parse(joinPath(currDomain.domain,  path));
-    urlObj.query && urlObj.query.split('&').forEach(item => {
-      if (item) {
-        item = item.split('=');
-        pathQuery[item[0]] = item[1];
-      }
-    })
-
-    const href = URL.format({
-      protocol: urlObj.protocol || 'http',
-      host: urlObj.host,
-      pathname: urlObj.pathname,
-      query: Object.assign(pathQuery, this.getQueryObj(interfaceData.req_query, requestParams))
-    });
-
-    let result = { code: 400, msg: '数据异常', validRes: [] };
-    let that = this;
-
-    result.url = href;
-    result.method = interfaceData.method;
-    result.headers = that.getHeadersObj(interfaceData.req_headers);
-    if (interfaceData.req_body_type === 'form') {
-      result.body = that.arrToObj(interfaceData.req_body_form, requestParams)
-    } else {
-      let reqBody = isJson(interfaceData.req_body_other);
-      if (reqBody === false) {
-        result.body = this.handleValue(interfaceData.req_body_other)
-      } else {
-        reqBody = handleJson(reqBody, this.handleValue)
-        requestParams = Object.assign(requestParams, reqBody);
-        result.body = JSON.stringify(reqBody)
-      }
-
-    }
 
     try {
-      let data = await this.crossRequest({
-        url: href,
-        method: interfaceData.method,
-        headers: that.getHeadersObj(interfaceData.req_headers),
-        data: result.body,
-        timeout: 8240000
-      })
-      let res = data.res.body = json_parse(data.res.body);
-      let header = data.res.header;
-      result.res_header = header;
-      result.res_body = res;
-      result.params = requestParams;
-      let validRes = [];
-      if (res && typeof res === 'object') {
-        if (interfaceData.mock_verify) {
-          let tpl = MockExtra(json_parse(interfaceData.res_body), {
-            query: interfaceData.req_query,
-            body: interfaceData.req_body_form
-          })
-          validRes = Mock.valid(tpl, res);
-        }
+      let data = await crossRequest(options)
+      let res = data.res.body = isJson(data.res.body);
+
+      result = {
+        ...result,
+        res_header: data.res.header,
+        res_body: res
       }
+      
+      let validRes = [];
+      // 弃用 mock 字段验证功能
+      // if (res && typeof res === 'object') {
+      //   if (interfaceData.mock_verify) {
+      //     let tpl = MockExtra(json_parse(interfaceData.res_body), {
+      //       query: interfaceData.req_query,
+      //       body: interfaceData.req_body_form
+      //     })
+      //     validRes = Mock.valid(tpl, res);
+      //   }
+      // }
       let responseData = Object.assign({}, {
         status: data.res.status,
         body: res,
         header: data.res.header,
         statusText: data.res.statusText
       })
-      await that.handleScriptTest(interfaceData, responseData, validRes, requestParams);
+      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
       if (validRes.length === 0) {
         result.code = 0;
         result.validRes = [{ message: '验证通过' }];
@@ -286,41 +218,23 @@ class InterfaceColContent extends Component {
         result.code = 1;
         result.validRes = validRes;
       }
-      return result;
+
 
     } catch (data) {
-      if (data.err) {
-        data.err = data.err || '请求异常';
-        try {
-          data.err = json_parse(data.err);
-        } catch (e) {
-          console.log(e)
-        }
-        result.res_body = data.err;
-        result.res_header = data.header;
-      } else {
-        result.res_body = data.message;
+      result = {
+        ...result,
+        res_header: data.header,
+        res_body: data.body || data.message,
+        status: null,
+        statusText: data.message,
+        code: 400
       }
 
       result.code = 400;
-      return result;
     }
-  }
 
-  crossRequest = (options) => {
-    return new Promise((resolve, reject) => {
-      options.error = options.success = function (res, header, data) {
-        
-        if(isNaN(data.res.status)){
-          reject({
-            err: res,
-            header
-          })
-        }
-        resolve(data);
-      }
-      window.crossRequest(options);
-    })
+    result.params = requestParams;
+    return result;
   }
 
   //response, validRes
@@ -450,21 +364,12 @@ class InterfaceColContent extends Component {
       curScript: findCase.test_script,
       advVisible: true,
       curCaseid: id
-    }, () => {
-      let that = this;
-      if (that.Editor) {
-        that.Editor.setValue(this.state.curScript);
-      } else {
-        that.Editor = mockEditor({
-          container: 'case-script',
-          data: this.state.curScript,
-          onChange: function (d) {
-            that.setState({
-              curScript: d.text
-            })
-          }
-        })
-      }
+    })
+  }
+
+  handleScriptChange = (d)=>{
+    this.setState({
+      curScript: d.text
     })
   }
 
@@ -700,7 +605,8 @@ class InterfaceColContent extends Component {
             是否开启:&nbsp;
             <Switch checked={this.state.enableScript} onChange={e => this.setState({ enableScript: e })} />
           </h3>
-          <div className="case-script" id="case-script" style={{ minHeight: 500 }}></div>
+          <AceEditor className="case-script" data={this.state.curScript} onChange={this.handleScriptChange} />
+         
         </Modal>
       </div>
     )

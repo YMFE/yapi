@@ -9,6 +9,7 @@ import json5 from 'json5'
 import { message, Tabs, Affix } from 'antd'
 import Editor from 'wangeditor'
 import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js'
+import mockEditor from 'client/components/AceEditor/mockEditor';
 
 const TabPane = Tabs.TabPane;
 let EditFormContext;
@@ -50,7 +51,7 @@ const dataTpl = {
   req_body_form: { name: "", type: "text", required: "1", desc: "", example: "" }
 }
 
-const mockEditor = require('./mockEditor.js');
+
 const HTTP_METHOD = constants.HTTP_METHOD;
 const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
@@ -249,7 +250,8 @@ class InterfaceEditForm extends Component {
           req_body_other: d.text
         })
         EditFormContext.props.changeEditStatus(initReqBody !== d.text);
-      }
+      },
+      fullScreen: true
     })
 
     this.resBodyEditor = mockEditor({
@@ -260,7 +262,8 @@ class InterfaceEditForm extends Component {
           res_body: d.text
         });
         EditFormContext.props.changeEditStatus(initResBody !== d.text);
-      }
+      },
+      fullScreen: true
     })
 
     this.mockPreview = mockEditor({
@@ -771,11 +774,12 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + (this.props.form.getFieldValue('req_body_type') === 'json' ? this.state.hideTabs.req.body : 'hide')}>
             <Col className="interface-edit-json-info">
-              基于 Json5, 使用注释方式写参数说明 <Tooltip title={<pre>
+              基于 Json5, 参数描述信息用注释的方式实现 <Tooltip title={<pre>
                 {Json5Example}
               </pre>}>
                 <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
               </Tooltip>
+              ，“全局编辑” 或 “退出全屏” 请按 F9
             </Col>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
@@ -836,7 +840,9 @@ class InterfaceEditForm extends Component {
                   {Json5Example}
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
-                </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span></h3>
+                </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span>
+                ，“全局编辑” 或 “退出全屏” 请按 F9
+                </h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
