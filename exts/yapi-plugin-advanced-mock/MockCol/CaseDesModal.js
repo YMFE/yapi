@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Switch, Select, Icon,message, Modal, Col, Row, InputNumber, AutoComplete } from 'antd';
-import { safeAssign } from '../../../client/common.js';
-import mockEditor from '../../../client/containers/Project/Interface/InterfaceList/mockEditor';
-import constants from '../../../client/constants/variable.js'
+import { safeAssign } from 'client/common.js';
+import mockEditor from 'client/components/AceEditor/mockEditor';
+import constants from 'client/constants/variable.js'
 import { httpCodes } from '../index.js'
 import { connect } from 'react-redux'
 

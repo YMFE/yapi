@@ -1,33 +1,4 @@
-.interface-test {
-  .has-plugin, .req-part, .resp-part {
-    margin-bottom: 16px;
-  }
-  .url {
-    display: flex;
-    margin-bottom: 24px;
-  }
-  .key-value-wrap {
-    display: flex;
-    align-items: center;
-    margin: 0 0 5px 0;
-    .key {
-      flex-basis: 220px;
-    }
-    .value {
-      flex-grow: 1;
-    }
-    .eq-symbol {
-      margin: 0 5px;
-    }
-  }
-  .icon-btn {
-    cursor: pointer;
-    margin-left: 6px;
-  }
-  .icon-btn:hover {
-    color: #2395f1;
-  }
-}
+
 .add-col-modal {
   .col-list {
     height: 200px;

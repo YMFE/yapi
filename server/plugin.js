@@ -1,7 +1,7 @@
 const yapi = require('./yapi.js');
 const plugin_path = yapi.path.join(yapi.WEBROOT, 'node_modules');
 const plugin_system_path = yapi.path.join(yapi.WEBROOT, 'exts');
-const initPlugins = require('../common/lib.js').initPlugins;
+const initPlugins = require('../common/plugin.js').initPlugins;
 var extConfig = require('../common/config.js').exts;
 
 /**
@@ -195,19 +195,7 @@ function emitHook(name) {
     }
 }
 
-function emitHookSync(name) {
-    if (hooks[name] && typeof hooks[name] === 'object') {
-        let args = Array.prototype.slice.call(arguments, 1);
-        if (hooks[name].type === 'single' && typeof hooks[name].listener === 'function') {
-            return hooks[name].listener.apply(yapi, args);
-        }
-        if (Array.isArray(hooks[name].listener)) {
-            hooks[name].listener.forEach((listener) => {
-                listener.apply(yapi, args)
-            })
-        }
-    }
-}
+
 
 
 yapi.bindHook = bindHook;

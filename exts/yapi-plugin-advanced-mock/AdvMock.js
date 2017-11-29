@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { Form, Switch, Button, message, Icon, Tooltip, Radio } from 'antd';
 import MockCol from './MockCol/MockCol.js'
-import mockEditor from 'client/containers/Project/Interface/InterfaceList/mockEditor';
+import mockEditor from 'client/components/AceEditor/mockEditor';
 import constants from '../../client/constants/variable.js'
 const FormItem = Form.Item;
 

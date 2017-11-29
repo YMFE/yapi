@@ -1,3 +1,4 @@
+@import '../../styles/mixin.scss';
 .postman {
   .pretty-editor {
     border: 1px solid #d9d9d9;
@@ -11,42 +12,137 @@
   .pretty-editor-header {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    min-height: 200px;
+    min-height: 300px;
   }
-}
-.interface-test {
-  padding: .24rem;
-  .ant-checkbox-wrapper{
-    display: flex;
-  }
-}
 
-// .modal-postman {
-//   .ant-modal-body {
-//     padding: 0;
-//   }
-//   .ant-modal-footer {
-//     background-color: #f5f5f5;
-//   }
-//   .modal-postman-form {
-//     padding: 16px;
-//     max-height: 300px;
-//     overflow-y: scroll;
-//     .row {
-//       margin-bottom: 8px;
-//     }
-//   }
-//   .modal-postman-expression, .modal-postman-preview {
-//     border-top: 1px solid #e9e9e9;
-//     padding: 8px 16px;
-//   }
-//   .modal-postman-expression {
-//   }
-//   .modal-postman-preview {
-//     background-color: #f5f5f5;
-//   }
-//   .title {
-//     border-left: 3px solid #2395f1;
-//     padding-left: 8px;
-//   }
-// }
+  .interface-test {
+    padding: .24rem;
+    .ant-checkbox-wrapper{
+      display: flex;
+    }
+  }
+
+  .response-tab{    
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .ant-tabs-nav{
+      background: #f7f7f7;
+      border-radius: 0 0 4px 4px;      
+      border: 1px solid #d9d9d9;
+      width: 100%;
+    }
+
+    .header, .body{
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .response-test{
+      min-height: 400px;
+    }
+  }
+
+  .ant-spin-blur {
+    .res-code.success {
+      background-color: transparent;
+    }
+    .res-code.fail {
+      background-color: transparent;
+    }
+  }
+  .res-code {
+    padding: .08rem .28rem;
+    color: #fff;
+    margin-left: -.1rem;
+    margin-right: -.28rem;
+    transition: all .2s;
+    position: relative;
+    border-radius: 2px;
+  }
+  .res-code.success {
+    background-color: $color-antd-green;
+  }
+  .res-code.fail {
+    background-color: $color-antd-red;
+  }
+
+  // 容器：左侧是header 右侧是body
+  .container-header-body {
+    display: flex;
+    padding-bottom: .36rem;
+    .header, .body {
+      flex: 1 0 300px;
+      .pretty-editor-header, .pretty-editor-body {
+        height: 100%;
+      }
+      .postman .pretty-editor-body {
+        min-height: 200px;
+      }
+      .ace_print-margin {
+        display: none;
+      }
+    }
+    .header {
+      max-width: 400px;
+    }
+    .container-title {
+      padding: .08rem 0;
+    }
+    .resizer {
+      flex: 0 0 21px;
+      position: relative;
+      &:after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 100%;
+        background-color: #acaaaa;
+        opacity: .8;
+        position: absolute;
+        left: 16px;
+      }
+    }
+    // res body 无返回json时显示text信息
+    .res-body-text {
+      height: 100%;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      padding: 8px;
+    }
+  }
+
+  .has-plugin, .req-part, .resp-part {
+    margin-bottom: 16px;
+  }
+  .url {
+    display: flex;
+    margin: 24px 10px;
+  }
+  .key-value-wrap {
+    display: flex;
+    align-items: center;
+    margin: 0 0 5px 0;
+    .key {
+      flex-basis: 220px;
+    }
+    .value {
+      flex-grow: 1;
+    }
+    .eq-symbol {
+      margin: 0 5px;
+    }
+    .params-enable{
+      width: 98px;
+    }
+  }
+  .icon-btn {
+    cursor: pointer;
+    margin-left: 6px;
+  }
+  .icon-btn:hover {
+    color: #2395f1;
+  }
+
+  
+
+}
