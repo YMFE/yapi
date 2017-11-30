@@ -257,28 +257,34 @@ function handleValueWithFilter(context){
   }  
 }
 
+
+function handleFilter(str, match, context){    
+  match = match.trim();
+  try{
+    let a=  filter(match, handleValueWithFilter(context))
+    return a;
+  }catch(err){
+    return str;
+  }
+}
+
+
 function handleParamsValue (val, context={}){
-  const variableRegexp = /\{\{\s*((?:\$|\@)?.+?)\}\}/g;
+  const variableRegexp = /\{\{\s*([^}]+?)\}\}/g;
   if (!val || typeof val !== 'string') {
     return val;
   }
-  val = val.trim();
-  if (!/^\{\{[\s\S]+\}\}$/.test(val)) {
+  val = val.trim()
+  let match = val.match(/^\{\{([^\}]+)\}\}$/);  
+  if (!match){
     if(val[0] ==='@' || val[0] === '$'){
-      val = '{{' + val + '}}';
-    }else{
-      return val;
+      return handleFilter(val, val, context);
     }
+  }else{
+    return handleFilter(val, match[1], context);
   }
 
-  return val.replace(variableRegexp, function(str, match){    
-    match = match.trim();
-    try{
-      return filter(match, handleValueWithFilter(context))
-    }catch(err){
-      return str;
-    }
-  })
+  return val.replace(variableRegexp, handleFilter)
 }
 
 exports.handleJson = handleJson;

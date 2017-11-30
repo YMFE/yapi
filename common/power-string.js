@@ -80,6 +80,10 @@ const stringHandles = {
 
     length: function(str){
         return str.length;
+    },
+    
+    number: function(str){
+        return !isNaN(str) ? +str : str;
     }
 }
 
