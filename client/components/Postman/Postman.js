@@ -273,7 +273,7 @@ export default class Run extends Component {
             if (hasPlugin) {
               return '发送请求'
             } else {
-              return '请安装cross-request插件'
+              return '请安装 cross-request 插件'
             }
           })()}>
             <Button
@@ -285,11 +285,14 @@ export default class Run extends Component {
             >{loading ? '取消' : '发送'}</Button>
           </Tooltip>
 
-          <Button
+          <Tooltip placement="bottom" title={()=>{
+            return this.props.type === 'inter' ? '保存到测试集' : '更新该用例'
+            }}><Button
             onClick={this.props.save}
             type="primary"
             style={{ marginLeft: 10 }}
           >{this.props.type === 'inter' ? '保存' : '更新'}</Button>
+          </Tooltip>
         </div>
 
 

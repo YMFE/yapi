@@ -11,7 +11,6 @@ function deleteLastObject(str) {
 }
 
 function deleteLastArr(str) {
-  // return str.split(/[\d]/g).slice(0, -1).join('.');
   return str.replace(/\[.*?\]/g, '');
 }
 
@@ -41,9 +40,12 @@ class VariablesSelect extends Component {
   async componentDidMount() {
     const { currColId, fetchVariableParamsList } = this.props
     let result = await fetchVariableParamsList(currColId);
+    let records = result.payload.data.data;
+    records = records.sort((a, b)=>{
+      return a.index - b.index
+    })
     this.setState({
-      records: result.payload.data.data
-      // records:record
+      records
     })
    
 
@@ -52,7 +54,6 @@ class VariablesSelect extends Component {
   handleSelect = (key) => {
     if (key && key.indexOf(CanSelectPathPrefix) === 0) {
       key = key.substr(CanSelectPathPrefix.length)
-      console.log(key)
       this.props.click(key);
     } else {
       this.setState({
