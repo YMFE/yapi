@@ -455,18 +455,21 @@ export default class Run extends Component {
             </Spin>
 
           </Tabs.TabPane>
-          <Tabs.TabPane style={{display: this.props.type === 'case' ? '' : 'none'}} className="response-test" tab={<Tooltip title="测试脚本，可断言返回结果，使用方法请查看文档">Test</Tooltip>} key="test">
-            <h3 style={{margin: '5px'}}>
-              &nbsp;是否开启:&nbsp;
-              <Switch checked={this.state.enable_script} onChange={e => this.setState({ enable_script: e })} />
-            </h3>
-            <p  style={{margin: '10px'}}>注：Test 脚本只有做自动化测试才执行</p>
-            <AceEditor 
-              onChange={this.onOpenTest}
-              className="case-script" 
-              data={this.state.test_script}   
-            />          
-          </Tabs.TabPane>
+          {this.props.type === 'case' ? 
+            <Tabs.TabPane  className="response-test" tab={<Tooltip title="测试脚本，可断言返回结果，使用方法请查看文档">Test</Tooltip>} key="test">
+              <h3 style={{margin: '5px'}}>
+                &nbsp;是否开启:&nbsp;
+                <Switch checked={this.state.enable_script} onChange={e => this.setState({ enable_script: e })} />
+              </h3>
+              <p  style={{margin: '10px'}}>注：Test 脚本只有做自动化测试才执行</p>
+              <AceEditor 
+                onChange={this.onOpenTest}
+                className="case-script" 
+                data={this.state.test_script}   
+              />          
+            </Tabs.TabPane>
+          : null }
+          
         </Tabs>
 
 

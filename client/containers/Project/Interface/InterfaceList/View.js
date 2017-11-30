@@ -256,6 +256,10 @@ class View extends Component {
 
     let requestShow = (dataSource&& dataSource.length) || (req_dataSource && req_dataSource.length) || (this.props.curData.req_query && this.props.curData.req_query.length) || (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
     let methodColor = variable.METHOD_COLOR[this.props.curData.method ? this.props.curData.method.toLowerCase() : "get"];
+
+    let bodyShow = (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
+ 
+
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
     const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form" ) ? "block" : "none" }} className="colBody">
@@ -315,7 +319,7 @@ class View extends Component {
       </div> : ""}
 
       <div style={{display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none'}}>
-        <h3 className="col-title">Body:</h3>
+        <h3 style={{display: bodyShow? '' : 'none'}} className="col-title">Body:</h3>
         { aceEditor }
         { 
           this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
