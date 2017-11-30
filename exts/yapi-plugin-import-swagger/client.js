@@ -3,6 +3,7 @@ import {message} from 'antd'
 import _ from 'underscore'
 var jsf = require('common/json-schema-mockjs');
 
+
 function improtData(importDataModule){
   var SwaggerData;
   function handlePath(path){
@@ -76,15 +77,44 @@ function improtData(importDataModule){
 
     //处理response
     api.res_body = handleResponse(data.responses);
-    
+    try{
+      JSON.parse(api.res_body);
+      api.res_body_type = 'json';
+    }catch(e){
+      api.res_body_type = 'raw';
+    }
     //处理参数
+
+    function simpleJsonPathParse(key, json){
+      if(!key || typeof key !== 'string' || key.indexOf('#/') !== 0 || key.length <= 2){
+        return null;
+      }
+      let keys = key.substr(2).split("/");
+      keys = keys.filter(item=>{
+        return item;
+      })
+      for(let i=0, l = keys.length; i< l; i++){
+        try{
+          json = json[keys[i]];
+        }catch(e){
+          json = '';
+          break;
+        }
+      }
+      return json;
+    }
+    
     if(data.parameters && Array.isArray(data.parameters)){
-      data.parameters.forEach(param=>{
+      data.parameters.forEach(param=>{        
+        if(param && typeof param === 'object' && param.$ref){
+          param = simpleJsonPathParse(param.$ref, {parameters: SwaggerData.parameters})
+        }
         let defaultParam = {
           name: param.name,
           desc: param.description,
           required: param.required? "1" : "0"
         }
+
         switch(param.in){
           case 'path' : api.req_params.push(defaultParam); break;
           case 'query': api.req_query.push(defaultParam); break;
