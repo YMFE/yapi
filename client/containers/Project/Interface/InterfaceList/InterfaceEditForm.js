@@ -789,7 +789,7 @@ class InterfaceEditForm extends Component {
             <Row className="interface-edit-item" >
               <Col className="interface-edit-item-other-body">
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                  <TextArea placeholder="备注信息" autosize={true} />
+                  <TextArea placeholder="" autosize={true} />
                 )}
               </Col>
 
@@ -802,7 +802,7 @@ class InterfaceEditForm extends Component {
             <Row>
               <Col>
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
-                  <TextArea placeholder="备注信息" autosize={{ minRows: 8 }} />
+                  <TextArea placeholder="" autosize={{ minRows: 8 }} />
                 )}
               </Col>
             </Row>
@@ -853,7 +853,7 @@ class InterfaceEditForm extends Component {
           <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'raw' ? 'block' : 'none' }}>
             <Col>
               {getFieldDecorator('res_body', { initialValue: this.state.res_body })(
-                <TextArea style={{ minHeight: "150px" }} placeholder="备注信息" />
+                <TextArea style={{ minHeight: "150px" }} placeholder="" />
               )}
             </Col>
           </Row>

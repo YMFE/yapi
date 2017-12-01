@@ -130,16 +130,18 @@ function handleParams(interfaceData, handleValue, requestParams) {
       requestBody = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
         return item.type == 'text'
       }));
-    } else {
+    } else if(interfaceData.req_body_type === 'json'){
       let reqBody = isJson5(interfaceData.req_body_other);
       if (reqBody === false) {
-        requestBody = handleValue(reqBody);
+        requestBody = interfaceData.req_body_other;
       } else {
         if (requestParams) {
           requestParams = Object.assign(requestParams, reqBody);
         }
         requestBody = handleJson(reqBody, handleValue);
       }
+    }else{
+      requestBody = interfaceData.req_body_other;
     }
   }
 
