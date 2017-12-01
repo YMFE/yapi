@@ -24,7 +24,7 @@ class interfaceModel extends baseModel {
                 path: String,
                 params: [{
                     name: String, value: String
-                }],
+                }]
             },
             req_query: [{
                 name: String, value: String, example: String, desc: String, required: {

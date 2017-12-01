@@ -45,7 +45,7 @@ const CaseReport = function (props) {
         {props.body ?
           <Row className="case-report">
             <Col className="case-report-title" span="6">Body</Col>
-            <Col span="18"><pre>{body}</pre></Col>
+            <Col span="18"><pre style={{whiteSpace: 'pre-wrap'}}>{body}</pre></Col>
           </Row>
           : null
         }

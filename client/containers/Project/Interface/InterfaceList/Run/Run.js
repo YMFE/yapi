@@ -49,17 +49,13 @@ export default class Run extends Component {
     const project_id = this.props.match.params.id;
     const interface_id = this.props.currInterface._id;
     const {
-      caseEnv: case_env,
-      pathname: path,
-      method,
-      pathParam: req_params,
-      query: req_query,
-      headers: req_headers,
-      bodyType: req_body_type,
-      bodyForm: req_body_form,
-      bodyOther: req_body_other,
-      resMockTest: mock_verify
-
+      case_env,
+      req_params,
+      req_query,
+      req_headers,
+      req_body_type,
+      req_body_form,
+      req_body_other     
     } = this.postman.state;
 
     let params = {
@@ -68,23 +64,13 @@ export default class Run extends Component {
       col_id: colId,
       project_id,
       case_env,
-      path,
-      method,
       req_params,
       req_query,
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other,
-      mock_verify
+      req_body_other
     };
-
-    if(this.postman.state.test_status !== 'error'){
-      params.test_res_body = this.postman.state.res;
-      params.test_report = this.postman.state.validRes;
-      params.test_status = this.postman.state.test_status;
-      params.test_res_header = this.postman.state.resHeader;
-    }
 
     if(params.test_res_body && typeof params.test_res_body === 'object'){
       params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
@@ -101,10 +87,13 @@ export default class Run extends Component {
 
   render () {
     const { currInterface, currProject } = this.props;
-    const data = Object.assign({}, currInterface, currProject, {_id: currInterface._id})
+    const data = Object.assign({}, currInterface, {
+      env: currProject.env
+    })
+    data.path = currProject.basepath +  currInterface.path;
     return (
       <div>
-        <Postman data={data} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
+        <Postman data={data} id={currProject._id} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
           caseName={currInterface.title}

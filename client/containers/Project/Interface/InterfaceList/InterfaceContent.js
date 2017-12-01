@@ -102,6 +102,7 @@ class Content extends Component {
     });
   }
   render() {
+    document.getElementsByTagName('title')[0].innerText = this.props.curdata.title;
     let InterfaceTabs = {
       view: {
         component: View,

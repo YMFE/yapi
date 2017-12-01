@@ -2,7 +2,7 @@ import test from 'ava';
 const rewire = require("rewire");
 const mockServer = rewire('../../server/middleware/mockServer.js');
 const matchApi = mockServer.__get__('matchApi');
-const mockExtra = require('../../common/mock-extra.js');
+
 
 test('matchApi', t => {
   const apiRule = '/user/:username';

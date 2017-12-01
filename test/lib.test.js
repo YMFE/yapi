@@ -2,11 +2,13 @@ import test from 'ava';
 
 const rewire = require("rewire");
 const lib = rewire('../common/lib.js');
-const initPlugins = lib.initPlugins;
+
+const plugin = rewire('../common/plugin.js')
+const initPlugins = plugin.initPlugins;
 
 
 test('initPlugins', t=>{
-  lib.__set__("getPluginConfig", function(){
+  plugin.__set__("getPluginConfig", function(){
     return {
       server: true,
       client: true
@@ -27,7 +29,7 @@ test('initPlugins', t=>{
 })
 
 test('initPlugins2', t=>{
-  lib.__set__("getPluginConfig", function(){
+  plugin.__set__("getPluginConfig", function(){
     return {
       server: true,
       client: false
@@ -48,7 +50,7 @@ test('initPlugins2', t=>{
 })
 
 test('initPlugins3', t=>{
-  lib.__set__("getPluginConfig", function(){
+  plugin.__set__("getPluginConfig", function(){
     return {
       server: false,
       client: true
@@ -64,7 +66,7 @@ test('initPlugins3', t=>{
 })
 
 test('initPlugins3', t=>{
-  lib.__set__("getPluginConfig", function(){
+  plugin.__set__("getPluginConfig", function(){
     return {
       server: false,
       client: true
@@ -94,7 +96,7 @@ test('initPlugins3', t=>{
 })
 
 test('initPlugins3', t=>{
-  lib.__set__("getPluginConfig", function(){
+  plugin.__set__("getPluginConfig", function(){
     return {
       server: false,
       client: false

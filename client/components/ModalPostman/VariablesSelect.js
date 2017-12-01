@@ -6,9 +6,12 @@ import { fetchVariableParamsList } from '../../reducer/modules/interfaceCol.js'
 const TreeNode = Tree.TreeNode;
 const CanSelectPathPrefix = 'CanSelectPath-';
 
-function deleteLast(str) {
+function deleteLastObject(str) {
   return str.split('.').slice(0, -1).join('.');
+}
 
+function deleteLastArr(str) {
+  return str.replace(/\[.*?\]/g, '');
 }
 
 @connect(
@@ -37,19 +40,20 @@ class VariablesSelect extends Component {
   async componentDidMount() {
     const { currColId, fetchVariableParamsList } = this.props
     let result = await fetchVariableParamsList(currColId);
-    this.setState({
-      records: result.payload.data.data
-      // records:record
+    let records = result.payload.data.data;
+    records = records.sort((a, b)=>{
+      return a.index - b.index
     })
-    // console.log(deleteLast('$.www.rertttty.ffghhh.dddd.wwwww'));
-
+    this.setState({
+      records
+    })
+   
 
   }
 
   handleSelect = (key) => {
     if (key && key.indexOf(CanSelectPathPrefix) === 0) {
       key = key.substr(CanSelectPathPrefix.length)
-      console.log(key)
       this.props.click(key);
     } else {
       this.setState({
@@ -78,11 +82,10 @@ class VariablesSelect extends Component {
           }
         } else if (Array.isArray(data)) {
           elementKeyPrefix = index === 0 ?
-            elementKeyPrefix + '[' + key + ']' : deleteLast(elementKeyPrefix) + '[' + key + ']';
-
+            elementKeyPrefix + '[' + key + ']' : deleteLastArr(elementKeyPrefix) + '[' + key + ']';
         } else {
           elementKeyPrefix = index === 0 ?
-            elementKeyPrefix + '.' + key : deleteLast(elementKeyPrefix) + '.' + key;
+            elementKeyPrefix + '.' + key : deleteLastObject(elementKeyPrefix) + '.' + key;
 
         }
         if (item && typeof item === 'object') {

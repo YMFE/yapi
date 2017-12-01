@@ -19,7 +19,8 @@ const METHODS_LIST = [
   { name: 'unbase64', type: false, params: [], desc: 'base64解密' },
   { name: 'concat', type: true, component: "input", params: [], desc: '连接字符串' },
   { name: 'lconcat', type: true, component: "input", params: [], desc: '左连接' },
-  { name: 'upper', type: false, desc: '所有字母变成大写' }
+  { name: 'upper', type: false, desc: '所有字母变成大写' },
+  { name: 'number', type: false, desc: '字符串转换为数字类型' }
 ]
 
 

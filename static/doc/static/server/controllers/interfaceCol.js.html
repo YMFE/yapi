@@ -250,6 +250,7 @@ class interfaceColController extends baseController {
                 bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
               }
               item.params = Object.assign(pathParams, query, bodyParams)
+              item.index = result.index;
               resultList[index] = item;
           }
 

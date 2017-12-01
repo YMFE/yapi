@@ -22,7 +22,19 @@ const roleAction = {
   'viewGroup': 'guest'
 }
 
-exports.isJson = function(json){
+function isJson(json){
+  if(!json) return false;
+  try{
+    json = JSON.parse(json);
+    return json;
+  }catch(e){
+    return false;
+  }
+}
+
+exports.isJson = isJson;
+
+function isJson5(json){
   if(!json) return false;
   try{
     json = json5.parse(json);
@@ -31,6 +43,14 @@ exports.isJson = function(json){
     return false;
   }
 }
+
+function deepCopyJson(json){
+  return JSON.parse(JSON.stringify(json));
+}
+
+exports.deepCopyJson = deepCopyJson;
+
+exports.isJson5 = isJson5;
 
 exports.checkAuth = (action, role)=>{
   return Roles[roleAction[action]] <= Roles[role];
@@ -237,23 +257,34 @@ function handleValueWithFilter(context){
   }  
 }
 
-function handleParamsValue (val, context){
-  const variableRegexp = /\{\s*((?:\$|\@)?.+?)\}/g;
+
+function handleFilter(str, match, context){    
+  match = match.trim();
+  try{
+    let a=  filter(match, handleValueWithFilter(context))
+    return a;
+  }catch(err){
+    return str;
+  }
+}
+
+
+function handleParamsValue (val, context={}){
+  const variableRegexp = /\{\{\s*([^}]+?)\}\}/g;
   if (!val || typeof val !== 'string') {
     return val;
   }
-  val = val.trim();
-  if (val[0] !== '{' && val.indexOf('{') === -1) {
-    val = '{' + val + '}';
-  }
-  return val.replace(variableRegexp, function(str, match){
-    match = match.trim();
-    try{
-      return filter(match, handleValueWithFilter(context))
-    }catch(err){
-      return match;
+  val = val.trim()
+  let match = val.match(/^\{\{([^\}]+)\}\}$/);  
+  if (!match){
+    if(val[0] ==='@' || val[0] === '$'){
+      return handleFilter(val, val, context);
     }
-  })
+  }else{
+    return handleFilter(val, match[1], context);
+  }
+
+  return val.replace(variableRegexp, handleFilter)
 }
 
 exports.handleJson = handleJson;
@@ -288,3 +319,18 @@ exports.safeAssign = (Obj, nextObj) => {
 
 exports.simpleJsonPathParse = simpleJsonPathParse;
 exports.handleMockWord = handleMockWord;
+
+exports.joinPath = (domain, joinPath) =>{
+  let l = domain.length;
+  if(domain[l - 1] === '/'){
+    domain = domain.substr(0, l - 1)
+  }
+  if(joinPath[0] !== '/'){
+    joinPath = joinPath.substr(1);
+  }
+  return domain + joinPath;
+}
+
+exports.safeArray = (arr) => {
+  return Array.isArray(arr) ? arr :  [];
+}

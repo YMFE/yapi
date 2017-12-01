@@ -4,15 +4,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Table, Icon, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
-const mockEditor = require('./mockEditor.js')
+import AceEditor from 'client/components/AceEditor/AceEditor';
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js'
 
 const HTTP_METHOD = constants.HTTP_METHOD;
-// import { Card } from 'antd'
-// import { getMockUrl } from '../../reducer/modules/news.js'
+
 
 @connect(state => {
   return {
@@ -89,34 +88,21 @@ class View extends Component {
       }
 
       return <div style={{ display: dataSource.length ? "" : "none" }} className="colBody">
-        <h3 className="col-title">Body：</h3>
         <Table bordered size="small" pagination={false} columns={columns} dataSource={dataSource} />
       </div>
 
-    } else if (req_body_type === 'file') {
-
-      return <div style={{ display: this.props.curData.req_body_other ? "" : "none" }} className="colBody">
-        <h3 className="col-title">Body：</h3>
-        <div>{this.props.curData.req_body_other}</div>
-      </div>
-
-    } else if (req_body_type === 'raw') {
-
-      return <div style={{ display: this.props.curData.req_body_other ? "" : "none" }} className="colBody">
-        <h3 className="col-title">Body：</h3>
-        <div>{this.props.curData.req_body_other}</div>
-      </div>
     }
   }
   res_body(res_body_type, res_body) {
     if (res_body_type === 'json') {
-      let h = this.countEnter(this.props.curData.res_body);
+      let h = this.countEnter(res_body);
       return <div  className="colBody">
-        <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div>
+        {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
+        <AceEditor data={res_body} readOnly={true} style={{ minHeight: h * 16 + 100 }} />
       </div>
     } else if (res_body_type === 'raw') {
       return <div  className="colBody">
-        <div>{res_body}</div>
+        <AceEditor data={res_body} readOnly={true} mode="text" />
       </div>
     }
   }
@@ -174,37 +160,13 @@ class View extends Component {
     }
     return c;
   }
-  bindAceEditor() {
-    if (this.props.curData.req_body_type === "json" && this.props.curData.title) {
-      mockEditor({
-        container: 'vreq_body_json',
-        data: this.props.curData.req_body_other,
-        readOnly: true,
-        onChange: function () { }
-      })
-    }
-    if (this.props.curData.title && this.props.curData.res_body_type === "json") {
-      let content = this.props.curData.res_body ? this.props.curData.res_body: '没有定义';
-      mockEditor({
-        container: 'vres_body_json',
-        data: content,
-        readOnly: true,
-        onChange: function () { }
-      })
-    }
-  }
-  componentDidMount() {
 
-    if (this.props.curData.title) {
-      this.bindAceEditor.bind(this)();
-    }
+  componentDidMount() {
     if (!this.props.curData.title && this.state.init) {
       this.setState({ init: false });
     }
   }
-  componentDidUpdate() {
-    this.bindAceEditor.bind(this)();
-  }
+
   componentWillUpdate() {
     if (!this.props.curData.title && this.state.init) {
       this.setState({ init: false });
@@ -294,11 +256,14 @@ class View extends Component {
 
     let requestShow = (dataSource&& dataSource.length) || (req_dataSource && req_dataSource.length) || (this.props.curData.req_query && this.props.curData.req_query.length) || (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
     let methodColor = variable.METHOD_COLOR[this.props.curData.method ? this.props.curData.method.toLowerCase() : "get"];
+
+    let bodyShow = (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
+ 
+
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     let h = this.countEnter(this.props.curData.req_body_other);
-    const aceEditor = <div style={{ display: this.props.curData.req_body_other && this.props.curData.req_body_type === "json" ? "block" : "none" }} className="colBody">
-      <span className="colKey">请求Body：</span>
-      <div id="vreq_body_json" style={{ minHeight: h * 16 + 20 }}></div>
+    const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form" ) ? "block" : "none" }} className="colBody">
+      <AceEditor data={this.props.curData.req_body_other} style={{ minHeight: h * 16 + 20 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
     </div>
     if (!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
@@ -352,20 +317,15 @@ class View extends Component {
         <h3 className="col-title">Query：</h3>
         {this.req_query(this.props.curData.req_query)}
       </div> : ""}
-      {/*<div className="colreqBodyType">
-        <span className="colKey">请求Body类型：</span>
-        <span className="colValue">{this.props.curData.req_body_type}</span>
-      </div>*/}
+
       <div style={{display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none'}}>
+        <h3 style={{display: bodyShow? '' : 'none'}} className="col-title">Body:</h3>
         { aceEditor }
         { 
           this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
         }
       </div>
-      {/*<div className="colreqBodyType">
-        <span className="colKey">返回Body类型：</span>
-        <span className="colValue">{this.props.curData.res_body_type}</span>
-      </div>*/}
+
       <h2 className="interface-title">Response</h2>
       {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body)}
     </div>;

@@ -905,7 +905,7 @@ var typeMap = {
   integer: () => '@integer',
   number: () => '@natural',
   object: objectType,
-  string: () => '@string',
+  string: () => '@string'
 };
 
 // TODO provide types

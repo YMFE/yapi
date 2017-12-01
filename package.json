@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,14 @@
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
     "test": "ava"
+  },
+  "scripts-info": {
+    "start": "运行生产环境服务器",
+    "install-server": "初始化数据库数据，用于安装",
+    "dev": "运行开发服务器",
+    "dev-server": "运行后端开发服务器",
+    "dev-client": "运行前端开发服务器",
+    "test": "执行测试"
   },
   "repository": {
     "type": "git",
@@ -63,6 +71,7 @@
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-plugin-webpack-alias": "^2.1.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-3": "^6.24.1",
@@ -143,9 +152,36 @@
     "node": ">= 7.6.0",
     "npm": ">= 4.1.2"
   },
+  "babel": {
+    "presets": [
+      [
+        "es2015",
+        {
+          "loose": true,
+          "modules": "commonjs"
+        }
+      ],
+      "es2017",
+      "stage-0",
+      "react"
+    ],
+    "plugins": [
+      "transform-runtime",
+      [
+        "webpack-alias",
+        {
+          "config": "webpack.alias.js"
+        }
+      ]
+    ]
+  },
   "ava": {
     "files": [
       "test/**/*.js"
-    ]
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }

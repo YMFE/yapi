@@ -99,16 +99,17 @@ export default class InterfaceCaseContent extends Component {
   updateCase = async () => {
 
     const {
-      caseEnv: case_env,
-      pathname: path,
-      method,
-      pathParam: req_params,
-      query: req_query,
-      headers: req_headers,
-      bodyType: req_body_type,
-      bodyForm: req_body_form,
-      bodyOther: req_body_other,
-      resMockTest: mock_verify
+      case_env,
+      req_params,
+      req_query,
+      req_headers,
+      req_body_type,
+      req_body_form,
+      req_body_other,
+      test_script,
+      enable_script,
+      test_res_body,
+      test_res_header
     } = this.postman.state;
 
     const { editCasename: casename } = this.state;
@@ -116,27 +117,19 @@ export default class InterfaceCaseContent extends Component {
     let params = {
       id,
       casename,
-      case_env,
-      path,
-      method,
+      case_env,      
       req_params,
       req_query,
       req_headers,
       req_body_type,
       req_body_form,
       req_body_other,
-      mock_verify
+      test_script,
+      enable_script,
+      test_res_body,
+      test_res_header
+      
     };
-    if (this.postman.state.test_status !== 'error') {
-      params.test_res_body = this.postman.state.res;
-      params.test_status = this.postman.state.test_status;
-      params.test_res_header = this.postman.state.resHeader;
-    }
-
-
-    if (params.test_res_body && typeof params.test_res_body === 'object') {
-      params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
-    }
 
     const res = await axios.post('/api/col/up_case', params);
     if (this.props.currCase.casename !== casename) {
@@ -166,7 +159,7 @@ export default class InterfaceCaseContent extends Component {
   render() {
     const { currCase, currProject } = this.props;
     const { isEditingCasename, editCasename } = this.state;
-    const data = Object.assign({}, currCase, currProject, { _id: currCase._id });
+    const data = Object.assign({}, currCase, {env: currProject.env}, { _id: currCase._id });
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">
@@ -182,7 +175,9 @@ export default class InterfaceCaseContent extends Component {
           </span>
         </div>
         <div>
-          <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
+          {Object.keys(currCase).length > 0 && 
+            <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
+          }
         </div>
       </div>
     )

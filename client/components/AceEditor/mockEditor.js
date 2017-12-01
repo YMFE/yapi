@@ -1,6 +1,9 @@
 var ace = require('brace'),
-  Mock = require('mockjs')
+  Mock = require('mockjs');
 require('brace/mode/javascript');
+require('brace/mode/json');
+require('brace/mode/xml');
+require('brace/mode/html')
 require('brace/theme/xcode');
 require("brace/ext/language_tools.js");
 var json5 = require('json5');
@@ -57,6 +60,20 @@ var langTools = ace.acequire("ace/ext/language_tools"),
     { name: '协议', mock: '@protocol' }
   ];
 
+let dom = ace.acequire("ace/lib/dom");
+ace.acequire("ace/commands/default_commands").commands.push({
+  name: "Toggle Fullscreen",
+  bindKey: "F9",
+  exec: function(editor) {  
+    if(editor._fullscreen_yapi){
+      let fullScreen = dom.toggleCssClass(document.body, "fullScreen")
+      dom.setCssClass(editor.container, "fullScreen", fullScreen)
+      editor.setAutoScrollEditorIntoView(!fullScreen)
+      editor.resize()
+    }    
+  }
+})
+
 function run(options) {
   var editor,
     mockEditor,
@@ -81,6 +98,7 @@ function run(options) {
   }
   data = options.data || '';
   options.readOnly = options.readOnly || false;
+  options.fullScreen = options.fullScreen || false;
 
   editor = ace.edit(container)
   editor.$blockScrolling = Infinity;
@@ -96,9 +114,10 @@ function run(options) {
     enableLiveAutocompletion: true,
     useWorker: true
   });
+  editor._fullscreen_yapi = options.fullScreen;
   mockEditor = {
     curData: {},
-    getValue: editor.getValue,
+    getValue: ()=>mockEditor.curData.text,
     setValue: function (data) {
       data = data || '';
       if (typeof data === 'string') {
@@ -107,8 +126,12 @@ function run(options) {
         editor.setValue(JSON.stringify(data, null, "  "))
       }
     },
-    editor: editor
+    editor: editor,
+    options: options
   }
+
+  
+
   rhymeCompleter = {
     identifierRegexps: [/[@]/],
     getCompletions: function (editor, session, pos, prefix, callback) {
@@ -133,6 +156,7 @@ function run(options) {
     if (typeof options.onChange === 'function') {
       options.onChange.call(mockEditor, mockEditor.curData);
     }
+    editor.clearSelection();
 
   });
 
