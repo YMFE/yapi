@@ -326,7 +326,7 @@ export default class Run extends Component {
                     &nbsp;
                     {item.required == 1 ?
                       <Checkbox className="params-enable" checked={true} disabled >enable</Checkbox> :
-                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.value, index, 'value')}>enable</Checkbox>
+                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.checked, index, 'enable')}>enable</Checkbox>
                     }
                     <span className="eq-symbol">=</span>
                     <Input
