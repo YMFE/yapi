@@ -78,9 +78,12 @@
   cursor: move;
 }
 .report{
-  min-height: 400px;
+  min-height: 500px;
   .case-report-pane{
     margin-top: 10px;
+  }
+  .url{
+    overflow: auto;
   }
   .case-report{
     margin: 10px;
