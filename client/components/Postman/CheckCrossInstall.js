@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert } from 'antd'
 import PropTypes from 'prop-types'
 
-exports.initCrossRequest = function initCrossRequest(fn){
+exports.initCrossRequest = function initCrossRequest(fn) {
   let startTime = 0;
   let _crossRequest = setInterval(() => {
     startTime += 500;
@@ -23,7 +23,7 @@ CheckCrossInstall.propTypes = {
   hasPlugin: PropTypes.bool
 }
 
-function CheckCrossInstall (props) {
+function CheckCrossInstall(props) {
   const hasPlugin = props.hasPlugin;
   return <div className={hasPlugin ? null : 'has-plugin'} >
     {hasPlugin ? '' : <Alert
@@ -34,8 +34,7 @@ function CheckCrossInstall (props) {
             <a
               target="blank"
               href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-            >[Google 商店获取（需翻墙]
-              </a>
+            >[Google 商店获取（需翻墙]</a>            
           </div>
           <div>
             <a
