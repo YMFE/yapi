@@ -137,11 +137,10 @@ class PrpjectEnv extends Component {
     const envSettingItems = envs.map((k, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
-        <Row key={index} type="flex" justify="space-between" className={index === 0 ? ' env-first-row' : null} align={index === 0 ? 'bottom' : 'top'}>
+        <Row key={index} type="flex" justify="space-between" className={index === 0 ? ' env-first-row' : null} align={'top'}>
           <Col span={11}>
             <FormItem
-              label={index === 0 ? (
-                <span>环境名称</span>) : ''}
+              
               required={false}
               key={index}
             >
@@ -172,8 +171,7 @@ class PrpjectEnv extends Component {
           </Col>
           <Col span={11}>
             <FormItem
-              label={index === 0 ? (
-                <span>环境域名</span>) : ''}
+  
               required={false}
               key={secondIndex}
             >
