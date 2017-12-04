@@ -52,13 +52,47 @@ function handleCurrDomain(domains, case_env) {
   return currDomain;
 }
 
-function evalScript(script){
-  return eval(script);
+function sandbox (context = {}, script) {
+  if(!script || typeof script !== 'string'){
+    return context;
+  }
+  let beginScript = '';
+  for(var i in context){
+    beginScript += `var ${i} = context.${i};`;
+  }
+  //beginScript.join("\n") + "\n";
+  console.log(beginScript + script)
+  try{
+    eval(beginScript + script);
+  }catch(err){
+    console.log(err);
+    return context;
+  }
+  
+  console.log(context);
+  return context;
 }
 
 function HandlePreScript(options, script){
-  let {pathname, query, body, header} = options; // eslint-disable-line
-  evalScript(script)
+  
+  let urlObj = URL.parse(options.url, true), query = {};
+  query = Object.assign(query, urlObj.query);
+
+  let context = {
+    pathname: urlObj.pathname,
+    query: query,
+    body: options.data,
+    header: options.headers || {}
+  };
+  context =  sandbox(context, script);
+
+  options.url =  URL.format({
+      protocol: urlObj.protocol,
+      host: urlObj.host,
+      query: context.query
+  })
+  options.headers = context.header;
+  options.body = context.body;
   return options;
 }
 
@@ -67,15 +101,10 @@ function HandlePreScript(options, script){
 // }
 
 function crossRequest(options, script) {
+  script = `query.ttt="hello"`
+  console.log(222)
   if(script){
-    let urlObj = URL.parse(options.url, true), query = {};
-    query = Object.assign(query, urlObj.query);
-    options = HandlePreScript({
-      pathname: urlObj.pathname,
-      query: query,
-      body: options.data,
-      header: options.headers || {}
-    }, script);
+    options = HandlePreScript(options, script);
   }
   return new Promise((resolve, reject) => {
     options.error = options.success = function (res, header, data) {
@@ -89,7 +118,8 @@ function crossRequest(options, script) {
       }
       resolve(data);
     }
-    window.crossRequest(options);
+    console.log(options);
+    //window.crossRequest(options);
   })
 }
 
