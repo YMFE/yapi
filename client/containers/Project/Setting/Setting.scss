@@ -198,8 +198,6 @@
 
 .project-env{
   // 环境配置中首个item的删除按钮定位调整
-  margin-top: .5rem;
-
   .ant-row-flex {
     display: flex;
     flex-flow: row wrap;
@@ -212,9 +210,6 @@
       position: relative;
       bottom: .16rem;
     }
-    display: flex;
-    flex-flow: row wrap;
-    height: 55px;
   }
 }
 
