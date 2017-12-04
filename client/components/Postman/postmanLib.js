@@ -16,6 +16,10 @@ const ContentTypeMap = {
   'application/html': 'html'
 }
 
+// function isNode(){
+//   return typeof module !== 'undefined' && module.exports
+// }
+
 function handleContentType(headers) {
   if (!headers || typeof headers !== 'object') return ContentTypeMap.other;
   let contentTypeItem = 'other';
@@ -48,7 +52,31 @@ function handleCurrDomain(domains, case_env) {
   return currDomain;
 }
 
-function crossRequest(options) {
+function evalScript(script){
+  return eval(script);
+}
+
+function HandlePreScript(options, script){
+  let {pathname, query, body, header} = options; // eslint-disable-line
+  evalScript(script)
+  return options;
+}
+
+// function HandleAfterScript(body, script){
+//   return body;
+// }
+
+function crossRequest(options, script) {
+  if(script){
+    let urlObj = URL.parse(options.url, true), query = {};
+    query = Object.assign(query, urlObj.query);
+    options = HandlePreScript({
+      pathname: urlObj.pathname,
+      query: query,
+      body: options.data,
+      header: options.headers || {}
+    }, script);
+  }
   return new Promise((resolve, reject) => {
     options.error = options.success = function (res, header, data) {
       let message = '请求异常，请检查 chrome network 错误信息...';
@@ -95,7 +123,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
   }
 
   let { case_env, path, env } = interfaceData;
-  let pathQuery = {}, currDomain, requestBody, requestOptions;
+  let currDomain, requestBody, requestOptions = {};
 
   interfaceData.req_params = interfaceData.req_params || [];
   interfaceData.req_params.forEach(item => {
@@ -109,21 +137,22 @@ function handleParams(interfaceData, handleValue, requestParams) {
 
 
   currDomain = handleCurrDomain(env, case_env);
-  const urlObj = URL.parse(joinPath(currDomain.domain, path));
-  urlObj.query && urlObj.query.split('&').forEach(item => {
-    if (item) {
-      item = item.split('=');
-      pathQuery[item[0]] = item[1];
-    }
-  })
+  const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
 
   const url = URL.format({
     protocol: urlObj.protocol || 'http',
     host: urlObj.host,
     pathname: urlObj.pathname,
-    query: Object.assign(pathQuery, paramsToObjectWithEnable(interfaceData.req_query))
+    query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceData.req_query))
 
   });
+
+  requestOptions = {
+    url,
+    method: interfaceData.method,
+    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),    
+    timeout: 82400000
+  }
 
   if (HTTP_METHOD[interfaceData.method].request_body) {
     if (interfaceData.req_body_type === 'form') {
@@ -143,23 +172,16 @@ function handleParams(interfaceData, handleValue, requestParams) {
     }else{
       requestBody = interfaceData.req_body_other;
     }
+    requestOptions.data = requestBody;
+    if (interfaceData.req_body_type === 'form') {
+      requestOptions.files = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
+        return item.type == 'file'
+      }))
+    } else if (interfaceData.req_body_type === 'file') {
+      requestOptions.file = 'single-file'
+    }
   }
 
-  requestOptions = {
-    url,
-    method: interfaceData.method,
-    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),
-    data: requestBody,
-    timeout: 82400000
-  }
-
-  if (interfaceData.req_body_type === 'form') {
-    requestOptions.files = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
-      return item.type == 'file'
-    }))
-  } else if (interfaceData.req_body_type === 'file') {
-    requestOptions.file = 'single-file'
-  }
   return requestOptions;
 
 }
