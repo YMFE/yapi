@@ -63,7 +63,7 @@ Your browser does not support the video tag.
 </video>
 
 ### 公共变量
-#### assert 
+#### 1.assert 
 
 断言函数，详细 api 可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
 
@@ -88,27 +88,27 @@ Your browser does not support the video tag.
 
   深度比较两个对象是否不相等
 
-#### status
+#### 2.status
 
   http 状态码
 
-#### params
+#### 3.params
 
   http request params, 合并了 query 和 body
 
-#### body  
+#### 4.body  
 
   返回 response body
 
-#### header 
+#### 5.header 
 
   返回 response header
 
-#### records 
+#### 6.records 
 
   记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
 
-#### log 
+#### 7.log 
 
   log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印 
   
