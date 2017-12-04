@@ -133,7 +133,7 @@ class ProjectList extends Component {
               })(
                 <Select>
                   {this.state.groupList.map((item, index) => (
-                    <Option disabled={!(item.role === 'dev' || item.role === 'owner')} value={item._id.toString()} key={index}>{item.group_name}</Option>
+                    <Option disabled={!(item.role === 'dev' || item.role === 'owner' || item.role === 'admin')} value={item._id.toString()} key={index}>{item.group_name}</Option>
                   ))}
                 </Select>
               )}
