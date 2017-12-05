@@ -28,7 +28,8 @@ class AceEditor extends React.PureComponent {
     readOnly: PropTypes.bool,
     callback: PropTypes.func,
     style: PropTypes.object,
-    fullScreen: PropTypes.bool
+    fullScreen: PropTypes.bool,
+    insertCode: PropTypes.func
   }
 
   componentDidMount(){

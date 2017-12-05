@@ -23,6 +23,22 @@
     }
   }
 
+  .insert-code{
+    
+    margin-right: 20px;
+    .code-item{
+      border: 1px solid #dbd9d9;
+      padding:3px;
+      line-height: 30px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .case-script{
+    min-height: 500px;
+    margin: 10px;
+  }
+
   .response-tab{    
     margin-top: 20px;
     margin-bottom: 20px;

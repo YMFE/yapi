@@ -134,7 +134,11 @@ class InterfaceColContent extends Component {
   executeTests = async () => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
-      curitem = Object.assign({}, rows[i],{env: this.props.currProject.env}, { test_status: 'loading' });
+      curitem = Object.assign({}, rows[i],{
+        env: this.props.currProject.env,
+        pre_script: this.props.currProject.pre_script,
+        after_script: this.props.currProject.after_script
+      }, { test_status: 'loading' });
       newRows = [].concat([], rows);
       newRows[i] = curitem;
       this.setState({
@@ -185,7 +189,7 @@ class InterfaceColContent extends Component {
 
 
     try {
-      let data = await crossRequest(options)
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script)
       let res = data.res.body = isJson(data.res.body);
 
       result = {
@@ -521,7 +525,7 @@ class InterfaceColContent extends Component {
             return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
           return <div className="interface-col-table-action">
-            <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button>
+            {/* <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button> */}
             {reportFun()}
           </div>
         }]
