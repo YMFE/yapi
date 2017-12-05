@@ -88,7 +88,9 @@ export default class Run extends Component {
   render () {
     const { currInterface, currProject } = this.props;
     const data = Object.assign({}, currInterface, {
-      env: currProject.env
+      env: currProject.env,
+      pre_script: currProject.pre_script,
+      after_script: currProject.after_script
     })
     data.path = currProject.basepath +  currInterface.path;
     return (

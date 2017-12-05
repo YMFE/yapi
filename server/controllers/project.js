@@ -511,7 +511,7 @@ class projectController extends baseController {
     }
 
     /**
-     * 项目设置
+     * 项目头像设置
      * @interface /project/upset
      * @method POST
      * @category project
@@ -572,14 +572,14 @@ class projectController extends baseController {
         try {
             let id = ctx.request.body.id;
             let params = ctx.request.body;
-            params.basepath = params.basepath || '';
+
             params = yapi.commons.handleParams(params, {
                 name: 'string',
                 basepath: 'string',
                 group_id: 'number',
                 desc: 'string',
-                icon: 'string',
-                color: 'string'
+                pre_script: 'string',
+                after_script: 'string'
             });
             if (!id) {
                 return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
@@ -617,9 +617,11 @@ class projectController extends baseController {
             if (!_.isUndefined(params.name)) data.name = params.name;
             if (!_.isUndefined(params.desc)) data.desc = params.desc;
             if (!_.isUndefined(params.group_id)) data.group_id = params.group_id;
-            data.basepath = params.basepath;            
+            if (!_.isUndefined(params.basepath)) data.basepath = params.basepath;
             if (!_.isUndefined(params.color)) data.color = params.color;
             if (!_.isUndefined(params.icon)) data.icon = params.icon;
+            if (!_.isUndefined(params.pre_script)) data.pre_script = params.pre_script;
+            if (!_.isUndefined(params.after_script)) data.after_script = params.after_script;
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
             yapi.commons.saveLog({

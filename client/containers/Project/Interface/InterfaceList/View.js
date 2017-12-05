@@ -102,7 +102,7 @@ class View extends Component {
       </div>
     } else if (res_body_type === 'raw') {
       return <div  className="colBody">
-        <AceEditor data={res_body} readOnly={true} mode="text" />
+        <AceEditor data={res_body} readOnly={true} mode="text" style={{ minHeight: 300 }} />
       </div>
     }
   }

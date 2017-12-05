@@ -21,7 +21,7 @@ class groupModel extends baseModel {
                     username: String,
                     email: String
                 }
-            ]
+            ]            
         };
     }
 

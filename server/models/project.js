@@ -23,7 +23,9 @@ class projectModel extends baseModel {
             icon: String,
             color: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            pre_script: String,
+            after_script: String
         };
     }
 
@@ -61,7 +63,7 @@ class projectModel extends baseModel {
     getBaseInfo(id) {
         return this.model.findOne({
             _id: id
-        }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time')
+        }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time pre_script after_script')
             .exec()
     }
 

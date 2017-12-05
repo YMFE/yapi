@@ -2,6 +2,8 @@ import { isJson5, handleJson, joinPath, safeArray } from '../../common.js'
 import constants from '../../constants/variable.js'
 import _ from "underscore"
 import URL from 'url';
+
+const utils = require('common/power-string.js').utils;
 const HTTP_METHOD = constants.HTTP_METHOD;
 
 exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
@@ -52,59 +54,59 @@ function handleCurrDomain(domains, case_env) {
   return currDomain;
 }
 
-function sandbox (context = {}, script) {
-  if(!script || typeof script !== 'string'){
+function sandbox(context = {}, script) {
+  if (!script || typeof script !== 'string') {
     return context;
   }
   let beginScript = '';
-  for(var i in context){
+  for (var i in context) {
     beginScript += `var ${i} = context.${i};`;
   }
-  //beginScript.join("\n") + "\n";
-  console.log(beginScript + script)
-  try{
+  try {
     eval(beginScript + script);
-  }catch(err){
+  } catch (err) {
+    console.log('----CodeBegin----: ')
+    console.log(beginScript + script)
+    console.log('----CodeEnd----')
     console.log(err);
     return context;
   }
-  
-  console.log(context);
   return context;
 }
 
-function HandlePreScript(options, script){
-  
-  let urlObj = URL.parse(options.url, true), query = {};
-  query = Object.assign(query, urlObj.query);
-
-  let context = {
-    pathname: urlObj.pathname,
-    query: query,
-    body: options.data,
-    header: options.headers || {}
-  };
-  context =  sandbox(context, script);
-
-  options.url =  URL.format({
-      protocol: urlObj.protocol,
-      host: urlObj.host,
-      query: context.query
-  })
-  options.headers = context.header;
-  options.body = context.body;
-  return options;
-}
 
 // function HandleAfterScript(body, script){
 //   return body;
 // }
 
-function crossRequest(options, script) {
-  script = `query.ttt="hello"`
-  console.log(222)
-  if(script){
-    options = HandlePreScript(options, script);
+function crossRequest(options, preScript, afterScript) {
+  // preScript = `query.ttt="hello"; requestBody.aaaa= filter("3333 | md5 | substr:1, 5")`
+  // afterScript = `console.log(responseData); context.responseData='hello'`
+  options = Object.assign({}, options);
+  let urlObj = URL.parse(options.url, true), query = {};
+  query = Object.assign(query, urlObj.query);
+  let context = {
+    pathname: urlObj.pathname,
+    query: query,
+    requestHeader: options.headers || {},
+    requestBody: options.data,
+    utils: utils
+  };
+
+  if (preScript || afterScript) {
+    
+    if(preScript){
+      context = sandbox(context, preScript);
+      options.url = URL.format({
+        protocol: urlObj.protocol,
+        host: urlObj.host,
+        query: context.query,
+        pathname: context.pathname
+      })
+      options.headers = context.requestHeader;
+      options.data = context.requestBody;
+    }
+    
   }
   return new Promise((resolve, reject) => {
     options.error = options.success = function (res, header, data) {
@@ -116,10 +118,22 @@ function crossRequest(options, script) {
           message
         })
       }
+
+      if(afterScript){
+        
+        context.responseData = data.res.body;
+        context.responseHeader = data.res.header;
+        context.responseStatus = data.res.status;
+        context.runTime = data.runTime;
+
+        context = sandbox(context, afterScript);
+
+        data.res.body = context.responseData;
+        data.res.header = context.responseHeader;
+      }
       resolve(data);
     }
-    console.log(options);
-    //window.crossRequest(options);
+    window.crossRequest(options);
   })
 }
 
@@ -137,7 +151,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     })
     return obj;
   }
-  
+
   function paramsToObjectUnWithEnable(arr) {
     const obj = {};
     safeArray(arr).forEach(item => {
@@ -147,7 +161,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
           requestParams[item.name] = obj[item.name];
         }
       }
-      
+
     })
     return obj;
   }
@@ -180,7 +194,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
   requestOptions = {
     url,
     method: interfaceData.method,
-    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),    
+    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),
     timeout: 82400000
   }
 
@@ -189,7 +203,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
       requestBody = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
         return item.type == 'text'
       }));
-    } else if(interfaceData.req_body_type === 'json'){
+    } else if (interfaceData.req_body_type === 'json') {
       let reqBody = isJson5(interfaceData.req_body_other);
       if (reqBody === false) {
         requestBody = interfaceData.req_body_other;
@@ -199,7 +213,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
         }
         requestBody = handleJson(reqBody, handleValue);
       }
-    }else{
+    } else {
       requestBody = interfaceData.req_body_other;
     }
     requestOptions.data = requestBody;

@@ -131,7 +131,7 @@ export default class Run extends Component {
     })
     let options = handleParams(this.state, this.handleValue), result;
     try {
-      result = await crossRequest(options);
+      result = await crossRequest(options, this.state.pre_script, this.state.after_script);
       result = {
         header: result.res.header,
         body: result.res.body,
