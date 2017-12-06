@@ -63,33 +63,54 @@ Your browser does not support the video tag.
 </video>
 
 ### 公共变量
-* assert 
+#### 1.assert 
 
-  断言函数，详细 api可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
+断言函数，详细 api 可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
 
-* status
+##### 常用 api:
+* assert(value) 
+
+  判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false等值验证通过
+
+* assert.equal(actual, expected) 
+
+  判断 actual 是否等于 expected，例如 assert(1, 1)通过
+
+* assert.notEqual(actual, expected) 
+
+  判断 actual 是否不等于 expected
+
+* assert.deepEqual(actual, expected)
+
+  假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等
+
+* assert.notDeepEaual(actual, expected)
+
+  深度比较两个对象是否不相等
+
+#### 2.status
 
   http 状态码
 
-* params
+#### 3.params
 
   http request params, 合并了 query 和 body
 
-* body  
+#### 4.body  
 
   返回 response body
 
-* header 
+#### 5.header 
 
   返回 response header
 
-* records 
+#### 6.records 
 
   记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取  
 
-* log 
+#### 7.log 
 
-  log（message） 函数,调试时使用，只有在断言失败后会在测试报告打印 log 信息 
+  log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印 
   
 ### 示例
 ```
