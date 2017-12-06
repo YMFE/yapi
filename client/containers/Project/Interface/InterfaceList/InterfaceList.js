@@ -191,11 +191,12 @@ class InterfaceList extends Component {
       }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
-    let intername = '';
+    let intername = '', desc = '';
     if (this.props.curProject.cat) {
       for (let i = 0; i < this.props.curProject.cat.length; i++) {
         if (this.props.curProject.cat[i]._id === this.state.catid) {
           intername = this.props.curProject.cat[i].name;
+          desc = this.props.curProject.cat[i].desc;
         }
       }
     }
@@ -207,7 +208,13 @@ class InterfaceList extends Component {
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({data.length}) 个</h2>
+        
         <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
+        <div >
+          {desc &&
+            <p style={{marginTop: '10px'}}>{desc} </p>
+          }
+        </div>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
           title="添加接口"
