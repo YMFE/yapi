@@ -3,6 +3,7 @@
 #### Bug Fixed
 
 1. Api 路径兼容 postman {varible}
+2. View Response Height 问题
 
 ### v1.2.8
 
