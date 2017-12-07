@@ -339,6 +339,15 @@ class InterfaceEditForm extends Component {
 
   handlePath = (e) => {
     let val = e.target.value, queue = [];
+
+    let insertParams =(name)=>{
+      let findExist = _.find(this.state.req_params, { name: name });
+      if (findExist) {
+        queue.push(findExist)
+      } else {
+        queue.push({ name: name, desc: '' })
+      }
+    }
     val = handlePath(val)
     this.props.form.setFieldsValue({
       path: val
@@ -348,15 +357,17 @@ class InterfaceEditForm extends Component {
       for (i = 1; i < paths.length; i++) {
         if (paths[i][0] === ':') {
           name = paths[i].substr(1);
-          let findExist = _.find(this.state.req_params, { name: name });
-          if (findExist) {
-            queue.push(findExist)
-          } else {
-            queue.push({ name: name, desc: '' })
-          }
+          insertParams(name)
         }
       }
     }
+
+    if(val && val.length > 3){
+      val.replace(/\{(.+?)\}/g, function(str, match){
+        insertParams(match)
+      })
+    }
+
     this.setState({
       req_params: queue
     })
@@ -595,6 +606,8 @@ class InterfaceEditForm extends Component {
     const requestBodyList = this.state.req_body_form.map((item, index) => {
       return requestBodyTpl(item, index)
     })
+
+    const DEMOPATH= '/api/user/{id}'
     return (
       <Form onSubmit={this.handleSubmit}>
 
@@ -639,7 +652,7 @@ class InterfaceEditForm extends Component {
               <span>
                 接口路径&nbsp;
                 <Tooltip title={<div>
-                  <p>1. 支持动态路由,例如:/api/user/:id</p>
+                  <p>1. 支持动态路由,例如:{DEMOPATH}</p>
                   <p>2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到 Request设置-&#62;Query</p>
                 </div>}>
                   <Icon type="question-circle-o" style={{ width: "10px" }} />

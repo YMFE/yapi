@@ -7,7 +7,6 @@ var jsf = require('common/json-schema-mockjs');
 function improtData(importDataModule){
   var SwaggerData;
   function handlePath(path){
-    path = path.replace(/{(\w*)}/,":$1");
     if(path.charAt(0) != "/"){
       path = "/" + path;
     }
