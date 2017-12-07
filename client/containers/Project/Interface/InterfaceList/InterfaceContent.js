@@ -34,6 +34,7 @@ class Content extends Component {
   }
   constructor(props) {
     super(props)
+    this.title = 'YApi-高效、易用、功能强大的可视化接口管理平台';
     this.state = {
       curtab: 'view',
       visible: false,
@@ -45,7 +46,10 @@ class Content extends Component {
     const params = this.props.match.params;
     this.actionId = params.actionId;
     this.handleRequest(this.props);
-    // window.confirm = () => {};
+  }
+
+  componentWillUnmount(){
+    document.getElementsByTagName('title')[0].innerText = this.title;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,8 +105,11 @@ class Content extends Component {
       visible: false
     });
   }
-  render() {
-    document.getElementsByTagName('title')[0].innerText = this.props.curdata.title;
+  render() {    
+    if(this.props.curdata.title){      
+      document.getElementsByTagName('title')[0].innerText = this.props.curdata.title + '-' + this.title;
+    }
+    
     let InterfaceTabs = {
       view: {
         component: View,
