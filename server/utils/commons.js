@@ -192,7 +192,7 @@ exports.handleVarPath = (pathname, params)=>{
  * path第一位必需为 /, path 只允许由 字母数字-/_:.{}= 组成
  */
 exports.verifyPath = (path) => {
-    if (/^\/[a-zA-Z0-9\-\/_:\.\{\}\=]+$/.test(path)) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.\{\}\=]*$/.test(path)) {
         return true;
     } else {
         return false;

@@ -248,6 +248,7 @@ export default class Run extends Component {
           handleOk={this.handleModalOk}
           inputValue={inputValue}
           envType={this.props.type}
+          id={+this.state._id}
         >
         </ModalPostman>
         <CheckCrossInstall hasPlugin={hasPlugin} />

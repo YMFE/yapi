@@ -4,6 +4,7 @@
 
 1. Api 路径兼容 postman {varible}
 2. View Response Height 问题
+3. pathname 允许只有一个 /
 
 ### v1.2.8
 
