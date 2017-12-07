@@ -34,7 +34,16 @@ function improtData(importDataModule){
         _.each(apis, (api, method)=>{
           api.path = path;
           api.method = method;
-          interfaceData.apis.push(handleSwagger(api));
+          let data = null;
+          try{
+            data = handleSwagger(api)
+          }catch(err){
+            data = null;
+          }
+          if(data){
+            interfaceData.apis.push(data);
+          }
+          
         })
       })
       
