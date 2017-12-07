@@ -1,3 +1,9 @@
+### v1.2.9
+
+#### Bug Fixed
+
+1. Api 路径兼容 postman {varible}
+
 ### v1.2.8
 
 #### Bug Fixed

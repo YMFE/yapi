@@ -5,7 +5,8 @@ import {
   trim,
   handleParams,
   verifyPath, 
-  sandbox
+  sandbox,
+  handleVarPath
 } from '../../server/utils/commons.js';
 
 test('trim', t => {
@@ -46,4 +47,40 @@ test('sandbox', t=>{
     t.deepEqual(sandbox({
         a: 1
     }, 'a=2'), {a : 2});
+})
+
+test('handleVarPath', t=>{
+    let result = [];
+    let pathname = '/a/:id'
+    handleVarPath(pathname, result);
+
+    t.deepEqual(result, [{
+        name: 'id',
+        desc: ''
+    }])
+})
+
+test('handleVarPath2', t=>{
+    let result = [];
+    let pathname = '/a/{id}'
+    handleVarPath(pathname, result);
+
+    t.deepEqual(result, [{
+        name: 'id',
+        desc: ''
+    }])
+})
+
+test('handleVarPath4', t=>{
+    let result = [];
+    let pathname = '/a/id={id}/tt/:sub/kk'
+    handleVarPath(pathname, result);
+
+    t.deepEqual(result, [{
+        name: 'sub',
+        desc: ''
+    }, {
+        name: 'id',
+        desc: ''
+    }])
 })

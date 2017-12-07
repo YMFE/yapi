@@ -105,6 +105,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     }
 
     path = path.replace(`:${item.name}`, val || `:${item.name}`);
+    path = path.replace(`{${item.name}}`, val || `{${item.name}}`)
   });
 
 
