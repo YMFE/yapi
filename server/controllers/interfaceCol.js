@@ -38,8 +38,9 @@ class interfaceColController extends baseController {
 
             for (let i = 0; i < result.length; i++) {
                 result[i] = result[i].toObject();
-                result[i].caseList = await this.caseModel.list(result[i]._id)
+                result[i].caseList = await this.caseModel.list(result[i]._id);
             }
+
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -161,15 +162,15 @@ class interfaceColController extends baseController {
         }
     }
 
-    requestParamsToObj(arr){
-      if(!arr || !Array.isArray(arr) || arr.length === 0){
-        return {}
-      }
-      let obj = {};
-      arr.forEach(item=>{
-        obj[item.name] = ''
-      })
-      return obj;
+    requestParamsToObj(arr) {
+        if (!arr || !Array.isArray(arr) || arr.length === 0) {
+            return {}
+        }
+        let obj = {};
+        arr.forEach(item => {
+            obj[item.name] = ''
+        })
+        return obj;
     }
 
     /**
@@ -184,54 +185,54 @@ class interfaceColController extends baseController {
      */
 
     async getCaseListByVariableParams(ctx) {
-      try {
-          let id = ctx.query.col_id;
-          if (!id || id == 0) {
-              return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
-          }
-          let resultList = await this.caseModel.list(id, 'all');
-          if(resultList.length === 0 ){
-            return ctx.body = yapi.commons.resReturn([])
-          }
-          let project = await this.projectModel.getBaseInfo(resultList[0].project_id);
+        try {
+            let id = ctx.query.col_id;
+            if (!id || id == 0) {
+                return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
+            }
+            let resultList = await this.caseModel.list(id, 'all');
+            if (resultList.length === 0) {
+                return ctx.body = yapi.commons.resReturn([])
+            }
+            let project = await this.projectModel.getBaseInfo(resultList[0].project_id);
 
-          if (project.project_type === 'private') {
-              if (await this.checkAuth(project._id, 'project', 'view') !== true) {
-                  return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
-              }
-          }
+            if (project.project_type === 'private') {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
 
-          for (let index = 0; index < resultList.length; index++) {
-              let result = resultList[index].toObject();
-              let item = {}, body, query, bodyParams, pathParams;
-              let data = await this.interfaceModel.get(result.interface_id);
-              if (!data) {
-                  await this.caseModel.del(result._id);
-                  continue;
-              }
-              item._id = result._id;
-              item.casename = result.casename;
-              body = yapi.commons.json_parse(data.res_body);
-              body = typeof body === 'object' ? body : {};
-              item.body = Object.assign({}, body);
-              query = this.requestParamsToObj(data.req_query);
-              pathParams = this.requestParamsToObj(data.req_params);
-              if(data.req_body_type === 'form'){
-                bodyParams = this.requestParamsToObj(data.req_body_form);
-              }else{
-                bodyParams = yapi.commons.json_parse(data.req_body_other);
-                bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
-              }
-              item.params = Object.assign(pathParams, query, bodyParams)
-              item.index = result.index;
-              resultList[index] = item;
-          }
+            for (let index = 0; index < resultList.length; index++) {
+                let result = resultList[index].toObject();
+                let item = {}, body, query, bodyParams, pathParams;
+                let data = await this.interfaceModel.get(result.interface_id);
+                if (!data) {
+                    await this.caseModel.del(result._id);
+                    continue;
+                }
+                item._id = result._id;
+                item.casename = result.casename;
+                body = yapi.commons.json_parse(data.res_body);
+                body = typeof body === 'object' ? body : {};
+                item.body = Object.assign({}, body);
+                query = this.requestParamsToObj(data.req_query);
+                pathParams = this.requestParamsToObj(data.req_params);
+                if (data.req_body_type === 'form') {
+                    bodyParams = this.requestParamsToObj(data.req_body_form);
+                } else {
+                    bodyParams = yapi.commons.json_parse(data.req_body_other);
+                    bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
+                }
+                item.params = Object.assign(pathParams, query, bodyParams)
+                item.index = result.index;
+                resultList[index] = item;
+            }
 
-          ctx.body = yapi.commons.resReturn(resultList);          
-      } catch (e) {
-          ctx.body = yapi.commons.resReturn(null, 402, e.message);
-      }
-  }
+            ctx.body = yapi.commons.resReturn(resultList);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
 
     /**
      * 增加一个接口用例
@@ -323,6 +324,7 @@ class interfaceColController extends baseController {
             if (!params.interface_list || !Array.isArray(params.interface_list)) {
                 return ctx.body = yapi.commons.resReturn(null, 400, 'interface_list 参数有误');
             }
+            const _id_list = params._id_list || [];
 
             if (!params.project_id) {
                 return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
@@ -347,13 +349,33 @@ class interfaceColController extends baseController {
                 col_id: params.col_id
             }
 
+            const model_list = [];
+
             for (let i = 0; i < params.interface_list.length; i++) {
                 let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
-                data.interface_id = params.interface_list[i];
-                data.casename = interfaceData.title;
-                data.req_body_other = interfaceData.req_body_other;
-                data.req_body_type = interfaceData.req_body_type;
-                await this.caseModel.save(data);
+
+                //  复制集合
+                if (_id_list.length) {
+                    let interface_model_case = await this.caseModel.get(_id_list[i]);
+                    interface_model_case = interface_model_case.toObject();
+                    for (let k in interface_model_case) {
+                        if (Object.prototype.hasOwnProperty.call(interface_model_case, k)) {
+                            if (k !== '_id' && k !== 'add_time' && k !== 'up_time' && k !== '__v' && k !== 'col_id') {
+                                data[k] = interface_model_case[k];
+                            }
+                        }
+                    }
+                } else {
+                    data.interface_id = params.interface_list[i];
+                    data.casename = interfaceData.title;
+                    data.req_body_other = interfaceData.req_body_other;
+                    data.req_body_type = interfaceData.req_body_type;
+                }
+
+                let case_model = await this.caseModel.save(data);
+                case_model = case_model.toObject();
+                model_list.push(case_model);
+
                 let username = this.getUsername();
                 this.colModel.get(params.col_id).then((col) => {
                     yapi.commons.saveLog({
@@ -366,8 +388,90 @@ class interfaceColController extends baseController {
                 });
             }
 
-            this.projectModel.up(params.project_id, { up_time: new Date().getTime() }).then();
+            // 替换实例中代码里的$.id
+            if (_id_list.length) {
+                for (let i = 0; i < model_list.length; i++) {
+                    let case_model = model_list[i];
+                    let case_model_req_body_other_obj = {};
+                    let case_model_req_query_list = [];
 
+                    let new_param_obj = {};
+                    let new_param_list = [];
+
+                    // 处理post参数
+                    if (case_model.req_body_other) {
+                        try {
+                            case_model_req_body_other_obj = yapi.commons.json_parse(case_model.req_body_other);
+                        } catch (e) {
+                            console.log('e ->', e);
+                        }
+                    }
+
+                    // 处理get参数
+                    if (case_model.req_query.length > 1) {
+                        case_model_req_query_list = case_model.req_query;
+                    }
+
+                    const dealParams = async (key, value) => {
+                        let case_id = "";
+                        let case_data = {};
+                        let replace_case_model = "";
+                        let replace_word = "";
+                        let res = "";
+                        if (value.indexOf("$.") !== -1 && value.slice(0, 1) === "$") {
+                            case_id = value.substring(2, value.length).split(".")[0];
+                            case_data = await this.caseModel.get(case_id);
+                            case_data = case_data.toObject();
+                            replace_case_model = await this.caseModel.getByInterfaceIdAndColId(case_data.interface_id, case_model.col_id, case_data.index);
+                            replace_case_model = replace_case_model[0];
+                            replace_word = "$." + replace_case_model['_id'] + value.substr(2 + case_id.length, value.length);
+                            res = replace_word;
+                        } else {
+                            res = value;
+                        }
+                        return res;
+                    }
+
+
+                    // 处理req_body_other 参数
+                    if (Object.keys(case_model_req_body_other_obj).length) {
+                        for (let k in case_model_req_body_other_obj) {
+                            new_param_obj[k] = await dealParams(k, case_model_req_body_other_obj[k].toString());
+                        }
+                    }
+
+                    // 处理req_body_other 参数
+                    if (case_model_req_query_list.length > 1) {
+                        for (let j = 0; j < case_model_req_query_list.length; j++) {
+                            let new_param_list_obj = {};
+                            for (let k in case_model_req_query_list[j]) {
+                                new_param_list_obj[k] = await dealParams(k, case_model_req_query_list[j][k].toString());
+                            }
+                            new_param_list.push(new_param_list_obj);
+                        }
+                        case_model["req_query"] = new_param_list;
+                    }
+
+                    let needUpdate = false;
+                    if (Object.keys(new_param_obj).length) {
+                        needUpdate = true;
+                        case_model["req_body_other"] = JSON.stringify(new_param_obj);
+                    }
+
+                    if (new_param_list.length) {
+                        needUpdate = true;
+                        case_model["req_query"] = new_param_list;
+                    }
+
+                    if (needUpdate) {
+                        await this.caseModel.up(case_model["_id"], case_model);
+                    }
+                }
+
+            }
+
+
+            this.projectModel.up(params.project_id, { up_time: new Date().getTime() }).then();
             ctx.body = yapi.commons.resReturn('ok');
 
         } catch (e) {
@@ -665,13 +769,13 @@ class interfaceColController extends baseController {
         }
     }
 
-    convertString(variable){
-        if(variable instanceof Error){
-            return variable.name + ': ' +variable.message;
+    convertString(variable) {
+        if (variable instanceof Error) {
+            return variable.name + ': ' + variable.message;
         }
-        try{
+        try {
             return JSON.stringify(variable, null, '   ');
-        }catch(err){
+        } catch (err) {
             return variable || '';
         }
     }
@@ -692,7 +796,7 @@ class interfaceColController extends baseController {
             header: params.response.header,
             records: params.records,
             params: params.params,
-            log: (msg) =>{
+            log: (msg) => {
                 logs.push('log: ' + this.convertString(msg))
             }
         }

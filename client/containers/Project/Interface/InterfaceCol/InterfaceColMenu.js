@@ -157,6 +157,7 @@ export default class InterfaceColMenu extends Component {
       }
     }
   }
+
   showDelColConfirm = (colId) => {
     let that = this;
     const params = this.props.match.params;
@@ -176,6 +177,50 @@ export default class InterfaceColMenu extends Component {
         }
       }
     });
+  }
+
+
+  // 复制测试集合 
+  copyInterface = async (item) => {
+
+    const { desc, project_id, caseList } = item;
+    let { name } = item;
+    name = `${name} copy`;
+
+    // 添加集合
+    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id });
+
+    if (add_col_res.data.errcode) {
+      message.error(add_col_res.data.errmsg);
+      return;
+    }
+
+    const col_id = add_col_res.data.data._id;
+
+    let interface_list = [];
+    let _id_list = [];
+    caseList.forEach((v) => {
+      interface_list.push(v.interface_id)
+      _id_list.push(v._id);
+    })
+
+    // 添加接口列表
+    const add_case_list_res = await axios.post('/api/col/add_case_list', {
+      interface_list,
+      _id_list,
+      col_id,
+      project_id
+    })
+
+    if (add_case_list_res.data.errcode) {
+      message.error(add_case_list_res.data.errmsg);
+      return;
+    }
+
+    // 刷新接口列表  
+    await this.props.fetchInterfaceColList(project_id);
+    this.props.setColData({ currColId: + col_id, isRander: true })
+
   }
 
   showNoDelColConfirm = () => {
@@ -337,7 +382,7 @@ export default class InterfaceColMenu extends Component {
       let caseList = col.caseList.filter(item => {
         return item.casename.indexOf(filterValue) !== -1
       })
-     
+
       return caseList.length > 0;
     });
     return (
@@ -365,6 +410,7 @@ export default class InterfaceColMenu extends Component {
                   <div className="menu-title">
                     <span><Icon type="folder-open" style={{ marginRight: 5 }} /><span>{col.name}</span></span>
                     <div className="btns">
+
                       <Tooltip title="删除集合">
                         <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); list.length > 1 ? this.showDelColConfirm(col._id) : this.showNoDelColConfirm() }} />
                       </Tooltip>
@@ -373,6 +419,9 @@ export default class InterfaceColMenu extends Component {
                       </Tooltip>
                       <Tooltip title="导入接口">
                         <Icon type='plus' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showImportInterfaceModal(col._id) }} />
+                      </Tooltip>
+                      <Tooltip title="复制接口">
+                        <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(col) }} />
                       </Tooltip>
                     </div>
                     {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
