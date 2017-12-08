@@ -181,7 +181,11 @@ export default class InterfaceColMenu extends Component {
 
 
   // 复制测试集合 
-  copyInterface = async (item) => {
+  copyInterface = async (item) => {    
+    if(this._copyInterfaceSign === true){
+      return ;
+    }
+    this._copyInterfaceSign = true;
     const { desc, project_id, _id: col_id } = item;
     let { name } = item;
     name = `${name} copy`;
@@ -202,6 +206,7 @@ export default class InterfaceColMenu extends Component {
       col_id,
       project_id
     })
+    this._copyInterfaceSign = false;
 
     if (add_case_list_res.data.errcode) {
       message.error(add_case_list_res.data.errmsg);
@@ -211,6 +216,7 @@ export default class InterfaceColMenu extends Component {
     // 刷新接口列表  
     await this.props.fetchInterfaceColList(project_id);
     this.props.setColData({ currColId: + new_col_id, isRander: true })
+    message.success('克隆测试集成功')
 
   }
 
@@ -293,7 +299,6 @@ export default class InterfaceColMenu extends Component {
   }
 
   onDrop = async (e) => {
-    console.log('e', e);
     const projectId = this.props.match.params.id;
     const dropColIndex = e.node.props.pos.split('-')[1];
 
