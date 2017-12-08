@@ -58,14 +58,6 @@ class interfaceCase extends baseModel {
         }).exec();
     }
 
-    getByInterfaceIdAndColId(interface_id, col_id, index) {
-        return this.model.find({
-            interface_id,
-            col_id,
-            index
-        }).select("_id").exec();
-    }
-
     list(col_id, select) {
         select = select || 'casename uid col_id _id index interface_id'
         if (select === 'all') {

@@ -182,8 +182,7 @@ export default class InterfaceColMenu extends Component {
 
   // 复制测试集合 
   copyInterface = async (item) => {
-
-    const { desc, project_id, caseList } = item;
+    const { desc, project_id, _id: col_id } = item;
     let { name } = item;
     name = `${name} copy`;
 
@@ -195,19 +194,11 @@ export default class InterfaceColMenu extends Component {
       return;
     }
 
-    const col_id = add_col_res.data.data._id;
+    const new_col_id = add_col_res.data.data._id;
 
-    let interface_list = [];
-    let _id_list = [];
-    caseList.forEach((v) => {
-      interface_list.push(v.interface_id)
-      _id_list.push(v._id);
-    })
-
-    // 添加接口列表
-    const add_case_list_res = await axios.post('/api/col/add_case_list', {
-      interface_list,
-      _id_list,
+    // 克隆集合
+    const add_case_list_res = await axios.post('/api/col/clone_case_list', {
+      new_col_id,
       col_id,
       project_id
     })
@@ -219,7 +210,7 @@ export default class InterfaceColMenu extends Component {
 
     // 刷新接口列表  
     await this.props.fetchInterfaceColList(project_id);
-    this.props.setColData({ currColId: + col_id, isRander: true })
+    this.props.setColData({ currColId: + new_col_id, isRander: true })
 
   }
 
@@ -420,7 +411,7 @@ export default class InterfaceColMenu extends Component {
                       <Tooltip title="导入接口">
                         <Icon type='plus' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showImportInterfaceModal(col._id) }} />
                       </Tooltip>
-                      <Tooltip title="复制接口">
+                      <Tooltip title="克隆集合">
                         <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(col) }} />
                       </Tooltip>
                     </div>
