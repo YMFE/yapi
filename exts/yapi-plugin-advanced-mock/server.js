@@ -7,6 +7,7 @@ const _ = require('underscore');
 const path = require('path');
 const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js' ));
 const Mock = require('mockjs');
+const mockExtra = require(path.resolve(yapi.WEBROOT, 'common/mock-extra.js' ))
 
 function arrToObj(arr){
   let obj = {'Set-Cookie': []};
@@ -74,7 +75,7 @@ module.exports = function(){
 
   }
   
-  async function handleByCase(caseData, context){
+  async function handleByCase(caseData){
     let caseInst = yapi.getInst(caseModel);
     let result = await caseInst.get({
       _id: caseData._id
@@ -156,8 +157,18 @@ module.exports = function(){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
     if(caseData){
-      let data = await  handleByCase(caseData, context);
+      let data = await  handleByCase(caseData);
       context.mockJson = yapi.commons.json_parse(data.res_body);
+      try{
+        context.mockJson = Mock.mock(mockExtra(context.mockJson, {
+          query: context.ctx.query,
+          body: context.ctx.request.body,
+          params: Object.assign({}, context.ctx.query, context.ctx.request.body)
+        }));
+      }catch(err){
+        yapi.commons.log(err, 'error')
+      }
+      
       context.resHeader = arrToObj(data.headers);
       context.httpCode = data.code;
       context.delay = data.delay;

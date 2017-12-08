@@ -69,12 +69,7 @@ function postman(importDataModule){
     if(!path) return '';
     
     path = path.replace(/{{\w*}}/g, '');
-    path = path.replace(/{(\w*)}/,function(data, match){
-      if(match){
-        return ':' + match;
-      }
-      return '';
-    });    
+  
     if(path[0] != "/"){
       path = "/" + path;
     }

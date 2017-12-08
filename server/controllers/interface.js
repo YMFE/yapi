@@ -128,21 +128,7 @@ class interfaceController extends baseController {
             if (!_.isUndefined(params.req_body_form)) {
                 data.req_body_form = params.req_body_form;
             }
-
-            if (params.path.indexOf(":") > 0) {
-                let paths = params.path.split("/"), name, i;
-                for (i = 1; i < paths.length; i++) {
-                    if (paths[i][0] === ':') {
-                        name = paths[i].substr(1);
-                        if (!_.find(params.req_params, { name: name })) {
-                            params.req_params.push({
-                                name: name,
-                                desc: ''
-                            })
-                        }
-                    }
-                }
-            }
+            yapi.commons.handleVarPath(params.path, params.req_params);
 
             if (params.req_params.length > 0) {
                 data.type = 'var'

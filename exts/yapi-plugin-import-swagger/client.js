@@ -7,7 +7,6 @@ var jsf = require('common/json-schema-mockjs');
 function improtData(importDataModule){
   var SwaggerData;
   function handlePath(path){
-    path = path.replace(/{(\w*)}/,":$1");
     if(path.charAt(0) != "/"){
       path = "/" + path;
     }
@@ -35,7 +34,16 @@ function improtData(importDataModule){
         _.each(apis, (api, method)=>{
           api.path = path;
           api.method = method;
-          interfaceData.apis.push(handleSwagger(api));
+          let data = null;
+          try{
+            data = handleSwagger(api)
+          }catch(err){
+            data = null;
+          }
+          if(data){
+            interfaceData.apis.push(data);
+          }
+          
         })
       })
       

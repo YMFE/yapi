@@ -1,4 +1,13 @@
-### v1.2.7
+### v1.2.9
+
+#### Bug Fixed
+
+1. Api 路径兼容 postman {varible}
+2. View Response Height 问题
+3. pathname 允许只有一个 /
+4. 高级 Mock 期望支持 mockjs
+
+### v1.2.8
 
 #### Bug Fixed
 
@@ -6,6 +15,7 @@
 2. 修复测试报告显示问题
 3. 增加了接口数量统计
 4. 多参数表达式改用双大括号{{}}
+5. 修复了环境变量设置样式问题
 
 #### Feature
 1. 测试用例增加自定义测试脚本功能

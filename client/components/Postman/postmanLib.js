@@ -95,7 +95,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
   }
 
   let { case_env, path, env } = interfaceData;
-  let pathQuery = {}, currDomain, requestBody, requestOptions;
+  let currDomain, requestBody, requestOptions;
 
   interfaceData.req_params = interfaceData.req_params || [];
   interfaceData.req_params.forEach(item => {
@@ -105,61 +105,56 @@ function handleParams(interfaceData, handleValue, requestParams) {
     }
 
     path = path.replace(`:${item.name}`, val || `:${item.name}`);
+    path = path.replace(`{${item.name}}`, val || `{${item.name}}`)
   });
 
 
   currDomain = handleCurrDomain(env, case_env);
-  const urlObj = URL.parse(joinPath(currDomain.domain, path));
-  urlObj.query && urlObj.query.split('&').forEach(item => {
-    if (item) {
-      item = item.split('=');
-      pathQuery[item[0]] = item[1];
+  const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
+  
+    const url = URL.format({
+      protocol: urlObj.protocol || 'http',
+      host: urlObj.host,
+      pathname: urlObj.pathname,
+      query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceData.req_query))
+  
+    });
+  
+    requestOptions = {
+      url,
+      method: interfaceData.method,
+      headers: paramsToObjectUnWithEnable(interfaceData.req_headers),    
+      timeout: 82400000
     }
-  })
-
-  const url = URL.format({
-    protocol: urlObj.protocol || 'http',
-    host: urlObj.host,
-    pathname: urlObj.pathname,
-    query: Object.assign(pathQuery, paramsToObjectWithEnable(interfaceData.req_query))
-
-  });
-
-  if (HTTP_METHOD[interfaceData.method].request_body) {
-    if (interfaceData.req_body_type === 'form') {
-      requestBody = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
-        return item.type == 'text'
-      }));
-    } else if(interfaceData.req_body_type === 'json'){
-      let reqBody = isJson5(interfaceData.req_body_other);
-      if (reqBody === false) {
-        requestBody = interfaceData.req_body_other;
-      } else {
-        if (requestParams) {
-          requestParams = Object.assign(requestParams, reqBody);
+  
+    if (HTTP_METHOD[interfaceData.method].request_body) {
+      if (interfaceData.req_body_type === 'form') {
+        requestBody = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
+          return item.type == 'text'
+        }));
+      } else if(interfaceData.req_body_type === 'json'){
+        let reqBody = isJson5(interfaceData.req_body_other);
+        if (reqBody === false) {
+          requestBody = interfaceData.req_body_other;
+        } else {
+          if (requestParams) {
+            requestParams = Object.assign(requestParams, reqBody);
+          }
+          requestBody = handleJson(reqBody, handleValue);
         }
-        requestBody = handleJson(reqBody, handleValue);
+      }else{
+        requestBody = interfaceData.req_body_other;
       }
-    }else{
-      requestBody = interfaceData.req_body_other;
+      requestOptions.data = requestBody;
+      if (interfaceData.req_body_type === 'form') {
+        requestOptions.files = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
+          return item.type == 'file'
+        }))
+      } else if (interfaceData.req_body_type === 'file') {
+        requestOptions.file = 'single-file'
+      }
     }
-  }
-
-  requestOptions = {
-    url,
-    method: interfaceData.method,
-    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),
-    data: requestBody,
-    timeout: 82400000
-  }
-
-  if (interfaceData.req_body_type === 'form') {
-    requestOptions.files = paramsToObjectWithEnable(safeArray(interfaceData.req_body_form).filter(item => {
-      return item.type == 'file'
-    }))
-  } else if (interfaceData.req_body_type === 'file') {
-    requestOptions.file = 'single-file'
-  }
-  return requestOptions;
+  
+    return requestOptions;
 
 }

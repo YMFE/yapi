@@ -95,14 +95,14 @@ class View extends Component {
   }
   res_body(res_body_type, res_body) {
     if (res_body_type === 'json') {
-      let h = this.countEnter(res_body);
+
       return <div  className="colBody">
         {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
-        <AceEditor data={res_body} readOnly={true} style={{ minHeight: h * 16 + 100 }} />
+        <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }} />
       </div>
     } else if (res_body_type === 'raw') {
       return <div  className="colBody">
-        <AceEditor data={res_body} readOnly={true} mode="text" />
+        <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }}  mode="text" />
       </div>
     }
   }
@@ -261,9 +261,8 @@ class View extends Component {
  
 
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
-    let h = this.countEnter(this.props.curData.req_body_other);
     const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form" ) ? "block" : "none" }} className="colBody">
-      <AceEditor data={this.props.curData.req_body_other} style={{ minHeight: h * 16 + 20 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
+      <AceEditor data={this.props.curData.req_body_other} style={{ minHeight: 300 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
     </div>
     if (!methodColor) methodColor = "get";
     let res = <div className="caseContainer">
