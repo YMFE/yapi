@@ -5,6 +5,7 @@
 1. Api 路径兼容 postman {varible}
 2. View Response Height 问题
 3. pathname 允许只有一个 /
+4. 高级 Mock 期望支持 mockjs
 
 ### v1.2.8
 
