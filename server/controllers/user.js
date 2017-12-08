@@ -1,7 +1,6 @@
 const userModel = require('../models/user.js');
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
-const request = require('request');
 const common = require('../utils/commons.js');
 
 const interfaceModel = require('../models/interface.js');
@@ -103,38 +102,8 @@ class userController extends baseController {
         }
     }
 
-
-    /**
-     *  第三方登录需要提供一个request方法和 token字段，暂时只支持qunar第三方
-     * @return {email: String, username: String}
-     */
-    thirdQunarLogin() {
-        return {
-            request: (token) => {
-                return new Promise((resolve, reject) => {
-                    request('http://qsso.corp.qunar.com/api/verifytoken.php?token=' + token, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            let result = JSON.parse(body);
-                            if (result && result.ret === true) {
-                                let ret = {
-                                    email: result.userId + '@qunar.com',
-                                    username: result.data.userInfo.name
-                                };
-                                resolve(ret);
-                            } else {
-                                reject(result);
-                            }
-                        }
-                        reject(error);
-                    });
-                });
-            },
-            tokenField: 'token'
-        };
-    }
-
+    
     async loginByToken(ctx) {
-        //let config = this.thirdQunarLogin();
         try {
             let ret = await yapi.emitHook('third_login', ctx);
             let login = await this.handleThirdLogin(ret.email, ret.username);
