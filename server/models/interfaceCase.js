@@ -26,18 +26,18 @@ class interfaceCase extends baseModel {
                 name: String, value: String
             }],
             req_query: [{
-                name: String, value: String, enable: {type: Boolean, default: true}
+                name: String, value: String, enable: { type: Boolean, default: true }
             }],
 
             req_body_form: [{
-                name: String, value: String, enable: {type: Boolean, default: true}
+                name: String, value: String, enable: { type: Boolean, default: true }
             }],
             req_body_other: String,
             test_res_body: String,
-            test_status: {type: String, enum: ['ok', 'invalid', 'error', '']},
+            test_status: { type: String, enum: ['ok', 'invalid', 'error', ''] },
             test_res_header: Schema.Types.Mixed,
-            mock_verify: {type: Boolean, default: false},
-            enable_script: {type: Boolean, default: false},
+            mock_verify: { type: Boolean, default: false },
+            enable_script: { type: Boolean, default: false },
             test_script: String
         };
     }
@@ -59,7 +59,7 @@ class interfaceCase extends baseModel {
     }
 
     list(col_id, select) {
-        select = select || 'casename uid col_id _id index'
+        select = select || 'casename uid col_id _id index interface_id'
         if (select === 'all') {
             return this.model.find({
                 col_id: col_id
@@ -67,7 +67,7 @@ class interfaceCase extends baseModel {
         }
         return this.model.find({
             col_id: col_id
-        }).select("casename uid col_id _id index").exec();
+        }).select("casename uid col_id _id index interface_id").exec();
     }
 
     del(id) {
@@ -82,7 +82,7 @@ class interfaceCase extends baseModel {
         })
     }
 
-    delByInterfaceId(id){
+    delByInterfaceId(id) {
         return this.model.remove({
             interface_id: id
         })
