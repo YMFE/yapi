@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 window.WEBPACK_ASSETS = {"index.js":{"js":"index@cd86ca67ec83cf50bf7f.js","css":"index@cd86ca67ec83cf50bf7f.css"},"lib":{"js":"lib@440c1fc133fa194fb5a7.js"},"lib2":{"js":"lib2@2b54ffd5cfd140edb818.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}
 =======
 <<<<<<< HEAD
@@ -10,4 +11,7 @@ window.WEBPACK_ASSETS = {"index.js":{"js":"index@1c90318cffcd9226f4ca.js","css":
 >>>>>>> dev
 =======
 window.WEBPACK_ASSETS = {"index.js":{"js":"index@2749a62173cb051bd43a.js","css":"index@2749a62173cb051bd43a.css"},"lib":{"js":"lib@5ca86296ff97fbf15aa9.js"},"lib2":{"js":"lib2@4e246d55b157fd90cbd6.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}
+>>>>>>> dev
+=======
+window.WEBPACK_ASSETS = {"index.js":{"js":"index@61638219be6877d986cc.js","css":"index@61638219be6877d986cc.css"},"lib":{"js":"lib@d8397632ca19f2cbfc57.js"},"lib2":{"js":"lib2@7552d509ada57b7aecab.js"},"manifest":{"js":"manifest@b67af9f8b578904e66c5.js"}}
 >>>>>>> dev

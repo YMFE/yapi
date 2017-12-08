@@ -161,15 +161,15 @@ class interfaceColController extends baseController {
         }
     }
 
-    requestParamsToObj(arr){
-      if(!arr || !Array.isArray(arr) || arr.length === 0){
-        return {}
-      }
-      let obj = {};
-      arr.forEach(item=>{
-        obj[item.name] = ''
-      })
-      return obj;
+    requestParamsToObj(arr) {
+        if (!arr || !Array.isArray(arr) || arr.length === 0) {
+            return {}
+        }
+        let obj = {};
+        arr.forEach(item => {
+            obj[item.name] = ''
+        })
+        return obj;
     }
 
     /**
@@ -184,54 +184,54 @@ class interfaceColController extends baseController {
      */
 
     async getCaseListByVariableParams(ctx) {
-      try {
-          let id = ctx.query.col_id;
-          if (!id || id == 0) {
-              return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
-          }
-          let resultList = await this.caseModel.list(id, 'all');
-          if(resultList.length === 0 ){
-            return ctx.body = yapi.commons.resReturn([])
-          }
-          let project = await this.projectModel.getBaseInfo(resultList[0].project_id);
+        try {
+            let id = ctx.query.col_id;
+            if (!id || id == 0) {
+                return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
+            }
+            let resultList = await this.caseModel.list(id, 'all');
+            if (resultList.length === 0) {
+                return ctx.body = yapi.commons.resReturn([])
+            }
+            let project = await this.projectModel.getBaseInfo(resultList[0].project_id);
 
-          if (project.project_type === 'private') {
-              if (await this.checkAuth(project._id, 'project', 'view') !== true) {
-                  return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
-              }
-          }
+            if (project.project_type === 'private') {
+                if (await this.checkAuth(project._id, 'project', 'view') !== true) {
+                    return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+                }
+            }
 
-          for (let index = 0; index < resultList.length; index++) {
-              let result = resultList[index].toObject();
-              let item = {}, body, query, bodyParams, pathParams;
-              let data = await this.interfaceModel.get(result.interface_id);
-              if (!data) {
-                  await this.caseModel.del(result._id);
-                  continue;
-              }
-              item._id = result._id;
-              item.casename = result.casename;
-              body = yapi.commons.json_parse(data.res_body);
-              body = typeof body === 'object' ? body : {};
-              item.body = Object.assign({}, body);
-              query = this.requestParamsToObj(data.req_query);
-              pathParams = this.requestParamsToObj(data.req_params);
-              if(data.req_body_type === 'form'){
-                bodyParams = this.requestParamsToObj(data.req_body_form);
-              }else{
-                bodyParams = yapi.commons.json_parse(data.req_body_other);
-                bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
-              }
-              item.params = Object.assign(pathParams, query, bodyParams)
-              item.index = result.index;
-              resultList[index] = item;
-          }
+            for (let index = 0; index < resultList.length; index++) {
+                let result = resultList[index].toObject();
+                let item = {}, body, query, bodyParams, pathParams;
+                let data = await this.interfaceModel.get(result.interface_id);
+                if (!data) {
+                    await this.caseModel.del(result._id);
+                    continue;
+                }
+                item._id = result._id;
+                item.casename = result.casename;
+                body = yapi.commons.json_parse(data.res_body);
+                body = typeof body === 'object' ? body : {};
+                item.body = Object.assign({}, body);
+                query = this.requestParamsToObj(data.req_query);
+                pathParams = this.requestParamsToObj(data.req_params);
+                if (data.req_body_type === 'form') {
+                    bodyParams = this.requestParamsToObj(data.req_body_form);
+                } else {
+                    bodyParams = yapi.commons.json_parse(data.req_body_other);
+                    bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
+                }
+                item.params = Object.assign(pathParams, query, bodyParams)
+                item.index = result.index;
+                resultList[index] = item;
+            }
 
-          ctx.body = yapi.commons.resReturn(resultList);          
-      } catch (e) {
-          ctx.body = yapi.commons.resReturn(null, 402, e.message);
-      }
-  }
+            ctx.body = yapi.commons.resReturn(resultList);
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
 
     /**
      * 增加一个接口用例
@@ -374,6 +374,112 @@ class interfaceColController extends baseController {
             ctx.body = yapi.commons.resReturn(null, 402, e.message);
         }
     }
+
+    async cloneCaseList(ctx) {
+        try {
+            let params = ctx.request.body;
+            params = yapi.commons.handleParams(params, {
+                project_id: 'number',
+                col_id: 'number',
+                new_col_id: 'number'
+            });
+
+            const { project_id, col_id, new_col_id } = params;
+
+            if (!project_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+            }
+
+            let auth = await this.checkAuth(params.project_id, 'project', 'edit');
+
+            if (!auth) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+            }
+
+            if (!col_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '被克隆的接口集id不能为空');
+            }
+
+            if (!new_col_id) {
+                return ctx.body = yapi.commons.resReturn(null, 400, '克隆的接口集id不能为空');
+            }
+
+
+            let oldColCaselistData = await this.caseModel.list(col_id, 'all');
+
+            oldColCaselistData = oldColCaselistData.sort((a, b) => {
+                return a.index - b.index;
+            });
+
+            const newCaseList = [];
+            const oldCaseObj = {};
+            let obj = {};
+
+            const handleTypeParams = (data, name) => {
+                let res = data[name];
+                const type = Object.prototype.toString.call(res);
+                switch (type) {
+                    case "[object Array]":
+                        if (res.length) {
+                            res = JSON.stringify(res);
+                            try {
+                                res = JSON.parse(handleReplaceStr(res));
+                            } catch (e) {
+                                console.log('e ->', e);
+                            }
+                        }
+                        break;
+                    case "[object String]":
+                        if (data[name]) {
+                            res = handleReplaceStr(res);
+                        }
+                        break;
+                }
+                return res;
+            }
+
+
+            const handleReplaceStr = (str) => {
+                if (str.indexOf("$") !== -1) {
+                    str = str.replace(/\$\.([0-9]+)\./g, function (match, p1) {
+                        p1 = p1.toString();
+                        return `$.${newCaseList[oldCaseObj[p1]]}.` || "";
+                    })
+                }
+                return str;
+            }
+
+            // 处理数据里面的$id;
+            const handleParams = (data) => {
+                data.col_id = new_col_id;
+                delete data._id;
+                delete data.add_time;
+                delete data.up_time;
+                delete data.__v;
+                data.req_body_other = handleTypeParams(data, "req_body_other");
+                data.req_query = handleTypeParams(data, "req_query");
+                data.req_params = handleTypeParams(data, "req_params");
+                data.req_body_form = handleTypeParams(data, "req_body_form");
+                return data;
+            }
+
+
+            for (let i = 0; i < oldColCaselistData.length; i++) {
+                obj = oldColCaselistData[i].toObject();
+                // 将被克隆的id和位置绑定
+                oldCaseObj[obj._id] = i;
+                let caseData = handleParams(obj);
+                let newCase = await this.caseModel.save(caseData);
+                newCaseList.push(newCase._id);
+            }
+
+            this.projectModel.up(params.project_id, { up_time: new Date().getTime() }).then();
+            ctx.body = yapi.commons.resReturn('ok');
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 402, e.message);
+        }
+    }
+
 
     /**
      * 更新一个接口用例
@@ -665,13 +771,13 @@ class interfaceColController extends baseController {
         }
     }
 
-    convertString(variable){
-        if(variable instanceof Error){
-            return variable.name + ': ' +variable.message;
+    convertString(variable) {
+        if (variable instanceof Error) {
+            return variable.name + ': ' + variable.message;
         }
-        try{
+        try {
             return JSON.stringify(variable, null, '   ');
-        }catch(err){
+        } catch (err) {
             return variable || '';
         }
     }
@@ -692,7 +798,7 @@ class interfaceColController extends baseController {
             header: params.response.header,
             records: params.records,
             params: params.params,
-            log: (msg) =>{
+            log: (msg) => {
                 logs.push('log: ' + this.convertString(msg))
             }
         }
