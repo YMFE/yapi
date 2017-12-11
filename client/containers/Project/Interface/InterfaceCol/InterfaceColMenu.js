@@ -408,7 +408,7 @@ export default class InterfaceColMenu extends Component {
                     <div className="btns">
 
                       <Tooltip title="删除集合">
-                        <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); list.length > 1 ? this.showDelColConfirm(col._id) : this.showNoDelColConfirm() }} />
+                        <Icon type='delete' style={{display:list.length > 1 ? '': 'none' }} className="interface-delete-icon" onClick={() => {  this.showDelColConfirm(col._id)  }} />
                       </Tooltip>
                       <Tooltip title="编辑集合">
                         <Icon type='edit' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showColModal('edit', col) }} />

@@ -50,7 +50,6 @@ class InterfaceEdit extends Component {
     if (result.data.errcode === 0) {
       this.props.updateInterfaceData(params);
       message.success('保存成功');
-      this.props.switchToView()
     } else {
       message.error(result.data.errmsg)
     }
