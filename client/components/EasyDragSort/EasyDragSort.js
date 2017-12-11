@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 /**
  * @author suxiaoxin
  * @demo
- * <EasyDragSort data={this.state.list} onChange={this.handleChange} >
+ * <EasyDragSort data={()=>this.state.list} onChange={this.handleChange} >
  * {list}
  * </EasyDragSot>
  */
@@ -13,16 +13,19 @@ let curDragIndex = null;
 
 EasyDragSort.propTypes = {
   children: PropTypes.array,
-  data: PropTypes.array,
   onChange: PropTypes.func,
-  onDragEnd: PropTypes.func
+  onDragEnd: PropTypes.func,
+  data: PropTypes.func
 }
 
 export default function EasyDragSort(props){
     let container = props.children;
-    function onChange(from, to){
+    const onChange = (from, to)=>{
       if(from === to ) return ;
-      let curValue = props.data;
+      let curValue;
+      
+      curValue = props.data();
+      
       let newValue = arrMove(curValue, from, to);
       if(typeof props.onChange === 'function'){
         return props.onChange(newValue, from ,to);

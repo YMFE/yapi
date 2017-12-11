@@ -45,7 +45,9 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 密码： ymfe.org
 ```
 ### YApi 资源
-* [yapi docker](https://github.com/branchzero/yapi-docker) By branchzero
+* [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
+* [yapi docker 部署](https://github.com/branchzero/yapi-docker) By branchzero
+
 
 
 ### YApi 的一些客户

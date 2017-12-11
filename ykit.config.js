@@ -85,20 +85,22 @@ module.exports = {
             'redux-promise',
             'react-router',
             'react-router-dom',
-            'prop-types',
-            'axios',
-            'moment',
+            'prop-types',            
             'react-dnd-html5-backend',
             'react-dnd',
             'reactabular-table',
             'reactabular-dnd',
-            'table-resolver'
+            'table-resolver',
+            'recharts'
           ],
           lib2: [
             'brace',
             'mockjs',
             'json5',
-            'url'
+            'url',
+            'wangeditor',
+            'axios',
+            'moment'
           ]
         }
       },
