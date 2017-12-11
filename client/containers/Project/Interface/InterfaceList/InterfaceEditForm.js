@@ -171,7 +171,7 @@ class InterfaceEditForm extends Component {
         values.req_params = values.req_params || [];
         values.req_headers = values.req_headers || [];
         let isfile = false, isHavaContentType = false;
-        if (values.req_body_type === 'form') {          
+        if (values.req_body_type === 'form') {
           values.req_body_form.forEach((item) => {
             if (item.type === 'file') {
               isfile = true;
@@ -341,7 +341,7 @@ class InterfaceEditForm extends Component {
   handlePath = (e) => {
     let val = e.target.value, queue = [];
 
-    let insertParams =(name)=>{
+    let insertParams = (name) => {
       let findExist = _.find(this.state.req_params, { name: name });
       if (findExist) {
         queue.push(findExist)
@@ -363,8 +363,8 @@ class InterfaceEditForm extends Component {
       }
     }
 
-    if(val && val.length > 3){
-      val.replace(/\{(.+?)\}/g, function(str, match){
+    if (val && val.length > 3) {
+      val.replace(/\{(.+?)\}/g, function (str, match) {
         insertParams(match)
       })
     }
@@ -608,7 +608,7 @@ class InterfaceEditForm extends Component {
       return requestBodyTpl(item, index)
     })
 
-    const DEMOPATH= '/api/user/{id}'
+    const DEMOPATH = '/api/user/{id}'
     return (
       <Form onSubmit={this.handleSubmit}>
 
@@ -726,7 +726,7 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.query}>
             <Col>
-              <EasyDragSort data={()=>this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
+              <EasyDragSort data={() => this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
                 {QueryList}
               </EasyDragSort>
             </Col>
@@ -741,7 +741,7 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.headers}>
             <Col>
-              <EasyDragSort data={()=>this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
+              <EasyDragSort data={() => this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
                 {headerList}
               </EasyDragSort>
             </Col>
@@ -780,8 +780,6 @@ class InterfaceEditForm extends Component {
 
               </Col>
             </Row>
-
-
           </div>
             : null}
 
@@ -812,7 +810,7 @@ class InterfaceEditForm extends Component {
             :
             null
           }
-          {this.props.form.getFieldValue('req_body_type') === 'raw'  && this.state.hideTabs.req.body !== 'hide'?
+          {this.props.form.getFieldValue('req_body_type') === 'raw' && this.state.hideTabs.req.body !== 'hide' ?
             <Row>
               <Col>
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
@@ -855,7 +853,7 @@ class InterfaceEditForm extends Component {
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
                 </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('http://yapi.qunar.com/mock.html', '_blank')}>查看文档</span>
-                ，“全局编辑” 或 “退出全屏” 请按 F9
+                  ，“全局编辑” 或 “退出全屏” 请按 F9
                 </h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>

@@ -75,12 +75,8 @@ class PrpjectEnv extends Component {
     newValue[name] = curValue.filter((val, index) => {
       return index !== key;
     })
-    console.log('newValue',newValue);
+    
     this.props.form.setFieldsValue(newValue)
-    setTimeout(()=>{
-      console.log('curValue',this.props.form.getFieldValue(name));
-    },5000);
-    // console.log('curValue',this.props.form.getFieldValue(name));
     this.setState(newValue)
   }
 
@@ -230,7 +226,7 @@ class PrpjectEnv extends Component {
     const envSettingItems = envs.map((item, index) => {
       return envTpl(item, index)
     })
-    console.log('env',getFieldValue('env'));
+    
     return (
       <div className="m-panel env">
         <div className="panel-title">
@@ -238,7 +234,7 @@ class PrpjectEnv extends Component {
           <p className="desc">你可以添加多个环境，用于区分不同的使用场景。</p>
         </div>
         <FormItem {...formItemLayout}>
-          <EasyDragSort data={getFieldValue('env')} onChange={this.handleDragMove('env')} >
+          <EasyDragSort data={()=>getFieldValue('env')} onChange={this.handleDragMove('env')} >
             {envSettingItems}
           </EasyDragSort>
 
