@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 </title>
-    
-        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
-    
-    
-        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
-    
-
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -18,10 +17,6 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -166,6 +161,10 @@
                                      
                                     <li >
                                         <a href="#-user-up_study">/user/up_study</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-user-login_by_ldap">/user/login_by_ldap</a>
                                     </li>
                                      
                                     <li >
@@ -1200,7 +1199,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#65" target="_blank">./server/controllers/user.js:65</a>
+        <a href="./static/server/controllers/user.js.html#64" target="_blank">./server/controllers/user.js:64</a>
     </p>
     
     
@@ -1228,14 +1227,88 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        退出登录接口
+        更新
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#81" target="_blank">./server/controllers/user.js:81</a>
+        <a href="./static/server/controllers/user.js.html#80" target="_blank">./server/controllers/user.js:80</a>
     </p>
     
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-user-login_by_ldap" class="page-header subject">
+            /user/login_by_ldap
+            
+            <span class="ui-badge"></span>
+            
+            
+            <a class="hashlink" href="#-user-login_by_ldap">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        ldap登录
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/user.js.html#119" target="_blank">./server/controllers/user.js:119</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>email</td>
+                <td>String</td>
+                <td>email名称，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>password</td>
+                <td>String</td>
+                <td>密码，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
     
     
     
@@ -1259,7 +1332,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#186" target="_blank">./server/controllers/user.js:186</a>
+        <a href="./static/server/controllers/user.js.html#196" target="_blank">./server/controllers/user.js:196</a>
     </p>
     
     
@@ -1355,7 +1428,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#264" target="_blank">./server/controllers/user.js:264</a>
+        <a href="./static/server/controllers/user.js.html#274" target="_blank">./server/controllers/user.js:274</a>
     </p>
     
     
@@ -1452,7 +1525,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#340" target="_blank">./server/controllers/user.js:340</a>
+        <a href="./static/server/controllers/user.js.html#350" target="_blank">./server/controllers/user.js:350</a>
     </p>
     
     
@@ -1522,7 +1595,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#369" target="_blank">./server/controllers/user.js:369</a>
+        <a href="./static/server/controllers/user.js.html#379" target="_blank">./server/controllers/user.js:379</a>
     </p>
     
     
@@ -1584,7 +1657,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#408" target="_blank">./server/controllers/user.js:408</a>
+        <a href="./static/server/controllers/user.js.html#418" target="_blank">./server/controllers/user.js:418</a>
     </p>
     
     
@@ -1646,7 +1719,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#441" target="_blank">./server/controllers/user.js:441</a>
+        <a href="./static/server/controllers/user.js.html#451" target="_blank">./server/controllers/user.js:451</a>
     </p>
     
     
@@ -1738,7 +1811,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#510" target="_blank">./server/controllers/user.js:510</a>
+        <a href="./static/server/controllers/user.js.html#520" target="_blank">./server/controllers/user.js:520</a>
     </p>
     
     
@@ -1800,7 +1873,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#553" target="_blank">./server/controllers/user.js:553</a>
+        <a href="./static/server/controllers/user.js.html#563" target="_blank">./server/controllers/user.js:563</a>
     </p>
     
     
@@ -1862,7 +1935,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#585" target="_blank">./server/controllers/user.js:585</a>
+        <a href="./static/server/controllers/user.js.html#595" target="_blank">./server/controllers/user.js:595</a>
     </p>
     
     
@@ -1940,7 +2013,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/user.js.html#630" target="_blank">./server/controllers/user.js:630</a>
+        <a href="./static/server/controllers/user.js.html#640" target="_blank">./server/controllers/user.js:640</a>
     </p>
     
     
@@ -2017,7 +2090,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#44" target="_blank">./server/controllers/project.js:44</a>
+        <a href="./static/server/controllers/project.js.html#46" target="_blank">./server/controllers/project.js:46</a>
     </p>
     
     
@@ -2158,7 +2231,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#147" target="_blank">./server/controllers/project.js:147</a>
+        <a href="./static/server/controllers/project.js.html#149" target="_blank">./server/controllers/project.js:149</a>
     </p>
     
     
@@ -2242,7 +2315,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#229" target="_blank">./server/controllers/project.js:229</a>
+        <a href="./static/server/controllers/project.js.html#231" target="_blank">./server/controllers/project.js:231</a>
     </p>
     
     
@@ -2326,7 +2399,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#292" target="_blank">./server/controllers/project.js:292</a>
+        <a href="./static/server/controllers/project.js.html#294" target="_blank">./server/controllers/project.js:294</a>
     </p>
     
     
@@ -2404,7 +2477,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#317" target="_blank">./server/controllers/project.js:317</a>
+        <a href="./static/server/controllers/project.js.html#319" target="_blank">./server/controllers/project.js:319</a>
     </p>
     
     
@@ -2487,7 +2560,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#356" target="_blank">./server/controllers/project.js:356</a>
+        <a href="./static/server/controllers/project.js.html#358" target="_blank">./server/controllers/project.js:358</a>
     </p>
     
     
@@ -2703,7 +2776,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#422" target="_blank">./server/controllers/project.js:422</a>
+        <a href="./static/server/controllers/project.js.html#424" target="_blank">./server/controllers/project.js:424</a>
     </p>
     
     
@@ -2775,7 +2848,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#458" target="_blank">./server/controllers/project.js:458</a>
+        <a href="./static/server/controllers/project.js.html#460" target="_blank">./server/controllers/project.js:460</a>
     </p>
     
     
@@ -2856,12 +2929,12 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        项目设置
+        项目头像设置
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#512" target="_blank">./server/controllers/project.js:512</a>
+        <a href="./static/server/controllers/project.js.html#514" target="_blank">./server/controllers/project.js:514</a>
     </p>
     
     
@@ -2950,7 +3023,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#557" target="_blank">./server/controllers/project.js:557</a>
+        <a href="./static/server/controllers/project.js.html#559" target="_blank">./server/controllers/project.js:559</a>
     </p>
     
     
@@ -3068,7 +3141,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#638" target="_blank">./server/controllers/project.js:638</a>
+        <a href="./static/server/controllers/project.js.html#642" target="_blank">./server/controllers/project.js:642</a>
     </p>
     
     
@@ -3160,7 +3233,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/project.js.html#688" target="_blank">./server/controllers/project.js:688</a>
+        <a href="./static/server/controllers/project.js.html#692" target="_blank">./server/controllers/project.js:692</a>
     </p>
     
     
@@ -3579,7 +3652,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#189" target="_blank">./server/controllers/interface.js:189</a>
+        <a href="./static/server/controllers/interface.js.html#175" target="_blank">./server/controllers/interface.js:175</a>
     </p>
     
     
@@ -3644,7 +3717,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#232" target="_blank">./server/controllers/interface.js:232</a>
+        <a href="./static/server/controllers/interface.js.html#218" target="_blank">./server/controllers/interface.js:218</a>
     </p>
     
     
@@ -3709,7 +3782,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#330" target="_blank">./server/controllers/interface.js:330</a>
+        <a href="./static/server/controllers/interface.js.html#316" target="_blank">./server/controllers/interface.js:316</a>
     </p>
     
     
@@ -3942,7 +4015,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#535" target="_blank">./server/controllers/interface.js:535</a>
+        <a href="./static/server/controllers/interface.js.html#521" target="_blank">./server/controllers/interface.js:521</a>
     </p>
     
     
@@ -4014,7 +4087,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#733" target="_blank">./server/controllers/interface.js:733</a>
+        <a href="./static/server/controllers/interface.js.html#719" target="_blank">./server/controllers/interface.js:719</a>
     </p>
     
     
