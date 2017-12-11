@@ -329,6 +329,11 @@ let routerConfig = {
 		method: 'post'
 
 	}, {
+		action: 'cloneCaseList',
+		path: 'clone_case_list',
+		method: 'post'
+
+	}, {
 		action: "list",
 		path: "list",
 		method: "get"
@@ -415,7 +420,7 @@ let routerConfig = {
 		path: "http/code",
 		method: "post"
 	}
-]
+	]
 }
 
 let pluginsRouterPath = [];
@@ -430,7 +435,7 @@ function addPluginRouter(config) {
 		throw new Error('Plugin Route path conflict, please try rename the path')
 	}
 	pluginsRouterPath.push(routerPath);
-	createAction(router, "/api", config.controller, config.action, routerPath, method,false);
+	createAction(router, "/api", config.controller, config.action, routerPath, method, false);
 }
 
 yapi.emitHookSync('add_router', addPluginRouter);

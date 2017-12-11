@@ -214,6 +214,7 @@ class InterfaceEditForm extends Component {
           values.req_body_form = []
         }
         this.props.onSubmit(values)
+        EditFormContext.props.changeEditStatus(false);
       }
     });
   }
@@ -725,7 +726,7 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.query}>
             <Col>
-              <EasyDragSort data={this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
+              <EasyDragSort data={()=>this.props.form.getFieldValue('req_query')} onChange={this.handleDragMove('req_query')} >
                 {QueryList}
               </EasyDragSort>
             </Col>
@@ -740,7 +741,7 @@ class InterfaceEditForm extends Component {
 
           <Row className={'interface-edit-item ' + this.state.hideTabs.req.headers}>
             <Col>
-              <EasyDragSort data={this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
+              <EasyDragSort data={()=>this.props.form.getFieldValue('req_headers')} onChange={this.handleDragMove('req_headers')} >
                 {headerList}
               </EasyDragSort>
             </Col>
@@ -773,7 +774,7 @@ class InterfaceEditForm extends Component {
                   </Col>
 
                 </Row>
-                <EasyDragSort data={this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
+                <EasyDragSort data={() => this.props.form.getFieldValue('req_body_form')} onChange={this.handleDragMove('req_body_form')} >
                   {requestBodyList}
                 </EasyDragSort>
 
@@ -798,7 +799,7 @@ class InterfaceEditForm extends Component {
             </Col>
           </Row>
 
-          {this.props.form.getFieldValue('req_body_type') === 'file' ?
+          {this.props.form.getFieldValue('req_body_type') === 'file' && this.state.hideTabs.req.body !== 'hide' ?
             <Row className="interface-edit-item" >
               <Col className="interface-edit-item-other-body">
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
@@ -811,7 +812,7 @@ class InterfaceEditForm extends Component {
             :
             null
           }
-          {this.props.form.getFieldValue('req_body_type') === 'raw' ?
+          {this.props.form.getFieldValue('req_body_type') === 'raw'  && this.state.hideTabs.req.body !== 'hide'?
             <Row>
               <Col>
                 {getFieldDecorator('req_body_other', { initialValue: this.state.req_body_other })(
