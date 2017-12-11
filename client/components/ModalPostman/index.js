@@ -37,7 +37,8 @@ class ModalPostman extends Component {
     handleCancel: PropTypes.func,
     handleOk: PropTypes.func,
     inputValue: PropTypes.any,
-    envType: PropTypes.string
+    envType: PropTypes.string,
+    id: PropTypes.number
   }
 
   constructor(props) {
@@ -191,7 +192,7 @@ class ModalPostman extends Component {
                       envType === 'case' && <Panel
                         header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>}
                         key="3">
-                        <VariablesSelect click={this.mockClick(index)} />
+                        <VariablesSelect id={this.props.id} click={this.mockClick(index)} />
                       </Panel>
                     }
                   </Collapse>

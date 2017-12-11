@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { Table, Button, message, Popconfirm, Tooltip, Icon } from 'antd';
 import { fetchMockCol } from 'client/reducer/modules/mockCol'
-import { formatTime, getMockText } from 'client/common.js';
+import { formatTime } from 'client/common.js';
 import constants from 'client/constants/variable.js'
 import CaseDesModal from './CaseDesModal';
 
@@ -98,7 +98,7 @@ export default class MockCol extends Component {
       delay: 0,
       headers: [{name: '', value: ''}],
       params: {},
-      res_body: currInterface.res_body && getMockText(currInterface.res_body)
+      res_body: currInterface.res_body 
     }
 
     let ipFilters = [];

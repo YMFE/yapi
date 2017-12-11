@@ -4,6 +4,7 @@ const yapi = require('../yapi.js');
 const sha1 = require('sha1');
 const logModel = require('../models/log.js');
 const json5 = require('json5');
+const _ = require('underscore');
 
 exports.resReturn = (data, num, errmsg) => {
     num = num || 0;
@@ -160,12 +161,38 @@ exports.filterRes = (list, rules) => {
     });
 };
 
+exports.handleVarPath = (pathname, params)=>{
+
+    function insertParams(name){
+        if (!_.find(params, { name: name })) {
+            params.push({
+                name: name,
+                desc: ''
+            })
+        }
+    }
+
+    if(!pathname) return;
+    if(pathname.indexOf(':') !== -1){
+        let paths = pathname.split("/"), name, i;
+        for (i = 1; i < paths.length; i++) {
+            if (paths[i] && paths[i][0] === ':') {
+                name = paths[i].substr(1);
+                insertParams(name)
+            }
+        }
+    }
+    pathname.replace(/\{(.+?)\}/g, function(str, match){
+        insertParams(match)
+    })
+}
+
 /**
  * 验证一个 path 是否合法
- * path第一位必需为 /, path 只允许由 字母数字-/_:. 组成
+ * path第一位必需为 /, path 只允许由 字母数字-/_:.{}= 组成
  */
 exports.verifyPath = (path) => {
-    if (/^\/[a-zA-Z0-9\-\/_:\.\!]+$/.test(path)) {
+    if (/^\/[a-zA-Z0-9\-\/_:\.\{\}\=]*$/.test(path)) {
         return true;
     } else {
         return false;

@@ -127,7 +127,11 @@ function run(options) {
       }
     },
     editor: editor,
-    options: options
+    options: options,
+    insertCode: (code)=>{
+      let pos = editor.selection.getCursor()
+      editor.session.insert(pos, code)
+    }
   }
 
   

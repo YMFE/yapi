@@ -53,6 +53,16 @@ class AddInterfaceForm extends Component {
             <Input placeholder="分类名称" />
           )}
         </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="备注"
+        >
+          {getFieldDecorator('desc', {
+            initialValue: this.props.catdata? this.props.catdata.desc || null: null
+          })(
+            <Input placeholder="备注" />
+          )}
+        </FormItem>
 
 
         <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >

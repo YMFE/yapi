@@ -20,5 +20,22 @@ test('matchApi', t => {
   t.truthy(matchApi('/user/a/ttt/b', apiRule_3));
   t.false(matchApi('/user/a/ttt2/b', apiRule_3))
 
+  const apiRule_4 = '/user/{aaa}/ttt/{bbbb}';
+  t.truthy(matchApi('/user/a/ttt/b', apiRule_4));
+  t.false(matchApi('/user/a/ttt2/b', apiRule_4))
+
+  const apiRule_5 = '/user/{aaa}/ttt/{bbbb}';
+  let r5 = matchApi('/user/a/ttt/b', apiRule_5);
+  t.deepEqual(r5, {
+    aaa: 'a', 
+    bbbb: 'b' 
+  });
+
+  const apiRule_6 = '/user/a1={aaa}/ttt/b1={bbbb}';
+  let r6 = matchApi('/user/a1=a/ttt/b1=b', apiRule_6);
+  t.deepEqual(r6, {
+    aaa: 'a', 
+    bbbb: 'b' 
+  });
 
 });

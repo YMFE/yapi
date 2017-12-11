@@ -175,8 +175,8 @@ function handleParams(interfaceData, handleValue, requestParams) {
     if (requestParams) {
       requestParams[item.name] = val;
     }
-
     path = path.replace(`:${item.name}`, val || `:${item.name}`);
+    path = path.replace(`{${item.name}}`, val || `{${item.name}}`);
   });
 
 

@@ -1,1 +1,1 @@
-window.WEBPACK_ASSETS = {"index.js":{"js":"index@0f391eb4a96737f4be69.js","css":"index@0f391eb4a96737f4be69.css"},"lib":{"js":"lib.min.js"},"lib2":{"js":"lib2.min.js"},"manifest":{"js":"manifest.min.js"}}
+window.WEBPACK_ASSETS = {"index.js":{"js":"index@773f87ecdd1b72f9076c.js","css":"index@773f87ecdd1b72f9076c.css"},"lib":{"js":"lib.min.js"},"lib2":{"js":"lib2.min.js"},"manifest":{"js":"manifest.min.js"}}

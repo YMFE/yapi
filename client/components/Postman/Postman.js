@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, Input, Checkbox, Select, Spin, Icon, Collapse, Tooltip, Tabs, Switch } from 'antd'
+import { Button, Input, Checkbox, Select, Spin, Icon, Collapse, Tooltip, Tabs, Switch, Row, Col } from 'antd'
 
 import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
@@ -20,6 +20,33 @@ const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
+
+const InsertCodeMap = [
+  {
+    code: "assert.equal(status, 200)",
+    title: "断言 httpCode 等于 200"
+  },
+  {
+    code: "assert.equal(body.errcode, 0)",
+    title: "断言返回数据 errcode 是 0"
+  },
+  {
+    code: "assert.notEqual(status, 404)",
+    title: "断言 httpCode 不是 404"
+  },
+  {
+    code: "assert.notEqual(body.errcode, 40000)",
+    title: "断言返回数据 errcode 不是 40000"
+  },
+  {
+    code: 'assert.deepEqual(body, {"errcode": 0})',
+    title: '断言对象 body 等于 {"errcode": 0}'
+  },
+  {
+    code: 'assert.notDeepEqual(body, {"errcode": 0})',
+    title: '断言对象 body 不等于 {"errcode": 0}'
+  }
+]
 
 
 export default class Run extends Component {
@@ -46,22 +73,22 @@ export default class Run extends Component {
     }
   }
 
-  checkInterfaceData(data){
-    if(!data || typeof data !== 'object' || !data._id){
+  checkInterfaceData(data) {
+    if (!data || typeof data !== 'object' || !data._id) {
       return false;
     }
     return true;
   }
 
-  selectDomain =(value)=> {
+  selectDomain = (value) => {
     this.setState({ case_env: value });
   }
 
-  initState(data){
-    if(!this.checkInterfaceData(data)){
+  initState(data) {
+    if (!this.checkInterfaceData(data)) {
       return null;
     }
-    
+
     this.setState({
       ...this.state,
       ...data,
@@ -74,7 +101,7 @@ export default class Run extends Component {
         case_env: this.state.env[0].name
       })
     }
-    
+
   }
 
   componentWillMount() {
@@ -91,11 +118,11 @@ export default class Run extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)){
-      if(nextProps.data._id !== this.props.data._id){
+    if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
+      if (nextProps.data._id !== this.props.data._id) {
         this.initState(nextProps.data)
       }
-      if(nextProps.data.env !== this.props.data.env){
+      if (nextProps.data.env !== this.props.data.env) {
         this.setState({
           env: nextProps.data.env
         })
@@ -107,13 +134,17 @@ export default class Run extends Component {
     return handleParamsValue(val, {});
   }
 
-  onOpenTest = (d)=>{
+  onOpenTest = (d) => {
     this.setState({
       test_script: d.text
     })
   }
 
-  handleRequestBody = (d)=>{
+  handleInsertCode = (code) => {
+    this.aceEditor.editor.insertCode(code);
+  }
+
+  handleRequestBody = (d) => {
     this.setState({
       req_body_other: d.text
     })
@@ -199,8 +230,8 @@ export default class Run extends Component {
     this.setState({ req_body_form: bodyForm });
   }
 
-   // 模态框的相关操作
-   showModal = (val, index, type) => {
+  // 模态框的相关操作
+  showModal = (val, index, type) => {
     this.setState({
       modalVisible: true,
       inputIndex: index,
@@ -248,6 +279,7 @@ export default class Run extends Component {
           handleOk={this.handleModalOk}
           inputValue={inputValue}
           envType={this.props.type}
+          id={+this.state._id}
         >
         </ModalPostman>
         <CheckCrossInstall hasPlugin={hasPlugin} />
@@ -285,9 +317,9 @@ export default class Run extends Component {
             >{loading ? '取消' : '发送'}</Button>
           </Tooltip>
 
-          <Tooltip placement="bottom" title={()=>{
+          <Tooltip placement="bottom" title={() => {
             return this.props.type === 'inter' ? '保存到测试集' : '更新该用例'
-            }}><Button
+          }}><Button
             onClick={this.props.save}
             type="primary"
             style={{ marginLeft: 10 }}
@@ -372,13 +404,13 @@ export default class Run extends Component {
             className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
           >
 
-            <div  style={{ display: checkRequestBodyIsRaw(method, req_body_type) ? 'block' : 'none' }}>
-              <AceEditor 
-              className="pretty-editor" 
-              data={this.state.req_body_other} 
-              mode={req_body_type==='json'? null : 'text'}   
-              onChange={this.handleRequestBody}
-            />
+            <div style={{ display: checkRequestBodyIsRaw(method, req_body_type) ? 'block' : 'none' }}>
+              <AceEditor
+                className="pretty-editor"
+                data={this.state.req_body_other}
+                mode={req_body_type === 'json' ? null : 'text'}
+                onChange={this.handleRequestBody}
+              />
             </div>
 
             {
@@ -433,15 +465,15 @@ export default class Run extends Component {
                   <div className="container-title">
                     <h4>Headers</h4>
                   </div>
-                  <AceEditor 
-                    callback={(editor)=>{
-                      editor.renderer.setShowGutter(false)  
-                      }} 
-                    readOnly={true} 
-                    className="pretty-editor-header" 
-                    data={this.state.test_res_header} 
-                    mode='json'   />
-         
+                  <AceEditor
+                    callback={(editor) => {
+                      editor.renderer.setShowGutter(false)
+                    }}
+                    readOnly={true}
+                    className="pretty-editor-header"
+                    data={this.state.test_res_header}
+                    mode='json' />
+
                 </div>
                 <div className="resizer">
                   <div className="container-title">
@@ -452,27 +484,41 @@ export default class Run extends Component {
                   <div className="container-title">
                     <h4>Body</h4>
                   </div>
-                  <AceEditor readOnly={true} className="pretty-editor-body" data={this.state.test_res_body} mode={handleContentType(this.state.test_res_header)}   />
+                  <AceEditor readOnly={true} className="pretty-editor-body" data={this.state.test_res_body} mode={handleContentType(this.state.test_res_header)} />
                 </div>
               </div>
             </Spin>
 
           </Tabs.TabPane>
-          {this.props.type === 'case' ? 
-            <Tabs.TabPane  className="response-test" tab={<Tooltip title="测试脚本，可断言返回结果，使用方法请查看文档">Test</Tooltip>} key="test">
-              <h3 style={{margin: '5px'}}>
+          {this.props.type === 'case' ?
+            <Tabs.TabPane className="response-test" tab={<Tooltip title="测试脚本，可断言返回结果，使用方法请查看文档">Test</Tooltip>} key="test">
+              <h3 style={{ margin: '5px' }}>
                 &nbsp;是否开启:&nbsp;
                 <Switch checked={this.state.enable_script} onChange={e => this.setState({ enable_script: e })} />
               </h3>
-              <p  style={{margin: '10px'}}>注：Test 脚本只有做自动化测试才执行</p>
-              <AceEditor 
-                onChange={this.onOpenTest}
-                className="case-script" 
-                data={this.state.test_script}   
-              />          
+              <p style={{ margin: '10px' }}>注：Test 脚本只有做自动化测试才执行</p>
+              <Row>
+                <Col span="18">
+                  <AceEditor
+                    onChange={this.onOpenTest}
+                    className="case-script"
+                    data={this.state.test_script}
+                    ref={(aceEditor => {
+                      this.aceEditor = aceEditor;
+                    })}
+                  />
+                </Col>
+                <Col span="6">
+                  <div className="insert-code">
+                    {InsertCodeMap.map(item => {
+                      return <div className="code-item" key={item.title} onClick={() => { this.handleInsertCode("\n" + item.code) }}>{item.title}</div>
+                    })}
+                  </div>
+                </Col>
+              </Row>
             </Tabs.TabPane>
-          : null }
-          
+            : null}
+
         </Tabs>
 
 

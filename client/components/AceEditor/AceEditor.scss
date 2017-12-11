@@ -12,9 +12,14 @@
 }
 
 .ace_editor .ace_print-margin{
-  visibility: hidden
+  visibility: hidden !important 
 }
 
 .fullScreen {
   overflow: hidden
+}
+
+.ace_editor.ace-xcode {
+  background-color: #f5f5f5;
+  color: #000000;
 }

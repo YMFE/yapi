@@ -22,13 +22,29 @@ function matchApi(apiPath, apiRule) {
             apiRules[i]  = apiRules[i].trim();
         }else{
             continue;
-        }        
-        if (apiRules[i].indexOf(":") !== 0) {
+        }
+        if(apiRules[i].length > 2 && apiRules[i][0] === '{' && apiRules[i][apiRules[i].length - 1] === '}'){
+            pathRules[apiRules[i].substr(1, apiRules[i].length - 2)] = apiPaths[i];
+        }else if (apiRules[i].indexOf(":") === 0) {
+            pathRules[apiRules[i].substr(1)] = apiPaths[i]            
+        }else if(apiRules[i].length > 2 && apiRules[i].indexOf('{') > -1 && apiRules[i].indexOf('}') > -1){
+            let params = [];
+            apiRules[i] = apiRules[i].replace(/\{(.+?)\}/g, function(src, match){
+                params.push(match);
+                return '(.+?)';
+            })
+            apiRules[i] = new RegExp(apiRules[i]);
+            if(!apiRules[i].test(apiPaths[i])){
+                return false;
+            }
+            let matchs = apiPaths[i].match(apiRules[i]);
+            params.forEach((item,index)=>{
+                pathRules[item] = matchs[index+1];
+            })
+        }else {
             if (apiRules[i] !== apiPaths[i]) {
                 return false;
             }
-        } else {
-            pathRules[apiRules[i].substr(1)] = apiPaths[i]
         }
     }
     return pathRules;

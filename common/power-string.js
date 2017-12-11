@@ -92,6 +92,9 @@ let handleValue = function(str){
 }
 
 const _handleValue = function(str){
+    if(str[0] === str[str.length -1] && (str[0] === '"' || str[0] === "'")){
+        str = str.substr(1, str.length -2)
+    }
     return handleValue(str
         .replace(new RegExp(aUniqueVerticalStringNotFoundInData, 'g'), segmentSeparateChar)
         .replace(new RegExp(aUniqueCommaStringNotFoundInData, 'g'), argsSeparateChar)
