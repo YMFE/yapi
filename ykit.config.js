@@ -70,7 +70,7 @@ module.exports = {
       },
       exclude: /node_modules\/(?!yapi-plugin)/
     }    
-  }],
+  }],    
   // devtool:  'cheap-source-map',
   config: function (ykit) {
     return {

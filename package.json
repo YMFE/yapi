@@ -42,6 +42,7 @@
     "koa-session-minimal": "^3.0.3",
     "koa-static": "^3.0.0",
     "koa-websocket": "^4.0.0",
+    "ldapjs": "^1.0.1",
     "markdown-it": "^8.4.0",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-table-of-contents": "^0.3.2",

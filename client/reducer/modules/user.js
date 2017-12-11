@@ -18,6 +18,7 @@ const MEMBER_STATUS = 2;
 // Reducer user
 const initialState = {
   isLogin: false,
+  isLDAP: false,
   userName: null,
   uid: null,
   email: '',
@@ -43,6 +44,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLogin: (action.payload.data.errcode == 0),
+        isLDAP: (action.payload.data.ladp),
         role: action.payload.data.data ? action.payload.data.data.role : null,
         loginState: (action.payload.data.errcode == 0) ? MEMBER_STATUS : GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
@@ -52,6 +54,7 @@ export default (state = initialState, action) => {
       };
     }
     case LOGIN: {
+      console.log('data',action.payload.data);
       if (action.payload.data.errcode === 0) {
         return {
           ...state,
@@ -146,6 +149,13 @@ export function loginActions(data) {
   };
 }
 
+export function loginLdapActions(data) {
+  return {
+    type: LOGIN,
+    payload: axios.post('/api/user/login_by_ldap', data)
+  };
+}
+
 export function regActions(data) {
   const { email, password, userName } = data;
   const param = {
@@ -181,7 +191,7 @@ export function setBreadcrumb(data) {
 }
 
 export function setImageUrl(data) {
-  
+
   return {
     type: SET_IMAGE_URL,
     data

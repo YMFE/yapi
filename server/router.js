@@ -140,6 +140,11 @@ let routerConfig = {
 			"action": "loginByToken",
 			"path": "login_by_token",
 			"method": "all"
+    },
+    {
+			"action": "getLdapAuth",
+			"path": "login_by_ldap",
+			"method": "all"
 		},
 		{
 			action: 'upStudy',
