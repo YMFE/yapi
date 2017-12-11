@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 const FormItem = Form.Item;
 const Option = Select.Option;
+import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 import '../Setting.scss';
 // layout
 const formItemLayout = {
@@ -15,7 +16,7 @@ const formItemLayout = {
   },
   className: 'form-item project-env'
 };
-let uuid = 0; // 环境配置的计数
+// let uuid = 0; // 环境配置的计数
 
 @connect(
   state => {
@@ -34,13 +35,24 @@ let uuid = 0; // 环境配置的计数
 )
 @withRouter
 class PrpjectEnv extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+
+  initState(curdata) {
+    if (curdata.env && curdata.env.length === 0) delete curdata.env;
+    console.log('curdata', curdata);
+    return Object.assign({
       protocol: 'http:\/\/',
       envProtocolChange: 'http:\/\/',
-      projectMsg: {}
-    }
+      env: {
+        name: '',
+        domain: ''
+      }
+    }, curdata)
+  }
+
+  constructor(props) {
+    super(props);
+    const { projectMsg } = this.props;
+    this.state = this.initState(projectMsg);
   }
   static propTypes = {
     projectId: PropTypes.number,
@@ -56,37 +68,37 @@ class PrpjectEnv extends Component {
     onOk: PropTypes.func
   }
 
-  // 项目的修改操作 - 删除一项环境配置
-  remove = (id) => {
-    const { form } = this.props;
-    // can use data-binding to get
-    const envs = form.getFieldValue('envs');
-    // We need at least one passenger
-    if (envs.length === 0) {
-      return;
-    }
+  delParams = (key, name) => {
 
-    // can use data-binding to set
-    form.setFieldsValue({
-      envs: envs.filter(key => {
-        const realKey = key._id ? key._id : key
-        return realKey !== id;
-      })
-    });
+    let curValue = this.props.form.getFieldValue(name);
+    let newValue = {}
+    newValue[name] = curValue.filter((val, index) => {
+      return index !== key;
+    })
+    console.log('newValue',newValue);
+    this.props.form.setFieldsValue(newValue)
+    setTimeout(()=>{
+      console.log('curValue',this.props.form.getFieldValue(name));
+    },5000);
+    // console.log('curValue',this.props.form.getFieldValue(name));
+    this.setState(newValue)
   }
 
-  // 项目的修改操作 - 添加一项环境配置
-  add = () => {
-    uuid++;
-    const { form } = this.props;
-    // can use data-binding to get
-    const envs = form.getFieldValue('envs');
-    const nextKeys = envs.concat(uuid);
-    // can use data-binding to set
-    // important! notify form to detect changes
-    form.setFieldsValue({
-      envs: nextKeys
-    });
+  addParams = (name, data) => {
+    let newValue = {}
+    data = { name: "", domain: "" }
+    newValue[name] = [].concat(this.state[name], data)
+    this.setState(newValue)
+  }
+
+  handleDragMove = (name) => {
+    return (data) => {
+      let newValue = {
+        [name]: data
+      }
+      this.props.form.setFieldsValue(newValue);
+      this.setState(newValue)
+    }
   }
 
   // 确认修改
@@ -97,23 +109,20 @@ class PrpjectEnv extends Component {
       if (!err) {
         let assignValue = Object.assign(projectMsg, values);
         values.protocol = this.state.protocol.split(':')[0];
-        assignValue.env = assignValue.envs.map((item, index) => {
+        assignValue.env = values.env.map((item) => {
           return {
-            name: values['envs-name-' + index],
-            domain: values['envs-protocol-' + index] + values['envs-domain-' + index]
+            name: item.name,
+            domain: item.protocol + item.domain
           }
         });
-        console.log(assignValue);
-
         updateEnv(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
             this.props.getProjectMsg(this.props.projectId);
             message.success('修改成功! ');
-            // this.props.history.push('/group');
           }
         }).catch(() => {
+          message.error('环境设置不成功 ');
         });
-        form.resetFields();
       }
     });
     this.props.onOk && this.props.onOk();
@@ -131,22 +140,19 @@ class PrpjectEnv extends Component {
     if (env && env.length !== 0) {
       envMessage = env;
     }
-
-    getFieldDecorator('envs', { initialValue: envMessage });
-    const envs = getFieldValue('envs');
-    const envSettingItems = envs.map((k, index) => {
+    const envs = this.state.env;
+    const envTpl = (item, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" className={index === 0 ? ' env-first-row' : null} align={'top'}>
           <Col span={11}>
             <FormItem
-              
               required={false}
               key={index}
             >
-              {getFieldDecorator(`envs-name-${index}`, {
+              {getFieldDecorator('env[' + index + '].name', {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: envMessage.length !== 0 ? k.name : '',
+                initialValue: envMessage.length !== 0 ? item.name : '',
                 rules: [{
                   required: false,
                   whitespace: true,
@@ -171,13 +177,12 @@ class PrpjectEnv extends Component {
           </Col>
           <Col span={11}>
             <FormItem
-  
               required={false}
               key={secondIndex}
             >
-              {getFieldDecorator(`envs-domain-${index}`, {
+              {getFieldDecorator('env[' + index + '].domain', {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[1] : '',
+                initialValue: envMessage.length !== 0 && item.domain ? item.domain.split('\/\/')[1] : '',
                 rules: [{
                   required: false,
                   whitespace: true,
@@ -197,8 +202,8 @@ class PrpjectEnv extends Component {
                 }]
               })(
                 <Input placeholder="请输入环境域名" style={{ width: '90%', marginRight: 8 }} addonBefore={
-                  getFieldDecorator(`envs-protocol-${index}`, {
-                    initialValue: envMessage.length !== 0 && k.domain ? k.domain.split('\/\/')[0] + '\/\/' : 'http\:\/\/',
+                  getFieldDecorator('env[' + index + '].protocol', {
+                    initialValue: envMessage.length !== 0 && item.domain ? item.domain.split('\/\/')[0] + '\/\/' : 'http\:\/\/',
                     rules: [{
                       required: true
                     }]
@@ -213,19 +218,19 @@ class PrpjectEnv extends Component {
           </Col>
           <Col span={2}>
             {/* 新增的项中，只有最后一项有删除按钮 */}
-            {(envs.length > 0 && k._id) || (envs.length == index + 1) ? (
-              <Icon
-                className="dynamic-delete-button"
-                type="minus-circle-o"
-                onClick={() => {
-                  return this.remove(k._id ? k._id : k);
-                }}
-              />
-            ) : null}
+            <Icon
+              className="dynamic-delete-button"
+              type="minus-circle-o"
+              onClick={() => this.delParams(index, 'env')}
+            />
           </Col>
         </Row>
       );
-    });
+    }
+    const envSettingItems = envs.map((item, index) => {
+      return envTpl(item, index)
+    })
+    console.log('env',getFieldValue('env'));
     return (
       <div className="m-panel env">
         <div className="panel-title">
@@ -233,8 +238,11 @@ class PrpjectEnv extends Component {
           <p className="desc">你可以添加多个环境，用于区分不同的使用场景。</p>
         </div>
         <FormItem {...formItemLayout}>
-          {envSettingItems}
-          <Button type="default" onClick={this.add} >
+          <EasyDragSort data={getFieldValue('env')} onChange={this.handleDragMove('env')} >
+            {envSettingItems}
+          </EasyDragSort>
+
+          <Button type="default" onClick={() => this.addParams('env')} >
             <Icon type="plus" /> 添加环境配置
           </Button>
         </FormItem>
