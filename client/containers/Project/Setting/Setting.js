@@ -2,7 +2,7 @@ import React, { PureComponent as Component } from 'react'
 import { Tabs } from 'antd';
 import PropTypes from 'prop-types';
 import ProjectMessage from './ProjectMessage/ProjectMessage.js';
-import ProjectEnv from './ProjectEnv/ProjectEnv.js';
+import ProjectEnv from './ProjectEnv/index.js';
 import ProjectRequest from './ProjectRequest/ProjectRequest';
 const TabPane = Tabs.TabPane;
 

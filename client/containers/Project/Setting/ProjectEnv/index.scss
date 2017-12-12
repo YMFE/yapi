@@ -1,0 +1,43 @@
+.project-env{
+  min-height: 4.68rem;
+
+  .env-icon-style{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .anticon{
+      font-size: 15px;
+    }
+  }
+
+  .env-content{
+    border-left: 1px solid #ccc;
+  }
+
+  .ant-menu-item-disabled{
+    cursor: pointer;
+  }
+
+  .m-empty-prompt{
+    display: flex;
+    height: 100%;
+    span{
+      margin: auto;
+      font-size: 16px;
+      .anticon {
+        padding-right: 16px;
+        font-size: 24px;
+      }
+    }
+  }
+
+  .env-label{
+    padding-bottom: 8px;
+  }
+
+  .env-last-row {
+    display: none;
+  }
+
+  
+}
