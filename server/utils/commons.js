@@ -289,11 +289,10 @@ exports.saveLog = (logData) => {
             type: logData.type,
             uid: logData.uid,
             username: logData.username,
-            typeid: logData.typeid
+            typeid: logData.typeid,
+            data: logData.data
         };
-        logInst.save(data).then(
-
-        );
+        logInst.save(data).then();
     } catch (e) {
         yapi.commons.log(e, 'error'); // eslint-disable-line
     }

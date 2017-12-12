@@ -40,6 +40,7 @@ class ErrMsg extends Component {
 
   render () {
     let { type, title, desc, opration } = this.props;
+    let icon = 'frown-o';
     if (type) {
       switch (type) {
         case 'noFollow':
@@ -62,7 +63,12 @@ class ErrMsg extends Component {
           break;
         case 'noData':
           title = '暂无数据';
-          desc = '先去别处逛逛吧';
+          desc = '先去别处逛逛吧';          
+          break;
+        case 'noChange':
+          title = '没有改动';
+          desc = '该操作未改动 Api 数据'
+          icon = 'meh-o';
           break;
         default:
           console.log('default');
@@ -70,7 +76,7 @@ class ErrMsg extends Component {
     }
     return (
       <div className="err-msg">
-        <Icon type="frown-o" className="icon" />
+        <Icon type={icon} className="icon" />
         <p className="title">{title}</p>
         <p className="desc">{desc}</p>
         <p className="opration">{opration}</p>

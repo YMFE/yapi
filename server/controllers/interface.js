@@ -397,9 +397,6 @@ class interfaceController extends baseController {
         }
 
 
-
-
-
         if (params.path && (params.path !== interfaceData.path || params.method !== interfaceData.method)) {
             let checkRepeat = await this.Model.checkRepeat(interfaceData.project_id, params.path, params.method);
             if (checkRepeat > 0) {
@@ -466,37 +463,29 @@ class interfaceController extends baseController {
             data.status = params.status;
         }
 
-
-
         try {
             let result = await this.Model.up(id, data);
             let username = this.getUsername();
-            if (data.catid) {
-                this.catModel.get(+data.catid).then((cate) => {
-                    yapi.commons.saveLog({
-                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${data.catid}">${cate.name}</a> 下的接口 <a href="/project/${cate.project_id}/interface/api/${id}">${interfaceData.title}</a>`,
-                        type: 'project',
-                        uid: this.getUid(),
-                        username: username,
-                        typeid: cate.project_id
-                    });
+            let CurrentInterfaceData = await this.Model.get(id);
+            this.catModel.get(+data.catid).then((cate) => {
+                yapi.commons.saveLog({
+                    content: `<a href="/user/profile/${this.getUid()}">${username}</a> 
+                    更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${data.catid}">${cate.name}</a> 
+                    下的接口 <a href="/project/${cate.project_id}/interface/api/${id}">${interfaceData.title}</a><p>${params.message}</p>`,
+                    type: 'project',
+                    uid: this.getUid(),
+                    username: username,
+                    typeid: cate.project_id,
+                    data: {
+                        interface_id: id,
+                        current: CurrentInterfaceData,
+                        old: interfaceData
+                    }
                 });
+            });
 
-                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
-            } else {
-                let cateid = interfaceData.catid;
-                this.catModel.get(cateid).then((cate) => {
-                    yapi.commons.saveLog({
-                        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${cateid}">${cate.name}</a> 下的接口 <a href="/project/${cate.project_id}/interface/api/${id}>${interfaceData.title}</a>`,
-                        type: 'project',
-                        uid: this.getUid(),
-                        username: username,
-                        typeid: cate.project_id
-                    });
-                });
-
-                this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
-            }
+            this.projectModel.up(interfaceData.project_id,{up_time: new Date().getTime()}).then();
+ 
             if (params.switch_notice === true) {
                 let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
                 let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
