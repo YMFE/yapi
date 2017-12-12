@@ -69,13 +69,11 @@ class PrpjectEnv extends Component {
   }
 
   delParams = (key, name) => {
-
     let curValue = this.props.form.getFieldValue(name);
     let newValue = {}
     newValue[name] = curValue.filter((val, index) => {
       return index !== key;
     })
-    
     this.props.form.setFieldsValue(newValue)
     this.setState(newValue)
   }
