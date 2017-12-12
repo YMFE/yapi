@@ -47,7 +47,7 @@ class ProjectEnvContent extends Component {
       }]
     }
   }
-  addHeader = (name) => {
+  addHeader = (value, name) => {
     let newValue = {}
     let data = { type: "", content: "" }
     newValue[name] = [].concat(this.state[name], data)
@@ -199,7 +199,7 @@ class ProjectEnvContent extends Component {
       return envTpl(projectMsg)
     }
     return (
-      <div style={{ height: '400px' }}>
+      <div>
         {projectMsg.name ?
           <div>
             <EnvSettingItems />

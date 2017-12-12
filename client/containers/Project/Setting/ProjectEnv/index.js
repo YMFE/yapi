@@ -69,12 +69,15 @@ class ProjectEnv extends Component {
                   return (
                     <Menu.Item key={index + 1}>
                       <span className="env-icon-style">
-                         <span>{item.name}</span> 
+                        <span>{item.name}</span>
+                        <Tooltip title="删除环境变量">
                           <Icon 
                           type='delete' 
                           className="interface-delete-icon" 
                           style={{ display: this.state.delIcon == index ? 'block' : 'none' }} 
                           />
+                        </Tooltip>
+                         
                       </span>
                     </Menu.Item>
                   )
