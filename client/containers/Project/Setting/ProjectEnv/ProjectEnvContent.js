@@ -17,7 +17,8 @@ class ProjectEnvContent extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
     form: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    handleEnvInput: PropTypes.func
   }
 
   initState(curdata) {
@@ -98,12 +99,15 @@ class ProjectEnvContent extends Component {
     });
   }
 
+  
+
 
   render() {
     const { projectMsg } = this.props;
     const { getFieldDecorator } = this.props.form;
     const headerTpl = (item, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
+      const headerLength = this.state.header.length - 1;
       return <Row gutter={2} key={index}>
         <Col span={10}>
           <FormItem key={index}>
@@ -125,13 +129,33 @@ class ProjectEnvContent extends Component {
           <FormItem key={secondIndex}>
             {getFieldDecorator('header[' + index + '].content', {
               validateTrigger: ['onChange', 'onBlur'],
-              initialValue: item.content || ''
+              initialValue: item.content || '',
+              rules: [{
+                required: false,
+                whitespace: true,
+                validator(rule, value, callback) {
+                  if (index === headerLength) {
+                    callback();
+                  }
+                  if (value) {
+                    if (value.length === 0) {
+                      callback('请输入参数内容');
+                    } else if (!/\S/.test(value)) {
+                      callback('请输入参数内容');
+                    } else {
+                      return callback();
+                    }
+                  } else {
+                    callback('请输入参数内容');
+                  }
+                }
+              }]
             })(
               <Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />
               )}
           </FormItem>
         </Col>
-        <Col span={2} className={index === this.state.header.length - 1 ? ' env-last-row' : null}>
+        <Col span={2} className={index === headerLength ? ' env-last-row' : null}>
           {/* 新增的项中，只有最后一项没有有删除按钮 */}
           <Icon
             className="dynamic-delete-button"
@@ -170,7 +194,7 @@ class ProjectEnvContent extends Component {
                 }
               }]
             })(
-              <Input placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
+              <Input onChange={(e) => this.props.handleEnvInput(e.target.value)} placeholder="请输入环境名称" style={{ width: '90%', marginRight: 8 }} />
               )}
           </FormItem>
           <h3 className="env-label">环境域名</h3>

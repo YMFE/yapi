@@ -115,19 +115,12 @@ class ProjectEnv extends Component {
     this.setState({ delIcon: null })
   }
 
-  onSubmit = (value) => {
+  onSubmit = (value, index) => {
     let assignValue = {};
     assignValue['env'] = [].concat(this.state.env);
-    if (value.env._id) {
-      let index = assignValue['env'].findIndex((item) => {
-        return item._id === value.env._id
-      })
-      assignValue['env'].splice(index, 1, value['env'])
-    } else {
-      assignValue['env'].splice(0, 1, value['env'])
-    }
-    this.setState({ ...assignValue });
+    assignValue['env'].splice(index, 1, value['env'])
     assignValue['_id'] = this.state._id;
+    this.setState({ ...assignValue });
     this.props.updateEnv(assignValue).then((res) => {
       if (res.payload.data.errcode == 0) {
         this.props.getProjectMsg(this.props.projectId);
@@ -139,10 +132,16 @@ class ProjectEnv extends Component {
 
   }
 
+  // 动态修改环境名称
+  handleInputChange = (value, currentKey) => {
+    let newValue = [].concat(this.state.env);
+    newValue[currentKey].name = value;
+    this.setState({ env: newValue });
+  }
+
 
   render() {
-    const { env } = this.state;
-   
+    const { env, currentKey } = this.state;
     return (
       <div className="m-env-panel">
         <Layout className="project-env">
@@ -150,13 +149,12 @@ class ProjectEnv extends Component {
             <Menu
               mode="inline"
               onClick={(e) => this.handleClick(e.key, env)}
-              selectedKeys={[this.state.currentKey + 1 + '']}
+              selectedKeys={[currentKey + 1 + '']}
               style={{ height: '100%', borderRight: 0 }}
-
             >
               <Menu.Item disabled key="0" className="first-menu-item">
                 <div className="env-icon-style">
-                  <h3>环境变量</h3>
+                  <h3>环境列表&nbsp;<Tooltip placement="top" title="在这里添加项目的环境配置"><Icon type="question-circle-o" /></Tooltip></h3>
                   <Tooltip title="添加环境变量">
                     <Icon type="plus" onClick={() => this.addParams('env')} />
                   </Tooltip>
@@ -188,7 +186,11 @@ class ProjectEnv extends Component {
           </Sider>
           <Layout className="env-content">
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <ProjectEnvContent projectMsg={this.state.currentEnvMsg} onSubmit={this.onSubmit} />
+              <ProjectEnvContent
+                projectMsg={this.state.currentEnvMsg}
+                onSubmit={(e) => this.onSubmit(e, currentKey)}
+                handleEnvInput={(e) => this.handleInputChange(e, currentKey)}
+              />
             </Content>
           </Layout>
         </Layout>
