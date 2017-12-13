@@ -59,13 +59,17 @@ class logModel extends baseModel {
     }
     
 
-    listWithPaging(typeid,type, page, limit) {
+    listWithPaging(typeid,type, page, limit, interfaceId) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find({
+        const params = {
             type: type,
             typeid: typeid
-        }).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
+        }        
+        if(interfaceId && !isNaN(interfaceId)){
+            params['data.interface_id'] = +interfaceId
+        }       
+        return this.model.find(params).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
     }
     listWithPagingByGroup(typeid, pidList, page, limit) {
         page = parseInt(page);
@@ -91,11 +95,15 @@ class logModel extends baseModel {
             }]
         });
     }
-    listCount(typeid,type) {
-        return this.model.count({
-            typeid: typeid,
-            type: type
-        });
+    listCount(typeid,type, interfaceId) {
+        const params = {
+            type: type,
+            typeid: typeid
+        }
+        if(interfaceId && !isNaN(interfaceId)){
+            params['data.interface_id'] = +interfaceId           
+        }
+        return this.model.count(params);
     }
 }
 
