@@ -32,6 +32,7 @@
     "js-base64": "^2.3.2",
     "json-schema-ref-parser": "^4.0.0",
     "json5": "^0.5.1",
+    "jsondiffpatch": "^0.2.5",
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",

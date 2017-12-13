@@ -650,6 +650,7 @@ class projectController extends baseController {
      * @param {Array} [env] 项目环境配置
      * @param {String} [env[].name] 环境名称
      * @param {String} [env[].domain] 环境域名
+     * @param {Array}  [env[].header] header
      * @returns {Object}
      * @example 
      */

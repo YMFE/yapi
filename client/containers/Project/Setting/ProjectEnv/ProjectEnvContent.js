@@ -16,18 +16,17 @@ const EmptyPrompt = () => {
 class ProjectEnvContent extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
-    form: PropTypes.object
+    form: PropTypes.object,
+    onSubmit: PropTypes.func
   }
 
   initState(curdata) {
-
-    console.log('curdata', curdata);
-
+    console.log('curdata', curdata)
     let header = [{
       type: "",
       content: ""
     }];
-    if (curdata) {
+    if (curdata && curdata.length !== 0) {
       curdata.forEach(item => {
         header.unshift(item);
       })
@@ -64,15 +63,40 @@ class ProjectEnvContent extends Component {
     this.setState(newValue)
   }
 
-  componentDidUpdate(prevProps) {
-    let oldName = prevProps.projectMsg.name;
-    let newName = this.props.projectMsg.name;
-    if (oldName !== newName) {
-      let newValue = this.initState(this.props.projectMsg.header)
-      this.setState({ ...newValue });
+
+  handleInit(data) {
+    console.log('init')
+    this.props.form.resetFields();
+    let newValue = this.initState(data)
+    this.setState({ ...newValue });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let curEnvName = this.props.projectMsg.name;
+    let nextEnvName = nextProps.projectMsg.name
+    if (curEnvName !== nextEnvName) {
+      this.handleInit(nextProps.projectMsg.header);
     }
   }
 
+  handleOk = (e) => {
+    e.preventDefault();
+    const { form, onSubmit, projectMsg } = this.props;
+    form.validateFields((err, values) => {
+      if (!err) {
+        let header = values.header.filter(val => {
+          return val.type !== ''
+        })
+        let assignValue = {};
+        assignValue.env = Object.assign({ _id: projectMsg._id }, {
+          name: values.env.name,
+          domain: values.env.protocol + values.env.domain,
+          header: header
+        });
+        onSubmit(assignValue);
+      }
+    });
+  }
 
 
   render() {
@@ -112,7 +136,7 @@ class ProjectEnvContent extends Component {
           <Icon
             className="dynamic-delete-button"
             type="minus-circle-o"
-            onClick={() => this.delHeader(index, 'header')}
+            onClick={(e) => { e.stopPropagation(); this.delHeader(index, 'header') }}
           />
         </Col>
       </Row>
@@ -127,7 +151,7 @@ class ProjectEnvContent extends Component {
           >
             {getFieldDecorator('env.name', {
               validateTrigger: ['onChange', 'onBlur'],
-              initialValue: data.name || '',
+              initialValue: data.name === '新环境' ? '' : data.name || '',
               rules: [{
                 required: false,
                 whitespace: true,

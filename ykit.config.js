@@ -135,7 +135,7 @@ module.exports = {
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
 
-       
+        baseConfig.module.noParse = /node_modules\/jsondiffpatch\/public\/build\/.*js/,
         
         baseConfig.module.loaders.push({
           test: /\.less$/,
@@ -156,7 +156,7 @@ module.exports = {
         })
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
+          exclude: /node_modules|google-diff.js/,
           loader: "eslint-loader"
         });
 

@@ -1,6 +1,12 @@
+.m-env-panel {
+  padding-top: 8px;
+  min-height: 4.68px;
+  margin-top: 0;
+  background-color: #fff;
+}
+
 .project-env{
   min-height: 4.68rem;
-
   .env-icon-style{
     display: flex;
     justify-content: space-between;
@@ -8,6 +14,11 @@
     .anticon{
       font-size: 15px;
     }
+  }
+
+  .first-menu-item{
+    // border: 1px solid #ccc;
+    background-color: #eceef1;
   }
 
   .env-content{

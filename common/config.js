@@ -11,7 +11,5 @@ module.exports = {
     name: 'statistics'
   },{
     name: 'export-data'
-  }, {
-    name: 'api-history'
   }]
 }

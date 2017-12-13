@@ -1,6 +1,7 @@
 const yapi = require('../yapi.js');
 const baseModel = require('./base.js');
-// const userModel = require('../models/user.js');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 class logModel extends baseModel {
     getName() {
@@ -14,7 +15,8 @@ class logModel extends baseModel {
             type: { type: String,enum:['user', 'group', 'interface','project', 'other', 'interface_col'], required: true },
             content: { type: String, required: true },
             username: { type: String, required: true },
-            add_time: Number
+            add_time: Number,
+            data: Schema.Types.Mixed //用于原始数据存储
         };
     }
 
@@ -33,8 +35,10 @@ class logModel extends baseModel {
             uid: data.uid,
             username: data.username,
             typeid: data.typeid,
-            add_time: yapi.commons.time()
+            add_time: yapi.commons.time(),
+            data: data.data
         };
+
         let log = new this.model(saveData);
 
         return log.save();

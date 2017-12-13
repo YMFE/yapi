@@ -98,6 +98,7 @@ class InterfaceEditForm extends Component {
     };
     curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
     return Object.assign({
+      submitStatus: false,
       title: '',
       path: '',
       status: 'undone',
@@ -142,81 +143,95 @@ class InterfaceEditForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        values.desc = this.editor.txt.html();
-        if (values.res_body_type === 'json') {
-          if (this.state.res_body && validJson(this.state.res_body) === false) {
-            return message.error('返回body json格式有问题，请检查！')
-          }
-          try {
-            values.res_body = JSON.stringify(JSON.parse(this.state.res_body), null, '   ')
-          } catch (e) {
-            values.res_body = this.state.res_body;
-          }
-
-        }
-        if (values.req_body_type === 'json') {
-          if (this.state.req_body_other && validJson(this.state.req_body_other) === false) {
-            return message.error('响应Body json格式有问题，请检查！');
-          }
-          try {
-            values.req_body_other = JSON.stringify(JSON.parse(this.state.req_body_other), null, '   ');
-          } catch (e) {
-            values.req_body_other = this.state.req_body_other
-          }
-        }
-
-        values.method = this.state.method;
-        values.req_params = values.req_params || [];
-        values.req_headers = values.req_headers || [];
-        let isfile = false, isHavaContentType = false;
-        if (values.req_body_type === 'form') {
-          values.req_body_form.forEach((item) => {
-            if (item.type === 'file') {
-              isfile = true;
-            }
+    this.setState({
+      submitStatus: true
+    })
+    try {
+      this.props.form.validateFields((err, values) => {
+        setTimeout(() => {
+          this.setState({
+            submitStatus: false
           })
-
-          values.req_headers.map((item) => {
-            if (item.name === 'Content-Type') {
-              item.value = isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
-              isHavaContentType = true;
+        }, 3000)
+        if (!err) {
+          values.desc = this.editor.txt.html();
+          if (values.res_body_type === 'json') {
+            if (this.state.res_body && validJson(this.state.res_body) === false) {
+              return message.error('返回body json格式有问题，请检查！')
             }
-          })
-          if (isHavaContentType === false) {
-            values.req_headers.unshift({
-              name: 'Content-Type',
-              value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
-            })
-          }
-        } else if (values.req_body_type === 'json') {
-          values.req_headers ? values.req_headers.map((item) => {
-            if (item.name === 'Content-Type') {
-              item.value = 'application/json'
-              isHavaContentType = true;
+            try {
+              values.res_body = JSON.stringify(JSON.parse(this.state.res_body), null, '   ')
+            } catch (e) {
+              values.res_body = this.state.res_body;
             }
-          }) : [];
-          if (isHavaContentType === false) {
-            values.req_headers = values.req_headers || [];
-            values.req_headers.unshift({
-              name: 'Content-Type',
-              value: 'application/json'
-            })
-          }
-        }
-        values.req_headers = values.req_headers ? values.req_headers.filter((item) => item.name !== '') : []
-        values.req_body_form = values.req_body_form ? values.req_body_form.filter((item) => item.name !== '') : []
-        values.req_params = values.req_params ? values.req_params.filter(item => item.name !== '') : []
-        values.req_query = values.req_query ? values.req_query.filter(item => item.name !== '') : []
 
-        if (HTTP_METHOD[values.method].request_body !== true) {
-          values.req_body_form = []
+          }
+          if (values.req_body_type === 'json') {
+            if (this.state.req_body_other && validJson(this.state.req_body_other) === false) {
+              return message.error('响应Body json格式有问题，请检查！');
+            }
+            try {
+              values.req_body_other = JSON.stringify(JSON.parse(this.state.req_body_other), null, '   ');
+            } catch (e) {
+              values.req_body_other = this.state.req_body_other
+            }
+          }
+
+          values.method = this.state.method;
+          values.req_params = values.req_params || [];
+          values.req_headers = values.req_headers || [];
+          let isfile = false, isHavaContentType = false;
+          if (values.req_body_type === 'form') {
+            values.req_body_form.forEach((item) => {
+              if (item.type === 'file') {
+                isfile = true;
+              }
+            })
+
+            values.req_headers.map((item) => {
+              if (item.name === 'Content-Type') {
+                item.value = isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
+                isHavaContentType = true;
+              }
+            })
+            if (isHavaContentType === false) {
+              values.req_headers.unshift({
+                name: 'Content-Type',
+                value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
+              })
+            }
+          } else if (values.req_body_type === 'json') {
+            values.req_headers ? values.req_headers.map((item) => {
+              if (item.name === 'Content-Type') {
+                item.value = 'application/json'
+                isHavaContentType = true;
+              }
+            }) : [];
+            if (isHavaContentType === false) {
+              values.req_headers = values.req_headers || [];
+              values.req_headers.unshift({
+                name: 'Content-Type',
+                value: 'application/json'
+              })
+            }
+          }
+          values.req_headers = values.req_headers ? values.req_headers.filter((item) => item.name !== '') : []
+          values.req_body_form = values.req_body_form ? values.req_body_form.filter((item) => item.name !== '') : []
+          values.req_params = values.req_params ? values.req_params.filter(item => item.name !== '') : []
+          values.req_query = values.req_query ? values.req_query.filter(item => item.name !== '') : []
+
+          if (HTTP_METHOD[values.method].request_body !== true) {
+            values.req_body_form = []
+          }
+          this.props.onSubmit(values)
+          EditFormContext.props.changeEditStatus(false);
         }
-        this.props.onSubmit(values)
-        EditFormContext.props.changeEditStatus(false);
-      }
-    });
+      });
+    } catch (e) {
+      this.setState({
+        submitStatus: false
+      })
+    }
   }
 
   onChangeMethod = (val) => {
@@ -915,7 +930,7 @@ class InterfaceEditForm extends Component {
         >
           {/* <Button type="primary" htmlType="submit">保存1</Button> */}
           <Affix offsetBottom={0}>
-            <Button className="interface-edit-submit-button" size="large" htmlType="submit">保存</Button>
+            <Button className="interface-edit-submit-button" disabled={this.state.submitStatus} size="large" htmlType="submit">保存</Button>
           </Affix>
         </FormItem>
       </Form>
