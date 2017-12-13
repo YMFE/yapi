@@ -361,9 +361,11 @@ class interfaceController extends baseController {
         params.message = params.message || '';
         params.message = params.message.replace(/\n/g, "<br>")
 
-        if (!id) {
+        if (!id || isNaN(id)) {
             return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
         }
+
+        id = +id;
 
         let interfaceData = await this.Model.get(id);
         if(!interfaceData){

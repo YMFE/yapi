@@ -1,11 +1,13 @@
 import React, { PureComponent as Component } from 'react'
-import { Timeline, Spin, Avatar, Button, Modal } from 'antd'
+import { Timeline, Spin,Row, Col,Tag, Avatar, Button, Modal, AutoComplete } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { formatTime, json5_parse } from '../../common.js';
+import variable from '../../constants/variable';
 import { Link } from 'react-router-dom'
 import { fetchNewsData, fetchMoreNews } from '../../reducer/modules/news.js'
 import ErrMsg from '../ErrMsg/ErrMsg.js';
+import axios from 'axios'
 
 import './TimeLine.scss'
 import 'jsondiffpatch/public/formatters-styles/annotated.css'
@@ -16,7 +18,7 @@ const formattersHtml = require('jsondiffpatch/public/build/jsondiffpatch-formatt
 
 
 const instanceDiff = jsondiffpatch.create({});
-
+const Option = AutoComplete.Option;
 
 const AddDiffView = (props)=>{
   const {title, content, className} = props;
@@ -162,8 +164,10 @@ class TimeTree extends Component {
       bidden: "",
       loading: false,
       visible: false,
-      curDiffData: {}
+      curDiffData: {},
+      apiList: []
     }
+    this.curInterfaceId = '';
   }
 
 
@@ -173,7 +177,7 @@ class TimeTree extends Component {
     if (this.props.curpage <= this.props.newsData.total) {
 
       this.setState({ loading: true });
-      this.props.fetchMoreNews(this.props.typeid, this.props.type, this.props.curpage+1, 10).then(function () {
+      this.props.fetchMoreNews(this.props.typeid, this.props.type, this.props.curpage+1, 10, this.curInterfaceId).then(function () {
         that.setState({ loading: false });
         if (that.props.newsData.total === that.props.curpage) {
           that.setState({ bidden: "logbidden" })
@@ -190,6 +194,9 @@ class TimeTree extends Component {
 
   componentWillMount() {
     this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10)
+    if(this.props.type === 'project'){
+      this.getApiList()
+    }
   }
 
   openDiff = (data)=>{
@@ -197,6 +204,18 @@ class TimeTree extends Component {
       curDiffData: data,
       visible: true
     });
+  }
+
+  async getApiList(){
+    let result = await axios.get('/api/interface/list?project_id=' + this.props.typeid);
+    this.setState({
+      apiList: result.data.data
+    })
+  }
+
+  handleSelectApi = (interfaceId)=>{
+    this.curInterfaceId = interfaceId;
+    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, interfaceId)
   }
 
   render() {
@@ -210,6 +229,16 @@ class TimeTree extends Component {
       user: "用户",
       other: "其他"
     };
+
+    const children = this.state.apiList.map((item) => {
+      let methodColor = variable.METHOD_COLOR[item.method ? item.method.toLowerCase() : 'get'];
+      return <Option title={item.title} value={item._id+''} path={item.path} key={item._id}>{ item.path } <Tag style={{ color: methodColor.color, backgroundColor: methodColor.bac }} >get</Tag></Option>;
+    });
+
+    children.unshift(
+      <Option value='' key='all' >选择全部</Option>
+    )
+    
     
     if (data && data.length) {
       data = data.map( (item, i)=> {
@@ -331,7 +360,6 @@ class TimeTree extends Component {
           content: diffJson(oldResValue, current.res_body)
         })
       }else{
-        console.log(oldResValue, current.res_body)
         diffView.push({
           title: 'Response Body',
           content: diffText(oldResValue, current.res_body)
@@ -352,7 +380,7 @@ class TimeTree extends Component {
           onCancel={this.handleCancel}
         >
           <i>注： 绿色代表新增内容，红色代表删除内容</i>
-          <div className="change-content">
+          <div className="project-interface-change-content">
             {diffView.map((item, index)=>{
               return <AddDiffView className="item-content" title={item.title} key={index} content={item.content} />
             })}
@@ -361,7 +389,30 @@ class TimeTree extends Component {
             }
           </div>
         </Modal>
-        {data ? <Timeline pending={pending}>{data}</Timeline> : <ErrMsg type="noData"/>}
+        {this.props.type === 'project' && 
+          <Row className="news-search">
+            <Col span="3">选择查询的 Api：</Col>
+            <Col span="10">
+              <AutoComplete
+                onSelect={this.handleSelectApi}
+                style={{width: '100%'}}                
+                placeholder="Select Api"
+                optionLabelProp="path"
+                filterOption={(inputValue, options)=>{
+                  if(options.props.value == '') return true;
+                  if(options.props.path.indexOf(inputValue) !== -1 || options.props.title.indexOf(inputValue) !== -1){
+                    return true;
+                  }
+                  return false;
+                }}
+              >
+                {children}
+              </AutoComplete>
+            </Col>
+
+          </Row>        
+        }
+        {data ? <Timeline className="news-content" pending={pending}>{data}</Timeline> : <ErrMsg type="noData"/>}
       </section>
     )
   }

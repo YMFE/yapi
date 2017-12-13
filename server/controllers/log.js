@@ -29,7 +29,8 @@ class logController extends baseController {
         let typeid = ctx.request.query.typeid,
             page = ctx.request.query.page || 1,
             limit = ctx.request.query.limit || 10,
-            type = ctx.request.query.type;
+            type = ctx.request.query.type,
+            interfaceId = ctx.request.query.interface_id;
         if (!typeid) {
             return ctx.body = yapi.commons.resReturn(null, 400, 'typeid不能为空');
         }
@@ -58,8 +59,8 @@ class logController extends baseController {
                     total: Math.ceil(total / limit)
                 });
             }else if(type === "project"){
-                let result = await this.Model.listWithPaging(typeid,type, page, limit);
-                let count = await this.Model.listCount(typeid,type);
+                let result = await this.Model.listWithPaging(typeid,type, page, limit, interfaceId);
+                let count = await this.Model.listCount(typeid,type, interfaceId);
                 
                 ctx.body = yapi.commons.resReturn({
                     total: Math.ceil(count / limit),
