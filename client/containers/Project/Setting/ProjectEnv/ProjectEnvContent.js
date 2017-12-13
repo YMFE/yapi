@@ -80,8 +80,8 @@ class ProjectEnvContent extends Component {
     const { getFieldDecorator } = this.props.form;
     const headerTpl = (item, index) => {
       const secondIndex = 'next' + index; // 为保证key的唯一性
-      return <Row gutter={2} key={index} type="flex" justify="start">
-        <Col span={8}>
+      return <Row gutter={2} key={index}>
+        <Col span={10}>
           <FormItem key={index}>
             {getFieldDecorator('header[' + index + '].type', {
               validateTrigger: ['onChange', 'onBlur'],
@@ -195,14 +195,14 @@ class ProjectEnvContent extends Component {
         </div>
       );
     }
-    const EnvSettingItems = () => {
+    const envSettingItems = () => {
       return envTpl(projectMsg)
     }
     return (
-      <div style={{ height: '400px' }}>
+      <div>
         {projectMsg.name ?
           <div>
-            <EnvSettingItems />
+            {envSettingItems()}
             <div className="btnwrap-changeproject">
               <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
             </div>

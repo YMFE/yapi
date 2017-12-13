@@ -69,12 +69,12 @@ class ProjectEnv extends Component {
                   return (
                     <Menu.Item key={index + 1}>
                       <span className="env-icon-style">
-                         <span>{item.name}</span> 
-                          <Icon 
+                        <span>{item.name}</span> 
+                        <Icon 
                           type='delete' 
                           className="interface-delete-icon" 
                           style={{ display: this.state.delIcon == index ? 'block' : 'none' }} 
-                          />
+                        />
                       </span>
                     </Menu.Item>
                   )
