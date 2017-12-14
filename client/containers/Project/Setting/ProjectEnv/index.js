@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { updateEnv, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 const confirm = Modal.confirm;
+import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 
 @connect(
   state => {
@@ -139,9 +140,39 @@ class ProjectEnv extends Component {
     this.setState({ env: newValue });
   }
 
+  handleDragMove = (name) => {
+    return (data) => {
+      let newValue = {
+        [name]: data
+      }
+      this.setState(newValue)
+    }
+  }
+
 
   render() {
     const { env, currentKey } = this.state;
+    const envSettingItems = env.map((item, index) => {
+      return (
+        <Menu.Item
+          key={index + 1}
+          onMouseEnter={() => this.enterItem(index)}
+          onMouseLeave={this.leaveItem}>
+          <span className="env-icon-style">
+            <span style={{ color: item.name === '新环境' && '#2395f1' }}>{item.name}</span>
+            <Tooltip title="删除环境变量">
+              <Icon
+                type='delete'
+                className="interface-delete-icon"
+                onClick={(e) => { e.stopPropagation(); this.showConfirm(index, 'env') }}
+                style={{ display: this.state.delIcon == index ? 'block' : 'none' }}
+              />
+            </Tooltip>
+          </span>
+        </Menu.Item>
+      )
+    })
+
     return (
       <div className="m-env-panel">
         <Layout className="project-env">
@@ -160,28 +191,9 @@ class ProjectEnv extends Component {
                   </Tooltip>
                 </div>
               </Menu.Item>
-              {
-                this.state.env.map((item, index) => {
-                  return (
-                    <Menu.Item
-                      key={index + 1}
-                      onMouseEnter={() => this.enterItem(index)}
-                      onMouseLeave={this.leaveItem}>
-                      <span className="env-icon-style">
-                        <span style={{ color: item.name === '新环境' && '#2395f1' }}>{item.name}</span>
-                        <Tooltip title="删除环境变量">
-                          <Icon
-                            type='delete'
-                            className="interface-delete-icon"
-                            onClick={(e) => { e.stopPropagation(); this.showConfirm(index, 'env') }}
-                            style={{ display: this.state.delIcon == index ? 'block' : 'none' }}
-                          />
-                        </Tooltip>
-                      </span>
-                    </Menu.Item>
-                  )
-                })
-              }
+              {/* <EasyDragSort data={() => env} onChange={this.handleDragMove('env')} > */}
+              {envSettingItems}
+              {/* </EasyDragSort> */}
             </Menu>
           </Sider>
           <Layout className="env-content">
