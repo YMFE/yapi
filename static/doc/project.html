@@ -2,14 +2,15 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
-    <meta name="description" content="description of your site">
-    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 使用手册</title>
-    <link rel="shortcut icon" href="./favicon.ico" />
+    
+        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
+    
+    
+        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
+    
+
+    <link rel="shortcut icon" href="./images/favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -17,6 +18,10 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -134,6 +139,10 @@
                                     <li >
                                         <a href="#删除项目">删除项目</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#请求配置">请求配置</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -192,7 +201,69 @@
 <blockquote>
 <p>删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。</p>
 </blockquote>
-
+<h2 class="subject" id="请求配置">请求配置 <a class="hashlink" href="#请求配置">#</a></h2><p>通过自定义 js 脚本方式改变请求的参数和返回的 response 数据</p>
+<h3 class="subject" id="请求参数示例">请求参数示例 <a class="hashlink" href="#请求参数示例">#</a></h3><p>以 jquery ajax 为例，假设当前的请求参数是</p>
+<pre><code><span class="token punctuation">{</span>
+  url<span class="token operator">:</span> '/api/user?id=<span class="token number">1</span>'<span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>那么公共变量 context 包含以下属性：</p>
+<pre><code>context = <span class="token punctuation">{</span>
+  pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>
+  query<span class="token operator">:</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  requestHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  requestBody<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：</p>
+<pre><code>context.query.token = context.utils.md5(context.pathanem + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 class="subject" id="返回数据示例">返回数据示例 <a class="hashlink" href="#返回数据示例">#</a></h3><p>在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：</p>
+<pre><code>context = <span class="token punctuation">{</span>
+  pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>
+  query<span class="token operator">:</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  requestHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  requestBody<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  responseData<span class="token operator">:</span> <span class="token punctuation">{</span>
+    a<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  responseHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    content-type<span class="token operator">:</span> 'application/json'
+    ...
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：</p>
+<pre><code>context.responseBody.a = <span class="token number">2</span><span class="token punctuation">;</span>
+</code></pre><h3 class="subject" id="工具函数">工具函数 <a class="hashlink" href="#工具函数">#</a></h3><pre><code>context.utils = <span class="token punctuation">{</span>
+  _         //underscore 函数<span class="token punctuation">,</span>详细 API 查看官网 http<span class="token operator">:</span>//underscorejs.org/
+  base64    //转换字符串为 base64 编码
+  md5       //转换字符串为 md5 编码
+  sha1      //转换字符串为 sha1 编码
+  sha224    //转换字符串为 sha224 编码
+  sha256    //转换字符串为 sha256 编码
+  sha384    //转换字符串为 sha384 编码
+  sha512    //转换字符串为 sha512 编码
+  unbase64  //转换 base64 编码为字符串  
+<span class="token punctuation">}</span>
+</code></pre>
                     </div>
                 </div>
                  

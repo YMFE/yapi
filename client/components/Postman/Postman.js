@@ -511,7 +511,7 @@ export default class Run extends Component {
                 <Col span="6">
                   <div className="insert-code">
                     {InsertCodeMap.map(item => {
-                      return <div className="code-item" key={item.title} onClick={() => { this.handleInsertCode("\n" + item.code) }}>{item.title}</div>
+                      return <div style={{cursor: 'pointer'}} className="code-item" key={item.title} onClick={() => { this.handleInsertCode("\n" + item.code) }}>{item.title}</div>
                     })}
                   </div>
                 </Col>

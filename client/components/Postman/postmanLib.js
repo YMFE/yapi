@@ -90,7 +90,17 @@ function crossRequest(options, preScript, afterScript) {
     query: query,
     requestHeader: options.headers || {},
     requestBody: options.data,
-    utils: utils
+    utils: {
+      _: _,
+      base64: utils.base64,
+      md5: utils.md5,
+      sha1: utils.sha1,
+      sha224: utils.sha224,
+      sha256: utils.sha256,
+      sha384: utils.sha384,
+      sha512: utils.sha512,
+      unbase64: utils.unbase64
+    }
   };
 
   if (preScript || afterScript) {
