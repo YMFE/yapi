@@ -27,7 +27,6 @@ export default class ProjectRequest extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props.projectMsg)
     this.setState({
       pre_script: this.props.projectMsg.pre_script,
       after_script: this.props.projectMsg.after_script
