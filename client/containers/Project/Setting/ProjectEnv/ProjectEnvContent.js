@@ -39,7 +39,6 @@ class ProjectEnvContent extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       header: [{
         type: "",
@@ -66,7 +65,6 @@ class ProjectEnvContent extends Component {
 
 
   handleInit(data) {
-    console.log('init')
     this.props.form.resetFields();
     let newValue = this.initState(data)
     this.setState({ ...newValue });
@@ -100,8 +98,6 @@ class ProjectEnvContent extends Component {
   }
 
   
-
-
   render() {
     const { projectMsg } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -158,8 +154,8 @@ class ProjectEnvContent extends Component {
         <Col span={2} className={index === headerLength ? ' env-last-row' : null}>
           {/* 新增的项中，只有最后一项没有有删除按钮 */}
           <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
+            className="dynamic-delete-button delete"
+            type="delete"
             onClick={(e) => { e.stopPropagation(); this.delHeader(index, 'header') }}
           />
         </Col>
@@ -243,14 +239,12 @@ class ProjectEnvContent extends Component {
         </div>
       );
     }
-    const envSettingItems = () => {
-      return envTpl(projectMsg)
-    }
+   
     return (
       <div>
         {projectMsg.name ?
           <div>
-            {envSettingItems()}
+            {envTpl(projectMsg)}
             <div className="btnwrap-changeproject">
               <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
             </div>

@@ -16,9 +16,32 @@
     }
   }
 
+  .menu-item{
+    padding: 0 16px;
+    font-size: 13px;
+    line-height: 42px;
+    height: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+  }
+
+  .menu-item-checked{
+    background-color: #eef7fe;
+    color: #2395f1;
+    font-size: 14px;
+    margin-right: -1px;
+    border-right: 2px solid #2395f1;
+  }
+
   .first-menu-item{
-    // border: 1px solid #ccc;
     background-color: #eceef1;
+  }
+
+  .delete{
+    font-size: 20px;
+    top: 8px;
   }
 
   .env-content{
