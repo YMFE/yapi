@@ -59,6 +59,7 @@ export default (state = initialState, action) => {
       };
     }
     case GET_PROJECT_MSG: {
+      console.log('get');
       return {
         ...state,
         projectMsg: action.payload.data.data
@@ -91,6 +92,7 @@ export function fetchProjectList(id, pageNum) {
 
 // 获取项目信息
 export function getProjectMsg(id) {
+  console.log('reducer');
   return {
     type: GET_PROJECT_MSG,
     payload: axios.get('/api/project/get', {

@@ -164,6 +164,7 @@ export default class InterfaceCaseContent extends Component {
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
     }, { _id: currCase._id });
+
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">

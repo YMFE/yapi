@@ -11,7 +11,7 @@ import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 @connect(
   state => {
     return {
-      projectMsg: state.project.projectMsg
+      projectMsg: state.project.currProject
     }
   },
   {
@@ -25,7 +25,8 @@ class ProjectEnv extends Component {
     projectId: PropTypes.number,
     updateEnv: PropTypes.func,
     getProjectMsg: PropTypes.func,
-    projectMsg: PropTypes.object
+    projectMsg: PropTypes.object,
+    onOk: PropTypes.func
   }
 
   initState(curdata, id) {
@@ -63,7 +64,7 @@ class ProjectEnv extends Component {
     this.setState(newValue)
     this.handleClick(0, data);
   }
-  
+
   // 删除提示信息
   async showConfirm(key, name) {
     let assignValue = this.delParams(key, name)
@@ -87,7 +88,7 @@ class ProjectEnv extends Component {
     this.setState({ delIcon: key })
   }
 
- 
+
   //  提交保存信息
   onSubmit = (value, index) => {
     let assignValue = {};
@@ -103,13 +104,14 @@ class ProjectEnv extends Component {
     }).catch(() => {
       message.error('环境设置不成功 ');
     });
+    this.props.onOk && this.props.onOk(assignValue['env'], index);
 
   }
 
   // 动态修改环境名称
   handleInputChange = (value, currentKey) => {
     let newValue = [].concat(this.state.env);
-    newValue[currentKey].name = value;
+    newValue[currentKey].name = value || '新环境';
     this.setState({ env: newValue });
   }
 

@@ -1,17 +1,14 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { Button, Input, Checkbox, Select, Spin, Icon, Collapse, Tooltip, Tabs, Switch, Row, Col } from 'antd'
-
+import { Button, Input, Checkbox, Modal, Select, Spin, Icon, Collapse, Tooltip, Tabs, Switch, Row, Col } from 'antd'
 import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
-
-
 
 import { isJson, handleParamsValue, deepCopyJson } from '../../common.js'
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
+import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 
 import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest } from './postmanLib.js'
 
@@ -69,6 +66,7 @@ export default class Run extends Component {
       test_script: '',
       hasPlugin: false,
       inputValue: '',
+      envModalVisible: false,
       ...this.props.data
     }
   }
@@ -118,6 +116,7 @@ export default class Run extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
       if (nextProps.data._id !== this.props.data._id) {
         this.initState(nextProps.data)
@@ -257,6 +256,29 @@ export default class Run extends Component {
     this.setState({ modalVisible: false });
   }
 
+  // 环境变量模态框相关操作
+  showEnvModal = () => {
+
+    this.setState({
+      envModalVisible: true
+    })
+  }
+
+
+  handleEnvOk = (newEnv, index) => {
+    this.setState({
+      envModalVisible: false,
+      env: newEnv,
+      case_env: newEnv[index].name
+    });
+  }
+
+  handleEnvCancel = () => {
+    this.setState({
+      envModalVisible: false
+    })
+  }
+
   render() {
     const { method,
       env,
@@ -270,6 +292,7 @@ export default class Run extends Component {
       case_env,
       inputValue,
       hasPlugin } = this.state;
+    console.log('case_env', case_env);
 
     return (
       <div className="interface-test postman">
@@ -282,6 +305,16 @@ export default class Run extends Component {
           id={+this.state._id}
         >
         </ModalPostman>
+        <Modal
+          title="Basic Modal"
+          visible={this.state.envModalVisible}
+          onOk={this.handleEnvOk}
+          onCancel={this.handleEnvCancel}
+          footer={null}
+          width={800}
+        >
+          <ProjectEnv projectId={this.props.data.project_id} onOk={this.handleEnvOk} />
+        </Modal>
         <CheckCrossInstall hasPlugin={hasPlugin} />
 
         <div className="url">
@@ -296,6 +329,7 @@ export default class Run extends Component {
               {
                 env.map((item, index) => (<Option value={item.name} key={index}>{item.name + '：' + item.domain}</Option>))
               }
+              <Option value="环境配置" disabled style={{ cursor: 'pointer', color: '#2395f1' }}><Button type="primary" onClick={this.showEnvModal}>环境配置</Button></Option>
             </Select>
 
             <Input disabled value={path} onChange={this.changePath} spellCheck="false" style={{ flexBasis: 180, flexGrow: 1 }} />
@@ -511,7 +545,7 @@ export default class Run extends Component {
                 <Col span="6">
                   <div className="insert-code">
                     {InsertCodeMap.map(item => {
-                      return <div style={{cursor: 'pointer'}} className="code-item" key={item.title} onClick={() => { this.handleInsertCode("\n" + item.code) }}>{item.title}</div>
+                      return <div style={{ cursor: 'pointer' }} className="code-item" key={item.title} onClick={() => { this.handleInsertCode("\n" + item.code) }}>{item.title}</div>
                     })}
                   </div>
                 </Col>
