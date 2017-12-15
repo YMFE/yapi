@@ -95,11 +95,12 @@ class ProjectEnv extends Component {
     assignValue['env'] = [].concat(this.state.env);
     assignValue['env'].splice(index, 1, value['env'])
     assignValue['_id'] = this.state._id;
-    this.setState({ ...assignValue });
+
     this.props.updateEnv(assignValue).then((res) => {
       if (res.payload.data.errcode == 0) {
         this.props.getProjectMsg(this.props.projectId);
         message.success('修改成功! ');
+        this.setState({ ...assignValue });
       }
     }).catch(() => {
       message.error('环境设置不成功 ');
