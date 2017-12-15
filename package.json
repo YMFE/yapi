@@ -26,8 +26,11 @@
   "author": "",
   "license": "Apache2.0",
   "dependencies": {
+    "ajv": "^5.5.1",
+    "ajv-i18n": "^2.2.0",
     "axios": "^0.16.2",
     "deref": "^0.7.0",
+    "easy-json-schema": "0.0.2-beta",
     "fs-extra": "^3.0.1",
     "js-base64": "^2.3.2",
     "json-schema-ref-parser": "^4.0.0",
