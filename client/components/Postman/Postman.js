@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Input, Checkbox, Modal, Select, Spin, Icon, Collapse, Tooltip, Tabs, Switch, Row, Col } from 'antd'
 import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
-
+import _ from 'underscore'
 import { isJson, handleParamsValue, deepCopyJson } from '../../common.js'
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
@@ -84,9 +84,11 @@ export default class Run extends Component {
 
   // 整合header信息
   handleReqHeader = (value, env) => {
+
     let index = value ? env.findIndex(item => {
       return item.name === value;
     }) : 0;
+    index = index === -1 ? 0 : index
     let req_header = [].concat(this.props.data.req_headers);
     let header = [].concat(env[index].header);
     header.forEach(item => {
@@ -121,20 +123,29 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-    let headers = this.handleReqHeader(this.state.case_env, this.state.env);
+    let headers = this.handleReqHeader(this.state.case_env, data.env);
     this.setState({
       ...this.state,
       ...data,
       resStatusCode: null,
       resStatusText: null,
       req_headers: headers
+    }, ()=>{
+      let s = !_.find(data.env, item => item.name === this.state.case_env);
+      if (!this.state.case_env || s) {
+        this.setState({
+          case_env: this.state.env[0].name
+        })
+      }
     })
-    if (!this.state.case_env) {
-      this.setState({
-        case_env: this.state.env[0].name
+  }
 
-      })
-    }
+  initEnvState(env) {
+    let headers = this.handleReqHeader(this.state.case_env, env);
+    this.setState({
+      req_headers: headers,
+      env: env
+    })
   }
 
   componentWillMount() {
@@ -157,9 +168,8 @@ export default class Run extends Component {
         this.initState(nextProps.data)
       }
       if (nextProps.data.env !== this.props.data.env) {
-        this.setState({
-          env: nextProps.data.env
-        })
+        this.initEnvState(nextProps.data.env)
+        
       }
     }
   }
@@ -300,12 +310,10 @@ export default class Run extends Component {
 
 
   handleEnvOk = (newEnv, index) => {
-    let headers = this.handleReqHeader(newEnv[index].name, newEnv);
+    
     this.setState({
       envModalVisible: false,
-      env: newEnv,
-      case_env: newEnv[index].name,
-      req_headers: headers
+      case_env: newEnv[index].name
     });
   }
 
@@ -329,6 +337,8 @@ export default class Run extends Component {
       inputValue,
       hasPlugin } = this.state;
 
+
+
     return (
       <div className="interface-test postman">
         <ModalPostman
@@ -341,19 +351,21 @@ export default class Run extends Component {
         >
         </ModalPostman>
         <Modal
-          title="Basic Modal"
+          title='环境设置'
           visible={this.state.envModalVisible}
           onOk={this.handleEnvOk}
           onCancel={this.handleEnvCancel}
           footer={null}
           width={800}
+          className='env-modal'
         >
-          <ProjectEnv projectId={this.props.data.project_id} onOk={this.handleEnvOk} />
+          <ProjectEnv
+            projectId={this.props.data.project_id}
+            onOk={this.handleEnvOk} />
         </Modal>
         <CheckCrossInstall hasPlugin={hasPlugin} />
 
         <div className="url">
-
           <InputGroup compact style={{ display: 'flex' }}>
             <Select disabled value={method} style={{ flexBasis: 60 }} >
               {Object.keys(HTTP_METHOD).map(name => {

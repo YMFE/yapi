@@ -5,7 +5,7 @@ import { Icon, Layout, Tooltip, message, Row, Popconfirm } from 'antd'
 const { Content, Sider } = Layout;
 import ProjectEnvContent from './ProjectEnvContent.js'
 import { connect } from 'react-redux';
-import { updateEnv, getProjectMsg } from '../../../../reducer/modules/project';
+import { updateEnv, getProject } from '../../../../reducer/modules/project';
 import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 
 @connect(
@@ -16,7 +16,7 @@ import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
   },
   {
     updateEnv,
-    getProjectMsg
+    getProject
   }
 )
 class ProjectEnv extends Component {
@@ -24,7 +24,7 @@ class ProjectEnv extends Component {
   static propTypes = {
     projectId: PropTypes.number,
     updateEnv: PropTypes.func,
-    getProjectMsg: PropTypes.func,
+    getProject: PropTypes.func,
     projectMsg: PropTypes.object,
     onOk: PropTypes.func
   }
@@ -46,7 +46,8 @@ class ProjectEnv extends Component {
     this.state = this.initState(env, _id);
   }
   async componentWillMount() {
-    await this.props.getProjectMsg(this.props.projectId);
+    await this.props.getProject(this.props.projectId);
+    this.handleClick(0, this.state.env[0])
   }
 
   handleClick = (key, data) => {
@@ -68,7 +69,14 @@ class ProjectEnv extends Component {
   // 删除提示信息
   async showConfirm(key, name) {
     let assignValue = this.delParams(key, name)
-    await this.props.updateEnv(assignValue)
+    await this.props.updateEnv(assignValue).then((res) => {
+      if (res.payload.data.errcode == 0) {
+        this.props.getProject(this.props.projectId);
+        message.success('修改成功! ');
+      }
+    }).catch(() => {
+      message.error('环境设置不成功 ');
+    });
   }
 
   // 删除环境变量项
@@ -98,7 +106,7 @@ class ProjectEnv extends Component {
 
     this.props.updateEnv(assignValue).then((res) => {
       if (res.payload.data.errcode == 0) {
-        this.props.getProjectMsg(this.props.projectId);
+        this.props.getProject(this.props.projectId);
         message.success('修改成功! ');
         this.setState({ ...assignValue });
       }
@@ -128,7 +136,6 @@ class ProjectEnv extends Component {
   }
 
 
-
   render() {
     const { env, currentKey } = this.state;
     const envSettingItems = env.map((item, index) => {
@@ -149,7 +156,7 @@ class ProjectEnv extends Component {
               <Icon
                 type='delete'
                 className="interface-delete-icon"
-                style={{ display: this.state.delIcon == index ? 'block' : 'none' }}
+                style={{ display: this.state.delIcon == index && env.length - 1 !== 0 ? 'block' : 'none' }}
               />
             </Popconfirm>
 
@@ -161,7 +168,7 @@ class ProjectEnv extends Component {
     return (
       <div className="m-env-panel">
         <Layout className="project-env">
-          <Sider width={200} style={{ background: '#fff' }}>
+          <Sider width={195} style={{ background: '#fff' }}>
             <div
               style={{ height: '100%', borderRight: 0 }}
             >

@@ -1,5 +1,9 @@
 @import '../../styles/mixin.scss';
 .postman {
+
+
+  
+
   .pretty-editor {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
@@ -22,6 +26,8 @@
       display: flex;
     }
   }
+
+  
 
   .insert-code{
     
@@ -160,6 +166,10 @@
     color: #2395f1;
   }
 
-  
+}
 
+.env-modal{
+  .ant-modal-body{
+    padding: 0;
+  }
 }
