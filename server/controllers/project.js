@@ -656,6 +656,10 @@ class projectController extends baseController {
       };
 
       data.env = params.env;
+      let isRepeat = this.arrRepeat(data.env, 'name');
+      if(isRepeat){
+        return ctx.body = yapi.commons.resReturn(null, 405, '环境变量名重复');
+      }
       let result = await this.Model.up(id, data);
       let username = this.getUsername();
       yapi.commons.saveLog({
@@ -670,6 +674,12 @@ class projectController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
   }
+
+  arrRepeat(arr, key){
+    const s = new Set();
+    arr.forEach(item=>s.add(item[key]))
+    return s.size !== arr.length
+    }
 
   /**
    * 模糊搜索项目名称或者组名称

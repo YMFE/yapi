@@ -11,6 +11,7 @@ import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 
 import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest } from './postmanLib.js'
+// import { isRegExp } from 'util';
 
 
 const HTTP_METHOD = constants.HTTP_METHOD;
@@ -46,6 +47,8 @@ const InsertCodeMap = [
 ]
 
 
+
+
 export default class Run extends Component {
 
   static propTypes = {
@@ -69,6 +72,7 @@ export default class Run extends Component {
       envModalVisible: false,
       ...this.props.data
     }
+
   }
 
   checkInterfaceData(data) {
@@ -78,28 +82,59 @@ export default class Run extends Component {
     return true;
   }
 
+  // 整合header信息
+  handleReqHeader = (value, env) => {
+    let index = value ? env.findIndex(item => {
+      return item.name === value;
+    }) : 0;
+    let req_header = [].concat(this.props.data.req_headers);
+    let header = [].concat(env[index].header);
+    header.forEach(item => {
+      if (!this.checkNameIsExistInArray(item.name, req_header)) {
+        req_header.push(item)
+      }
+    })
+    return req_header
+  }
+
+  checkNameIsExistInArray(name, arr) {
+    let isRepeat = false;
+    for (let i = 0; i < arr.length; i++) {
+      let item = arr[i];
+      if (item.name === name) {
+        isRepeat = true
+        break;
+      }
+    }
+    return isRepeat;
+  }
+
   selectDomain = (value) => {
-    this.setState({ case_env: value });
+    let headers = this.handleReqHeader(value, this.state.env);
+    this.setState({
+      case_env: value,
+      req_headers: headers
+    });
   }
 
   initState(data) {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-
+    let headers = this.handleReqHeader(this.state.case_env, this.state.env);
     this.setState({
       ...this.state,
       ...data,
       resStatusCode: null,
-      resStatusText: null
+      resStatusText: null,
+      req_headers: headers
     })
-
     if (!this.state.case_env) {
       this.setState({
         case_env: this.state.env[0].name
+
       })
     }
-
   }
 
   componentWillMount() {
@@ -160,6 +195,7 @@ export default class Run extends Component {
       loading: true
     })
     let options = handleParams(this.state, this.handleValue), result;
+
     try {
       result = await crossRequest(options, this.state.pre_script, this.state.after_script);
       result = {
@@ -225,7 +261,6 @@ export default class Run extends Component {
     } else if (key === 'enable') {
       bodyForm[index].enable = v
     }
-
     this.setState({ req_body_form: bodyForm });
   }
 
@@ -258,7 +293,6 @@ export default class Run extends Component {
 
   // 环境变量模态框相关操作
   showEnvModal = () => {
-
     this.setState({
       envModalVisible: true
     })
@@ -266,10 +300,12 @@ export default class Run extends Component {
 
 
   handleEnvOk = (newEnv, index) => {
+    let headers = this.handleReqHeader(newEnv[index].name, newEnv);
     this.setState({
       envModalVisible: false,
       env: newEnv,
-      case_env: newEnv[index].name
+      case_env: newEnv[index].name,
+      req_headers: headers
     });
   }
 
@@ -292,7 +328,6 @@ export default class Run extends Component {
       case_env,
       inputValue,
       hasPlugin } = this.state;
-    console.log('case_env', case_env);
 
     return (
       <div className="interface-test postman">
@@ -391,8 +426,8 @@ export default class Run extends Component {
                     <Input disabled value={item.name} className="key" />
                     &nbsp;
                     {item.required == 1 ?
-                      <Checkbox className="params-enable" checked={true} disabled >enable</Checkbox> :
-                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.checked, index, 'enable')}>enable</Checkbox>
+                      <Checkbox className="params-enable" checked={true} disabled /> :
+                      <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeParam('req_query', e.target.checked, index, 'enable')} />
                     }
                     <span className="eq-symbol">=</span>
                     <Input
@@ -457,8 +492,8 @@ export default class Run extends Component {
                         <Input disabled value={item.name} className="key" />
                         &nbsp;
                         {item.required == 1 ?
-                          <Checkbox className="params-enable" checked={true} disabled >enable</Checkbox> :
-                          <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeBody(e.target.checked, index, 'enable')}>enable</Checkbox>
+                          <Checkbox className="params-enable" checked={true} disabled /> :
+                          <Checkbox className="params-enable" checked={item.enable} onChange={e => this.changeBody(e.target.checked, index, 'enable')} />
                         }
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ?

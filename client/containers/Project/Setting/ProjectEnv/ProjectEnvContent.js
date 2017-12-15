@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
-import { Icon, Row, Col, Form, Input, Select, AutoComplete, Button } from 'antd'
+import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 import constants from 'client/constants/variable.js'
@@ -22,10 +22,9 @@ class ProjectEnvContent extends Component {
   }
 
   initState(curdata) {
-    console.log('curdata', curdata)
     let header = [{
-      type: "",
-      content: ""
+      name: "",
+      value: ""
     }];
     if (curdata && curdata.length !== 0) {
       curdata.forEach(item => {
@@ -41,14 +40,15 @@ class ProjectEnvContent extends Component {
     super(props);
     this.state = {
       header: [{
-        type: "",
-        content: ""
+        name: "",
+        value: ""
       }]
     }
   }
-  addHeader = (name) => {
+  addHeader = (value, name) => {
+    if (value.name) return;
     let newValue = {}
-    let data = { type: "", content: "" }
+    let data = { name: "", value: "" }
     newValue[name] = [].concat(this.state[name], data)
     this.setState(newValue)
   }
@@ -84,7 +84,7 @@ class ProjectEnvContent extends Component {
     form.validateFields((err, values) => {
       if (!err) {
         let header = values.header.filter(val => {
-          return val.type !== ''
+          return val.name !== ''
         })
         let assignValue = {};
         assignValue.env = Object.assign({ _id: projectMsg._id }, {
@@ -97,7 +97,7 @@ class ProjectEnvContent extends Component {
     });
   }
 
-  
+
   render() {
     const { projectMsg } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -107,15 +107,15 @@ class ProjectEnvContent extends Component {
       return <Row gutter={2} key={index}>
         <Col span={10}>
           <FormItem key={index}>
-            {getFieldDecorator('header[' + index + '].type', {
+            {getFieldDecorator('header[' + index + '].name', {
               validateTrigger: ['onChange', 'onBlur'],
-              initialValue: item.type || ''
+              initialValue: item.name || ''
             })(
               <AutoComplete
                 style={{ width: '200px' }}
                 dataSource={constants.HTTP_REQUEST_HEADER}
                 placeholder="请输入header名称"
-                onChange={() => this.addHeader('header')}
+                onSelect={() => this.addHeader(item, 'header')}
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
               )}
@@ -123,29 +123,9 @@ class ProjectEnvContent extends Component {
         </Col>
         <Col span={12}>
           <FormItem key={secondIndex}>
-            {getFieldDecorator('header[' + index + '].content', {
+            {getFieldDecorator('header[' + index + '].value', {
               validateTrigger: ['onChange', 'onBlur'],
-              initialValue: item.content || '',
-              rules: [{
-                required: false,
-                whitespace: true,
-                validator(rule, value, callback) {
-                  if (index === headerLength) {
-                    callback();
-                  }
-                  if (value) {
-                    if (value.length === 0) {
-                      callback('请输入参数内容');
-                    } else if (!/\S/.test(value)) {
-                      callback('请输入参数内容');
-                    } else {
-                      return callback();
-                    }
-                  } else {
-                    callback('请输入参数内容');
-                  }
-                }
-              }]
+              initialValue: item.value || ''
             })(
               <Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />
               )}
@@ -239,7 +219,7 @@ class ProjectEnvContent extends Component {
         </div>
       );
     }
-   
+
     return (
       <div>
         {projectMsg.name ?
