@@ -59,7 +59,7 @@ class projectController extends baseController {
       },
       addMember: {
         "*id": id,
-        "*member_uid": member_uid,
+        "*member_uids": member_uid,
         "role": role
       },
       delMember: {

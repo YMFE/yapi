@@ -79,10 +79,10 @@ function sandbox(context = {}, script) {
 //   return body;
 // }
 
-function crossRequest(options, preScript, afterScript) {
+function crossRequest(defaultOptions, preScript, afterScript) {
   // preScript = `query.ttt="hello"; requestBody.aaaa= filter("3333 | md5 | substr:1, 5")`
   // afterScript = `console.log(responseData); context.responseData='hello'`
-  options = Object.assign({}, options);
+  let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true), query = {};
   query = Object.assign(query, urlObj.query);
   let context = {
@@ -103,21 +103,20 @@ function crossRequest(options, preScript, afterScript) {
     }
   };
 
-  if (preScript || afterScript) {
-    
-    if(preScript){
-      context = sandbox(context, preScript);
-      options.url = URL.format({
-        protocol: urlObj.protocol,
-        host: urlObj.host,
-        query: context.query,
-        pathname: context.pathname
-      })
-      options.headers = context.requestHeader;
-      options.data = context.requestBody;
-    }
+  if (preScript) {
+    context = sandbox(context, preScript);
+    defaultOptions.url = options.url = URL.format({
+      protocol: urlObj.protocol,
+      host: urlObj.host,
+      query: context.query,
+      pathname: context.pathname
+    })
+    defaultOptions.headers = options.headers = context.requestHeader;
+    defaultOptions.data = options.data = context.requestBody;
     
   }
+  
+
   return new Promise((resolve, reject) => {
     options.error = options.success = function (res, header, data) {
       let message = '请求异常，请检查 chrome network 错误信息...';
@@ -129,15 +128,12 @@ function crossRequest(options, preScript, afterScript) {
         })
       }
 
-      if(afterScript){
-        
+      if (afterScript) {
         context.responseData = json_parse(data.res.body);
         context.responseHeader = data.res.header;
         context.responseStatus = data.res.status;
         context.runTime = data.runTime;
-
         context = sandbox(context, afterScript);
-
         data.res.body = context.responseData;
         data.res.header = context.responseHeader;
       }

@@ -231,9 +231,13 @@ export default class Run extends Component {
       return null
     }
 
-    let tempJson;
-    if ((tempJson = isJson(result.body))) {
+    let tempJson = result.body;
+    if(tempJson && typeof tempJson === 'object'){
       result.body = JSON.stringify(tempJson, null, '  ')
+      this.setState({
+        res_body_type: 'json'
+      })
+    }else if (isJson(result.body)) {
       this.setState({
         res_body_type: 'json'
       })
