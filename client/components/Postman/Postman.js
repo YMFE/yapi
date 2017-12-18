@@ -486,7 +486,7 @@ export default class Run extends Component {
               </div>
             }
             key="3"
-            className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
+            className={HTTP_METHOD[method].request_body && (req_body_type === 'form' && req_body_form.length > 0 || req_body_type !== 'form') ? 'POST' : 'hidden'}
           >
 
             <div style={{ display: checkRequestBodyIsRaw(method, req_body_type) ? 'block' : 'none' }}>
