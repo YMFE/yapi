@@ -351,7 +351,6 @@ class interfaceController extends baseController {
         }
 
         let id = params.id;
-        console.log(params)
         params.message = params.message || '';
         params.message = params.message.replace(/\n/g, "<br>")
 
