@@ -78,7 +78,7 @@ context = {
 假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：
 
 ```
-context.query.token = context.utils.md5(context.pathanem + 'salt');
+context.query.token = context.utils.md5(context.pathname + 'salt');
 
 ```
 ### 返回数据示例

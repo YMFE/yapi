@@ -573,8 +573,10 @@ class projectController extends baseController {
 
       let projectData = await this.Model.get(id);
 
-      if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
-        return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
+      if(params.basepath){
+        if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
+          return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
+        }
       }
 
       if (projectData.name === params.name) {

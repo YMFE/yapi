@@ -52,6 +52,14 @@ exports.json5_parse = function(json){
   }
 }
 
+exports.json_parse = function(json){
+  try{
+    return JSON.parse(json);
+  }catch(err){
+    return json;
+  }
+}
+
 function deepCopyJson(json){
   return JSON.parse(JSON.stringify(json));
 }

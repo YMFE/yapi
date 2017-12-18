@@ -9,7 +9,8 @@ const Ajv = require('ajv');
 const ajv = new Ajv({
     allErrors: true,
     coerceTypes: true,
-    useDefaults: true
+    useDefaults: true,
+    removeAdditional: true
 });
 var localize = require('ajv-i18n');
 
@@ -291,6 +292,7 @@ exports.handleParams = (params, keys) => {
 
 exports.validateParams = (schema, params)=>{    
     schema = ejs(schema);    
+    schema.additionalProperties = false;
     const validate = ajv.compile(schema);
     let valid = validate(params);
     let message = '请求参数 ';

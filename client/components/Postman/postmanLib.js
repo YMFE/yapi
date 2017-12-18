@@ -1,4 +1,4 @@
-import { isJson5, handleJson, joinPath, safeArray } from '../../common.js'
+import { json_parse, isJson5, handleJson, joinPath, safeArray } from '../../common.js'
 import constants from '../../constants/variable.js'
 import _ from "underscore"
 import URL from 'url';
@@ -131,7 +131,7 @@ function crossRequest(options, preScript, afterScript) {
 
       if(afterScript){
         
-        context.responseData = data.res.body;
+        context.responseData = json_parse(data.res.body);
         context.responseHeader = data.res.header;
         context.responseStatus = data.res.status;
         context.runTime = data.runTime;
