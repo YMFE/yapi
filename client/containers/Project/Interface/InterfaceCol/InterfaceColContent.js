@@ -190,7 +190,6 @@ class InterfaceColContent extends Component {
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script)
       let res = data.res.body = json_parse(data.res.body);
-      console.log(options)
       result = {
         ...options,
         ...result,

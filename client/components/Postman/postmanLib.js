@@ -74,14 +74,7 @@ function sandbox(context = {}, script) {
   return context;
 }
 
-
-// function HandleAfterScript(body, script){
-//   return body;
-// }
-
 function crossRequest(defaultOptions, preScript, afterScript) {
-  // preScript = `query.ttt="hello"; requestBody.aaaa= filter("3333 | md5 | substr:1, 5")`
-  // afterScript = `console.log(responseData); context.responseData='hello'`
   let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true), query = {};
   query = Object.assign(query, urlObj.query);
