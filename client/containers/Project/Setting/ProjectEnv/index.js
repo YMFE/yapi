@@ -67,16 +67,9 @@ class ProjectEnv extends Component {
   }
 
   // 删除提示信息
-  async showConfirm(key, name) {
+  showConfirm(key, name) {
     let assignValue = this.delParams(key, name)
-    await this.props.updateEnv(assignValue).then((res) => {
-      if (res.payload.data.errcode == 0) {
-        this.props.getProject(this.props.projectId);
-        message.success('修改成功! ');
-      }
-    }).catch(() => {
-      message.error('环境设置不成功 ');
-    });
+    this.onSave(assignValue);
   }
 
   // 删除环境变量项
@@ -96,15 +89,9 @@ class ProjectEnv extends Component {
     this.setState({ delIcon: key })
   }
 
-
-  //  提交保存信息
-  onSubmit = (value, index) => {
-    let assignValue = {};
-    assignValue['env'] = [].concat(this.state.env);
-    assignValue['env'].splice(index, 1, value['env'])
-    assignValue['_id'] = this.state._id;
-
-    this.props.updateEnv(assignValue).then((res) => {
+  // 保存设置
+  async onSave(assignValue) {
+    await this.props.updateEnv(assignValue).then((res) => {
       if (res.payload.data.errcode == 0) {
         this.props.getProject(this.props.projectId);
         message.success('修改成功! ');
@@ -113,6 +100,17 @@ class ProjectEnv extends Component {
     }).catch(() => {
       message.error('环境设置不成功 ');
     });
+
+  }
+
+
+  //  提交保存信息
+  onSubmit = (value, index) => {
+    let assignValue = {};
+    assignValue['env'] = [].concat(this.state.env);
+    assignValue['env'].splice(index, 1, value['env'])
+    assignValue['_id'] = this.state._id;
+    this.onSave(assignValue);
     this.props.onOk && this.props.onOk(assignValue['env'], index);
 
   }
@@ -131,7 +129,9 @@ class ProjectEnv extends Component {
         [name]: data
       }
       this.setState(newValue)
+      newValue['_id'] = this.state._id
       this.handleClick(to, newValue[name][to]);
+      this.onSave(newValue);
     }
   }
 
