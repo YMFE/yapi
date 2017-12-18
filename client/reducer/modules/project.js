@@ -91,7 +91,6 @@ export function fetchProjectList(id, pageNum) {
 
 // 获取项目信息
 export function getProjectMsg(id) {
-  console.log('reducer');
   return {
     type: GET_PROJECT_MSG,
     payload: axios.get('/api/project/get', {

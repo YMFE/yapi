@@ -126,12 +126,12 @@ class ProjectEnv extends Component {
 
   // 侧边栏拖拽
   handleDragMove = (name) => {
-    return (data) => {
+    return (data, from, to) => {
       let newValue = {
         [name]: data
       }
       this.setState(newValue)
-      this.handleClick(0, newValue[name][0]);
+      this.handleClick(to, newValue[name][to]);
     }
   }
 

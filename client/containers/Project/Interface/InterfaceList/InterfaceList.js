@@ -28,10 +28,6 @@ class InterfaceList extends Component {
     this.state = {
       visible: false,
       data: [],
-      sortedInfo: {
-        order: 'ascend',
-        columnKey: 'title'
-      },
       catid: null
     }
   }
@@ -130,17 +126,11 @@ class InterfaceList extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
-    sortedInfo = sortedInfo || {};
     const columns = [{
       title: '接口名称',
       dataIndex: 'title',
       key: 'title',
       width: 30,
-      sorter: (a, b) => {
-        return a.title.localeCompare(b.title) === 1
-      },
-      sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
       render: (text, item) => {
         return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
       }
@@ -200,10 +190,10 @@ class InterfaceList extends Component {
         }
       }
     }
-    const data = this.state.data.map(item => {
+    const data = this.state.data ? this.state.data.map(item => {
       item.key = item._id;
       return item;
-    });
+    }) : null;
 
     return (
       <div style={{ padding: '24px' }}>

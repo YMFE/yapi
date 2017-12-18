@@ -39,8 +39,12 @@ class ProjectEnvContent extends Component {
       }]
     }
   }
-  addHeader = (value, name) => {
-    if (value.name) return;
+  addHeader = (value, index, name) => {
+
+    let nextHeader = this.state[name][index + 1];
+    if(nextHeader && typeof nextHeader === 'object'){
+      return;
+    }
     let newValue = {}
     let data = { name: "", value: "" }
     newValue[name] = [].concat(this.state[name], data)
@@ -107,9 +111,10 @@ class ProjectEnvContent extends Component {
             })(
               <AutoComplete
                 style={{ width: '200px' }}
+                allowClear={true}
                 dataSource={constants.HTTP_REQUEST_HEADER}
                 placeholder="请输入header名称"
-                onSelect={() => this.addHeader(item, 'header')}
+                onChange={() => this.addHeader(item, index, 'header')}
                 filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
               />
               )}
