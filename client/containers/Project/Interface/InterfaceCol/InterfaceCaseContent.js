@@ -128,7 +128,6 @@ export default class InterfaceCaseContent extends Component {
       enable_script,
       test_res_body,
       test_res_header
-      
     };
 
     const res = await axios.post('/api/col/up_case', params);

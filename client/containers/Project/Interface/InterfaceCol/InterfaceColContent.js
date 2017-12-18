@@ -8,7 +8,7 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { isJson,   handleParamsValue } from '../../../../common.js'
+import { json_parse,  handleParamsValue } from '../../../../common.js'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -183,19 +183,25 @@ class InterfaceColContent extends Component {
 
     let result = { code: 400,
         msg: '数据异常',
-        validRes: [],
-        ...options
+        validRes: []
       };
 
 
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script)
-      let res = data.res.body = isJson(data.res.body);
-
+      let res = data.res.body = json_parse(data.res.body);
       result = {
+        ...options,
         ...result,
         res_header: data.res.header,
         res_body: res
+      }
+
+      if(options.data && typeof options.data === 'object'){
+        requestParams = {
+          ...requestParams,
+          ...options.data
+        }
       }
       
       let validRes = [];
@@ -227,6 +233,7 @@ class InterfaceColContent extends Component {
 
     } catch (data) {
       result = {
+        ...options,
         ...result,
         res_header: data.header,
         res_body: data.body || data.message,

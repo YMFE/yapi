@@ -231,9 +231,13 @@ export default class Run extends Component {
       return null
     }
 
-    let tempJson;
-    if ((tempJson = isJson(result.body))) {
+    let tempJson = result.body;
+    if(tempJson && typeof tempJson === 'object'){
       result.body = JSON.stringify(tempJson, null, '  ')
+      this.setState({
+        res_body_type: 'json'
+      })
+    }else if (isJson(result.body)) {
       this.setState({
         res_body_type: 'json'
       })
@@ -482,7 +486,7 @@ export default class Run extends Component {
               </div>
             }
             key="3"
-            className={HTTP_METHOD[method].request_body ? 'POST' : 'hidden'}
+            className={HTTP_METHOD[method].request_body && (req_body_type === 'form' && req_body_form.length > 0 || req_body_type !== 'form') ? 'POST' : 'hidden'}
           >
 
             <div style={{ display: checkRequestBodyIsRaw(method, req_body_type) ? 'block' : 'none' }}>
