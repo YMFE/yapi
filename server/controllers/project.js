@@ -34,7 +34,7 @@ class projectController extends baseController {
     }
     const basepath = {
       type: 'string',
-      minLength: 1
+      default: ''
     };
     const group_id = 'number';
     const group_name = 'string'
@@ -49,7 +49,7 @@ class projectController extends baseController {
     this.schemaMap = {
       add: {
         "*name": name,
-        "*basepath": basepath,
+        "basepath": basepath,
         "*group_id": group_id,
         group_name,
         desc: desc,
