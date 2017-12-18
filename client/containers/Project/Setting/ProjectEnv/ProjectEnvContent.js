@@ -7,12 +7,6 @@ const Option = Select.Option;
 import constants from 'client/constants/variable.js'
 
 
-const EmptyPrompt = () => {
-  return <div className="m-empty-prompt">
-    <span><Icon type="select"></Icon>请选择或创建新环境</span>
-  </div>
-}
-
 class ProjectEnvContent extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
@@ -222,14 +216,10 @@ class ProjectEnvContent extends Component {
 
     return (
       <div>
-        {projectMsg.name ?
-          <div>
-            {envTpl(projectMsg)}
-            <div className="btnwrap-changeproject">
-              <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
-            </div>
-          </div>
-          : <EmptyPrompt />}
+        {envTpl(projectMsg)}
+        <div className="btnwrap-changeproject">
+          <Button className="m-btn btn-save" icon="save" type="primary" size="large" onClick={this.handleOk} >保 存</Button>
+        </div>
       </div>
     )
   }

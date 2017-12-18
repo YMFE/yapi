@@ -59,7 +59,6 @@ export default (state = initialState, action) => {
       };
     }
     case GET_PROJECT_MSG: {
-      console.log('get');
       return {
         ...state,
         projectMsg: action.payload.data.data
