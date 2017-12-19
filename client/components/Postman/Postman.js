@@ -482,7 +482,7 @@ export default class Run extends Component {
           <Panel
             header={
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div>BODY</div>
+                <Tooltip title="F9 全屏编辑" >BODY(F9)</Tooltip>
               </div>
             }
             key="3"
@@ -495,6 +495,7 @@ export default class Run extends Component {
                 data={this.state.req_body_other}
                 mode={req_body_type === 'json' ? null : 'text'}
                 onChange={this.handleRequestBody}
+                fullScreen={true}
               />
             </div>
 
