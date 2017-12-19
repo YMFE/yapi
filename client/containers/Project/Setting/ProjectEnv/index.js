@@ -145,7 +145,7 @@ class ProjectEnv extends Component {
           onMouseEnter={() => this.enterItem(index)}
         >
           <span className="env-icon-style">
-            <span style={{ color: item.name === '新环境' && '#2395f1' }}>{item.name}</span>
+            <span className="env-name" style={{ color: item.name === '新环境' && '#2395f1' }}>{item.name}</span>
             <Popconfirm
               title="您确认删除此环境变量?"
               onConfirm={() => this.showConfirm(index, 'env')}

@@ -73,5 +73,11 @@
     display: none;
   }
 
+  .env-name{
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   
 }
