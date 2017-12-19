@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 使用手册</title>
-    
-        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
-    
-    
-        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
-    
-
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -18,10 +17,6 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -141,6 +136,10 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#配置环境">配置环境</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#请求配置">请求配置</a>
                                     </li>
                                 
@@ -195,12 +194,12 @@
 <p>这里比新建项目页面新增的功能如下：</p>
 <h3 class="subject" id="修改项目图标">修改项目图标 <a class="hashlink" href="#修改项目图标">#</a></h3><p>点击项目图标，可以修改图标及背景色：</p>
 <p><img src="./images/usage/project_setting_logo.png" /></p>
-<h3 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h3><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用。</p>
-<p><img src="./images/usage/project_setting_env.png" /></p>
 <h2 class="subject" id="删除项目">删除项目 <a class="hashlink" href="#删除项目">#</a></h2><p>点击下方的删除按钮，输入项目名称进行删除。</p>
 <blockquote>
 <p>删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。</p>
 </blockquote>
+<h2 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h2><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加<code>环境配置</code>弹层。</p>
+<p><img src="./images/usage/project_setting_env.png" /></p>
 <h2 class="subject" id="请求配置">请求配置 <a class="hashlink" href="#请求配置">#</a></h2><p>通过自定义 js 脚本方式改变请求的参数和返回的 response 数据</p>
 <h3 class="subject" id="请求参数示例">请求参数示例 <a class="hashlink" href="#请求参数示例">#</a></h3><p>以 jquery ajax 为例，假设当前的请求参数是</p>
 <pre><code><span class="token punctuation">{</span>
@@ -228,7 +227,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre><p>假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：</p>
-<pre><code>context.query.token = context.utils.md5(context.pathanem + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre><code>context.query.token = context.utils.md5(context.pathname + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><h3 class="subject" id="返回数据示例">返回数据示例 <a class="hashlink" href="#返回数据示例">#</a></h3><p>在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：</p>
 <pre><code>context = <span class="token punctuation">{</span>
   pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>

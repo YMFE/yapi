@@ -100,7 +100,6 @@ class ProjectEnv extends Component {
     }).catch(() => {
       message.error('环境设置不成功 ');
     });
-
   }
 
 
@@ -112,7 +111,6 @@ class ProjectEnv extends Component {
     assignValue['_id'] = this.state._id;
     this.onSave(assignValue);
     this.props.onOk && this.props.onOk(assignValue['env'], index);
-
   }
 
   // 动态修改环境名称
@@ -159,7 +157,6 @@ class ProjectEnv extends Component {
                 style={{ display: this.state.delIcon == index && env.length - 1 !== 0 ? 'block' : 'none' }}
               />
             </Popconfirm>
-
           </span>
         </Row>
       )

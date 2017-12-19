@@ -26,17 +26,18 @@
 
 <img src="./images/usage/project_setting_logo.png" />
 
-### 配置环境
-
-`环境配置` 一项可以添加该项目下接口的实际环境，供 [接口测试](./usage-使用测试集.html) 使用。
-
-<img src="./images/usage/project_setting_env.png" />
 
 ## 删除项目
 
 点击下方的删除按钮，输入项目名称进行删除。
 
 > 删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。
+
+## 配置环境
+
+`环境配置` 一项可以添加该项目下接口的实际环境，供 [接口测试](./usage-使用测试集.html) 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加`环境配置`弹层。
+
+<img src="./images/usage/project_setting_env.png" />
 
 ## 请求配置
 
