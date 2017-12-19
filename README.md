@@ -66,6 +66,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [zwjamnsss](https://github.com/amnsss)
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
+* [gaoxiaomumu](https://github.com/gaoxiaomumu)
 ### License
 Apache Licene 2.0
 

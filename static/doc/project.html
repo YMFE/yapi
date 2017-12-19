@@ -228,7 +228,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre><p>假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：</p>
-<pre><code>context.query.token = context.utils.md5(context.pathanem + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre><code>context.query.token = context.utils.md5(context.pathname + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><h3 class="subject" id="返回数据示例">返回数据示例 <a class="hashlink" href="#返回数据示例">#</a></h3><p>在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：</p>
 <pre><code>context = <span class="token punctuation">{</span>
   pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>
