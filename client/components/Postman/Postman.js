@@ -123,21 +123,12 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-    let headers = this.handleReqHeader(this.state.case_env, data.env);
     this.setState({
       ...this.state,
       ...data,
       resStatusCode: null,
-      resStatusText: null,
-      req_headers: headers
-    }, ()=>{
-      let s = !_.find(data.env, item => item.name === this.state.case_env);
-      if (!this.state.case_env || s) {
-        this.setState({
-          case_env: this.state.env[0].name
-        })
-      }
-    })
+      resStatusText: null
+    }, () => this.initEnvState(data.env))
   }
 
   initEnvState(env) {
@@ -145,6 +136,13 @@ export default class Run extends Component {
     this.setState({
       req_headers: headers,
       env: env
+    }, () => {
+      let s = !_.find(env, item => item.name === this.state.case_env);
+      if (!this.state.case_env || s) {
+        this.setState({
+          case_env: this.state.env[0].name
+        })
+      }
     })
   }
 
@@ -169,7 +167,7 @@ export default class Run extends Component {
       }
       if (nextProps.data.env !== this.props.data.env) {
         this.initEnvState(nextProps.data.env)
-        
+
       }
     }
   }
@@ -232,12 +230,12 @@ export default class Run extends Component {
     }
 
     let tempJson = result.body;
-    if(tempJson && typeof tempJson === 'object'){
+    if (tempJson && typeof tempJson === 'object') {
       result.body = JSON.stringify(tempJson, null, '  ')
       this.setState({
         res_body_type: 'json'
       })
-    }else if (isJson(result.body)) {
+    } else if (isJson(result.body)) {
       this.setState({
         res_body_type: 'json'
       })
@@ -314,7 +312,7 @@ export default class Run extends Component {
 
 
   handleEnvOk = (newEnv, index) => {
-    
+
     this.setState({
       envModalVisible: false,
       case_env: newEnv[index].name
