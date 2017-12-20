@@ -25,7 +25,8 @@ class baseController {
       '/api/user/reg',
       '/api/user/status',
       '/api/user/logout',
-      '/api/user/avatar'
+      '/api/user/avatar',
+      '/api/user/login_by_ldap'
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
@@ -62,17 +63,32 @@ class baseController {
     }
 
   }
+
+  async checkLDAP() {
+    // console.log('config', yapi.WEBCONFIG);
+    if (!yapi.WEBCONFIG.ldapLogin) {
+      return false
+    } else {
+      return yapi.WEBCONFIG.ldapLogin.enable || false
+    }
+
+  }
   /**
    * 
    * @param {*} ctx 
    */
 
   async getLoginStatus(ctx) {
+    let body;
     if (await this.checkLogin(ctx) === true) {
       let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
-      return ctx.body = yapi.commons.resReturn(result);
+      body = yapi.commons.resReturn(result);
+    } else {
+      body = yapi.commons.resReturn(null, 40011, '请登录...');
     }
-    return ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
+
+    body.ladp = await this.checkLDAP();
+    ctx.body = body;
   }
 
   getRole() {
@@ -83,7 +99,7 @@ class baseController {
     return this.$user.username;
   }
 
-  getEmail(){
+  getEmail() {
     return this.$user.email;
   }
 

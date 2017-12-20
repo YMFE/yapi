@@ -143,6 +143,12 @@
                                     
                                     <a href="#配置邮箱__仅支持_SMTP_">配置邮箱 (仅支持 SMTP)</a> 
                                 </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="#配置LDAP登录">配置LDAP登录</a> 
+                                </li>
                                  
                             </ul>
                         </nav>
@@ -194,7 +200,19 @@ yapi update -v v1<span class="token number">.1</span>.<span class="token number"
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre><p><br><br><br><br><br></p>
+</code></pre><h2 class="subject" id="配置LDAP登录">配置LDAP登录 <a class="hashlink" href="#配置LDAP登录">#</a></h2><p>打开项目目录 config.json 文件，添加如下字段：   </p>
+<pre><code><span class="token property">"ldapLogin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"enable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"ldap://l-ldapt1.ops.dev.cn0.qunar.com"</span><span class="token punctuation">,</span>
+      <span class="token property">"baseDn"</span><span class="token operator">:</span> <span class="token string">"CN=Admin,CN=Users,DC=test,DC=com"</span><span class="token punctuation">,</span>
+      <span class="token property">"bindPassword"</span><span class="token operator">:</span> <span class="token string">"password123"</span><span class="token punctuation">,</span>
+      <span class="token property">"searchDn"</span><span class="token operator">:</span> <span class="token string">"OU=UserContainer,DC=test,DC=com"</span><span class="token punctuation">,</span>
+      <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"mail"</span>
+   <span class="token punctuation">}</span>
+</code></pre><p>这里面的配置项含义如下：  </p>
+<ul>
+<li><code>enable</code> 表示是否配置LDAP登录，true(支持LDAP登录)/false(不支持LDAP登录);</li><li><code>server</code> LDAP服务器地址，前面需要加上 ldap:// 前缀，也可以是ldaps:// 表示是通过SSL连接;</li><li><code>baseDn</code> LDAP服务器的登录用户名，必须是从根结点到用户节点的全路径;</li><li><code>bindPassword</code> 登录该LDAP服务器的密码;</li><li><code>searchDn</code> 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;</li><li><code>searchStandard</code> 查询条件，这里是mail表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是email,  这里就需要修改成email.</li></ul>
+<p><br><br><br><br><br></p>
 
                     </div>
                 </div>

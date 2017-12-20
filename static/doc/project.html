@@ -139,6 +139,14 @@
                                     <li >
                                         <a href="#删除项目">删除项目</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#配置环境">配置环境</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#请求配置">请求配置</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -191,13 +199,75 @@
 <p>这里比新建项目页面新增的功能如下：</p>
 <h3 class="subject" id="修改项目图标">修改项目图标 <a class="hashlink" href="#修改项目图标">#</a></h3><p>点击项目图标，可以修改图标及背景色：</p>
 <p><img src="./images/usage/project_setting_logo.png" /></p>
-<h3 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h3><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用。</p>
-<p><img src="./images/usage/project_setting_env.png" /></p>
 <h2 class="subject" id="删除项目">删除项目 <a class="hashlink" href="#删除项目">#</a></h2><p>点击下方的删除按钮，输入项目名称进行删除。</p>
 <blockquote>
 <p>删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。</p>
 </blockquote>
-
+<h2 class="subject" id="配置环境">配置环境 <a class="hashlink" href="#配置环境">#</a></h2><p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./usage-使用测试集.html">接口测试</a> 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加<code>环境配置</code>弹层。</p>
+<p><img src="./images/usage/project_setting_env.png" /></p>
+<h2 class="subject" id="请求配置">请求配置 <a class="hashlink" href="#请求配置">#</a></h2><p>通过自定义 js 脚本方式改变请求的参数和返回的 response 数据</p>
+<h3 class="subject" id="请求参数示例">请求参数示例 <a class="hashlink" href="#请求参数示例">#</a></h3><p>以 jquery ajax 为例，假设当前的请求参数是</p>
+<pre><code><span class="token punctuation">{</span>
+  url<span class="token operator">:</span> '/api/user?id=<span class="token number">1</span>'<span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  headers<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>那么公共变量 context 包含以下属性：</p>
+<pre><code>context = <span class="token punctuation">{</span>
+  pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>
+  query<span class="token operator">:</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  requestHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  requestBody<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：</p>
+<pre><code>context.query.token = context.utils.md5(context.pathname + 'salt'<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 class="subject" id="返回数据示例">返回数据示例 <a class="hashlink" href="#返回数据示例">#</a></h3><p>在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：</p>
+<pre><code>context = <span class="token punctuation">{</span>
+  pathname<span class="token operator">:</span> '/api/user'<span class="token punctuation">,</span>
+  query<span class="token operator">:</span> <span class="token punctuation">{</span>
+    id<span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  requestHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    xxx<span class="token operator">:</span> 'xxx'
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  method<span class="token operator">:</span> 'POST'<span class="token punctuation">,</span>
+  requestBody<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  responseData<span class="token operator">:</span> <span class="token punctuation">{</span>
+    a<span class="token operator">:</span><span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  responseHeader<span class="token operator">:</span> <span class="token punctuation">{</span>
+    content-type<span class="token operator">:</span> 'application/json'
+    ...
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p>假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：</p>
+<pre><code>context.responseBody.a = <span class="token number">2</span><span class="token punctuation">;</span>
+</code></pre><h3 class="subject" id="工具函数">工具函数 <a class="hashlink" href="#工具函数">#</a></h3><pre><code>context.utils = <span class="token punctuation">{</span>
+  _         //underscore 函数<span class="token punctuation">,</span>详细 API 查看官网 http<span class="token operator">:</span>//underscorejs.org/
+  base64    //转换字符串为 base64 编码
+  md5       //转换字符串为 md5 编码
+  sha1      //转换字符串为 sha1 编码
+  sha224    //转换字符串为 sha224 编码
+  sha256    //转换字符串为 sha256 编码
+  sha384    //转换字符串为 sha384 编码
+  sha512    //转换字符串为 sha512 编码
+  unbase64  //转换 base64 编码为字符串  
+<span class="token punctuation">}</span>
+</code></pre>
                     </div>
                 </div>
                  

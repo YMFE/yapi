@@ -88,9 +88,9 @@ h6 {
 h1 {
     color: #2c3e50;
     font-weight: 600;
-    margin-top: 35px;
+    // margin-top: 35px;
     margin-bottom: 16px;
-    font-size: 42px;
+    font-size: 32px;
     padding-bottom: 16px;
     border-bottom: 1px solid #ddd;
     line-height: 50px;
@@ -220,6 +220,7 @@ body {
 }
 
 .table-of-contents {
+    position: fixed;
     top: 61px;
     left: 0;
     bottom: 0;
@@ -228,10 +229,16 @@ body {
     width: 260px;
 }
 
+.table-of-contents>ul>li>a {
+  font-size: 20px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
 .table-of-contents ul {
-    position: fixed;
-    top: 80px;
-    left: 40px;
+    // position: fixed;
+    // top: 80px;
+    // left: 40px;
     overflow: auto;
     margin: 0px;
     height: 100%;
@@ -250,13 +257,21 @@ body {
     text-decoration: none;
 }
 
+
+
 .content-right {
-    position: relative;
-    top: -20px;
+    // position: relative;
+    // top: -20px;
     max-width: 700px;
     margin-left: 290px;
     padding-left: 70px;
+    flex-grow: 1;
+    h2:target{
+      padding-top: 80px;
+    }
 }
+
+
 
 body>p {
     margin-left: 30px;
@@ -285,6 +300,11 @@ body>pre {
 .g-doc {
     margin-top: 56px;
     padding-top: 24px;
+    display: flex;
+}
+
+.curproject-name{
+  font-size: 42px;
 }
 
 .m-header {

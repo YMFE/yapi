@@ -1,8 +1,13 @@
 @import '../../styles/mixin.scss';
 .postman {
+
+
+  
+
   .pretty-editor {
     border: 1px solid #d9d9d9;
     border-radius: 4px;
+    min-height: 200px;
   }
   .pretty-editor-body {
     border: 1px solid #d9d9d9;
@@ -20,6 +25,24 @@
     .ant-checkbox-wrapper{
       display: flex;
     }
+  }
+
+  
+
+  .insert-code{
+    
+    margin-right: 20px;
+    .code-item{
+      border: 1px solid #dbd9d9;
+      padding:3px;
+      line-height: 30px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .case-script{
+    min-height: 500px;
+    margin: 10px;
   }
 
   .response-tab{    
@@ -132,7 +155,7 @@
       margin: 0 5px;
     }
     .params-enable{
-      width: 98px;
+      width: 24px;
     }
   }
   .icon-btn {
@@ -143,6 +166,10 @@
     color: #2395f1;
   }
 
-  
+}
 
+.env-modal{
+  .ant-modal-body{
+    padding: 0;
+  }
 }

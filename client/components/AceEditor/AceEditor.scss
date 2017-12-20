@@ -11,6 +11,10 @@
   z-index: 1000008;
 }
 
+.ace_editor .ace_print-margin{
+  visibility: hidden !important 
+}
+
 .fullScreen {
   overflow: hidden
 }

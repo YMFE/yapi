@@ -1,5 +1,7 @@
 ## 介绍
-<p style='text-indent:2em;line-height:1.8em'>在平时的开发过程中，经常遇到的一个问题是每次调试接口都需要重新填写参数，YApi测试集不但能够保存之前填写的参数，方便下次的调试，还可以一次性测试所有接口，每个的请求参数可以通过前面已请求的接口数据读取，或填写mock随机字符串，通过设置断言脚本验证返回数据的正确性，</p>
+<p style='text-indent:2em;line-height:1.8em'>Web 应用通常是前后端分离开发的，后端提供调用的接口，前端使用接口返回 json 数据渲染到 UI，接口测试就是保证后端接口的数据正确性。
+
+对于很多团队，接口测试就是手动运行接口，肉眼比对接口返回的数据，这样的操作流程效率低下，容易出错。使用 YApi 只需要在可视化 GUI 下，配置下每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。</p>
 
 ## 测试列表
 
@@ -55,12 +57,12 @@ $.{key}.{params|body}.{path}
 <img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman.gif"  />
 
 ## 自动化测试
-可通过 js 脚本写断言，实现精准测试，在测试集列表点击 “高级” 按钮使用
+可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
 
-<video style="width:800px" controls="controls" autoplay="autoplay">
+<!-- <video style="width:800px" controls="controls" autoplay="autoplay">
   <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
 Your browser does not support the video tag.
-</video>
+</video> -->
 
 ### 公共变量
 #### 1.assert 
@@ -118,3 +120,4 @@ assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
 assert.equal(status, 200)
 ```
+

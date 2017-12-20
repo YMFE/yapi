@@ -162,7 +162,8 @@ class InterfaceMenu extends Component {
 
     let params = {
       catid: this.state.curCatdata._id,
-      name: data.name
+      name: data.name,
+      desc: data.desc
     }
 
     axios.post('/api/interface/up_cat', params).then((res) => {

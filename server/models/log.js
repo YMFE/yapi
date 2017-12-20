@@ -1,6 +1,7 @@
 const yapi = require('../yapi.js');
 const baseModel = require('./base.js');
-// const userModel = require('../models/user.js');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 class logModel extends baseModel {
     getName() {
@@ -14,7 +15,8 @@ class logModel extends baseModel {
             type: { type: String,enum:['user', 'group', 'interface','project', 'other', 'interface_col'], required: true },
             content: { type: String, required: true },
             username: { type: String, required: true },
-            add_time: Number
+            add_time: Number,
+            data: Schema.Types.Mixed //用于原始数据存储
         };
     }
 
@@ -33,8 +35,10 @@ class logModel extends baseModel {
             uid: data.uid,
             username: data.username,
             typeid: data.typeid,
-            add_time: yapi.commons.time()
+            add_time: yapi.commons.time(),
+            data: data.data
         };
+
         let log = new this.model(saveData);
 
         return log.save();
@@ -55,13 +59,17 @@ class logModel extends baseModel {
     }
     
 
-    listWithPaging(typeid,type, page, limit) {
+    listWithPaging(typeid,type, page, limit, interfaceId) {
         page = parseInt(page);
         limit = parseInt(limit);
-        return this.model.find({
+        const params = {
             type: type,
             typeid: typeid
-        }).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
+        }        
+        if(interfaceId && !isNaN(interfaceId)){
+            params['data.interface_id'] = +interfaceId
+        }       
+        return this.model.find(params).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
     }
     listWithPagingByGroup(typeid, pidList, page, limit) {
         page = parseInt(page);
@@ -87,11 +95,15 @@ class logModel extends baseModel {
             }]
         });
     }
-    listCount(typeid,type) {
-        return this.model.count({
-            typeid: typeid,
-            type: type
-        });
+    listCount(typeid,type, interfaceId) {
+        const params = {
+            type: type,
+            typeid: typeid
+        }
+        if(interfaceId && !isNaN(interfaceId)){
+            params['data.interface_id'] = +interfaceId           
+        }
+        return this.model.count(params);
     }
 }
 

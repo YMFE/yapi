@@ -28,10 +28,6 @@ class InterfaceList extends Component {
     this.state = {
       visible: false,
       data: [],
-      sortedInfo: {
-        order: 'ascend',
-        columnKey: 'title'
-      },
       catid: null
     }
   }
@@ -130,17 +126,11 @@ class InterfaceList extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
-    sortedInfo = sortedInfo || {};
     const columns = [{
       title: '接口名称',
       dataIndex: 'title',
       key: 'title',
       width: 30,
-      sorter: (a, b) => {
-        return a.title.localeCompare(b.title) === 1
-      },
-      sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
       render: (text, item) => {
         return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
       }
@@ -191,23 +181,30 @@ class InterfaceList extends Component {
       }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
-    let intername = '';
+    let intername = '', desc = '';
     if (this.props.curProject.cat) {
       for (let i = 0; i < this.props.curProject.cat.length; i++) {
         if (this.props.curProject.cat[i]._id === this.state.catid) {
           intername = this.props.curProject.cat[i].name;
+          desc = this.props.curProject.cat[i].desc;
         }
       }
     }
-    const data = this.state.data.map(item => {
+    const data = this.state.data ? this.state.data.map(item => {
       item.key = item._id;
       return item;
-    });
+    }) : null;
 
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({data.length}) 个</h2>
+        
         <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
+        <div >
+          {desc &&
+            <p style={{marginTop: '10px'}}>{desc} </p>
+          }
+        </div>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
         <Modal
           title="添加接口"

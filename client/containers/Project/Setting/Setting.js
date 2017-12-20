@@ -2,7 +2,8 @@ import React, { PureComponent as Component } from 'react'
 import { Tabs } from 'antd';
 import PropTypes from 'prop-types';
 import ProjectMessage from './ProjectMessage/ProjectMessage.js';
-import ProjectEnv from './ProjectEnv/ProjectEnv.js';
+import ProjectEnv from './ProjectEnv/index.js';
+import ProjectRequest from './ProjectRequest/ProjectRequest';
 const TabPane = Tabs.TabPane;
 
 import './Setting.scss';
@@ -21,6 +22,9 @@ class Setting extends Component {
           </TabPane>
           <TabPane tab="环境配置" key="2">
             <ProjectEnv projectId={+id} />
+          </TabPane>
+          <TabPane tab="请求配置" key="3">
+            <ProjectRequest projectId={+id} />
           </TabPane>
         </Tabs>
       </div>

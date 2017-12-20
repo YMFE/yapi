@@ -91,7 +91,6 @@ export function fetchProjectList(id, pageNum) {
 
 // 获取项目信息
 export function getProjectMsg(id) {
-  console.log(id);
   return {
     type: GET_PROJECT_MSG,
     payload: axios.get('/api/project/get', {
@@ -179,6 +178,14 @@ export function updateProject(data) {
   };
 }
 
+// 修改项目脚本
+export function updateProjectScript(data) {
+  return {
+    type: PROJECT_UPDATE,
+    payload: axios.post('/api/project/up', data)
+  };
+}
+
 // 修改项目环境配置
 export function updateEnv(data) {
   const { env, _id } = data;
@@ -199,6 +206,7 @@ export function upsetProject(param) {
     payload: axios.post('/api/project/upset', param)
   };
 }
+
 
 // 删除项目
 export function delProject(id) {

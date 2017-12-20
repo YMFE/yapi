@@ -128,7 +128,6 @@ export default class InterfaceCaseContent extends Component {
       enable_script,
       test_res_body,
       test_res_header
-      
     };
 
     const res = await axios.post('/api/col/up_case', params);
@@ -159,7 +158,12 @@ export default class InterfaceCaseContent extends Component {
   render() {
     const { currCase, currProject } = this.props;
     const { isEditingCasename, editCasename } = this.state;
-    const data = Object.assign({}, currCase, {env: currProject.env}, { _id: currCase._id });
+    const data = Object.assign({}, currCase, {
+      env: currProject.env,
+      pre_script: currProject.pre_script,
+      after_script: currProject.after_script
+    }, { _id: currCase._id });
+
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">

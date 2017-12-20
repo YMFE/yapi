@@ -175,6 +175,7 @@ function handleSegment(str, index){
 }
 
 module.exports = {
+    utils: stringHandles,
     PowerString,
     /**
      * 类似于 angularJs的 filter 功能

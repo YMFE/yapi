@@ -5,6 +5,16 @@ const sha1 = require('sha1');
 const logModel = require('../models/log.js');
 const json5 = require('json5');
 const _ = require('underscore');
+const Ajv = require('ajv');
+const ajv = new Ajv({
+    allErrors: true,
+    coerceTypes: true,
+    useDefaults: true,
+    removeAdditional: true
+});
+var localize = require('ajv-i18n');
+
+const ejs = require('easy-json-schema');
 
 exports.resReturn = (data, num, errmsg) => {
     num = num || 0;
@@ -280,6 +290,23 @@ exports.handleParams = (params, keys) => {
     return params;
 };
 
+exports.validateParams = (schema, params)=>{    
+    schema = ejs(schema);    
+    schema.additionalProperties = false;
+    const validate = ajv.compile(schema);
+    let valid = validate(params);
+    let message = '请求参数 ';
+    if(!valid){
+        localize.zh(validate.errors);
+        message += ajv.errorsText(validate.errors, { separator: '\n' });
+    }
+
+    return {
+        valid: valid,
+        message: message
+    }
+}
+
 
 exports.saveLog = (logData) => {
     try {
@@ -289,11 +316,10 @@ exports.saveLog = (logData) => {
             type: logData.type,
             uid: logData.uid,
             username: logData.username,
-            typeid: logData.typeid
+            typeid: logData.typeid,
+            data: logData.data
         };
-        logInst.save(data).then(
-
-        );
+        logInst.save(data).then();
     } catch (e) {
         yapi.commons.log(e, 'error'); // eslint-disable-line
     }
@@ -315,7 +341,14 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
         let inst = new routerController(ctx);
         try {
             await inst.init(ctx);
-
+            if(inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]){
+                ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
+                let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
+                
+                if(!validResult.valid){
+                    return ctx.body = yapi.commons.resReturn(null, 400, validResult.message);
+                }
+            }
             if (inst.$auth === true) {
                 await inst[action].call(inst, ctx);
             } else {

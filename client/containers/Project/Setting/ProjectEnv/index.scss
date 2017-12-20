@@ -1,0 +1,83 @@
+.m-env-panel {
+  // padding-top: 8px;
+  min-height: 4.68px;
+  margin-top: 0;
+  background-color: #fff;
+}
+
+.project-env{
+  min-height: 4.68rem;
+  .env-icon-style{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .anticon{
+      font-size: 15px;
+    }
+  }
+
+  .menu-item{
+    padding: 0 16px;
+    font-size: 13px;
+    line-height: 42px;
+    height: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+  }
+
+  .menu-item-checked{
+    background-color: #eef7fe;
+    color: #2395f1;
+    font-size: 14px;
+    margin-right: -1px;
+    border-right: 2px solid #2395f1;
+  }
+
+  .first-menu-item{
+    background-color: #eceef1;
+  }
+
+  .delete{
+    font-size: 20px;
+    top: 8px;
+  }
+
+  .env-content{
+    border-left: 1px solid #ccc;
+  }
+
+  .ant-menu-item-disabled{
+    cursor: pointer;
+  }
+
+  .m-empty-prompt{
+    display: flex;
+    height: 400px;
+    span{
+      margin: auto;
+      font-size: 16px;
+      .anticon {
+        padding-right: 16px;
+        font-size: 24px;
+      }
+    }
+  }
+
+  .env-label{
+    padding-bottom: 8px;
+  }
+
+  .env-last-row {
+    display: none;
+  }
+
+  .env-name{
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  
+}
