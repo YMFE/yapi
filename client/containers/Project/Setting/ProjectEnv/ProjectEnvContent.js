@@ -40,7 +40,6 @@ class ProjectEnvContent extends Component {
     }
   }
   addHeader = (value, index, name) => {
-
     let nextHeader = this.state[name][index + 1];
     if(nextHeader && typeof nextHeader === 'object'){
       return;
