@@ -263,6 +263,9 @@ body {
   padding-left: 70px;
   flex-grow: 1;
 }
+.content-right h2:target {
+  padding-top: 80px;
+}
 
 body > p {
   margin-left: 30px;

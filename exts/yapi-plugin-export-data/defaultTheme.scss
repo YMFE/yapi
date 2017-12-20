@@ -266,7 +266,12 @@ body {
     margin-left: 290px;
     padding-left: 70px;
     flex-grow: 1;
+    h2:target{
+      padding-top: 80px;
+    }
 }
+
+
 
 body>p {
     margin-left: 30px;
