@@ -26,6 +26,7 @@ class interfaceController extends baseController {
 
     const addAndUpCommonField = {
       'desc': 'string',
+      'status': 'string',
       req_query: [{
         name: 'string',
         value: 'string',
@@ -344,6 +345,7 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
+    console.log('params', params.status);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';
