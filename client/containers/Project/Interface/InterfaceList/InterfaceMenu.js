@@ -405,6 +405,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
+    // console.log('currentKey',currentKes)
 
     if (this.state.filter) {
       let arr = [];

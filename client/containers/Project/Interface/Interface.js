@@ -96,7 +96,7 @@ class Interface extends Component {
                 <InterfaceMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="测试集合" key="colOrCase" >
-                <InterfaceColMenu />
+                <InterfaceColMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
               </Tabs.TabPane>
             </Tabs>
           </div>
