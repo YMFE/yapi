@@ -2,14 +2,15 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
-    <meta name="description" content="description of your site">
-    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 版本记录</title>
-    <link rel="shortcut icon" href="./favicon.ico" />
+    
+        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
+    
+    
+        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
+    
+
+    <link rel="shortcut icon" href="./images/favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -17,6 +18,10 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -158,7 +163,9 @@
                     <div class="content-right markdown-body use-sidebar" role="main">
 
                          <h3 class="subject" id="v1.3.0">v1.3.0 <a class="hashlink" href="#v1.3.0">#</a></h3><h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ul>
-<li>yapi 默认集成 ldap 登录方式</li><li>yapi 做一个 sso 登录插件，基于现有的 qsso 改造成大多数公司可用的</li><li>环境设置支持全局 header</li><li>接口运行页面选择环境增加管理环境的弹层</li><li>接口集复制功能</li><li>接口运行支持加工运行前后的 request 和 response ，主要是处理加密的接口或各种 token 参数问题</li><li>自动化测试除提供自定义脚本外，还提供可视化表单形式验证一些数据，例如 statusCode、bodyContent </li><li>增加查看接口详细改动</li><li>支持接口运行页面 body 全屏编辑</li></ul>
+<li>yapi 默认集成 ldap 登录方式</li><li>yapi 做一个 sso 登录插件，基于现有的 qsso 改造成大多数公司可用的</li><li>环境设置支持全局 header</li><li>接口运行页面选择环境增加管理环境的弹层</li><li>接口运行支持加工运行前后的 request 和 response ，主要是处理加密的接口或各种 token 参数问题</li><li>自动化测试除提供自定义脚本外，还提供可视化表单形式验证一些数据，例如 statusCode、bodyContent </li><li>增加查看接口详细改动</li><li>支持接口运行页面 body 全屏编辑</li><li>数据导出到 html 支持了分类</li></ul>
+<h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ul>
+<li>修复了高级 Mock 无法获取到真实客户端 ip </li></ul>
 <h3 class="subject" id="v1.2.9">v1.2.9 <a class="hashlink" href="#v1.2.9">#</a></h3><h4 class="subject" id="Bug_Fixed">Bug Fixed <a class="hashlink" href="#Bug_Fixed">#</a></h4><ol>
 <li>Api 路径兼容 postman {varible}</li><li>View Response Height 问题</li></ol>
 <h4 class="subject" id="Feature">Feature <a class="hashlink" href="#Feature">#</a></h4><ol>
