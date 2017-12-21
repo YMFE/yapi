@@ -119,12 +119,7 @@ function run(options) {
     curData: {},
     getValue: ()=>mockEditor.curData.text,
     setValue: function (data) {
-      data = data || '';
-      if (typeof data === 'string') {
-        editor.setValue(data);
-      } else if (typeof data === 'object') {
-        editor.setValue(JSON.stringify(data, null, "  "))
-      }
+        editor.setValue(handleData(data));
     },
     editor: editor,
     options: options,
@@ -134,7 +129,22 @@ function run(options) {
     }
   }
 
-  
+  function formatJson(json){
+    try{
+      return JSON.stringify(JSON.parse(json), null, 2);
+    }catch(err){
+      return json;
+    }
+  }
+
+  function handleData(data){
+    data = data || '';
+    if(typeof data === 'string'){
+      return formatJson(data);
+    }else if (typeof data === 'object') {
+      return JSON.stringify(data, null, "  ")
+    }
+  }
 
   rhymeCompleter = {
     identifierRegexps: [/[@]/],
@@ -150,7 +160,7 @@ function run(options) {
   }
 
   langTools.addCompleter(rhymeCompleter);
-  mockEditor.setValue(data);
+  mockEditor.setValue(handleData(data));
   handleJson(editor.getValue())
 
   editor.clearSelection();
