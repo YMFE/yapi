@@ -42,6 +42,11 @@ class interfaceController extends baseController {
         required: 'string'
       }],
       req_body_type: 'string',
+      req_params:[{
+        name: 'string',
+        example: 'string',
+        desc: 'string'
+      }],
       req_body_form: [{
         name: 'string',
         type: {
@@ -345,7 +350,7 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
-    console.log('params', params.status);
+    // console.log('params', params.req_params);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';

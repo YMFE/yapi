@@ -94,7 +94,7 @@ class InterfaceMenu extends Component {
 
   componentWillMount() {
     this.handleRequest()
-    
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -425,6 +425,7 @@ class InterfaceMenu extends Component {
         arr.push('cat_' + item._id)
         return true;
       })
+      // console.log('arr', arr);
       if (arr.length > 0) {
         currentKes.expands = arr;
       }

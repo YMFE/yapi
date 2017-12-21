@@ -381,7 +381,7 @@ export default class InterfaceColMenu extends Component {
 
       return caseList.length > 0;
     });
-    return (
+    return ( 
       <div>
         <div className="interface-filter">
           <Input placeholder="搜索测试集合" onChange={this.filterCol} />
