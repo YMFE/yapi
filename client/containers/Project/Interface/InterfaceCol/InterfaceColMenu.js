@@ -86,11 +86,25 @@ export default class InterfaceColMenu extends Component {
     importInterVisible: false,
     importInterIds: [],
     importColId: 0,
-    expands: null
+    expands: null,
+    list: []
   }
 
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    this.getList()
+
+  }
+
+  async getList() {
+    let r = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    this.setState({
+      list: JSON.parse(JSON.stringify(r.payload.data.data))
+    })
+    return r
   }
 
   addorEditCol = async () => {
@@ -108,7 +122,8 @@ export default class InterfaceColMenu extends Component {
         colModalVisible: false
       });
       message.success(colModalType === 'edit' ? '修改集合成功' : '添加集合成功');
-      await this.props.fetchInterfaceColList(project_id);
+      // await this.props.fetchInterfaceColList(project_id);
+      this.getList();
     } else {
       message.error(res.data.errmsg);
     }
@@ -151,7 +166,7 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_col?col_id=' + colId)
         if (!res.data.errcode) {
           message.success('删除集合成功');
-          const result = await that.props.fetchInterfaceColList(that.props.match.params.id);
+          const result = await that.getList();
           const nextColId = result.payload.data.data[0]._id;
 
           that.props.history.push('/project/' + params.id + '/interface/col/' + nextColId);
@@ -197,7 +212,8 @@ export default class InterfaceColMenu extends Component {
     }
 
     // 刷新接口列表  
-    await this.props.fetchInterfaceColList(project_id);
+    // await this.props.fetchInterfaceColList(project_id);
+    this.getList()
     this.props.setColData({ isRander: true })
     message.success('克隆测试集成功')
 
@@ -223,7 +239,8 @@ export default class InterfaceColMenu extends Component {
           if (+caseId === +that.props.currCaseId) {
             that.props.history.push('/project/' + params.id + '/interface/col/')
           } else {
-            that.props.fetchInterfaceColList(that.props.match.params.id);
+            // that.props.fetchInterfaceColList(that.props.match.params.id);
+            that.getList()
             that.props.setColData({ isRander: true })
           }
         } else {
@@ -266,7 +283,9 @@ export default class InterfaceColMenu extends Component {
     if (!res.data.errcode) {
       this.setState({ importInterVisible: false })
       message.success('导入集合成功');
-      await this.props.fetchInterfaceColList(project_id);
+      // await this.props.fetchInterfaceColList(project_id);
+      this.getList()
+
       this.props.setColData({ isRander: true })
     } else {
       message.error(res.data.errmsg);
@@ -278,11 +297,14 @@ export default class InterfaceColMenu extends Component {
 
   filterCol = (e) => {
     const value = e.target.value;
-    this.setState({ filterValue: value })
+    this.setState({
+      filterValue: value,
+      list: JSON.parse(JSON.stringify(this.props.interfaceColList))
+    })
   }
 
   onDrop = async (e) => {
-    const projectId = this.props.match.params.id;
+    // const projectId = this.props.match.params.id;
     const dropColIndex = e.node.props.pos.split('-')[1];
 
     const dropColId = this.props.interfaceColList[dropColIndex]._id;
@@ -313,7 +335,8 @@ export default class InterfaceColMenu extends Component {
       //   axios.post('/api/col/up_col_index', changes).then()
       // }
       await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
-      this.props.fetchInterfaceColList(projectId);
+      // this.props.fetchInterfaceColList(projectId);
+      this.getList()
       this.props.setColData({ isRander: true })
 
 
@@ -393,8 +416,9 @@ export default class InterfaceColMenu extends Component {
     let currentKes = defaultExpandedKeys();
     // console.log('currentKey', currentKes)
 
-  
-    let list = this.props.interfaceColList;
+
+    let list = this.state.list;
+
 
     if (this.state.filterValue) {
       let arr = [];
@@ -402,6 +426,7 @@ export default class InterfaceColMenu extends Component {
         let interfaceFilter = false;
         if (item.name.indexOf(this.state.filterValue) === -1) {
           item.caseList = item.caseList.filter(inter => {
+      
             if (inter.casename.indexOf(this.state.filterValue) === -1) {
               return false;
             }
@@ -410,6 +435,7 @@ export default class InterfaceColMenu extends Component {
             return true;
 
           })
+          arr.push('col_' + item._id)
           return interfaceFilter === true
         }
         arr.push('col_' + item._id)
@@ -422,7 +448,7 @@ export default class InterfaceColMenu extends Component {
     }
 
     // console.log('list', list);
-    // console.log('currentKey', currentKes)
+    console.log('currentKey', currentKes)
 
     return (
       <div>

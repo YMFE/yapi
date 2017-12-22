@@ -421,6 +421,7 @@ class InterfaceMenu extends Component {
             return true;
 
           })
+          arr.push('cat_' + item._id)
           return interfaceFilter === true
         }
         arr.push('cat_' + item._id)

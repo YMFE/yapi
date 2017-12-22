@@ -10,6 +10,7 @@ exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
 exports.handleParams = handleParams;
 exports.handleContentType = handleContentType;
 exports.crossRequest = crossRequest;
+exports.handleCurrDomain = handleCurrDomain;
 
 const ContentTypeMap = {
   'application/json': 'json',
