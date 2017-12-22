@@ -4,7 +4,7 @@ const FETCH_INTERFACE_COL_LIST = 'yapi/interfaceCol/FETCH_INTERFACE_COL_LIST';
 const FETCH_CASE_DATA = 'yapi/interfaceCol/FETCH_CASE_DATA';
 const FETCH_CASE_LIST = 'yapi/interfaceCol/FETCH_CASE_LIST';
 const SET_COL_DATA = 'yapi/interfaceCol/SET_COL_DATA';
-const FETCH_VARIABLE_PARAMS_LIST='yapi/interfaceCol/FETCH_VARIABLE_PARAMS_LIST';
+const FETCH_VARIABLE_PARAMS_LIST = 'yapi/interfaceCol/FETCH_VARIABLE_PARAMS_LIST';
 
 // Reducer
 const initialState = {
@@ -21,17 +21,17 @@ const initialState = {
     ]
   }],
   isShowCol: true,
-  isRender:false,
+  isRender: false,
   currColId: 0,
   currCaseId: 0,
   currCase: {},
   currCaseList: [],
-  variableParamsList:[]
+  variableParamsList: []
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_INTERFACE_COL_LIST:{
+    case FETCH_INTERFACE_COL_LIST: {
       return {
         ...state,
         interfaceColList: action.payload.data.data
@@ -44,6 +44,7 @@ export default (state = initialState, action) => {
       }
     }
     case FETCH_CASE_LIST: {
+      console.log('re-list', action.payload.data.data);
       return {
         ...state,
         currCaseList: action.payload.data.data
@@ -69,7 +70,7 @@ export default (state = initialState, action) => {
 
 
 // Action Creators
-export function fetchInterfaceColList (projectId) {
+export function fetchInterfaceColList(projectId) {
   return {
     type: FETCH_INTERFACE_COL_LIST,
     payload: axios.get('/api/col/list?project_id=' + projectId)
@@ -77,7 +78,7 @@ export function fetchInterfaceColList (projectId) {
 }
 
 
-export function fetchCaseData(caseId){
+export function fetchCaseData(caseId) {
   return {
     type: FETCH_CASE_DATA,
     payload: axios.get('/api/col/case?caseid=' + caseId)
@@ -94,11 +95,11 @@ export function fetchCaseList(colId) {
 export function fetchVariableParamsList(colId) {
   return {
     type: FETCH_VARIABLE_PARAMS_LIST,
-    payload: axios.get('/api/col/case_list_by_var_params?col_id='+colId)
+    payload: axios.get('/api/col/case_list_by_var_params?col_id=' + colId)
   }
 }
 
-export function setColData(data){
+export function setColData(data) {
   return {
     type: SET_COL_DATA,
     payload: data

@@ -16,7 +16,7 @@ import * as resolve from 'table-resolver';
 import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-import { handleParams, crossRequest, handleCurrDomain } from 'client/components/Postman/postmanLib.js'
+import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } from 'client/components/Postman/postmanLib.js'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
 const Option = Select.Option;
@@ -120,22 +120,35 @@ class InterfaceColContent extends Component {
     clearInterval(this._crossRequestInterval)
   }
 
-  handleColdata = (rows) => {
-    // let newRows = JSON.parse(JSON.stringify(rows))
-    let newRows = rows.slice();
+  // 整合header信息
+  handleReqHeader = (req_header) => {
     let env = this.props.currProject.env;
     // console.log('env', env);
-    // handleCurrDomain
+    let currDomain = handleCurrDomain(env, this.state.currColEnv);
+    let header = currDomain.header;
+    header.forEach(item => {
+      if (!checkNameIsExistInArray(item.name, req_header)) {
+        item.abled = true;
+        req_header.push(item)
+      }
+    })
+    return req_header
+  }
 
+
+  handleColdata = (rows) => {
+    let newRows = JSON.parse(JSON.stringify(rows))
     newRows = newRows.map((item) => {
       item.id = item._id;
       item._test_status = item.test_status;
+      item.case_env = this.state.currColEnv || item.case_env
+      item.req_headers = this.handleReqHeader(item.req_headers)
       return item;
     })
     newRows = newRows.sort((n, o) => {
       return n.index - o.index;
     })
-    // console.log('rows', newRows);
+    
     this.setState({
       rows: newRows
     })
@@ -197,7 +210,6 @@ class InterfaceColContent extends Component {
       msg: '数据异常',
       validRes: []
     };
-    console.log('options', options);
 
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script)
@@ -429,14 +441,12 @@ class InterfaceColContent extends Component {
   }
 
   colEnvChange = (envName) => {
-    let rows = [...this.state.rows];
-    for (var i in rows) {
-      rows[i].case_env = envName;
-    }
+  
     this.setState({
-      rows: [...rows],
       currColEnv: envName
-    });
+    }, () => this.handleColdata(this.props.currCaseList));
+    
+
   }
 
   render() {

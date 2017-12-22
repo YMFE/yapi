@@ -10,7 +10,7 @@ import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 
-import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest } from './postmanLib.js'
+import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } from './postmanLib.js'
 // import { isRegExp } from 'util';
 
 
@@ -92,7 +92,7 @@ export default class Run extends Component {
     let req_header = [].concat(this.props.data.req_headers);
     let header = [].concat(env[index].header);
     header.forEach(item => {
-      if (!this.checkNameIsExistInArray(item.name, req_header)) {
+      if (!checkNameIsExistInArray(item.name, req_header)) {
         item.abled = true;
         req_header.push(item)
       }
@@ -100,17 +100,7 @@ export default class Run extends Component {
     return req_header
   }
 
-  checkNameIsExistInArray(name, arr) {
-    let isRepeat = false;
-    for (let i = 0; i < arr.length; i++) {
-      let item = arr[i];
-      if (item.name === name) {
-        isRepeat = true
-        break;
-      }
-    }
-    return isRepeat;
-  }
+
 
   selectDomain = (value) => {
     let headers = this.handleReqHeader(value, this.state.env);
@@ -340,7 +330,7 @@ export default class Run extends Component {
       inputValue,
       hasPlugin } = this.state;
 
-    console.log('req_headers', req_headers);
+    // console.log('req_headers', req_headers);
 
     return (
       <div className="interface-test postman">

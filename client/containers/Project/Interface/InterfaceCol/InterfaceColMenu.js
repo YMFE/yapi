@@ -448,7 +448,7 @@ export default class InterfaceColMenu extends Component {
     }
 
     // console.log('list', list);
-    console.log('currentKey', currentKes)
+    // console.log('currentKey', currentKes)
 
     return (
       <div>

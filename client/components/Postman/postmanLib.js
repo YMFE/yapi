@@ -11,6 +11,7 @@ exports.handleParams = handleParams;
 exports.handleContentType = handleContentType;
 exports.crossRequest = crossRequest;
 exports.handleCurrDomain = handleCurrDomain;
+exports.checkNameIsExistInArray = checkNameIsExistInArray;
 
 const ContentTypeMap = {
   'application/json': 'json',
@@ -44,6 +45,18 @@ function checkRequestBodyIsRaw(method, reqBodyType) {
     return reqBodyType;
   }
   return false;
+}
+
+function checkNameIsExistInArray(name, arr) {
+  let isRepeat = false;
+  for (let i = 0; i < arr.length; i++) {
+    let item = arr[i];
+    if (item.name === name) {
+      isRepeat = true
+      break;
+    }
+  }
+  return isRepeat;
 }
 
 
@@ -107,9 +120,9 @@ function crossRequest(defaultOptions, preScript, afterScript) {
     })
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
-    
+
   }
-  
+
 
   return new Promise((resolve, reject) => {
     options.error = options.success = function (res, header, data) {
