@@ -50,7 +50,7 @@ class groupController extends baseController {
         "*member_uids": member_uids
       },
       changeMemberRole: {
-        "*member_uids": member_uids,
+        "*member_uid": "number",
         "*id": id,
         role: role
       },
