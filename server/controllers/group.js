@@ -42,7 +42,7 @@ class groupController extends baseController {
       add: {
         "*group_name": group_name,
         "group_desc": group_desc,
-        "owner_uid": ['number']
+        "owner_uids": ['number']
       },
       addMember: {
         "*id": id,
@@ -61,10 +61,10 @@ class groupController extends baseController {
         "*id": id,
         "*member_uid": "number"
       },
-      del:{
+      del: {
         "*id": id
       },
-      up:{
+      up: {
         "*id": id,
         "*group_name": group_name,
         "group_desc": group_desc
@@ -115,6 +115,7 @@ class groupController extends baseController {
     }
 
     let owners = [];
+   
     if (params.owner_uids) {
       for (let i = 0, len = params.owner_uids.length; i < len; i++) {
         let id = params.owner_uids[i]
@@ -132,6 +133,8 @@ class groupController extends baseController {
     if (checkRepeat > 0) {
       return ctx.body = yapi.commons.resReturn(null, 401, '项目分组名已存在');
     }
+
+    
 
     let data = {
       group_name: params.group_name,
