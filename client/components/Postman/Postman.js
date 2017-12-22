@@ -93,6 +93,7 @@ export default class Run extends Component {
     let header = [].concat(env[index].header);
     header.forEach(item => {
       if (!this.checkNameIsExistInArray(item.name, req_header)) {
+        item.abled = true;
         req_header.push(item)
       }
     })
@@ -339,7 +340,7 @@ export default class Run extends Component {
       inputValue,
       hasPlugin } = this.state;
 
-
+    console.log('req_headers', req_headers);
 
     return (
       <div className="interface-test postman">
@@ -466,10 +467,11 @@ export default class Run extends Component {
                     <span className="eq-symbol">=</span>
                     <Input
                       value={item.value}
+                      disabled={!!item.abled}
                       className="value"
                       onChange={e => this.changeParam('req_headers', e.target.value, index)}
                       placeholder="参数值"
-                      addonAfter={<Icon type="edit" onClick={() => this.showModal(item.value, index, 'req_headers')} />}
+                      addonAfter={!item.abled && <Icon type="edit" onClick={() => this.showModal(item.value, index, 'req_headers')} />}
                     />
                   </div>
                 )

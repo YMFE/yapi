@@ -136,6 +136,9 @@ export default class InterfaceColMenu extends Component {
         this.props.history.push('/project/' + project_id + '/interface/case/' + id)
       }
     }
+    this.setState({
+      expands: null
+    })
   }
 
   showDelColConfirm = (colId) => {
@@ -221,7 +224,7 @@ export default class InterfaceColMenu extends Component {
             that.props.history.push('/project/' + params.id + '/interface/col/')
           } else {
             that.props.fetchInterfaceColList(that.props.match.params.id);
-            that.props.setColData({isRander: true })
+            that.props.setColData({ isRander: true })
           }
         } else {
           message.error(res.data.errmsg);
@@ -264,7 +267,7 @@ export default class InterfaceColMenu extends Component {
       this.setState({ importInterVisible: false })
       message.success('导入集合成功');
       await this.props.fetchInterfaceColList(project_id);
-      this.props.setColData({  isRander: true })
+      this.props.setColData({ isRander: true })
     } else {
       message.error(res.data.errmsg);
     }
@@ -319,7 +322,7 @@ export default class InterfaceColMenu extends Component {
 
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
-    const { colModalType, colModalVisible, filterValue, importInterVisible } = this.state;
+    const { colModalType, colModalVisible, importInterVisible } = this.state;
 
     // const menu = (col) => {
     //   return (
@@ -351,7 +354,7 @@ export default class InterfaceColMenu extends Component {
           }
           return {
             expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id],
-            selects: ['case_'+currCase._id + ""]
+            selects: ['case_' + currCase._id + ""]
           }
         } else {
           let col_id = router.params.actionId;
@@ -368,37 +371,34 @@ export default class InterfaceColMenu extends Component {
       }
     }
 
+    const item_interface_col_create = (interfaceCase) => {
+      // console.log('interfaceCase', interfaceCase);
+      return (
+        <TreeNode
+          style={{ width: '100%' }}
+          key={'case_' + interfaceCase._id}
+          title={
+            <div className="menu-title" title={interfaceCase.casename}>
+              <span className="casename">{interfaceCase.casename}</span>
+              <Tooltip title="删除用例">
+                <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} />
+              </Tooltip>
+            </div>
+          }
+        ></TreeNode>
+      )
+
+    }
+
     let currentKes = defaultExpandedKeys();
     // console.log('currentKey', currentKes)
 
-    let isFilterCat = false;
-    // console.log();
-    // let caseList = this.props.interfaceColList.caseList;
-    // if(caseList&&caseList.length>1){
-    //   caseList = caseList.sort((a,b)=>{
-    //     return a.index-b.index;
-    //   });
-    //   this.props.interfaceColList.caseList = caseList;
-    // }
-    const list = this.props.interfaceColList.filter(col => {
-      if (col.name.indexOf(filterValue) !== -1) {
-        isFilterCat = true;
-        return true;
-      }
-      isFilterCat = false;
-
-      let caseList = col.caseList.filter(item => {
-        return item.casename.indexOf(filterValue) !== -1
-      })
-
-      return caseList.length > 0;
-    });
-
-    let menuList = this.props.interfaceColList;
+  
+    let list = this.props.interfaceColList;
 
     if (this.state.filterValue) {
       let arr = [];
-      menuList = menuList.filter((item) => {
+      list = list.filter((item) => {
         let interfaceFilter = false;
         if (item.name.indexOf(this.state.filterValue) === -1) {
           item.caseList = item.caseList.filter(inter => {
@@ -421,8 +421,8 @@ export default class InterfaceColMenu extends Component {
       }
     }
 
-    console.log('list',menuList);
-    console.log('currentKey', currentKes)
+    // console.log('list', list);
+    // console.log('currentKey', currentKes)
 
     return (
       <div>
@@ -434,6 +434,8 @@ export default class InterfaceColMenu extends Component {
         </div>
         <Tree
           className="col-list-tree"
+          defaultExpandedKeys={currentKes.expands}
+          defaultSelectedKeys={currentKes.selects}
           expandedKeys={currentKes.expands}
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
@@ -469,29 +471,8 @@ export default class InterfaceColMenu extends Component {
                   </div>
                 }
               >
-                {
-                  col.caseList && col.caseList.filter((item) => {
-                    if (isFilterCat) {
-                      return true;
-                    }
-                    return item.casename.indexOf(filterValue) !== -1
-                  }).sort((a, b) => {
-                    return a.index - b.index;
-                  }).map((interfaceCase) => (
-                    <TreeNode
-                      style={{ width: '100%' }}
-                      key={'case_' + interfaceCase._id}
-                      title={
-                        <div className="menu-title" title={interfaceCase.casename}>
-                          <span className="casename">{interfaceCase.casename}</span>
-                          <Tooltip title="删除用例">
-                            <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} />
-                          </Tooltip>
-                        </div>
-                      }
-                    ></TreeNode>
-                  ))
-                }
+                {col.caseList.map(item_interface_col_create)}
+
               </TreeNode>
             ))
           }
