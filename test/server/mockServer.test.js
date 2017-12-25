@@ -32,10 +32,10 @@ test('matchApi', t => {
   });
 
   const apiRule_6 = '/user/a1={aaa}/ttt/b1={bbbb}';
-  let r6 = matchApi('/user/a1=a/ttt/b1=b', apiRule_6);
+  let r6 = matchApi('/user/a1=a/ttt/b1=bqqq', apiRule_6);
   t.deepEqual(r6, {
     aaa: 'a', 
-    bbbb: 'b' 
+    bbbb: 'bqqq' 
   });
 
 });
