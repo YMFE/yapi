@@ -1,8 +1,11 @@
 .panel-group {
   .row {
-    display: flex;
-    align-items: center;
-    margin-bottom: .16rem;
+    // display: flex;
+    // align-items: center;
+    margin-bottom: .24rem;
+  }
+  .save {
+    margin-top: .48rem
   }
   .left {
     flex: 100px 0 1;
@@ -10,5 +13,17 @@
   }
   .right {
     flex: 830px 0 1;
+  }
+  .label {
+    text-align: right;
+  }
+  .save-button{
+    text-align: center;
+  }
+
+  .custom-field-rule{
+    padding-top: 4px;
+    position: absolute;
+    color: #f5222d ;
   }
 }

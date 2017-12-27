@@ -57,13 +57,19 @@ const HTTP_METHOD_KEYS = Object.keys(HTTP_METHOD);
 const HTTP_REQUEST_HEADER = constants.HTTP_REQUEST_HEADER;
 
 @connect(
-  null,
+  state => {
+    return {
+      custom_field: state.group.field
+    }
+  },
   {
     changeEditStatus
   }
 )
 class InterfaceEditForm extends Component {
   static propTypes = {
+    custom_field: PropTypes.object,
+    groupList: PropTypes.array,
     form: PropTypes.object,
     curdata: PropTypes.object,
     mockUrl: PropTypes.string,
@@ -131,13 +137,15 @@ class InterfaceEditForm extends Component {
       res_body_mock: '',
       jsonType: 'tpl',
       mockUrl: this.props.mockUrl,
-      req_radio_type: 'req-query'
+      req_radio_type: 'req-query',
+      custom_field_value: ''
     }, curdata)
   }
 
   constructor(props) {
     super(props)
     const { curdata } = this.props;
+    // console.log('custom_field1', this.props.custom_field);
     this.state = this.initState(curdata);
   }
 
@@ -154,6 +162,7 @@ class InterfaceEditForm extends Component {
           })
         }, 3000)
         if (!err) {
+
           values.desc = this.editor.txt.html();
           if (values.res_body_type === 'json') {
             if (this.state.res_body && validJson(this.state.res_body) === false) {
@@ -223,6 +232,7 @@ class InterfaceEditForm extends Component {
           if (HTTP_METHOD[values.method].request_body !== true) {
             values.req_body_form = []
           }
+         
           this.props.onSubmit(values)
           EditFormContext.props.changeEditStatus(false);
         }
@@ -251,6 +261,8 @@ class InterfaceEditForm extends Component {
   }
 
   componentDidMount() {
+    // console.log('custom_field1', this.props.custom_field);
+
     EditFormContext = this;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
@@ -429,6 +441,7 @@ class InterfaceEditForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { custom_field } = this.props
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
@@ -624,6 +637,7 @@ class InterfaceEditForm extends Component {
     })
 
     const DEMOPATH = '/api/user/{id}'
+
     return (
       <Form onSubmit={this.handleSubmit}>
 
@@ -719,6 +733,17 @@ class InterfaceEditForm extends Component {
               </Select>
             )}
           </FormItem>
+          {
+            custom_field.enable && <FormItem
+              className="interface-edit-item"
+              {...formItemLayout}
+              label={custom_field.name}
+            >
+              {getFieldDecorator('custom_field_value', { initialValue: this.state.custom_field_value })(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          }
         </div>
 
 

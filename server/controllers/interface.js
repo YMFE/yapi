@@ -42,7 +42,7 @@ class interfaceController extends baseController {
         required: 'string'
       }],
       req_body_type: 'string',
-      req_params:[{
+      req_params: [{
         name: 'string',
         example: 'string',
         desc: 'string'
@@ -58,7 +58,8 @@ class interfaceController extends baseController {
       }],
       'req_body_other': 'string',
       res_body_type: 'string',
-      res_body: 'string'
+      res_body: 'string',
+      custom_field_value: 'string'
     }
 
     this.schemaMap = {
@@ -196,9 +197,9 @@ class interfaceController extends baseController {
       return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
     }
 
-
     try {
       let result = await this.Model.get(params.id);
+      // console.log('result', result);
       if (!result) {
         return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
       }
@@ -350,7 +351,7 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
-    // console.log('params', params.req_params);
+    console.log('params', params.custom_field_value);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';

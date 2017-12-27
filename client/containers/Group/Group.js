@@ -37,25 +37,25 @@ export default class Group extends Component {
     currGroup: PropTypes.object,
     curUserRoleInGroup: PropTypes.string
   }
-  onTabClick(key){
-    if(key == 3){
+  onTabClick(key) {
+    if (key == 3) {
       this.props.fetchNewsData(this.props.curGroupId, "group", 1, 10)
     }
   }
-  render () {
+  render() {
     const GroupContent = (
-      <Layout style={{minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px'}}>
+      <Layout style={{ minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px' }}>
         <Sider style={{ height: '100%' }} width={300}>
           <div className="logo" />
           <GroupList></GroupList>
         </Sider>
         <Layout>
-          <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial',backgroundColor: '#fff'}}>
-            <Tabs onTabClick={this.onTabClick.bind(this)} type="card" className="m-tab" style={{height: '100%'}}>
-              <TabPane tab="项目列表" key="1"><ProjectList/></TabPane>
-              {this.props.currGroup.type === 'public'?<TabPane tab="成员列表" key="2"><MemberList/></TabPane>:null}
-              {["admin","owner","guest","dev"].indexOf(this.props.curUserRoleInGroup)>-1 || this.props.curUserRole === "admin"?<TabPane tab="分组动态" key="3"><GroupLog/></TabPane>:""}
-              {(this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner') && this.props.currGroup.type !== 'private' ? <TabPane tab="分组设置" key="4"><GroupSetting/></TabPane> : null}
+          <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial', backgroundColor: '#fff' }}>
+            <Tabs onTabClick={this.onTabClick.bind(this)} type="card" className="m-tab" style={{ height: '100%' }}>
+              <TabPane tab="项目列表" key="1"><ProjectList /></TabPane>
+              {this.props.currGroup.type === 'public' ? <TabPane tab="成员列表" key="2"><MemberList /></TabPane> : null}
+              {["admin", "owner", "guest", "dev"].indexOf(this.props.curUserRoleInGroup) > -1 || this.props.curUserRole === "admin" ? <TabPane tab="分组动态" key="3"><GroupLog /></TabPane> : ""}
+              {(this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner') && this.props.currGroup.type !== 'private' ? <TabPane tab="分组设置" key="4"><GroupSetting /></TabPane> : null}
             </Tabs>
           </Content>
         </Layout>

@@ -46,6 +46,7 @@ export default class Project extends Component {
   async componentWillMount() {
     await this.props.getProject(this.props.match.params.id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.curProject.group_id);
+  
     this.setState({
       currGroup: groupMsg.payload.data.data
     })
@@ -93,8 +94,8 @@ export default class Project extends Component {
       name: routers.setting.name,
       path: `/project/${match.params.id}/setting`
     }];
-    if(this.state.currGroup.type === 'private'){
-      subnavData = subnavData.filter(item=>{
+    if (this.state.currGroup.type === 'private') {
+      subnavData = subnavData.filter(item => {
         return item.name != '成员管理'
       })
     }

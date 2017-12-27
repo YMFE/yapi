@@ -61,7 +61,10 @@ class interfaceModel extends baseModel {
         type: String,
         enum: ['json', 'text', 'xml', 'raw']
       },
-      res_body: String
+      res_body: String,
+      custom_field_value: String,
+      field2: String,
+      field3: String
     };
   }
 

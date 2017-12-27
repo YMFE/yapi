@@ -1,8 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { autobind } from 'core-decorators';
-import { Input, Button, message, Icon, Card, Alert, Modal } from 'antd';
+import { Input, Button, message, Icon, Card, Alert, Modal, Switch, Row, Col } from 'antd';
 import { fetchNewsData } from '../../../reducer/modules/news.js';
 import { changeGroupMsg, fetchGroupList, setCurrGroup, fetchGroupMsg, updateGroupList, deleteGroup } from '../../../reducer/modules/group.js';
 const { TextArea } = Input;
@@ -34,7 +33,10 @@ class GroupLog extends Component {
     this.state = {
       currGroupDesc: '',
       currGroupName: '',
-      showDangerOptions: false
+      showDangerOptions: false,
+      custom_field1_name: '',
+      custom_field1_enable: false,
+      custom_field1_rule: false
     }
   }
 
@@ -51,6 +53,16 @@ class GroupLog extends Component {
     groupList: PropTypes.array
   }
 
+  initState(props){
+    this.setState({
+      currGroupName: props.currGroup.group_name,
+      currGroupDesc: props.currGroup.group_desc,
+      custom_field1_name: props.currGroup.custom_field1.name,
+      custom_field1_enable: props.currGroup.custom_field1.enable
+    })
+
+  }
+
   // 修改分组名称
   changeName = (e) => {
     this.setState({
@@ -64,11 +76,30 @@ class GroupLog extends Component {
     })
   }
 
-  componentDidMount() {
+  // 修改自定义字段名称
+  changeCustomName = (e) => {
     this.setState({
-      currGroupName: this.props.currGroup.group_name,
-      currGroupDesc: this.props.currGroup.group_desc
+      custom_field1_name: e.target.value,
+      custom_field1_rule: !e.target.value
     })
+  }
+
+  // 修改开启状态
+  changeCustomEnable =(e)=>{
+    if(e){
+      console.log('name',this.state.custom_field1_name);
+      this.setState({
+        custom_field1_rule: !this.state.custom_field1_name
+      })
+    }
+    this.setState({
+      custom_field1_enable: e
+    })
+  }
+
+  componentDidMount() {
+    // console.log('custom_field1',this.props.currGroup.custom_field1)
+    this.initState(this.props);
   }
 
   // 点击“查看危险操作”按钮
@@ -80,20 +111,27 @@ class GroupLog extends Component {
   }
 
   // 编辑分组信息
-  @autobind
-  async editGroup() {
+  editGroup = async () => {
     const id = this.props.currGroup._id;
+    
+    if(this.state.custom_field1_rule){
+      return 
+    }
     const res = await this.props.changeGroupMsg({
       group_name: this.state.currGroupName,
       group_desc: this.state.currGroupDesc,
+      custom_field1: {
+        name: this.state.custom_field1_name,
+        enable: this.state.custom_field1_enable
+      },
       id: this.props.currGroup._id
     });
+    
     if (!res.payload.data.errcode) {
       message.success('修改成功！');
       await this.props.fetchGroupList(this.props.groupList);
       this.props.updateGroupList(this.props.groupList)
       const currGroup = _.find(this.props.groupList, (group) => { return + group._id === + id });
-
       this.props.setCurrGroup(currGroup);
       this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, "group", 1, 10)
@@ -101,8 +139,8 @@ class GroupLog extends Component {
   }
 
   // 删除分组
-  @autobind
-  async deleteGroup() {
+
+  deleteGroup = async () => {
     const that = this;
     const { currGroup } = that.props;
     const res = await this.props.deleteGroup({ id: currGroup._id });
@@ -147,51 +185,62 @@ class GroupLog extends Component {
   componentWillReceiveProps(nextProps) {
     // 切换分组时，更新分组信息并关闭删除分组操作
     if (this.props.currGroup._id !== nextProps.currGroup._id) {
+      this.initState(nextProps);
       this.setState({
-        showDangerOptions: false,
-        currGroupName: nextProps.currGroup.group_name,
-        currGroupDesc: nextProps.currGroup.group_desc
+        showDangerOptions: false
       })
     }
   }
 
-  render () {
+  render() {
     return (
       <div className="m-panel card-panel card-panel-s panel-group">
-        <div>
-          <div className="row">
-            <div className="left"><div className="label">分组名：</div></div>
-            <div className="right">
-              <Input size="large" placeholder="请输入分组名称" value={this.state.currGroupName} onChange={this.changeName}></Input>
-            </div>
-          </div>
-          <div className="row">
-            <div className="left"><div className="label">简介：</div></div>
-            <div className="right">
-              <TextArea size="large" rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={this.changeDesc}></TextArea>
-            </div>
-          </div>
-          <div className="row">
-            <div className="left"></div>
-            <div className="right"><Button type="primary" onClick={this.editGroup}>保存</Button></div>
-          </div>
-        </div>
+        <Row type="flex" justify="space-around" className="row" align="middle">
+          <Col span={4} className="label">分组名：</Col>
+          <Col span={20}>
+            <Input size="large" placeholder="请输入分组名称" value={this.state.currGroupName} onChange={this.changeName}></Input>
+          </Col>
+        </Row>
+        <Row type="flex" justify="space-around" className="row" align="middle">
+          <Col span={4} className="label">简介：</Col>
+          <Col span={20}>
+            <TextArea size="large" rows={3} placeholder="请输入分组描述" value={this.state.currGroupDesc} onChange={this.changeDesc}></TextArea>
+          </Col>
+        </Row>
+        <Row type="flex" justify="space-around" className="row" align="middle">
+          <Col span={4} className="label">接口自定义字段：</Col>
+          <Col span={12} style={{position: 'relative'}}>
+            <Input placeholder="请输入自定义字段名称" value={this.state.custom_field1_name} onChange={this.changeCustomName}/>
+            <div className ="custom-field-rule" style={{ display: this.state.custom_field1_rule  ? 'block' : 'none'}}>自定义字段名称不能为空</div>                  
+          </Col>
+          <Col span={2} className="label">开启：</Col>
+          <Col span={6}>
+            <Switch checked={this.state.custom_field1_enable} checkedChildren="开" unCheckedChildren="关" onChange={this.changeCustomEnable}/>
+          </Col>
+          
+        </Row>
+        <Row type="flex" justify="center" className="row save">
+          <Col span={4} className="save-button">
+            <Button type="primary" onClick={this.editGroup}>保存</Button>
+          </Col>
+        </Row>
         {/* 只有超级管理员能删除分组 */}
         {this.props.curUserRole === "admin" ?
-          <div className="danger-container">
-            <div className="title">
+          <Row type="flex" justify="center" className="danger-container">
+            <Col span={24} className="title">
               <h2 className="content"><Icon type="exclamation-circle-o" /> 危险操作</h2>
               <Button onClick={this.toggleDangerOptions}>查 看<Icon type={this.state.showDangerOptions ? 'up' : 'down'} /></Button>
-            </div>
-            {this.state.showDangerOptions ? <Card noHovering={true} className="card-danger">
-              <div className="card-danger-content">
-                <h3>删除分组</h3>
-                <p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
-                <p>只有超级管理员有权限删除分组。</p>
-              </div>
-              <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
-            </Card> : null}
-          </div> : null}
+            </Col>
+            {this.state.showDangerOptions ?
+              <Card noHovering={true} className="card-danger" style={{ width: '100%' }}>
+                <div className="card-danger-content">
+                  <h3>删除分组</h3>
+                  <p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
+                  <p>只有超级管理员有权限删除分组。</p>
+                </div>
+                <Button type="danger" ghost className="card-danger-btn" onClick={this.showConfirm}>删除</Button>
+              </Card> : null}
+          </Row> : null}
       </div>
     )
   }

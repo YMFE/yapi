@@ -17,7 +17,15 @@ const initialState = {
   groupList: [],
   currGroup: {
     group_name: '',
-    group_desc: ''
+    group_desc: '',
+    custom_field1: {
+      name: '',
+      enable: false
+    }
+  },
+  field: {
+    name: '',
+    enable: false
   },
   member: [],
   role: ''
@@ -50,9 +58,15 @@ export default (state = initialState, action) => {
       };
     }
     case FETCH_GROUP_MSG: {
+      // const {role,group_name,group_desc,} = action.payload.data.data
       return {
         ...state,
-        role: action.payload.data.data.role
+        role: action.payload.data.data.role,
+        field: {
+          name: action.payload.data.data.custom_field1.name,
+          enable: action.payload.data.data.custom_field1.enable
+        }
+
       };
     }
 

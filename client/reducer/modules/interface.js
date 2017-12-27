@@ -22,11 +22,11 @@ export default (state = initialState, action) => {
     case INIT_INTERFACE_DATA:
       return initialState
     case UPDATE_INTERFACE_DATA:
+     
       return {
         ...state,
         curdata: Object.assign({}, state.curdata, action.updata)
       }
-
     case FETCH_INTERFACE_DATA:
       return {
         ...state,
@@ -56,7 +56,7 @@ export function changeEditStatus(status) {
   }
 }
 
-export function initInterface(){
+export function initInterface() {
   return {
     type: INIT_INTERFACE_DATA
   }
@@ -74,7 +74,7 @@ export function updateInterfaceData(updata) {
 }
 
 export async function deleteInterfaceData(id) {
-  let result =  await axios.post('/api/interface/del', { id: id })
+  let result = await axios.post('/api/interface/del', { id: id })
   return {
     type: DELETE_INTERFACE_DATA,
     payload: result

@@ -35,6 +35,8 @@ class groupController extends baseController {
       minItems: 1
     }
 
+    
+
     this.schemaMap = {
       get: {
         "*id": id
@@ -67,7 +69,19 @@ class groupController extends baseController {
       up: {
         "*id": id,
         "*group_name": group_name,
-        "group_desc": group_desc
+        "group_desc": group_desc,
+        "custom_field1": {
+          name: 'string',
+          enable: 'boolen'
+        },
+        "custom_field2": {
+          name: 'string',
+          enable: 'boolen'
+        },
+        "custom_field3": {
+          name: 'string',
+          enable: 'boolen'
+        }
       }
     }
   }

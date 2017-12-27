@@ -2,145 +2,162 @@ const yapi = require('../yapi.js');
 const baseModel = require('./base.js');
 
 class groupModel extends baseModel {
-    getName() {
-        return 'group';
-    }
+  getName() {
+    return 'group';
+  }
 
-    getSchema() {
-        return {
-            uid: Number,
-            group_name: String,
-            group_desc: String,
-            add_time: Number,
-            up_time: Number,
-            type: {type: String, default: 'public', enum: ['public', 'private']},
-            members: [
-                {
-                    uid: Number,
-                    role: {type: String, enum: ['owner', 'dev']},
-                    username: String,
-                    email: String
-                }
-            ]            
-        };
-    }
+  getSchema() {
+    return {
+      uid: Number,
+      group_name: String,
+      group_desc: String,
+      add_time: Number,
+      up_time: Number,
+      type: { type: String, default: 'public', enum: ['public', 'private'] },
+      members: [
+        {
+          uid: Number,
+          role: { type: String, enum: ['owner', 'dev'] },
+          username: String,
+          email: String
+        }
+      ],
 
-    save(data) {
-        let m = new this.model(data);
-        return m.save();
-    }
+      custom_field1: {
+        name: String,
+        enable: { type: Boolean, default: false }
+      },
+      custom_field2: {
+        name: String,
+        enable: { type: Boolean, default: false }
+      },
+      custom_field3: {
+        name: String,
+        enable: { type: Boolean, default: false }
+      }
 
-    get(id) {
-        return this.model.findOne({
-            _id: id
-        }).exec();
-    }
+    };
+  }
 
-    updateMember(data) {
-        return this.model.update(
-            {
-                "members.uid": data.uid
-            }, {
-                "$set": {
-                    "members.$.username": data.username,
-                    "members.$.email": data.email
-                }
-            }, {multi: true}
-        );
-    }
+  save(data) {
+    let m = new this.model(data);
+    return m.save();
+  }
 
-    getByPrivateUid(uid) {
-        return this.model.findOne({
-            uid: uid,
-            type: 'private'
-        }).select('group_name _id group_desc add_time up_time type').exec();
-    }
+  get(id) {
+    return this.model.findOne({
+      _id: id
+    }).exec();
+  }
 
-    getGroupById(id) {
-        return this.model.findOne({
-            _id: id
-        }).select("uid group_name group_desc add_time up_time type").exec();
-    }
+  updateMember(data) {
+    return this.model.update(
+      {
+        "members.uid": data.uid
+      }, {
+        "$set": {
+          "members.$.username": data.username,
+          "members.$.email": data.email
+        }
+      }, { multi: true }
+    );
+  }
 
-    checkRepeat(name) {
-        return this.model.count({
-            group_name: name
-        });
-    }
-    //  分组数量统计
-    getGroupListCount() {
-        return this.model.count({ type: 'public' });
-    }
+  getByPrivateUid(uid) {
+    return this.model.findOne({
+      uid: uid,
+      type: 'private'
+    }).select('group_name _id group_desc add_time up_time type custom_field1').exec();
+  }
 
-    addMember(id, data) {
-        return this.model.update(
-            {
-                _id: id
-            }, {
-                // $push: { members: data },
-                $push: {members: {$each: data}}
-            }
-        );
-    }
+  getGroupById(id) {
+    return this.model.findOne({
+      _id: id
+    }).select("uid group_name group_desc add_time up_time type custom_field1").exec();
+  }
 
-    delMember(id, uid) {
-        return this.model.update(
-            {
-                _id: id
-            }, {
-                $pull: {members: {uid: uid}}
-            }
-        );
-    }
+  checkRepeat(name) {
+    return this.model.count({
+      group_name: name
+    });
+  }
+  //  分组数量统计
+  getGroupListCount() {
+    return this.model.count({ type: 'public' });
+  }
 
-    changeMemberRole(id, uid, role) {
-        return this.model.update(
-            {
-                _id: id,
-                "members.uid": uid
-            }, {
-                "$set": {"members.$.role": role}
-            }
-        );
-    }
+  addMember(id, data) {
+    return this.model.update(
+      {
+        _id: id
+      }, {
+        // $push: { members: data },
+        $push: { members: { $each: data } }
+      }
+    );
+  }
 
-    checkMemberRepeat(id, uid) {
-        return this.model.count({
-            _id: id,
-            "members.uid": uid
-        });
-    }
+  delMember(id, uid) {
+    return this.model.update(
+      {
+        _id: id
+      }, {
+        $pull: { members: { uid: uid } }
+      }
+    );
+  }
 
-    list() {
-        return this.model.find({
-            type: 'public'
-        }).select('group_name _id group_desc add_time up_time type uid').exec();
-    }
+  changeMemberRole(id, uid, role) {
+    return this.model.update(
+      {
+        _id: id,
+        "members.uid": uid
+      }, {
+        "$set": { "members.$.role": role }
+      }
+    );
+  }
 
-    del(id) {
-        return this.model.remove({
-            _id: id
-        });
-    }
+  checkMemberRepeat(id, uid) {
+    return this.model.count({
+      _id: id,
+      "members.uid": uid
+    });
+  }
 
-    up(id, data) {
-        return this.model.update(
-            {
-                _id: id
-            }, {
-                group_name: data.group_name,
-                group_desc: data.group_desc,
-                up_time: yapi.commons.time()
-            }
-        );
-    }
+  list() {
+    return this.model.find({
+      type: 'public'
+    }).select('group_name _id group_desc add_time up_time type uid custom_field1').exec();
+  }
 
-    search(keyword) {
-        return this.model.find({
-            group_name: new RegExp(keyword, 'i')
-        })
-            .limit(10);
-    }
+  del(id) {
+    return this.model.remove({
+      _id: id
+    });
+  }
+
+  up(id, data) {
+    let fields = JSON.parse(JSON.stringify(data.custom_field1))
+    return this.model.update(
+      {
+        _id: id
+      }, {
+        custom_field1: fields,
+        group_name: data.group_name,
+        group_desc: data.group_desc,
+        up_time: yapi.commons.time()
+
+      }
+    );
+  }
+
+  search(keyword) {
+    return this.model.find({
+      group_name: new RegExp(keyword, 'i')
+    })
+      .limit(10);
+  }
 }
 
 module.exports = groupModel;

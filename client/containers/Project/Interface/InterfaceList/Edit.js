@@ -48,6 +48,7 @@ class InterfaceEdit extends Component {
     this.props.fetchInterfaceList(this.props.currProject._id).then();
     this.props.fetchInterfaceData(params.id).then()
     if (result.data.errcode === 0) {
+      
       this.props.updateInterfaceData(params);
       message.success('保存成功');
     } else {

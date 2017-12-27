@@ -16,6 +16,7 @@ const HTTP_METHOD = constants.HTTP_METHOD;
 @connect(state => {
   return {
     curData: state.inter.curdata,
+    custom_field: state.group.field,
     currProject: state.project.currProject
   }
 })
@@ -29,12 +30,11 @@ class View extends Component {
   }
   static propTypes = {
     curData: PropTypes.object,
-    currProject: PropTypes.object
+    currProject: PropTypes.object,
+    custom_field: PropTypes.object
   }
 
   req_body_form(req_body_type, req_body_form) {
-
-
 
     if (req_body_type === 'form') {
 
@@ -62,14 +62,14 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
       }, {
         title: '备注',
         dataIndex: 'value',
         key: 'value',
         render(_, item) {
-          return <p style={{whiteSpace: 'pre-wrap'}}>{item.value}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>;
         }
       }];
 
@@ -96,12 +96,12 @@ class View extends Component {
   res_body(res_body_type, res_body) {
     if (res_body_type === 'json') {
 
-      return <div  className="colBody">
+      return <div className="colBody">
         {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
         <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }} />
       </div>
     } else if (res_body_type === 'raw') {
-      return <div  className="colBody">
+      return <div className="colBody">
         <AceEditor data={res_body} readOnly={true} mode="text" style={{ minHeight: 300 }} />
       </div>
     }
@@ -123,14 +123,14 @@ class View extends Component {
       dataIndex: 'example',
       key: 'example',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
       }
     }, {
       title: '备注',
       dataIndex: 'value',
       key: 'value',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.value}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>;
       }
     }];
 
@@ -208,14 +208,14 @@ class View extends Component {
       dataIndex: 'example',
       key: 'example',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
       }
     }, {
       title: '备注',
       dataIndex: 'desc',
       key: 'desc',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.desc}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>;
       }
     }];
 
@@ -239,14 +239,14 @@ class View extends Component {
       dataIndex: 'example',
       key: 'example',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.example}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
       }
     }, {
       title: '备注',
       dataIndex: 'desc',
       key: 'desc',
       render(_, item) {
-        return <p style={{whiteSpace: 'pre-wrap'}}>{item.desc}</p>;
+        return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>;
       }
     }];
     let status = {
@@ -254,17 +254,18 @@ class View extends Component {
       done: "已完成"
     }
 
-    let requestShow = (dataSource&& dataSource.length) || (req_dataSource && req_dataSource.length) || (this.props.curData.req_query && this.props.curData.req_query.length) || (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
+    let requestShow = (dataSource && dataSource.length) || (req_dataSource && req_dataSource.length) || (this.props.curData.req_query && this.props.curData.req_query.length) || (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
     let methodColor = variable.METHOD_COLOR[this.props.curData.method ? this.props.curData.method.toLowerCase() : "get"];
 
     let bodyShow = (this.props.curData.req_body_other) || (this.props.curData.req_body_form && this.props.curData.req_body_form.length);
- 
+
 
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
-    const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form" ) ? "block" : "none" }} className="colBody">
+    const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form") ? "block" : "none" }} className="colBody">
       <AceEditor data={this.props.curData.req_body_other} style={{ minHeight: 300 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
     </div>
     if (!methodColor) methodColor = "get";
+   
     let res = <div className="caseContainer">
       <h2 className="interface-title" style={{ marginTop: 0 }}>基本信息</h2>
       <div className="panel-view">
@@ -292,11 +293,16 @@ class View extends Component {
           <Col span={18} className="colValue href">
             <span onClick={() => window.open(location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`, '_blank')}>{location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`}</span></Col>
         </Row>
-        {this.props.curData.desc ?
+        {this.props.curData.desc &&
           <Row className="row remark">
             <Col span={4} className="colKey">接口备注：</Col>
             <Col span={18} className="colValue" dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></Col>
-          </Row> : ""}
+          </Row>}
+        {this.props.curData.custom_field_value && this.props.custom_field.enable &&
+          <Row className="row remark">
+            <Col span={4} className="colKey">{this.props.custom_field.name}：</Col>
+            <Col span={18} className="colValue">{this.props.curData.custom_field_value}</Col>
+          </Row>}
       </div>
       <h2
         className="interface-title"
@@ -317,10 +323,10 @@ class View extends Component {
         {this.req_query(this.props.curData.req_query)}
       </div> : ""}
 
-      <div style={{display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none'}}>
-        <h3 style={{display: bodyShow? '' : 'none'}} className="col-title">Body:</h3>
-        { aceEditor }
-        { 
+      <div style={{ display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none' }}>
+        <h3 style={{ display: bodyShow ? '' : 'none' }} className="col-title">Body:</h3>
+        {aceEditor}
+        {
           this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
         }
       </div>
