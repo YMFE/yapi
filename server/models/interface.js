@@ -5,6 +5,7 @@ class interfaceModel extends baseModel {
   getName() {
     return 'interface';
   }
+  
 
   getSchema() {
     return {
@@ -68,6 +69,7 @@ class interfaceModel extends baseModel {
     };
   }
 
+  
   save(data) {
     let m = new this.model(data);
     return m.save();
@@ -189,6 +191,15 @@ class interfaceModel extends baseModel {
       { edit_uid: uid },
       { runValidators: true });
   }
+  getcustomFieldValue(id,value) {
+    return this.model.find({
+      project_id: id,
+      custom_field_value: value
+    })
+    .select('title uid path method edit_uid status desc add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type res_body custom_field_value')
+      .exec();
+  }
+
 
 }
 

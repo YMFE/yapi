@@ -297,6 +297,11 @@ let routerConfig = {
 			action: 'delCat',
 			path: 'del_cat',
 			method: 'post'
+    },
+    {
+			action: 'getCustomField',
+			path: 'get_custom_field',
+			method: 'get'
 		}
 	],
 	"log": [

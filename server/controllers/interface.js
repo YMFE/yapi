@@ -2,6 +2,7 @@ const interfaceModel = require('../models/interface.js');
 const interfaceCatModel = require('../models/interfaceCat.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const followModel = require('../models/follow.js');
+const groupModel = require('../models/group.js')
 const _ = require('underscore');
 const url = require('url');
 const baseController = require('./base.js');
@@ -18,6 +19,7 @@ class interfaceController extends baseController {
     this.caseModel = yapi.getInst(interfaceCaseModel);
     this.followModel = yapi.getInst(followModel);
     this.userModel = yapi.getInst(userModel);
+    this.groupModel = yapi.getInst(groupModel);
 
     const minLengthStringField = {
       type: 'string',
@@ -682,6 +684,64 @@ class interfaceController extends baseController {
       yapi.commons.resReturn(null, 400, e.message);
     }
   }
+
+  /**
+   * 获取自定义接口字段数据
+   * @interface /interface/get_custom_field
+   * @method GET
+   * @category interface
+   * @foldnumber 10
+   * @param {String}   app_code = '111'
+   * @returns {Object}
+   * 
+   */
+  async getCustomField(ctx) {
+    let params = ctx.request.query
+
+    if (Object.keys(params).length !== 1) {
+      return ctx.body = yapi.commons.resReturn(null, 400, '参数数量错误');
+    }
+    let customFieldName = Object.keys(params)[0];
+    let customFieldValue = params[customFieldName];
+
+    try {
+
+      //  查找有customFieldName的分组（group）
+      let groups = await this.groupModel.getcustomFieldName(customFieldName)
+      if (groups.length === 0) {
+        return ctx.body = yapi.commons.resReturn(null, 404, '没有找到对应自定义接口');
+      }
+
+      // 在每个分组（group）下查找对应project的id值
+      let interfaces = [];
+      for (let i = 0; i < groups.length; i++) {
+        let projects = await this.projectModel.list(groups[i]._id);
+
+        // 在每个项目（project）中查找interface下的custom_field_value
+        for (let j = 0; j < projects.length; j++) {
+          let data = {}
+          let inter = await this.Model.getcustomFieldValue(projects[j]._id, customFieldValue)
+          if (inter.length > 0) {
+            data.project_name = projects[j].name
+            inter = inter.map((item,i) => {
+              item = inter[i] = inter[i].toObject();
+              item.res_body = yapi.commons.json_parse(item.res_body)
+              item.req_body_other = yapi.commons.json_parse(item.req_body_other)
+    
+              return item
+            })
+
+            data.list = inter;
+            interfaces.push(data);
+          }
+        }
+      }
+      return ctx.body = yapi.commons.resReturn(interfaces);
+    } catch (e) {
+      yapi.commons.resReturn(null, 400, e.message);
+    }
+  }
+
 
   sendNotice(projectId, data) {
     this.followModel.listByProjectId(projectId).then(list => {

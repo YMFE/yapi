@@ -152,6 +152,13 @@ class groupModel extends baseModel {
     );
   }
 
+  getcustomFieldName(name) {
+    return this.model.find({
+      "custom_field1.name": name,
+      "custom_field1.enable": true
+    }).select('_id').exec();
+  }
+
   search(keyword) {
     return this.model.find({
       group_name: new RegExp(keyword, 'i')
