@@ -37,7 +37,7 @@ export default class Group extends Component {
     currGroup: PropTypes.object,
     curUserRoleInGroup: PropTypes.string
   }
-  onTabClick(key) {
+  onTabClick=(key)=> {
     if (key == 3) {
       this.props.fetchNewsData(this.props.curGroupId, "group", 1, 10)
     }
@@ -51,7 +51,7 @@ export default class Group extends Component {
         </Sider>
         <Layout>
           <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial', backgroundColor: '#fff' }}>
-            <Tabs onTabClick={this.onTabClick.bind(this)} type="card" className="m-tab" style={{ height: '100%' }}>
+            <Tabs onTabClick={this.onTabClick} type="card" className="m-tab" style={{ height: '100%' }}>
               <TabPane tab="项目列表" key="1"><ProjectList /></TabPane>
               {this.props.currGroup.type === 'public' ? <TabPane tab="成员列表" key="2"><MemberList /></TabPane> : null}
               {["admin", "owner", "guest", "dev"].indexOf(this.props.curUserRoleInGroup) > -1 || this.props.curUserRole === "admin" ? <TabPane tab="分组动态" key="3"><GroupLog /></TabPane> : ""}

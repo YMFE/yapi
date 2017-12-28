@@ -27,7 +27,7 @@ const confirm = Modal.confirm;
     deleteGroup
   }
 )
-class GroupLog extends Component {
+class GroupSetting extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class GroupLog extends Component {
     groupList: PropTypes.array
   }
 
-  initState(props){
+  initState(props) {
     this.setState({
       currGroupName: props.currGroup.group_name,
       currGroupDesc: props.currGroup.group_desc,
@@ -78,26 +78,24 @@ class GroupLog extends Component {
 
   // 修改自定义字段名称
   changeCustomName = (e) => {
+    let custom_field1_rule = this.state.custom_field1_enable ? !e.target.value : false;
     this.setState({
       custom_field1_name: e.target.value,
-      custom_field1_rule: !e.target.value
+      custom_field1_rule
     })
   }
 
   // 修改开启状态
-  changeCustomEnable =(e)=>{
-    if(e){
-      console.log('name',this.state.custom_field1_name);
-      this.setState({
-        custom_field1_rule: !this.state.custom_field1_name
-      })
-    }
+  changeCustomEnable = (e) => {
+    let custom_field1_rule = e ? !this.state.custom_field1_name : false;
     this.setState({
-      custom_field1_enable: e
+      custom_field1_enable: e,
+      custom_field1_rule
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    console.log('didMount');
     // console.log('custom_field1',this.props.currGroup.custom_field1)
     this.initState(this.props);
   }
@@ -113,9 +111,9 @@ class GroupLog extends Component {
   // 编辑分组信息
   editGroup = async () => {
     const id = this.props.currGroup._id;
-    
-    if(this.state.custom_field1_rule){
-      return 
+    console.log('rule', this.state.custom_field1_rule);
+    if (this.state.custom_field1_rule) {
+      return
     }
     const res = await this.props.changeGroupMsg({
       group_name: this.state.currGroupName,
@@ -126,7 +124,7 @@ class GroupLog extends Component {
       },
       id: this.props.currGroup._id
     });
-    
+
     if (!res.payload.data.errcode) {
       message.success('修改成功！');
       await this.props.fetchGroupList(this.props.groupList);
@@ -183,6 +181,7 @@ class GroupLog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('will');
     // 切换分组时，更新分组信息并关闭删除分组操作
     if (this.props.currGroup._id !== nextProps.currGroup._id) {
       this.initState(nextProps);
@@ -209,19 +208,19 @@ class GroupLog extends Component {
         </Row>
         <Row type="flex" justify="space-around" className="row" align="middle">
           <Col span={4} className="label">接口自定义字段：</Col>
-          <Col span={12} style={{position: 'relative'}}>
-            <Input placeholder="请输入自定义字段名称" value={this.state.custom_field1_name} onChange={this.changeCustomName}/>
-            <div className ="custom-field-rule" style={{ display: this.state.custom_field1_rule  ? 'block' : 'none'}}>自定义字段名称不能为空</div>                  
+          <Col span={12} style={{ position: 'relative' }}>
+            <Input placeholder="请输入自定义字段名称" value={this.state.custom_field1_name} onChange={this.changeCustomName} />
+            <div className="custom-field-rule" style={{ display: this.state.custom_field1_rule ? 'block' : 'none' }}>自定义字段名称不能为空</div>
           </Col>
           <Col span={2} className="label">开启：</Col>
           <Col span={6}>
-            <Switch checked={this.state.custom_field1_enable} checkedChildren="开" unCheckedChildren="关" onChange={this.changeCustomEnable}/>
+            <Switch checked={this.state.custom_field1_enable} checkedChildren="开" unCheckedChildren="关" onChange={this.changeCustomEnable} />
           </Col>
-          
+
         </Row>
         <Row type="flex" justify="center" className="row save">
           <Col span={4} className="save-button">
-            <Button type="primary" onClick={this.editGroup}>保存</Button>
+            <Button className="m-btn btn-save" icon="save" type="primary" onClick={this.editGroup} >保 存</Button>
           </Col>
         </Row>
         {/* 只有超级管理员能删除分组 */}
@@ -246,4 +245,4 @@ class GroupLog extends Component {
   }
 }
 
-export default GroupLog;
+export default GroupSetting;
