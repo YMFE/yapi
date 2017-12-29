@@ -95,7 +95,7 @@ class GroupSetting extends Component {
   }
 
   componentWillMount() {
-    console.log('didMount');
+    
     // console.log('custom_field1',this.props.currGroup.custom_field1)
     this.initState(this.props);
   }
@@ -111,7 +111,6 @@ class GroupSetting extends Component {
   // 编辑分组信息
   editGroup = async () => {
     const id = this.props.currGroup._id;
-    console.log('rule', this.state.custom_field1_rule);
     if (this.state.custom_field1_rule) {
       return
     }
@@ -181,7 +180,7 @@ class GroupSetting extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('will');
+    
     // 切换分组时，更新分组信息并关闭删除分组操作
     if (this.props.currGroup._id !== nextProps.currGroup._id) {
       this.initState(nextProps);

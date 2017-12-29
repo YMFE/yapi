@@ -353,7 +353,6 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
-    console.log('params', params.custom_field_value);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';

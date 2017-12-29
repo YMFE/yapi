@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
       };
     }
     case LOGIN: {
-      console.log('data',action.payload.data);
+      
       if (action.payload.data.errcode === 0) {
         return {
           ...state,

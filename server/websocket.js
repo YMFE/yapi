@@ -26,9 +26,6 @@ function websocket(app) {
 
   yapi.emitHookSync('add_ws_router', addPluginRouter);
 
-
-
-
   app.ws.use(router.routes())
   app.ws.use(router.allowedMethods());
   app.ws.use(function (ctx, next) {

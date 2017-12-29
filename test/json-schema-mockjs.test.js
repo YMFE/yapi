@@ -1,22 +1,22 @@
 import test from 'ava';
 const jsm = require('../common/json-schema-mockjs.js');
 
-test('jsmBase', t=>{
+test('jsmBase', t => {
   let json1 = {
     "title": "Person",
     "type": "object",
     "properties": {
-        "firstName": {
-            "type": "string"
-        },
-        "lastName": {
-            "type": "string"
-        },
-        "age": {
-            "description": "Age in years",
-            "type": "integer",
-            "minimum": 0
-        }
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "age": {
+        "description": "Age in years",
+        "type": "integer",
+        "minimum": 0
+      }
     },
     "required": ["firstName", "lastName"]
   };
@@ -27,7 +27,7 @@ test('jsmBase', t=>{
   });
 })
 
-test('jsmRef', t=>{
+test('jsmRef', t => {
   let json2 = {
     "$ref": "#/definitions/Pet",
     "definitions": {
@@ -68,19 +68,31 @@ test('jsmRef', t=>{
           "name": "Order"
         }
       },
+      "Category2": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/definitions/ApiResponse"
+          },
+          "id": {
+            "$ref": "#/definitions/ApiResponse"
+          }
+        }
+      },
+      "Category3": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          }
+        }
+      },
       "Category": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
+            "$ref": "#/definitions/Category2"
           }
-        },
-        "xml": {
-          "name": "Category"
         }
       },
       "User": {
@@ -140,10 +152,6 @@ test('jsmRef', t=>{
           "photoUrls"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
           "category": {
             "$ref": "#/definitions/Category"
           },
@@ -189,10 +197,19 @@ test('jsmRef', t=>{
   }
 
   const destJson2 = {
-    id: '@integer',
     category: {
-      id: '@integer',
-      name: '@string'
+      id: {
+        name: {
+          message: '@string',
+          type: '@string',
+          code: '@integer'
+        },
+        id: {
+          message: '@string',
+          type: '@string',
+          code: '@integer'
+        }
+      }
     },
     name: '@string',
     photoUrls: ['@string'],
@@ -201,4 +218,180 @@ test('jsmRef', t=>{
   t.deepEqual(jsm(json2), destJson2);
 
 
+})
+
+test('jsmRef2', t => {
+  let json3 = {
+    "$ref": "#/definitions/Response",
+    "definitions": {
+      "Result": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/ProductByTagRuleResVo"
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "required": [
+          "code",
+          "msg"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "响应编码OK"
+          },
+          "info": {
+            "$ref": "#/definitions/Result"
+          },
+          "msg": {
+            "type": "string",
+            "description": "错误描述"
+          }
+        }
+      },
+      "ProductByTagRuleResVo": {
+        "type": "object",
+        "properties": {
+          "product_info": {
+            "$ref": "#/definitions/ProductInfoAll"
+          },
+          "product_image": {
+            "$ref": "#/definitions/imageItems"
+          },
+          "product_category": {
+            "$ref": "#/definitions/Category"
+          }
+
+        }
+      },
+      "ProductInfoAll": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": "string",
+            "description": "中文颜色"
+          }
+        }
+      },
+      "imageItems": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "imageid"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "分类名称"
+          }
+        }
+      }
+
+
+    }
+  }
+
+  // let json3 = {
+  //   "$ref": "#/definitions/Response",
+  //   "definitions": {
+  //     "Response": {
+  //       "type": "object",
+  //       "required": [
+  //         "code",
+  //         "msg"
+  //       ],
+  //       "properties": {
+  //         "code": {
+  //           "type": "string",
+  //           "description": "响应编码OK"
+  //         },
+  //         "info": {
+  //           "$ref": "#/definitions/Result"
+  //         },
+  //         "msg": {
+  //           "type": "string",
+  //           "description": "错误描述"
+  //         }
+  //       }
+  //     },
+  //     "Result": {
+  //       "type": "object",
+  //       "properties": {
+  //         "data": {
+  //           "$ref": "#/definitions/ProductByTagRuleResVo"
+  //         }
+  //       }
+  //     },
+  //     "ProductByTagRuleResVo": {
+  //       "type": "object",
+  //       "properties": {
+  //         "product_info": {
+  //           "$ref": "#/definitions/ProductInfoAll"
+  //         },
+  //         "product_image": {
+  //           "$ref": "#/definitions/imageItems"
+  //         },
+  //         "product_category": {
+  //           "$ref": "#/definitions/Category"
+  //         }
+  //       }
+  //     },
+  //     "ProductInfoAll": {
+  //       "type": "object",
+  //       "properties": {
+  //         "color": {
+  //           "type": "string",
+  //           "description": "中文颜色"
+  //         }
+  //       }
+  //     },
+  //     "imageItems": {
+  //       "type": "object",
+  //       "properties": {
+  //         "id": {
+  //           "type": "string",
+  //           "description": "imageid"
+  //         }
+  //       }
+  //     },
+  //     "Category": {
+  //       "type": "object",
+  //       "properties": {
+  //         "name": {
+  //           "type": "string",
+  //           "description": "分类名称"
+  //         }
+  //       }
+  //     }
+  //   }
+
+  // }
+
+  const destJson3 = {
+    info: {
+      data: {
+        product_info: {
+          color: '@string'
+        },
+        product_image: {
+          id: '@string'
+        },
+        product_category: {
+          name: '@string'
+        }
+      }
+    },
+    code: '@string',
+    msg: '@string'
+  }
+
+  t.deepEqual(jsm(json3), destJson3);
 })

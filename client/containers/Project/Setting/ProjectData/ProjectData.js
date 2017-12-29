@@ -1,5 +1,5 @@
 import React, { PureComponent as Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip, Button } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -35,7 +35,8 @@ class ProjectData extends Component {
       selectCatid: "",
       menuList: [],
       curImportType: null,
-      curExportType: null
+      curExportType: null,
+      showLoading: false
     }
   }
   static propTypes = {
@@ -62,7 +63,7 @@ class ProjectData extends Component {
 
 
 
-  uploadChnange(info) {
+  uploadChange = (info) => {
     const status = info.file.status;
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -90,8 +91,9 @@ class ProjectData extends Component {
             project_id: this.props.match.params.id,
             desc: cat.desc
           })
-          if(result.data.errcode){
+          if (result.data.errcode) {
             message.error(result.data.errmsg);
+            this.setState({ showLoading: false });
             return false;
           }
           cat.id = result.data.data._id;
@@ -101,17 +103,18 @@ class ProjectData extends Component {
     return catsObj;
   }
 
-  handleAddInterface(info) {
+  handleAddInterface = (info) => {
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
     }
     if (this.state.selectCatid) {
+      this.setState({ showLoading: true });
       let reader = new FileReader();
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
         const cats = await this.handleAddCat(res.cats);
-        if(cats === false){
+        if (cats === false) {
           return;
         }
         res = res.apis;
@@ -119,8 +122,8 @@ class ProjectData extends Component {
         let count = 0;
         let successNum = len;
         let existNum = 0;
- 
-        for(let index=0; index< res.length; index++){
+
+        for (let index = 0; index < res.length; index++) {
           let item = res[index];
           let data = {
             ...item,
@@ -137,15 +140,17 @@ class ProjectData extends Component {
           count++;
           if (result.data.errcode) {
             successNum--;
-            if(result.data.errcode == 40022){
+            if (result.data.errcode == 40022) {
               existNum++;
             }
-            if(result.data.errcode == 40033){
+            if (result.data.errcode == 40033) {
+              this.setState({ showLoading: false });
               message.error('没有权限')
               break;
             }
           }
           if (count === len) {
+            this.setState({ showLoading: false });
             message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
           }
 
@@ -180,8 +185,8 @@ class ProjectData extends Component {
       multiple: true,
       showUploadList: false,
       action: '/api/interface/interUpload',
-      customRequest: this.handleAddInterface.bind(this),
-      onChange: this.uploadChnange.bind(this)
+      customRequest: this.handleAddInterface,
+      onChange: this.uploadChange
     }
     return (
       <div className="g-row">
@@ -213,13 +218,15 @@ class ProjectData extends Component {
                 </Select>
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
-                <Dragger {...uploadMess}>
-                  <p className="ant-upload-drag-icon">
-                    <Icon type="inbox" />
-                  </p>
-                  <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
-                  <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
-                </Dragger>
+                <Spin spinning={this.state.showLoading}>
+                  <Dragger {...uploadMess}>
+                    <p className="ant-upload-drag-icon">
+                      <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
+                    <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
+                  </Dragger>
+                </Spin>
               </div>
             </div>
 
