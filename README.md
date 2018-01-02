@@ -60,7 +60,8 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
 ## Donation
 If you find YApi useful, you can buy us a cup of coffee.
-![](https://ws1.sinaimg.cn/large/006tCP9Lly1fn2lkshbzaj30fq0j6wjn.jpg)
+
+<img src="http://ww1.sinaimg.cn/mw690/006tCP9Lly1fn2lr8einaj30uq11awsi.jpg" height=300 />
 
 ### Authors
 * [suxiaoxin](https://github.com/suxiaoxin)
