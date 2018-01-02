@@ -48,8 +48,6 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi docker 部署](https://github.com/branchzero/yapi-docker) By branchzero
 
-
-
 ### YApi 的一些客户
 * 去哪儿
 * 携程
@@ -60,6 +58,9 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 快手
 * 便利蜂
 
+## Donation
+If you find YApi useful, you can buy us a cup of coffee.
+<img width="650" src="https://ws1.sinaimg.cn/large/006tCP9Lly1fn2lkshbzaj30fq0j6wjn.jpg" alt="">
 
 ### Authors
 * [suxiaoxin](https://github.com/suxiaoxin)
@@ -67,6 +68,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
 * [gaoxiaomumu](https://github.com/gaoxiaomumu)
+
 ### License
 Apache Licene 2.0
 
