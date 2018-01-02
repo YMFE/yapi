@@ -58,8 +58,8 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 快手
 * 便利蜂
 
-## 赞助
-如果您觉得 YApi 不错，不妨小额赞助我们团队一下，让我们有动力继续维护和优化 YApi！
+## 微信打赏
+如果您觉得 YApi 不错，不妨小额赞助我们团队一下，让我们更有动力继续维护和优化 YApi！
 
 <img src="http://ww1.sinaimg.cn/mw690/006tCP9Lly1fn2lr8einaj30uq11awsi.jpg" height=300 />
 
