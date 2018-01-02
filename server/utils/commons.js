@@ -348,7 +348,7 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
                 if(!validResult.valid){
                     return ctx.body = yapi.commons.resReturn(null, 400, validResult.message);
                 }
-            }
+            } 
             if (inst.$auth === true) {
                 await inst[action].call(inst, ctx);
             } else {

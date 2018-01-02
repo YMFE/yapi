@@ -55,13 +55,13 @@ class ProjectData extends Component {
     plugin.emitHook('import_data', importDataModule);
     plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
   }
+
+
   selectChange(value) {
     this.setState({
       selectCatid: +value
     })
   }
-
-
 
   uploadChange = (info) => {
     const status = info.file.status;
@@ -218,7 +218,7 @@ class ProjectData extends Component {
                 </Select>
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
-                <Spin spinning={this.state.showLoading}>
+                <Spin spinning={this.state.showLoading} tip="上传中...">
                   <Dragger {...uploadMess}>
                     <p className="ant-upload-drag-icon">
                       <Icon type="inbox" />
