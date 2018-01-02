@@ -76,6 +76,7 @@ class ProjectData extends Component {
   }
 
   async handleAddCat(cats) {
+   
     let menuList = this.state.menuList;
     let catsObj = {};
     if (cats && Array.isArray(cats)) {

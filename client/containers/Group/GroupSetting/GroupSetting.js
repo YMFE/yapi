@@ -208,7 +208,7 @@ class GroupSetting extends Component {
         <Row type="flex" justify="space-around" className="row" align="middle">
           <Col span={4} className="label">接口自定义字段：</Col>
           <Col span={12} style={{ position: 'relative' }}>
-            <Input placeholder="请输入自定义字段名称" value={this.state.custom_field1_name} onChange={this.changeCustomName} />
+            <Input placeholder="请输入自定义字段名称" style={{ borderColor: this.state.custom_field1_rule ? '#f5222d' : '' }} value={this.state.custom_field1_name} onChange={this.changeCustomName} />
             <div className="custom-field-rule" style={{ display: this.state.custom_field1_rule ? 'block' : 'none' }}>自定义字段名称不能为空</div>
           </Col>
           <Col span={2} className="label">开启：</Col>
