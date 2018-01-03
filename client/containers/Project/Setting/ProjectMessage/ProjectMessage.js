@@ -1,5 +1,5 @@
 import React, { PureComponent as Component } from 'react'
-import { Form, Input,Select, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
+import { Form, Input, Switch, Select, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
 import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
@@ -83,6 +83,7 @@ class ProjectMessage extends Component {
       if (!err) {
         let assignValue = Object.assign(projectMsg, values);
         values.protocol = this.state.protocol.split(':')[0];
+        console.log('assignValue', assignValue);
 
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
@@ -169,10 +170,10 @@ class ProjectMessage extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { projectMsg } = this.props;
-    const mockUrl =  location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`
+    const mockUrl = location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "") + `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`
     let initFormValues = {};
-    const { name, basepath, desc, project_type, group_id } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type, group_id };
+    const { name, basepath, desc, project_type, group_id, switch_notice } = projectMsg;
+    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice };
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (<RadioGroup onChange={this.changeProjectColor} value={projectMsg.color} className="color">
@@ -189,7 +190,7 @@ class ProjectMessage extends Component {
       <div>
         <div className="m-panel">
           <Row className="project-setting">
-            <Col xs={6} lg={{offset: 1, span: 3}} className="setting-logo">
+            <Col xs={6} lg={{ offset: 1, span: 3 }} className="setting-logo">
               <Popover placement="bottom" title={colorSelector} content={iconSelector} trigger="click" overlayClassName="change-project-container">
                 <Icon type={projectMsg.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectMsg.color] || constants.PROJECT_COLOR.blue }} />
               </Popover>
@@ -224,7 +225,7 @@ class ProjectMessage extends Component {
               label="所属分组"
             >
               {getFieldDecorator('group_id', {
-                initialValue: initFormValues.group_id+'' ,
+                initialValue: initFormValues.group_id + '',
                 rules: [{
                   required: true, message: '请选择项目所属的分组!'
                 }]
@@ -234,7 +235,7 @@ class ProjectMessage extends Component {
                     <Option value={item._id.toString()} key={index}>{item.group_name}</Option>
                   ))}
                 </Select>
-              )}
+                )}
             </FormItem>
 
 
@@ -271,7 +272,7 @@ class ProjectMessage extends Component {
               )}
             >
 
-              <Input disabled value={mockUrl} onChange={()=>{}} />
+              <Input disabled value={mockUrl} onChange={() => { }} />
 
             </FormItem>
 
@@ -287,6 +288,14 @@ class ProjectMessage extends Component {
               })(
                 <TextArea rows={8} />
                 )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="默认开启邮件通知"
+            >
+              {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: initFormValues.switch_notice })(
+                <Switch checkedChildren="开" unCheckedChildren="关" />
+              )}
             </FormItem>
 
             <FormItem

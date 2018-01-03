@@ -436,7 +436,7 @@ class interfaceController extends baseController {
 
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
-    console.log('switch_notice', params.switch_notice);
+    
 
     if (params.switch_notice === true) {
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);

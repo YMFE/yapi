@@ -162,11 +162,12 @@ export function addProject(data) {
 
 // 修改项目
 export function updateProject(data) {
-  const { name, project_type, basepath, desc, _id, env, group_id } = data;
+  const { name, project_type, basepath, desc, _id, env, group_id, switch_notice } = data;
   const param = {
     name,
     project_type,
     basepath,
+    switch_notice,
     desc,
     id: _id,
     env,

@@ -5,6 +5,9 @@
   // overflow: hidden;
   .interface-edit-item{
     margin-bottom: 16px;
+    .ant-form-item-label label:after{
+      margin-left: 4px;
+    }
   }
 
   .interface-edit-json-info{

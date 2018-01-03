@@ -48,7 +48,7 @@ class InterfaceEdit extends Component {
     this.props.fetchInterfaceList(this.props.currProject._id).then();
     this.props.fetchInterfaceData(params.id).then()
     if (result.data.errcode === 0) {
-      
+
       this.props.updateInterfaceData(params);
       message.success('保存成功');
     } else {
@@ -114,7 +114,13 @@ class InterfaceEdit extends Component {
   render() {
     return <div className="interface-edit">
       {this.state.status === 1 ?
-        <InterfaceEditForm cat={this.props.currProject.cat} mockUrl={this.state.mockUrl} basepath={this.props.currProject.basepath} onSubmit={this.onSubmit} curdata={this.state.curdata} />
+        <InterfaceEditForm
+          cat={this.props.currProject.cat}
+          mockUrl={this.state.mockUrl}
+          basepath={this.props.currProject.basepath}
+          noticed={this.props.currProject.switch_notice}
+          onSubmit={this.onSubmit}
+          curdata={this.state.curdata} />
         :
         null}
       {

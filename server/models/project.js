@@ -11,6 +11,7 @@ class projectModel extends baseModel {
       uid: { type: Number, required: true },
       name: { type: String, required: true },
       basepath: { type: String },
+      switch_notice: { type: Boolean, default: true },
       desc: String,
       group_id: { type: Number, required: true },
       project_type: { type: String, required: true, enum: ['public', 'private'] },
@@ -63,7 +64,7 @@ class projectModel extends baseModel {
   getBaseInfo(id) {
     return this.model.findOne({
       _id: id
-    }).select('_id uid name basepath desc group_id project_type env icon color add_time up_time pre_script after_script')
+    }).select('_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script')
       .exec()
   }
 
@@ -88,7 +89,7 @@ class projectModel extends baseModel {
 
   list(group_id) {
     let params = { group_id: group_id }
-    return this.model.find(params).select("_id uid name basepath desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
+    return this.model.find(params).select("_id uid name basepath switch_notice desc group_id project_type color icon env add_time up_time").sort({ _id: -1 }).exec();
   }
 
   // 获取项目数量统计

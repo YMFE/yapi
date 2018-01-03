@@ -75,6 +75,7 @@ class InterfaceEditForm extends Component {
     mockUrl: PropTypes.string,
     onSubmit: PropTypes.func,
     basepath: PropTypes.string,
+    noticed: PropTypes.bool,
     cat: PropTypes.array,
     changeEditStatus: PropTypes.func
   }
@@ -96,10 +97,6 @@ class InterfaceEditForm extends Component {
         body: 'hide',
         query: 'hide',
         headers: 'hide'
-      },
-      other: {
-        remark: '',
-        mail: 'hide'
       }
     };
     curdata['hideTabs']['req'][HTTP_METHOD[curdata.method].default_tab] = '';
@@ -262,7 +259,7 @@ class InterfaceEditForm extends Component {
   }
 
   componentDidMount() {
-    // console.log('custom_field1', this.props.custom_field);
+    // console.log('noticed', this.props.noticed);
 
     EditFormContext = this;
     this.setState({
@@ -913,24 +910,24 @@ class InterfaceEditForm extends Component {
         </div>
 
 
-        {/* ----------- other ------------- */}
+        {/* ----------- remark ------------- */}
 
         <h2 className="interface-title">备 注</h2>
-        <div className="container-radiogroup">
+        {/* <div className="container-radiogroup">
           <RadioGroup defaultValue="other-remark" size="large" className="radioGroup" onChange={this.changeRadioGroup}>
             <RadioButton value="other-remark">备 注</RadioButton>
             <RadioButton value="other-mail">邮 件</RadioButton>
           </RadioGroup>
-        </div>
+        </div> */}
         <div className="panel-sub">
           <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.other.remark}
+            className={'interface-edit-item'}
           >
             <div >
               <div id="desc" className="remark-editor"></div>
             </div>
           </FormItem>
-          <FormItem
+          {/* <FormItem
             className={'interface-edit-item ' + this.state.hideTabs.other.mail}
             {...formItemLayout}
             label="是否开启邮件通知"
@@ -947,8 +944,31 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator('message', { initialValue: "" })(
               <TextArea style={{ minHeight: "300px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
             )}
+          </FormItem> */}
+        </div>
+
+        {/* ----------- email ------------- */}
+        <h2 className="interface-title">通 知</h2>
+        <div className="panel-sub">
+          <FormItem
+            className={'interface-edit-item'}
+            {...formItemLayout}
+            label={(
+              <span>
+                是否开启邮件通知&nbsp;
+                <Tooltip title={'开启邮件通知，可在 项目设置 里修改'}>
+                  <Icon type="question-circle-o" style={{ width: "10px" }} />
+                </Tooltip>
+
+              </span>
+            )}
+          >
+            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: this.props.noticed })(
+              <Switch checkedChildren="开" unCheckedChildren="关" />
+            )}
           </FormItem>
         </div>
+
 
         <FormItem
           className="interface-edit-item"
