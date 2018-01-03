@@ -436,7 +436,7 @@ class interfaceController extends baseController {
 
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
-    
+
 
     if (params.switch_notice === true) {
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -745,24 +745,36 @@ class interfaceController extends baseController {
   }
 
 
-  sendNotice(projectId, data) {
-    this.followModel.listByProjectId(projectId).then(list => {
-      let users = [];
-      list.forEach(item => {
-        users.push(item.uid)
-      })
-      this.userModel.findByUids(users).then(list => {
-        list.forEach(item => {
-          yapi.commons.sendMail({
-            to: item.email,
-            contents: data.content,
-            subject: data.title
-          });
-        })
+  async sendNotice(projectId, data) {
+    const list = await this.followModel.listByProjectId(projectId);
+    const starUsers = list.map(item => item.uid);
 
-      })
+    const projectList = await this.projectModel.get(projectId);
+    const projectMenbers = projectList.members.map(item => item.uid);
 
-    });
+    const users = this.arrUnique(projectMenbers, starUsers);
+    const usersInfo = await this.userModel.findByUids(users)
+    const emails = usersInfo.map(item => item.email).join(',');
+    
+    try {
+      yapi.commons.sendMail({
+        to: emails,
+        contents: data.content,
+        subject: data.title
+      })
+    } catch (e) {
+      yapi.commons.log('邮件发送失败：' + e, 'error')
+    }
+
+  }
+
+  arrUnique(arr1, arr2) {
+  
+    let arr = arr1.concat(arr2);
+    let res = arr.filter(function (item, index, arr) {
+      return arr.indexOf(item) === index;
+    })
+    return res;
 
   }
 

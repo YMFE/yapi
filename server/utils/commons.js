@@ -145,7 +145,7 @@ exports.sendMail = (options, cb) => {
       yapi.commons.log('send mail ' + options.to + ' success');
     }
   };
-
+  
   try {
     yapi.mail.sendMail({
       from: yapi.WEBCONFIG.mail.from,
