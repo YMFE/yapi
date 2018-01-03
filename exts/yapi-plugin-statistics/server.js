@@ -52,7 +52,8 @@ module.exports = function () {
         let projectId = context.projectData._id;
         let groupId = context.projectData.group_id;
         //let ip = context.ctx.originalUrl;
-        let ip = context.ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+        let ip = yapi.commons.getIp(context.ctx);
+        
         let data = {
             interface_id: interfaceId,
             project_id: projectId,

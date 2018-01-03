@@ -67,7 +67,7 @@ export default class Run extends Component {
       mock_verify: false,
       enable_script: false,
       test_script: '',
-      hasPlugin: false,
+      hasPlugin: true,
       inputValue: '',
       envModalVisible: false,
       ...this.props.data

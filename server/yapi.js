@@ -15,7 +15,8 @@ const WEBCONFIG = config;
 fs.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail && WEBCONFIG.mail.enable) {
-    mail = nodemailer.createTransport(WEBCONFIG.mail);
+  console.log(WEBCONFIG.mail);
+  mail = nodemailer.createTransport(WEBCONFIG.mail);
 }
 
 /**
@@ -25,32 +26,32 @@ if (WEBCONFIG.mail && WEBCONFIG.mail.enable) {
  * yapi.getInst(groupModel, arg1, arg2)
  */
 function getInst(m, ...args) {
-    if (!insts.get(m)) {
-        insts.set(m, new m(args));
-    }
-    return insts.get(m);
+  if (!insts.get(m)) {
+    insts.set(m, new m(args));
+  }
+  return insts.get(m);
 }
 
 function delInst(m) {
-    try {
-        insts.delete(m);
-    } catch (err) {
-        console.error(err); // eslint-disable-line
-    }
+  try {
+    insts.delete(m);
+  } catch (err) {
+    console.error(err); // eslint-disable-line
+  }
 }
 
 
 let r = {
-    fs: fs,
-    path: path,
-    WEBROOT: WEBROOT,
-    WEBROOT_SERVER: WEBROOT_SERVER,
-    WEBROOT_RUNTIME: WEBROOT_RUNTIME,
-    WEBROOT_LOG: WEBROOT_LOG,
-    WEBCONFIG: WEBCONFIG,
-    getInst: getInst,
-    delInst: delInst,
-    getInsts: insts
+  fs: fs,
+  path: path,
+  WEBROOT: WEBROOT,
+  WEBROOT_SERVER: WEBROOT_SERVER,
+  WEBROOT_RUNTIME: WEBROOT_RUNTIME,
+  WEBROOT_LOG: WEBROOT_LOG,
+  WEBCONFIG: WEBCONFIG,
+  getInst: getInst,
+  delInst: delInst,
+  getInsts: insts
 };
 if (mail) r.mail = mail;
 module.exports = r;

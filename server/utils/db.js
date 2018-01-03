@@ -28,11 +28,12 @@ function connect(callback) {
 
     db.then(function () {
         yapi.commons.log('mongodb load success...');
+       
         if(typeof callback === 'function'){
             callback.call(db)
         }
     }, function (err) {
-        yapi.commons.log(err, 'Mongo connect error');
+        yapi.commons.log(err+'mongodb connect error', 'error');
     });
 
     autoIncrement.initialize(db);

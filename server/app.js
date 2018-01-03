@@ -57,4 +57,4 @@ app.use(koaStatic(
 ));
 
 app.listen(yapi.WEBCONFIG.port);
-commons.log(`the server is start at port ${yapi.WEBCONFIG.port}`);
+commons.log(`the server is start at port ${yapi.WEBCONFIG.port}`); 

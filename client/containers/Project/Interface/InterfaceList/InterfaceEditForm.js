@@ -232,7 +232,8 @@ class InterfaceEditForm extends Component {
           if (HTTP_METHOD[values.method].request_body !== true) {
             values.req_body_form = []
           }
-         
+          console.log('values', values);
+
           this.props.onSubmit(values)
           EditFormContext.props.changeEditStatus(false);
         }
@@ -914,7 +915,7 @@ class InterfaceEditForm extends Component {
 
         {/* ----------- other ------------- */}
 
-        <h2 className="interface-title">其 他</h2>
+        <h2 className="interface-title">备 注</h2>
         <div className="container-radiogroup">
           <RadioGroup defaultValue="other-remark" size="large" className="radioGroup" onChange={this.changeRadioGroup}>
             <RadioButton value="other-remark">备 注</RadioButton>

@@ -78,7 +78,9 @@ class interfaceController extends baseController {
         'path': minLengthStringField,
         'title': minLengthStringField,
         'method': minLengthStringField,
-        'catid': 'number'
+        'catid': 'number',
+        'switch_notice': 'boolean',
+        'message': minLengthStringField
       }, addAndUpCommonField)
     }
   }
@@ -434,6 +436,7 @@ class interfaceController extends baseController {
 
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
+    console.log('switch_notice', params.switch_notice);
 
     if (params.switch_notice === true) {
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
@@ -722,11 +725,11 @@ class interfaceController extends baseController {
           let inter = await this.Model.getcustomFieldValue(projects[j]._id, customFieldValue)
           if (inter.length > 0) {
             data.project_name = projects[j].name
-            inter = inter.map((item,i) => {
+            inter = inter.map((item, i) => {
               item = inter[i] = inter[i].toObject();
               item.res_body = yapi.commons.json_parse(item.res_body)
               item.req_body_other = yapi.commons.json_parse(item.req_body_other)
-    
+
               return item
             })
 
