@@ -9,6 +9,14 @@ const baseController = require('./base.js');
 const yapi = require('../yapi.js');
 const userModel = require('../models/user.js');
 const projectModel = require('../models/project.js');
+const jsondiffpatch = require('jsondiffpatch')
+const formattersHtml = jsondiffpatch.formatters.html;
+const showDiffMsg = require('../../common/diff-view.js');
+const fs = require('fs-extra')
+const path = require('path');
+
+// const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
+// const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
 
 class interfaceController extends baseController {
   constructor(ctx) {
@@ -417,6 +425,12 @@ class interfaceController extends baseController {
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
+    let logData = {
+      interface_id: id,
+      current: CurrentInterfaceData.toObject(),
+      old: interfaceData.toObject()
+    }
+
     this.catModel.get(interfaceData.catid).then((cate) => {
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 
@@ -426,35 +440,57 @@ class interfaceController extends baseController {
         uid: this.getUid(),
         username: username,
         typeid: cate.project_id,
-        data: {
-          interface_id: id,
-          current: CurrentInterfaceData,
-          old: interfaceData
-        }
+        data: logData
       });
     });
 
-
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
 
-
     if (params.switch_notice === true) {
+      let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+
+      let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
+      let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
+
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
       let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
       this.sendNotice(interfaceData.project_id, {
         title: `${username} 更新了接口`,
-        content: `<div><h3>${username}更新了接口(${data.title})</h3>
-                    <p>项目名：${project.name} </p>
-                    <p>修改用户: ${username}</p>
-                    <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
-                    <p>接口路径: [${data.method}]${data.path}</p>
-                    <p>详细改动日志: ${params.message}</p></div>`
+        content: `<html>
+        <head>
+        <style>
+        ${annotatedCss}
+        ${htmlCss}
+        </style>
+        </head>
+        <body>
+        <div><h3>${username}更新了接口(${data.title})</h3>
+        <p>项目名：${project.name} </p>
+        <p>修改用户: ${username}</p>
+        <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+        <p>接口路径: [${data.method}]${data.path}</p>
+        <p>详细改动日志: ${this.diffHTML(diffView)}</p></div>
+        </body>
+        </html>`
       })
     }
 
     yapi.emitHook('interface_update', id).then();
     ctx.body = yapi.commons.resReturn(result);
 
+  }
+
+  diffHTML(html) {
+    if(html.length === 0){
+      return `<span style="color: #555">没有改动，该操作未改动Api数据</span>`
+    }
+   
+    return html.map(item => {
+      return (`<div>
+      <h4 class="title">${item.title}</h4>
+      <div>${item.content}</div>
+    </div>`)
+    })
   }
 
   /**
@@ -755,7 +791,7 @@ class interfaceController extends baseController {
     const users = this.arrUnique(projectMenbers, starUsers);
     const usersInfo = await this.userModel.findByUids(users)
     const emails = usersInfo.map(item => item.email).join(',');
-    
+
     try {
       yapi.commons.sendMail({
         to: emails,
@@ -769,7 +805,7 @@ class interfaceController extends baseController {
   }
 
   arrUnique(arr1, arr2) {
-  
+
     let arr = arr1.concat(arr2);
     let res = arr.filter(function (item, index, arr) {
       return arr.indexOf(item) === index;

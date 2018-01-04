@@ -57,7 +57,7 @@ class logModel extends baseModel {
         })
             .exec();
     }
-    
+     
 
     listWithPaging(typeid,type, page, limit, interfaceId) {
         page = parseInt(page);
