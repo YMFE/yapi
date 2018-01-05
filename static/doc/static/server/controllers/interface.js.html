@@ -29,12 +29,21 @@
 const interfaceCatModel = require('../models/interfaceCat.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const followModel = require('../models/follow.js');
+const groupModel = require('../models/group.js')
 const _ = require('underscore');
 const url = require('url');
 const baseController = require('./base.js');
 const yapi = require('../yapi.js');
 const userModel = require('../models/user.js');
 const projectModel = require('../models/project.js');
+const jsondiffpatch = require('jsondiffpatch')
+const formattersHtml = jsondiffpatch.formatters.html;
+const showDiffMsg = require('../../common/diff-view.js');
+const fs = require('fs-extra')
+const path = require('path');
+
+// const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
+// const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
 
 class interfaceController extends baseController {
   constructor(ctx) {
@@ -45,6 +54,7 @@ class interfaceController extends baseController {
     this.caseModel = yapi.getInst(interfaceCaseModel);
     this.followModel = yapi.getInst(followModel);
     this.userModel = yapi.getInst(userModel);
+    this.groupModel = yapi.getInst(groupModel);
 
     const minLengthStringField = {
       type: 'string',
@@ -69,7 +79,7 @@ class interfaceController extends baseController {
         required: 'string'
       }],
       req_body_type: 'string',
-      req_params:[{
+      req_params: [{
         name: 'string',
         example: 'string',
         desc: 'string'
@@ -85,7 +95,8 @@ class interfaceController extends baseController {
       }],
       'req_body_other': 'string',
       res_body_type: 'string',
-      res_body: 'string'
+      res_body: 'string',
+      custom_field_value: 'string'
     }
 
     this.schemaMap = {
@@ -102,7 +113,9 @@ class interfaceController extends baseController {
         'path': minLengthStringField,
         'title': minLengthStringField,
         'method': minLengthStringField,
-        'catid': 'number'
+        'catid': 'number',
+        'switch_notice': 'boolean',
+        'message': minLengthStringField
       }, addAndUpCommonField)
     }
   }
@@ -223,9 +236,9 @@ class interfaceController extends baseController {
       return ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空');
     }
 
-
     try {
       let result = await this.Model.get(params.id);
+      // console.log('result', result);
       if (!result) {
         return ctx.body = yapi.commons.resReturn(null, 490, '不存在的');
       }
@@ -334,7 +347,7 @@ class interfaceController extends baseController {
       let result = await this.catModel.list(project_id), newResult = [];
       for (let i = 0, item, list; i < result.length; i++) {
         item = result[i].toObject()
-        list = await this.Model.listByCatid(item._id, '_id title method path')
+        list = await this.Model.listByCatid(item._id)
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
@@ -377,7 +390,6 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
-    // console.log('params', params.req_params);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';
@@ -440,6 +452,12 @@ class interfaceController extends baseController {
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
+    let logData = {
+      interface_id: id,
+      current: CurrentInterfaceData.toObject(),
+      old: interfaceData.toObject()
+    }
+
     this.catModel.get(interfaceData.catid).then((cate) => {
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 
@@ -449,34 +467,57 @@ class interfaceController extends baseController {
         uid: this.getUid(),
         username: username,
         typeid: cate.project_id,
-        data: {
-          interface_id: id,
-          current: CurrentInterfaceData,
-          old: interfaceData
-        }
+        data: logData
       });
     });
-
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
 
     if (params.switch_notice === true) {
+      let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+
+      let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
+      let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
+
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
       let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
       this.sendNotice(interfaceData.project_id, {
         title: `${username} 更新了接口`,
-        content: `<div><h3>${username}更新了接口(${data.title})</h3>
-                    <p>项目名：${project.name} </p>
-                    <p>修改用户: ${username}</p>
-                    <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
-                    <p>接口路径: [${data.method}]${data.path}</p>
-                    <p>详细改动日志: ${params.message}</p></div>`
+        content: `<html>
+        <head>
+        <style>
+        ${annotatedCss}
+        ${htmlCss}
+        </style>
+        </head>
+        <body>
+        <div><h3>${username}更新了接口(${data.title})</h3>
+        <p>项目名：${project.name} </p>
+        <p>修改用户: ${username}</p>
+        <p>接口名: <a href="${interfaceUrl}">${data.title}</a></p>
+        <p>接口路径: [${data.method}]${data.path}</p>
+        <p>详细改动日志: ${this.diffHTML(diffView)}</p></div>
+        </body>
+        </html>`
       })
     }
 
     yapi.emitHook('interface_update', id).then();
     ctx.body = yapi.commons.resReturn(result);
 
+  }
+
+  diffHTML(html) {
+    if (html.length === 0) {
+      return `<span style="color: #555">没有改动，该操作未改动Api数据</span>`
+    }
+
+    return html.map(item => {
+      return (`<div>
+      <h4 class="title">${item.title}</h4>
+      <div>${item.content}</div>
+    </div>`)
+    })
   }
 
   /**
@@ -709,24 +750,95 @@ class interfaceController extends baseController {
     }
   }
 
-  sendNotice(projectId, data) {
-    this.followModel.listByProjectId(projectId).then(list => {
-      let users = [];
-      list.forEach(item => {
-        users.push(item.uid)
-      })
-      this.userModel.findByUids(users).then(list => {
-        list.forEach(item => {
-          yapi.commons.sendMail({
-            to: item.email,
-            contents: data.content,
-            subject: data.title
-          });
-        })
+  /**
+   * 获取自定义接口字段数据
+   * @interface /interface/get_custom_field
+   * @method GET
+   * @category interface
+   * @foldnumber 10
+   * @param {String}   app_code = '111'
+   * @returns {Object}
+   * 
+   */
+  async getCustomField(ctx) {
+    let params = ctx.request.query
 
-      })
+    if (Object.keys(params).length !== 1) {
+      return ctx.body = yapi.commons.resReturn(null, 400, '参数数量错误');
+    }
+    let customFieldName = Object.keys(params)[0];
+    let customFieldValue = params[customFieldName];
 
-    });
+    try {
+
+      //  查找有customFieldName的分组（group）
+      let groups = await this.groupModel.getcustomFieldName(customFieldName)
+      if (groups.length === 0) {
+        return ctx.body = yapi.commons.resReturn(null, 404, '没有找到对应自定义接口');
+      }
+
+      // 在每个分组（group）下查找对应project的id值
+      let interfaces = [];
+      for (let i = 0; i < groups.length; i++) {
+        let projects = await this.projectModel.list(groups[i]._id);
+
+        // 在每个项目（project）中查找interface下的custom_field_value
+        for (let j = 0; j < projects.length; j++) {
+          let data = {}
+          let inter = await this.Model.getcustomFieldValue(projects[j]._id, customFieldValue)
+          if (inter.length > 0) {
+            data.project_name = projects[j].name
+            inter = inter.map((item, i) => {
+              item = inter[i] = inter[i].toObject();
+              item.res_body = yapi.commons.json_parse(item.res_body)
+              item.req_body_other = yapi.commons.json_parse(item.req_body_other)
+
+              return item
+            })
+
+            data.list = inter;
+            interfaces.push(data);
+          }
+        }
+      }
+      return ctx.body = yapi.commons.resReturn(interfaces);
+    } catch (e) {
+      yapi.commons.resReturn(null, 400, e.message);
+    }
+  }
+
+
+  async sendNotice(projectId, data) {
+    const list = await this.followModel.listByProjectId(projectId);
+    const starUsers = list.map(item => item.uid);
+
+    const projectList = await this.projectModel.get(projectId);
+    const projectMenbers = projectList.members.map(item => item.uid);
+
+    const users = this.arrUnique(projectMenbers, starUsers);
+    const usersInfo = await this.userModel.findByUids(users)
+    const emails = usersInfo.map(item => item.email).join(',');
+    console.log('emails', emails);
+
+    try {
+      yapi.commons.sendMail({
+        to: emails,
+        contents: data.content,
+        subject: data.title
+      })
+    } catch (e) {
+      yapi.commons.log('邮件发送失败：' + e, 'error')
+    }
+
+  }
+
+  arrUnique(arr1, arr2) {
+
+    let arr = arr1.concat(arr2);
+    let res = arr.filter(function (item, index, arr) {
+      return arr.indexOf(item) === index;
+    })
+    return res;
 
   }
 
