@@ -320,7 +320,7 @@ class interfaceController extends baseController {
       let result = await this.catModel.list(project_id), newResult = [];
       for (let i = 0, item, list; i < result.length; i++) {
         item = result[i].toObject()
-        list = await this.Model.listByCatid(item._id, '_id title method path status')
+        list = await this.Model.listByCatid(item._id)
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
@@ -481,10 +481,10 @@ class interfaceController extends baseController {
   }
 
   diffHTML(html) {
-    if(html.length === 0){
+    if (html.length === 0) {
       return `<span style="color: #555">没有改动，该操作未改动Api数据</span>`
     }
-   
+
     return html.map(item => {
       return (`<div>
       <h4 class="title">${item.title}</h4>
@@ -791,6 +791,7 @@ class interfaceController extends baseController {
     const users = this.arrUnique(projectMenbers, starUsers);
     const usersInfo = await this.userModel.findByUids(users)
     const emails = usersInfo.map(item => item.email).join(',');
+    console.log('emails', emails);
 
     try {
       yapi.commons.sendMail({

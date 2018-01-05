@@ -217,91 +217,20 @@ test('jsmRef', t => {
   }
   t.deepEqual(jsm(json2), destJson2);
 
-
 })
 
 test('jsmRef2', t => {
-  let json3 = {
-    "$ref": "#/definitions/Response",
-    "definitions": {
-      "Result": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/definitions/ProductByTagRuleResVo"
-          }
-        }
-      },
-      "Response": {
-        "type": "object",
-        "required": [
-          "code",
-          "msg"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "响应编码OK"
-          },
-          "info": {
-            "$ref": "#/definitions/Result"
-          },
-          "msg": {
-            "type": "string",
-            "description": "错误描述"
-          }
-        }
-      },
-      "ProductByTagRuleResVo": {
-        "type": "object",
-        "properties": {
-          "product_info": {
-            "$ref": "#/definitions/ProductInfoAll"
-          },
-          "product_image": {
-            "$ref": "#/definitions/imageItems"
-          },
-          "product_category": {
-            "$ref": "#/definitions/Category"
-          }
-
-        }
-      },
-      "ProductInfoAll": {
-        "type": "object",
-        "properties": {
-          "color": {
-            "type": "string",
-            "description": "中文颜色"
-          }
-        }
-      },
-      "imageItems": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "imageid"
-          }
-        }
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "分类名称"
-          }
-        }
-      }
-
-
-    }
-  }
-
   // let json3 = {
   //   "$ref": "#/definitions/Response",
   //   "definitions": {
+  //     "Result": {
+  //       "type": "object",
+  //       "properties": {
+  //         "data": {
+  //           "$ref": "#/definitions/ProductByTagRuleResVo"
+  //         }
+  //       }
+  //     },
   //     "Response": {
   //       "type": "object",
   //       "required": [
@@ -322,14 +251,6 @@ test('jsmRef2', t => {
   //         }
   //       }
   //     },
-  //     "Result": {
-  //       "type": "object",
-  //       "properties": {
-  //         "data": {
-  //           "$ref": "#/definitions/ProductByTagRuleResVo"
-  //         }
-  //       }
-  //     },
   //     "ProductByTagRuleResVo": {
   //       "type": "object",
   //       "properties": {
@@ -342,6 +263,7 @@ test('jsmRef2', t => {
   //         "product_category": {
   //           "$ref": "#/definitions/Category"
   //         }
+
   //       }
   //     },
   //     "ProductInfoAll": {
@@ -371,9 +293,86 @@ test('jsmRef2', t => {
   //         }
   //       }
   //     }
-  //   }
 
+
+  //   }
   // }
+
+  let json3 = {
+    "$ref": "#/definitions/Response",
+    "definitions": {
+      "Response": {
+        "type": "object",
+        "required": [
+          "code",
+          "msg"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "响应编码OK"
+          },
+          "info": {
+            "$ref": "#/definitions/Result"
+          },
+          "msg": {
+            "type": "string",
+            "description": "错误描述"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/ProductByTagRuleResVo"
+          }
+        }
+      },
+      "ProductByTagRuleResVo": {
+        "type": "object",
+        "properties": {
+          "product_info": {
+            "$ref": "#/definitions/ProductInfoAll"
+          },
+          "product_image": {
+            "$ref": "#/definitions/imageItems"
+          },
+          "product_category": {
+            "$ref": "#/definitions/Category"
+          }
+        }
+      },
+      "ProductInfoAll": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": "string",
+            "description": "中文颜色"
+          }
+        }
+      },
+      "imageItems": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "imageid"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "分类名称"
+          }
+        }
+      }
+    }
+
+  }
 
   const destJson3 = {
     info: {

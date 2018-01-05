@@ -162,7 +162,6 @@ function improtData(importDataModule) {
         if (res && typeof res === 'object') {
 
           if (res.schema) {
-            console.log('schema', res.schema);
             res_body = handleSchema(res.schema);
           } else if (res.description) {
             res_body = res.description;

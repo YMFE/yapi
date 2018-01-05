@@ -229,7 +229,7 @@ class InterfaceEditForm extends Component {
           if (HTTP_METHOD[values.method].request_body !== true) {
             values.req_body_form = []
           }
-          console.log('values', values);
+          // console.log('values', values);
 
           this.props.onSubmit(values)
           EditFormContext.props.changeEditStatus(false);
