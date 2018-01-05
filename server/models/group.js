@@ -26,15 +26,15 @@ class groupModel extends baseModel {
       custom_field1: {
         name: String,
         enable: { type: Boolean, default: false }
-      },
-      custom_field2: {
-        name: String,
-        enable: { type: Boolean, default: false }
-      },
-      custom_field3: {
-        name: String,
-        enable: { type: Boolean, default: false }
       }
+      // custom_field2: {
+      //   name: String,
+      //   enable: { type: Boolean, default: false }
+      // },
+      // custom_field3: {
+      //   name: String,
+      //   enable: { type: Boolean, default: false }
+      // }
 
     };
   }
@@ -138,12 +138,11 @@ class groupModel extends baseModel {
   }
 
   up(id, data) {
-    let fields = JSON.parse(JSON.stringify(data.custom_field1))
     return this.model.update(
       {
         _id: id
       }, {
-        custom_field1: fields,
+        custom_field1: data.custom_field1,
         group_name: data.group_name,
         group_desc: data.group_desc,
         up_time: yapi.commons.time()

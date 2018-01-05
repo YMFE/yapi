@@ -89,15 +89,15 @@ export function fetchProjectList(id, pageNum) {
   };
 }
 
-// 获取项目信息
-export function getProjectMsg(id) {
-  return {
-    type: GET_PROJECT_MSG,
-    payload: axios.get('/api/project/get', {
-      params: { id }
-    })
-  };
-}
+// // 获取项目信息
+// export function getProjectMsg(id) {
+//   return {
+//     type: GET_PROJECT_MSG,
+//     payload: axios.get('/api/project/get', {
+//       params: { id }
+//     })
+//   };
+// }
 
 // 添加项目成员
 export function addMember(param) {

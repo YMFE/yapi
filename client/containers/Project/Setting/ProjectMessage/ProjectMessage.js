@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import { Form, Input, Switch, Select, Icon, Tooltip, Button, Row, Col, message, Card, Radio, Alert, Modal, Popover } from 'antd';
 import PropTypes from 'prop-types';
-import { updateProject, delProject, getProjectMsg, upsetProject } from '../../../../reducer/modules/project';
+import { updateProject, delProject, getProject, upsetProject } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { fetchGroupList } from '../../../../reducer/modules/group.js'
 import { connect } from 'react-redux';
@@ -36,13 +36,13 @@ const Option = Select.Option;
     return {
       projectList: state.project.projectList,
       groupList: state.group.groupList,
-      projectMsg: state.project.projectMsg
+      projectMsg: state.project.currProject
     }
   },
   {
     updateProject,
     delProject,
-    getProjectMsg,
+    getProject,
     fetchGroupMsg,
     upsetProject,
     fetchGroupList
@@ -63,7 +63,7 @@ class ProjectMessage extends Component {
     form: PropTypes.object,
     updateProject: PropTypes.func,
     delProject: PropTypes.func,
-    getProjectMsg: PropTypes.func,
+    getProject: PropTypes.func,
     history: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
     upsetProject: PropTypes.func,
@@ -87,7 +87,7 @@ class ProjectMessage extends Component {
 
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
-            this.props.getProjectMsg(this.props.projectId);
+            this.props.getProject(this.props.projectId);
             message.success('修改成功! ');
             // this.props.history.push('/group');
           }
@@ -136,7 +136,7 @@ class ProjectMessage extends Component {
     const { _id, color, icon } = this.props.projectMsg;
     this.props.upsetProject({ id: _id, color: e.target.value || color, icon }).then((res) => {
       if (res.payload.data.errcode === 0) {
-        this.props.getProjectMsg(this.props.projectId);
+        this.props.getProject(this.props.projectId);
       }
     });
   }
@@ -145,7 +145,7 @@ class ProjectMessage extends Component {
     const { _id, color, icon } = this.props.projectMsg;
     this.props.upsetProject({ id: _id, color, icon: e.target.value || icon }).then((res) => {
       if (res.payload.data.errcode === 0) {
-        this.props.getProjectMsg(this.props.projectId);
+        this.props.getProject(this.props.projectId);
       }
     });
   }
@@ -159,8 +159,9 @@ class ProjectMessage extends Component {
   }
 
   async componentWillMount() {
+    
     await this.props.fetchGroupList();
-    await this.props.getProjectMsg(this.props.projectId);
+    // await this.props.getProject(this.props.projectId);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     this.setState({
       currGroup: groupMsg.payload.data.data.group_name

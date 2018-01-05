@@ -160,7 +160,7 @@ function improtData(importDataModule) {
     _.each(api, (res, code) => {
       if (code == 200) {
         if (res && typeof res === 'object') {
-          
+
           if (res.schema) {
             res_body = handleSchema(res.schema);
           } else if (res.description) {
@@ -181,6 +181,7 @@ function improtData(importDataModule) {
     if (typeof data !== 'object') {
       return data;
     }
+   
     try {
       data.definitions = SwaggerData.definitions;
       let jsfData = JSON.stringify(jsf(data), null, 2);

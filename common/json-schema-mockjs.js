@@ -668,7 +668,7 @@ var objectType = function objectType(value, path, resolve, traverseCallback) {
   var patternProperties = value.patternProperties || {};
   var requiredProperties = (value.required || []).slice();
   var allowsAdditional = value.additionalProperties === false ? false : true;
-  
+
   var patternPropertyKeys = Object.keys(patternProperties);
   var additionalProperties = allowsAdditional
     ? (value.additionalProperties === true ? {} : value.additionalProperties)
