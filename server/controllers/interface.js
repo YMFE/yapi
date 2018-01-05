@@ -320,7 +320,7 @@ class interfaceController extends baseController {
       let result = await this.catModel.list(project_id), newResult = [];
       for (let i = 0, item, list; i < result.length; i++) {
         item = result[i].toObject()
-        list = await this.Model.listByCatid(item._id, '_id title method path')
+        list = await this.Model.listByCatid(item._id, '_id title method path status')
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
