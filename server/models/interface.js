@@ -85,7 +85,7 @@ class interfaceModel extends baseModel {
   getBaseinfo(id) {
     return this.model.findOne({
       _id: id
-    }).select('path method uid title project_id cat_id status req_body_other req_body_type').exec()
+    }).select('path method uid title project_id cat_id status ').exec()
   }
 
   getVar(project_id, method) {
@@ -151,10 +151,12 @@ class interfaceModel extends baseModel {
     return this.model.count({});
   }
 
-  listByCatid(catid) {
+  listByCatid(catid, select) {
+    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time'
     return this.model.find({
       catid: catid
     })
+      .select(select)
       .sort({ title: 1 })
       .exec();
   }

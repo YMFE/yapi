@@ -348,7 +348,7 @@ class interfaceColController extends baseController {
             }
 
             for (let i = 0; i < params.interface_list.length; i++) {
-                let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
+                let interfaceData = await this.interfaceModel.get(params.interface_list[i]);
                 data.interface_id = params.interface_list[i];
                 data.casename = interfaceData.title;
                 data.req_body_other = interfaceData.req_body_other;
