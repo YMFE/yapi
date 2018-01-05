@@ -1,7 +1,7 @@
 function _interopDefault(ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var $RefParser = _interopDefault(require('json-schema-ref-parser'));
-var deref = _interopDefault(require('deref'));
+var deref = _interopDefault(require('./parse-json-schema'));
 var tslib_1 = require('tslib');
 
 // dynamic proxy for custom generators
