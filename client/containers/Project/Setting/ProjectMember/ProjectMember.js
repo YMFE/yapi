@@ -6,7 +6,7 @@ import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
-import { getProjectMsg, getProjectMemberList, getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
+import {getProjectMemberList, getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
 import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import '../Setting.scss';
 
@@ -30,7 +30,6 @@ const arrayAddKey = (arr) => {
   },
   {
     fetchGroupMemberList,
-    getProjectMsg,
     getProjectMemberList,
     addMember,
     delMember,
@@ -63,7 +62,6 @@ class ProjectMember extends Component {
     changeMemberRole: PropTypes.func,
     getProject: PropTypes.func,
     fetchGroupMemberList: PropTypes.func,
-    getProjectMsg: PropTypes.func,
     fetchGroupMsg: PropTypes.func,
     getProjectMemberList: PropTypes.func
   }
@@ -158,16 +156,17 @@ class ProjectMember extends Component {
   }
 
   async componentWillMount() {
-    await this.props.getProject(this.props.match.params.id)
+    console.log('projectMsg', this.props.projectMsg)
+    // await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
-    const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);
+    // const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);
     const projectMemberList = await this.props.getProjectMemberList(this.props.match.params.id);
     this.setState({
       groupMemberList: groupMemberList.payload.data.data,
       groupName: groupMsg.payload.data.data.group_name,
       projectMemberList: arrayAddKey(projectMemberList.payload.data.data),
-      role: rojectMsg.payload.data.data.role
+      role: this.props.projectMsg.role
     })
   }
 
