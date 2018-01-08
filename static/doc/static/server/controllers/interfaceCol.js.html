@@ -169,7 +169,7 @@ class interfaceColController extends baseController {
                 result.method = data.method;
                 result.req_body_type = data.req_body_type;
                 result.req_headers = this.handleParamsValue(data.req_headers, result.req_headers);
-                result.res_body = data.res_body;
+                
                 result.res_body_type = data.res_body_type;
 
                 result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
@@ -375,7 +375,7 @@ class interfaceColController extends baseController {
             }
 
             for (let i = 0; i < params.interface_list.length; i++) {
-                let interfaceData = await this.interfaceModel.getBaseinfo(params.interface_list[i]);
+                let interfaceData = await this.interfaceModel.get(params.interface_list[i]);
                 data.interface_id = params.interface_list[i];
                 data.casename = interfaceData.title;
                 data.req_body_other = interfaceData.req_body_other;

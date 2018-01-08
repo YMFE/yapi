@@ -68,6 +68,8 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
   }
 }
 ```
+如何申请STMP服务器账号和密码可以参考下面的教程：<a href="https://jingyan.baidu.com/article/fdbd42771da9b0b89e3f48a8.html">如何开通电子邮箱的SMTP功能</a>
+
 
 ## 配置LDAP登录
      

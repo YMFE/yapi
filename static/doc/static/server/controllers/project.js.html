@@ -365,6 +365,7 @@ class projectController extends baseController {
   async get(ctx) {
     let params = ctx.params;
     let result = await this.Model.getBaseInfo(params.id);
+    
     if (!result) {
       return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
@@ -590,6 +591,8 @@ class projectController extends baseController {
         pre_script: 'string',
         after_script: 'string'
       });
+
+
       if (!id) {
         return ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空');
       }
@@ -600,7 +603,7 @@ class projectController extends baseController {
 
       let projectData = await this.Model.get(id);
 
-      if(params.basepath){
+      if (params.basepath) {
         if ((params.basepath = this.handleBasepath(params.basepath)) === false) {
           return ctx.body = yapi.commons.resReturn(null, 401, 'basepath格式有误');
         }
@@ -629,6 +632,7 @@ class projectController extends baseController {
       if (!_.isUndefined(params.desc)) data.desc = params.desc;
       if (!_.isUndefined(params.group_id)) data.group_id = params.group_id;
       if (!_.isUndefined(params.basepath)) data.basepath = params.basepath;
+      if (!_.isUndefined(params.switch_notice)) data.switch_notice = params.switch_notice;
       if (!_.isUndefined(params.color)) data.color = params.color;
       if (!_.isUndefined(params.icon)) data.icon = params.icon;
       if (!_.isUndefined(params.pre_script)) data.pre_script = params.pre_script;
@@ -686,7 +690,7 @@ class projectController extends baseController {
 
       data.env = params.env;
       let isRepeat = this.arrRepeat(data.env, 'name');
-      if(isRepeat){
+      if (isRepeat) {
         return ctx.body = yapi.commons.resReturn(null, 405, '环境变量名重复');
       }
       let result = await this.Model.up(id, data);
@@ -704,11 +708,11 @@ class projectController extends baseController {
     }
   }
 
-  arrRepeat(arr, key){
+  arrRepeat(arr, key) {
     const s = new Set();
-    arr.forEach(item=>s.add(item[key]))
+    arr.forEach(item => s.add(item[key]))
     return s.size !== arr.length
-    }
+  }
 
   /**
    * 模糊搜索项目名称或者组名称
