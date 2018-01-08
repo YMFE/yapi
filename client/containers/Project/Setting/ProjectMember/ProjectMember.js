@@ -6,7 +6,7 @@ import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { connect } from 'react-redux';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import { fetchGroupMemberList } from '../../../../reducer/modules/group.js';
-import {getProjectMemberList, getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
+import { getProjectMemberList, getProject, addMember, delMember, changeMemberRole } from '../../../../reducer/modules/project.js';
 import UsernameAutoComplete from '../../../../components/UsernameAutoComplete/UsernameAutoComplete.js';
 import '../Setting.scss';
 
@@ -156,8 +156,8 @@ class ProjectMember extends Component {
   }
 
   async componentWillMount() {
-    console.log('projectMsg', this.props.projectMsg)
-    // await this.props.getProject(this.props.match.params.id)
+    // console.log('projectMsg', this.props.projectMsg)
+    await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     // const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);
