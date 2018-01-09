@@ -133,7 +133,6 @@ class userController extends baseController {
       const { email, password } = ctx.request.body;
       const username = email.split(/\@/g)[0]
       const isValid = await ldap.ldapQuery(email, password);
-      console.log('isVaild', isValid);
         let login = await this.handleThirdLogin(email, username);
         if (login === true) {
           let userInst = yapi.getInst(userModel); //创建user实体

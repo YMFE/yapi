@@ -13,7 +13,6 @@ const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
 const WEBCONFIG = config;
 
 fs.ensureDirSync(WEBROOT_LOG);
-console.log('mail', WEBCONFIG.mail)
 
 if (WEBCONFIG.mail && WEBCONFIG.mail.enable) {
 

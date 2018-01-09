@@ -791,7 +791,6 @@ class interfaceController extends baseController {
     const users = this.arrUnique(projectMenbers, starUsers);
     const usersInfo = await this.userModel.findByUids(users)
     const emails = usersInfo.map(item => item.email).join(',');
-    console.log('emails', emails);
 
     try {
       yapi.commons.sendMail({

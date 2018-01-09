@@ -7,7 +7,6 @@ exports.ldapQuery = (username, password) => {
 
   return new Promise((resolve, reject) => {
     const { ldapLogin } = yapi.WEBCONFIG;
-    console.log('login', ldapLogin);
 
     //  使用ldapjs库创建一个LDAP客户端
     const client = ldap.createClient({
