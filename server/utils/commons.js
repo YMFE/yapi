@@ -115,7 +115,7 @@ exports.randStr = () => {
 exports.getIp = (ctx) => {
   let ip;
   try {
-    ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+    ip = ctx.ip.match(/\d+.\d+.\d+.\d+/) ? ctx.ip.match(/\d+.\d+.\d+.\d+/)[0] : 'localhost';
   } catch (e) {
     ip = null;
   }
