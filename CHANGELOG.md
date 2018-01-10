@@ -1,7 +1,13 @@
 ### v1.3.4
 
+#### Feature
+
+* 进入project页面加入loading
+* 接口list页table中加入分页
+
 #### Bug Fixed
 * 修复无权限进入项目bug
+
 
 
 ### v1.3.3

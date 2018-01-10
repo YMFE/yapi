@@ -157,7 +157,7 @@ class ProjectMember extends Component {
 
   async componentWillMount() {
     // console.log('projectMsg', this.props.projectMsg)
-    await this.props.getProject(this.props.match.params.id)
+    // await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     // const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);

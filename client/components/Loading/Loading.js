@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Loading.scss'
 
-export default class Loading extends React.PureComponent{
+export default class Loading extends React.PureComponent {
   static defaultProps = {
     visible: false
   }
@@ -11,16 +11,16 @@ export default class Loading extends React.PureComponent{
   }
   constructor(props) {
     super(props);
-    this.state = { show:props.visible };
+    this.state = { show: props.visible };
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({ show : nextProps.visible });
+    this.setState({ show: nextProps.visible });
   }
-  render(){
-    return(
+  render() {
+    return (
       <div
         className="loading-box"
-        style={{ display: this.state.show ? 'flex' : 'none'}}
+        style={{ display: this.state.show ? 'flex' : 'none' }}
       >
         <div className="loading-box-bg"></div>
         <div className="loading-box-inner">

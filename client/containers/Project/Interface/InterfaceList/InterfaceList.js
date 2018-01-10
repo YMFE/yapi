@@ -61,7 +61,7 @@ class InterfaceList extends Component {
       this.setState({
         data: JSON.parse(JSON.stringify(r.payload.data.data))
       })
-      
+
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
@@ -218,7 +218,13 @@ class InterfaceList extends Component {
             <p style={{ marginTop: '10px' }}>{desc} </p>
           }
         </div>
-        <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
+        <Table
+          className="table-interfacelist"
+          // pagination={false}
+          columns={columns}
+          onChange={this.handleChange}
+          dataSource={data}
+        />
         <Modal
           title="添加接口"
           visible={this.state.visible}
