@@ -7,8 +7,8 @@ import showDiffMsg from '../../../common/diff-view.js'
 import variable from '../../constants/variable';
 import { Link } from 'react-router-dom'
 import { fetchNewsData, fetchMoreNews } from '../../reducer/modules/news.js'
+import { fetchInterfaceList } from '../../reducer/modules/interface.js'
 import ErrMsg from '../ErrMsg/ErrMsg.js';
-import axios from 'axios'
 const jsondiffpatch = require('jsondiffpatch/public/build/jsondiffpatch-full.js')
 const formattersHtml = require('jsondiffpatch/public/build/jsondiffpatch-formatters.js').html;
 import 'jsondiffpatch/public/formatters-styles/annotated.css'
@@ -97,7 +97,8 @@ function timeago(timestamp) {
   },
   {
     fetchNewsData: fetchNewsData,
-    fetchMoreNews: fetchMoreNews
+    fetchMoreNews: fetchMoreNews,
+    fetchInterfaceList
   }
 )
 
@@ -111,7 +112,8 @@ class TimeTree extends Component {
     curpage: PropTypes.number,
     typeid: PropTypes.number,
     curUid: PropTypes.number,
-    type: PropTypes.string
+    type: PropTypes.string,
+    fetchInterfaceList: PropTypes.func
   }
 
   constructor(props) {
@@ -163,9 +165,9 @@ class TimeTree extends Component {
   }
 
   async getApiList() {
-    let result = await axios.get('/api/interface/list?project_id=' + this.props.typeid);
+    let result = await this.props.fetchInterfaceList(this.props.typeid);
     this.setState({
-      apiList: result.data.data
+      apiList: JSON.parse(JSON.stringify(result.payload.data.data))
     })
   }
 
@@ -227,7 +229,7 @@ class TimeTree extends Component {
     }
 
     let diffView = showDiffMsg(jsondiffpatch, formattersHtml, curDiffData);
-    console.log('diff', diffView);
+
 
     return (
       <section className="news-timeline">

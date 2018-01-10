@@ -47,10 +47,13 @@ class ProjectData extends Component {
 
   componentWillMount() {
     axios.get(`/api/interface/getCatMenu?project_id=${this.props.match.params.id}`).then((data) => {
-      let menuList = data.data.data;
-      this.setState({
-        menuList: menuList
-      })
+      if (data.data.errcode === 0) {
+        let menuList = data.data.data;
+        this.setState({
+          menuList: menuList
+        })
+      }
+
     });
     plugin.emitHook('import_data', importDataModule);
     plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
@@ -76,7 +79,7 @@ class ProjectData extends Component {
   }
 
   async handleAddCat(cats) {
-   
+
     let menuList = this.state.menuList;
     let catsObj = {};
     if (cats && Array.isArray(cats)) {

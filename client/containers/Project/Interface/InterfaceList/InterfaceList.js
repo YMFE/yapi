@@ -6,7 +6,7 @@ import {
   Table, Button, Modal, message, Tooltip, Select
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
-import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu, fetchInterfaceList } from '../../../../reducer/modules/interface.js';
 import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
@@ -20,6 +20,7 @@ const Option = Select.Option;
       catList: state.inter.list
     }
   }, {
+    fetchInterfaceListMenu,
     fetchInterfaceList
   })
 class InterfaceList extends Component {
@@ -38,6 +39,7 @@ class InterfaceList extends Component {
     match: PropTypes.object,
     curProject: PropTypes.object,
     history: PropTypes.object,
+    fetchInterfaceListMenu: PropTypes.func,
     fetchInterfaceList: PropTypes.func
   }
 
@@ -48,10 +50,18 @@ class InterfaceList extends Component {
       this.setState({
         catid: null
       })
-      let r = await axios.get('/api/interface/list?project_id=' + projectId);
+      // let r = await axios.get('/api/interface/list?project_id=' + projectId);
+      // if (r.data.errcode) {
+      //   throw new Error(r.data.errmsg);
+      // }
+      // this.setState({
+      //   data: r.data.data
+      // })
+      let r = await this.props.fetchInterfaceList(projectId);
       this.setState({
-        data: r.data.data
+        data: JSON.parse(JSON.stringify(r.payload.data.data))
       })
+      
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
@@ -92,7 +102,7 @@ class InterfaceList extends Component {
       message.success('接口添加成功')
       let interfaceId = res.data.data._id;
       this.props.history.push("/project/" + data.project_id + "/interface/api/" + interfaceId)
-      this.props.fetchInterfaceList(data.project_id)
+      this.props.fetchInterfaceListMenu(data.project_id)
     })
   }
 
@@ -105,7 +115,7 @@ class InterfaceList extends Component {
     if (result.data.errcode === 0) {
       message.success('修改成功');
       this.handleRequest(this.props);
-      this.props.fetchInterfaceList(this.props.curProject._id)
+      this.props.fetchInterfaceListMenu(this.props.curProject._id)
     } else {
       message.error(result.data.errmsg)
     }
@@ -126,6 +136,7 @@ class InterfaceList extends Component {
   }
 
   render() {
+
     const columns = [{
       title: '接口名称',
       dataIndex: 'title',
@@ -142,7 +153,7 @@ class InterfaceList extends Component {
       render: (item, record) => {
         const path = this.props.curProject.basepath + item;
         let methodColor = variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'];
-        
+
         return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
           <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{record.method}</span>
           <span className="path">{path}</span>
@@ -154,8 +165,8 @@ class InterfaceList extends Component {
       key: 'catid',
       width: 12,
       render: (item, record) => {
-        return <Select value={item + ''} className="select" onChange={(catid)=> this.changeInterfaceCat(record._id, catid)}>
-          {this.props.catList.map(cat=>{
+        return <Select value={item + ''} className="select" onChange={(catid) => this.changeInterfaceCat(record._id, catid)}>
+          {this.props.catList.map(cat => {
             return <Option key={cat.id + ''} value={cat._id + ''}><span >{cat.name}</span></Option>
           })}
         </Select>
@@ -182,27 +193,29 @@ class InterfaceList extends Component {
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
     let intername = '', desc = '';
-    if (this.props.curProject.cat) {
-      for (let i = 0; i < this.props.curProject.cat.length; i++) {
-        if (this.props.curProject.cat[i]._id === this.state.catid) {
-          intername = this.props.curProject.cat[i].name;
-          desc = this.props.curProject.cat[i].desc;
+    let cat = this.props.curProject ? this.props.curProject.cat : [];
+
+    if (cat) {
+      for (let i = 0; i < cat.length; i++) {
+        if (cat[i]._id === this.state.catid) {
+          intername = cat[i].name;
+          desc = cat[i].desc;
         }
       }
     }
     const data = this.state.data ? this.state.data.map(item => {
       item.key = item._id;
       return item;
-    }) : null;
+    }) : [];
 
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({data.length}) 个</h2>
-        
+
         <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <div >
           {desc &&
-            <p style={{marginTop: '10px'}}>{desc} </p>
+            <p style={{ marginTop: '10px' }}>{desc} </p>
           }
         </div>
         <Table className="table-interfacelist" pagination={false} columns={columns} onChange={this.handleChange} dataSource={data} />
@@ -213,7 +226,7 @@ class InterfaceList extends Component {
           footer={null}
           className="addcatmodal"
         >
-          <AddInterfaceForm catid={this.state.catid} catdata={this.props.curProject.cat} onCancel={() => this.setState({ 'visible': false })} onSubmit={this.handleAddInterface} />
+          <AddInterfaceForm catid={this.state.catid} catdata={cat} onCancel={() => this.setState({ 'visible': false })} onSubmit={this.handleAddInterface} />
         </Modal>
       </div>
     )

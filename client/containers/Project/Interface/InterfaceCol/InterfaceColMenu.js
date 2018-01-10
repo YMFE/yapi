@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData, fetchCaseList } from '../../../../reducer/modules/interfaceCol'
-import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
 import axios from 'axios';
 // import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 import ImportInterface from './ImportInterface'
@@ -54,7 +54,7 @@ const ColModalForm = Form.create()((props) => {
   {
     fetchInterfaceColList,
     fetchInterfaceCaseList,
-    fetchInterfaceList,
+    fetchInterfaceListMenu,
     fetchCaseList,
     setColData
   }
@@ -67,7 +67,7 @@ export default class InterfaceColMenu extends Component {
     interfaceColList: PropTypes.array,
     fetchInterfaceColList: PropTypes.func,
     fetchInterfaceCaseList: PropTypes.func,
-    fetchInterfaceList: PropTypes.func,
+    fetchInterfaceListMenu: PropTypes.func,
     fetchCaseList: PropTypes.func,
     setColData: PropTypes.func,
     currCaseId: PropTypes.number,
@@ -269,7 +269,7 @@ export default class InterfaceColMenu extends Component {
 
   showImportInterfaceModal = async (colId) => {
     const projectId = this.props.match.params.id;
-    await this.props.fetchInterfaceList(projectId)
+    await this.props.fetchInterfaceListMenu(projectId)
     this.setState({ importInterVisible: true, importColId: colId })
   }
   handleImportOk = async () => {

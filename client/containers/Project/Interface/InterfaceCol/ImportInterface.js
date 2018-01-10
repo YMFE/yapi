@@ -3,18 +3,7 @@ import PropTypes from 'prop-types'
 // import { connect } from 'react-redux'
 import { Table } from 'antd'
 import variable from '../../../../constants/variable';
-// import { fetchInterfaceList } from '../../../../reducer/modules/interface.js';
 
-// @connect(
-//   state => {
-//     return {
-//       list: state.inter.list
-//     }
-//   },
-//   {
-//     fetchInterfaceList
-//   }
-// )
 export default class ImportInterface extends Component {
   constructor(props) {
     super(props)

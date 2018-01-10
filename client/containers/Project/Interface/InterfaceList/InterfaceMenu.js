@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { fetchInterfaceList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
 import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
@@ -23,7 +23,7 @@ const TreeNode = Tree.TreeNode;
     }
   },
   {
-    fetchInterfaceList,
+    fetchInterfaceListMenu,
     fetchInterfaceData,
     deleteInterfaceCatData,
     deleteInterfaceData,
@@ -37,7 +37,7 @@ class InterfaceMenu extends Component {
     inter: PropTypes.object,
     projectId: PropTypes.string,
     list: PropTypes.array,
-    fetchInterfaceList: PropTypes.func,
+    fetchInterfaceListMenu: PropTypes.func,
     curProject: PropTypes.object,
     fetchInterfaceData: PropTypes.func,
     addInterfaceData: PropTypes.func,
@@ -86,9 +86,9 @@ class InterfaceMenu extends Component {
   }
 
   async getList() {
-    let r = await this.props.fetchInterfaceList(this.props.projectId);
+    let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
     this.setState({
-      list: JSON.parse(JSON.stringify(r.payload.data))
+      list: JSON.parse(JSON.stringify(r.payload.data.data))
     })
   }
 
@@ -263,7 +263,7 @@ class InterfaceMenu extends Component {
     const dragCatId = this.props.list[dragCatIndex]._id;
     if (id.indexOf('cat') === -1 && dropCatId !== dragCatId) {
       await axios.post('/api/interface/up', { id, catid: dropCatId });
-      this.props.fetchInterfaceList(this.props.projectId);
+      this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   }
 
