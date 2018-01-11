@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
+import { Table, Select, Button, Modal, Row, Col, message, Popconfirm, Icon } from 'antd';
 import { Link } from 'react-router-dom'
 import './MemberList.scss';
 import { autobind } from 'core-decorators';
@@ -91,7 +91,7 @@ class MemberList extends Component {
         const existLength = exist_members.length;
         this.setState({
           inputRole: 'dev',
-          inputUids:[]
+          inputUids: []
         });
         message.success(`添加成功! 已成功添加 ${addLength} 人，其中 ${existLength} 人已存在`);
         this.reFetchList(); // 添加成功后重新获取分组成员列表
@@ -211,7 +211,8 @@ class MemberList extends Component {
                 <Option value={'guest-' + record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
-                <Button type="danger" icon="minus" className="btn-danger" />
+                <Button type="danger" icon="delete" className="btn-danger" />
+                {/* <Icon type="delete" className="btn-danger"/> */}
               </Popconfirm>
             </div>
           )

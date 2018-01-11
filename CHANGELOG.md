@@ -9,6 +9,7 @@
 #### Bug Fixed
 * 修复无权限进入项目bug
 * 修复复制接口，query 等参数无法复制bug
+* 修复导出html markdown参数丢失问题
 
 
 

@@ -1,7 +1,10 @@
 
 .project-interface-change-content{
-  min-height: 600px;
-  min-width: 800px;
+  min-height: 350px;
+  max-height: 1000px;
+  min-width: 784px;
+  overflow-y: scroll;
+  
   .item-content{
     .title{
       margin: 10px 0;
@@ -14,7 +17,6 @@
 
 
 .news-box {
-  
     display: -webkit-box;
     -webkit-box-flex: 1;
     margin: 0px auto 0 auto;

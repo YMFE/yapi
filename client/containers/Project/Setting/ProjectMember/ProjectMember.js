@@ -195,7 +195,7 @@ class ProjectMember extends Component {
                 <Option value={'guest-' + record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
-                <Button type="danger" icon="minus" className="btn-danger" />
+                <Button type="danger" icon="delete" className="btn-danger" />
               </Popconfirm>
             </div>
           )

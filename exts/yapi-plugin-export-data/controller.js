@@ -19,17 +19,18 @@ class exportController extends baseController {
     this.projectModel = yapi.getInst(projectModel);
   }
 
-  async handleListClass(pid){
+  async handleListClass(pid) {
     let result = await this.catModel.list(pid), newResult = [];
-          for (let i = 0, item, list; i < result.length; i++) {
-              item = result[i].toObject()
-              list = await this.interModel.listByCatid(item._id, '_id title method path')
-              for (let j = 0; j < list.length; j++) {
-                  list[j] = list[j].toObject()
-              }
-              item.list = list;
-              newResult[i] = item
-          }
+    for (let i = 0, item, list; i < result.length; i++) {
+      item = result[i].toObject()
+      list = await this.interModel.listByCatid(item._id, '_id title method path desc query_path req_headers req_params req_query req_body_type req_body_other req_body_form res_body')
+      for (let j = 0; j < list.length; j++) {
+        list[j] = list[j].toObject()
+      }
+      item.list = list;
+      newResult[i] = item
+    }
+    
     return newResult;
 
   }
@@ -225,7 +226,7 @@ class exportController extends baseController {
       try {
         // const interList = await this.interModel.listByPid(pid);
         const list = await this.handleListClass(pid);
-       
+
         // 项目名、项目描述
         let title = escapeStr('<h1 class="curproject-name">' + curProject.name + '</h1>');
         mdTemplate += `\n ${title} \n ${curProject.desc || ""}\n${escapeStr("<br>")}\n`
@@ -255,7 +256,7 @@ class exportController extends baseController {
           }
 
         })
-        
+
         return mdTemplate;
       } catch (e) {
         yapi.commons.log(e, 'error');
