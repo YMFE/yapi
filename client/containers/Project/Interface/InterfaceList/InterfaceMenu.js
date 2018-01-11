@@ -214,7 +214,10 @@ class InterfaceMenu extends Component {
     });
   }
 
-  copyInterface = (data) => {
+  copyInterface = async (id) => {
+    
+    let interfaceData = await this.props.fetchInterfaceData(id);
+    let data = JSON.parse(JSON.stringify(interfaceData.payload.data.data));
     data.title = data.title + '_copy';
     data.path = data.path + '_' + Date.now();
     axios.post('/api/interface/add', data).then((res) => {
@@ -365,7 +368,7 @@ class InterfaceMenu extends Component {
               <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
             </Tooltip>
             <Tooltip title="复制接口">
-              <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+              <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
             </Tooltip>
           </div>
           {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
