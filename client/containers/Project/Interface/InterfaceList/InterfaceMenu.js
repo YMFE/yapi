@@ -180,17 +180,18 @@ class InterfaceMenu extends Component {
     })
   }
 
-  showConfirm = (id) => {
+  showConfirm = (data) => {
     let that = this;
+    let id = data._id;
+    let catid = data.catid;
     const ref = confirm({
-      title: '您确认删除此接口',
+      title: '您确认删除此接口????',
       content: '温馨提示：接口删除后，无法恢复',
       async onOk() {
-
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
         ref.destroy()
-        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api/cat_' + catid)
       },
       onCancel() {
         ref.destroy()
@@ -215,7 +216,6 @@ class InterfaceMenu extends Component {
   }
 
   copyInterface = async (id) => {
-    
     let interfaceData = await this.props.fetchInterfaceData(id);
     let data = JSON.parse(JSON.stringify(interfaceData.payload.data.data));
     data.title = data.title + '_copy';
@@ -365,7 +365,7 @@ class InterfaceMenu extends Component {
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <div className="btns">
             <Tooltip title="删除接口">
-              <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+              <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
             </Tooltip>
             <Tooltip title="复制接口">
               <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
