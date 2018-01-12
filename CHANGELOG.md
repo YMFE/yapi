@@ -1,3 +1,18 @@
+### v1.3.4
+
+#### Feature
+
+* 进入project页面加入loading
+* 接口list页table中加入分页
+* 项目添加者自动变成项目组长
+
+#### Bug Fixed
+* 修复无权限进入项目bug
+* 修复复制接口，query 等参数无法复制bug
+* 修复导出html markdown参数丢失问题
+
+
+
 ### v1.3.3
 
 #### Feature

@@ -155,6 +155,7 @@ class ProjectList extends Component {
         : <ErrMsg type="noProject" />)
     }
 
+
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -177,7 +178,7 @@ class ProjectList extends Component {
               </Col>);
           }) : <ErrMsg type="noProject" />} */}
           {
-            /owner/.test(this.props.currGroup.role) ? <OwnerSpace /> : projectData.length ? projectData.map((item, index) => {
+            this.props.currGroup.type === 'private' ? <OwnerSpace /> : projectData.length ? projectData.map((item, index) => {
               return (
                 <Col xs={8} md={6} xl={4} key={index}>
                   <ProjectCard projectData={item} callbackResult={this.receiveRes} />

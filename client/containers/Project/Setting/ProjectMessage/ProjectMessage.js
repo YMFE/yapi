@@ -12,7 +12,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
-import { nameLengthLimit, entries } from '../../../../common';
+import { nameLengthLimit, entries, trim } from '../../../../common';
 import '../Setting.scss';
 // layout
 const formItemLayout = {
@@ -30,6 +30,8 @@ const formItemLayout = {
 };
 
 const Option = Select.Option;
+
+
 
 @connect(
   state => {
@@ -83,7 +85,6 @@ class ProjectMessage extends Component {
       if (!err) {
         let assignValue = Object.assign(projectMsg, values);
         values.protocol = this.state.protocol.split(':')[0];
-        console.log('assignValue', assignValue);
 
         updateProject(assignValue).then((res) => {
           if (res.payload.data.errcode == 0) {
@@ -110,7 +111,7 @@ class ProjectMessage extends Component {
         </div>
       </div>,
       onOk() {
-        let groupName = document.getElementById('project_name').value;
+        let groupName = trim(document.getElementById('project_name').value);
         if (that.props.projectMsg.name !== groupName) {
           message.error('项目名称有误')
           return new Promise((resolve, reject) => {
@@ -120,7 +121,7 @@ class ProjectMessage extends Component {
           that.props.delProject(that.props.projectId).then((res) => {
             if (res.payload.data.errcode == 0) {
               message.success('删除成功!');
-              that.props.history.push('/group');
+              that.props.history.push('/group/' + that.props.projectMsg.group_id);
             }
           });
         }
@@ -159,7 +160,7 @@ class ProjectMessage extends Component {
   }
 
   async componentWillMount() {
-    
+
     await this.props.fetchGroupList();
     // await this.props.getProject(this.props.projectId);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);

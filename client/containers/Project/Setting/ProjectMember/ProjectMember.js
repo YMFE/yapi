@@ -157,7 +157,7 @@ class ProjectMember extends Component {
 
   async componentWillMount() {
     // console.log('projectMsg', this.props.projectMsg)
-    await this.props.getProject(this.props.match.params.id)
+    // await this.props.getProject(this.props.match.params.id)
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     // const rojectMsg = await this.props.getProjectMsg(this.props.match.params.id);
@@ -195,7 +195,7 @@ class ProjectMember extends Component {
                 <Option value={'guest-' + record.uid}>访客</Option>
               </Select>
               <Popconfirm placement="topRight" title="你确定要删除吗? " onConfirm={this.deleteConfirm(record.uid)} okText="确定" cancelText="">
-                <Button type="danger" icon="minus" className="btn-danger" />
+                <Button type="danger" icon="delete" className="btn-danger" />
               </Popconfirm>
             </div>
           )

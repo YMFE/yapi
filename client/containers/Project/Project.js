@@ -9,6 +9,7 @@ import { getProject } from '../../reducer/modules/project';
 import Interface from './Interface/Interface.js'
 import Activity from './Activity/Activity.js'
 import Setting from './Setting/Setting.js'
+import Loading from '../../components/Loading/Loading';
 import ProjectMember from './Setting/ProjectMember/ProjectMember.js';
 import ProjectData from './Setting/ProjectData/ProjectData.js';
 
@@ -46,7 +47,7 @@ export default class Project extends Component {
   async componentWillMount() {
     await this.props.getProject(this.props.match.params.id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.curProject.group_id);
-  
+
     this.setState({
       currGroup: groupMsg.payload.data.data
     })
@@ -98,6 +99,10 @@ export default class Project extends Component {
       subnavData = subnavData.filter(item => {
         return item.name != '成员管理'
       })
+    }
+
+    if (Object.keys(this.props.curProject).length === 0) {
+      return <Loading visible />;
     }
 
     return (

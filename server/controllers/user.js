@@ -132,22 +132,22 @@ class userController extends baseController {
     try {
       const { email, password } = ctx.request.body;
       const username = email.split(/\@/g)[0]
-      const isValid = await ldap.ldapQuery(email, password);
-        let login = await this.handleThirdLogin(email, username);
-        if (login === true) {
-          let userInst = yapi.getInst(userModel); //创建user实体
-          let result = await userInst.findByEmail(email);
-          return ctx.body = yapi.commons.resReturn({
-            username: result.username,
-            role: result.role,
-            uid: result._id,
-            email: result.email,
-            add_time: result.add_time,
-            up_time: result.up_time,
-            type: 'site',
-            study: result.study
-          }, 0, 'logout success...');
-        }
+      await ldap.ldapQuery(email, password);
+      let login = await this.handleThirdLogin(email, username);
+      if (login === true) {
+        let userInst = yapi.getInst(userModel); //创建user实体
+        let result = await userInst.findByEmail(email);
+        return ctx.body = yapi.commons.resReturn({
+          username: result.username,
+          role: result.role,
+          uid: result._id,
+          email: result.email,
+          add_time: result.add_time,
+          up_time: result.up_time,
+          type: 'site',
+          study: result.study
+        }, 0, 'logout success...');
+      }
     } catch (e) {
       yapi.commons.log(e.message, 'error');
       return ctx.body = yapi.commons.resReturn(null, 401, e.message);

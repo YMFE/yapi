@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { fetchInterfaceList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
 import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
@@ -23,7 +23,7 @@ const TreeNode = Tree.TreeNode;
     }
   },
   {
-    fetchInterfaceList,
+    fetchInterfaceListMenu,
     fetchInterfaceData,
     deleteInterfaceCatData,
     deleteInterfaceData,
@@ -37,7 +37,7 @@ class InterfaceMenu extends Component {
     inter: PropTypes.object,
     projectId: PropTypes.string,
     list: PropTypes.array,
-    fetchInterfaceList: PropTypes.func,
+    fetchInterfaceListMenu: PropTypes.func,
     curProject: PropTypes.object,
     fetchInterfaceData: PropTypes.func,
     addInterfaceData: PropTypes.func,
@@ -86,9 +86,9 @@ class InterfaceMenu extends Component {
   }
 
   async getList() {
-    let r = await this.props.fetchInterfaceList(this.props.projectId);
+    let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
     this.setState({
-      list: JSON.parse(JSON.stringify(r.payload.data))
+      list: JSON.parse(JSON.stringify(r.payload.data.data))
     })
   }
 
@@ -180,17 +180,18 @@ class InterfaceMenu extends Component {
     })
   }
 
-  showConfirm = (id) => {
+  showConfirm = (data) => {
     let that = this;
+    let id = data._id;
+    let catid = data.catid;
     const ref = confirm({
-      title: '您确认删除此接口',
+      title: '您确认删除此接口????',
       content: '温馨提示：接口删除后，无法恢复',
       async onOk() {
-
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
         ref.destroy()
-        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
+        that.props.history.push('/project/' + that.props.match.params.id + '/interface/api/cat_' + catid)
       },
       onCancel() {
         ref.destroy()
@@ -214,7 +215,9 @@ class InterfaceMenu extends Component {
     });
   }
 
-  copyInterface = (data) => {
+  copyInterface = async (id) => {
+    let interfaceData = await this.props.fetchInterfaceData(id);
+    let data = JSON.parse(JSON.stringify(interfaceData.payload.data.data));
     data.title = data.title + '_copy';
     data.path = data.path + '_' + Date.now();
     axios.post('/api/interface/add', data).then((res) => {
@@ -263,7 +266,7 @@ class InterfaceMenu extends Component {
     const dragCatId = this.props.list[dragCatIndex]._id;
     if (id.indexOf('cat') === -1 && dropCatId !== dragCatId) {
       await axios.post('/api/interface/up', { id, catid: dropCatId });
-      this.props.fetchInterfaceList(this.props.projectId);
+      this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   }
 
@@ -362,10 +365,10 @@ class InterfaceMenu extends Component {
           <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
           <div className="btns">
             <Tooltip title="删除接口">
-              <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+              <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
             </Tooltip>
             <Tooltip title="复制接口">
-              <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
+              <Icon type='copy' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.copyInterface(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
             </Tooltip>
           </div>
           {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>

@@ -44,7 +44,6 @@ export default (state = initialState, action) => {
       }
     }
     case FETCH_CASE_LIST: {
-      console.log('re-list', action.payload.data.data);
       return {
         ...state,
         currCaseList: action.payload.data.data
