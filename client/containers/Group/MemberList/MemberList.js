@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Select, Button, Modal, Row, Col, message, Popconfirm, Icon } from 'antd';
+import { Table, Select, Button, Modal, Row, Col, message, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom'
 import './MemberList.scss';
 import { autobind } from 'core-decorators';

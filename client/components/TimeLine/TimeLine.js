@@ -20,7 +20,6 @@ const Option = AutoComplete.Option;
 
 const AddDiffView = (props) => {
   const { title, content, className } = props;
-  console.log('className', className);
   if (!content) {
     return null;
   }

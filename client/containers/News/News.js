@@ -10,7 +10,6 @@ import Subnav from '../../components/Subnav/Subnav.js';
 
 @connect(
   state => {
-    console.log(state);
     return {
       uid: state.user.uid + ''
     }
