@@ -3,7 +3,6 @@ import variable from '../../constants/variable';
 
 // Actions
 const FETCH_PROJECT_LIST = 'yapi/project/FETCH_PROJECT_LIST';
-const GET_PROJECT_MSG = 'yapi/project/GET_PROJECT_MSG';
 const PROJECT_ADD = 'yapi/project/PROJECT_ADD';
 const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 // const CHANGE_TABLE_LOADING = 'yapi/project/CHANGE_TABLE_LOADING';
@@ -26,30 +25,20 @@ const initialState = {
   tableLoading: true,
   total: 0,
   currPage: 1,
-  currProject: {}
+  currProject: {
+  }
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_CURR_PROJECT: {
+
       return {
         ...state,
-        currProject: action.payload.data
+        currProject: action.payload.data.data
       }
     }
-    // case CHANGE_UPDATE_MODAL: {
-    //   return {
-    //     ...state,
-    //     isUpdateModalShow: action.payload.data,
-    //     handleUpdateIndex: action.payload.index
-    //   };
-    // }
-    // case CHANGE_TABLE_LOADING: {
-    //   return {
-    //     ...state,
-    //     tableLoading: action.payload
-    //   }
-    // }
+
     case FETCH_PROJECT_LIST: {
       return {
         ...state,
@@ -58,12 +47,7 @@ export default (state = initialState, action) => {
         userInfo: action.payload.data.data.userinfo
       };
     }
-    case GET_PROJECT_MSG: {
-      return {
-        ...state,
-        projectMsg: action.payload.data.data
-      };
-    }
+
     case PROJECT_ADD: {
       return state;
     }
@@ -218,13 +202,10 @@ export function delProject(id) {
   };
 }
 
-export function getProject(id){
-
-  return async (dispatch) => {
-    let result = await axios.get('/api/project/get?id=' + id);
-    dispatch({
-      type: GET_CURR_PROJECT,
-      payload: result.data
-    })
+export async function getProject(id) {
+  let result = await axios.get('/api/project/get?id=' + id);
+  return {
+    type: GET_CURR_PROJECT,
+    payload: result
   }
 }

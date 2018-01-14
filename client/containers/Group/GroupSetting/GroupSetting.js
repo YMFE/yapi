@@ -5,6 +5,7 @@ import { Input, Button, message, Icon, Card, Alert, Modal, Switch, Row, Col } fr
 import { fetchNewsData } from '../../../reducer/modules/news.js';
 import { changeGroupMsg, fetchGroupList, setCurrGroup, fetchGroupMsg, updateGroupList, deleteGroup } from '../../../reducer/modules/group.js';
 const { TextArea } = Input;
+import { trim } from '../../../common.js';
 import _ from 'underscore';
 import './GroupSetting.scss';
 const confirm = Modal.confirm;
@@ -163,7 +164,7 @@ class GroupSetting extends Component {
         </div>
       </div>,
       onOk() {
-        const groupName = document.getElementById('group_name').value;
+        const groupName = trim(document.getElementById('group_name').value);
         if (that.props.currGroup.group_name !== groupName) {
           message.error('分组名称有误')
           return new Promise((resolve, reject) => {

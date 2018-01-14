@@ -21,7 +21,6 @@ function addPluginRouter(config) {
   createAction(router, "/api", config.controller, config.action, routerPath, method, true);
 }
 function websocket(app) {
-  console.log('load websocket...')
   createAction(router, "/api", interfaceController, "solveConflict", "/interface/solve_conflict", "get")
 
   yapi.emitHookSync('add_ws_router', addPluginRouter);
@@ -29,7 +28,6 @@ function websocket(app) {
   app.ws.use(router.routes())
   app.ws.use(router.allowedMethods());
   app.ws.use(function (ctx, next) {
-    console.log(1111)
     return ctx.websocket.send(JSON.stringify({
       errcode: 404,
       errmsg: 'No Fount.'

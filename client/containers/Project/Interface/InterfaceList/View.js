@@ -167,11 +167,7 @@ class View extends Component {
     }
   }
 
-  componentWillUpdate() {
-    if (!this.props.curData.title && this.state.init) {
-      this.setState({ init: false });
-    }
-  }
+
   render() {
     const dataSource = [];
     if (this.props.curData.req_headers && this.props.curData.req_headers.length) {

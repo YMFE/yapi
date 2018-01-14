@@ -118,6 +118,44 @@ class ProjectList extends Component {
       return b.up_time - a.up_time;
     })
     projectData = [...followProject, ...noFollow]
+
+    const Follow = () => {
+      return followProject.length ? <Row>
+        <h3 className="owner-type">我的关注</h3>
+        {
+          followProject.map((item, index) => {
+            return (
+              <Col xs={8} md={6} xl={4} key={index}>
+                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+              </Col>)
+          })
+        }
+      </Row> : null
+    }
+    const NoFollow = () => {
+      return noFollow.length ? <Row style={{ borderBottom: '1px solid #eee', marginBottom: '15px' }}>
+        <h3 className="owner-type">我的项目</h3>
+        {
+          noFollow.map((item, index) => {
+            return (
+              <Col xs={8} md={6} xl={4} key={index}>
+                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+              </Col>)
+          })
+        }
+      </Row> : null
+    }
+
+    const OwnerSpace = () => {
+      return (projectData.length ?
+        <div>
+          <NoFollow />
+          <Follow />
+        </div>
+        : <ErrMsg type="noProject" />)
+    }
+
+
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -132,13 +170,21 @@ class ProjectList extends Component {
               </Tooltip>}
           </Col>
         </Row>
-        <Row gutter={16}>
-          {projectData.length ? projectData.map((item, index) => {
+        <Row>
+          {/* {projectData.length ? projectData.map((item, index) => {
             return (
               <Col xs={8} md={6} xl={4} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>);
-          }) : <ErrMsg type="noProject" />}
+          }) : <ErrMsg type="noProject" />} */}
+          {
+            this.props.currGroup.type === 'private' ? <OwnerSpace /> : projectData.length ? projectData.map((item, index) => {
+              return (
+                <Col xs={8} md={6} xl={4} key={index}>
+                  <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+                </Col>);
+            }) : <ErrMsg type="noProject" />
+          }
         </Row>
       </div>
     );
