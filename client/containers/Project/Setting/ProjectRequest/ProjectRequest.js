@@ -10,7 +10,7 @@ import { updateProjectScript } from '../../../../reducer/modules/project';
 @connect(
   state => {
     return {
-      projectMsg: state.project.projectMsg
+      projectMsg: state.project.currProject
     }
   },
   {
