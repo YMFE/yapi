@@ -207,11 +207,18 @@ class projectController extends baseController {
         up_time: yapi.commons.time()
       })
     }
+    let uid = this.getUid();
+    // 将项目添加者变成项目组长,除admin以外
+    if (this.getRole() !== 'admin') {
+      let userdata = await this.getUserdata(uid, 'owner')
+      await this.Model.addMember(result._id, [userdata])
+
+    }
     let username = this.getUsername();
     yapi.commons.saveLog({
       content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了项目 <a href="/project/${result._id}">${params.name}</a>`,
       type: 'project',
-      uid: this.getUid(),
+      uid,
       username: username,
       typeid: result._id
     });
@@ -365,7 +372,7 @@ class projectController extends baseController {
   async get(ctx) {
     let params = ctx.params;
     let result = await this.Model.getBaseInfo(params.id);
-    
+
     if (!result) {
       return ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目');
     }
@@ -637,6 +644,7 @@ class projectController extends baseController {
       if (!_.isUndefined(params.icon)) data.icon = params.icon;
       if (!_.isUndefined(params.pre_script)) data.pre_script = params.pre_script;
       if (!_.isUndefined(params.after_script)) data.after_script = params.after_script;
+    
       let result = await this.Model.up(id, data);
       let username = this.getUsername();
       yapi.commons.saveLog({
