@@ -515,6 +515,7 @@ export default class InterfaceColMenu extends Component {
           visible={importInterVisible}
           onOk={this.handleImportOk}
           onCancel={this.handleImportCancel}
+          className="import-case-modal"
           width={800}
         >
           <ImportInterface onChange={this.selectInterface} list={this.props.list} />
