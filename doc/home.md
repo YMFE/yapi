@@ -50,3 +50,9 @@
 * ![收钱吧](./images/shouqian.png)
 
     收钱吧已部署使用 YApi
+* ![汇通天下](http://www.g7.com.cn/static/image/logo.png)
+
+    汇通天下已部署使用 YApi
+* ![一键秀](./images/show.jpeg)
+
+    一键秀（一键生成）已部署使用 YApi      

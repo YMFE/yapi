@@ -21,11 +21,11 @@ class GroupLog extends Component {
     match: PropTypes.object,
     curGroupId: PropTypes.number
   }
-  render () {
+  render() {
     return (
       <div className="g-row">
         <section className="news-box m-panel">
-          <TimeTree type={"group"} typeid = {this.props.curGroupId} />
+          <TimeTree type={"group"} typeid={this.props.curGroupId} />
         </section>
       </div>
     )

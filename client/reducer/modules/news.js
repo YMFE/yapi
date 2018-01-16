@@ -55,7 +55,7 @@ import variable from '../../constants/variable';
 
 export function fetchNewsData (typeid,type,page,limit, interfaceId) {
   let param = {
-    typeid: typeid,
+    typeid: typeid, 
     type: type,
     page: page,
     limit: limit?limit:variable.PAGE_LIMIT,
