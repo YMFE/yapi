@@ -138,7 +138,7 @@ class Content extends Component {
       let C = InterfaceTabs[this.state.curtab].component;
       tabContent = <C switchToView={this.switchToView} />;
     }
-
+    
     return <div className="interface-content">
       <Prompt
         when={this.state.curtab === 'edit' && this.props.editStatus ? true : false}

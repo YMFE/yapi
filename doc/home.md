@@ -36,7 +36,7 @@
 
     快手已部署使用 YApi 来管理项目接口
 
-* ![便利蜂](./images/bianlifeng.jpg)
+* ![便利蜂](./images/bianlif.jpeg)
 
     便利蜂已部署使用 YApi
 

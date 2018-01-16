@@ -1,13 +1,13 @@
-### v1.3.4
+### v1.3.5
 
 #### Feature
 
-* 帮助文档首页增加部署公司
+
 
 
 #### Bug Fixed
 
-* 修复预览中request-body可编辑问题
+* 修复离开接口编辑页面的 confirm 框有时候会触发两次 & confirm 的 ‘X’ 按钮无效
 
 
 
