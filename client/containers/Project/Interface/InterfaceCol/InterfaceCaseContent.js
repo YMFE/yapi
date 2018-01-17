@@ -9,7 +9,7 @@ import { fetchInterfaceColList, setColData, fetchCaseData, fetchCaseList } from 
 import { Postman } from '../../../../components'
 
 import './InterfaceCaseContent.scss'
-
+ 
 @connect(
   state => {
     return {

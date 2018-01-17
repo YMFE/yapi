@@ -20,7 +20,7 @@ import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray }
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
 const Option = Select.Option;
-
+ 
 
 function handleReport(json) {
   try {
