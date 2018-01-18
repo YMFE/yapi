@@ -48,6 +48,7 @@ export default class AddColModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    
     this.setState({id: nextProps.interfaceColList[0]._id})
     this.setState({caseName: nextProps.caseName})
   }
@@ -58,8 +59,9 @@ export default class AddColModal extends Component {
     const res = await axios.post('/api/col/add_col', { name, desc, project_id })
     if (!res.data.errcode) {
       message.success('添加集合成功');
-     
       await this.props.fetchInterfaceColList(project_id);
+     
+      this.setState({id: res.data.data._id});
     } else {
       message.error(res.data.errmsg);
     }

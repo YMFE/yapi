@@ -88,7 +88,7 @@ class InterfaceMenu extends Component {
   async getList() {
     let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
     this.setState({
-      list: JSON.parse(JSON.stringify(r.payload.data.data))
+      list: r.payload.data.data
     })
   }
 

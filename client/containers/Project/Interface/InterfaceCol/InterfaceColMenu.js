@@ -102,7 +102,7 @@ export default class InterfaceColMenu extends Component {
   async getList() {
     let r = await this.props.fetchInterfaceColList(this.props.match.params.id);
     this.setState({
-      list: JSON.parse(JSON.stringify(r.payload.data.data))
+      list: r.payload.data.data
     })
     return r
   }

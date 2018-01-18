@@ -539,7 +539,7 @@ class InterfaceColContent extends Component {
     },
     {
       header: {
-        label: '操作'
+        label: '测试报告'
 
       },
       props: {
