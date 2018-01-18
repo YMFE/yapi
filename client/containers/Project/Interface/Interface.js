@@ -66,7 +66,7 @@ class Interface extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      curkey: this.props.match.params.action
+      curkey: this.props.match.params.action === 'api' ? 'api' : 'colOrCase'
     }
   }
 
@@ -76,17 +76,19 @@ class Interface extends Component {
       action = this.props.isShowCol ? 'col' : 'case';
     }
     this.props.history.push('/project/' + params.id + '/interface/' + action)
+    this.setState({
+      curkey: action === 'api' ? 'api' : 'colOrCase'
+    })
   }
   componentWillMount(){
     this.props.setColData({
       isShowCol: true
     })
-    
     // this.props.getProject(this.props.match.params.id)
   }
   render() {
-    const { action } = this.props.match.params;
-    const activeKey = action === 'api' ? 'api' : 'colOrCase';
+    //const { action } = this.props.match.params;
+    const activeKey = this.state.curkey;
     // console.log(matchPath(this.props.location.pathname, contentRouter));
     return (
       <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
@@ -94,12 +96,17 @@ class Interface extends Component {
           <div className="left-menu">
             <Tabs type="card" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
-                <InterfaceMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
+                
               </Tabs.TabPane>
               <Tabs.TabPane tab="测试集合" key="colOrCase" >
-                <InterfaceColMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
+                
               </Tabs.TabPane>
             </Tabs>
+            {activeKey === 'api'?
+              <InterfaceMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
+              :
+              <InterfaceColMenu router={matchPath(this.props.location.pathname, contentRouter)} projectId={this.props.match.params.id} />
+            }
           </div>
         </Sider>
         <Layout>
