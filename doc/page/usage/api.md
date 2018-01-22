@@ -15,7 +15,6 @@
 - query: 接口url的查询字符串。
 - 请求 Headers: http 请求头字段。
 - 请求 Body: http 请求 body 部分。
-- 请求 Body: http 请求 body 部分。
 - 响应 Body: 模拟返回结果。
 > 响应 Body 分为 `json` & `raw` 两种形式
 

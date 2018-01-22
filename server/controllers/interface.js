@@ -89,6 +89,11 @@ class interfaceController extends baseController {
         'catid': 'number',
         'switch_notice': 'boolean',
         'message': minLengthStringField
+      }, addAndUpCommonField),
+      getRepeat: Object.assign({
+        'project_id': 'number',
+        'path': minLengthStringField,
+        'method': minLengthStringField
       }, addAndUpCommonField)
     }
   }
@@ -194,7 +199,41 @@ class interfaceController extends baseController {
   }
 
   /**
-   * 添加项目分组
+   * 查找重复项目分组
+   * @interface /interface/getRepeat
+   * @method  post
+   * @category interface
+   * @foldnumber 10
+   * @param {Number}   project_id 项目id，不能为空
+   * @param {String}   path 接口请求路径，不能为空
+   * @param {String}   method 请求方式
+   * @returns {Object}
+   */
+
+  async getRepeat(ctx) {
+    let params = ctx.params;
+
+    let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+    if (!auth) {
+      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
+    }
+    params.method = params.method || 'GET';
+    params.method = params.method.toUpperCase();
+
+    let http_path = url.parse(params.path, true);
+
+    if (!yapi.commons.verifyPath(http_path.pathname)) {
+      return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
+    }
+
+    let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id');
+
+    ctx.body = yapi.commons.resReturn(result);
+
+  }
+
+  /**
+   * 获取项目分组
    * @interface /interface/get
    * @method GET
    * @category interface

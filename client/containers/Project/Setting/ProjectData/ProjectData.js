@@ -6,6 +6,7 @@ import './ProjectData.scss';
 import axios from 'axios';
 import _ from 'underscore';
 const Dragger = Upload.Dragger;
+import { fetchRepeatData } from '../../../../reducer/modules/interface';
 const Option = Select.Option;
 
 const plugin = require('client/plugin.js');
@@ -19,12 +20,14 @@ const exportDataModule = {};
 // }
 @connect(
   state => {
+    console.log(state)
     return {
       curCatid: -(-state.inter.curdata.catid),
-      basePath: state.project.currProject.basepath
+      basePath: state.project.currProject.basepath,
+      repeatIdList: state.inter.repeatIdList
     }
   }, {
-
+    fetchRepeatData
   }
 )
 
@@ -42,7 +45,9 @@ class ProjectData extends Component {
   static propTypes = {
     match: PropTypes.object,
     curCatid: PropTypes.number,
-    basePath: PropTypes.string
+    basePath: PropTypes.string,
+    fetchRepeatData: PropTypes.func,
+    repeatIdList: PropTypes.array
   }
 
   componentWillMount() {
@@ -117,6 +122,7 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
+        console.log('res', res);
         const cats = await this.handleAddCat(res.cats);
         if (cats === false) {
           return;
@@ -140,23 +146,46 @@ class ProjectData extends Component {
           if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
-          let result = await axios.post('/api/interface/add', data);
+
+          // let result = await axios.post('/api/interface/get_repeat',
+          //   {
+          //     project_id: data.project_id,
+          //     method: data.method,
+          //     path: data.path
+          //   });
+
+          await this.props.fetchRepeatData({ project_id: data.project_id, method: data.method, path: data.path })
+
+          console.log('result', this.props.repeatIdList);
           count++;
-          if (result.data.errcode) {
-            successNum--;
-            if (result.data.errcode == 40022) {
-              existNum++;
-            }
-            if (result.data.errcode == 40033) {
-              this.setState({ showLoading: false });
-              message.error('没有权限')
-              break;
-            }
+          if (this.props.repeatIdList.length > 0) {
+            // 有重复数据
+            this.props.repeatIdList.forEach(async item => {
+              data.id = item._id;
+              await axios.post('/api/interface/up', data)
+            })
+
+          } else {
+            // 没有重复数据
           }
-          if (count === len) {
-            this.setState({ showLoading: false });
-            message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
-          }
+
+          // let result = await axios.post('/api/interface/add', data);
+          // count++;
+          // if (result.data.errcode) {
+          //   successNum--;
+          //   if (result.data.errcode == 40022) {
+          //     existNum++;
+          //   }
+          //   if (result.data.errcode == 40033) {
+          //     this.setState({ showLoading: false });
+          //     message.error('没有权限')
+          //     break;
+          //   }
+          // }
+          // if (count === len) {
+          //   this.setState({ showLoading: false });
+          //   message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
+          // }
 
         }
       }

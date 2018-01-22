@@ -302,7 +302,12 @@ let routerConfig = {
 			action: 'getCustomField',
 			path: 'get_custom_field',
 			method: 'get'
-		}
+    },
+    {
+      action: 'getRepeat',
+      path: 'get_repeat',
+      method: 'post'
+    }
 	],
 	"log": [
 		{
