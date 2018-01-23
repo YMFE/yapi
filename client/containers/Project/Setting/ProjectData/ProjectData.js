@@ -7,6 +7,7 @@ import axios from 'axios';
 import _ from 'underscore';
 const Dragger = Upload.Dragger;
 import { saveImportData } from '../../../../reducer/modules/interface';
+import { fetchNewsData } from '../../../../reducer/modules/news.js'
 const Option = Select.Option;
 const confirm = Modal.confirm;
 const plugin = require('client/plugin.js');
@@ -22,10 +23,12 @@ const exportDataModule = {};
   state => {
     return {
       curCatid: -(-state.inter.curdata.catid),
-      basePath: state.project.currProject.basepath
+      basePath: state.project.currProject.basepath,
+      newsData: state.news.newsData
     }
   }, {
-    saveImportData
+    saveImportData,
+    fetchNewsData
   }
 )
 
@@ -45,7 +48,9 @@ class ProjectData extends Component {
     match: PropTypes.object,
     curCatid: PropTypes.number,
     basePath: PropTypes.string,
-    saveImportData: PropTypes.func
+    saveImportData: PropTypes.func,
+    fetchNewsData: PropTypes.func,
+    newsData: PropTypes.object
   }
 
   componentWillMount() {
@@ -120,6 +125,7 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
+        
         console.log('res', res);
         const cats = await this.handleAddCat(res.cats);
         if (cats === false) {
@@ -144,22 +150,15 @@ class ProjectData extends Component {
           if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
-          count++;
+
           if (this.state.dataSync) {
             // 开启同步功能
             // let result = await this.props.saveImportData(data)
-            let result = await axios.post('/api/interface/save', data)
-            if (result.data.errcode) {
-              successNum--;
-              this.setState({ showLoading: false });
-              message.error(result.data.errmsg)
-              break
-            } else {
-              existNum = result.data.data.length;
-            }
+            this.showConfirm(data, len)
 
           } else {
             // 未开启同步功能
+            count++;
             let result = await axios.post('/api/interface/add', data);
             if (result.data.errcode) {
               successNum--;
@@ -202,29 +201,58 @@ class ProjectData extends Component {
     })
   }
 
-  handleFile = (info) => {
-    if (this.state.dataSync) {
-      this.showConfirm(info);
-    } else {
-      this.handleAddInterface(info);
-    }
-  }
+  // handleFile = (info) => {
+  //   if (this.state.dataSync) {
+  //     this.showConfirm(info);
+  //   } else {
+  //     this.handleAddInterface(info);
+  //   }
+  // }
 
-  showConfirm = (data) => {
+  showConfirm = async (data, length) => {
     let that = this;
+    let count = 0, successNum = length, existNum = 0;
+    let typeid = this.props.match.params.id;
+    await this.props.fetchNewsData(typeid, 'project', 1, 10)
+    let domainData = this.props.newsData ? this.props.newsData.list : [];
     const ref = confirm({
       title: '您确认要进行数据同步????',
+      width: 800,
       content: (
         <div>
-          <p>温馨提示：数据同步后，可能会造成原本的修改数据丢失</p>
-          <p>some messages...some messages...</p>
+          {
+            domainData.map((item, index) => {
+              return (
+                <div key={index} className="postman-dataImport-show-diff">
+                  <span className="logcontent" dangerouslySetInnerHTML={{ __html: item.content }}>
+                  </span>
+                </div>
+              )
+            })
+          }
+          <p>温馨提示： 数据同步后，可能会造成原本的修改数据丢失</p>
         </div>
+        
+        
       ),
       async onOk() {
-        that.handleAddInterface(data);
+
+        count++;
+        let result = await axios.post('/api/interface/save', data)
+        if (result.data.errcode) {
+          successNum--;
+          that.setState({ showLoading: false });
+          message.error(result.data.errmsg)
+        } else {
+          existNum = result.data.data.length;
+          if (count === length) {
+            that.setState({ showLoading: false });
+            message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
+          }
+        }
       },
       onCancel() {
-        that.setState({ dataSync: false })
+        that.setState({ showLoading: false, dataSync: false })
         ref.destroy()
       }
     });
@@ -245,7 +273,7 @@ class ProjectData extends Component {
       multiple: true,
       showUploadList: false,
       action: '/api/interface/interUpload',
-      customRequest: this.handleFile,
+      customRequest: this.handleAddInterface,
       onChange: this.uploadChange
     }
     return (
