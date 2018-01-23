@@ -15,11 +15,48 @@ function improtData(importDataModule) {
     }
     return path;
   }
+  
+  function openapi2swagger(data) {
+    data = data.replace(/components\/schemas/g, 'definitions');
+    data = data.replace('openapi', 'swagger');
+    data = JSON.parse(data);
+
+    data.definitions = data.components.schemas;
+    delete data.components;
+    data.swagger = '2.0';
+
+    _.each(data.paths, (apis) => {
+      _.each(apis, (api) => {
+        _.each(api.responses, (res) => {
+          if(res.content) {
+            res.schema = res.content['application/json'].schema;
+            delete res.content;
+          }
+        })
+        if(api.requestBody) {
+          if(!api.parameters) api.parameters = [];
+          api.parameters.push({
+            type: 'object',
+            name: 'body',
+            in: 'body',
+            schema: {
+              $ref: api.requestBody.content['application/json'].schema
+            }
+          });
+        }
+      })
+    })
+    return data;
+  }
 
   function run(res) {
     try {
       let interfaceData = { apis: [], cats: [] };
-      res = JSON.parse(res);
+      if(res.includes('openapi')) {
+        res = openapi2swagger(res);
+      } else {
+        res = JSON.parse(res);
+      }
       SwaggerData = res;
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {

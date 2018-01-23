@@ -131,7 +131,7 @@ class projectController extends baseController {
     }
 
 
-    let checkRepeat = await this.Model.checkNameRepeat(params.name);
+    let checkRepeat = await this.Model.checkNameRepeat(params.name, params.group_id);
 
     if (checkRepeat > 0) {
       return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
@@ -594,7 +594,7 @@ class projectController extends baseController {
       }
 
       if (params.name) {
-        let checkRepeat = await this.Model.checkNameRepeat(params.name);
+        let checkRepeat = await this.Model.checkNameRepeat(params.name, params.group_id);
         if (checkRepeat > 0) {
           return ctx.body = yapi.commons.resReturn(null, 401, '已存在的项目名');
         }
