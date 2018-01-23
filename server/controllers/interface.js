@@ -271,6 +271,7 @@ class interfaceController extends baseController {
       }
     }
     ctx.body = yapi.commons.resReturn(result);
+    // return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
 
   }
 

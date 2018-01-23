@@ -147,7 +147,16 @@ class ProjectData extends Component {
           count++;
           if (this.state.dataSync) {
             // 开启同步功能
-            await this.props.saveImportData(data)
+            // let result = await this.props.saveImportData(data)
+            let result = await axios.post('/api/interface/save', data)
+            if (result.data.errcode) {
+              successNum--;
+              this.setState({ showLoading: false });
+              message.error(result.data.errmsg)
+              break
+            } else {
+              existNum = result.data.data.length;
+            }
 
           } else {
             // 未开启同步功能
@@ -193,30 +202,36 @@ class ProjectData extends Component {
     })
   }
 
-  handleFile = (info) =>{
-     if(this.state.dataSync){
-       this.showConfirm(info);
-     } else{
-      this.handleAddInterface(info)
-     }
+  handleFile = (info) => {
+    if (this.state.dataSync) {
+      this.showConfirm(info);
+    } else {
+      this.handleAddInterface(info);
+    }
   }
 
   showConfirm = (data) => {
     let that = this;
     const ref = confirm({
-      title: '您确认删除此接口????',
-      content: '温馨提示：接口删除后，无法恢复',
+      title: '您确认要进行数据同步????',
+      content: (
+        <div>
+          <p>温馨提示：数据同步后，可能会造成原本的修改数据丢失</p>
+          <p>some messages...some messages...</p>
+        </div>
+      ),
       async onOk() {
-       that.handleAddInterface(data);
+        that.handleAddInterface(data);
       },
       onCancel() {
+        that.setState({ dataSync: false })
         ref.destroy()
       }
     });
   }
 
 
-  
+
 
   /**
    *
@@ -235,7 +250,7 @@ class ProjectData extends Component {
     }
     return (
       <div className="g-row">
-        
+
         <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">
