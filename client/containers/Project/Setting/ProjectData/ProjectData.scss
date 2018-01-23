@@ -19,6 +19,16 @@
                 width: 100%;
             }
         }
+
+        .dataSync{
+          padding-top: 16px;
+          font-weight: 500;
+          width: 100%;
+          span{
+            padding-right: 8px;
+          }
+        }
+
         .export-content{
             text-align: center;
         }
@@ -30,5 +40,10 @@
             height:35px;
         }
     }
+}
+
+.postman-dataImport-show-diff{
+  padding:  4px 0;
+
 }
 

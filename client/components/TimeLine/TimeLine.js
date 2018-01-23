@@ -179,7 +179,7 @@ class TimeTree extends Component {
     let data = this.props.newsData ? this.props.newsData.list : [];
 
     const curDiffData = this.state.curDiffData;
-    // console.log('curDiffData', curDiffData);
+    console.log('data', data);
     let logType = {
       project: "项目",
       group: "分组",

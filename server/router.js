@@ -304,8 +304,8 @@ let routerConfig = {
 			method: 'get'
     },
     {
-      action: 'getRepeat',
-      path: 'get_repeat',
+      action: 'save',
+      path: 'save',
       method: 'post'
     }
 	],
