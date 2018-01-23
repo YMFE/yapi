@@ -1,14 +1,14 @@
 import React, { PureComponent as Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip, Button, Spin } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
 import _ from 'underscore';
 const Dragger = Upload.Dragger;
-import { fetchRepeatData } from '../../../../reducer/modules/interface';
+import { saveImportData } from '../../../../reducer/modules/interface';
 const Option = Select.Option;
-
+const confirm = Modal.confirm;
 const plugin = require('client/plugin.js');
 
 const importDataModule = {};
@@ -20,14 +20,12 @@ const exportDataModule = {};
 // }
 @connect(
   state => {
-    console.log(state)
     return {
       curCatid: -(-state.inter.curdata.catid),
-      basePath: state.project.currProject.basepath,
-      repeatIdList: state.inter.repeatIdList
+      basePath: state.project.currProject.basepath
     }
   }, {
-    fetchRepeatData
+    saveImportData
   }
 )
 
@@ -39,15 +37,15 @@ class ProjectData extends Component {
       menuList: [],
       curImportType: null,
       curExportType: null,
-      showLoading: false
+      showLoading: false,
+      dataSync: false
     }
   }
   static propTypes = {
     match: PropTypes.object,
     curCatid: PropTypes.number,
     basePath: PropTypes.string,
-    fetchRepeatData: PropTypes.func,
-    repeatIdList: PropTypes.array
+    saveImportData: PropTypes.func
   }
 
   componentWillMount() {
@@ -146,47 +144,30 @@ class ProjectData extends Component {
           if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
             data.catid = cats[data.catname].id;
           }
-
-          // let result = await axios.post('/api/interface/get_repeat',
-          //   {
-          //     project_id: data.project_id,
-          //     method: data.method,
-          //     path: data.path
-          //   });
-
-          await this.props.fetchRepeatData({ project_id: data.project_id, method: data.method, path: data.path })
-
-          console.log('result', this.props.repeatIdList);
           count++;
-          if (this.props.repeatIdList.length > 0) {
-            // 有重复数据
-            this.props.repeatIdList.forEach(async item => {
-              data.id = item._id;
-              await axios.post('/api/interface/up', data)
-            })
+          if (this.state.dataSync) {
+            // 开启同步功能
+            await this.props.saveImportData(data)
 
           } else {
-            // 没有重复数据
+            // 未开启同步功能
+            let result = await axios.post('/api/interface/add', data);
+            if (result.data.errcode) {
+              successNum--;
+              if (result.data.errcode == 40022) {
+                existNum++;
+              }
+              if (result.data.errcode == 40033) {
+                this.setState({ showLoading: false });
+                message.error('没有权限')
+                break;
+              }
+            }
           }
-
-          // let result = await axios.post('/api/interface/add', data);
-          // count++;
-          // if (result.data.errcode) {
-          //   successNum--;
-          //   if (result.data.errcode == 40022) {
-          //     existNum++;
-          //   }
-          //   if (result.data.errcode == 40033) {
-          //     this.setState({ showLoading: false });
-          //     message.error('没有权限')
-          //     break;
-          //   }
-          // }
-          // if (count === len) {
-          //   this.setState({ showLoading: false });
-          //   message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
-          // }
-
+          if (count === len) {
+            this.setState({ showLoading: false });
+            message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
+          }
         }
       }
     } else {
@@ -206,6 +187,37 @@ class ProjectData extends Component {
     })
   }
 
+  onChange = (checked) => {
+    this.setState({
+      dataSync: checked
+    })
+  }
+
+  handleFile = (info) =>{
+     if(this.state.dataSync){
+       this.showConfirm(info);
+     } else{
+      this.handleAddInterface(info)
+     }
+  }
+
+  showConfirm = (data) => {
+    let that = this;
+    const ref = confirm({
+      title: '您确认删除此接口????',
+      content: '温馨提示：接口删除后，无法恢复',
+      async onOk() {
+       that.handleAddInterface(data);
+      },
+      onCancel() {
+        ref.destroy()
+      }
+    });
+  }
+
+
+  
+
   /**
    *
    *
@@ -218,11 +230,12 @@ class ProjectData extends Component {
       multiple: true,
       showUploadList: false,
       action: '/api/interface/interUpload',
-      customRequest: this.handleAddInterface,
+      customRequest: this.handleFile,
       onChange: this.uploadChange
     }
     return (
       <div className="g-row">
+        
         <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">
@@ -249,6 +262,12 @@ class ProjectData extends Component {
                     return <Option key={key} value={item._id + ""}>{item.name}</Option>;
                   })}
                 </Select>
+              </div>
+              <div className="dataSync">
+                <span>开启数据同步<Tooltip title="开启数据同步后会覆盖项目中原本的数据"><Icon type="question-circle-o" /></Tooltip> :</span>
+
+                <Switch checked={this.state.dataSync} onChange={this.onChange} />
+
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
                 <Spin spinning={this.state.showLoading} tip="上传中...">

@@ -8,7 +8,7 @@ const DELETE_INTERFACE_CAT_DATA = 'yapi/interface/DELETE_INTERFACE_CAT_DATA';
 const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
 const CHANGE_EDIT_STATUS = 'yapi/interface/CHANGE_EDIT_STATUS';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
-const FETCH_REPEAT_DATA = 'yapi/interface/FETCH_REPEAT_DATA'
+const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA'
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -16,8 +16,8 @@ const FETCH_REPEAT_DATA = 'yapi/interface/FETCH_REPEAT_DATA'
 const initialState = {
   curdata: {},
   list: [],
-  editStatus: false, // 记录编辑页面是否有编辑,
-  repeatIdList: []  // 记录重复的接口id
+  editStatus: false // 记录编辑页面是否有编辑,
+  
 }
 
 export default (state = initialState, action) => {
@@ -44,12 +44,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         editStatus: action.status
-      };
-    }
-    case FETCH_REPEAT_DATA: {
-      return {
-        ...state,
-        repeatIdList: action.payload.data.data
       };
     }
     default:
@@ -90,10 +84,10 @@ export async function deleteInterfaceData(id) {
   }
 }
 
-export async function fetchRepeatData(data) {
-  let result = await axios.post('/api/interface/get_repeat', data)
+export async function saveImportData(data) {
+  let result = await axios.post('/api/interface/save', data)
   return {
-    type:FETCH_REPEAT_DATA,
+    type:SAVE_IMPORT_DATA,
     payload: result
   }
 }
