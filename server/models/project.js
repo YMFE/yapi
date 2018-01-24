@@ -75,9 +75,10 @@ class projectModel extends baseModel {
     }).exec();
   }
 
-  checkNameRepeat(name) {
+  checkNameRepeat(name, groupid) {
     return this.model.count({
-      name: name
+      name: name,
+      group_id: groupid
     });
   }
 

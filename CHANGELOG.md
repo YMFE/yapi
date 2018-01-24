@@ -1,15 +1,9 @@
 ### v1.3.5
 
-#### Feature
-* mongodb 自动备份脚本
-
 #### Bug Fixed
 
 * 修复离开接口编辑页面的 confirm 框有时候会触发两次 & confirm 的 ‘X’ 按钮无效
 * 修复添加集合后测试集合list不更新问题
-
-
-
 
 ### v1.3.4
 
