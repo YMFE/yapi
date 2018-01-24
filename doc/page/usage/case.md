@@ -51,12 +51,20 @@ $.{key}.{params|body}.{path}
 
 其中 **$.** 是使用 **动态变量** 的标志，$.269.**params** 即表示 key 值为 269 用例的请求参数，$.269.**body** 即表示 key 值为 269 用例的返回值。
 
+如果requestBody是json格式也可以在json中写变量参数，如下图：
+<img  class="doc-img" style="width: 624px;" src="./images/usage/case_key_body_json.png" />
+
+
 > Tips: 上下拖动测试集合的列表项可以调整测试的顺序。
 
 目前yapi中的`query`，`body`,`header`和`pathParam`的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括`常量`，`mock数据`，在测试集合中也支持`变量`选择。
 具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。
 
 <img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman.gif"  />
+
+> Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值
+
+<img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png"  />
 
 ## 自动化测试
 可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。

@@ -42,8 +42,32 @@
     }
 }
 
-.postman-dataImport-show-diff{
-  padding:  4px 0;
+.postman-dataImport-modal{
+  
+  .postman-dataImport-modal-content{
+    max-height: 600px;
+    min-width: 534px;
+    overflow-y: scroll;
+    padding-top: 8px;
 
+  }
+  .postman-dataImport-show-diff{
+    padding:  4px 0;
+  
+  }
+
+  .info{
+    font-weight: 400;
+    font-size: 16px;
+    padding-top: 24px;
+  }
+  
 }
+
+.dataImport-confirm{
+  .ant-modal-content .ant-confirm-btns{
+    margin-top: 10px;
+  }
+}
+
 

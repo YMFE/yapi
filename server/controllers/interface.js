@@ -246,7 +246,7 @@ class interfaceController extends baseController {
     }
 
     let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id');
-
+    console.log('result', result);
     if (result.length > 0) {
       result.forEach(async item => {
         params.id = item._id;
@@ -304,9 +304,7 @@ class interfaceController extends baseController {
           return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
         }
       }
-
       yapi.emitHook('interface_get', params.id).then();
-
       result = result.toObject();
       if (userinfo) {
         result.username = userinfo.username;
@@ -509,6 +507,7 @@ class interfaceController extends baseController {
     let CurrentInterfaceData = await this.Model.get(id);
     let logData = {
       interface_id: id,
+      cat_id: data.catid,
       current: CurrentInterfaceData.toObject(),
       old: interfaceData.toObject()
     }
