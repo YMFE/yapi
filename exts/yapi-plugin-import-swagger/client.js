@@ -195,7 +195,7 @@ function improtData(importDataModule) {
       return res_body;
     }
     _.each(api, (res, code) => {
-      if (code == 200) {
+      if (/^2/.test(code)) {
         if (res && typeof res === 'object') {
 
           if (res.schema) {
