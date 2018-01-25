@@ -140,4 +140,6 @@ function setupSql() {
 
 }
 
-install();
+if(typeof yapi.connect === 'function'){
+    install();
+}
