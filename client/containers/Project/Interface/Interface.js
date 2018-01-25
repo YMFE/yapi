@@ -65,9 +65,9 @@ class Interface extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      curkey: this.props.match.params.action === 'api' ? 'api' : 'colOrCase'
-    }
+    // this.state = {
+    //   curkey: this.props.match.params.action === 'api' ? 'api' : 'colOrCase'
+    // }
   }
 
   onChange = (action) => {
@@ -76,9 +76,7 @@ class Interface extends Component {
       action = this.props.isShowCol ? 'col' : 'case';
     }
     this.props.history.push('/project/' + params.id + '/interface/' + action)
-    this.setState({
-      curkey: action === 'api' ? 'api' : 'colOrCase'
-    })
+    
   }
   componentWillMount(){
     this.props.setColData({
@@ -87,9 +85,10 @@ class Interface extends Component {
     // this.props.getProject(this.props.match.params.id)
   }
   render() {
-    //const { action } = this.props.match.params;
-    const activeKey = this.state.curkey;
-    // console.log(matchPath(this.props.location.pathname, contentRouter));
+    const { action } = this.props.match.params;
+    // const activeKey = this.state.curkey;
+    const activeKey = action === 'api' ? 'api' : 'colOrCase'
+   
     return (
       <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
         <Sider style={{ height: '100%' }} width={300}>

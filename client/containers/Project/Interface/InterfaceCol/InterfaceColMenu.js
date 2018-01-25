@@ -96,7 +96,14 @@ export default class InterfaceColMenu extends Component {
 
   componentWillMount() {
     this.getList()
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.interfaceColList !== nextProps.interfaceColList) {
+      this.setState({
+        list: nextProps.interfaceColList
+      })
+    }
   }
 
   async getList() {
@@ -235,12 +242,12 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId)
         if (!res.data.errcode) {
           message.success('删除用例成功');
+          that.getList()
           // 如果删除当前选中 case，切换路由到集合
           if (+caseId === +that.props.currCaseId) {
             that.props.history.push('/project/' + params.id + '/interface/col/')
           } else {
             // that.props.fetchInterfaceColList(that.props.match.params.id);
-            that.getList()
             that.props.setColData({ isRander: true })
           }
         } else {

@@ -148,7 +148,7 @@ class InterfaceEditForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({
+    this.setState({ 
       submitStatus: true
     })
     try {
