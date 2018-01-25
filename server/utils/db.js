@@ -24,7 +24,9 @@ function connect(callback) {
     }
     
 
-    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options);
+    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options, function(err){
+        yapi.commons.log(err +'mongodb Authentication failed', 'error');
+    });
 
     db.then(function () {
         yapi.commons.log('mongodb load success...');
