@@ -606,7 +606,7 @@ class interfaceColController extends baseController {
             result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
             result.req_query = this.handleParamsValue(data.req_query, result.req_query)
             result.req_params = this.handleParamsValue(data.req_params, result.req_params)
-
+            result.interface_up_time = data.up_time;
             ctx.body = yapi.commons.resReturn(result);
         } catch (e) {
             ctx.body = yapi.commons.resReturn(null, 400, e.message)

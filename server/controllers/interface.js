@@ -246,7 +246,7 @@ class interfaceController extends baseController {
     }
 
     let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id');
-    console.log('result', result);
+   
     if (result.length > 0) {
       result.forEach(async item => {
         params.id = item._id;

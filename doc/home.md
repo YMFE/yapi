@@ -55,4 +55,7 @@
     汇通天下已部署使用 YApi
 * ![一键秀](./images/show.jpeg)
 
-    一键秀（一键生成）已部署使用 YApi      
+    一键秀（一键生成）已部署使用 YApi    
+* ![用友](./images/yonyou.jpg)
+
+    用友已经部署使用YApi,并且自己开发了单点登录插件    

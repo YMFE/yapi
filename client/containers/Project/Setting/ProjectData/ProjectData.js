@@ -180,7 +180,7 @@ class ProjectData extends Component {
     }
   }
 
-
+ 
 
 
   handleFile = (info) => {
@@ -209,9 +209,16 @@ class ProjectData extends Component {
 
 
   showConfirm = async (res) => {
+   
     let that = this;
     let typeid = this.props.match.params.id;
-    let result = await this.props.fetchUpdateLogData({ type: 'project', typeid, apis: res.apis })
+    let apiCollections = res.apis.map(item=>{
+      return {
+        method:item.method,
+        path: item.path
+      }
+    })
+    let result = await this.props.fetchUpdateLogData({ type: 'project', typeid, apis: apiCollections })
     let domainData = result.payload.data.data;
     const ref = confirm({
       title: '您确认要进行数据同步????',
