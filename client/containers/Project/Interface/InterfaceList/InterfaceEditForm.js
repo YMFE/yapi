@@ -306,9 +306,9 @@ class InterfaceEditForm extends Component {
     }
     editor.create();
     editor.txt.html(this.state.desc)
-    if (navigator.userAgent.indexOf("Firefox") > 0) {
-      document.getElementById('title').focus()
-    }
+    //if (navigator.userAgent.indexOf("Firefox") > 0) {
+    document.getElementById('title').focus()
+    //}
 
   }
 
