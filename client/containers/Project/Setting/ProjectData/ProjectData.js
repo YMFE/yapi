@@ -193,6 +193,7 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
+        console.log('res',res);
         if (this.state.dataSync) {
           // 开启同步
           this.showConfirm(res);
