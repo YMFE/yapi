@@ -59,7 +59,7 @@ class InterfaceList extends Component {
       // })
       let r = await this.props.fetchInterfaceList(projectId);
       this.setState({
-        data: JSON.parse(JSON.stringify(r.payload.data.data))
+        data: r.payload.data.data
       })
 
     } else if (isNaN(params.actionId)) {
@@ -90,6 +90,9 @@ class InterfaceList extends Component {
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
       this.handleRequest(nextProps)
+    } else if( this.props.catList !== nextProps.catList){
+      this.handleRequest(nextProps)
+       
     }
   }
 
