@@ -11,6 +11,7 @@ const interfaceCaseModel = require('models/interfaceCase.js')
 const yapi = require('yapi.js');
 const config = require('./index.js');
 const commons = require('./util.js');
+const os = require("os");
 
 class statisMockController extends baseController {
   constructor(ctx) {
@@ -58,6 +59,58 @@ class statisMockController extends baseController {
     let dateInterval = commons.getDateRange();
     mockDateList = await this.Model.getDayCount(dateInterval);
     return ctx.body = yapi.commons.resReturn({ mockCount, mockDateList });
+  }
+
+  /**
+   * 获取邮箱状态信息
+   * @interface statismock/getSystemStatus
+   * @method get
+   * @category statistics
+   * @foldnumber 10
+   * @returns {Object}
+   */
+  async getSystemStatus(ctx) {
+    let mail = '';
+    if (yapi.WEBCONFIG.mail && yapi.WEBCONFIG.mail.enable) {
+      mail = await this.checkEmail();
+      // return ctx.body = yapi.commons.resReturn(result);
+
+    } else {
+      console.log(3)
+      mail = '未配置'
+    }
+
+    let systemName = os.platform();
+    let totalmem = commons.transformBytesToGB(os.totalmem());
+    let freemem = commons.transformBytesToGB(os.freemem());
+    let uptime = commons.transformSecondsToDay(os.uptime());
+    let data = {
+      mail,
+      systemName,
+      totalmem,
+      freemem,
+      uptime
+    }
+
+
+    return ctx.body = yapi.commons.resReturn(data);
+
+  }
+
+
+  checkEmail() {
+    return new Promise((resolve, reject) => {
+      let result = {}
+      yapi.mail.verify((error) => {
+        if (error) {
+          result = '不可用';
+          reject(result)
+        } else {
+          result = '可用';
+          resolve(result)
+        }
+      })
+    })
   }
 }
 

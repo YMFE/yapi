@@ -43,6 +43,13 @@ module.exports = function () {
             path: 'statismock/get',
             action: 'getMockDateList'
         })
+        addRouter({
+          controller: controller,
+          method: 'get',
+          path: 'statismock/get_system_status',
+          action: 'getSystemStatus'
+      })
+
     })
 
     // MockServer生成mock数据后触发

@@ -100,6 +100,7 @@ export default class InterfaceColMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.interfaceColList !== nextProps.interfaceColList) {
+     
       this.setState({
         list: nextProps.interfaceColList
       })
@@ -402,7 +403,7 @@ export default class InterfaceColMenu extends Component {
     }
 
     const item_interface_col_create = (interfaceCase) => {
-      // console.log('interfaceCase', interfaceCase);
+     
       return (
         <TreeNode
           style={{ width: '100%' }}
