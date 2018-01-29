@@ -259,8 +259,6 @@ class InterfaceEditForm extends Component {
   }
 
   componentDidMount() {
-    // console.log('noticed', this.props.noticed);
-
     EditFormContext = this;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
@@ -306,10 +304,7 @@ class InterfaceEditForm extends Component {
     }
     editor.create();
     editor.txt.html(this.state.desc)
-    //if (navigator.userAgent.indexOf("Firefox") > 0) {
-    document.getElementById('title').focus()
-    //}
-
+    document.querySelector('#desc .w-e-text-container .w-e-text').blur()
   }
 
   componentWillUnmount() {
