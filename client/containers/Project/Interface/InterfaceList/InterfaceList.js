@@ -6,7 +6,7 @@ import {
   Table, Button, Modal, message, Tooltip, Select
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
-import { fetchInterfaceListMenu, fetchInterfaceList } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu, fetchInterfaceList, fetchInterfaceCatList } from '../../../../reducer/modules/interface.js';
 import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
@@ -17,11 +17,14 @@ const Option = Select.Option;
     return {
       curData: state.inter.curdata,
       curProject: state.project.currProject,
-      catList: state.inter.list
+      catList: state.inter.list,
+      totalTableList: state.inter.totalTableList,
+      catTableList: state.inter.catTableList
     }
   }, {
     fetchInterfaceListMenu,
-    fetchInterfaceList
+    fetchInterfaceList,
+    fetchInterfaceCatList
   })
 class InterfaceList extends Component {
   constructor(props) {
@@ -40,7 +43,8 @@ class InterfaceList extends Component {
     curProject: PropTypes.object,
     history: PropTypes.object,
     fetchInterfaceListMenu: PropTypes.func,
-    fetchInterfaceList: PropTypes.func
+    fetchInterfaceList: PropTypes.func,
+    fetchInterfaceCatList: PropTypes.func
   }
 
   handleRequest = async (props) => {
@@ -50,7 +54,7 @@ class InterfaceList extends Component {
       this.setState({
         catid: null
       })
-      
+
       let r = await this.props.fetchInterfaceList(projectId);
       this.setState({
         data: r.payload.data.data
@@ -59,9 +63,9 @@ class InterfaceList extends Component {
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
-      let r = await axios.get('/api/interface/list_cat?catid=' + catid);
+      let r = await this.props.fetchInterfaceCatList(catid);
       this.setState({
-        data: r.data.data
+        data: r.payload.data.data
       })
     }
   }
@@ -84,9 +88,9 @@ class InterfaceList extends Component {
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
       this.handleRequest(nextProps)
-    } else if( this.props.catList !== nextProps.catList){
+    } else if (this.props.catList !== nextProps.catList) {
       this.handleRequest(nextProps)
-       
+
     }
   }
 
