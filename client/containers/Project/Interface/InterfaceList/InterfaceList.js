@@ -44,29 +44,27 @@ class InterfaceList extends Component {
     history: PropTypes.object,
     fetchInterfaceListMenu: PropTypes.func,
     fetchInterfaceList: PropTypes.func,
-    fetchInterfaceCatList: PropTypes.func
+    fetchInterfaceCatList: PropTypes.func,
+    totalTableList: PropTypes.array,
+    catTableList: PropTypes.array
+    
   }
 
   handleRequest = async (props) => {
+    console.log(111);
     const { params } = props.match;
     if (!params.actionId) {
       let projectId = params.id;
       this.setState({
         catid: null
       })
-
-      let r = await this.props.fetchInterfaceList(projectId);
-      this.setState({
-        data: r.payload.data.data
-      })
+      await this.props.fetchInterfaceList(projectId);
 
     } else if (isNaN(params.actionId)) {
+      console.log(params.actionId);
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
-      let r = await this.props.fetchInterfaceCatList(catid);
-      this.setState({
-        data: r.payload.data.data
-      })
+      await this.props.fetchInterfaceCatList(catid);
     }
   }
 
@@ -87,8 +85,11 @@ class InterfaceList extends Component {
     let _actionId = nextProps.match.params.actionId;
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
+      console.log(11);
       this.handleRequest(nextProps)
-    } else if (this.props.catList !== nextProps.catList) {
+    } 
+    else if (this.props.catList !== nextProps.catList) {
+      console.log(22);
       this.handleRequest(nextProps)
 
     }
@@ -204,10 +205,24 @@ class InterfaceList extends Component {
         }
       }
     }
-    const data = this.state.data ? this.state.data.map(item => {
+    // const data = this.state.data ? this.state.data.map(item => {
+    //   item.key = item._id;
+    //   return item;
+    // }) : [];
+    let data = [];
+    const { params } = this.props.match;
+    if (!params.actionId) {
+      data = this.props.totalTableList
+    } else if (isNaN(params.actionId)) {
+      data = this.props.catTableList
+    }
+
+    data = data.map(item => {
       item.key = item._id;
       return item;
-    }) : [];
+    })
+
+
 
     return (
       <div style={{ padding: '24px' }}>
