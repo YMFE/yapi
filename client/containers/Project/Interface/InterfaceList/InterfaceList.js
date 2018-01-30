@@ -51,7 +51,6 @@ class InterfaceList extends Component {
   }
 
   handleRequest = async (props) => {
-    console.log(111);
     const { params } = props.match;
     if (!params.actionId) {
       let projectId = params.id;
@@ -59,9 +58,7 @@ class InterfaceList extends Component {
         catid: null
       })
       await this.props.fetchInterfaceList(projectId);
-
     } else if (isNaN(params.actionId)) {
-      console.log(params.actionId);
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
       await this.props.fetchInterfaceCatList(catid);
@@ -85,14 +82,9 @@ class InterfaceList extends Component {
     let _actionId = nextProps.match.params.actionId;
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
-      console.log(11);
       this.handleRequest(nextProps)
     } 
-    else if (this.props.catList !== nextProps.catList) {
-      console.log(22);
-      this.handleRequest(nextProps)
-
-    }
+   
   }
 
   handleAddInterface = (data) => {

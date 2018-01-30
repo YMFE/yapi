@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { fetchInterfaceListMenu, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
+import { fetchInterfaceListMenu, fetchInterfaceList, fetchInterfaceCatList, fetchInterfaceData, deleteInterfaceData, deleteInterfaceCatData, initInterface } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
 import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
@@ -28,7 +28,9 @@ const TreeNode = Tree.TreeNode;
     deleteInterfaceCatData,
     deleteInterfaceData,
     initInterface,
-    getProject
+    getProject,
+    fetchInterfaceCatList,
+    fetchInterfaceList
   }
 )
 class InterfaceMenu extends Component {
@@ -45,7 +47,9 @@ class InterfaceMenu extends Component {
     initInterface: PropTypes.func,
     history: PropTypes.object,
     router: PropTypes.object,
-    getProject: PropTypes.func
+    getProject: PropTypes.func,
+    fetchInterfaceCatList: PropTypes.func,
+    fetchInterfaceList: PropTypes.func
   }
 
   /**
@@ -197,6 +201,7 @@ class InterfaceMenu extends Component {
       async onOk() {
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
+        await that.props.fetchInterfaceCatList(catid)
         ref.destroy()
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api/cat_' + catid)
       },
@@ -214,7 +219,8 @@ class InterfaceMenu extends Component {
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
         await that.getList()
-        await that.props.getProject(that.props.projectId)
+        // await that.props.getProject(that.props.projectId)
+        await that.props.fetchInterfaceList(that.props.projectId)
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
         ref.destroy()
       },
