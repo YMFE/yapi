@@ -74,9 +74,7 @@ class statisMockController extends baseController {
     if (yapi.WEBCONFIG.mail && yapi.WEBCONFIG.mail.enable) {
       mail = await this.checkEmail();
       // return ctx.body = yapi.commons.resReturn(result);
-
     } else {
-      console.log(3)
       mail = '未配置'
     }
 
@@ -91,8 +89,6 @@ class statisMockController extends baseController {
       freemem,
       uptime
     }
-
-
     return ctx.body = yapi.commons.resReturn(data);
 
   }
@@ -104,7 +100,7 @@ class statisMockController extends baseController {
       yapi.mail.verify((error) => {
         if (error) {
           result = '不可用';
-          reject(result)
+          resolve(result)
         } else {
           result = '可用';
           resolve(result)

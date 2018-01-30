@@ -63,9 +63,11 @@
   }
   .path {
     width: 100%;
+    display: inline-block;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+    padding-right: 24px;
   }
   .colValue{
     display: inline-block;
