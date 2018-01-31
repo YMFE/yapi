@@ -27,7 +27,7 @@
   "license": "Apache2.0",
   "dependencies": {
     "ajv": "^5.5.1",
-    "ajv-i18n": "^2.2.0",    
+    "ajv-i18n": "^2.2.0",
     "axios": "^0.16.2",
     "deep-extend": "^0.5.0",
     "deref": "^0.7.0",
