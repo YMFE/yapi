@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 接口管理平台 插件 Wiki</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="./index.html" class="navbar-brand"><img src="./images/logo_header@2x.png" /> &nbsp;YAPI</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="">
+                            
+                            <a href="index.html"></a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="usage.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="active">
+                            
+                            <a href="plugin.html">插件 Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo 站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >插件</h1>
+                    <p class="desc ">可根据业务需求，定制化功能</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="redev.html">二次开发</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-index.html">插件管理</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-dev.html">插件开发</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="plugin-hooks.html">钩子列表</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#后端 hookList">后端 hookList</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#前端 hookList">前端 hookList</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-list.html">插件列表</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h2 class="subject" id="后端_hookList">后端 hookList <a class="hashlink" href="#后端_hookList">#</a></h2><p>目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq群</p>
+<pre><code>/**
+ * 钩子配置
+ */
+var hooks = <span class="token punctuation">{</span>
+    /**
+     * 第三方sso登录钩子，暂只支持设置一个
+     * @param ctx 
+     * @return 必需返回一个 promise 对象，resolve(<span class="token punctuation">{</span>username<span class="token operator">:</span> ''<span class="token punctuation">,</span> email<span class="token operator">:</span> ''<span class="token punctuation">}</span><span class="token punctuation">)</span>
+     */
+    'third_login'<span class="token operator">:</span> <span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'single'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token null">null</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端增加接口成功后触发
+     * @param id 接口id
+     */
+    'interface_add'<span class="token operator">:</span> <span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端删除接口成功后触发
+     * @param id 接口id
+     */
+    'interface_del'<span class="token operator">:</span> <span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+    * 客户端更新接口成功后触发
+    * @param id 接口id
+    */
+    'interface_update'<span class="token operator">:</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端获取接口数据列表
+     * @param id project_id
+     */
+    'interface_list'<span class="token operator">:</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端获取一条接口信息触发
+     * @param id 接口id
+     */
+    'interface_get'<span class="token operator">:</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端增加一个新项目
+     * @param id 项目id
+     */
+    'project_add'<span class="token operator">:</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 客户端删除删除一个项目
+     * @param id 项目id
+     */
+    'project_del'<span class="token operator">:</span><span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * MockServer生成mock数据后触发
+     * @param context Object
+     * <span class="token punctuation">{</span>
+     *  projectData<span class="token operator">:</span> project<span class="token punctuation">,</span>
+        interfaceData<span class="token operator">:</span> interfaceData<span class="token punctuation">,</span>
+        ctx<span class="token operator">:</span> ctx<span class="token punctuation">,</span>
+        mockJson<span class="token operator">:</span> res 
+     * <span class="token punctuation">}</span>
+     * 
+     */
+    mock_after<span class="token operator">:</span> <span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    /**
+     * 增加路由的钩子
+     * type Sync
+     * @param addPluginRouter Function 
+     * addPLuginPLugin(config<span class="token punctuation">)</span>
+     * config = <span class="token punctuation">{</span>
+     *  path<span class="token punctuation">,</span>      // String
+     *  method<span class="token punctuation">,</span>    // String
+     *  controller // Class 继承baseController的class
+     *  action     // String controller的Action
+     * <span class="token punctuation">}</span>
+     */
+    add_router<span class="token operator">:</span> <span class="token punctuation">{</span>
+        type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
+        listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><h2 class="subject" id="前端_hookList">前端 hookList <a class="hashlink" href="#前端_hookList">#</a></h2><pre><code>/**
+ * type component  组件
+ *      listener   监听函数
+ * mulit 是否绑定多个监听函数
+ *      
+ */
+
+hooks = <span class="token punctuation">{</span>
+  /**
+   * 第三方登录 //可参考 yapi-plugin-qsso 插件
+   */
+  third_login<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> 'component'<span class="token punctuation">,</span>
+    mulit<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    listener<span class="token operator">:</span> <span class="token null">null</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  /**
+   * 导出数据
+   * @param Object exportDataModule
+   * @param projectId
+   * @info
+   * exportDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
+   * exportDataModule.pdf = <span class="token punctuation">{</span>
+   *   name<span class="token operator">:</span> 'Pdf'<span class="token punctuation">,</span>
+   *   route<span class="token operator">:</span> '/api/plugin/export/pdf'<span class="token punctuation">,</span>
+   *   desc<span class="token operator">:</span> '导出项目接口文档为 pdf 文件'
+   * <span class="token punctuation">}</span>
+   */
+  export_data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> 'listener'<span class="token punctuation">,</span>
+    mulit<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  /**
+   * 导入数据
+   * @param importDataModule
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
+   * importDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
+   * 
+   */
+  import_data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> 'listener'<span class="token punctuation">,</span>
+    mulit<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  /**
+   * 接口页面 tab 钩子
+   * @param InterfaceTabs
+   * 
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-advanced-mock
+   * let InterfaceTabs = <span class="token punctuation">{</span>
+      view<span class="token operator">:</span> <span class="token punctuation">{</span>
+        component<span class="token operator">:</span> View<span class="token punctuation">,</span>
+        name<span class="token operator">:</span> '预览'
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      edit<span class="token operator">:</span> <span class="token punctuation">{</span>
+        component<span class="token operator">:</span> Edit<span class="token punctuation">,</span>
+        name<span class="token operator">:</span> '编辑'
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      run<span class="token operator">:</span> <span class="token punctuation">{</span>
+        component<span class="token operator">:</span> Run<span class="token punctuation">,</span>
+        name<span class="token operator">:</span> '运行'
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+   */
+  interface_tab<span class="token operator">:</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> 'listener'<span class="token punctuation">,</span>
+    mulit<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    listener<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2017 <a href="https://ymfe.org">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+        
+
+    </body>
+
+</html>

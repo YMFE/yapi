@@ -97,8 +97,8 @@ class ProjectMember extends Component {
     });
   }
 
-  handleOk =()=>{
-     this.addMembers(this.state.inputUids)
+  handleOk = () => {
+    this.addMembers(this.state.inputUids)
   }
 
   // 增 - 添加成员
@@ -176,13 +176,13 @@ class ProjectMember extends Component {
   }
 
   // 确定批量导入模态框
-  handleModalOk =async () => {
+  handleModalOk = async () => {
     // 获取项目中的成员列表
     const menberList = await this.props.getProjectMemberList(this.state.selectProjectId);
-    const memberUidList = menberList.payload.data.data.map(item =>{
+    const memberUidList = menberList.payload.data.data.map(item => {
       return item.uid
     })
-   this.addMembers(memberUidList)
+    this.addMembers(memberUidList)
   }
 
 
@@ -193,7 +193,7 @@ class ProjectMember extends Component {
   }
 
   async componentWillMount() {
-    
+
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     const projectMemberList = await this.props.getProjectMemberList(this.props.match.params.id);

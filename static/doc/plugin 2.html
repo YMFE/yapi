@@ -97,32 +97,12 @@
                         <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
                             <ul class="nav docs-sidenav">
                                  
-                                <!-- <li  class="active"   class="active" > -->
-                                <li  class="active" >
+                                <!-- <li  > -->
+                                <li >
                                     
                                     <a href="redev.html">二次开发</a> 
                                 </li>
-                                   
-                                <ul class="nav docs-sidenav-extend"  >
-                                
-                                    <li >
-                                        <a href="#安装环境">安装环境</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#安装YApi">安装YApi</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#技术栈说明">技术栈说明</a>
-                                    </li>
-                                     
-                                    <li >
-                                        <a href="#启动 prd 环境服务器">启动 prd 环境服务器</a>
-                                    </li>
-                                
-                                </ul>
-                                            
+                                  
                                 <!-- <li  > -->
                                 <li >
                                     
@@ -153,7 +133,7 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="安装环境">安装环境 <a class="hashlink" href="#安装环境">#</a></h2><p>安装 Node.js，<a target="_blank" href="https://nodejs.org/en/download/package-manager/">官方安装方法</a></p>
+                         <h2 class="subject" id="安装环境">安装环境 <a class="hashlink" href="#安装环境">#</a></h2><p>安装 Node.js，<a href="https://nodejs.org/en/download/package-manager/">官方安装方法</a></p>
 <pre><code class="lang-bash"><span class="token comment"># On RHEL, CentOS or Fedora, for Node.js v8 LTS:</span>
 curl --silent --location https://rpm.nodesource.com/setup_8.x <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">bash</span> -
 <span class="token comment"># Alternatively for Node.js 9:</span>
@@ -168,8 +148,7 @@ curl --silent --location https://rpm.nodesource.com/setup_9.x <span class="token
 <pre><code class="lang-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> gcc-c++ <span class="token function">make</span>
 <span class="token comment"># or: sudo yum groupinstall 'Development Tools'</span>
 </code></pre>
-<p>安装 MongoDB，首先创建源，创建 <code>mongodb.repo</code> 文件, 
-<a target="_blank" href="https://docs.mongodb.com/manual/installation/">官方安装方法</a></p>
+<p>安装 MongoDB，首先创建源，创建 <code>mongodb.repo</code> 文件, <a href="https://docs.mongodb.com/manual/installation/">官方安装方法</a></p>
 <pre><code class="lang-bash"><span class="token comment"># 在/etc/yum.repos.d/目录下创建文件mongodb.repo，它包含MongoDB仓库的配置信息，内容如下：</span>
 <span class="token comment"># 复制代码, 代码如下:</span>
 <span class="token punctuation">[</span>mongodb<span class="token punctuation">]</span>
