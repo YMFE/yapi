@@ -61,10 +61,11 @@ class projectModel extends baseModel {
     })
   }
 
-  getBaseInfo(id) {
+  getBaseInfo(id, select) {
+    select = select || '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script'
     return this.model.findOne({
       _id: id
-    }).select('_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script')
+    }).select(select)
       .exec()
   }
 
@@ -74,9 +75,10 @@ class projectModel extends baseModel {
     }).exec();
   }
 
-  checkNameRepeat(name) {
+  checkNameRepeat(name, groupid) {
     return this.model.count({
-      name: name
+      name: name,
+      group_id: groupid
     });
   }
 

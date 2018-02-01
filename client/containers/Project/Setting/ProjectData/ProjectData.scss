@@ -19,6 +19,16 @@
                 width: 100%;
             }
         }
+
+        .dataSync{
+          padding-top: 16px;
+          font-weight: 500;
+          width: 100%;
+          span{
+            padding-right: 8px;
+          }
+        }
+
         .export-content{
             text-align: center;
         }
@@ -31,4 +41,33 @@
         }
     }
 }
+
+.postman-dataImport-modal{
+  
+  .postman-dataImport-modal-content{
+    max-height: 600px;
+    min-width: 534px;
+    overflow-y: scroll;
+    padding-top: 8px;
+
+  }
+  .postman-dataImport-show-diff{
+    padding:  4px 0;
+  
+  }
+
+  .info{
+    font-weight: 400;
+    font-size: 16px;
+    padding-top: 24px;
+  }
+  
+}
+
+.dataImport-confirm{
+  .ant-modal-content .ant-confirm-btns{
+    margin-top: 10px;
+  }
+}
+
 

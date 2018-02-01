@@ -68,6 +68,7 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentWillMount() {
+    
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
     let { currCaseId } = this.props;
     const params = this.props.match.params;
@@ -85,12 +86,15 @@ export default class InterfaceCaseContent extends Component {
     const newCaseId = nextProps.match.params.actionId
     const { interfaceColList } = nextProps;
     let currColId = this.getColId(interfaceColList, newCaseId);
+
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false })
-      this.setState({ editCasename: this.props.currCase.casename })
+      this.setState({ editCasename: nextProps.currCase.casename })
     }
   }
+
+  
 
   savePostmanRef = (postman) => {
     this.postman = postman;
@@ -117,7 +121,7 @@ export default class InterfaceCaseContent extends Component {
     let params = {
       id,
       casename,
-      case_env,      
+      case_env,
       req_params,
       req_query,
       req_headers,
@@ -132,6 +136,7 @@ export default class InterfaceCaseContent extends Component {
 
     const res = await axios.post('/api/col/up_case', params);
     if (this.props.currCase.casename !== casename) {
+
       this.props.fetchInterfaceColList(this.props.match.params.id);
     }
     if (res.data.errcode) {
@@ -163,7 +168,7 @@ export default class InterfaceCaseContent extends Component {
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
     }, { _id: currCase._id });
-
+   
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">
@@ -179,7 +184,7 @@ export default class InterfaceCaseContent extends Component {
           </span>
         </div>
         <div>
-          {Object.keys(currCase).length > 0 && 
+          {Object.keys(currCase).length > 0 &&
             <Postman data={data} type="case" saveTip="更新保存修改" save={this.updateCase} ref={this.savePostmanRef} />
           }
         </div>

@@ -42,11 +42,13 @@ export default class AddColModal extends Component {
   }
 
   componentWillMount() {
+   
     this.props.fetchInterfaceColList(this.props.match.params.id)
     this.setState({caseName: this.props.caseName})
   }
 
   componentWillReceiveProps(nextProps) {
+    
     this.setState({id: nextProps.interfaceColList[0]._id})
     this.setState({caseName: nextProps.caseName})
   }
@@ -58,6 +60,8 @@ export default class AddColModal extends Component {
     if (!res.data.errcode) {
       message.success('添加集合成功');
       await this.props.fetchInterfaceColList(project_id);
+     
+      this.setState({id: res.data.data._id});
     } else {
       message.error(res.data.errmsg);
     }

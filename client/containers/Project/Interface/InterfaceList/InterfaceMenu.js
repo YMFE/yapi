@@ -88,7 +88,7 @@ class InterfaceMenu extends Component {
   async getList() {
     let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
     this.setState({
-      list: JSON.parse(JSON.stringify(r.payload.data.data))
+      list: r.payload.data.data
     })
   }
 
@@ -109,6 +109,7 @@ class InterfaceMenu extends Component {
   onSelect = (selectedKeys) => {
     const { history, match } = this.props;
     let curkey = selectedKeys[0];
+
     if (!curkey || !selectedKeys) return false;
     let basepath = "/project/" + match.params.id + "/interface/api";
     if (curkey === 'root') {
@@ -116,6 +117,12 @@ class InterfaceMenu extends Component {
     } else {
       history.push(basepath + '/' + curkey)
     }
+    this.setState({
+      expands: null
+    })
+  }
+
+  changeExpands = () => {
     this.setState({
       expands: null
     })
@@ -362,7 +369,11 @@ class InterfaceMenu extends Component {
 
       return <TreeNode
         title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem}  >
-          <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/" + item._id} >{item.title}</Link>
+          <Link
+            className="interface-item"
+            onClick={e => e.stopPropagation()}
+            to={"/project/" + matchParams.id + "/interface/api/" + item._id}
+          >{item.title}</Link>
           <div className="btns">
             <Tooltip title="删除接口">
               <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showConfirm(item) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />
@@ -408,7 +419,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
-    // console.log('currentKey',currentKes)
+
 
     if (this.state.filter) {
       let arr = [];
@@ -436,7 +447,6 @@ class InterfaceMenu extends Component {
       }
     }
 
-    // console.log('height',this.state.scrollHeight)
     return <div>
       {searchBox}
       {menuList.length > 0 ?
@@ -450,10 +460,15 @@ class InterfaceMenu extends Component {
           onExpand={this.onExpand}
           ondragstart={() => { return false }}
         >
-          <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
+          <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} onClick={(e) => { e.stopPropagation(); this.changeExpands() }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
             return <TreeNode title={<div className="container-title" onMouseEnter={() => this.enterItem(item._id)} onMouseLeave={this.leaveItem} >
-              <Link className="interface-item" to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id} ><Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
+              <Link
+                className="interface-item"
+                onClick={e => { e.stopPropagation(); this.changeExpands() }}
+                to={"/project/" + matchParams.id + "/interface/api/cat_" + item._id}
+              >
+                <Icon type="folder-open" style={{ marginRight: 5 }} />{item.name}</Link>
               <div className="btns">
                 <Tooltip title="删除分类">
                   <Icon type='delete' className="interface-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCatConfirm(item._id) }} style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }} />

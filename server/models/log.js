@@ -105,6 +105,17 @@ class logModel extends baseModel {
         }
         return this.model.count(params);
     }
+
+    listWithCatid(typeid,type, interfaceId) {
+      const params = {
+        type: type,
+        typeid: typeid
+    }
+    if(interfaceId && !isNaN(interfaceId)){
+        params['data.interface_id'] = +interfaceId           
+    }
+    return this.model.find(params).sort({add_time:-1}).limit(1).select('uid content type username typeid add_time').exec();
+    }
 }
 
 module.exports = logModel;

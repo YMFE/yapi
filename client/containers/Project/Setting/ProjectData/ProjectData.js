@@ -1,13 +1,15 @@
 import React, { PureComponent as Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip, Button, Spin } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
 import _ from 'underscore';
 const Dragger = Upload.Dragger;
+import { saveImportData } from '../../../../reducer/modules/interface';
+import { fetchUpdateLogData } from '../../../../reducer/modules/news.js'
 const Option = Select.Option;
-
+const confirm = Modal.confirm;
 const plugin = require('client/plugin.js');
 
 const importDataModule = {};
@@ -19,12 +21,15 @@ const exportDataModule = {};
 // }
 @connect(
   state => {
+
     return {
       curCatid: -(-state.inter.curdata.catid),
-      basePath: state.project.currProject.basepath
+      basePath: state.project.currProject.basepath,
+      updateLogList: state.news.updateLogList
     }
   }, {
-
+    saveImportData,
+    fetchUpdateLogData
   }
 )
 
@@ -36,13 +41,17 @@ class ProjectData extends Component {
       menuList: [],
       curImportType: null,
       curExportType: null,
-      showLoading: false
+      showLoading: false,
+      dataSync: false
     }
   }
   static propTypes = {
     match: PropTypes.object,
     curCatid: PropTypes.number,
-    basePath: PropTypes.string
+    basePath: PropTypes.string,
+    saveImportData: PropTypes.func,
+    fetchUpdateLogData: PropTypes.func,
+    updateLogList: PropTypes.array
   }
 
   componentWillMount() {
@@ -79,7 +88,7 @@ class ProjectData extends Component {
   }
 
   async handleAddCat(cats) {
-
+    
     let menuList = this.state.menuList;
     let catsObj = {};
     if (cats && Array.isArray(cats)) {
@@ -107,7 +116,74 @@ class ProjectData extends Component {
     return catsObj;
   }
 
-  handleAddInterface = (info) => {
+
+
+
+  handleAddInterface = async (res) => {
+    
+    const cats = await this.handleAddCat(res.cats);
+    if (cats === false) {
+      return;
+    }
+    res = res.apis;
+    let len = res.length;
+    let count = 0;
+    let successNum = len;
+    let existNum = 0;
+
+    for (let index = 0; index < res.length; index++) {
+      let item = res[index];
+      let data = {
+        ...item,
+        project_id: this.props.match.params.id,
+        catid: this.state.selectCatid
+      }
+      if (this.props.basePath) {
+        data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
+      }
+      if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
+        data.catid = cats[data.catname].id;
+      }
+
+      if (this.state.dataSync) {
+        // 开启同步功能
+        count++;
+        let result = await axios.post('/api/interface/save', data)
+        if (result.data.errcode) {
+          successNum--;
+          this.setState({ showLoading: false });
+          message.error(result.data.errmsg)
+        } else {
+          existNum = existNum + result.data.data.length;
+        }
+
+      } else {
+        // 未开启同步功能
+        count++;
+        let result = await axios.post('/api/interface/add', data);
+        if (result.data.errcode) {
+          successNum--;
+          if (result.data.errcode == 40022) {
+            existNum++;
+          }
+          if (result.data.errcode == 40033) {
+            this.setState({ showLoading: false });
+            message.error('没有权限')
+            break;
+          }
+        }
+      }
+      if (count === len) {
+        this.setState({ showLoading: false });
+        message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
+      }
+    }
+  }
+
+ 
+
+
+  handleFile = (info) => {
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
     }
@@ -117,52 +193,65 @@ class ProjectData extends Component {
       reader.readAsText(info.file);
       reader.onload = async res => {
         res = importDataModule[this.state.curImportType].run(res.target.result);
-        const cats = await this.handleAddCat(res.cats);
-        if (cats === false) {
-          return;
-        }
-        res = res.apis;
-        let len = res.length;
-        let count = 0;
-        let successNum = len;
-        let existNum = 0;
-
-        for (let index = 0; index < res.length; index++) {
-          let item = res[index];
-          let data = {
-            ...item,
-            project_id: this.props.match.params.id,
-            catid: this.state.selectCatid
-          }
-          if (this.props.basePath) {
-            data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
-          }
-          if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
-            data.catid = cats[data.catname].id;
-          }
-          let result = await axios.post('/api/interface/add', data);
-          count++;
-          if (result.data.errcode) {
-            successNum--;
-            if (result.data.errcode == 40022) {
-              existNum++;
-            }
-            if (result.data.errcode == 40033) {
-              this.setState({ showLoading: false });
-              message.error('没有权限')
-              break;
-            }
-          }
-          if (count === len) {
-            this.setState({ showLoading: false });
-            message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
-          }
-
+        console.log('res',res);
+        if (this.state.dataSync) {
+          // 开启同步
+          this.showConfirm(res);
+        } else {
+          // 未开启同步
+          await this.handleAddInterface(res)
         }
       }
     } else {
       message.error("请选择上传的默认分类");
     }
+
+  }
+
+
+  showConfirm = async (res) => {
+   
+    let that = this;
+    let typeid = this.props.match.params.id;
+    let apiCollections = res.apis.map(item=>{
+      return {
+        method:item.method,
+        path: item.path
+      }
+    })
+    let result = await this.props.fetchUpdateLogData({ type: 'project', typeid, apis: apiCollections })
+    let domainData = result.payload.data.data;
+    const ref = confirm({
+      title: '您确认要进行数据同步????',
+      width: 600,
+      okType: 'danger',
+      iconType: 'exclamation-circle',
+      className: 'dataImport-confirm',
+      content: (
+        <div className="postman-dataImport-modal">
+          <div className="postman-dataImport-modal-content">
+            {
+              domainData.map((item, index) => {
+                return (
+                  <div key={index} className="postman-dataImport-show-diff">
+                    <span className="logcontent" dangerouslySetInnerHTML={{ __html: item.content }}>
+                    </span>
+                  </div>
+                )
+              })
+            }
+          </div>
+          <p className="info">温馨提示： 数据同步后，可能会造成原本的修改数据丢失</p>
+        </div>
+      ),
+      async onOk() {
+        await that.handleAddInterface(res)
+      },
+      onCancel() {
+        that.setState({ showLoading: false, dataSync: false })
+        ref.destroy()
+      }
+    });
   }
 
   handleImportType = (val) => {
@@ -177,6 +266,15 @@ class ProjectData extends Component {
     })
   }
 
+  onChange = (checked) => {
+    this.setState({
+      dataSync: checked
+    })
+  }
+
+
+
+
   /**
    *
    *
@@ -189,11 +287,12 @@ class ProjectData extends Component {
       multiple: true,
       showUploadList: false,
       action: '/api/interface/interUpload',
-      customRequest: this.handleAddInterface,
+      customRequest: this.handleFile,
       onChange: this.uploadChange
     }
     return (
       <div className="g-row">
+
         <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">
@@ -220,6 +319,12 @@ class ProjectData extends Component {
                     return <Option key={key} value={item._id + ""}>{item.name}</Option>;
                   })}
                 </Select>
+              </div>
+              <div className="dataSync">
+                <span>开启数据同步<Tooltip title="开启数据同步后会覆盖项目中原本的数据"><Icon type="question-circle-o" /></Tooltip> :</span>
+
+                <Switch checked={this.state.dataSync} onChange={this.onChange} />
+
               </div>
               <div style={{ marginTop: 16, height: 180 }}>
                 <Spin spinning={this.state.showLoading} tip="上传中...">

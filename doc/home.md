@@ -36,7 +36,7 @@
 
     快手已部署使用 YApi 来管理项目接口
 
-* ![便利蜂](./images/bianlifeng.jpg)
+* ![便利蜂](./images/bianlif.jpeg)
 
     便利蜂已部署使用 YApi
 
@@ -50,3 +50,12 @@
 * ![收钱吧](./images/shouqian.png)
 
     收钱吧已部署使用 YApi
+* ![汇通天下](http://www.g7.com.cn/static/image/logo.png)
+
+    汇通天下已部署使用 YApi
+* ![一键秀](./images/show.jpeg)
+
+    一键秀（一键生成）已部署使用 YApi    
+* ![用友](./images/yonyou.jpg)
+
+    用友已经部署使用YApi,并且自己开发了单点登录插件    

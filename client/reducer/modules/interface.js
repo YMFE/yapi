@@ -8,6 +8,7 @@ const DELETE_INTERFACE_CAT_DATA = 'yapi/interface/DELETE_INTERFACE_CAT_DATA';
 const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
 const CHANGE_EDIT_STATUS = 'yapi/interface/CHANGE_EDIT_STATUS';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
+const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA'
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -15,7 +16,8 @@ const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
 const initialState = {
   curdata: {},
   list: [],
-  editStatus: false // 记录编辑页面是否有编辑
+  editStatus: false // 记录编辑页面是否有编辑,
+  
 }
 
 export default (state = initialState, action) => {
@@ -78,6 +80,14 @@ export async function deleteInterfaceData(id) {
   let result = await axios.post('/api/interface/del', { id: id })
   return {
     type: DELETE_INTERFACE_DATA,
+    payload: result
+  }
+}
+
+export async function saveImportData(data) {
+  let result = await axios.post('/api/interface/save', data)
+  return {
+    type:SAVE_IMPORT_DATA,
     payload: result
   }
 }

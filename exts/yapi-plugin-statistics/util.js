@@ -136,3 +136,15 @@ const dateSpacialWithSafari = str => {
     }
     return new Date(str.replace(/-/g, '/')).getTime();
 }
+
+/**
+ * 将内存单位从字节(b)变成GB
+ */
+
+exports.transformBytesToGB = bytes => {
+  return (bytes/1024/1024/1024).toFixed(2)
+}
+
+exports.transformSecondsToDay = seconds => {
+  return (seconds/3600/24).toFixed(2)
+}

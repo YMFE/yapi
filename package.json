@@ -1,6 +1,6 @@
 {
   "name": "yapi",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "YAPI",
   "main": "index.js",
   "scripts": {
@@ -57,16 +57,17 @@
     "mongoose": "4.7.0",
     "mongoose-auto-increment": "^5.0.1",
     "nodemailer": "^4.0.1",
+    "os": "^0.1.1",
     "randexp": "^0.4.6",
     "request": "^2.81.0",
     "sha.js": "^2.4.9",
     "sha1": "^1.1.1",
     "tslib": "^1.8.0",
     "underscore": "^1.8.3",
-    "url": "^0.11.0",
-    "yapi-plugin-qsso": "^1.1.0"
+    "url": "^0.11.0"
   },
   "devDependencies": {
+    "anujs": "^1.2.6",
     "assets-webpack-plugin": "^3.5.1",
     "ava": "^0.22.0",
     "babel": "^6.5.2",
@@ -130,7 +131,7 @@
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-node-externals": "^1.6.0",
-    "ykit-config-antd": "^0.1.3",
+    "ykit-config-antd": "0.1.3",
     "ykit-config-es6": "^1.1.0"
   },
   "config": {

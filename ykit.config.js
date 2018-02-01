@@ -81,9 +81,9 @@ module.exports = {
         vendors: {
           lib: [
             'react', 
+            'react-dom',
             'redux',
             'redux-thunk',
-            'react-dom',
             'redux-promise',
             'react-router',
             'react-router-dom',

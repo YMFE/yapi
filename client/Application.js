@@ -86,21 +86,23 @@ export default class App extends Component {
     this.props.checkLoginState();
   }
 
+  showConfirm = (msg, callback) => {
+    // 自定义 window.confirm
+    // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
+    let container = document.createElement('div');
+    document.body.appendChild(container);
+    ReactDOM.render((
+      <MyPopConfirm msg={msg} callback={callback} />
+    ), container);
+  }
+
   route = (status) => {
     let r;
     if (status === LOADING_STATUS) {
       return <Loading visible />;
     } else {
       r = (
-        <Router getUserConfirmation={(msg, callback) => {
-          // 自定义 window.confirm
-          // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
-          let container = document.createElement('div');
-          document.body.appendChild(container);
-          ReactDOM.render((
-            <MyPopConfirm msg={msg} callback={callback} />
-          ), container);
-        }}>
+        <Router getUserConfirmation={this.showConfirm}>
           <div className="g-main">
             <div className="router-main">
               {alertContent()}

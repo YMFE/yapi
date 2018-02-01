@@ -7,7 +7,7 @@ module.exports = function () {
   this.bindHook('header_menu', function (menu) {
     menu.statisticsPage = {
       path: '/statistic',
-      name: '数据统计',
+      name: '系统信息',
       icon: 'bar-chart',
       adminFlag: true
     }

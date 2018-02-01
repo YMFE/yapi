@@ -114,6 +114,7 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
+   
     this.setState({
       ...this.state,
       ...data,
@@ -138,6 +139,7 @@ export default class Run extends Component {
   }
 
   componentWillMount() {
+  
     this._crossRequestInterval = initCrossRequest((hasPlugin) => {
       this.setState({
         hasPlugin: hasPlugin
@@ -153,7 +155,10 @@ export default class Run extends Component {
   componentWillReceiveProps(nextProps) {
 
     if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
+     
       if (nextProps.data._id !== this.props.data._id) {
+        this.initState(nextProps.data)
+      }else if(nextProps.data.interface_up_time !== this.props.data.interface_up_time){
         this.initState(nextProps.data)
       }
       if (nextProps.data.env !== this.props.data.env) {

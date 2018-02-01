@@ -11,7 +11,7 @@ const Mock = require('mockjs');
  * @param {*} apiRule /user/:username
  */
 function matchApi(apiPath, apiRule) {
-  
+
   let apiRules = apiRule.split("/");
   let apiPaths = apiPath.split("/");
   let pathRules = {}
@@ -32,7 +32,7 @@ function matchApi(apiPath, apiRule) {
     } else if (apiRules[i].length > 2 && apiRules[i].indexOf('{') > -1 && apiRules[i].indexOf('}') > -1) {
       let params = [];
       apiRules[i] = apiRules[i].replace(/\{(.+?)\}/g, function (src, match) {
-       
+
         params.push(match);
         return '(.+)';
       })
@@ -40,9 +40,9 @@ function matchApi(apiPath, apiRule) {
       if (!apiRules[i].test(apiPaths[i])) {
         return false;
       }
-     
+
       let matchs = apiPaths[i].match(apiRules[i]);
-      
+
       params.forEach((item, index) => {
         pathRules[item] = matchs[index + 1];
       })
@@ -114,6 +114,7 @@ module.exports = async (ctx, next) => {
   try {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
+    
 
     //处理query_path情况
     if (!interfaceData || interfaceData.length === 0) {

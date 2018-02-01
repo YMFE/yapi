@@ -20,7 +20,7 @@ import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray }
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
 const Option = Select.Option;
-
+ 
 
 function handleReport(json) {
   try {
@@ -364,7 +364,7 @@ class InterfaceColContent extends Component {
       })
     })
     axios.post('/api/col/up_col_index', changes).then(() => {
-      this.props.fetchInterfaceColList(this.props.match.params.id)
+    this.props.fetchInterfaceColList(this.props.match.params.id)
     })
     if (rows) {
       this.setState({ rows });
@@ -538,7 +538,7 @@ class InterfaceColContent extends Component {
     },
     {
       header: {
-        label: '操作'
+        label: '测试报告'
 
       },
       props: {

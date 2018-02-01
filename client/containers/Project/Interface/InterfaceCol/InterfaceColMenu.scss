@@ -130,3 +130,10 @@
   }
 }
 
+.import-case-modal{
+  .ant-modal-body{
+    max-height: 800px;
+    overflow-y: scroll;
+  }
+}
+

@@ -59,6 +59,53 @@ CountOverview.propTypes = {
   date: PropTypes.object
 };
 
+const StatusOverview = (props) => (
+  <Row type="flex" justify="space-start" className="m-row">
+    
+    <Col className="gutter-row" span={6}>
+      <span>
+        操作系统类型
+        <Tooltip placement="rightTop" title="操作系统类型,返回值有'darwin', 'freebsd', 'linux', 'sunos' , 'win32'">
+          <Icon className="m-help" type="question-circle" />
+        </Tooltip>
+      </span>
+      <h2 className="gutter-box">{props.data.systemName}</h2>
+    </Col>
+    <Col className="gutter-row" span={6}>
+      <span>
+        系统运行时间
+        <Tooltip placement="rightTop" title="操作系统运行时间">
+          <Icon className="m-help" type="question-circle" />
+        </Tooltip>
+      </span>
+      <h2 className="gutter-box">{props.data.uptime} day</h2>
+    </Col>
+    <Col className="gutter-row" span={6}>
+      <span>
+        系统空闲内存总量 / 内存总量
+        <Tooltip placement="rightTop" title="统计yapi所有项目中的所有测试接口总数">
+          <Icon className="m-help" type="question-circle" />
+        </Tooltip>
+      </span>
+      <h2 className="gutter-box">{props.data.freemem} G / {props.data.totalmem} G </h2>
+    </Col>
+    <Col className="gutter-row" span={6}>
+      <span>
+        邮箱状态
+        <Tooltip placement="rightTop" title="检测配置文件中配置邮箱的状态">
+          <Icon className="m-help" type="question-circle" />
+        </Tooltip>
+      </span>
+      <h2 className="gutter-box">{props.data.mail}</h2>
+
+    </Col>
+  </Row>
+);
+
+StatusOverview.propTypes = {
+  data: PropTypes.object
+};
+
 
 @connect(
   null, {
@@ -78,13 +125,21 @@ class statisticsPage extends Component {
         projectCount: 0,
         interfaceCount: 0,
         interfactCaseCount: 0
+      },
+      status: {
+        mail: '',
+        systemName: '',
+        totalmem: '',
+        freemem: '',
+        uptime: ''
       }
     }
   }
 
   async componentWillMount() {
-    this.props.setBreadcrumb([{ name: '数据统计' }]);
+    this.props.setBreadcrumb([{ name: '系统信息' }]);
     this.getStatisData();
+    this.getSystemStatusData();
   }
 
   // 获取统计数据
@@ -97,16 +152,36 @@ class statisticsPage extends Component {
       });
     }
   }
-  
+
+  // 获取系统信息
+
+  async getSystemStatusData() {
+    let result = await axios.get('/api/plugin/statismock/get_system_status')
+    if (result.data.errcode === 0) {
+      let statusData = result.data.data;
+      this.setState({
+        status: { ...statusData }
+      });
+    }
+  }
+
 
   render() {
-    const { count } = this.state;
+    const { count, status } = this.state;
 
     return (
       <div className="g-statistic">
-        <div className="statis-content">
-          <CountOverview date={count}></CountOverview>
-          <StatisChart />
+        <div className="content">
+          <h2 className="title">系统状况</h2>
+          <div className="system-content">
+            <StatusOverview data={status}></StatusOverview>
+          </div>
+          <h2 className="title">数据统计</h2>
+          <div>
+            <CountOverview date={count}></CountOverview>
+            <StatisChart />
+          </div>
+
         </div>
       </div>
 

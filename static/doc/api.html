@@ -285,6 +285,10 @@
                                     </li>
                                      
                                     <li >
+                                        <a href="#-interface-save">/interface/save</a>
+                                    </li>
+                                     
+                                    <li >
                                         <a href="#-interface-get">/interface/get</a>
                                     </li>
                                      
@@ -392,6 +396,10 @@
                                 
                                     <li >
                                         <a href="#-log-list">/log/list</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#-log-list_by_update">/log/list_by_update</a>
                                     </li>
                                  
                                 </ul>
@@ -3350,7 +3358,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#95" target="_blank">./server/controllers/interface.js:95</a>
+        <a href="./static/server/controllers/interface.js.html#103" target="_blank">./server/controllers/interface.js:103</a>
     </p>
     
     
@@ -3655,6 +3663,254 @@
 
 <div class="con-list-item">
     <blockquote class="api">
+        <h3 id="-interface-save" class="page-header subject">
+            /interface/save
+            
+            <span class="ui-badge"> post</span>
+            
+            
+            <a class="hashlink" href="#-interface-save">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        保存接口数据，如果接口存在则更新数据，如果接口不存在则添加数据
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/interface.js.html#203" target="_blank">./server/controllers/interface.js:203</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>project_id</td>
+                <td>Number</td>
+                <td>项目id，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>title</td>
+                <td>String</td>
+                <td>接口标题，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>path</td>
+                <td>String</td>
+                <td>接口请求路径，不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>method</td>
+                <td>String</td>
+                <td>请求方式</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers</td>
+                <td>Array</td>
+                <td>请求的header信息</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].name</td>
+                <td>String</td>
+                <td>请求的header信息名</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].value</td>
+                <td>String</td>
+                <td>请求的header信息值</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].required</td>
+                <td>Boolean</td>
+                <td>是否是必须，默认为否</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_headers[].desc</td>
+                <td>String</td>
+                <td>header描述</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_type</td>
+                <td>String</td>
+                <td>请求参数方式，有["form", "json", "text", "xml"]四种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_params</td>
+                <td>Array</td>
+                <td>name, desc两个参数</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form</td>
+                <td>Mixed</td>
+                <td>请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].name</td>
+                <td>String</td>
+                <td>请求参数名</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].value</td>
+                <td>String</td>
+                <td>请求参数值，可填写生成规则（mock）。如@email，随机生成一条email</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_form[].type</td>
+                <td>String</td>
+                <td>请求参数类型，有["text", "file"]两种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>req_body_other</td>
+                <td>String</td>
+                <td>非form类型的请求参数可保存到此字段</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>res_body_type</td>
+                <td>String</td>
+                <td>相应信息的数据格式，有["json", "text", "xml"]三种</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>res_body</td>
+                <td>String</td>
+                <td>响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>desc</td>
+                <td>String</td>
+                <td>接口描述</td>
+                <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
         <h3 id="-interface-get" class="page-header subject">
             /interface/get
             
@@ -3666,12 +3922,12 @@
     </blockquote>
     <p>
         <small class="text-muted">描述:</small>
-        添加项目分组
+        获取项目分组
     </p>
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#195" target="_blank">./server/controllers/interface.js:195</a>
+        <a href="./static/server/controllers/interface.js.html#277" target="_blank">./server/controllers/interface.js:277</a>
     </p>
     
     
@@ -3736,7 +3992,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#238" target="_blank">./server/controllers/interface.js:238</a>
+        <a href="./static/server/controllers/interface.js.html#318" target="_blank">./server/controllers/interface.js:318</a>
     </p>
     
     
@@ -3801,7 +4057,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#336" target="_blank">./server/controllers/interface.js:336</a>
+        <a href="./static/server/controllers/interface.js.html#416" target="_blank">./server/controllers/interface.js:416</a>
     </p>
     
     
@@ -4034,7 +4290,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#495" target="_blank">./server/controllers/interface.js:495</a>
+        <a href="./static/server/controllers/interface.js.html#576" target="_blank">./server/controllers/interface.js:576</a>
     </p>
     
     
@@ -4106,7 +4362,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#693" target="_blank">./server/controllers/interface.js:693</a>
+        <a href="./static/server/controllers/interface.js.html#774" target="_blank">./server/controllers/interface.js:774</a>
     </p>
     
     
@@ -4171,7 +4427,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interface.js.html#725" target="_blank">./server/controllers/interface.js:725</a>
+        <a href="./static/server/controllers/interface.js.html#806" target="_blank">./server/controllers/interface.js:806</a>
     </p>
     
     
@@ -4528,7 +4784,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#48" target="_blank">./server/controllers/interfaceCol.js:48</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#52" target="_blank">./server/controllers/interfaceCol.js:52</a>
     </p>
     
     
@@ -4614,7 +4870,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#106" target="_blank">./server/controllers/interfaceCol.js:106</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#110" target="_blank">./server/controllers/interfaceCol.js:110</a>
     </p>
     
     
@@ -4676,7 +4932,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#174" target="_blank">./server/controllers/interfaceCol.js:174</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#178" target="_blank">./server/controllers/interfaceCol.js:178</a>
     </p>
     
     
@@ -4738,7 +4994,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#235" target="_blank">./server/controllers/interfaceCol.js:235</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#239" target="_blank">./server/controllers/interfaceCol.js:239</a>
     </p>
     
     
@@ -4920,7 +5176,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#483" target="_blank">./server/controllers/interfaceCol.js:483</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#487" target="_blank">./server/controllers/interfaceCol.js:487</a>
     </p>
     
     
@@ -5090,7 +5346,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#547" target="_blank">./server/controllers/interfaceCol.js:547</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#551" target="_blank">./server/controllers/interfaceCol.js:551</a>
     </p>
     
     
@@ -5152,7 +5408,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#614" target="_blank">./server/controllers/interfaceCol.js:614</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#618" target="_blank">./server/controllers/interfaceCol.js:618</a>
     </p>
     
     
@@ -5226,7 +5482,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#658" target="_blank">./server/controllers/interfaceCol.js:658</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#662" target="_blank">./server/controllers/interfaceCol.js:662</a>
     </p>
     
     
@@ -5286,7 +5542,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/interfaceCol.js.html#690" target="_blank">./server/controllers/interfaceCol.js:690</a>
+        <a href="./static/server/controllers/interfaceCol.js.html#694" target="_blank">./server/controllers/interfaceCol.js:694</a>
     </p>
     
     
@@ -5351,7 +5607,7 @@
     
     <p>
         <small class="text-muted">源码位置:</small>
-        <a href="./static/server/controllers/log.js.html#14" target="_blank">./server/controllers/log.js:14</a>
+        <a href="./static/server/controllers/log.js.html#27" target="_blank">./server/controllers/log.js:27</a>
     </p>
     
     
@@ -5403,6 +5659,71 @@
                 <td>Number</td>
                 <td>分页大小</td>
                 <td>
+                    
+                </td>
+                <td></td>
+            </tr>
+            
+        </table>
+    </div>
+    
+    
+    <div>示例：</div>
+    <pre class="ydoc-example" data-foldnumber=10><code class="js-code"><span class="token operator">/</span>log<span class="token operator">/</span>list</code></pre>
+    
+    
+</div>
+
+<div class="con-list-item">
+    <blockquote class="api">
+        <h3 id="-log-list_by_update" class="page-header subject">
+            /log/list_by_update
+            
+            <span class="ui-badge">post</span>
+            
+            
+            <a class="hashlink" href="#-log-list_by_update">#</a>
+        </h3>
+    </blockquote>
+    <p>
+        <small class="text-muted">描述:</small>
+        获取特定cat_id下最新修改的动态信息
+    </p>
+    
+    <p>
+        <small class="text-muted">源码位置:</small>
+        <a href="./static/server/controllers/log.js.html#87" target="_blank">./server/controllers/log.js:87</a>
+    </p>
+    
+    
+    <p>
+        <small class="text-muted">参数:</small>
+    </p>
+    <div class="docs-table">
+        <table class="yo-table yo-table-border">
+            <colgroup>
+                <col class="c1">
+                <col class="c2">
+                <col class="c3">
+                <col class="c4">
+            </colgroup>
+            <thead>
+                <tr class="active">
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                    <th>必选</th>
+                    <th>支持版本</th>
+                </tr>
+            </thead>
+            
+            <tr>
+                <td>typeid</td>
+                <td>Number</td>
+                <td>动态类型id， 不能为空</td>
+                <td>
+                    
+                    <i class="yo-ico glyphicon glyphicon-ok text-success"></i>
                     
                 </td>
                 <td></td>

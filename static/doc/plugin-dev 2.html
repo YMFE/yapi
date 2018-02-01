@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
+    <title>YApi 接口管理平台 插件 Wiki</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="source/main.css" />
+    
+    
+      
+      <link rel="stylesheet" href="styles/theme.css" />
+      
+    
+</head>
+<body>
+    <div class="ydoc">
+        <header class="ydoc-header">
+            <div class="ydoc-header-area">
+                
+                <a href="./index.html" class="navbar-brand"><img src="./images/logo_header@2x.png" /> &nbsp;YAPI</a>
+                
+                <button class="ydocIcon navbar-toggle">&#xf020;</button>
+                <nav class="ydoc-nav">
+                    <ul class="navbar-left">
+                         
+                        <li class="">
+                            
+                            <a href="index.html"></a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="usage.html">使用手册</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="devops.html">内网部署</a> 
+                        </li>
+                        
+                        <li class="active">
+                            
+                            <a href="plugin.html">插件 Wiki</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="qa.html">常见问题</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="releases.html">版本记录</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="http://yapi.demo.qunar.com/" target="_blank">demo 站点</a> 
+                        </li>
+                        
+                        <li class="">
+                            
+                            <a href="api.html"></a> 
+                        </li>
+                         
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- <header style="height:20px"></header> -->
+        
+        <!-- Docs page layout -->
+        
+        <div class="ydoc-banner-bg">
+            <div class="ydoc-banner ">
+                <div class="ydoc-banner-area">
+                    <h1 >插件</h1>
+                    <p class="desc ">可根据业务需求，定制化功能</p>
+                    
+                </div>
+            </div>
+            
+
+            <div class="ydoc-container">
+                 
+                <div class="ydoc-container-content ">
+                    
+                    
+                    <div class="content-left staticsidenav" role="complementary">
+                        <nav class="docs-sidebar hidden-print hidden-xs hidden-sm">
+                            <ul class="nav docs-sidenav">
+                                 
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="redev.html">二次开发</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-index.html">插件管理</a> 
+                                </li>
+                                  
+                                <!-- <li  class="active"   class="active" > -->
+                                <li  class="active" >
+                                    
+                                    <a href="plugin-dev.html">插件开发</a> 
+                                </li>
+                                   
+                                <ul class="nav docs-sidenav-extend"  >
+                                
+                                    <li >
+                                        <a href="#运行开发服务器(参考二次开发)">运行开发服务器(参考二次开发)</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#加载插件">加载插件</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#初始化目录">初始化目录</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#index.js 配置说明">index.js 配置说明</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#server.js">server.js</a>
+                                    </li>
+                                     
+                                    <li >
+                                        <a href="#client.js">client.js</a>
+                                    </li>
+                                
+                                </ul>
+                                            
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-hooks.html">钩子列表</a> 
+                                </li>
+                                  
+                                <!-- <li  > -->
+                                <li >
+                                    
+                                    <a href="plugin-list.html">插件列表</a> 
+                                </li>
+                                 
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    <div class="content-right markdown-body use-sidebar" role="main">
+
+                         <h2 class="subject" id="运行开发服务器_参考二次开发_">运行开发服务器(参考二次开发) <a class="hashlink" href="#运行开发服务器_参考二次开发_">#</a></h2><pre><code>npm install
+npm install -g ykit //依赖 ykit 
+npm run dev //启动开发服务器
+</code></pre><h2 class="subject" id="加载插件">加载插件 <a class="hashlink" href="#加载插件">#</a></h2><p>在config.json plugins配置项，加入 demo 插件,</p>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"3000"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"servername"</span><span class="token operator">:</span> <span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"DATABASE"</span><span class="token operator">:</span> <span class="token string">"yapi"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  ...
+  <span class="token property">"plugins"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"demo"</span>，
+    <span class="token property">"options"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 class="subject" id="初始化目录">初始化目录 <a class="hashlink" href="#初始化目录">#</a></h2><p>可参考 项目vendors/exts 目录下的插件</p>
+<p>在 vendors/node_modules 下新建 yapi-plugin-demo 目录和 npm init,最后生成的目录接口如下</p>
+<pre><code>yapi-plugin-demo
+  client.js  //客户端入口文件
+  server.js  //服务端入口文件
+  packjson.json //插件依赖管理
+  index.js //插件配置文件
+</code></pre><h2 class="subject" id="index.js_配置说明">index.js 配置说明 <a class="hashlink" href="#index.js_配置说明">#</a></h2><pre><code>server<span class="token operator">:</span> <span class="token boolean">true</span> // 如果为<span class="token boolean">true</span><span class="token punctuation">,</span>表名该插件需要经过后端服务器加载
+client<span class="token operator">:</span> <span class="token boolean">true</span> // 如果为<span class="token boolean">true</span><span class="token punctuation">,</span>表名该插件需要经过前端编译
+</code></pre><h2 class="subject" id="server.js">server.js <a class="hashlink" href="#server.js">#</a></h2><p>在server.js 需要导出一个 function ,例如： module.exports = function(options){}</p>
+<p>options 可在 config.json 配置</p>
+<h3 class="subject" id="绑定钩子">绑定钩子 <a class="hashlink" href="#绑定钩子">#</a></h3><pre><code>this.bindHook(hookname<span class="token punctuation">,</span> listener<span class="token punctuation">)</span> //绑定钩子
+hookname //钩子名
+listener //监听函数，可以是普通函数，也可以是 asyncFunction
+</code></pre><h3 class="subject" id="如何使用_YApi_vendors_server_目录下的模块">如何使用 YApi vendors/server 目录下的模块 <a class="hashlink" href="#如何使用_YApi_vendors_server_目录下的模块">#</a></h3><p>可以直接 require vendors 目录下的模块，注意：后端 node 不能使用 import关键字，只能使用 require
+例如： require(&#39;yapi&#39;)</p>
+<h3 class="subject" id="controller_和_model">controller 和 model <a class="hashlink" href="#controller_和_model">#</a></h3><p>新增 controller 需要继承 baseController(controller/base.js)</p>
+<p>新增 model 需要继承 baseModel(model/base.js)</p>
+<h2 class="subject" id="client.js">client.js <a class="hashlink" href="#client.js">#</a></h2><h3 class="subject" id="绑定钩子_同后端_server.js__">绑定钩子(同后端 server.js ) <a class="hashlink" href="#绑定钩子_同后端_server.js__">#</a></h3><pre><code>this.bindHook(hookname<span class="token punctuation">,</span> listener<span class="token punctuation">)</span> //绑定钩子
+hookname //钩子名
+listener //监听函数，可以是普通函数，也可以是 asyncFunction
+</code></pre>
+                    </div>
+                </div>
+                 
+            </div>
+            
+        </div>
+        
+        <footer class="footer">
+            <div class="copyright">
+                &copy; 2017 <a href="https://ymfe.org">YMFE</a> Team. Build by <a href="http://ued.qunar.com/ydoc/">ydoc</a>&nbsp;
+            </div>
+        </footer>
+    </div>
+
+    
+    <div class="open-panel"></div>
+    <div class="mask"></div>
+     
+
+    <script src="source/main.js"></script>
+    <script src="source/app.js"></script>
+        
+
+    </body>
+
+</html>

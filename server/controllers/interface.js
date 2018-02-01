@@ -89,6 +89,14 @@ class interfaceController extends baseController {
         'catid': 'number',
         'switch_notice': 'boolean',
         'message': minLengthStringField
+      }, addAndUpCommonField),
+      save: Object.assign({
+        'project_id': 'number',
+        'catid': 'number',
+        'title': minLengthStringField,
+        'path': minLengthStringField,
+        'method': minLengthStringField,
+        'message': minLengthStringField
       }, addAndUpCommonField)
     }
   }
@@ -194,7 +202,81 @@ class interfaceController extends baseController {
   }
 
   /**
-   * 添加项目分组
+   * 保存接口数据，如果接口存在则更新数据，如果接口不存在则添加数据
+   * @interface /interface/save
+   * @method  post
+   * @category interface
+   * @foldnumber 10
+   * @param {Number}   project_id 项目id，不能为空
+   * @param {String}   title 接口标题，不能为空
+   * @param {String}   path 接口请求路径，不能为空
+   * @param {String}   method 请求方式
+   * @param {Array}  [req_headers] 请求的header信息
+   * @param {String}  [req_headers[].name] 请求的header信息名
+   * @param {String}  [req_headers[].value] 请求的header信息值
+   * @param {Boolean}  [req_headers[].required] 是否是必须，默认为否
+   * @param {String}  [req_headers[].desc] header描述
+   * @param {String}  [req_body_type] 请求参数方式，有["form", "json", "text", "xml"]四种
+   * @param {Array} [req_params] name, desc两个参数
+   * @param {Mixed}  [req_body_form] 请求参数,如果请求方式是form，参数是Array数组，其他格式请求参数是字符串
+   * @param {String} [req_body_form[].name] 请求参数名
+   * @param {String} [req_body_form[].value] 请求参数值，可填写生成规则（mock）。如@email，随机生成一条email
+   * @param {String} [req_body_form[].type] 请求参数类型，有["text", "file"]两种
+   * @param {String} [req_body_other]  非form类型的请求参数可保存到此字段
+   * @param {String}  [res_body_type] 相应信息的数据格式，有["json", "text", "xml"]三种
+   * @param {String} [res_body] 响应信息，可填写任意字符串，如果res_body_type是json,则会调用mock功能
+   * @param  {String} [desc] 接口描述
+   * @returns {Object}
+   */
+
+  async save(ctx) {
+    let params = ctx.params;
+
+    let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+    if (!auth) {
+      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
+    }
+    params.method = params.method || 'GET';
+    params.method = params.method.toUpperCase();
+
+    let http_path = url.parse(params.path, true);
+
+    if (!yapi.commons.verifyPath(http_path.pathname)) {
+      return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
+    }
+
+    let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id');
+   
+    if (result.length > 0) {
+      result.forEach(async item => {
+        params.id = item._id;
+        // console.log(this.schemaMap['up'])
+        let validResult = yapi.commons.validateParams(this.schemaMap['up'], params);
+        if (validResult.valid) {
+          let data = {};
+          data.params = params
+          await this.up(data)
+        } else {
+          return ctx.body = yapi.commons.resReturn(null, 400, validResult.message);
+        }
+      })
+    } else {
+      let validResult = yapi.commons.validateParams(this.schemaMap['add'], params);
+      if (validResult.valid) {
+        let data = {};
+        data.params = params
+        await this.add(data)
+      } else {
+        return ctx.body = yapi.commons.resReturn(null, 400, validResult.message);
+      }
+    }
+    ctx.body = yapi.commons.resReturn(result);
+    // return ctx.body = yapi.commons.resReturn(null, 400, 'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成');
+
+  }
+
+  /**
+   * 获取项目分组
    * @interface /interface/get
    * @method GET
    * @category interface
@@ -222,9 +304,7 @@ class interfaceController extends baseController {
           return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
         }
       }
-
       yapi.emitHook('interface_get', params.id).then();
-
       result = result.toObject();
       if (userinfo) {
         result.username = userinfo.username;
@@ -427,6 +507,7 @@ class interfaceController extends baseController {
     let CurrentInterfaceData = await this.Model.get(id);
     let logData = {
       interface_id: id,
+      cat_id: data.catid,
       current: CurrentInterfaceData.toObject(),
       old: interfaceData.toObject()
     }
@@ -477,7 +558,7 @@ class interfaceController extends baseController {
 
     yapi.emitHook('interface_update', id).then();
     ctx.body = yapi.commons.resReturn(result);
-
+    return 1;
   }
 
   diffHTML(html) {

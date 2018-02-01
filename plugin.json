@@ -3,5 +3,10 @@
      "title": "yapi-plugin-qsso",
      "url": "https://github.com/ymfe/yapi-plugin-qsso",
      "desc": "qunar 专用 sso 第三方登录"
+  },
+  {
+     "title": "yapi-plugin-import-openapi",
+     "url": "https://github.com/yuu2lee4/yapi-plugin-import-openapi",
+     "desc": "openapi导入插件(仅支持3.0)"
   }
 ]

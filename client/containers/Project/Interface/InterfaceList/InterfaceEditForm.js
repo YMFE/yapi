@@ -259,8 +259,6 @@ class InterfaceEditForm extends Component {
   }
 
   componentDidMount() {
-    // console.log('noticed', this.props.noticed);
-
     EditFormContext = this;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
@@ -306,10 +304,7 @@ class InterfaceEditForm extends Component {
     }
     editor.create();
     editor.txt.html(this.state.desc)
-    if (navigator.userAgent.indexOf("Firefox") > 0) {
-      document.getElementById('title').focus()
-    }
-
+    document.querySelector('#desc .w-e-text-container .w-e-text').blur()
   }
 
   componentWillUnmount() {
@@ -829,7 +824,7 @@ class InterfaceEditForm extends Component {
               </pre>}>
                 <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
               </Tooltip>
-              ，“全局编辑” 或 “退出全屏” 请按 F9
+              ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
             </Col>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
@@ -891,7 +886,7 @@ class InterfaceEditForm extends Component {
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
                 </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('https://yapi.ymfe.org/mock.html', '_blank')}>查看文档</span>
-                  ，“全局编辑” 或 “退出全屏” 请按 F9
+                  ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
                 </h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>

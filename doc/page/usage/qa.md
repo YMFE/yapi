@@ -34,6 +34,10 @@
 
 如果还是不行，请参考 文档 -> 内网部署 -> <a href="./devops.html#方式二. 命令行部署" >命令行部署</a> 文档
 
+## Q6 部署YApi遇到的问题？
+
+* <a href="http://blog.csdn.net/ll657418802/article/details/50846313?locationNum=7" _blank="target">mongodb3.03以上开启认证,解决程序认证连接报错以及第三方客户端无法认证问题</a>
+
 <br>
 <br>
 <br>

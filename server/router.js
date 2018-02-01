@@ -302,14 +302,24 @@ let routerConfig = {
 			action: 'getCustomField',
 			path: 'get_custom_field',
 			method: 'get'
-		}
+    },
+    {
+      action: 'save',
+      path: 'save',
+      method: 'post'
+    }
 	],
 	"log": [
 		{
 			"action": "list",
 			"path": "list",
 			"method": "get"
-		}
+    },
+    {
+      "action": "listByUpdate",
+			"path": "list_by_update",
+			"method": "post"
+    }
 	],
 	"follow": [{
 		"action": "list",
