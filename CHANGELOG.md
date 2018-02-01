@@ -1,7 +1,7 @@
 ### v1.3.5
 
 #### Feature
-
+* 增加项目成员批量导入
 * 数据导入同步，数据导入支持swagger 3.0
 * swagger 数据导入支持 2xx 的httpcode
 * 新增系统信息页面
@@ -28,7 +28,7 @@
 #### Bug Fixed
 * 修复无权限进入项目bug
 * 修复复制接口，query 等参数无法复制bug
-* 修复导出html markdown参数丢失问题
+* 修复导出html markdown 参数丢失问题
 
 
 

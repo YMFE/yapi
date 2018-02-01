@@ -32,7 +32,7 @@ function connect(callback) {
     });
 
     db.then(function () {
-        yapi.commons.log('mongodb load success...');
+        yapi.commons.log('mongodb load success ...,  please visit localhost:3000');
        
         if(typeof callback === 'function'){
             callback.call(db)
