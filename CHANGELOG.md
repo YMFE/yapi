@@ -1,3 +1,4 @@
+
 ### v1.3.5
 
 #### Feature
@@ -16,11 +17,11 @@
 * 修复mongodb帐号密码配置错误时引发的错误
 * 修复删除分组后侧边数据没哟更新问题
 
-
 ### v1.3.4
 
 #### Feature
 
+* 帮助文档首页增加部署公司
 * 进入project页面加入loading
 * 接口list页table中加入分页
 * 项目添加者自动变成项目组长
@@ -28,8 +29,8 @@
 #### Bug Fixed
 * 修复无权限进入项目bug
 * 修复复制接口，query 等参数无法复制bug
-* 修复导出html markdown 参数丢失问题
-
+* 修复导出html markdown参数丢失问题
+* 修复项目设置 pre-script 无法显示问题
 
 
 ### v1.3.3
