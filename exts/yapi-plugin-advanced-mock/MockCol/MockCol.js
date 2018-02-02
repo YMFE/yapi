@@ -148,6 +148,7 @@ export default class MockCol extends Component {
       dataIndex: '_id',
       key: '_id',
       render: (_id, recode) => {
+        
         return (
           <div>
             <span style={{marginRight: 5}}>

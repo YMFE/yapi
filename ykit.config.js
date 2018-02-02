@@ -80,9 +80,9 @@ module.exports = {
       commonsChunk: {
         vendors: {
           lib: [
-            'anujs',
-            // 'react', 
-            // 'react-dom',
+            // 'anujs',
+            'react', 
+            'react-dom',
             'redux',
             'redux-thunk',
             'redux-promise',
@@ -135,8 +135,8 @@ module.exports = {
         baseConfig.resolve.alias.plugins = '/node_modules';
         baseConfig.resolve.alias.exts = '/exts';
 
-        baseConfig.resolve.alias.react = 'anujs';
-        baseConfig.resolve.alias['react-dom'] = 'anujs';
+        // baseConfig.resolve.alias.react = 'anujs';
+        // baseConfig.resolve.alias['react-dom'] = 'anujs';
 
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
