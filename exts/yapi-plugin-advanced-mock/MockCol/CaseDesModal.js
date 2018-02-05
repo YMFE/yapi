@@ -151,7 +151,7 @@ export default class CaseDesModal extends Component {
 
   addValues = (key) => {
     console.log(key);
-    const { setFieldsValue, getFieldValue } = this.props.form;
+    const { getFieldValue } = this.props.form;
     let values = getFieldValue(key);
 
     values = values.concat({ name: '', value: '' });
