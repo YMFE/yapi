@@ -6,6 +6,9 @@
   box-shadow: 0 0 .04rem rgba(0, 0, 0, .08);
   font-size: .14rem;
   border: none;
+  .ant-menu {
+    font-size: unset;
+   }
   .m-subnav-menu {
     border: none;
     padding: 0 .24rem;

@@ -174,6 +174,7 @@ class ModalPostman extends Component {
         width={1024}
         maskClosable={false}
         okText="插入"
+        cancelText="取消"
       >
 
         <Row className="modal-postman-form" type="flex">

@@ -16,7 +16,7 @@ class Setting extends Component {
     const id = this.props.match.params.id;
     return (
       <div className="g-row">
-        <Tabs type="card" className="has-affix-footer">
+        <Tabs size="large" type="card" className="has-affix-footer">
           <TabPane tab="项目配置" key="1">
             <ProjectMessage projectId={+id}/>
           </TabPane>

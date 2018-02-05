@@ -168,6 +168,12 @@ em {
   border: none;
 }
 
+.ant-tabs.ant-tabs-card > .ant-tabs-content{
+  margin-top: -1px;
+}
+
+
+
 // 页面级底部固定 需要添加padding以保证页面底部不被覆盖
 // .has-affix-footer {
 //   padding-bottom: .92rem;

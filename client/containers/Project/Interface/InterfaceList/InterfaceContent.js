@@ -127,7 +127,7 @@ class Content extends Component {
 
     plugin.emitHook('interface_tab', InterfaceTabs);
 
-    const tabs = <Tabs onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
+    const tabs = <Tabs size="large" onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
       {Object.keys(InterfaceTabs).map(key=>{
         let item = InterfaceTabs[key];
         return <TabPane tab={item.name} key={key}></TabPane>

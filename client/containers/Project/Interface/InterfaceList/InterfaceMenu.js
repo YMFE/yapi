@@ -198,6 +198,8 @@ class InterfaceMenu extends Component {
     const ref = confirm({
       title: '您确认删除此接口????',
       content: '温馨提示：接口删除后，无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
@@ -216,6 +218,8 @@ class InterfaceMenu extends Component {
     const ref = confirm({
       title: '确定删除此接口分类吗？',
       content: '温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
         await that.getList()
