@@ -43,12 +43,8 @@ class StatisChart extends Component {
 
   render() {
     const width = 1050;
-    console.log('chartDate',this.state.chartDate);
     const { mockCount, mockDateList } = this.state.chartDate;
   
-    // if (mockDateList.length === 0) {
-    //     return <Loading visible />;
-    // }
     
     return (
       <div>
