@@ -1,21 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Form, Input, Switch, Select, Icon, message, Modal, Col, Row, InputNumber, AutoComplete } from 'antd';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Form, Select, InputNumber, Switch, Col, message, Row, Input, Button, Icon, AutoComplete, Modal } from 'antd'
+const Option = Select.Option;
+const FormItem = Form.Item;
 import { safeAssign } from 'client/common.js';
-// import mockEditor from 'client/components/AceEditor/mockEditor';
 import AceEditor from 'client/components/AceEditor/AceEditor'
 import constants from 'client/constants/variable.js'
 import { httpCodes } from '../index.js'
-import { connect } from 'react-redux'
-
 import './CaseDesModal.scss'
-require('brace/mode/text');
-const json5 = require('json5');
+import { connect } from 'react-redux'
+import json5 from 'json5'
 
-const Option = Select.Option;
-const FormItem = Form.Item;
-// const RadioButton = Radio.Button;
-// const RadioGroup = Radio.Group;
 const formItemLayout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 12 }
@@ -31,26 +26,16 @@ const formItemLayoutWithOutLabel = {
     }
   }
 )
-@Form.create()
-export default class CaseDesModal extends Component {
+class CaseDesForm extends Component {
   static propTypes = {
     form: PropTypes.object,
     caseData: PropTypes.object,
-    onCancel: PropTypes.func,
+    currInterface: PropTypes.object,
     onOk: PropTypes.func,
+    
+    onCancel: PropTypes.func,
     isAdd: PropTypes.bool,
-    visible: PropTypes.bool,
-    currInterface: PropTypes.object
-  }
-
-  state = {
-    headers: [],
-    paramsArr: [],
-    paramsForm: 'form'
-  }
-
-  constructor(props) {
-    super(props);
+    visible: PropTypes.bool
   }
 
   preProcess = caseData => {
@@ -69,26 +54,81 @@ export default class CaseDesModal extends Component {
       headers: [{ name: '', value: '' }],
       paramsArr: [{ name: '', value: '' }],
       params: {},
-      res_body: ''
+      res_body: '',
+      paramsForm: 'form'
     }
     caseData.params = caseData.params || {};
     const paramsArr = Object.keys(caseData.params).length ? Object.keys(caseData.params).map(key => {
       return { name: key, value: caseData.params[key] }
     }).filter(item => {
       if (typeof item.value === 'object') {
-        this.setState({ paramsForm: 'json' })
+        // this.setState({ paramsForm: 'json' })
+        caseData.paramsForm = 'json'
       }
       return typeof item.value !== 'object'
     }) : [{ name: '', value: '' }];
     const headers = caseData.headers && caseData.headers.length ? caseData.headers : [{ name: '', value: '' }];
     caseData.code = '' + caseData.code;
     caseData.params = JSON.stringify(caseData.params, null, 2);
-    this.setState({
-      headers,
-      paramsArr
-    })
+    
     caseData = safeAssign(initCaseData, { ...caseData, headers, paramsArr });
     return caseData;
+  }
+
+  constructor(props) {
+    super(props)
+    const { caseData } = this.props;
+    // console.log('custom_field1', this.props.custom_field);
+    this.state = this.preProcess(caseData);
+    
+  }
+
+  handleRequestBody = (d) => {
+    const { setFieldsValue } = this.props.form;
+    setFieldsValue({ res_body: d.text })
+  }
+
+
+  handleCaseModal = (d) => {
+    const { setFieldsValue } = this.props.form;
+    setFieldsValue({ params: d.text })
+  }
+
+  addValues = (key) => {
+    const { getFieldValue } = this.props.form;
+    let values = getFieldValue(key);
+    values = values.concat({ name: '', value: '' });
+    this.setState({ [key]: values })
+  }
+  removeValues = (key, index) => {
+    const { setFieldsValue, getFieldValue } = this.props.form;
+    let values = getFieldValue(key);
+    values = values.filter((val, index2) => index !== index2);
+    setFieldsValue({ [key]: values })
+    this.setState({ [key]: values })
+  }
+
+  getParamsKey = () => {
+    let { req_query, req_body_form, req_body_type, method, req_body_other } = this.props.currInterface;
+    let keys = [];
+
+    req_query && Array.isArray(req_query) && req_query.forEach(item => {
+      keys.push(item.name)
+    })
+    if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'form') {
+      req_body_form && Array.isArray(req_body_form) && req_body_form.forEach(item => {
+        keys.push(item.name)
+      })
+    } else if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'json' && req_body_other) {
+
+      try {
+        const bodyObj = json5.parse(req_body_other)
+        keys = keys.concat(Object.keys(bodyObj))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    return keys
   }
 
   endProcess = caseData => {
@@ -121,23 +161,8 @@ export default class CaseDesModal extends Component {
       }
     }
     delete caseData.paramsArr;
-    console.log(caseData)
+  
     return caseData;
-  }
-
-  componentDidMount() {
-    this.props.form.setFieldsValue(this.preProcess(this.props.caseData))
-    this.shouldLoadEditor = true
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.caseData !== nextProps.caseData ||
-      this.props.visible !== nextProps.visible
-    ) {
-      this.props.form.setFieldsValue(this.preProcess(nextProps.caseData))
-      this.shouldLoadEditor = true
-    }
   }
 
   handleOk = () => {
@@ -148,82 +173,12 @@ export default class CaseDesModal extends Component {
       }
     })
   }
-
-  addValues = (key) => {
-    console.log(key);
-    const { getFieldValue } = this.props.form;
-    let values = getFieldValue(key);
-
-    values = values.concat({ name: '', value: '' });
-
-    this.setState({ [key]: values })
-  }
-  removeValues = (key, index) => {
-    console.log('key', key);
-    console.log('index', index);
-    const { setFieldsValue, getFieldValue } = this.props.form;
-    let values = getFieldValue(key);
-    values = values.filter((val, index2) => index !== index2);
-
-    setFieldsValue({ [key]: values })
-    this.setState({ [key]: values })
-  }
-
-  // delParams = (key, name) => {
-
-  //   let curValue = this.props.form.getFieldValue(name);
-  //   let newValue = {}
-  //   newValue[name] = curValue.filter((val, index) => {
-  //     return index !== key;
-  //   })
-  //   this.props.form.setFieldsValue(newValue)
-  //   this.setState(newValue)
-  // }
-
-
-  getParamsKey = () => {
-    let { req_query, req_body_form, req_body_type, method, req_body_other } = this.props.currInterface;
-    let keys = [];
-
-    req_query && Array.isArray(req_query) && req_query.forEach(item => {
-      keys.push(item.name)
-    })
-    if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'form') {
-      req_body_form && Array.isArray(req_body_form) && req_body_form.forEach(item => {
-        keys.push(item.name)
-      })
-    } else if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'json' && req_body_other) {
-
-      try {
-        const bodyObj = json5.parse(req_body_other)
-        keys = keys.concat(Object.keys(bodyObj))
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    return keys
-  }
-
-  handleRequestBody = (d) => {
-    const { setFieldsValue } = this.props.form;
-    setFieldsValue({ res_body: d.text })
-  }
-
-  handleCaseModal = (d) => {
-    const { setFieldsValue } = this.props.form;
-    setFieldsValue({ params: d.text })
-  }
-
-
+  
   render() {
-
     const { getFieldDecorator, getFieldValue } = this.props.form;
-    const { isAdd, visible, onCancel, caseData } = this.props;
-    const { headers, paramsArr, paramsForm } = this.state;
-
-
+    const { isAdd, visible, onCancel } = this.props;
+    const { name, code, headers, ip, ip_enable, params, paramsArr, paramsForm, res_body } = this.state
     const valuesTpl = (values, title) => {
-      // console.log(values)
       const dataSource = this.getParamsKey();
       const display = paramsForm === 'json' ? 'none' : ''
       return values.map((item, index) => (
@@ -270,7 +225,6 @@ export default class CaseDesModal extends Component {
     const headersTpl = (values, title) => {
 
       const dataSource = constants.HTTP_REQUEST_HEADER;
-
       return values.map((item, index) => (
         <div key={index} className='headers'>
           <FormItem
@@ -311,10 +265,7 @@ export default class CaseDesModal extends Component {
         </div>
       ))
     }
-    getFieldDecorator('params')
-
-
-
+    
     return (
       <Modal
         title={isAdd ? '添加期望' : '编辑期望'}
@@ -323,42 +274,45 @@ export default class CaseDesModal extends Component {
         onOk={this.handleOk}
         width={780}
         onCancel={() => onCancel()}
-        afterClose={() => this.setState({ paramsForm: 'form' })}
+        afterClose={() => this.setState({paramsForm: 'form'})}
         className="case-des-modal"
         okText="确认"
         cancelText="取消"
       >
-        <Form>
+        <Form onSubmit={this.handleOk}>
           <h2 className="sub-title" style={{ marginTop: 0 }}>基本信息</h2>
           <FormItem
-            {...formItemLayout}
-            label="期望名称"
+              {...formItemLayout}
+              label="期望名称"
           >
             {getFieldDecorator('name', {
+              initialValue: name,
               rules: [{ required: true, message: '请输入期望名称！' }]
             })(
               <Input placeholder="请输入期望名称" />
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="IP 过滤" className="ip-filter">
             <Col span={6} className="ip-switch">
               <FormItem>
                 {getFieldDecorator('ip_enable', {
+                  initialValue: ip_enable,
                   valuePropName: 'checked',
                   rules: [{ type: 'boolean' }]
                 })(
                   <Switch />
-                  )}
+                )}
               </FormItem>
             </Col>
             <Col span={18}>
               <div style={{ display: getFieldValue('ip_enable') ? '' : 'none' }} className="ip">
                 <FormItem>
-                  {getFieldDecorator('ip', getFieldValue('ip_enable') ? {
+                  {getFieldDecorator('ip' ,getFieldValue('ip_enable') ? {
+                    initialValue: ip,
                     rules: [{ pattern: constants.IP_REGEXP, message: '请填写正确的 IP 地址', required: true }]
                   } : {})(
                     <Input placeholder="请输入过滤的 IP 地址" />
-                    )}
+                  )}
                 </FormItem>
               </div>
             </Col>
@@ -371,11 +325,8 @@ export default class CaseDesModal extends Component {
                 unCheckedChildren="JSON"
                 checked={paramsForm === 'json'}
                 onChange={bool => {
-                  if (bool) {
-                    this.shouldLoadParamsEditor = true
-                  }
                   this.setState({ paramsForm: bool ? 'json' : 'form' })
-                }}
+              }}
               />
             </Col>
           </Row>
@@ -388,21 +339,15 @@ export default class CaseDesModal extends Component {
             </Button>
           </FormItem>
           <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="参数过滤" style={{ display: paramsForm === 'form' ? 'none' : '' }}>
-            {/* <div id="case_modal_params" style={{
-              minHeight: "300px",
-              border: "1px solid #d9d9d9",
-              borderRadius: 4
-            }} ></div> */}
             <AceEditor
               className="pretty-editor"
-              data={caseData.params}
+              data={params}
               onChange={this.handleCaseModal}
             />
             <FormItem
-              {...formItemLayoutWithOutLabel}
             >
               {getFieldDecorator('params', paramsForm === 'json' ? {
-                rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON 字符串！' }]
+                  rules: [{ validator: this.jsonValidator, message: '请输入正确的 JSON 字符串！' }]
               } : {})(
                 <Input style={{ display: 'none' }} />
                 )}
@@ -410,25 +355,27 @@ export default class CaseDesModal extends Component {
           </FormItem>
           <h2 className="sub-title">响应</h2>
           <FormItem
-            {...formItemLayout}
-            required
-            label="HTTP Code"
-          >
-            {getFieldDecorator('code')(
+              {...formItemLayout}
+              required
+              label="HTTP Code"
+            >
+            {getFieldDecorator('code',{
+              initialValue: code
+            })(
               <Select showSearch>
                 {
                   httpCodes.map(code => <Option key={'' + code} value={'' + code}>{'' + code}</Option>)
                 }
               </Select>
-            )}
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="延时"
           >
             {getFieldDecorator('delay', {
-              initialValue: 0,
-              rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
+                initialValue: 0,
+                rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(
               <InputNumber placeholder="请输入延时时间" min={0} />
               )}
@@ -443,28 +390,29 @@ export default class CaseDesModal extends Component {
             </Button>
           </FormItem>
           <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="Body" required>
-            {/* <div id="res_body_json" style={{
-              minHeight: "300px",
-              border: "1px solid #d9d9d9",
-              borderRadius: 4
-            }} ></div> */}
-            <AceEditor
+            {/* <AceEditor
               className="pretty-editor"
-              data={caseData.res_body}
+              data={res_body}
               mode={this.props.currInterface.res_body_type === 'json' ? null : 'text'}
               onChange={this.handleRequestBody}
-            />
+            /> */}
             <FormItem
-              {...formItemLayoutWithOutLabel}
             >
-              {getFieldDecorator('res_body')(
-                <Input style={{ display: 'none' }} />
+              {getFieldDecorator('res_body',{ initialValue: res_body })(
+                <AceEditor
+                className="pretty-editor"
+                data={res_body}
+                mode={this.props.currInterface.res_body_type === 'json' ? null : 'text'}
+                onChange={this.handleRequestBody}
+              />
               )}
             </FormItem>
           </FormItem>
         </Form>
       </Modal>
-    )
+    );
   }
 }
 
+const CaseDesModal = Form.create()(CaseDesForm);
+export default CaseDesModal;

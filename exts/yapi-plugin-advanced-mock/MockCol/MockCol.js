@@ -44,8 +44,20 @@ export default class MockCol extends Component {
     this.props.fetchMockCol(interfaceId);
   }
 
+  // handleOk =async ()=>{
+    
+  //   let onOk = this._childComponent.props.onOk;
+  //   console.log('form',onOk());
+  //   // form.validateFieldsAndScroll((err, values)=>{
+  //   //   console.log('values....', values)
+  //   // })
+
+  // }
+
   handleOk = async (caseData) => {
+    console.log(11);
     if(!caseData){
+      console.log(12)
       return null;
     }
     const { caseData: currcase } = this.state;
@@ -82,9 +94,11 @@ export default class MockCol extends Component {
     })
   }
 
-  saveFormRef = (form) => {
-    this.form = form;
-  }
+  // saveFormRef = (form) => {
+  //   console.log(form.handleOk)
+  //   console.log(form)
+  //   this.form = form;
+  // }
 
   render() {
 
@@ -185,14 +199,16 @@ export default class MockCol extends Component {
           </a>
         </div>
         <Table columns={columns} dataSource={data} pagination={false} rowKey='_id' />
-        <CaseDesModal
+        { caseDesModalVisible &&
+          <CaseDesModal
           visible={caseDesModalVisible}
           isAdd={isAdd}
           caseData={caseData}
           onOk={this.handleOk}
           onCancel={() => this.setState({caseDesModalVisible: false})}
           ref={this.saveFormRef}
-        ></CaseDesModal>
+        />
+        }
       </div>
     )
   }
