@@ -9,7 +9,7 @@ import { changeMenuItem } from '../../reducer/modules/menu'
 import { withRouter } from 'react-router';
 import Srch from './Search/Search'
 const { Header } = Layout;
-import { logoSVG } from '../../common.js';
+import LogoSVG from '../LogoSVG/index.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
 import GuideBtns from '../GuideBtns/GuideBtns.js';
 const plugin = require('client/plugin.js');
@@ -284,8 +284,7 @@ export default class HeaderCom extends Component {
         <div className="content g-row">
           <Link onClick={this.relieveLink} to="/group" className="logo">
             <div className="href">
-              <span className="img">{logoSVG('32px')}</span>
-              {/*<span className="logo-name">YApi</span>*/}
+              <span className="img"><LogoSVG length="32px" /></span>
             </div>
           </Link>
           <Breadcrumb />
