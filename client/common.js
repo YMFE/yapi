@@ -1,9 +1,9 @@
-import moment from 'moment';
-import constants from './constants/variable'
-import Mock from 'mockjs'
-import json5 from 'json5'
-import MockExtra from 'common/mock-extra.js'
-import {filter} from 'common/power-string.js'
+const  moment = require('moment');
+const  constants = require ('./constants/variable')
+const Mock =  require('mockjs')
+const json5 = require('json5')
+const MockExtra = require('common/mock-extra.js')
+const filter = require('common/power-string.js').filter;
 
 const Roles = {
   0 : 'admin',
