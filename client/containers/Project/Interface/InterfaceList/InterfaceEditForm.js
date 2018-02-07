@@ -148,7 +148,7 @@ class InterfaceEditForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({ 
+    this.setState({
       submitStatus: true
     })
     try {
@@ -824,7 +824,7 @@ class InterfaceEditForm extends Component {
               </pre>}>
                 <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
               </Tooltip>
-              ，“全局编辑” 或 “退出全屏” 请按 F9
+              ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
             </Col>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
@@ -886,7 +886,7 @@ class InterfaceEditForm extends Component {
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
                 </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('https://yapi.ymfe.org/mock.html', '_blank')}>查看文档</span>
-                  ，“全局编辑” 或 “退出全屏” 请按 F9
+                  ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
                 </h3>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>

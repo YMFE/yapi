@@ -76,7 +76,12 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 打开项目目录 config.json 文件，添加如下字段：   
 
 ```  
-"ldapLogin": {
+{
+  "port": "*****",
+  "adminAccount": "********",
+  "db": {...},
+  "mail": {...},
+  "ldapLogin": {
       "enable": true,
       "server": "ldap://l-ldapt1.ops.dev.cn0.qunar.com",
       "baseDn": "CN=Admin,CN=Users,DC=test,DC=com",
@@ -84,6 +89,8 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
       "searchDn": "OU=UserContainer,DC=test,DC=com",
       "searchStandard": "mail"
    }
+}
+
 ```   
 这里面的配置项含义如下：  
 
@@ -93,5 +100,9 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 - `bindPassword` 登录该LDAP服务器的密码;
 - `searchDn` 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;
 - `searchStandard` 查询条件，这里是mail表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是email,  这里就需要修改成email.
+
+用npm run dev重新编译，可以在登录页看到如下画面，说明ladp配置成功
+
+<img src="./images/ldap.png" />
 
 <br><br><br><br><br>

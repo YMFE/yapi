@@ -80,7 +80,9 @@ module.exports = {
       commonsChunk: {
         vendors: {
           lib: [
-            'anujs', 
+            // 'anujs',
+            'react', 
+            'react-dom',
             'redux',
             'redux-thunk',
             'redux-promise',
