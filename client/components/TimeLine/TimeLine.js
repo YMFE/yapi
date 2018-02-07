@@ -188,9 +188,11 @@ class TimeTree extends Component {
       other: "其他"
     };
 
+    console.log('apiList',this.state.apiList);
+
     const children = this.state.apiList.map((item) => {
       let methodColor = variable.METHOD_COLOR[item.method ? item.method.toLowerCase() : 'get'];
-      return <Option title={item.title} value={item._id + ''} path={item.path} key={item._id}>{item.path} <Tag style={{ color: methodColor.color, backgroundColor: methodColor.bac }} >get</Tag></Option>;
+      return <Option title={item.title} value={item._id + ''} path={item.path} key={item._id}>{item.path} <Tag style={{ color: methodColor.color, backgroundColor: methodColor.bac, border: 'unset' }} >{item.method}</Tag></Option>;
     });
 
     children.unshift(
