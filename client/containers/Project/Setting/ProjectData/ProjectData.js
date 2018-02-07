@@ -227,6 +227,8 @@ class ProjectData extends Component {
       okType: 'danger',
       iconType: 'exclamation-circle',
       className: 'dataImport-confirm',
+      okText: "确认",
+      cancelText: "取消",
       content: (
         <div className="postman-dataImport-modal">
           <div className="postman-dataImport-modal-content">

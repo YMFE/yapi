@@ -535,7 +535,7 @@ export default class Run extends Component {
           </Panel>
         </Collapse>
 
-        <Tabs defaultActiveKey="res" className="response-tab"  >
+        <Tabs size="large" defaultActiveKey="res" className="response-tab"  >
           <Tabs.TabPane tab="Response" key="res">
             <Spin spinning={this.state.loading}>
               <h2 style={{ display: this.state.resStatusCode ? '' : 'none' }} className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>

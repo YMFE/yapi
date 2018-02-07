@@ -113,7 +113,6 @@ export default class Srch extends Component{
         >
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
-            style={{}}
             placeholder="搜索分组/项目"
             className="search-input"
           />

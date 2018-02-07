@@ -24,6 +24,8 @@ const ColModalForm = Form.create()((props) => {
       title={title}
       onCancel={onCancel}
       onOk={onCreate}
+      okText="确认"
+      cancelText="取消"
     >
       <Form layout="vertical">
         <FormItem label="集合名">
@@ -170,6 +172,8 @@ export default class InterfaceColMenu extends Component {
     confirm({
       title: '您确认删除此测试集合',
       content: '温馨提示：该操作会删除该集合下所有测试用例，用例删除后无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         const res = await axios.get('/api/col/del_col?col_id=' + colId)
         if (!res.data.errcode) {
@@ -239,6 +243,8 @@ export default class InterfaceColMenu extends Component {
     confirm({
       title: '您确认删除此测试用例',
       content: '温馨提示：用例删除后无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId)
         if (!res.data.errcode) {
@@ -525,6 +531,8 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}
+          okText="确认"
+          cancelText="取消"
         >
           <ImportInterface onChange={this.selectInterface} list={this.props.list} />
         </Modal>

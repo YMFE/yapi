@@ -871,7 +871,7 @@ class InterfaceEditForm extends Component {
         <div className="panel-sub">
           <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
             <Col>
-              <Tabs defaultActiveKey="tpl" onChange={this.handleJsonType} >
+              <Tabs size="large" defaultActiveKey="tpl" onChange={this.handleJsonType} >
                 <TabPane tab="模板" key="tpl">
 
                 </TabPane>

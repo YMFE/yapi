@@ -8,7 +8,8 @@ const DELETE_INTERFACE_CAT_DATA = 'yapi/interface/DELETE_INTERFACE_CAT_DATA';
 const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
 const CHANGE_EDIT_STATUS = 'yapi/interface/CHANGE_EDIT_STATUS';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
-const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA'
+const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA';
+const FETCH_INTERFACE_CAT_LIST = 'yapi/interface/FETCH_INTERFACE_CAT_LIST'
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -16,8 +17,10 @@ const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA'
 const initialState = {
   curdata: {},
   list: [],
-  editStatus: false // 记录编辑页面是否有编辑,
-  
+  editStatus: false, // 记录编辑页面是否有编辑,
+  totalTableList: [],
+  catTableList: []
+
 }
 
 export default (state = initialState, action) => {
@@ -25,7 +28,7 @@ export default (state = initialState, action) => {
     case INIT_INTERFACE_DATA:
       return initialState
     case UPDATE_INTERFACE_DATA:
-     
+
       return {
         ...state,
         curdata: Object.assign({}, state.curdata, action.updata)
@@ -44,6 +47,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         editStatus: action.status
+      };
+    }
+
+    case FETCH_INTERFACE_LIST: {
+      return {
+        ...state,
+        totalTableList: action.payload.data.data
+      };
+    }
+
+    case FETCH_INTERFACE_CAT_LIST: {
+      return {
+        ...state,
+        catTableList: action.payload.data.data
       };
     }
     default:
@@ -87,7 +104,7 @@ export async function deleteInterfaceData(id) {
 export async function saveImportData(data) {
   let result = await axios.post('/api/interface/save', data)
   return {
-    type:SAVE_IMPORT_DATA,
+    type: SAVE_IMPORT_DATA,
     payload: result
   }
 }
@@ -122,6 +139,14 @@ export async function fetchInterfaceList(projectId) {
   let result = await axios.get('/api/interface/list?project_id=' + projectId);
   return {
     type: FETCH_INTERFACE_LIST,
+    payload: result
+  }
+}
+
+export async function fetchInterfaceCatList(catid) {
+  let result = await axios.get('/api/interface/list_cat?catid=' + catid);
+  return {
+    type: FETCH_INTERFACE_CAT_LIST,
     payload: result
   }
 }
