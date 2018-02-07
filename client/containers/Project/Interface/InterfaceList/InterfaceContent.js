@@ -88,6 +88,7 @@ class Content extends Component {
   }
   // 确定离开页面
   handleOk = () => {
+    console.log(this.state.nextTab)
     this.setState({
       visible: false,
       curtab: this.state.nextTab
@@ -135,6 +136,7 @@ class Content extends Component {
     </Tabs>;
     let tabContent = null;
     if (this.state.curtab) {
+      console.log(this.state.curtab);
       let C = InterfaceTabs[this.state.curtab].component;
       tabContent = <C switchToView={this.switchToView} />;
     }
@@ -155,7 +157,7 @@ class Content extends Component {
         onCancel={this.handleCancel}
         footer={[
           <Button key="back" onClick={this.handleCancel}>取 消</Button>,
-          <Button key="submit" onClick={this.handleOk}>确 定</Button>
+          <Button key="submit" onClick={this.handleOk}>确 定1</Button>
         ]}
       >
         <p>离开页面会丢失当前编辑的内容，确定要离开吗？</p>

@@ -44,18 +44,8 @@ export default class MockCol extends Component {
     this.props.fetchMockCol(interfaceId);
   }
 
-  // handleOk =async ()=>{
-    
-  //   let onOk = this._childComponent.props.onOk;
-  //   console.log('form',onOk());
-  //   // form.validateFieldsAndScroll((err, values)=>{
-  //   //   console.log('values....', values)
-  //   // })
-
-  // }
-
   handleOk = async (caseData) => {
-    console.log(11);
+  
     if(!caseData){
       console.log(12)
       return null;

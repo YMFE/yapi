@@ -390,12 +390,6 @@ class CaseDesForm extends Component {
             </Button>
           </FormItem>
           <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="Body" required>
-            {/* <AceEditor
-              className="pretty-editor"
-              data={res_body}
-              mode={this.props.currInterface.res_body_type === 'json' ? null : 'text'}
-              onChange={this.handleRequestBody}
-            /> */}
             <FormItem
             >
               {getFieldDecorator('res_body',{ initialValue: res_body })(
