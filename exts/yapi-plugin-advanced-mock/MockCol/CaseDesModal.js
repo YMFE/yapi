@@ -32,12 +32,11 @@ class CaseDesForm extends Component {
     caseData: PropTypes.object,
     currInterface: PropTypes.object,
     onOk: PropTypes.func,
-    
     onCancel: PropTypes.func,
     isAdd: PropTypes.bool,
     visible: PropTypes.bool
   }
-
+  // 初始化输入数据
   preProcess = caseData => {
     try {
       caseData = JSON.parse(JSON.stringify(caseData))
@@ -78,28 +77,31 @@ class CaseDesForm extends Component {
   constructor(props) {
     super(props)
     const { caseData } = this.props;
-    // console.log('custom_field1', this.props.custom_field);
     this.state = this.preProcess(caseData);
     
   }
 
+  // 处理request_body编译器
   handleRequestBody = (d) => {
     const { setFieldsValue } = this.props.form;
     setFieldsValue({ res_body: d.text })
   }
 
-
-  handleCaseModal = (d) => {
+  // 处理参数编译器
+  handleParams = (d) => {
     const { setFieldsValue } = this.props.form;
     setFieldsValue({ params: d.text })
   }
 
+  // 增加参数信息
   addValues = (key) => {
     const { getFieldValue } = this.props.form;
     let values = getFieldValue(key);
     values = values.concat({ name: '', value: '' });
     this.setState({ [key]: values })
   }
+
+  // 删除参数信息
   removeValues = (key, index) => {
     const { setFieldsValue, getFieldValue } = this.props.form;
     let values = getFieldValue(key);
@@ -108,6 +110,7 @@ class CaseDesForm extends Component {
     this.setState({ [key]: values })
   }
 
+  // 处理参数
   getParamsKey = () => {
     let { req_query, req_body_form, req_body_type, method, req_body_other } = this.props.currInterface;
     let keys = [];
@@ -221,7 +224,6 @@ class CaseDesForm extends Component {
         </div>
       ))
     }
-
     const headersTpl = (values, title) => {
 
       const dataSource = constants.HTTP_REQUEST_HEADER;
@@ -265,7 +267,6 @@ class CaseDesForm extends Component {
         </div>
       ))
     }
-    
     return (
       <Modal
         title={isAdd ? '添加期望' : '编辑期望'}
@@ -342,7 +343,7 @@ class CaseDesForm extends Component {
             <AceEditor
               className="pretty-editor"
               data={params}
-              onChange={this.handleCaseModal}
+              onChange={this.handleParams}
             />
             <FormItem
             >

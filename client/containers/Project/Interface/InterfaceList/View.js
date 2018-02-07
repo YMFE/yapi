@@ -267,7 +267,7 @@ class View extends Component {
       <div className="panel-view">
         <Row className="row">
           <Col span={4} className="colKey">接口名称：</Col>
-          <Col span={8}>{this.props.curData.title}</Col>
+          <Col span={8} className="colName">{this.props.curData.title}</Col>
           <Col span={4} className="colKey">创&ensp;建&ensp;人：</Col>
           <Col span={8} className="colValue"><Link className="user-name" to={"/user/profile/" + this.props.curData.uid} ><img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />{this.props.curData.username}</Link></Col>
         </Row>

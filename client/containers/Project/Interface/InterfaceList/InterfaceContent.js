@@ -88,7 +88,6 @@ class Content extends Component {
   }
   // 确定离开页面
   handleOk = () => {
-    console.log(this.state.nextTab)
     this.setState({
       visible: false,
       curtab: this.state.nextTab
@@ -136,7 +135,7 @@ class Content extends Component {
     </Tabs>;
     let tabContent = null;
     if (this.state.curtab) {
-      console.log(this.state.curtab);
+      
       let C = InterfaceTabs[this.state.curtab].component;
       tabContent = <C switchToView={this.switchToView} />;
     }
@@ -151,7 +150,7 @@ class Content extends Component {
       />
       {tabs}
       {tabContent}
-      <Modal
+      { this.state.visible && <Modal
         title="你即将离开编辑页面"
         visible={this.state.visible}
         onCancel={this.handleCancel}
@@ -161,7 +160,7 @@ class Content extends Component {
         ]}
       >
         <p>离开页面会丢失当前编辑的内容，确定要离开吗？</p>
-      </Modal>
+      </Modal> }
     </div>
   }
 }
