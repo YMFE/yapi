@@ -114,7 +114,7 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-   
+
     this.setState({
       ...this.state,
       ...data,
@@ -139,7 +139,7 @@ export default class Run extends Component {
   }
 
   componentWillMount() {
-  
+
     this._crossRequestInterval = initCrossRequest((hasPlugin) => {
       this.setState({
         hasPlugin: hasPlugin
@@ -155,10 +155,10 @@ export default class Run extends Component {
   componentWillReceiveProps(nextProps) {
 
     if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
-     
+
       if (nextProps.data._id !== this.props.data._id) {
         this.initState(nextProps.data)
-      }else if(nextProps.data.interface_up_time !== this.props.data.interface_up_time){
+      } else if (nextProps.data.interface_up_time !== this.props.data.interface_up_time) {
         this.initState(nextProps.data)
       }
       if (nextProps.data.env !== this.props.data.env) {
@@ -565,7 +565,12 @@ export default class Run extends Component {
                   <div className="container-title">
                     <h4>Body</h4>
                   </div>
-                  <AceEditor readOnly={true} className="pretty-editor-body" data={this.state.test_res_body} mode={handleContentType(this.state.test_res_header)} />
+                  <AceEditor
+                    readOnly={true}
+                    className="pretty-editor-body"
+                    data={this.state.test_res_body}
+                    mode={handleContentType(this.state.test_res_header)}
+                  />
                 </div>
               </div>
             </Spin>

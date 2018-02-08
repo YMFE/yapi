@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router';
-import { logoSVG, getImgPath } from '../../common.js';
+import { getImgPath } from '../../common.js';
+import LogoSVG from '../../components/LogoSVG/index.js'
 import { changeMenuItem } from '../../reducer/modules/menu'
 const plugin = require('client/plugin.js');
 
@@ -32,7 +33,7 @@ const HomeGuest = () => (
           <Col lg={9} xs={24}>
             <div className="home-des">
               <div className="logo">
-                {logoSVG('72px')}
+                <LogoSVG length='72px' />
                 <span className="name">YAPI</span>
               </div>
               <div className="detail">高效、易用、功能强大的API管理平台<br /><span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span></div>
