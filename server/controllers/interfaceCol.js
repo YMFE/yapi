@@ -725,48 +725,9 @@ class interfaceColController extends baseController {
     }
   }
 
-  convertString(variable) {
-    if (variable instanceof Error) {
-      return variable.name + ': ' + variable.message;
-    }
-    try {
-      return JSON.stringify(variable, null, '   ');
-    } catch (err) {
-      return variable || '';
-    }
-  }
-
   async runCaseScript(ctx) {
     let params = ctx.request.body;
-    let script = params.script;
-    if (!script) {
-      return ctx.body = yapi.commons.resReturn('ok');
-    }
-
-    let logs = [];
-
-    let result = {
-      assert: require('assert'),
-      status: params.response.status,
-      body: params.response.body,
-      header: params.response.header,
-      records: params.records,
-      params: params.params,
-      log: (msg) => {
-        logs.push('log: ' + this.convertString(msg))
-      }
-    }
-
-    try {
-      result = yapi.commons.sandbox(result, script);
-      result.logs = logs;
-      return ctx.body = yapi.commons.resReturn(result);
-    } catch (err) {
-      logs.push(this.convertString(err));
-      result.logs = logs;
-      return ctx.body = yapi.commons.resReturn(result, 400, err.name + ": " + err.message)
-    }
-
+    ctx.body = await yapi.commons.runCaseScript(params);
   }
 
 }

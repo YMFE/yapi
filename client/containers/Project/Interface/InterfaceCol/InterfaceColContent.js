@@ -254,8 +254,6 @@ class InterfaceColContent extends Component {
         statusText: data.message,
         code: 400
       }
-
-      result.code = 400;
     }
 
     result.params = requestParams;

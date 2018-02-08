@@ -444,3 +444,46 @@ function handleParamsValue (params, val){
     ctxBody.colData = colData;
     return ctxBody;
 }
+
+
+
+function convertString(variable) {
+  if (variable instanceof Error) {
+    return variable.name + ': ' + variable.message;
+  }
+  try {
+    return JSON.stringify(variable, null, '   ');
+  } catch (err) {
+    return variable || '';
+  }
+}
+
+exports.runCaseScript = async function runCaseScript(params){
+  let script = params.script;
+  if (!script) {
+    return yapi.commons.resReturn('ok');
+  }
+  const logs = [];
+  const context = {
+    assert: require('assert'),
+    status: params.response.status,
+    body: params.response.body,
+    header: params.response.header,
+    records: params.records,
+    params: params.params,
+    log: (msg) => {
+      logs.push('log: ' + convertString(msg))
+    }
+  }
+
+  let result = {};
+  try {
+    result = yapi.commons.sandbox(context, script);
+    result.logs = logs;
+    return yapi.commons.resReturn(result);
+  } catch (err) {
+    logs.push(convertString(err));
+    result.logs = logs;
+    return yapi.commons.resReturn(result, 400, err.name + ": " + err.message)
+  }
+}
