@@ -1,17 +1,10 @@
-import { json_parse, isJson5, handleJson, joinPath, safeArray } from '../../common.js'
-import constants from '../../constants/variable.js'
-import _ from "underscore"
-import URL from 'url';
-
-const utils = require('common/power-string.js').utils;
+const { isJson5, json_parse, handleJson, joinPath, safeArray } = require('./utils')
+const constants = require('../client/constants/variable.js')
+const _ = require("underscore")
+const URL = require('url')
+const utils = require('./power-string.js').utils;
 const HTTP_METHOD = constants.HTTP_METHOD;
-
-exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
-exports.handleParams = handleParams;
-exports.handleContentType = handleContentType;
-exports.crossRequest = crossRequest;
-exports.handleCurrDomain = handleCurrDomain;
-exports.checkNameIsExistInArray = checkNameIsExistInArray;
+let httpRequest = () => { };
 
 const ContentTypeMap = {
   'application/json': 'json',
@@ -20,9 +13,7 @@ const ContentTypeMap = {
   'application/html': 'html'
 }
 
-// function isNode(){
-//   return typeof module !== 'undefined' && module.exports
-// }
+const isNode = typeof global == 'object' && global.global === global;
 
 function handleContentType(headers) {
   if (!headers || typeof headers !== 'object') return ContentTypeMap.other;
@@ -91,6 +82,9 @@ function sandbox(context = {}, script) {
 function crossRequest(defaultOptions, preScript, afterScript) {
   let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true), query = {};
+  if (!isNode) {
+    httpRequest = window.crossRequest
+  }
   query = Object.assign(query, urlObj.query);
   let context = {
     pathname: urlObj.pathname,
@@ -146,9 +140,11 @@ function crossRequest(defaultOptions, preScript, afterScript) {
       }
       resolve(data);
     }
-    window.crossRequest(options);
+    httpRequest(options);
   })
 }
+
+
 
 
 function handleParams(interfaceData, handleValue, requestParams) {
@@ -242,3 +238,10 @@ function handleParams(interfaceData, handleValue, requestParams) {
   return requestOptions;
 
 }
+
+exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
+exports.handleParams = handleParams;
+exports.handleContentType = handleContentType;
+exports.crossRequest = crossRequest;
+exports.handleCurrDomain = handleCurrDomain;
+exports.checkNameIsExistInArray = checkNameIsExistInArray;

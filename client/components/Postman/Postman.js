@@ -4,15 +4,17 @@ import { Button, Input, Checkbox, Modal, Select, Spin, Icon, Collapse, Tooltip, 
 import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
 import _ from 'underscore'
-import { isJson, handleParamsValue, deepCopyJson } from '../../common.js'
+import { isJson, deepCopyJson } from '../../common.js'
+
+
+
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 
-import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } from './postmanLib.js'
-// import { isRegExp } from 'util';
-
+const {handleParamsValue} = require('common/utils.js')
+const { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } = require('common/postmanLib.js')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;

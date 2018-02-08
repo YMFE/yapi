@@ -8,7 +8,6 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { json_parse, handleParamsValue } from '../../../../common.js'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -16,8 +15,10 @@ import * as resolve from 'table-resolver';
 import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } from 'client/components/Postman/postmanLib.js'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
+
+const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('common/postmanLib.js')
+const {handleParamsValue, json_parse} = require('common/utils.js')
 
 const Option = Select.Option;
  
@@ -144,9 +145,6 @@ class InterfaceColContent extends Component {
       item.case_env = this.state.currColEnv || item.case_env
       item.req_headers = this.handleReqHeader(item.req_headers)
       return item;
-    })
-    newRows = newRows.sort((n, o) => {
-      return n.index - o.index;
     })
     
     this.setState({
