@@ -164,6 +164,23 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
+  listByInterStatus(catid, status){
+    let option ={}
+    if(status === 'open') {
+      option = {
+        catid: catid,
+        api_opened: true
+      }
+    } else {
+      option = {
+        catid: catid
+      }
+    }
+    return this.model.find(option)
+      .sort({ title: 1 })
+      .exec();
+  }
+
   del(id) {
     return this.model.remove({
       _id: id

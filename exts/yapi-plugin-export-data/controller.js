@@ -20,12 +20,13 @@ class exportController extends baseController {
   }
 
   async handleListClass(pid, status) {
-    console.log('status', status);
+   
     let result = await this.catModel.list(pid), newResult = [];
     
     for (let i = 0, item, list; i < result.length; i++) {
       item = result[i].toObject()
-      list = await this.interModel.listByCatid(item._id, '_id title method path desc query_path req_headers req_params req_query req_body_type req_body_other req_body_form res_body')
+      list = await this.interModel.listByInterStatus(item._id, status)
+      
       for (let j = 0; j < list.length; j++) {
         list[j] = list[j].toObject()
       }
