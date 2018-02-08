@@ -8,7 +8,6 @@ import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'ant
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import { json_parse, handleParamsValue } from '../../../../common.js'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -16,8 +15,10 @@ import * as resolve from 'table-resolver';
 import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } from 'client/components/Postman/postmanLib.js'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
+
+const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('common/postmanLib.js')
+const {handleParamsValue, json_parse} = require('common/utils.js')
 
 const Option = Select.Option;
  
@@ -145,9 +146,6 @@ class InterfaceColContent extends Component {
       item.req_headers = this.handleReqHeader(item.req_headers)
       return item;
     })
-    newRows = newRows.sort((n, o) => {
-      return n.index - o.index;
-    })
     
     this.setState({
       rows: newRows
@@ -229,16 +227,7 @@ class InterfaceColContent extends Component {
       }
 
       let validRes = [];
-      // 弃用 mock 字段验证功能
-      // if (res && typeof res === 'object') {
-      //   if (interfaceData.mock_verify) {
-      //     let tpl = MockExtra(json_parse(interfaceData.res_body), {
-      //       query: interfaceData.req_query,
-      //       body: interfaceData.req_body_form
-      //     })
-      //     validRes = Mock.valid(tpl, res);
-      //   }
-      // }
+
       let responseData = Object.assign({}, {
         status: data.res.status,
         body: res,
@@ -317,32 +306,6 @@ class InterfaceColContent extends Component {
       }
     })
     return obj;
-  }
-
-
-
-  getQueryObj = (query, requestParams) => {
-    query = query || [];
-    const queryObj = {};
-    query.forEach(item => {
-      if (item.name && item.enable) {
-        queryObj[item.name] = this.handleValue(item.value);
-        if (requestParams) {
-          requestParams[item.name] = queryObj[item.name];
-        }
-      }
-    })
-    return queryObj;
-  }
-  getHeadersObj = (headers) => {
-    headers = headers || [];
-    const headersObj = {};
-    headers.forEach(item => {
-      if (item.name && item.value) {
-        headersObj[item.name] = this.handleValue(item.value);
-      }
-    })
-    return headersObj;
   }
 
   onRow(row) {
@@ -555,7 +518,6 @@ class InterfaceColContent extends Component {
             return <Button onClick={() => this.openReport(rowData.id)}>测试报告</Button>
           }
           return <div className="interface-col-table-action">
-            {/* <Button onClick={() => this.openAdv(rowData.id)} type="primary">高级</Button> */}
             {reportFun()}
           </div>
         }]

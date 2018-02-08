@@ -5,7 +5,8 @@ import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd'
 import MockList from './MockList.js'
 import MethodsList from './MethodsList.js'
 import VariablesSelect from './VariablesSelect.js'
-import { handleParamsValue } from '../../common.js'
+
+const {handleParamsValue} = require('common/utils.js')
 const Panel = Collapse.Panel;
 
 // 深拷贝
