@@ -88,7 +88,7 @@ class Login extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {/* 登录类型 (普通登录／LDAP登录) */}
-        {isLDAP && <FormItem>
+        {isLDAP && <FormItem> 
           <RadioGroup defaultValue="ldap" onChange={this.handleFormLayoutChange}>
             <Radio value="ldap">LDAP</Radio>
             <Radio value="normal">普通登录</Radio>

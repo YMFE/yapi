@@ -135,7 +135,8 @@ class InterfaceEditForm extends Component {
       jsonType: 'tpl',
       mockUrl: this.props.mockUrl,
       req_radio_type: 'req-query',
-      custom_field_value: ''
+      custom_field_value: '',
+      api_opened: false
     }, curdata)
   }
 
@@ -229,7 +230,7 @@ class InterfaceEditForm extends Component {
           if (HTTP_METHOD[values.method].request_body !== true) {
             values.req_body_form = []
           }
-          // console.log('values', values);
+          console.log('values', values);
 
           this.props.onSubmit(values)
           EditFormContext.props.changeEditStatus(false);
@@ -922,35 +923,17 @@ class InterfaceEditForm extends Component {
               <div id="desc" className="remark-editor"></div>
             </div>
           </FormItem>
-          {/* <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.other.mail}
-            {...formItemLayout}
-            label="是否开启邮件通知"
-          >
-            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
-              <Switch checkedChildren="开" unCheckedChildren="关" />
-            )}
-          </FormItem>
-          <FormItem
-            className={'interface-edit-item ' + (this.state.hideTabs.other.mail)}
-            {...formItemLayout}
-            label="改动日志"
-          >
-            {getFieldDecorator('message', { initialValue: "" })(
-              <TextArea style={{ minHeight: "300px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
-            )}
-          </FormItem> */}
         </div>
 
         {/* ----------- email ------------- */}
-        <h2 className="interface-title">通 知</h2>
+        <h2 className="interface-title">其 他</h2>
         <div className="panel-sub">
           <FormItem
             className={'interface-edit-item'}
             {...formItemLayout}
             label={(
               <span>
-                是否开启邮件通知&nbsp;
+                邮件通知&nbsp;
                 <Tooltip title={'开启邮件通知，可在 项目设置 里修改'}>
                   <Icon type="question-circle-o" style={{ width: "10px" }} />
                 </Tooltip>
@@ -959,6 +942,23 @@ class InterfaceEditForm extends Component {
             )}
           >
             {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: this.props.noticed })(
+              <Switch checkedChildren="开" unCheckedChildren="关" />
+            )}
+          </FormItem>
+          <FormItem
+            className={'interface-edit-item'}
+            {...formItemLayout}
+            label={(
+              <span>
+                开放接口&nbsp;
+                <Tooltip title={'用户可以在数据导出时选择导出全部接口或者只导出公开接口'}>
+                  <Icon type="question-circle-o" style={{ width: "10px" }} />
+                </Tooltip>
+
+              </span>
+            )}
+          >
+            {getFieldDecorator('api_opened', { valuePropName: 'checked', initialValue: this.state.api_opened })(
               <Switch checkedChildren="开" unCheckedChildren="关" />
             )}
           </FormItem>

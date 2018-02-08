@@ -69,7 +69,8 @@ class interfaceController extends baseController {
       'req_body_other': 'string',
       res_body_type: 'string',
       res_body: 'string',
-      custom_field_value: 'string'
+      custom_field_value: 'string',
+      'api_opened': 'boolean'
     }
 
     this.schemaMap = {

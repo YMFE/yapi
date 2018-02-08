@@ -65,7 +65,8 @@ class interfaceModel extends baseModel {
       res_body: String,
       custom_field_value: String,
       field2: String,
-      field3: String
+      field3: String,
+      api_opened: { type: Boolean, default: false }
     };
   }
 
@@ -159,6 +160,23 @@ class interfaceModel extends baseModel {
       catid: catid
     })
       .select(select)
+      .sort({ title: 1 })
+      .exec();
+  }
+
+  listByInterStatus(catid, status){
+    let option ={}
+    if(status === 'open') {
+      option = {
+        catid: catid,
+        api_opened: true
+      }
+    } else {
+      option = {
+        catid: catid
+      }
+    }
+    return this.model.find(option)
       .sort({ title: 1 })
       .exec();
   }

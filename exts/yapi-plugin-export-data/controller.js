@@ -19,11 +19,14 @@ class exportController extends baseController {
     this.projectModel = yapi.getInst(projectModel);
   }
 
-  async handleListClass(pid) {
+  async handleListClass(pid, status) {
+   
     let result = await this.catModel.list(pid), newResult = [];
+    
     for (let i = 0, item, list; i < result.length; i++) {
       item = result[i].toObject()
-      list = await this.interModel.listByCatid(item._id, '_id title method path desc query_path req_headers req_params req_query req_body_type req_body_other req_body_form res_body')
+      list = await this.interModel.listByInterStatus(item._id, status)
+      
       for (let j = 0; j < list.length; j++) {
         list[j] = list[j].toObject()
       }
@@ -36,8 +39,10 @@ class exportController extends baseController {
   }
 
   async exportData(ctx) {
+
     let pid = ctx.request.query.pid;
     let type = ctx.request.query.type;
+    let status = ctx.request.query.status;
     if (!pid) {
       ctx.body = yapi.commons.resReturn(null, 200, "pid 不为空");
     }
@@ -50,7 +55,7 @@ class exportController extends baseController {
       switch (type) {
         case "markdown": {
           isMarkdown = true;
-          tp = await createMarkdown.bind(this)(pid, false);
+          tp = await createMarkdown.bind(this)(pid, status, false);
           ctx.set("Content-Disposition", `attachment; filename=api.md`);
           return ctx.body = tp;
         }
@@ -60,7 +65,7 @@ class exportController extends baseController {
         //   return ctx.body = tp;
         // }
         default: {//默认为html
-          tp = await createHtml.bind(this)(pid);
+          tp = await createHtml.bind(this)(pid, status);
           ctx.set("Content-Disposition", `attachment; filename=api.html`);
           return ctx.body = tp;
         }
@@ -95,8 +100,8 @@ class exportController extends baseController {
     //   return result;
     // }
 
-    async function createHtml(pid) {
-      let md = await createMarkdown.bind(this)(pid, true);
+    async function createHtml(pid, status) {
+      let md = await createMarkdown.bind(this)(pid, status, true);
       let markdown = new markdownIt();
       markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
       markdown.use(markdownItTableOfContents, {
@@ -219,13 +224,13 @@ class exportController extends baseController {
       return "";
     }
 
-    async function createMarkdown(pid, isToc) {//拼接markdown
+    async function createMarkdown(pid, status, isToc) {//拼接markdown
       //模板
       let mdTemplate = ``;
       const toc = `[TOC]\n\n`;
       try {
         // const interList = await this.interModel.listByPid(pid);
-        const list = await this.handleListClass(pid);
+        const list = await this.handleListClass(pid, status);
 
         // 项目名、项目描述
         let title = escapeStr('<h1 class="curproject-name">' + curProject.name + '</h1>');
