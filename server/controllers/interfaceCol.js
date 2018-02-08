@@ -124,42 +124,16 @@ class interfaceColController extends baseController {
       if (!id || id == 0) {
         return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
       }
-      let resultList = await this.caseModel.list(id, 'all');
+      
       let colData = await this.colModel.get(id);
       let project = await this.projectModel.getBaseInfo(colData.project_id);
-
       if (project.project_type === 'private') {
         if (await this.checkAuth(project._id, 'project', 'view') !== true) {
           return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
         }
       }
 
-      for (let index = 0; index < resultList.length; index++) {
-        let result = resultList[index].toObject();
-        let data = await this.interfaceModel.get(result.interface_id);
-        if (!data) {
-          await this.caseModel.del(result._id);
-          continue;
-        }
-        let projectData = await this.projectModel.getBaseInfo(data.project_id);
-        result.path = projectData.basepath + data.path;
-        result.method = data.method;
-        result.req_body_type = data.req_body_type;
-        result.req_headers = this.handleParamsValue(data.req_headers, result.req_headers);
-
-        result.res_body_type = data.res_body_type;
-
-        result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
-        result.req_query = this.handleParamsValue(data.req_query, result.req_query)
-        result.req_params = this.handleParamsValue(data.req_params, result.req_params)
-        resultList[index] = result;
-      }
-      resultList = resultList.sort((a, b) => {
-        return a.index - b.index;
-      });
-      let ctxBody = yapi.commons.resReturn(resultList);
-      ctxBody.colData = colData;
-      ctx.body = ctxBody;
+      ctx.body = await yapi.commons.getCaseList(id);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
@@ -577,12 +551,12 @@ class interfaceColController extends baseController {
       result.path = projectData.basepath + data.path;
       result.method = data.method;
       result.req_body_type = data.req_body_type;
-      result.req_headers = this.handleParamsValue(data.req_headers, result.req_headers);
+      result.req_headers = yapi.commons.handleParamsValue(data.req_headers, result.req_headers);
       result.res_body = data.res_body;
       result.res_body_type = data.res_body_type;
-      result.req_body_form = this.handleParamsValue(data.req_body_form, result.req_body_form)
-      result.req_query = this.handleParamsValue(data.req_query, result.req_query)
-      result.req_params = this.handleParamsValue(data.req_params, result.req_params)
+      result.req_body_form = yapi.commons.handleParamsValue(data.req_body_form, result.req_body_form)
+      result.req_query = yapi.commons.handleParamsValue(data.req_query, result.req_query)
+      result.req_params = yapi.commons.handleParamsValue(data.req_params, result.req_params)
       result.interface_up_time = data.up_time;
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
@@ -590,31 +564,7 @@ class interfaceColController extends baseController {
     }
   }
 
-  /**
-   * 
-   * @param {*} params 接口定义的参数
-   * @param {*} val  接口case 定义的参数值
-   */
-  handleParamsValue(params, val) {
-    let value = {};
-    try {
-      params = params.toObject();
-    } catch (e) { }
-    if (params.length === 0 || val.length === 0) {
-      return params;
-    }
-    val.forEach((item, index) => {
-      value[item.name] = item;
-    })
-    params.forEach((item, index) => {
-      if (!value[item.name] || typeof value[item.name] !== 'object') return null;
-      params[index].value = value[item.name].value;
-      if (!_.isUndefined(value[item.name].enable)) {
-        params[index].enable = value[item.name].enable
-      }
-    })
-    return params;
-  }
+  
 
   /**
    * 更新一个接口集name或描述

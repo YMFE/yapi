@@ -448,7 +448,7 @@ let routerConfig = {
 	},{
 		action: "runAutoTest",
 		path: "run_auto_test",
-		method: "post"
+		method: "get"
 	}]
 }
 
