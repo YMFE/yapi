@@ -9,7 +9,8 @@ const yapi = require('./yapi.js');
 const projectController = require('./controllers/project.js');
 const logController = require('./controllers/log.js');
 const followController = require('./controllers/follow.js');
-const { createAction } = require("./utils/commons.js")
+const openController = require('./controllers/open.js');
+const { createAction } = require("./utils/commons.js");
 
 const router = koaRouter();
 
@@ -45,6 +46,10 @@ let INTERFACE_CONFIG = {
 	test: {
 		prefix: '/test/',
 		controller: testController
+	},
+	open: {
+		prefix: '/open/',
+		controller: openController
 	}
 };
 
@@ -435,7 +440,16 @@ let routerConfig = {
 		path: "http/code",
 		method: "post"
 	}
-	]
+	],
+	open: [{
+		action: "projectInterfaceData",
+		path: "project_interface_data",
+		method: "get"
+	},{
+		action: "runAutoTest",
+		path: "run_auto_test",
+		method: "post"
+	}]
 }
 
 let pluginsRouterPath = [];
