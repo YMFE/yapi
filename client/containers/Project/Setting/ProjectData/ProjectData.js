@@ -1,19 +1,34 @@
 import React, { PureComponent as Component } from 'react'
-import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal,Radio } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
 import _ from 'underscore';
+import URL from 'url'
+
 const Dragger = Upload.Dragger;
 import { saveImportData } from '../../../../reducer/modules/interface';
 import { fetchUpdateLogData } from '../../../../reducer/modules/news.js'
 const Option = Select.Option;
 const confirm = Modal.confirm;
 const plugin = require('client/plugin.js');
-
+const RadioGroup = Radio.Group;
 const importDataModule = {};
 const exportDataModule = {};
+
+function handleExportRouteParams (url, value) {
+  if(!url) {
+     return
+  }
+  let urlObj = URL.parse(url, true), query = {};
+  query = Object.assign(query, urlObj.query, {status: value});
+  return URL.format({
+    pathname: urlObj.pathname,
+    query
+  });
+}
+
 // exportDataModule.pdf = {
 //   name: 'Pdf',
 //   route: '/api/interface/download_crx',
@@ -42,7 +57,9 @@ class ProjectData extends Component {
       curImportType: null,
       curExportType: null,
       showLoading: false,
-      dataSync: false
+      dataSync: false,
+      exportContent: 'all'
+      
     }
   }
   static propTypes = {
@@ -274,6 +291,10 @@ class ProjectData extends Component {
     })
   }
 
+  handleChange = (e) => {
+    this.setState({ exportContent: e.target.value });
+  }
+
 
 
 
@@ -292,6 +313,11 @@ class ProjectData extends Component {
       customRequest: this.handleFile,
       onChange: this.uploadChange
     }
+
+    let exportUrl = this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route;
+    let exportHref = handleExportRouteParams(exportUrl, this.state.exportContent);
+
+    console.log('inter', this.state.exportContent);
     return (
       <div className="g-row">
 
@@ -350,11 +376,17 @@ class ProjectData extends Component {
                   })}
                 </Select>
               </div>
+              <div className="dataExport">
+                <RadioGroup defaultValue="all" onChange={this.handleChange}>
+                  <Radio value="all">全部接口</Radio>
+                  <Radio value="open">公开接口</Radio>
+                </RadioGroup>
+              </div>
               <div className="export-content">
                 {this.state.curExportType ?
                   <div>
                     <p className="export-desc">{exportDataModule[this.state.curExportType].desc}</p>
-                    <a target="_blank" href={this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route} >
+                    <a target="_blank" href={exportHref} >
                       <Button className="export-button" type="primary" size="large"> 导出 </Button>
 
                     </a>

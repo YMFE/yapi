@@ -65,7 +65,8 @@ class interfaceModel extends baseModel {
       res_body: String,
       custom_field_value: String,
       field2: String,
-      field3: String
+      field3: String,
+      api_opened: { type: Boolean, default: false }
     };
   }
 
