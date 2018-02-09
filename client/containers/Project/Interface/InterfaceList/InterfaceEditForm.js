@@ -230,7 +230,7 @@ class InterfaceEditForm extends Component {
           if (HTTP_METHOD[values.method].request_body !== true) {
             values.req_body_form = []
           }
-          console.log('values', values);
+          // console.log('values', values);
 
           this.props.onSubmit(values)
           EditFormContext.props.changeEditStatus(false);
@@ -951,7 +951,7 @@ class InterfaceEditForm extends Component {
             label={(
               <span>
                 开放接口&nbsp;
-                <Tooltip title={'用户可以在数据导出时选择导出全部接口或者只导出公开接口'}>
+                <Tooltip title={'用户可以在 数据导出 时选择只导出公开接口'}>
                   <Icon type="question-circle-o" style={{ width: "10px" }} />
                 </Tooltip>
 

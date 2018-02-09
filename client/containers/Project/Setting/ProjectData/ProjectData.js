@@ -134,8 +134,6 @@ class ProjectData extends Component {
   }
 
 
-
-
   handleAddInterface = async (res) => {
     
     const cats = await this.handleAddCat(res.cats);
@@ -198,8 +196,6 @@ class ProjectData extends Component {
   }
 
  
-
-
   handleFile = (info) => {
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
@@ -317,10 +313,9 @@ class ProjectData extends Component {
     let exportUrl = this.state.curExportType && exportDataModule[this.state.curExportType] && exportDataModule[this.state.curExportType].route;
     let exportHref = handleExportRouteParams(exportUrl, this.state.exportContent);
 
-    console.log('inter', this.state.exportContent);
+    // console.log('inter', this.state.exportContent);
     return (
       <div className="g-row">
-
         <div className="m-panel">
           <div className="postman-dataImport">
             <div className="dataImportCon">

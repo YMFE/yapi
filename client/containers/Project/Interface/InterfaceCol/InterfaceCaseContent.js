@@ -90,7 +90,8 @@ export default class InterfaceCaseContent extends Component {
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false })
-      this.setState({ editCasename: nextProps.currCase.casename })
+      
+      this.setState({ editCasename: this.props.currCase.casename })
     }
   }
 
@@ -168,6 +169,7 @@ export default class InterfaceCaseContent extends Component {
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
     }, { _id: currCase._id });
+    
    
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
