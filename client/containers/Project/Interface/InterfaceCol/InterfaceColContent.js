@@ -182,7 +182,7 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
-      result.body = result.data;
+      //result.body = result.data;
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: result.params,
@@ -254,8 +254,6 @@ class InterfaceColContent extends Component {
         statusText: data.message,
         code: 400
       }
-
-      result.code = 400;
     }
 
     result.params = requestParams;

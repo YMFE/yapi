@@ -7,7 +7,7 @@ function json_format(json) {
 }
 
 const CaseReport = function (props) {
-  let body = json_format(props.body);
+  let params = json_format(props.data);
   let headers = json_format(props.headers, null, '   ');
   let res_header = json_format(props.res_header, null, '   ');
   let res_body = json_format(props.res_body);
@@ -42,10 +42,10 @@ const CaseReport = function (props) {
           : null
         }
 
-        {props.body ?
+        {params ?
           <Row className="case-report">
             <Col className="case-report-title" span="6">Body</Col>
-            <Col span="18"><pre style={{whiteSpace: 'pre-wrap'}}>{body}</pre></Col>
+            <Col span="18"><pre style={{whiteSpace: 'pre-wrap'}}>{params}</pre></Col>
           </Row>
           : null
         }
@@ -87,7 +87,7 @@ const CaseReport = function (props) {
 
 CaseReport.propTypes = {
   url: PropTypes.string,
-  body: PropTypes.any,
+  data: PropTypes.any,
   headers: PropTypes.object,
   res_header: PropTypes.object,
   res_body: PropTypes.any,
