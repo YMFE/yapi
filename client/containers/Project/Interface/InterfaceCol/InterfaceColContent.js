@@ -182,7 +182,7 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
-      result.body = result.data;
+      //result.body = result.data;
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: result.params,

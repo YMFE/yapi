@@ -62,7 +62,6 @@ class openController extends baseController{
         result = err;
       }
 
-      result.body = result.data;
       reports[item.id] = result;
       records[item.id] = {
         params: result.params,
@@ -156,6 +155,7 @@ class openController extends baseController{
       )
 
     }
+
     return result;
   }
 

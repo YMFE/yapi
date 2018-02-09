@@ -52,10 +52,6 @@ async function httpRequestByNode(options) {
     })
     return handleRes(response)
   }catch(response){
-    console.log('--------')
-
-    console.log(response)
-    console.log('--------')
     return handleRes(response.response)
   }
 }
@@ -104,7 +100,37 @@ function handleCurrDomain(domains, case_env) {
   return currDomain;
 }
 
-function sandbox(context = {}, script) {
+function sandboxByNode(sandbox={}, script){
+  const vm = require('vm');
+  script = new vm.Script(script);
+  const context = new vm.createContext(sandbox);
+  script.runInContext(context, {
+    timeout: 3000
+  });
+  return sandbox;
+}
+
+function sandbox(context={}, script){
+
+  if(isNode){
+    try{
+      context.context = context;
+      context.console = console;
+      context = sandboxByNode(context, script)
+    }catch(err){
+      err.message = `Script: ${script}
+      message: ${err.message}`
+      throw err;
+    }
+  }else{
+    context = sandboxByBrowser(context, script)
+  }
+  return context;
+
+
+}
+
+function sandboxByBrowser(context = {}, script) {
   if (!script || typeof script !== 'string') {
     return context;
   }
@@ -169,7 +195,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
       options.error = options.success = function (res, header, data) {
         let message = '';
         if(res && typeof res === 'string'){
-          res = json_parse(res);
+          res = json_parse(data.res.body);
           data.res.body = res;
         }
         if (!isNode) message = '请求异常，请检查 chrome network 错误信息...';
