@@ -23,12 +23,17 @@ class openController extends baseController{
     }
   }
 
+  async getProjectIdByToken(token){
+    return '111'
+  }
+
   async projectInterfaceData(ctx){
     ctx.body = 'projectInterfaceData'
   }
 
   async runAutoTest(ctx){
     let id = ctx.params.id;
+    let token = ctx.params.token;
     let curEnv = ctx.params.env_name;
     let colData = await this.interfaceColModel.get(id);
     let projectId = colData.project_id;

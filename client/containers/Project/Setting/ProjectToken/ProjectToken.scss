@@ -2,4 +2,21 @@
   background: #fff;
   padding: 15px;
   min-height: 4.68rem;
+
+  .token{
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .token-message{
+    padding: 8px; 
+    margin-right: 8px;
+    background-color: #fafafa;
+
+  }
+
+  .token-btn{
+    margin-right: 8px;
+  }
 }
