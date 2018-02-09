@@ -14,7 +14,7 @@ import { fetchNewsData } from '../../reducer/modules/news.js';
 import './Group.scss';
 @connect(
   state => {
-    return {
+    return { 
       curGroupId: state.group.currGroup._id,
       curUserRole: state.user.role,
       curUserRoleInGroup: state.group.currGroup.role || state.group.role,

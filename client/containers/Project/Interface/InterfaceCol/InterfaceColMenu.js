@@ -362,6 +362,10 @@ export default class InterfaceColMenu extends Component {
     this.setState({ delIcon: id })
   }
 
+  leaveItem = () => {
+    this.setState({ delIcon: null })
+  }
+
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, importInterVisible } = this.state;
@@ -420,7 +424,7 @@ export default class InterfaceColMenu extends Component {
           style={{ width: '100%' }}
           key={'case_' + interfaceCase._id}
           title={ 
-            <div className="menu-title" onMouseEnter={() => this.enterItem(interfaceCase._id)} title={interfaceCase.casename}>
+            <div className="menu-title" onMouseEnter={() => this.enterItem(interfaceCase._id)} onMouseLeave={this.leaveItem} title={interfaceCase.casename}>
               <span className="casename">{interfaceCase.casename}</span>
               <Tooltip title="删除用例">
                 <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }} />
