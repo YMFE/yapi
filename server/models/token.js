@@ -19,10 +19,15 @@ class tokenModel extends baseModel {
     }
     
     get(project_id) {
-
         return this.model.findOne({
           project_id: project_id
         });
+    }
+
+    findId(token){
+      return this.model.findOne({
+        token: token
+      });
     }
 
     up(project_id, token){

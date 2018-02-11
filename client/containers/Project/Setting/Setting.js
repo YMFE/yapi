@@ -39,8 +39,8 @@ class Setting extends Component {
             <ProjectRequest projectId={+id} />
           </TabPane>
           {
-            (this.props.curProjectRole === "admin" || this.props.curProjectRole === 'owner') ?
-              <TabPane tab="token" key="4">
+            (this.props.curProjectRole !== "guest") ?
+              <TabPane tab="key值配置" key="4">
                 <ProjectToken projectId={+id} />
               </TabPane> : null
           }
