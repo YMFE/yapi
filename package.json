@@ -31,6 +31,7 @@
     "antd": "^3.1.6",
     "anujs": "^1.2.8",
     "axios": "^0.16.2",
+    "copy-to-clipboard": "^3.0.8",
     "cpu-load": "^1.0.0",
     "deep-extend": "^0.5.0",
     "deref": "^0.7.0",

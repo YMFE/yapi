@@ -14,6 +14,8 @@ const GET_PEOJECT_MEMBER = 'yapi/project/GET_PEOJECT_MEMBER';
 const ADD_PROJECT_MEMBER = 'yapi/project/ADD_PROJECT_MEMBER';
 const DEL_PROJECT_MEMBER = 'yapi/project/DEL_PROJECT_MEMBER';
 const CHANGE_PROJECT_MEMBER = 'yapi/project/CHANGE_PROJECT_MEMBER';
+const GET_TOKEN = 'yapi/project/GET_TOKEN';
+const UPDATE_TOKEN = 'yapi/project/UPDATE_TOKEN';
 
 // Reducer
 const initialState = {
@@ -25,6 +27,7 @@ const initialState = {
   tableLoading: true,
   total: 0,
   currPage: 1,
+  token: '',
   currProject: {
   }
 };
@@ -53,6 +56,19 @@ export default (state = initialState, action) => {
     }
     case PROJECT_DEL: {
       return state;
+    }
+
+    case GET_TOKEN: {
+      return {
+        ...state,
+        token: action.payload.data.data
+      }
+    }
+    case UPDATE_TOKEN: {
+      return {
+        ...state,
+        token: action.payload.data.data.token
+      }
     }
     default:
       return state;
@@ -209,3 +225,23 @@ export async function getProject(id) {
     payload: result
   }
 }
+
+
+export async function getToken(project_id){
+  return {
+    type: GET_TOKEN,
+    payload: axios.get('/api/project/token', {
+      params: { project_id }
+    })
+  }
+}
+
+export async function updateToken(project_id){
+  return {
+    type: UPDATE_TOKEN,
+    payload: axios.get('/api/project/update_token', {
+      params: { project_id }
+    })
+  }
+}
+

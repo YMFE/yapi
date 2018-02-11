@@ -239,7 +239,19 @@ let routerConfig = {
 			"action": "upEnv",
 			"path": "up_env",
 			"method": "post"
-		}
+    },
+    {
+			"action": "token",
+			"path": "token",
+			"method": "get"
+    },
+    {
+			"action": "updateToken",
+			"path": "update_token",
+			"method": "get"
+    }
+    
+
 	],
 	"interface": [
 		{
