@@ -59,11 +59,12 @@ class ProjectToken extends Component {
 
     return (
       <div className="project-token">
+        <h2 className="token-title">工具标识</h2>
         <div className="message">
-          每个项目都有唯一的标识key，用户可以使用这个key值来请求项目的所有资源数据。
+          每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。
         </div>
         <div className="token">
-          <span>key值:  <span className="token-message">{this.props.token}</span></span>
+          <span>token:  <span className="token-message">{this.props.token}</span></span>
           <Tooltip title="复制">
             <Icon className="token-btn" type="copy" onClick={this.copyToken}/>
           </Tooltip>
@@ -72,7 +73,7 @@ class ProjectToken extends Component {
           </Tooltip>
         </div>
         <div className="blockquote">
-          为确保项目内数据的安全性和私密性，请勿轻易将该key暴露给项目组外用户。
+          为确保项目内数据的安全性和私密性，请勿轻易将该token暴露给项目组外用户。
         </div>
       
       </div>

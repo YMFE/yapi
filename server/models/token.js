@@ -27,7 +27,7 @@ class tokenModel extends baseModel {
     findId(token){
       return this.model.findOne({
         token: token
-      });
+      }).select('project_id').exec();
     }
 
     up(project_id, token){

@@ -2,6 +2,7 @@ const projectModel = require('../models/project.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
+const tokenModel = require('../models/token.js');
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('../../common/postmanLib')
@@ -15,6 +16,7 @@ class openController extends baseController{
     this.interfaceColModel = yapi.getInst(interfaceColModel)
     this.interfaceCaseModel = yapi.getInst(interfaceCaseModel)
     this.interfaceModel = yapi.getInst(interfaceModel)
+    this.tokenModel = yapi.getInst(tokenModel);
     this.handleValue = this.handleValue.bind(this)
     this.schemaMap = {
       runAutoTest: {
@@ -30,7 +32,8 @@ class openController extends baseController{
   }
 
   async getProjectIdByToken(token){
-    return '111'
+    let projectId = await this.tokenModel.findId(token);
+    return projectId.toObject().project_id
   }
 
   async projectInterfaceData(ctx){
@@ -50,7 +53,20 @@ class openController extends baseController{
     let token = ctx.params.token;
     let curEnv = ctx.params.env_name;
     let colData = await this.interfaceColModel.get(id);
+    if(!colData){
+      return ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在');
+    }
+
+    if(!token){
+      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
+    }
+    
+    let checkId = await this.getProjectIdByToken(token);
+    
     let projectId = colData.project_id;
+    if(checkId !== projectId){
+      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
+    }
     let projectData = await this.projectModel.get(projectId);
     
     let caseList = await yapi.commons.getCaseList(id);

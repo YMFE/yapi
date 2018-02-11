@@ -40,7 +40,7 @@ class Setting extends Component {
           </TabPane>
           {
             (this.props.curProjectRole !== "guest") ?
-              <TabPane tab="key值配置" key="4">
+              <TabPane tab="token配置" key="4">
                 <ProjectToken projectId={+id} />
               </TabPane> : null
           }

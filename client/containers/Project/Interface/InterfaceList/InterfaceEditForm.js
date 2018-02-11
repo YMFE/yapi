@@ -825,7 +825,7 @@ class InterfaceEditForm extends Component {
               </pre>}>
                 <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
               </Tooltip>
-              ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
+              ，“全局编辑”或 “退出全屏” 请按 <span style={{fontWeight: '500'}}>F9</span>
             </Col>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
@@ -882,13 +882,13 @@ class InterfaceEditForm extends Component {
 
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>基于 mockjs 和 json5,使用注释方式写参数说明 <Tooltip title={<pre>
+                <div style={{ padding: '10px 0',fontSize: '15px' }}>基于 mockjs 和 json5,使用注释方式写参数说明 <Tooltip title={<pre>
                   {Json5Example}
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
                 </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('https://yapi.ymfe.org/mock.html', '_blank')}>查看文档</span>
-                  ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
-                </h3>
+                  ，“全局编辑” 或 “退出全屏” 请按 <span style={{fontWeight: '500'}}>F9</span>
+                </div>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>

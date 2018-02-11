@@ -13,13 +13,24 @@
   .token-message{
     padding: 8px; 
     margin-right: 8px;
-    background-color: #f8f8f8;
+    background-color: #f5f5f5;
 
   }
 
   .message{
-    padding-left: 16px;
+    padding: 16px 0 0 16px;
     font-size: 14px;
+  }
+
+  .token-title{
+    font-size: 16px;
+    // background-color: #eee;
+    // border-radius: 4px;
+    // margin-bottom: 15px;
+    font-weight: 400;
+    margin-bottom: 0.16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
   }
 
   .blockquote{
