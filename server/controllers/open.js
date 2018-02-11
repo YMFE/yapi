@@ -5,8 +5,8 @@ const interfaceModel = require('../models/interface.js');
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('../../common/postmanLib')
-const {handleParamsValue, json_parse} = require('../../common/utils.js')
-
+const {handleParamsValue} = require('../../common/utils.js')
+const renderToHtml = require('../utils/reportHtml')
 
 class openController extends baseController{
   constructor(ctx){
@@ -19,7 +19,12 @@ class openController extends baseController{
     this.schemaMap = {
       runAutoTest: {
         '*id': 'number',
-        'env_name': 'string'
+        'env_name': 'string',
+        'token': 'string',
+        'mode' : {
+          type: 'string',
+          default: 'html'
+        }
       }
     }
   }
@@ -33,6 +38,7 @@ class openController extends baseController{
   }
 
   async runAutoTest(ctx){
+    const startTime = new Date().getTime();
     const records = this.records = {};
     const reports = this.reports = {};
     const testList = []
@@ -83,10 +89,19 @@ class openController extends baseController{
       return `一共 ${len} 测试用例，${successNum} 个验证通过， ${failedNum} 个未通过。`
     }
 
-    ctx.body = {
+    const endTime = new Date().getTime();
+    const executionTime = (endTime - startTime)/1000;
+
+    let reportsResult = {
       message: getMessage(testList),
-      caseNumber: testList.length,
+      runTime: executionTime + 's',
+      numbs: testList.length,
       list: testList
+    }
+    if(ctx.params.mode === 'json'){
+      return ctx.body = reportsResult
+    }else{
+      return ctx.body = renderToHtml(reportsResult)
     }
   }
 
@@ -96,6 +111,8 @@ class openController extends baseController{
     options = handleParams(interfaceData, this.handleValue, requestParams)
     let result = {
       id: interfaceData.id,
+      name: interfaceData.title,
+      path: interfaceData.path,
       code: 400,
       validRes: []
     };
@@ -109,7 +126,7 @@ class openController extends baseController{
           status: res.status,
           statusText: res.statusText,
           url: data.req.url,
-          method: data.req.url,
+          method: data.req.method,
           data: data.req.data,
           headers: data.req.headers,
           res_header: res.header,

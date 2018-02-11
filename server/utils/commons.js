@@ -429,6 +429,7 @@ function handleParamsValue (params, val){
       let projectData = await projectInst.getBaseInfo(data.project_id);
       result.path = projectData.basepath + data.path;
       result.method = data.method;
+      result.title = data.title;
       result.req_body_type = data.req_body_type;
       result.req_headers = handleParamsValue(data.req_headers, result.req_headers);
       result.res_body_type = data.res_body_type;
