@@ -17,13 +17,13 @@ const ContentTypeMap = {
 
 async function httpRequestByNode(options) {
   function handleRes(response){
-    return {
-      res: {
-        header: response.headers,
-        status: response.status,
-        body: response.data
+      return {
+        res: {
+          header: response.headers,
+          status: response.status,
+          body: response.data
+        }
       }
-    }
   }
 
   function handleData(){
@@ -32,9 +32,13 @@ async function httpRequestByNode(options) {
     if(typeof options.headers === 'object' && options.headers ){
       Object.keys(options.headers).forEach(key => {
         if (/content-type/i.test(key)) {
-          contentTypeItem = options.headers[key].split(";")[0].trim().toLowerCase();        
+          if(options.headers[key]){
+            contentTypeItem = options.headers[key].split(";")[0].trim().toLowerCase();        
+          }          
         }
+        if(!options.headers[key]) delete options.headers[key];
       })
+
       if(contentTypeItem === 'application/x-www-form-urlencoded' && typeof options.data === 'object' && options.data){
         options.data = qs.stringify(options.data);    
       }
@@ -51,8 +55,15 @@ async function httpRequestByNode(options) {
       data: options.data
     })
     return handleRes(response)
-  }catch(response){
-    return handleRes(response.response)
+  }catch(err){
+    if(err.response === undefined){
+      handleRes({
+        headers: {},
+        status: null,
+        data: err.message
+      })
+    }
+    return handleRes(err.response)
   }
 }
 
