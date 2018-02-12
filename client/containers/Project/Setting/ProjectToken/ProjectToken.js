@@ -26,10 +26,12 @@ class ProjectToken extends Component {
     projectId: PropTypes.number,
     getToken: PropTypes.func,
     token: PropTypes.string,
-    updateToken: PropTypes.func
+    updateToken: PropTypes.func,
+    curProjectRole: PropTypes.string
   }
 
   async componentDidMount() {
+    console.log(this.props.curProjectRole);
     await this.props.getToken(this.props.projectId);
     
   }
@@ -68,9 +70,11 @@ class ProjectToken extends Component {
           <Tooltip title="复制">
             <Icon className="token-btn" type="copy" onClick={this.copyToken}/>
           </Tooltip>
-          <Tooltip title="刷新">
-            <Icon className="token-btn" type="reload" onClick={this.updateToken} />
-          </Tooltip>
+          { this.props.curProjectRole === 'admin' || this.props.curProjectRole === 'owner' ?
+            <Tooltip title="刷新">
+              <Icon className="token-btn" type="reload" onClick={this.updateToken} />
+            </Tooltip> : null
+          }
         </div>
         <div className="blockquote">
           为确保项目内数据的安全性和私密性，请勿轻易将该token暴露给项目组外用户。

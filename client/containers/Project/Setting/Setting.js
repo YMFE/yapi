@@ -25,7 +25,7 @@ class Setting extends Component {
   }
   render () {
     const id = this.props.match.params.id;
-    console.log('curProjectRole',this.props.curProjectRole);
+    
     return (
       <div className="g-row">
         <Tabs size="large" type="card" className="has-affix-footer">
@@ -41,7 +41,7 @@ class Setting extends Component {
           {
             (this.props.curProjectRole !== "guest") ?
               <TabPane tab="token配置" key="4">
-                <ProjectToken projectId={+id} />
+                <ProjectToken projectId={+id}  curProjectRole={this.props.curProjectRole}/>
               </TabPane> : null
           }
         </Tabs>
