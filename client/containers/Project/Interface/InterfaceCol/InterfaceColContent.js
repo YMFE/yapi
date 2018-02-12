@@ -93,7 +93,8 @@ class InterfaceColContent extends Component {
       curScript: '',
       enableScript: false,
       autoVisible: false,
-      mode: 'html'
+      mode: 'html',
+      email: false
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -427,7 +428,9 @@ class InterfaceColContent extends Component {
 
   handleAuto = () =>{
     this.setState({
-      autoVisible: false
+      autoVisible: false,
+      email: false,
+      mode: 'html'
     })
   } 
 
@@ -441,6 +444,12 @@ class InterfaceColContent extends Component {
   modeChange =(mode)=>{
     this.setState({
       mode
+    })
+  }
+
+  emailChange =(email) =>{
+    this.setState({
+      email
     })
   }
 
@@ -572,7 +581,7 @@ class InterfaceColContent extends Component {
     })(rows);
     let colEnv = this.props.currProject.env || [];
     const localUrl = location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "");
-    const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${this.props.token}${this.state.currColEnv ? '&env_name='+this.state.currColEnv: ''}&mode=${this.state.mode}`;
+    const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${this.props.token}${this.state.currColEnv ? '&env_name='+this.state.currColEnv: ''}&mode=${this.state.mode}&email=${this.state.email}`;
     return (
       <div className="interface-col">
         <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
@@ -672,6 +681,18 @@ class InterfaceColContent extends Component {
                 <Option key="html" value="html" >默认展示 html 页面</Option>
                 <Option key="json" value="json" >展示 json 页面</Option>
               </Select>
+            </Col>
+          </Row>
+          <Row type="flex" justify="space-around" className="row" align="middle">
+            <Col span={3} className="label">
+             邮件通知
+              <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
+                <Icon type="question-circle-o" style={{ width: "10px" }} />
+              </Tooltip>
+              &nbsp;：
+            </Col>
+            <Col span={21}>
+              <Switch checked={this.state.email} checkedChildren="开" unCheckedChildren="关" onChange={this.emailChange}/>  
             </Col>
           </Row>
 

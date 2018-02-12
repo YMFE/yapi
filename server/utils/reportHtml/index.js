@@ -176,8 +176,6 @@ function baseHtml(index, name, path, status){
 }
 
 function leftHtml(index, name, code){
-  console.log('code',code);
-  
   
   let html =`
   <div class="list-content">
@@ -191,22 +189,20 @@ function leftHtml(index, name, code){
 
 function codeHtml(code){
   let codeHtml = ``;
-  switch (code) {    
+  switch (code) {      
     case 0:
-      codeHtml += `<div class="status status-ok"><i class="icon icon-check-circle"></i></div>`;
+      codeHtml += `<div title="验证通过" class="status status-ok"><i class="icon icon-check-circle"></i></div>`;
       break;      
     case 400:    
-      codeHtml += `<div class="status status-ko"><i class="icon icon-close-circle"></i></div>`;
+      codeHtml += `<div title="请求异常" class="status status-ko"><i class="icon icon-close-circle"></i></div>`;
       break;
     case 1:
-      codeHtml += `<div class="status status-warning"><i class="icon icon-warning-circle"></i></div>`
+      codeHtml += `<div title="验证失败" class="status status-warning"><i class="icon icon-warning-circle"></i></div>`
       break;  
     default:
-      codeHtml += `<div class="status status-warning"><i class="icon icon-warning-circle"></i></div>`
+      codeHtml += `<div title="验证通过" class="status status-warning"><i class="icon icon-warning-circle"></i></div>`
       break;
   }   
-
-  console.log('codeHtml',codeHtml);
   return codeHtml;
 }
 

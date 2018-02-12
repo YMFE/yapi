@@ -234,11 +234,10 @@ body {
   overflow: auto;
   margin: 0px;
   box-sizing: border-box;
-  padding-left: 20px;
-  padding-top: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 16px 8px 0 20px;
 }
 
 .list {
@@ -428,6 +427,10 @@ body > pre {
 
 .status-ok {
   background-color: #17c5a6;
+}
+
+.status-ok:hover {
+   
 }
 
 .status-ko {
