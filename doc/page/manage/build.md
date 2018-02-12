@@ -13,6 +13,13 @@ proxy_set_header Connection "upgrade";
 * nodejs（7.6+)
 * mongodb（2.6+）
 
+示例：
+
+[mac 环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
+
+
+[centos环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
+
 ## 安装
 ### 方式一. 可视化部署[推荐]
 执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。
@@ -94,14 +101,14 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 ```   
 这里面的配置项含义如下：  
 
-- `enable` 表示是否配置LDAP登录，true(支持LDAP登录)/false(不支持LDAP登录);
-- `server ` LDAP服务器地址，前面需要加上 ldap:// 前缀，也可以是ldaps:// 表示是通过SSL连接;
-- `baseDn` LDAP服务器的登录用户名，必须是从根结点到用户节点的全路径;
-- `bindPassword` 登录该LDAP服务器的密码;
+- `enable` 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);
+- `server ` LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;
+- `baseDn` LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;
+- `bindPassword` 登录该 LDAP 服务器的密码;
 - `searchDn` 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;
-- `searchStandard` 查询条件，这里是mail表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是email,  这里就需要修改成email.
+- `searchStandard` 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.
 
-用npm run dev重新编译，可以在登录页看到如下画面，说明ladp配置成功
+重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功
 
 <img src="./images/ldap.png" />
 
