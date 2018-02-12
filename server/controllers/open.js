@@ -3,6 +3,8 @@ const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
 const tokenModel = require('../models/token.js');
+const followModel = require('../models/follow.js');
+const userModel = require('../models/user.js')
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('../../common/postmanLib')
@@ -17,6 +19,8 @@ class openController extends baseController{
     this.interfaceCaseModel = yapi.getInst(interfaceCaseModel)
     this.interfaceModel = yapi.getInst(interfaceModel)
     this.tokenModel = yapi.getInst(tokenModel);
+    this.followModel = yapi.getInst(followModel);
+    this.userModel = yapi.getInst(userModel)
     this.handleValue = this.handleValue.bind(this)
     this.schemaMap = {
       runAutoTest: {
@@ -26,6 +30,10 @@ class openController extends baseController{
         'mode' : {
           type: 'string',
           default: 'html'
+        },
+        'email' : {
+          type: 'boolean',
+          default: false
         }
       }
     }
@@ -123,6 +131,30 @@ class openController extends baseController{
       numbs: testList.length,
       list: testList
     }
+
+
+    if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
+      let autoTestUrl = `http://${ctx.request.host}/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`
+      this.sendNotice(projectId, {
+        title: `YApi自动化测试报告`,
+        content: `
+        <html>
+        <head>
+        <title>测试报告</title>
+        <meta charset="utf-8" />
+        <body>
+        <div>
+        <h3>测试结果：</h3>
+        <p>${reportsResult.message.msg}</p>
+        <h3>测试结果详情如下：</h3>
+        <p>${autoTestUrl}</p>
+        </div>
+        </body>
+        </html>`
+      })
+    }
+
+
     if(ctx.params.mode === 'json'){
       return ctx.body = reportsResult
     }else{
@@ -199,6 +231,38 @@ class openController extends baseController{
     }
 
     return result;
+  }
+
+  async sendNotice(projectId, data) {
+    const list = await this.followModel.listByProjectId(projectId);
+    const starUsers = list.map(item => item.uid);
+
+    const projectList = await this.projectModel.get(projectId);
+    const projectMenbers = projectList.members.map(item => item.uid);
+
+    const users = this.arrUnique(projectMenbers, starUsers);
+    const usersInfo = await this.userModel.findByUids(users)
+    const emails = usersInfo.map(item => item.email).join(',');
+
+    try {
+      yapi.commons.sendMail({
+        to: emails,
+        contents: data.content,
+        subject: data.title
+      })
+    } catch (e) {
+      yapi.commons.log('邮件发送失败：' + e, 'error')
+    }
+
+  }
+
+  arrUnique(arr1, arr2) {
+    let arr = arr1.concat(arr2);
+    let res = arr.filter(function (item, index, arr) {
+      return arr.indexOf(item) === index;
+    })
+    return res;
+
   }
 
 
