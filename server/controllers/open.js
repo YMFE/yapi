@@ -98,16 +98,20 @@ class openController extends baseController{
     }
 
     function getMessage(testList){
-      let successNum = 0, failedNum = 0, len = 0;
+      let successNum = 0, failedNum = 0, len = 0, msg='';
       testList.forEach(item=>{
         len++;
         if(item.code ===0) successNum++;
         else failedNum++;
       })
       if(failedNum === 0){
-        return `一共 ${len} 测试用例，全部验证通过`
+        msg= `一共 ${len} 测试用例，全部验证通过`
+      } else{
+        msg= `一共 ${len} 测试用例，${successNum} 个验证通过， ${failedNum} 个未通过。`
       }
-      return `一共 ${len} 测试用例，${successNum} 个验证通过， ${failedNum} 个未通过。`
+      
+
+      return { msg, len, successNum, failedNum }
     }
 
     const endTime = new Date().getTime();

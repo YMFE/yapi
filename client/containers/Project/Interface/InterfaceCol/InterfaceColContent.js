@@ -439,11 +439,9 @@ class InterfaceColContent extends Component {
   }
 
   modeChange =(mode)=>{
-
     this.setState({
       mode
     })
-
   }
 
   render() {
