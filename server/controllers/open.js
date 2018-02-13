@@ -41,7 +41,9 @@ class openController extends baseController{
 
   async getProjectIdByToken(token){
     let projectId = await this.tokenModel.findId(token);
-    return projectId.toObject().project_id
+    if(projectId) {
+      return projectId.toObject().project_id
+    } 
   }
 
   async projectInterfaceData(ctx){

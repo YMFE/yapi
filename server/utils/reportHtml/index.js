@@ -80,28 +80,28 @@ function createHtml5(left, tp, msg, runTime) {
 function requestHtml(url, headers, params) {
   headers = json_format(headers, null, '   ');
   params = json_format(params);
-  let html =`
+  let html =``;
+  html +=`
   <div>
     <h3>Request</h3>
     <div class="row case-report">
      <div class="col-3 case-report-title">Url</div>
      <div class="col-21">${url}</div>
+    </div>`;
+    html += headers ? `<div class="row case-report">
+    <div class="col-3 case-report-title">Headers</div>
+    <div class="col-21">
+     <pre>${headers}</pre>
     </div>
-    <div class="row case-report">
-     <div class="col-3 case-report-title">Headers</div>
-     <div class="col-21">
-      <pre>${headers}</pre>
-     </div>
-    </div>
-    <div class="row case-report">
-     <div class="col-3 case-report-title">Body</div>
-     <div class="col-21">
-      <pre>${params}</pre>
-     </div>
-    </div>
-  </div>
-  
-  `;
+   </div>`:``;
+
+   html += params ? ` <div class="row case-report">
+   <div class="col-3 case-report-title">Body</div>
+   <div class="col-21">
+    <pre>${params}</pre>
+   </div>
+   </div>`:``
+   html +=`</div>`;
 
   return html;
 
@@ -110,25 +110,25 @@ function requestHtml(url, headers, params) {
 function reponseHtml(res_header, res_body) {
   res_header = json_format(res_header, null, '   ');
   res_body = json_format(res_body, null, '   ');
-  let html =`
-  <div>
-    
-    <h3>Reponse</h3>
-    <div class="row case-report">
-     <div class="col-3 case-report-title">Headers</div>
-     <div class="col-21">
-      <pre>${res_header}</pre>
-     </div>
-    </div>
-    <div class="row case-report">
-     <div class="col-3 case-report-title">Body</div>
-     <div class="col-21">
-      <pre>${res_body}</pre>
-     </div>
-    </div>
+  let html = ``;
+  html +=`<div><h3>Reponse</h3>`;
+
+  html += res_header ? `
+  <div class="row case-report">
+   <div class="col-3 case-report-title">Headers</div>
+   <div class="col-21">
+    <pre>${res_header}</pre>
+   </div>
+  </div>`: ``;
+
+  html += res_body ? ` <div class="row case-report">
+  <div class="col-3 case-report-title">Body</div>
+  <div class="col-21">
+   <pre>${res_body}</pre>
   </div>
-  
-  `;
+ </div>`: ``;
+
+ html +=`</div>`;
 
   return html;
 
