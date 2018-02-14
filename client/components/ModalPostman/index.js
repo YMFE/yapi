@@ -5,6 +5,7 @@ import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd'
 import MockList from './MockList.js'
 import MethodsList from './MethodsList.js'
 import VariablesSelect from './VariablesSelect.js'
+import  { trim } from '../../common.js'
 
 const {handleParamsValue} = require('common/utils.js')
 const Panel = Collapse.Panel;
@@ -14,7 +15,8 @@ function deepEqual(state) {
   return JSON.parse(JSON.stringify(state))
 }
 
-function closeRightTabsAndAddNewTab(arr, index, curname, params) {
+function closeRightTabsAndAddNewTab(arr, index, name, params) {
+  
   let newParamsList = [].concat(arr);
   newParamsList.splice(index + 1, newParamsList.length - index);
   newParamsList.push({
@@ -22,6 +24,7 @@ function closeRightTabsAndAddNewTab(arr, index, curname, params) {
   })
 
   let curParams = params || [];
+  let curname = name || '';
   newParamsList[index] = {
     ...newParamsList[index],
     name: curname,
@@ -49,6 +52,7 @@ class ModalPostman extends Component {
       methodsShowMore: false,
       methodsList: [],
       constantInput: '',
+      activeKey: '1',
       methodsParamsList: [{
         name: '',
         params: [],
@@ -59,18 +63,61 @@ class ModalPostman extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.visible) {
+  componentWillMount() {
+    let { inputValue } = this.props;
       this.setState({
-        constantInput: nextProps.inputValue
+        constantInput: inputValue
       })
-      nextProps.inputValue && this.handleConstantsInput(nextProps.inputValue, 0);
-    }
+      // this.props.inputValue && this.handleConstantsInput(this.props.inputValue, 0);
+      inputValue && this.handleInitList(inputValue);
+    
   }
+
+  handleInitList(val) {
+    val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
+    let valArr = val.split('|');
+    
+    if(valArr[0].indexOf('@') >= 0) {
+      this.setState({
+        activeKey: '2'
+      })
+    } else if(valArr[0].indexOf('$') >= 0) {
+      this.setState({
+        activeKey: '3'
+      })
+    }
+
+    let paramsList =[{
+      name: trim(valArr[0]),
+      params: [],
+      type: 'dataSource'
+    }]
+
+    for(let i = 1; i < valArr.length; i++) {
+      let nameArr = valArr[i].split(':');
+     
+      let paramArr = nameArr[1] && nameArr[1].split(',');
+      paramArr = paramArr && paramArr.map(item=>{
+        return trim(item);
+      })
+      let item ={
+        name: trim(nameArr[0]),
+        params: paramArr || []
+      }
+      paramsList.push(item);
+
+    }
+
+    this.setState({
+      methodsParamsList: paramsList
+    },()=>{this.mockClick(valArr.length)();})
+
+  }
+
 
   mockClick(index) {
     return (curname, params) => {
-      console.log('curname', curname);
+      
       let newParamsList = closeRightTabsAndAddNewTab(this.state.methodsParamsList, index, curname, params)
       this.setState({
         methodsParamsList: newParamsList
@@ -78,16 +125,14 @@ class ModalPostman extends Component {
     }
   }
   //  处理常量输入 
-  handleConstantsInput = (val, index) => {
-
-    // val = val.match(/^\{\{(.+)\}\}$/g);
-    // val = RegExp.$1;
+  handleConstantsInput = (val) => {
+   
     val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
     console.log('val', val);
     this.setState({
       constantInput: val
     })
-    this.mockClick(index)(val);
+    // this.mockClick(index)(val);
   }
 
   handleParamsInput = (e, clickIndex, paramsIndex) => {
@@ -103,6 +148,7 @@ class ModalPostman extends Component {
     return <MethodsList
       click={this.mockClick(props.index)}
       clickValue={props.value}
+      params={props.params}
       paramsInput={this.handleParamsInput}
       clickIndex={props.index}
     />
@@ -144,6 +190,12 @@ class ModalPostman extends Component {
     this.props.handleOk(installValue);
     this.setInit();
   }
+  // 处理面板切换
+  handleCollapse =(key) =>{
+    this.setState({
+      activeKey: key
+    })
+  }
 
   render() {
     const { visible, envType } = this.props
@@ -165,6 +217,8 @@ class ModalPostman extends Component {
       return '{{ ' + str + ' }}'
     }
 
+    console.log('methodsParamsList',methodsParamsList);
+
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}
@@ -177,13 +231,13 @@ class ModalPostman extends Component {
         okText="插入"
         cancelText="取消"
       >
-
+        
         <Row className="modal-postman-form" type="flex">
           {
             methodsParamsList.map((item, index) => {
               return item.type === 'dataSource' ?
                 <Col span={8} className="modal-postman-col" key={index}>
-                  <Collapse className="modal-postman-collapse" defaultActiveKey={['1']} bordered={false} accordion>
+                  <Collapse className="modal-postman-collapse" activeKey={this.state.activeKey} onChange={this.handleCollapse} bordered={false} accordion>
                     <Panel header={<h3 className="mock-title">常量</h3>} key="1">
                       <Input placeholder="基础参数值" value={constantInput} onChange={(e) => this.handleConstantsInput(e.target.value, index)} />
                     </Panel>
@@ -194,14 +248,14 @@ class ModalPostman extends Component {
                       envType === 'case' && <Panel
                         header={<h3 className="mock-title">变量&nbsp;<Tooltip placement="top" title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"><Icon type="question-circle-o" /></Tooltip></h3>}
                         key="3">
-                        <VariablesSelect id={this.props.id} click={this.mockClick(index)} />
+                        <VariablesSelect id={this.props.id} click={this.mockClick(index)} clickValue={item.name}/>
                       </Panel>
                     }
                   </Collapse>
                 </Col>
                 :
                 <Col span={8} className="modal-postman-col" key={index}>
-                  <this.MethodsListSource index={index} value={item.name} />
+                  <this.MethodsListSource index={index} value={item.name} params={item.params}/>
                 </Col>
             })
           }

@@ -32,11 +32,13 @@ class VariablesSelect extends Component {
     click: PropTypes.func,
     currColId: PropTypes.number,
     fetchVariableParamsList: PropTypes.func,
+    clickValue: PropTypes.string,
     id: PropTypes.number
   }
   state = {
     records: [],
-    expandedKeys: []
+    expandedKeys: [],
+    selectedKeys:[]
   }
 
   handleRecordsData(id){
@@ -54,13 +56,25 @@ class VariablesSelect extends Component {
   }
 
   async componentDidMount() {
-    const { currColId, fetchVariableParamsList } = this.props
+    const { currColId, fetchVariableParamsList, clickValue } = this.props
     let result =  await fetchVariableParamsList(currColId);
     let records = result.payload.data.data;
     this.records = records.sort((a, b)=>{
       return a.index - b.index
     })
     this.handleRecordsData(this.props.id)
+   
+    if(clickValue){
+      let isArrayParams = clickValue.lastIndexOf(']')=== clickValue.length-1;
+      let key =  isArrayParams ? deleteLastArr(clickValue): deleteLastObject(clickValue);
+      this.setState({
+        expandedKeys: [key],
+        selectedKeys:[CanSelectPathPrefix+clickValue]
+      })
+      // this.props.click(clickValue);
+
+    }
+    
   }
 
   async componentWillReceiveProps(nextProps){
@@ -70,6 +84,10 @@ class VariablesSelect extends Component {
   }
 
   handleSelect = (key) => {
+
+    this.setState({
+      selectedKeys: [key]
+    })
     if (key && key.indexOf(CanSelectPathPrefix) === 0) {
       key = key.substr(CanSelectPathPrefix.length)
       this.props.click(key);
@@ -116,10 +134,12 @@ class VariablesSelect extends Component {
 
       return TreeComponents
     }
+
     return (
       <div className="modal-postman-form-variable">
         <Tree
           expandedKeys={this.state.expandedKeys}
+          selectedKeys={this.state.selectedKeys}
           onSelect={([key]) => this.handleSelect(key)}
           onExpand={this.onExpand}
         >
