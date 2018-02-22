@@ -2,13 +2,14 @@ import './View.scss'
 import React, { PureComponent as Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Table, Icon, Row, Col } from 'antd'
+import { Table, Icon, Row, Col, Tooltip, message } from 'antd'
 import { Link } from 'react-router-dom'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import { formatTime } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js'
+import copy from 'copy-to-clipboard';
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 
@@ -25,7 +26,8 @@ class View extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      init: true
+      init: true,
+      enter: false
     }
   }
   static propTypes = {
@@ -167,6 +169,23 @@ class View extends Component {
     }
   }
 
+  enterItem =() =>{
+    this.setState({
+      enter: true
+    })
+  }
+
+  leaveItem = () =>{
+    this.setState({
+      enter: false
+    })
+  } 
+
+  copyUrl = (url) =>{
+    copy(url)
+    message.success('已经成功复制到剪切板');
+  }
+
 
   render() {
     const dataSource = [];
@@ -267,7 +286,7 @@ class View extends Component {
       <div className="panel-view">
         <Row className="row">
           <Col span={4} className="colKey">接口名称：</Col>
-          <Col span={8}>{this.props.curData.title}</Col>
+          <Col span={8} className="colName">{this.props.curData.title}</Col>
           <Col span={4} className="colKey">创&ensp;建&ensp;人：</Col>
           <Col span={8} className="colValue"><Link className="user-name" to={"/user/profile/" + this.props.curData.uid} ><img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />{this.props.curData.username}</Link></Col>
         </Row>
@@ -279,9 +298,12 @@ class View extends Component {
         </Row>
         <Row className="row">
           <Col span={4} className="colKey">接口路径：</Col>
-          <Col span={18} className="colValue">
+          <Col span={18} className="colValue" onMouseEnter={this.enterItem} onMouseLeave={this.leaveItem}>
             <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue tag-method">{this.props.curData.method}</span>
             <span className="colValue">{this.props.currProject.basepath}{this.props.curData.path}</span>
+            <Tooltip title="复制路径">
+              <Icon type='copy' className="interface-url-icon" onClick={() => this.copyUrl(this.props.curData.path) } style={{ display: this.state.enter ? 'inline-block' : 'none' }}/>
+            </Tooltip>
           </Col>
         </Row>
         <Row className="row">

@@ -253,6 +253,8 @@ class MemberList extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          okText="确认"
+          cancelText="取消"
         >
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label usernamelabel">用户名: </div></Col>
@@ -263,7 +265,7 @@ class MemberList extends Component {
           <Row gutter={6} className="modal-input">
             <Col span="5"><div className="label usernameauth">权限: </div></Col>
             <Col span="15">
-              <Select size="large" defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
+              <Select defaultValue="dev" className="select" onChange={this.changeNewMemberRole}>
                 <Option value="owner">组长</Option>
                 <Option value="dev">开发者</Option>
                 <Option value="guest">访客</Option>

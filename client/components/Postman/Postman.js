@@ -4,15 +4,17 @@ import { Button, Input, Checkbox, Modal, Select, Spin, Icon, Collapse, Tooltip, 
 import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
 import _ from 'underscore'
-import { isJson, handleParamsValue, deepCopyJson } from '../../common.js'
+import { isJson, deepCopyJson } from '../../common.js'
+
+
+
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 
-import { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } from './postmanLib.js'
-// import { isRegExp } from 'util';
-
+const {handleParamsValue} = require('common/utils.js')
+const { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } = require('common/postmanLib.js')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
@@ -114,7 +116,7 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-   
+
     this.setState({
       ...this.state,
       ...data,
@@ -139,7 +141,7 @@ export default class Run extends Component {
   }
 
   componentWillMount() {
-  
+
     this._crossRequestInterval = initCrossRequest((hasPlugin) => {
       this.setState({
         hasPlugin: hasPlugin
@@ -155,10 +157,10 @@ export default class Run extends Component {
   componentWillReceiveProps(nextProps) {
 
     if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
-     
+
       if (nextProps.data._id !== this.props.data._id) {
         this.initState(nextProps.data)
-      }else if(nextProps.data.interface_up_time !== this.props.data.interface_up_time){
+      } else if (nextProps.data.interface_up_time !== this.props.data.interface_up_time) {
         this.initState(nextProps.data)
       }
       if (nextProps.data.env !== this.props.data.env) {
@@ -339,15 +341,15 @@ export default class Run extends Component {
 
     return (
       <div className="interface-test postman">
-        <ModalPostman
+        { this.state.modalVisible && <ModalPostman
           visible={this.state.modalVisible}
           handleCancel={this.handleModalCancel}
           handleOk={this.handleModalOk}
           inputValue={inputValue}
           envType={this.props.type}
           id={+this.state._id}
-        >
-        </ModalPostman>
+        /> }
+        
         <Modal
           title='环境设置'
           visible={this.state.envModalVisible}
@@ -535,7 +537,7 @@ export default class Run extends Component {
           </Panel>
         </Collapse>
 
-        <Tabs defaultActiveKey="res" className="response-tab"  >
+        <Tabs size="large" defaultActiveKey="res" className="response-tab"  >
           <Tabs.TabPane tab="Response" key="res">
             <Spin spinning={this.state.loading}>
               <h2 style={{ display: this.state.resStatusCode ? '' : 'none' }} className={'res-code ' + ((this.state.resStatusCode >= 200 && this.state.resStatusCode < 400 && !this.state.loading) ? 'success' : 'fail')}>
@@ -565,7 +567,12 @@ export default class Run extends Component {
                   <div className="container-title">
                     <h4>Body</h4>
                   </div>
-                  <AceEditor readOnly={true} className="pretty-editor-body" data={this.state.test_res_body} mode={handleContentType(this.state.test_res_header)} />
+                  <AceEditor
+                    readOnly={true}
+                    className="pretty-editor-body"
+                    data={this.state.test_res_body}
+                    mode={handleContentType(this.state.test_res_header)}
+                  />
                 </div>
               </div>
             </Spin>

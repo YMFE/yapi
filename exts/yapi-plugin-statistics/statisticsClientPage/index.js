@@ -73,12 +73,12 @@ const StatusOverview = (props) => (
     </Col>
     <Col className="gutter-row" span={6}>
       <span>
-        系统运行时间
-        <Tooltip placement="rightTop" title="操作系统运行时间">
+        cpu负载
+        <Tooltip placement="rightTop" title="cpu的总负载情况">
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
-      <h2 className="gutter-box">{props.data.uptime} day</h2>
+      <h2 className="gutter-box">{props.data.load} %</h2>
     </Col>
     <Col className="gutter-row" span={6}>
       <span>

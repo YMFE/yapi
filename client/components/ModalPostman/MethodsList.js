@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Icon, Input, Select, Tooltip } from 'antd';
-
+import _ from 'underscore'
 const Option = Select.Option;
 
 // 深拷贝
@@ -30,7 +30,8 @@ class MethodsList extends Component {
     click: PropTypes.func,
     clickValue: PropTypes.string,
     paramsInput: PropTypes.func,
-    clickIndex: PropTypes.number
+    clickIndex: PropTypes.number,
+    params: PropTypes.array
   }
 
   constructor(props) {
@@ -47,13 +48,24 @@ class MethodsList extends Component {
     })
   }
 
+  componentDidMount() {
+    var index = _.findIndex(METHODS_LIST, {name: this.props.clickValue});
+
+    let moreFlag = index > 3 ? false : true;
+    this.setState({
+      moreFlag
+    })
+  }
+
 
   inputComponent = (props) => {
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
+    let params = props.params;
     return <Input
       size="small"
       placeholder="请输入参数"
+      value={params[0]}
       onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 0)}
     />
   }
@@ -61,15 +73,19 @@ class MethodsList extends Component {
   doubleInputComponent = (props) => {
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
+    let params = props.params;
+    
     return <div>
       <Input
         size="small"
         placeholder="start"
+        value={params[0]}
         onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 0)}
       />
       <Input
         size="small"
         placeholder="length"
+        value={params[1]}
         onChange={(e) => this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 1)}
       />
     </div>
@@ -80,7 +96,8 @@ class MethodsList extends Component {
     const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
     let clickIndex = props.clickIndex;
     let paramsIndex = props.paramsIndex;
-    return <Select defaultValue="sha1" placeholder="请选择" style={{ width: 150 }} size="small" onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex, 0)}>
+    let params = props.params;
+    return <Select value={params[0] || "sha1"} placeholder="请选择" style={{ width: 150 }} size="small" onChange={(e) => this.handleParamsChange(e, clickIndex, paramsIndex, 0)}>
       {
         subname.map((item, index) => {
           return <Option value={item} key={index}>{item}</Option>
@@ -101,10 +118,11 @@ class MethodsList extends Component {
 
 
   // 组件选择
-  handleComponent(item, clickIndex, index) {
+  handleComponent(item, clickIndex, index, params) {
     let query = {
       clickIndex: clickIndex,
-      paramsIndex: index
+      paramsIndex: index,
+      params
     }
     switch (item.component) {
       case 'select':
@@ -121,8 +139,10 @@ class MethodsList extends Component {
 
   render() {
     const { list, moreFlag } = this.state;
-    const { click, clickValue, clickIndex } = this.props;
+    const { click, clickValue, clickIndex, params } = this.props;
     let showList = moreFlag ? list.slice(0, 4) : list;
+    console.log('clickValue', clickValue)
+
     return (
       <div className="modal-postman-form-method">
         <h3 className="methods-title title">方法</h3>
@@ -138,7 +158,7 @@ class MethodsList extends Component {
                 <span>{item.name}</span>
               </Tooltip>
               <span className="input-component">
-                {item.type && this.handleComponent(item, clickIndex, index)}
+                {item.type && this.handleComponent(item, clickIndex, index, item.name === clickValue ? params : [])}
               </span>
             </Row>
           })

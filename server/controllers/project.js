@@ -11,6 +11,8 @@ const commons = require('../utils/commons.js');
 const userModel = require('../models/user.js');
 const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
+const tokenModel = require('../models/token.js');
+const sha = require('sha.js');
 
 
 class projectController extends baseController {
@@ -21,6 +23,7 @@ class projectController extends baseController {
     this.groupModel = yapi.getInst(groupModel);
     this.logModel = yapi.getInst(logModel);
     this.followModel = yapi.getInst(followModel);
+    this.tokenModel = yapi.getInst(tokenModel);
 
     const id = 'number';
     const member_uid = ['number'];
@@ -82,6 +85,12 @@ class projectController extends baseController {
         "*id": id,
         "*member_uid": id,
         role
+      },
+      token: {
+        '*project_id':id
+      },
+      updateToken: {
+        '*project_id':id
       }
 
     }
@@ -197,6 +206,10 @@ class projectController extends baseController {
     });
     ctx.body = yapi.commons.resReturn(result);
   }
+
+
+
+
   /**
   * 添加项目成员
   * @interface /project/add_member
@@ -694,6 +707,67 @@ class projectController extends baseController {
     arr.forEach(item => s.add(item[key]))
     return s.size !== arr.length
   }
+
+  /**
+   * 获取token数据
+   * @interface /project/token
+   * @method GET
+   * @category project
+   * @foldnumber 10
+   * @param {Number} id 项目id，不能为空
+   * @param {String} q
+   * @return {Object}
+  */
+  async token(ctx) {
+     try {
+      let project_id = ctx.params.project_id ;
+      let data = await this.tokenModel.get(project_id);
+      let token;
+      if (!data ) {
+        let passsalt = yapi.commons.randStr();
+        token = sha('sha1').update(passsalt).digest('hex').substr(0, 20);
+        await this.tokenModel.save({project_id, token})
+      } else {
+        token = data.token;
+      }
+
+      ctx.body = yapi.commons.resReturn(token);
+    } catch (err) {
+      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+    }
+  }
+
+  /**
+   * 更新token数据
+   * @interface /project/update_token
+   * @method GET
+   * @category project
+   * @foldnumber 10
+   * @param {Number} id 项目id，不能为空
+   * @param {String} q
+   * @return {Object}
+  */
+  async updateToken(ctx) {
+    try {
+     let project_id = ctx.params.project_id ;
+     let data = await this.tokenModel.get(project_id);
+     let token, result;
+     if (data && data.token ) {
+       let passsalt = yapi.commons.randStr();
+       token = sha('sha1').update(passsalt).digest('hex').substr(0, 20);
+       result = await this.tokenModel.up(project_id, token)
+       result.token = token
+     } else {
+      ctx.body = yapi.commons.resReturn(null, 402, '没有查到token信息');
+     }
+
+    ctx.body = yapi.commons.resReturn(result);
+   } catch (err) {
+     ctx.body = yapi.commons.resReturn(null, 402, err.message);
+   }
+ }
+
+
 
   /**
    * 模糊搜索项目名称或者组名称

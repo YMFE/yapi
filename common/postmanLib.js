@@ -1,18 +1,13 @@
-import { json_parse, isJson5, handleJson, joinPath, safeArray } from '../../common.js'
-import constants from '../../constants/variable.js'
-import _ from "underscore"
-import URL from 'url';
-
-const utils = require('common/power-string.js').utils;
+const { isJson5, json_parse, handleJson, joinPath, safeArray } = require('./utils')
+const constants = require('../client/constants/variable.js')
+const _ = require("underscore")
+const URL = require('url')
+const utils = require('./power-string.js').utils;
 const HTTP_METHOD = constants.HTTP_METHOD;
+const axios = require('axios');
+const qs = require('qs');
 
-exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
-exports.handleParams = handleParams;
-exports.handleContentType = handleContentType;
-exports.crossRequest = crossRequest;
-exports.handleCurrDomain = handleCurrDomain;
-exports.checkNameIsExistInArray = checkNameIsExistInArray;
-
+const isNode = typeof global == 'object' && global.global === global;
 const ContentTypeMap = {
   'application/json': 'json',
   'application/xml': 'xml',
@@ -20,9 +15,57 @@ const ContentTypeMap = {
   'application/html': 'html'
 }
 
-// function isNode(){
-//   return typeof module !== 'undefined' && module.exports
-// }
+async function httpRequestByNode(options) {
+  function handleRes(response){
+      return {
+        res: {
+          header: response.headers,
+          status: response.status,
+          body: response.data
+        }
+      }
+  }
+
+  function handleData(){
+    let contentTypeItem;
+    if(!options) return;
+    if(typeof options.headers === 'object' && options.headers ){
+      Object.keys(options.headers).forEach(key => {
+        if (/content-type/i.test(key)) {
+          if(options.headers[key]){
+            contentTypeItem = options.headers[key].split(";")[0].trim().toLowerCase();        
+          }          
+        }
+        if(!options.headers[key]) delete options.headers[key];
+      })
+
+      if(contentTypeItem === 'application/x-www-form-urlencoded' && typeof options.data === 'object' && options.data){
+        options.data = qs.stringify(options.data);    
+      }
+    }
+  }
+  
+  try{
+    handleData(options);
+    let response=await axios({
+      method: options.method,
+      url: options.url,
+      headers: options.headers,
+      timeout: 5000,
+      data: options.data
+    })
+    return handleRes(response)
+  }catch(err){
+    if(err.response === undefined){
+      handleRes({
+        headers: {},
+        status: null,
+        data: err.message
+      })
+    }
+    return handleRes(err.response)
+  }
+}
 
 function handleContentType(headers) {
   if (!headers || typeof headers !== 'object') return ContentTypeMap.other;
@@ -68,7 +111,37 @@ function handleCurrDomain(domains, case_env) {
   return currDomain;
 }
 
-function sandbox(context = {}, script) {
+function sandboxByNode(sandbox={}, script){
+  const vm = require('vm');
+  script = new vm.Script(script);
+  const context = new vm.createContext(sandbox);
+  script.runInContext(context, {
+    timeout: 3000
+  });
+  return sandbox;
+}
+
+function sandbox(context={}, script){
+
+  if(isNode){
+    try{
+      context.context = context;
+      context.console = console;
+      context = sandboxByNode(context, script)
+    }catch(err){
+      err.message = `Script: ${script}
+      message: ${err.message}`
+      throw err;
+    }
+  }else{
+    context = sandboxByBrowser(context, script)
+  }
+  return context;
+
+
+}
+
+function sandboxByBrowser(context = {}, script) {
   if (!script || typeof script !== 'string') {
     return context;
   }
@@ -88,7 +161,7 @@ function sandbox(context = {}, script) {
   return context;
 }
 
-function crossRequest(defaultOptions, preScript, afterScript) {
+async function crossRequest(defaultOptions, preScript, afterScript) {
   let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true), query = {};
   query = Object.assign(query, urlObj.query);
@@ -122,32 +195,46 @@ function crossRequest(defaultOptions, preScript, afterScript) {
     defaultOptions.data = options.data = context.requestBody;
 
   }
+  
+  let data;
 
-
-  return new Promise((resolve, reject) => {
-    options.error = options.success = function (res, header, data) {
-      let message = '请求异常，请检查 chrome network 错误信息...';
-      if (isNaN(data.res.status)) {
-        reject({
-          body: res || message,
-          header,
-          message
-        })
+  if(isNode){
+    data = await httpRequestByNode(options)
+    data.req = options;
+  }else{
+    data = await (new Promise((resolve, reject) => {
+      options.error = options.success = function (res, header, data) {
+        let message = '';
+        if(res && typeof res === 'string'){
+          res = json_parse(data.res.body);
+          data.res.body = res;
+        }
+        if (!isNode) message = '请求异常，请检查 chrome network 错误信息...';
+        if (isNaN(data.res.status)) {
+          reject({
+            body: res || message,
+            header,
+            message
+          })
+        }
+        resolve(data);
       }
-
-      if (afterScript) {
-        context.responseData = json_parse(data.res.body);
-        context.responseHeader = data.res.header;
-        context.responseStatus = data.res.status;
-        context.runTime = data.runTime;
-        context = sandbox(context, afterScript);
-        data.res.body = context.responseData;
-        data.res.header = context.responseHeader;
-      }
-      resolve(data);
-    }
-    window.crossRequest(options);
-  })
+      window.crossRequest(options);
+    }))
+  }
+  
+  if (afterScript) {
+    context.responseData = data.res.body;
+    context.responseHeader = data.res.header;
+    context.responseStatus = data.res.status;
+    context.runTime = data.runTime;
+    context = sandbox(context, afterScript);
+    data.res.body = context.responseData;
+    data.res.header = context.responseHeader;
+    data.res.status = context.responseStatus;
+    data.runTime = context.runTime;
+  }
+  return data;
 }
 
 
@@ -195,7 +282,6 @@ function handleParams(interfaceData, handleValue, requestParams) {
 
   currDomain = handleCurrDomain(env, case_env);
   const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
-
   const url = URL.format({
     protocol: urlObj.protocol || 'http',
     host: urlObj.host,
@@ -242,3 +328,10 @@ function handleParams(interfaceData, handleValue, requestParams) {
   return requestOptions;
 
 }
+
+exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
+exports.handleParams = handleParams;
+exports.handleContentType = handleContentType;
+exports.crossRequest = crossRequest;
+exports.handleCurrDomain = handleCurrDomain;
+exports.checkNameIsExistInArray = checkNameIsExistInArray;
