@@ -3,6 +3,10 @@ const path = require('path');
 const yapi = require('../yapi.js');
 const sha1 = require('sha1');
 const logModel = require('../models/log.js');
+const projectModel = require('../models/project.js');
+const interfaceColModel = require('../models/interfaceCol.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
+const interfaceModel = require('../models/interface.js');
 const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
@@ -376,4 +380,111 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
     }
 
   });
+}
+
+/**
+ * 
+ * @param {*} params 接口定义的参数
+ * @param {*} val  接口case 定义的参数值
+ */
+function handleParamsValue (params, val){
+    let value = {};
+    try {
+      params = params.toObject();
+    } catch (e) { }
+    if (params.length === 0 || val.length === 0) {
+      return params;
+    }
+    val.forEach((item) => {
+      value[item.name] = item;
+    })
+    params.forEach((item, index) => {
+      if (!value[item.name] || typeof value[item.name] !== 'object') return null;
+      params[index].value = value[item.name].value;
+      if (!_.isUndefined(value[item.name].enable)) {
+        params[index].enable = value[item.name].enable
+      }
+    })
+    return params;
+  }
+
+  exports.handleParamsValue = handleParamsValue;
+
+  exports.getCaseList = async function getCaseList(id) {
+
+    const caseInst = yapi.getInst(interfaceCaseModel)
+    const colInst = yapi.getInst(interfaceColModel)
+    const projectInst = yapi.getInst(projectModel)
+    const interfaceInst = yapi.getInst(interfaceModel)
+
+    let resultList = await caseInst.list(id, 'all');
+    let colData = await colInst.get(id);
+    for (let index = 0; index < resultList.length; index++) {
+      let result = resultList[index].toObject();
+      let data = await interfaceInst.get(result.interface_id);
+      if (!data) {
+        await caseInst.del(result._id);
+        continue;
+      }
+      let projectData = await projectInst.getBaseInfo(data.project_id);
+      result.path = projectData.basepath + data.path;
+      result.method = data.method;
+      result.title = data.title;
+      result.req_body_type = data.req_body_type;
+      result.req_headers = handleParamsValue(data.req_headers, result.req_headers);
+      result.res_body_type = data.res_body_type;
+      result.req_body_form = handleParamsValue(data.req_body_form, result.req_body_form)
+      result.req_query = handleParamsValue(data.req_query, result.req_query)
+      result.req_params = handleParamsValue(data.req_params, result.req_params)
+      resultList[index] = result;
+    }
+    resultList = resultList.sort((a, b) => {
+      return a.index - b.index;
+    });
+    let ctxBody = yapi.commons.resReturn(resultList);
+    ctxBody.colData = colData;
+    return ctxBody;
+}
+
+
+
+function convertString(variable) {
+  if (variable instanceof Error) {
+    return variable.name + ': ' + variable.message;
+  }
+  try {
+    return JSON.stringify(variable, null, '   ');
+  } catch (err) {
+    return variable || '';
+  }
+}
+
+exports.runCaseScript = async function runCaseScript(params){
+  let script = params.script;
+  if (!script) {
+    return yapi.commons.resReturn('ok');
+  }
+  const logs = [];
+  const context = {
+    assert: require('assert'),
+    status: params.response.status,
+    body: params.response.body,
+    header: params.response.header,
+    records: params.records,
+    params: params.params,
+    log: (msg) => {
+      logs.push('log: ' + convertString(msg))
+    }
+  }
+
+  let result = {};
+  try {
+    result = yapi.commons.sandbox(context, script);
+    result.logs = logs;
+    return yapi.commons.resReturn(result);
+  } catch (err) {
+    logs.push(convertString(err));
+    result.logs = logs;
+    return yapi.commons.resReturn(result, 400, err.name + ": " + err.message)
+  }
 }

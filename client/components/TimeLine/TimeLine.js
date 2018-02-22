@@ -188,7 +188,7 @@ class TimeTree extends Component {
       other: "其他"
     };
 
-    console.log('apiList',this.state.apiList);
+    
 
     const children = this.state.apiList.map((item) => {
       let methodColor = variable.METHOD_COLOR[item.method ? item.method.toLowerCase() : 'get'];

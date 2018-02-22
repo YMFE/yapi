@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 //import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon, Button, Spin, Modal, message, Select, Switch } from 'antd'
+import { Tooltip, Icon, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
+import { getToken } from '../../../../reducer/modules/project';
 import { DragDropContext } from 'react-dnd';
-import { json_parse, handleParamsValue } from '../../../../common.js'
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -16,10 +16,14 @@ import * as resolve from 'table-resolver';
 import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
-import { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } from 'client/components/Postman/postmanLib.js'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
 
+const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('common/postmanLib.js')
+const {handleParamsValue, json_parse} = require('common/utils.js')
+
 const Option = Select.Option;
+import copy from 'copy-to-clipboard';
+
  
 
 function handleReport(json) {
@@ -40,13 +44,16 @@ function handleReport(json) {
       isShowCol: state.interfaceCol.isShowCol,
       isRander: state.interfaceCol.isRander,
       currCaseList: state.interfaceCol.currCaseList,
-      currProject: state.project.currProject
+      currProject: state.project.currProject,
+      token: state.project.token,
+      curProjectRole: state.project.currProject.role
     }
   },
   {
     fetchInterfaceColList,
     fetchCaseList,
-    setColData
+    setColData,
+    getToken
   }
 )
 @withRouter
@@ -65,7 +72,10 @@ class InterfaceColContent extends Component {
     currCaseId: PropTypes.number,
     isShowCol: PropTypes.bool,
     isRander: PropTypes.bool,
-    currProject: PropTypes.object
+    currProject: PropTypes.object,
+    getToken: PropTypes.func,
+    token: PropTypes.string,
+    curProjectRole: PropTypes.string
   }
 
   constructor(props) {
@@ -81,7 +91,10 @@ class InterfaceColContent extends Component {
       currColEnv: '',
       advVisible: false,
       curScript: '',
-      enableScript: false
+      enableScript: false,
+      autoVisible: false,
+      mode: 'html',
+      email: false
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
@@ -89,7 +102,8 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    await this.props.getToken(this.props.match.params.id);
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
@@ -145,9 +159,6 @@ class InterfaceColContent extends Component {
       item.req_headers = this.handleReqHeader(item.req_headers)
       return item;
     })
-    newRows = newRows.sort((n, o) => {
-      return n.index - o.index;
-    })
     
     this.setState({
       rows: newRows
@@ -184,7 +195,7 @@ class InterfaceColContent extends Component {
         result = e;
       }
 
-      result.body = result.data;
+      //result.body = result.data;
       this.reports[curitem._id] = result;
       this.records[curitem._id] = {
         params: result.params,
@@ -256,8 +267,6 @@ class InterfaceColContent extends Component {
         statusText: data.message,
         code: 400
       }
-
-      result.code = 400;
     }
 
     result.params = requestParams;
@@ -406,12 +415,42 @@ class InterfaceColContent extends Component {
   }
 
   colEnvChange = (envName) => {
-  
     this.setState({
       currColEnv: envName
     }, () => this.handleColdata(this.props.currCaseList));
-    
+  }
 
+  autoTests = () =>{
+    this.setState({
+      autoVisible: true
+    })
+  }
+
+  handleAuto = () =>{
+    this.setState({
+      autoVisible: false,
+      email: false,
+      mode: 'html'
+    })
+  } 
+
+  copyUrl =(url) =>{
+    
+    console.log('url',url);
+    copy(url)
+    message.success('已经成功复制到剪切板');
+  }
+
+  modeChange =(mode)=>{
+    this.setState({
+      mode
+    })
+  }
+
+  emailChange =(email) =>{
+    this.setState({
+      email
+    })
   }
 
   render() {
@@ -541,6 +580,8 @@ class InterfaceColContent extends Component {
       method: resolve.nested
     })(rows);
     let colEnv = this.props.currProject.env || [];
+    const localUrl = location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "");
+    const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${this.props.token}${this.state.currColEnv ? '&env_name='+this.state.currColEnv: ''}&mode=${this.state.mode}&email=${this.state.email}`;
     return (
       <div className="interface-col">
         <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/case.html" >
@@ -548,16 +589,22 @@ class InterfaceColContent extends Component {
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
           <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
-            <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
+            <Option key="default" value="" >默认环境</Option>
             {
               colEnv.map((item) => {
                 return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
               })
             }
           </Select>
+          &nbsp;
+          <Tooltip title="默认使用测试用例选择的环境"><Icon type="question-circle-o" /></Tooltip>
         </div>
         {this.state.hasPlugin ?
-          <Button type="primary" style={{ float: 'right' }} onClick={this.executeTests}>开始测试</Button> :
+          <div style={{ float: 'right' }}>
+            {this.props.curProjectRole !=='guest'? <Button style={{ marginRight: '8px' }} onClick={this.autoTests}>自动化测试</Button>:null}
+            <Button type="primary" onClick={this.executeTests}>开始测试</Button>
+          </div>
+           :
           <Tooltip title="请安装 cross-request Chrome 插件">
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
@@ -607,6 +654,66 @@ class InterfaceColContent extends Component {
           <AceEditor className="case-script" data={this.state.curScript} onChange={this.handleScriptChange} />
 
         </Modal>
+        <Modal
+          title="自动化测试"
+          width="780px"
+          style={{ minHeight: '500px' }}
+          visible={this.state.autoVisible}
+          onCancel={this.handleAuto}
+          className="autoTestsModal"
+          footer={null}
+        >
+          <Row type="flex" justify="space-around" className="row" align="middle">
+            <Col span={3} className="label">选择环境
+              <Tooltip title="默认使用测试用例选择的环境"><Icon type="question-circle-o" /></Tooltip>
+              &nbsp;：
+            </Col>
+            <Col span={21}>
+              <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
+                <Option key="default" value="" >默认环境</Option>
+                {
+                  colEnv.map((item) => {
+                  return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
+                })
+                }
+              </Select>
+            </Col>
+          </Row>
+          <Row type="flex" justify="space-around" className="row" align="middle">
+            <Col span={3} className="label">输出格式：</Col>
+            <Col span={21}>
+              <Select value={this.state.mode} onChange={this.modeChange}>
+                <Option key="html" value="html" >html</Option>
+                <Option key="json" value="json" >json</Option>
+              </Select>
+            </Col>
+          </Row>
+          <Row type="flex" justify="space-around" className="row" align="middle">
+            <Col span={3} className="label">
+             邮件通知
+              <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
+                <Icon type="question-circle-o" style={{ width: "10px" }} />
+              </Tooltip>
+              &nbsp;：
+            </Col>
+            <Col span={21}>
+              <Switch checked={this.state.email} checkedChildren="开" unCheckedChildren="关" onChange={this.emailChange}/>  
+            </Col>
+          </Row>
+
+          <Row type="flex" justify="space-around" className="row" align="middle">
+            <Col span={21} className="autoTestUrl"><a href={localUrl+autoTestsUrl} target="_blank">{autoTestsUrl}</a></Col>
+            <Col span={3}>
+              <Button className="copy-btn" onClick={()=>this.copyUrl(localUrl+autoTestsUrl)}>复制</Button>
+            </Col>
+          </Row>
+          <div className="autoTestMsg">
+             注：访问该URL，可以测试所有用例
+          </div>
+          
+         
+        </Modal>
+
       </div>
     )
   }

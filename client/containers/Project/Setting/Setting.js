@@ -4,16 +4,28 @@ import PropTypes from 'prop-types';
 import ProjectMessage from './ProjectMessage/ProjectMessage.js';
 import ProjectEnv from './ProjectEnv/index.js';
 import ProjectRequest from './ProjectRequest/ProjectRequest';
+import ProjectToken from './ProjectToken/ProjectToken';
+import { connect } from 'react-redux'
 const TabPane = Tabs.TabPane;
 
 import './Setting.scss';
 
+@connect(
+  state => {
+    
+    return {
+      curProjectRole: state.project.currProject.role
+    }
+  }
+)
 class Setting extends Component {
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    curProjectRole: PropTypes.string
   }
   render () {
     const id = this.props.match.params.id;
+    
     return (
       <div className="g-row">
         <Tabs size="large" type="card" className="has-affix-footer">
@@ -26,6 +38,12 @@ class Setting extends Component {
           <TabPane tab="请求配置" key="3">
             <ProjectRequest projectId={+id} />
           </TabPane>
+          {
+            (this.props.curProjectRole !== "guest") ?
+              <TabPane tab="token配置" key="4">
+                <ProjectToken projectId={+id}  curProjectRole={this.props.curProjectRole}/>
+              </TabPane> : null
+          }
         </Tabs>
       </div>
     )

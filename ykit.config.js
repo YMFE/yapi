@@ -105,6 +105,14 @@ module.exports = {
             'axios',
             'moment'
           ]
+        },
+        minChunks: (module, count) => {
+          if (/\.css/.test(module.resource)) {
+              return true
+          }
+          else {
+              return count >= 2;
+          }
         }
       },
       modifyWebpackConfig: function (baseConfig) {
@@ -135,8 +143,8 @@ module.exports = {
         baseConfig.resolve.alias.plugins = '/node_modules';
         baseConfig.resolve.alias.exts = '/exts';
 
-        baseConfig.resolve.alias.react = 'anujs';
-        baseConfig.resolve.alias['react-dom'] = 'anujs';
+        // baseConfig.resolve.alias.react = 'anujs';
+        // baseConfig.resolve.alias['react-dom'] = 'anujs';
 
         baseConfig.output.prd.path = 'static/prd';
         baseConfig.output.prd.publicPath = '';
@@ -156,11 +164,13 @@ module.exports = {
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
+            require.resolve('style-loader'),
             require.resolve('css-loader')
             + '?sourceMap!'
             + require.resolve('fast-sass-loader-china') + '?sourceMap'
           )
         })
+
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
           exclude: /node_modules|google-diff.js/,
