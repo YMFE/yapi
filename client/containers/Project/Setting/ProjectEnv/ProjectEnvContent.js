@@ -20,13 +20,33 @@ class ProjectEnvContent extends Component {
       name: "",
       value: ""
     }];
+    let cookie = [{
+      name: "",
+      value: ""
+    }]
     if (curdata && curdata.length !== 0) {
       curdata.forEach(item => {
-        header.unshift(item);
+        if(item.name === 'Cookie'){
+          let cookieStr = item.value;
+          if(cookieStr){
+            cookieStr = cookieStr.split(';').forEach(c=>{
+              if(c){
+                c = c.split('=')
+                cookie.unshift({
+                  name: c[0] ? c[0].trim() : '',
+                  value: c[1] ? c[1].trim() : ''
+                })
+              }              
+            })
+            
+            
+          }
+        }else header.unshift(item);
+        
       })
-      return { header };
+      return { header, cookie };
     } else {
-      return { header };
+      return { header, cookie };
     }
   }
 
@@ -34,6 +54,10 @@ class ProjectEnvContent extends Component {
     super(props);
     this.state = {
       header: [{
+        name: "",
+        value: ""
+      }],
+      cookie:[{
         name: "",
         value: ""
       }]
@@ -83,6 +107,15 @@ class ProjectEnvContent extends Component {
         let header = values.header.filter(val => {
           return val.name !== ''
         })
+        let cookie = values.cookie.filter(val => {
+          return val.name !== ''
+        })
+        if(cookie.length > 0){
+          header.push({
+            name: 'Cookie',
+            value: cookie.map(item=>item.name + '=' + item.value).join(';')
+          })
+        }
         let assignValue = {};
         assignValue.env = Object.assign({ _id: projectMsg._id }, {
           name: values.env.name,
@@ -99,11 +132,10 @@ class ProjectEnvContent extends Component {
     const { projectMsg } = this.props;
     const { getFieldDecorator } = this.props.form;
     const headerTpl = (item, index) => {
-      const secondIndex = 'next' + index; // 为保证key的唯一性
       const headerLength = this.state.header.length - 1;
       return <Row gutter={2} key={index}>
         <Col span={10}>
-          <FormItem key={index}>
+          <FormItem >
             {getFieldDecorator('header[' + index + '].name', {
               validateTrigger: ['onChange', 'onBlur'],
               initialValue: item.name || ''
@@ -120,7 +152,7 @@ class ProjectEnvContent extends Component {
           </FormItem>
         </Col>
         <Col span={12}>
-          <FormItem key={secondIndex}>
+          <FormItem >
             {getFieldDecorator('header[' + index + '].value', {
               validateTrigger: ['onChange', 'onBlur'],
               initialValue: item.value || ''
@@ -135,6 +167,44 @@ class ProjectEnvContent extends Component {
             className="dynamic-delete-button delete"
             type="delete"
             onClick={(e) => { e.stopPropagation(); this.delHeader(index, 'header') }}
+          />
+        </Col>
+      </Row>
+    }
+
+    const cookieTpl = (item, index) => {
+      const cookieLength = this.state.cookie.length - 1;
+      return <Row gutter={2} key={index}>
+        <Col span={10}>
+          <FormItem >
+            {getFieldDecorator('cookie[' + index + '].name', {
+              validateTrigger: ['onChange', 'onBlur'],
+              initialValue: item.name || ''
+            })(
+              <Input
+                placeholder="请输入 Cookie Name" 
+                style={{ width: '200px' }}
+                onChange={() => this.addHeader(item, index, 'cookie')}
+              />
+              )}
+          </FormItem>
+        </Col>
+        <Col span={12}>
+          <FormItem >
+            {getFieldDecorator('cookie[' + index + '].value', {
+              validateTrigger: ['onChange', 'onBlur'],
+              initialValue: item.value || ''
+            })(
+              <Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />
+              )}
+          </FormItem>
+        </Col>
+        <Col span={2} className={index === cookieLength ? ' env-last-row' : null}>
+          {/* 新增的项中，只有最后一项没有有删除按钮 */}
+          <Icon
+            className="dynamic-delete-button delete"
+            type="delete"
+            onClick={(e) => { e.stopPropagation(); this.delHeader(index, 'cookie') }}
           />
         </Col>
       </Row>
@@ -210,10 +280,17 @@ class ProjectEnvContent extends Component {
                   )} />
               )}
           </FormItem>
-          <h3 className="env-label">请求Header头部</h3>
+          <h3 className="env-label">Header</h3>
           {this.state.header.map((item, index) => {
             return headerTpl(item, index)
           })}
+
+          <h3 className="env-label">Cookie</h3>
+          {
+            this.state.cookie.map((item, index)=>{
+              return cookieTpl(item, index)
+            })
+          }
         </div>
       );
     }

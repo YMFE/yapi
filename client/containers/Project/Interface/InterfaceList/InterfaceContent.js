@@ -127,7 +127,7 @@ class Content extends Component {
 
     plugin.emitHook('interface_tab', InterfaceTabs);
 
-    const tabs = <Tabs onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
+    const tabs = <Tabs size="large" onChange={this.onChange} activeKey={this.state.curtab} defaultActiveKey="view"   >
       {Object.keys(InterfaceTabs).map(key=>{
         let item = InterfaceTabs[key];
         return <TabPane tab={item.name} key={key}></TabPane>
@@ -135,6 +135,7 @@ class Content extends Component {
     </Tabs>;
     let tabContent = null;
     if (this.state.curtab) {
+      
       let C = InterfaceTabs[this.state.curtab].component;
       tabContent = <C switchToView={this.switchToView} />;
     }
@@ -149,17 +150,17 @@ class Content extends Component {
       />
       {tabs}
       {tabContent}
-      <Modal
+      { this.state.visible && <Modal
         title="你即将离开编辑页面"
         visible={this.state.visible}
         onCancel={this.handleCancel}
         footer={[
           <Button key="back" onClick={this.handleCancel}>取 消</Button>,
-          <Button key="submit" onClick={this.handleOk}>确 定</Button>
+          <Button key="submit" onClick={this.handleOk}>确 定1</Button>
         ]}
       >
         <p>离开页面会丢失当前编辑的内容，确定要离开吗？</p>
-      </Modal>
+      </Modal> }
     </div>
   }
 }

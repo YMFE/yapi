@@ -6,6 +6,7 @@ const wordList = constants.MOCK_SOURCE;
 const Search = Input.Search;
 
 
+
 class MockList extends Component {
   static propTypes = {
     click: PropTypes.func,

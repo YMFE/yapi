@@ -49,6 +49,7 @@ class AceEditor extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps){
+    
     if(!this.editor) return;
     if(nextProps.data !== this.props.data && this.editor.getValue() !== nextProps.data){
       this.editor.setValue(nextProps.data);

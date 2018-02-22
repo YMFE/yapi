@@ -112,7 +112,7 @@ class UsernameAutoComplete extends Component {
         notFoundContent={fetching ? <span style={{color:'red'}}> 当前用户不存在</span> : null}
         onSearch={this.handleSearch}
         onChange={this.handleChange}
-        size="large"
+        
       >
         {children}
       </Select>

@@ -24,6 +24,8 @@ const ColModalForm = Form.create()((props) => {
       title={title}
       onCancel={onCancel}
       onOk={onCreate}
+      okText="确认"
+      cancelText="取消"
     >
       <Form layout="vertical">
         <FormItem label="集合名">
@@ -87,7 +89,8 @@ export default class InterfaceColMenu extends Component {
     importInterIds: [],
     importColId: 0,
     expands: null,
-    list: []
+    list: [],
+    delIcon: null
   }
 
   constructor(props) {
@@ -170,6 +173,8 @@ export default class InterfaceColMenu extends Component {
     confirm({
       title: '您确认删除此测试集合',
       content: '温馨提示：该操作会删除该集合下所有测试用例，用例删除后无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         const res = await axios.get('/api/col/del_col?col_id=' + colId)
         if (!res.data.errcode) {
@@ -239,6 +244,8 @@ export default class InterfaceColMenu extends Component {
     confirm({
       title: '您确认删除此测试用例',
       content: '温馨提示：用例删除后无法恢复',
+      okText:"确认",
+      cancelText:"取消",
       async onOk() {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId)
         if (!res.data.errcode) {
@@ -351,6 +358,14 @@ export default class InterfaceColMenu extends Component {
     }
   }
 
+  enterItem = (id) => {
+    this.setState({ delIcon: id })
+  }
+
+  leaveItem = () => {
+    this.setState({ delIcon: null })
+  }
+
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, importInterVisible } = this.state;
@@ -408,11 +423,11 @@ export default class InterfaceColMenu extends Component {
         <TreeNode
           style={{ width: '100%' }}
           key={'case_' + interfaceCase._id}
-          title={
-            <div className="menu-title" title={interfaceCase.casename}>
+          title={ 
+            <div className="menu-title" onMouseEnter={() => this.enterItem(interfaceCase._id)} onMouseLeave={this.leaveItem} title={interfaceCase.casename}>
               <span className="casename">{interfaceCase.casename}</span>
               <Tooltip title="删除用例">
-                <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} />
+                <Icon type='delete' className="case-delete-icon" onClick={(e) => { e.stopPropagation(); this.showDelCaseConfirm(interfaceCase._id) }} style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }} />
               </Tooltip>
             </div>
           }
@@ -525,6 +540,8 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}
+          okText="确认"
+          cancelText="取消"
         >
           <ImportInterface onChange={this.selectInterface} list={this.props.list} />
         </Modal>

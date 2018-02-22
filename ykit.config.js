@@ -80,6 +80,7 @@ module.exports = {
       commonsChunk: {
         vendors: {
           lib: [
+            // 'anujs',
             'react', 
             'react-dom',
             'redux',
@@ -104,6 +105,14 @@ module.exports = {
             'axios',
             'moment'
           ]
+        },
+        minChunks: (module, count) => {
+          if (/\.css/.test(module.resource)) {
+              return true
+          }
+          else {
+              return count >= 2;
+          }
         }
       },
       modifyWebpackConfig: function (baseConfig) {
@@ -155,11 +164,13 @@ module.exports = {
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
+            require.resolve('style-loader'),
             require.resolve('css-loader')
             + '?sourceMap!'
             + require.resolve('fast-sass-loader-china') + '?sourceMap'
           )
         })
+
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
           exclude: /node_modules|google-diff.js/,

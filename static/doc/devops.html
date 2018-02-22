@@ -164,6 +164,9 @@ proxy_set_header Upgrade $http_upgrade<span class="token punctuation">;</span>
 proxy_set_header Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
 </code></pre><h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
 <li>nodejs（7.6+)</li><li>mongodb（2.6+）</li></ul>
+<p>示例：</p>
+<p><a href="https://github.com/suxiaoxin/yapi_user_guide/blob/master/mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md">mac 环境配置</a></p>
+<p><a href="https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md">centos环境配置</a></p>
 <h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><h3 class="subject" id="方式一._可视化部署[推荐]">方式一. 可视化部署[推荐] <a class="hashlink" href="#方式一._可视化部署[推荐]">#</a></h3><p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
 <pre><code>npm install -g yapi-cli --registry https<span class="token operator">:</span>//registry.npm.taobao.org
 yapi server
@@ -202,7 +205,12 @@ yapi update -v v1<span class="token number">.1</span>.<span class="token number"
 <span class="token punctuation">}</span>
 </code></pre><p>如何申请STMP服务器账号和密码可以参考下面的教程：<a href="https://jingyan.baidu.com/article/fdbd42771da9b0b89e3f48a8.html">如何开通电子邮箱的SMTP功能</a></p>
 <h2 class="subject" id="配置LDAP登录">配置LDAP登录 <a class="hashlink" href="#配置LDAP登录">#</a></h2><p>打开项目目录 config.json 文件，添加如下字段：   </p>
-<pre><code><span class="token property">"ldapLogin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+<pre><code><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"adminAccount"</span><span class="token operator">:</span> <span class="token string">"********"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"mail"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"ldapLogin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
       <span class="token property">"enable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
       <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"ldap://l-ldapt1.ops.dev.cn0.qunar.com"</span><span class="token punctuation">,</span>
       <span class="token property">"baseDn"</span><span class="token operator">:</span> <span class="token string">"CN=Admin,CN=Users,DC=test,DC=com"</span><span class="token punctuation">,</span>
@@ -210,9 +218,12 @@ yapi update -v v1<span class="token number">.1</span>.<span class="token number"
       <span class="token property">"searchDn"</span><span class="token operator">:</span> <span class="token string">"OU=UserContainer,DC=test,DC=com"</span><span class="token punctuation">,</span>
       <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"mail"</span>
    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre><p>这里面的配置项含义如下：  </p>
 <ul>
-<li><code>enable</code> 表示是否配置LDAP登录，true(支持LDAP登录)/false(不支持LDAP登录);</li><li><code>server</code> LDAP服务器地址，前面需要加上 ldap:// 前缀，也可以是ldaps:// 表示是通过SSL连接;</li><li><code>baseDn</code> LDAP服务器的登录用户名，必须是从根结点到用户节点的全路径;</li><li><code>bindPassword</code> 登录该LDAP服务器的密码;</li><li><code>searchDn</code> 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;</li><li><code>searchStandard</code> 查询条件，这里是mail表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是email,  这里就需要修改成email.</li></ul>
+<li><code>enable</code> 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);</li><li><code>server</code> LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;</li><li><code>baseDn</code> LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;</li><li><code>bindPassword</code> 登录该 LDAP 服务器的密码;</li><li><code>searchDn</code> 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;</li><li><code>searchStandard</code> 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.</li></ul>
+<p>重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功</p>
+<p><img src="./images/ldap.png" /></p>
 <p><br><br><br><br><br></p>
 
                     </div>

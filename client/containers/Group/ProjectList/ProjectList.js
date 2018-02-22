@@ -125,7 +125,7 @@ class ProjectList extends Component {
         {
           followProject.map((item, index) => {
             return (
-              <Col xs={8} md={6} xl={4} key={index}>
+              <Col xs={8} lg={6} xxl={4} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>)
           })
@@ -138,7 +138,7 @@ class ProjectList extends Component {
         {
           noFollow.map((item, index) => {
             return (
-              <Col xs={8} md={6} xl={4} key={index}>
+              <Col xs={8} lg={6} xxl={4} key={index}>
                 <ProjectCard projectData={item} callbackResult={this.receiveRes} />
               </Col>)
           })
@@ -180,7 +180,7 @@ class ProjectList extends Component {
           {
             this.props.currGroup.type === 'private' ? <OwnerSpace /> : projectData.length ? projectData.map((item, index) => {
               return (
-                <Col xs={8} md={6} xl={4} key={index}>
+                <Col xs={8} lg={6} xxl={4} key={index}>
                   <ProjectCard projectData={item} callbackResult={this.receiveRes} />
                 </Col>);
             }) : <ErrMsg type="noProject" />
