@@ -589,13 +589,15 @@ class InterfaceColContent extends Component {
         </a></h2>
         <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
           <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
-            <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
+            <Option key="default" value="" >默认环境</Option>
             {
               colEnv.map((item) => {
                 return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
               })
             }
           </Select>
+          &nbsp;
+          <Tooltip title="默认使用测试用例选择的环境"><Icon type="question-circle-o" /></Tooltip>
         </div>
         {this.state.hasPlugin ?
           <div style={{ float: 'right' }}>
@@ -662,10 +664,13 @@ class InterfaceColContent extends Component {
           footer={null}
         >
           <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={3} className="label">选择环境：</Col>
+            <Col span={3} className="label">选择环境
+              <Tooltip title="默认使用测试用例选择的环境"><Icon type="question-circle-o" /></Tooltip>
+              &nbsp;：
+            </Col>
             <Col span={21}>
               <Select value={currColEnv} style={{ width: "320px" }} onChange={this.colEnvChange}>
-                <Option key="default" value="" >默认使用 case 详情页面保存的 domain</Option>
+                <Option key="default" value="" >默认环境</Option>
                 {
                   colEnv.map((item) => {
                   return <Option key={item._id} value={item.name}>{item.name + ": " + item.domain}</Option>;
@@ -675,11 +680,11 @@ class InterfaceColContent extends Component {
             </Col>
           </Row>
           <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={3} className="label">输出样式：</Col>
+            <Col span={3} className="label">输出格式：</Col>
             <Col span={21}>
               <Select value={this.state.mode} onChange={this.modeChange}>
-                <Option key="html" value="html" >默认展示 html 页面</Option>
-                <Option key="json" value="json" >展示 json 页面</Option>
+                <Option key="html" value="html" >html</Option>
+                <Option key="json" value="json" >json</Option>
               </Select>
             </Col>
           </Row>
