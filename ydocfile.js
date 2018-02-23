@@ -214,8 +214,8 @@ module.exports = {
     "menuLevel": 2,
     "content": "./CHANGELOG.md"
   },{
-    "name": "demo站点",
-    "title": "demo 站点",
+    "name": "产品演示",
+    "title": "产品演示",
     "url": "http://yapi.demo.qunar.com/"
   },
     {
