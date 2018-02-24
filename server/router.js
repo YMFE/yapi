@@ -395,9 +395,14 @@ let routerConfig = {
 		method: "post"
 	}, {
 		action: "upCaseIndex",
+		path: "up_case_index",
+		method: "post"
+  }, {
+		action: "upColIndex",
 		path: "up_col_index",
 		method: "post"
-	}, {
+	},
+  {
 		action: "delCol",
 		path: "del_col",
 		method: "get"

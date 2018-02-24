@@ -337,7 +337,7 @@ class InterfaceColContent extends Component {
         index: index
       })
     })
-    axios.post('/api/col/up_col_index', changes).then(() => {
+    axios.post('/api/col/up_case_index', changes).then(() => {
     this.props.fetchInterfaceColList(this.props.match.params.id)
     })
     if (rows) {

@@ -35,6 +35,10 @@ class interfaceColController extends baseController {
         }
       }
       let result = await this.colModel.list(id);
+      result = result.sort((a, b) => {
+        return a.index - b.index;
+      });
+
 
       for (let i = 0; i < result.length; i++) {
         result[i] = result[i].toObject();
@@ -612,7 +616,7 @@ class interfaceColController extends baseController {
 
   /**
    * 更新多个接口case index
-   * @interface /col/up_col_index
+   * @interface /col/up_case_index
    * @method POST
    * @category col
    * @foldnumber 10
@@ -641,6 +645,40 @@ class interfaceColController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 400, e.message)
     }
   }
+
+
+  /**
+   * 更新多个测试集合 index
+   * @interface /col/up_col_index
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async upColIndex(ctx) {
+    try {
+      let params = ctx.request.body;
+      if (!params || !Array.isArray(params)) {
+        ctx.body = yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+      }
+      params.forEach((item) => {
+        if (item.id) {
+          this.colModel.upColIndex(item.id, item.index).then((res) => { }, (err) => {
+            yapi.commons.log(err.message, 'error')
+          })
+        }
+
+      });
+
+      return ctx.body = yapi.commons.resReturn('成功！')
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message)
+    }
+  }
+
 
   /**
    * 删除一个接口集

@@ -43,6 +43,21 @@ const ColModalForm = Form.create()((props) => {
   )
 });
 
+function arrayChangeIndex(arr, start, end){
+  let newArr = [].concat(arr);
+  newArr[start] = arr[end];
+  newArr[end] = arr[start];
+  let changes = [];
+  newArr.forEach((item, index) => {
+    changes.push({
+      id: item._id,
+      index: index
+    })
+  })
+
+  return changes;
+}
+
 @connect(
   state => {
     return {
@@ -320,41 +335,33 @@ export default class InterfaceColMenu extends Component {
 
   onDrop = async (e) => {
     // const projectId = this.props.match.params.id;
+    const { interfaceColList } = this.props;
     const dropColIndex = e.node.props.pos.split('-')[1];
-
-    const dropColId = this.props.interfaceColList[dropColIndex]._id;
+    const dropColId = interfaceColList[dropColIndex]._id;
     const id = e.dragNode.props.eventKey;
     const dragColIndex = e.dragNode.props.pos.split('-')[1];
+    const dragColId = interfaceColList[dragColIndex]._id;
 
-    const dragColId = this.props.interfaceColList[dragColIndex]._id;
+    const dropPos = e.node.props.pos.split('-');
+    const dropIndex = Number(dropPos[dropPos.length - 1]);
+    const dragPos = e.dragNode.props.pos.split('-');
+    const dragIndex = Number(dragPos[dragPos.length - 1]);
 
-    if (id.indexOf('col') === -1 && dropColId !== dragColId) {
-      // if (dropColId !== dragColId) {
-      //  
-      // } 
-      // else {
-      //   let caseList = this.props.interfaceColList[dropColIndex].caseList;
-      //   const dropIndex = e.node.props.pos.split('-')[2];
-      //   const dragIndex = e.dragNode.props.pos.split('-')[2];
-      //   // caseList[dropIndex] = [caseList[dragIndex], caseList[dragIndex] = caseList[dropIndex]][0]
-      //   let newArr = [].concat(caseList);
-      //   newArr[dragIndex] = caseList[dropIndex];
-      //   newArr[dropIndex] = caseList[dragIndex];
-      //   let changes = [];
-      //   newArr.forEach((item, index) => {
-      //     changes.push({
-      //       id: item._id,
-      //       index: index
-      //     })
-      //   })
-      //   axios.post('/api/col/up_col_index', changes).then()
-      // }
+    if (id.indexOf('col') === -1 ) {
+      if (dropColId === dragColId) {
+        // 同一个测试集合下的接口交换顺序
+        let caseList = interfaceColList[dropColIndex].caseList;
+        let changes =  arrayChangeIndex(caseList, dragIndex, dropIndex)
+        axios.post('/api/col/up_case_index', changes).then()
+      }
       await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
       // this.props.fetchInterfaceColList(projectId);
       this.getList()
       this.props.setColData({ isRander: true })
-
-
+    } else {
+      let changes =  arrayChangeIndex(interfaceColList, dragIndex, dropIndex);
+      axios.post('/api/col/up_col_index', changes).then()
+      this.getList()
     }
   }
 
@@ -489,15 +496,17 @@ export default class InterfaceColMenu extends Component {
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
           autoExpandParent
+          draggable
           onExpand={this.onExpand}
-          ondragstart={() => { return false }}
+          onDrop={this.onDrop}
+          
         >
           {
             list.map((col) => (
               <TreeNode
                 key={'col_' + col._id}
                 title={
-                  <div className="menu-title">
+                  <div className="menu-title" >
                     <span><Icon type="folder-open" style={{ marginRight: 5 }} /><span>{col.name}</span></span>
                     <div className="btns">
 
