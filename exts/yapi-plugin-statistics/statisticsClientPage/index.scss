@@ -4,12 +4,16 @@
   @include row-width-limit;
   margin: 0 auto .24rem;
   margin-top: 24px;
+  min-width: 11.2rem;
+  
+  
   .content {
     -webkit-box-flex: 1;
     padding: 24px;
     width:100%;
     background: #fff;
     min-height: 5rem;
+    // overflow-x: scroll;
   }
   .m-row {
     border-bottom: 1px solid #f0f0f0;

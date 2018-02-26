@@ -204,7 +204,7 @@ class InterfaceMenu extends Component {
       async onOk() {
         await that.props.deleteInterfaceData(id, that.props.projectId)
         await that.getList()
-        await that.props.fetchInterfaceCatList(catid)
+        await that.props.fetchInterfaceCatList({catid})
         ref.destroy()
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api/cat_' + catid)
       },
@@ -225,7 +225,7 @@ class InterfaceMenu extends Component {
         await that.props.deleteInterfaceCatData(catid, that.props.projectId)
         await that.getList()
         // await that.props.getProject(that.props.projectId)
-        await that.props.fetchInterfaceList(that.props.projectId)
+        await that.props.fetchInterfaceList({project_id: that.props.projectId})
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api')
         ref.destroy()
       },

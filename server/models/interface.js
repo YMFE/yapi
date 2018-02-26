@@ -141,6 +141,20 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
+  listWithPage(project_id, page, limit) {
+    page = parseInt(page);
+    limit = parseInt(limit);
+    return this.model.find({
+      project_id: project_id
+    })
+      .sort({ title: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('_id title uid path method project_id catid edit_uid status add_time up_time')
+      .exec();
+
+  }
+
   listByPid(project_id) {
     return this.model.find({
       project_id: project_id
@@ -162,6 +176,20 @@ class interfaceModel extends baseModel {
       .select(select)
       .sort({ title: 1 })
       .exec();
+  }
+
+  listByCatidWithPage(catid, page, limit) {
+    page = parseInt(page);
+    limit = parseInt(limit);
+    return this.model.find({
+      catid: catid
+    })
+      .sort({ title: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('_id title uid path method project_id catid edit_uid status add_time up_time')
+      .exec();
+
   }
 
   listByInterStatus(catid, status){
@@ -221,6 +249,10 @@ class interfaceModel extends baseModel {
     .select('title uid path method edit_uid status desc add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value')
       .exec();
   }
+
+  listCount(option) {
+    return this.model.count(option);
+}
 
 
 }

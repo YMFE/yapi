@@ -324,11 +324,15 @@ class interfaceController extends baseController {
    * @category interface
    * @foldnumber 10
    * @param {Number}   project_id 项目id，不能为空
+   * @param {Number}   page 当前页
+   * @param {Number}   limit 每一页限制条数
    * @returns {Object}
    * @example ./api/interface/list.json
    */
   async list(ctx) {
     let project_id = ctx.request.query.project_id;
+    let page = ctx.request.query.page || 1,
+    limit = ctx.request.query.limit || 10;
     let project = await this.projectModel.getBaseInfo(project_id);
     if (!project) {
       return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
@@ -343,8 +347,20 @@ class interfaceController extends baseController {
     }
 
     try {
-      let result = await this.Model.list(project_id);
-      ctx.body = yapi.commons.resReturn(result);
+      let result
+      if(limit === 'all'){
+        result = await this.Model.list(project_id);
+      } else{
+        result = await this.Model.listWithPage(project_id, page, limit);
+      }
+      
+      let count = await this.Model.listCount({project_id});
+      console.log('count', count);
+      ctx.body = yapi.commons.resReturn({
+        count: count,
+        total: Math.ceil(count / limit),
+        list: result
+      });
       yapi.emitHook('interface_list', project_id).then();
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
@@ -360,23 +376,35 @@ class interfaceController extends baseController {
   }
 
   async listByCat(ctx) {
+    console.log(ctx.request.query)
     let catid = ctx.request.query.catid;
+    let page = ctx.request.query.page || 1,
+    limit = ctx.request.query.limit || 10;
+    console.log(catid)
     if (!catid) {
       return ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空');
     }
     try {
       let catdata = await this.catModel.get(catid);
+     
       let project = await this.projectModel.getBaseInfo(catdata.project_id);
       if (project.project_type === 'private') {
         if (await this.checkAuth(project._id, 'project', 'view') !== true) {
           return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
         }
       }
-      let result = await this.Model.listByCatid(catid)
+      
+      let result = await this.Model.listByCatidWithPage(catid, page, limit)
 
-      ctx.body = yapi.commons.resReturn(result);
+      let count = await this.Model.listCount({catid});
+      console.log('count', count);
+      ctx.body = yapi.commons.resReturn({
+        count: count,
+        total: Math.ceil(count / limit),
+        list: result
+      });
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+      ctx.body = yapi.commons.resReturn(null, 402, err.message+'1');
     }
 
   }

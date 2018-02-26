@@ -103,11 +103,7 @@ class AddInterfaceForm extends Component {
             <Input onBlur={this.handlePath} addonBefore={prefixSelector} placeholder="/path" />
             )}
         </FormItem>
-        {/* <FormItem
-        >
-          <span>注： 详细的接口数据可以在编辑页面中添加</span>
-        </FormItem> */}
-         <FormItem
+        <FormItem
           {...formItemLayout}
           label="注"
         >

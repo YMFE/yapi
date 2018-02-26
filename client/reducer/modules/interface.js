@@ -19,7 +19,9 @@ const initialState = {
   list: [],
   editStatus: false, // 记录编辑页面是否有编辑,
   totalTableList: [],
-  catTableList: []
+  catTableList: [],
+  count:0,
+  totalCount: 0
 
 }
 
@@ -53,14 +55,16 @@ export default (state = initialState, action) => {
     case FETCH_INTERFACE_LIST: {
       return {
         ...state,
-        totalTableList: action.payload.data.data
+        totalTableList: action.payload.data.data.list,
+        totalCount: action.payload.data.data.count
       };
     }
 
     case FETCH_INTERFACE_CAT_LIST: {
       return {
         ...state,
-        catTableList: action.payload.data.data
+        catTableList: action.payload.data.data.list,
+        count: action.payload.data.data.count
       };
     }
     default:
@@ -135,16 +139,16 @@ export async function fetchInterfaceListMenu(projectId) {
 }
 
 
-export async function fetchInterfaceList(projectId) {
-  let result = await axios.get('/api/interface/list?project_id=' + projectId);
+export async function fetchInterfaceList(params) {
+  let result = await axios.get('/api/interface/list',{params});
   return {
     type: FETCH_INTERFACE_LIST,
     payload: result
   }
 }
 
-export async function fetchInterfaceCatList(catid) {
-  let result = await axios.get('/api/interface/list_cat?catid=' + catid);
+export async function fetchInterfaceCatList(params) {
+  let result = await axios.get('/api/interface/list_cat', {params});
   return {
     type: FETCH_INTERFACE_CAT_LIST,
     payload: result
