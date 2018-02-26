@@ -8,6 +8,7 @@ import AddInterfaceForm from './AddInterfaceForm';
 import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios'
 import { Link, withRouter } from 'react-router-dom';
+import produce from 'immer'
 
 const confirm = Modal.confirm;
 const TreeNode = Tree.TreeNode;
@@ -234,10 +235,16 @@ class InterfaceMenu extends Component {
 
   copyInterface = async (id) => {
     let interfaceData = await this.props.fetchInterfaceData(id);
-    let data = JSON.parse(JSON.stringify(interfaceData.payload.data.data));
-    data.title = data.title + '_copy';
-    data.path = data.path + '_' + Date.now();
-    axios.post('/api/interface/add', data).then((res) => {
+    // let data = JSON.parse(JSON.stringify(interfaceData.payload.data.data));
+    // data.title = data.title + '_copy';
+    // data.path = data.path + '_' + Date.now();
+    let data = interfaceData.payload.data.data;
+    let newData = produce(data, draftData => {
+      draftData.title = draftData.title + '_copy';
+      draftData.path = draftData.path + '_' + Date.now();
+    })
+
+    axios.post('/api/interface/add', newData).then((res) => {
       if (res.data.errcode !== 0) {
         return message.error(res.data.errmsg);
       }

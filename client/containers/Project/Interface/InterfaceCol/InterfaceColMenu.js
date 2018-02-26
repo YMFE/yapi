@@ -8,6 +8,7 @@ import axios from 'axios';
 // import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 import ImportInterface from './ImportInterface'
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
+// import produce from 'immer'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -327,9 +328,13 @@ export default class InterfaceColMenu extends Component {
 
   filterCol = (e) => {
     const value = e.target.value;
+    // console.log('list', this.props.interfaceColList);
+    // const newList = produce(this.props.interfaceColList, draftList => {})
+    // console.log('newList',newList);
     this.setState({
       filterValue: value,
       list: JSON.parse(JSON.stringify(this.props.interfaceColList))
+      // list: newList
     })
   }
 

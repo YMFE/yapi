@@ -166,12 +166,13 @@ class TimeTree extends Component {
   async getApiList() {
     let result = await this.props.fetchInterfaceList(this.props.typeid);
     this.setState({
-      apiList: JSON.parse(JSON.stringify(result.payload.data.data))
+      apiList: result.payload.data.data
     })
   }
 
   handleSelectApi = (interfaceId) => {
     this.curInterfaceId = interfaceId;
+    console.log(interfaceId)
     this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, interfaceId)
   }
 

@@ -95,7 +95,10 @@ export default class Run extends Component {
     let header = [].concat(env[index].header);
     header.forEach(item => {
       if (!checkNameIsExistInArray(item.name, req_header)) {
-        item.abled = true;
+        item = {
+          ...item,
+          abled: true
+        }
         req_header.push(item)
       }
     })

@@ -17,7 +17,7 @@ import axios from 'axios'
 import CaseReport from './CaseReport.js'
 import _ from 'underscore'
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js'
-
+import produce from 'immer'
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('common/postmanLib.js')
 const {handleParamsValue, json_parse} = require('common/utils.js')
 
@@ -142,7 +142,11 @@ class InterfaceColContent extends Component {
     let header = currDomain.header;
     header.forEach(item => {
       if (!checkNameIsExistInArray(item.name, req_header)) {
-        item.abled = true;
+        // item.abled = true;
+        item = {
+          ...item,
+          abled: true
+        }
         req_header.push(item)
       }
     })
@@ -151,13 +155,24 @@ class InterfaceColContent extends Component {
 
 
   handleColdata = (rows) => {
-    let newRows = JSON.parse(JSON.stringify(rows))
-    newRows = newRows.map((item) => {
-      item.id = item._id;
-      item._test_status = item.test_status;
-      item.case_env = this.state.currColEnv || item.case_env
-      item.req_headers = this.handleReqHeader(item.req_headers)
-      return item;
+    // let newRows = JSON.parse(JSON.stringify(rows))
+    // newRows = newRows.map((item) => {
+    //   item.id = item._id;
+    //   item._test_status = item.test_status;
+    //   item.case_env = this.state.currColEnv || item.case_env
+    //   item.req_headers = this.handleReqHeader(item.req_headers)
+    //   return item;
+    // })
+    
+    let that = this;
+    let newRows = produce(rows, draftRows => {
+      draftRows.map(item=>{
+        item.id = item._id;
+        item._test_status = item.test_status;
+        item.case_env = that.state.currColEnv || item.case_env
+        item.req_headers = that.handleReqHeader(item.req_headers)
+        return item;
+      })
     })
     
     this.setState({
