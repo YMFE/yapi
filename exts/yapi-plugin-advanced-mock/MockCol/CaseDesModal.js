@@ -83,14 +83,12 @@ class CaseDesForm extends Component {
 
   // 处理request_body编译器
   handleRequestBody = (d) => {
-    const { setFieldsValue } = this.props.form;
-    setFieldsValue({ res_body: d.text })
+    this.setState({ res_body: d.text })
   }
 
   // 处理参数编译器
   handleParams = (d) => {
-    const { setFieldsValue } = this.props.form;
-    setFieldsValue({ params: d.text })
+    this.setState({ params: d.text })
   }
 
   // 增加参数信息
@@ -172,6 +170,8 @@ class CaseDesForm extends Component {
     const form = this.props.form;
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        values.res_body = this.state.res_body;
+        values.params = this.state.params;
         this.props.onOk(this.endProcess(values));
       }
     })
@@ -181,6 +181,8 @@ class CaseDesForm extends Component {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { isAdd, visible, onCancel } = this.props;
     const { name, code, headers, ip, ip_enable, params, paramsArr, paramsForm, res_body } = this.state
+    
+    this.props.form.initialValue
     const valuesTpl = (values, title) => {
       const dataSource = this.getParamsKey();
       const display = paramsForm === 'json' ? 'none' : ''
@@ -391,16 +393,13 @@ class CaseDesForm extends Component {
             </Button>
           </FormItem>
           <FormItem {...formItemLayout} wrapperCol={{ span: 17 }} label="Body" required>
-            <FormItem
-            >
-              {getFieldDecorator('res_body',{ initialValue: res_body })(
-                <AceEditor
+            <FormItem>
+              <AceEditor
                 className="pretty-editor"
                 data={res_body}
                 mode={this.props.currInterface.res_body_type === 'json' ? null : 'text'}
                 onChange={this.handleRequestBody}
               />
-              )}
             </FormItem>
           </FormItem>
         </Form>
