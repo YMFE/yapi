@@ -107,7 +107,7 @@ class AddInterfaceForm extends Component {
           {...formItemLayout}
           label="注"
         >
-          <span>详细的接口数据可以在编辑页面中添加</span>
+          <span style={{ color: "#929292" }}>详细的接口数据可以在编辑页面中添加</span>
         </FormItem>
         <FormItem className="catModalfoot" wrapperCol={{ span: 24, offset: 8 }} >
           <Button onClick={this.props.onCancel} style={{ marginRight: "10px" }}  >取消</Button>

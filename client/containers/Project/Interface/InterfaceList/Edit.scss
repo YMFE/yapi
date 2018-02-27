@@ -62,13 +62,19 @@
     table-layout: fixed;
   }
   .path {
-    width: 100%;
+    width: 95%;
     display: inline-block;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
     padding-right: 24px;
     line-height: 100%;
+  }
+
+  .opened {
+    color: #00a854;
+    padding-right: 6px;
+    font-size: 14px;
   }
   .colValue{
     display: inline-block;

@@ -150,7 +150,7 @@ class interfaceModel extends baseModel {
       .sort({ title: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('_id title uid path method project_id catid edit_uid status add_time up_time')
+      .select('_id title uid path method project_id catid api_opened edit_uid status add_time up_time')
       .exec();
 
   }
@@ -187,7 +187,7 @@ class interfaceModel extends baseModel {
       .sort({ title: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('_id title uid path method project_id catid edit_uid status add_time up_time')
+      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time')
       .exec();
 
   }

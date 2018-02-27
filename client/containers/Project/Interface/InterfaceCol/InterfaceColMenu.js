@@ -454,7 +454,6 @@ export default class InterfaceColMenu extends Component {
 
     let list = this.state.list;
 
-
     if (this.state.filterValue) {
       let arr = [];
       list = list.filter((item) => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Button, Modal, message, Tooltip, Select
+  Table, Button, Modal, message, Tooltip, Select, Icon
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceListMenu, fetchInterfaceList, fetchInterfaceCatList } from '../../../../reducer/modules/interface.js';
@@ -166,7 +166,11 @@ class InterfaceList extends Component {
       key: 'title',
       width: 30,
       render: (text, item) => {
-        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
+        return (
+          <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} >
+            <span className="path">{text}</span>            
+          </Link>
+        )
       }
     }, {
       title: '接口路径',
@@ -174,13 +178,21 @@ class InterfaceList extends Component {
       key: 'path',
       width: 50,
       render: (item, record) => {
+        
         const path = this.props.curProject.basepath + item;
         let methodColor = variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'];
 
-        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
+        return <div>
           <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{record.method}</span>
-          <span className="path">{path}</span>
-        </Tooltip>
+          <Tooltip title="开放接口" placement="topLeft"  >
+            <span>{record.api_opened && <Icon className="opened" type="eye-o"/>
+                }
+            </span>
+          </Tooltip>
+          <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">  
+            <span className="path">{path}</span>
+          </Tooltip>
+        </div>
       }
     }, {
       title: '接口分类',
