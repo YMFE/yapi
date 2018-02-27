@@ -127,17 +127,17 @@ module.exports = function (jsondiffpatch, formattersHtml, curDiffData) {
 
     if (current.req_body_type === 'json') {
       diffView.push({
-        title: 'Response Body',
+        title: 'Request Body',
         content: diffJson(oldValue, current.req_body_other)
       })
     } else if (current.req_body_type === 'form') {
       diffView.push({
-        title: 'Response Form Body',
+        title: 'Request Form Body',
         content: diffArray(oldValue, current.req_body_form)
       })
     } else {
       diffView.push({
-        title: 'Response Raw Body',
+        title: 'Request Raw Body',
         content: diffText(oldValue, current.req_body_other)
       })
     }

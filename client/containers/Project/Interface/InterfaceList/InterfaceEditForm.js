@@ -135,7 +135,8 @@ class InterfaceEditForm extends Component {
       jsonType: 'tpl',
       mockUrl: this.props.mockUrl,
       req_radio_type: 'req-query',
-      custom_field_value: ''
+      custom_field_value: '',
+      api_opened: false
     }, curdata)
   }
 
@@ -824,7 +825,7 @@ class InterfaceEditForm extends Component {
               </pre>}>
                 <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
               </Tooltip>
-              ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
+              ，“全局编辑”或 “退出全屏” 请按 <span style={{fontWeight: '500'}}>F9</span>
             </Col>
             <Col id="req_body_json" style={{ minHeight: "300px" }}>
             </Col>
@@ -871,7 +872,7 @@ class InterfaceEditForm extends Component {
         <div className="panel-sub">
           <Row className="interface-edit-item" style={{ display: this.props.form.getFieldValue('res_body_type') === 'json' ? 'block' : 'none' }}>
             <Col>
-              <Tabs defaultActiveKey="tpl" onChange={this.handleJsonType} >
+              <Tabs size="large" defaultActiveKey="tpl" onChange={this.handleJsonType} >
                 <TabPane tab="模板" key="tpl">
 
                 </TabPane>
@@ -881,13 +882,13 @@ class InterfaceEditForm extends Component {
 
               </Tabs>
               <div>
-                <h3 style={{ padding: '10px 0' }}>基于 mockjs 和 json5,使用注释方式写参数说明 <Tooltip title={<pre>
+                <div style={{ padding: '10px 0',fontSize: '15px' }}>基于 mockjs 和 json5,使用注释方式写参数说明 <Tooltip title={<pre>
                   {Json5Example}
                 </pre>}>
                   <Icon type="question-circle-o" style={{ color: "#086dbf" }} />
                 </Tooltip> ,具体使用方法请 <span className="href" onClick={() => window.open('https://yapi.ymfe.org/mock.html', '_blank')}>查看文档</span>
-                  ，<span style={{ color: 'rgb(0, 168, 84)' }}>“全局编辑” </span>或 “退出全屏” 请按 F9
-                </h3>
+                  ，“全局编辑” 或 “退出全屏” 请按 <span style={{fontWeight: '500'}}>F9</span>
+                </div>
                 <div id="res_body_json" style={{ minHeight: "300px", display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}  ></div>
                 <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}></div>
               </div>
@@ -922,35 +923,17 @@ class InterfaceEditForm extends Component {
               <div id="desc" className="remark-editor"></div>
             </div>
           </FormItem>
-          {/* <FormItem
-            className={'interface-edit-item ' + this.state.hideTabs.other.mail}
-            {...formItemLayout}
-            label="是否开启邮件通知"
-          >
-            {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: false })(
-              <Switch checkedChildren="开" unCheckedChildren="关" />
-            )}
-          </FormItem>
-          <FormItem
-            className={'interface-edit-item ' + (this.state.hideTabs.other.mail)}
-            {...formItemLayout}
-            label="改动日志"
-          >
-            {getFieldDecorator('message', { initialValue: "" })(
-              <TextArea style={{ minHeight: "300px" }} placeholder="改动日志会通过邮件发送给关注此项目的用户" />
-            )}
-          </FormItem> */}
         </div>
 
         {/* ----------- email ------------- */}
-        <h2 className="interface-title">通 知</h2>
+        <h2 className="interface-title">其 他</h2>
         <div className="panel-sub">
           <FormItem
             className={'interface-edit-item'}
             {...formItemLayout}
             label={(
               <span>
-                是否开启邮件通知&nbsp;
+                邮件通知&nbsp;
                 <Tooltip title={'开启邮件通知，可在 项目设置 里修改'}>
                   <Icon type="question-circle-o" style={{ width: "10px" }} />
                 </Tooltip>
@@ -959,6 +942,23 @@ class InterfaceEditForm extends Component {
             )}
           >
             {getFieldDecorator('switch_notice', { valuePropName: 'checked', initialValue: this.props.noticed })(
+              <Switch checkedChildren="开" unCheckedChildren="关" />
+            )}
+          </FormItem>
+          <FormItem
+            className={'interface-edit-item'}
+            {...formItemLayout}
+            label={(
+              <span>
+                开放接口&nbsp;
+                <Tooltip title={'用户可以在 数据导出 时选择只导出公开接口'}>
+                  <Icon type="question-circle-o" style={{ width: "10px" }} />
+                </Tooltip>
+
+              </span>
+            )}
+          >
+            {getFieldDecorator('api_opened', { valuePropName: 'checked', initialValue: this.state.api_opened })(
               <Switch checkedChildren="开" unCheckedChildren="关" />
             )}
           </FormItem>

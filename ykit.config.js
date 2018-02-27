@@ -71,15 +71,16 @@ module.exports = {
       exclude: /node_modules\/(?!yapi-plugin)/
     }    
   }],    
-  // devtool:  'cheap-source-map',
+  devtool:  'cheap-source-map',
   config: function (ykit) {
     return {
-      exports: [  
+      exports: [ 
         './index.js'
       ],
       commonsChunk: {
         vendors: {
           lib: [
+            // 'anujs',
             'react', 
             'react-dom',
             'redux',
@@ -107,7 +108,6 @@ module.exports = {
         }
       },
       modifyWebpackConfig: function (baseConfig) {
-
         var ENV_PARAMS = {};
         switch (this.env) {
           case 'local':
@@ -142,7 +142,6 @@ module.exports = {
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]'
 
         baseConfig.module.noParse = /node_modules\/jsondiffpatch\/public\/build\/.*js/,
-        
         baseConfig.module.loaders.push({
           test: /\.less$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -160,6 +159,7 @@ module.exports = {
             + require.resolve('fast-sass-loader-china') + '?sourceMap'
           )
         })
+
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
           exclude: /node_modules|google-diff.js/,

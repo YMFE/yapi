@@ -1,4 +1,5 @@
 ## YApi  可视化接口管理平台
+<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
 
 ### 平台介绍
 ![avatar](yapi-base-flow.jpg)
@@ -35,18 +36,13 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi update -v {Version} //更新到指定版本
 
 
-
-### 在线 Demo
-<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
-
-管理员账号
-```
-用户名： yapi.demo@admin.com
-密码： ymfe.org
-```
 ### YApi 资源
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi docker 部署](https://github.com/branchzero/yapi-docker) By branchzero
+
+### YApi 教程
+* [Centos-安装环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
+* [MacOS-YAPI初次使用指南](https://github.com/liuyuan1989/yapi_user_guide/blob/master/YAPI%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97_MacOS.md) By liuyuan1989
 
 ### YApi 的一些客户
 * 去哪儿

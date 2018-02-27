@@ -1,13 +1,13 @@
-## 运行开发服务器(参考二次开发)
-```
+## 运行开发服务器
+```bash
 npm install
-npm install -g ykit //依赖 ykit 
-npm run dev //启动开发服务器
+npm install -g ykit #依赖 ykit 
+npm run dev #启动开发服务器
 ```
 
 ## 加载插件
 在config.json plugins配置项，加入 demo 插件,
-```
+```json
 {
   "port": "3000",
   "db": {

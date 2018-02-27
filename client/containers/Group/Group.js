@@ -14,7 +14,7 @@ import { fetchNewsData } from '../../reducer/modules/news.js';
 import './Group.scss';
 @connect(
   state => {
-    return {
+    return { 
       curGroupId: state.group.currGroup._id,
       curUserRole: state.user.role,
       curUserRoleInGroup: state.group.currGroup.role || state.group.role,
@@ -51,7 +51,7 @@ export default class Group extends Component {
         </Sider>
         <Layout>
           <Content style={{ height: '100%', margin: '0 24px 0 16px', overflow: 'initial', backgroundColor: '#fff' }}>
-            <Tabs type="card" className="m-tab" style={{ height: '100%' }}>
+            <Tabs type="card" size="large" className="m-tab" style={{ height: '100%' }}>
               <TabPane tab="项目列表" key="1"><ProjectList /></TabPane>
               {this.props.currGroup.type === 'public' ? <TabPane tab="成员列表" key="2"><MemberList /></TabPane> : null}
               {["admin", "owner", "guest", "dev"].indexOf(this.props.curUserRoleInGroup) > -1 || this.props.curUserRole === "admin" ? <TabPane tab="分组动态" key="3"><GroupLog /></TabPane> : ""}

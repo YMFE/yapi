@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import Login from './LoginWrap';
 import { Row, Col, Card } from 'antd';
-import { logoSVG } from '../../common.js';
+import LogoSVG from '../../components/LogoSVG/index.js';
 
 class LoginContainer extends Component {
   render() {
@@ -19,7 +19,7 @@ class LoginContainer extends Component {
               <Col xs={20} sm={16} md={12} lg={8} className="container-login">
                 <Card className="card-login">
                   <h2 className="login-title">YAPI</h2>
-                  <div className="login-logo">{logoSVG('100px')}</div>
+                  <div className="login-logo"><LogoSVG length='100px' /></div>
                   <Login/>
                 </Card>
               </Col>

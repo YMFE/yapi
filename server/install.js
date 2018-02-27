@@ -116,6 +116,11 @@ function setupSql() {
             uid: 1
         })
 
+        let tokenCol = mongoose.connection.db.collection('token')
+        tokenCol.createIndex({
+            project_id: 1
+        })
+
         let followCol = mongoose.connection.db.collection('follow')
         followCol.createIndex({
             uid: 1

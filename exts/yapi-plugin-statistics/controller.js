@@ -12,6 +12,7 @@ const yapi = require('yapi.js');
 const config = require('./index.js');
 const commons = require('./util.js');
 const os = require("os");
+let cpu = require('cpu-load');
 
 class statisMockController extends baseController {
   constructor(ctx) {
@@ -78,16 +79,20 @@ class statisMockController extends baseController {
       mail = '未配置'
     }
 
+    let load = await this.cupLoad()*100;
+
     let systemName = os.platform();
     let totalmem = commons.transformBytesToGB(os.totalmem());
     let freemem = commons.transformBytesToGB(os.freemem());
     let uptime = commons.transformSecondsToDay(os.uptime());
+    
     let data = {
       mail,
       systemName,
       totalmem,
       freemem,
-      uptime
+      uptime,
+      load: load.toFixed(2)
     }
     return ctx.body = yapi.commons.resReturn(data);
 
@@ -105,6 +110,14 @@ class statisMockController extends baseController {
           result = '可用';
           resolve(result)
         }
+      })
+    })
+  }
+
+  cupLoad() {
+    return new Promise((resolve,reject)=>{
+      cpu(1000, function (load) {
+        resolve(load)
       })
     })
   }
