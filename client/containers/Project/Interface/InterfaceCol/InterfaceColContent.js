@@ -337,16 +337,15 @@ class InterfaceColContent extends Component {
   onRow(row) {
     return {
       rowId: row.id,
-      onMove: this.onMoveRow
+      onMove: this.onMoveRow,
+      onDrop: this.onDrop
     };
   }
-  onMoveRow({ sourceRowId, targetRowId }) {
-    let rows = dnd.moveRows({
-      sourceRowId,
-      targetRowId
-    })(this.state.rows);
+
+  onDrop =() =>{
+    console.log(1111);
     let changes = [];
-    rows.forEach((item, index) => {
+    this.state.rows.forEach((item, index) => {
       changes.push({
         id: item._id,
         index: index
@@ -355,6 +354,14 @@ class InterfaceColContent extends Component {
     axios.post('/api/col/up_case_index', changes).then(() => {
     this.props.fetchInterfaceColList(this.props.match.params.id)
     })
+
+  }
+  onMoveRow({ sourceRowId, targetRowId }) {
+    let rows = dnd.moveRows({
+      sourceRowId,
+      targetRowId
+    })(this.state.rows);
+    
     if (rows) {
       this.setState({ rows });
     }
