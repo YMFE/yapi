@@ -47,7 +47,6 @@ export default class MockCol extends Component {
   handleOk = async (caseData) => {
   
     if(!caseData){
-      console.log(12)
       return null;
     }
     const { caseData: currcase } = this.state;
