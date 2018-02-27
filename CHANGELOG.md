@@ -4,6 +4,7 @@
 
 * 增加测试集合列表的拖动功能
 * interfaceList页实现数据分页
+* 新建接口的时候产生一个demo response
 
 #### Bug Fixed
 

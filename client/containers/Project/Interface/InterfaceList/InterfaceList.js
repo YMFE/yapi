@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
 const Option = Select.Option;
-const limit = 10;
+const limit = 20;
 
 @connect(
   state => {

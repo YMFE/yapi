@@ -15,6 +15,19 @@ const showDiffMsg = require('../../common/diff-view.js');
 const fs = require('fs-extra')
 const path = require('path');
 
+const RES_BODY_TPL= `
+/**
+ * 这是一个 response 事例
+ */
+{
+  "errcode": 0, //错误编码
+  "data": {
+    "id": "uuid-xxx", //产品id
+    "name": "iphone" //产品名称
+  }
+}
+`
+
 // const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
 // const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
 
@@ -133,7 +146,6 @@ class interfaceController extends baseController {
   async add(ctx) {
     let params = ctx.params;
 
-
     let auth = await this.checkAuth(params.project_id, 'project', 'edit')
     if (!auth) {
       return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
@@ -142,7 +154,7 @@ class interfaceController extends baseController {
     params.method = params.method.toUpperCase();
     params.req_params = params.req_params || [];
     params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
-
+    params.res_body = _.isUndefined(params.res_body) ? RES_BODY_TPL : params.res_body;
     let http_path = url.parse(params.path, true);
 
     if (!yapi.commons.verifyPath(http_path.pathname)) {
@@ -355,7 +367,7 @@ class interfaceController extends baseController {
       }
       
       let count = await this.Model.listCount({project_id});
-      console.log('count', count);
+      
       ctx.body = yapi.commons.resReturn({
         count: count,
         total: Math.ceil(count / limit),
@@ -376,11 +388,11 @@ class interfaceController extends baseController {
   }
 
   async listByCat(ctx) {
-    console.log(ctx.request.query)
+    
     let catid = ctx.request.query.catid;
     let page = ctx.request.query.page || 1,
     limit = ctx.request.query.limit || 10;
-    console.log(catid)
+   
     if (!catid) {
       return ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空');
     }
@@ -397,7 +409,7 @@ class interfaceController extends baseController {
       let result = await this.Model.listByCatidWithPage(catid, page, limit)
 
       let count = await this.Model.listCount({catid});
-      console.log('count', count);
+      
       ctx.body = yapi.commons.resReturn({
         count: count,
         total: Math.ceil(count / limit),

@@ -97,7 +97,6 @@ class View extends Component {
   }
   res_body(res_body_type, res_body) {
     if (res_body_type === 'json') {
-
       return <div className="colBody">
         {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
         <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }} />
