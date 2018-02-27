@@ -445,6 +445,11 @@ class interfaceController extends baseController {
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
+
+        list = list.sort((a, b) => {
+          return a.index - b.index;
+        });
+        
         item.list = list;
         newResult[i] = item
       }
@@ -940,6 +945,70 @@ class interfaceController extends baseController {
     return params.sort((item1, item2) => {
       return item2.required - item1.required;
     })
+  }
+
+  /**
+   * 更新多个接口case index
+   * @interface /interface/up_index
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async upIndex(ctx) {
+    try {
+      let params = ctx.request.body;
+      if (!params || !Array.isArray(params)) {
+        ctx.body = yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+      }
+      params.forEach((item) => {
+        if (item.id) {
+          this.Model.upIndex(item.id, item.index).then((res) => { }, (err) => {
+            yapi.commons.log(err.message, 'error')
+          })
+        }
+
+      });
+
+      return ctx.body = yapi.commons.resReturn('成功！')
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message)
+    }
+  }
+
+  /**
+   * 更新多个接口cat index
+   * @interface /interface/up_cat_index
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async upCatIndex(ctx) {
+    try {
+      let params = ctx.request.body;
+      if (!params || !Array.isArray(params)) {
+        ctx.body = yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+      }
+      params.forEach((item) => {
+        if (item.id) {
+          this.catModel.upCatIndex(item.id, item.index).then((res) => { }, (err) => {
+            yapi.commons.log(err.message, 'error')
+          })
+        }
+
+      });
+
+      return ctx.body = yapi.commons.resReturn('成功！')
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message)
+    }
   }
 
 }

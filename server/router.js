@@ -324,7 +324,18 @@ let routerConfig = {
       action: 'save',
       path: 'save',
       method: 'post'
+    },
+    {
+      action: 'upIndex',
+      path: 'up_index',
+      method: 'post'
+    },
+    {
+      action: 'upCatIndex',
+      path: 'up_cat_index',
+      method: 'post'
     }
+
 	],
 	"log": [
 		{

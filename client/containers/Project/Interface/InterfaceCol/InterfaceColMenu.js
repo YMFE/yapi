@@ -9,6 +9,7 @@ import axios from 'axios';
 import ImportInterface from './ImportInterface'
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 // import produce from 'immer'
+import { arrayChangeIndex  } from '../../../../common.js'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -44,20 +45,6 @@ const ColModalForm = Form.create()((props) => {
   )
 });
 
-function arrayChangeIndex(arr, start, end){
-  let newArr = [].concat(arr);
-  newArr[start] = arr[end];
-  newArr[end] = arr[start];
-  let changes = [];
-  newArr.forEach((item, index) => {
-    changes.push({
-      id: item._id,
-      index: index
-    })
-  })
-
-  return changes;
-}
 
 @connect(
   state => {

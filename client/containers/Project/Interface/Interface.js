@@ -88,6 +88,7 @@ class Interface extends Component {
     const { action } = this.props.match.params;
     // const activeKey = this.state.curkey;
     const activeKey = action === 'api' ? 'api' : 'colOrCase'
+    
    
     return (
       <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
