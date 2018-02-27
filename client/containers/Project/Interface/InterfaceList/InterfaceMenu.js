@@ -9,6 +9,7 @@ import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios'
 import { Link, withRouter } from 'react-router-dom';
 import produce from 'immer'
+import { arrayChangeIndex  } from '../../../../common.js'
 
 const confirm = Modal.confirm;
 const TreeNode = Tree.TreeNode;
@@ -285,11 +286,37 @@ class InterfaceMenu extends Component {
     if (dropCatIndex < 0 || dragCatIndex < 0) {
       return;
     }
+    const { list } = this.props;
     const dropCatId = this.props.list[dropCatIndex]._id;
     const id = e.dragNode.props.eventKey;
     const dragCatId = this.props.list[dragCatIndex]._id;
-    if (id.indexOf('cat') === -1 && dropCatId !== dragCatId) {
-      await axios.post('/api/interface/up', { id, catid: dropCatId });
+
+    const dropPos = e.node.props.pos.split('-');
+    const dropIndex = Number(dropPos[dropPos.length - 1]);
+    const dragPos = e.dragNode.props.pos.split('-');
+    const dragIndex = Number(dragPos[dragPos.length - 1]);
+
+    if (id.indexOf('cat') === -1 ) {
+      if(dropCatId === dragCatId) {
+        // 同一个分类下的接口交换顺序
+        let colList = list[dropCatIndex].list;
+        let changes =  arrayChangeIndex(colList, dragIndex, dropIndex)
+        axios.post('/api/interface/up_index', changes).then()
+      } else {
+        await axios.post('/api/interface/up', { id, catid: dropCatId });
+      }
+      const { projectId, router } = this.props;
+      this.props.fetchInterfaceListMenu(projectId);
+      this.props.fetchInterfaceList({project_id: projectId});
+      if (router && isNaN(router.params.actionId)) {
+        // 更新分类list下的数据
+        let catid = router.params.actionId.substr(4);
+        this.props.fetchInterfaceCatList({catid})
+      }
+    } else {
+      // 分类之间拖动
+      let changes =  arrayChangeIndex(list, dragIndex-1, dropIndex-1);
+      axios.post('/api/interface/up_cat_index', changes).then()
       this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   }
@@ -475,7 +502,9 @@ class InterfaceMenu extends Component {
           selectedKeys={currentKes.selects}
           onSelect={this.onSelect}
           onExpand={this.onExpand}
-          ondragstart={() => { return false }}
+          draggable
+          onDrop={this.onDrop}
+          
         >
           <TreeNode className="item-all-interface" title={<Link style={{ fontSize: '14px' }} onClick={(e) => { e.stopPropagation(); this.changeExpands() }} to={"/project/" + matchParams.id + "/interface/api"}><Icon type="folder" style={{ marginRight: 5 }} />全部接口</Link>} key="root" />
           {menuList.map((item) => {
