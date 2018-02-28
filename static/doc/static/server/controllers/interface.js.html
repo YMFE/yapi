@@ -42,6 +42,19 @@ const showDiffMsg = require('../../common/diff-view.js');
 const fs = require('fs-extra')
 const path = require('path');
 
+const RES_BODY_TPL= `
+/**
+ * 这是一个 response 事例
+ */
+{
+  "errcode": 0, //错误编码
+  "data": {
+    "id": "uuid-xxx", //产品id
+    "name": "iphone" //产品名称
+  }
+}
+`
+
 // const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
 // const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
 
@@ -96,7 +109,8 @@ class interfaceController extends baseController {
       'req_body_other': 'string',
       res_body_type: 'string',
       res_body: 'string',
-      custom_field_value: 'string'
+      custom_field_value: 'string',
+      'api_opened': 'boolean'
     }
 
     this.schemaMap = {
@@ -159,7 +173,6 @@ class interfaceController extends baseController {
   async add(ctx) {
     let params = ctx.params;
 
-
     let auth = await this.checkAuth(params.project_id, 'project', 'edit')
     if (!auth) {
       return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
@@ -168,7 +181,7 @@ class interfaceController extends baseController {
     params.method = params.method.toUpperCase();
     params.req_params = params.req_params || [];
     params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
-
+    params.res_body = _.isUndefined(params.res_body) ? RES_BODY_TPL : params.res_body;
     let http_path = url.parse(params.path, true);
 
     if (!yapi.commons.verifyPath(http_path.pathname)) {
@@ -350,11 +363,15 @@ class interfaceController extends baseController {
    * @category interface
    * @foldnumber 10
    * @param {Number}   project_id 项目id，不能为空
+   * @param {Number}   page 当前页
+   * @param {Number}   limit 每一页限制条数
    * @returns {Object}
    * @example ./api/interface/list.json
    */
   async list(ctx) {
     let project_id = ctx.request.query.project_id;
+    let page = ctx.request.query.page || 1,
+    limit = ctx.request.query.limit || 10;
     let project = await this.projectModel.getBaseInfo(project_id);
     if (!project) {
       return ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目');
@@ -369,8 +386,20 @@ class interfaceController extends baseController {
     }
 
     try {
-      let result = await this.Model.list(project_id);
-      ctx.body = yapi.commons.resReturn(result);
+      let result
+      if(limit === 'all'){
+        result = await this.Model.list(project_id);
+      } else{
+        result = await this.Model.listWithPage(project_id, page, limit);
+      }
+      
+      let count = await this.Model.listCount({project_id});
+      
+      ctx.body = yapi.commons.resReturn({
+        count: count,
+        total: Math.ceil(count / limit),
+        list: result
+      });
       yapi.emitHook('interface_list', project_id).then();
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
@@ -386,23 +415,35 @@ class interfaceController extends baseController {
   }
 
   async listByCat(ctx) {
+    
     let catid = ctx.request.query.catid;
+    let page = ctx.request.query.page || 1,
+    limit = ctx.request.query.limit || 10;
+   
     if (!catid) {
       return ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空');
     }
     try {
       let catdata = await this.catModel.get(catid);
+     
       let project = await this.projectModel.getBaseInfo(catdata.project_id);
       if (project.project_type === 'private') {
         if (await this.checkAuth(project._id, 'project', 'view') !== true) {
           return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
         }
       }
-      let result = await this.Model.listByCatid(catid)
+      
+      let result = await this.Model.listByCatidWithPage(catid, page, limit)
 
-      ctx.body = yapi.commons.resReturn(result);
+      let count = await this.Model.listCount({catid});
+      
+      ctx.body = yapi.commons.resReturn({
+        count: count,
+        total: Math.ceil(count / limit),
+        list: result
+      });
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+      ctx.body = yapi.commons.resReturn(null, 402, err.message+'1');
     }
 
   }
@@ -431,6 +472,11 @@ class interfaceController extends baseController {
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
+
+        list = list.sort((a, b) => {
+          return a.index - b.index;
+        });
+        
         item.list = list;
         newResult[i] = item
       }
@@ -926,6 +972,70 @@ class interfaceController extends baseController {
     return params.sort((item1, item2) => {
       return item2.required - item1.required;
     })
+  }
+
+  /**
+   * 更新多个接口case index
+   * @interface /interface/up_index
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async upIndex(ctx) {
+    try {
+      let params = ctx.request.body;
+      if (!params || !Array.isArray(params)) {
+        ctx.body = yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+      }
+      params.forEach((item) => {
+        if (item.id) {
+          this.Model.upIndex(item.id, item.index).then((res) => { }, (err) => {
+            yapi.commons.log(err.message, 'error')
+          })
+        }
+
+      });
+
+      return ctx.body = yapi.commons.resReturn('成功！')
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message)
+    }
+  }
+
+  /**
+   * 更新多个接口cat index
+   * @interface /interface/up_cat_index
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async upCatIndex(ctx) {
+    try {
+      let params = ctx.request.body;
+      if (!params || !Array.isArray(params)) {
+        ctx.body = yapi.commons.resReturn(null, 400, "请求参数必须是数组")
+      }
+      params.forEach((item) => {
+        if (item.id) {
+          this.catModel.upCatIndex(item.id, item.index).then((res) => { }, (err) => {
+            yapi.commons.log(err.message, 'error')
+          })
+        }
+
+      });
+
+      return ctx.body = yapi.commons.resReturn('成功！')
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message)
+    }
   }
 
 }

@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 使用手册</title>
-    
-        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
-    
-    
-        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
-    
-
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -18,10 +17,6 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -178,20 +173,23 @@
 <ul>
 <li><code>接口集合</code> 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。</li><li><code>测试集合</code> 为了方便我们测试接口，<code>测试集合</code> 将若干接口组合在一起，在这里一个接口可以属于不同集合。</li></ul>
 <h2 class="subject" id="接口配置">接口配置 <a class="hashlink" href="#接口配置">#</a></h2><p><a href="./quickstart.html#新建接口">新建接口</a> 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 <code>编辑</code> Tab项进入编辑面板。</p>
-<p>在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
-<ul>
-<li>Path: 接口路径，支持 restful 动态路由，例如 /api/:id, id是动态参数</li><li>状态: 用于标识接口是否开发完成。</li><li>接口描述: 用简短的文字描述接口的作用。</li><li>query: 接口url的查询字符串。</li><li>请求 Headers: http 请求头字段。</li><li>请求 Body: http 请求 body 部分。</li><li><p>响应 Body: 模拟返回结果。</p>
-<blockquote>
-<p>响应 Body 分为 <code>json</code> &amp; <code>raw</code> 两种形式</p>
-</blockquote>
-</li><li><p>是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员（邮件默认情况下自动开启）。</p>
-</li></ul>
+<p>在该面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：</p>
+<h3 class="subject" id="基本设置">基本设置 <a class="hashlink" href="#基本设置">#</a></h3><ul>
+<li>接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/:id/{name}, id和name是动态参数</li><li>选择分类：可以更改接口所在分类</li><li>状态：用于标识接口是否开发完成。</li></ul>
+<p><img src="./images/baseSet.png" /></p>
+<h3 class="subject" id="Request_设置">Request 设置 <a class="hashlink" href="#Request_设置">#</a></h3><ul>
+<li>Query参数： 接口 url 的查询字符串，点击『添加Query参数』按钮来添加参数，可以通过拖动来交换参数位置</li><li>请求Body：http 请求 body 部分，如果http请求方式是 post, put 等请求方式时会有 req_body 部分。req_body_type 形式有4种，分别是 form, json, file 和 raw 。</li><li>Headers:  http 请求头字段，在 req_body 形式是 form 格式下会在 header 中自动生成 &#39;Content-Type    application/x-www-form-urlencoded&#39;，其他3种格式也会自动生成不同 header</li></ul>
+<p><img src="./images/requestSet.png" /></p>
+<h3 class="subject" id="Response_设置">Response 设置 <a class="hashlink" href="#Response_设置">#</a></h3><ul>
+<li>响应 Body: 模拟返回结果， 分为 <code>json</code> &amp; <code>raw</code> 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑</li></ul>
+<h3 class="subject" id="备注_&amp;_其他">备注 &amp; 其他 <a class="hashlink" href="#备注_&amp;_其他">#</a></h3><ul>
+<li>接口描述: 用简短的文字描述接口的作用。</li><li>邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员和关注该项目的成员（邮件默认情况下自动开启）</li><li>开放接口：默认为关闭状态，用户可以在 数据导出 时选择只导出公开接口</li></ul>
 <h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>
 <p>点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。</p>
 <blockquote>
 <p>安装完插件记得刷新页面</p>
 </blockquote>
-<p><img src="./images/interface_run.jpg" /></p>
+<p><img src="./images/interface_run.png" /></p>
 
                     </div>
                 </div>

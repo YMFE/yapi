@@ -343,7 +343,6 @@ class InterfaceColContent extends Component {
   }
 
   onDrop =() =>{
-    console.log(1111);
     let changes = [];
     this.state.rows.forEach((item, index) => {
       changes.push({

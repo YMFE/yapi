@@ -141,7 +141,7 @@ class MethodsList extends Component {
     const { list, moreFlag } = this.state;
     const { click, clickValue, clickIndex, params } = this.props;
     let showList = moreFlag ? list.slice(0, 4) : list;
-    console.log('clickValue', clickValue)
+    
 
     return (
       <div className="modal-postman-form-method">

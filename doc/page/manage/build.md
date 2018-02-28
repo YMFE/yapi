@@ -42,6 +42,8 @@ npm run install-server //安装程序会初始化数据库索引和管理员账�
 node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候
 ```
 
+可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a>
+
 ## 服务器管理
 
 推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：
