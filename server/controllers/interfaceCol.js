@@ -113,7 +113,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 获取一个接口集下的所有的接口用例
+   * 获取一个接口集下的所有的测试用例
    * @interface /col/case_list
    * @method GET
    * @category col
@@ -155,7 +155,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 获取一个接口集下的所有的接口用例
+   * 获取一个接口集下的所有的测试用例
    * @interface /col/case_list_by_var_params
    * @method GET
    * @category col
@@ -216,7 +216,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 增加一个接口用例
+   * 增加一个测试用例
    * @interface /col/add_case
    * @method POST
    * @category col
@@ -279,7 +279,7 @@ class interfaceColController extends baseController {
 
       this.colModel.get(params.col_id).then((col) => {
         yapi.commons.saveLog({
-          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${params.project_id}/interface/col/${params.col_id}">${col.name}</a> 下添加了接口用例 <a href="/project/${params.project_id}/interface/case/${result._id}">${params.casename}</a>`,
+          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${params.project_id}/interface/col/${params.col_id}">${col.name}</a> 下添加了测试用例 <a href="/project/${params.project_id}/interface/case/${result._id}">${params.casename}</a>`,
           type: 'project',
           uid: this.getUid(),
           username: username,
@@ -335,11 +335,11 @@ class interfaceColController extends baseController {
         data.casename = interfaceData.title;
         data.req_body_other = interfaceData.req_body_other;
         data.req_body_type = interfaceData.req_body_type;
-        await this.caseModel.save(data);
+        let caseResultData=  await this.caseModel.save(data);
         let username = this.getUsername();
         this.colModel.get(params.col_id).then((col) => {
           yapi.commons.saveLog({
-            content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${params.project_id}/interface/col/${params.col_id}">${col.name}</a> 下导入了接口 <a href="/project/${params.project_id}/interface/case/${data.interface_id}">${data.casename}</a>`,
+            content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${params.project_id}/interface/col/${params.col_id}">${col.name}</a> 下导入了测试用例 <a href="/project/${params.project_id}/interface/case/${caseResultData._id}">${data.casename}</a>`,
             type: 'project',
             uid: this.getUid(),
             username: username,
@@ -464,7 +464,7 @@ class interfaceColController extends baseController {
 
 
   /**
-   * 更新一个接口用例
+   * 更新一个测试用例
    * @interface /col/up_case
    * @method POST
    * @category col
@@ -510,7 +510,7 @@ class interfaceColController extends baseController {
       let username = this.getUsername();
       this.colModel.get(caseData.col_id).then((col) => {
         yapi.commons.saveLog({
-          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 更新了接口用例 <a href="/project/${caseData.project_id}/interface/case/${params.id}">${params.casename || caseData.casename}</a>`,
+          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 在接口集 <a href="/project/${caseData.project_id}/interface/col/${caseData.col_id}">${col.name}</a> 更新了测试用例 <a href="/project/${caseData.project_id}/interface/case/${params.id}">${params.casename || caseData.casename}</a>`,
           type: 'project',
           uid: this.getUid(),
           username: username,
@@ -528,7 +528,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 获取一个接口用例详情
+   * 获取一个测试用例详情
    * @interface /col/case
    * @method GET
    * @category col
