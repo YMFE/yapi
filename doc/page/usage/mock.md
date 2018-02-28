@@ -107,7 +107,11 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <span id="mock"></span>
 
+#### 2.4 基于 Charles 代理
 
+点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
+
+<img src="./images/charles.png" width="60%" />
   
 ## Mock 语法规范
 >了解更多Mock详情：[Mock.js 官方文档](http://mockjs.com/examples.html)
