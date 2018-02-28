@@ -21,6 +21,9 @@ var compressPlugin = new CompressionPlugin({
 
 function createScript(plugin, pathAlias){
   let options = plugin.options ? JSON.stringify(plugin.options) : null
+  if(pathAlias === 'node_modules'){
+    return `"${plugin.name}" : {module: require('yapi-plugin-${plugin.name}/client.js'),options: ${options}}`
+  }
   return `"${plugin.name}" : {module: require('${pathAlias}/yapi-plugin-${plugin.name}/client.js'),options: ${options}}`
 }
 
@@ -33,7 +36,7 @@ function initPlugins(configPlugin){
     configPlugin = commonLib.initPlugins(configPlugin, 'plugin');
     configPlugin.forEach((plugin)=>{
       if(plugin.client && plugin.enable){
-        scripts.push(createScript(plugin, 'plugins'))
+        scripts.push(createScript(plugin, 'node_modules'))
       }
       
     })
@@ -68,7 +71,7 @@ module.exports = {
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       },
-      exclude: /node_modules\/(?!yapi-plugin)/
+      exclude: /node_modules\/(?!_?yapi-plugin)/
     }    
   }],    
   devtool:  'cheap-source-map',
@@ -131,7 +134,7 @@ module.exports = {
         baseConfig.context = path.resolve(__dirname, './client');
         baseConfig.resolve.alias.client = '/client';
         baseConfig.resolve.alias.common = '/common';
-        baseConfig.resolve.alias.plugins = '/node_modules';
+
         baseConfig.resolve.alias.exts = '/exts';
 
         // baseConfig.resolve.alias.react = 'anujs';
