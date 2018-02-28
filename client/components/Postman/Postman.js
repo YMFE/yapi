@@ -6,8 +6,6 @@ import AceEditor from 'client/components/AceEditor/AceEditor'
 import _ from 'underscore'
 import { isJson, deepCopyJson } from '../../common.js'
 
-
-
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
