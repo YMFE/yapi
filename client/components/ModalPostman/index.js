@@ -217,8 +217,6 @@ class ModalPostman extends Component {
       return '{{ ' + str + ' }}'
     }
 
-    console.log('methodsParamsList',methodsParamsList);
-
     return (
       <Modal
         title={<p><Icon type="edit" /> 高级参数设置</p>}

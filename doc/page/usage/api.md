@@ -42,8 +42,7 @@
 点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。
 
 > 安装完插件记得刷新页面
- 
 
-<img src="./images/interface_run.jpg" />
+<img src="./images/interface_run.png" />
 
 
