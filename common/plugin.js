@@ -5,7 +5,7 @@ function getPluginConfig(name, type) {
   if (type === 'ext') {
     pluginConfig = require('../exts/yapi-plugin-' + name);
   } else {
-    pluginConfig = require('../node_modules/yapi-plugin-' + name);
+    pluginConfig = require('yapi-plugin-' + name);
   }
 
   if (!pluginConfig || typeof pluginConfig !== 'object') {
