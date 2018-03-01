@@ -35,12 +35,11 @@ Thumbs.db
 
 node_modules/
 runtime/
-./prd/
+prd/
 plugins/
 dev/
 .tags
 .tags1
 tsconfig.json
 client/plugin-module.js
-package-lock.json
 .vscode
