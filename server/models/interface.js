@@ -175,7 +175,7 @@ class interfaceModel extends baseModel {
       catid: catid
     })
       .select(select)
-      .sort({ title: 1 })
+      .sort({ index: 1 })
       .exec();
   }
 
@@ -188,7 +188,7 @@ class interfaceModel extends baseModel {
       .sort({ index: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time')
+      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index')
       .exec();
 
   }

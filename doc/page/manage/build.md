@@ -44,6 +44,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 
 可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a>
 
+
 ## 服务器管理
 
 推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：

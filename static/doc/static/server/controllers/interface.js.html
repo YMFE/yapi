@@ -472,10 +472,6 @@ class interfaceController extends baseController {
         for (let j = 0; j < list.length; j++) {
           list[j] = list[j].toObject()
         }
-
-        list = list.sort((a, b) => {
-          return a.index - b.index;
-        });
         
         item.list = list;
         newResult[i] = item
@@ -914,7 +910,8 @@ class interfaceController extends baseController {
           let data = {}
           let inter = await this.Model.getcustomFieldValue(projects[j]._id, customFieldValue)
           if (inter.length > 0) {
-            data.project_name = projects[j].name
+            data.project_name = projects[j].name;
+            data.project_id = projects[j]._id;
             inter = inter.map((item, i) => {
               item = inter[i] = inter[i].toObject();
               item.res_body = yapi.commons.json_parse(item.res_body)

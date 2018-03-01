@@ -118,6 +118,10 @@
                                     <li >
                                         <a href="#方式二. 命令行部署">方式二. 命令行部署</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#方式三. docker 部署">方式三. docker 部署</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -175,6 +179,9 @@ npm install --production --registry https<span class="token operator">:</span>//
 npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
 node server/app.js //启动服务器后，请访问 <span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
 </code></pre><p>可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a></p>
+<h3 class="subject" id="方式三._docker_部署">方式三. docker 部署 <a class="hashlink" href="#方式三._docker_部署">#</a></h3><p>如果以上两种部署方式都无法成功可以尝试进行 docker 部署</p>
+<ul>
+<li><a href="https://github.com/branchzero/yapi-docker">yapi docker 部署</a> By branchzero</li><li><a href="https://hub.docker.com/r/silsuer/yapi/">yapi docker 容器</a> By silsuer</li></ul>
 <h2 class="subject" id="服务器管理">服务器管理 <a class="hashlink" href="#服务器管理">#</a></h2><p>推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：</p>
 <ul>
 <li><a href="http://pm2.keymetrics.io/docs/usage/quick-start/">官网文档</a></li><li><a href="http://imweb.io/topic/57c8cbb27f226f687b365636">PM2实用入门指南</a> </li></ul>
