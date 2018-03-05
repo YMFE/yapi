@@ -1,8 +1,7 @@
 
 import { message } from 'antd'
 import _ from 'underscore'
-var jsf = require('common/json-schema-mockjs');
-
+const deref = require('deref')()
 
 function improtData(importDataModule) {
   var SwaggerData, isOAS3;
@@ -70,11 +69,20 @@ function improtData(importDataModule) {
           let data = null;
           try {
             data = handleSwagger(api)
+            if(data.catname){
+              if(interfaceData.cats.indexOf(data.catname) === -1){
+                interfaceData.cats.push({
+                  name: data.catname,
+                  desc: data.catname
+                })
+              }
+            }
           } catch (err) {
             data = null;
           }
           if (data) {
             interfaceData.apis.push(data);
+
           }
 
         })
@@ -96,6 +104,7 @@ function improtData(importDataModule) {
     api.title = data.summary || data.path;
     api.desc = data.description;
     api.catname = data.tags && Array.isArray(data.tags) ? data.tags[0] : null;
+
     api.path = handlePath(data.path);
     api.req_params = [];
     api.req_body_form = [];
@@ -103,9 +112,11 @@ function improtData(importDataModule) {
     api.req_query = [];
     api.req_body_type = 'raw';
     api.res_body_type = 'raw';
+    
 
     if (data.produces && data.produces.indexOf('application/json') > -1) {
       api.res_body_type = 'json';
+      api.res_body_is_json_schema = true;
     }
 
     if (data.consumes && Array.isArray(data.consumes)) {
@@ -113,6 +124,7 @@ function improtData(importDataModule) {
         api.req_body_type = 'form';
       } else if (data.consumes.indexOf('application/json') > -1) {
         api.req_body_type = 'json';
+        api.req_body_is_json_schema = true;
       }
     }
 
@@ -121,6 +133,7 @@ function improtData(importDataModule) {
     try {
       JSON.parse(api.res_body);
       api.res_body_type = 'json';
+      api.res_body_is_json_schema = true;
     } catch (e) {
       api.res_body_type = 'raw';
     }
@@ -218,8 +231,8 @@ function improtData(importDataModule) {
     try {
       // data.definitions = SwaggerData.definitions;
       isOAS3 ? data.components = SwaggerData.components : data.definitions = SwaggerData.definitions
-      
-      let jsfData = JSON.stringify(jsf(data), null, 2);
+      let schema = deref(data, true);
+      let jsfData = JSON.stringify(schema, null, 2);
       return jsfData;
     } catch (e) {
       return '';

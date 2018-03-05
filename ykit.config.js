@@ -106,6 +106,19 @@ module.exports = {
             'url',            
             'axios',
             'moment'
+          ],
+          lib3: [            
+            'codemirror',
+            "highlight.js",
+            "jquery",
+            "markdown-it",
+            "plantuml-encoder",
+            "squire-rte",
+            "to-mark",
+            "tui-chart",
+            "tui-code-snippet",
+            "tui-color-picker",
+            'tui-editor'
           ]
         }
       },
