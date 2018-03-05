@@ -105,8 +105,7 @@ module.exports = {
             'json5',
             'url',            
             'axios',
-            'moment',
-            'tui-editor'
+            'moment'
           ]
         }
       },
