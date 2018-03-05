@@ -18,6 +18,7 @@ class interfaceModel extends baseModel {
       edit_uid: { type: Number, default: 0 },
       status: { type: String, enum: ['undone', 'done'], default: 'undone' },
       desc: String,
+      markdown: String,
       add_time: Number,
       up_time: Number,
       type: { type: String, enum: ['static', 'var'], default: 'static' },
@@ -50,6 +51,7 @@ class interfaceModel extends baseModel {
         type: String,
         enum: ['form', 'json', 'text', 'file', 'raw']
       },
+      req_body_is_json_schema: { type: Boolean, default: false },
       req_body_form: [{
         name: String, type: { type: String, enum: ['text', 'file'] }, example: String, desc: String, required: {
           type: String,
@@ -60,9 +62,10 @@ class interfaceModel extends baseModel {
       req_body_other: String,
       res_body_type: {
         type: String,
-        enum: ['json', 'text', 'xml', 'raw']
+        enum: ['json', 'text', 'xml', 'raw', 'json-schema']
       },
       res_body: String,
+      res_body_is_json_schema: { type: Boolean, default: false },
       custom_field_value: String,
       field2: String,
       field3: String,

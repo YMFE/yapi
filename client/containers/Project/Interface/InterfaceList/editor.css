@@ -1,0 +1,34 @@
+
+.tui-editor-contents h1 {
+  font-size: 45px;
+  line-height: 1.5;
+  border-bottom: 3px double #999;
+  margin: 52px 0 15px 0;
+  padding-bottom: 7px;
+  color: #000;
+}
+
+.tui-editor-contents h2 {
+  font-size: 34px;
+  line-height: 1.5;
+  border-bottom: 1px solid #dbdbdb;
+  margin: 30px 0 13px 0;
+  padding-bottom: 7px;
+  color: #333;
+}
+
+.tui-editor-contents h3,
+.tui-editor-contents h4 {
+  font-size: 24px;
+  line-height: 1.5;
+  margin: 20px 0 2px;
+  color: #333;
+}
+
+.tui-editor-contents h5,
+.tui-editor-contents h6 {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 10px 0 -4px;
+  color: #333;
+}

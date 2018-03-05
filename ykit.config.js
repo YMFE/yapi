@@ -9,7 +9,7 @@ var assetsPluginInstance = new AssetsPlugin({
   }
 })
 var fs = require('fs');
-
+var package = require('./package.json')
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -71,7 +71,7 @@ module.exports = {
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       },
-      exclude: /node_modules\/(?!_?yapi-plugin)/
+      exclude: /node_modules\/(?!_?(yapi-plugin|randexp))/
     }    
   }],    
   devtool:  'cheap-source-map',
@@ -103,10 +103,10 @@ module.exports = {
             'brace',
             'mockjs',
             'json5',
-            'url',
-            'wangeditor',
+            'url',            
             'axios',
-            'moment'
+            'moment',
+            'tui-editor'
           ]
         }
       },
@@ -126,7 +126,8 @@ module.exports = {
         }
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS)
+          'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
+          'process.env.version' : JSON.stringify(package.version)
         }))
 
         //初始化配置
@@ -168,6 +169,11 @@ module.exports = {
           exclude: /node_modules|google-diff.js/,
           loader: "eslint-loader"
         });
+
+        baseConfig.module.preLoaders.push({
+          test: /\.json$/,
+          loader: 'json-loader'
+        })
 
         if (this.env == 'prd') {
           baseConfig.plugins.push(new this.webpack.optimize.UglifyJsPlugin({

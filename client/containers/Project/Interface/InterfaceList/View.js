@@ -315,11 +315,6 @@ class View extends Component {
             <Col span={4} className="colKey">{this.props.custom_field.name}：</Col>
             <Col span={18} className="colValue">{this.props.curData.custom_field_value}</Col>
           </Row>}
-        {this.props.curData.desc &&
-          <Row className="row remark">
-            <Col span={4} className="colKey">接口备注：</Col>
-            <Col span={18} className="colValue" dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></Col>
-          </Row>}
       </div>
       <h2
         className="interface-title"
@@ -350,7 +345,11 @@ class View extends Component {
 
       <h2 className="interface-title">Response</h2>
       {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body)}
+        
+      <h2 className="interface-title">备注</h2>
+      {this.props.curData.desc && <div className="tui-editor-contents" style={{margin: '0px', padding:'0px 20px', float: 'none'}}  dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></div>}
     </div>;
+
     if (!this.props.curData.title) {
       if (this.state.init) {
         res = <div></div>;

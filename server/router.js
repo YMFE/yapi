@@ -334,8 +334,12 @@ let routerConfig = {
       action: 'upCatIndex',
       path: 'up_cat_index',
       method: 'post'
-    }
-
+    },
+		{
+			action: 'schema2json',
+			path: 'schema2json',
+			method: 'post'
+		}
 	],
 	"log": [
 		{

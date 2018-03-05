@@ -14,6 +14,7 @@ const formattersHtml = jsondiffpatch.formatters.html;
 const showDiffMsg = require('../../common/diff-view.js');
 const fs = require('fs-extra')
 const path = require('path');
+const jsf = require('json-schema-faker');
 
 const RES_BODY_TPL= `
 /**
@@ -83,7 +84,10 @@ class interfaceController extends baseController {
       res_body_type: 'string',
       res_body: 'string',
       custom_field_value: 'string',
-      'api_opened': 'boolean'
+      'api_opened': 'boolean',
+      'req_body_is_json_schema': 'string',
+      'res_body_is_json_schema': 'string',
+      'markdown': 'string'
     }
 
     this.schemaMap = {
@@ -1008,6 +1012,13 @@ class interfaceController extends baseController {
     }
   }
 
+  async schema2json(ctx){
+    let schema = ctx.request.body.schema;
+    ctx.body = jsf(schema)
+  }
+
 }
+
+
 
 module.exports = interfaceController;
