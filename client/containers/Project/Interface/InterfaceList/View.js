@@ -320,7 +320,7 @@ class View extends Component {
         className="interface-title"
         style={{ display: requestShow ? '' : 'none' }}
       >
-        Request
+        请求参数
       </h2>
       {req_dataSource.length ? <div className="colHeader">
         <h3 className="col-title">路径参数：</h3>
@@ -343,10 +343,10 @@ class View extends Component {
         }
       </div>
 
-      <h2 className="interface-title">Response</h2>
+      <h2 className="interface-title">返回数据</h2>
       {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body)}
         
-      <h2 className="interface-title">备注</h2>
+      {this.props.curData.desc && <h2 className="interface-title">备注</h2> }
       {this.props.curData.desc && <div className="tui-editor-contents" style={{margin: '0px', padding:'0px 20px', float: 'none'}}  dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></div>}
     </div>;
 

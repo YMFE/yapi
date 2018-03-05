@@ -69,8 +69,8 @@ function improtData(importDataModule) {
           let data = null;
           try {
             data = handleSwagger(api)
-            if(data.catname){
-              if(interfaceData.cats.indexOf(data.catname) === -1){
+            if(data.catname){              
+              if(!_.find(interfaceData.cats, (item)=> item.name === data.catname)){
                 interfaceData.cats.push({
                   name: data.catname,
                   desc: data.catname
