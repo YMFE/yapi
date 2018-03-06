@@ -1,3 +1,52 @@
+const schema = require('./shema-transformTo-table.js')
+const _ = require('underscore');
+
+const messageMap = {
+  desc: '备注',
+  default: '实例',
+  maximum: '最大值',
+  minimum: '最小值',
+  maxItems: '最大数量',
+  minItems: '最小数量',
+  maxLength: '最大长度',
+  minLength: '最小长度',
+  uniqueItems: '元素是否都不同',
+  itemType: 'item 类型',
+  format: '版本',
+  enum: '枚举'
+
+}
+
+const columns = [
+  {
+    title: '名称',
+    dataIndex: 'name',
+    key: 'name'
+  }, {
+    title: '类型',
+    dataIndex: 'type',
+    key: 'type'
+  }, {
+    title: '是否必须',
+    dataIndex: 'required',
+    key: 'required'
+  },
+  {
+    title: '默认值',
+    dataIndex: 'default',
+    key: 'default'
+  },
+  {
+    title: '备注',
+    dataIndex: 'desc',
+    key: 'desc'
+  },
+  {
+    title: '其他信息',
+    dataIndex: 'sub',
+    key: 'sub'
+    }
+  ];
 
 function escapeStr(str, isToc) {
   return isToc ? escape(str) : str;
@@ -62,11 +111,112 @@ function createReqBody(req_body_type, req_body_form, req_body_other) {
   return "";
 }
 
-function createResponse(res_body) {
+function tableHeader(columns) {
+  let header = ``;
+  columns.map(item => {
+    header += `<th key=${item.key}>${item.title}</th>`
+  })
+
+  return header
+}
+
+function handleObject (text) {
+
+  if(!_.isObject(text)) {
+    return text
+  }
+  return Object.keys(text || {}).map((item, index) => {
+    let name = messageMap[item]
+    let value = text[item]
+    return(
+      !_.isUndefined(text[item]) && `<p key=${index}><span style={{ fontWeight: '700'}}>${name}: </span><span>${value.toString()}</span></p>`
+    ) 
+  })
+}
+
+function tableCol(col, columns) {
+  let tpl = ``;
+  columns.map( (item ,index)=> {
+    let dataIndex = item.dataIndex;
+    let value = col[dataIndex]
+    value = _.isUndefined(value) ? '': value
+    let text = ``;
+    
+    switch (dataIndex){
+      case 'sub': 
+      text = handleObject(value);
+      break;
+      case 'type':
+      text = ( value === 'array' ? `<span>${ col.sub.itemType || ''} []</span>` : `<span>${value}</span>`)
+      break;
+      case 'required':
+      text = value ? '必须': '非必须';
+      break;
+      case 'desc':
+      text = _.isUndefined(col.childrenDesc)? `<span>${value}</span>` : `<span>${col.childrenDesc}</span>`
+      break;
+      default:
+      text = value
+    }
+    // let text = 
+    tpl += `<td key=${index}>${text}</td>`
+  })
+
+  return tpl;
+}
+
+function tableBody(dataSource, columns) {
+  
+    //  按照columns的顺序排列数据
+    let tpl = ``;
+    dataSource.map(col => {
+      let child = null;
+      if(!_.isUndefined(col.children)&& _.isArray(col.children)) {
+        
+        child = tableBody(col.children, columns)
+      }
+      tpl +=`<tr key=${col.key}>${tableCol(col,columns)}</tr>`
+      tpl += child ? `${child}`: ``
+      
+    })
+
+    return tpl;
+    
+}
+
+
+function createSchemaTable(body){
+  let template = ``;
+  let dataSource = schema.schemaTransformToTable(JSON.parse(body));
+  template += `<table>
+  <thead class="ant-table-thead">
+    <tr>
+      ${
+        tableHeader(columns)
+      }
+    </tr>
+  </thead>`
+
+  template += `<tbody className="ant-table-tbody">${tableBody(dataSource, columns)}
+               </tbody>
+              </table>
+            `
+
+  return template
+
+}
+
+function createResponse(res_body, res_body_is_json_schema) {
   let resTitle = `\n### Reponse\n\n`;
   if (res_body) {
-    let resBody = "```javascript" + `\n${res_body || ""}\n` + "```";
-    return resTitle + resBody;
+    if(res_body_is_json_schema) {
+      let resBody = createSchemaTable(res_body)
+      return resTitle + resBody;
+    } else {
+      let resBody = "```javascript" + `\n${res_body || ""}\n` + "```";
+      return resTitle + resBody;
+    }
+   
   }
   return "";
 }
@@ -91,7 +241,7 @@ function createInterMarkdown(basepath, listItem, isToc){
   mdTemplate += createReqBody(listItem.req_body_type, listItem.req_body_form, listItem.req_body_other);
   // Response
   // Response-body
-  mdTemplate += createResponse(listItem.res_body);
+  mdTemplate += createResponse(listItem.res_body, listItem.res_body_is_json_schema);
 
   return mdTemplate;
 }

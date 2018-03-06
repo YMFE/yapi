@@ -1,4 +1,4 @@
-import _  from 'underscore';
+const _ = require('underscore');
 
 exports.schemaTransformToTable = (schema) =>{
   try{
@@ -10,18 +10,36 @@ exports.schemaTransformToTable = (schema) =>{
   }
 }
 
+
+//  自动添加type
+
+function checkJsonSchema(json) {
+  let newJson = Object.assign({}, json)
+  if (_.isUndefined(json.type) && _.isObject(json.properties) ){
+     newJson.type = 'object'
+  } 
+  // console.log('newJson', newJson)
+
+  return newJson;
+}
+
 const mapping = function(data, index) {
   switch(data.type){
     case 'string':
       return SchemaString(data);
+   
     case 'number':
       return SchemaNumber(data);
+  
     case 'array':
       return SchemaArray(data, index);
+ 
     case 'object':
       return SchemaObject(data, index);
+
     case 'boolean':
       return SchemaBoolean(data);
+
     case 'integer':
       return SchemaInt(data)
     default:
@@ -38,8 +56,9 @@ const SchemaObject = (data, key) => {
   let result =[];
   Object.keys(properties).map((name, index) => {
     let value = properties[name];
-    let copiedState = JSON.parse(JSON.stringify(value));
-    let optionForm = mapping(copiedState, index);
+    let copiedState = checkJsonSchema(JSON.parse(JSON.stringify(value)));
+    let optionForm = mapping(copiedState, key+''+index);
+   
     let desc = optionForm.desc;
     let d = optionForm.default;
     let children = optionForm.children;
@@ -49,31 +68,33 @@ const SchemaObject = (data, key) => {
     delete optionForm.children;
     let item = {
       name,
-      type: value.type,
+      type: value.type || 'object',
       required: required.indexOf(name) != -1,
       sub: optionForm,
       desc,
       default: d,
       key: key+''+index
     }
-
+    
     if(value.type === 'array' && !_.isUndefined(children) ){
-
+     
       if( _.isArray(children)){
         item.children = children
       }
-      item = {
-        ...item,
-        childrenDesc: children.desc
-      }
+      // item = {
+      //   ...item,
+      //   childrenDesc: children.desc
+      // }
+      item.childrenDesc = children.desc
      
     }
 
-    if(value.type === 'object' ){
-      item = {
-        ...item,
-        children: optionForm
-      }
+    if(value.type === 'object'|| _.isUndefined(value.type)){
+      // item = {
+      //   ...item,
+      //   children: optionForm
+      // }
+      item.children = optionForm
       delete item.sub
     }
 
@@ -81,6 +102,8 @@ const SchemaObject = (data, key) => {
    
 
   })
+
+
   
 return result
   
@@ -100,8 +123,9 @@ const SchemaString = (data) => {
 
 const SchemaArray =(data, index) => {
   data.items = data.items || {type: 'string'};
+  let items = checkJsonSchema(data.items)
+  let optionForm = mapping(items, index);
   
-  let optionForm = mapping(data.items, index);
   
   let item = {
     desc: data.description,
@@ -109,11 +133,11 @@ const SchemaArray =(data, index) => {
     minItems: data.minItems,
     uniqueItems: data.uniqueItems,
     maxItems: data.maxItems,
-    itemType: data.items.type,
+    itemType: items.type,
     children: optionForm
 
   }
-  return {...item}
+  return item
 }
 
 const SchemaNumber =(data) => {
@@ -142,7 +166,8 @@ const SchemaBoolean = (data) =>{
   
   let item = {
     desc: data.description,
-    default: data.default
+    default: data.default,
+    enum: data.enum
   }
   return item
 }

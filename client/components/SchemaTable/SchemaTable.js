@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
+import PropTypes from 'prop-types'
 import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js';
 import _ from 'underscore';
 
@@ -81,57 +82,13 @@ const columns = [
   }
 ];
 
-const product = {
-  title: 'Product',
-  type: 'object',
-  properties: {
-    id: {
-      description: 'The unique identifier for a product',
-      type: 'number'
-    },
-    name: {
-      type: 'string'
-    },
-    price: {
-      type: 'number',
-      minimum: 0,
-      exclusiveMinimum: true
-    },
-    arr: {
-      type: 'array',
-      items: {
-        type: 'string',
-        description: 'bbbbb'
-      },
-      description: 'sdfsdf'
-    },
-    tags: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          length: { type: 'number' },
-          width: { type: 'number' },
-          height: { type: 'number' }
-        }
-      },
-      minItems: 1,
-      uniqueItems: true
-    },
-    dimensions: {
-      type: 'object',
-      properties: {
-        length: { type: 'number' },
-        width: { type: 'number' },
-        height: { type: 'number' }
-      },
-      required: ['length', 'width', 'height']
-    }
-  },
-  required: ['id', 'name', 'price']
-};
 
-export default class SchemaTable extends Component {
+class SchemaTable extends Component {
+
+  static propTypes = {
+    dataSource: PropTypes.string
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -140,13 +97,16 @@ export default class SchemaTable extends Component {
   }
 
   componentDidMount() {
+    let product = JSON.parse(this.props.dataSource)  
+    
     this.setState({
       data: schemaTransformToTable(product)
     });
   }
 
   render() {
-    console.log('data', this.state.data);
-    return <Table dataSource={this.state.data} columns={columns} />;
+    
+    return <Table bordered size="small" pagination={false} dataSource={this.state.data} columns={columns} />;
   }
 }
+export default SchemaTable;

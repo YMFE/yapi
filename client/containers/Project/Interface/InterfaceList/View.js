@@ -10,6 +10,7 @@ import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js'
 import copy from 'copy-to-clipboard';
+import SchemaTable from '../../../../components/SchemaTable/SchemaTable.js'
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 
@@ -95,17 +96,39 @@ class View extends Component {
 
     }
   }
-  res_body(res_body_type, res_body) {
+  res_body(res_body_type, res_body, res_body_is_json_schema) {
     if (res_body_type === 'json') {
-      return <div className="colBody">
-        {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
-        <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }} />
-      </div>
+       if(res_body_is_json_schema) {
+          console.log('schema')
+          return <SchemaTable dataSource={res_body}/>
+       } else {
+        return <div className="colBody">
+          {/* <div id="vres_body_json" style={{ minHeight: h * 16 + 100 }}></div> */}
+          <AceEditor data={res_body} readOnly={true} style={{ minHeight: 600 }} />
+        </div>
+       }
     } else if (res_body_type === 'raw') {
       return <div className="colBody">
         <AceEditor data={res_body} readOnly={true} mode="text" style={{ minHeight: 300 }} />
       </div>
     }
+  }
+
+  req_body(req_body_type, req_body_other, req_body_is_json_schema) {
+
+    if(req_body_is_json_schema) {
+      return <SchemaTable dataSource={req_body_other}/>
+    } else {
+      return (
+        <div className="colBody">
+          <AceEditor 
+          data={req_body_other} 
+          readOnly={true} style={{ minHeight: 300 }} 
+          mode={req_body_type === 'json' ? 'javascript' : 'text'} />
+        </div>
+      )
+    }
+
   }
 
   req_query(query) {
@@ -275,9 +298,9 @@ class View extends Component {
 
 
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
-    const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form") ? "block" : "none" }} className="colBody">
-      <AceEditor data={this.props.curData.req_body_other} readOnly={true} style={{ minHeight: 300 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
-    </div>
+    // const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form") ? "block" : "none" }} className="colBody">
+    //   <AceEditor data={this.props.curData.req_body_other} readOnly={true} style={{ minHeight: 300 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
+    // </div>
     if (!methodColor) methodColor = "get";
    
     let res = <div className="caseContainer">
@@ -337,14 +360,19 @@ class View extends Component {
 
       <div style={{ display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none' }}>
         <h3 style={{ display: bodyShow ? '' : 'none' }} className="col-title">Body:</h3>
-        {aceEditor}
+        {/* {aceEditor}
         {
+          
+        } */}
+        {
+          this.props.curData.req_body_type ==='form' ?
           this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
+          : this.req_body(this.props.curData.req_body_type, this.props.curData.req_body_other, this.props.curData.req_body_is_json_schema)
         }
       </div>
 
       <h2 className="interface-title">Response</h2>
-      {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body)}
+      {this.res_body(this.props.curData.res_body_type, this.props.curData.res_body, this.props.curData.res_body_is_json_schema)}
         
       <h2 className="interface-title">备注</h2>
       {this.props.curData.desc && <div className="tui-editor-contents" style={{margin: '0px', padding:'0px 20px', float: 'none'}}  dangerouslySetInnerHTML={{ __html: this.props.curData.desc }}></div>}
