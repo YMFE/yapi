@@ -316,13 +316,13 @@ class InterfaceEditForm extends Component {
           if (values.req_body_is_json_schema && values.req_body_other) {
             values.req_body_other = checkIsJsonSchema(values.req_body_other)
             if(!values.req_body_other){
-              return message.error('Request json-schema 格式有误')
+              return message.error('请求参数 json-schema 格式有误')
             }
           }
           if (values.res_body_is_json_schema && values.res_body) {
             values.res_body = checkIsJsonSchema(values.res_body)
             if(!values.res_body){
-              return message.error('Response json-schema 格式有误')
+              return message.error('返回数据 json-schema 格式有误')
             }
           }
 
@@ -850,7 +850,7 @@ class InterfaceEditForm extends Component {
           )}
         </div>
 
-        <h2 className="interface-title">Request 设置</h2>
+        <h2 className="interface-title">请求参数设置</h2>
 
         <div className="container-radiogroup">
           <RadioGroup
@@ -1026,7 +1026,7 @@ class InterfaceEditForm extends Component {
 
         {/* ----------- Response ------------- */}
 
-        <h2 className="interface-title">Response 设置</h2>
+        <h2 className="interface-title">返回数据设置</h2>
         <div className="container-radiogroup">
           {getFieldDecorator("res_body_type", {
             initialValue: this.state.res_body_type
