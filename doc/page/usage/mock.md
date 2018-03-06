@@ -18,11 +18,8 @@
 
 > 注：开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
 
-## YApi-Mock 跟 Mockjs 区别
-
-<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
-
-1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
+## 原理
+YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
 
 ```
 {
@@ -41,6 +38,8 @@
 }
 
 ```
+
+其他基本用法请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
 
 ## 如何使用 Mock
 
