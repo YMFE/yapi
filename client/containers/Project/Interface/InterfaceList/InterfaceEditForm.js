@@ -20,14 +20,14 @@ var Editor = require('tui-editor');
 
 function checkIsJsonSchema(json) {
   try {
-    json = json5.parse(json);
-    if (!json.type) return false;
+    json = json5.parse(json);    
     if(json.properties && typeof json.properties === 'object'){
       if(!json.type)json.type = 'object';
     }
     if(json.items && typeof json.items === 'object'){
       if(!json.type)json.type = 'array'
     }
+    if (!json.type) return false;
     json.type = json.type.toLowerCase();
     let types = ["object", "string", "number", "array", "boolean", "integer"];
     if (types.indexOf(json.type) === -1) return false;

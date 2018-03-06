@@ -99,7 +99,7 @@ class View extends Component {
   res_body(res_body_type, res_body, res_body_is_json_schema) {
     if (res_body_type === 'json') {
        if(res_body_is_json_schema) {
-        
+
           return <SchemaTable dataSource={res_body}/>
        } else {
         return <div className="colBody">
@@ -115,19 +115,21 @@ class View extends Component {
   }
 
   req_body(req_body_type, req_body_other, req_body_is_json_schema) {
-
-    if(req_body_is_json_schema) {
-      return <SchemaTable dataSource={req_body_other}/>
-    } else {
-      return (
-        <div className="colBody">
-          <AceEditor 
-          data={req_body_other} 
-          readOnly={true} style={{ minHeight: 300 }} 
-          mode={req_body_type === 'json' ? 'javascript' : 'text'} />
-        </div>
-      )
+    if(req_body_other) {
+      if(req_body_is_json_schema) {
+        return <SchemaTable dataSource={req_body_other}/>
+      } else {
+        return (
+          <div className="colBody">
+            <AceEditor 
+            data={req_body_other} 
+            readOnly={true} style={{ minHeight: 300 }} 
+            mode={req_body_type === 'json' ? 'javascript' : 'text'} />
+          </div>
+        )
+      }
     }
+    
 
   }
 

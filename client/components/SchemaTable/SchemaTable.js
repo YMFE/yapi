@@ -16,7 +16,7 @@ const messageMap = {
   enum: '枚举',
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
-  format: '版本'
+  format: 'format'
 };
 
 const columns = [
@@ -31,7 +31,7 @@ const columns = [
     key: 'type',
     render: (text, item) => {
       // console.log('text',item.sub);
-      return text === 'array' ? <span>{item.sub.itemType || ''} []</span> : <span>{text}</span>;
+      return text === 'array' ? <span>{item.sub ? item.sub.itemType || '': 'array'} []</span> : <span>{text}</span>;
     }
   },
   {
@@ -82,7 +82,6 @@ const columns = [
   }
 ];
 
-
 class SchemaTable extends Component {
 
   static propTypes = {
@@ -91,22 +90,14 @@ class SchemaTable extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      data: []
-    };
-  }
-
-  componentDidMount() {
-    let product = JSON.parse(this.props.dataSource)  
     
-    this.setState({
-      data: schemaTransformToTable(product)
-    });
   }
 
   render() {
-    
-    return <Table bordered size="small" pagination={false} dataSource={this.state.data} columns={columns} />;
+    let product = JSON.parse(this.props.dataSource) 
+    let data = schemaTransformToTable(product)
+    data = _.isArray(data) ? data : []
+    return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;
   }
 }
 export default SchemaTable;

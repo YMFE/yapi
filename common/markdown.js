@@ -12,7 +12,7 @@ const messageMap = {
   minLength: '最小长度',
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
-  format: '版本',
+  format: 'format',
   enum: '枚举'
 };
 
@@ -166,7 +166,7 @@ function tableCol(col, columns, level) {
         break;
       case 'type':
         text =
-          value === 'array' ? `<span>${col.sub.itemType || ''} []</span>` : `<span>${value}</span>`;
+          value === 'array' ? `<span>${col.sub ? col.sub.itemType || '': 'array'} []</span>` : `<span>${value}</span>`;
         break;
       case 'required':
         text = value ? '必须' : '非必须';

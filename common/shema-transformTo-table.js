@@ -3,7 +3,7 @@ const _ = require('underscore');
 exports.schemaTransformToTable = (schema) =>{
   try{
    schema = checkJsonSchema(schema)
-   let result = mapping(schema, 0);
+   let result = Schema(schema);
    return result
   }catch(err){
     console.log(err);
@@ -21,6 +21,34 @@ function checkJsonSchema(json) {
   // console.log('newJson', newJson)
 
   return newJson;
+}
+
+const Schema = (data) => {
+  let result = mapping(data, 0);
+  let arr = []
+  if(data.type !== 'object'){
+    let desc = result.desc;
+    let d = result.default;
+    let children = result.children;
+    
+    delete result.desc;
+    delete result.default;
+    delete result.children;
+    let item = {
+      type: data.type,
+      key: 0,
+      desc,
+      default: d,
+      sub: result
+     }
+     if(_.isArray(children)) {
+      item = Object.assign({}, item, {children})
+     }
+     arr.push(item)
+     return arr
+  }
+
+  return result
 }
 
 const mapping = function(data, index) {
@@ -76,26 +104,20 @@ const SchemaObject = (data, key) => {
       default: d,
       key: key+''+index
     }
-    
+    // array 添加children字段
     if(value.type === 'array' && !_.isUndefined(children) ){
      
       if( _.isArray(children)){
         item.children = children
       }
-      // item = {
-      //   ...item,
-      //   childrenDesc: children.desc
-      // }
-      item.childrenDesc = children.desc
+     
+      item = Object.assign({},item,{ childrenDesc: children.desc})
      
     }
 
     if(value.type === 'object'|| _.isUndefined(value.type) && !_.isEmpty(optionForm)){
-      // item = {
-      //   ...item,
-      //   children: optionForm
-      // }
-      item.children = optionForm
+     
+      item = Object.assign({},item,{ children: optionForm})
       delete item.sub
     }
 
@@ -104,9 +126,7 @@ const SchemaObject = (data, key) => {
 
   })
 
-
-  
-return result
+  return result
   
 }
 
@@ -117,7 +137,8 @@ const SchemaString = (data) => {
     default: data.default,
     maxLength: data.maxLength,
     minLength: data.minLength,
-    enum: data.enum
+    enum: data.enum,
+    format: data.format
   }
   return item
 }
@@ -147,7 +168,8 @@ const SchemaNumber =(data) => {
     desc: data.description,
     maximum: data.maximum,
     minimum: data.minimum,
-    default: data.default
+    default: data.default,
+    format: data.format
   }
   return item
 }
