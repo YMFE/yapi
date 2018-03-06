@@ -1,11 +1,12 @@
 
 import { message } from 'antd'
 import _ from 'underscore'
-const deref = require('deref')()
+const swagger = require('swagger-client')
 
 function improtData(importDataModule) {
   var SwaggerData, isOAS3;
   function handlePath(path) {
+    if(path === '/') return path;
     if (path.charAt(0) != "/") {
       path = "/" + path;
     }
@@ -21,21 +22,25 @@ function improtData(importDataModule) {
     _.each(data.paths, (apis) => {
       _.each(apis, (api) => {
         _.each(api.responses, (res) => {
-          if (res.content) {
-            res.schema = res.content['application/json'].schema;
+          if (res.content && res.content['application/json'] && typeof res.content['application/json'] === 'object') {
+            Object.assign(res, res.content['application/json'])
             delete res.content;
           }
         })
         if (api.requestBody) {
           if (!api.parameters) api.parameters = [];
-          api.parameters.push({
+          let body = {
             type: 'object',
             name: 'body',
-            in: 'body',
-            schema: {
-              $ref: api.requestBody.content['application/json'].schema.$ref
-            }
-          });
+            in: 'body'
+          }
+          try{
+            body.schema = api.requestBody.content['application/json'].schema
+          }catch(e){
+            body.schema = {}
+          }
+          
+          api.parameters.push(body);
         }
       })
     })
@@ -43,7 +48,20 @@ function improtData(importDataModule) {
     return data;
   }
 
-  function run(res) {
+  async function handleSwaggerData(res){
+    
+    return await new Promise(resolve=>{
+      let data = swagger({
+        spec: res
+      })
+      data.then(res=>{
+        console.log(res.spec)
+        resolve(res.spec)
+      })
+    })
+  }
+
+  async function run(res) {
     try {
       let interfaceData = { apis: [], cats: [] };
       res = JSON.parse(res);
@@ -51,7 +69,7 @@ function improtData(importDataModule) {
       if (isOAS3) {
         res = openapi2swagger(res)
       }
-      
+      res = await handleSwaggerData(res);    
       SwaggerData = res;
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
@@ -87,7 +105,7 @@ function improtData(importDataModule) {
 
         })
       })
-
+      console.log(interfaceData)
       return interfaceData;
 
     } catch (e) {
@@ -112,7 +130,6 @@ function improtData(importDataModule) {
     api.req_query = [];
     api.req_body_type = 'raw';
     api.res_body_type = 'raw';
-    
 
     if (data.produces && data.produces.indexOf('application/json') > -1) {
       api.res_body_type = 'json';
@@ -192,9 +209,10 @@ function improtData(importDataModule) {
   }
 
   function handleBodyPamras(data, api) {
-    api.req_body_other = handleSchema(data);
+    api.req_body_other = JSON.stringify(data,null,2);
     if (isJson(api.req_body_other)) {
       api.req_body_type = 'json';
+      api.req_body_is_json_schema = true;
     }
   }
 
@@ -203,41 +221,49 @@ function improtData(importDataModule) {
     if (!api || typeof api !== 'object') {
       return res_body;
     }
-    _.each(api, (res, code) => {
-      if (/^2/.test(code)) {
-        if (res && typeof res === 'object') {
+    let codes = Object.keys(api);
+    let curCode;
+    if(codes.length > 0){
+      if(codes.indexOf(200) > -1){
+        curCode = 200;
+      }else curCode = codes[0]
+      let res = api[curCode];
+      if (res && typeof res === 'object') {
 
-          if (res.schema) {
-            res_body = handleSchema(res.schema);
-          } else if (res.description) {
-            res_body = res.description;
-          }
-        } else if (typeof res === 'string') {
-          res_body = res;
-        } else {
-          res_body = '';
+        if (res.schema) {
+          res_body = JSON.stringify(res.schema,null,2);
+        } else if (res.description) {
+          res_body = res.description;
         }
+      } else if (typeof res === 'string') {
+        res_body = res;
+      } else {
+        res_body = '';
       }
-    })
+    }else{
+      res_body = ''
+    }
     return res_body;
   }
 
-  function handleSchema(data) {
-    if (!data) return data;
-    if (typeof data !== 'object') {
-      return data;
-    }
+  // function handleSchema(data) {
+  //   // if (!data) return data;
+  //   // if (typeof data !== 'object') {
+  //   //   return data;
+  //   // }
+    
 
-    try {
-      // data.definitions = SwaggerData.definitions;
-      isOAS3 ? data.components = SwaggerData.components : data.definitions = SwaggerData.definitions
-      let schema = deref(data, true);
-      let jsfData = JSON.stringify(schema, null, 2);
-      return jsfData;
-    } catch (e) {
-      return '';
-    }
-  }
+  //   // try {
+  //   //   // data.definitions = SwaggerData.definitions;
+  //   //   isOAS3 ? data.components = SwaggerData.components : data.definitions = SwaggerData.definitions
+  //   //   let schema = deref(data, true);
+  //   //   let jsfData = JSON.stringify(schema, null, 2);
+  //   //   return jsfData;
+  //   // } catch (e) {
+  //   //   return '';
+  //   // }
+  //   return data;
+  // }
 
   if (!importDataModule || typeof importDataModule !== 'object') {
     console.error('importDataModule 参数Must be Object Type');

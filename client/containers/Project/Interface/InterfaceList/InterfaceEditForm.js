@@ -22,14 +22,15 @@ function checkIsJsonSchema(json) {
   try {
     json = json5.parse(json);
     if (!json.type) return false;
+    if(json.properties && typeof json.properties === 'object'){
+      if(!json.type)json.type = 'object';
+    }
+    if(json.items && typeof json.items === 'object'){
+      if(!json.type)json.type = 'array'
+    }
+    json.type = json.type.toLowerCase();
     let types = ["object", "string", "number", "array", "boolean", "integer"];
     if (types.indexOf(json.type) === -1) return false;
-    if (json.type === "object") {
-      if (!json.properties) return false;
-    }
-    if (json.type === "array") {
-      if (!json.items) return false;
-    }
     return JSON.stringify(json);
   } catch (e) {
     return false;
