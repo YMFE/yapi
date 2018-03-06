@@ -9,7 +9,8 @@
     "dev-client": "ykit s -p 4000",
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
-    "test": "ava"
+    "test": "ava",
+    "build-client":"NODE_ENV=production ykit pack -m"
   },
   "scripts-info": {
     "start": "运行生产环境服务器",
