@@ -8,6 +8,7 @@ import { fetchMockCol } from 'client/reducer/modules/mockCol'
 import { formatTime } from 'client/common.js';
 import constants from 'client/constants/variable.js'
 import CaseDesModal from './CaseDesModal';
+import { json5_parse } from '../../../client/common';
 
 @connect(
   state => {
@@ -42,6 +43,22 @@ export default class MockCol extends Component {
   componentWillMount() {
     const interfaceId = this.props.match.params.actionId
     this.props.fetchMockCol(interfaceId);
+  }
+
+  openModal = (record, isAdd)=>{
+    return async ()=>{
+      if(this.props.currInterface.res_body_is_json_schema && isAdd){
+        let result = await axios.post('/api/interface/schema2json', {
+          schema: json5_parse(this.props.currInterface.res_body)
+        })
+        record.res_body = JSON.stringify(result.data)
+      }
+      this.setState({
+        isAdd: isAdd,
+        caseDesModalVisible: true,
+        caseData: record
+      })
+    }
   }
 
   handleOk = async (caseData) => {
@@ -82,12 +99,6 @@ export default class MockCol extends Component {
       }
     })
   }
-
-  // saveFormRef = (form) => {
-  //   console.log(form.handleOk)
-  //   console.log(form)
-  //   this.form = form;
-  // }
 
   render() {
 
@@ -155,11 +166,7 @@ export default class MockCol extends Component {
         return (
           <div>
             <span style={{marginRight: 5}}>
-              <Button size="small" onClick={() => this.setState({
-                isAdd: false,
-                caseDesModalVisible: true,
-                caseData: recode
-              })}>编辑</Button>
+              <Button size="small" onClick={ this.openModal(recode) }>编辑</Button>
             </span>
             <span>
               <Popconfirm
@@ -179,11 +186,7 @@ export default class MockCol extends Component {
     return (
       <div>
         <div style={{marginBottom: 8}}>
-          <Button type="primary" onClick={() => this.setState({
-            isAdd: true,
-            caseDesModalVisible: true,
-            caseData: initCaseData
-          })}>添加期望</Button>
+          <Button type="primary" onClick={this.openModal(initCaseData, true)}>添加期望</Button>
           <a target="_blank" rel="noopener noreferrer" href={constants.docHref.adv_mock_case} style={{marginLeft: 8}} >
             <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
           </a>
