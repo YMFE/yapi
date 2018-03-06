@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 exports.schemaTransformToTable = (schema) =>{
   try{
-  
+   schema = checkJsonSchema(schema)
    let result = mapping(schema, 0);
    return result
   }catch(err){
@@ -44,6 +44,7 @@ const mapping = function(data, index) {
       return SchemaInt(data)
     default:
       console.log(data);
+      return SchemaOther(data)
   }
 
 };
@@ -89,7 +90,7 @@ const SchemaObject = (data, key) => {
      
     }
 
-    if(value.type === 'object'|| _.isUndefined(value.type)){
+    if(value.type === 'object'|| _.isUndefined(value.type) && !_.isEmpty(optionForm)){
       // item = {
       //   ...item,
       //   children: optionForm
@@ -168,6 +169,14 @@ const SchemaBoolean = (data) =>{
     desc: data.description,
     default: data.default,
     enum: data.enum
+  }
+  return item
+}
+
+const SchemaOther = (data) => {
+  let item = {
+    desc: data.description,
+    default: data.default
   }
   return item
 }
