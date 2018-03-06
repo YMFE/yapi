@@ -186,7 +186,7 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="Mock介绍">Mock介绍 <a class="hashlink" href="#Mock介绍">#</a></h2> <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock 规则(<a href="#mock">点击到 Mock 规则</a>）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的 Mock 方式如将 Mock 写在代码里和JS拦截等相比 yapi 的 Mock 在使用场景和效率和复杂度上是相差甚远的，正是由于 yapi 的 Mock 是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+                         <h2 class="subject" id="Mock介绍">Mock介绍 <a class="hashlink" href="#Mock介绍">#</a></h2> <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、返回数据（<a href="#mock">返回数据</a>）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。 </p>
 
 <p> <strong>mock地址解析</strong>：<code>YApi平台网址 + mock + 您的项目id + 接口实际请求path</code></p>
 <p> 假设你 YApi 的部署地址为：<a href="http://yapi.xxx.com">http://yapi.xxx.com</a> 然后用这个地址作为示例</p>
@@ -194,26 +194,12 @@
 </code></pre><blockquote>
 <p>注：项目 id 可以在项目设置里查看到</p>
 </blockquote>
-<h2 class="subject" id="定义_mock_数据示例">定义 mock 数据示例 <a class="hashlink" href="#定义_mock_数据示例">#</a></h2><pre><code><span class="token punctuation">{</span>
-    <span class="token property">"status|0-1"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> //接口状态
-    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"请求完成"</span><span class="token punctuation">,</span> //消息提示
-    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-        <span class="token property">"counts"</span><span class="token operator">:</span><span class="token string">"@integer"</span><span class="token punctuation">,</span> //统计数量
-        <span class="token property">"totalSubjectType|4-10"</span><span class="token operator">:</span> <span class="token punctuation">[</span> //<span class="token number">4</span>-<span class="token number">10</span>意味着可以随机生成<span class="token number">4</span>-<span class="token number">10</span>组数据
-            <span class="token punctuation">{</span> 
-              <span class="token property">"subjectName|regexp"</span><span class="token operator">:</span> <span class="token string">"大数据|机器学习|工具"</span><span class="token punctuation">,</span> //主题名
-              <span class="token property">"subjectType|+1"</span><span class="token operator">:</span> <span class="token number">1</span> //类型
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token property">"data"</span><span class="token operator">:</span><span class="token punctuation">[</span>
-            <span class="token punctuation">{</span>
-                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"@name"</span><span class="token punctuation">,</span> //用户名
-                <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"@email"</span><span class="token punctuation">,</span> //email
-                <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"@datetime"</span> //时间
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre><h2 class="subject" id="YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别 <a class="hashlink" href="#YApi-Mock_跟_Mockjs_区别">#</a></h2><p><a href="http://mockjs.com/examples.html">Mockjs 官网</a></p>
+<h2 class="subject" id="定义_mock_数据示例">定义 mock 数据示例 <a class="hashlink" href="#定义_mock_数据示例">#</a></h2><p>项目 -&gt; 接口编辑 -&gt; 返回数据设置</p>
+<p><img src="./images/usage/mock-demo.jpg" /></p>
+<blockquote>
+<p>注：开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。</p>
+</blockquote>
+<h2 class="subject" id="YApi-Mock_跟_Mockjs_区别">YApi-Mock 跟 Mockjs 区别 <a class="hashlink" href="#YApi-Mock_跟_Mockjs_区别">#</a></h2><p><a href="http://mockjs.com/examples.html">Mockjs 官网</a></p>
 <p>1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
 <pre><code><span class="token punctuation">{</span>
   <span class="token property">"name|regexp"</span><span class="token operator">:</span> <span class="token string">"[a-z0-9_]+?"</span><span class="token punctuation">,</span>

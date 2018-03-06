@@ -12,29 +12,11 @@
  
 ## 定义 mock 数据示例
 
-在接口编辑，返回数据设置定义。
-```
-{
-    "status|0-1": 0, //接口状态
-    "message": "请求完成", //消息提示
-    "data": {
-        "counts":"@integer", //统计数量
-        "totalSubjectType|4-10": [ //4-10意味着可以随机生成4-10组数据
-            { 
-              "subjectName|regexp": "大数据|机器学习|工具", //主题名
-              "subjectType|+1": 1 //类型
-            }
-        ],
-        "data":[
-            {
-                "name": "@name", //用户名
-                "email": "@email", //email
-                "time": "@datetime" //时间
-            }
-        ]}
-} 
+项目 -> 接口编辑 -> 返回数据设置
 
-```
+<img src="./images/usage/mock-demo.jpg" />
+
+> 注：开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
 
 ## YApi-Mock 跟 Mockjs 区别
 
