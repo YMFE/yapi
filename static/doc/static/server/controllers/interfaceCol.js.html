@@ -578,6 +578,7 @@ class interfaceColController extends baseController {
         return ctx.body = yapi.commons.resReturn(null, 400, '找不到对应的接口，请联系管理员')
       }
       data = data.toObject();
+      
       let projectData = await this.projectModel.getBaseInfo(data.project_id);
       result.path = projectData.basepath + data.path;
       result.method = data.method;
@@ -589,6 +590,7 @@ class interfaceColController extends baseController {
       result.req_query = yapi.commons.handleParamsValue(data.req_query, result.req_query)
       result.req_params = yapi.commons.handleParamsValue(data.req_params, result.req_params)
       result.interface_up_time = data.up_time;
+      result.req_body_is_json_schema = data.req_body_is_json_schema;
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 400, e.message)

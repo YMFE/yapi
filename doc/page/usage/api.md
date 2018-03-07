@@ -11,13 +11,13 @@
 
 ### 基本设置
 
-- 接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/:id/{name}, id和name是动态参数
+- 接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数
 - 选择分类：可以更改接口所在分类
 - 状态：用于标识接口是否开发完成。
 
 <img src="./images/baseSet.png" />
 
-### Request 设置
+### 请求参数设置
 
 - Query参数： 接口 url 的查询字符串，点击『添加Query参数』按钮来添加参数，可以通过拖动来交换参数位置
 - 请求Body：http 请求 body 部分，如果http请求方式是 post, put 等请求方式时会有 req_body 部分。req_body_type 形式有4种，分别是 form, json, file 和 raw 。
@@ -25,9 +25,9 @@
 
 <img src="./images/requestSet.png" />
 
-### Response 设置
+### 返回数据设置
 
-- 响应 Body: 模拟返回结果， 分为 `json` & `raw` 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑
+- 返回数据分为 `json` & `raw` 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑
 
 
 ### 备注 & 其他

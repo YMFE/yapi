@@ -70,7 +70,6 @@ npm run dev
 |-- config.json
 |-- init.lock
 |-- log
-|   `-- 2018-1.log
 `-- vendors
     |-- CHANGELOG.md
     |-- LICENSE

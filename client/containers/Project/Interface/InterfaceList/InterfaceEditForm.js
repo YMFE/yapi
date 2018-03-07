@@ -541,10 +541,13 @@ class InterfaceEditForm extends Component {
     const queryTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
-          <Col span="5" className="interface-edit-item-content-col">
+          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+            <Icon type="bars" />
+          </Col>
+          <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator("req_query[" + index + "].name", {
               initialValue: data.name
-            })(<Input placeholder="参数名称" />)}
+            })(<TextArea autosize={{minRows:1, maxRows: 1}} placeholder="参数名称"  />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
             {getFieldDecorator("req_query[" + index + "].required", {
@@ -580,6 +583,9 @@ class InterfaceEditForm extends Component {
     const headerTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
+          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+            <Icon type="bars" />
+          </Col>
           <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator("req_headers[" + index + "].name", {
               initialValue: data.name
@@ -595,10 +601,10 @@ class InterfaceEditForm extends Component {
               />
             )}
           </Col>
-          <Col span="6" className="interface-edit-item-content-col">
+          <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator("req_headers[" + index + "].value", {
               initialValue: data.value
-            })(<Input placeholder="参数值" />)}
+            })(<TextArea autosize={{minRows:1, maxRows: 1}} placeholder="参数值" />)}
           </Col>
           <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator("req_headers[" + index + "].example", {
@@ -624,10 +630,13 @@ class InterfaceEditForm extends Component {
     const requestBodyTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
+          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+            <Icon type="bars" />
+          </Col>
           <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator("req_body_form[" + index + "].name", {
               initialValue: data.name
-            })(<Input placeholder="name" />)}
+            })(<TextArea autosize={{minRows:1, maxRows: 1}} placeholder="name" />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
             {getFieldDecorator("req_body_form[" + index + "].type", {
@@ -654,7 +663,7 @@ class InterfaceEditForm extends Component {
               initialValue: data.example
             })(<TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
-          <Col span="8" className="interface-edit-item-content-col">
+          <Col span="7" className="interface-edit-item-content-col">
             {getFieldDecorator("req_body_form[" + index + "].desc", {
               initialValue: data.desc
             })(<TextArea autosize={true} placeholder="备注" />)}

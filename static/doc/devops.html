@@ -164,22 +164,47 @@ proxy_set_header Upgrade $http_upgrade<span class="token punctuation">;</span>
 proxy_set_header Connection <span class="token string">"upgrade"</span><span class="token punctuation">;</span>
 </code></pre><h2 class="subject" id="环境要求">环境要求 <a class="hashlink" href="#环境要求">#</a></h2><ul>
 <li>nodejs（7.6+)</li><li>mongodb（2.6+）</li></ul>
-<p>示例：</p>
-<p><a href="https://github.com/suxiaoxin/yapi_user_guide/blob/master/mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md">mac 环境配置</a></p>
-<p><a href="https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md">centos环境配置</a></p>
 <h2 class="subject" id="安装">安装 <a class="hashlink" href="#安装">#</a></h2><h3 class="subject" id="方式一._可视化部署[推荐]">方式一. 可视化部署[推荐] <a class="hashlink" href="#方式一._可视化部署[推荐]">#</a></h3><p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
-<pre><code>npm install -g yapi-cli --registry https<span class="token operator">:</span>//registry.npm.taobao.org
+<pre><code class="lang-bash"><span class="token function">npm</span> <span class="token function">install</span> -g yapi-cli --registry https://registry.npm.taobao.org
 yapi server
-</code></pre><h3 class="subject" id="方式二._命令行部署">方式二. 命令行部署 <a class="hashlink" href="#方式二._命令行部署">#</a></h3><p>如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法</p>
-<pre><code>mkdir yapi
-cd yapi
-git clone https<span class="token operator">:</span>//github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录
-cp vendors/config_example.json ./config.json //复制完成后请修改相关配置
-cd vendors
-npm install --production --registry https<span class="token operator">:</span>//registry.npm.taobao.org
-npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
-node server/app.js //启动服务器后，请访问 <span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
-</code></pre><p>可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a></p>
+</code></pre>
+<h3 class="subject" id="方式二._命令行部署">方式二. 命令行部署 <a class="hashlink" href="#方式二._命令行部署">#</a></h3><p>如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法</p>
+<pre><code class="lang-bash"><span class="token function">mkdir</span> yapi
+<span class="token function">cd</span> yapi
+<span class="token function">git</span> clone https://github.com/YMFE/yapi.git vendors //或者下载 <span class="token function">zip</span> 包解压到 vendors 目录
+<span class="token function">cp</span> vendors/config_example.json ./config.json //复制完成后请修改相关配置
+<span class="token function">cd</span> vendors
+<span class="token function">npm</span> <span class="token function">install</span> --production --registry https://registry.npm.taobao.org
+<span class="token function">npm</span> run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+node server/app.js //启动服务器后，请访问 127.0.0.1:<span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
+</code></pre>
+<p>安装后的目录结构如下：</p>
+<pre><code>|-- config.json
+|-- init.lock
+|-- log
+`-- vendors
+    |-- CHANGELOG.md
+    |-- LICENSE
+    |-- README.md
+    |-- client
+    |-- common
+    |-- config_example.json
+    |-- doc
+    |-- exts
+    |-- nodemon.json
+    |-- npm-debug.log
+    |-- package.json
+    |-- plugin.json
+    |-- server
+    |-- static
+    |-- test
+    |-- webpack.alias.js
+    |-- yapi-base-flow.jpg
+    |-- ydocfile.js
+    `-- ykit.config.js
+</code></pre><blockquote>
+<p>注：可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a></p>
+</blockquote>
 <h2 class="subject" id="服务器管理">服务器管理 <a class="hashlink" href="#服务器管理">#</a></h2><p>推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：</p>
 <ul>
 <li><a href="http://pm2.keymetrics.io/docs/usage/quick-start/">官网文档</a></li><li><a href="http://imweb.io/topic/57c8cbb27f226f687b365636">PM2实用入门指南</a> </li></ul>
