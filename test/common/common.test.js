@@ -1,7 +1,7 @@
 import test from 'ava';
 import {
   handleParamsValue
-} from '../../client/common.js';
+} from '../../common/utils.js';
 
 
 test('handleParamsValue', t => {
