@@ -26,8 +26,8 @@ module.exports = {
             "homepage": { // 配置首页，样式区别于其他页面
                 "version": "v" + require('./package.json').version, // 版本信息将显示在banner底部
                 "button": [{ // 按钮组将显示在banner底部
-                    "name": "开始",
-                    "href": "./usage.html"
+                    "name": "产品演示",
+                    "href": "http://yapi.demo.qunar.com"
                 },{
                     "name": "Github",
                     "href": "https://github.com/YMFE/yapi"
@@ -214,8 +214,8 @@ module.exports = {
     "menuLevel": 2,
     "content": "./CHANGELOG.md"
   },{
-    "name": "demo站点",
-    "title": "demo 站点",
+    "name": "产品演示",
+    "title": "产品演示",
     "url": "http://yapi.demo.qunar.com/"
   },
     {

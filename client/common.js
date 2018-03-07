@@ -191,3 +191,25 @@ exports.safeAssign = (Obj, nextObj) => {
       return result;
   }, {});
 };
+
+// 交换数组的位置
+exports.arrayChangeIndex = (arr, start, end) => {
+  
+  let newArr = [].concat(arr);
+  // newArr[start] = arr[end];
+  // newArr[end] = arr[start];
+  let startItem = newArr[start];
+  newArr.splice(start, 1);
+  // end自动加1
+  newArr.splice(end, 0, startItem)
+  
+  let changes = [];
+  newArr.forEach((item, index) => {
+    changes.push({
+      id: item._id,
+      index: index
+    })
+  })
+
+  return changes;
+};

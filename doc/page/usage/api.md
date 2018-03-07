@@ -7,18 +7,34 @@
 
 [新建接口](./quickstart.html#新建接口) 后，点击新添加的接口，右侧可以看到接口的预览信息，点击右侧的 `编辑` Tab项进入编辑面板。
 
-在改面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：
+在该面板中你可以看到接口的基本信息(接口名称、分类、路径)，除此以外，你还可以完善以下接口信息：
 
-- Path: 接口路径，支持 restful 动态路由，例如 /api/:id, id是动态参数
-- 状态: 用于标识接口是否开发完成。
+### 基本设置
+
+- 接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数
+- 选择分类：可以更改接口所在分类
+- 状态：用于标识接口是否开发完成。
+
+<img src="./images/baseSet.png" />
+
+### 请求参数设置
+
+- Query参数： 接口 url 的查询字符串，点击『添加Query参数』按钮来添加参数，可以通过拖动来交换参数位置
+- 请求Body：http 请求 body 部分，如果http请求方式是 post, put 等请求方式时会有 req_body 部分。req_body_type 形式有4种，分别是 form, json, file 和 raw 。
+- Headers:  http 请求头字段，在 req_body 形式是 form 格式下会在 header 中自动生成 'Content-Type	application/x-www-form-urlencoded'，其他3种格式也会自动生成不同 header
+
+<img src="./images/requestSet.png" />
+
+### 返回数据设置
+
+- 返回数据分为 `json` & `raw` 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑
+
+
+### 备注 & 其他
 - 接口描述: 用简短的文字描述接口的作用。
-- query: 接口url的查询字符串。
-- 请求 Headers: http 请求头字段。
-- 请求 Body: http 请求 body 部分。
-- 响应 Body: 模拟返回结果。
-> 响应 Body 分为 `json` & `raw` 两种形式
+- 邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员和关注该项目的成员（邮件默认情况下自动开启）
+- 开放接口：默认为关闭状态，用户可以在 数据导出 时选择只导出公开接口
 
-- 是否开启邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员（邮件默认情况下自动开启）。
 
 ## 接口运行
 接口运行功能，是用来测试真实接口的，类似『Postman』的功能。
@@ -26,8 +42,7 @@
 点击运行 tab ,可进入到接口测试页面，首先安装『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。
 
 > 安装完插件记得刷新页面
- 
 
-<img src="./images/interface_run.jpg" />
+<img src="./images/interface_run.png" />
 
 

@@ -3,7 +3,8 @@ import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'antd';
 import { Icon } from 'antd'
-import packageJson from '../../../package.json';
+// import packageJson from '../../../package.json';
+const version = process.env.version
 class Footer extends Component {
   constructor(props) {
     super(props)
@@ -86,7 +87,7 @@ Footer.defaultProps = {
       title: 'Copyright © 2017 YMFE',
       linkList: [
         {
-          itemTitle: '版本： ' + packageJson.version,
+          itemTitle: '版本： ' + version,
           itemLink: 'https://yapi.ymfe.org/releases.html'
         }, {
           itemTitle: '使用文档',

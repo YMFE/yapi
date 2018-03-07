@@ -69,13 +69,15 @@ class exportController extends baseController {
     
     async function createHtml(list) {
       let md = await createMarkdown.bind(this)(list, true);
-      let markdown = new markdownIt({ html: true, breaks: true });
+      let markdown = markdownIt({ html: true, breaks: true });
       markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
       markdown.use(markdownItTableOfContents, {
         markerPattern: /^\[toc\]/im
       });
-
+     
+      require('fs').writeFileSync('./a.markdown', md)
       let tp = unescape(markdown.render(md));
+     
       let left;
       // console.log('tp',tp);
       let content = tp.replace(/<div\s+?class="table-of-contents"\s*>[\s\S]*?<\/ul>\s*<\/div>/gi, function (match) {

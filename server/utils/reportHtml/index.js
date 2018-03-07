@@ -17,7 +17,7 @@ function createHtml(reports) {
   reports.list.map((item, index)=>{
     mdTemplate += baseHtml(index, item.name, item.path, item.status)
     mdTemplate += validHtml(item.validRes);
-    mdTemplate += requestHtml(item.url, item.headers, item.params);
+    mdTemplate += requestHtml(item.url, item.headers, item.data);
     mdTemplate += reponseHtml(item.res_header, item.res_body);
     left += leftHtml(index, item.name, item.code);
     // left += codeHtml(item.code);

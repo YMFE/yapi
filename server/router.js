@@ -324,7 +324,22 @@ let routerConfig = {
       action: 'save',
       path: 'save',
       method: 'post'
-    }
+    },
+    {
+      action: 'upIndex',
+      path: 'up_index',
+      method: 'post'
+    },
+    {
+      action: 'upCatIndex',
+      path: 'up_cat_index',
+      method: 'post'
+    },
+		{
+			action: 'schema2json',
+			path: 'schema2json',
+			method: 'post'
+		}
 	],
 	"log": [
 		{
@@ -395,9 +410,14 @@ let routerConfig = {
 		method: "post"
 	}, {
 		action: "upCaseIndex",
+		path: "up_case_index",
+		method: "post"
+  }, {
+		action: "upColIndex",
 		path: "up_col_index",
 		method: "post"
-	}, {
+	},
+  {
 		action: "delCol",
 		path: "del_col",
 		method: "get"

@@ -18,6 +18,7 @@ class interfaceModel extends baseModel {
       edit_uid: { type: Number, default: 0 },
       status: { type: String, enum: ['undone', 'done'], default: 'undone' },
       desc: String,
+      markdown: String,
       add_time: Number,
       up_time: Number,
       type: { type: String, enum: ['static', 'var'], default: 'static' },
@@ -50,6 +51,7 @@ class interfaceModel extends baseModel {
         type: String,
         enum: ['form', 'json', 'text', 'file', 'raw']
       },
+      req_body_is_json_schema: { type: Boolean, default: false },
       req_body_form: [{
         name: String, type: { type: String, enum: ['text', 'file'] }, example: String, desc: String, required: {
           type: String,
@@ -60,13 +62,15 @@ class interfaceModel extends baseModel {
       req_body_other: String,
       res_body_type: {
         type: String,
-        enum: ['json', 'text', 'xml', 'raw']
+        enum: ['json', 'text', 'xml', 'raw', 'json-schema']
       },
       res_body: String,
+      res_body_is_json_schema: { type: Boolean, default: false },
       custom_field_value: String,
       field2: String,
       field3: String,
-      api_opened: { type: Boolean, default: false }
+      api_opened: { type: Boolean, default: false },
+      index: { type: Number, default: 0 }
     };
   }
 
@@ -107,7 +111,7 @@ class interfaceModel extends baseModel {
   }
 
   getByPath(project_id, path, method, select) {
-    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body'
+    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body res_body_is_json_schema'
     return this.model.find({
       project_id: project_id,
       path: path,
@@ -141,6 +145,20 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
+  listWithPage(project_id, page, limit) {
+    page = parseInt(page);
+    limit = parseInt(limit);
+    return this.model.find({
+      project_id: project_id
+    })
+      .sort({ title: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('_id title uid path method project_id catid api_opened edit_uid status add_time up_time')
+      .exec();
+
+  }
+
   listByPid(project_id) {
     return this.model.find({
       project_id: project_id
@@ -155,13 +173,27 @@ class interfaceModel extends baseModel {
   }
 
   listByCatid(catid, select) {
-    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time'
+    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time index'
     return this.model.find({
       catid: catid
     })
       .select(select)
-      .sort({ title: 1 })
+      .sort({ index: 1 })
       .exec();
+  }
+
+  listByCatidWithPage(catid, page, limit) {
+    page = parseInt(page);
+    limit = parseInt(limit);
+    return this.model.find({
+      catid: catid
+    })
+      .sort({ index: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index')
+      .exec();
+
   }
 
   listByInterStatus(catid, status){
@@ -221,6 +253,18 @@ class interfaceModel extends baseModel {
     .select('title uid path method edit_uid status desc add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value')
       .exec();
   }
+
+  listCount(option) {
+    return this.model.count(option);
+  }
+
+  upIndex(id, index) {
+    return this.model.update({
+        _id: id
+    }, {
+            index: index
+        })
+}
 
 
 }

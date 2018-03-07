@@ -1,6 +1,6 @@
 ## Mock介绍
 
- <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、mock 规则([点击到 Mock 规则](#mock)）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。而且与常见的 Mock 方式如将 Mock 写在代码里和JS拦截等相比 yapi 的 Mock 在使用场景和效率和复杂度上是相差甚远的，正是由于 yapi 的 Mock 是一个第三方平台，那么在团队开发时任何人都可以权限许可下创建、修改接口信息等操作，这对于团队开发是很有好处的。 </p>
+ <p style='text-indent:2em;line-height:1.8em'>YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、返回数据（[返回数据](#mock)）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。 </p>
  
  **mock地址解析**：`YApi平台网址 + mock + 您的项目id + 接口实际请求path`
 
@@ -11,34 +11,15 @@
  > 注：项目 id 可以在项目设置里查看到
  
 ## 定义 mock 数据示例
-```
-{
-    "status|0-1": 0, //接口状态
-    "message": "请求完成", //消息提示
-    "data": {
-        "counts":"@integer", //统计数量
-        "totalSubjectType|4-10": [ //4-10意味着可以随机生成4-10组数据
-            { 
-              "subjectName|regexp": "大数据|机器学习|工具", //主题名
-              "subjectType|+1": 1 //类型
-            }
-        ],
-        "data":[
-            {
-                "name": "@name", //用户名
-                "email": "@email", //email
-                "time": "@datetime" //时间
-            }
-        ]}
-} 
 
-```
+项目 -> 接口编辑 -> 返回数据设置
 
-## YApi-Mock 跟 Mockjs 区别
+<img src="./images/usage/mock-demo.jpg" />
 
-<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
+> 注：开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
 
-1 因为 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
+## 原理
+YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
 
 ```
 {
@@ -57,6 +38,8 @@
 }
 
 ```
+
+其他基本用法请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
 
 ## 如何使用 Mock
 
@@ -107,7 +90,11 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <span id="mock"></span>
 
+#### 2.4 基于 Charles 代理
 
+点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
+
+<img src="./images/charles.png" width="60%" />
   
 ## Mock 语法规范
 >了解更多Mock详情：[Mock.js 官方文档](http://mockjs.com/examples.html)

@@ -1,0 +1,184 @@
+const _ = require('underscore');
+
+exports.schemaTransformToTable = (schema) =>{
+  try{
+   schema = checkJsonSchema(schema)
+   let result = Schema(schema, 0);
+   result = _.isArray(result) ? result : [result]
+   return result
+  }catch(err){
+    console.log(err);
+  }
+}
+
+
+//  自动添加type
+
+function checkJsonSchema(json) {
+  let newJson = Object.assign({}, json)
+  if (_.isUndefined(json.type) && _.isObject(json.properties) ){
+     newJson.type = 'object'
+  } 
+
+  return newJson;
+}
+
+const mapping = function(data, index) {
+  switch(data.type){
+    case 'string':
+      return SchemaString(data);
+   
+    case 'number':
+      return SchemaNumber(data);
+
+    case 'array':
+      return SchemaArray(data, index);
+  
+    case 'object':
+      return SchemaObject(data, index);
+
+    case 'boolean':
+      return SchemaBoolean(data);
+
+    case 'integer':
+      return SchemaInt(data)
+    default:
+      console.log(data);
+      return SchemaOther(data)
+  }
+
+};
+
+const Schema = (data, key) => {
+   let result = mapping(data, key);
+   if(data.type !== 'object'){
+    let desc = result.desc;
+    let d = result.default;
+    let children = result.children;
+   
+    delete result.desc;
+    delete result.default;
+    delete result.children;
+    let item = {
+      type: data.type,
+      key,
+      desc,
+      default: d,
+      sub: result
+     }
+
+     if(_.isArray(children)) {
+      item = Object.assign({}, item, {children})
+     }
+  
+     return item
+   }
+
+   return result
+}
+
+
+const SchemaObject = (data, key) => {
+  let {properties, required} = data
+  properties = properties || {}
+  required = required || []
+  let result =[];
+  Object.keys(properties).map((name, index) => {
+    let value = properties[name];
+    let copiedState = checkJsonSchema(JSON.parse(JSON.stringify(value)));
+    let optionForm = Schema(copiedState, key+'-'+index)
+    let item = {
+      name,
+      key: key+'-'+index,
+      required: required.indexOf(name) != -1
+    }
+   
+
+    if(value.type === 'object'||_.isUndefined(value.type)&&_.isArray(optionForm)){
+
+      item = Object.assign({},item,{ children: optionForm})
+      delete item.sub
+    } else {
+      item = Object.assign({}, item, optionForm)
+    }
+
+    result.push(item)
+   
+
+  })
+
+  return result
+  
+}
+
+
+const SchemaString = (data) => {
+  let item = {
+    desc: data.description,
+    default: data.default,
+    maxLength: data.maxLength,
+    minLength: data.minLength,
+    enum: data.enum,
+    format: data.format
+  }
+  return item
+}
+
+const SchemaArray =(data, index) => {
+  data.items = data.items || {type: 'string'};
+  let items = checkJsonSchema(data.items)
+  let optionForm = mapping(items, index);
+  
+  let item = {
+    desc: data.description,
+    default: data.default,
+    minItems: data.minItems,
+    uniqueItems: data.uniqueItems,
+    maxItems: data.maxItems,
+    itemType: items.type,
+    children: optionForm
+
+  }
+  return item
+}
+
+const SchemaNumber =(data) => {
+  
+  let item = {
+    desc: data.description,
+    maximum: data.maximum,
+    minimum: data.minimum,
+    default: data.default,
+    format: data.format
+  }
+  return item
+}
+
+const SchemaInt = (data) =>{
+  let item = {
+    desc: data.description,
+    maximum: data.maximum,
+    minimum: data.minimum,
+    default: data.default,
+    format: data.format
+  }
+  return item
+}
+
+const SchemaBoolean = (data) =>{
+  
+  let item = {
+    desc: data.description,
+    default: data.default,
+    enum: data.enum
+  }
+  return item
+}
+
+const SchemaOther = (data) => {
+  let item = {
+    desc: data.description,
+    default: data.default
+  }
+  return item
+}

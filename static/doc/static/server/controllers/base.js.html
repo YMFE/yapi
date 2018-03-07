@@ -55,7 +55,10 @@ class baseController {
       '/api/user/avatar',
       '/api/user/login_by_ldap'
     ];
+    let openApiRouter = /^\/api\/open\/.*/
     if (ignoreRouter.indexOf(ctx.path) > -1) {
+      this.$auth = true;
+    } else if(openApiRouter.test(ctx.path)){
       this.$auth = true;
     } else {
       await this.checkLogin(ctx);

@@ -14,6 +14,7 @@ class interfaceCol extends baseModel {
             desc: String,
             add_time: Number,
             up_time: Number,
+            index: { type: Number, default: 0 },
             test_report: {type:String, default: '{}'}
         };
     }
@@ -38,7 +39,7 @@ class interfaceCol extends baseModel {
     list(project_id) {
         return this.model.find({
             project_id: project_id
-        }).select('name uid project_id desc add_time up_time').exec();
+        }).select('name uid project_id desc add_time up_time, index').exec();
     }
 
     del(id) {
@@ -62,6 +63,14 @@ class interfaceCol extends baseModel {
             data
         );
     }
+
+    upColIndex(id, index) {
+      return this.model.update({
+          _id: id
+      }, {
+              index: index
+          })
+  }
 }
 
 module.exports = interfaceCol;

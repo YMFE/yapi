@@ -31,7 +31,6 @@ class ProjectToken extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.curProjectRole);
     await this.props.getToken(this.props.projectId);
     
   }

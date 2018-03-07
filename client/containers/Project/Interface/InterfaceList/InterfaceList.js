@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import {
-  Table, Button, Modal, message, Tooltip, Select
+  Table, Button, Modal, message, Tooltip, Select, Icon
 } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import { fetchInterfaceListMenu, fetchInterfaceList, fetchInterfaceCatList } from '../../../../reducer/modules/interface.js';
@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
 const Option = Select.Option;
+const limit = 20;
 
 @connect(
   state => {
@@ -19,7 +20,9 @@ const Option = Select.Option;
       curProject: state.project.currProject,
       catList: state.inter.list,
       totalTableList: state.inter.totalTableList,
-      catTableList: state.inter.catTableList
+      catTableList: state.inter.catTableList,
+      totalCount: state.inter.totalCount,
+      count: state.inter.count
     }
   }, {
     fetchInterfaceListMenu,
@@ -32,7 +35,9 @@ class InterfaceList extends Component {
     this.state = {
       visible: false,
       data: [],
-      catid: null
+      catid: null,
+      total: null,
+      current: 1
     }
   }
 
@@ -46,7 +51,9 @@ class InterfaceList extends Component {
     fetchInterfaceList: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
     totalTableList: PropTypes.array,
-    catTableList: PropTypes.array
+    catTableList: PropTypes.array,
+    totalCount: PropTypes.number,
+    count: PropTypes.number
     
   }
 
@@ -57,11 +64,22 @@ class InterfaceList extends Component {
       this.setState({
         catid: null
       })
-      await this.props.fetchInterfaceList(projectId);
+      let option ={
+        page: this.state.current,
+        limit,
+        project_id: projectId
+      }
+      await this.props.fetchInterfaceList(option);
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4)
       this.setState({ catid: +catid })
-      await this.props.fetchInterfaceCatList(catid);
+      let option ={
+        page: this.state.current,
+        limit,
+        catid
+      }
+
+      await this.props.fetchInterfaceCatList(option);
     }
   }
 
@@ -80,9 +98,14 @@ class InterfaceList extends Component {
 
   componentWillReceiveProps(nextProps) {
     let _actionId = nextProps.match.params.actionId;
+    
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
-      this.handleRequest(nextProps)
+      this.setState({
+        current: 1
+      }, ()=>this.handleRequest(nextProps))
+      
+      
     } 
    
   }
@@ -129,6 +152,12 @@ class InterfaceList extends Component {
     }
   }
 
+  changePage = (current) => {
+    this.setState({
+      current: current
+    }, () => this.handleRequest(this.props))
+  }
+
   render() {
 
     const columns = [{
@@ -137,7 +166,11 @@ class InterfaceList extends Component {
       key: 'title',
       width: 30,
       render: (text, item) => {
-        return <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} ><span className="path">{text}</span></Link>
+        return (
+          <Link to={"/project/" + item.project_id + "/interface/api/" + item._id} >
+            <span className="path">{text}</span>            
+          </Link>
+        )
       }
     }, {
       title: '接口路径',
@@ -145,13 +178,21 @@ class InterfaceList extends Component {
       key: 'path',
       width: 50,
       render: (item, record) => {
+        
         const path = this.props.curProject.basepath + item;
         let methodColor = variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'];
 
-        return <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
+        return <div>
           <span style={{ color: methodColor.color, backgroundColor: methodColor.bac }} className="colValue">{record.method}</span>
-          <span className="path">{path}</span>
-        </Tooltip>
+          <Tooltip title="开放接口" placement="topLeft"  >
+            <span>{record.api_opened && <Icon className="opened" type="eye-o"/>
+                }
+            </span>
+          </Tooltip>
+          <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">  
+            <span className="path">{path}</span>
+          </Tooltip>
+        </div>
       }
     }, {
       title: '接口分类',
@@ -202,11 +243,15 @@ class InterfaceList extends Component {
     //   return item;
     // }) : [];
     let data = [];
+    let total = 0;
     const { params } = this.props.match;
     if (!params.actionId) {
-      data = this.props.totalTableList
+      data = this.props.totalTableList;
+      total = this.props.totalCount;
     } else if (isNaN(params.actionId)) {
-      data = this.props.catTableList
+      data = this.props.catTableList;
+      total = this.props.count
+
     }
 
     data = data.map(item => {
@@ -214,11 +259,16 @@ class InterfaceList extends Component {
       return item;
     })
 
-
+    const pageConfig = {
+      total: total,
+      pageSize: limit,
+      current: this.state.current,
+      onChange: this.changePage
+    }
 
     return (
       <div style={{ padding: '24px' }}>
-        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({data.length}) 个</h2>
+        <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({total}) 个</h2>
 
         <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <div >
@@ -228,7 +278,7 @@ class InterfaceList extends Component {
         </div>
         <Table
           className="table-interfacelist"
-          // pagination={false}
+          pagination={pageConfig}
           columns={columns}
           onChange={this.handleChange}
           dataSource={data}

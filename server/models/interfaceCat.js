@@ -16,7 +16,8 @@ class interfaceCat extends baseModel {
             project_id: { type: Number, required: true },
             desc: String,
             add_time: Number,
-            up_time: Number
+            up_time: Number,
+            index: { type: Number, default: 0 }
         };
     }
 
@@ -40,7 +41,7 @@ class interfaceCat extends baseModel {
     list(project_id) {
         return this.model.find({
             project_id: project_id
-        }).exec();
+        }).sort({ index: 1 }).exec();
     }
 
     del(id) {
@@ -64,6 +65,14 @@ class interfaceCat extends baseModel {
             data
         );
     }
+
+    upCatIndex(id, index) {
+      return this.model.update({
+          _id: id
+      }, {
+              index: index
+          })
+  }
 }
 
 module.exports = interfaceCat;
