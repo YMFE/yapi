@@ -8,6 +8,7 @@
 * 接口列表中增加“开放接口”状态
 * 接口列表树形组件支持拖动
 * json-schema 导出 table表单
+* 本地部署Iconfont
 
 #### Bug Fixed
 
