@@ -23,12 +23,14 @@ const columns = [
   {
     title: '名称',
     dataIndex: 'name',
-    key: 'name'
+    key: 'name',
+    width: 200
   },
   {
     title: '类型',
     dataIndex: 'type',
     key: 'type',
+    width: 100,
     render: (text, item) => {
       // console.log('text',item.sub);
       return text === 'array' ? <span>{item.sub ? item.sub.itemType || '': 'array'} []</span> : <span>{text}</span>;
@@ -38,6 +40,7 @@ const columns = [
     title: '是否必须',
     dataIndex: 'required',
     key: 'required',
+    width: 80,
     render: text => {
       return <div>{text ? '必须' : '非必须'}</div>;
     }
