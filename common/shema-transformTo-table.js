@@ -86,10 +86,10 @@ const SchemaObject = (data, key) => {
   Object.keys(properties).map((name, index) => {
     let value = properties[name];
     let copiedState = checkJsonSchema(JSON.parse(JSON.stringify(value)));
-    let optionForm = Schema(copiedState, key+''+index)
+    let optionForm = Schema(copiedState, key+'-'+index)
     let item = {
       name,
-      key: key+''+index,
+      key: key+'-'+index,
       required: required.indexOf(name) != -1
     }
    
