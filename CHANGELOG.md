@@ -2,17 +2,17 @@
 
 #### Feature
 
+* 完美支持 swagger, 接口请求参数和返回数据支持使用 json-schema 定义数据结构
 * 增加测试集合列表的拖动功能
-* interfaceList页实现数据分页
-* 新建接口的时候产生一个demo response
 * 接口列表中增加“开放接口”状态
-* 接口列表树形组件支持拖动
-* json-schema 导出 table表单
+* 接口列表和测试集树形组件支持拖动
+* 图标从阿里cdn替换到本地
 
 #### Bug Fixed
 
-* 将部分数据拷贝变成使用immer
+* 修复高级 Mock 服务端报错
 * 修复测试集合table拖动频繁请求的问题
+* 修复swagger 数据导入部分bug
 
 ### v1.3.6
 
