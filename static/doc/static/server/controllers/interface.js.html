@@ -1041,7 +1041,13 @@ class interfaceController extends baseController {
 
   async schema2json(ctx){
     let schema = ctx.request.body.schema;
-    ctx.body = jsf(schema)
+    let required = ctx.request.body.required;
+    jsf.option({
+      alwaysFakeOptionals: required ? true : false
+    })
+    let res = jsf(schema)
+    return ctx.body = res; 
+    
   }
 
 }

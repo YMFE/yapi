@@ -13,17 +13,11 @@ proxy_set_header Connection "upgrade";
 * nodejs（7.6+)
 * mongodb（2.6+）
 
-示例：
-
-[mac 环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
-
-
-[centos环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
 
 ## 安装
 ### 方式一. 可视化部署[推荐]
 执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。
-```
+```bash
 npm install -g yapi-cli --registry https://registry.npm.taobao.org
 yapi server
 ``` 
@@ -31,7 +25,7 @@ yapi server
 
 如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法
 
-```
+```bash
 mkdir yapi
 cd yapi
 git clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录
@@ -42,7 +36,35 @@ npm run install-server //安装程序会初始化数据库索引和管理员账�
 node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候
 ```
 
-可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a>
+安装后的目录结构如下：
+
+```
+|-- config.json
+|-- init.lock
+|-- log
+`-- vendors
+    |-- CHANGELOG.md
+    |-- LICENSE
+    |-- README.md
+    |-- client
+    |-- common
+    |-- config_example.json
+    |-- doc
+    |-- exts
+    |-- nodemon.json
+    |-- npm-debug.log
+    |-- package.json
+    |-- plugin.json
+    |-- server
+    |-- static
+    |-- test
+    |-- webpack.alias.js
+    |-- yapi-base-flow.jpg
+    |-- ydocfile.js
+    `-- ykit.config.js
+```
+
+> 注：可以参考插件Wiki里面的<a  href="./plugin.html">二次开发文档</a>
 
 
 ## 服务器管理
