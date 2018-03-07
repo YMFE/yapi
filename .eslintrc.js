@@ -23,7 +23,8 @@ module.exports = {
         "react/jsx-indent": ["error", 2],
         "comma-dangle": ["error", "never"],
         "no-console": ["off"],
-        "import/no-unresolved": ["off"]
+        "import/no-unresolved": ["off"],
+        "react/no-find-dom-node": ["off"]
     }
 };
 

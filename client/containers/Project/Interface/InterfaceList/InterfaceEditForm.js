@@ -541,10 +541,10 @@ class InterfaceEditForm extends Component {
     const queryTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
-          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+          <Col span="1" easy_drag_sort_child="true" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
             <Icon type="bars" />
           </Col>
-          <Col span="4" className="interface-edit-item-content-col">
+          <Col span="4" draggable="false" className="interface-edit-item-content-col">
             {getFieldDecorator("req_query[" + index + "].name", {
               initialValue: data.name
             })(<TextArea autosize={{minRows:1, maxRows: 1}} placeholder="参数名称"  />)}
@@ -583,7 +583,7 @@ class InterfaceEditForm extends Component {
     const headerTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
-          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+          <Col span="1" easy_drag_sort_child="true" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
             <Icon type="bars" />
           </Col>
           <Col span="4" className="interface-edit-item-content-col">
@@ -630,7 +630,7 @@ class InterfaceEditForm extends Component {
     const requestBodyTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
-          <Col span="1" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
+          <Col span="1" easy_drag_sort_child="true" className="interface-edit-item-content-col interface-edit-item-content-col-drag" >
             <Icon type="bars" />
           </Col>
           <Col span="4" className="interface-edit-item-content-col">
@@ -896,6 +896,7 @@ class InterfaceEditForm extends Component {
               <EasyDragSort
                 data={() => this.props.form.getFieldValue("req_query")}
                 onChange={this.handleDragMove("req_query")}
+                onlyChild='easy_drag_sort_child'
               >
                 {QueryList}
               </EasyDragSort>
@@ -921,6 +922,7 @@ class InterfaceEditForm extends Component {
               <EasyDragSort
                 data={() => this.props.form.getFieldValue("req_headers")}
                 onChange={this.handleDragMove("req_headers")}
+                onlyChild="easy_drag_sort_child"
               >
                 {headerList}
               </EasyDragSort>
@@ -968,6 +970,7 @@ class InterfaceEditForm extends Component {
                   <EasyDragSort
                     data={() => this.props.form.getFieldValue("req_body_form")}
                     onChange={this.handleDragMove("req_body_form")}
+                    onlyChild='easy_drag_sort_child'
                   >
                     {requestBodyList}
                   </EasyDragSort>
