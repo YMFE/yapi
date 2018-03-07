@@ -35,9 +35,8 @@ Thumbs.db
 
 node_modules/
 runtime/
-prd/
-plugins/
-dev/
+/prd/
+/dev/
 .tags
 .tags1
 tsconfig.json
