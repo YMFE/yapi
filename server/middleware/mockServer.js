@@ -4,7 +4,6 @@ const interfaceModel = require("../models/interface.js");
 const mockExtra = require("../../common/mock-extra.js");
 const _ = require("underscore");
 const Mock = require("mockjs");
-const jsf = require('json-schema-faker');
 /**
  *
  * @param {*} apiPath /user/tom
@@ -219,7 +218,7 @@ module.exports = async (ctx, next) => {
         if (interfaceData.res_body_is_json_schema === true) {
           //json-schema
           const schema = yapi.commons.json_parse(interfaceData.res_body);
-          res = jsf(schema);
+          res = yapi.commons.schemaToJson(schema);
         } else {
           res = mockExtra(yapi.commons.json_parse(interfaceData.res_body), {
             query: ctx.request.query,
