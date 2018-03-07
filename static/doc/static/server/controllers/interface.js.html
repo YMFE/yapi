@@ -41,7 +41,7 @@ const formattersHtml = jsondiffpatch.formatters.html;
 const showDiffMsg = require('../../common/diff-view.js');
 const fs = require('fs-extra')
 const path = require('path');
-const jsf = require('json-schema-faker');
+
 
 const RES_BODY_TPL= `
 /**
@@ -1042,10 +1042,10 @@ class interfaceController extends baseController {
   async schema2json(ctx){
     let schema = ctx.request.body.schema;
     let required = ctx.request.body.required;
-    jsf.option({
+
+    let res = yapi.commons.schemaToJson(schema, {
       alwaysFakeOptionals: required ? true : false
     })
-    let res = jsf(schema)
     return ctx.body = res; 
     
   }
