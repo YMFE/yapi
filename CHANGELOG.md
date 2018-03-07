@@ -7,6 +7,7 @@
 * 新建接口的时候产生一个demo response
 * 接口列表中增加“开放接口”状态
 * 接口列表树形组件支持拖动
+* json-schema 导出 table表单
 
 #### Bug Fixed
 

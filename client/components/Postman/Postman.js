@@ -5,12 +5,12 @@ import constants from '../../constants/variable.js'
 import AceEditor from 'client/components/AceEditor/AceEditor'
 import _ from 'underscore'
 import { isJson, deepCopyJson } from '../../common.js'
-
+import axios from 'axios'
 import ModalPostman from '../ModalPostman/index.js'
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js'
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
-
+import json5 from "json5";
 const {handleParamsValue} = require('common/utils.js')
 const { handleParams, checkRequestBodyIsRaw, handleContentType, crossRequest, checkNameIsExistInArray } = require('common/postmanLib.js')
 
@@ -113,14 +113,29 @@ export default class Run extends Component {
     });
   }
 
-  initState(data) {
+  async initState(data) {
     if (!this.checkInterfaceData(data)) {
       return null;
+    }
+
+    
+    
+    const {req_body_other, req_body_type, req_body_is_json_schema} = data;
+    let body = req_body_other
+    if(req_body_type === 'json' && req_body_other && req_body_is_json_schema) {
+      let schema = json5.parse(req_body_other)
+      let result = await axios.post('/api/interface/schema2json', {
+          schema: schema,
+          required: true
+      })
+      body = JSON.stringify(result.data)
+      // console.log(body)
     }
 
     this.setState({
       ...this.state,
       ...data,
+      req_body_other: body,
       resStatusCode: null,
       resStatusText: null
     }, () => this.initEnvState(data.env))
@@ -338,7 +353,7 @@ export default class Run extends Component {
       inputValue,
       hasPlugin } = this.state;
 
-    // console.log('req_headers', req_headers);
+    
 
     return (
       <div className="interface-test postman">

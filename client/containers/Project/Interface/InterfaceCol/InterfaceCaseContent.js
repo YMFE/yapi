@@ -164,6 +164,7 @@ export default class InterfaceCaseContent extends Component {
   render() {
     const { currCase, currProject } = this.props;
     const { isEditingCasename, editCasename } = this.state;
+    
     const data = Object.assign({}, currCase, {
       env: currProject.env,
       pre_script: currProject.pre_script,

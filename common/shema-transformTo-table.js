@@ -3,7 +3,8 @@ const _ = require('underscore');
 exports.schemaTransformToTable = (schema) =>{
   try{
    schema = checkJsonSchema(schema)
-   let result = Schema(schema);
+   let result = Schema(schema, 0);
+   result = _.isArray(result) ? result : [result]
    return result
   }catch(err){
     console.log(err);
@@ -18,37 +19,8 @@ function checkJsonSchema(json) {
   if (_.isUndefined(json.type) && _.isObject(json.properties) ){
      newJson.type = 'object'
   } 
-  // console.log('newJson', newJson)
 
   return newJson;
-}
-
-const Schema = (data) => {
-  let result = mapping(data, 0);
-  let arr = []
-  if(data.type !== 'object'){
-    let desc = result.desc;
-    let d = result.default;
-    let children = result.children;
-    
-    delete result.desc;
-    delete result.default;
-    delete result.children;
-    let item = {
-      type: data.type,
-      key: 0,
-      desc,
-      default: d,
-      sub: result
-     }
-     if(_.isArray(children)) {
-      item = Object.assign({}, item, {children})
-     }
-     arr.push(item)
-     return arr
-  }
-
-  return result
 }
 
 const mapping = function(data, index) {
@@ -58,10 +30,10 @@ const mapping = function(data, index) {
    
     case 'number':
       return SchemaNumber(data);
-  
+
     case 'array':
       return SchemaArray(data, index);
- 
+  
     case 'object':
       return SchemaObject(data, index);
 
@@ -77,6 +49,34 @@ const mapping = function(data, index) {
 
 };
 
+const Schema = (data, key) => {
+   let result = mapping(data, key);
+   if(data.type !== 'object'){
+    let desc = result.desc;
+    let d = result.default;
+    let children = result.children;
+   
+    delete result.desc;
+    delete result.default;
+    delete result.children;
+    let item = {
+      type: data.type,
+      key,
+      desc,
+      default: d,
+      sub: result
+     }
+
+     if(_.isArray(children)) {
+      item = Object.assign({}, item, {children})
+     }
+  
+     return item
+   }
+
+   return result
+}
+
 
 const SchemaObject = (data, key) => {
   let {properties, required} = data
@@ -86,39 +86,20 @@ const SchemaObject = (data, key) => {
   Object.keys(properties).map((name, index) => {
     let value = properties[name];
     let copiedState = checkJsonSchema(JSON.parse(JSON.stringify(value)));
-    let optionForm = mapping(copiedState, key+''+index);
-   
-    let desc = optionForm.desc;
-    let d = optionForm.default;
-    let children = optionForm.children;
-    
-    delete optionForm.desc;
-    delete optionForm.default;
-    delete optionForm.children;
+    let optionForm = Schema(copiedState, key+''+index)
     let item = {
       name,
-      type: value.type || 'object',
-      required: required.indexOf(name) != -1,
-      sub: optionForm,
-      desc,
-      default: d,
-      key: key+''+index
+      key: key+''+index,
+      required: required.indexOf(name) != -1
     }
-    // array 添加children字段
-    if(value.type === 'array' && !_.isUndefined(children) ){
-     
-      if( _.isArray(children)){
-        item.children = children
-      }
-     
-      item = Object.assign({},item,{ childrenDesc: children.desc})
-     
-    }
+   
 
-    if(value.type === 'object'|| _.isUndefined(value.type) && !_.isEmpty(optionForm)){
-     
+    if(value.type === 'object'||_.isUndefined(value.type)&&_.isArray(optionForm)){
+
       item = Object.assign({},item,{ children: optionForm})
       delete item.sub
+    } else {
+      item = Object.assign({}, item, optionForm)
     }
 
     result.push(item)
@@ -147,7 +128,6 @@ const SchemaArray =(data, index) => {
   data.items = data.items || {type: 'string'};
   let items = checkJsonSchema(data.items)
   let optionForm = mapping(items, index);
-  
   
   let item = {
     desc: data.description,

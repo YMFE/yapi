@@ -1,31 +1,98 @@
 
- <h1 class="curproject-name"> test </h1> 
- 
+ <h1 class="curproject-name"> swagger_test </h1> 
+ 啊啊啊啊啊啊
 
 
-# %u516C%u5171%u5206%u7C7B
+# eeeeeee
 [TOC]
 
 
-## 12%0A%3Ca%20id%3D12%3E%20%3C/a%3E
+## 13%0A%3Ca%20id%3D13%3E%20%3C/a%3E
 [TOC]
 
 ### 基本信息
 
-**Path：** /app/code
+**Path：** /api/13
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+**Query**
+
+| 参数名称  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| qqq | 是  |   |   |
+| wwww | 是  |   |   |
+| wwwww | 是  |   |   |
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=00><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> id</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span>The unique identifier for product</span></td><td key=5></td></tr><tr key=01><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=02><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> price</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=1><span style="font-weight: '700'">最小值: </span><span>0</span></p></td></tr><tr key=03><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> arr</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>sdfsdf</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=04><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> tags</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=0><span style="font-weight: '700'">最小数量: </span><span>1</span></p><p key=1><span style="font-weight: '700'">元素是否都不同: </span><span>true</span></p><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=040><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> length</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=041><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> width</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=042><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> height</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=05><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> dimensions</span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=050><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> length</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=051><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> width</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=052><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> height</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 16%0A%3Ca%20id%3D16%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/16
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+
+### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=00><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> success</span></td><td key=1><span>boolean</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=0><span style="font-weight: '700'">枚举: </span><span>true,false</span></p></td></tr><tr key=01><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span></span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=010><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> success</span></td><td key=1><span>boolean</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=0><span style="font-weight: '700'">枚举: </span><span>true</span></p></td></tr><tr key=011><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> data</span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=0110><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> count</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=0111><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> rows</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=01110><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=01111><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+            
+## 22%0A%3Ca%20id%3D22%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/22
 
 **Method：** POST
 
 **接口描述：**
-<p><br></p>
+
 
 ### 请求参数
 **Headers**
 
 | 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+| Content-Type  |  application/json | 是  |   |   |
+**Body**
 
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=00><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> id</span></td><td key=1><span>integer</span></td><td key=2>必须</td><td key=3></td><td key=4><span>The unique identifier for a product</span></td><td key=5></td></tr><tr key=01><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span>Name of the product</span></td><td key=5></td></tr><tr key=02><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> price</span></td><td key=1><span>number</span></td><td key=2>必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=1><span style="font-weight: '700'">最小值: </span><span>0</span></p></td></tr>
+               </tbody>
+              </table>
+            
 ### 返回数据
 
 ```javascript
@@ -38,6 +105,178 @@
   "data": {
     "id": "uuid-xxx", //产品id
     "name": "iphone" //产品名称
+  }
+}
+
+```
+# ee
+[TOC]
+
+
+## /credit-gateway%0A%3Ca%20id%3D/credit-gateway%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /credit-gateway
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+
+### 返回数据
+
+```javascript
+/**
+ * demo
+ */
+
+{
+    "errcode": 0, //code,
+    "data": {
+        "uid": "" //user uid
+    }
+}
+```
+## 12%0A%3Ca%20id%3D12%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/12/:id/{name}
+
+**Method：** POST
+
+**接口描述：**
+<p><br></p>
+
+### 请求参数
+**Headers**
+
+| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| Content-Type  |  application/x-www-form-urlencoded | 是  |   |   |
+| aaaa  |   | 是  |   |   |
+**路径参数**
+| 参数名称 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id |   |   |
+| name |   |   |
+**Query**
+
+| 参数名称  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| token | 是  |  2 |   |
+| project_id | 是  |  1 |   |
+**Body**
+
+| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| 12 | text  |  是 |    |   |
+
+
+
+### 返回数据
+
+```javascript
+{
+   "errcode": 0,
+   "data": {
+      "list": []
+   }
+}
+```
+## 14%0A%3Ca%20id%3D14%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/14
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数
+
+### 返回数据
+
+```javascript
+{"errcode": 0,   "data": {      "list": []   }}
+```
+## 15%0A%3Ca%20id%3D15%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/15
+
+**Method：** GET
+
+**接口描述：**
+<p><br></p>
+
+### 请求参数
+
+### 返回数据
+
+```javascript
+/** * demo */
+{ "errcode": 0, //code
+   "data": {  "uid": "" //user uid  
+   }
+    
+}
+```
+## 17%0A%3Ca%20id%3D17%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /api/17
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数
+
+### 返回数据
+
+```javascript
+{ "errcode": 0,  "data": {  "uid": "" }}
+```
+## 55%0A%3Ca%20id%3D55%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /55
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数
+
+### 返回数据
+
+```javascript
+
+/**
+ * 这是一个 response 事例
+ */
+{
+  "errcode": 0, //错误编码
+  "data": {
+    "id": "uuid-xxx", //产品id
+    "name": "iphone", //产品名称
   }
 }
 
@@ -68,23 +307,166 @@
 | Token  |   | 否  |   |  请求令牌 |
 **Body**
 
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=00><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> tag_rule_arr</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=000><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> tag_rule_detial_arr</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0000><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>Id</span></td><td key=5><p key=2><span style="font-weight: '700'">版本: </span><span>int32</span></p></td></tr><tr key=0001><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> rule_dimension</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>维度</span></td><td key=5></td></tr><tr key=0002><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> value</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>规则值</span></td><td key=5></td></tr><tr key=0003><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> tag_rule_id</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>规则id</span></td><td key=5></td></tr><tr key=0004><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>类型(0:and,1:or)</span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
+```javascript
+{
+  "tag_rule_arr": [
+    {
+      "tag_rule_detial_arr": [
+        {
+          "id": "@integer",
+          "rule_dimension": "@string",
+          "value": "@string",
+          "tag_rule_id": "@integer",
+          "type": "@integer"
+        }
+      ]
+    }
+  ]
+}
+```
 ### 返回数据
 
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=00><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> code</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span>响应编码OK</span></td><td key=5></td></tr><tr key=01><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> info</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=010><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=0100><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> product_info</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=01000><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> product_code</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>唯一编码</span></td><td key=5></td></tr><tr key=01001><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sku</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>old_sku</span></td><td key=5></td></tr><tr key=01002><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sku_history</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>历史sku</span></td><td key=5></td></tr><tr key=01003><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_free</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>版费情况0:付费;1:免费</span></td><td key=5><p key=2><span style="font-weight: '700'">版本: </span><span>int32</span></p></td></tr><tr key=01004><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sequence</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>维护序列号</span></td><td key=5></td></tr><tr key=01005><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> color</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>中文颜色</span></td><td key=5></td></tr><tr key=01006><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_design</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>是否自主设计1:是;0:否</span></td><td key=5><p key=2><span style="font-weight: '700'">版本: </span><span>int32</span></p></td></tr><tr key=01007><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> weight</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>重量</span></td><td key=5><p key=2><span style="font-weight: '700'">版本: </span><span>int32</span></p></td></tr><tr key=01008><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> insert_time</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>添加时间</span></td><td key=5></td></tr><tr key=0101><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> product_image</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=01010><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>imageid</span></td><td key=5></td></tr><tr key=01011><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> image_url</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>imageurl</span></td><td key=5></td></tr><tr key=01012><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> image_title</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>imagetitle</span></td><td key=5></td></tr><tr key=01013><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> sort</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>排序</span></td><td key=5></td></tr><tr key=01014><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> image_type</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>imagetype</span></td><td key=5></td></tr><tr key=01015><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> image_links</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=010150><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> image_medium_url</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>中等图图片链接</span></td><td key=5></td></tr><tr key=010151><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> image_small_url</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>小图链接</span></td><td key=5></td></tr><tr key=010152><td key=0><span style="padding-left: 80px"><span style="color: #8c8a8a">├─</span> image_url</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>原图链接</span></td><td key=5></td></tr><tr key=0102><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> product_category</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span></span></td><td key=5></td></tr><tr key=01020><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> id</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>categoryid</span></td><td key=5></td></tr><tr key=01021><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>分类名称</span></td><td key=5></td></tr><tr key=01022><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> parent_id</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>父分类id</span></td><td key=5></td></tr><tr key=01023><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> product_type_id</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>产品类型id</span></td><td key=5></td></tr><tr key=01024><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_return</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>是否支持退换</span></td><td key=5></td></tr><tr key=01025><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_allow_sub_category</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>是否允许子分类</span></td><td key=5></td></tr><tr key=01026><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_available</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>是否可用</span></td><td key=5></td></tr><tr key=01027><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> insert_time</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>插入时间</span></td><td key=5></td></tr><tr key=01028><td key=0><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> is_del</span></td><td key=1><span>integer</span></td><td key=2>非必须</td><td key=3></td><td key=4><span>是否删除</span></td><td key=5></td></tr><tr key=02><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> msg</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span>错误描述</span></td><td key=5></td></tr>
-               </tbody>
-              </table>
-            
+```javascript
+{
+  "code": "@string",
+  "info": {
+    "data": {
+      "product_info": {
+        "product_code": "@string",
+        "sku": "@string",
+        "sku_history": "@string",
+        "is_free": "@integer",
+        "sequence": "@string",
+        "color": "@string",
+        "is_design": "@integer",
+        "weight": "@integer",
+        "insert_time": "@string"
+      },
+      "product_image": {
+        "id": "@string",
+        "image_url": "@string",
+        "image_title": "@string",
+        "sort": "@string",
+        "image_type": "@string",
+        "image_links": {
+          "image_medium_url": "@string",
+          "image_small_url": "@string",
+          "image_url": "@string"
+        }
+      },
+      "product_category": {
+        "id": "@integer",
+        "name": "@string",
+        "parent_id": "@integer",
+        "product_type_id": "@integer",
+        "is_return": "@integer",
+        "is_allow_sub_category": "@integer",
+        "is_available": "@integer",
+        "insert_time": "@string",
+        "is_del": "@integer"
+      }
+    }
+  },
+  "msg": "@string"
+}
+```
+## 3333%0A%3Ca%20id%3D3333%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /app/code
+
+**Method：** GET
+
+**接口描述：**
+
+
+### 请求参数
+
+## %u67E5%u8BE2%u4FE1%u7528%u8D26%u6237%u8BE6%u60C5%u63A5%u53E3%0A%3Ca%20id%3D%u67E5%u8BE2%u4FE1%u7528%u8D26%u6237%u8BE6%u60C5%u63A5%u53E3%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /credit-gateway/v0/customer/{id}
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数
+**路径参数**
+| 参数名称 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| id |   |  客户唯一ID |
+**Query**
+
+| 参数名称  |  是否必须 | 示例  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| userId | 否  |   |  资方客户ID或其他关联模块ID |
+| productId | 否  |   |  信贷产品ID |
+
+### 返回数据
+
+```javascript
+{
+  "customerWithDetail": {
+    "createTime": "@string",
+    "updateTime": "@string",
+    "applyId": "@string",
+    "areaId": "@string",
+    "areaName": "@string",
+    "channelId": "@string",
+    "cityId": "@string",
+    "cityName": "@string",
+    "creditAmount": "@string",
+    "id": "@string",
+    "orgCode": "@string",
+    "orgName": "@string",
+    "productId": "@string",
+    "remainAmount": "@string",
+    "status": "WAIT_SIGN",
+    "type": "ENTERPRISE",
+    "userId": "@integer",
+    "activateTime": "@string",
+    "customerId": "@string",
+    "endTime": "@string",
+    "repayAccount": "@string",
+    "repayName": "@string",
+    "startTime": "@string"
+  }
+}
+```
+# %u545C%u545C%u545C
+[TOC]
+
+
+## rrr%0A%3Ca%20id%3Drrr%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /tag/get_product_by_tag_rule
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数
+
+## rrr_copy%0A%3Ca%20id%3Drrr_copy%3E%20%3C/a%3E
+[TOC]
+
+### 基本信息
+
+**Path：** /tag/get_product_by_tag_rule_1519617779388
+
+**Method：** GET
+
+**接口描述：**
+undefined
+
+### 请求参数

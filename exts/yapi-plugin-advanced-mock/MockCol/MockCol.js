@@ -49,7 +49,8 @@ export default class MockCol extends Component {
     return async ()=>{
       if(this.props.currInterface.res_body_is_json_schema && isAdd){
         let result = await axios.post('/api/interface/schema2json', {
-          schema: json5_parse(this.props.currInterface.res_body)
+          schema: json5_parse(this.props.currInterface.res_body),
+          required: true
         })
         record.res_body = JSON.stringify(result.data)
       }
