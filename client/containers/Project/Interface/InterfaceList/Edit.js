@@ -66,12 +66,11 @@ class InterfaceEdit extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
     let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
-
     try {
       s = new WebSocket(wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
       s.onopen = () => {
@@ -99,14 +98,15 @@ class InterfaceEdit extends Component {
           curdata: this.props.curdata,
           status: 1
         })
-        console.error('websocket connect failed.')
+        console.warn('websocket 连接失败，将导致多人编辑同一个接口冲突。')
       }
     } catch (e) {
+
       this.setState({
         curdata: this.props.curdata,
         status: 1
       })
-      console.error(e);
+      console.error('websocket 连接失败，将导致多人编辑同一个接口冲突。');
     }
 
   }

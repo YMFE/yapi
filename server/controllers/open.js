@@ -303,6 +303,9 @@ class openController extends baseController{
         req_header.push(item)
       }
     })
+    req_header = req_header.filter(item=> {
+      return item && typeof item === 'object'
+    })
     return req_header
   }
 

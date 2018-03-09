@@ -89,6 +89,7 @@ export default class Run extends Component {
       return item.name === value;
     }) : 0;
     index = index === -1 ? 0 : index
+
     let req_header = [].concat(this.props.data.req_headers);
     let header = [].concat(env[index].header);
     header.forEach(item => {
@@ -99,6 +100,9 @@ export default class Run extends Component {
         }
         req_header.push(item)
       }
+    })
+    req_header = req_header.filter(item=>{
+      return item && typeof item === 'object'
     })
     return req_header
   }
@@ -352,7 +356,6 @@ export default class Run extends Component {
       case_env,
       inputValue,
       hasPlugin } = this.state;
-
     
 
     return (
