@@ -166,6 +166,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
   let urlObj = URL.parse(options.url, true), query = {};
   query = Object.assign(query, urlObj.query);
   let context = {
+    method: options.method,
     pathname: urlObj.pathname,
     query: query,
     requestHeader: options.headers || {},
