@@ -38,8 +38,9 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
 ### YApi 资源
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
-* [yapi docker 部署](https://github.com/branchzero/yapi-docker) By branchzero
-* [yapi docker 容器](https://hub.docker.com/r/silsuer/yapi/) By silsuer
+* [yapi docker ](https://github.com/branchzero/yapi-docker) By branchzero
+* [yapi docker ](https://hub.docker.com/r/silsuer/yapi/) By silsuer
+* [yapi docker ](https://github.com/fiochen/docker-yapi-env) By fiochen
 
 ### YApi 教程
 * [Centos-安装环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
