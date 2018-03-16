@@ -543,13 +543,13 @@ class InterfaceEditForm extends Component {
     let res_body = '';
     let req_body_other = '';
     try{
-      res_body =  res_body ? JSON.stringify(json5.parse(this.state.res_body), null,2) : ''
+      res_body =  this.state.res_body ? JSON.stringify(json5.parse(this.state.res_body), null,2) : ''
     }catch(e){
       res_body = '';
     }
 
     try{
-      req_body_other = req_body_other ? JSON.stringify(json5.parse(this.state.req_body_other), null,2) : '';
+      req_body_other = this.state.req_body_other ? JSON.stringify(json5.parse(this.state.req_body_other), null,2) : '';
     }catch(e){
       req_body_other = ''
     }
