@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
+import json5 from 'json5'
 import PropTypes from 'prop-types'
 import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js';
 import _ from 'underscore';
@@ -96,8 +97,16 @@ class SchemaTable extends Component {
     
   }
 
-  render() {
-    let product = JSON.parse(this.props.dataSource) 
+  render() {    
+    let product
+    try{
+      product = json5.parse(this.props.dataSource) 
+    }catch(e){
+      product = null
+    }
+    if(!product){
+      return null;
+    }
     let data = schemaTransformToTable(product)
     data = _.isArray(data) ? data : []
     return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;

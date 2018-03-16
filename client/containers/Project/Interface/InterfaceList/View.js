@@ -12,6 +12,7 @@ import constants from '../../../../constants/variable.js'
 import copy from 'copy-to-clipboard';
 import SchemaTable from '../../../../components/SchemaTable/SchemaTable.js'
 
+
 const HTTP_METHOD = constants.HTTP_METHOD;
 
 
@@ -390,6 +391,5 @@ class View extends Component {
     return res;
   }
 }
-
 
 export default View

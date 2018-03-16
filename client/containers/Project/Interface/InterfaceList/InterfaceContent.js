@@ -156,7 +156,7 @@ class Content extends Component {
         onCancel={this.handleCancel}
         footer={[
           <Button key="back" onClick={this.handleCancel}>取 消</Button>,
-          <Button key="submit" onClick={this.handleOk}>确 定1</Button>
+          <Button key="submit" onClick={this.handleOk}>确 定</Button>
         ]}
       >
         <p>离开页面会丢失当前编辑的内容，确定要离开吗？</p>

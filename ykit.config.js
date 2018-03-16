@@ -71,7 +71,7 @@ module.exports = {
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       },
-      exclude: /node_modules\/(?!_?(yapi-plugin|randexp))/
+      exclude: /node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual))/
     }    
   }],    
   devtool:  'cheap-source-map',
