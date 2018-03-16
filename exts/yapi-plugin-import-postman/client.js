@@ -88,6 +88,8 @@ function postman(importDataModule){
           interfaceData.apis.push(data);
         }
       }
+
+      console.log(interfaceData)
       return interfaceData;
       
     }catch(e){
@@ -97,6 +99,7 @@ function postman(importDataModule){
   }
   
   function importPostman(data,key){
+    console.log('data', data);
     let reflect = {//数据字段映射关系
       title: "name",
       path: "url",
@@ -107,9 +110,11 @@ function postman(importDataModule){
       req_params: "",
       req_body_type: "dataMode",
       req_body_form: "data",
-      req_body_other: "rawModeData"
+      req_body_other: "rawModeData",
+      res_body: "text",
+      res_body_type: "language"
     };
-    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other"];
+    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other","res"];
     key = key || allKey;
     let res = {};
     for(let item in key){
@@ -155,12 +160,36 @@ function postman(importDataModule){
         }else{
           res[item] = data[reflect[item]];
         }
-      }else{
+      }
+      else if(item === 'res') {
+        let response = handleResponses(data['responses'])
+        
+        if(response) {
+          res['res_body'] = response['res_body'],
+          res['res_body_type'] = response['res_body_type']
+        }
+        
+
+      } 
+      else{
         res[item] = data[reflect[item]];
       }
     }
     return res;
   }
+
+  const handleResponses = (data) => {
+    if(data&&data.length){
+      let res = data[0];
+      let response = {};
+      response['res_body'] = res.text
+      response['res_body_type'] = res.language === 'json' ? 'json' : 'raw'
+
+      return response;
+    }
+
+    return null
+  } 
   
   if(!importDataModule || typeof importDataModule !== 'object'){
     console.error('obj参数必需是一个对象');
