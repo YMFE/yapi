@@ -324,6 +324,7 @@ class ProjectData extends Component {
               <div className="dataImportTile">
                 <Select placeholder="请选择导入数据的方式" onChange={this.handleImportType}>
                   {Object.keys(importDataModule).map((name) => {
+                    
                     return <Option key={name} value={name}>{importDataModule[name].name}</Option>
                   })}
                 </Select>

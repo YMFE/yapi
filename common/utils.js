@@ -153,3 +153,11 @@ exports.json_parse = function(json){
     return json;
   }
 }
+
+exports.json_format= function(json){
+  try{
+    return JSON.stringify(JSON.parse(json), null, '   ');
+  }catch(e){
+    return json;
+  }
+}

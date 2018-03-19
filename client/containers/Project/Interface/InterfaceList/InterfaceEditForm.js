@@ -554,7 +554,7 @@ class InterfaceEditForm extends Component {
       req_body_other = ''
     }
 
-    console.log(req_body_other);
+    // console.log("req_body_other",req_body_other);
 
     const queryTpl = (data, index) => {
       return (
@@ -1148,13 +1148,15 @@ class InterfaceEditForm extends Component {
                     <span style={{ fontWeight: "500" }}>F9</span>
                   
                   </div>                  
-                ) : (
+                ) : 
+                (
                   <Jeditor onChange={(text)=>{
                     this.setState({
                       res_body: text
                     })
                   }} data={res_body} />
-                )}
+                )
+                }
                 <div
                     id="res_body_json"
                     style={{
