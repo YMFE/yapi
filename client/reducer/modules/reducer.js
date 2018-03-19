@@ -9,11 +9,8 @@ import addInterface from './addInterface.js'
 import menu from './menu.js'
 import follow from './follow.js'
 
-const jSchema = require('json-schema-editor-visual')()
-
 import { emitHook } from 'client/plugin.js'
 
-let jSchemaModule = jSchema.Model.getReducers();
 
 const reducerModules = {
   group,
@@ -24,8 +21,7 @@ const reducerModules = {
   news,
   addInterface,
   menu,
-  follow,
-  schema: jSchemaModule.schema
+  follow
 }
 emitHook('add_reducer', reducerModules);
 

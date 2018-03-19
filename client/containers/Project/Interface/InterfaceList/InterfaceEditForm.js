@@ -11,8 +11,9 @@ import EasyDragSort from "../../../../components/EasyDragSort/EasyDragSort.js";
 import mockEditor from "client/components/AceEditor/mockEditor";
 import axios from "axios";
 
-const jSchema = require("json-schema-editor-visual")();
-const Jeditor = jSchema.Component;
+const jSchema = require("json-schema-editor-visual");
+const ResBodySchema = jSchema();
+const ReqBodySchema  = jSchema();
 
 require("codemirror/lib/codemirror.css"); // codemirror
 require("tui-editor/dist/tui-editor.css"); // editor ui
@@ -1055,7 +1056,7 @@ class InterfaceEditForm extends Component {
                   </Tooltip>
                 “全局编辑”或 “退出全屏” 请按{" "}F9</span> 
               ): (
-                <Jeditor onChange={(text)=>{
+                <ReqBodySchema onChange={(text)=>{
                     this.setState({
                       req_body_other: text
                     })
@@ -1146,13 +1147,15 @@ class InterfaceEditForm extends Component {
                     <span style={{ fontWeight: "500" }}>F9</span>
                   
                   </div>                  
-                ) : (
-                  <Jeditor onChange={(text)=>{
+                ) : 
+                (
+                  <ResBodySchema onChange={(text)=>{
                     this.setState({
                       res_body: text
                     })
                   }} data={res_body} />
                 )}
+                
                 <div
                     id="res_body_json"
                     style={{
