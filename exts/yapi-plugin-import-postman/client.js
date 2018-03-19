@@ -1,6 +1,9 @@
 
 import {message} from 'antd'
 import URL from 'url';
+const GenerateSchema = require('generate-schema/src/schemas/json.js');
+import { json_parse } from '../../common/utils.js'
+
 
 function postman(importDataModule){
 
@@ -88,6 +91,8 @@ function postman(importDataModule){
           interfaceData.apis.push(data);
         }
       }
+
+      console.log(interfaceData)
       return interfaceData;
       
     }catch(e){
@@ -97,6 +102,7 @@ function postman(importDataModule){
   }
   
   function importPostman(data,key){
+    console.log('data', data);
     let reflect = {//数据字段映射关系
       title: "name",
       path: "url",
@@ -107,9 +113,11 @@ function postman(importDataModule){
       req_params: "",
       req_body_type: "dataMode",
       req_body_form: "data",
-      req_body_other: "rawModeData"
+      req_body_other: "rawModeData",
+      res_body: "text",
+      res_body_type: "language"
     };
-    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other"];
+    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other","res"];
     key = key || allKey;
     let res = {};
     for(let item in key){
@@ -131,7 +139,16 @@ function postman(importDataModule){
           }
         }
         
-      }else if(item === "path"){
+      } else if(item === 'req_body_other') {
+        if(data.headers.indexOf('application/json')>-1){
+
+          res[item] = transformJsonToSchema(data[reflect[item]])
+        } else {
+          res[item] = data[reflect[item]];
+        }
+
+      }
+      else if(item === "path"){
         res[item] = handlePath.bind(this)(data[reflect[item]]);
         if(res[item] && res[item].indexOf("/:") > -1){
           let params = res[item].substr(res[item].indexOf("/:")+2).split("/:");
@@ -155,11 +172,43 @@ function postman(importDataModule){
         }else{
           res[item] = data[reflect[item]];
         }
-      }else{
+      }
+      else if(item === 'res') {
+        let response = handleResponses(data['responses'])
+        if(response) {
+          res['res_body'] = response['res_body'],
+          res['res_body_type'] = response['res_body_type']
+        }
+        
+      } 
+      else{
         res[item] = data[reflect[item]];
       }
     }
     return res;
+  }
+
+  const handleResponses = (data) => {
+    if(data&&data.length){
+      let res = data[0];
+      let response = {};
+      response['res_body_type'] = res.language === 'json' ? 'json' : 'raw'
+      response['res_body'] = res.language === 'json' ? transformJsonToSchema(res.text): res.text;
+     
+      return response;
+    }
+
+    return null
+  } 
+
+  const transformJsonToSchema = (json) => {
+
+    let jsonData = json_parse(json)
+
+    jsonData = GenerateSchema(jsonData);
+
+    let schemaData = JSON.stringify(jsonData)
+    return schemaData
   }
   
   if(!importDataModule || typeof importDataModule !== 'object'){

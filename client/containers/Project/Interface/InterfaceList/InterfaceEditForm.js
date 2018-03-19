@@ -555,6 +555,8 @@ class InterfaceEditForm extends Component {
       req_body_other = ''
     }
 
+    console.log(req_body_other);
+
     const queryTpl = (data, index) => {
       return (
         <Row key={index} className="interface-edit-item-content">
