@@ -285,11 +285,11 @@ class InterfaceEditForm extends Component {
           } else if (values.req_body_type === "json") {
             values.req_headers
               ? values.req_headers.map(item => {
-                  if (item.name === "Content-Type") {
-                    item.value = "application/json";
-                    isHavaContentType = true;
-                  }
-                })
+                if (item.name === "Content-Type") {
+                  item.value = "application/json";
+                  isHavaContentType = true;
+                }
+              })
               : [];
             if (isHavaContentType === false) {
               values.req_headers = values.req_headers || [];
@@ -369,7 +369,7 @@ class InterfaceEditForm extends Component {
     mockEditor({
       container: "req_body_json",
       data: that.state.req_body_other,
-      onChange: function(d) {
+      onChange: function (d) {
         that.setState({
           req_body_other: d.text
         });
@@ -381,7 +381,7 @@ class InterfaceEditForm extends Component {
     this.resBodyEditor = mockEditor({
       container: "res_body_json",
       data: that.state.res_body,
-      onChange: function(d) {
+      onChange: function (d) {
         that.setState({
           res_body: d.text
         });
@@ -486,7 +486,7 @@ class InterfaceEditForm extends Component {
     }
 
     if (val && val.length > 3) {
-      val.replace(/\{(.+?)\}/g, function(str, match) {
+      val.replace(/\{(.+?)\}/g, function (str, match) {
         insertParams(match);
       });
     }
@@ -543,15 +543,18 @@ class InterfaceEditForm extends Component {
 
     let res_body = '';
     let req_body_other = '';
-    try{
-      res_body =  this.state.res_body ? JSON.stringify(json5.parse(this.state.res_body), null,2) : ''
-    }catch(e){
+    try {
+      res_body = this.state.res_body ? JSON.stringify(json5.parse(this.state.res_body), null, 2) : ''
+    } catch (e) {
       res_body = '';
     }
 
-    try{
-      req_body_other = this.state.req_body_other ? JSON.stringify(json5.parse(this.state.req_body_other), null,2) : '';
-    }catch(e){
+
+    console.log(res_body)
+
+    try {
+      req_body_other = this.state.req_body_other ? JSON.stringify(json5.parse(this.state.req_body_other), null, 2) : '';
+    } catch (e) {
       req_body_other = ''
     }
 
@@ -761,8 +764,8 @@ class InterfaceEditForm extends Component {
 
     const headerList = this.state.req_headers
       ? this.state.req_headers.map((item, index) => {
-          return headerTpl(item, index);
-        })
+        return headerTpl(item, index);
+      })
       : [];
 
     const requestBodyList = this.state.req_body_form.map((item, index) => {
@@ -857,7 +860,7 @@ class InterfaceEditForm extends Component {
                   disabled
                   value={this.props.basepath}
                   readOnly
-                  onChange={() => {}}
+                  onChange={() => { }}
                   style={{ width: "25%" }}
                 />
               </Tooltip>
@@ -1056,48 +1059,47 @@ class InterfaceEditForm extends Component {
                       style={{ color: "#086dbf" }}
                     />
                   </Tooltip>
-                “全局编辑”或 “退出全屏” 请按{" "}F9</span> 
-              ): (
-                <ReqBodySchema onChange={(text)=>{
+                  “全局编辑”或 “退出全屏” 请按{" "}F9</span>
+              ) : <ReqBodySchema onChange={(text)=>{
                     this.setState({
                       req_body_other: text
                     })
-                }} data={req_body_other} />
-              )}              
+                }} data={req_body_other} />}
+
             </Col>
 
-            <Col id="req_body_json" style={{ minHeight: "300px", display: !this.props.form.getFieldValue("req_body_is_json_schema") ? 'block': 'none' }} />
+            <Col id="req_body_json" style={{ minHeight: "300px", display: !this.props.form.getFieldValue("req_body_is_json_schema") ? 'block' : 'none' }} />
           </Row>
 
           {this.props.form.getFieldValue("req_body_type") === "file" &&
-          this.state.hideTabs.req.body !== "hide" ? (
-            <Row className="interface-edit-item">
-              <Col className="interface-edit-item-other-body">
-                {getFieldDecorator("req_body_other", {
-                  initialValue: this.state.req_body_other
-                })(<TextArea placeholder="" autosize={true} />)}
-              </Col>
-            </Row>
-          ) : null}
+            this.state.hideTabs.req.body !== "hide" ? (
+              <Row className="interface-edit-item">
+                <Col className="interface-edit-item-other-body">
+                  {getFieldDecorator("req_body_other", {
+                    initialValue: this.state.req_body_other
+                  })(<TextArea placeholder="" autosize={true} />)}
+                </Col>
+              </Row>
+            ) : null}
           {this.props.form.getFieldValue("req_body_type") === "raw" &&
-          this.state.hideTabs.req.body !== "hide" ? (
-            <Row>
-              <Col>
-                {getFieldDecorator("req_body_other", {
-                  initialValue: this.state.req_body_other
-                })(<TextArea placeholder="" autosize={{ minRows: 8 }} />)}
-              </Col>
-            </Row>
-          ) : null}
+            this.state.hideTabs.req.body !== "hide" ? (
+              <Row>
+                <Col>
+                  {getFieldDecorator("req_body_other", {
+                    initialValue: this.state.req_body_other
+                  })(<TextArea placeholder="" autosize={{ minRows: 8 }} />)}
+                </Col>
+              </Row>
+            ) : null}
         </div>
 
         {/* ----------- Response ------------- */}
 
         <h2 className="interface-title">返回数据设置&nbsp;
           {getFieldDecorator("res_body_is_json_schema", {
-                  valuePropName: "checked",
-                  initialValue: this.state.res_body_is_json_schema
-                })(<Switch checkedChildren="json-schema" unCheckedChildren="json" />)}
+            valuePropName: "checked",
+            initialValue: this.state.res_body_is_json_schema
+          })(<Switch checkedChildren="json-schema" unCheckedChildren="json" />)}
         </h2>
         <div className="container-radiogroup">
           {getFieldDecorator("res_body_type", {
@@ -1119,7 +1121,7 @@ class InterfaceEditForm extends Component {
                   : "none"
             }}
           >
-            <Col>      
+            <Col>
 
               <div style={{ marginTop: "10px" }}>
                 {!this.props.form.getFieldValue("res_body_is_json_schema") ? (
@@ -1147,36 +1149,21 @@ class InterfaceEditForm extends Component {
                     </span>
                     ，“全局编辑”或 “退出全屏” 请按{" "}
                     <span style={{ fontWeight: "500" }}>F9</span>
-                  
-                  </div>                  
-                ) : 
-                (
-                  <ResBodySchema onChange={(text)=>{
-                    this.setState({
-                      res_body: text
-                    })
-                  }} data={res_body} />
-                )}
-                
-                <div
-                    id="res_body_json"
-                    style={{
-                      minHeight: "300px",
-                      display: !this.props.form.getFieldValue("res_body_is_json_schema") && this.state.jsonType === "tpl" ? "block" : "none"
-                    }}
-                />
 
-                {/* 
-                  <div
-                    id="mock-preview"
-                    style={{
-                      backgroundColor: "#eee",
-                      lineHeight: "20px",
-                      minHeight: "300px",
-                      display:
-                        this.state.jsonType === "preview" ? "block" : "none"
-                    }}
-                  /> */}
+                  </div>
+                ) : <ResBodySchema onChange={(text) => {
+                  this.setState({
+                    res_body: text
+                  })
+                }} data={res_body} />}
+
+                <div
+                  id="res_body_json"
+                  style={{
+                    minHeight: "300px",
+                    display: !this.props.form.getFieldValue("res_body_is_json_schema") && this.state.jsonType === "tpl" ? "block" : "none"
+                  }}
+                />
               </div>
             </Col>
           </Row>
