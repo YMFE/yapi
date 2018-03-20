@@ -558,7 +558,7 @@ class InterfaceEditForm extends Component {
       req_body_other = ''
     }
 
-    console.log(req_body_other);
+    // console.log("req_body_other",req_body_other);
 
     const queryTpl = (data, index) => {
       return (

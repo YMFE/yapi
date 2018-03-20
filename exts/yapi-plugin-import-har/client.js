@@ -1,13 +1,20 @@
 
 import {message} from 'antd'
 import URL from 'url';
+const GenerateSchema = require('generate-schema/src/schemas/json.js');
+import { json_parse } from '../../common/utils.js'
 
-function json_format(json){
-  try{
-    return JSON.stringify(JSON.parse(json), null, '   ');
-  }catch(e){
-    return json;
-  }
+
+
+const transformJsonToSchema = (json) => {
+
+  let jsonData = json_parse(json)
+
+  jsonData = GenerateSchema(jsonData);
+
+  let schemaData = JSON.stringify(jsonData)
+  
+  return schemaData
 }
 
 function postman(importDataModule){
@@ -100,6 +107,7 @@ function postman(importDataModule){
           interfaceData.apis.push(data);
         }
       }
+      console.log(interfaceData)
       return interfaceData;
       
     }catch(e){
@@ -150,7 +158,9 @@ function postman(importDataModule){
         }
         
       }else if(item === 'req_body_other' && reqType === 'json' && data.request.postData){
-        res[item] = json_format(data.request.postData.text);
+
+
+        res[item] = transformJsonToSchema(data.request.postData.text);
       }else if(item === "req_headers"){
         res[item] = [{
           name: 'Content-Type',
@@ -173,7 +183,7 @@ function postman(importDataModule){
       }else if(item === 'res_body_type'){
         res[item] = 'json';
       }else if(item === 'res_body'){
-        res[item] = json_format(data.response.content.text);
+        res[item] = transformJsonToSchema(data.response.content.text);
       }      
       else{
         res[item] = data.request[reflect[item]];
