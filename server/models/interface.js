@@ -29,7 +29,11 @@ class interfaceModel extends baseModel {
         }]
       },
       req_query: [{
-        name: String, value: String, example: String, desc: String, required: {
+        name: String, 
+        value: String, 
+        example: String, 
+        desc: String, 
+        required: {
           type: String,
           enum: ["1", "0"],
           default: "1"
@@ -53,7 +57,10 @@ class interfaceModel extends baseModel {
       },
       req_body_is_json_schema: { type: Boolean, default: false },
       req_body_form: [{
-        name: String, type: { type: String, enum: ['text', 'file'] }, example: String, desc: String, required: {
+        name: String, type: { type: String, enum: ['text', 'file'] }, 
+        example: String, 
+        desc: String, 
+        required: {
           type: String,
           enum: ["1", "0"],
           default: "1"

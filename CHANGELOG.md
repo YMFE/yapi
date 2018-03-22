@@ -4,6 +4,7 @@
 
 * 点击编辑 tab 可能导致运行功能异常
 * 修复postman导入没有分类的问题
+* 修复postman参数导入缺失
 
 #### Feature
 

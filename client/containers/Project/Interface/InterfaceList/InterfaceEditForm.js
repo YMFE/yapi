@@ -322,7 +322,7 @@ class InterfaceEditForm extends Component {
               return message.error("请求参数 json-schema 格式有误");
             }
           }
-          if (values.res_body_is_json_schema && values.res_body) {
+          if (values.res_body_is_json_schema && values.res_body && values.res_body_type === 'json') {
             values.res_body = checkIsJsonSchema(values.res_body);
             if (!values.res_body) {
               return message.error("返回数据 json-schema 格式有误");
