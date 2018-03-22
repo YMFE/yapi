@@ -1,83 +1,86 @@
-
-import { message } from 'antd'
-import _ from 'underscore'
-const swagger = require('swagger-client')
+import { message } from 'antd';
+import _ from 'underscore';
+const swagger = require('swagger-client');
 
 function improtData(importDataModule) {
   var SwaggerData, isOAS3;
   function handlePath(path) {
-    if(path === '/') return path;
-    if (path.charAt(0) != "/") {
-      path = "/" + path;
+    if (path === '/') return path;
+    if (path.charAt(0) != '/') {
+      path = '/' + path;
     }
-    if (path.charAt(path.length - 1) === "/") {
+    if (path.charAt(path.length - 1) === '/') {
       path = path.substr(0, path.length - 1);
     }
     return path;
   }
 
   function openapi2swagger(data) {
-    
     data.swagger = '2.0';
-    _.each(data.paths, (apis) => {
-      _.each(apis, (api) => {
-        _.each(api.responses, (res) => {
-          if (res.content && res.content['application/json'] && typeof res.content['application/json'] === 'object') {
-            Object.assign(res, res.content['application/json'])
+    _.each(data.paths, apis => {
+      _.each(apis, api => {
+        _.each(api.responses, res => {
+          if (
+            res.content &&
+            res.content['application/json'] &&
+            typeof res.content['application/json'] === 'object'
+          ) {
+            Object.assign(res, res.content['application/json']);
             delete res.content;
           }
-        })
+        });
         if (api.requestBody) {
           if (!api.parameters) api.parameters = [];
           let body = {
             type: 'object',
             name: 'body',
             in: 'body'
+          };
+          try {
+            body.schema = api.requestBody.content['application/json'].schema;
+          } catch (e) {
+            body.schema = {};
           }
-          try{
-            body.schema = api.requestBody.content['application/json'].schema
-          }catch(e){
-            body.schema = {}
-          }
-          
+
           api.parameters.push(body);
         }
-      })
-    })
+      });
+    });
 
     return data;
   }
 
-  async function handleSwaggerData(res){
+  async function handleSwaggerData(res) {
     
-    return await new Promise(resolve=>{
+    return await new Promise(resolve => {
       let data = swagger({
         spec: res
-      })
-      data.then(res=>{
-        console.log(res.spec)
-        resolve(res.spec)
-      })
-    })
+      });
+
+      data.then(res => {
+        resolve(res.spec);
+      });
+    });
   }
 
   async function run(res) {
     try {
       let interfaceData = { apis: [], cats: [] };
       res = JSON.parse(res);
-      isOAS3 = res.openapi && res.openapi === '3.0.0'
+      isOAS3 = res.openapi && res.openapi === '3.0.0';
       if (isOAS3) {
-        res = openapi2swagger(res)
+        res = openapi2swagger(res);
       }
-      res = await handleSwaggerData(res);    
+      res = await handleSwaggerData(res);
       SwaggerData = res;
+      
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
           interfaceData.cats.push({
             name: tag.name,
             desc: tag.description
-          })
-        })
+          });
+        });
       }
 
       _.each(res.paths, (apis, path) => {
@@ -86,13 +89,13 @@ function improtData(importDataModule) {
           api.method = method;
           let data = null;
           try {
-            data = handleSwagger(api)
-            if(data.catname){              
-              if(!_.find(interfaceData.cats, (item)=> item.name === data.catname)){
+            data = handleSwagger(api);
+            if (data.catname) {
+              if (!_.find(interfaceData.cats, item => item.name === data.catname)) {
                 interfaceData.cats.push({
                   name: data.catname,
                   desc: data.catname
-                })
+                });
               }
             }
           } catch (err) {
@@ -100,22 +103,19 @@ function improtData(importDataModule) {
           }
           if (data) {
             interfaceData.apis.push(data);
-
           }
-
-        })
-      })
-      console.log(interfaceData)
+        });
+      });
+      
       return interfaceData;
-
     } catch (e) {
       console.error(e);
-      message.error("数据格式有误");
+      message.error('数据格式有误');
     }
-
   }
 
   function handleSwagger(data) {
+   
     let api = {};
     //处理基本信息
     api.method = data.method.toUpperCase();
@@ -137,7 +137,10 @@ function improtData(importDataModule) {
     }
 
     if (data.consumes && Array.isArray(data.consumes)) {
-      if (data.consumes.indexOf('application/x-www-form-urlencoded') > -1 || data.consumes.indexOf('multipart/form-data') > -1) {
+      if (
+        data.consumes.indexOf('application/x-www-form-urlencoded') > -1 ||
+        data.consumes.indexOf('multipart/form-data') > -1
+      ) {
         api.req_body_type = 'form';
       } else if (data.consumes.indexOf('application/json') > -1) {
         api.req_body_type = 'json';
@@ -155,15 +158,14 @@ function improtData(importDataModule) {
       api.res_body_type = 'raw';
     }
     //处理参数
-
     function simpleJsonPathParse(key, json) {
       if (!key || typeof key !== 'string' || key.indexOf('#/') !== 0 || key.length <= 2) {
         return null;
       }
-      let keys = key.substr(2).split("/");
+      let keys = key.substr(2).split('/');
       keys = keys.filter(item => {
         return item;
-      })
+      });
       for (let i = 0, l = keys.length; i < l; i++) {
         try {
           json = json[keys[i]];
@@ -178,24 +180,34 @@ function improtData(importDataModule) {
     if (data.parameters && Array.isArray(data.parameters)) {
       data.parameters.forEach(param => {
         if (param && typeof param === 'object' && param.$ref) {
-          param = simpleJsonPathParse(param.$ref, { parameters: SwaggerData.parameters })
+          param = simpleJsonPathParse(param.$ref, { parameters: SwaggerData.parameters });
         }
         let defaultParam = {
           name: param.name,
           desc: param.description,
-          required: param.required ? "1" : "0"
-        }
+          required: param.required ? '1' : '0'
+        };
 
         switch (param.in) {
-          case 'path': api.req_params.push(defaultParam); break;
-          case 'query': api.req_query.push(defaultParam); break;
-          case 'body': handleBodyPamras(param.schema, api); break;
-          case 'formData': defaultParam.type = param.type === 'file' ? 'file' : 'text'; api.req_body_form.push(defaultParam); break;
-          case 'header': api.req_headers.push(defaultParam); break;
+          case 'path':
+            api.req_params.push(defaultParam);
+            break;
+          case 'query':
+            api.req_query.push(defaultParam);
+            break;
+          case 'body':
+            handleBodyPamras(param.schema, api);
+            break;
+          case 'formData':
+            defaultParam.type = param.type === 'file' ? 'file' : 'text';
+            api.req_body_form.push(defaultParam);
+            break;
+          case 'header':
+            api.req_headers.push(defaultParam);
+            break;
         }
-      })
+      });
     }
-
 
     return api;
   }
@@ -209,7 +221,7 @@ function improtData(importDataModule) {
   }
 
   function handleBodyPamras(data, api) {
-    api.req_body_other = JSON.stringify(data,null,2);
+    api.req_body_other = JSON.stringify(data, null, 2);
     if (isJson(api.req_body_other)) {
       api.req_body_type = 'json';
       api.req_body_is_json_schema = true;
@@ -223,15 +235,14 @@ function improtData(importDataModule) {
     }
     let codes = Object.keys(api);
     let curCode;
-    if(codes.length > 0){
-      if(codes.indexOf(200) > -1){
+    if (codes.length > 0) {
+      if (codes.indexOf(200) > -1) {
         curCode = 200;
-      }else curCode = codes[0]
+      } else curCode = codes[0];
       let res = api[curCode];
       if (res && typeof res === 'object') {
-
         if (res.schema) {
-          res_body = JSON.stringify(res.schema,null,2);
+          res_body = JSON.stringify(res.schema, null, 2);
         } else if (res.description) {
           res_body = res.description;
         }
@@ -240,8 +251,8 @@ function improtData(importDataModule) {
       } else {
         res_body = '';
       }
-    }else{
-      res_body = ''
+    } else {
+      res_body = '';
     }
     return res_body;
   }
@@ -251,7 +262,6 @@ function improtData(importDataModule) {
   //   // if (typeof data !== 'object') {
   //   //   return data;
   //   // }
-    
 
   //   // try {
   //   //   // data.definitions = SwaggerData.definitions;
@@ -274,12 +284,9 @@ function improtData(importDataModule) {
     name: 'Swagger',
     run: run,
     desc: 'Swagger数据导入（ 支持 v2.0+ ）'
-  }
+  };
 }
 
-
-
-module.exports = function () {
-
-  this.bindHook('import_data', improtData)
-}
+module.exports = function() {
+  this.bindHook('import_data', improtData);
+};

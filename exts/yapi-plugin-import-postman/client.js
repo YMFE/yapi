@@ -1,11 +1,14 @@
 
 import {message} from 'antd'
 import URL from 'url';
+import _ from 'underscore';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
 import { json_parse } from '../../common/utils.js'
 
 
 function postman(importDataModule){
+
+  var folders = [];
 
   function parseUrl(url){
     return URL.parse(url)
@@ -71,7 +74,7 @@ function postman(importDataModule){
     path = decodeURIComponent(path);
     if(!path) return '';
     
-    path = path.replace(/{{\w*}}/g, '');
+    path = path.replace(/\{\{.*\}\}/g, '');
   
     if(path[0] != "/"){
       path = "/" + path;
@@ -83,16 +86,30 @@ function postman(importDataModule){
     try{
       res = JSON.parse(res);
       let interData = res.requests;
-      let interfaceData = {apis: []};
-      interData = checkInterRepeat.bind(this)(interData);  
+      let interfaceData = {apis: [], cats: []};
+      interData = checkInterRepeat.bind(this)(interData); 
+      
+      if (res.folders && Array.isArray(res.folders)) {
+        res.folders.forEach(tag => {
+          interfaceData.cats.push({
+            name: tag.name,
+            desc: tag.description
+          });
+        });
+      }
+
+      if(_.find(res.folders,item => item.collectionId === res.id)){
+        folders = res.folders
+      } 
+      
+      
       if(interData && interData.length){        
         for(let item in interData){
           let data = importPostman.bind(this)(interData[item]);
           interfaceData.apis.push(data);
         }
       }
-
-      console.log(interfaceData)
+     
       return interfaceData;
       
     }catch(e){
@@ -101,8 +118,8 @@ function postman(importDataModule){
     
   }
   
-  function importPostman(data,key){
-    console.log('data', data);
+  function importPostman(data, key){
+    
     let reflect = {//数据字段映射关系
       title: "name",
       path: "url",
@@ -117,7 +134,7 @@ function postman(importDataModule){
       res_body: "text",
       res_body_type: "language"
     };
-    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other","res"];
+    let allKey = ["title","path","catname","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other","res"];
     key = key || allKey;
     let res = {};
     for(let item in key){
@@ -172,6 +189,11 @@ function postman(importDataModule){
         }else{
           res[item] = data[reflect[item]];
         }
+      } else if(item === 'catname'){
+        let found = folders.filter(item => {
+          return item.id === data.folder
+        })
+        res[item] = found && Array.isArray(found) && found.length>0 ? found[0].name : null;
       }
       else if(item === 'res') {
         let response = handleResponses(data['responses'])

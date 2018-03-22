@@ -12,8 +12,8 @@ import mockEditor from "client/components/AceEditor/mockEditor";
 import axios from "axios";
 
 const jSchema = require("json-schema-editor-visual");
-const ResBodySchema = jSchema();
-const ReqBodySchema  = jSchema();
+const ResBodySchema = jSchema({lang: 'zh_CN'});
+const ReqBodySchema  = jSchema({lang: 'zh_CN'});
 
 require("codemirror/lib/codemirror.css"); // codemirror
 require("tui-editor/dist/tui-editor.css"); // editor ui
@@ -550,15 +550,11 @@ class InterfaceEditForm extends Component {
     }
 
 
-    console.log(res_body)
-
     try {
       req_body_other = this.state.req_body_other ? JSON.stringify(json5.parse(this.state.req_body_other), null, 2) : '';
     } catch (e) {
       req_body_other = ''
     }
-
-    // console.log("req_body_other",req_body_other);
 
     const queryTpl = (data, index) => {
       return (
@@ -1061,10 +1057,11 @@ class InterfaceEditForm extends Component {
                   </Tooltip>
                   “全局编辑”或 “退出全屏” 请按{" "}F9</span>
               ) : <ReqBodySchema onChange={(text)=>{
-                    this.setState({
-                      req_body_other: text
-                    })
-                }} data={req_body_other} />}
+                this.setState({
+                  req_body_other: text
+                })
+            }} data={req_body_other} />}
+              
 
             </Col>
 
@@ -1156,6 +1153,7 @@ class InterfaceEditForm extends Component {
                     res_body: text
                   })
                 }} data={res_body} />}
+                
 
                 <div
                   id="res_body_json"
