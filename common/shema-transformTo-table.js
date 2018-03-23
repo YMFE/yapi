@@ -137,7 +137,9 @@ const SchemaArray =(data, index) => {
     maxItems: data.maxItems,
     itemType: items.type,
     children: optionForm
-
+  }
+  if(items.type === 'string'){
+    item = Object.assign({},item, {itemFormat: items.format})
   }
   return item
 }
