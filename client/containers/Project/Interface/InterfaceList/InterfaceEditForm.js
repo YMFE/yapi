@@ -1061,6 +1061,7 @@ class InterfaceEditForm extends Component {
                 this.setState({
                   req_body_other: text
                 })
+                EditFormContext.props.changeEditStatus(true);
             }} data={req_body_other} />}
               
 
@@ -1153,6 +1154,7 @@ class InterfaceEditForm extends Component {
                   this.setState({
                     res_body: text
                   })
+                  EditFormContext.props.changeEditStatus(true);
                 }} data={res_body} />}
                 
 
