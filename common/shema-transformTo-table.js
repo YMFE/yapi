@@ -96,7 +96,7 @@ const SchemaObject = (data, key) => {
 
     if(value.type === 'object'||_.isUndefined(value.type)&&_.isArray(optionForm)){
 
-      item = Object.assign({},item,{ children: optionForm})
+      item = Object.assign({},item,{ type: 'object',children: optionForm})
       delete item.sub
     } else {
       item = Object.assign({}, item, optionForm)
@@ -137,7 +137,9 @@ const SchemaArray =(data, index) => {
     maxItems: data.maxItems,
     itemType: items.type,
     children: optionForm
-
+  }
+  if(items.type === 'string'){
+    item = Object.assign({},item, {itemFormat: items.format})
   }
   return item
 }

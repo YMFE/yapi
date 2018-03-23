@@ -28,8 +28,8 @@ class Setting extends Component {
     
     return (
       <div className="g-row">
-        <Tabs size="large" type="card" className="has-affix-footer">
-          <TabPane tab="项目配置" key="1">
+        <Tabs  type="card" className="has-affix-footer tabs-large">
+          <TabPane tab="项目配置" key="1" >
             <ProjectMessage projectId={+id}/>
           </TabPane>
           <TabPane tab="环境配置" key="2">

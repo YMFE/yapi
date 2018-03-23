@@ -82,7 +82,7 @@ class Interface extends Component {
     this.props.setColData({
       isShowCol: true
     })
-    // this.props.getProject(this.props.match.params.id)
+    this.props.getProject(this.props.match.params.id)
   }
   render() {
     const { action } = this.props.match.params;
@@ -94,7 +94,7 @@ class Interface extends Component {
       <Layout style={{minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px'}}>
         <Sider style={{ height: '100%' }} width={300}>
           <div className="left-menu">
-            <Tabs type="card" size= "large" activeKey={activeKey} onChange={this.onChange}>
+            <Tabs type="card" className="tabs-large" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api">
                 
               </Tabs.TabPane>

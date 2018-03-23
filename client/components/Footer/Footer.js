@@ -65,7 +65,7 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: 'YMFE',
-          itemLink: 'http://ued.qunar.com/ymfe/about'
+          itemLink: 'https://ymfe.org'
         }
       ]
 

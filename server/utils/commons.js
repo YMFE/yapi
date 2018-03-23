@@ -10,6 +10,7 @@ const interfaceModel = require("../models/interface.js");
 const json5 = require("json5");
 const _ = require("underscore");
 const Ajv = require("ajv");
+const Mock = require('mockjs')
 const ajv = new Ajv({
   allErrors: true,
   coerceTypes: true,
@@ -20,10 +21,21 @@ var localize = require("ajv-i18n");
 const ejs = require("easy-json-schema");
 
 const jsf = require('json-schema-faker');  
+const formats = require('../../common/formats')
 const defaultOptions = {
   failOnInvalidTypes: false,
   failOnInvalidFormat: false
 }
+
+formats.forEach(item=>{
+  item = item.name;
+  jsf.format(item, ()=>{
+    if(item === 'mobile'){
+      return jsf.random.randexp('^[1][34578][0-9]{9}$')
+    }
+    return Mock.mock('@'+ item)
+  })
+})
 
 exports.schemaToJson = function(schema, options={}){  
   Object.assign(options, defaultOptions)

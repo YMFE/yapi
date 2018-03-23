@@ -71,7 +71,7 @@ module.exports = {
         defaultQuery.plugins.push(["import", { libraryName: "antd"}])
         return defaultQuery;
       },
-      exclude: /node_modules\/(?!_?(yapi-plugin|randexp))/
+      exclude: /node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual))/
     }    
   }],    
   devtool:  'cheap-source-map',
@@ -188,14 +188,8 @@ module.exports = {
         })
 
         if (this.env == 'prd') {
-          baseConfig.plugins.push(new this.webpack.optimize.UglifyJsPlugin({
-            compress: {
-              warnings: false
-            }
-          }))
           baseConfig.plugins.push(assetsPluginInstance)
           baseConfig.plugins.push(compressPlugin)
-
         }
         return baseConfig;
       }

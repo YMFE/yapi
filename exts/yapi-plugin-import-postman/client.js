@@ -1,8 +1,14 @@
 
 import {message} from 'antd'
 import URL from 'url';
+import _ from 'underscore';
+const GenerateSchema = require('generate-schema/src/schemas/json.js');
+import { json_parse } from '../../common/utils.js'
+
 
 function postman(importDataModule){
+
+  var folders = [];
 
   function parseUrl(url){
     return URL.parse(url)
@@ -28,7 +34,8 @@ function postman(importDataModule){
         res.push({
           name: query[item].key,
           desc: query[item].description,
-          required: query[item].enable
+          example: query[item].value,
+          required: query[item].enabled ? '1' : '0'
         });
       }
     }
@@ -42,7 +49,7 @@ function postman(importDataModule){
           name: headers[item].key,
           desc: headers[item].description,
           value: headers[item].value,
-          required: headers[item].enable
+          required: headers[item].enabled ? '1' : '0'
         });
       }
     }
@@ -55,8 +62,10 @@ function postman(importDataModule){
       for(let item in body_form){
         res.push({
           name: body_form[item].key,
-          value: body_form[item].value,
-          type: body_form[item].type
+          example: body_form[item].value,
+          type: body_form[item].type,
+          required: body_form[item].enabled ? '1': '0',
+          desc: body_form[item].description
         });
       }
     }
@@ -68,7 +77,7 @@ function postman(importDataModule){
     path = decodeURIComponent(path);
     if(!path) return '';
     
-    path = path.replace(/{{\w*}}/g, '');
+    path = path.replace(/\{\{.*\}\}/g, '');
   
     if(path[0] != "/"){
       path = "/" + path;
@@ -80,14 +89,30 @@ function postman(importDataModule){
     try{
       res = JSON.parse(res);
       let interData = res.requests;
-      let interfaceData = {apis: []};
-      interData = checkInterRepeat.bind(this)(interData);  
+      let interfaceData = {apis: [], cats: []};
+      interData = checkInterRepeat.bind(this)(interData); 
+      
+      if (res.folders && Array.isArray(res.folders)) {
+        res.folders.forEach(tag => {
+          interfaceData.cats.push({
+            name: tag.name,
+            desc: tag.description
+          });
+        });
+      }
+
+      if(_.find(res.folders,item => item.collectionId === res.id)){
+        folders = res.folders
+      } 
+      
+      
       if(interData && interData.length){        
         for(let item in interData){
           let data = importPostman.bind(this)(interData[item]);
           interfaceData.apis.push(data);
         }
       }
+      console.log(interfaceData)
       return interfaceData;
       
     }catch(e){
@@ -96,7 +121,8 @@ function postman(importDataModule){
     
   }
   
-  function importPostman(data,key){
+  function importPostman(data, key){
+    
     let reflect = {//数据字段映射关系
       title: "name",
       path: "url",
@@ -107,9 +133,11 @@ function postman(importDataModule){
       req_params: "",
       req_body_type: "dataMode",
       req_body_form: "data",
-      req_body_other: "rawModeData"
+      req_body_other: "rawModeData",
+      res_body: "text",
+      res_body_type: "language"
     };
-    let allKey = ["title","path","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other"];
+    let allKey = ["title","path","catname","method","desc","req_query","req_headers","req_body_type","req_body_form","req_body_other","res"];
     key = key || allKey;
     let res = {};
     for(let item in key){
@@ -131,7 +159,16 @@ function postman(importDataModule){
           }
         }
         
-      }else if(item === "path"){
+      } else if(item === 'req_body_other') {
+        if(data.headers.indexOf('application/json')>-1){
+
+          res[item] = transformJsonToSchema(data[reflect[item]])
+        } else {
+          res[item] = data[reflect[item]];
+        }
+
+      }
+      else if(item === "path"){
         res[item] = handlePath.bind(this)(data[reflect[item]]);
         if(res[item] && res[item].indexOf("/:") > -1){
           let params = res[item].substr(res[item].indexOf("/:")+2).split("/:");
@@ -155,11 +192,48 @@ function postman(importDataModule){
         }else{
           res[item] = data[reflect[item]];
         }
-      }else{
+      } else if(item === 'catname'){
+        let found = folders.filter(item => {
+          return item.id === data.folder
+        })
+        res[item] = found && Array.isArray(found) && found.length>0 ? found[0].name : null;
+      }
+      else if(item === 'res') {
+        let response = handleResponses(data['responses'])
+        if(response) {
+          res['res_body'] = response['res_body'],
+          res['res_body_type'] = response['res_body_type']
+        }
+        
+      } 
+      else{
         res[item] = data[reflect[item]];
       }
     }
     return res;
+  }
+
+  const handleResponses = (data) => {
+    if(data&&data.length){
+      let res = data[0];
+      let response = {};
+      response['res_body_type'] = res.language === 'json' ? 'json' : 'raw'
+      response['res_body'] = res.language === 'json' ? transformJsonToSchema(res.text): res.text;
+     
+      return response;
+    }
+
+    return null
+  } 
+
+  const transformJsonToSchema = (json) => {
+
+    let jsonData = json_parse(json)
+
+    jsonData = GenerateSchema(jsonData);
+
+    let schemaData = JSON.stringify(jsonData)
+    return schemaData
   }
   
   if(!importDataModule || typeof importDataModule !== 'object'){
