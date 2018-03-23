@@ -1,72 +1,72 @@
 const formats = [
   {
-    name: "url"
+    mock: "url"
   },
   {
-    name: "domain"
+    mock: "domain"
   },
   {
-    name: "ip"
+    mock: "ip"
   },
   {
-    name: "id"
+    mock: "id"
   },
   {
-    name: "guid"
+    mock: "guid"
   },
   {
-    name: "now"
+    mock: "now"
   },
   {
-    name: "timestamp"
+    mock: "timestamp"
   },
   {
-    name: "date"
+    mock: "date"
   },
   {
-    name: "time"
+    mock: "time"
   },
   {
-    name: "datetime"
+    mock: "datetime"
   },
   {
-    name: "image"
+    mock: "image"
   },
   {
-    name: "imageData"
+    mock: "imageData"
   },
   {
-    name: "email"
+    mock: "email"
   },
   {
-    name: "paragraph"
+    mock: "paragraph"
   },
   {
-    name: "sentence"
+    mock: "sentence"
   },
   {
-    name: "word"
+    mock: "word"
   },
   {
-    name: "title"
+    mock: "title"
   },
   {
-    name: "name"
+    mock: "mock"
   },
   {
-    name: "region"
+    mock: "region"
   },
   {
-    name: "province"
+    mock: "province"
   },
   {
-    name: "city"
+    mock: "city"
   },
   {
-    name: "county"
+    mock: "county"
   },
   {
-    name: "mobile"
+    mock: "mobile"
   }
 ];
 

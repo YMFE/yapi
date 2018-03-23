@@ -10,9 +10,9 @@ import { message, Affix } from "antd";
 import EasyDragSort from "../../../../components/EasyDragSort/EasyDragSort.js";
 import mockEditor from "client/components/AceEditor/mockEditor";
 import axios from "axios";
-
+import formats from 'common/formats'
 const jSchema = require("json-schema-editor-visual");
-const ResBodySchema = jSchema({lang: 'zh_CN'});
+const ResBodySchema = jSchema({lang: 'zh_CN', format: formats});
 const ReqBodySchema  = jSchema({lang: 'zh_CN'});
 
 require("codemirror/lib/codemirror.css"); // codemirror
