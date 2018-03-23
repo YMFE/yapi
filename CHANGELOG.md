@@ -1,15 +1,16 @@
 ### v1.3.8
 
+#### Feature
+
+* 新增 json 结构可视化编辑器
+* pre-script 增加 method 字段数据
+
 #### Bug Fixed
 
 * 点击编辑 tab 可能导致运行功能异常
 * 修复postman导入没有分类的问题
 * 修复postman参数导入缺失
 
-#### Feature
-
-* 新增 json 结构可视化编辑器
-* pre-script 增加 method 字段数据
 
 ### v1.3.7
 
