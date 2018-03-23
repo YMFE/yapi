@@ -1,12 +1,15 @@
 const formats = [
   {
-    mock: "url"
+    name: "url",
+    title: 'url'
   },
   {
-    mock: "domain"
+    name: "domain",
+    title: "域名"
   },
   {
-    name: "ip"
+    name: "ip",
+    title: "ipv4 地址"
   },
   {
     name: "id"
@@ -30,43 +33,56 @@ const formats = [
     name: "datetime"
   },
   {
-    name: "image"
+    name: "image",
+    title: "图片链接"
   },
   {
-    name: "imageData"
+    name: "imageData",
+    title: "图片"
   },
   {
-    name: "email"
+    name: "email",
+    title: "邮箱"
   },
   {
-    name: "paragraph"
+    name: "paragraph",
+    title: "段落"
   },
   {
-    name: "sentence"
+    name: "sentence",
+    title: "句子"
   },
   {
-    name: "word"
+    name: "word",
+    title: "单词"
   },
   {
-    name: "title"
+    name: "title",
+    title: "标题"
   },
   {
-    name: "name"
+    name: "name",
+    title: "姓名"
   },
   {
-    name: "region"
+    name: "region",
+    title: "地区"
   },
   {
-    name: "province"
+    name: "province",
+    title: "省份"
   },
   {
-    name: "city"
+    name: "city",
+    title: "城市名"
   },
   {
-    name: "county"
+    name: "county",
+    title: "国家"
   },
   {
-    name: "mobile"
+    name: "mobile",
+    title: '手机号'
   }
 ];
 
