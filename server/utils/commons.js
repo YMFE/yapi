@@ -28,7 +28,7 @@ const defaultOptions = {
 }
 
 formats.forEach(item=>{
-  item = item.mock;
+  item = item.name;
   jsf.format(item, ()=>{
     if(item === 'mobile'){
       return jsf.random.randexp('^[1][34578][0-9]{9}$')

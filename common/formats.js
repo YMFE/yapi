@@ -6,67 +6,67 @@ const formats = [
     mock: "domain"
   },
   {
-    mock: "ip"
+    name: "ip"
   },
   {
-    mock: "id"
+    name: "id"
   },
   {
-    mock: "guid"
+    name: "guid"
   },
   {
-    mock: "now"
+    name: "now"
   },
   {
-    mock: "timestamp"
+    name: "timestamp"
   },
   {
-    mock: "date"
+    name: "date"
   },
   {
-    mock: "time"
+    name: "time"
   },
   {
-    mock: "datetime"
+    name: "datetime"
   },
   {
-    mock: "image"
+    name: "image"
   },
   {
-    mock: "imageData"
+    name: "imageData"
   },
   {
-    mock: "email"
+    name: "email"
   },
   {
-    mock: "paragraph"
+    name: "paragraph"
   },
   {
-    mock: "sentence"
+    name: "sentence"
   },
   {
-    mock: "word"
+    name: "word"
   },
   {
-    mock: "title"
+    name: "title"
   },
   {
-    mock: "mock"
+    name: "name"
   },
   {
-    mock: "region"
+    name: "region"
   },
   {
-    mock: "province"
+    name: "province"
   },
   {
-    mock: "city"
+    name: "city"
   },
   {
-    mock: "county"
+    name: "county"
   },
   {
-    mock: "mobile"
+    name: "mobile"
   }
 ];
 
