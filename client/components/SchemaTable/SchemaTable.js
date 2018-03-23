@@ -17,7 +17,8 @@ const messageMap = {
   enum: '枚举',
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
-  format: 'format'
+  format: 'format',
+  itemFormat: 'format'
 };
 
 const columns = [
