@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <meta name="description" content="description of your site">
+    <meta name="author" content="author of the site">
     <title>YApi 接口管理平台 使用手册</title>
-    
-        <meta name="keywords" content="api管理,接口管理,接口文档,api文档">
-    
-    
-        <meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理。">
-    
-
-    <link rel="shortcut icon" href="./images/favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="source/main.css" />
     
     
@@ -18,10 +17,6 @@
       <link rel="stylesheet" href="styles/theme.css" />
       
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta name="format-detection" content="telephone=no,email=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 </head>
 <body>
     <div class="ydoc">
@@ -167,6 +162,10 @@
                                     <li >
                                         <a href="#自动化测试">自动化测试</a>
                                     </li>
+                                     
+                                    <li >
+                                        <a href="#断言">断言</a>
+                                    </li>
                                 
                                 </ul>
                                             
@@ -226,7 +225,10 @@
 <p>Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值</p>
 </blockquote>
 <p><img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png"  /></p>
-<h2 class="subject" id="自动化测试">自动化测试 <a class="hashlink" href="#自动化测试">#</a></h2><p>可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。</p>
+<h2 class="subject" id="自动化测试">自动化测试 <a class="hashlink" href="#自动化测试">#</a></h2><p>点击自动化测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果</p>
+<p><img src="./images/autoTest.png" />
+<img src="./images/autoTestResult.png" /></p>
+<h2 class="subject" id="断言">断言 <a class="hashlink" href="#断言">#</a></h2><p>可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。</p>
 <!-- <video style="width:800px" controls="controls" autoplay="autoplay">
   <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
 Your browser does not support the video tag.
