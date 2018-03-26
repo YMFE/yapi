@@ -124,6 +124,7 @@ class InterfaceEditForm extends Component {
   };
 
   initState(curdata) {
+    this.startTime = new Date().getTime()
     if (curdata.req_query && curdata.req_query.length === 0)
       delete curdata.req_query;
     if (curdata.req_headers && curdata.req_headers.length === 0)
@@ -1061,7 +1062,11 @@ class InterfaceEditForm extends Component {
                 this.setState({
                   req_body_other: text
                 })
-                EditFormContext.props.changeEditStatus(true);
+
+                if(new Date().getTime()-this.startTime > 1000) {
+                  EditFormContext.props.changeEditStatus(true);
+                }
+                
             }} data={req_body_other} />}
               
 
@@ -1154,7 +1159,9 @@ class InterfaceEditForm extends Component {
                   this.setState({
                     res_body: text
                   })
-                  EditFormContext.props.changeEditStatus(true);
+                  if(new Date().getTime()-this.startTime > 1000){
+                    EditFormContext.props.changeEditStatus(true);
+                  }
                 }} data={res_body} />}
                 
 
