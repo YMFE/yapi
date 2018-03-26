@@ -43,7 +43,6 @@ const mapping = function(data, index) {
     case 'integer':
       return SchemaInt(data)
     default:
-      console.log(data);
       return SchemaOther(data)
   }
 
