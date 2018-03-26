@@ -43,18 +43,6 @@ const fs = require('fs-extra')
 const path = require('path');
 
 
-const RES_BODY_TPL= `
-/**
- * 这是一个 response 事例
- */
-{
-  "errcode": 0, //错误编码
-  "data": {
-    "id": "uuid-xxx", //产品id
-    "name": "iphone" //产品名称
-  }
-}
-`
 
 // const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
 // const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
@@ -182,10 +170,11 @@ class interfaceController extends baseController {
       return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
     }
     params.method = params.method || 'GET';
+    params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
+    params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
     params.method = params.method.toUpperCase();
     params.req_params = params.req_params || [];
     params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
-    params.res_body = _.isUndefined(params.res_body) ? RES_BODY_TPL : params.res_body;
     let http_path = url.parse(params.path, true);
 
     if (!yapi.commons.verifyPath(http_path.pathname)) {
@@ -282,6 +271,7 @@ class interfaceController extends baseController {
     }
     params.method = params.method || 'GET';
     params.method = params.method.toUpperCase();
+    
 
     let http_path = url.parse(params.path, true);
 
@@ -525,7 +515,8 @@ class interfaceController extends baseController {
     let id = params.id;
     params.message = params.message || '';
     params.message = params.message.replace(/\n/g, "<br>")
-
+    params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
+    params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
 
     let interfaceData = await this.Model.get(id);
     if (!interfaceData) {
