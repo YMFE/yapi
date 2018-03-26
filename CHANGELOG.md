@@ -8,6 +8,7 @@
 
 #### Feature
 
+* 新增 json 结构可视化编辑器
 * pre-script 增加 method 字段数据
 
 ### v1.3.7
