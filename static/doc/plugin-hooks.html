@@ -150,14 +150,14 @@
                     
                     <div class="content-right markdown-body use-sidebar" role="main">
 
-                         <h2 class="subject" id="后端_hookList">后端 hookList <a class="hashlink" href="#后端_hookList">#</a></h2><p>目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq群</p>
+                         <h2 class="subject" id="后端_hookList">后端 hookList <a class="hashlink" href="#后端_hookList">#</a></h2><p>目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群</p>
 <pre><code>/**
  * 钩子配置
  */
 var hooks = <span class="token punctuation">{</span>
     /**
      * 第三方sso登录钩子，暂只支持设置一个
-     * @param ctx 
+     * @param ctx
      * @return 必需返回一个 promise 对象，resolve(<span class="token punctuation">{</span>username<span class="token operator">:</span> ''<span class="token punctuation">,</span> email<span class="token operator">:</span> ''<span class="token punctuation">}</span><span class="token punctuation">)</span>
      */
     'third_login'<span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -227,9 +227,9 @@ var hooks = <span class="token punctuation">{</span>
      *  projectData<span class="token operator">:</span> project<span class="token punctuation">,</span>
         interfaceData<span class="token operator">:</span> interfaceData<span class="token punctuation">,</span>
         ctx<span class="token operator">:</span> ctx<span class="token punctuation">,</span>
-        mockJson<span class="token operator">:</span> res 
+        mockJson<span class="token operator">:</span> res
      * <span class="token punctuation">}</span>
-     * 
+     *
      */
     mock_after<span class="token operator">:</span> <span class="token punctuation">{</span>
         type<span class="token operator">:</span> 'multi'<span class="token punctuation">,</span>
@@ -238,7 +238,7 @@ var hooks = <span class="token punctuation">{</span>
     /**
      * 增加路由的钩子
      * type Sync
-     * @param addPluginRouter Function 
+     * @param addPluginRouter Function
      * addPLuginPLugin(config<span class="token punctuation">)</span>
      * config = <span class="token punctuation">{</span>
      *  path<span class="token punctuation">,</span>      // String
@@ -256,7 +256,7 @@ var hooks = <span class="token punctuation">{</span>
  * type component  组件
  *      listener   监听函数
  * mulit 是否绑定多个监听函数
- *      
+ *
  */
 
 hooks = <span class="token punctuation">{</span>
@@ -273,7 +273,7 @@ hooks = <span class="token punctuation">{</span>
    * @param Object exportDataModule
    * @param projectId
    * @info
-   * exportDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
+   * exportDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
    * exportDataModule.pdf = <span class="token punctuation">{</span>
    *   name<span class="token operator">:</span> 'Pdf'<span class="token punctuation">,</span>
    *   route<span class="token operator">:</span> '/api/plugin/export/pdf'<span class="token punctuation">,</span>
@@ -288,11 +288,11 @@ hooks = <span class="token punctuation">{</span>
   /**
    * 导入数据
    * @param importDataModule
-   * 
+   *
    * @info
    * 可参考 vendors/exts/yapi-plugin-import-swagger插件
-   * importDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
-   * 
+   * importDataModule = <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+   *
    */
   import_data<span class="token operator">:</span> <span class="token punctuation">{</span>
     type<span class="token operator">:</span> 'listener'<span class="token punctuation">,</span>
@@ -302,7 +302,7 @@ hooks = <span class="token punctuation">{</span>
   /**
    * 接口页面 tab 钩子
    * @param InterfaceTabs
-   * 
+   *
    * @info
    * 可参考 vendors/exts/yapi-plugin-advanced-mock
    * let InterfaceTabs = <span class="token punctuation">{</span>

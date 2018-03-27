@@ -35,6 +35,7 @@ function postman(importDataModule){
           name: query[item].key,
           desc: query[item].description,
           example: query[item].value,
+          value: query[item].value,
           required: query[item].enabled ? '1' : '0'
         });
       }
@@ -63,6 +64,7 @@ function postman(importDataModule){
         res.push({
           name: body_form[item].key,
           example: body_form[item].value,
+          value: body_form[item].value,
           type: body_form[item].type,
           required: body_form[item].enabled ? '1': '0',
           desc: body_form[item].description

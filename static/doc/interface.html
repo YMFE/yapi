@@ -186,7 +186,8 @@
 <li>Query参数： 接口 url 的查询字符串，点击『添加Query参数』按钮来添加参数，可以通过拖动来交换参数位置</li><li>请求Body：http 请求 body 部分，如果http请求方式是 post, put 等请求方式时会有 req_body 部分。req_body_type 形式有4种，分别是 form, json, file 和 raw 。</li><li>Headers:  http 请求头字段，在 req_body 形式是 form 格式下会在 header 中自动生成 &#39;Content-Type    application/x-www-form-urlencoded&#39;，其他3种格式也会自动生成不同 header</li></ul>
 <p><img src="./images/requestSet.png" /></p>
 <h3 class="subject" id="返回数据设置">返回数据设置 <a class="hashlink" href="#返回数据设置">#</a></h3><ul>
-<li>返回数据分为 <code>json</code> &amp; <code>raw</code> 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑</li></ul>
+<li>返回数据分为 <code>json</code> &amp; <code>raw</code> 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑</li><li>选择json-schema 则进入了 json 结构可视化编辑器形式, 数据以 json schema 格式解析 <a  target="_blank" href="https://www.jianshu.com/p/8278eb2458c4?winzoom=1">快速入门 Json Schema </a>。</li></ul>
+<p><img src="./images/jsonSchema.png" /></p>
 <h3 class="subject" id="备注_&amp;_其他">备注 &amp; 其他 <a class="hashlink" href="#备注_&amp;_其他">#</a></h3><ul>
 <li>接口描述: 用简短的文字描述接口的作用。</li><li>邮件通知：开启后将此次接口的改动以邮件的形式发送至项目组所有成员和关注该项目的成员（邮件默认情况下自动开启）</li><li>开放接口：默认为关闭状态，用户可以在 数据导出 时选择只导出公开接口</li></ul>
 <h2 class="subject" id="接口运行">接口运行 <a class="hashlink" href="#接口运行">#</a></h2><p>接口运行功能，是用来测试真实接口的，类似『Postman』的功能。</p>

@@ -1,5 +1,7 @@
 ## 后端 hookList
-目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq群
+
+目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群
+
 ```
 /**
  * 钩子配置
@@ -7,7 +9,7 @@
 var hooks = {
     /**
      * 第三方sso登录钩子，暂只支持设置一个
-     * @param ctx 
+     * @param ctx
      * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})
      */
     'third_login': {
@@ -77,9 +79,9 @@ var hooks = {
      *  projectData: project,
         interfaceData: interfaceData,
         ctx: ctx,
-        mockJson: res 
+        mockJson: res
      * }
-     * 
+     *
      */
     mock_after: {
         type: 'multi',
@@ -88,7 +90,7 @@ var hooks = {
     /**
      * 增加路由的钩子
      * type Sync
-     * @param addPluginRouter Function 
+     * @param addPluginRouter Function
      * addPLuginPLugin(config)
      * config = {
      *  path,      // String
@@ -105,12 +107,13 @@ var hooks = {
 ```
 
 ## 前端 hookList
+
 ```
 /**
  * type component  组件
  *      listener   监听函数
  * mulit 是否绑定多个监听函数
- *      
+ *
  */
 
 hooks = {
@@ -127,7 +130,7 @@ hooks = {
    * @param Object exportDataModule
    * @param projectId
    * @info
-   * exportDataModule = {}; 
+   * exportDataModule = {};
    * exportDataModule.pdf = {
    *   name: 'Pdf',
    *   route: '/api/plugin/export/pdf',
@@ -142,11 +145,11 @@ hooks = {
   /**
    * 导入数据
    * @param importDataModule
-   * 
+   *
    * @info
    * 可参考 vendors/exts/yapi-plugin-import-swagger插件
-   * importDataModule = {}; 
-   * 
+   * importDataModule = {};
+   *
    */
   import_data: {
     type: 'listener',
@@ -156,7 +159,7 @@ hooks = {
   /**
    * 接口页面 tab 钩子
    * @param InterfaceTabs
-   * 
+   *
    * @info
    * 可参考 vendors/exts/yapi-plugin-advanced-mock
    * let InterfaceTabs = {

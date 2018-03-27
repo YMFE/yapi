@@ -57,8 +57,10 @@ class interfaceModel extends baseModel {
       },
       req_body_is_json_schema: { type: Boolean, default: false },
       req_body_form: [{
-        name: String, type: { type: String, enum: ['text', 'file'] }, 
+        name: String, 
+        type: { type: String, enum: ['text', 'file'] }, 
         example: String, 
+        value: String,
         desc: String, 
         required: {
           type: String,

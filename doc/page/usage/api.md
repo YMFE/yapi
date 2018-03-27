@@ -28,6 +28,10 @@
 ### 返回数据设置
 
 - 返回数据分为 `json` & `raw` 两种形式。基于 mockjs （具体使用方法详见<a  href="./mock.html">Mock 介绍</a>）和 json5，使用注释方式写参数说明。 为了方便数据编写可以按F9来使用全局编辑
+- 选择json-schema 则进入了 json 结构可视化编辑器形式, 数据以 json schema 格式解析 <a  target="_blank" href="https://www.jianshu.com/p/8278eb2458c4?winzoom=1">快速入门 Json Schema </a>。
+
+<img src="./images/jsonSchema.png" />
+
 
 
 ### 备注 & 其他
