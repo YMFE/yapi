@@ -10,6 +10,7 @@ import './index.scss'
 import { Row, Col, Tooltip, Icon } from 'antd';
 import { setBreadcrumb } from 'client/reducer/modules/user';
 import StatisChart from './StatisChart';
+import StatisTable from './StatisTable'
 
 const CountOverview = (props) => (
   <Row type="flex" justify="space-start" className="m-row">
@@ -132,7 +133,8 @@ class statisticsPage extends Component {
         totalmem: '',
         freemem: '',
         uptime: ''
-      }
+      },
+      dataTotal: []
     }
   }
 
@@ -140,6 +142,7 @@ class statisticsPage extends Component {
     this.props.setBreadcrumb([{ name: '系统信息' }]);
     this.getStatisData();
     this.getSystemStatusData();
+    this.getGroupData();
   }
 
   // 获取统计数据
@@ -165,6 +168,21 @@ class statisticsPage extends Component {
     }
   }
 
+  // 获取分组详细信息
+
+  async getGroupData() {
+    let result = await axios.get('/api/plugin/statismock/get_system_status')
+    if (result.data.errcode === 0) {
+      let statusData = result.data.data;
+      this.setState({
+        dataTotal: { ...statusData }
+      });
+    }
+
+    
+    
+
+
 
   render() {
     const { count, status } = this.state;
@@ -178,7 +196,8 @@ class statisticsPage extends Component {
           </div>
           <h2 className="title">数据统计</h2>
           <div>
-            <CountOverview date={count}></CountOverview>
+            <CountOverview date={count}/>
+            <StatisTable />
             <StatisChart />
           </div>
 
