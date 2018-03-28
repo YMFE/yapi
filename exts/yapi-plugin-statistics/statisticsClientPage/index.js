@@ -171,13 +171,14 @@ class statisticsPage extends Component {
   // 获取分组详细信息
 
   async getGroupData() {
-    let result = await axios.get('/api/plugin/statismock/get_system_status')
+    let result = await axios.get('/api/plugin/statismock/group_data_statis')
     if (result.data.errcode === 0) {
       let statusData = result.data.data;
       this.setState({
-        dataTotal: { ...statusData }
+        dataTotal: statusData
       });
     }
+  }
 
     
     
@@ -185,7 +186,7 @@ class statisticsPage extends Component {
 
 
   render() {
-    const { count, status } = this.state;
+    const { count, status, dataTotal } = this.state;
 
     return (
       <div className="g-statistic">
@@ -197,7 +198,7 @@ class statisticsPage extends Component {
           <h2 className="title">数据统计</h2>
           <div>
             <CountOverview date={count}/>
-            <StatisTable />
+            <StatisTable dataSource={dataTotal}/>
             <StatisChart />
           </div>
 

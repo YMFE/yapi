@@ -8,8 +8,8 @@ import _ from 'underscore';
 const columns = [
   {
     title: 'BU',
-    dataIndex: 'bu',
-    key: 'bu',
+    dataIndex: 'name',
+    key: 'name',
     width: 200
   },
   {
@@ -33,7 +33,7 @@ const columns = [
 class SchemaTable extends Component {
 
   static propTypes = {
-    dataSource: PropTypes.object
+    dataSource: PropTypes.array
   }
 
   constructor(props) {
@@ -42,9 +42,9 @@ class SchemaTable extends Component {
   }
 
   render() {    
+    const {dataSource} = this.props;
     
-    
-    dataSource = _.isArray(dataSource) ? dataSource : []
+    // dataSource = _.isArray(dataSource) ? dataSource : []
     return <Table bordered size="small" pagination={false} dataSource={dataSource} columns={columns} />;
   }
 }
