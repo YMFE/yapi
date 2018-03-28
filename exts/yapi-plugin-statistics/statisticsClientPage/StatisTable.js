@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types'
-import _ from 'underscore';
+
 
 
 
 const columns = [
   {
-    title: 'BU',
+    title: 'Group',
     dataIndex: 'name',
-    key: 'name',
-    width: 200
+    key: 'name'
   },
   {
     title: '项目',
     dataIndex: 'project',
-    key: 'project',
-    width: 100
+    key: 'project'
   },
   {
     title: '分组',
@@ -45,7 +43,14 @@ class SchemaTable extends Component {
     const {dataSource} = this.props;
     
     // dataSource = _.isArray(dataSource) ? dataSource : []
-    return <Table bordered size="small" pagination={false} dataSource={dataSource} columns={columns} />;
+    return ( 
+      <div className="m-row-table">
+        <h3 className="statis-title">分组数据详情</h3>
+        <Table className="statis-table" pagination={false} dataSource={dataSource} columns={columns} />
+      </div>
+    ) 
+    
+    ;
   }
 }
 export default SchemaTable;

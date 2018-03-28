@@ -173,7 +173,10 @@ class statisticsPage extends Component {
   async getGroupData() {
     let result = await axios.get('/api/plugin/statismock/group_data_statis')
     if (result.data.errcode === 0) {
-      let statusData = result.data.data;
+      let statusData = result.data.data
+      statusData.map(item=> {
+        return item['key'] = item.name
+      })
       this.setState({
         dataTotal: statusData
       });
