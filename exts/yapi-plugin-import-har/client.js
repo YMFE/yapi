@@ -107,7 +107,7 @@ function postman(importDataModule){
           interfaceData.apis.push(data);
         }
       }
-      console.log(interfaceData)
+  
       return interfaceData;
       
     }catch(e){

@@ -128,7 +128,7 @@ class ModalPostman extends Component {
   handleConstantsInput = (val) => {
    
     val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
-    console.log('val', val);
+    
     this.setState({
       constantInput: val
     })

@@ -53,7 +53,7 @@ class Login extends Component {
     form.validateFields((err, values) => {
       if (!err) {
         if (this.props.isLDAP && this.state.loginType === 'ldap') {
-          console.log('ldap');
+          
           this.props.loginLdapActions(values).then((res) => {
             if (res.payload.data.errcode == 0) {
               this.props.history.replace('/group');

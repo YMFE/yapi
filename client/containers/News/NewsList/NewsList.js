@@ -52,7 +52,7 @@ class NewsList extends Component {
     const that = this;
     this.props.setLoading(true);
     this.props.fetchNewsData(+this.props.uid,0,5).then(function(data){
-      console.log(data.data);
+      
       that.props.setLoading(false);
     })
   }
