@@ -48,7 +48,14 @@ module.exports = function () {
           method: 'get',
           path: 'statismock/get_system_status',
           action: 'getSystemStatus'
-      })
+        })
+        addRouter({
+            controller: controller,
+            method: 'get',
+            path: 'statismock/group_data_statis',
+            action: 'groupDataStatis'
+        })
+
 
     })
 
