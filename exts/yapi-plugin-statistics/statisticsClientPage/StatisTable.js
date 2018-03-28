@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types'
-
-
-
 
 const columns = [
   {
@@ -28,29 +25,19 @@ const columns = [
   }
 ];
 
-class SchemaTable extends Component {
-
-  static propTypes = {
-    dataSource: PropTypes.array
-  }
-
-  constructor(props) {
-    super(props);
-    
-  }
-
-  render() {    
-    const {dataSource} = this.props;
-    
-    // dataSource = _.isArray(dataSource) ? dataSource : []
+const StatisTable = (props) => {
+  const {dataSource} = props;
     return ( 
       <div className="m-row-table">
         <h3 className="statis-title">分组数据详情</h3>
         <Table className="statis-table" pagination={false} dataSource={dataSource} columns={columns} />
       </div>
     ) 
-    
-    ;
-  }
 }
-export default SchemaTable;
+
+StatisTable.propTypes = {
+  dataSource: PropTypes.array
+}
+
+
+export default StatisTable;
