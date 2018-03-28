@@ -20,6 +20,12 @@ class statisMockModel extends baseModel {
         };
     }
 
+    countByGroupId(id){
+        return this.model.count({
+            group_id: id
+        })
+    }
+
     save(data) {
         let m = new this.model(data);
         return m.save();
