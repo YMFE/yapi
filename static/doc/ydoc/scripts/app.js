@@ -1,5 +1,6 @@
 var $panel = document.getElementById('js-panel');
 var $header = document.getElementById('js-header');
+var $content = document.getElementById('js-content');
 var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
 var $menu = document.getElementById('js-menu');
 var $menuContent = document.getElementById('js-menu-content');
@@ -49,6 +50,16 @@ function addEvents() {
 			$menu.classList.toggle('active');
 		});
 	}
+	if ($menu) {
+		$menu.addEventListener('scroll', function(e) {
+			sessionStorage.setItem('menuScrollTop', e.target.scrollTop);
+		});
+	}
+	if ($content) {
+		$content.addEventListener('scroll', function (e) {
+			sessionStorage.setItem('contentScrollTop', e.target.scrollTop);
+		});
+	}
 }
 
 // initial components
@@ -57,10 +68,20 @@ function initComponents() {
 	var navigation = responsiveNav('.js-nav', {
 		customToggle: '#js-nav-btn'
 	});
+
+	// 菜单恢复到记忆的高度
+	if ($menu && sessionStorage.menuScrollTop) {
+		$menu.scrollTop = sessionStorage.menuScrollTop;
+	}
+	// 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
+	if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
+		$content.scrollTop = sessionStorage.contentScrollTop;
+	}
+	sessionStorage.setItem('locationPathname', window.location.pathname);
 }
 
-window.onload = function() {
-	addEvents();
-	initComponents();
-	itemAddActive();
-};
+
+initComponents();
+addEvents();
+itemAddActive();
+

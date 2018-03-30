@@ -34,7 +34,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 1px;
+  border-radius: 3px;
   background: rgba(101, 181, 255, 0.3);
   -webkit-box-shadow: rgba(217, 237, 255, 0.5);
 }
@@ -56,28 +56,27 @@ p {
 }
 
 h1, .h1 {
-  font-size: 56px;
+  font-size: 32px;
 }
 
 h2, .h2 {
-  font-size: 45px;
-}
-
-h3, .h3 {
-  font-size: 34px;
-}
-
-h4, .h4 {
   font-size: 24px;
 }
 
+h3, .h3 {
+  font-size: 20px;
+}
+
+h4, .h4 {
+  font-size: 16px;
+}
+
 h5, .h5 {
-  font-size: 21px;
-  line-height: 32px;
+  font-size: 14px;
 }
 
 h6, .h6 {
-  font-size: 16px;
+  font-size: 12px;
 }
 
 @media screen and (max-width: 960px) {
@@ -1499,6 +1498,7 @@ body {
   width: 100%;
   color: rgba(3, 17, 31, 0.54);
   background-color: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #e5f0f6;
   backface-visibility: hidden;
   z-index: 2;
 }
@@ -1706,6 +1706,7 @@ body {
   font-size: 16px;
   line-height: 2.5;
   color: rgba(3, 17, 31, 0.87);
+  padding-left: 0.08rem;
 }
 
 .m-summary-list {
@@ -1733,10 +1734,15 @@ body {
   color: inherit;
   background-color: transparent;
   transition: all 0.2s;
+  display: inline-block;
+  width: 100%;
+  border-radius: 4px;
+  padding-left: 0.08rem;
 }
 
 .m-summary-list .href:hover {
   color: #1890ff;
+  background-color: #d9edff;
 }
 
 .m-summary-switch {
@@ -1766,8 +1772,7 @@ body {
     position: static;
     height: auto;
     width: auto;
-    padding: .4rem;
-    padding-right: .24rem;
+    padding: .4rem .32rem;
     margin-top: .64rem;
     flex: 3rem 0 0;
   }
@@ -1783,7 +1788,7 @@ body {
   overflow-y: scroll;
   background-color: #fff;
   padding-top: .64rem;
-  min-height: 100%;
+  height: 100%;
 }
 
 .m-content-container {
@@ -1876,7 +1881,7 @@ body {
   color: rgba(3, 17, 31, 0.38);
 }
 
-.m-footer-links .href {
+.m-footer .href {
   line-height: 1.8;
   padding: .3em 0;
   color: rgba(3, 17, 31, 0.54);
@@ -1884,8 +1889,12 @@ body {
   transition: all 0.2s;
 }
 
-.m-footer-links .href:hover {
+.m-footer .href:hover {
   color: #1890ff;
+}
+
+.m-footer-title {
+  color: rgba(3, 17, 31, 0.54);
 }
 
 @media screen and (min-width: 960px) {
@@ -1957,6 +1966,7 @@ body {
 }
 
 .g-home .m-section-banner {
+  width: 7.7rem;
   position: absolute;
   z-index: 0;
   bottom: 0;
@@ -2063,7 +2073,7 @@ body {
     font-size: 48px;
   }
   .g-home .m-section-title .desc {
-    font-size: 21px;
+    font-size: 20px;
     line-height: 1.6;
   }
   .g-home .m-section .btn {
@@ -2076,7 +2086,7 @@ body {
     font-size: 48px;
   }
   .g-home .m-section.home .m-section-title .desc {
-    font-size: 21px;
+    font-size: 20px;
     line-height: 1.6;
   }
   .g-home .m-section.home .m-section-btngroup {

@@ -48,32 +48,33 @@ $(function(){
     if (realObj(res) || val === '') {
       var dom = '';
       for (var key in res) {
-        dom += `<div class="headline">${key}</div>`;
+        dom += '<div class="headline">' + key + '</div>';
         res[key].forEach(function(item) {
           var contentDom = '';
           item.children.forEach(function(i) {
             i.title = simplifyStrDom(i.title, val);
             i.content = simplifyStrDom(i.content, val);
-            contentDom += `<div class="caption" onclick="window.open('${i.url}', '_self')">
-                <div class="title">${i.title}</div>
-                <div class="desc">${i.content}</div>
-              </div>`;
+            contentDom += '<a class="caption" href="' + i.url + '">'+
+              '<div class="title">' + i.title + '</div>' +
+              '<div class="desc">' + i.content + '</div></a>';
           });
-          dom += `<div class="row">
-            <div class="subtitle" onclick="window.open('${item.url}', '_self')">${item.title}</div>
-            <div class="content">${contentDom}</div>
-          </div>`;
+          dom += '<div class="row">' + 
+            '<a class="subtitle" href="' + item.url + '">' + item.title + '</a>' + 
+            '<div class="content">' + contentDom + '</div>' + 
+          '</div>';
         });
       }
       $searchResult.html(dom);
     } else {
-      $searchResult.html(`<div class="empty">没有找到关键词 <b>${val}</b> 的搜索结果</div>`)
+      $searchResult.html('<div class="empty">没有找到关键词 <b>' + val + '</b> 的搜索结果</div>')
     }
   }, 300));
 
-  // $searchInput
+  // 关闭搜索结果
   $searchInput.on('blur', function(e) {
-    $searchResult.hide();
+    setTimeout(function() {
+      $searchResult.hide();
+    }, 100);
   });
 
   // ESCAPE key pressed

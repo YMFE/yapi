@@ -78,6 +78,8 @@
   background-color: #fff;
   cursor: pointer;
   transition: all .2s;
+  display: flex;
+  flex-direction: column;
 }
 .m-search .caption:hover {
   background-color: #f6f8fa;

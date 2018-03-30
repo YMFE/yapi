@@ -1,6 +1,6 @@
 ---
 banner:
-  name: YApi
+  name: 'YApi'
   desc: '旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API'
   btns: 
     - { name: '开始', href: './documents/index.html', primary: true }
@@ -14,19 +14,18 @@ features:
   - { name: '插件机制', desc: '强大的插件机制，满足各类业务需求'}
 
 footer:
-  title:
-    logoSrc: 'https://yapi.ymfe.org/'
-    name: yapi
-    copyRight: '© 2018 YMFE Team. Build by ydoc.'
+  copyRight:
+    name: 'YMFE Team'
+    href: 'https://ymfe.org/'
   links:
-    COMMUNITY:
-      - { name: '去哪儿', href: 'https://www.qunar.com/' }
-      - { name: 'YMFE', href: 'https://www.ymfe.org/' }
-    BASE:
-      - { name: 'yapi', href: 'https://github.com/ymfe/yapi' }
-      - { name: 'faq', href: 'https://github.com/ymfe/yapi/issues' }
+    团队网址:
+      - { name: 'YMFE', href: 'https://ymfe.org/' }
+      - { name: 'YMFE Blog', href: 'https://blog.ymfe.org/' }
+    Git仓库:
+      - { name: 'Github', href: 'https://github.com/YMFE/ydoc' }
+      - { name: 'Github Issue', href: 'https://github.com/YMFE/ydoc/issues' }
 
 ---
 
 <Homepage banner={banner} features={features} />
-<Footer distPath={props.page.distPath} title={props.footer.title} links={props.footer.links} />
+<Footer distPath={props.page.distPath} title={props.footer.title} copyRight={props.footer.copyRight} links={props.footer.links} />
