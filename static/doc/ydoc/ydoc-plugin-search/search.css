@@ -84,8 +84,8 @@
 .m-search .caption:hover {
   background-color: #f6f8fa;
 }
-.m-search .caption .title {
-
+.m-search .caption.active {
+  background-color: #f6f8fa;
 }
 .m-search .caption .desc {
   font-weight: normal;

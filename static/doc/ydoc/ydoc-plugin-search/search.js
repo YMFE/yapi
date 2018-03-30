@@ -1,6 +1,7 @@
 $(function(){
   var $searchResult = $('.js-search-result'),
-      $searchInput = $('.js-input');
+      $searchInput = $('.js-input'),
+      activeIndex = 0;
 
   // 去除空格
   String.prototype.trim = function () {
@@ -39,11 +40,19 @@ $(function(){
     return addHighlightStr + ellipsis;
   }
 
+  // 隐藏搜索结果框
+  function hideSearchResult() {
+    $searchResult.hide();
+  }
+
   // 监听输入的内容
   $searchInput.on('input', debounce(function(e) {
     var val = e.target.value.trim(),
         res = window.ydoc_plugin_search_core(val);
     
+    activeIndex = 0;
+    console.log(res);
+    $(document).off('keydown');
     $searchResult.show();
     if (realObj(res) || val === '') {
       var dom = '';
@@ -51,13 +60,21 @@ $(function(){
         dom += '<div class="headline">' + key + '</div>';
         res[key].forEach(function(item) {
           var contentDom = '';
-          item.children.forEach(function(i) {
-            i.title = simplifyStrDom(i.title, val);
-            i.content = simplifyStrDom(i.content, val);
-            contentDom += '<a class="caption" href="' + i.url + '">'+
-              '<div class="title">' + i.title + '</div>' +
-              '<div class="desc">' + i.content + '</div></a>';
-          });
+          if (item.children.length) {
+            item.children.forEach(function (i) {
+              i.title = simplifyStrDom(i.title, val);
+              i.content = simplifyStrDom(i.content, val);
+              contentDom += '<a class="caption" href="' + i.url + '">' +
+                '<div class="title">' + i.title + '</div>' +
+                '<div class="desc">' + i.content + '</div></a>';
+            });
+          } else {
+            item.title = simplifyStrDom(item.title, val);
+            item.content = simplifyStrDom(item.content, val);
+            contentDom = '<a class="caption" href="' + item.url + '">' +
+              '<div class="title">' + item.title + '</div>' +
+              '<div class="desc">' + item.content + '</div></a>';
+          }
           dom += '<div class="row">' + 
             '<a class="subtitle" href="' + item.url + '">' + item.title + '</a>' + 
             '<div class="content">' + contentDom + '</div>' + 
@@ -65,23 +82,51 @@ $(function(){
         });
       }
       $searchResult.html(dom);
+
+      var $captions = $('.js-search-result .caption');
+      var length = $captions.length;
+      if ($captions.length) {
+        $captions[activeIndex].classList.add('active');
+        // 监听键盘事件 up: 38, down: 40, enter: 13
+        $(document).on('keydown', function (e) {
+          console.log(e.keyCode);
+          if (e.keyCode == 38) {
+            $captions[activeIndex].classList.remove('active');
+            activeIndex = (activeIndex + length - 1) % length;
+            $captions[activeIndex].classList.add('active');
+          } else if (e.keyCode == 40) {
+            $captions[activeIndex].classList.remove('active');
+            activeIndex = (activeIndex + 1) % length;
+            $captions[activeIndex].classList.add('active');
+          } else if (e.keyCode == 13) {
+            window.open($captions[activeIndex].href, '_self');
+          }
+        });
+      }
+      // 按下 ESC 键，清空输入框并收起搜索结果框
+      $(document).on('keydown', function (e) {
+        if (e.keyCode == 27) {
+          $searchInput[0].value = '';
+          $searchResult.hide();
+        }
+      });
     } else {
       $searchResult.html('<div class="empty">没有找到关键词 <b>' + val + '</b> 的搜索结果</div>')
     }
   }, 300));
 
   // 关闭搜索结果
-  $searchInput.on('blur', function(e) {
-    setTimeout(function() {
-      $searchResult.hide();
-    }, 100);
-  });
+  // $searchInput.on('blur', function(e) {
+  //   $searchResult.hide();
+  // });
 
-  // ESCAPE key pressed
-  $(document).on('keydown', function (e) {
-    if (e.keyCode == 27) {
-      $searchInput[0].value = '';
-      $searchResult.hide();
-    }
-  });
+  $searchResult.on('click', function(e){
+    return false;
+  })
+
+  $(document).on('click', function(e){
+    $searchResult.hide();
+  })
+
+
 })
