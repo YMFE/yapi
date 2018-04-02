@@ -1471,6 +1471,7 @@ body {
 .m-main {
   width: 100%;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .m-main h2:before, .m-main h3:before {
@@ -1500,7 +1501,8 @@ body {
   background-color: rgba(255, 255, 255, 0.97);
   border-bottom: 1px solid #e5f0f6;
   backface-visibility: hidden;
-  z-index: 2;
+  z-index: 999999;
+  transform: translateZ(1000px);
 }
 
 .m-header-title {
@@ -1531,7 +1533,7 @@ body {
 }
 
 .m-header-nav .m-header-subtitle {
-  padding: .16rem 1.5em;
+  padding: .08rem 1.5em;
 }
 
 .m-header-nav .m-header-subtitle .item {
@@ -1552,6 +1554,7 @@ body {
   position: relative;
   cursor: pointer;
   transition: all 0.2s;
+  min-height: .32rem;
 }
 
 .m-header-nav .item:last-child {
@@ -1617,6 +1620,7 @@ body {
     transform: translateX(-50%);
     width: auto;
     background-color: #fff;
+    padding: .08rem 1.5em;
     border-radius: 4px;
     box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
   }
@@ -1661,6 +1665,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 1;
   width: 100%;
   height: 0;
   overflow-y: auto;
@@ -1680,11 +1685,11 @@ body {
   display: block;
 }
 
-.m-summary.active .m-summary-switch .top {
+.m-summary.active + .m-summary-switch .top {
   transform: translateY(10px);
 }
 
-.m-summary.active .m-summary-switch .bottom {
+.m-summary.active + .m-summary-switch .bottom {
   transform: translateY(-10px);
 }
 
@@ -1761,6 +1766,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column-reverse;
+  z-index: 1;
 }
 
 .m-summary-switch .top, .m-summary-switch .bottom {
@@ -1786,6 +1792,8 @@ body {
 
 .m-content {
   overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   background-color: #fff;
   padding-top: .64rem;
   height: 100%;
@@ -1840,6 +1848,7 @@ body {
   .m-content {
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1966,12 +1975,16 @@ body {
 }
 
 .g-home .m-section-banner {
-  width: 7.7rem;
+  width: 100%;
   position: absolute;
   z-index: 0;
   bottom: 0;
   left: 50%;
   transform: translateX(-45%);
+}
+
+.g-home .m-section-banner img {
+  width: 100%;
 }
 
 .g-home .m-section-box {
@@ -2040,9 +2053,14 @@ body {
 .g-home .m-section.home .m-section-btngroup {
   display: flex;
   justify-content: center;
-  padding: .24rem 0;
+  padding: .24rem 0 .16rem;
   position: relative;
   z-index: 1;
+}
+
+.g-home .m-section.home .caption {
+  font-size: 16px;
+  color: rgba(3, 17, 31, 0.38);
 }
 
 .g-home .m-section.feature {
@@ -2075,6 +2093,9 @@ body {
   .g-home .m-section-title .desc {
     font-size: 20px;
     line-height: 1.6;
+  }
+  .g-home .m-section-banner {
+    width: 7.7rem;
   }
   .g-home .m-section .btn {
     margin-right: .16rem;
