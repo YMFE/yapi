@@ -1143,7 +1143,7 @@ class InterfaceEditForm extends Component {
                         className="href"
                         onClick={() =>
                           window.open(
-                            "https://yapi.ymfe.org/mock.html",
+                            "https://yapi.ymfe.org/documents/mock.html",
                             "_blank"
                           )
                         }
