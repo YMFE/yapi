@@ -88,7 +88,7 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: '版本： ' + version,
-          itemLink: 'https://yapi.ymfe.org/releases.html'
+          itemLink: 'https://github.com/YMFE/yapi/blob/master/CHANGELOG.md'
         }, {
           itemTitle: '使用文档',
           itemLink: 'https://yapi.ymfe.org'

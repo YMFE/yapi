@@ -1,0 +1,109 @@
+<html><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg&quot;" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>自动化测试-教程</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="ymfe"/><meta name="keywords" content="api管理,接口管理,接口文档,api文档"/><meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../web.css"/></head><body><div class="g-doc"><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><div class="m-summary-title">快速上手</div><ul class="m-summary-list indent"><li class="item"><a href="index.html" class="href">认识YApi</a></li><li class="item"><a href="quickstart.html" class="href">创建第一个API</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">进阶篇</div><ul class="m-summary-list indent"><li class="item"><a href="manage.html" class="href">权限</a></li><li class="item"><a href="project.html" class="href">项目操作</a></li><li class="item"><a href="api.html" class="href">接口操作</a></li><li class="item"><a href="mock.html" class="href">数据Mock</a></li><li class="item"><a href="adv_mock.html" class="href">高级Mock</a></li><li class="item"><a href="" class="href">自动化测试</a></li><li class="item"><a href="data.html" class="href">数据导入</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">自定义</div><ul class="m-summary-list indent"><li class="item"><div class="m-summary-block"><a href="plugin-index.html" class="href">插件</a><ul class="m-summary-list indent"><li class="item"><a href="plugin-dev.html" class="href">插件开发</a></li><li class="item"><a href="plugin-list.html" class="href">插件列表</a></li><li class="item"><a href="plugin-hooks.html" class="href">钩子</a></li></ul></div></li><li class="item"><a href="redev.html" class="href">二次开发</a></li></ul></div><div class="m-summary-block"><ul class="m-summary-list"><li class="item"><a href="qa.html" class="href">常见问题解答</a></li><li class="item"><a href="https://github.com/YMFE/yapi/blob/master/CHANGELOG.md" class="href">版本记录</a></li></ul></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" src="images/logo_header@2x.png"/><h6 class="name">YApi</h6></a></div><div><div class="m-search">
+      <div class="icon">&#xf0fd;</div>
+      <input type="text" class="input js-input" placeholder="搜索文档内容" />
+      <div class="m-search-result js-search-result"></div>
+    </div>
+<div class="m-search">
+      <div class="icon">&#xf0fd;</div>
+      <input type="text" class="input js-input" placeholder="搜索文档内容" />
+      <div class="m-search-result js-search-result"></div>
+    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item active"><a class="href" href="index.html">教程</a></li><li class="item "><a class="href" href="../devops/index.html">内网部署</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h1>&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;</h1>
+<p style="text-indent:2em;line-height:1.8em">Web &#x5E94;&#x7528;&#x901A;&#x5E38;&#x662F;&#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#x5F00;&#x53D1;&#x7684;&#xFF0C;&#x540E;&#x7AEF;&#x63D0;&#x4F9B;&#x8C03;&#x7528;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x524D;&#x7AEF;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x8FD4;&#x56DE; json &#x6570;&#x636E;&#x6E32;&#x67D3;&#x5230; UI&#xFF0C;&#x63A5;&#x53E3;&#x6D4B;&#x8BD5;&#x5C31;&#x662F;&#x4FDD;&#x8BC1;&#x540E;&#x7AEF;&#x63A5;&#x53E3;&#x7684;&#x6570;&#x636E;&#x6B63;&#x786E;&#x6027;&#x3002;
+</p><p>&#x5BF9;&#x4E8E;&#x5F88;&#x591A;&#x56E2;&#x961F;&#xFF0C;&#x63A5;&#x53E3;&#x6D4B;&#x8BD5;&#x5C31;&#x662F;&#x624B;&#x52A8;&#x8FD0;&#x884C;&#x63A5;&#x53E3;&#xFF0C;&#x8089;&#x773C;&#x6BD4;&#x5BF9;&#x63A5;&#x53E3;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x64CD;&#x4F5C;&#x6D41;&#x7A0B;&#x6548;&#x7387;&#x4F4E;&#x4E0B;&#xFF0C;&#x5BB9;&#x6613;&#x51FA;&#x9519;&#x3002;&#x4F7F;&#x7528; YApi &#x53EA;&#x9700;&#x8981;&#x5728;&#x53EF;&#x89C6;&#x5316; GUI &#x4E0B;&#xFF0C;&#x914D;&#x7F6E;&#x4E0B;&#x6BCF;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5165;&#x53C2;&#x548C;&#x5BF9; RESPONSE &#x65AD;&#x8A00;&#xFF0C;&#x5373;&#x53EF;&#x5B9E;&#x73B0;&#x5BF9;&#x63A5;&#x53E3;&#x7684;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#xFF0C;&#x5927;&#x5927;&#x63D0;&#x5347;&#x4E86;&#x63A5;&#x53E3;&#x6D4B;&#x8BD5;&#x7684;&#x6548;&#x7387;&#x3002;<a target="_blank" href="https://blog.ymfe.org/api-autotest/#more">&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#x5B9E;&#x8DF5;</a></p><p></p>
+<h2 id="&#x6D4B;&#x8BD5;&#x5217;&#x8868;">&#x6D4B;&#x8BD5;&#x5217;&#x8868;</h2>
+<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif">
+<p>&#x5728;&#x6D4B;&#x8BD5;&#x5217;&#x8868;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x7684; key,&#x8FD8;&#x6709; &#x5F00;&#x59CB;&#x6D4B;&#x8BD5;&#x3001;&#x62A5;&#x544A;&#x7B49;&#x529F;&#x80FD;</p>
+<p>&#x70B9;&#x51FB;&#x5F00;&#x59CB;&#x6D4B;&#x8BD5;&#x4F1A;&#x6309;&#x7167; case &#x5B9A;&#x4E49;&#x7684;&#x53C2;&#x6570;&#x4ECE;&#x4E0A;&#x5F80;&#x4E0B;&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x5982;&#x679C;&#x987A;&#x5E8F;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x62D6;&#x52A8;&#x8C03;&#x6574;</p>
+<p>&#x6D4B;&#x8BD5;&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#xFF0C;&#x70B9;&#x51FB;&#x62A5;&#x544A;&#x67E5;&#x770B;&#x8BE5;&#x6B21;&#x8BF7;&#x6C42;&#x7684;&#x7ED3;&#x679C;</p>
+<h2 id="&#x7F16;&#x8F91;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;">&#x7F16;&#x8F91;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;</h2>
+<h3 id="&#x7F16;&#x8F91;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;-mock-&#x53C2;&#x6570;">Mock &#x53C2;&#x6570;</h3>
+<p>Mock &#x53C2;&#x6570;&#x6BCF;&#x6B21;&#x8BF7;&#x6C42;&#x90FD;&#x4F1A;&#x751F;&#x6210;&#x968F;&#x673A;&#x5B57;&#x7B26;&#x4E32;</p>
+<img class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg">
+<h4>&#x53D8;&#x91CF;&#x53C2;&#x6570;</h4>
+<p>YApi &#x63D0;&#x4F9B;&#x4E86;&#x5F3A;&#x5927;&#x7684;&#x53D8;&#x91CF;&#x53C2;&#x6570;&#x529F;&#x80FD;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x524D;&#x9762;&#x63A5;&#x53E3;&#x7684; <code>&#x53C2;&#x6570;</code> &#x6216; <code>&#x8FD4;&#x56DE;&#x503C;</code> &#x4F5C;&#x4E3A; <code>&#x540E;&#x9762;&#x63A5;&#x53E3;&#x7684;&#x53C2;&#x6570;</code>&#xFF0C;&#x5373;&#x4F7F;&#x63A5;&#x53E3;&#x4E4B;&#x95F4;&#x5B58;&#x5728;&#x4F9D;&#x8D56;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8F7B;&#x677E; <strong>&#x4E00;&#x952E;&#x6D4B;&#x8BD5;~</strong></p>
+<blockquote>
+<p>Tips: &#x53C2;&#x6570;&#x53EA;&#x80FD;&#x662F;&#x6D4B;&#x8BD5;&#x8FC7;&#x7A0B;&#x4E2D;&#x6392;&#x5728;&#x524D;&#x9762;&#x7684;&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x53D8;&#x91CF;&#x53C2;&#x6570;</p>
+</blockquote>
+<p>&#x683C;&#x5F0F;&#xFF1A;</p>
+<pre><code>$.{key}.{params|body}.{path}
+</code></pre>
+<p>&#x4F8B;&#x5982;&#xFF1A;&#x73B0;&#x6709;&#x4E24;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x5206;&#x522B;&#x662F;&#x201C;&#x5BFC;&#x822A;&#x6807;&#x9898;&#x201D;&#x548C;&#x201C;&#x6587;&#x7AE0;&#x5217;&#x8868;&#x201D;
+<img class="doc-img" style="width: 678px;" src="./images/usage/case_key_list.png"></p>
+<p>&#x6587;&#x7AE0;&#x5217;&#x8868;&#x63A5;&#x53E3;&#x9700;&#x8981;&#x4F20;&#x53C2;&#x6570;: <code>&#x5F53;&#x524D;&#x6807;&#x9898;(id)</code>&#xFF0C;&#x800C;&#x8FD9;&#x4E2A; id &#x9700;&#x8981;&#x901A;&#x8FC7; <code>&#x5BFC;&#x822A;&#x6807;&#x9898;</code> &#x7684;&#x8FD4;&#x56DE;&#x503C;&#x83B7;&#x53D6;&#xFF0C;&#x8FD9;&#x65F6;&#x5E94;&#x5728; <code>&#x6587;&#x7AE0;&#x5217;&#x8868;</code> &#x7684;&#x53C2;&#x6570;&#x8F93;&#x5165;&#x6846;&#x4E2D;&#x6839;&#x636E;&#x524D;&#x8005;&#x7684; key &#x627E;&#x5230;&#x5BF9;&#x5E94; id&#x3002;</p>
+<p><code>&#x5BFC;&#x822A;&#x6807;&#x9898;</code> &#x7684;&#x53C2;&#x6570;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x6709;&#x5982;&#x4E0B;&#x7ED3;&#x6784;&#xFF1A;</p>
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">&#x53C2;&#x6570;&#xFF1A;</span>
+  <img style="width: 165px;" src="./images/usage/case_key_res_query.png">
+</div>
+<div style="margin: 16px 0;">
+  <span style="display: inline-block; width: 60px;vertical-align: top;">&#x8FD4;&#x56DE;&#x503C;&#xFF1A;</span>
+  <img style="width: 122px;" src="./images/usage/case_key_res.png">
+</div>
+<p>&#x5219; <code>&#x6587;&#x7AE0;&#x5217;&#x8868;</code> &#x7684;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x5982;&#x4E0B;&#x914D;&#x7F6E;&#xFF1A;
+<img class="doc-img" style="width: 624px;" src="./images/usage/case_key_query.png"></p>
+<p>&#x5176;&#x4E2D; <strong>$.</strong> &#x662F;&#x4F7F;&#x7528; <strong>&#x52A8;&#x6001;&#x53D8;&#x91CF;</strong> &#x7684;&#x6807;&#x5FD7;&#xFF0C;$.269.<strong>params</strong> &#x5373;&#x8868;&#x793A; key &#x503C;&#x4E3A; 269 &#x7528;&#x4F8B;&#x7684;&#x8BF7;&#x6C42;&#x53C2;&#x6570;&#xFF0C;$.269.<strong>body</strong> &#x5373;&#x8868;&#x793A; key &#x503C;&#x4E3A; 269 &#x7528;&#x4F8B;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x3002;</p>
+<p>&#x5982;&#x679C; requestBody &#x662F; json &#x683C;&#x5F0F;&#x4E5F;&#x53EF;&#x4EE5;&#x5728; json &#x4E2D;&#x5199;&#x53D8;&#x91CF;&#x53C2;&#x6570;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;
+<img class="doc-img" style="width: 624px;" src="./images/usage/case_key_body_json.png"></p>
+<blockquote>
+<p>Tips: &#x4E0A;&#x4E0B;&#x62D6;&#x52A8;&#x6D4B;&#x8BD5;&#x96C6;&#x5408;&#x7684;&#x5217;&#x8868;&#x9879;&#x53EF;&#x4EE5;&#x8C03;&#x6574;&#x6D4B;&#x8BD5;&#x7684;&#x987A;&#x5E8F;&#x3002;</p>
+</blockquote>
+<p>&#x76EE;&#x524D; yapi &#x4E2D;&#x7684;<code>query</code>&#xFF0C;<code>body</code>,<code>header</code>&#x548C;<code>pathParam</code>&#x7684;&#x8F93;&#x5165;&#x53C2;&#x6570;&#x5DF2;&#x7ECF;&#x652F;&#x6301;&#x70B9;&#x51FB;&#x9009;&#x62E9;&#x529F;&#x80FD;&#x3002;&#x65E0;&#x9700;&#x81EA;&#x5DF1;&#x586B;&#x5199;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x53EA;&#x9700;&#x5728;&#x5F39;&#x7A97;&#x4E2D;&#x9009;&#x62E9;&#x9700;&#x8981;&#x5C55;&#x793A;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x5373;&#x53EF;&#x3002; &#x8F93;&#x5165;&#x9009;&#x9879;&#x5305;&#x62EC;<code>&#x5E38;&#x91CF;</code>&#xFF0C;<code>mock&#x6570;&#x636E;</code>&#xFF0C;&#x5728;&#x6D4B;&#x8BD5;&#x96C6;&#x5408;&#x4E2D;&#x4E5F;&#x652F;&#x6301;<code>&#x53D8;&#x91CF;</code>&#x9009;&#x62E9;&#x3002;&#x5177;&#x4F53;&#x7528;&#x6CD5;&#xFF1A;&#x5355;&#x51FB;&#x7F16;&#x8F91;&#x6309;&#x94AE;&#x6253;&#x5F00;&#x8868;&#x8FBE;&#x5F0F;&#x751F;&#x6210;&#x5668;&#xFF0C;&#x70B9;&#x51FB;&#x9700;&#x8981;&#x7684;&#x6570;&#x636E;&#x521B;&#x5EFA;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x8FD9;&#x91CC;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x65F6;&#x67E5;&#x770B;&#x8868;&#x8FBE;&#x5F0F;&#x7ED3;&#x679C;&#x3002;</p>
+<img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman.gif">
+<blockquote>
+<p>Tips: &#x5728;&#x6D4B;&#x8BD5;&#x96C6;&#x5408;&#x4E2D;&#x63D2;&#x5165;&#x53D8;&#x91CF;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x4F1A;&#x51FA;&#x73B0;&#x4E0B;&#x56FE;&#x7684;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#xFF0C;&#x8FD9;&#x662F;&#x6B63;&#x5E38;&#x73B0;&#x8C61;&#x3002;&#x56E0;&#x4E3A;&#x8BE5;&#x53C2;&#x6570;&#x53EA;&#x80FD;&#x5728;&#x5404;&#x4E2A;&#x63A5;&#x53E3;&#x987A;&#x5E8F;&#x6267;&#x884C;&#x7684;&#x65F6;&#x5019;&#x624D;&#x80FD;&#x62C9;&#x5230;&#x53D8;&#x91CF;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x503C;</p>
+</blockquote>
+<img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png">
+<h2 id="&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;">&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;</h2>
+<p>&#x70B9;&#x51FB;&#x81EA;&#x52A8;&#x5316;&#x6D4B;&#x8BD5;&#xFF0C;&#x51FA;&#x73B0;&#x5982;&#x4E0B;&#x5F39;&#x7A97;&#xFF0C;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x8BE5; url &#x5C31;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x7684;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;</p>
+<img src="./images/autoTest.png">
+<img src="./images/autoTestResult.png">
+<h2 id="&#x65AD;&#x8A00;">&#x65AD;&#x8A00;</h2>
+<p>&#x53EF;&#x901A;&#x8FC7; js &#x811A;&#x672C;&#x5199;&#x65AD;&#x8A00;&#xFF0C;&#x5B9E;&#x73B0;&#x7CBE;&#x51C6;&#x6D4B;&#x8BD5;&#xFF0C;&#x5728;&#x63A5;&#x53E3;&#x7528;&#x4F8B;&#x9875;&#x9762;&#x70B9;&#x51FB; Test &#x7F16;&#x8F91;&#x3002;</p>
+<!-- <video style="width:800px" controls="controls" autoplay="autoplay">
+  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
+Your browser does not support the video tag.
+</video> -->
+<h3 id="&#x65AD;&#x8A00;-&#x516C;&#x5171;&#x53D8;&#x91CF;">&#x516C;&#x5171;&#x53D8;&#x91CF;</h3>
+<h4>1.assert</h4>
+<p>&#x65AD;&#x8A00;&#x51FD;&#x6570;&#xFF0C;&#x8BE6;&#x7EC6; api &#x53EF;&#x67E5;&#x770B; <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a></p>
+<h5>&#x5E38;&#x7528; api:</h5>
+<ul>
+<li>
+<p>assert(value)</p>
+<p>&#x5224;&#x65AD; value &#x662F;&#x5426;&#x4E3A; truth, &#x4F8B;&#x5982; assert(1) &#x901A;&#x8FC7;&#xFF0C; assert(0) &#x4E0D;&#x901A;&#x8FC7;&#xFF0C;&#x53EA;&#x8981; value &#x4E0D;&#x662F; null, 0, false &#x7B49;&#x503C;&#x9A8C;&#x8BC1;&#x901A;&#x8FC7;</p>
+</li>
+<li>
+<p>assert.equal(actual, expected)</p>
+<p>&#x5224;&#x65AD; actual &#x662F;&#x5426;&#x7B49;&#x4E8E; expected&#xFF0C;&#x4F8B;&#x5982; assert(1, 1)&#x901A;&#x8FC7;</p>
+</li>
+<li>
+<p>assert.notEqual(actual, expected)</p>
+<p>&#x5224;&#x65AD; actual &#x662F;&#x5426;&#x4E0D;&#x7B49;&#x4E8E; expected</p>
+</li>
+<li>
+<p>assert.deepEqual(actual, expected)</p>
+<p>&#x5047;&#x8BBE;&#xFF1A; actual = {a:1} &#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x5373;&#x4FBF; expected = {a:1}&#xFF0C;&#x5982;&#x679C;&#x4F7F;&#x7528; assert.equal &#x53EF;&#x80FD;&#x4E5F;&#x662F;&#x4E0D;&#x76F8;&#x7B49;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x5728; js &#x5F15;&#x7528;&#x7684;&#x53EA;&#x662F;&#x5BF9;&#x8C61;&#x7684;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528; assert.deepEqual &#x6BD4;&#x8F83;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x76F8;&#x7B49;</p>
+</li>
+<li>
+<p>assert.notDeepEaual(actual, expected)</p>
+<p>&#x6DF1;&#x5EA6;&#x6BD4;&#x8F83;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x4E0D;&#x76F8;&#x7B49;</p>
+</li>
+</ul>
+<h4>2.status</h4>
+<p>http &#x72B6;&#x6001;&#x7801;</p>
+<h4>3.params</h4>
+<p>http request params, &#x5408;&#x5E76;&#x4E86; query &#x548C; body</p>
+<h4>4.body</h4>
+<p>&#x8FD4;&#x56DE; response body</p>
+<h4>5.header</h4>
+<p>&#x8FD4;&#x56DE; response header</p>
+<h4>6.records</h4>
+<p>&#x8BB0;&#x5F55;&#x7684; http &#x8BF7;&#x6C42;&#x4FE1;&#x606F;&#xFF0C;&#x5047;&#x8BBE;&#x9700;&#x8981;&#x83B7;&#x53D6; key &#x4E3A; 555 &#x7684;&#x63A5;&#x53E3;&#x53C2;&#x6570;&#x6216;&#x8005;&#x54CD;&#x5E94;&#x6570;&#x636E;&#xFF0C;&#x53EF;&#x901A;&#x8FC7; records[555].params &#x6216; records[555].body &#x83B7;&#x53D6;</p>
+<h4>7.log</h4>
+<p>log&#xFF08;message&#xFF09; &#x51FD;&#x6570;,&#x8C03;&#x8BD5;&#x65F6;&#x4F7F;&#x7528;&#xFF0C;log &#x4FE1;&#x606F;&#x4EC5;&#x4EC5;&#x5728;&#x65AD;&#x8A00;&#x5931;&#x8D25;&#x540E;&#x6253;&#x5370;</p>
+<h3 id="&#x65AD;&#x8A00;-&#x793A;&#x4F8B;">&#x793A;&#x4F8B;</h3>
+<pre><code>assert.equal(body.errcode, 0)
+assert.equal(body.data.group_name, &apos;testGroup&apos;)
+assert.equal(status, 200)
+</code></pre>
+</div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="adv_mock.html" class="href"><span class="ui-font-ydoc"></span>高级Mock</a></div><div class="m-paging-next m-paging-item"><a href="data.html" class="href">数据导入<span class="ui-font-ydoc"></span></a></div></div></div></div></div><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../search_json.js"></script><script src="../search_json.js"></script></body></html>

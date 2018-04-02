@@ -167,7 +167,7 @@ module.exports = {
   ],
   IP_REGEXP: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$/,
   docHref: {
-    adv_mock_case: 'https://yapi.ymfe.org/adv_mock.html#Mock_期望',
-    adv_mock_script: 'https://yapi.ymfe.org/adv_mock.html#自定义_Mock_脚本'
+    adv_mock_case: 'https://yapi.ymfe.org/documents/mock.html',
+    adv_mock_script: 'https://yapi.ymfe.org/documents/adv_mock.html'
   }
 }

@@ -14,11 +14,27 @@
 
 项目 -> 接口编辑 -> 返回数据设置
 
+返回数据设置有两种方式，最新版本默认是基于 `json-schema` 定义数据结构，另外一种是基于 `json+注释` 的方式,请根据实际情况灵活选择使用。
+
+
+## 方式1. json-schema
+<img src="./images/usage/json-schema-demo.jpg" />
+
+开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
+
+### 如何生成随机的邮箱或 ip？
+
+<img src="./images/usage/json-schema-mock.jpg" />
+
+点击高级设置，选择 `format` 选项，比如选择 `email` 则该字段生成随机邮箱字符串。
+
+## 方式2. json5+注释
+
 <img src="./images/usage/mock-demo.jpg" />
 
-> 注：开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
 
-## 原理
+
+### 原理
 YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
 
 ```
@@ -41,9 +57,9 @@ YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别�
 
 其他基本用法请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
 
-## 如何使用 Mock
+### 如何使用 Mock
 
-### 1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）
+#### 1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）
 
 在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：
 
@@ -54,11 +70,11 @@ $.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){
 })
 ````
 
-### 2 基于本地服务器反向代理
+#### 2 基于本地服务器反向代理
 
 优点:不用修改项目代码
 
-#### 2.1 基于 nginx 反向代理
+##### 2.1 基于 nginx 反向代理
 
 ```` nginx
 location /baseapi
@@ -67,7 +83,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 }
 ````
 
-#### 2.2 基于 ykit mock功能
+##### 2.2 基于 ykit mock功能
 
 ```javascript
 {
@@ -82,7 +98,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 
 
-#### 2.3 基于 ykit Jerry 代理
+##### 2.3 基于 ykit Jerry 代理
 
 假设您本地服务器访问地址是： http://xxx.com
 
@@ -90,13 +106,13 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <span id="mock"></span>
 
-#### 2.4 基于 Charles 代理
+##### 2.4 基于 Charles 代理
 
 点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
 
 <img src="./images/charles.png" width="60%" />
   
-## Mock 语法规范
+### Mock 语法规范
 >了解更多Mock详情：[Mock.js 官方文档](http://mockjs.com/examples.html)
 
 Mock.js 的语法规范包括两部分：
@@ -130,7 +146,7 @@ Mock.js 的语法规范包括两部分：
 
 下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：
 
-### 1. 属性值是字符串 String
+#### 1. 属性值是字符串 String
 
 ```
 1. 'name|min-max': string
@@ -141,7 +157,7 @@ Mock.js 的语法规范包括两部分：
 
 通过重复 string 生成一个字符串，重复次数等于 count。
 ```
-### 2. 属性值是数字 Number
+#### 2. 属性值是数字 Number
 ```
 1. 'name|+1': number
 
@@ -171,7 +187,7 @@ Mock.mock({
 }
 ```
 
-### 3. 属性值是布尔型 Boolean
+#### 3. 属性值是布尔型 Boolean
 ```
 1. 'name|1': boolean
 
@@ -181,7 +197,7 @@ Mock.mock({
 
 随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。
 ```
-### 4. 属性值是对象 Object
+#### 4. 属性值是对象 Object
 ```
 1. 'name|count': object
 
@@ -191,7 +207,7 @@ Mock.mock({
 
 从属性值 object 中随机选取 min 到 max 个属性。
 ```
-### 5. 属性值是数组 Array
+#### 5. 属性值是数组 Array
 ```
 1. 'name|1': array
 
@@ -211,7 +227,7 @@ Mock.mock({
 ```
 
 <span id = "DPD"></span>
-### 数据占位符定义规范（Data Placeholder Definition，DPD）
+#### 数据占位符定义规范（Data Placeholder Definition，DPD）
 ```
 占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
 
