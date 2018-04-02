@@ -457,7 +457,6 @@ class InterfaceColContent extends Component {
 
   copyUrl =(url) =>{
     
-    console.log('url',url);
     copy(url)
     message.success('已经成功复制到剪切板');
   }

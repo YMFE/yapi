@@ -114,6 +114,37 @@ class statisMockController extends baseController {
     })
   }
 
+  async groupDataStatis(ctx){
+    let groupData = await this.groupModel.list();
+    let result = []
+    for(let i=0; i< groupData.length; i++){      
+      let group = groupData[i];
+      let groupId = group._id;
+      const data = {
+        name: group.group_name,
+        interface: 0,
+        mock: 0,
+        project: 0
+      }
+      result.push(data)
+
+      let projectCount = await this.projectModel.listCount(groupId);
+      let projectData = await this.projectModel.list(groupId);
+      let interfaceCount = 0;
+      for(let j=0; j< projectData.length; j++){
+        let project = projectData[j]
+        interfaceCount += await this.interfaceModel.listCount({
+          project_id: project._id
+        })
+      }
+      let mockCount = await this.Model.countByGroupId(groupId)
+      data.interface = interfaceCount;
+      data.project = projectCount;
+      data.mock = mockCount;
+    }
+    return ctx.body = yapi.commons.resReturn(result)
+  }
+
   cupLoad() {
     return new Promise((resolve,reject)=>{
       cpu(1000, function (load) {
