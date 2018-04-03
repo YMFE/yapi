@@ -111,6 +111,7 @@
     "json-schema-editor-visual": "^1.0.5",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+    "markdown-it-include": "^1.0.0",
     "node-sass-china": "4.5.0",
     "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",

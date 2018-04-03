@@ -10,5 +10,8 @@ module.exports = {
       "css": "web.css"
     } 
   },
-  version: require('./package.json').version
+  version: require('./package.json').version,
+  markdownIt: function(md){
+    md.use(require('markdown-it-include'), __dirname)
+  }
 }

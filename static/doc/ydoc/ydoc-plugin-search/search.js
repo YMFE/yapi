@@ -51,7 +51,6 @@ $(function(){
         res = window.ydoc_plugin_search_core(val);
     
     activeIndex = 0;
-    console.log(res);
     $(document).off('keydown');
     $searchResult.show();
     if (realObj(res) || val === '') {
@@ -89,7 +88,6 @@ $(function(){
         $captions[activeIndex].classList.add('active');
         // 监听键盘事件 up: 38, down: 40, enter: 13
         $(document).on('keydown', function (e) {
-          console.log(e.keyCode);
           if (e.keyCode == 38) {
             $captions[activeIndex].classList.remove('active');
             activeIndex = (activeIndex + length - 1) % length;
@@ -114,11 +112,6 @@ $(function(){
       $searchResult.html('<div class="empty">没有找到关键词 <b>' + val + '</b> 的搜索结果</div>')
     }
   }, 300));
-
-  // 关闭搜索结果
-  // $searchInput.on('blur', function(e) {
-  //   $searchResult.hide();
-  // });
 
   $searchResult.on('click', function(e){
     return false;
