@@ -302,7 +302,12 @@ let routerConfig = {
 			action: 'listByMenu',
 			path: 'list_menu',
 			method: 'get'
-		}, {
+    }, {
+      action: 'listByOpen',
+      path: 'list_open',
+      method: 'get'
+    },
+    {
 			action: 'addCat',
 			path: 'add_cat',
 			method: 'post'

@@ -14,7 +14,7 @@ const columns = [
     key: 'project'
   },
   {
-    title: '分组',
+    title: '接口',
     dataIndex: 'interface',
     key: 'interface'
   },
