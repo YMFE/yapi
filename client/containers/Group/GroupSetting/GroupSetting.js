@@ -285,7 +285,7 @@ class GroupSetting extends Component {
               </Button>
             </Col>
             {this.state.showDangerOptions ? (
-              <Card noHovering={true} className="card-danger" style={{ width: '100%' }}>
+              <Card hoverable={true} className="card-danger" style={{ width: '100%' }}>
                 <div className="card-danger-content">
                   <h3>删除分组</h3>
                   <p>分组一旦删除，将无法恢复数据，请慎重操作！</p>
