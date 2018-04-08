@@ -1501,7 +1501,7 @@ body {
   background-color: rgba(255, 255, 255, 0.97);
   border-bottom: 1px solid #e5f0f6;
   backface-visibility: hidden;
-  z-index: 999999;
+  z-index: 999;
   transform: translateZ(1000px);
 }
 
@@ -1816,6 +1816,10 @@ body {
   line-height: 1;
 }
 
+.m-content-container.markdown-body {
+  min-height: calc(100% - 2rem);
+}
+
 .m-paging {
   font-size: 16px;
 }
@@ -1883,6 +1887,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: .16rem;
+  justify-content: center;
 }
 
 .m-footer-links .group {
@@ -1931,6 +1936,7 @@ body {
     margin-bottom: .32rem;
   }
   .m-footer-links {
+    justify-content: inherit;
     flex: 2;
   }
 }
