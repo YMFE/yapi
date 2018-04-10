@@ -24,12 +24,20 @@ function connect(callback) {
     }
     
 
-    let db = mongoose.connect(`mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`, options, function(err){
-        if(err){
-            yapi.commons.log(err +', mongodb Authentication failed', 'error');
+    var connectString = `mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`;
+    if (config.db.authSource) {
+        connectString = connectString + `?authSource=${config.db.authSource}`;
+    }
+    
+    //yapi.commons.log(connectString);
+
+    let db = mongoose.connect(connectString, options, function (err) {
+        if (err) {
+            yapi.commons.log(err + ', mongodb Authentication failed', 'error');
         }
-        
+
     });
+
 
     db.then(function () {
         yapi.commons.log('mongodb load success...');
