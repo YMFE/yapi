@@ -23,6 +23,6 @@
 
 ---
 * [常见问题解答](qa.md)
-* [版本记录](https://github.com/YMFE/yapi/blob/master/CHANGELOG.md)
+* [版本记录](CHANGELOG.md)
 
 

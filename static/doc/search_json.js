@@ -1029,6 +1029,240 @@ window.ydoc_plugin_search_json = {
           "content": "Q6 部署YApi遇到mongodb认证问题？mongodb3.03以上开启认证,解决程序认证连接报错以及第三方客户端无法认证问题\n"
         }
       ]
+    },
+    {
+      "title": "",
+      "content": "",
+      "url": "/documents/CHANGELOG.html",
+      "children": [
+        {
+          "title": "v1.3.9",
+          "url": "/documents/CHANGELOG.html#v1.3.9",
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+        },
+        {
+          "title": "v1.3.8",
+          "url": "/documents/CHANGELOG.html#v1.3.8",
+          "content": "v1.3.8Feature新增 json 结构可视化编辑器\npre-script 增加 method 字段数据\nBug Fixed点击编辑 tab 可能导致运行功能异常\n修复postman导入没有分类的问题\n修复postman参数导入缺失\n"
+        },
+        {
+          "title": "v1.3.7",
+          "url": "/documents/CHANGELOG.html#v1.3.7",
+          "content": "v1.3.7Feature完美支持 swagger, 接口请求参数和返回数据支持使用 json-schema 定义数据结构\n增加测试集合列表的拖动功能\n接口列表中增加“开放接口”状态\n接口列表树形组件支持拖动\njson-schema 导出 table 表单\n接口列表和测试集树形组件支持拖动\n图标从阿里 cdn 替换到本地\nBug Fixed修复高级 Mock 服务端报错\n修复测试集合 table 拖动频繁请求的问题\n修复 swagger 数据导入部分 bug\n"
+        },
+        {
+          "title": "v1.3.6",
+          "url": "/documents/CHANGELOG.html#v1.3.6",
+          "content": "v1.3.6Feature增加服务端的自动化测试功能,可集成到 jenkins, github 做接口自动化测试\n增加导出公共接口功能\n增加复制接口路径按钮\n增加项目 token 功能，可通过 token 访问开放接口\nantd 升级到 v3\nBug Fixed修复接口动态提示有误\n修复变量表达式无法反向展示的问题\n"
+        },
+        {
+          "title": "v1.3.5",
+          "url": "/documents/CHANGELOG.html#v1.3.5",
+          "content": "v1.3.5Feature增加项目成员批量导入\n数据导入同步，数据导入支持 swagger 3.0\nswagger 数据导入支持 2xx 的 httpcode\n新增系统信息页面\nBug Fixed修复离开接口编辑页面的 confirm 框有时候会触发两次 & confirm 的 ‘X’ 按钮无效\n修复添加集合后测试集合 list 不更新问题\n测试集合点击对应接口侧边栏不切换\n测试集合处，点击删除不成功\n修改编辑接口后，再回到测试集合处数据不更新问题\n修复 mongodb 帐号密码配置错误时引发的错误\n修复删除分组后侧边数据没有更新问题\n"
+        },
+        {
+          "title": "v1.3.4",
+          "url": "/documents/CHANGELOG.html#v1.3.4",
+          "content": "v1.3.4Feature帮助文档首页增加部署公司\n进入 project 页面加入 loading\n接口 list 页 table 中加入分页\n项目添加者自动变成项目组长\nBug Fixed修复无权限进入项目 bug\n修复复制接口，query 等参数无法复制 bug\n修复导出 html markdown 参数丢失问题\n修复项目设置 pre-script 无法显示问题\n"
+        },
+        {
+          "title": "v1.3.3",
+          "url": "/documents/CHANGELOG.html#v1.3.3",
+          "content": "v1.3.3Feature邮件功能中： 1）接口信息改动增加通知对应项目所有的成员；2）默认开启接口改动邮件提醒；3) 增加邮件内容的 jsondiff 信息\nBug Fixed优化接口运行页面插件提醒\n完善 log 记录不到的问题\n修复接口内容改动不发送邮件问题\n修复部分 swagger 数据导入丢失问题\n"
+        },
+        {
+          "title": "v1.3.2",
+          "url": "/documents/CHANGELOG.html#v1.3.2",
+          "content": "v1.3.2Feature分组中新增接口自定义字段，便于用户在项目中添加额外字段数据\n导入数据时新增导入 loading 显示\n"
+        },
+        {
+          "title": "v1.3.1",
+          "url": "/documents/CHANGELOG.html#v1.3.1",
+          "content": "v1.3.1Bug Fixed修复接口状态和 req_params 参数无法更新问题\n修复搜索测试集合不展开问题\n修复测试过程中全局 header 不存在的问题\n"
+        },
+        {
+          "title": "v1.3.0",
+          "url": "/documents/CHANGELOG.html#v1.3.0",
+          "content": "v1.3.0Featureyapi 默认集成 ldap 登录方式\nyapi 做一个 sso 登录插件，基于现有的 qsso 改造成大多数公司可用的\n环境设置支持全局 header\n接口运行页面选择环境增加管理环境的弹层\n接口运行支持加工运行前后的 request 和 response ，主要是处理加密的接口或各种 token 参数问题\n自动化测试除提供自定义脚本外，还提供可视化表单形式验证一些数据，例如 statusCode、bodyContent\n增加查看接口详细改动\n支持接口运行页面 body 全屏编辑\n数据导出到 html 支持了分类\nBug Fixed修复了高级 Mock 无法获取到真实客户端 ip\n"
+        },
+        {
+          "title": "v1.2.9",
+          "url": "/documents/CHANGELOG.html#v1.2.9",
+          "content": "v1.2.9Bug FixedApi 路径兼容 postman {varible}\nView Response Height 问题\nFeature新增克隆测试集功能\n高级 Mock 期望支持 mockjs\npathname 允许只有一个 /\n"
+        },
+        {
+          "title": "v1.2.8",
+          "url": "/documents/CHANGELOG.html#v1.2.8",
+          "content": "v1.2.8Bug Fixed修复接口运行 json 格式问题\n修复测试报告显示问题\n增加了接口数量统计\n多参数表达式改用双大括号{{}}\n修复了环境变量设置样式问题\nFeature测试用例增加自定义测试脚本功能\n"
+        },
+        {
+          "title": "v1.2.7",
+          "url": "/documents/CHANGELOG.html#v1.2.7",
+          "content": "v1.2.7Bug Fixed修复接口运行功能，当 httpCode 不是 200 时，导致无法获取 response body 问题\n修复路径参数无法删除优化测试集 table 页面，当文字超出一定长度会换行的问题\n优化测试集断言错误提示\n优化接口编辑 save 按钮样式\nFeature测试集断言增加 log 方法，用于输出调试日志\n可视化动态参数表达式生成器，生成类似表达式 {@email | concat: pass | md5 | substr: 1,10}\n"
+        },
+        {
+          "title": "v1.2.6",
+          "url": "/documents/CHANGELOG.html#v1.2.6",
+          "content": "v1.2.6Bug Fixed修复路径参数无法删除\nFeature参数值支持多个动态参数，类似 str{@email}str{$.55.body.id}\n参数值支持管道表达式,例如 {@email | concat: pass | md5 | substr: 1,10}\n接口编辑参数可拖动排序\n修复路径参数无法删除问题\n"
+        },
+        {
+          "title": "v1.2.5",
+          "url": "/documents/CHANGELOG.html#v1.2.5",
+          "content": "v1.2.5Bug Fixed成员如果第一次添加成员时选择组长，接着再添加下一个成员，如果 select 是默认的开发者，这时候会出现与上次 select 相同的值\n如果添加了一个不存在的成员还是会提示添加成功，并且发送的数据是原来发送成功的数据，这里需要重置初始值并在未找到对应用户名时对未找到的人名应该提示用户不存在\nFix 接口集自动化测试 header 没有解析 mock 和 变量参数\n在接口开发阶段，多个人并行改接口，如果最后一个人改之前没刷新页面，会把之前的人修改过的都冲掉了\n修复 cross-request，response header 字段重复 bug\nFeature优化了分组添加，编辑交互\ncross-request 计算了接口请求时间\n新增接口文档导出 html, markdown 功能\n"
+        },
+        {
+          "title": "v1.2.4",
+          "url": "/documents/CHANGELOG.html#v1.2.4",
+          "content": "v1.2.4Bug Fixed期望值输入时候换成字符串，导致 diff 时因类型不一致匹配不上\nswagger 导入数据时出现的 id 未定义 bug\nfix: kerberos dependencies 导致安装依赖需要编译的问题\n修复了高级 mock 期望过滤参数为空时匹配不到的 bug\n将接口编辑页的保存按钮变成一直在窗口底部\n修改需求文档中项目操作处修改项目中的接口测试 a 链接指向的网页错误问题\n添加接口时重名，现在提示“已存在”，并在提示信息中告知用户删改接口的位置\n已添加的成员，再次添加会提示“添加成功”，优化提示为已成功添加人数，和已存在人数\n添加分组和修改分组时有个权限问题没有更新，切换列表才更新，该问题已解决\n解决修改和删除公共分类名称处，在添加接口时，选择接口分类名称没有修改的问题\nFeature接口 path 支持了后面带 /\ncross-request 支持了不安全的 header，如 cookie, referer...\n支持了 path 带特殊符号\"!\"\n请求参数可改变顺序，目前只是对必需和非必需进行自动排序\n用户头像上传问题，txt 改成 jpg 格式上传，用户头像显示空白，然后无法再次上传头像。无法再次上传的问题已经解决\n解决用户头像改变但是 header 处图片不变的问题。问题描述：用户上传头像成功但是 Header 处的头像没有改变，并且点击其他页面后再回到个人中心里面的头像又变成没有重新上传时的图片，必须重新刷新才可以将 Header 处的图片更新\n解决导入 postman 接口动态路由无法导入的 Bug\n"
+        },
+        {
+          "title": "v1.2.0",
+          "url": "/documents/CHANGELOG.html#v1.2.0",
+          "content": "v1.2.0Features增加高级 Mock 期望功能，根据设置的请求过滤规则，返回期望数据。\n增加统计功能\n增加自动化测试功能，写断言脚本，实现精准测试\nBug Fixed修复了切换集合环境的 Bug\n修复了 mockServer 拿不到 Post 请求 Body\n修复了接口调试 pathParams 无法使用 mock 参数和变量参数\n"
+        },
+        {
+          "title": "v1.1.2",
+          "url": "/documents/CHANGELOG.html#v1.1.2",
+          "content": "v1.1.2Features接口运行增加了 query 和 body 的 enable 选项，可选择是否请求该字段\nMock 支持了时间戳占位符 @timestamp\n接口集运行页面可选择环境\n接口集动态参数格式由原来的 $.{key}.{jsonPath} 改为 $.{key}.{body|params}.{jsonPath}\nBug Fixed修复了接口集运行功能会忽略环境配置的 domain 路径\n修复了动态路由 mock 返回结果不是该接口定义返回数据\n修复了日志链接错误问题\n修复了添加用户 loading 问题\n修复了用户名编辑，前台未更新问题\n修复了复制接口导致 GET 请求显示 request-body 问题\n修复了接口集页面刷新后跳转到第一个接口集问题\n修复了接口用例页面修改 header 参数值没有效果 bug\n修复了接口集页面导入接口会导致 reqBody 清空 bug\n"
+        },
+        {
+          "title": "v1.1.1",
+          "url": "/documents/CHANGELOG.html#v1.1.1",
+          "content": "v1.1.1Features添加插件开发文档\n接口和测试用例可拖动\n优化动态提示\nBug Fixed修复接口状态将接口方法重置为 get\n环境配置域名带 path 无效\n修复 Swagger 数据导入分类 bug\nMockServer 支持 CORS 跨域\n优化 JSON-SCHEMA 转化为 JSON 的逻辑，由原来随机转换不被 required 字段改为转换全部字段\n修复了项目成员无法看到该项目的 Bug\n修复了无法查看公共项目的 Bug\n优化了部分样式和交互\n"
+        },
+        {
+          "title": "v1.1.0",
+          "url": "/documents/CHANGELOG.html#v1.1.0",
+          "content": "v1.1.0Features新增个人空间功能，拥有这个分组的全部权限，可以在这个分组里探索 YApi 的功能\n新增分组动态功能\n优化接口运行页面交互\nCrossRequest 扩展支持 https\n增加了 Swagger 数据导入功能\n"
+        },
+        {
+          "title": "v1.0.2",
+          "url": "/documents/CHANGELOG.html#v1.0.2",
+          "content": "v1.0.2Features网站改为 100%布局\n优化搜索的提示\n支持了 queryPath\n接口浏览页面和编辑页面交互\n新增高级 Mock 功能，可通过 js 代码去控制 mock 数据的生成\n测试集支持了自动化测试\n增加复制接口功能\n在组长和开发者权限基础上，添加了 查看着 权限\n"
+        },
+        {
+          "title": "v1.0.1",
+          "url": "/documents/CHANGELOG.html#v1.0.1",
+          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\n"
+        }
+      ]
+    },
+    {
+      "title": "",
+      "content": "",
+      "url": "/documents/CHANGELOG.html",
+      "children": [
+        {
+          "title": "v1.3.9",
+          "url": "/documents/CHANGELOG.html#v1.3.9",
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+        },
+        {
+          "title": "v1.3.8",
+          "url": "/documents/CHANGELOG.html#v1.3.8",
+          "content": "v1.3.8Feature新增 json 结构可视化编辑器\npre-script 增加 method 字段数据\nBug Fixed点击编辑 tab 可能导致运行功能异常\n修复postman导入没有分类的问题\n修复postman参数导入缺失\n"
+        },
+        {
+          "title": "v1.3.7",
+          "url": "/documents/CHANGELOG.html#v1.3.7",
+          "content": "v1.3.7Feature完美支持 swagger, 接口请求参数和返回数据支持使用 json-schema 定义数据结构\n增加测试集合列表的拖动功能\n接口列表中增加“开放接口”状态\n接口列表树形组件支持拖动\njson-schema 导出 table 表单\n接口列表和测试集树形组件支持拖动\n图标从阿里 cdn 替换到本地\nBug Fixed修复高级 Mock 服务端报错\n修复测试集合 table 拖动频繁请求的问题\n修复 swagger 数据导入部分 bug\n"
+        },
+        {
+          "title": "v1.3.6",
+          "url": "/documents/CHANGELOG.html#v1.3.6",
+          "content": "v1.3.6Feature增加服务端的自动化测试功能,可集成到 jenkins, github 做接口自动化测试\n增加导出公共接口功能\n增加复制接口路径按钮\n增加项目 token 功能，可通过 token 访问开放接口\nantd 升级到 v3\nBug Fixed修复接口动态提示有误\n修复变量表达式无法反向展示的问题\n"
+        },
+        {
+          "title": "v1.3.5",
+          "url": "/documents/CHANGELOG.html#v1.3.5",
+          "content": "v1.3.5Feature增加项目成员批量导入\n数据导入同步，数据导入支持 swagger 3.0\nswagger 数据导入支持 2xx 的 httpcode\n新增系统信息页面\nBug Fixed修复离开接口编辑页面的 confirm 框有时候会触发两次 & confirm 的 ‘X’ 按钮无效\n修复添加集合后测试集合 list 不更新问题\n测试集合点击对应接口侧边栏不切换\n测试集合处，点击删除不成功\n修改编辑接口后，再回到测试集合处数据不更新问题\n修复 mongodb 帐号密码配置错误时引发的错误\n修复删除分组后侧边数据没有更新问题\n"
+        },
+        {
+          "title": "v1.3.4",
+          "url": "/documents/CHANGELOG.html#v1.3.4",
+          "content": "v1.3.4Feature帮助文档首页增加部署公司\n进入 project 页面加入 loading\n接口 list 页 table 中加入分页\n项目添加者自动变成项目组长\nBug Fixed修复无权限进入项目 bug\n修复复制接口，query 等参数无法复制 bug\n修复导出 html markdown 参数丢失问题\n修复项目设置 pre-script 无法显示问题\n"
+        },
+        {
+          "title": "v1.3.3",
+          "url": "/documents/CHANGELOG.html#v1.3.3",
+          "content": "v1.3.3Feature邮件功能中： 1）接口信息改动增加通知对应项目所有的成员；2）默认开启接口改动邮件提醒；3) 增加邮件内容的 jsondiff 信息\nBug Fixed优化接口运行页面插件提醒\n完善 log 记录不到的问题\n修复接口内容改动不发送邮件问题\n修复部分 swagger 数据导入丢失问题\n"
+        },
+        {
+          "title": "v1.3.2",
+          "url": "/documents/CHANGELOG.html#v1.3.2",
+          "content": "v1.3.2Feature分组中新增接口自定义字段，便于用户在项目中添加额外字段数据\n导入数据时新增导入 loading 显示\n"
+        },
+        {
+          "title": "v1.3.1",
+          "url": "/documents/CHANGELOG.html#v1.3.1",
+          "content": "v1.3.1Bug Fixed修复接口状态和 req_params 参数无法更新问题\n修复搜索测试集合不展开问题\n修复测试过程中全局 header 不存在的问题\n"
+        },
+        {
+          "title": "v1.3.0",
+          "url": "/documents/CHANGELOG.html#v1.3.0",
+          "content": "v1.3.0Featureyapi 默认集成 ldap 登录方式\nyapi 做一个 sso 登录插件，基于现有的 qsso 改造成大多数公司可用的\n环境设置支持全局 header\n接口运行页面选择环境增加管理环境的弹层\n接口运行支持加工运行前后的 request 和 response ，主要是处理加密的接口或各种 token 参数问题\n自动化测试除提供自定义脚本外，还提供可视化表单形式验证一些数据，例如 statusCode、bodyContent\n增加查看接口详细改动\n支持接口运行页面 body 全屏编辑\n数据导出到 html 支持了分类\nBug Fixed修复了高级 Mock 无法获取到真实客户端 ip\n"
+        },
+        {
+          "title": "v1.2.9",
+          "url": "/documents/CHANGELOG.html#v1.2.9",
+          "content": "v1.2.9Bug FixedApi 路径兼容 postman {varible}\nView Response Height 问题\nFeature新增克隆测试集功能\n高级 Mock 期望支持 mockjs\npathname 允许只有一个 /\n"
+        },
+        {
+          "title": "v1.2.8",
+          "url": "/documents/CHANGELOG.html#v1.2.8",
+          "content": "v1.2.8Bug Fixed修复接口运行 json 格式问题\n修复测试报告显示问题\n增加了接口数量统计\n多参数表达式改用双大括号{{}}\n修复了环境变量设置样式问题\nFeature测试用例增加自定义测试脚本功能\n"
+        },
+        {
+          "title": "v1.2.7",
+          "url": "/documents/CHANGELOG.html#v1.2.7",
+          "content": "v1.2.7Bug Fixed修复接口运行功能，当 httpCode 不是 200 时，导致无法获取 response body 问题\n修复路径参数无法删除优化测试集 table 页面，当文字超出一定长度会换行的问题\n优化测试集断言错误提示\n优化接口编辑 save 按钮样式\nFeature测试集断言增加 log 方法，用于输出调试日志\n可视化动态参数表达式生成器，生成类似表达式 {@email | concat: pass | md5 | substr: 1,10}\n"
+        },
+        {
+          "title": "v1.2.6",
+          "url": "/documents/CHANGELOG.html#v1.2.6",
+          "content": "v1.2.6Bug Fixed修复路径参数无法删除\nFeature参数值支持多个动态参数，类似 str{@email}str{$.55.body.id}\n参数值支持管道表达式,例如 {@email | concat: pass | md5 | substr: 1,10}\n接口编辑参数可拖动排序\n修复路径参数无法删除问题\n"
+        },
+        {
+          "title": "v1.2.5",
+          "url": "/documents/CHANGELOG.html#v1.2.5",
+          "content": "v1.2.5Bug Fixed成员如果第一次添加成员时选择组长，接着再添加下一个成员，如果 select 是默认的开发者，这时候会出现与上次 select 相同的值\n如果添加了一个不存在的成员还是会提示添加成功，并且发送的数据是原来发送成功的数据，这里需要重置初始值并在未找到对应用户名时对未找到的人名应该提示用户不存在\nFix 接口集自动化测试 header 没有解析 mock 和 变量参数\n在接口开发阶段，多个人并行改接口，如果最后一个人改之前没刷新页面，会把之前的人修改过的都冲掉了\n修复 cross-request，response header 字段重复 bug\nFeature优化了分组添加，编辑交互\ncross-request 计算了接口请求时间\n新增接口文档导出 html, markdown 功能\n"
+        },
+        {
+          "title": "v1.2.4",
+          "url": "/documents/CHANGELOG.html#v1.2.4",
+          "content": "v1.2.4Bug Fixed期望值输入时候换成字符串，导致 diff 时因类型不一致匹配不上\nswagger 导入数据时出现的 id 未定义 bug\nfix: kerberos dependencies 导致安装依赖需要编译的问题\n修复了高级 mock 期望过滤参数为空时匹配不到的 bug\n将接口编辑页的保存按钮变成一直在窗口底部\n修改需求文档中项目操作处修改项目中的接口测试 a 链接指向的网页错误问题\n添加接口时重名，现在提示“已存在”，并在提示信息中告知用户删改接口的位置\n已添加的成员，再次添加会提示“添加成功”，优化提示为已成功添加人数，和已存在人数\n添加分组和修改分组时有个权限问题没有更新，切换列表才更新，该问题已解决\n解决修改和删除公共分类名称处，在添加接口时，选择接口分类名称没有修改的问题\nFeature接口 path 支持了后面带 /\ncross-request 支持了不安全的 header，如 cookie, referer...\n支持了 path 带特殊符号\"!\"\n请求参数可改变顺序，目前只是对必需和非必需进行自动排序\n用户头像上传问题，txt 改成 jpg 格式上传，用户头像显示空白，然后无法再次上传头像。无法再次上传的问题已经解决\n解决用户头像改变但是 header 处图片不变的问题。问题描述：用户上传头像成功但是 Header 处的头像没有改变，并且点击其他页面后再回到个人中心里面的头像又变成没有重新上传时的图片，必须重新刷新才可以将 Header 处的图片更新\n解决导入 postman 接口动态路由无法导入的 Bug\n"
+        },
+        {
+          "title": "v1.2.0",
+          "url": "/documents/CHANGELOG.html#v1.2.0",
+          "content": "v1.2.0Features增加高级 Mock 期望功能，根据设置的请求过滤规则，返回期望数据。\n增加统计功能\n增加自动化测试功能，写断言脚本，实现精准测试\nBug Fixed修复了切换集合环境的 Bug\n修复了 mockServer 拿不到 Post 请求 Body\n修复了接口调试 pathParams 无法使用 mock 参数和变量参数\n"
+        },
+        {
+          "title": "v1.1.2",
+          "url": "/documents/CHANGELOG.html#v1.1.2",
+          "content": "v1.1.2Features接口运行增加了 query 和 body 的 enable 选项，可选择是否请求该字段\nMock 支持了时间戳占位符 @timestamp\n接口集运行页面可选择环境\n接口集动态参数格式由原来的 $.{key}.{jsonPath} 改为 $.{key}.{body|params}.{jsonPath}\nBug Fixed修复了接口集运行功能会忽略环境配置的 domain 路径\n修复了动态路由 mock 返回结果不是该接口定义返回数据\n修复了日志链接错误问题\n修复了添加用户 loading 问题\n修复了用户名编辑，前台未更新问题\n修复了复制接口导致 GET 请求显示 request-body 问题\n修复了接口集页面刷新后跳转到第一个接口集问题\n修复了接口用例页面修改 header 参数值没有效果 bug\n修复了接口集页面导入接口会导致 reqBody 清空 bug\n"
+        },
+        {
+          "title": "v1.1.1",
+          "url": "/documents/CHANGELOG.html#v1.1.1",
+          "content": "v1.1.1Features添加插件开发文档\n接口和测试用例可拖动\n优化动态提示\nBug Fixed修复接口状态将接口方法重置为 get\n环境配置域名带 path 无效\n修复 Swagger 数据导入分类 bug\nMockServer 支持 CORS 跨域\n优化 JSON-SCHEMA 转化为 JSON 的逻辑，由原来随机转换不被 required 字段改为转换全部字段\n修复了项目成员无法看到该项目的 Bug\n修复了无法查看公共项目的 Bug\n优化了部分样式和交互\n"
+        },
+        {
+          "title": "v1.1.0",
+          "url": "/documents/CHANGELOG.html#v1.1.0",
+          "content": "v1.1.0Features新增个人空间功能，拥有这个分组的全部权限，可以在这个分组里探索 YApi 的功能\n新增分组动态功能\n优化接口运行页面交互\nCrossRequest 扩展支持 https\n增加了 Swagger 数据导入功能\n"
+        },
+        {
+          "title": "v1.0.2",
+          "url": "/documents/CHANGELOG.html#v1.0.2",
+          "content": "v1.0.2Features网站改为 100%布局\n优化搜索的提示\n支持了 queryPath\n接口浏览页面和编辑页面交互\n新增高级 Mock 功能，可通过 js 代码去控制 mock 数据的生成\n测试集支持了自动化测试\n增加复制接口功能\n在组长和开发者权限基础上，添加了 查看着 权限\n"
+        },
+        {
+          "title": "v1.0.1",
+          "url": "/documents/CHANGELOG.html#v1.0.1",
+          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\n"
+        }
+      ]
     }
   ],
   "内网部署": [
