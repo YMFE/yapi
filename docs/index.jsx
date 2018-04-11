@@ -26,6 +26,12 @@ footer:
       - { name: 'Github Issue', href: 'https://github.com/YMFE/yapi/issues' }
 
 ---
-
-<Homepage banner={banner} features={features} />
-<Footer distPath={props.page.distPath} title={props.footer.title} copyRight={props.footer.copyRight} links={props.footer.links} />
+{
+  (function(){
+    banner.caption = '当前版本: v' + props.config.version
+    return <div>
+      <Homepage banner={banner} features={features} />
+      <Footer distPath={props.page.distPath} title={props.footer.title} copyRight={props.footer.copyRight} links={props.footer.links} />
+    </div>
+  })()
+}

@@ -1,4 +1,4 @@
-{
+module.exports = {
   "title": "YApi 接口管理平台",
   "keywords": "api管理,接口管理,接口文档,api文档",
   "author": "ymfe",
@@ -9,5 +9,9 @@
     "import-asset": {
       "css": "web.css"
     } 
+  },
+  version: require('./package.json').version,
+  markdownIt: function(md){
+    md.use(require('markdown-it-include'), __dirname)
   }
 }

@@ -12,6 +12,7 @@ import mockEditor from 'client/components/AceEditor/mockEditor';
 import axios from 'axios';
 import formats from 'common/formats';
 const jSchema = require('json-schema-editor-visual');
+
 const ResBodySchema = jSchema({ lang: 'zh_CN', format: formats });
 const ReqBodySchema = jSchema({ lang: 'zh_CN' });
 const TabPane = Tabs.TabPane;

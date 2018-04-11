@@ -1,6 +1,13 @@
 const schema = require('./shema-transformTo-table.js');
 const _ = require('underscore');
 
+const json_parse = function(json){
+  try{
+    return JSON.parse(json);
+  }catch(err){
+    return {};
+  }
+}
 const messageMap = {
   desc: '备注',
   default: '实例',
@@ -206,7 +213,7 @@ function tableBody(dataSource, columns, level) {
 
 function createSchemaTable(body) {
   let template = ``;
-  let dataSource = schema.schemaTransformToTable(JSON.parse(body));
+  let dataSource = schema.schemaTransformToTable(json_parse(body));
   template += `<table>
   <thead class="ant-table-thead">
     <tr>
