@@ -21,7 +21,7 @@ async function httpRequestByNode(options) {
       return {
         res: {
           status: 500,
-          body: '请求出错' + isNode ? ', 内网服务器自动化测试无法访问到，请检查是否为内网服务器！': ''
+          body: isNode ? '请求出错, 内网服务器自动化测试无法访问到，请检查是否为内网服务器！': '请求出错'
         }
       }
     }
