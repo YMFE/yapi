@@ -69,15 +69,7 @@ function initComponents() {
 		customToggle: '#js-nav-btn'
 	});
 
-	// 菜单恢复到记忆的高度
-	if ($menu && sessionStorage.menuScrollTop) {
-		$menu.scrollTop = sessionStorage.menuScrollTop;
-	}
-	// 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
-	if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
-		$content.scrollTop = sessionStorage.contentScrollTop;
-	}
-	sessionStorage.setItem('locationPathname', window.location.pathname);
+	
 }
 
 

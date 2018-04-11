@@ -308,7 +308,7 @@ class ProjectMember extends Component {
           </Modal>
 
           <Table columns={columns} dataSource={this.state.projectMemberList} pagination={false} locale={{ emptyText: <ErrMsg type="noMemberInProject" /> }} className="setting-project-member" />
-          <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} noHovering className="setting-group">
+          <Card bordered={false} title={this.state.groupName + ' 分组成员 ' + '(' + this.state.groupMemberList.length + ') 人'} hoverable={true} className="setting-group">
             {this.state.groupMemberList.length ? this.state.groupMemberList.map((item, index) => {
               return (<div key={index} className="card-item">
                 <img src={location.protocol + '//' + location.host + '/api/user/avatar?uid=' + item.uid} className="item-img" />

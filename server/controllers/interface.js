@@ -79,7 +79,7 @@ class interfaceController extends baseController {
     }
 
     this.schemaMap = {
-      add: Object.assign({
+      add: Object.assign({ 
         '*project_id': 'number',
         '*path': minLengthStringField,
         '*title': minLengthStringField,
@@ -1013,6 +1013,49 @@ class interfaceController extends baseController {
     return ctx.body = res; 
     
   }
+
+  // 获取开放接口数据
+  async listByOpen(ctx) {
+    let project_id = ctx.request.query.project_id;
+    
+    if (!project_id) {
+      return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+    }
+
+    let project = await this.projectModel.getBaseInfo(project_id);
+    if (!project) {
+      return ctx.body = yapi.commons.resReturn(null, 406, '不存在的项目');
+    }
+    if (project.project_type === 'private') {
+      if (await this.checkAuth(project._id, 'project', 'view') !== true) {
+        return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+      }
+    }
+
+    
+    let basepath = project.basepath;
+    try {
+      let result = await this.catModel.list(project_id), newResult = [];
+      
+      for (let i = 0, item, list; i < result.length; i++) {
+        item = result[i].toObject()
+        list = await this.Model.listByInterStatus(item._id, 'open')
+        for (let j = 0; j < list.length; j++) {
+          list[j] = list[j].toObject();
+          list[j].basepath = basepath
+        }
+       
+        newResult = [].concat(newResult, list)
+      }
+   
+    ctx.body = yapi.commons.resReturn(newResult);
+
+    } catch (err) {
+      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+    }
+
+  }
+
 
 }
 

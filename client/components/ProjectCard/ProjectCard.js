@@ -71,7 +71,7 @@ class ProjectCard extends Component {
         <Card bordered={false} className="m-card" onClick={() => this.props.history.push('/project/' + (projectData.projectid || projectData._id))}>
           <Icon type={projectData.icon || 'star-o'} className="ui-logo" style={{ backgroundColor: constants.PROJECT_COLOR[projectData.color] || constants.PROJECT_COLOR.blue }} />
           <h4 className="ui-title">{projectData.name || projectData.projectname}</h4>
-        </Card>
+        </Card> 
         <div className="card-btns" onClick={projectData.follow || inFollowPage ? this.del : this.add}>
           <Tooltip placement="rightTop" title={projectData.follow || inFollowPage ? '取消关注' : '添加关注'}>
             <Icon type={projectData.follow || inFollowPage ? 'star' : 'star-o'} className={'icon ' + (projectData.follow || inFollowPage ? 'active' : '')}/>

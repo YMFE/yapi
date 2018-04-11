@@ -203,7 +203,7 @@ class ProjectMessage extends Component {
             </Col>
           </Row>
           <hr className="breakline" />
-          <Form>
+          <Form> 
             <FormItem
               {...formItemLayout}
               label="项目ID"
@@ -334,7 +334,7 @@ class ProjectMessage extends Component {
                 <h2 className="content"><Icon type="exclamation-circle-o" /> 危险操作</h2>
                 <Button onClick={this.toggleDangerOptions}>查 看<Icon type={this.state.showDangerOptions ? 'up' : 'down'} /></Button>
               </div>
-              {this.state.showDangerOptions ? <Card noHovering={true} className="card-danger">
+              {this.state.showDangerOptions ? <Card hoverable={true} className="card-danger">
                 <div className="card-danger-content">
                   <h3>删除项目</h3>
                   <p>项目一旦删除，将无法恢复数据，请慎重操作！</p>

@@ -12,6 +12,7 @@ import mockEditor from 'client/components/AceEditor/mockEditor';
 import axios from 'axios';
 import formats from 'common/formats';
 const jSchema = require('json-schema-editor-visual');
+
 const ResBodySchema = jSchema({ lang: 'zh_CN', format: formats });
 const ReqBodySchema = jSchema({ lang: 'zh_CN' });
 const TabPane = Tabs.TabPane;
@@ -300,7 +301,7 @@ class InterfaceEditForm extends Component {
             values.req_body_form = [];
           }
 
-          if (values.req_body_is_json_schema && values.req_body_other) {
+          if (values.req_body_is_json_schema && values.req_body_other&& values.req_body_type==='json') {
             values.req_body_other = checkIsJsonSchema(values.req_body_other);
             if (!values.req_body_other) {
               return message.error('请求参数 json-schema 格式有误');
