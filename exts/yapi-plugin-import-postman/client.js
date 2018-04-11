@@ -229,7 +229,7 @@ function postman(importDataModule){
   } 
 
   const transformJsonToSchema = (json) => {
-
+    json = json || {}
     let jsonData = json_parse(json)
 
     jsonData = GenerateSchema(jsonData);

@@ -7,9 +7,9 @@ import { json_parse } from '../../common/utils.js'
 
 
 const transformJsonToSchema = (json) => {
-
+  json = json || {}
   let jsonData = json_parse(json)
-
+  
   jsonData = GenerateSchema(jsonData);
 
   let schemaData = JSON.stringify(jsonData)
@@ -133,19 +133,20 @@ function postman(importDataModule){
 
     let reqType = 'json', header;
     data.request.headers.forEach(item=>{
-      if(!item ||item.name ||item.value) return null;
-      if(/content-type/i.test(item.name) && item.value.index('application/json') === 0){
+     
+      if(!item || !item.name || !item.value) return null;
+      if(/content-type/i.test(item.name) && item.value.indexOf('application/json') === 0){
         reqType = 'json';
         header = 'application/json';
-      }else if(/content-type/i.test(item.name) && item.value.index('application/x-www-form-urlencoded') === 0){
+      }else if(/content-type/i.test(item.name) && item.value.indexOf('application/x-www-form-urlencoded') === 0){
         header = 'application/x-www-form-urlencoded'
         reqType = 'form';
-      }else if(/content-type/i.test(item.name) && item.value.index('multipart/form-data') === 0){
+      }else if(/content-type/i.test(item.name) && item.value.indexOf('multipart/form-data') === 0){
         header = 'multipart/form-data'
         reqType = 'form';
       }      
     })
-
+    console.log('data',data)
     for(let item in key){
       item = key[item];
       if(item === "req_query"){
@@ -158,8 +159,6 @@ function postman(importDataModule){
         }
         
       }else if(item === 'req_body_other' && reqType === 'json' && data.request.postData){
-
-
         res[item] = transformJsonToSchema(data.request.postData.text);
       }else if(item === "req_headers"){
         res[item] = [{
@@ -182,7 +181,7 @@ function postman(importDataModule){
         }
       }else if(item === 'res_body_type'){
         res[item] = 'json';
-      }else if(item === 'res_body'){
+      }else if(item === 'res_body' ){
         res[item] = transformJsonToSchema(data.response.content.text);
       }      
       else{
