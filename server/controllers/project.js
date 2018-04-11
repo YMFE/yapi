@@ -371,6 +371,9 @@ class projectController extends baseController {
     let catInst = yapi.getInst(interfaceCatModel);
     let cat = await catInst.list(params.id);
     result.cat = cat;
+    if(result.env.length === 0) {
+      result.env.push({ name: 'local', domain: 'http://127.0.0.1' })
+    }
     result.role = await this.getProjectRole(params.id, 'project');
 
     yapi.emitHook('project_add', params.id).then();
