@@ -145,7 +145,10 @@ class ProjectData extends Component {
     let count = 0;
     let successNum = len;
     let existNum = 0;
-
+    if(len === 0){
+      message.error(`解析数据为空`);
+      return;
+    }
     for (let index = 0; index < res.length; index++) {
       let item = res[index];
       let data = {
