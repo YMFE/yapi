@@ -1036,9 +1036,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.11",
+          "url": "/documents/CHANGELOG.html#v1.3.11",
+          "content": "v1.3.11修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+        },
+        {
           "title": "v1.3.9",
           "url": "/documents/CHANGELOG.html#v1.3.9",
-          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\nBug Fixed导入数据为空提示\n"
         },
         {
           "title": "v1.3.8",
@@ -1153,9 +1158,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.11",
+          "url": "/documents/CHANGELOG.html#v1.3.11",
+          "content": "v1.3.11修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+        },
+        {
           "title": "v1.3.9",
           "url": "/documents/CHANGELOG.html#v1.3.9",
-          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\nBug Fixed导入数据为空提示\n"
         },
         {
           "title": "v1.3.8",

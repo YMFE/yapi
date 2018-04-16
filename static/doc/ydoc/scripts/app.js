@@ -1,10 +1,12 @@
-var $panel = document.getElementById('js-panel');
-var $header = document.getElementById('js-header');
-var $content = document.getElementById('js-content');
-var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
-var $menu = document.getElementById('js-menu');
-var $menuContent = document.getElementById('js-menu-content');
-var $menuBar = document.getElementById('js-summary-switch');
+var $panel = document.getElementById('js-panel'),
+	$header = document.getElementById('js-header'),
+	$content = document.getElementById('js-content'),
+	$navIcon = document.getElementById('js-nav-btn'),
+	$summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href')),
+	$menu = document.getElementById('js-menu'),
+	$menuContent = document.getElementById('js-menu-content'),
+	$menuBar = document.getElementById('js-summary-switch'),
+	navigation;
 
 var utils = {
 	debounce: function(func, wait) {
@@ -48,6 +50,10 @@ function addEvents() {
 	if ($menuBar) {
 		$menuBar.addEventListener('click', function () {
 			$menu.classList.toggle('active');
+			// 侧栏菜单点击时收起 nav 导航
+			if ($navIcon.classList.value.indexOf('active') !== -1) {
+				navigation.toggle();
+			}
 		});
 	}
 	if ($menu) {
@@ -65,11 +71,13 @@ function addEvents() {
 // initial components
 function initComponents() {
 	// nav
-	var navigation = responsiveNav('.js-nav', {
-		customToggle: '#js-nav-btn'
+	navigation = responsiveNav('.js-nav', {
+		customToggle: '#js-nav-btn',
+		open: function() {
+			$menu.classList.remove('active');
+			setTimeout(itemAddActive, 0);
+		}
 	});
-
-	
 }
 
 

@@ -1,11 +1,11 @@
-<html lang="zh-CN"><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg&quot;" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>Mock介绍-教程</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="ymfe"/><meta name="keywords" content="api管理,接口管理,接口文档,api文档"/><meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-img-view/imgView.css"/><link rel="stylesheet" href="../web.css"/></head><body><div class="g-doc"><div><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><div class="m-summary-title">快速上手</div><ul class="m-summary-list indent"><li class="item"><a href="index.html" class="href">认识YApi</a></li><li class="item"><a href="quickstart.html" class="href">创建第一个API</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">进阶篇</div><ul class="m-summary-list indent"><li class="item"><a href="manage.html" class="href">权限</a></li><li class="item"><a href="project.html" class="href">项目操作</a></li><li class="item"><a href="api.html" class="href">接口操作</a></li><li class="item"><a href="" class="href">数据Mock</a></li><li class="item"><a href="adv_mock.html" class="href">高级Mock</a></li><li class="item"><a href="case.html" class="href">自动化测试</a></li><li class="item"><a href="data.html" class="href">数据导入</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">自定义</div><ul class="m-summary-list indent"><li class="item"><div class="m-summary-block"><a href="plugin-index.html" class="href">插件</a><ul class="m-summary-list indent"><li class="item"><a href="plugin-dev.html" class="href">插件开发</a></li><li class="item"><a href="plugin-list.html" class="href">插件列表</a></li><li class="item"><a href="plugin-hooks.html" class="href">钩子</a></li></ul></div></li><li class="item"><a href="redev.html" class="href">二次开发</a></li></ul></div><div class="m-summary-block"><ul class="m-summary-list"><li class="item"><a href="qa.html" class="href">常见问题解答</a></li><li class="item"><a href="CHANGELOG.html" class="href">版本记录</a></li></ul></div></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" width="36" src="images/logo_header@2x.png"/><h6 class="name">YApi</h6></a></div><div><div class="m-search">
+<html lang="zh-CN"><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg&quot;" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>Mock介绍-教程</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="ymfe"/><meta name="keywords" content="api管理,接口管理,接口文档,api文档"/><meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-img-view/imgView.css"/><link rel="stylesheet" href="../web.css"/></head><body><div class="g-doc"><div class="m-aside"><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><div class="m-summary-title">快速上手</div><ul class="m-summary-list indent"><li class="item"><a href="index.html" class="href">认识YApi</a></li><li class="item"><a href="quickstart.html" class="href">创建第一个API</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">进阶篇</div><ul class="m-summary-list indent"><li class="item"><a href="manage.html" class="href">权限</a></li><li class="item"><a href="project.html" class="href">项目操作</a></li><li class="item"><a href="api.html" class="href">接口操作</a></li><li class="item"><a href="" class="href">数据Mock</a></li><li class="item"><a href="adv_mock.html" class="href">高级Mock</a></li><li class="item"><a href="case.html" class="href">自动化测试</a></li><li class="item"><a href="data.html" class="href">数据导入</a></li></ul></div><div class="m-summary-block"><div class="m-summary-title">自定义</div><ul class="m-summary-list indent"><li class="item"><div class="m-summary-block"><a href="plugin-index.html" class="href">插件</a><ul class="m-summary-list indent"><li class="item"><a href="plugin-dev.html" class="href">插件开发</a></li><li class="item"><a href="plugin-list.html" class="href">插件列表</a></li><li class="item"><a href="plugin-hooks.html" class="href">钩子</a></li></ul></div></li><li class="item"><a href="redev.html" class="href">二次开发</a></li></ul></div><div class="m-summary-block"><ul class="m-summary-list"><li class="item"><a href="qa.html" class="href">常见问题解答</a></li><li class="item"><a href="CHANGELOG.html" class="href">版本记录</a></li></ul></div></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" width="36" src="images/logo_header@2x.png"/><h6 class="name">YApi</h6></a></div><div><div class="m-search">
       <div class="icon">&#xf0fd;</div>
-      <input type="text" class="input js-input" placeholder="搜索文档内容" />
+      <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
     </div>
 <div class="m-search">
       <div class="icon">&#xf0fd;</div>
-      <input type="text" class="input js-input" placeholder="搜索文档内容" />
+      <input type="text" class="input js-input" placeholder="搜索" />
       <div class="m-search-result js-search-result"></div>
     </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item active"><a class="href" href="index.html">教程</a></li><li class="item "><a class="href" href="../devops/index.html">内网部署</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h1>Mock介绍</h1>
  <p style="text-indent:2em;line-height:1.8em">YApi的 Mock 功能可以根据用户的输入接口信息如协议、URL、接口名、请求头、请求参数、返回数据（[返回数据](#mock)）生成 Mock 接口，这些接口会自动生成模拟数据，创建者可以自由构造需要的数据。 </p>
@@ -30,15 +30,15 @@
 <h3 id="方式2.-json5+注释-原理">原理</h3>
 <p>YApi Mock 功能基于 node 和 <a href="http://mockjs.com">mockjs</a>，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：</p>
 <pre><code>{
-  "name|regexp": "[a-z0-9_]+?",
-  "type|regexp": "json|text|xml" //枚举数据类型可这样实现
+  &#x22;name|regexp&#x22;: &#x22;[a-z0-9_]+?&#x22;,
+  &#x22;type|regexp&#x22;: &#x22;json|text|xml&#x22; //&#x8;&#x8;&#x679A;&#x4E3E;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x53EF;&#x8FD9;&#x6837;&#x5B9E;&#x73B0;
 }
 
 </code></pre>
 <p>2 支持替换请求的 query, body 参数</p>
 <pre><code>{
-  "name": "${query.name}", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming
-  "type": "${body.type}"   //请求的requestBody type=1,返回的type字段是1
+  &#x22;name&#x22;: &#x22;${query.name}&#x22;, //&#x8BF7;&#x6C42;&#x7684;url&#x662F;/path?name=xiaoming, &#x8FD4;&#x56DE;&#x7684;name&#x5B57;&#x6BB5;&#x662F;xiaoming
+  &#x22;type&#x22;: &#x22;${body.type}&#x22;   //&#x8BF7;&#x6C42;&#x7684;requestBody type=1,&#x8FD4;&#x56DE;&#x7684;type&#x5B57;&#x6BB5;&#x662F;1
 }
 
 </code></pre>
@@ -46,24 +46,24 @@
 <h3 id="方式2.-json5+注释-如何使用-mock">如何使用 Mock</h3>
 <h4>1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）</h4>
 <p>在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">let</span> prefix = <span class="hljs-string">'http://yapi.xxx.com/mock/2817'</span>
-$.post(prefix+<span class="hljs-string">'/baseapi/path'</span>, {<span class="hljs-attr">username</span>: <span class="hljs-string">'xxx'</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>)</span>{
-    <span class="hljs-built_in">console</span>.log(res) <span class="hljs-comment">//返回上图预览部分的数据</span>
-})
+<pre><code class="language-javascript"><span class="token keyword">let</span> prefix <span class="token operator">=</span> <span class="token string">'http://yapi.xxx.com/mock/2817'</span>
+$<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>prefix<span class="token operator">+</span><span class="token string">'/baseapi/path'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>username<span class="token punctuation">:</span> <span class="token string">'xxx'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token comment">//返回上图预览部分的数据</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <h4>2 基于本地服务器反向代理</h4>
 <p>优点:不用修改项目代码</p>
 <h5>2.1 基于 nginx 反向代理</h5>
-<pre><code class="language-nginx"><span class="hljs-attribute">location</span> /baseapi
-{
-<span class="hljs-attribute">proxy_pass</span>   http://yapi.xxx.com/mock/2817/baseapi; <span class="hljs-comment">#baseapi后面没有"/"</span>
-}
+<pre><code class="language-nginx"><span class="token keyword">location</span> <span class="token operator">/</span>baseapi
+<span class="token punctuation">{</span>
+<span class="token keyword">proxy_pass</span>   <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yapi<span class="token punctuation">.</span>xxx<span class="token punctuation">.</span>com<span class="token operator">/</span>mock<span class="token operator">/</span><span class="token number">2817</span><span class="token operator">/</span>baseapi<span class="token punctuation">;</span> <span class="token comment">#baseapi后面没有"/"</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h5>2.2 基于 ykit mock功能</h5>
-<pre><code class="language-javascript">{
-    <span class="hljs-attr">pattern</span>: <span class="hljs-regexp">/\/api\/(.*)/</span>,
-    <span class="hljs-attr">responder</span>: <span class="hljs-string">'http://yapi.xxx.com/mock/58/api/$1'</span>
-}
+<pre><code class="language-javascript"><span class="token punctuation">{</span>
+    pattern<span class="token punctuation">:</span> <span class="token regex">/\/api\/(.*)/</span><span class="token punctuation">,</span>
+    responder<span class="token punctuation">:</span> <span class="token string">'http://yapi.xxx.com/mock/58/api/$1'</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 <code>http://localhost/api/user/status</code> 会成为 <code>http://yapi.xxx.com/mock/58/api/user/status</code></p>
 <p>详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a></p>
@@ -84,118 +84,118 @@ $.post(prefix+<span class="hljs-string">'/baseapi/path'</span>, {<span class="hl
 <p><span id="DTD"></span></p>
 <h3 id="方式2.-json5+注释-数据模板定义规范（data-template-definition，dtd）">数据模板定义规范（Data Template Definition，DTD）</h3>
 <p>数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：</p>
-<pre><code>// 属性名   name （与生成规则之间用 "|" 隔开）
-// 生成规则 rule（生成规则有7种详见下面的生成规则）
-// 属性值   value（可以含有 "@占位符" 同时也指定了最终值的初始值和类型）
+<pre><code>// &#x5C5E;&#x6027;&#x540D;   name &#xFF08;&#x4E0E;&#x751F;&#x6210;&#x89C4;&#x5219;&#x4E4B;&#x95F4;&#x7528; &#x22;|&#x22; &#x9694;&#x5F00;&#xFF09;
+// &#x751F;&#x6210;&#x89C4;&#x5219; rule&#xFF08;&#x751F;&#x6210;&#x89C4;&#x5219;&#x6709;7&#x79CD;&#x8BE6;&#x89C1;&#x4E0B;&#x9762;&#x7684;&#x751F;&#x6210;&#x89C4;&#x5219;&#xFF09;
+// &#x5C5E;&#x6027;&#x503C;   value&#xFF08;&#x53EF;&#x4EE5;&#x542B;&#x6709; &#x22;@&#x5360;&#x4F4D;&#x7B26;&#x22; &#x540C;&#x65F6;&#x4E5F;&#x6307;&#x5B9A;&#x4E86;&#x6700;&#x7EC8;&#x503C;&#x7684;&#x521D;&#x59CB;&#x503C;&#x548C;&#x7C7B;&#x578B;&#xFF09;
 
-'name|rule': value
+&#x27;name|rule&#x27;: value
 
-生成规则：
-'name|min-max': value
-'name|count': value
-'name|min-max.dmin-dmax': value
-'name|min-max.dcount': value
-'name|count.dmin-dmax': value
-'name|count.dcount': value
-'name|+step': value
+&#x751F;&#x6210;&#x89C4;&#x5219;&#xFF1A;
+&#x27;name|min-max&#x27;: value
+&#x27;name|count&#x27;: value
+&#x27;name|min-max.dmin-dmax&#x27;: value
+&#x27;name|min-max.dcount&#x27;: value
+&#x27;name|count.dmin-dmax&#x27;: value
+&#x27;name|count.dcount&#x27;: value
+&#x27;name|+step&#x27;: value
 </code></pre>
 <p>下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：</p>
 <h4>1. 属性值是字符串 String</h4>
-<pre><code>1. 'name|min-max': string
+<pre><code>1. &#x27;name|min-max&#x27;: string
 
-通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。
+&#x901A;&#x8FC7;&#x91CD;&#x590D; string &#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x91CD;&#x590D;&#x6B21;&#x6570;&#x5927;&#x4E8E;&#x7B49;&#x4E8E; min&#xFF0C;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E; max&#x3002;
 
-2. 'name|count': string
+2. &#x27;name|count&#x27;: string
 
-通过重复 string 生成一个字符串，重复次数等于 count。
+&#x901A;&#x8FC7;&#x91CD;&#x590D; string &#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x91CD;&#x590D;&#x6B21;&#x6570;&#x7B49;&#x4E8E; count&#x3002;
 </code></pre>
 <h4>2. 属性值是数字 Number</h4>
-<pre><code>1. 'name|+1': number
+<pre><code>1. &#x27;name|+1&#x27;: number
 
-属性值自动加 1，初始值为 number。
+&#x5C5E;&#x6027;&#x503C;&#x81EA;&#x52A8;&#x52A0; 1&#xFF0C;&#x521D;&#x59CB;&#x503C;&#x4E3A; number&#x3002;
 
-2. 'name|min-max': number
+2. &#x27;name|min-max&#x27;: number
 
-生成一个大于等于 min、小于等于 max 的整数，属性值 number 只是用来确定类型。
+&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5927;&#x4E8E;&#x7B49;&#x4E8E; min&#x3001;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E; max &#x7684;&#x6574;&#x6570;&#xFF0C;&#x5C5E;&#x6027;&#x503C; number &#x53EA;&#x662F;&#x7528;&#x6765;&#x786E;&#x5B9A;&#x7C7B;&#x578B;&#x3002;
 
-3. 'name|min-max.dmin-dmax': number
+3. &#x27;name|min-max.dmin-dmax&#x27;: number
 
-生成一个浮点数，整数部分大于等于 min、小于等于 max，小数部分保留 dmin 到 dmax 位。
+&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x6D6E;&#x70B9;&#x6570;&#xFF0C;&#x6574;&#x6570;&#x90E8;&#x5206;&#x5927;&#x4E8E;&#x7B49;&#x4E8E; min&#x3001;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E; max&#xFF0C;&#x5C0F;&#x6570;&#x90E8;&#x5206;&#x4FDD;&#x7559; dmin &#x5230; dmax &#x4F4D;&#x3002;
 
-例如：
+&#x4F8B;&#x5982;&#xFF1A;
 Mock.mock({
-    'number1|1-100.1-10': 1,
-    'number2|123.1-10': 1,
-    'number3|123.3': 1,
-    'number4|123.10': 1.123
+    &#x27;number1|1-100.1-10&#x27;: 1,
+    &#x27;number2|123.1-10&#x27;: 1,
+    &#x27;number3|123.3&#x27;: 1,
+    &#x27;number4|123.10&#x27;: 1.123
 })
-// =>
+// =&#x3E;
 {
-    "number1": 12.92,
-    "number2": 123.51,
-    "number3": 123.777,
-    "number4": 123.1231091814
+    &#x22;number1&#x22;: 12.92,
+    &#x22;number2&#x22;: 123.51,
+    &#x22;number3&#x22;: 123.777,
+    &#x22;number4&#x22;: 123.1231091814
 }
 </code></pre>
 <h4>3. 属性值是布尔型 Boolean</h4>
-<pre><code>1. 'name|1': boolean
+<pre><code>1. &#x27;name|1&#x27;: boolean
 
-随机生成一个布尔值，值为 true 的概率是 1/2，值为 false 的概率同样是 1/2。
+&#x968F;&#x673A;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5E03;&#x5C14;&#x503C;&#xFF0C;&#x503C;&#x4E3A; true &#x7684;&#x6982;&#x7387;&#x662F; 1/2&#xFF0C;&#x503C;&#x4E3A; false &#x7684;&#x6982;&#x7387;&#x540C;&#x6837;&#x662F; 1/2&#x3002;
 
-2. 'name|min-max': value
+2. &#x27;name|min-max&#x27;: value
 
-随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。
+&#x968F;&#x673A;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5E03;&#x5C14;&#x503C;&#xFF0C;&#x503C;&#x4E3A; value &#x7684;&#x6982;&#x7387;&#x662F; min / (min + max)&#xFF0C;&#x503C;&#x4E3A; !value &#x7684;&#x6982;&#x7387;&#x662F; max / (min + max)&#x3002;
 </code></pre>
 <h4>4. 属性值是对象 Object</h4>
-<pre><code>1. 'name|count': object
+<pre><code>1. &#x27;name|count&#x27;: object
 
-从属性值 object 中随机选取 count 个属性。
+&#x4ECE;&#x5C5E;&#x6027;&#x503C; object &#x4E2D;&#x968F;&#x673A;&#x9009;&#x53D6; count &#x4E2A;&#x5C5E;&#x6027;&#x3002;
 
-2. 'name|min-max': object
+2. &#x27;name|min-max&#x27;: object
 
-从属性值 object 中随机选取 min 到 max 个属性。
+&#x4ECE;&#x5C5E;&#x6027;&#x503C; object &#x4E2D;&#x968F;&#x673A;&#x9009;&#x53D6; min &#x5230; max &#x4E2A;&#x5C5E;&#x6027;&#x3002;
 </code></pre>
 <h4>5. 属性值是数组 Array</h4>
-<pre><code>1. 'name|1': array
+<pre><code>1. &#x27;name|1&#x27;: array
 
-从属性值 array 中随机选取 1 个元素，作为最终值。
+&#x4ECE;&#x5C5E;&#x6027;&#x503C; array &#x4E2D;&#x968F;&#x673A;&#x9009;&#x53D6; 1 &#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x4F5C;&#x4E3A;&#x6700;&#x7EC8;&#x503C;&#x3002;
 
-2. 'name|+1': array
+2. &#x27;name|+1&#x27;: array
 
-从属性值 array 中顺序选取 1 个元素，作为最终值。
+&#x4ECE;&#x5C5E;&#x6027;&#x503C; array &#x4E2D;&#x987A;&#x5E8F;&#x9009;&#x53D6; 1 &#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x4F5C;&#x4E3A;&#x6700;&#x7EC8;&#x503C;&#x3002;
 
-3. 'name|min-max': array
+3. &#x27;name|min-max&#x27;: array
 
-通过重复属性值 array 生成一个新数组，重复次数大于等于 min，小于等于 max。
+&#x901A;&#x8FC7;&#x91CD;&#x590D;&#x5C5E;&#x6027;&#x503C; array &#x751F;&#x6210;&#x4E00;&#x4E2A;&#x65B0;&#x6570;&#x7EC4;&#xFF0C;&#x91CD;&#x590D;&#x6B21;&#x6570;&#x5927;&#x4E8E;&#x7B49;&#x4E8E; min&#xFF0C;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E; max&#x3002;
 
-4. 'name|count': array
+4. &#x27;name|count&#x27;: array
 
-通过重复属性值 array 生成一个新数组，重复次数为 count。
+&#x901A;&#x8FC7;&#x91CD;&#x590D;&#x5C5E;&#x6027;&#x503C; array &#x751F;&#x6210;&#x4E00;&#x4E2A;&#x65B0;&#x6570;&#x7EC4;&#xFF0C;&#x91CD;&#x590D;&#x6B21;&#x6570;&#x4E3A; count&#x3002;
 </code></pre>
 <p><span id="DPD"></span></p>
 <h4>数据占位符定义规范（Data Placeholder Definition，DPD）</h4>
-<pre><code>占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。
+<pre><code>&#x5360;&#x4F4D;&#x7B26; &#x53EA;&#x662F;&#x5728;&#x5C5E;&#x6027;&#x503C;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x5360;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x5E76;&#x4E0D;&#x51FA;&#x73B0;&#x5728;&#x6700;&#x7EC8;&#x7684;&#x5C5E;&#x6027;&#x503C;&#x4E2D;&#x3002;
 
-占位符 的格式为：
+&#x5360;&#x4F4D;&#x7B26; &#x7684;&#x683C;&#x5F0F;&#x4E3A;&#xFF1A;
 
-@占位符
+@&#x5360;&#x4F4D;&#x7B26;
 
-说明：
-1. 用 @ 来标识其后的字符串是 占位符，在YApi提供的Mock输入框在输入“@”后会自动提示占位符。
+&#x8BF4;&#x660E;&#xFF1A;
+1. &#x7528; @ &#x6765;&#x6807;&#x8BC6;&#x5176;&#x540E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x662F; &#x5360;&#x4F4D;&#x7B26;&#xFF0C;&#x5728;YApi&#x63D0;&#x4F9B;&#x7684;Mock&#x8F93;&#x5165;&#x6846;&#x5728;&#x8F93;&#x5165;&#x201C;@&#x201D;&#x540E;&#x4F1A;&#x81EA;&#x52A8;&#x63D0;&#x793A;&#x5360;&#x4F4D;&#x7B26;&#x3002;
 
-例如：
+&#x4F8B;&#x5982;&#xFF1A;
 name: {
-    first: '@FIRST',
-    middle: '@FIRST',
-    last: '@LAST',
-    full: '@first @middle @last'
+    first: &#x27;@FIRST&#x27;,
+    middle: &#x27;@FIRST&#x27;,
+    last: &#x27;@LAST&#x27;,
+    full: &#x27;@first @middle @last&#x27;
 }
-// 上面的示例可以得到如下结果：
-"name": {
-    "first": "Charles",
-    "middle": "Brenda",
-    "last": "Lopez",
-    "full": "Charles Brenda Lopez"
+// &#x4E0A;&#x9762;&#x7684;&#x793A;&#x4F8B;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x7ED3;&#x679C;&#xFF1A;
+&#x22;name&#x22;: {
+    &#x22;first&#x22;: &#x22;Charles&#x22;,
+    &#x22;middle&#x22;: &#x22;Brenda&#x22;,
+    &#x22;last&#x22;: &#x22;Lopez&#x22;,
+    &#x22;full&#x22;: &#x22;Charles Brenda Lopez&#x22;
 }
 </code></pre>
 </div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="api.html" class="href"><span class="ui-font-ydoc"></span>接口操作</a></div><div class="m-paging-next m-paging-item"><a href="adv_mock.html" class="href">高级Mock<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div><div class="m-mask js-mask">
