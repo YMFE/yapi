@@ -17,13 +17,21 @@ const ContentTypeMap = {
 
 async function httpRequestByNode(options) {
   function handleRes(response){
+    if(!response || typeof response !== 'object'){
       return {
         res: {
-          header: response.headers,
-          status: response.status,
-          body: response.data
+          status: 500,
+          body: isNode ? '请求出错, 内网服务器自动化测试无法访问到，请检查是否为内网服务器！': '请求出错'
         }
       }
+    }
+    return {
+      res: {
+        header: response.headers,
+        status: response.status,
+        body: response.data
+      }
+    }
   }
 
   function handleData(){
