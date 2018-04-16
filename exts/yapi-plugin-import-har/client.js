@@ -42,7 +42,8 @@ function postman(importDataModule){
     if(query&&query.length){
       for(let item in query){
         res.push({
-          name: query[item].name
+          name: query[item].name,
+          value: query[item].value
         });
       }
     }
@@ -69,6 +70,7 @@ function postman(importDataModule){
       for(let item in body_form){
         res.push({
           name: body_form[item].name,
+          value: body_form[item].value,
           type: 'text'
         });
       }
@@ -93,11 +95,12 @@ function postman(importDataModule){
     try{
       res = JSON.parse(res);
       res = res.log.entries;
+      
       res = res.filter(item=>{
         if(!item)return false;
         return item.response.content.mimeType.indexOf('application/json') === 0;
       })
-
+      
 
       let interfaceData = {apis: []};
       res = checkInterRepeat.bind(this)(res);
@@ -107,7 +110,7 @@ function postman(importDataModule){
           interfaceData.apis.push(data);
         }
       }
-  
+      
       return interfaceData;
       
     }catch(e){
