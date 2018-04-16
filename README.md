@@ -36,16 +36,19 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi update -v {Version} //更新到指定版本
 
 
-### YApi 资源
+### YApi 插件
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
-* [yapi docker ](https://github.com/branchzero/yapi-docker) By branchzero
-* [yapi docker ](https://hub.docker.com/r/silsuer/yapi/) By silsuer
-* [yapi docker ](https://github.com/fiochen/docker-yapi-env) By fiochen
+* [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
 
 ### YApi 教程
 * [Centos-安装环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
 * [MacOS-YAPI初次使用指南](https://github.com/liuyuan1989/yapi_user_guide/blob/master/YAPI%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97_MacOS.md) By liuyuan1989
 * [使用 docker 部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
+
+### 一些 docker 资源
+* [yapi docker ](https://github.com/branchzero/yapi-docker) By branchzero
+* [yapi docker ](https://hub.docker.com/r/silsuer/yapi/) By silsuer
+* [yapi docker ](https://github.com/fiochen/docker-yapi-env) By fiochen
 
 ### YApi 的一些客户
 * 去哪儿
