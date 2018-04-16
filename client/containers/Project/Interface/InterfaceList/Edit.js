@@ -72,7 +72,7 @@ class InterfaceEdit extends Component {
     //因后端 node 仅支持 ws， 暂不支持 wss
     let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
     try {
-      s = new WebSocket(wsProtocol + '://dd' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
+      s = new WebSocket(wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
       s.onopen = () => {
         this.WebSocket = s;
       }
