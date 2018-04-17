@@ -266,11 +266,14 @@ class InterfaceList extends Component {
       onChange: this.changePage
     }
 
+    
+    const isDisabled = this.props.catList.length === 0
+
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>{intername ? intername : '全部接口'}共 ({total}) 个</h2>
 
-        <Button style={{ float: 'right' }} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
+        <Button style={{ float: 'right' }} disabled={isDisabled} type="primary" onClick={() => this.setState({ visible: true })}>添加接口</Button>
         <div >
           {desc &&
             <p style={{ marginTop: '10px' }}>{desc} </p>
@@ -283,7 +286,7 @@ class InterfaceList extends Component {
           onChange={this.handleChange}
           dataSource={data}
         />
-        <Modal
+        {this.state.visible && <Modal
           title="添加接口"
           visible={this.state.visible}
           onCancel={() => this.setState({ 'visible': false })}
@@ -291,7 +294,7 @@ class InterfaceList extends Component {
           className="addcatmodal"
         >
           <AddInterfaceForm catid={this.state.catid} catdata={cat} onCancel={() => this.setState({ 'visible': false })} onSubmit={this.handleAddInterface} />
-        </Modal>
+        </Modal>}
       </div>
     )
   }
