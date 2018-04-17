@@ -14,7 +14,8 @@ import { json5_parse } from '../../../client/common';
   state => {
     return {
       list: state.mockCol.list,
-      currInterface: state.inter.curdata
+      currInterface: state.inter.curdata,
+      currProject: state.project.currProject
     }
   },
   {
@@ -27,7 +28,8 @@ export default class MockCol extends Component {
     list: PropTypes.array,
     currInterface: PropTypes.object,
     match: PropTypes.object,
-    fetchMockCol: PropTypes.func
+    fetchMockCol: PropTypes.func,
+    currProject: PropTypes.object
   }
 
   state = {
@@ -105,6 +107,9 @@ export default class MockCol extends Component {
 
     const { list: data, currInterface } = this.props;
     const { isAdd, caseData, caseDesModalVisible } = this.state;
+    
+    const role = this.props.currProject.role;
+    const isGuest = role ==='guest' 
     const initCaseData = {
       ip: '',
       ip_enable: false,
@@ -164,7 +169,7 @@ export default class MockCol extends Component {
       key: '_id',
       render: (_id, recode) => {
         
-        return (
+        return (!isGuest &&
           <div>
             <span style={{marginRight: 5}}>
               <Button size="small" onClick={ this.openModal(recode) }>编辑</Button>
@@ -183,11 +188,11 @@ export default class MockCol extends Component {
         )
       }
     }];
-
+    
     return (
       <div>
         <div style={{marginBottom: 8}}>
-          <Button type="primary" onClick={this.openModal(initCaseData, true)}>添加期望</Button>
+          <Button type="primary" onClick={this.openModal(initCaseData, true)} disabled={isGuest}>添加期望</Button>
           <a target="_blank" rel="noopener noreferrer" href={constants.docHref.adv_mock_case} style={{marginLeft: 8}} >
             <Tooltip title="点击查看文档"><Icon type="question-circle-o" /></Tooltip>
           </a>

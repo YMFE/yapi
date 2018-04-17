@@ -43,7 +43,7 @@ class CaseDesForm extends Component {
     } catch (error) {
       console.log(error)
     }
-
+    
     const initCaseData = {
       ip: '',
       ip_enable: false,
@@ -71,6 +71,7 @@ class CaseDesForm extends Component {
     caseData.params = JSON.stringify(caseData.params, null, 2);
     
     caseData = safeAssign(initCaseData, { ...caseData, headers, paramsArr });
+
     return caseData;
   }
 
@@ -180,7 +181,7 @@ class CaseDesForm extends Component {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const { isAdd, visible, onCancel } = this.props;
-    const { name, code, headers, ip, ip_enable, params, paramsArr, paramsForm, res_body } = this.state
+    const { name, code, headers, ip, ip_enable, params, paramsArr, paramsForm, res_body, delay } = this.state
     
     this.props.form.initialValue
     const valuesTpl = (values, title) => {
@@ -377,7 +378,7 @@ class CaseDesForm extends Component {
             label="延时"
           >
             {getFieldDecorator('delay', {
-                initialValue: 0,
+                initialValue: delay,
                 rules: [{ required: true, message: '请输入延时时间！', type: 'integer' }]
             })(
               <InputNumber placeholder="请输入延时时间" min={0} />
