@@ -74,7 +74,7 @@ export default class Srch extends Component{
                   >
                     {`项目: ${item.name}`}
                   </Option>)
-              )
+              ) 
             })
           }
           this.setState({
