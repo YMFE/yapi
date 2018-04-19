@@ -8,6 +8,12 @@
 ### 进阶篇
 * [权限](manage.md)
 * [项目操作](project.md)
+  * [新建项目](project.md#新建项目)
+  * [修改项目](project.md#修改项目)
+  * [项目迁移](project.md#项目迁移)
+  * [配置环境](project.md#配置环境)
+  * [请求配置](project.md#请求配置)
+  * [token配置](project.md#token配置)
 * [接口操作](api.md)
 * [数据Mock](mock.md)
 * [高级Mock](adv_mock.md)
