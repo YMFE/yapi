@@ -447,7 +447,7 @@ export default class InterfaceColMenu extends Component {
         let interfaceFilter = false;
         if (item.name.indexOf(this.state.filterValue) === -1) {
           item.caseList = item.caseList.filter(inter => {
-      
+           
             if (inter.casename.indexOf(this.state.filterValue) === -1) {
               return false;
             }

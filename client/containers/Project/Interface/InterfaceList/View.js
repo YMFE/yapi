@@ -363,10 +363,6 @@ class View extends Component {
 
       <div style={{ display: this.props.curData.method && HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body ? '' : 'none' }}>
         <h3 style={{ display: bodyShow ? '' : 'none' }} className="col-title">Body:</h3>
-        {/* {aceEditor}
-        {
-          
-        } */}
         {
           this.props.curData.req_body_type ==='form' ?
           this.req_body_form(this.props.curData.req_body_type, this.props.curData.req_body_form)
