@@ -36,6 +36,15 @@ class CaseDesForm extends Component {
     isAdd: PropTypes.bool,
     visible: PropTypes.bool
   }
+
+  componentWillMount () {
+    document.getElementById('yapi').style.overflow = 'hidden';
+  }
+
+  componentWillUnmount () {
+    document.getElementById('yapi').style.overflow = 'auto';
+  }
+
   // 初始化输入数据
   preProcess = caseData => {
     try {
