@@ -143,8 +143,8 @@ class interfaceController extends baseController {
       return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
     }
     params.method = params.method || 'GET';
-    params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
-    params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
+    params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? false : params.res_body_is_json_schema;
+    params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  false : params.req_body_is_json_schema;
     params.method = params.method.toUpperCase();
     params.req_params = params.req_params || [];
     params.res_body_type = params.res_body_type ? params.res_body_type.toLowerCase() : 'json';
