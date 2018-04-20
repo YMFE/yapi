@@ -191,7 +191,7 @@ class baseController {
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
-    console.log(role);
+    
     if (action === 'danger') {
       if (role === 'admin' || role === 'owner') {
         return true;

@@ -43,6 +43,7 @@ export default class Group extends Component {
   //   // }
   // }
   render() {
+    
     const GroupContent = (
       <Layout style={{ minHeight: 'calc(100vh - 100px)', marginLeft: '24px', marginTop: '24px' }}>
         <Sider style={{ height: '100%' }} width={300}>

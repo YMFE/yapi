@@ -16,6 +16,9 @@ const DEL_PROJECT_MEMBER = 'yapi/project/DEL_PROJECT_MEMBER';
 const CHANGE_PROJECT_MEMBER = 'yapi/project/CHANGE_PROJECT_MEMBER';
 const GET_TOKEN = 'yapi/project/GET_TOKEN';
 const UPDATE_TOKEN = 'yapi/project/UPDATE_TOKEN';
+const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
+const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
+
 
 // Reducer
 const initialState = {
@@ -70,6 +73,18 @@ export default (state = initialState, action) => {
         token: action.payload.data.data.token
       }
     }
+
+    case CHECK_PROJECT_NAME: {
+      return{
+        ...state
+
+      }
+    }
+    case COPY_PROJECT_MSG: {
+      return {
+        ...state
+      }
+    }
     default:
       return state;
   }
@@ -89,15 +104,13 @@ export function fetchProjectList(id, pageNum) {
   };
 }
 
-// // 获取项目信息
-// export function getProjectMsg(id) {
-//   return {
-//     type: GET_PROJECT_MSG,
-//     payload: axios.get('/api/project/get', {
-//       params: { id }
-//     })
-//   };
-// }
+// 复制项目
+export function copyProjectMsg(params) {
+  return {
+    type: COPY_PROJECT_MSG,
+    payload: axios.post('/api/project/copy', params)
+  };
+}
 
 // 添加项目成员
 export function addMember(param) {
@@ -241,6 +254,15 @@ export async function updateToken(project_id){
     type: UPDATE_TOKEN,
     payload: axios.get('/api/project/update_token', {
       params: { project_id }
+    })
+  }
+}
+
+export async function checkProjectName(name, group_id){
+  return {
+    type: CHECK_PROJECT_NAME,
+    payload: axios.get('/api/project/check_project_name', {
+      params: { name, group_id }
     })
   }
 }

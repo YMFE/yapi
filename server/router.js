@@ -249,6 +249,14 @@ let routerConfig = {
 			"action": "updateToken",
 			"path": "update_token",
 			"method": "get"
+    },{
+      action: 'checkProjectName',
+      path: 'check_project_name',
+      method: 'get'
+    },{
+      action: 'copy',
+      path: 'copy',
+      method:'post'
     }
     
 
