@@ -103,6 +103,14 @@ mockJson = {
 }
 
 </code></pre>
+<h3 id="自定义-mock-脚本-示例3,-模拟服务器端设置cookie">示例3, 模拟服务器端设置Cookie</h3>
+<pre><code>resHeader[&#x22;Set-Cookie&#x22;] = &#x22;name = xxxxxxxx&#x22;
+
+
+// &#x5728;&#x63A7;&#x5236;&#x53F0;
+
+document.cookie   // name = xxxxxxxx
+</code></pre>
 <h2 id="mock-优先级说明">Mock 优先级说明</h2>
 <p>请求 Mock 数据时，规则匹配优先级：Mock 期望 &gt; 自定义 Mock 脚本 &gt; 普通 Mock。</p>
 <p>如果前面匹配到 Mock 数据，后面 Mock 则不返回。</p>

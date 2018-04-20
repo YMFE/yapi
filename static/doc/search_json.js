@@ -200,7 +200,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，写入复制项目名称就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -267,7 +267,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，写入复制项目名称就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -520,6 +520,11 @@ window.ydoc_plugin_search_json = {
           "content": "示例2, 生成高度自定义数据内容var a = [1,1,1,1,1,1,1,1,1,1]\nmockJson = {\n    errcode: 0,\n    email: Random.email('qq.com'),\n    data: a.map(function(item){\n        return Random.city() + '银行'\n    })\n}\n\n"
         },
         {
+          "title": "示例3, 模拟服务器端设置Cookie",
+          "url": "/documents/adv_mock.html#自定义-mock-脚本-示例3,-模拟服务器端设置cookie",
+          "content": "示例3, 模拟服务器端设置CookieresHeader[\"Set-Cookie\"] = \"name = xxxxxxxx\"\n\n// 在控制台\n\ndocument.cookie   // name = xxxxxxxx\n"
+        },
+        {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
           "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
@@ -570,6 +575,11 @@ window.ydoc_plugin_search_json = {
           "title": "示例2, 生成高度自定义数据内容",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例2,-生成高度自定义数据内容",
           "content": "示例2, 生成高度自定义数据内容var a = [1,1,1,1,1,1,1,1,1,1]\nmockJson = {\n    errcode: 0,\n    email: Random.email('qq.com'),\n    data: a.map(function(item){\n        return Random.city() + '银行'\n    })\n}\n\n"
+        },
+        {
+          "title": "示例3, 模拟服务器端设置Cookie",
+          "url": "/documents/adv_mock.html#自定义-mock-脚本-示例3,-模拟服务器端设置cookie",
+          "content": "示例3, 模拟服务器端设置CookieresHeader[\"Set-Cookie\"] = \"name = xxxxxxxx\"\n\n// 在控制台\n\ndocument.cookie   // name = xxxxxxxx\n"
         },
         {
           "title": "Mock 优先级说明",
@@ -1058,7 +1068,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
@@ -1185,7 +1195,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
