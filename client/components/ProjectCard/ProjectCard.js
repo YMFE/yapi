@@ -89,7 +89,7 @@ class ProjectCard extends Component {
           />
           <div style={{ marginTop: '16px' }}>
             <p>
-              <b>分组名称:</b>
+              <b>项目名称:</b>
             </p>
             <Input id="project_name" placeholder="项目名称"/>
           </div>
