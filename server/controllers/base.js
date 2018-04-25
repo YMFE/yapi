@@ -128,6 +128,7 @@ class baseController {
         let projectInst = yapi.getInst(projectModel);
         let projectData = await projectInst.get(id);
         if (projectData.uid === this.getUid()) {
+          // 建立项目的人
           return 'owner';
         }
         let memberData = _.find(projectData.members, (m) => {
@@ -135,6 +136,7 @@ class baseController {
             return true;
           }
         })
+        
 
         if (memberData && memberData.role) {
           if (memberData.role === 'owner') {
@@ -152,11 +154,12 @@ class baseController {
       if (type === 'group') {
         let groupInst = yapi.getInst(groupModel);
         let groupData = await groupInst.get(id);
+        // 建立分组的人
         if (groupData.uid === this.getUid()) {
           return 'owner';
         }
 
-
+        
         let groupMemberData = _.find(groupData.members, (m) => {
           if (m.uid === this.getUid()) {
             return true;
@@ -188,6 +191,7 @@ class baseController {
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
+    
     if (action === 'danger') {
       if (role === 'admin' || role === 'owner') {
         return true;

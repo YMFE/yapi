@@ -369,7 +369,7 @@ export default class Run extends Component {
           id={+this.state._id}
         /> }
         
-        <Modal
+        {this.state.envModalVisible && <Modal
           title='环境设置'
           visible={this.state.envModalVisible}
           onOk={this.handleEnvOk}
@@ -381,7 +381,7 @@ export default class Run extends Component {
           <ProjectEnv
             projectId={this.props.data.project_id}
             onOk={this.handleEnvOk} />
-        </Modal>
+        </Modal>}
         <CheckCrossInstall hasPlugin={hasPlugin} />
 
         <div className="url">

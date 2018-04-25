@@ -109,6 +109,7 @@ class UsernameAutoComplete extends Component {
         style={{ width: '100%' }}
         placeholder="请输入用户名"
         filterOption={false}
+        optionLabelProp='children'
         notFoundContent={fetching ? <span style={{color:'red'}}> 当前用户不存在</span> : null}
         onSearch={this.handleSearch}
         onChange={this.handleChange}

@@ -72,8 +72,8 @@ class ProjectList extends Component {
   }
 
   // 获取 ProjectCard 组件的关注事件回调，收到后更新数据
-  @autobind
-  receiveRes() {
+
+  receiveRes = () => {
     this.props.fetchProjectList(this.props.currGroup._id, this.props.currPage);
   }
 
@@ -119,6 +119,9 @@ class ProjectList extends Component {
     })
     projectData = [...followProject, ...noFollow]
 
+    
+    const isShow = /(admin)|(owner)|(dev)/.test(this.props.currGroup.role)
+
     const Follow = () => {
       return followProject.length ? <Row>
         <h3 className="owner-type">我的关注</h3>
@@ -139,7 +142,7 @@ class ProjectList extends Component {
           noFollow.map((item, index) => {
             return (
               <Col xs={8} lg={6} xxl={4} key={index}>
-                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+                <ProjectCard projectData={item} callbackResult={this.receiveRes} isShow={isShow} />
               </Col>)
           })
         }
@@ -155,7 +158,7 @@ class ProjectList extends Component {
         : <ErrMsg type="noProject" />)
     }
 
-
+    
     return (
       <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list" >
         <Row className="project-list-header">
@@ -163,7 +166,7 @@ class ProjectList extends Component {
             {this.props.currGroup.group_name} 分组共 ({projectData.length}) 个项目
           </Col>
           <Col span={8}>
-            {/(admin)|(owner)|(dev)/.test(this.props.currGroup.role) ?
+            {isShow?
               <Link to="/add-project"><Button type="primary">添加项目</Button></Link> :
               <Tooltip title="您没有权限,请联系该分组组长或管理员">
                 <Button type="primary" disabled >添加项目</Button>
@@ -181,7 +184,7 @@ class ProjectList extends Component {
             this.props.currGroup.type === 'private' ? <OwnerSpace /> : projectData.length ? projectData.map((item, index) => {
               return (
                 <Col xs={8} lg={6} xxl={4} key={index}>
-                  <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+                  <ProjectCard projectData={item} callbackResult={this.receiveRes} isShow={isShow} />
                 </Col>);
             }) : <ErrMsg type="noProject" />
           }

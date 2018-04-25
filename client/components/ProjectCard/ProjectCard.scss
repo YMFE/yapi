@@ -8,22 +8,26 @@
     transition: all .2s;
   }
   &:hover {
-    .m-card, .card-btns {
+    .m-card, .card-btns , .copy-btns {
       transform: translateY(-4px);
     }
     .m-card .ant-card-body {
       background-color: $color-bg-gray;
       box-shadow: 0 4px 8px rgba(50, 50, 93, 0.11), 0 4px 6px rgba(0, 0, 0, 0.08);
     }
-    .card-btns .icon {
+    .card-btns .icon  {
       color: rgba(39, 56, 72, 0.85);
     }
-    .card-btns .icon.active {
+
+    .copy-btns .icon {
+      color: #2395f1
+    }
+    .card-btns .icon.active , .copy-btns .icon.active {
       color: #fac200;
     }
   }
   &:active {
-    .m-card, .card-btns {
+    .m-card, .card-btns, .copy-btns {
       transform: translateY(4px);
     }
   }
@@ -52,6 +56,31 @@
     .icon.active {
       color: #fff;
     }
+   
+  }
+
+  // 卡片昨上角按钮
+  .copy-btns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .48rem;
+    height: .48rem;
+    // background: linear-gradient(225deg, #ccc, #ccc 50%, transparent 0);
+    border-top-right-radius: 4px;
+    .icon {
+      cursor: pointer;
+      font-size: .16rem;
+      padding: .06rem;
+      position: absolute;
+      right: 0;
+      top: 3px;
+      color: #fff;
+    }
+    .icon.active {
+      color: #fff;
+    }
+    
   }
 }
 .m-card {

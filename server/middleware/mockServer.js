@@ -261,7 +261,8 @@ module.exports = async (ctx, next) => {
               cookie = parseCookie(context.resHeader[i]);
               if (cookie && typeof cookie === "object") {
                 ctx.cookies.set(cookie.name, cookie.value, {
-                  maxAge: 864000000
+                  maxAge: 864000000,
+                  httpOnly: false
                 });
               }
             } else if (
@@ -272,7 +273,8 @@ module.exports = async (ctx, next) => {
                 cookie = parseCookie(item);
                 if (cookie && typeof cookie === "object") {
                   ctx.cookies.set(cookie.name, cookie.value, {
-                    maxAge: 864000000
+                    maxAge: 864000000,
+                    httpOnly: false
                   });
                 }
               });

@@ -62,6 +62,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         role: action.payload.data.data.role,
+        currGroup: action.payload.data.data,
         field: {
           name: action.payload.data.data.custom_field1.name,
           enable: action.payload.data.data.custom_field1.enable

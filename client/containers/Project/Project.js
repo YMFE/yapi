@@ -16,7 +16,8 @@ import ProjectData from './Setting/ProjectData/ProjectData.js';
 @connect(
   state => {
     return {
-      curProject: state.project.currProject
+      curProject: state.project.currProject,
+      currGroup: state.group.currGroup
     }
   },
   {
@@ -34,26 +35,21 @@ export default class Project extends Component {
     getProject: PropTypes.func,
     location: PropTypes.object,
     fetchGroupMsg: PropTypes.func,
-    setBreadcrumb: PropTypes.func
+    setBreadcrumb: PropTypes.func,
+    currGroup: PropTypes.object
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      currGroup: {}
-    }
   }
 
   async componentWillMount() {
     await this.props.getProject(this.props.match.params.id);
-    const groupMsg = await this.props.fetchGroupMsg(this.props.curProject.group_id);
+    await this.props.fetchGroupMsg(this.props.curProject.group_id);
 
-    this.setState({
-      currGroup: groupMsg.payload.data.data
-    })
     this.props.setBreadcrumb([{
-      name: groupMsg.payload.data.data.group_name,
-      href: '/group/' + groupMsg.payload.data.data._id
+      name: this.props.currGroup.group_name,
+      href: '/group/' + this.props.currGroup._id
     }, {
       name: this.props.curProject.name
     }]);
@@ -78,7 +74,7 @@ export default class Project extends Component {
         break;
       }
     }
-
+    
     let subnavData = [{
       name: routers.interface.name,
       path: `/project/${match.params.id}/interface/api`
@@ -95,7 +91,7 @@ export default class Project extends Component {
       name: routers.setting.name,
       path: `/project/${match.params.id}/setting`
     }];
-    if (this.state.currGroup.type === 'private') {
+    if (this.props.currGroup.type === 'private') {
       subnavData = subnavData.filter(item => {
         return item.name != '成员管理'
       })
@@ -115,7 +111,7 @@ export default class Project extends Component {
           <Route path={routers.activity.path} component={Activity} />
           <Route path={routers.interface.path} component={Interface} />
           <Route path={routers.setting.path} component={Setting} />
-          {this.state.currGroup.type !== 'private' ?
+          {this.props.currGroup.type !== 'private' ?
             <Route path={routers.members.path} component={ProjectMember} />
             : null
           }
