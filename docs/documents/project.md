@@ -28,6 +28,25 @@
 
 <img src="./images/usage/project_setting_logo.png" />
 
+## 项目迁移
+
+YApi中支持项目迁移到不同的分组中。
+
+迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。
+
+> Tips: owner权限判断的优先级是 项目权限 > 分组权限 
+
+## 项目拷贝
+
+YApi支持项目复制功能，但是无法复制项目中的测试集合list。  
+
+操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制
+
+<img src="./images/usage/projectCopy.png" />
+
+<img src="./images/usage/project_copy_ok.png" />
+
+> Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限 
 
 ## 删除项目
 

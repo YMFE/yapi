@@ -621,7 +621,11 @@ class InterfaceColContent extends Component {
         </div>
         {this.state.hasPlugin ?
           <div style={{ float: 'right' }}>
-            {this.props.curProjectRole !=='guest'? <Button style={{ marginRight: '8px' }} onClick={this.autoTests}>自动化测试</Button>:null}
+            {this.props.curProjectRole !=='guest'&& 
+              <Tooltip title="在 YApi 服务端跑自动化测试，测试环境不能为私有网络，请确保 YApi 服务器可以访问到自动化测试环境domain">
+                <Button style={{ marginRight: '8px' }} onClick={this.autoTests}>服务端测试</Button>
+              </Tooltip>
+            }
             <Button type="primary" onClick={this.executeTests}>开始测试</Button>
           </div>
            :
@@ -675,7 +679,7 @@ class InterfaceColContent extends Component {
 
         </Modal>
         <Modal
-          title="自动化测试"
+          title="服务端自动化测试"
           width="780px"
           style={{ minHeight: '500px' }}
           visible={this.state.autoVisible}
@@ -728,7 +732,7 @@ class InterfaceColContent extends Component {
             </Col>
           </Row>
           <div className="autoTestMsg">
-             注：访问该URL，可以测试所有用例
+             注：访问该URL，可以测试所有用例，请确保YApi服务器可以访问到环境配置的 domain
           </div>
           
          

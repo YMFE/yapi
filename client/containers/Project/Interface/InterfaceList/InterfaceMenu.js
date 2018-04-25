@@ -471,7 +471,8 @@ class InterfaceMenu extends Component {
         let interfaceFilter = false;
         if (item.name.indexOf(this.state.filter) === -1) {
           item.list = item.list.filter(inter => {
-            if (inter.title.indexOf(this.state.filter) === -1 && inter.path.indexOf(this.state.filter)) {
+            
+            if (inter.title.indexOf(this.state.filter) === -1 && inter.path.indexOf(this.state.filter)===-1) {
               return false;
             }
             //arr.push('cat_' + inter.catid)
@@ -479,6 +480,7 @@ class InterfaceMenu extends Component {
             return true;
 
           })
+          
           arr.push('cat_' + item._id)
           return interfaceFilter === true
         }

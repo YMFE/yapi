@@ -25,6 +25,13 @@ class advMockController extends baseController{
   async upMock(ctx){
     let params = ctx.request.body;
     try{
+      let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+      
+      if (!auth) {
+        return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
+      }
+
+
       if(!params.interface_id){
         return ctx.body =yapi.commons.resReturn(null, 408, '缺少interface_id');
       }
@@ -81,6 +88,8 @@ class advMockController extends baseController{
 
   async saveCase(ctx){
     let params = ctx.request.body;
+
+   
     if(!params.interface_id){
       return ctx.body =yapi.commons.resReturn(null, 408, '缺少interface_id');
     }

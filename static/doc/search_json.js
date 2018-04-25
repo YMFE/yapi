@@ -193,6 +193,16 @@ window.ydoc_plugin_search_json = {
           "content": "修改项目图标点击项目图标，可以修改图标及背景色："
         },
         {
+          "title": "项目迁移",
+          "url": "/documents/project.html#项目迁移",
+          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+        },
+        {
+          "title": "项目拷贝",
+          "url": "/documents/project.html#项目拷贝",
+          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+        },
+        {
           "title": "删除项目",
           "url": "/documents/project.html#删除项目",
           "content": "删除项目点击下方的删除按钮，输入项目名称进行删除。删除项目是高风险操作，因此 YApi 对这个操作进行了特别的约束。\n"
@@ -248,6 +258,16 @@ window.ydoc_plugin_search_json = {
           "title": "修改项目图标",
           "url": "/documents/project.html#修改项目-修改项目图标",
           "content": "修改项目图标点击项目图标，可以修改图标及背景色："
+        },
+        {
+          "title": "项目迁移",
+          "url": "/documents/project.html#项目迁移",
+          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+        },
+        {
+          "title": "项目拷贝",
+          "url": "/documents/project.html#项目拷贝",
+          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -1036,9 +1056,19 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.12",
+          "url": "/documents/CHANGELOG.html#v1.3.12",
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+        },
+        {
+          "title": "v1.3.11",
+          "url": "/documents/CHANGELOG.html#v1.3.11",
+          "content": "v1.3.11Bug Fixed修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+        },
+        {
           "title": "v1.3.9",
           "url": "/documents/CHANGELOG.html#v1.3.9",
-          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\nBug Fixed导入数据为空提示\n"
         },
         {
           "title": "v1.3.8",
@@ -1153,9 +1183,19 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.12",
+          "url": "/documents/CHANGELOG.html#v1.3.12",
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+        },
+        {
+          "title": "v1.3.11",
+          "url": "/documents/CHANGELOG.html#v1.3.11",
+          "content": "v1.3.11Bug Fixed修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+        },
+        {
           "title": "v1.3.9",
           "url": "/documents/CHANGELOG.html#v1.3.9",
-          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\n"
+          "content": "v1.3.9Feature增加接口编辑返回数据预览\n修复旧的文档链接\nBug Fixed导入数据为空提示\n"
         },
         {
           "title": "v1.3.8",
