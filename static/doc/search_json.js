@@ -591,32 +591,37 @@ window.ydoc_plugin_search_json = {
         {
           "title": "编辑测试用例",
           "url": "/documents/case.html#编辑测试用例",
-          "content": "编辑测试用例"
+          "content": "编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
         },
         {
-          "title": "Mock 参数",
-          "url": "/documents/case.html#编辑测试用例-mock-参数",
-          "content": "Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
+          "title": "请求参数",
+          "url": "/documents/case.html#编辑测试用例-请求参数",
+          "content": "请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
         },
         {
-          "title": "自动化测试",
-          "url": "/documents/case.html#自动化测试",
-          "content": "自动化测试点击自动化测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果"
+          "title": "断言脚本",
+          "url": "/documents/case.html#编辑测试用例-断言脚本",
+          "content": "断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
         },
         {
-          "title": "断言",
-          "url": "/documents/case.html#断言",
-          "content": "断言可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
-        },
-        {
-          "title": "公共变量",
-          "url": "/documents/case.html#断言-公共变量",
-          "content": "公共变量1.assert断言函数，详细 api 可查看 document常用 api:\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "title": "断言脚本公共变量",
+          "url": "/documents/case.html#编辑测试用例-断言脚本公共变量",
+          "content": "断言脚本公共变量1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
         },
         {
           "title": "示例",
-          "url": "/documents/case.html#断言-示例",
+          "url": "/documents/case.html#编辑测试用例-示例",
           "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
+        },
+        {
+          "title": "服务端自动化测试",
+          "url": "/documents/case.html#服务端自动化测试",
+          "content": "服务端自动化测试开始测试功能是在浏览器跑自动化测试，他依赖于浏览器的使用环境。服务端自动化测试功能是在YApi服务端跑自动化测试，不需要依赖浏览器环境，只需要访问 YApi 提供的 url 链接就能跑自动化测试，\b非常的简单易用，\b而且可以集成到 jenkins。"
+        },
+        {
+          "title": "详细使用方法",
+          "url": "/documents/case.html#服务端自动化测试-详细使用方法",
+          "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
         }
       ]
     },
@@ -633,32 +638,37 @@ window.ydoc_plugin_search_json = {
         {
           "title": "编辑测试用例",
           "url": "/documents/case.html#编辑测试用例",
-          "content": "编辑测试用例"
+          "content": "编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
         },
         {
-          "title": "Mock 参数",
-          "url": "/documents/case.html#编辑测试用例-mock-参数",
-          "content": "Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
+          "title": "请求参数",
+          "url": "/documents/case.html#编辑测试用例-请求参数",
+          "content": "请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
         },
         {
-          "title": "自动化测试",
-          "url": "/documents/case.html#自动化测试",
-          "content": "自动化测试点击自动化测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果"
+          "title": "断言脚本",
+          "url": "/documents/case.html#编辑测试用例-断言脚本",
+          "content": "断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
         },
         {
-          "title": "断言",
-          "url": "/documents/case.html#断言",
-          "content": "断言可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
-        },
-        {
-          "title": "公共变量",
-          "url": "/documents/case.html#断言-公共变量",
-          "content": "公共变量1.assert断言函数，详细 api 可查看 document常用 api:\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "title": "断言脚本公共变量",
+          "url": "/documents/case.html#编辑测试用例-断言脚本公共变量",
+          "content": "断言脚本公共变量1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
         },
         {
           "title": "示例",
-          "url": "/documents/case.html#断言-示例",
+          "url": "/documents/case.html#编辑测试用例-示例",
           "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
+        },
+        {
+          "title": "服务端自动化测试",
+          "url": "/documents/case.html#服务端自动化测试",
+          "content": "服务端自动化测试开始测试功能是在浏览器跑自动化测试，他依赖于浏览器的使用环境。服务端自动化测试功能是在YApi服务端跑自动化测试，不需要依赖浏览器环境，只需要访问 YApi 提供的 url 链接就能跑自动化测试，\b非常的简单易用，\b而且可以集成到 jenkins。"
+        },
+        {
+          "title": "详细使用方法",
+          "url": "/documents/case.html#服务端自动化测试-详细使用方法",
+          "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
         }
       ]
     },

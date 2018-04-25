@@ -15,14 +15,19 @@
 测试完成之后，点击报告查看该次请求的结果
 
 ## 编辑测试用例
+编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。
 
-### Mock 参数
+### 请求参数
+
+请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。
+
+#### Mock 参数
 
 Mock 参数每次请求都会生成随机字符串
 
 <img  class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg"  />
 
-#### 变量参数
+##### 变量参数
 
 YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 `参数` 或 `返回值` 作为 `后面接口的参数`，即使接口之间存在依赖，也可以轻松 **一键测试~**
 
@@ -68,29 +73,20 @@ $.{key}.{params|body}.{path}
 
 <img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png"  />
 
-## 自动化测试
 
-点击自动化测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果
+### 断言脚本
 
-<img src="./images/autoTest.png" />
-<img src="./images/autoTestResult.png" />
+编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
 
-## 断言
+![](test-case.png)
 
-可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
-
-<!-- <video style="width:800px" controls="controls" autoplay="autoplay">
-  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
-Your browser does not support the video tag.
-</video> -->
-
-### 公共变量
+### 断言脚本公共变量
 
 #### 1.assert
 
 断言函数，详细 api 可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
 
-##### 常用 api:
+##### 常用 api
 
 * assert(value)
 
@@ -143,3 +139,15 @@ assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
 assert.equal(status, 200)
 ```
+
+## 服务端自动化测试
+
+
+开始测试功能是在浏览器跑自动化测试，他依赖于浏览器的使用环境。服务端自动化测试功能是在YApi服务端跑自动化测试，不需要依赖浏览器环境，只需要访问 YApi 提供的 url 链接就能跑自动化测试，非常的简单易用，而且可以集成到 jenkins。
+
+### 详细使用方法
+
+点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。
+
+<img src="./images/autoTest.png" />
+<img src="./images/autoTestResult.png" />
