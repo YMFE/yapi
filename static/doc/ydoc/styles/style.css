@@ -559,79 +559,6 @@ a:link, a:visited {
   background-color: #051d33;
 }
 
-/* From https://github.com/isagalaev/highlight.js/blob/9.8.0/src/styles/tomorrow.css */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-  color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-  color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-  color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-  color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-  color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-  color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-  color: #8959a8;
-}
-
-.hljs {
-  display: block;
-  overflow-x: auto;
-  background: white;
-  color: #4d4d4c;
-  padding: 0.5em;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
-
-.hljs-strong {
-  font-weight: bold;
-}
-
 /*! responsive-nav.js 1.0.39 by @viljamis */
 .m-header-nav ul {
   margin: 0;
@@ -1458,6 +1385,145 @@ body {
   border-bottom-color: rgba(3, 17, 31, 0.87);
 }
 
+/* PrismJS 1.14.0
+http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: black;
+  background: none;
+  text-shadow: 0 1px white;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  text-shadow: none;
+  background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  text-shadow: none;
+  background: #b3d4fc;
+}
+
+@media print {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    text-shadow: none;
+  }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: slategray;
+}
+
+.token.punctuation {
+  color: #999;
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #9a6e3a;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #07a;
+}
+
+.token.function,
+.token.class-name {
+  color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #e90;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
 .g-doc {
   display: flex;
   width: 100%;
@@ -1622,7 +1688,7 @@ body {
     background-color: #fff;
     padding: .08rem 1.5em;
     border-radius: 4px;
-    box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 100px rgba(50, 50, 93, 0.1), 0 5px 35px rgba(50, 50, 93, 0.15), 0 2px 15px rgba(0, 0, 0, 0.1);
   }
   .m-header-nav .m-header-subtitle .item {
     margin: 0;
@@ -1659,9 +1725,14 @@ body {
   }
 }
 
+.m-aside {
+  margin-top: .65rem;
+  height: 100%;
+  height: calc(100% - .65rem);
+}
+
 .m-summary {
-  padding: .24rem;
-  padding-bottom: 0;
+  padding: 0 .24rem;
   position: absolute;
   left: 0;
   top: 0;
@@ -1669,8 +1740,9 @@ body {
   width: 100%;
   height: 0;
   overflow-y: auto;
+  transform: translateY(0);
   -webkit-overflow-scrolling: touch;
-  transition: all .2s;
+  transition: all .2s ease-in-out;
 }
 
 .m-summary ul, .m-summary ol, .m-summary li {
@@ -1680,6 +1752,9 @@ body {
 .m-summary.active {
   height: 100%;
   background-color: #fff;
+  padding: .24rem;
+  padding-bottom: 0.89rem;
+  transform: translateY(0.65rem);
 }
 
 .m-summary.active .m-summary-content {
@@ -1779,8 +1854,7 @@ body {
     position: static;
     height: 100%;
     width: 2.4rem;
-    padding: .4rem .32rem .8rem;
-    margin-top: .64rem;
+    padding: .4rem .32rem;
     flex: 3rem 0 0;
   }
   .m-summary-switch {
@@ -2029,7 +2103,7 @@ body {
 }
 
 .g-home .m-section .btn:active {
-  background-color: #d9edff;
+  background-color: #0e5699;
 }
 
 .g-home .m-section .btn.btn-ghost {
