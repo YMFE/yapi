@@ -54,7 +54,9 @@ class interfaceColController extends baseController{
      */
     async testSingleUpload(ctx){
         try{
+            
             let params = ctx.request.body;
+            
             ctx.body = yapi.commons.resReturn({res: '上传成功'});
 
         }catch(e){
