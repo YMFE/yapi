@@ -1,23 +1,21 @@
 # 自动化测试
 
-<p style='text-indent:2em;line-height:1.8em'>Web 应用通常是前后端分离开发的，后端提供调用的接口，前端使用接口返回 json 数据渲染到 UI，接口测试就是保证后端接口的数据正确性。
+传统的接口自动化测试成本高，大量的项目没有使用自动化测试保证接口的质量，仅仅依靠手动测试，是非常不可靠和容易出错的。
 
-对于很多团队，接口测试就是手动运行接口，肉眼比对接口返回的数据，这样的操作流程效率低下，容易出错。使用 YApi 只需要在可视化 GUI 下，配置下每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。<a target="_blank" href="https://blog.ymfe.org/api-autotest/#more">自动化测试实践</a></p>
+YApi 为了解决这个问题，开发了可视化接口自动化测试功能，只需要配置每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。
 
-## 测试列表
+## 第一步，测试集合
+使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。
 
-<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  />
+![](case-col.png)
 
-在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
+![](import-case.png)
 
-点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整
 
-测试完成之后，点击报告查看该次请求的结果
-
-## 编辑测试用例
+## 第二步，编辑测试用例
 编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。
 
-### 请求参数
+### 编辑请求参数
 
 请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。
 
@@ -73,20 +71,29 @@ $.{key}.{params|body}.{path}
 
 <img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png"  />
 
-
-### 断言脚本
+### 编写断言脚本
 
 编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
 
 ![](test-case.png)
 
-### 断言脚本公共变量
+## 第三步，运行自动化测试
 
-#### 1.assert
+<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  />
+
+在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
+
+点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整
+
+测试完成之后，点击报告查看该次请求的结果
+
+## 断言脚本公共变量
+
+### 1.assert
 
 断言函数，详细 api 可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
 
-##### 常用 api
+#### 常用 api
 
 * assert(value)
 

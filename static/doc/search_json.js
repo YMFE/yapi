@@ -236,6 +236,11 @@ window.ydoc_plugin_search_json = {
           "title": "token配置",
           "url": "/documents/project.html#token配置",
           "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "项目克隆",
+          "url": "/documents/project.html#项目克隆",
+          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
         }
       ]
     },
@@ -303,6 +308,11 @@ window.ydoc_plugin_search_json = {
           "title": "token配置",
           "url": "/documents/project.html#token配置",
           "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "项目克隆",
+          "url": "/documents/project.html#项目克隆",
+          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
         }
       ]
     },
@@ -388,42 +398,42 @@ window.ydoc_plugin_search_json = {
         {
           "title": "定义 mock 数据示例",
           "url": "/documents/mock.html#定义-mock-数据示例",
-          "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json-schema 定义数据结构，另外一种是基于 json+注释 的方式,请根据实际情况灵活选择使用。"
+          "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json+注释 的方式，另外一种是基于 json-schema 定义数据结构,请根据实际情况灵活选择使用。"
         },
         {
-          "title": "方式1. json-schema",
-          "url": "/documents/mock.html#方式1.-json-schema",
-          "content": "方式1. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
-        },
-        {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式1.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
-        },
-        {
-          "title": "方式2. json5+注释",
-          "url": "/documents/mock.html#方式2.-json5+注释",
-          "content": "方式2. json5+注释"
+          "title": "方式1. json5+注释",
+          "url": "/documents/mock.html#方式1.-json5+注释",
+          "content": "方式1. json5+注释"
         },
         {
           "title": "原理",
-          "url": "/documents/mock.html#方式2.-json5+注释-原理",
-          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n其他基本用法请查看：Mockjs 官网"
+          "url": "/documents/mock.html#方式1.-json5+注释-原理",
+          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n详细使用文档请查看：Mockjs 官网"
+        },
+        {
+          "title": "方式2. json-schema",
+          "url": "/documents/mock.html#方式2.-json-schema",
+          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+        },
+        {
+          "title": "如何生成随机的邮箱或 ip？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
+          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
         },
         {
           "title": "如何使用 Mock",
-          "url": "/documents/mock.html#方式2.-json5+注释-如何使用-mock",
-          "content": "如何使用 Mock1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：let prefix = 'http://yapi.xxx.com/mock/2817'$.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){\n    console.log(res) //返回上图预览部分的数据\n})\n2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "url": "/documents/mock.html#如何使用-mock",
+          "content": "如何使用 Mock"
         },
         {
-          "title": "Mock 语法规范",
-          "url": "/documents/mock.html#方式2.-json5+注释-mock-语法规范",
-          "content": "Mock 语法规范了解更多Mock详情：Mock.js 官方文档\nMock.js 的语法规范包括两部分：1. 数据模板定义规范（Data Template Definition，DTD）2. 数据占位符定义规范（Data Placeholder Definition，DPD）"
+          "title": "1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）",
+          "url": "/documents/mock.html#如何使用-mock-1-在-js-代码直接请求yapi提供的-mock-地址（不用担心跨域问题）",
+          "content": "1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：let prefix = 'http://yapi.xxx.com/mock/2817'$.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){\n    console.log(res) //返回上图预览部分的数据\n})\n"
         },
         {
-          "title": "数据模板定义规范（Data Template Definition，DTD）",
-          "url": "/documents/mock.html#方式2.-json5+注释-数据模板定义规范（data-template-definition，dtd）",
-          "content": "数据模板定义规范（Data Template Definition，DTD）数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：// 属性名   name （与生成规则之间用 \"|\" 隔开）// 生成规则 rule（生成规则有7种详见下面的生成规则）\n// 属性值   value（可以含有 \"@占位符\" 同时也指定了最终值的初始值和类型）\n\n'name|rule': value\n\n生成规则：\n'name|min-max': value\n'name|count': value\n'name|min-max.dmin-dmax': value\n'name|min-max.dcount': value\n'name|count.dmin-dmax': value\n'name|count.dcount': value\n'name|+step': value\n下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：1. 属性值是字符串 String1. 'name|min-max': string\n通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。\n\n2. 'name|count': string\n\n通过重复 string 生成一个字符串，重复次数等于 count。\n2. 属性值是数字 Number1. 'name|+1': number\n属性值自动加 1，初始值为 number。\n\n2. 'name|min-max': number\n\n生成一个大于等于 min、小于等于 max 的整数，属性值 number 只是用来确定类型。\n\n3. 'name|min-max.dmin-dmax': number\n\n生成一个浮点数，整数部分大于等于 min、小于等于 max，小数部分保留 dmin 到 dmax 位。\n\n例如：\nMock.mock({\n    'number1|1-100.1-10': 1,\n    'number2|123.1-10': 1,\n    'number3|123.3': 1,\n    'number4|123.10': 1.123\n})\n// =>\n{\n    \"number1\": 12.92,\n    \"number2\": 123.51,\n    \"number3\": 123.777,\n    \"number4\": 123.1231091814\n}\n3. 属性值是布尔型 Boolean1. 'name|1': boolean\n随机生成一个布尔值，值为 true 的概率是 1/2，值为 false 的概率同样是 1/2。\n\n2. 'name|min-max': value\n\n随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。\n4. 属性值是对象 Object1. 'name|count': object\n从属性值 object 中随机选取 count 个属性。\n\n2. 'name|min-max': object\n\n从属性值 object 中随机选取 min 到 max 个属性。\n5. 属性值是数组 Array1. 'name|1': array\n从属性值 array 中随机选取 1 个元素，作为最终值。\n\n2. 'name|+1': array\n\n从属性值 array 中顺序选取 1 个元素，作为最终值。\n\n3. 'name|min-max': array\n\n通过重复属性值 array 生成一个新数组，重复次数大于等于 min，小于等于 max。\n\n4. 'name|count': array\n\n通过重复属性值 array 生成一个新数组，重复次数为 count。\n数据占位符定义规范（Data Placeholder Definition，DPD）占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。\n占位符 的格式为：\n\n@占位符\n\n说明：\n1. 用 @ 来标识其后的字符串是 占位符，在YApi提供的Mock输入框在输入“@”后会自动提示占位符。\n\n例如：\nname: {\n    first: '@FIRST',\n    middle: '@FIRST',\n    last: '@LAST',\n    full: '@first @middle @last'\n}\n// 上面的示例可以得到如下结果：\n\"name\": {\n    \"first\": \"Charles\",\n    \"middle\": \"Brenda\",\n    \"last\": \"Lopez\",\n    \"full\": \"Charles Brenda Lopez\"\n}\n"
+          "title": "2 \b基于本地服务器反向代理",
+          "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
         }
       ]
     },
@@ -435,42 +445,42 @@ window.ydoc_plugin_search_json = {
         {
           "title": "定义 mock 数据示例",
           "url": "/documents/mock.html#定义-mock-数据示例",
-          "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json-schema 定义数据结构，另外一种是基于 json+注释 的方式,请根据实际情况灵活选择使用。"
+          "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json+注释 的方式，另外一种是基于 json-schema 定义数据结构,请根据实际情况灵活选择使用。"
         },
         {
-          "title": "方式1. json-schema",
-          "url": "/documents/mock.html#方式1.-json-schema",
-          "content": "方式1. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
-        },
-        {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式1.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
-        },
-        {
-          "title": "方式2. json5+注释",
-          "url": "/documents/mock.html#方式2.-json5+注释",
-          "content": "方式2. json5+注释"
+          "title": "方式1. json5+注释",
+          "url": "/documents/mock.html#方式1.-json5+注释",
+          "content": "方式1. json5+注释"
         },
         {
           "title": "原理",
-          "url": "/documents/mock.html#方式2.-json5+注释-原理",
-          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n其他基本用法请查看：Mockjs 官网"
+          "url": "/documents/mock.html#方式1.-json5+注释-原理",
+          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n详细使用文档请查看：Mockjs 官网"
+        },
+        {
+          "title": "方式2. json-schema",
+          "url": "/documents/mock.html#方式2.-json-schema",
+          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+        },
+        {
+          "title": "如何生成随机的邮箱或 ip？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
+          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
         },
         {
           "title": "如何使用 Mock",
-          "url": "/documents/mock.html#方式2.-json5+注释-如何使用-mock",
-          "content": "如何使用 Mock1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：let prefix = 'http://yapi.xxx.com/mock/2817'$.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){\n    console.log(res) //返回上图预览部分的数据\n})\n2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "url": "/documents/mock.html#如何使用-mock",
+          "content": "如何使用 Mock"
         },
         {
-          "title": "Mock 语法规范",
-          "url": "/documents/mock.html#方式2.-json5+注释-mock-语法规范",
-          "content": "Mock 语法规范了解更多Mock详情：Mock.js 官方文档\nMock.js 的语法规范包括两部分：1. 数据模板定义规范（Data Template Definition，DTD）2. 数据占位符定义规范（Data Placeholder Definition，DPD）"
+          "title": "1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）",
+          "url": "/documents/mock.html#如何使用-mock-1-在-js-代码直接请求yapi提供的-mock-地址（不用担心跨域问题）",
+          "content": "1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：let prefix = 'http://yapi.xxx.com/mock/2817'$.post(prefix+'/baseapi/path', {username: 'xxx'}, function(res){\n    console.log(res) //返回上图预览部分的数据\n})\n"
         },
         {
-          "title": "数据模板定义规范（Data Template Definition，DTD）",
-          "url": "/documents/mock.html#方式2.-json5+注释-数据模板定义规范（data-template-definition，dtd）",
-          "content": "数据模板定义规范（Data Template Definition，DTD）数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：// 属性名   name （与生成规则之间用 \"|\" 隔开）// 生成规则 rule（生成规则有7种详见下面的生成规则）\n// 属性值   value（可以含有 \"@占位符\" 同时也指定了最终值的初始值和类型）\n\n'name|rule': value\n\n生成规则：\n'name|min-max': value\n'name|count': value\n'name|min-max.dmin-dmax': value\n'name|min-max.dcount': value\n'name|count.dmin-dmax': value\n'name|count.dcount': value\n'name|+step': value\n下面提供了6种生成规则以及示例包括 String、Number、Boolean、Object、Array：1. 属性值是字符串 String1. 'name|min-max': string\n通过重复 string 生成一个字符串，重复次数大于等于 min，小于等于 max。\n\n2. 'name|count': string\n\n通过重复 string 生成一个字符串，重复次数等于 count。\n2. 属性值是数字 Number1. 'name|+1': number\n属性值自动加 1，初始值为 number。\n\n2. 'name|min-max': number\n\n生成一个大于等于 min、小于等于 max 的整数，属性值 number 只是用来确定类型。\n\n3. 'name|min-max.dmin-dmax': number\n\n生成一个浮点数，整数部分大于等于 min、小于等于 max，小数部分保留 dmin 到 dmax 位。\n\n例如：\nMock.mock({\n    'number1|1-100.1-10': 1,\n    'number2|123.1-10': 1,\n    'number3|123.3': 1,\n    'number4|123.10': 1.123\n})\n// =>\n{\n    \"number1\": 12.92,\n    \"number2\": 123.51,\n    \"number3\": 123.777,\n    \"number4\": 123.1231091814\n}\n3. 属性值是布尔型 Boolean1. 'name|1': boolean\n随机生成一个布尔值，值为 true 的概率是 1/2，值为 false 的概率同样是 1/2。\n\n2. 'name|min-max': value\n\n随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。\n4. 属性值是对象 Object1. 'name|count': object\n从属性值 object 中随机选取 count 个属性。\n\n2. 'name|min-max': object\n\n从属性值 object 中随机选取 min 到 max 个属性。\n5. 属性值是数组 Array1. 'name|1': array\n从属性值 array 中随机选取 1 个元素，作为最终值。\n\n2. 'name|+1': array\n\n从属性值 array 中顺序选取 1 个元素，作为最终值。\n\n3. 'name|min-max': array\n\n通过重复属性值 array 生成一个新数组，重复次数大于等于 min，小于等于 max。\n\n4. 'name|count': array\n\n通过重复属性值 array 生成一个新数组，重复次数为 count。\n数据占位符定义规范（Data Placeholder Definition，DPD）占位符 只是在属性值字符串中占个位置，并不出现在最终的属性值中。\n占位符 的格式为：\n\n@占位符\n\n说明：\n1. 用 @ 来标识其后的字符串是 占位符，在YApi提供的Mock输入框在输入“@”后会自动提示占位符。\n\n例如：\nname: {\n    first: '@FIRST',\n    middle: '@FIRST',\n    last: '@LAST',\n    full: '@first @middle @last'\n}\n// 上面的示例可以得到如下结果：\n\"name\": {\n    \"first\": \"Charles\",\n    \"middle\": \"Brenda\",\n    \"last\": \"Lopez\",\n    \"full\": \"Charles Brenda Lopez\"\n}\n"
+          "title": "2 \b基于本地服务器反向代理",
+          "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
         }
       ]
     },
@@ -580,37 +590,47 @@ window.ydoc_plugin_search_json = {
     },
     {
       "title": "自动化测试",
-      "content": "Web 应用通常是前后端分离开发的，后端提供调用的接口，前端使用接口返回 json 数据渲染到 UI，接口测试就是保证后端接口的数据正确性。对于很多团队，接口测试就是手动运行接口，肉眼比对接口返回的数据，这样的操作流程效率低下，容易出错。使用 YApi 只需要在可视化 GUI 下，配置下每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。自动化测试实践",
+      "content": "传统的接口自动化测试成本高，大量的项目没有使用自动化测试保证接口的质量，仅仅依靠手动测试，是非常不可靠和容易出错的。YApi 为了解决这个问题，开发了可视化接口自动化测试功能，只需要配置每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。",
       "url": "/documents/case.html",
       "children": [
         {
-          "title": "测试列表",
-          "url": "/documents/case.html#测试列表",
-          "content": "测试列表在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整测试完成之后，点击报告查看该次请求的结果"
+          "title": "第一步，测试集合",
+          "url": "/documents/case.html#第一步，测试集合",
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
         },
         {
-          "title": "编辑测试用例",
-          "url": "/documents/case.html#编辑测试用例",
-          "content": "编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
+          "title": "第二步，编辑测试用例",
+          "url": "/documents/case.html#第二步，编辑测试用例",
+          "content": "第二步，编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
         },
         {
-          "title": "请求参数",
-          "url": "/documents/case.html#编辑测试用例-请求参数",
-          "content": "请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
+          "title": "编辑请求参数",
+          "url": "/documents/case.html#第二步，编辑测试用例-编辑请求参数",
+          "content": "编辑请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
         },
         {
-          "title": "断言脚本",
-          "url": "/documents/case.html#编辑测试用例-断言脚本",
-          "content": "断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
+          "title": "编写断言脚本",
+          "url": "/documents/case.html#第二步，编辑测试用例-编写断言脚本",
+          "content": "编写断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
+        },
+        {
+          "title": "第三步，运行自动化测试",
+          "url": "/documents/case.html#第三步，运行自动化测试",
+          "content": "第三步，运行自动化测试在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整测试完成之后，点击报告查看该次请求的结果"
         },
         {
           "title": "断言脚本公共变量",
-          "url": "/documents/case.html#编辑测试用例-断言脚本公共变量",
-          "content": "断言脚本公共变量1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "url": "/documents/case.html#断言脚本公共变量",
+          "content": "断言脚本公共变量"
+        },
+        {
+          "title": "1.assert",
+          "url": "/documents/case.html#断言脚本公共变量-1.assert",
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
         },
         {
           "title": "示例",
-          "url": "/documents/case.html#编辑测试用例-示例",
+          "url": "/documents/case.html#断言脚本公共变量-示例",
           "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
         },
         {
@@ -627,37 +647,47 @@ window.ydoc_plugin_search_json = {
     },
     {
       "title": "自动化测试",
-      "content": "Web 应用通常是前后端分离开发的，后端提供调用的接口，前端使用接口返回 json 数据渲染到 UI，接口测试就是保证后端接口的数据正确性。对于很多团队，接口测试就是手动运行接口，肉眼比对接口返回的数据，这样的操作流程效率低下，容易出错。使用 YApi 只需要在可视化 GUI 下，配置下每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。自动化测试实践",
+      "content": "传统的接口自动化测试成本高，大量的项目没有使用自动化测试保证接口的质量，仅仅依靠手动测试，是非常不可靠和容易出错的。YApi 为了解决这个问题，开发了可视化接口自动化测试功能，只需要配置每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。",
       "url": "/documents/case.html",
       "children": [
         {
-          "title": "测试列表",
-          "url": "/documents/case.html#测试列表",
-          "content": "测试列表在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整测试完成之后，点击报告查看该次请求的结果"
+          "title": "第一步，测试集合",
+          "url": "/documents/case.html#第一步，测试集合",
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
         },
         {
-          "title": "编辑测试用例",
-          "url": "/documents/case.html#编辑测试用例",
-          "content": "编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
+          "title": "第二步，编辑测试用例",
+          "url": "/documents/case.html#第二步，编辑测试用例",
+          "content": "第二步，编辑测试用例编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。"
         },
         {
-          "title": "请求参数",
-          "url": "/documents/case.html#编辑测试用例-请求参数",
-          "content": "请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
+          "title": "编辑请求参数",
+          "url": "/documents/case.html#第二步，编辑测试用例-编辑请求参数",
+          "content": "编辑请求参数请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。Mock 参数Mock 参数每次请求都会生成随机字符串变量参数YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~Tips: 参数只能是测试过程中排在前面的接口中的变量参数\n格式：$.{key}.{params|body}.{path}例如：现有两个接口，分别是“导航标题”和“文章列表”文章列表接口需要传参数: 当前标题(id)，而这个 id 需要通过 导航标题 的返回值获取，这时应在 文章列表 的参数输入框中根据前者的 key 找到对应 id。导航标题 的参数和返回值有如下结构：  参数：\n  \n  返回值：\n  \n则 文章列表 的参数可以如下配置：其中 $. 是使用 动态变量 的标志，$.269.params 即表示 key 值为 269 用例的请求参数，$.269.body 即表示 key 值为 269 用例的返回值。如果 requestBody 是 json 格式也可以在 json 中写变量参数，如下图：Tips: 上下拖动测试集合的列表项可以调整测试的顺序。\n目前 yapi 中的query，body,header和pathParam的输入参数已经支持点击选择功能。无需自己填写表达式，只需在弹窗中选择需要展示的表达式即可。 输入选项包括常量，mock数据，在测试集合中也支持变量选择。具体用法：单击编辑按钮打开表达式生成器，点击需要的数据创建表达式，这里也可以实时查看表达式结果。Tips: 在测试集合中插入变量参数可以会出现下图的提示信息，这是正常现象。因为该参数只能在各个接口顺序执行的时候才能拉到变量参数中的值\n"
         },
         {
-          "title": "断言脚本",
-          "url": "/documents/case.html#编辑测试用例-断言脚本",
-          "content": "断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
+          "title": "编写断言脚本",
+          "url": "/documents/case.html#第二步，编辑测试用例-编写断言脚本",
+          "content": "编写断言脚本编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。"
+        },
+        {
+          "title": "第三步，运行自动化测试",
+          "url": "/documents/case.html#第三步，运行自动化测试",
+          "content": "第三步，运行自动化测试在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整测试完成之后，点击报告查看该次请求的结果"
         },
         {
           "title": "断言脚本公共变量",
-          "url": "/documents/case.html#编辑测试用例-断言脚本公共变量",
-          "content": "断言脚本公共变量1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "url": "/documents/case.html#断言脚本公共变量",
+          "content": "断言脚本公共变量"
+        },
+        {
+          "title": "1.assert",
+          "url": "/documents/case.html#断言脚本公共变量-1.assert",
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
         },
         {
           "title": "示例",
-          "url": "/documents/case.html#编辑测试用例-示例",
+          "url": "/documents/case.html#断言脚本公共变量-示例",
           "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
         },
         {
@@ -691,6 +721,11 @@ window.ydoc_plugin_search_json = {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
           "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+        },
+        {
+          "title": "YApi接口JSON数据导入",
+          "url": "/documents/data.html#yapi接口json数据导入",
+          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
         }
       ]
     },
@@ -713,6 +748,35 @@ window.ydoc_plugin_search_json = {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
           "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+        },
+        {
+          "title": "YApi接口JSON数据导入",
+          "url": "/documents/data.html#yapi接口json数据导入",
+          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+        }
+      ]
+    },
+    {
+      "title": "数据导出",
+      "content": "为了方便开发者将接口数据分析给第三方或其他使用者，YApi 内置了方便易用的接口数据导出功能。",
+      "url": "/documents/export-data.html",
+      "children": [
+        {
+          "title": "使用教程",
+          "url": "/documents/export-data.html#使用教程",
+          "content": "使用教程在 项目 -> 数据管理，选择需要导出的数据方式，一共有三种导出方式，html,markdown,json。然后点击导出按钮，将会下载数据文件。"
+        }
+      ]
+    },
+    {
+      "title": "数据导出",
+      "content": "为了方便开发者将接口数据分析给第三方或其他使用者，YApi 内置了方便易用的接口数据导出功能。",
+      "url": "/documents/export-data.html",
+      "children": [
+        {
+          "title": "使用教程",
+          "url": "/documents/export-data.html#使用教程",
+          "content": "使用教程在 项目 -> 数据管理，选择需要导出的数据方式，一共有三种导出方式，html,markdown,json。然后点击导出按钮，将会下载数据文件。"
         }
       ]
     },
