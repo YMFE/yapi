@@ -136,7 +136,7 @@ class View extends Component {
 
   req_body(req_body_type, req_body_other, req_body_is_json_schema) {
     if (req_body_other) {
-      if (req_body_is_json_schema) {
+      if (req_body_is_json_schema && req_body_type === 'json') {
         return <SchemaTable dataSource={req_body_other} />;
       } else {
         return (
