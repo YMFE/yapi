@@ -34,6 +34,40 @@ class exportController extends baseController {
     return newResult;
   }
 
+  handleExistId(data){
+
+    function delArrId(arr, fn){
+      if(!Array.isArray(arr))return;
+      arr.forEach(item=>{
+        delete item._id
+        delete item.__v
+        delete item.uid
+        delete item.edit_uid
+        delete item.catid
+        delete item.project_id
+
+        if(typeof fn === 'function')  fn(item)
+      })
+      
+    }
+
+    delArrId(data, function(item){
+      delArrId(item.list, function(api){
+        delArrId(api.req_body_form)
+        delArrId(api.req_params)
+        delArrId(api.req_query)
+        delArrId(api.req_headers)
+        if(api.query_path && typeof api.query_path === 'object'){
+          delArrId(api.query_path.params)
+        } 
+        
+      })
+    })
+
+
+    return data;
+  }
+
   async exportData(ctx) {
 
     let pid = ctx.request.query.pid;
@@ -48,10 +82,17 @@ class exportController extends baseController {
       curProject = await this.projectModel.get(pid);
       ctx.set("Content-Type", "application/octet-stream");
       const list = await this.handleListClass(pid, status);
+
       switch (type) {
         case "markdown": {
           tp = await createMarkdown.bind(this)(list, false);
           ctx.set("Content-Disposition", `attachment; filename=api.md`);
+          return ctx.body = tp;
+        }
+        case "json": {
+          let data = this.handleExistId(list)
+          tp =  JSON.stringify(data, null,2);
+          ctx.set("Content-Disposition", `attachment; filename=api.json`);
           return ctx.body = tp;
         }
         default: {//默认为html

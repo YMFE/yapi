@@ -520,11 +520,6 @@ window.ydoc_plugin_search_json = {
           "content": "示例2, 生成高度自定义数据内容var a = [1,1,1,1,1,1,1,1,1,1]\nmockJson = {\n    errcode: 0,\n    email: Random.email('qq.com'),\n    data: a.map(function(item){\n        return Random.city() + '银行'\n    })\n}\n\n"
         },
         {
-          "title": "示例3, 模拟服务器端设置Cookie",
-          "url": "/documents/adv_mock.html#自定义-mock-脚本-示例3,-模拟服务器端设置cookie",
-          "content": "示例3, 模拟服务器端设置CookieresHeader[\"Set-Cookie\"] = \"name = xxxxxxxx\"\n\n// 在控制台\n\ndocument.cookie   // name = xxxxxxxx\n"
-        },
-        {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
           "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
@@ -575,11 +570,6 @@ window.ydoc_plugin_search_json = {
           "title": "示例2, 生成高度自定义数据内容",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例2,-生成高度自定义数据内容",
           "content": "示例2, 生成高度自定义数据内容var a = [1,1,1,1,1,1,1,1,1,1]\nmockJson = {\n    errcode: 0,\n    email: Random.email('qq.com'),\n    data: a.map(function(item){\n        return Random.city() + '银行'\n    })\n}\n\n"
-        },
-        {
-          "title": "示例3, 模拟服务器端设置Cookie",
-          "url": "/documents/adv_mock.html#自定义-mock-脚本-示例3,-模拟服务器端设置cookie",
-          "content": "示例3, 模拟服务器端设置CookieresHeader[\"Set-Cookie\"] = \"name = xxxxxxxx\"\n\n// 在控制台\n\ndocument.cookie   // name = xxxxxxxx\n"
         },
         {
           "title": "Mock 优先级说明",
@@ -1068,12 +1058,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
           "url": "/documents/CHANGELOG.html#v1.3.11",
-          "content": "v1.3.11修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+          "content": "v1.3.11Bug Fixed修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
         },
         {
           "title": "v1.3.9",
@@ -1195,12 +1185,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
           "url": "/documents/CHANGELOG.html#v1.3.11",
-          "content": "v1.3.11修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
+          "content": "v1.3.11Bug Fixed修复 v1.3.10 websocket 连接问题\n修复运行报错问题\n修复数据导入 har 文件问题\n"
         },
         {
           "title": "v1.3.9",
