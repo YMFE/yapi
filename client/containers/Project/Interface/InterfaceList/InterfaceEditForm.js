@@ -839,10 +839,15 @@ class InterfaceEditForm extends Component {
 
           <FormItem className="interface-edit-item" {...formItemLayout} label="状态">
             {getFieldDecorator('status', { initialValue: this.state.status })(
-              <Select>
-                <Option value="done">已完成</Option>
-                <Option value="undone">未完成</Option>
-              </Select>
+                <Select>
+                  <Option value="done">已完成</Option>
+                  <Option value="undone">未完成</Option>
+                  <Option value="unTest">待测试</Option>
+                  <Option value="testSuccess">测试通过</Option>
+                  <Option value="testFailed">测试失败</Option>
+                  <Option value="testing">测试中</Option>
+                  <Option value="correcting">修复中</Option>
+                </Select>
             )}
           </FormItem>
           {custom_field.enable && (

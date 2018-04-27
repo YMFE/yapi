@@ -31,14 +31,19 @@ module.exports = function (jsondiffpatch, formattersHtml, curDiffData) {
     // return '';
   }
 
-  const valueMaps = {
-    '1': '必需',
-    '0': '非必需',
-    'text': '文本',
-    'file': '文件',
-    'undone': '未完成',
-    'done': '已完成'
-  }
+    const valueMaps = {
+        '1': '必需',
+        '0': '非必需',
+        'text': '文本',
+        'file': '文件',
+        'undone': '未完成',
+        'done': '已完成',
+        'unTest': '待测试',
+        'testSuccess': '测试通过',
+        'testFailed': '测试失败',
+        'testing': '测试中',
+        'correcting': '修复中'
+    }
 
   const handleParams = (item) => {
     item._id = undefined;
