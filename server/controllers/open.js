@@ -86,6 +86,7 @@ class openController extends baseController{
     caseList = caseList.data;
     for(let i=0, l= caseList.length; i< l; i++){
       let item = caseList[i];
+      
       item.id = item._id;
       item.case_env = curEnv || item.case_env;
       item.req_headers = this.handleReqHeader(item.req_headers, projectData.env, curEnv)
@@ -98,7 +99,7 @@ class openController extends baseController{
       }catch(err){        
         result = err;
       }
-
+      
       reports[item.id] = result;
       records[item.id] = {
         params: result.params,
@@ -170,7 +171,7 @@ class openController extends baseController{
     options = handleParams(interfaceData, this.handleValue, requestParams)
     let result = {
       id: interfaceData.id,
-      name: interfaceData.title,
+      name: interfaceData.casename,
       path: interfaceData.path,
       code: 400,
       validRes: []
