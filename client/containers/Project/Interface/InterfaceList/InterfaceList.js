@@ -213,18 +213,38 @@ class InterfaceList extends Component {
       width: 14,
       render: (text, record) => {
         const key = record.key;
-        return <Select value={key + '-' + text} className="select" onChange={this.changeInterfaceStatus}>
-          <Option value={key + '-done'}><span className="tag-status done">已完成</span></Option>
-          <Option value={key + '-undone'}><span className="tag-status undone">未完成</span></Option>
-        </Select>
+          return <Select value={key + '-' + text} className="select" onChange={this.changeInterfaceStatus}>
+            <Option value={key + '-done'}><span className="tag-status done">已完成</span></Option>
+            <Option value={key + '-undone'}><span className="tag-status undone">未完成</span></Option>
+            <Option value={key + '-unTest'}><span className="tag-status unTest">待测试</span></Option>
+            <Option value={key + '-testSuccess'}><span className="tag-status testSuccess">测试通过</span></Option>
+            <Option value={key + '-testFailed'}><span className="tag-status testFailed">测试失败</span></Option>
+            <Option value={key + '-testing'}><span className="tag-status testing">测试中</span></Option>
+            <Option value={key + '-correcting'}><span className="tag-status correcting">修复中</span></Option>
+          </Select>
       },
-      filters: [{
-        text: '已完成',
-        value: 'done'
-      }, {
-        text: '未完成',
-        value: 'undone'
-      }],
+        filters: [{
+            text: '已完成',
+            value: 'done'
+        }, {
+            text: '未完成',
+            value: 'undone'
+        }, {
+            text: '修复中',
+            value: 'correcting'
+        } ,{
+            text: '待测试',
+            value: 'unTest'
+        }, {
+            text: '测试中',
+            value: 'testing'
+        }, {
+            text: '测试通过',
+            value: 'testSuccess'
+        }, {
+            text: '测试失败',
+            value: 'testFailed'
+        }],
       onFilter: (value, record) => record.status.indexOf(value) === 0
     }]
     let intername = '', desc = '';

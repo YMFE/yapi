@@ -123,9 +123,33 @@ export default class ImportInterface extends Component {
     }, {
       title: '状态',
       dataIndex: 'status',
-      render: (text) => {
-        return text && (text === 'done' ? <span className="tag-status done">已完成</span> : <span className="tag-status undone">未完成</span>)
-      }
+        render: (text) => {
+            switch(text)
+            {
+                case text === 'done':
+                    return text &&(<span className="tag-status done">已完成</span> )
+                    break;
+                case text === 'undone':
+                    return text &&<span className="tag-status undone">未完成</span>
+                    break;
+                case text === 'unTest':
+                    return text &&(<span className="tag-status unTest">待测试</span> )
+                    break;
+                case text === 'testSuccess':
+                    return text &&(<span className="tag-status testSuccess">测试通过</span> )
+                    break;
+                case text === 'testFailed':
+                    return text &&(<span className="tag-status testFailed">测试失败</span> )
+                    break;
+                case text === 'testing':
+                    return text &&(<span className="tag-status testing">测试中</span> )
+                    break;
+                case text === 'correcting':
+                    return text &&(<span className="tag-status correcting">修复中</span> )
+                    break;
+            }
+            //return text && (text === 'done' ? <span className="tag-status done">已完成</span> : <span className="tag-status undone">未完成</span>)
+        }
     }];
 
     return (
