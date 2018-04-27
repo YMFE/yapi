@@ -17,23 +17,25 @@
 返回数据设置有两种方式，最新版本默认是基于 `json+注释` 的方式，另外一种是基于 `json-schema` 定义数据结构,请根据实际情况灵活选择使用。
 
 
-## 方式1. json5+注释
+## 方式1. mockjs
 
 <img src="./images/usage/mock-demo.jpg" />
 
 
 ### 原理
-YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：
+基于 [mockjs](http://mockjs.com)，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。
+
+1. 正则表达式需要基于 rule 书写，示例如下：
 
 ```
 {
   "name|regexp": "[a-z0-9_]+?",
-  "type|regexp": "json|text|xml" //枚举数据类型可这样实现
+  "type|regexp": "json|text|xml"
 }
 
 ```
 
-2 支持替换请求的 query, body 参数
+2. 支持替换请求的 query, body 参数
 
 ```
 {
@@ -42,6 +44,25 @@ YApi Mock 功能基于 node 和 [mockjs](http://mockjs.com)，跟 Mockjs 区别�
 }
 
 ```
+
+3. 示例
+```
+/**
+ * 这是一个接口返回数据示例
+ */
+
+{
+    "errcode": 0,
+    "errmsg": "@word",
+    "data": {
+        "id": "@id", //@id 随机生成 id
+        "name": "@name" //@name 随机生成用户名
+    }
+}
+
+```
+
+
 
 详细使用文档请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
 

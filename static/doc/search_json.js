@@ -401,14 +401,14 @@ window.ydoc_plugin_search_json = {
           "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json+注释 的方式，另外一种是基于 json-schema 定义数据结构,请根据实际情况灵活选择使用。"
         },
         {
-          "title": "方式1. json5+注释",
-          "url": "/documents/mock.html#方式1.-json5+注释",
-          "content": "方式1. json5+注释"
+          "title": "方式1. mockjs",
+          "url": "/documents/mock.html#方式1.-mockjs",
+          "content": "方式1. mockjs"
         },
         {
           "title": "原理",
-          "url": "/documents/mock.html#方式1.-json5+注释-原理",
-          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "url": "/documents/mock.html#方式1.-mockjs-原理",
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
@@ -448,14 +448,14 @@ window.ydoc_plugin_search_json = {
           "content": "定义 mock 数据示例项目 -> 接口编辑 -> 返回数据设置返回数据设置有两种方式，最新版本默认是基于 json+注释 的方式，另外一种是基于 json-schema 定义数据结构,请根据实际情况灵活选择使用。"
         },
         {
-          "title": "方式1. json5+注释",
-          "url": "/documents/mock.html#方式1.-json5+注释",
-          "content": "方式1. json5+注释"
+          "title": "方式1. mockjs",
+          "url": "/documents/mock.html#方式1.-mockjs",
+          "content": "方式1. mockjs"
         },
         {
           "title": "原理",
-          "url": "/documents/mock.html#方式1.-json5+注释-原理",
-          "content": "原理YApi Mock 功能基于 node 和 mockjs，跟 Mockjs 区别是 yapi 基于 json 定义 mock ，无法使用 mockjs 原有的函数功能，正则表达式需要基于 rule 书写，示例如下：{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\" //\b\b枚举数据类型可这样实现\n}\n\n2 支持替换请求的 query, body 参数{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "url": "/documents/mock.html#方式1.-mockjs-原理",
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",

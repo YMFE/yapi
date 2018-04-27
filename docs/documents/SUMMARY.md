@@ -20,7 +20,7 @@
   * [接口设置](api.md#接口配置)
   * [接口运行](api.md#接口运行)
 * [数据Mock](mock.md)
-  * [方式1. mockjs](mock.md#方式1. json5+注释)
+  * [方式1. mockjs](mock.md#方式1. mockjs)
   * [方式2. json-schema](mock.md#方式2. json-schema)
   * [如何使用](mock.md#如何使用 Mock)
 * [高级Mock](adv_mock.md)
