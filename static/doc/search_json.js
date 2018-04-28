@@ -230,7 +230,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+        },
+        {
+          "title": "异步处理（v1.3.13+支持）",
+          "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
           "title": "token配置",
@@ -302,7 +307,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+        },
+        {
+          "title": "异步处理（v1.3.13+支持）",
+          "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
           "title": "token配置",
@@ -1152,7 +1162,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.13",
           "url": "/documents/CHANGELOG.html#v1.3.13",
-          "content": "v1.3.13新增通过命令行导入 swagger 接口数据功能\n"
+          "content": "v1.3.13新增通过命令行导入 swagger 接口数据功能\n接口请求设置新增异步处理特性\n"
         },
         {
           "title": "v1.3.12",
@@ -1284,7 +1294,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.13",
           "url": "/documents/CHANGELOG.html#v1.3.13",
-          "content": "v1.3.13新增通过命令行导入 swagger 接口数据功能\n"
+          "content": "v1.3.13新增通过命令行导入 swagger 接口数据功能\n接口请求设置新增异步处理特性\n"
         },
         {
           "title": "v1.3.12",
