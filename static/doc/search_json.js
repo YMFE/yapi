@@ -726,6 +726,16 @@ window.ydoc_plugin_search_json = {
           "title": "YApi接口JSON数据导入",
           "url": "/documents/data.html#yapi接口json数据导入",
           "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+        },
+        {
+          "title": "通过命令行导入接口数据",
+          "url": "/documents/data.html#通过命令行导入接口数据",
+          "content": "通过命令行导入接口数据YApi 支持通过命令行导入接口数据，他的应用场景是做自动化集成，比如配合 swagger ，接口文档前端不用维护，交由后端生成。"
+        },
+        {
+          "title": "使用方法",
+          "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.6 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，新建配置文件 yapi-import.json，如下所示：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlserver 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },
@@ -753,6 +763,16 @@ window.ydoc_plugin_search_json = {
           "title": "YApi接口JSON数据导入",
           "url": "/documents/data.html#yapi接口json数据导入",
           "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+        },
+        {
+          "title": "通过命令行导入接口数据",
+          "url": "/documents/data.html#通过命令行导入接口数据",
+          "content": "通过命令行导入接口数据YApi 支持通过命令行导入接口数据，他的应用场景是做自动化集成，比如配合 swagger ，接口文档前端不用维护，交由后端生成。"
+        },
+        {
+          "title": "使用方法",
+          "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.6 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，新建配置文件 yapi-import.json，如下所示：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlserver 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },

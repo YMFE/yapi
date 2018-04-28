@@ -37,6 +37,7 @@
   * [HAR 数据导入](data.md#HAR 数据导入)
   * [Swagger 数据导入](data.md#Swagger 数据导入)
   * [JSON 数据导入](data.md#YApi接口JSON数据导入)
+  * [通过命令行导入接口数据](data.md#通过命令行导入接口数据)
 * [数据导出](export-data.md)
 
 
