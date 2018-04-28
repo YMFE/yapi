@@ -256,8 +256,6 @@ export default class GroupList extends Component {
             onOk={this.addGroup}
             onCancel={this.hideModal}
             className="add-group-modal"
-            okText="确认"
-            cancelText="取消"
           >
             <Row gutter={6} className="modal-input">
               <Col span="5"><div className="label">分组名：</div></Col>

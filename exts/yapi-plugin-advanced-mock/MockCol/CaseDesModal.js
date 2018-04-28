@@ -280,8 +280,6 @@ class CaseDesForm extends Component {
         onCancel={() => onCancel()}
         afterClose={() => this.setState({paramsForm: 'form'})}
         className="case-des-modal"
-        okText="确认"
-        cancelText="取消"
       >
         <Form onSubmit={this.handleOk}>
           <h2 className="sub-title" style={{ marginTop: 0 }}>基本信息</h2>
