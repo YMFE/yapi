@@ -265,8 +265,6 @@ class ProjectMember extends Component {
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
-            okText="确认"
-            cancelText="取消"
           >
             <Row gutter={6} className="modal-input">
               <Col span="5"><div className="label usernamelabel">用户名: </div></Col>

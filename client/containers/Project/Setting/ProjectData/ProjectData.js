@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
 import axios from 'axios';
-import _ from 'underscore';
+
 import URL from 'url'
 
 const Dragger = Upload.Dragger;
@@ -16,6 +16,7 @@ const plugin = require('client/plugin.js');
 const RadioGroup = Radio.Group;
 const importDataModule = {};
 const exportDataModule = {};
+const HandleImportData = require('common/HandleImportData')
 
 function handleExportRouteParams (url, value) {
   if(!url) {
@@ -104,98 +105,18 @@ class ProjectData extends Component {
     }
   }
 
-  async handleAddCat(cats) {
-    
-    let menuList = this.state.menuList;
-    let catsObj = {};
-    if (cats && Array.isArray(cats)) {
-      for (let i = 0; i < cats.length; i++) {
-        let cat = cats[i];
-        let findCat = _.find(menuList, menu => menu.name === cat.name)
-        catsObj[cat.name] = cat;
-        if (findCat) {
-          cat.id = findCat._id;
-        } else {
-          let result = await axios.post('/api/interface/add_cat', {
-            name: cat.name,
-            project_id: this.props.match.params.id,
-            desc: cat.desc
-          })
-          if (result.data.errcode) {
-            message.error(result.data.errmsg);
-            this.setState({ showLoading: false });
-            return false;
-          }
-          cat.id = result.data.data._id;
-        }
-      }
-    }
-    return catsObj;
-  }
-
-
-  handleAddInterface = async (res) => {
-    
-    const cats = await this.handleAddCat(res.cats);
-    if (cats === false) {
-      return;
-    }
-    res = res.apis;
-    let len = res.length;
-    let count = 0;
-    let successNum = len;
-    let existNum = 0;
-    if(len === 0){
-      message.error(`解析数据为空`);
-      return;
-    }
-    for (let index = 0; index < res.length; index++) {
-      let item = res[index];
-      let data = {
-        ...item,
-        project_id: this.props.match.params.id,
-        catid: this.state.selectCatid
-      }
-      if (this.props.basePath) {
-        data.path = data.path.indexOf(this.props.basePath) === 0 ? data.path.substr(this.props.basePath.length) : data.path;
-      }
-      if (data.catname && cats[data.catname] && typeof cats[data.catname] === 'object' && cats[data.catname].id) {
-        data.catid = cats[data.catname].id;
-      }
-
-      if (this.state.dataSync) {
-        // 开启同步功能
-        count++;
-        let result = await axios.post('/api/interface/save', data)
-        if (result.data.errcode) {
-          successNum--;
-          this.setState({ showLoading: false });
-          message.error(result.data.errmsg)
-        } else {
-          existNum = existNum + result.data.data.length;
-        }
-
-      } else {
-        // 未开启同步功能
-        count++;
-        let result = await axios.post('/api/interface/add', data);
-        if (result.data.errcode) {
-          successNum--;
-          if (result.data.errcode == 40022) {
-            existNum++;
-          }
-          if (result.data.errcode == 40033) {
-            this.setState({ showLoading: false });
-            message.error('没有权限')
-            break;
-          }
-        }
-      }
-      if (count === len) {
-        this.setState({ showLoading: false });
-        message.success(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
-      }
-    }
+  handleAddInterface = async (res)=>{
+    return await HandleImportData(
+      res,
+      this.props.match.params.id,
+      this.state.selectCatid,
+      this.state.menuList,
+      this.props.basePath,
+      this.state.dataSync,
+      message.error, 
+      message.success, 
+      ()=> this.setState({ showLoading: false })
+    )
   }
 
  
@@ -359,7 +280,9 @@ class ProjectData extends Component {
                       <Icon type="inbox" />
                     </p>
                     <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
-                    <p className="ant-upload-hint">{this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}</p>
+                    <p className="ant-upload-hint" onClick={(e)=>{
+                      e.stopPropagation();
+                    }} dangerouslySetInnerHTML={{__html: this.state.curImportType ? importDataModule[this.state.curImportType].desc : null}} ></p>
                   </Dragger>
                 </Spin>
               </div>

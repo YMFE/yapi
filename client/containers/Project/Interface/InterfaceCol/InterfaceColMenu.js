@@ -26,8 +26,7 @@ const ColModalForm = Form.create()((props) => {
       title={title}
       onCancel={onCancel}
       onOk={onCreate}
-      okText="确认"
-      cancelText="取消"
+      
     >
       <Form layout="vertical">
         <FormItem label="集合名">
@@ -447,10 +446,10 @@ export default class InterfaceColMenu extends Component {
         let interfaceFilter = false;
         if (item.name.indexOf(this.state.filterValue) === -1) {
           item.caseList = item.caseList.filter(inter => {
-           
+            
             if (inter.casename.indexOf(this.state.filterValue) === -1) {
               return false;
-            }
+            } 
             //arr.push('cat_' + inter.catid)
             interfaceFilter = true;
             return true;
@@ -540,8 +539,6 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}
-          okText="确认"
-          cancelText="取消"
         >
           <ImportInterface onChange={this.selectInterface} list={this.props.list} />
         </Modal>
