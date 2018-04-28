@@ -425,18 +425,18 @@ exports.createAction = (
           ctx.request.body,
           ctx.params
         );
-        let validResult = yapi.commons.validateParams(
-          inst.schemaMap[action],
-          ctx.params
-        );
+        // let validResult = yapi.commons.validateParams(
+        //   inst.schemaMap[action],
+        //   ctx.params
+        // );
 
-        if (!validResult.valid) {
-          return (ctx.body = yapi.commons.resReturn(
-            null,
-            400,
-            validResult.message
-          ));
-        }
+        // if (!validResult.valid) {
+        //   return (ctx.body = yapi.commons.resReturn(
+        //     null,
+        //     400,
+        //     validResult.message
+        //   ));
+        // }
       }
       if (inst.$auth === true) {
         await inst[action].call(inst, ctx);

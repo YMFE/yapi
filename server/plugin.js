@@ -154,6 +154,11 @@ var hooks = {
     add_ws_router: {
         type: 'multi',
         listener: []
+    },
+
+    import_data: {
+        type: 'multi',
+        listener: []
     }
 };
 

@@ -1,28 +1,31 @@
 # 自动化测试
 
-<p style='text-indent:2em;line-height:1.8em'>Web 应用通常是前后端分离开发的，后端提供调用的接口，前端使用接口返回 json 数据渲染到 UI，接口测试就是保证后端接口的数据正确性。
+传统的接口自动化测试成本高，大量的项目没有使用自动化测试保证接口的质量，仅仅依靠手动测试，是非常不可靠和容易出错的。
 
-对于很多团队，接口测试就是手动运行接口，肉眼比对接口返回的数据，这样的操作流程效率低下，容易出错。使用 YApi 只需要在可视化 GUI 下，配置下每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。<a target="_blank" href="https://blog.ymfe.org/api-autotest/#more">自动化测试实践</a></p>
+YApi 为了解决这个问题，开发了可视化接口自动化测试功能，只需要配置每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。
 
-## 测试列表
+## 第一步，测试集合
+使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。
 
-<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  />
+![](case-col.png)
 
-在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
+![](import-case.png)
 
-点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整
 
-测试完成之后，点击报告查看该次请求的结果
+## 第二步，编辑测试用例
+编写测试用例主要涉及两个方面，一个是请求参数，另外一个是断言脚本。
 
-## 编辑测试用例
+### 编辑请求参数
 
-### Mock 参数
+请求参数可以填写期望的字符串，YApi 还提供了 Mock 参数和 变量参数。Mock参数用来生成随机字符串，变量参数是为了解决请求参数依赖其他接口的返回数据或参数。
+
+#### Mock 参数
 
 Mock 参数每次请求都会生成随机字符串
 
 <img  class="doc-img" style="width:100%" src="./images/usage/case-edit.jpg"  />
 
-#### 变量参数
+##### 变量参数
 
 YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 `参数` 或 `返回值` 作为 `后面接口的参数`，即使接口之间存在依赖，也可以轻松 **一键测试~**
 
@@ -68,29 +71,29 @@ $.{key}.{params|body}.{path}
 
 <img class="doc-img" style="width: 800px;" src="./images/usage/modal-postman-tips.png"  />
 
-## 自动化测试
+### 编写断言脚本
 
-点击自动化测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果
+编写完请求参数，可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
 
-<img src="./images/autoTest.png" />
-<img src="./images/autoTestResult.png" />
+![](test-case.png)
 
-## 断言
+## 第三步，运行自动化测试
 
-可通过 js 脚本写断言，实现精准测试，在接口用例页面点击 Test 编辑。
+<img class="doc-img" style="width: 618px;" src="./images/usage/case-list.gif"  />
 
-<!-- <video style="width:800px" controls="controls" autoplay="autoplay">
-  <source src="http://yapi.demo.qunar.com/publicapi/auto-test.mp4" type="video/mp4" />
-Your browser does not support the video tag.
-</video> -->
+在测试列表可以看到每个测试用例的 key,还有 开始测试、报告等功能
 
-### 公共变量
+点击开始测试会按照 case 定义的参数从上往下一个一个进行测试，如果顺序有问题，可以拖动调整
 
-#### 1.assert
+测试完成之后，点击报告查看该次请求的结果
+
+## 断言脚本公共变量
+
+### 1.assert
 
 断言函数，详细 api 可查看 <a target="_blank" href="https://nodejs.org/dist/latest-v8.x/docs/api/assert.html">document</a>
 
-##### 常用 api:
+#### 常用 api
 
 * assert(value)
 
@@ -143,3 +146,15 @@ assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
 assert.equal(status, 200)
 ```
+
+## 服务端自动化测试
+
+
+开始测试功能是在浏览器跑自动化测试，他依赖于浏览器的使用环境。服务端自动化测试功能是在YApi服务端跑自动化测试，不需要依赖浏览器环境，只需要访问 YApi 提供的 url 链接就能跑自动化测试，非常的简单易用，而且可以集成到 jenkins。
+
+### 详细使用方法
+
+点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。
+
+<img src="./images/autoTest.png" />
+<img src="./images/autoTestResult.png" />
