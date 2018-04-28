@@ -89,12 +89,19 @@ class baseController {
   async checkLogin(ctx) {
     let token = ctx.cookies.get('_yapi_token');
     let uid = ctx.cookies.get('_yapi_uid');
-
     try {
       if (!token || !uid) return false;
       let userInst = yapi.getInst(userModel); //创建user实体
       let result = await userInst.findById(uid);
-      let decoded = jwt.verify(token, result.passsalt);
+      if(!result) return false;
+
+      let decoded;
+      try{
+        decoded = jwt.verify(token, result.passsalt);
+      }catch(err){
+        return false;
+      }
+       
 
       if (decoded.uid == uid) {
         this.$uid = uid;
