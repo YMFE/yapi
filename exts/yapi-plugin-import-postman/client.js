@@ -163,7 +163,7 @@ function postman(importDataModule){
         
       } else if(item === 'req_body_other') {
         if(data.headers.indexOf('application/json')>-1){
-
+          res.req_body_is_json_schema = true
           res[item] = transformJsonToSchema(data[reflect[item]])
         } else {
           res[item] = data[reflect[item]];
@@ -220,8 +220,13 @@ function postman(importDataModule){
       let res = data[0];
       let response = {};
       response['res_body_type'] = res.language === 'json' ? 'json' : 'raw'
-      response['res_body'] = res.language === 'json' ? transformJsonToSchema(res.text): res.text;
-     
+      // response['res_body'] = res.language === 'json' ? transformJsonToSchema(res.text): res.text;
+      if(res.language === 'json') {
+        response['res_body_is_json_schema'] = true
+        response['res_body'] = transformJsonToSchema(res.text)
+      } else {
+        response['res_body'] = res.text
+      }
       return response;
     }
 
