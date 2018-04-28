@@ -53,7 +53,7 @@ class openController extends baseController{
         '*token': 'string',
         'json': 'string',
         'project_id': "string",
-        "dataSync": {
+        "merge": {
           type: 'boolean',
           default: false
         }
@@ -66,9 +66,8 @@ class openController extends baseController{
     let url = ctx.params.url;
     let content = ctx.params.json;
     let project_id = ctx.params.project_id;
-    let dataSync = ctx.params.dataSync;
+    let dataSync = ctx.params.merge;
     let token = ctx.params.token;
-
     if(!type || !importDataModule[type]){
       return ctx.body = yapi.commons.resReturn(null, 40022, '不存在的导入方式');
     }

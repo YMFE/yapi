@@ -39,7 +39,7 @@
 <h2 id="通过命令行导入接口数据">通过命令行导入接口数据</h2>
 <p>YApi 支持通过命令行导入接口数据，他的应用场景是做自动化集成，比如配合 swagger ，接口文档前端不用维护，交由后端生成。</p>
 <h3 id="通过命令行导入接口数据-使用方法">使用方法</h3>
-<p>第一步，确保 <code>yapi-cli &gt;= 1.2.6</code> 版本，如果低于此版本请升级 <code>yapi-cli</code> 工具</p>
+<p>第一步，确保 <code>yapi-cli &gt;= 1.2.7</code> 版本，如果低于此版本请升级 <code>yapi-cli</code> 工具</p>
 <pre><code>npm install -g yapi-cli
 </code></pre>
 <p>第二步，新建配置文件 <code>yapi-import.json</code>，如下所示：</p>
@@ -47,11 +47,14 @@
   <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"swagger"</span><span class="token punctuation">,</span>
   <span class="token property">"token"</span><span class="token operator">:</span> <span class="token string">"17fba0027f300248b804"</span><span class="token punctuation">,</span>
   <span class="token property">"file"</span><span class="token operator">:</span> <span class="token string">"swagger.json"</span><span class="token punctuation">,</span>
+  <span class="token property">"merge"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"http://yapi.local.qunar.com:3000"</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<p><code>type</code> 是数据数据方式，目前官方只支持 swagger</p>
 <p><code>token</code> 是项目token，在 <code>项目设置 -&gt; token</code> 设置获取</p>
 <p><code>file</code> 是 swagger 接口文档文件，可使用绝对路径或 url</p>
+<p><code>merge</code> 是否覆盖旧的接口，默认不开启，配置 <code>true</code> 开启</p>
 <p><code>server</code> 是yapi服务器地址</p>
 <p>第三步，在新建配置文件的当前目录，执行下面指令</p>
 <pre><code>yapi import
