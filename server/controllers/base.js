@@ -31,7 +31,7 @@ class baseController {
       '/api/user/login_by_ldap'
     ];
     //let openApiRouter = /^\/api\/open\/.*/
-    if (ignoreRouter.indexOf(ctx.path) === 0) {
+    if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
     } 
     // else if(openApiRouter.test(ctx.path)){
@@ -50,7 +50,7 @@ class baseController {
       '/api/interface/add_cat'
     ]
     let token = ctx.query.token ||　ctx.request.body.token;
-    if(token && openApiRouter.indexOf(ctx.path) > 0){
+    if(token && openApiRouter.indexOf(ctx.path) > -1){
       if(this.$auth){
         ctx.params.project_id = await this.getProjectIdByToken(token)
         this.$tokenAuth = true;
