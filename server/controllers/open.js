@@ -37,6 +37,7 @@ class openController extends baseController{
       runAutoTest: {
         '*id': 'number',
         'env_name': 'string',
+        'project_id': "string",  
         'token': 'string',
         'mode' : {
           type: 'string',
@@ -53,7 +54,7 @@ class openController extends baseController{
         '*token': 'string',
         'json': 'string',
         'project_id': "string",
-        "dataSync": {
+        "merge": {
           type: 'boolean',
           default: false
         }
@@ -66,9 +67,8 @@ class openController extends baseController{
     let url = ctx.params.url;
     let content = ctx.params.json;
     let project_id = ctx.params.project_id;
-    let dataSync = ctx.params.dataSync;
+    let dataSync = ctx.params.merge;
     let token = ctx.params.token;
-
     if(!type || !importDataModule[type]){
       return ctx.body = yapi.commons.resReturn(null, 40022, '不存在的导入方式');
     }
@@ -124,6 +124,7 @@ class openController extends baseController{
   }
 
   async runAutoTest(ctx){
+    const projectId = ctx.params.project_id;
     const startTime = new Date().getTime();
     const records = this.records = {};
     const reports = this.reports = {};
@@ -135,12 +136,6 @@ class openController extends baseController{
       return ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在');
     }    
     
-    let checkId = await this.getProjectIdByToken(token);
-    
-    let projectId = colData.project_id;
-    if(checkId !== projectId){
-      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
-    }
     let projectData = await this.projectModel.get(projectId);
     
     let caseList = await yapi.commons.getCaseList(id);

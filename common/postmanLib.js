@@ -129,12 +129,14 @@ function sandboxByNode(sandbox={}, script){
   return sandbox;
 }
 
-function sandbox(context={}, script){
+async function sandbox(context={}, script){
 
   if(isNode){
     try{
       context.context = context;
       context.console = console;
+      context.Promise = Promise;
+      context.setTimeout = setTimeout;
       context = sandboxByNode(context, script)
     }catch(err){
       err.message = `Script: ${script}
@@ -143,6 +145,15 @@ function sandbox(context={}, script){
     }
   }else{
     context = sandboxByBrowser(context, script)
+  }
+  if(context.promise && typeof context.promise === 'object' && context.promise.then){
+    try{
+      await context.promise
+    }catch(err){
+      err.message = `Script: ${script}
+      message: ${err.message}`
+      throw err;
+    }
   }
   return context;
 
@@ -179,6 +190,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     query: query,
     requestHeader: options.headers || {},
     requestBody: options.data,
+    promise: false, 
     utils: {
       _: _,
       base64: utils.base64,
@@ -188,12 +200,13 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
       sha256: utils.sha256,
       sha384: utils.sha384,
       sha512: utils.sha512,
-      unbase64: utils.unbase64
+      unbase64: utils.unbase64,
+      axios: axios
     }
   };
 
   if (preScript) {
-    context = sandbox(context, preScript);
+    context = await sandbox(context, preScript);
     defaultOptions.url = options.url = URL.format({
       protocol: urlObj.protocol,
       host: urlObj.host,
@@ -237,7 +250,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     context.responseHeader = data.res.header;
     context.responseStatus = data.res.status;
     context.runTime = data.runTime;
-    context = sandbox(context, afterScript);
+    context = await sandbox(context, afterScript);
     data.res.body = context.responseData;
     data.res.header = context.responseHeader;
     data.res.status = context.responseStatus;

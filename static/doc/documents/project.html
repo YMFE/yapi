@@ -121,8 +121,25 @@
   sha384    //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; sha384 &#x7F16;&#x7801;
   sha512    //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; sha512 &#x7F16;&#x7801;
   unbase64  //&#x8F6C;&#x6362; base64 &#x7F16;&#x7801;&#x4E3A;&#x5B57;&#x7B26;&#x4E32;  
+  axios     // axios &#x5E93;&#xFF0C;&#x53EF;&#x7528;&#x4E8E; api &#x8BF7;&#x6C42;&#xFF0C;&#x5B98;&#x7F51; https://github.com/axios/axios
 }
 </code></pre>
+<h3 id="请求配置-异步处理（v1.3.13+支持）">异步处理（v1.3.13+支持）</h3>
+<p>处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。</p>
+<pre><code class="language-javascript">context<span class="token punctuation">.</span>promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> api <span class="token operator">=</span> context<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http://yapi.local.qunar.com:3000/api/user/status'</span><span class="token punctuation">)</span>
+    api<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">//...</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+        <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>使用方法就是在 <code>context</code> 里面添加 <code>promise</code> 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 <code>context.utils.axios</code> 库。</p>
+<blockquote>
+<p>处理完成后，不要忘记 <code>resolve()</code>，不然会一直处于挂起状态</p>
+</blockquote>
 <h2 id="token配置">token配置</h2>
 <p>每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的<a href="./case.html">自动化测试</a>，用户不需要登录就可以访问接口测试结果信息。</p>
 <h2 id="项目克隆">项目克隆</h2>

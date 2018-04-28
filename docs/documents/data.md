@@ -56,29 +56,34 @@ YApi 支持通过命令行导入接口数据，他的应用场景是做自动化
 
 ### 使用方法
 
-第一步，确保 `yapi-cli >= 1.2.6` 版本，如果低于此版本请升级 `yapi-cli` 工具
+第一步，确保 `yapi-cli >= 1.2.7` 版本，如果低于此版本请升级 `yapi-cli` 工具
 
 ```
 npm install -g yapi-cli
 ```
 
-第二步，新建配置文件 `yapi-import.json`，如下所示：
+第二步，在任意一个目录下新建配置文件 `yapi-import.json`，内容如下：
 ```json
 {
   "type": "swagger",
   "token": "17fba0027f300248b804",
   "file": "swagger.json",
+  "merge": false,
   "server": "http://yapi.local.qunar.com:3000"
 }
 ```
+
+`type` 是数据数据方式，目前官方只支持 swagger
 
 `token` 是项目token，在 `项目设置 -> token` 设置获取
 
 `file` 是 swagger 接口文档文件，可使用绝对路径或 url
 
+`merge` 是否覆盖旧的接口，默认不开启，配置 `true` 开启
+
 `server` 是yapi服务器地址
 
-第三步，在新建配置文件的当前目录，执行下面指令
+第三步，在`新建配置文件的当前目录`，执行下面指令
 
 ```
 yapi import

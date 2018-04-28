@@ -148,8 +148,29 @@ context.utils = {
   sha384    //转换字符串为 sha384 编码
   sha512    //转换字符串为 sha512 编码
   unbase64  //转换 base64 编码为字符串  
+  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios
 }
 ```
+
+### 异步处理（v1.3.13+支持）
+
+处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。
+
+```javascript
+context.promise = new Promise(function(resolve){
+    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')
+    api.then(function(result){
+        //...
+        console.log(result.data)
+        resolve()
+    })
+
+})
+```
+
+使用方法就是在 `context` 里面添加 `promise` 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 `context.utils.axios` 库。
+
+> 处理完成后，不要忘记 `resolve()`，不然会一直处于挂起状态
 
 ## token配置
 

@@ -68,9 +68,20 @@ class InterfaceEdit extends Component {
 
   componentDidMount() {
     let domain = location.hostname + (location.port !== "" ? ":" + location.port : "");
-    let s;
+    let s, initData = false;
     //因后端 node 仅支持 ws， 暂不支持 wss
     let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+
+    setTimeout(()=>{
+      if(initData === false){
+        this.setState({
+          curdata: this.props.curdata,
+          status: 1
+        })
+        initData = true;
+      }
+    }, 3000)
+
     try {
       s = new WebSocket(wsProtocol + '://' + domain + '/api/interface/solve_conflict?id=' + this.props.match.params.actionId);
       s.onopen = () => {
@@ -78,6 +89,7 @@ class InterfaceEdit extends Component {
       }
 
       s.onmessage = (e) => {
+        initData = true;
         let result = JSON.parse(e.data);
         if (result.errno === 0) {
           this.setState({
@@ -131,6 +143,9 @@ class InterfaceEdit extends Component {
           </div>
           :
           null}
+      {
+        this.state.status === 0 && '正在加载，请耐心等待...'
+      }
 
     </div>
   }
