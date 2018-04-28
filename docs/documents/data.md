@@ -62,7 +62,7 @@ YApi 支持通过命令行导入接口数据，他的应用场景是做自动化
 npm install -g yapi-cli
 ```
 
-第二步，新建配置文件 `yapi-import.json`，如下所示：
+第二步，在任意一个目录下新建配置文件 `yapi-import.json`，内容如下：
 ```json
 {
   "type": "swagger",
@@ -83,7 +83,7 @@ npm install -g yapi-cli
 
 `server` 是yapi服务器地址
 
-第三步，在新建配置文件的当前目录，执行下面指令
+第三步，在`新建配置文件的当前目录`，执行下面指令
 
 ```
 yapi import
