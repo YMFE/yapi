@@ -44,3 +44,42 @@
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-5.jpg" /></div>
 
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-6.jpg" /></div>
+
+## YApi接口JSON数据导入
+该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。
+
+![](import-json-data.png)
+
+
+## 通过命令行导入接口数据
+YApi 支持通过命令行导入接口数据，他的应用场景是做自动化集成，比如配合 swagger ，接口文档前端不用维护，交由后端生成。
+
+### 使用方法
+
+第一步，确保 `yapi-cli >= 1.2.6` 版本，如果低于此版本请升级 `yapi-cli` 工具
+
+```
+npm install -g yapi-cli
+```
+
+第二步，新建配置文件 `yapi-import.json`，如下所示：
+```json
+{
+  "type": "swagger",
+  "token": "17fba0027f300248b804",
+  "file": "swagger.json",
+  "server": "http://yapi.local.qunar.com:3000"
+}
+```
+
+`token` 是项目token，在 `项目设置 -> token` 设置获取
+
+`file` 是 swagger 接口文档文件，可使用绝对路径或 url
+
+`server` 是yapi服务器地址
+
+第三步，在新建配置文件的当前目录，执行下面指令
+
+```
+yapi import
+```
