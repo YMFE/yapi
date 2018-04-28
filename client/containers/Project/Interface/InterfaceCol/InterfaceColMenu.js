@@ -26,8 +26,7 @@ const ColModalForm = Form.create()((props) => {
       title={title}
       onCancel={onCancel}
       onOk={onCreate}
-      okText="确认"
-      cancelText="取消"
+      
     >
       <Form layout="vertical">
         <FormItem label="集合名">
@@ -540,8 +539,6 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}
-          okText="确认"
-          cancelText="取消"
         >
           <ImportInterface onChange={this.selectInterface} list={this.props.list} />
         </Modal>
