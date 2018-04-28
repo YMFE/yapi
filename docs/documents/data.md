@@ -44,3 +44,8 @@
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-5.jpg" /></div>
 
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-6.jpg" /></div>
+
+## YApi接口JSON数据导入
+该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。
+
+![](import-json-data.png)
