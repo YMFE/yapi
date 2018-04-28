@@ -2,7 +2,7 @@ const projectModel = require('../models/project.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
-const tokenModel = require('../models/token.js');
+const interfaceCatModel = require('../models/interfaceCat.js')
 const followModel = require('../models/follow.js');
 const userModel = require('../models/user.js')
 const yapi = require('../yapi.js');
@@ -10,6 +10,17 @@ const baseController = require('./base.js');
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('../../common/postmanLib')
 const {handleParamsValue} = require('../../common/utils.js')
 const renderToHtml = require('../utils/reportHtml')
+const axios = require('axios')
+const HanldeImportData = require('../../common/HandleImportData')
+
+
+/**
+ * {
+ *    postman: require('./m')
+ * }
+ */
+const importDataModule = {}
+yapi.emitHook('import_data', importDataModule)
 
 class openController extends baseController{
   constructor(ctx){
@@ -18,7 +29,7 @@ class openController extends baseController{
     this.interfaceColModel = yapi.getInst(interfaceColModel)
     this.interfaceCaseModel = yapi.getInst(interfaceCaseModel)
     this.interfaceModel = yapi.getInst(interfaceModel)
-    this.tokenModel = yapi.getInst(tokenModel);
+    this.interfaceCatModel = yapi.getInst(interfaceCatModel)
     this.followModel = yapi.getInst(followModel);
     this.userModel = yapi.getInst(userModel)
     this.handleValue = this.handleValue.bind(this)
@@ -35,16 +46,74 @@ class openController extends baseController{
           type: 'boolean',
           default: false
         }
+      },
+      importData: {
+        '*type': 'string',
+        'url': 'string',
+        '*token': 'string',
+        'json': 'string',
+        'project_id': "string",
+        "dataSync": {
+          type: 'boolean',
+          default: false
+        }
       }
     }
   }
 
-  async getProjectIdByToken(token){
-    let projectId = await this.tokenModel.findId(token);
-    if(projectId) {
-      return projectId.toObject().project_id
-    } 
+  async importData(ctx){
+    let type = ctx.params.type;
+    let url = ctx.params.url;
+    let content = ctx.params.json;
+    let project_id = ctx.params.project_id;
+    let dataSync = ctx.params.dataSync;
+    let token = ctx.params.token;
+
+    if(!type || !importDataModule[type]){
+      return ctx.body = yapi.commons.resReturn(null, 40022, '不存在的导入方式');
+    }
+
+    if(!content){
+      return ctx.body = yapi.commons.resReturn(null, 40022, 'json 不能为空');
+    }
+    try{
+      content = JSON.parse(content)
+    }catch(e){
+      return ctx.body = yapi.commons.resReturn(null, 40022, 'json 格式有误');
+    }
+
+    let menuList = await this.interfaceCatModel.list(project_id)
+    let selectCatid = menuList[0]._id;
+    let projectData = await this.projectModel.get(project_id)
+    let res = await importDataModule[type](content)
+
+    let successMessage;
+    let errorMessage = []
+    let data = await HanldeImportData(
+      res,
+      project_id,
+      selectCatid,
+      menuList,
+      projectData.basePath,
+      dataSync,
+      (err)=>{
+        errorMessage.push(err)
+      }, 
+      (msg)=>{
+        successMessage = msg 
+      }, 
+      ()=> {},
+      token,
+      yapi.WEBCONFIG.port
+    )
+
+    if(errorMessage.length > 0){
+      return ctx.body = yapi.commons.resReturn(null, 404, errorMessage.join("\n"))
+    }
+    ctx.body = yapi.commons.resReturn(null, 0, successMessage)
   }
+
+
 
   async projectInterfaceData(ctx){
     ctx.body = 'projectInterfaceData'
@@ -60,16 +129,11 @@ class openController extends baseController{
     const reports = this.reports = {};
     const testList = []
     let id = ctx.params.id;
-    let token = ctx.params.token;
     let curEnv = ctx.params.env_name;
     let colData = await this.interfaceColModel.get(id);
     if(!colData){
       return ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在');
-    }
-
-    if(!token){
-      return ctx.body = yapi.commons.resReturn(null, 40033, '没有权限');
-    }
+    }    
     
     let checkId = await this.getProjectIdByToken(token);
     
@@ -310,5 +374,6 @@ class openController extends baseController{
   }
 
 }
+
 
 module.exports = openController;

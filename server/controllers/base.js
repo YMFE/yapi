@@ -3,7 +3,7 @@ const projectModel = require('../models/project.js');
 const userModel = require('../models/user.js');
 const interfaceModel = require('../models/interface.js');
 const groupModel = require('../models/group.js');
-
+const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
 
@@ -19,6 +19,8 @@ class baseController {
 
   async init(ctx) {
     this.$user = null;
+    this.tokenModel = yapi.getInst(tokenModel);
+    this.projectModel = yapi.getInst(projectModel);
     let ignoreRouter = [
       '/api/user/login_by_token',
       '/api/user/login',
@@ -28,15 +30,56 @@ class baseController {
       '/api/user/avatar',
       '/api/user/login_by_ldap'
     ];
-    let openApiRouter = /^\/api\/open\/.*/
-    if (ignoreRouter.indexOf(ctx.path) > -1) {
+    //let openApiRouter = /^\/api\/open\/.*/
+    if (ignoreRouter.indexOf(ctx.path) === 0) {
       this.$auth = true;
-    } else if(openApiRouter.test(ctx.path)){
-      this.$auth = true;
-    } else {
+    } 
+    // else if(openApiRouter.test(ctx.path)){
+    //   this.$auth = true;
+    // } 
+    else {
       await this.checkLogin(ctx);
     }
 
+    let openApiRouter = [
+      '/api/open/run_auto_test',
+      '/api/open/import_data',
+      '/api/interface/add',
+      '/api/interface/save',
+      '/api/interface/up',
+      '/api/interface/add_cat'
+    ]
+    let token = ctx.query.token ||　ctx.request.body.token;
+    if(token && openApiRouter.indexOf(ctx.path) > 0){
+      if(this.$auth){
+        ctx.params.project_id = await this.getProjectIdByToken(token)
+        this.$tokenAuth = true;
+      }
+      if(!token){
+        return      
+      }
+      let checkId = await this.getProjectIdByToken(token);
+      let projectData = await this.projectModel.get(checkId);
+      if(projectData) {
+        ctx.params.project_id = checkId;
+        this.$tokenAuth = true;
+        this.$uid = '999999'
+        this.$user = {
+          _id: this.$uid,
+          role: 'member',
+          username: 'system'
+        }
+        this.$auth = true
+      };
+    }
+
+  }
+
+  async getProjectIdByToken(token){
+    let projectId = await this.tokenModel.findId(token);
+    if(projectId) {
+      return projectId.toObject().project_id
+    } 
   }
 
   getUid() {
@@ -62,6 +105,7 @@ class baseController {
 
       return false;
     } catch (e) {
+      yapi.commons.log(e, 'error')
       return false;
     }
 
@@ -179,7 +223,7 @@ class baseController {
       return 'member';
     }
     catch (e) {
-      yapi.commons.log(e.message, 'error')
+      yapi.commons.log(e, 'error')
       return false;
     }
   }
