@@ -30,14 +30,9 @@ class baseController {
       '/api/user/avatar',
       '/api/user/login_by_ldap'
     ];
-    //let openApiRouter = /^\/api\/open\/.*/
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
-    } 
-    // else if(openApiRouter.test(ctx.path)){
-    //   this.$auth = true;
-    // } 
-    else {
+    }else {
       await this.checkLogin(ctx);
     }
 
@@ -49,15 +44,16 @@ class baseController {
       '/api/interface/up',
       '/api/interface/add_cat'
     ]
-    let token = ctx.query.token ||　ctx.request.body.token;
+
+    let params = Object.assign({}, ctx.query, ctx.request.body)
+    let token = params.token ;
+    
     if(token && openApiRouter.indexOf(ctx.path) > -1){
       if(this.$auth){
         ctx.params.project_id = await this.getProjectIdByToken(token)
-        this.$tokenAuth = true;
+        return this.$tokenAuth = true;
       }
-      if(!token){
-        return      
-      }
+      
       let checkId = await this.getProjectIdByToken(token);
       let projectData = await this.projectModel.get(checkId);
       if(projectData) {
@@ -72,7 +68,6 @@ class baseController {
         this.$auth = true
       };
     }
-
   }
 
   async getProjectIdByToken(token){
