@@ -162,6 +162,7 @@ function postman(importDataModule){
         }
         
       }else if(item === 'req_body_other' && reqType === 'json' && data.request.postData){
+        res.req_body_is_json_schema = true
         res[item] = transformJsonToSchema(data.request.postData.text);
       }else if(item === "req_headers"){
         res[item] = [{
@@ -185,6 +186,7 @@ function postman(importDataModule){
       }else if(item === 'res_body_type'){
         res[item] = 'json';
       }else if(item === 'res_body' ){
+        res.res_body_is_json_schema = true
         res[item] = transformJsonToSchema(data.response.content.text);
       }      
       else{
