@@ -149,7 +149,7 @@ function postman(importDataModule){
         reqType = 'form';
       }      
     })
-    console.log('data',data)
+    
     for(let item in key){
       item = key[item];
       if(item === "req_query"){
