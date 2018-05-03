@@ -1160,6 +1160,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.14",
+          "url": "/documents/CHANGELOG.html#v1.3.14",
+          "content": "v1.3.14修复接口编辑白屏问题\n"
+        },
+        {
           "title": "v1.3.13",
           "url": "/documents/CHANGELOG.html#v1.3.13",
           "content": "v1.3.13新增通过命令行导入 swagger 接口数据功能\n接口请求设置新增异步处理特性\n"
@@ -1291,6 +1296,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.14",
+          "url": "/documents/CHANGELOG.html#v1.3.14",
+          "content": "v1.3.14修复接口编辑白屏问题\n"
+        },
         {
           "title": "v1.3.13",
           "url": "/documents/CHANGELOG.html#v1.3.13",
