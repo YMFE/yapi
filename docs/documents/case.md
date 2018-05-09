@@ -137,11 +137,12 @@ http request params, 合并了 query 和 body
 
 #### 7.log
 
-log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印
+log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息
 
 ### 示例
 
 ```
+
 assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
 assert.equal(status, 200)
