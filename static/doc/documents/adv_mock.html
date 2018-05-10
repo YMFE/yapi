@@ -77,17 +77,17 @@ Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuy
 <h3 id="自定义-mock-脚本-示例1,-根据请求参数重写-mockjson">示例1, 根据请求参数重写 mockJson</h3>
 <pre><code>if(params.type == 1){
   mockJson.errcode = 400;
-  mockJson.errmsg = &#x27;error;
+  mockJson.errmsg = &#x27;error&#x27;;
 }
 
 if(header.token == &#x27;t&#x27;){
   mockJson.errcode = 300;
-  mockJson.errmsg = &#x27;error;
+  mockJson.errmsg = &#x27;error&#x27;;
 }
 
 if(cookie.type == &#x27;a&#x27;){
   mockJson.errcode = 500;
-  mockJson.errmsg = &#x27;error;
+  mockJson.errmsg = &#x27;error&#x27;;
 }
 
 </code></pre>
