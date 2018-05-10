@@ -3,10 +3,11 @@
   "adminAccount": "admin@admin.com",
   "db": {
     "servername": "127.0.0.1",
-    "DATABASE":  "yapi",
+    "DATABASE": "yapi",
     "port": 27017,
     "user": "test1",
-    "pass": "test1"
+    "pass": "test1",
+    "authSource": ""
   },
   "mail": {
     "enable": true,
@@ -14,8 +15,8 @@
     "port": 465,
     "from": "***@163.com",
     "auth": {
-        "user": "***@163.com",
-        "pass": "*****"
+      "user": "***@163.com",
+      "pass": "*****"
     }
   }
 }

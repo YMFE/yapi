@@ -143,6 +143,8 @@ function run(options) {
       return formatJson(data);
     }else if (typeof data === 'object') {
       return JSON.stringify(data, null, "  ")
+    }else{
+      return ''+data;
     }
   }
 
