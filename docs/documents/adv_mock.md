@@ -69,17 +69,17 @@ Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuy
 ```
 if(params.type == 1){
   mockJson.errcode = 400;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 if(header.token == 't'){
   mockJson.errcode = 300;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 if(cookie.type == 'a'){
   mockJson.errcode = 500;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 ```
