@@ -284,6 +284,9 @@ class userController extends baseController {
    * @example ./api/user/login.json
    */
   async reg(ctx) {  //注册
+    if(yapi.WEBCONFIG.closeRegister){
+      return ctx.body = yapi.commons.resReturn(null, 400, '禁止注册');
+    }
     let userInst = yapi.getInst(userModel);
     let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
 
