@@ -10,4 +10,4 @@
 ## 什么浏览器
 ~ 
 
-## 什么系统（linux, window, macox）
+## 什么系统（Linux, Windows, macOS）

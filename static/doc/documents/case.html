@@ -100,9 +100,10 @@
 <h4>6.records</h4>
 <p>记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取</p>
 <h4>7.log</h4>
-<p>log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印</p>
+<p>log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息</p>
 <h3 id="断言脚本公共变量-示例">示例</h3>
-<pre><code>assert.equal(body.errcode, 0)
+<pre><code>
+assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, &#x27;testGroup&#x27;)
 assert.equal(status, 200)
 </code></pre>
