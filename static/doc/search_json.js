@@ -220,7 +220,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
         },
         {
           "title": "返回数据示例",
@@ -297,7 +297,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
         },
         {
           "title": "返回数据示例",
@@ -532,7 +532,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "示例1, 根据请求参数重写 mockJson",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例1,-根据请求参数重写-mockjson",
-          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error;\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error;\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error;\n}\n\n"
+          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error';\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error';\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error';\n}\n\n"
         },
         {
           "title": "示例2, 生成高度自定义数据内容",
@@ -584,7 +584,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "示例1, 根据请求参数重写 mockJson",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例1,-根据请求参数重写-mockjson",
-          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error;\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error;\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error;\n}\n\n"
+          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error';\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error';\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error';\n}\n\n"
         },
         {
           "title": "示例2, 生成高度自定义数据内容",
@@ -1159,6 +1159,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.15",
+          "url": "/documents/CHANGELOG.html#v1.3.15",
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+        },
         {
           "title": "v1.3.14",
           "url": "/documents/CHANGELOG.html#v1.3.14",
@@ -1296,6 +1301,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.15",
+          "url": "/documents/CHANGELOG.html#v1.3.15",
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+        },
         {
           "title": "v1.3.14",
           "url": "/documents/CHANGELOG.html#v1.3.14",
@@ -1474,6 +1484,11 @@ window.ydoc_plugin_search_json = {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
           "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+        },
+        {
+          "title": "禁止注册",
+          "url": "/devops/index.html#禁止注册",
+          "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
         }
       ]
     },
@@ -1521,6 +1536,11 @@ window.ydoc_plugin_search_json = {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
           "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+        },
+        {
+          "title": "禁止注册",
+          "url": "/devops/index.html#禁止注册",
+          "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
         }
       ]
     }

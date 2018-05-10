@@ -5,3 +5,4 @@
 * [升级](index.md#升级)
 * [配置邮箱](index.md#配置邮箱)
 * [配置LDAP登录](index.md#配置LDAP登录)
+* [禁止注册](index.md#禁止注册)

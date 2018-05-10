@@ -133,3 +133,15 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功
 
 <img src="./ldap.png" />
+
+
+## 禁止注册
+在 config.json 添加 `closeRegister:true` 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。
+
+```json
+{
+  "port": "*****",
+  "closeRegister":true
+}
+
+```
