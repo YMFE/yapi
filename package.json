@@ -46,6 +46,7 @@
     "jsondiffpatch": "0.2.5",
     "jsonwebtoken": "7.4.1",
     "koa": "2.0.0",
+    "koa-body": "^2.5.0",
     "koa-bodyparser": "3.2.0",
     "koa-multer": "1.0.2",
     "koa-mysql-session": "0.0.2",

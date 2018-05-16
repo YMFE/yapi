@@ -1,9 +1,12 @@
 ### v1.3.16
 
 * 支持自定义域名邮箱登录
+
+
 #### Bug Fixed
 
 * postman  headers 为 null 时报错
+* format-data 数据解析不成功
 
 
 ### v1.3.15

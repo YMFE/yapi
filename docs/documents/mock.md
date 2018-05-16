@@ -40,10 +40,13 @@
 ```
 {
   "name": "${query.name}", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming
-  "type": "${body.type}"   //请求的requestBody type=1,返回的type字段是1
+  "type": "${body.type}",   //请求的requestBody type=1,返回的type字段是1
+  
 }
 
 ```
+
+
 
 3. 示例
 ```

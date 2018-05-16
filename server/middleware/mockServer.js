@@ -220,16 +220,25 @@ module.exports = async (ctx, next) => {
           const schema = yapi.commons.json_parse(interfaceData.res_body);
           res = yapi.commons.schemaToJson(schema);
         } else {
+          // console.log('header', ctx.request.header['content-type'].indexOf('multipart/form-data'))
+          // 处理 format-data
+          if(ctx.request.header['content-type'].indexOf('multipart/form-data') > -1) {
+            ctx.request.body = ctx.request.body.fields;
+          }
+          // console.log('body', ctx.request.body)
+
           res = mockExtra(yapi.commons.json_parse(interfaceData.res_body), {
             query: ctx.request.query,
             body: ctx.request.body,
             params: Object.assign({}, ctx.request.query, ctx.request.body)
           });
+          // console.log('res',res)
         }
 
         try {
           res = Mock.mock(res);
         } catch (e) {
+          console.log('err', e.message)
           yapi.commons.log(e, "error");
         }
       }

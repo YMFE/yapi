@@ -37,7 +37,8 @@
 </ol>
 <pre><code>{
   &#x22;name&#x22;: &#x22;${query.name}&#x22;, //&#x8BF7;&#x6C42;&#x7684;url&#x662F;/path?name=xiaoming, &#x8FD4;&#x56DE;&#x7684;name&#x5B57;&#x6BB5;&#x662F;xiaoming
-  &#x22;type&#x22;: &#x22;${body.type}&#x22;   //&#x8BF7;&#x6C42;&#x7684;requestBody type=1,&#x8FD4;&#x56DE;&#x7684;type&#x5B57;&#x6BB5;&#x662F;1
+  &#x22;type&#x22;: &#x22;${body.type}&#x22;,   //&#x8BF7;&#x6C42;&#x7684;requestBody type=1,&#x8FD4;&#x56DE;&#x7684;type&#x5B57;&#x6BB5;&#x662F;1
+  &#x22;value&#x22;: &#x22;${body.fields.value}&#x22; // &#x5F53;header&#x662F;Content-Type: multipart/form-data &#x65F6;&#x83B7;&#x53D6;body&#x4E2D;&#x7684;&#x503C; &#xFF08;v1.3.16+&#x652F;&#x6301;&#xFF09;
 }
 
 </code></pre>

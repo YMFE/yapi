@@ -418,7 +418,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \"value\": \"${body.fields.value}\" // 当header是Content-Type: multipart/form-data 时获取body中的值 （v1.3.16+支持）\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
@@ -465,7 +465,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \"value\": \"${body.fields.value}\" // 当header是Content-Type: multipart/form-data 时获取body中的值 （v1.3.16+支持）\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
@@ -1160,9 +1160,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\nBug Fixedpostman  headers 为 null 时报错\n"
+        },
+        {
           "title": "v1.3.15",
           "url": "/documents/CHANGELOG.html#v1.3.15",
-          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
         },
         {
           "title": "v1.3.14",
@@ -1302,9 +1307,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\nBug Fixedpostman  headers 为 null 时报错\n"
+        },
+        {
           "title": "v1.3.15",
           "url": "/documents/CHANGELOG.html#v1.3.15",
-          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
         },
         {
           "title": "v1.3.14",
