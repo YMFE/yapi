@@ -9,7 +9,7 @@ const PROJECT_DEL = 'yapi/project/PROJECT_DEL';
 const PROJECT_UPDATE = 'yapi/project/PROJECT_UPDATE';
 const PROJECT_UPDATE_ENV = 'yapi/project/PROJECT_UPDATE_ENV';
 const PROJECT_UPSET = 'yapi/project/PROJECT_UPSET';
-const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT'
+const GET_CURR_PROJECT = 'yapi/project/GET_CURR_PROJECT';
 const GET_PEOJECT_MEMBER = 'yapi/project/GET_PEOJECT_MEMBER';
 const ADD_PROJECT_MEMBER = 'yapi/project/ADD_PROJECT_MEMBER';
 const DEL_PROJECT_MEMBER = 'yapi/project/DEL_PROJECT_MEMBER';
@@ -18,7 +18,6 @@ const GET_TOKEN = 'yapi/project/GET_TOKEN';
 const UPDATE_TOKEN = 'yapi/project/UPDATE_TOKEN';
 const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
-
 
 // Reducer
 const initialState = {
@@ -31,18 +30,16 @@ const initialState = {
   total: 0,
   currPage: 1,
   token: '',
-  currProject: {
-  }
+  currProject: {}
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_CURR_PROJECT: {
-
       return {
         ...state,
         currProject: action.payload.data.data
-      }
+      };
     }
 
     case FETCH_PROJECT_LIST: {
@@ -65,25 +62,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: action.payload.data.data
-      }
+      };
     }
     case UPDATE_TOKEN: {
       return {
         ...state,
         token: action.payload.data.data.token
-      }
+      };
     }
 
     case CHECK_PROJECT_NAME: {
-      return{
+      return {
         ...state
-
-      }
+      };
     }
     case COPY_PROJECT_MSG: {
       return {
         ...state
-      }
+      };
     }
     default:
       return state;
@@ -117,7 +113,7 @@ export function addMember(param) {
   return {
     type: ADD_PROJECT_MEMBER,
     payload: axios.post('/api/project/add_member', param)
-  }
+  };
 }
 
 // 删除项目成员
@@ -125,7 +121,7 @@ export function delMember(param) {
   return {
     type: DEL_PROJECT_MEMBER,
     payload: axios.post('/api/project/del_member', param)
-  }
+  };
 }
 
 // 修改项目成员权限
@@ -133,7 +129,7 @@ export function changeMemberRole(param) {
   return {
     type: CHANGE_PROJECT_MEMBER,
     payload: axios.post('/api/project/change_member_role', param)
-  }
+  };
 }
 
 // 获取项目成员列表
@@ -143,7 +139,7 @@ export function getProjectMemberList(id) {
     payload: axios.get('/api/project/get_member_list', {
       params: { id }
     })
-  }
+  };
 }
 
 // export function changeTableLoading(data) {
@@ -154,7 +150,18 @@ export function getProjectMemberList(id) {
 // }
 
 export function addProject(data) {
-  const { name, prd_host, basepath, desc, group_id, group_name, protocol, icon, color, project_type } = data;
+  const {
+    name,
+    prd_host,
+    basepath,
+    desc,
+    group_id,
+    group_name,
+    protocol,
+    icon,
+    color,
+    project_type
+  } = data;
   const param = {
     name,
     prd_host,
@@ -221,7 +228,6 @@ export function upsetProject(param) {
   };
 }
 
-
 // 删除项目
 export function delProject(id) {
   const param = { id };
@@ -236,34 +242,32 @@ export async function getProject(id) {
   return {
     type: GET_CURR_PROJECT,
     payload: result
-  }
+  };
 }
 
-
-export async function getToken(project_id){
+export async function getToken(project_id) {
   return {
     type: GET_TOKEN,
     payload: axios.get('/api/project/token', {
       params: { project_id }
     })
-  }
+  };
 }
 
-export async function updateToken(project_id){
+export async function updateToken(project_id) {
   return {
     type: UPDATE_TOKEN,
     payload: axios.get('/api/project/update_token', {
       params: { project_id }
     })
-  }
+  };
 }
 
-export async function checkProjectName(name, group_id){
+export async function checkProjectName(name, group_id) {
   return {
     type: CHECK_PROJECT_NAME,
     payload: axios.get('/api/project/check_project_name', {
       params: { name, group_id }
     })
-  }
+  };
 }
-

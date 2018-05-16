@@ -1,7 +1,10 @@
 const defaultTheme = require("./defaultTheme.js");
 
 function json_format(json) {
-  return JSON.stringify(json, null, '   ')
+  if(json && typeof json === 'object'){
+    return JSON.stringify(json, null, '   ')
+  }
+  return json;
 }
 
 module.exports = function renderToHtml(reports){

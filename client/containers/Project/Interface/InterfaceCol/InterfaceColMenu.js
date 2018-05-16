@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { fetchInterfaceColList, fetchInterfaceCaseList, setColData, fetchCaseList } from '../../../../reducer/modules/interfaceCol'
-import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
+// import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
+import { fetchProjectList } from '../../../../reducer/modules/project'
 import axios from 'axios';
 // import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 import ImportInterface from './ImportInterface'
@@ -52,15 +53,19 @@ const ColModalForm = Form.create()((props) => {
       currCase: state.interfaceCol.currCase,
       isRander: state.interfaceCol.isRander,
       currCaseId: state.interfaceCol.currCaseId,
-      list: state.inter.list
+      // list: state.inter.list,
+      // 当前项目的信息
+      curProject: state.project.currProject
+      // projectList: state.project.projectList
     }
   },
   {
     fetchInterfaceColList,
     fetchInterfaceCaseList,
-    fetchInterfaceListMenu,
+    // fetchInterfaceListMenu,
     fetchCaseList,
-    setColData
+    setColData,
+    fetchProjectList
   }
 )
 @withRouter
@@ -71,15 +76,18 @@ export default class InterfaceColMenu extends Component {
     interfaceColList: PropTypes.array,
     fetchInterfaceColList: PropTypes.func,
     fetchInterfaceCaseList: PropTypes.func,
-    fetchInterfaceListMenu: PropTypes.func,
+    // fetchInterfaceListMenu: PropTypes.func,
     fetchCaseList: PropTypes.func,
     setColData: PropTypes.func,
     currCaseId: PropTypes.number,
     history: PropTypes.object,
     isRander: PropTypes.bool,
-    list: PropTypes.array,
+    // list: PropTypes.array,
     router: PropTypes.object,
-    currCase: PropTypes.object
+    currCase: PropTypes.object,
+    curProject: PropTypes.object,
+    fetchProjectList: PropTypes.func
+    // projectList: PropTypes.array
   }
 
   state = {
@@ -92,7 +100,8 @@ export default class InterfaceColMenu extends Component {
     importColId: 0,
     expands: null,
     list: [],
-    delIcon: null
+    delIcon: null,
+    selectedProject: null
   }
 
   constructor(props) {
@@ -279,18 +288,21 @@ export default class InterfaceColMenu extends Component {
     this.form = form;
   }
 
-  selectInterface = (importInterIds) => {
-    // console.log(importInterIds)
-    this.setState({ importInterIds })
+  selectInterface = (importInterIds, selectedProject) => {
+    
+    this.setState({ importInterIds, selectedProject })
   }
 
   showImportInterfaceModal = async (colId) => {
-    const projectId = this.props.match.params.id;
-    await this.props.fetchInterfaceListMenu(projectId)
+    // const projectId = this.props.match.params.id;
+    // console.log('project', this.props.curProject)
+    const groupId = this.props.curProject.group_id
+    await this.props.fetchProjectList(groupId)
+    // await this.props.fetchInterfaceListMenu(projectId)
     this.setState({ importInterVisible: true, importColId: colId })
   }
   handleImportOk = async () => {
-    const project_id = this.props.match.params.id;
+    const project_id = this.state.selectedProject || this.props.match.params.id;
     const { importColId, importInterIds } = this.state;
     const res = await axios.post('/api/col/add_case_list', {
       interface_list: importInterIds,
@@ -367,7 +379,7 @@ export default class InterfaceColMenu extends Component {
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, importInterVisible } = this.state;
-
+    const currProjectId = this.props.match.params.id;
     // const menu = (col) => {
     //   return (
     //     <Menu>
@@ -540,7 +552,7 @@ export default class InterfaceColMenu extends Component {
           className="import-case-modal"
           width={800}
         >
-          <ImportInterface onChange={this.selectInterface} list={this.props.list} />
+          <ImportInterface currProjectId={currProjectId} selectInterface={this.selectInterface} />
         </Modal>
       </div>
     )

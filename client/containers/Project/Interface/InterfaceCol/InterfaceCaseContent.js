@@ -171,7 +171,7 @@ export default class InterfaceCaseContent extends Component {
       after_script: currProject.after_script
     }, { _id: currCase._id });
     
-   
+    
     return (
       <div style={{ padding: '6px 0' }} className="case-content">
         <div className="case-title">
@@ -183,7 +183,7 @@ export default class InterfaceCaseContent extends Component {
             <Input value={editCasename} onChange={e => this.setState({ editCasename: e.target.value })} style={{ fontSize: 18 }} />
           </div>}
           <span className="inter-link" style={{ margin: '0px 8px 0px 6px', fontSize: 12 }}>
-            <Link className="text" to={`/project/${currProject._id}/interface/api/${currCase.interface_id}`}>对应接口</Link>
+            <Link className="text" to={`/project/${currCase.project_id}/interface/api/${currCase.interface_id}`}>对应接口</Link>
           </span>
         </div>
         <div>

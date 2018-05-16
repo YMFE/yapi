@@ -135,7 +135,7 @@ context = {
 context.responseBody.a = 2;
 
 ```
-
+> （v1.3.16+新增）context.href和context.hostname
 ### 工具函数
 ```
 context.utils = {
@@ -171,6 +171,8 @@ context.promise = new Promise(function(resolve){
 使用方法就是在 `context` 里面添加 `promise` 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 `context.utils.axios` 库。
 
 > 处理完成后，不要忘记 `resolve()`，不然会一直处于挂起状态
+
+
 
 ## token配置
 

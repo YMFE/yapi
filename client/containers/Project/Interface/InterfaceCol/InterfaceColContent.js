@@ -474,7 +474,8 @@ class InterfaceColContent extends Component {
   }
 
   render() {
-    // console.log('rows',this.state.rows);
+    // console.log('rows',this.props.currProject);
+    const currProjectId = this.props.currProject._id
     const columns = [{
       property: 'casename',
       header: {
@@ -489,7 +490,7 @@ class InterfaceColContent extends Component {
         formatters: [
           (text, { rowData }) => {
             let record = rowData;
-            return <Link to={"/project/" + record.project_id + "/interface/case/" + record._id}>{record.casename.length > 23 ? record.casename.substr(0, 20) + '...' : record.casename}</Link>
+            return <Link to={"/project/" + currProjectId + "/interface/case/" + record._id}>{record.casename.length > 23 ? record.casename.substr(0, 20) + '...' : record.casename}</Link>
           }
         ]
       }
