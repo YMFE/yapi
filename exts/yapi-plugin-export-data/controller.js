@@ -125,7 +125,7 @@ class exportController extends baseController {
           return '';
         }
       );
-      console.log('left', left);
+      
       return createHtml5(left || '', content);
     }
 

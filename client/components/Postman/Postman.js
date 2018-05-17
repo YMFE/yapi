@@ -85,6 +85,7 @@ export default class Run extends Component {
       test_script: '',
       hasPlugin: true,
       inputValue: '',
+      cursurPosition: -1,
       envModalVisible: false,
       test_res_header: null,
       test_res_body: null,
@@ -141,21 +142,25 @@ export default class Run extends Component {
     const { req_body_other, req_body_type, req_body_is_json_schema } = data;
     let body = req_body_other;
     // 运行时才会进行转换
-    if (this.props.type === 'inter' && req_body_type === 'json' && req_body_other && req_body_is_json_schema) {
-      
-      let schema = {}
+    if (
+      this.props.type === 'inter' &&
+      req_body_type === 'json' &&
+      req_body_other &&
+      req_body_is_json_schema
+    ) {
+      let schema = {};
       try {
         schema = json5.parse(req_body_other);
       } catch (e) {
-        console.log('e',e)
-        return ;
+        console.log('e', e);
+        return;
       }
       let result = await axios.post('/api/interface/schema2json', {
         schema: schema,
         required: true
       });
       body = JSON.stringify(result.data);
-      console.log('body',body);
+      console.log('body', body);
     }
 
     this.setState(
@@ -322,28 +327,67 @@ export default class Run extends Component {
 
   // 模态框的相关操作
   showModal = (val, index, type) => {
+    let oTxt1 = document.getElementById(`${type}_${index}`);
+    let cursurPosition = oTxt1.selectionStart;
+    
+    let inputValue = this.getInstallValue(val || '', cursurPosition).val
     this.setState({
       modalVisible: true,
       inputIndex: index,
-      inputValue: val,
+      inputValue,
+      cursurPosition,
       modalType: type
     });
   };
 
+  // 点击插入
   handleModalOk = val => {
     const { inputIndex, modalType } = this.state;
-    switch (modalType) {
-      case 'req_body_form':
-        this.changeBody(val, inputIndex);
-        break;
-      default:
-        this.changeParam(modalType, val, inputIndex);
-        break;
-    }
+    this.changeInstallParam(modalType, val, inputIndex);
     this.setState({ modalVisible: false });
   };
+
   handleModalCancel = () => {
-    this.setState({ modalVisible: false });
+    this.setState({ modalVisible: false, cursurPosition: -1 });
+  };
+
+  
+
+  // 获取截取的字符串
+  getInstallValue = (oldValue, cursurPosition) => {
+    let left = oldValue.substr(0, cursurPosition);
+    let right = oldValue.substr(cursurPosition);
+    
+    let leftPostion = left.lastIndexOf('{{');
+    let leftPostion2 = left.lastIndexOf('}}');
+    let rightPostion = right.indexOf('}}');
+    // console.log(leftPostion, leftPostion2,rightPostion, rightPostion2);
+    let val = '';
+    // 需要切除原来的变量
+    if (leftPostion !== -1 && rightPostion !==-1 && leftPostion > leftPostion2) {
+      left = left.substr(0, leftPostion);
+      right = right.substr(rightPostion + 2);
+      val = oldValue.substring(leftPostion, cursurPosition+rightPostion+2)
+    }
+    return {
+      left,
+      right,
+      val
+    };
+  }
+
+  // 根据鼠标位置动态插入数据
+  changeInstallParam = (name, v, index, key) => {
+    key = key || 'value';
+    const pathParam = deepCopyJson(this.state[name]);
+    let oldValue = pathParam[index][key] || '';
+    let newValue = this.getInstallValue(oldValue, this.state.cursurPosition)
+    let left = newValue.left;
+    let right = newValue.right;
+    pathParam[index][key] = `${left}${v}${right}`;
+    this.setState({
+      [name]: pathParam
+    });
   };
 
   // 环境变量模态框相关操作
@@ -492,6 +536,7 @@ export default class Run extends Component {
                     className="value"
                     onChange={e => this.changeParam('req_params', e.target.value, index)}
                     placeholder="参数值"
+                    id={`req_params_${index}`}
                     addonAfter={
                       <Icon
                         type="edit"
@@ -538,6 +583,7 @@ export default class Run extends Component {
                     className="value"
                     onChange={e => this.changeParam('req_query', e.target.value, index)}
                     placeholder="参数值"
+                    id={`req_query_${index}`}
                     addonAfter={
                       <Icon
                         type="edit"
@@ -564,6 +610,7 @@ export default class Run extends Component {
                     className="value"
                     onChange={e => this.changeParam('req_headers', e.target.value, index)}
                     placeholder="参数值"
+                    id={`req_headers_${index}`}
                     addonAfter={
                       !item.abled && (
                         <Icon
@@ -638,6 +685,7 @@ export default class Run extends Component {
                             className="value"
                             onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
+                            id={`req_body_form_${index}`}
                             addonAfter={
                               <Icon
                                 type="edit"
