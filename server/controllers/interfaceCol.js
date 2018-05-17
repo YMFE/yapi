@@ -333,7 +333,20 @@ class interfaceColController extends baseController {
         let interfaceData = await this.interfaceModel.get(params.interface_list[i]);
         data.interface_id = params.interface_list[i];
         data.casename = interfaceData.title;
-        data.req_body_other = interfaceData.req_body_other;
+        
+        // 处理json schema 解析
+        if(interfaceData.req_body_type === 'json' && interfaceData.req_body_other && interfaceData.req_body_is_json_schema) {
+          let req_body_other = yapi.commons.json_parse(interfaceData.req_body_other)
+          req_body_other = yapi.commons.schemaToJson(req_body_other, {
+            alwaysFakeOptionals: true
+          })
+
+          data.req_body_other = JSON.stringify(req_body_other)
+          
+        } else {
+          data.req_body_other = interfaceData.req_body_other;
+        }
+       
         data.req_body_type = interfaceData.req_body_type;
         let caseResultData=  await this.caseModel.save(data);
         let username = this.getUsername();

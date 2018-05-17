@@ -147,8 +147,9 @@ class openController extends baseController{
       let item = caseList[i];
       
       item.id = item._id;
+      
       item.case_env = curEnv || item.case_env;
-      item.req_headers = this.handleReqHeader(item.req_headers, projectData.env, curEnv)
+      item.req_headers = this.handleReqHeader(item.req_headers, projectData.env, item.case_env)
       item.pre_script = projectData.pre_script;
       item.after_script = projectData.after_script;
       item.env= projectData.env;

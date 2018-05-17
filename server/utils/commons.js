@@ -43,6 +43,7 @@ exports.schemaToJson = function(schema, options={}){
   let result
   try{
     result = jsf(schema)
+    
   }catch(err){
     result = err.message
   }

@@ -442,7 +442,7 @@ class interfaceController extends baseController {
         item = result[i].toObject()
         list = await this.Model.listByCatid(item._id)
         for (let j = 0; j < list.length; j++) {
-          list[j] = list[j].toObject()
+          list[j] = list[j].toObject() 
         }
         
         item.list = list;
@@ -1020,6 +1020,7 @@ class interfaceController extends baseController {
     let res = yapi.commons.schemaToJson(schema, {
       alwaysFakeOptionals: required ? true : false
     })
+    // console.log('res',res)
     return ctx.body = res; 
     
   }
