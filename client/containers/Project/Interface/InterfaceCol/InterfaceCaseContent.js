@@ -48,7 +48,10 @@ export default class InterfaceCaseContent extends Component {
 
   state = {
     isEditingCasename: true,
-    editCasename: ''
+    editCasename: '',
+    env: [{
+      header:[]
+    }]
   }
 
   constructor(props) {
@@ -68,7 +71,6 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentWillMount() {
-    
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
     let { currCaseId } = this.props;
     const params = this.props.match.params;
@@ -78,7 +80,9 @@ export default class InterfaceCaseContent extends Component {
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
     await this.props.fetchCaseData(currCaseId)
     this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false })
-    this.setState({ editCasename: this.props.currCase.casename })
+    
+    await this.getCurrEnv()
+    this.setState({ editCasename: this.props.currCase.casename})
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -86,14 +90,26 @@ export default class InterfaceCaseContent extends Component {
     const newCaseId = nextProps.match.params.actionId
     const { interfaceColList } = nextProps;
     let currColId = this.getColId(interfaceColList, newCaseId);
-
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false })
-      
-      this.setState({ editCasename: this.props.currCase.casename })
+      await this.getCurrEnv()
+      this.setState({ editCasename: this.props.currCase.casename})
     }
   }
+
+  // 获取当前case的环境变量
+
+  getCurrEnv = async () => {
+    const projectId = this.props.currCase.project_id
+    let projectResult = await axios.get('/api/project/get?id=' + projectId);
+
+
+    console.log('project_id', projectResult.data.data.env)
+    this.setState({
+      env: projectResult.data.data.env
+    })
+  } 
 
   
 
@@ -163,10 +179,10 @@ export default class InterfaceCaseContent extends Component {
 
   render() {
     const { currCase, currProject } = this.props;
-    const { isEditingCasename, editCasename } = this.state;
+    const { isEditingCasename, editCasename,env } = this.state;
     
     const data = Object.assign({}, currCase, {
-      env: currProject.env,
+      env: env.length > 0 ? env : currProject.env,  
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
     }, { _id: currCase._id });

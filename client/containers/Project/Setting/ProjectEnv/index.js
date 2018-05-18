@@ -28,28 +28,33 @@ class ProjectEnv extends Component {
     onOk: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      env: [],
+      _id: null,
+      currentEnvMsg: {},
+      delIcon: null,
+      currentKey: -2
+    };
+  }
+
   initState(curdata, id) {
     let newValue = {};
     newValue['env'] = [].concat(curdata);
     newValue['_id'] = id;
-    return Object.assign(
-      {
-        currentEnvMsg: {},
-        delIcon: null,
-        currentKey: -2
-      },
-      newValue
-    );
-  }
+    this.setState({
+      ...this.state,
+      ...newValue
+    });
+    
+  } 
 
-  constructor(props) {
-    super(props);
-    const { env, _id } = props.projectMsg;
-    this.state = this.initState(env, _id);
-  }
   async componentWillMount() {
     await this.props.getProject(this.props.projectId);
-    this.handleClick(0, this.state.env[0]);
+    const { env, _id } = this.props.projectMsg;
+    this.initState(env, _id);
+    this.handleClick(0, env[0]);
   }
 
   handleClick = (key, data) => {
@@ -139,6 +144,7 @@ class ProjectEnv extends Component {
 
   render() {
     const { env, currentKey } = this.state;
+
     const envSettingItems = env.map((item, index) => {
       return (
         <Row

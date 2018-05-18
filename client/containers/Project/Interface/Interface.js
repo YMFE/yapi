@@ -82,7 +82,7 @@ class Interface extends Component {
     this.props.setColData({
       isShowCol: true
     })
-    this.props.getProject(this.props.match.params.id)
+    // this.props.getProject(this.props.match.params.id)
   }
   render() {
     const { action } = this.props.match.params;
