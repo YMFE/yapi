@@ -185,7 +185,12 @@ let routerConfig = {
 			"action": "upSet",
 			"path": "upset",
 			"method": "post"
-		}, {
+    }, {
+      "action": "getEnv",
+			"path": "get_env",
+			"method": "get"
+    },
+    {
 			"action": "add",
 			"path": "add",
 			"method": "post"

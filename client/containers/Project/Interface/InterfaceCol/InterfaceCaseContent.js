@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { message, Tooltip, Input } from 'antd'
+import { getEnv } from '../../../../reducer/modules/project'
 import { fetchInterfaceColList, setColData, fetchCaseData, fetchCaseList } from '../../../../reducer/modules/interfaceCol'
 import { Postman } from '../../../../components'
 
@@ -18,14 +19,16 @@ import './InterfaceCaseContent.scss'
       currCaseId: state.interfaceCol.currCaseId,
       currCase: state.interfaceCol.currCase,
       isShowCol: state.interfaceCol.isShowCol,
-      currProject: state.project.currProject
+      currProject: state.project.currProject,
+      projectEnv: state.project.projectEnv
     }
   },
   {
     fetchInterfaceColList,
     fetchCaseData,
     setColData,
-    fetchCaseList
+    fetchCaseList,
+    getEnv
   }
 )
 @withRouter
@@ -43,15 +46,15 @@ export default class InterfaceCaseContent extends Component {
     currCaseId: PropTypes.number,
     currCase: PropTypes.object,
     isShowCol: PropTypes.bool,
-    currProject: PropTypes.object
+    currProject: PropTypes.object,
+    getEnv: PropTypes.func,
+    projectEnv: PropTypes.object
   }
 
   state = {
     isEditingCasename: true,
-    editCasename: '',
-    env: [{
-      header:[]
-    }]
+    editCasename: ''
+    
   }
 
   constructor(props) {
@@ -71,6 +74,7 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentWillMount() {
+   
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id)
     let { currCaseId } = this.props;
     const params = this.props.match.params;
@@ -80,8 +84,10 @@ export default class InterfaceCaseContent extends Component {
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId)
     await this.props.fetchCaseData(currCaseId)
     this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false })
+    // 获取当前case 下的环境变量
+    await this.props.getEnv(this.props.currCase.project_id)
+    // await this.getCurrEnv()
     
-    await this.getCurrEnv()
     this.setState({ editCasename: this.props.currCase.casename})
   }
 
@@ -93,23 +99,11 @@ export default class InterfaceCaseContent extends Component {
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false })
-      await this.getCurrEnv()
+      await this.props.getEnv(this.props.currCase.project_id)
+      // await this.getCurrEnv()
       this.setState({ editCasename: this.props.currCase.casename})
     }
   }
-
-  // 获取当前case的环境变量
-
-  getCurrEnv = async () => {
-    const projectId = this.props.currCase.project_id
-    let projectResult = await axios.get('/api/project/get?id=' + projectId);
-
-
-    console.log('project_id', projectResult.data.data.env)
-    this.setState({
-      env: projectResult.data.data.env
-    })
-  } 
 
   
 
@@ -178,11 +172,11 @@ export default class InterfaceCaseContent extends Component {
   }
 
   render() {
-    const { currCase, currProject } = this.props;
-    const { isEditingCasename, editCasename,env } = this.state;
+    const { currCase, currProject, projectEnv } = this.props;
+    const { isEditingCasename, editCasename } = this.state;
     
     const data = Object.assign({}, currCase, {
-      env: env.length > 0 ? env : currProject.env,  
+      env: projectEnv.env,  
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
     }, { _id: currCase._id });

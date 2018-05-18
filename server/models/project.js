@@ -54,6 +54,12 @@ class projectModel extends baseModel {
     }).exec();
   }
 
+  getByEnv(id) {
+    return this.model.findOne({
+      _id: id
+    }).select('env').exec();
+  }
+
   getProjectWithAuth(group_id, uid) {
     return this.model.count({
       "group_id": group_id,

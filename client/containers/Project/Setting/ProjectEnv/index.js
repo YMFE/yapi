@@ -5,7 +5,7 @@ import { Icon, Layout, Tooltip, message, Row, Popconfirm } from 'antd';
 const { Content, Sider } = Layout;
 import ProjectEnvContent from './ProjectEnvContent.js';
 import { connect } from 'react-redux';
-import { updateEnv, getProject } from '../../../../reducer/modules/project';
+import { updateEnv, getProject, getEnv } from '../../../../reducer/modules/project';
 import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 
 @connect(
@@ -16,7 +16,8 @@ import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
   },
   {
     updateEnv,
-    getProject
+    getProject,
+    getEnv
   }
 )
 class ProjectEnv extends Component {
@@ -25,7 +26,8 @@ class ProjectEnv extends Component {
     updateEnv: PropTypes.func,
     getProject: PropTypes.func,
     projectMsg: PropTypes.object,
-    onOk: PropTypes.func
+    onOk: PropTypes.func,
+    getEnv: PropTypes.func
   };
 
   constructor(props) {
@@ -103,6 +105,7 @@ class ProjectEnv extends Component {
       .then(res => {
         if (res.payload.data.errcode == 0) {
           this.props.getProject(this.props.projectId);
+          this.props.getEnv(this.props.projectId)
           message.success('修改成功! ');
           this.setState({ ...assignValue });
         }

@@ -864,6 +864,42 @@ class projectController extends baseController {
     }
   }
 
+
+   /**
+   * 获取项目的环境变量值
+   * @interface /project/get_env
+   * @method GET
+   * @category project
+   * @foldnumber 10
+   * @param {Number} id 项目id，不能为空
+
+   * @returns {Object}
+   * @example
+   */
+  async getEnv(ctx) {
+    try {
+      // console.log(ctx.request.query.project_id)
+      let project_id = ctx.request.query.project_id;
+      // let params = ctx.request.body;
+      if (!project_id) {
+        return (ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空'));
+      }
+
+      if ((await this.checkAuth(project_id, 'project', 'edit')) !== true) {
+        return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
+      }
+
+      let env = await this.Model.getByEnv(project_id);
+      // console.log('project', projectData)
+    
+      ctx.body = yapi.commons.resReturn(env);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+
+
   arrRepeat(arr, key) {
     const s = new Set();
     arr.forEach(item => s.add(item[key]));

@@ -18,6 +18,7 @@ const GET_TOKEN = 'yapi/project/GET_TOKEN';
 const UPDATE_TOKEN = 'yapi/project/UPDATE_TOKEN';
 const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
+const PROJECT_GET_ENV = 'yapi/project/PROJECT_GET_ENV';
 
 // Reducer
 const initialState = {
@@ -30,7 +31,14 @@ const initialState = {
   total: 0,
   currPage: 1,
   token: '',
-  currProject: {}
+  currProject: {},
+  projectEnv: {
+    env: [
+      {
+        header: []
+      }
+    ]
+  }
 };
 
 export default (state = initialState, action) => {
@@ -62,6 +70,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: action.payload.data.data
+      };
+    }
+
+    case PROJECT_GET_ENV: {
+      return {
+        ...state,
+        projectEnv: action.payload.data.data
       };
     }
     case UPDATE_TOKEN: {
@@ -217,6 +232,14 @@ export function updateEnv(data) {
   return {
     type: PROJECT_UPDATE_ENV,
     payload: axios.post('/api/project/up_env', param)
+  };
+}
+
+// 获取项目环境配置
+export function getEnv(project_id) {
+  return {
+    type: PROJECT_GET_ENV,
+    payload: axios.get('/api/project/get_env', { params: { project_id } })
   };
 }
 
