@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Tooltip, Icon, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
-import { getToken } from '../../../../reducer/modules/project';
+import { getToken, getEnv } from '../../../../reducer/modules/project';
 import { DragDropContext } from 'react-dnd';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
@@ -46,14 +46,16 @@ function handleReport(json) {
       currCaseList: state.interfaceCol.currCaseList,
       currProject: state.project.currProject,
       token: state.project.token,
-      curProjectRole: state.project.currProject.role
+      curProjectRole: state.project.currProject.role,
+      projectEnv: state.project.projectEnv
     }
   },
   {
     fetchInterfaceColList,
     fetchCaseList,
     setColData,
-    getToken
+    getToken,
+    getEnv
   }
 )
 @withRouter
@@ -75,7 +77,9 @@ class InterfaceColContent extends Component {
     currProject: PropTypes.object,
     getToken: PropTypes.func,
     token: PropTypes.string,
-    curProjectRole: PropTypes.string
+    curProjectRole: PropTypes.string,
+    getEnv: PropTypes.func,
+    projectEnv: PropTypes.object
   }
 
   constructor(props) {
@@ -183,8 +187,11 @@ class InterfaceColContent extends Component {
   executeTests = async () => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
+      
+      await this.props.getEnv(rows[i].project_id)
+      
       curitem = Object.assign({}, rows[i], {
-        env: this.props.currProject.env,
+        env: this.props.projectEnv.env,
         pre_script: this.props.currProject.pre_script,
         after_script: this.props.currProject.after_script
       }, { test_status: 'loading' });

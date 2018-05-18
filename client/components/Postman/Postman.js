@@ -178,17 +178,19 @@ export default class Run extends Component {
   }
 
   initEnvState(case_env, env) {
+    
     let headers = this.handleReqHeader(case_env, env);
+    
     this.setState(
       {
         req_headers: headers,
         env: env
       },
       () => {
-        console.log('case_env', this.state.case_env)
+        
         let s = !_.find(env, item => item.name === this.state.case_env);
         if (!this.state.case_env || s) {
-          console.log('env',env)
+          
           this.setState({
             case_env: this.state.env[0].name
           });
@@ -218,7 +220,7 @@ export default class Run extends Component {
         this.initState(nextProps.data);
       }
       if (nextProps.data.env !== this.props.data.env) {
-        this.initEnvState(nextProps.data.case_env,nextProps.data.env);
+        this.initEnvState(this.state.case_env,nextProps.data.env);
       }
     }
   }

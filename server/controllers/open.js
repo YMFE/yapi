@@ -138,6 +138,7 @@ class openController extends baseController{
     
     let projectData = await this.projectModel.get(projectId);
     
+    
     let caseList = await yapi.commons.getCaseList(id);
     if(caseList.errcode !== 0){
       ctx.body = caseList
@@ -145,6 +146,7 @@ class openController extends baseController{
     caseList = caseList.data;
     for(let i=0, l= caseList.length; i< l; i++){
       let item = caseList[i];
+      let projectEvn = await this.projectModel.getByEnv(item.project_id)
       
       item.id = item._id;
       
@@ -152,7 +154,7 @@ class openController extends baseController{
       item.req_headers = this.handleReqHeader(item.req_headers, projectData.env, item.case_env)
       item.pre_script = projectData.pre_script;
       item.after_script = projectData.after_script;
-      item.env= projectData.env;
+      item.env= projectEvn.env;
       let result;
       try{
         result = await this.handleTest(item);
