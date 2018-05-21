@@ -57,7 +57,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 便利蜂
 
 ### Authors
-* [suxiaoxin](https://github.com/suxiaoxin)
+* [hellosean1025](https://github.com/hellosean1025)
 * [zwjamnsss](https://github.com/amnsss)
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
