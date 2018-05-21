@@ -447,7 +447,11 @@ let routerConfig = {
 		action: "runCaseScript",
 		path: "run_script",
 		method: "post"
-	}
+	},{
+    action: 'getCaseEnvList',
+    path: 'case_env_list',
+    method: 'get'
+  }
 	],
 	"test": [{
 		action: "testPost",

@@ -143,6 +143,51 @@ class interfaceColController extends baseController {
     }
   }
 
+
+  /**
+   * 获取一个接口集下的所有的测试用例的环境变量
+   * @interface /col/case_env_list
+   * @method GET
+   * @category col
+   * @foldnumber 10
+   * @param {String} col_id 接口集id
+   * @returns {Object}
+   * @example
+   */
+  async getCaseEnvList(ctx) {
+    try {
+      let id = ctx.query.col_id;
+      if (!id || id == 0) {
+        return ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空')
+      }
+      
+      let colData = await this.colModel.get(id);
+      let project = await this.projectModel.getBaseInfo(colData.project_id);
+      if (project.project_type === 'private') {
+        if (await this.checkAuth(project._id, 'project', 'view') !== true) {
+          return ctx.body = yapi.commons.resReturn(null, 406, '没有权限');
+        }
+      }
+
+      //  let caseList= await yapi.commons.getCaseList(id);
+      // 通过col_id 找到 caseList
+      let projectList = await this.caseModel.list(id, 'project_id')
+      // 对projectList 进行去重处理
+       projectList = this.unique(projectList, 'project_id')
+       
+       // 遍历projectList 找到项目和env
+       let projectEnvList =[]
+       for(let i=0 ; i< projectList.length; i++) {
+         let result = await this.projectModel.getBaseInfo(projectList[i], 'name  env');
+         projectEnvList.push(result)
+       }
+       ctx.body = yapi.commons.resReturn(projectEnvList);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+
   requestParamsToObj(arr) {
     if (!arr || !Array.isArray(arr) || arr.length === 0) {
       return {}
@@ -782,6 +827,20 @@ class interfaceColController extends baseController {
     let params = ctx.request.body;
     ctx.body = await yapi.commons.runCaseScript(params);
   }
+
+  // 数组去重
+  unique(array, compare) {
+  let hash = {};
+  let arr = array.reduce(function(item, next) {
+    hash[next[compare]] ? '' : (hash[next[compare]] = true && item.push(next));
+    // console.log('item',item.project_id)
+    return item;
+  }, []);
+  // 输出去重以后的project_id
+  return arr.map(item => {
+    return item[compare]
+  })
+}
 
 }
 
