@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Tooltip, Icon, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd'
 import { fetchInterfaceColList, fetchCaseList, setColData } from '../../../../reducer/modules/interfaceCol'
 import HTML5Backend from 'react-dnd-html5-backend';
-import { getToken, getEnv } from '../../../../reducer/modules/project';
+import { getToken, getEnv, fetchProjectList } from '../../../../reducer/modules/project';
 import { DragDropContext } from 'react-dnd';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
@@ -20,6 +20,7 @@ import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js
 import produce from 'immer'
 const { handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray } = require('common/postmanLib.js')
 const {handleParamsValue, json_parse} = require('common/utils.js')
+import CaseEnv from 'client/components/CaseEnv'
 
 const Option = Select.Option;
 import copy from 'copy-to-clipboard';
@@ -46,6 +47,7 @@ function handleReport(json) {
       currCaseList: state.interfaceCol.currCaseList,
       currProject: state.project.currProject,
       token: state.project.token,
+      projectList: state.project.projectList,
       curProjectRole: state.project.currProject.role,
       projectEnv: state.project.projectEnv
     }
@@ -55,7 +57,8 @@ function handleReport(json) {
     fetchCaseList,
     setColData,
     getToken,
-    getEnv
+    getEnv,
+    fetchProjectList
   }
 )
 @withRouter
@@ -79,7 +82,9 @@ class InterfaceColContent extends Component {
     token: PropTypes.string,
     curProjectRole: PropTypes.string,
     getEnv: PropTypes.func,
-    projectEnv: PropTypes.object
+    projectEnv: PropTypes.object,
+    fetchProjectList: PropTypes.func,
+    projectList: PropTypes.array
   }
 
   constructor(props) {
@@ -131,6 +136,9 @@ class InterfaceColContent extends Component {
         hasPlugin: hasPlugin
       })
     });
+    console.log('project', this.props.currProject)
+    const group_id = this.props.currProject.group_id;
+    await this.props.fetchProjectList(group_id)
 
   }
 
@@ -610,6 +618,8 @@ class InterfaceColContent extends Component {
     let colEnv = this.props.currProject.env || [];
     const localUrl = location.protocol + '//' + location.hostname + (location.port !== "" ? ":" + location.port : "");
     const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${this.props.token}${this.state.currColEnv ? '&env_name='+this.state.currColEnv: ''}&mode=${this.state.mode}&email=${this.state.email}`;
+    // console.log('projectList', this.props.projectList)
+    
     return (
       <div className="interface-col">
         <h2 className="interface-title" style={{ display: 'inline-block', margin: "0 20px", marginBottom: '16px' }}>测试集合&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/documents/case.html" >
@@ -641,6 +651,8 @@ class InterfaceColContent extends Component {
             <Button disabled type="primary" style={{ float: 'right' }} >开始测试</Button>
           </Tooltip>
         }
+
+        <CaseEnv data = {rows} projectList={this.props.projectList}/>
 
         <Table.Provider
           components={components}
