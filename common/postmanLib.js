@@ -128,6 +128,7 @@ function checkNameIsExistInArray(name, arr) {
 
 function handleCurrDomain(domains, case_env) {
   let currDomain = _.find(domains, item => item.name === case_env);
+  
   if (!currDomain) {
     currDomain = domains[0];
   }

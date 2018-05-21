@@ -109,7 +109,8 @@ class InterfaceColContent extends Component {
       enableScript: false,
       autoVisible: false,
       mode: 'html',
-      email: false
+      email: false,
+      currColEnvObj: {}
       
     };
     this.onRow = this.onRow.bind(this);
@@ -488,10 +489,11 @@ class InterfaceColContent extends Component {
     // this.setState({
     //   [id]: envName
     // });
-    // let currColEnvObj = {
-    //   ...this.state.currColEnvObj,
-    //   [id]: envName
-    // }
+    let currColEnvObj = {
+      ...this.state.currColEnvObj,
+      [project_id]: envName
+    }
+    this.setState({currColEnvObj})
     this.handleColdata(this.props.currCaseList, envName, project_id)
     
   };
@@ -526,6 +528,15 @@ class InterfaceColContent extends Component {
       email
     });
   };
+
+  handleColEnvObj = envObj => {
+    
+    let str = ''
+    for(let key in envObj) {
+      str += envObj[key] ? `&env_${key}= ${envObj[key]}`: ''
+    }
+    return str
+  }
 
   render() {
     // console.log('rows',this.props.currProject);
@@ -719,12 +730,13 @@ class InterfaceColContent extends Component {
       '//' +
       location.hostname +
       (location.port !== '' ? ':' + location.port : '');
+    let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj)
     const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${
       this.props.token
-    }${this.state.currColEnv ? '&env_name=' + this.state.currColEnv : ''}&mode=${
+    }${currColEnvObj ? currColEnvObj : ''}&mode=${
       this.state.mode
     }&email=${this.state.email}`;
-    // console.log('projectList', this.props.projectList)
+    
 
     return (
       <div className="interface-col">

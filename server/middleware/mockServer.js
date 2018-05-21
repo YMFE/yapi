@@ -222,7 +222,8 @@ module.exports = async (ctx, next) => {
         } else {
           // console.log('header', ctx.request.header['content-type'].indexOf('multipart/form-data'))
           // 处理 format-data
-          if(ctx.request.header['content-type'].indexOf('multipart/form-data') > -1) {
+          
+          if(_.isString(ctx.request.header['content-type'])&&ctx.request.header['content-type'].indexOf('multipart/form-data') > -1) {
             ctx.request.body = ctx.request.body.fields;
           }
           // console.log('body', ctx.request.body)
