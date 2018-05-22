@@ -169,7 +169,7 @@ class interfaceColController extends baseController {
         }
       }
 
-      //  let caseList= await yapi.commons.getCaseList(id);
+      
       // 通过col_id 找到 caseList
       let projectList = await this.caseModel.list(id, 'project_id')
       // 对projectList 进行去重处理

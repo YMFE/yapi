@@ -1,19 +1,25 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
+import React, {PureComponent as Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
+import {withRouter} from 'react-router';
+import {Link} from 'react-router-dom';
 //import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd';
 import {
-  fetchInterfaceColList,
-  fetchCaseList,
-  setColData,
-  fetchCaseEnvList
-} from '../../../../reducer/modules/interfaceCol';
+  Tooltip,
+  Icon,
+  Button,
+  Row,
+  Col,
+  Spin,
+  Modal,
+  message,
+  Select,
+  Switch
+} from 'antd';
+import {fetchInterfaceColList, fetchCaseList, setColData, fetchCaseEnvList} from '../../../../reducer/modules/interfaceCol';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { getToken, getEnv } from '../../../../reducer/modules/project';
-import { DragDropContext } from 'react-dnd';
+import {getToken, getEnv} from '../../../../reducer/modules/project';
+import {DragDropContext} from 'react-dnd';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import * as Table from 'reactabular-table';
 import * as dnd from 'reactabular-dnd';
@@ -21,18 +27,14 @@ import * as resolve from 'table-resolver';
 import axios from 'axios';
 import CaseReport from './CaseReport.js';
 import _ from 'underscore';
-import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js';
+import {initCrossRequest} from 'client/components/Postman/CheckCrossInstall.js';
 import produce from 'immer';
-const {
-  handleParams,
-  crossRequest,
-  handleCurrDomain,
-  checkNameIsExistInArray
-} = require('common/postmanLib.js');
-const { handleParamsValue, json_parse } = require('common/utils.js');
+const {handleParams, crossRequest, handleCurrDomain, checkNameIsExistInArray} = require('common/postmanLib.js');
+const {handleParamsValue, json_parse} = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
 
 const Option = Select.Option;
+
 import copy from 'copy-to-clipboard';
 
 function handleReport(json) {
@@ -43,31 +45,28 @@ function handleReport(json) {
   }
 }
 
-@connect(
-  state => {
-    return {
-      interfaceColList: state.interfaceCol.interfaceColList,
-      currColId: state.interfaceCol.currColId,
-      currCaseId: state.interfaceCol.currCaseId,
-      isShowCol: state.interfaceCol.isShowCol,
-      isRander: state.interfaceCol.isRander,
-      currCaseList: state.interfaceCol.currCaseList,
-      currProject: state.project.currProject,
-      token: state.project.token,
-      envList: state.interfaceCol.envList,
-      curProjectRole: state.project.currProject.role,
-      projectEnv: state.project.projectEnv
-    };
-  },
-  {
-    fetchInterfaceColList,
-    fetchCaseList,
-    setColData,
-    getToken,
-    getEnv,
-    fetchCaseEnvList
-  }
-)
+@connect(state => {
+  return {
+    interfaceColList: state.interfaceCol.interfaceColList,
+    currColId: state.interfaceCol.currColId,
+    currCaseId: state.interfaceCol.currCaseId,
+    isShowCol: state.interfaceCol.isShowCol,
+    isRander: state.interfaceCol.isRander,
+    currCaseList: state.interfaceCol.currCaseList,
+    currProject: state.project.currProject,
+    token: state.project.token,
+    envList: state.interfaceCol.envList,
+    curProjectRole: state.project.currProject.role,
+    projectEnv: state.project.projectEnv
+  };
+}, {
+  fetchInterfaceColList,
+  fetchCaseList,
+  setColData,
+  getToken,
+  getEnv,
+  fetchCaseEnvList
+})
 @withRouter
 @DragDropContext(HTML5Backend)
 class InterfaceColContent extends Component {
@@ -103,7 +102,7 @@ class InterfaceColContent extends Component {
       visible: false,
       curCaseid: null,
       hasPlugin: false,
-      currColEnv: '',
+
       advVisible: false,
       curScript: '',
       enableScript: false,
@@ -111,42 +110,59 @@ class InterfaceColContent extends Component {
       mode: 'html',
       email: false,
       currColEnvObj: {}
-      
     };
-    this.onRow = this.onRow.bind(this);
-    this.onMoveRow = this.onMoveRow.bind(this);
+    this.onRow = this
+      .onRow
+      .bind(this);
+    this.onMoveRow = this
+      .onMoveRow
+      .bind(this);
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
-    await this.props.getToken(this.props.match.params.id);
-    let { currColId } = this.props;
+    const result = await this
+      .props
+      .fetchInterfaceColList(this.props.match.params.id);
+    await this
+      .props
+      .getToken(this.props.match.params.id);
+    let {currColId} = this.props;
     const params = this.props.match.params;
-    const { actionId } = params;
+    const {actionId} = params;
     this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
-    this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
+    this
+      .props
+      .history
+      .push('/project/' + params.id + '/interface/col/' + currColId);
     if (currColId && currColId != 0) {
-      let result = await this.props.fetchCaseList(currColId);
+      let result = await this
+        .props
+        .fetchCaseList(currColId);
 
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
       }
 
-      await this.props.fetchCaseEnvList(currColId);
+      await this
+        .props
+        .fetchCaseEnvList(currColId);
 
-      this.props.setColData({ currColId: +currColId, isShowCol: true, isRander: false });
+      this
+        .props
+        .setColData({
+          currColId: + currColId,
+          isShowCol: true,
+          isRander: false
+        });
 
       this.handleColdata(this.props.currCaseList);
     }
 
     this._crossRequestInterval = initCrossRequest(hasPlugin => {
-      this.setState({
-        hasPlugin: hasPlugin
-      });
+      this.setState({hasPlugin: hasPlugin});
     });
-    // console.log('project', this.props.currProject)
-    // const group_id = this.props.currProject.group_id;
-    // await this.props.fetchProjectList(group_id)
+    // console.log('project', this.props.currProject) const group_id =
+    // this.props.currProject.group_id; await this.props.fetchProjectList(group_id)
   }
 
   componentWillUnmount() {
@@ -158,8 +174,7 @@ class InterfaceColContent extends Component {
     let envItem = _.find(this.props.envList, item => {
       return item._id === project_id;
     });
-    // let env = this.props.currProject.env;
-    // console.log('env', case_env);
+    // let env = this.props.currProject.env; console.log('env', case_env);
     let currDomain = handleCurrDomain(envItem.env, case_env);
     let header = currDomain.header;
     // console.log('header', header)
@@ -177,58 +192,44 @@ class InterfaceColContent extends Component {
   };
 
   handleColdata = (rows, currColEnv = '', project_id = null) => {
-    // let newRows = JSON.parse(JSON.stringify(rows))
-    // newRows = newRows.map((item) => {
-    //   item.id = item._id;
-    //   item._test_status = item.test_status;
-    //   item.case_env = this.state.currColEnv || item.case_env
-    //   item.req_headers = this.handleReqHeader(item.req_headers)
-    //   return item;
-    // })
-    // const { currColEnv, curProjectId } = this.state;
-    // if (curProjectId && currColEnv) {
-    // }
-    
+    // let newRows = JSON.parse(JSON.stringify(rows)) newRows = newRows.map((item)
+    // => {   item.id = item._id;   item._test_status = item.test_status;
+    // item.case_env = this.state.currColEnv || item.case_env   item.req_headers =
+    // this.handleReqHeader(item.req_headers)   return item; }) const { currColEnv,
+    // curProjectId } = this.state; if (curProjectId && currColEnv) { }
+
     let that = this;
     let newRows = produce(rows, draftRows => {
       draftRows.map(item => {
-        
         item.id = item._id;
         item._test_status = item.test_status;
-        item.case_env = item.project_id === project_id ? currColEnv || item.case_env : item.case_env;
+        item.case_env = item.project_id === project_id
+          ? currColEnv || item.case_env
+          : item.case_env;
         item.req_headers = that.handleReqHeader(item.project_id, item.req_headers, item.case_env);
         return item;
       });
     });
 
-    this.setState({
-      rows: newRows
-    });
+    this.setState({rows: newRows});
   };
 
-  executeTests = async () => {
+  executeTests = async() => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
-      let { rows } = this.state;
+      let {rows} = this.state;
 
       let envItem = _.find(this.props.envList, item => {
         return item._id === rows[i].project_id;
       });
 
-      curitem = Object.assign(
-        {},
-        rows[i],
-        {
-          env: envItem.env,
-          pre_script: this.props.currProject.pre_script,
-          after_script: this.props.currProject.after_script
-        },
-        { test_status: 'loading' }
-      );
+      curitem = Object.assign({}, rows[i], {
+        env: envItem.env,
+        pre_script: this.props.currProject.pre_script,
+        after_script: this.props.currProject.after_script
+      }, {test_status: 'loading'});
       newRows = [].concat([], rows);
       newRows[i] = curitem;
-      this.setState({
-        rows: newRows
-      });
+      this.setState({rows: newRows});
       // console.log('newRows', newRows);
       let status = 'error',
         result;
@@ -254,12 +255,10 @@ class InterfaceColContent extends Component {
         body: result.res_body
       };
 
-      curitem = Object.assign({}, rows[i], { test_status: status });
+      curitem = Object.assign({}, rows[i], {test_status: status});
       newRows = [].concat([], rows);
       newRows[i] = curitem;
-      this.setState({
-        rows: newRows
-      });
+      this.setState({rows: newRows});
     }
     await axios.post('/api/col/up_col', {
       col_id: this.props.currColId,
@@ -296,19 +295,20 @@ class InterfaceColContent extends Component {
 
       let validRes = [];
 
-      let responseData = Object.assign(
-        {},
-        {
-          status: data.res.status,
-          body: res,
-          header: data.res.header,
-          statusText: data.res.statusText
-        }
-      );
+      let responseData = Object.assign({}, {
+        status: data.res.status,
+        body: res,
+        header: data.res.header,
+        statusText: data.res.statusText
+      });
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
       if (validRes.length === 0) {
         result.code = 0;
-        result.validRes = [{ message: '验证通过' }];
+        result.validRes = [
+          {
+            message: '验证通过'
+          }
+        ];
       } else if (validRes.length > 0) {
         result.code = 1;
         result.validRes = validRes;
@@ -330,7 +330,7 @@ class InterfaceColContent extends Component {
   };
 
   //response, validRes
-  handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
+  handleScriptTest = async(interfaceData, response, validRes, requestParams) => {
     if (interfaceData.enable_script !== true) {
       return null;
     }
@@ -342,11 +342,13 @@ class InterfaceColContent extends Component {
         params: requestParams
       });
       if (test.data.errcode !== 0) {
-        test.data.data.logs.forEach(item => {
-          validRes.push({
-            message: item
+        test
+          .data
+          .data
+          .logs
+          .forEach(item => {
+            validRes.push({message: item});
           });
-        });
       }
     } catch (err) {
       validRes.push({
@@ -374,45 +376,54 @@ class InterfaceColContent extends Component {
   };
 
   onRow(row) {
-    return {
-      rowId: row.id,
-      onMove: this.onMoveRow,
-      onDrop: this.onDrop
-    };
+    return {rowId: row.id, onMove: this.onMoveRow, onDrop: this.onDrop};
   }
 
   onDrop = () => {
     let changes = [];
-    this.state.rows.forEach((item, index) => {
-      changes.push({
-        id: item._id,
-        index: index
+    this
+      .state
+      .rows
+      .forEach((item, index) => {
+        changes.push({id: item._id, index: index});
       });
-    });
-    axios.post('/api/col/up_case_index', changes).then(() => {
-      this.props.fetchInterfaceColList(this.props.match.params.id);
-    });
+    axios
+      .post('/api/col/up_case_index', changes)
+      .then(() => {
+        this
+          .props
+          .fetchInterfaceColList(this.props.match.params.id);
+      });
   };
-  onMoveRow({ sourceRowId, targetRowId }) {
-    let rows = dnd.moveRows({
-      sourceRowId,
-      targetRowId
-    })(this.state.rows);
+  onMoveRow({sourceRowId, targetRowId}) {
+    let rows = dnd.moveRows({sourceRowId, targetRowId})(this.state.rows);
 
     if (rows) {
-      this.setState({ rows });
+      this.setState({rows});
     }
   }
 
   async componentWillReceiveProps(nextProps) {
-    let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
+    let newColId = !isNaN(nextProps.match.params.actionId)
+      ? + nextProps.match.params.actionId
+      : 0;
 
     if ((newColId && this.currColId && newColId !== this.currColId) || nextProps.isRander) {
       this.currColId = newColId;
-      await this.props.fetchCaseList(newColId);
-      this.props.setColData({ currColId: +newColId, isShowCol: true, isRander: false });
+      await this
+        .props
+        .fetchCaseList(newColId);
+      this
+        .props
+        .setColData({
+          currColId: + newColId,
+          isShowCol: true,
+          isRander: false
+        });
       this.handleColdata(this.props.currCaseList);
-      await this.props.fetchCaseEnvList(newColId);
+      await this
+        .props
+        .fetchCaseEnvList(newColId);
     }
   }
 
@@ -420,37 +431,25 @@ class InterfaceColContent extends Component {
     if (!this.reports[id]) {
       return message.warn('还没有生成报告');
     }
-    this.setState({
-      visible: true,
-      curCaseid: id
-    });
+    this.setState({visible: true, curCaseid: id});
   };
 
   openAdv = id => {
     let findCase = _.find(this.props.currCaseList, item => item.id === id);
 
-    this.setState({
-      enableScript: findCase.enable_script,
-      curScript: findCase.test_script,
-      advVisible: true,
-      curCaseid: id
-    });
+    this.setState({enableScript: findCase.enable_script, curScript: findCase.test_script, advVisible: true, curCaseid: id});
   };
 
   handleScriptChange = d => {
-    this.setState({
-      curScript: d.text
-    });
+    this.setState({curScript: d.text});
   };
 
   handleAdvCancel = () => {
-    this.setState({
-      advVisible: false
-    });
+    this.setState({advVisible: false});
   };
 
-  handleAdvOk = async () => {
-    const { curCaseid, enableScript, curScript } = this.state;
+  handleAdvOk = async() => {
+    const {curCaseid, enableScript, curScript} = this.state;
     const res = await axios.post('/api/col/up_case', {
       id: curCaseid,
       test_script: curScript,
@@ -459,57 +458,42 @@ class InterfaceColContent extends Component {
     if (res.data.errcode === 0) {
       message.success('更新成功');
     }
-    this.setState({
-      advVisible: false
-    });
+    this.setState({advVisible: false});
     let currColId = this.currColId;
-    await this.props.fetchCaseList(currColId);
-    this.props.setColData({ currColId: +currColId, isShowCol: true, isRander: false });
+    await this
+      .props
+      .fetchCaseList(currColId);
+    this
+      .props
+      .setColData({
+        currColId: + currColId,
+        isShowCol: true,
+        isRander: false
+      });
     this.handleColdata(this.props.currCaseList);
   };
 
   handleCancel = () => {
-    this.setState({
-      visible: false
-    });
+    this.setState({visible: false});
   };
 
-  colEnvChange = envName => {
-    this.setState(
-      {
-        currColEnv: envName
-      },
-      () => this.handleColdata(this.props.currCaseList)
-    );
-  };
-
+  // colEnvChange = envName => {   this.setState(     {       currColEnv: envName
+  //  },     () => this.handleColdata(this.props.currCaseList)   ); }; 处理各项目下的环境变量
   currProjectEnvChange = (envName, project_id) => {
-    // console.log(envName)
-    // console.log(id)
-    // this.setState({
-    //   [id]: envName
-    // });
     let currColEnvObj = {
       ...this.state.currColEnvObj,
       [project_id]: envName
-    }
-    this.setState({currColEnvObj})
-    this.handleColdata(this.props.currCaseList, envName, project_id)
-    
+    };
+    this.setState({currColEnvObj});
+    this.handleColdata(this.props.currCaseList, envName, project_id);
   };
 
   autoTests = () => {
-    this.setState({
-      autoVisible: true
-    });
+    this.setState({autoVisible: true});
   };
 
   handleAuto = () => {
-    this.setState({
-      autoVisible: false,
-      email: false,
-      mode: 'html'
-    });
+    this.setState({autoVisible: false, email: false, mode: 'html'});
   };
 
   copyUrl = url => {
@@ -518,25 +502,22 @@ class InterfaceColContent extends Component {
   };
 
   modeChange = mode => {
-    this.setState({
-      mode
-    });
+    this.setState({mode});
   };
 
   emailChange = email => {
-    this.setState({
-      email
-    });
+    this.setState({email});
   };
 
   handleColEnvObj = envObj => {
-    
-    let str = ''
-    for(let key in envObj) {
-      str += envObj[key] ? `&env_${key}= ${envObj[key]}`: ''
+    let str = '';
+    for (let key in envObj) {
+      str += envObj[key]
+        ? `&env_${key}=${envObj[key]}`
+        : '';
     }
-    return str
-  }
+    return str;
+  };
 
   render() {
     // console.log('rows',this.props.currProject);
@@ -553,41 +534,27 @@ class InterfaceColContent extends Component {
           }
         },
         cell: {
-          formatters: [
-            (text, { rowData }) => {
+          formatters: [(text, {rowData}) => {
               let record = rowData;
               return (
                 <Link to={'/project/' + currProjectId + '/interface/case/' + record._id}>
                   {record.casename.length > 23
-                    ? record.casename.substr(0, 20) + '...'
+                    ? record
+                      .casename
+                      .substr(0, 20) + '...'
                     : record.casename}
                 </Link>
               );
             }
           ]
         }
-      },
-      {
+      }, {
         header: {
           label: 'key',
-          formatters: [
-            () => {
+          formatters: [() => {
               return (
                 <Tooltip
-                  title={
-                    <span>
-                      每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用{' '}
-                      <a
-                        href="https://yapi.ymfe.org/case.html#变量参数"
-                        className="link-tooltip"
-                        target="blank"
-                      >
-                        变量参数
-                      </a>{' '}
-                      功能
-                    </span>
-                  }
-                >
+                  title={<span> 每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用 {' '} <a href = "https://yapi.ymfe.org/case.html#变量参数" className = "link-tooltip" target = "blank" > 变量参数 </a>{' '} 功能 </span>}>
                   Key
                 </Tooltip>
               );
@@ -600,14 +567,12 @@ class InterfaceColContent extends Component {
           }
         },
         cell: {
-          formatters: [
-            (value, { rowData }) => {
+          formatters: [(value, {rowData}) => {
               return <span>{rowData._id}</span>;
             }
           ]
         }
-      },
-      {
+      }, {
         property: 'test_status',
         header: {
           label: '状态'
@@ -618,14 +583,15 @@ class InterfaceColContent extends Component {
           }
         },
         cell: {
-          formatters: [
-            (value, { rowData }) => {
+          formatters: [(value, {rowData}) => {
               let id = rowData._id;
-              let code = this.reports[id] ? this.reports[id].code : 0;
+              let code = this.reports[id]
+                ? this.reports[id].code
+                : 0;
               if (rowData.test_status === 'loading') {
                 return (
                   <div>
-                    <Spin />
+                    <Spin/>
                   </div>
                 );
               }
@@ -635,7 +601,11 @@ class InterfaceColContent extends Component {
                   return (
                     <div>
                       <Tooltip title="Pass">
-                        <Icon style={{ color: '#00a854' }} type="check-circle" />
+                        <Icon
+                          style={{
+                          color: '#00a854'
+                        }}
+                          type="check-circle"/>
                       </Tooltip>
                     </div>
                   );
@@ -643,7 +613,11 @@ class InterfaceColContent extends Component {
                   return (
                     <div>
                       <Tooltip title="请求异常">
-                        <Icon type="info-circle" style={{ color: '#f04134' }} />
+                        <Icon
+                          type="info-circle"
+                          style={{
+                          color: '#f04134'
+                        }}/>
                       </Tooltip>
                     </div>
                   );
@@ -651,42 +625,49 @@ class InterfaceColContent extends Component {
                   return (
                     <div>
                       <Tooltip title="验证失败">
-                        <Icon type="exclamation-circle" style={{ color: '#ffbf00' }} />
+                        <Icon
+                          type="exclamation-circle"
+                          style={{
+                          color: '#ffbf00'
+                        }}/>
                       </Tooltip>
                     </div>
                   );
                 default:
                   return (
                     <div>
-                      <Icon style={{ color: '#00a854' }} type="check-circle" />
+                      <Icon
+                        style={{
+                        color: '#00a854'
+                      }}
+                        type="check-circle"/>
                     </div>
                   );
               }
             }
           ]
         }
-      },
-      {
+      }, {
         property: 'path',
         header: {
           label: '接口路径'
         },
         cell: {
-          formatters: [
-            (text, { rowData }) => {
+          formatters: [(text, {rowData}) => {
               let record = rowData;
               return (
                 <Tooltip title="跳转到对应接口">
                   <Link to={`/project/${record.project_id}/interface/api/${record.interface_id}`}>
-                    {record.path.length > 23 ? record.path + '...' : record.path}
+                    {record.path.length > 23
+                      ? record.path + '...'
+                      : record.path}
                   </Link>
                 </Tooltip>
               );
             }
           ]
         }
-      },
-      {
+      }, {
         header: {
           label: '测试报告'
         },
@@ -696,8 +677,7 @@ class InterfaceColContent extends Component {
           }
         },
         cell: {
-          formatters: [
-            (text, { rowData }) => {
+          formatters: [(text, {rowData}) => {
               let reportFun = () => {
                 if (!this.reports[rowData.id]) {
                   return null;
@@ -710,7 +690,7 @@ class InterfaceColContent extends Component {
         }
       }
     ];
-    const { rows, currColEnv } = this.state;
+    const {rows} = this.state;
     const components = {
       header: {
         cell: dnd.Header
@@ -719,163 +699,156 @@ class InterfaceColContent extends Component {
         row: dnd.Row
       }
     };
-    const resolvedColumns = resolve.columnChildren({ columns });
-    const resolvedRows = resolve.resolve({
-      columns: resolvedColumns,
-      method: resolve.nested
-    })(rows);
-    let colEnv = this.props.currProject.env || [];
-    const localUrl =
-      location.protocol +
-      '//' +
-      location.hostname +
-      (location.port !== '' ? ':' + location.port : '');
-    let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj)
+    const resolvedColumns = resolve.columnChildren({columns});
+    const resolvedRows = resolve.resolve({columns: resolvedColumns, method: resolve.nested})(rows);
+
+    const localUrl = location.protocol + '//' + location.hostname + (location.port !== ''
+      ? ':' + location.port
+      : '');
+    let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj);
     const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${
-      this.props.token
-    }${currColEnvObj ? currColEnvObj : ''}&mode=${
-      this.state.mode
-    }&email=${this.state.email}`;
-    
+    this.props.token}${currColEnvObj
+      ? currColEnvObj
+      : ''}&mode=${this.state.mode}&email=${this.state.email}`;
 
     return (
       <div className="interface-col">
-        <h2
-          className="interface-title"
-          style={{ display: 'inline-block', margin: '0 20px', marginBottom: '16px' }}
-        >
-          测试集合&nbsp;<a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://yapi.ymfe.org/documents/case.html"
-          >
-            <Tooltip title="点击查看文档">
-              <Icon type="question-circle-o" />
-            </Tooltip>
-          </a>
-        </h2>
-        <div style={{ display: 'inline-block', margin: 0, marginBottom: '16px' }}>
-          <Select value={currColEnv} style={{ width: '320px' }} onChange={this.colEnvChange}>
-            <Option key="default" value="">
-              默认环境
-            </Option>
-            {colEnv.map(item => {
-              return (
-                <Option key={item._id} value={item.name}>
-                  {item.name + ': ' + item.domain}
-                </Option>
-              );
-            })}
-          </Select>
-          &nbsp;
-          <Tooltip title="默认使用测试用例选择的环境">
-            <Icon type="question-circle-o" />
-          </Tooltip>
-        </div>
-        {this.state.hasPlugin ? (
-          <div style={{ float: 'right' }}>
-            {this.props.curProjectRole !== 'guest' && (
-              <Tooltip title="在 YApi 服务端跑自动化测试，测试环境不能为私有网络，请确保 YApi 服务器可以访问到自动化测试环境domain">
-                <Button style={{ marginRight: '8px' }} onClick={this.autoTests}>
-                  服务端测试
-                </Button>
-              </Tooltip>
-            )}
-            <Button type="primary" onClick={this.executeTests}>
-              开始测试
-            </Button>
-          </div>
-        ) : (
-          <Tooltip title="请安装 cross-request Chrome 插件">
-            <Button disabled type="primary" style={{ float: 'right' }}>
-              开始测试
-            </Button>
-          </Tooltip>
-        )}
-
-        <CaseEnv envList={this.props.envList} currProjectEnvChange={this.currProjectEnvChange} />
+        <Row type="flex" justify="center" align="top">
+          <Col span={6}>
+            <h2
+              className="interface-title"
+              style={{
+              display: 'inline-block',
+              margin: '8px 20px 16px'
+            }}>
+              测试集合&nbsp;<a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://yapi.ymfe.org/documents/case.html">
+                <Tooltip title="点击查看文档">
+                  <Icon type="question-circle-o"/>
+                </Tooltip>
+              </a>
+            </h2>
+          </Col>
+          <Col span={12}>
+            <CaseEnv
+              envList={this.props.envList}
+              currProjectEnvChange={this.currProjectEnvChange}
+            />
+          </Col>
+          <Col span={6}>
+            {this.state.hasPlugin
+              ? (
+                <div
+                  style={{
+                  float: 'right',
+                  paddingTop: '8px'
+                }}>
+                  {this.props.curProjectRole !== 'guest' && (
+                    <Tooltip title="在 YApi 服务端跑自动化测试，测试环境不能为私有网络，请确保 YApi 服务器可以访问到自动化测试环境domain">
+                      <Button
+                        style={{
+                        marginRight: '8px'
+                      }}
+                        onClick={this.autoTests}>
+                        服务端测试
+                      </Button>
+                    </Tooltip>
+                  )}
+                  <Button type="primary" onClick={this.executeTests}>
+                    开始测试
+                  </Button>
+                </div>
+              )
+              : (
+                <Tooltip title="请安装 cross-request Chrome 插件">
+                  <Button
+                    disabled
+                    type="primary"
+                    style={{
+                    float: 'right',
+                    marginTop: '8px'
+                  }}>
+                    开始测试
+                  </Button>
+                </Tooltip>
+              )}
+          </Col>
+        </Row>
 
         <Table.Provider
           components={components}
           columns={resolvedColumns}
-          style={{ width: '100%', borderCollapse: 'collapse' }}
-        >
+          style={{
+          width: '100%',
+          borderCollapse: 'collapse'
+        }}>
           <Table.Header
             className="interface-col-table-header"
-            headerRows={resolve.headerRows({ columns })}
-          />
+            headerRows={resolve.headerRows({columns})}/>
 
           <Table.Body
             className="interface-col-table-body"
             rows={resolvedRows}
             rowKey="id"
-            onRow={this.onRow}
-          />
+            onRow={this.onRow}/>
         </Table.Provider>
         <Modal
           title="测试报告"
           width="900px"
-          style={{ minHeight: '500px' }}
+          style={{
+          minHeight: '500px'
+        }}
           visible={this.state.visible}
           onCancel={this.handleCancel}
-          footer={null}
-        >
-          <CaseReport {...this.reports[this.state.curCaseid]} />
+          footer={null}>
+          <CaseReport {...this.reports[this.state.curCaseid]}/>
         </Modal>
 
         <Modal
           title="自定义测试脚本"
           width="660px"
-          style={{ minHeight: '500px' }}
+          style={{
+          minHeight: '500px'
+        }}
           visible={this.state.advVisible}
           onCancel={this.handleAdvCancel}
           onOk={this.handleAdvOk}
-          maskClosable={false}
-        >
+          maskClosable={false}>
           <h3>
             是否开启:&nbsp;
             <Switch
               checked={this.state.enableScript}
-              onChange={e => this.setState({ enableScript: e })}
-            />
+              onChange={e => this.setState({enableScript: e})}/>
           </h3>
           <AceEditor
             className="case-script"
             data={this.state.curScript}
-            onChange={this.handleScriptChange}
-          />
+            onChange={this.handleScriptChange}/>
         </Modal>
         <Modal
           title="服务端自动化测试"
           width="780px"
-          style={{ minHeight: '500px' }}
+          style={{
+          minHeight: '500px'
+        }}
           visible={this.state.autoVisible}
           onCancel={this.handleAuto}
           className="autoTestsModal"
-          footer={null}
-        >
-          <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={3} className="label">
+          footer={null}>
+          <Row type="flex" justify="space-around" className="row" align="top">
+            <Col span={3} className="label" style={{paddingTop: '16px'}}>
               选择环境
               <Tooltip title="默认使用测试用例选择的环境">
-                <Icon type="question-circle-o" />
+                <Icon type="question-circle-o"/>
               </Tooltip>
               &nbsp;：
             </Col>
             <Col span={21}>
-              {/* <Select value={currColEnv} style={{ width: '320px' }} onChange={this.colEnvChange}>
-                <Option key="default" value="">
-                  默认环境
-                </Option>
-                {colEnv.map(item => {
-                  return (
-                    <Option key={item._id} value={item.name}>
-                      {item.name + ': ' + item.domain}
-                    </Option>
-                  );
-                })}
-              </Select> */}
-              <CaseEnv envList={this.props.envList} currProjectEnvChange={this.currProjectEnvChange} />
+              <CaseEnv
+                envList={this.props.envList}
+                currProjectEnvChange={this.currProjectEnvChange}/>
             </Col>
           </Row>
           <Row type="flex" justify="space-around" className="row" align="middle">
@@ -897,7 +870,11 @@ class InterfaceColContent extends Component {
             <Col span={3} className="label">
               邮件通知
               <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
-                <Icon type="question-circle-o" style={{ width: '10px' }} />
+                <Icon
+                  type="question-circle-o"
+                  style={{
+                  width: '10px'
+                }}/>
               </Tooltip>
               &nbsp;：
             </Col>
@@ -906,8 +883,7 @@ class InterfaceColContent extends Component {
                 checked={this.state.email}
                 checkedChildren="开"
                 unCheckedChildren="关"
-                onChange={this.emailChange}
-              />
+                onChange={this.emailChange}/>
             </Col>
           </Row>
 
@@ -918,7 +894,9 @@ class InterfaceColContent extends Component {
               </a>
             </Col>
             <Col span={3}>
-              <Button className="copy-btn" onClick={() => this.copyUrl(localUrl + autoTestsUrl)}>
+              <Button
+                className="copy-btn"
+                onClick={() => this.copyUrl(localUrl + autoTestsUrl)}>
                 复制
               </Button>
             </Col>

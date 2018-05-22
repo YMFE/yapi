@@ -145,8 +145,7 @@ class openController extends baseController {
     const testList = [];
     let id = ctx.params.id;
     let curEnvList = this.handleEvnParams(ctx.params);
-    // console.log('curEnvList', curEnvList);
-    // let curEnv = ctx.params.env_name;
+  
     let colData = await this.interfaceColModel.get(id);
     if (!colData) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在'));
@@ -187,7 +186,7 @@ class openController extends baseController {
         params: result.params,
         body: result.res_body
       };
-      testList.push(result);
+      testList.push(result); 
     }
 
     function getMessage(testList) {
