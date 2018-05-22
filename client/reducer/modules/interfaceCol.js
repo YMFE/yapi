@@ -115,6 +115,7 @@ export function fetchVariableParamsList(colId) {
 }
 
 export function setColData(data) {
+  
   return {
     type: SET_COL_DATA,
     payload: data

@@ -61,6 +61,7 @@ class Interface extends Component {
     isShowCol: PropTypes.bool,
     getProject: PropTypes.func,
     setColData: PropTypes.func
+    // fetchInterfaceColList: PropTypes.func
   }
 
   constructor(props) {
@@ -78,11 +79,11 @@ class Interface extends Component {
     this.props.history.push('/project/' + params.id + '/interface/' + action)
     
   }
-  componentWillMount(){
+  async componentWillMount(){
     this.props.setColData({
       isShowCol: true
     })
-    // this.props.getProject(this.props.match.params.id)
+    // await this.props.fetchInterfaceColList(this.props.match.params.id)
   }
   render() {
     const { action } = this.props.match.params;
