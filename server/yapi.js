@@ -12,6 +12,9 @@ const WEBROOT_RUNTIME = path.resolve(__dirname, '../..');
 const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, 'log');
 const WEBCONFIG = config;
 
+// 优先使用 ENV 中的端口，以便支持 iisnode 等特殊启动服务
+WEBCONFIG.port = process.env.PORT !== undefined ?  process.env.PORT : WEBCONFIG.port;
+
 fs.ensureDirSync(WEBROOT_LOG);
 
 if (WEBCONFIG.mail && WEBCONFIG.mail.enable) {
