@@ -84,7 +84,7 @@ const StatusOverview = (props) => (
     <Col className="gutter-row" span={6}>
       <span>
         系统空闲内存总量 / 内存总量
-        <Tooltip placement="rightTop" title="统计yapi所有项目中的所有测试接口总数">
+        <Tooltip placement="rightTop" title="系统空闲内存总量 / 内存总量">
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>

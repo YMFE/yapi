@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import { Row, Col, Tabs } from 'antd'
 const TabPane = Tabs.TabPane;
 function json_format(json) {
-  return JSON.stringify(json, null, '   ')
+  // console.log('json',json)
+  if(json && typeof json === 'object'){
+    return JSON.stringify(json, null, '   ')
+  }
+  return json;
+  
 }
 
 const CaseReport = function (props) {

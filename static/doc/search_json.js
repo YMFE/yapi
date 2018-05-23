@@ -200,7 +200,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -225,7 +225,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n"
         },
         {
           "title": "工具函数",
@@ -241,11 +241,6 @@ window.ydoc_plugin_search_json = {
           "title": "token配置",
           "url": "/documents/project.html#token配置",
           "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
-        },
-        {
-          "title": "项目克隆",
-          "url": "/documents/project.html#项目克隆",
-          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
         }
       ]
     },
@@ -277,7 +272,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -302,7 +297,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n"
         },
         {
           "title": "工具函数",
@@ -318,11 +313,6 @@ window.ydoc_plugin_search_json = {
           "title": "token配置",
           "url": "/documents/project.html#token配置",
           "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
-        },
-        {
-          "title": "项目克隆",
-          "url": "/documents/project.html#项目克隆",
-          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
         }
       ]
     },
@@ -418,7 +408,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
@@ -465,7 +455,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
@@ -1160,9 +1150,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+        },
+        {
           "title": "v1.3.15",
           "url": "/documents/CHANGELOG.html#v1.3.15",
-          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
         },
         {
           "title": "v1.3.14",
@@ -1302,9 +1297,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+        },
+        {
           "title": "v1.3.15",
           "url": "/documents/CHANGELOG.html#v1.3.15",
-          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n"
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
         },
         {
           "title": "v1.3.14",

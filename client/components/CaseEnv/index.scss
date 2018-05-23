@@ -1,0 +1,25 @@
+.case-env {
+  .label {
+    // width: 100%;
+    text-align: right;
+    padding-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .label:after{
+    content: ":";
+    margin: 0 8px 0 2px;
+    position: relative;
+    top: -.5px;
+  }
+  .label-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .env-item {
+    margin-bottom: 16px;
+  }
+}

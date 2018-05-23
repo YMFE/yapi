@@ -229,10 +229,10 @@ function createSchemaTable(body) {
   return template;
 }
 
-function createResponse(res_body, res_body_is_json_schema) {
+function createResponse(res_body, res_body_is_json_schema, res_body_type) {
   let resTitle = `\n### 返回数据\n\n`;
   if (res_body) {
-    if (res_body_is_json_schema) {
+    if (res_body_is_json_schema && res_body_type === 'json') {
       let resBody = createSchemaTable(res_body);
       return resTitle + resBody;
     } else {
@@ -268,7 +268,7 @@ function createInterMarkdown(basepath, listItem, isToc) {
   );
   // Response
   // Response-body
-  mdTemplate += createResponse(listItem.res_body, listItem.res_body_is_json_schema);
+  mdTemplate += createResponse(listItem.res_body, listItem.res_body_is_json_schema, listItem.res_body_type);
 
   return mdTemplate;
 }

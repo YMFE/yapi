@@ -185,7 +185,12 @@ let routerConfig = {
 			"action": "upSet",
 			"path": "upset",
 			"method": "post"
-		}, {
+    }, {
+      "action": "getEnv",
+			"path": "get_env",
+			"method": "get"
+    },
+    {
 			"action": "add",
 			"path": "add",
 			"method": "post"
@@ -442,7 +447,11 @@ let routerConfig = {
 		action: "runCaseScript",
 		path: "run_script",
 		method: "post"
-	}
+	},{
+    action: 'getCaseEnvList',
+    path: 'case_env_list',
+    method: 'get'
+  }
 	],
 	"test": [{
 		action: "testPost",

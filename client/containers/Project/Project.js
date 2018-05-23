@@ -55,6 +55,22 @@ export default class Project extends Component {
     }]);
   }
 
+  async componentWillReceiveProps(nextProps) {
+    const currProjectId = this.props.match.params.id;
+    const nextProjectId = nextProps.match.params.id;
+    if(currProjectId !== nextProjectId) {
+      await this.props.getProject(nextProjectId);
+      
+      this.props.setBreadcrumb([{
+        name: this.props.currGroup.group_name,
+        href: '/group/' + this.props.currGroup._id
+      }, {
+        name: this.props.curProject.name
+      }]);
+    }
+    
+  }
+
   render() {
     const { match, location } = this.props;
     let routers = {

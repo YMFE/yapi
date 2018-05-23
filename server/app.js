@@ -13,7 +13,8 @@ const websocket = require('./websocket.js');
 
 const Koa = require('koa');
 const koaStatic = require('koa-static');
-const bodyParser = require('koa-bodyparser');
+// const bodyParser = require('koa-bodyparser');
+const koaBody = require('koa-body')
 const router = require('./router.js');
  
 let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
@@ -23,7 +24,8 @@ const app = websockify(new Koa());
 app.proxy = true;
 yapi.app = app;
 
-app.use(bodyParser({multipart: true}));
+// app.use(bodyParser({multipart: true}));
+app.use(koaBody({multipart: true}))
 app.use(mockServer);
 app.use(router.routes());
 app.use(router.allowedMethods());

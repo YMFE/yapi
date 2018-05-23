@@ -29,11 +29,13 @@
 <img src="./images/usage/project_setting_logo.png">
 <h2 id="项目迁移">项目迁移</h2>
 <p>YApi中支持项目迁移到不同的分组中。</p>
+<img src="./images/project-remove.png">
 <p>迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。</p>
 <blockquote>
 <p>Tips: owner权限判断的优先级是 项目权限 &gt; 分组权限</p>
 </blockquote>
 <h2 id="项目拷贝">项目拷贝</h2>
+<p>该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。</p>
 <p>YApi支持项目复制功能，但是无法复制项目中的测试集合list。</p>
 <p>操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制</p>
 <img src="./images/usage/projectCopy.png">
@@ -110,6 +112,9 @@
 <pre><code>context.responseBody.a = 2;
 
 </code></pre>
+<blockquote>
+<p>（v1.3.16+新增）context.href和context.hostname</p>
+</blockquote>
 <h3 id="请求配置-工具函数">工具函数</h3>
 <pre><code>context.utils = {
   _         //underscore &#x51FD;&#x6570;,&#x8BE6;&#x7EC6; API &#x67E5;&#x770B;&#x5B98;&#x7F51; http://underscorejs.org/
@@ -142,9 +147,6 @@
 </blockquote>
 <h2 id="token配置">token配置</h2>
 <p>每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的<a href="./case.html">自动化测试</a>，用户不需要登录就可以访问接口测试结果信息。</p>
-<h2 id="项目克隆">项目克隆</h2>
-<p>该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。</p>
-<p><img src="clone-project.png.png" alt=""></p>
 </div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="manage.html" class="href"><span class="ui-font-ydoc"></span>权限</a></div><div class="m-paging-next m-paging-item"><a href="api.html" class="href">接口操作<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div><div class="m-mask js-mask">
     <div class="container">
       <img src="" alt="" class="img js-mask-img" />

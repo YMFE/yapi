@@ -5,7 +5,7 @@ import { Form,  Button, message } from 'antd';
 const FormItem = Form.Item;
 import './project-request.scss';
 import AceEditor from 'client/components/AceEditor/AceEditor';
-import { updateProjectScript } from '../../../../reducer/modules/project';
+import { updateProjectScript, getProject } from '../../../../reducer/modules/project';
 
 @connect(
   state => {
@@ -14,7 +14,8 @@ import { updateProjectScript } from '../../../../reducer/modules/project';
     }
   },
   {
-    updateProjectScript
+    updateProjectScript,
+    getProject
   }
 )
 
@@ -23,6 +24,7 @@ export default class ProjectRequest extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
     updateProjectScript: PropTypes.func,
+    getProject: PropTypes.func,
     projectId: PropTypes.number
   }
 
@@ -41,6 +43,7 @@ export default class ProjectRequest extends Component {
     })
     if(result.payload.data.errcode === 0){
       message.success('保存成功')
+      await this.props.getProject(this.props.projectId)
     }else{
       message.success('保存失败, ' + result.payload.data.errmsg)
     }

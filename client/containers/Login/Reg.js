@@ -90,7 +90,7 @@ class Reg extends Component {
             rules: [{
               required: true,
               message: '请输入email!',
-              pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+              pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
             }]
           })(
             <Input style={changeHeight} prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />

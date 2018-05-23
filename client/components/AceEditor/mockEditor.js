@@ -175,6 +175,7 @@ function run(options) {
     editor.clearSelection();
 
   });
+  
 
   return mockEditor;
 }
