@@ -194,7 +194,7 @@ export default class ImportInterface extends Component {
         }
       }
     ];
-
+    
     return (
       <div>
         <div className="select-project">
@@ -202,7 +202,7 @@ export default class ImportInterface extends Component {
           <Select value={this.state.project} style={{ width: 200 }} onChange={this.onChange}>
             {projectList.map(item => {
               return (
-                item.follow ? '' : <Option value={`${item._id}`} key={item._id}>
+                item.projectname ? '' : <Option value={`${item._id}`} key={item._id}>
                   {item.name}
                 </Option>
               );
