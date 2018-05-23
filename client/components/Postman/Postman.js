@@ -85,7 +85,7 @@ export default class Run extends Component {
       test_script: '',
       hasPlugin: true,
       inputValue: '',
-      cursurPosition: -1,
+      cursurPosition: { row: 1, column: -1 },
       envModalVisible: false,
       test_res_header: null,
       test_res_body: null,
@@ -178,19 +178,16 @@ export default class Run extends Component {
   }
 
   initEnvState(case_env, env) {
-    
     let headers = this.handleReqHeader(case_env, env);
-    
+
     this.setState(
       {
         req_headers: headers,
         env: env
       },
       () => {
-        
         let s = !_.find(env, item => item.name === this.state.case_env);
         if (!this.state.case_env || s) {
-          
           this.setState({
             case_env: this.state.env[0].name
           });
@@ -220,7 +217,7 @@ export default class Run extends Component {
         this.initState(nextProps.data);
       }
       if (nextProps.data.env !== this.props.data.env) {
-        this.initEnvState(this.state.case_env,nextProps.data.env);
+        this.initEnvState(this.state.case_env, nextProps.data.env);
       }
     }
   }
@@ -331,10 +328,22 @@ export default class Run extends Component {
 
   // 模态框的相关操作
   showModal = (val, index, type) => {
-    let oTxt1 = document.getElementById(`${type}_${index}`);
-    let cursurPosition = oTxt1.selectionStart;
-    
-    let inputValue = this.getInstallValue(val || '', cursurPosition).val
+    let inputValue = '';
+    let cursurPosition;
+    if (type === 'req_body_other') {
+      // req_body
+      let editor = this.aceEditor.editor.editor;
+      cursurPosition = editor.session.doc.positionToIndex(editor.selection.getCursor());
+      // 获取选中的数据
+      inputValue = this.getInstallValue(val || '', cursurPosition).val;
+    } else {
+      // 其他input 输入
+      let oTxt1 = document.getElementById(`${type}_${index}`);
+      cursurPosition = oTxt1.selectionStart;
+      inputValue = this.getInstallValue(val || '', cursurPosition).val;
+      // cursurPosition = {row: 1, column: position}
+    }
+
     this.setState({
       modalVisible: true,
       inputIndex: index,
@@ -347,51 +356,68 @@ export default class Run extends Component {
   // 点击插入
   handleModalOk = val => {
     const { inputIndex, modalType } = this.state;
-    this.changeInstallParam(modalType, val, inputIndex);
+    if (modalType === 'req_body_other') {
+      this.changeInstallBody(modalType, val);
+    } else {
+      this.changeInstallParam(modalType, val, inputIndex);
+    }
+
     this.setState({ modalVisible: false });
   };
 
-  handleModalCancel = () => {
-    this.setState({ modalVisible: false, cursurPosition: -1 });
+  // 根据鼠标位置往req_body中动态插入数据
+  changeInstallBody = (type, value) => {
+    const pathParam = deepCopyJson(this.state[type]);
+    // console.log(pathParam)
+    let oldValue = pathParam || '';
+    let newValue = this.getInstallValue(oldValue, this.state.cursurPosition);
+    let left = newValue.left;
+    let right = newValue.right;
+    this.setState({
+      [type]: `${left}${value}${right}`
+    });
   };
-
-  
 
   // 获取截取的字符串
   getInstallValue = (oldValue, cursurPosition) => {
     let left = oldValue.substr(0, cursurPosition);
     let right = oldValue.substr(cursurPosition);
-    
+
     let leftPostion = left.lastIndexOf('{{');
     let leftPostion2 = left.lastIndexOf('}}');
     let rightPostion = right.indexOf('}}');
     // console.log(leftPostion, leftPostion2,rightPostion, rightPostion2);
     let val = '';
     // 需要切除原来的变量
-    if (leftPostion !== -1 && rightPostion !==-1 && leftPostion > leftPostion2) {
+    if (leftPostion !== -1 && rightPostion !== -1 && leftPostion > leftPostion2) {
       left = left.substr(0, leftPostion);
       right = right.substr(rightPostion + 2);
-      val = oldValue.substring(leftPostion, cursurPosition+rightPostion+2)
+      val = oldValue.substring(leftPostion, cursurPosition + rightPostion + 2);
     }
     return {
       left,
       right,
       val
     };
-  }
+  };
 
   // 根据鼠标位置动态插入数据
   changeInstallParam = (name, v, index, key) => {
     key = key || 'value';
     const pathParam = deepCopyJson(this.state[name]);
     let oldValue = pathParam[index][key] || '';
-    let newValue = this.getInstallValue(oldValue, this.state.cursurPosition)
+    let newValue = this.getInstallValue(oldValue, this.state.cursurPosition);
     let left = newValue.left;
     let right = newValue.right;
     pathParam[index][key] = `${left}${v}${right}`;
     this.setState({
       [name]: pathParam
     });
+  };
+
+  // 取消参数插入
+  handleModalCancel = () => {
+    this.setState({ modalVisible: false, cursurPosition: -1 });
   };
 
   // 环境变量模态框相关操作
@@ -648,8 +674,22 @@ export default class Run extends Component {
             <div
               style={{ display: checkRequestBodyIsRaw(method, req_body_type) ? 'block' : 'none' }}
             >
+              {req_body_type === 'json' && (
+                <div className="adv-button">
+                  <Button
+                    onClick={() => this.showModal(this.state.req_body_other, 0, 'req_body_other')}
+                  >
+                    高级参数设置
+                  </Button>
+                  <Tooltip title="高级参数设置只在json字段中生效">
+                    {'  '}<Icon type="question-circle-o" />
+                  </Tooltip>
+                </div>
+              )}
+
               <AceEditor
                 className="pretty-editor"
+                ref={editor => (this.aceEditor = editor)}
                 data={this.state.req_body_other}
                 mode={req_body_type === 'json' ? null : 'text'}
                 onChange={this.handleRequestBody}

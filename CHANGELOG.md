@@ -3,13 +3,14 @@
 * 支持自定义域名邮箱登录
 * 测试用例支持导入不同项目接口
 * 完善可视化表达式，可根据焦点编辑表达式
+* req_body json 支持指针位置可视化插入表达式
 
 
 #### Bug Fixed
 
-* postman  headers 为 null 时报错
+* 导入postman  headers 为 null 时报错
 * format-data 数据解析不成功
-* 导出的接口顺序希望按照api的接口顺序
+* 导出的接口顺序按照api的接口顺序
 
 
 
