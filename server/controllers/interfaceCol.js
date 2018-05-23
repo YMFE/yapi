@@ -240,13 +240,24 @@ class interfaceColController extends baseController {
         item.casename = result.casename;
         body = yapi.commons.json_parse(data.res_body);
         body = typeof body === 'object' ? body : {};
+        if(data.res_body_is_json_schema) {
+          body = yapi.commons.schemaToJson(body, {
+            alwaysFakeOptionals:  true 
+          })
+        }
         item.body = Object.assign({}, body);
         query = this.requestParamsToObj(data.req_query);
         pathParams = this.requestParamsToObj(data.req_params);
         if (data.req_body_type === 'form') {
           bodyParams = this.requestParamsToObj(data.req_body_form);
         } else {
+          
           bodyParams = yapi.commons.json_parse(data.req_body_other);
+          if(data.req_body_is_json_schema) {
+            bodyParams = yapi.commons.schemaToJson(bodyParams, {
+              alwaysFakeOptionals:  true 
+            })
+          }
           bodyParams = typeof bodyParams === 'object' ? bodyParams : {}
         }
         item.params = Object.assign(pathParams, query, bodyParams)
