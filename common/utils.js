@@ -32,6 +32,7 @@ function simpleJsonPathParse(key, json){
       break;
     }
   }
+  
   return json;
 }
 
@@ -66,6 +67,7 @@ function handleValueWithFilter(context){
     if (match[0] === '@') {
       return handleMockWord(match);
     } else if (match.indexOf('$.') === 0) {
+      
       return simpleJsonPathParse(match, context);
     } else{
       return match;
@@ -77,7 +79,9 @@ function handleValueWithFilter(context){
 function handleFilter(str, match, context){    
   match = match.trim();
   try{
+    
     let a=  filter(match, handleValueWithFilter(context))
+    
     return a;
   }catch(err){
     return str;
@@ -91,16 +95,21 @@ function handleParamsValue (val, context={}){
     return val;
   }
   val = val.trim()
-  let match = val.match(/^\{\{([^\}]+)\}\}$/);  
+  
+  let match = val.match(/^\{\{([^\}]+)\}\}$/); 
   if (!match){
     if(val[0] ==='@' || val[0] === '$'){
+     
       return handleFilter(val, val, context);
     }
   }else{
+   
     return handleFilter(val, match[1], context);
   }
 
-  return val.replace(variableRegexp, handleFilter)
+  return val.replace(variableRegexp, (str, match)=>{
+    return handleFilter(str, match, context)
+  })
 }
 
 exports.handleJson = handleJson;

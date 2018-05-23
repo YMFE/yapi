@@ -261,6 +261,7 @@ class InterfaceColContent extends Component {
       msg: '数据异常',
       validRes: []
     };
+    
 
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script);
