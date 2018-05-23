@@ -197,21 +197,12 @@ export default class ImportInterface extends Component {
 
     return (
       <div>
-        {/* <RadioGroup onChange={this.onChange} value={this.state.project}>
-          {projectList.map(item => {
-            return (
-              <Radio value={`${item._id}`} key={item._id}>
-                {item.name}
-              </Radio>
-            );
-          })}
-        </RadioGroup> */}
         <div className="select-project">
           <span>选择要导入的项目： </span>
           <Select value={this.state.project} style={{ width: 200 }} onChange={this.onChange}>
             {projectList.map(item => {
               return (
-                <Option value={`${item._id}`} key={item._id}>
+                item.follow ? '' : <Option value={`${item._id}`} key={item._id}>
                   {item.name}
                 </Option>
               );

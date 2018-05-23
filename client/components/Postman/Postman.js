@@ -681,7 +681,7 @@ export default class Run extends Component {
                   >
                     高级参数设置
                   </Button>
-                  <Tooltip title="高级参数设置只在json字段中生效">
+                  <Tooltip title="高级参数设置只在json字段值中生效">
                     {'  '}<Icon type="question-circle-o" />
                   </Tooltip>
                 </div>
