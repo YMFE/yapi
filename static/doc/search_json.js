@@ -1152,7 +1152,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.16",
           "url": "/documents/CHANGELOG.html#v1.3.16",
-          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
         },
         {
           "title": "v1.3.15",
@@ -1299,7 +1299,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.16",
           "url": "/documents/CHANGELOG.html#v1.3.16",
-          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
         },
         {
           "title": "v1.3.15",
