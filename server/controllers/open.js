@@ -138,6 +138,12 @@ class openController extends baseController {
     return result;
   }
   async runAutoTest(ctx) {
+    if(!this.$tokenAuth ){
+      return ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败');
+    }
+    // console.log(1231312)
+    const token = ctx.query.token;
+    
     const projectId = ctx.params.project_id;
     const startTime = new Date().getTime();
     const records = (this.records = {});
