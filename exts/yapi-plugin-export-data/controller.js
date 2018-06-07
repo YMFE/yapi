@@ -28,16 +28,15 @@ class exportController extends baseController {
       list = list.sort((a, b) => {
         return a.index - b.index;
       });
-      if (list.length > 0) {
-        item.list = list;
-        newResult[i] = item;
-      }
+      item.list = list;
+      newResult[i] = item;
     }
 
     return newResult;
   }
 
   handleExistId(data) {
+    
     function delArrId(arr, fn) {
       if (!Array.isArray(arr)) return;
       arr.forEach(item => {
@@ -88,6 +87,7 @@ class exportController extends baseController {
           return (ctx.body = tp);
         }
         case 'json': {
+         
           let data = this.handleExistId(list);
           tp = JSON.stringify(data, null, 2);
           ctx.set('Content-Disposition', `attachment; filename=api.json`);
