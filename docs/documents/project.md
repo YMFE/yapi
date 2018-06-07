@@ -138,7 +138,8 @@ context = {
 context.responseBody.a = 2;
 
 ```
-> （v1.3.16+新增）context.href和context.hostname
+> （v1.3.16+新增）context.href和context.hostname  
+> （v1.3.17+新增）context.caseId 测试用例的唯一 key 值
 ### 工具函数
 ```
 context.utils = {

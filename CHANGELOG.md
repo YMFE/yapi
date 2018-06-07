@@ -1,5 +1,7 @@
 ### v1.3.17
 
+* 请求配置中添加 context.castId 字段用于标识测试用例
+
 #### Bug Fixed
 * 修复服务器端测试，邮件通知开启token undefined bug
 * 将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema
