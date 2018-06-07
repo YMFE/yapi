@@ -199,7 +199,6 @@ const swagger = require('swagger-client');
             api.req_body_form.push(defaultParam);
             break;
           case 'header':
-            defaultParam.value = param.default;
             api.req_headers.push(defaultParam);
             break;
         }
