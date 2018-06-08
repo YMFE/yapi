@@ -550,7 +550,6 @@ class interfaceController extends baseController {
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
-    console.log('interface', interfaceData);
     let logData = {
       interface_id: id,
       cat_id: data.catid,
