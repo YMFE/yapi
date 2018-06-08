@@ -138,7 +138,8 @@ context = {
 context.responseBody.a = 2;
 
 ```
-> （v1.3.16+新增）context.href和context.hostname
+> （v1.3.16+新增）context.href和context.hostname  
+> （v1.3.17+新增）context.caseId 测试用例的唯一 key 值
 ### 工具函数
 ```
 context.utils = {
@@ -170,6 +171,18 @@ context.promise = new Promise(function(resolve){
 
 })
 ```
+promise 还可以来设置接口延迟
+
+```javascript
+context.promise = new Promise(function(resolve){
+    setTimeout(function(){
+      console.log('delay 1000ms')
+      resolve('ok')
+	}, 1000)
+})
+```
+
+
 
 使用方法就是在 `context` 里面添加 `promise` 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 `context.utils.axios` 库。
 

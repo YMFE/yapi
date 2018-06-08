@@ -252,6 +252,7 @@ export default class Run extends Component {
     this.setState({
       loading: true
     });
+    console.log('this.state', this.state);
     let options = handleParams(this.state, this.handleValue),
       result;
 

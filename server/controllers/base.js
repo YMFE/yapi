@@ -51,6 +51,10 @@ class baseController {
     if(token && openApiRouter.indexOf(ctx.path) > -1){
       if(this.$auth){
         ctx.params.project_id = await this.getProjectIdByToken(token)
+
+        if(!ctx.params.project_id){
+          return this.$tokenAuth = false;
+        }
         return this.$tokenAuth = true;
       }
       

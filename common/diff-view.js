@@ -41,15 +41,16 @@ module.exports = function (jsondiffpatch, formattersHtml, curDiffData) {
   }
 
   const handleParams = (item) => {
-    item._id = undefined;
+    let newItem = Object.assign({}, item);
+    newItem._id = undefined;
    
-    Object.keys(item).forEach(key => {
+    Object.keys(newItem).forEach(key => {
       switch (key) {
-        case 'required': item[key] = valueMaps[item[key]]; break;
-        case 'type': item[key] = valueMaps[item[key]]; break;
+        case 'required': newItem[key] = valueMaps[newItem[key]]; break;
+        case 'type': newItem[key] = valueMaps[newItem[key]]; break;
       }
     })
-    return item;
+    return newItem;
   }
 
   const diffArray = (arr1, arr2) => {

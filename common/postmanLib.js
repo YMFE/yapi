@@ -203,7 +203,6 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
   let urlObj = URL.parse(options.url, true),
     query = {};
   query = Object.assign(query, urlObj.query);
-
   let context = {
     get href() {
       return urlObj.href;
@@ -217,6 +216,15 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     set hostname(val){
       throw new Error('context.hostname 不能被赋值')
     },
+
+    get caseId() {
+      return options.caseId;
+    },
+
+    set caseId(val){
+      throw new Error('context.caseId 不能被赋值')
+    },
+
     method: options.method,
     pathname: urlObj.pathname,
     query: query,
@@ -318,7 +326,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     return obj;
   }
 
-  let { case_env, path, env } = interfaceData;
+  let { case_env, path, env, _id } = interfaceData;
   let currDomain,
     requestBody,
     requestOptions = {};
@@ -342,8 +350,10 @@ function handleParams(interfaceData, handleValue, requestParams) {
     query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceData.req_query))
   });
 
+
   requestOptions = {
     url,
+    caseId: _id,
     method: interfaceData.method,
     headers: paramsToObjectUnWithEnable(interfaceData.req_headers),
     timeout: 82400000

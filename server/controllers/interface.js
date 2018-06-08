@@ -493,8 +493,8 @@ class interfaceController extends baseController {
     let id = params.id;
     params.message = params.message || '';
     params.message = params.message.replace(/\n/g, "<br>")
-    params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
-    params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
+    // params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
+    // params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
 
     let interfaceData = await this.Model.get(id);
     if (!interfaceData) {
@@ -550,12 +550,14 @@ class interfaceController extends baseController {
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
+    console.log('interface', interfaceData);
     let logData = {
       interface_id: id,
       cat_id: data.catid,
       current: CurrentInterfaceData.toObject(),
       old: interfaceData.toObject()
     }
+
 
     this.catModel.get(interfaceData.catid).then((cate) => {
       yapi.commons.saveLog({
@@ -573,7 +575,16 @@ class interfaceController extends baseController {
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
 
     if (params.switch_notice === true) {
+      // console.log('logData', logData);
+      // let logDiffData = {
+      //   interface_id: id,
+      //   cat_id: data.catid,
+      //   current: CurrentInterfaceData.toObject(),
+      //   old: interfaceData.toObject()
+      // }
+
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+      
 
       let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
       let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');

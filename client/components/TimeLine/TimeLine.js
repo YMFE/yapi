@@ -227,8 +227,8 @@ class TimeTree extends Component {
     if (this.state.loading) {
       pending = <Spin />
     }
-
     let diffView = showDiffMsg(jsondiffpatch, formattersHtml, curDiffData);
+   
 
 
     return (

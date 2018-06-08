@@ -381,6 +381,7 @@ exports.saveLog = logData => {
       typeid: logData.typeid,
       data: logData.data
     };
+
     logInst.save(data).then();
   } catch (e) {
     yapi.commons.log(e, 'error'); // eslint-disable-line

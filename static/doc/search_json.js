@@ -225,7 +225,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -235,7 +235,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve){    setTimeout(function(){\n      console.log('delay 1000ms')\n      resolve('ok')\n\t}, 1000)\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
           "title": "token配置",
@@ -297,7 +297,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -307,7 +307,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve){    setTimeout(function(){\n      console.log('delay 1000ms')\n      resolve('ok')\n\t}, 1000)\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
           "title": "token配置",
@@ -1150,9 +1150,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.17",
+          "url": "/documents/CHANGELOG.html#v1.3.17",
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\n"
+        },
+        {
           "title": "v1.3.16",
           "url": "/documents/CHANGELOG.html#v1.3.16",
-          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
         },
         {
           "title": "v1.3.15",
@@ -1297,9 +1302,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.17",
+          "url": "/documents/CHANGELOG.html#v1.3.17",
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\n"
+        },
+        {
           "title": "v1.3.16",
           "url": "/documents/CHANGELOG.html#v1.3.16",
-          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nBug Fixedpostman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序希望按照api的接口顺序\n"
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
         },
         {
           "title": "v1.3.15",

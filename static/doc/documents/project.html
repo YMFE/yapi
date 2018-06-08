@@ -113,7 +113,8 @@
 
 </code></pre>
 <blockquote>
-<p>（v1.3.16+新增）context.href和context.hostname</p>
+<p>（v1.3.16+新增）context.href和context.hostname<br>
+（v1.3.17+新增）context.caseId 测试用例的唯一 key 值</p>
 </blockquote>
 <h3 id="请求配置-工具函数">工具函数</h3>
 <pre><code>context.utils = {
@@ -139,6 +140,14 @@
         <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>promise 还可以来设置接口延迟</p>
+<pre><code class="language-javascript">context<span class="token punctuation">.</span>promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'delay 1000ms'</span><span class="token punctuation">)</span>
+      <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'ok'</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 </code></pre>
 <p>使用方法就是在 <code>context</code> 里面添加 <code>promise</code> 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 <code>context.utils.axios</code> 库。</p>
