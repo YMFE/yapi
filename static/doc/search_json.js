@@ -1150,9 +1150,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.18",
+          "url": "/documents/CHANGELOG.html#v1.3.18",
+          "content": "v1.3.18增加全局接口搜索功能\n"
+        },
+        {
           "title": "v1.3.17",
           "url": "/documents/CHANGELOG.html#v1.3.17",
-          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\n"
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\nldap登陆允许用户输入的登陆账号非邮箱\n"
         },
         {
           "title": "v1.3.16",
@@ -1177,7 +1182,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口json数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
@@ -1302,9 +1307,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.18",
+          "url": "/documents/CHANGELOG.html#v1.3.18",
+          "content": "v1.3.18增加全局接口搜索功能\n"
+        },
+        {
           "title": "v1.3.17",
           "url": "/documents/CHANGELOG.html#v1.3.17",
-          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\n"
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\nldap登陆允许用户输入的登陆账号非邮箱\n"
         },
         {
           "title": "v1.3.16",
@@ -1329,7 +1339,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口json数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
