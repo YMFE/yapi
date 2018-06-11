@@ -972,7 +972,7 @@ class projectController extends baseController {
   }
 
   /**
-   * 模糊搜索项目名称或者组名称
+   * 模糊搜索项目名称或者分组名称或接口名称
    * @interface /project/search
    * @method GET
    * @category project
@@ -994,6 +994,8 @@ class projectController extends baseController {
 
     let projectList = await this.Model.search(q);
     let groupList = await this.groupModel.search(q);
+    let interfaceList = await this.interfaceModel.search(q);
+    
     let projectRules = [
       '_id',
       'name',
@@ -1013,13 +1015,23 @@ class projectController extends baseController {
       { key: 'add_time', alias: 'addTime' },
       { key: 'up_time', alias: 'upTime' }
     ];
+    let interfaceRules = [
+      '_id',
+      'uid',
+      { key: 'title', alias: 'title' },
+      { key: 'project_id', alias: 'projectId' },
+      { key: 'add_time', alias: 'addTime' },
+      { key: 'up_time', alias: 'upTime' }
+    ];
+
 
     projectList = commons.filterRes(projectList, projectRules);
     groupList = commons.filterRes(groupList, groupRules);
-
+    interfaceList = commons.filterRes(interfaceList, interfaceRules);
     let queryList = {
       project: projectList,
-      group: groupList
+      group: groupList,
+      interface: interfaceList
     };
 
     return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));

@@ -101,12 +101,17 @@ class groupController extends baseController {
 
     let groupInst = yapi.getInst(groupModel);
     let result = await groupInst.getGroupById(params.id);
-    result = result.toObject();
-    result.role = await this.getProjectRole(params.id, 'group');
-    if (result.type === 'private') {
-      result.group_name = '个人空间';
+    console.log('result', result);
+    if(result) {
+      result = result.toObject();
+      let role = await this.getProjectRole(params.id, 'group');
+      result.role = role;
+      if (result.type === 'private') {
+        result.group_name = '个人空间';
+      }
+      ctx.body = yapi.commons.resReturn(result);
     }
-    ctx.body = yapi.commons.resReturn(result);
+   
   }
 
   /**
