@@ -101,7 +101,6 @@ class groupController extends baseController {
 
     let groupInst = yapi.getInst(groupModel);
     let result = await groupInst.getGroupById(params.id);
-    console.log('result', result);
     if(result) {
       result = result.toObject();
       let role = await this.getProjectRole(params.id, 'group');
