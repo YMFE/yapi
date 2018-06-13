@@ -144,7 +144,7 @@ class userController extends baseController {
           email: result.email,
           add_time: result.add_time,
           up_time: result.up_time,
-          type: 'site',
+          type: 'third',
           study: result.study
         }, 0, 'logout success...');
       }

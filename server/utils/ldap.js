@@ -62,6 +62,7 @@ exports.ldapQuery = (username, password) => {
       });
       // 查询结束
       search.on('end', () => {
+        
         if (users.length > 0) {
           client.bind(users[0], password, (e) => {
             if (e) {
