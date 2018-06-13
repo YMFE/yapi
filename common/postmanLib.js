@@ -300,6 +300,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
 }
 
 function handleParams(interfaceData, handleValue, requestParams) {
+  let interfaceRunData = Object.assign({}, interfaceData);
   function paramsToObjectWithEnable(arr) {
     const obj = {};
     safeArray(arr).forEach(item => {
@@ -326,13 +327,13 @@ function handleParams(interfaceData, handleValue, requestParams) {
     return obj;
   }
 
-  let { case_env, path, env, _id } = interfaceData;
+  let { case_env, path, env, _id } = interfaceRunData;
   let currDomain,
     requestBody,
     requestOptions = {};
 
-  interfaceData.req_params = interfaceData.req_params || [];
-  interfaceData.req_params.forEach(item => {
+  interfaceRunData.req_params = interfaceRunData.req_params || [];
+  interfaceRunData.req_params.forEach(item => {
     let val = handleValue(item.value);
     if (requestParams) {
       requestParams[item.name] = val;
@@ -347,29 +348,60 @@ function handleParams(interfaceData, handleValue, requestParams) {
     protocol: urlObj.protocol || 'http',
     host: urlObj.host,
     pathname: urlObj.pathname,
-    query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceData.req_query))
+    query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceRunData.req_query))
   });
 
-
+  let headers = paramsToObjectUnWithEnable(interfaceRunData.req_headers);
   requestOptions = {
     url,
     caseId: _id,
-    method: interfaceData.method,
-    headers: paramsToObjectUnWithEnable(interfaceData.req_headers),
+    method: interfaceRunData.method,
+    headers,
     timeout: 82400000
   };
 
-  if (HTTP_METHOD[interfaceData.method].request_body) {
-    if (interfaceData.req_body_type === 'form') {
+  // 对 raw 类型的 form 处理
+  try{
+    
+    if(interfaceRunData.req_body_type === 'raw'){
+      if(headers && headers['Content-Type']){
+        if(headers['Content-Type'].indexOf('application/x-www-form-urlencoded')>=0) {
+          interfaceRunData.req_body_type = 'form'
+          let reqData = json_parse(interfaceRunData.req_body_other);
+          if(reqData && typeof reqData === 'object'){
+            interfaceRunData.req_body_form = []
+            Object.keys(reqData).forEach(key=>{
+              interfaceRunData.req_body_form.push({
+                name: key,
+                type: 'text',
+                value: JSON.stringify(reqData[key]),
+                enable:true
+              })
+            })
+          }
+          
+        } else if(headers['Content-Type'].indexOf('application/json')>=0) {
+          interfaceRunData.req_body_type = 'json'          
+        }
+      }
+    }
+    
+  }catch(e){
+    console.log('err',e);
+  }
+  
+
+  if (HTTP_METHOD[interfaceRunData.method].request_body) {
+    if (interfaceRunData.req_body_type === 'form') {
       requestBody = paramsToObjectWithEnable(
-        safeArray(interfaceData.req_body_form).filter(item => {
+        safeArray(interfaceRunData.req_body_form).filter(item => {
           return item.type == 'text';
         })
       );
-    } else if (interfaceData.req_body_type === 'json') {
-      let reqBody = isJson5(interfaceData.req_body_other);
+    } else if (interfaceRunData.req_body_type === 'json') {
+      let reqBody = isJson5(interfaceRunData.req_body_other);
       if (reqBody === false) {
-        requestBody = interfaceData.req_body_other;
+        requestBody = interfaceRunData.req_body_other;
       } else {
         if (requestParams) {
           requestParams = Object.assign(requestParams, reqBody);
@@ -377,16 +409,16 @@ function handleParams(interfaceData, handleValue, requestParams) {
         requestBody = handleJson(reqBody, handleValue);
       }
     } else {
-      requestBody = interfaceData.req_body_other;
+      requestBody = interfaceRunData.req_body_other;
     }
     requestOptions.data = requestBody;
-    if (interfaceData.req_body_type === 'form') {
+    if (interfaceRunData.req_body_type === 'form') {
       requestOptions.files = paramsToObjectWithEnable(
-        safeArray(interfaceData.req_body_form).filter(item => {
+        safeArray(interfaceRunData.req_body_form).filter(item => {
           return item.type == 'file';
         })
       );
-    } else if (interfaceData.req_body_type === 'file') {
+    } else if (interfaceRunData.req_body_type === 'file') {
       requestOptions.file = 'single-file';
     }
   }
