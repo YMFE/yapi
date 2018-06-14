@@ -169,7 +169,6 @@ class Profile extends Component {
     let _userinfo = this.state._userinfo;
     let roles = { admin: '管理员', member: '会员' };
     let userType = "";
-    console.log("userinfo", userinfo)
     if (this.props.userType === "third") {
       userType = false;
     } else if (this.props.userType === "site") {

@@ -14,7 +14,7 @@ import formats from 'common/formats';
 const jSchema = require('json-schema-editor-visual');
 
 const ResBodySchema = jSchema({ lang: 'zh_CN', format: formats });
-const ReqBodySchema = jSchema({ lang: 'zh_CN' });
+const ReqBodySchema = jSchema({ lang: 'zh_CN', format: formats });
 const TabPane = Tabs.TabPane;
 
 require('codemirror/lib/codemirror.css'); // codemirror

@@ -574,17 +574,8 @@ class interfaceController extends baseController {
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
 
     if (params.switch_notice === true) {
-      // console.log('logData', logData);
-      // let logDiffData = {
-      //   interface_id: id,
-      //   cat_id: data.catid,
-      //   current: CurrentInterfaceData.toObject(),
-      //   old: interfaceData.toObject()
-      // }
 
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
-      
-
       let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
       let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
 
