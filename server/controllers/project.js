@@ -665,6 +665,36 @@ class projectController extends baseController {
   }
 
   /**
+   * 修改项目成员是否收到邮件通知
+   * @interface /project/change_member_email_notice
+   * @method POST
+   * @category project
+   * @foldnumber 10
+   * @param {String} id 项目id
+   * @param {String} member_uid 项目成员uid
+   * @param {String} role 权限 ['owner'|'dev']
+   * @returns {Object}
+   * @example
+   */
+  async changeMemberEmailNotice(ctx) {
+    try {
+      let params = ctx.request.body;
+      let projectInst = yapi.getInst(projectModel);
+      var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
+      if (check === 0) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
+      }
+  
+      let result = await projectInst.changeMemberEmailNotice(params.id, params.member_uid, params.notice);
+      ctx.body = yapi.commons.resReturn(result);
+    }catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+   
+  }
+
+
+  /**
    * 项目头像设置
    * @interface /project/upset
    * @method POST

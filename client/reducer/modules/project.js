@@ -19,6 +19,7 @@ const UPDATE_TOKEN = 'yapi/project/UPDATE_TOKEN';
 const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
 const PROJECT_GET_ENV = 'yapi/project/PROJECT_GET_ENV';
+const CHANGE_MEMBER_EMAIL_NOTICE = 'yapi/project/CHANGE_MEMBER_EMAIL_NOTICE';
 
 // Reducer
 const initialState = {
@@ -144,6 +145,13 @@ export function changeMemberRole(param) {
   return {
     type: CHANGE_PROJECT_MEMBER,
     payload: axios.post('/api/project/change_member_role', param)
+  };
+}
+// 修改项目成员是否收到邮件通知
+export function changeMemberEmailNotice(param) {
+  return {
+    type: CHANGE_MEMBER_EMAIL_NOTICE,
+    payload: axios.post('/api/project/change_member_email_notice', param)
   };
 }
 
