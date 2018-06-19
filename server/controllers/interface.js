@@ -189,6 +189,17 @@ class interfaceController extends baseController {
       data.type = 'static'
     }
 
+    // 新建接口的人成为项目dev  如果不存在的话
+    let uid = this.getUid();
+    if (this.getRole() !== 'admin') {
+      let userdata = await yapi.commons.getUserdata(uid, 'dev');
+      // 检查一下是否有这个人
+      let check = await this.projectModel.checkMemberRepeat(params.project_id, uid);
+      if(check === 0) {
+        await this.projectModel.addMember(params.project_id, [userdata]);
+      }
+    }
+
 
     let result = await this.Model.save(data);
     yapi.emitHook('interface_add', result._id).then();

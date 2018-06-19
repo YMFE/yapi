@@ -7,6 +7,7 @@ const projectModel = require('../models/project.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
+const userModel = require('../models/user.js')
 const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
@@ -248,7 +249,7 @@ exports.handleVarPath = (pathname, params) => {
  * path第一位必需为 /, path 只允许由 字母数字-/_:.{}= 组成
  */
 exports.verifyPath = path => {
-  if (/^\/[a-zA-Z0-9\-\/_:\.\{\}\=]*$/.test(path)) {
+  if (/^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path)) {
     return true;
   } else {
     return false;
@@ -348,16 +349,15 @@ exports.validateParams = (schema2, params) => {
     removeAdditional: flag ? false : true
   });
 
-  
   var localize = require('ajv-i18n');
   delete schema2.closeRemoveAdditional;
-  
+
   const schema = ejs(schema2);
-  
+
   schema.additionalProperties = flag ? true : false;
   const validate = ajv.compile(schema);
   let valid = validate(params);
-  
+
   let message = '请求参数 ';
   if (!valid) {
     localize.zh(validate.errors);
@@ -530,3 +530,19 @@ exports.runCaseScript = async function runCaseScript(params) {
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }
 };
+
+exports.getUserdata = async function getUserdata(uid, role) {
+  role = role || 'dev';
+  let userInst = yapi.getInst(userModel);
+  let userData = await userInst.findById(uid);
+  if (!userData) {
+    return null;
+  }
+  return {
+    role: role,
+    uid: userData._id,
+    username: userData.username,
+    email: userData.email
+  };
+};
+

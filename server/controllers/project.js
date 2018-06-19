@@ -233,7 +233,7 @@ class projectController extends baseController {
     let uid = this.getUid();
     // 将项目添加者变成项目组长,除admin以外
     if (this.getRole() !== 'admin') {
-      let userdata = await this.getUserdata(uid, 'owner');
+      let userdata = await yapi.commons.getUserdata(uid, 'owner');
       await this.Model.addMember(result._id, [userdata]);
     }
     let username = this.getUsername();
@@ -341,8 +341,12 @@ class projectController extends baseController {
       let uid = this.getUid();
       // 将项目添加者变成项目组长,除admin以外
       if (this.getRole() !== 'admin') {
-        let userdata = await this.getUserdata(uid, 'owner');
-        copyProjectMembers.push(userdata);
+        let userdata = await yapi.commons.getUserdata(uid, 'owner');
+        let check = await this.Model.checkMemberRepeat(copyId, uid);
+        if(check === 0){
+          copyProjectMembers.push(userdata);
+        }
+        
       }
       await this.Model.addMember(result._id, copyProjectMembers);
 
@@ -388,7 +392,7 @@ class projectController extends baseController {
     for (let i = 0, len = params.member_uids.length; i < len; i++) {
       let id = params.member_uids[i];
       let check = await this.Model.checkMemberRepeat(params.id, id);
-      let userdata = await this.getUserdata(id, params.role);
+      let userdata = await yapi.commons.getUserdata(id, params.role);
       if (check > 0) {
         exist_members.push(userdata);
       } else if (!userdata) {
@@ -463,20 +467,6 @@ class projectController extends baseController {
     ctx.body = yapi.commons.resReturn(result);
   }
 
-  async getUserdata(uid, role) {
-    role = role || 'dev';
-    let userInst = yapi.getInst(userModel);
-    let userData = await userInst.findById(uid);
-    if (!userData) {
-      return null;
-    }
-    return {
-      role: role,
-      uid: userData._id,
-      username: userData.username,
-      email: userData.email
-    };
-  }
 
   /**
    * 获取项目成员列表
