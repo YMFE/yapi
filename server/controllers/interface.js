@@ -929,7 +929,7 @@ class interfaceController extends baseController {
     const projectList = await this.projectModel.get(projectId);
     // const projectMembers = projectList.members.map(item => item.uid);
     const projectMembers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
-    console.log('projectMember', projectMembers)
+    
 
     const users = this.arrUnique(projectMembers, starUsers);
     const usersInfo = await this.userModel.findByUids(users)

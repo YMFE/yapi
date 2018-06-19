@@ -180,7 +180,6 @@ class ProjectMember extends Component {
 
   // 修改用户是否接收邮件通知
   changeEmailNotice = async (notice, member_uid) => {
-    console.log('e', notice);
     const id = this.props.match.params.id;
     await this.props.changeMemberEmailNotice({ id, member_uid, notice });
     this.reFetchList(); // 添加成功后重新获取项目成员列表
@@ -251,6 +250,8 @@ class ProjectMember extends Component {
                 <span>
                   <Switch
                     size="small"
+                    checkedChildren="开" 
+                    unCheckedChildren="关"
                     checked={record.email_notice}
                     disabled={!(isEmailChangeEable || record.uid === this.props.uid)}
                     onChange={e => this.changeEmailNotice(e, record.uid)}
