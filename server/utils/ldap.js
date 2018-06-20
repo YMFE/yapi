@@ -62,7 +62,7 @@ exports.ldapQuery = (username, password) => {
       });
       // 查询结束
       search.on('end', () => {
-        
+        console.log('users', users)
         if (users.length > 0) {
           client.bind(users[0], password, (e) => {
             if (e) {
@@ -104,7 +104,7 @@ exports.ldapQuery = (username, password) => {
       }
 
       const searchDn = ldapLogin.searchDn;
-      const opts = {
+      const opts = { 
         filter: `(${ldapLogin.searchStandard}=${username})`,
         scope: 'sub'
       };

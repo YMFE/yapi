@@ -131,12 +131,17 @@ class userController extends baseController {
   async  getLdapAuth(ctx) {
     try {
       const { email, password } = ctx.request.body;
-      const username = email.split(/\@/g)[0]
+      // const username = email.split(/\@/g)[0];
       await ldap.ldapQuery(email, password);
-      let login = await this.handleThirdLogin(email, username);
+      const username = email.split(/\@/g)[0];
+      const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
+      
+      const emailParams =emailPostfix ?  username + yapi.WEBCONFIG.ldapLogin.emailPostfix : email;
+
+      let login = await this.handleThirdLogin(emailParams, username);
       if (login === true) {
         let userInst = yapi.getInst(userModel); //创建user实体
-        let result = await userInst.findByEmail(email);
+        let result = await userInst.findByEmail(emailParams);
         return ctx.body = yapi.commons.resReturn({
           username: result.username,
           role: result.role,
