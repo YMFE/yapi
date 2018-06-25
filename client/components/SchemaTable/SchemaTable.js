@@ -50,7 +50,10 @@ const columns = [
   {
     title: '默认值',
     dataIndex: 'default',
-    key: 'default'
+    key: 'default',
+    render: text => {
+      return <div>{text+''}</div>
+    }
   },
   {
     title: '备注',
