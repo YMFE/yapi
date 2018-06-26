@@ -682,7 +682,7 @@ class projectController extends baseController {
       let projectInst = yapi.getInst(projectModel);
       var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
       if (check === 0) {
-        return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
+        return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
       }
   
       let result = await projectInst.changeMemberEmailNotice(params.id, params.member_uid, params.notice);
