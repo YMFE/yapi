@@ -52,7 +52,7 @@ const columns = [
     dataIndex: 'default',
     key: 'default',
     render: text => {
-      return <div>{_.isBoolean(text) ? text+'': text}</div>
+      return <div>{_.isBoolean(text) ? text+'': text}</div>;
     }
   },
   {

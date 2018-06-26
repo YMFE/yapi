@@ -366,10 +366,10 @@ function handleParams(interfaceData, handleValue, requestParams) {
     if(interfaceRunData.req_body_type === 'raw'){
       if(headers && headers['Content-Type']){
         if(headers['Content-Type'].indexOf('application/x-www-form-urlencoded')>=0) {
-          interfaceRunData.req_body_type = 'form'
+          interfaceRunData.req_body_type = 'form';
           let reqData = json_parse(interfaceRunData.req_body_other);
           if(reqData && typeof reqData === 'object'){
-            interfaceRunData.req_body_form = []
+            interfaceRunData.req_body_form = [];
             Object.keys(reqData).forEach(key=>{
               interfaceRunData.req_body_form.push({
                 name: key,
@@ -381,7 +381,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
           }
           
         } else if(headers['Content-Type'].indexOf('application/json')>=0) {
-          interfaceRunData.req_body_type = 'json'          
+          interfaceRunData.req_body_type = 'json';          
         }
       }
     }
