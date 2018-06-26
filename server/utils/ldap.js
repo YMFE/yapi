@@ -52,15 +52,12 @@ exports.ldapQuery = (username, password) => {
       });
 
       search.on('searchReference', (referral) => {
-        if (!ldapLogin.ignoreSearchReference) {
-          if (referral) {
-            let msg ={
-              type:false,
-              message: `searchReference: ${referral}`
-            }
-            reject(msg);
-            
+        if (referral) {
+          let msg ={
+            type:false,
+            message: `searchReference: ${referral}`
           }
+          yapi.commons.log('ldapSearch: ' + JSON.stringify(msg), 'warn')
         }
       });
       // 查询结束
