@@ -1,3 +1,4 @@
+const util = require("util");
 const ldap = require("ldapjs");
 const yapi = require('../yapi.js');
 
@@ -56,8 +57,7 @@ exports.ldapQuery = (username, password) => {
             type:false,
             message: `searchReference: ${referral}`
           }
-          reject(msg);
-          
+          yapi.commons.log('ldapSearch: ' + JSON.stringify(msg), 'warn')
         }
       });
       // 查询结束
@@ -104,7 +104,7 @@ exports.ldapQuery = (username, password) => {
 
       const searchDn = ldapLogin.searchDn;
       const opts = {
-        filter: `(${ldapLogin.searchStandard}=${username})`,
+        filter: util.format(ldapLogin.searchStandard, username),
         scope: 'sub'
       };
 
