@@ -80,7 +80,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 
 ## 配置邮箱
 打开项目目录 config.json 文件，新增 mail 配置， 替换默认的邮箱配置
-```
+```json
 {
   "port": "*****",
   "adminAccount": "********",
@@ -104,7 +104,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
      
 打开项目目录 config.json 文件，添加如下字段：   
 
-```  
+```json
 {
   "port": "*****",
   "adminAccount": "********",
@@ -116,7 +116,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
       "baseDn": "CN=Admin,CN=Users,DC=test,DC=com",
       "bindPassword": "password123",
       "searchDn": "OU=UserContainer,DC=test,DC=com",
-      "searchStandard": "mail",
+      "searchStandard": "mail",    // 自定义格式： "searchStandard": "&(objectClass=user)(cn=%s)"
       "emailPostfix": "@163.com"
    }
 }
@@ -129,7 +129,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 - `baseDn` LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;
 - `bindPassword` 登录该 LDAP 服务器的密码;
 - `searchDn` 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;
-- `searchStandard` 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.
+- `searchStandard` 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换
 - `emailPostfix` 登陆邮箱后缀
 
 重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功

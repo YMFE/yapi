@@ -52,7 +52,7 @@ const columns = [
     dataIndex: 'default',
     key: 'default',
     render: text => {
-      return <div>{text+''}</div>
+      return <div>{_.isBoolean(text) ? text+'': text}</div>
     }
   },
   {
@@ -60,7 +60,6 @@ const columns = [
     dataIndex: 'desc',
     key: 'desc',
     render: (text, item) => {
-      // console.log('text',item.sub);
       return _.isUndefined(item.childrenDesc) ? (
         <span>{text}</span>
       ) : (

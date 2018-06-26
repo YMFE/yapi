@@ -1152,7 +1152,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",
-          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n"
+          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n修复type为raw header type 为form 时运行body 为空问题\n"
         },
         {
           "title": "v1.3.17",
@@ -1309,7 +1309,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",
-          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n"
+          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n修复type为raw header type 为form 时运行body 为空问题\n"
         },
         {
           "title": "v1.3.17",
@@ -1503,7 +1503,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
@@ -1555,7 +1555,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
