@@ -229,7 +229,12 @@ let routerConfig = {
 			"action": "changeMemberRole",
 			"path": "change_member_role",
 			"method": "post"
-		},
+    },
+    {
+      "action": "changeMemberEmailNotice",
+      "path": "change_member_email_notice",
+      "method": "post"
+    },
 		{
 			"action": "getMemberList",
 			"path": "get_member_list",

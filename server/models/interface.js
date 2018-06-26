@@ -275,7 +275,14 @@ class interfaceModel extends baseModel {
     }, {
             index: index
         })
-}
+  }
+
+  search(keyword) {
+    return this.model.find({
+      title: new RegExp(keyword, 'ig')
+    })
+      .limit(10);
+  }
 
 
 }

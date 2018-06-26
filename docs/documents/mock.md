@@ -119,7 +119,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.xxx.com/mock/58/api/user/status`
 
-详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a>
+详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugin/ykit-config-mock.html">ykit-config-mock</a>
 
 
 

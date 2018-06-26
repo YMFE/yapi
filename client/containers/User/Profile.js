@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 @connect(state => {
   return {
     curUid: state.user.uid,
-    userType: state.user.type,
+    userType: state.user.type, 
     curRole: state.user.role
   }
 }, {
@@ -67,6 +67,7 @@ class Profile extends Component {
   getUserInfo = (id) => {
     var _this = this;
     const { curUid } = this.props;
+
     axios.get('/api/user/find?id=' + id).then((res) => {
       _this.setState({
         userinfo: res.data.data,

@@ -50,14 +50,16 @@ const columns = [
   {
     title: '默认值',
     dataIndex: 'default',
-    key: 'default'
+    key: 'default',
+    render: text => {
+      return <div>{_.isBoolean(text) ? text+'': text}</div>
+    }
   },
   {
     title: '备注',
     dataIndex: 'desc',
     key: 'desc',
     render: (text, item) => {
-      // console.log('text',item.sub);
       return _.isUndefined(item.childrenDesc) ? (
         <span>{text}</span>
       ) : (

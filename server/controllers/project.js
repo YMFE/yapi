@@ -233,7 +233,7 @@ class projectController extends baseController {
     let uid = this.getUid();
     // 将项目添加者变成项目组长,除admin以外
     if (this.getRole() !== 'admin') {
-      let userdata = await this.getUserdata(uid, 'owner');
+      let userdata = await yapi.commons.getUserdata(uid, 'owner');
       await this.Model.addMember(result._id, [userdata]);
     }
     let username = this.getUsername();
@@ -341,8 +341,12 @@ class projectController extends baseController {
       let uid = this.getUid();
       // 将项目添加者变成项目组长,除admin以外
       if (this.getRole() !== 'admin') {
-        let userdata = await this.getUserdata(uid, 'owner');
-        copyProjectMembers.push(userdata);
+        let userdata = await yapi.commons.getUserdata(uid, 'owner');
+        let check = await this.Model.checkMemberRepeat(copyId, uid);
+        if(check === 0){
+          copyProjectMembers.push(userdata);
+        }
+        
       }
       await this.Model.addMember(result._id, copyProjectMembers);
 
@@ -388,7 +392,7 @@ class projectController extends baseController {
     for (let i = 0, len = params.member_uids.length; i < len; i++) {
       let id = params.member_uids[i];
       let check = await this.Model.checkMemberRepeat(params.id, id);
-      let userdata = await this.getUserdata(id, params.role);
+      let userdata = await yapi.commons.getUserdata(id, params.role);
       if (check > 0) {
         exist_members.push(userdata);
       } else if (!userdata) {
@@ -463,20 +467,6 @@ class projectController extends baseController {
     ctx.body = yapi.commons.resReturn(result);
   }
 
-  async getUserdata(uid, role) {
-    role = role || 'dev';
-    let userInst = yapi.getInst(userModel);
-    let userData = await userInst.findById(uid);
-    if (!userData) {
-      return null;
-    }
-    return {
-      role: role,
-      uid: userData._id,
-      username: userData.username,
-      email: userData.email
-    };
-  }
 
   /**
    * 获取项目成员列表
@@ -675,6 +665,36 @@ class projectController extends baseController {
   }
 
   /**
+   * 修改项目成员是否收到邮件通知
+   * @interface /project/change_member_email_notice
+   * @method POST
+   * @category project
+   * @foldnumber 10
+   * @param {String} id 项目id
+   * @param {String} member_uid 项目成员uid
+   * @param {String} role 权限 ['owner'|'dev']
+   * @returns {Object}
+   * @example
+   */
+  async changeMemberEmailNotice(ctx) {
+    try {
+      let params = ctx.request.body;
+      let projectInst = yapi.getInst(projectModel);
+      var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
+      if (check === 0) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
+      }
+  
+      let result = await projectInst.changeMemberEmailNotice(params.id, params.member_uid, params.notice);
+      ctx.body = yapi.commons.resReturn(result);
+    }catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+   
+  }
+
+
+  /**
    * 项目头像设置
    * @interface /project/upset
    * @method POST
@@ -793,7 +813,7 @@ class projectController extends baseController {
       let result = await this.Model.up(id, data);
       let username = this.getUsername();
       yapi.commons.saveLog({
-        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api}">${
+        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api">${
           projectData.name
         }</a>`,
         type: 'project',
@@ -972,7 +992,7 @@ class projectController extends baseController {
   }
 
   /**
-   * 模糊搜索项目名称或者组名称
+   * 模糊搜索项目名称或者分组名称或接口名称
    * @interface /project/search
    * @method GET
    * @category project
@@ -994,6 +1014,8 @@ class projectController extends baseController {
 
     let projectList = await this.Model.search(q);
     let groupList = await this.groupModel.search(q);
+    let interfaceList = await this.interfaceModel.search(q);
+    
     let projectRules = [
       '_id',
       'name',
@@ -1013,13 +1035,23 @@ class projectController extends baseController {
       { key: 'add_time', alias: 'addTime' },
       { key: 'up_time', alias: 'upTime' }
     ];
+    let interfaceRules = [
+      '_id',
+      'uid',
+      { key: 'title', alias: 'title' },
+      { key: 'project_id', alias: 'projectId' },
+      { key: 'add_time', alias: 'addTime' },
+      { key: 'up_time', alias: 'upTime' }
+    ];
+
 
     projectList = commons.filterRes(projectList, projectRules);
     groupList = commons.filterRes(groupList, groupRules);
-
+    interfaceList = commons.filterRes(interfaceList, interfaceRules);
     let queryList = {
       project: projectList,
-      group: groupList
+      group: groupList,
+      interface: interfaceList
     };
 
     return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));

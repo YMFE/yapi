@@ -322,7 +322,8 @@ class openController extends baseController {
     const starUsers = list.map(item => item.uid);
 
     const projectList = await this.projectModel.get(projectId);
-    const projectMenbers = projectList.members.map(item => item.uid);
+    const projectMenbers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
+
 
     const users = this.arrUnique(projectMenbers, starUsers);
     const usersInfo = await this.userModel.findByUids(users);

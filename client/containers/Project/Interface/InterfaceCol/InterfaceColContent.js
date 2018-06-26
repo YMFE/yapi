@@ -131,6 +131,7 @@ class InterfaceColContent extends Component {
 
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
+        
       }
 
       this.props.setColData({
