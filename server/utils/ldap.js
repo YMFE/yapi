@@ -51,13 +51,14 @@ exports.ldapQuery = (username, password) => {
       });
 
       search.on('searchReference', referral => {
-        if (referral) {
-          let msg = {
-            type: false,
-            message: `searchReference: ${referral}`
-          };
-          reject(msg);
-        }
+        // if (referral) {
+        //   let msg = {
+        //     type: false,
+        //     message: `searchReference: ${referral}`
+        //   };
+        //   reject(msg);
+        // }
+        console.log('referral: ' + referral.uris.join());
       });
       // 查询结束
       search.on('end', () => {
@@ -106,12 +107,10 @@ exports.ldapQuery = (username, password) => {
       // 处理可以自定义filter
       let customFilter;
       if (/^&/gi.test(searchStandard)) {
-        // customFilter = searchStandard.replace(/\%s/gi, username);
         customFilter = util.format(searchStandard, username)
       } else {
         customFilter = `${searchStandard}=${username}`;
       }
-      // console.log('customFilter', customFilter);
       const opts = {
         // filter: `(${searchStandard}=${username})`,
         filter: `(${customFilter})`,
