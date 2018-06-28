@@ -343,10 +343,9 @@ class projectController extends baseController {
       if (this.getRole() !== 'admin') {
         let userdata = await yapi.commons.getUserdata(uid, 'owner');
         let check = await this.Model.checkMemberRepeat(copyId, uid);
-        if(check === 0){
+        if (check === 0) {
           copyProjectMembers.push(userdata);
         }
-        
       }
       await this.Model.addMember(result._id, copyProjectMembers);
 
@@ -437,36 +436,39 @@ class projectController extends baseController {
    */
 
   async delMember(ctx) {
-    let params = ctx.params;
+    try {
+      let params = ctx.params;
 
-    var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
-    if (check === 0) {
-      return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
-    }
+      var check = await this.Model.checkMemberRepeat(params.id, params.member_uid);
+      if (check === 0) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
+      }
 
-    if ((await this.checkAuth(params.id, 'project', 'danger')) !== true) {
-      return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
-    }
+      if ((await this.checkAuth(params.id, 'project', 'danger')) !== true) {
+        return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
+      }
 
-    let result = await this.Model.delMember(params.id, params.member_uid);
-    let username = this.getUsername();
-    yapi
-      .getInst(userModel)
-      .findById(params.member_uid)
-      .then(member => {
-        yapi.commons.saveLog({
-          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了项目中的成员 <a href="/user/profile/${
-            params.member_uid
-          }">${member.username}</a>`,
-          type: 'project',
-          uid: this.getUid(),
-          username: username,
-          typeid: params.id
+      let result = await this.Model.delMember(params.id, params.member_uid);
+      let username = this.getUsername();
+      yapi
+        .getInst(userModel)
+        .findById(params.member_uid)
+        .then(member => {
+          yapi.commons.saveLog({
+            content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了项目中的成员 <a href="/user/profile/${
+              params.member_uid
+            }">${member? member.username: ''}</a>`,
+            type: 'project',
+            uid: this.getUid(),
+            username: username,
+            typeid: params.id
+          });
         });
-      });
-    ctx.body = yapi.commons.resReturn(result);
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
   }
-
 
   /**
    * 获取项目成员列表
@@ -682,17 +684,19 @@ class projectController extends baseController {
       let projectInst = yapi.getInst(projectModel);
       var check = await projectInst.checkMemberRepeat(params.id, params.member_uid);
       if (check === 0) {
-        return ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在');
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目成员不存在'));
       }
-  
-      let result = await projectInst.changeMemberEmailNotice(params.id, params.member_uid, params.notice);
+
+      let result = await projectInst.changeMemberEmailNotice(
+        params.id,
+        params.member_uid,
+        params.notice
+      );
       ctx.body = yapi.commons.resReturn(result);
-    }catch (e) {
+    } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
-   
   }
-
 
   /**
    * 项目头像设置
@@ -884,8 +888,7 @@ class projectController extends baseController {
     }
   }
 
-
-   /**
+  /**
    * 获取项目的环境变量值
    * @interface /project/get_env
    * @method GET
@@ -911,14 +914,12 @@ class projectController extends baseController {
 
       let env = await this.Model.getByEnv(project_id);
       // console.log('project', projectData)
-    
+
       ctx.body = yapi.commons.resReturn(env);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
   }
-
-
 
   arrRepeat(arr, key) {
     const s = new Set();
@@ -1015,7 +1016,7 @@ class projectController extends baseController {
     let projectList = await this.Model.search(q);
     let groupList = await this.groupModel.search(q);
     let interfaceList = await this.interfaceModel.search(q);
-    
+
     let projectRules = [
       '_id',
       'name',
@@ -1043,7 +1044,6 @@ class projectController extends baseController {
       { key: 'add_time', alias: 'addTime' },
       { key: 'up_time', alias: 'upTime' }
     ];
-
 
     projectList = commons.filterRes(projectList, projectRules);
     groupList = commons.filterRes(groupList, groupRules);
