@@ -293,7 +293,7 @@ class groupController extends baseController {
 
     let groupUserdata = await this.getUserdata(params.member_uid, params.role);
     yapi.commons.saveLog({
-      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更改了分组成员 <a href="/user/profile/${params.member_uid}">${groupUserdata.username }</a> 的权限为 "${rolename[params.role]}"`,
+      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更改了分组成员 <a href="/user/profile/${params.member_uid}">${groupUserdata ? groupUserdata.username: '' }</a> 的权限为 "${rolename[params.role]}"`,
       type: 'group',
       uid: this.getUid(),
       username: username,

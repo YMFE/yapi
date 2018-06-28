@@ -129,6 +129,20 @@ hooks = {
     listener: null
   },
   /**
+   * &#x5BFC;&#x5165;&#x6570;&#x636E;
+   * @param Object importDataModule
+   *
+   * @info
+   * &#x53EF;&#x53C2;&#x8003; vendors/exts/yapi-plugin-import-swagger&#x63D2;&#x4EF6;
+   * importDataModule = {};
+   *
+   */
+  import_data: {
+    type: &#x27;listener&#x27;,
+    mulit: true,
+    listener: []
+  },
+  /**
    * &#x5BFC;&#x51FA;&#x6570;&#x636E;
    * @param Object exportDataModule
    * @param projectId
@@ -141,20 +155,6 @@ hooks = {
    * }
    */
   export_data: {
-    type: &#x27;listener&#x27;,
-    mulit: true,
-    listener: []
-  },
-  /**
-   * &#x5BFC;&#x5165;&#x6570;&#x636E;
-   * @param importDataModule
-   *
-   * @info
-   * &#x53EF;&#x53C2;&#x8003; vendors/exts/yapi-plugin-import-swagger&#x63D2;&#x4EF6;
-   * importDataModule = {};
-   *
-   */
-  import_data: {
     type: &#x27;listener&#x27;,
     mulit: true,
     listener: []
@@ -181,6 +181,104 @@ hooks = {
     }
    */
   interface_tab: {
+    type: &#x27;listener&#x27;,
+    mulit: true,
+    listener: []
+  },
+  /**
+   * header&#x4E0B;&#x62C9;&#x83DC;&#x5355; menu &#x94A9;&#x5B50;
+   * @param HeaderMenu
+   *
+   * @info
+   * &#x53EF;&#x53C2;&#x8003; vendors/exts/yapi-plugin-statistics
+   * let HeaderMenu = {
+  user: {
+    path: &#x27;/user/profile&#x27;,
+    name: &#x27;&#x4E2A;&#x4EBA;&#x4E2D;&#x5FC3;&#x27;,
+    icon: &#x27;user&#x27;,
+    adminFlag: false
+  },
+  star: {
+    path: &#x27;/follow&#x27;,
+    name: &#x27;&#x6211;&#x7684;&#x5173;&#x6CE8;&#x27;,
+    icon: &#x27;star-o&#x27;,
+    adminFlag: false
+  },
+  solution: {
+    path: &#x27;/user/list&#x27;,
+    name: &#x27;&#x7528;&#x6237;&#x7BA1;&#x7406;&#x27;,
+    icon: &#x27;solution&#x27;,
+    adminFlag: true
+
+  },
+  logout: {
+    path: &#x27;&#x27;,
+    name: &#x27;&#x9000;&#x51FA;&#x27;,
+    icon: &#x27;logout&#x27;,
+    adminFlag: false
+
+  }
+};
+   */
+  header_menu: {
+    type: &#x27;listener&#x27;,
+    mulit: true,
+    listener: []
+  },
+  /**
+   * Route&#x8DEF;&#x7531;&#x5217;&#x8868;&#x94A9;&#x5B50;
+   * @param AppRoute
+   *
+   * @info
+   * &#x53EF;&#x53C2;&#x8003; vendors/exts/yapi-plugin-statistics
+   * &#x6DFB;&#x52A0;&#x4F4D;&#x7F6E;&#x5728;Application.js &#x4E2D;
+   * let AppRoute = {
+  home: {
+    path: &#x27;/&#x27;,
+    component: Home
+  },
+  group: {
+    path: &#x27;/group&#x27;,
+    component: Group
+  },
+  project: {
+    path: &#x27;/project/:id&#x27;,
+    component: Project
+  },
+  user: {
+    path: &#x27;/user&#x27;,
+    component: User
+  },
+  follow: {
+    path: &#x27;/follow&#x27;,
+    component: Follows
+  },
+  addProject: {
+    path: &#x27;/add-project&#x27;,
+    component: AddProject
+  },
+  login: {
+    path: &#x27;/login&#x27;,
+    component: Login
+  }
+};
+};
+   */
+  app_route: {
+    type: &#x27;listener&#x27;,
+    mulit: true,
+    listener: []
+  },
+  /*
+   * &#x6DFB;&#x52A0; reducer
+   * @param Object reducerModules
+   *
+   * @info
+   * importDataModule = {};
+   *
+   */
+
+  add_reducer: {
     type: &#x27;listener&#x27;,
     mulit: true,
     listener: []

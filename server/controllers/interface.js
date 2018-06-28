@@ -592,7 +592,7 @@ class interfaceController extends baseController {
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
       let interfaceUrl = `http://${ctx.request.host}/project/${interfaceData.project_id}/interface/api/${id}`
-      this.sendNotice(interfaceData.project_id, {
+      yapi.commons.sendNotice(interfaceData.project_id, {
         title: `${username} 更新了接口`,
         content: `<html>
         <head>
@@ -921,41 +921,6 @@ class interfaceController extends baseController {
     }
   }
 
-
-  async sendNotice(projectId, data) {
-    const list = await this.followModel.listByProjectId(projectId);
-    const starUsers = list.map(item => item.uid);
-
-    const projectList = await this.projectModel.get(projectId);
-    // const projectMembers = projectList.members.map(item => item.uid);
-    const projectMembers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
-    
-
-    const users = this.arrUnique(projectMembers, starUsers);
-    const usersInfo = await this.userModel.findByUids(users)
-    const emails = usersInfo.map(item => item.email).join(',');
-
-    try {
-      yapi.commons.sendMail({
-        to: emails,
-        contents: data.content,
-        subject: data.title
-      })
-    } catch (e) {
-      yapi.commons.log('邮件发送失败：' + e, 'error')
-    }
-
-  }
-
-  arrUnique(arr1, arr2) {
-
-    let arr = arr1.concat(arr2);
-    let res = arr.filter(function (item, index, arr) {
-      return arr.indexOf(item) === index;
-    })
-    return res;
-
-  }
 
   requiredSort(params) {
     return params.sort((item1, item2) => {

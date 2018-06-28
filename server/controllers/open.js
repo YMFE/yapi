@@ -228,7 +228,7 @@ class openController extends baseController {
       let autoTestUrl = `http://${
         ctx.request.host
       }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
-      this.sendNotice(projectId, {
+      yapi.commons.sendNotice(projectId, {
         title: `YApi自动化测试报告`,
         content: `
         <html>
@@ -317,36 +317,7 @@ class openController extends baseController {
     return result;
   }
 
-  async sendNotice(projectId, data) {
-    const list = await this.followModel.listByProjectId(projectId);
-    const starUsers = list.map(item => item.uid);
-
-    const projectList = await this.projectModel.get(projectId);
-    const projectMenbers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
-
-
-    const users = this.arrUnique(projectMenbers, starUsers);
-    const usersInfo = await this.userModel.findByUids(users);
-    const emails = usersInfo.map(item => item.email).join(',');
-
-    try {
-      yapi.commons.sendMail({
-        to: emails,
-        contents: data.content,
-        subject: data.title
-      });
-    } catch (e) {
-      yapi.commons.log('邮件发送失败：' + e, 'error');
-    }
-  }
-
-  arrUnique(arr1, arr2) {
-    let arr = arr1.concat(arr2);
-    let res = arr.filter(function(item, index, arr) {
-      return arr.indexOf(item) === index;
-    });
-    return res;
-  }
+  
 
   async handleScriptTest(interfaceData, response, validRes, requestParams) {
     if (interfaceData.enable_script !== true) {
