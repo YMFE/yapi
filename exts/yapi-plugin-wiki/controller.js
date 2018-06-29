@@ -1,10 +1,6 @@
 
 const baseController = require('controllers/base.js');
 const wikiModel = require('./wikiModel.js');
-const groupModel = require('models/group.js');
-const projectModel = require('models/project.js');
-const interfaceModel = require('models/interface.js');
-const interfaceCaseModel = require('models/interfaceCase.js');
 
 const yapi = require('yapi.js');
 
@@ -13,10 +9,7 @@ class wikiController extends baseController {
   constructor(ctx) {
     super(ctx);
     this.Model = yapi.getInst(wikiModel);
-    this.groupModel = yapi.getInst(groupModel);
-    this.projectModel = yapi.getInst(projectModel);
-    this.interfaceModel = yapi.getInst(interfaceModel);
-    this.interfaceCaseModel = yapi.getInst(interfaceCaseModel);
+    
   }
 
   /**
@@ -57,7 +50,7 @@ class wikiController extends baseController {
         desc: 'string',
         markdown: 'string'
       });
-      console.log(params)
+    
       if (!params.project_id) {
         return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
       }
