@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, message } from 'antd';
+import { Button, message, Checkbox } from 'antd';
 import { connect } from 'react-redux'
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -28,7 +28,8 @@ class WikiPage extends Component {
       isEditor: false,
       isUpload: true,
       desc: '',
-      markdown: ''
+      markdown: '',
+      notice: props.projectMsg.switch_notice
     };
   }
 
@@ -83,7 +84,8 @@ class WikiPage extends Component {
     let option = {
       project_id: currProjectId,
       desc,
-      markdown
+      markdown,
+      email_notice: this.state.notice
     };
     let result = await axios.post('/api/plugin/wiki_desc/up', option);
     if (result.data.errcode === 0) {
@@ -93,13 +95,21 @@ class WikiPage extends Component {
       message.error(`更新失败： ${result.data.errmsg}`);
     }
   };
-
+  // 取消编辑
   onCancel = () => {
     this.setState({ isEditor: false });
   };
 
+  // 邮件通知
+  onEmailNotice = (e) => {
+    this.setState({
+      notice: e.target.checked
+    })
+
+  }
+
   render() {
-    const { isEditor, username, editorTime } = this.state;
+    const { isEditor, username, editorTime, notice } = this.state;
     const editorEable = this.props.projectMsg.role === 'admin' || this.props.projectMsg.role === 'owner' || this.props.projectMsg.role === 'dev'
     return (
       <div className="g-row">
@@ -114,7 +124,8 @@ class WikiPage extends Component {
                 <Button icon="upload" type="primary" className="upload-btn" onClick={this.onUpload}>
                   更新
                 </Button>
-                <Button onClick={this.onCancel}>取消</Button>
+                <Button onClick={this.onCancel} className="upload-btn">取消</Button>
+                <Checkbox checked={notice} onChange={this.onEmailNotice}>通知相关人员</Checkbox>
               </div>
             )}
           </div>
