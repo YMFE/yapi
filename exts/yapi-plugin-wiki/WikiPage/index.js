@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, message } from 'antd';
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import './index.scss';
@@ -13,6 +13,14 @@ require('highlight.js/styles/github.css'); // code block highlight
 var Editor = require('tui-editor');
 import { formatDate } from '../util.js';
 
+@connect(
+  state => {
+    return {
+      projectMsg: state.project.currProject
+    };
+  },
+  {}
+)
 class WikiPage extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +33,8 @@ class WikiPage extends Component {
   }
 
   static propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    projectMsg: PropTypes.object
   };
 
   async componentDidMount() {
@@ -54,7 +63,7 @@ class WikiPage extends Component {
     let result = await axios.get('/api/plugin/wiki_desc/get', { params });
     if (result.data.errcode === 0) {
       const data = result.data.data;
-      if(data) {
+      if (data) {
         this.setState({
           desc: data.desc,
           markdown: data.markdown,
@@ -62,7 +71,6 @@ class WikiPage extends Component {
           editorTime: formatDate(data.up_time * 1000)
         });
       }
-      
     } else {
       message.error(`请求数据失败： ${result.data.errmsg}`);
     }
@@ -88,34 +96,34 @@ class WikiPage extends Component {
 
   onCancel = () => {
     this.setState({ isEditor: false });
-  }
+  };
 
   render() {
     const { isEditor, username, editorTime } = this.state;
+    const editorEable = this.props.projectMsg.role === 'admin' || this.props.projectMsg.role === 'owner' || this.props.projectMsg.role === 'dev'
     return (
       <div className="g-row">
         <div className="m-panel wiki-content">
           <div className="wiki-title">
-          {!isEditor ? (
-            <Button icon="edit" onClick={this.onEditor}>
-              编辑
-            </Button>
-          ) : (
-            <div>
-              <Button icon="upload" type="primary" className="upload-btn" onClick={this.onUpload}>
-                更新
+            {!isEditor ? (
+              <Button icon="edit" onClick={this.onEditor} disabled={!editorEable}>
+                编辑
               </Button>
-              <Button onClick={this.onCancel}>
-                取消
-              </Button>
-            </div>
-          )}
+            ) : (
+              <div>
+                <Button icon="upload" type="primary" className="upload-btn" onClick={this.onUpload}>
+                  更新
+                </Button>
+                <Button onClick={this.onCancel}>取消</Button>
+              </div>
+            )}
           </div>
-          {!isEditor && username && (
-            <div className="wiki-user">
-              由{username}修改于{editorTime}
-            </div>
-          )}
+          {!isEditor &&
+            username && (
+              <div className="wiki-user">
+                由{username}修改于{editorTime}
+              </div>
+            )}
           <div id="desc" className="wiki-editor" style={{ display: isEditor ? 'block' : 'none' }} />
           <div
             className="tui-editor-contents"
