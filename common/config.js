@@ -13,5 +13,7 @@ module.exports = {
     name: 'export-data'
   },{
     name: 'import-yapi-json'
+  },{
+    name: 'wiki'
   }]
 }
