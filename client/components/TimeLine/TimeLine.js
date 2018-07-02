@@ -16,7 +16,8 @@ import 'jsondiffpatch/public/formatters-styles/html.css';
 
 import './TimeLine.scss';
 
-const Option = AutoComplete.Option;
+// const Option = AutoComplete.Option;
+const {Option, OptGroup} = AutoComplete;
 
 const AddDiffView = props => {
   const { title, content, className } = props;
@@ -93,8 +94,8 @@ function timeago(timestamp) {
     };
   },
   {
-    fetchNewsData: fetchNewsData,
-    fetchMoreNews: fetchMoreNews,
+    fetchNewsData,
+    fetchMoreNews,
     fetchInterfaceList
   }
 )
@@ -121,7 +122,7 @@ class TimeTree extends Component {
       curDiffData: {},
       apiList: []
     };
-    this.curInterfaceId = '';
+    this.curSelectValue = '';
   }
 
   getMore() {
@@ -135,7 +136,7 @@ class TimeTree extends Component {
           this.props.type,
           this.props.curpage + 1,
           10,
-          this.curInterfaceId
+          this.curSelectValue
         )
         .then(function() {
           that.setState({ loading: false });
@@ -176,9 +177,9 @@ class TimeTree extends Component {
     });
   }
 
-  handleSelectApi = interfaceId => {
-    this.curInterfaceId = interfaceId;
-    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, interfaceId);
+  handleSelectApi = selectValue => {
+    this.curSelectValue = selectValue;
+    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, selectValue);
   };
 
   render() {
@@ -213,8 +214,6 @@ class TimeTree extends Component {
         选择全部
       </Option>
     );
-
-    
 
     if (data && data.length) {
       data = data.map((item, i) => {
@@ -295,7 +294,6 @@ class TimeTree extends Component {
                 placeholder="Select Api"
                 optionLabelProp="title"
                 filterOption={(inputValue, options) => {
-                  console.log(options);
                   if (options.props.value == '') return true;
                   if (
                     options.props.path.indexOf(inputValue) !== -1 ||
@@ -306,7 +304,14 @@ class TimeTree extends Component {
                   return false;
                 }}
               >
-                {children}
+                {/* {children} */}
+                <OptGroup label="other">
+                  <Option value="wiki" path="" title="wiki">wiki</Option>
+                </OptGroup>
+                <OptGroup label="api">
+                  {children}
+                </OptGroup>
+                
               </AutoComplete>
             </Col>
           </Row>

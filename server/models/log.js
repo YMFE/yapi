@@ -59,15 +59,20 @@ class logModel extends baseModel {
     }
      
 
-    listWithPaging(typeid,type, page, limit, interfaceId) {
+    listWithPaging(typeid,type, page, limit, selectValue) {
         page = parseInt(page);
         limit = parseInt(limit);
         const params = {
             type: type,
             typeid: typeid
-        }        
-        if(interfaceId && !isNaN(interfaceId)){
-            params['data.interface_id'] = +interfaceId
+        }
+        
+        if(selectValue === 'wiki') {
+          params['data.type'] = selectValue
+        }    
+        if(selectValue && !isNaN(selectValue)){
+          
+          params['data.interface_id'] = +selectValue
         }       
         return this.model.find(params).sort({add_time:-1}).skip((page - 1) * limit).limit(limit).exec();
     }
@@ -95,13 +100,18 @@ class logModel extends baseModel {
             }]
         });
     }
-    listCount(typeid,type, interfaceId) {
+    listCount(typeid,type, selectValue) {
         const params = {
             type: type,
             typeid: typeid
         }
-        if(interfaceId && !isNaN(interfaceId)){
-            params['data.interface_id'] = +interfaceId           
+
+        if(selectValue === 'wiki') {
+          params['data.type'] = selectValue
+        }    
+
+        if(selectValue && !isNaN(selectValue)){
+            params['data.interface_id'] = +selectValue           
         }
         return this.model.count(params);
     }
