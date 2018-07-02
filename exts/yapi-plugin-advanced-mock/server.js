@@ -49,7 +49,7 @@ module.exports = function(){
       interface_id: interfaceId,
       ip_enable: true,
       ip: ip
-    }).select('_id params');
+    }).select('_id params'); 
     let matchList = [];
     listWithIp.forEach(item=>{
       let params = item.params;

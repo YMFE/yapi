@@ -10,6 +10,7 @@ class statisMockModel extends baseModel {
     return {
       project_id: { type: Number, required: true },
       username: String,
+      uid: Number,
       desc: String,
       markdown: String,
       add_time: Number,

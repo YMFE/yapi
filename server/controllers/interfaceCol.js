@@ -672,7 +672,7 @@ class interfaceColController extends baseController {
       let result = await this.colModel.up(id, params);
       let username = this.getUsername();
       yapi.commons.saveLog({
-        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了接口集 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 的信息`,
+        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了测试集合 <a href="/project/${colData.project_id}/interface/col/${id}">${colData.name}</a> 的信息`,
         type: 'project',
         uid: this.getUid(),
         username: username,

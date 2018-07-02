@@ -16,6 +16,7 @@ module.exports = function () {
 
     this.bindHook('add_router', function (addRouter) {
         addRouter({
+            // 获取wiki信息
             controller: controller,
             method: 'get',
             path: 'wiki_desc/get',
@@ -23,24 +24,12 @@ module.exports = function () {
         })
 
         addRouter({
+            // 更新wiki信息
             controller: controller,
             method: 'post',
             path: 'wiki_desc/up',
             action: 'uplodaWikiDesc'
         })
-        // addRouter({
-        //   controller: controller,
-        //   method: 'get',
-        //   path: 'statismock/get_system_status',
-        //   action: 'getSystemStatus'
-        // })
-        // addRouter({
-        //     controller: controller,
-        //     method: 'get',
-        //     path: 'statismock/group_data_statis',
-        //     action: 'groupDataStatis'
-        // })
-
 
     })
 };

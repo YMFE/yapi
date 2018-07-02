@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, message, Checkbox } from 'antd';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import './index.scss';
@@ -11,7 +11,8 @@ require('tui-editor/dist/tui-editor-contents.css'); // editor content
 require('highlight.js/styles/github.css'); // code block highlight
 // require('./editor.css');
 var Editor = require('tui-editor');
-import { formatDate } from '../util.js';
+import { timeago } from '../util.js';
+import { Link } from 'react-router-dom';
 
 @connect(
   state => {
@@ -69,7 +70,8 @@ class WikiPage extends Component {
           desc: data.desc,
           markdown: data.markdown,
           username: data.username,
-          editorTime: formatDate(data.up_time * 1000)
+          uid: data.uid,
+          editorTime: timeago(data.up_time)
         });
       }
     } else {
@@ -101,16 +103,18 @@ class WikiPage extends Component {
   };
 
   // 邮件通知
-  onEmailNotice = (e) => {
+  onEmailNotice = e => {
     this.setState({
       notice: e.target.checked
-    })
-
-  }
+    });
+  };
 
   render() {
-    const { isEditor, username, editorTime, notice } = this.state;
-    const editorEable = this.props.projectMsg.role === 'admin' || this.props.projectMsg.role === 'owner' || this.props.projectMsg.role === 'dev'
+    const { isEditor, username, editorTime, notice, uid } = this.state;
+    const editorEable =
+      this.props.projectMsg.role === 'admin' ||
+      this.props.projectMsg.role === 'owner' ||
+      this.props.projectMsg.role === 'dev';
     return (
       <div className="g-row">
         <div className="m-panel wiki-content">
@@ -124,15 +128,24 @@ class WikiPage extends Component {
                 <Button icon="upload" type="primary" className="upload-btn" onClick={this.onUpload}>
                   更新
                 </Button>
-                <Button onClick={this.onCancel} className="upload-btn">取消</Button>
-                <Checkbox checked={notice} onChange={this.onEmailNotice}>通知相关人员</Checkbox>
+                <Button onClick={this.onCancel} className="upload-btn">
+                  取消
+                </Button>
+                <Checkbox checked={notice} onChange={this.onEmailNotice}>
+                  通知相关人员
+                </Checkbox>
               </div>
             )}
           </div>
           {!isEditor &&
             username && (
               <div className="wiki-user">
-                由{username}修改于{editorTime}
+                {/* 由 {username}  */}
+                <Link className="user-name" to={`/user/profile/${uid || 11}`}>
+                  {/* <img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" /> */}
+                  {username} 
+                </Link>
+                 修改于 {editorTime}
               </div>
             )}
           <div id="desc" className="wiki-editor" style={{ display: isEditor ? 'block' : 'none' }} />

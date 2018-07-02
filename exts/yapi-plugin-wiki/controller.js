@@ -5,10 +5,10 @@ const projectModel = require('models/project.js');
 const jsondiffpatch = require('jsondiffpatch');
 const formattersHtml = jsondiffpatch.formatters.html;
 const yapi = require('yapi.js');
-const util = require('./util.js');
-const fs = require('fs-extra')
+// const util = require('./util.js');
+const fs = require('fs-extra');
 const path = require('path');
-
+const showDiffMsg = require('../../common/diff-view.js');
 class wikiController extends baseController {
   constructor(ctx) {
     super(ctx);
@@ -68,12 +68,15 @@ class wikiController extends baseController {
 
       let notice = params.email_notice;
       delete params.email_notice;
+      const username = this.getUsername();
+      const uid = this.getUid();
 
       // 如果当前数据库里面没有数据
       let result = await this.Model.get(params.project_id)
       if(!result) {
         let data = Object.assign(params, {
-          username: this.getUsername(),
+          username,
+          uid,
           add_time: yapi.commons.time(),
           up_time: yapi.commons.time()
         });
@@ -84,42 +87,57 @@ class wikiController extends baseController {
 
       // console.log('result', result);
       let data = Object.assign(params, {
-        username: this.getUsername(),
+        username,
+        uid,
         up_time: yapi.commons.time()
       });
       let upRes = await this.Model.up(result._id, data);
       ctx.body = yapi.commons.resReturn(upRes)
 
+      let logData = {
+        type: 'wiki',
+        project_id: params.project_id,
+        current: params.desc,
+        old: result ? result.toObject().desc : ''
+      }
+      let wikiUrl = `http://${ctx.request.host}/project/${params.project_id}/wiki`
+
       if(notice) {
-        let logData = {
-          project_id: params.project_id,
-          current: params.desc,
-          old: result ? result.toObject().desc : ''
-        }
-       let diffView = util.showDiffMsg(jsondiffpatch, formattersHtml, logData);
+       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
        
        let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
         let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
         let project = await this.projectModel.getBaseInfo(params.project_id);
-        let wikiUrl = `http://${ctx.request.host}/project/${params.project_id}/wiki`
+        
         yapi.commons.sendNotice(params.project_id, {
-          title: `${this.getUsername()} 更新了wiki说明`,
+          title: `${username} 更新了wiki说明`,
           content: `<html>
           <head>
+          <meta charset="utf-8" />
           <style>
           ${annotatedCss}
           ${htmlCss}
           </style>
           </head>
           <body>
-          <div><h3>${this.getUsername()}更新了wiki</h3>
-          <p>修改用户: ${this.getUsername()}</p>
+          <div><h3>${username}更新了wiki说明</h3>
+          <p>修改用户: ${username}</p>
           <p>修改项目: <a href="${wikiUrl}">${project.name}</a></p>
           <p>详细改动日志: ${this.diffHTML(diffView)}</p></div>
           </body>
           </html>`
         })
       }
+
+      // 保存修改日志信息
+      yapi.commons.saveLog({
+        content: `<a href="/user/profile/${uid}">${username}</a> 更新了 <a href="${wikiUrl}">wiki</a> 的信息`,
+        type: 'project',
+        uid,
+        username: username,
+        typeid: params.project_id,
+        data: logData
+      });
       // let upRes = await this.Model.get(result._id)
       return 1;
     } catch (err) {
