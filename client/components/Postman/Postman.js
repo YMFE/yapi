@@ -258,7 +258,7 @@ export default class Run extends Component {
     try {
       result = await crossRequest(options, this.state.pre_script, this.state.after_script);
       result = {
-        header: result.res.header,
+        header: result.res.header, 
         body: result.res.body,
         status: result.res.status,
         statusText: result.res.statusText,
@@ -291,7 +291,6 @@ export default class Run extends Component {
         res_body_type: 'json'
       });
     }
-
     this.setState({
       resStatusCode: result.status,
       resStatusText: result.statusText,

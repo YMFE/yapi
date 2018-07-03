@@ -18,6 +18,11 @@ class interfaceColController extends baseController {
   async testGet(ctx) {
     try {
       let query = ctx.query;
+      // cookie 检测
+      ctx.cookies.set('_uid', 12, {
+        expires: yapi.commons.expireDate(7),
+        httpOnly: true
+      });
       ctx.body = yapi.commons.resReturn(query);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);

@@ -141,11 +141,12 @@ class WikiPage extends Component {
             username && (
               <div className="wiki-user">
                 {/* 由 {username}  */}
+                由{' '}
                 <Link className="user-name" to={`/user/profile/${uid || 11}`}>
                   {/* <img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" /> */}
-                  {username} 
-                </Link>
-                 修改于 {editorTime}
+                  {username}
+                </Link>{' '}
+                修改于 {editorTime}
               </div>
             )}
           <div id="desc" className="wiki-editor" style={{ display: isEditor ? 'block' : 'none' }} />

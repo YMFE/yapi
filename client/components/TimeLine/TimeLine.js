@@ -21,9 +21,11 @@ const {Option, OptGroup} = AutoComplete;
 
 const AddDiffView = props => {
   const { title, content, className } = props;
+  
   if (!content) {
     return null;
   }
+  
   return (
     <div className={className}>
       <h3 className="title">{title}</h3>
@@ -259,7 +261,8 @@ class TimeTree extends Component {
       pending = <Spin />;
     }
     let diffView = showDiffMsg(jsondiffpatch, formattersHtml, curDiffData);
-
+    
+    
     return (
       <section className="news-timeline">
         <Modal
