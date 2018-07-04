@@ -7,7 +7,9 @@
 
 * 新建接口自动添加为项目成员
 * 修复type为raw header type 为form 时运行body 为空问题
-
+* mongodb3.4-> 3.6 聚合 cursor报错
+* path 路径支持 ！
+* json-schema 编辑器修复修改 type 导致描述信息被重置的问题
 
 ### v1.3.17
 
