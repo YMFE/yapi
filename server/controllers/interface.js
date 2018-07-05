@@ -679,7 +679,7 @@ class interfaceController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
   }
-
+   // 处理编辑冲突
   async solveConflict(ctx) {
     try {
       let id = parseInt(ctx.query.id, 10), result, userInst, userinfo, data;

@@ -10,7 +10,8 @@ class statisMockModel extends baseModel {
     return {
       project_id: { type: Number, required: true },
       username: String,
-      uid: Number,
+      uid: { type: Number, required: true },
+      edit_uid: { type: Number, default: 0 },
       desc: String,
       markdown: String,
       add_time: Number,
@@ -43,6 +44,14 @@ class statisMockModel extends baseModel {
       data,
       { runValidators: true }
     );
+  }
+
+  upEditUid(id, uid) {
+    return this.model.update({
+      _id: id
+    },
+      { edit_uid: uid },
+      { runValidators: true });
   }
 }
 

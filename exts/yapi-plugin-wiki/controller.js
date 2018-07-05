@@ -1,7 +1,7 @@
-
 const baseController = require('controllers/base.js');
 const wikiModel = require('./wikiModel.js');
 const projectModel = require('models/project.js');
+const userModel = require('models/user.js');
 const jsondiffpatch = require('jsondiffpatch');
 const formattersHtml = jsondiffpatch.formatters.html;
 const yapi = require('yapi.js');
@@ -14,7 +14,6 @@ class wikiController extends baseController {
     super(ctx);
     this.Model = yapi.getInst(wikiModel);
     this.projectModel = yapi.getInst(projectModel);
-    
   }
 
   /**
@@ -29,10 +28,10 @@ class wikiController extends baseController {
     try {
       let project_id = ctx.request.query.project_id;
       if (!project_id) {
-        return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
       }
-      let result = await this.Model.get(project_id)
-      return ctx.body = yapi.commons.resReturn(result);
+      let result = await this.Model.get(project_id);
+      return (ctx.body = yapi.commons.resReturn(result));
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 400, err.message);
     }
@@ -55,14 +54,14 @@ class wikiController extends baseController {
         desc: 'string',
         markdown: 'string'
       });
-    
+
       if (!params.project_id) {
-        return ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空');
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
       }
-      if(!this.$tokenAuth){
-        let auth = await this.checkAuth(params.project_id, 'project', 'edit')
+      if (!this.$tokenAuth) {
+        let auth = await this.checkAuth(params.project_id, 'project', 'edit');
         if (!auth) {
-          return ctx.body = yapi.commons.resReturn(null, 400, '没有权限');
+          return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
         }
       }
 
@@ -72,8 +71,8 @@ class wikiController extends baseController {
       const uid = this.getUid();
 
       // 如果当前数据库里面没有数据
-      let result = await this.Model.get(params.project_id)
-      if(!result) {
+      let result = await this.Model.get(params.project_id);
+      if (!result) {
         let data = Object.assign(params, {
           username,
           uid,
@@ -82,33 +81,46 @@ class wikiController extends baseController {
         });
 
         let res = await this.Model.save(data);
-        return ctx.body = yapi.commons.resReturn(res);
+        ctx.body = yapi.commons.resReturn(res);
+      } else {
+        let data = Object.assign(params, {
+          username,
+          uid,
+          up_time: yapi.commons.time()
+        });
+        let upRes = await this.Model.up(result._id, data);
+        ctx.body = yapi.commons.resReturn(upRes);
       }
 
       // console.log('result', result);
-      let data = Object.assign(params, {
-        username,
-        uid,
-        up_time: yapi.commons.time()
-      });
-      let upRes = await this.Model.up(result._id, data);
-      ctx.body = yapi.commons.resReturn(upRes)
 
       let logData = {
         type: 'wiki',
         project_id: params.project_id,
         current: params.desc,
         old: result ? result.toObject().desc : ''
-      }
-      let wikiUrl = `http://${ctx.request.host}/project/${params.project_id}/wiki`
+      };
+      let wikiUrl = `http://${ctx.request.host}/project/${params.project_id}/wiki`;
 
-      if(notice) {
-       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
-       
-       let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
-        let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
+      if (notice) {
+        let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+
+        let annotatedCss = fs.readFileSync(
+          path.resolve(
+            yapi.WEBROOT,
+            'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'
+          ),
+          'utf8'
+        );
+        let htmlCss = fs.readFileSync(
+          path.resolve(
+            yapi.WEBROOT,
+            'node_modules/jsondiffpatch/public/formatters-styles/html.css'
+          ),
+          'utf8'
+        );
         let project = await this.projectModel.getBaseInfo(params.project_id);
-        
+
         yapi.commons.sendNotice(params.project_id, {
           title: `${username} 更新了wiki说明`,
           content: `<html>
@@ -126,7 +138,7 @@ class wikiController extends baseController {
           <p>详细改动日志: ${this.diffHTML(diffView)}</p></div>
           </body>
           </html>`
-        })
+        });
       }
 
       // 保存修改日志信息
@@ -143,21 +155,54 @@ class wikiController extends baseController {
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 400, err.message);
     }
-
   }
   diffHTML(html) {
     if (html.length === 0) {
-      return `<span style="color: #555">没有改动，该操作未改动wiki数据</span>`
+      return `<span style="color: #555">没有改动，该操作未改动wiki数据</span>`;
     }
 
     return html.map(item => {
-      return (`<div>
+      return `<div>
       <h4 class="title">${item.title}</h4>
       <div>${item.content}</div>
-    </div>`)
-    })
+    </div>`;
+    });
   }
- 
+
+  // 处理编辑冲突
+  async wikiConflict(ctx) {
+    try {
+      let id = parseInt(ctx.query.id, 10),
+        result,
+        userInst,
+        userinfo,
+        data;
+      if (!id) return ctx.websocket.send('id 参数有误');
+      result = await this.Model.get(id);
+
+      if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
+        userInst = yapi.getInst(userModel);
+        userinfo = await userInst.findById(result.edit_uid);
+        data = {
+          errno: result.edit_uid,
+          data: { uid: result.edit_uid, username: userinfo.username }
+        };
+      } else {
+        await this.Model.upEditUid(result._id, this.getUid());
+        data = {
+          errno: 0,
+          data: result
+        };
+      }
+      ctx.websocket.send(JSON.stringify(data));
+      ctx.websocket.on('close', async () => {
+        console.log('close');
+        await this.Model.upEditUid(result._id, 0);
+      });
+    } catch (err) {
+      yapi.commons.log(err, 'error');
+    }
+  }
 }
 
 module.exports = wikiController;

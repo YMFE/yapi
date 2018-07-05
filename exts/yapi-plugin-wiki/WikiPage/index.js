@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { Button, message, Checkbox } from 'antd';
+import { message } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import './index.scss';
-// deps for editor
-require('codemirror/lib/codemirror.css'); // codemirror
-require('tui-editor/dist/tui-editor.css'); // editor ui
-require('tui-editor/dist/tui-editor-contents.css'); // editor content
-require('highlight.js/styles/github.css'); // code block highlight
-// require('./editor.css');
-var Editor = require('tui-editor');
 import { timeago } from '../util.js';
 import { Link } from 'react-router-dom';
+import WikiView from './View.js';
+import WikiEditor from './Editor.js';
 
 @connect(
   state => {
@@ -30,7 +25,11 @@ class WikiPage extends Component {
       isUpload: true,
       desc: '',
       markdown: '',
-      notice: props.projectMsg.switch_notice
+      notice: props.projectMsg.switch_notice,
+      status: 'INIT',
+      editUid: '',
+      editName: '',
+      curdata: null
     };
   }
 
@@ -42,22 +41,100 @@ class WikiPage extends Component {
   async componentDidMount() {
     const currProjectId = this.props.match.params.id;
     await this.handleData({ project_id: currProjectId });
-
-    this.editor = new Editor({
-      el: document.querySelector('#desc'),
-      initialEditType: 'wysiwyg',
-      height: '500px',
-      initialValue: this.state.markdown || this.state.desc
-    });
   }
 
-  // 点击编辑按钮
-  onEditor = () => {
-    this.setState({
-      isEditor: !this.state.isEditor
-    });
+  componentWillUnmount() {
+    // willUnmount
+    this.closeWebSocket();
+  }
 
-    this.editor.setHtml(this.state.desc);
+  // 关闭websocket
+  closeWebSocket = () => {
+    try {
+      if (this.state.status === 'CLOSE') {
+        this.WebSocket.close();
+      }
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // 处理多人编辑冲突问题
+  handleConflict = () => {
+    let self = this;
+    return new Promise((resolve, reject) => {
+      let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
+      let s,
+        initData = false;
+      //因后端 node 仅支持 ws， 暂不支持 wss
+      let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+
+      setTimeout(() => {
+        if (initData === false) {
+          self.setState({
+            status: 'CLOSE'
+          });
+          initData = true;
+        }
+      }, 3000);
+
+      s = new WebSocket(
+        wsProtocol +
+          '://' +
+          domain +
+          '/api/ws_plugin/wiki_desc/solve_conflict?id=' +
+          this.props.match.params.id
+      );
+      s.onopen = () => {
+        self.WebSocket = s;
+      };
+
+      s.onmessage = e => {
+        initData = true;
+        let result = JSON.parse(e.data);
+        if (result.errno === 0) {
+          self.setState({
+            curdata: result.data,
+            status: 'CLOSE'
+          });
+        } else {
+          self.setState({
+            editUid: result.data.uid,
+            editName: result.data.username,
+            status: 'EDITOR'
+          });
+        }
+
+        resolve();
+      };
+
+      s.onerror = () => {
+        self.setState({
+          // curdata: this.props.curdata,
+          status: 'CLOSE'
+        });
+        console.warn('websocket 连接失败，将导致多人编辑同一个接口冲突。');
+        reject('websocket 连接失败，将导致多人编辑同一个接口冲突。');
+      };
+    });
+  };
+
+  // 点击编辑按钮
+  onEditor = async () => {
+    this.setState({isEditor: !this.state.isEditor})
+    // 多人冲突编辑判断
+    await this.handleConflict();
+    // 获取最新的编辑数据
+    // let curDesc = this.state.curdata ? this.state.curdata.desc : this.state.desc;
+    if(this.state.curdata) {
+      this.setState({
+        desc: this.state.curdata.desc,
+        username: this.state.curdata.username,
+        uid: this.state.curdata.uid,
+        editorTime: timeago(this.state.curdata.up_time)
+      });
+    } 
+    
   };
 
   //  获取数据
@@ -79,9 +156,8 @@ class WikiPage extends Component {
     }
   };
 
-  onUpload = async () => {
-    let desc = this.editor.getHtml();
-    let markdown = this.editor.getMarkdown();
+  onUpload = async (desc, markdown) => {
+    
     const currProjectId = this.props.match.params.id;
     let option = {
       project_id: currProjectId,
@@ -96,10 +172,12 @@ class WikiPage extends Component {
     } else {
       message.error(`更新失败： ${result.data.errmsg}`);
     }
+    this.closeWebSocket();
   };
   // 取消编辑
   onCancel = () => {
-    this.setState({ isEditor: false });
+    this.setState({ isEditor: false, status: 'CLOSE' });
+    this.closeWebSocket();
   };
 
   // 邮件通知
@@ -110,51 +188,46 @@ class WikiPage extends Component {
   };
 
   render() {
-    const { isEditor, username, editorTime, notice, uid } = this.state;
+    const { isEditor, username, editorTime, notice, uid, status, editUid, editName } = this.state;
     const editorEable =
       this.props.projectMsg.role === 'admin' ||
       this.props.projectMsg.role === 'owner' ||
       this.props.projectMsg.role === 'dev';
+    const isConflict = status === 'EDITOR';
+
     return (
       <div className="g-row">
         <div className="m-panel wiki-content">
-          <div className="wiki-title">
-            {!isEditor ? (
-              <Button icon="edit" onClick={this.onEditor} disabled={!editorEable}>
-                编辑
-              </Button>
-            ) : (
-              <div>
-                <Button icon="upload" type="primary" className="upload-btn" onClick={this.onUpload}>
-                  更新
-                </Button>
-                <Button onClick={this.onCancel} className="upload-btn">
-                  取消
-                </Button>
-                <Checkbox checked={notice} onChange={this.onEmailNotice}>
-                  通知相关人员
-                </Checkbox>
+          {!isEditor ? (
+            <WikiView
+              editorEable={editorEable}
+              onEditor={this.onEditor}
+              uid={uid}
+              username={username}
+              editorTime={editorTime}
+              desc={this.state.desc}
+            />
+          ) : (
+            <WikiEditor
+              isConflict={isConflict}
+              onUpload={this.onUpload}
+              onCancel={this.onCancel}
+              notice={notice}
+              onEmailNotice={this.onEmailNotice}
+              desc={this.state.desc}
+            />
+          )}
+
+          <div className="wiki-content">
+            {isConflict && (
+              <div className="wiki-conflict">
+                <Link to={`/user/profile/${editUid || uid}`}>
+                  <b>{editName || username}</b>
+                </Link>
+                <span>正在编辑该wiki，请稍后再试...</span>
               </div>
             )}
           </div>
-          {!isEditor &&
-            username && (
-              <div className="wiki-user">
-                {/* 由 {username}  */}
-                由{' '}
-                <Link className="user-name" to={`/user/profile/${uid || 11}`}>
-                  {/* <img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" /> */}
-                  {username}
-                </Link>{' '}
-                修改于 {editorTime}
-              </div>
-            )}
-          <div id="desc" className="wiki-editor" style={{ display: isEditor ? 'block' : 'none' }} />
-          <div
-            className="tui-editor-contents"
-            style={{ display: isEditor ? 'none' : 'block' }}
-            dangerouslySetInnerHTML={{ __html: this.state.desc }}
-          />
         </div>
       </div>
     );
