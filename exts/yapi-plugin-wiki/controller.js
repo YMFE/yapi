@@ -92,7 +92,7 @@ class wikiController extends baseController {
         ctx.body = yapi.commons.resReturn(upRes);
       }
 
-      // console.log('result', result);
+      // console.log('result', result);   
 
       let logData = {
         type: 'wiki',
@@ -172,32 +172,42 @@ class wikiController extends baseController {
   // 处理编辑冲突
   async wikiConflict(ctx) {
     try {
-      let id = parseInt(ctx.query.id, 10),
-        result,
-        userInst,
-        userinfo,
-        data;
-      if (!id) return ctx.websocket.send('id 参数有误');
-      result = await this.Model.get(id);
+      
+      let result;
+      ctx.websocket.on('message', async message => {
+        
+        let id = parseInt(ctx.query.id, 10);
+        if (!id) return ctx.websocket.send('id 参数有误');
+        result = await this.Model.get(id);   
 
-      if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
-        userInst = yapi.getInst(userModel);
-        userinfo = await userInst.findById(result.edit_uid);
-        data = {
-          errno: result.edit_uid,
-          data: { uid: result.edit_uid, username: userinfo.username }
-        };
-      } else {
-        await this.Model.upEditUid(result._id, this.getUid());
-        data = {
-          errno: 0,
-          data: result
-        };
-      }
-      ctx.websocket.send(JSON.stringify(data));
+        if (message === 'editor') { 
+          let userInst, userinfo, data;
+         
+          if (result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
+            userInst = yapi.getInst(userModel);
+            userinfo = await userInst.findById(result.edit_uid);
+            data = {
+              errno: result.edit_uid,
+              data: { uid: result.edit_uid, username: userinfo.username }
+            };
+          } else {
+           
+            await this.Model.upEditUid(result._id, this.getUid());
+            data = {
+              errno: 0,
+              data: result
+            };
+          }
+          ctx.websocket.send(JSON.stringify(data));
+        }
+
+        if (message === 'end') {
+          await this.Model.upEditUid(result._id, 0);
+        }
+      });
       ctx.websocket.on('close', async () => {
         console.log('close');
-        await this.Model.upEditUid(result._id, 0);
+        // await this.Model.upEditUid(result._id, 0);
       });
     } catch (err) {
       yapi.commons.log(err, 'error');

@@ -41,18 +41,29 @@ class WikiPage extends Component {
   async componentDidMount() {
     const currProjectId = this.props.match.params.id;
     await this.handleData({ project_id: currProjectId });
+    this.handleConflict();
   }
 
   componentWillUnmount() {
     // willUnmount
-    this.closeWebSocket();
-  }
-
-  // 关闭websocket
-  closeWebSocket = () => {
+    console.log('willUnmount', this.state.status);
     try {
       if (this.state.status === 'CLOSE') {
+        this.WebSocket.send('end');
         this.WebSocket.close();
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  // 结束编辑websocket
+  endWebSocket = () => {
+    try {
+      if (this.state.status === 'CLOSE') {
+        const sendEnd = () => {
+          this.WebSocket.send('end');
+        };
+        this.handleWebsocketAccidentClose(sendEnd);
       }
     } catch (e) {
       return null;
@@ -62,79 +73,70 @@ class WikiPage extends Component {
   // 处理多人编辑冲突问题
   handleConflict = () => {
     let self = this;
-    return new Promise((resolve, reject) => {
-      let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
-      let s,
-        initData = false;
-      //因后端 node 仅支持 ws， 暂不支持 wss
-      let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+    let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
+    let s;
+    //因后端 node 仅支持 ws， 暂不支持 wss
+    let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+    s = new WebSocket(
+      wsProtocol +
+        '://' +
+        domain +
+        '/api/ws_plugin/wiki_desc/solve_conflict?id=' +
+        this.props.match.params.id
+    );
+    s.onopen = () => {
+      self.WebSocket = s;
+      s.send('start');
+    };
 
-      setTimeout(() => {
-        if (initData === false) {
-          self.setState({
-            status: 'CLOSE'
-          });
-          initData = true;
-        }
-      }, 3000);
-
-      s = new WebSocket(
-        wsProtocol +
-          '://' +
-          domain +
-          '/api/ws_plugin/wiki_desc/solve_conflict?id=' +
-          this.props.match.params.id
-      );
-      s.onopen = () => {
-        self.WebSocket = s;
-      };
-
-      s.onmessage = e => {
-        initData = true;
-        let result = JSON.parse(e.data);
-        if (result.errno === 0) {
-          self.setState({
-            curdata: result.data,
-            status: 'CLOSE'
-          });
-        } else {
-          self.setState({
-            editUid: result.data.uid,
-            editName: result.data.username,
-            status: 'EDITOR'
-          });
-        }
-
-        resolve();
-      };
-
-      s.onerror = () => {
+    s.onmessage = e => {
+      let result = JSON.parse(e.data);
+      if (result.errno === 0) {
         self.setState({
-          // curdata: this.props.curdata,
+          // curdata: result.data,
+          desc: result.data.desc,
+          username: result.data.username,
+          uid: result.data.uid,
+          editorTime: timeago(result.data.up_time),
+          isEditor: !this.state.isEditor,
           status: 'CLOSE'
         });
-        console.warn('websocket 连接失败，将导致多人编辑同一个接口冲突。');
-        reject('websocket 连接失败，将导致多人编辑同一个接口冲突。');
-      };
-    });
+      } else {
+        self.setState({
+          editUid: result.data.uid,
+          editName: result.data.username,
+          status: 'EDITOR'
+        });
+      }
+    };
+
+    s.onerror = () => {
+      self.setState({
+        // curdata: this.props.curdata,
+        status: 'CLOSE'
+      });
+      console.warn('websocket 连接失败，将导致多人编辑同一个接口冲突。');
+    };
   };
 
-  // 点击编辑按钮
-  onEditor = async () => {
-    this.setState({isEditor: !this.state.isEditor})
-    // 多人冲突编辑判断
-    await this.handleConflict();
-    // 获取最新的编辑数据
-    // let curDesc = this.state.curdata ? this.state.curdata.desc : this.state.desc;
-    if(this.state.curdata) {
-      this.setState({
-        desc: this.state.curdata.desc,
-        username: this.state.curdata.username,
-        uid: this.state.curdata.uid,
-        editorTime: timeago(this.state.curdata.up_time)
-      });
-    } 
+  // 点击编辑按钮 发送 websocket 获取数据
+  onEditor = () => {
+    // this.WebSocket.send('editor');
+    const sendEditor = () => {
+      this.WebSocket.send('editor');
+    };
+    this.handleWebsocketAccidentClose(sendEditor);
+  };
+
+  // 处理websocket  意外断开问题
+  handleWebsocketAccidentClose = fn => {
     
+    // websocket 断开
+    if (this.WebSocket.readyState !== 1) {
+      message.error('websocket 链接失败，请重新刷新页面');
+    } else {
+      fn();
+    }
   };
 
   //  获取数据
@@ -156,8 +158,8 @@ class WikiPage extends Component {
     }
   };
 
+  // 数据上传
   onUpload = async (desc, markdown) => {
-    
     const currProjectId = this.props.match.params.id;
     let option = {
       project_id: currProjectId,
@@ -172,12 +174,13 @@ class WikiPage extends Component {
     } else {
       message.error(`更新失败： ${result.data.errmsg}`);
     }
-    this.closeWebSocket();
+    this.endWebSocket();
+    // this.WebSocket.send('end');
   };
   // 取消编辑
   onCancel = () => {
-    this.setState({ isEditor: false, status: 'CLOSE' });
-    this.closeWebSocket();
+    this.setState({ isEditor: false });
+    this.endWebSocket();
   };
 
   // 邮件通知
@@ -194,10 +197,20 @@ class WikiPage extends Component {
       this.props.projectMsg.role === 'owner' ||
       this.props.projectMsg.role === 'dev';
     const isConflict = status === 'EDITOR';
-
+    
     return (
       <div className="g-row">
         <div className="m-panel wiki-content">
+          <div className="wiki-content">
+            {isConflict && (
+              <div className="wiki-conflict">
+                <Link to={`/user/profile/${editUid || uid}`}>
+                  <b>{editName || username}</b>
+                </Link>
+                <span>正在编辑该wiki，请稍后再试...</span>
+              </div>
+            )}
+          </div>
           {!isEditor ? (
             <WikiView
               editorEable={editorEable}
@@ -217,17 +230,6 @@ class WikiPage extends Component {
               desc={this.state.desc}
             />
           )}
-
-          <div className="wiki-content">
-            {isConflict && (
-              <div className="wiki-conflict">
-                <Link to={`/user/profile/${editUid || uid}`}>
-                  <b>{editName || username}</b>
-                </Link>
-                <span>正在编辑该wiki，请稍后再试...</span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     );
