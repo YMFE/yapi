@@ -318,7 +318,7 @@ window.ydoc_plugin_search_json = {
     },
     {
       "title": "接口设置",
-      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
+      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使接口结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
       "url": "/documents/api.html",
       "children": [
         {
@@ -355,7 +355,7 @@ window.ydoc_plugin_search_json = {
     },
     {
       "title": "接口设置",
-      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
+      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使接口结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
       "url": "/documents/api.html",
       "children": [
         {
@@ -596,7 +596,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -653,7 +653,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -1149,6 +1149,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+        },
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",
@@ -1306,6 +1311,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+        },
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",
