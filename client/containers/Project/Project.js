@@ -60,7 +60,7 @@ export default class Project extends Component {
     const nextProjectId = nextProps.match.params.id;
     if(currProjectId !== nextProjectId) {
       await this.props.getProject(nextProjectId);
-      
+      await this.props.fetchGroupMsg(this.props.curProject.group_id);
       this.props.setBreadcrumb([{
         name: this.props.currGroup.group_name,
         href: '/group/' + this.props.currGroup._id

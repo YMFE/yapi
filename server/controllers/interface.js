@@ -189,6 +189,17 @@ class interfaceController extends baseController {
       data.type = 'static'
     }
 
+    // 新建接口的人成为项目dev  如果不存在的话
+    let uid = this.getUid();
+    if (this.getRole() !== 'admin') {
+      let userdata = await yapi.commons.getUserdata(uid, 'dev');
+      // 检查一下是否有这个人
+      let check = await this.projectModel.checkMemberRepeat(params.project_id, uid);
+      if(check === 0) {
+        await this.projectModel.addMember(params.project_id, [userdata]);
+      }
+    }
+
 
     let result = await this.Model.save(data);
     yapi.emitHook('interface_add', result._id).then();
@@ -574,17 +585,8 @@ class interfaceController extends baseController {
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
 
     if (params.switch_notice === true) {
-      // console.log('logData', logData);
-      // let logDiffData = {
-      //   interface_id: id,
-      //   cat_id: data.catid,
-      //   current: CurrentInterfaceData.toObject(),
-      //   old: interfaceData.toObject()
-      // }
 
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
-      
-
       let annotatedCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'), 'utf8');
       let htmlCss = fs.readFileSync(path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/public/formatters-styles/html.css'), 'utf8');
 
@@ -925,9 +927,11 @@ class interfaceController extends baseController {
     const starUsers = list.map(item => item.uid);
 
     const projectList = await this.projectModel.get(projectId);
-    const projectMenbers = projectList.members.map(item => item.uid);
+    // const projectMembers = projectList.members.map(item => item.uid);
+    const projectMembers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
+    
 
-    const users = this.arrUnique(projectMenbers, starUsers);
+    const users = this.arrUnique(projectMembers, starUsers);
     const usersInfo = await this.userModel.findByUids(users)
     const emails = usersInfo.map(item => item.email).join(',');
 

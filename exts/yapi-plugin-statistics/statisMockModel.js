@@ -53,7 +53,7 @@ class statisMockModel extends baseModel {
             {
                 $sort: { _id: 1 }
             }
-        ]);
+        ]).cursor({}).exec().toArray();
     }
 
     list() {

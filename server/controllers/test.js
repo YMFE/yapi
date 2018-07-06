@@ -24,6 +24,14 @@ class interfaceColController extends baseController {
     }
   }
 
+  /**
+   * 测试 code
+   * @interface /http/code
+   * @method GET
+   * @returns {Object}
+   * @example
+   */
+
   async testHttpCode(ctx) {
     let params = ctx.request.body;
     ctx.status = +ctx.query.code || 200;
