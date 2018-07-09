@@ -1,6 +1,7 @@
 ### v1.3.19
 
 * 增加项目文档记录wiki
+* 支持swagger URL 导入
 
 #### Bug Fixed
 
