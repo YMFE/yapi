@@ -87,7 +87,7 @@ Footer.defaultProps = {
       title: 'Copyright © 2018 YMFE',
       linkList: [
         {
-          itemTitle: '版本： ' + version,
+          itemTitle: `版本: ${version} `,
           itemLink: 'https://github.com/YMFE/yapi/blob/master/CHANGELOG.md'
         }, {
           itemTitle: '使用文档',

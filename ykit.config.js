@@ -10,6 +10,7 @@ var assetsPluginInstance = new AssetsPlugin({
 })
 var fs = require('fs');
 var package = require('./package.json')
+var yapi = require('./server/yapi')
 
 var compressPlugin = new CompressionPlugin({
   asset: "[path].gz[query]",
@@ -139,7 +140,8 @@ module.exports = {
 
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
-          'process.env.version' : JSON.stringify(package.version)
+          'process.env.version' : JSON.stringify(package.version),
+          'process.env.isVersionInfo' : yapi.WEBCONFIG.version
         }))
 
         //初始化配置
