@@ -170,4 +170,4 @@ module.exports = {
     adv_mock_case: 'https://yapi.ymfe.org/documents/mock.html',
     adv_mock_script: 'https://yapi.ymfe.org/documents/adv_mock.html'
   }
-}
+};

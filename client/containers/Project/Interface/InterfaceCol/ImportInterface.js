@@ -1,6 +1,5 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux'
 import { Table, Select } from 'antd';
 import variable from '../../../../constants/variable';
 import { connect } from 'react-redux';
@@ -194,15 +193,17 @@ export default class ImportInterface extends Component {
         }
       }
     ];
-    
+
     return (
       <div>
         <div className="select-project">
           <span>选择要导入的项目： </span>
           <Select value={this.state.project} style={{ width: 200 }} onChange={this.onChange}>
             {projectList.map(item => {
-              return (
-                item.projectname ? '' : <Option value={`${item._id}`} key={item._id}>
+              return item.projectname ? (
+                ''
+              ) : (
+                <Option value={`${item._id}`} key={item._id}>
                   {item.name}
                 </Option>
               );

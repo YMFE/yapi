@@ -49,8 +49,7 @@ class ProjectEnv extends Component {
       ...this.state,
       ...newValue
     });
-    
-  } 
+  }
 
   async componentWillMount() {
     await this.props.getProject(this.props.projectId);
@@ -105,7 +104,7 @@ class ProjectEnv extends Component {
       .then(res => {
         if (res.payload.data.errcode == 0) {
           this.props.getProject(this.props.projectId);
-          this.props.getEnv(this.props.projectId)
+          this.props.getEnv(this.props.projectId);
           message.success('修改成功! ');
           this.setState({ ...assignValue });
         }

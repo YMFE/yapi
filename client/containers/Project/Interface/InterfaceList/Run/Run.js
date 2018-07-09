@@ -1,49 +1,42 @@
-import React, { PureComponent as Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { PureComponent as Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import axios from 'axios';
 import { message } from 'antd';
-import { Postman } from '../../../../../components'
-import AddColModal from './AddColModal'
+import { Postman } from '../../../../../components';
+import AddColModal from './AddColModal';
 
 // import {
 // } from '../../../reducer/modules/group.js'
 
-import './Run.scss'
+import './Run.scss';
 
-
-@connect(
-  state => ({
-    currInterface: state.inter.curdata,
-    currProject: state.project.currProject
-  })
-)
+@connect(state => ({
+  currInterface: state.inter.curdata,
+  currProject: state.project.currProject
+}))
 @withRouter
 export default class Run extends Component {
-
   static propTypes = {
     currProject: PropTypes.object,
     currInterface: PropTypes.object,
     match: PropTypes.object
-  }
+  };
 
-  state = {
-  }
+  state = {};
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
-  componentWillReceiveProps() {
-  }
+  componentWillReceiveProps() {}
 
-  savePostmanRef = (postman) => {
+  savePostmanRef = postman => {
     this.postman = postman;
-  }
+  };
 
   saveCase = async (colId, caseName) => {
     const project_id = this.props.match.params.id;
@@ -55,7 +48,7 @@ export default class Run extends Component {
       req_headers,
       req_body_type,
       req_body_form,
-      req_body_other     
+      req_body_other
     } = this.postman.state;
 
     let params = {
@@ -72,37 +65,44 @@ export default class Run extends Component {
       req_body_other
     };
 
-    if(params.test_res_body && typeof params.test_res_body === 'object'){
+    if (params.test_res_body && typeof params.test_res_body === 'object') {
       params.test_res_body = JSON.stringify(params.test_res_body, null, '   ');
     }
 
     const res = await axios.post('/api/col/add_case', params);
     if (res.data.errcode) {
-      message.error(res.data.errmsg)
+      message.error(res.data.errmsg);
     } else {
-      message.success('添加成功')
-      this.setState({saveCaseModalVisible: false})
+      message.success('添加成功');
+      this.setState({ saveCaseModalVisible: false });
     }
-  }
+  };
 
-  render () {
+  render() {
     const { currInterface, currProject } = this.props;
     const data = Object.assign({}, currInterface, {
       env: currProject.env,
       pre_script: currProject.pre_script,
       after_script: currProject.after_script
-    })
-    data.path = currProject.basepath +  currInterface.path;
+    });
+    data.path = currProject.basepath + currInterface.path;
     return (
       <div>
-        <Postman data={data} id={currProject._id} type="inter" saveTip="保存到集合" save={() => this.setState({saveCaseModalVisible: true})} ref={this.savePostmanRef} />
+        <Postman
+          data={data}
+          id={currProject._id}
+          type="inter"
+          saveTip="保存到集合"
+          save={() => this.setState({ saveCaseModalVisible: true })}
+          ref={this.savePostmanRef}
+        />
         <AddColModal
           visible={this.state.saveCaseModalVisible}
           caseName={currInterface.title}
-          onCancel={() => this.setState({saveCaseModalVisible: false})}
+          onCancel={() => this.setState({ saveCaseModalVisible: false })}
           onOk={this.saveCase}
-        ></AddColModal>
+        />
       </div>
-    )
+    );
   }
 }

@@ -1,10 +1,8 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
-// import lodash from 'lodash';
 import axios from 'axios';
 
-// const debounce = lodash.debounce;
 const Option = Select.Option;
 
 /**

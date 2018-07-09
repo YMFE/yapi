@@ -27,16 +27,20 @@ var Editor = require('tui-editor');
 function checkIsJsonSchema(json) {
   try {
     json = json5.parse(json);
-    if (json.properties && typeof json.properties === 'object') {
-      if (!json.type) json.type = 'object';
+    if (json.properties && typeof json.properties === 'object' && !json.type) {
+      json.type = 'object';
     }
-    if (json.items && typeof json.items === 'object') {
-      if (!json.type) json.type = 'array';
+    if (json.items && typeof json.items === 'object' && !json.type) {
+      json.type = 'array';
     }
-    if (!json.type) return false;
+    if (!json.type) {
+      return false;
+    }
     json.type = json.type.toLowerCase();
     let types = ['object', 'string', 'number', 'array', 'boolean', 'integer'];
-    if (types.indexOf(json.type) === -1) return false;
+    if (types.indexOf(json.type) === -1) {
+      return false;
+    }
     return JSON.stringify(json);
   } catch (e) {
     return false;
@@ -127,10 +131,18 @@ class InterfaceEditForm extends Component {
 
   initState(curdata) {
     this.startTime = new Date().getTime();
-    if (curdata.req_query && curdata.req_query.length === 0) delete curdata.req_query;
-    if (curdata.req_headers && curdata.req_headers.length === 0) delete curdata.req_headers;
-    if (curdata.req_body_form && curdata.req_body_form.length === 0) delete curdata.req_body_form;
-    if (curdata.req_params && curdata.req_params.length === 0) delete curdata.req_params;
+    if (curdata.req_query && curdata.req_query.length === 0) {
+      delete curdata.req_query;
+    }
+    if (curdata.req_headers && curdata.req_headers.length === 0) {
+      delete curdata.req_headers;
+    }
+    if (curdata.req_body_form && curdata.req_body_form.length === 0) {
+      delete curdata.req_body_form;
+    }
+    if (curdata.req_params && curdata.req_params.length === 0) {
+      delete curdata.req_params;
+    }
     if (curdata.req_body_form) {
       curdata.req_body_form = curdata.req_body_form.map(item => {
         item.type = item.type === 'text' ? 'text' : 'file';
@@ -301,7 +313,11 @@ class InterfaceEditForm extends Component {
             values.req_body_form = [];
           }
 
-          if (values.req_body_is_json_schema && values.req_body_other&& values.req_body_type==='json') {
+          if (
+            values.req_body_is_json_schema &&
+            values.req_body_other &&
+            values.req_body_type === 'json'
+          ) {
             values.req_body_other = checkIsJsonSchema(values.req_body_other);
             if (!values.req_body_other) {
               return message.error('请求参数 json-schema 格式有误');
@@ -378,8 +394,8 @@ class InterfaceEditForm extends Component {
     });
 
     this.mockPreview = mockEditor({
-      container: "mock-preview",
-      data: "",
+      container: 'mock-preview',
+      data: '',
       readOnly: true
     });
 
@@ -1069,10 +1085,7 @@ class InterfaceEditForm extends Component {
                       <span
                         className="href"
                         onClick={() =>
-                          window.open(
-                            "https://yapi.ymfe.org/documents/mock.html",
-                            "_blank"
-                          )
+                          window.open('https://yapi.ymfe.org/documents/mock.html', '_blank')
                         }
                       >
                         查看文档
@@ -1081,20 +1094,19 @@ class InterfaceEditForm extends Component {
                     ，“全局编辑”或 “退出全屏” 请按 <span style={{ fontWeight: '500' }}>F9</span>
                   </div>
                 ) : (
-                  <div style={{display: this.state.jsonType === 'tpl' ? 'block' : 'none'}}>
+                  <div style={{ display: this.state.jsonType === 'tpl' ? 'block' : 'none' }}>
                     <ResBodySchema
-                    onChange={text => {
-                      this.setState({
-                        res_body: text
-                      });
-                      if (new Date().getTime() - this.startTime > 1000) {
-                        EditFormContext.props.changeEditStatus(true);
-                      }
-                    }}
-                    data={res_body}
-                  />
+                      onChange={text => {
+                        this.setState({
+                          res_body: text
+                        });
+                        if (new Date().getTime() - this.startTime > 1000) {
+                          EditFormContext.props.changeEditStatus(true);
+                        }
+                      }}
+                      data={res_body}
+                    />
                   </div>
-                  
                 )}
 
                 <div
@@ -1108,7 +1120,15 @@ class InterfaceEditForm extends Component {
                         : 'none'
                   }}
                 />
-                <div id="mock-preview" style={{ backgroundColor: "#eee", lineHeight: "20px", minHeight: "300px", display: this.state.jsonType === 'preview' ? 'block' : 'none' }}/>
+                <div
+                  id="mock-preview"
+                  style={{
+                    backgroundColor: '#eee',
+                    lineHeight: '20px',
+                    minHeight: '300px',
+                    display: this.state.jsonType === 'preview' ? 'block' : 'none'
+                  }}
+                />
               </div>
             </Col>
           </Row>

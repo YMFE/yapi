@@ -25,7 +25,7 @@ import {
 } from '../../../../reducer/modules/project';
 import { fetchGroupMsg } from '../../../../reducer/modules/group';
 import { fetchGroupList } from '../../../../reducer/modules/group.js';
-import { setBreadcrumb } from '../../../../reducer/modules/user'
+import { setBreadcrumb } from '../../../../reducer/modules/user';
 import { connect } from 'react-redux';
 const { TextArea } = Input;
 import { withRouter } from 'react-router';
@@ -36,7 +36,7 @@ import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
 import { nameLengthLimit, entries, trim } from '../../../../common';
 import '../Setting.scss';
-import _ from 'underscore'
+import _ from 'underscore';
 // layout
 const formItemLayout = {
   labelCol: {
@@ -109,10 +109,10 @@ class ProjectMessage extends Component {
         let assignValue = Object.assign(projectMsg, values);
         values.protocol = this.state.protocol.split(':')[0];
         const group_id = assignValue.group_id;
-        const selectGroup = _.find(groupList, (item)=>{
-          return item._id == group_id
-        })
-        
+        const selectGroup = _.find(groupList, item => {
+          return item._id == group_id;
+        });
+
         updateProject(assignValue)
           .then(res => {
             if (res.payload.data.errcode == 0) {
@@ -122,12 +122,15 @@ class ProjectMessage extends Component {
               // 如果如果项目所在的分组位置发生改变
               this.props.fetchGroupMsg(group_id);
               // this.props.history.push('/group');
-              this.props.setBreadcrumb([{
-                name: selectGroup.group_name,
-                href: '/group/' + group_id
-              },{
-                name: assignValue.name
-              }]);
+              this.props.setBreadcrumb([
+                {
+                  name: selectGroup.group_name,
+                  href: '/group/' + group_id
+                },
+                {
+                  name: assignValue.name
+                }
+              ]);
             }
           })
           .catch(() => {});

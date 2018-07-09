@@ -8,13 +8,10 @@ import {
   setColData,
   fetchCaseList
 } from '../../../../reducer/modules/interfaceCol';
-// import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
-// import { Input, Icon, Button, Modal, message, Tooltip, Tree, Dropdown, Menu, Form } from 'antd';
 import ImportInterface from './ImportInterface';
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
-// import produce from 'immer'
 import { arrayChangeIndex } from '../../../../common.js';
 
 const TreeNode = Tree.TreeNode;
@@ -114,7 +111,6 @@ export default class InterfaceColMenu extends Component {
   }
 
   async getList() {
-    
     let r = await this.props.fetchInterfaceColList(this.props.match.params.id);
     this.setState({
       list: r.payload.data.data
@@ -419,7 +415,7 @@ export default class InterfaceColMenu extends Component {
       }
     };
 
-    const item_interface_col_create = interfaceCase => {
+    const itemInterfaceColCreate = interfaceCase => {
       return (
         <TreeNode
           style={{ width: '100%' }}
@@ -566,7 +562,7 @@ export default class InterfaceColMenu extends Component {
                 </div>
               }
             >
-              {col.caseList.map(item_interface_col_create)}
+              {col.caseList.map(itemInterfaceColCreate)}
             </TreeNode>
           ))}
         </Tree>

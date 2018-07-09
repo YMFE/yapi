@@ -81,7 +81,9 @@ export default class EasyDragSort extends React.Component {
                     break;
                   }
                 } while ((el = el.parentNode));
-                if (!el) return;
+                if (!el) {
+                  return;
+                }
                 let ref = that.refs[el.getAttribute('data-ref')];
                 let dom = ReactDOM.findDOMNode(ref);
                 if (dom) {

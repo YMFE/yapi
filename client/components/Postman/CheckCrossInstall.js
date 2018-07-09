@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from 'antd';
 import PropTypes from 'prop-types';
 
-exports.initCrossRequest = function initCrossRequest(fn) {
+exports.initCrossRequest = function (fn) {
   let startTime = 0;
   let _crossRequest = setInterval(() => {
     startTime += 500;

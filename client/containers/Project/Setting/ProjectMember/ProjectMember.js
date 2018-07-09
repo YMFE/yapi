@@ -250,7 +250,7 @@ class ProjectMember extends Component {
                 <span>
                   <Switch
                     size="small"
-                    checkedChildren="开" 
+                    checkedChildren="开"
                     unCheckedChildren="关"
                     checked={record.email_notice}
                     disabled={!(isEmailChangeEable || record.uid === this.props.uid)}

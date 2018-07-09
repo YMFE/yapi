@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import { Icon } from 'antd';
-// import packageJson from '../../../package.json';
+
 const version = process.env.version;
 class Footer extends Component {
   constructor(props) {
