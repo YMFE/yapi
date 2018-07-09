@@ -10,7 +10,6 @@ import './index.scss';
 export default class CaseEnv extends React.Component {
   constructor(props) {
     super(props);
-   
   }
 
   static propTypes = {
@@ -21,16 +20,11 @@ export default class CaseEnv extends React.Component {
     envValue: PropTypes.object
   };
 
-  callback = (key) => {
-    
-    this.props.changeClose && this.props.changeClose(key)
-
-  }
-
-  
+  callback = key => {
+    this.props.changeClose && this.props.changeClose(key);
+  };
 
   render() {
-    
     return (
       <Collapse
         style={{
@@ -67,14 +61,16 @@ export default class CaseEnv extends React.Component {
                       className="env-item"
                     >
                       <Col span={6} className="label">
-                        <Tooltip title={item.name} ><span className="label-name">{item.name}</span></Tooltip>
+                        <Tooltip title={item.name}>
+                          <span className="label-name">{item.name}</span>
+                        </Tooltip>
                       </Col>
                       <Col span={18}>
                         <Select
                           style={{
                             width: '100%'
                           }}
-                          value={this.props.envValue[item._id]|| ""}
+                          value={this.props.envValue[item._id] || ''}
                           defaultValue=""
                           onChange={val => this.props.currProjectEnvChange(val, item._id)}
                         >

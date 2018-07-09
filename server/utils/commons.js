@@ -547,7 +547,7 @@ exports.getUserdata = async function getUserdata(uid, role) {
   };
 };
 
-exports.sendNotice = async function sendNotice(projectId, data) {
+exports.sendNotice = async function (projectId, data) {
   const followInst = yapi.getInst(followModel);
   const userInst = yapi.getInst(userModel);
   const projectInst = yapi.getInst(projectModel);
