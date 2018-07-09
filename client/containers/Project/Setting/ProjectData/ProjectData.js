@@ -234,6 +234,8 @@ class ProjectData extends Component {
     });
   };
 
+
+
   // url导入上传
   onUrlUpload = async () => {
 
@@ -258,6 +260,7 @@ class ProjectData extends Component {
           await this.handleAddInterface(res);
         }
       } catch (e) {
+        this.setState({ showLoading: false });
         message.error(e.message);
       }
     } else {

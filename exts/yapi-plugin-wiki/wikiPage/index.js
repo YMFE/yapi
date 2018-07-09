@@ -46,7 +46,6 @@ class WikiPage extends Component {
 
   componentWillUnmount() {
     // willUnmount
-    console.log('willUnmount', this.state.status);
     try {
       if (this.state.status === 'CLOSE') {
         this.WebSocket.send('end');
