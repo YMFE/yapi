@@ -6,9 +6,9 @@ export default class Notify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newVersion: '',
+      newVersion: process.env.version,
       version: process.env.version,
-      isOpen: process.env.isVersionInfo
+      versionNotify: process.env.versionNotify
     };
   }
 
@@ -23,16 +23,15 @@ export default class Notify extends Component {
   }
 
   render() {
-    // if (this.state.isOpen && this.state.newVersion === this.state.version) {
-    const isShow = this.state.isOpen && this.state.newVersion === this.state.version;
+    const isShow = this.state.versionNotify && this.state.newVersion !== this.state.version;
     return (
       <div>
         {isShow && (
           <Alert
             message={
               <div>
-                当前版本是：{this.state.version} 可升级到: {this.state.newVersion}
-                &nbsp;
+                当前版本是：{this.state.version}&nbsp;&nbsp;可升级到: {this.state.newVersion}
+                &nbsp;&nbsp;&nbsp;
                 <a
                   target="view_window"
                   href="https://github.com/YMFE/yapi/blob/master/CHANGELOG.md"

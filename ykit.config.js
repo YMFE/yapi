@@ -141,7 +141,7 @@ module.exports = {
         baseConfig.plugins.push(new this.webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
           'process.env.version' : JSON.stringify(package.version),
-          'process.env.isVersionInfo' : yapi.WEBCONFIG.version
+          'process.env.versionNotify' : yapi.WEBCONFIG.versionNotify
         }))
 
         //初始化配置

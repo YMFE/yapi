@@ -35,7 +35,8 @@ $(function(){
     var index = str.indexOf(val);
     var startIndex = index > highlightTextPrevNum ? index - highlightTextPrevNum : 0;
     var sliceStr = str.slice(startIndex, index + val.length + highlightTextNextNum);
-    var addHighlightStr = sliceStr.replace(val, '<span class="highlight">' + val + '</span>');
+    var reg = new RegExp('(' + val + ')', 'gi'); // 搜索的值进行高亮替换时, 忽略大小写
+    var addHighlightStr = sliceStr.replace(reg, '<span class="highlight">' + '$1' + '</span>');
     var ellipsis = (sliceStr.lastIndexOf(val) != -1) || (sliceStr.lastIndexOf(val) > highlightTextNextNum) ? '...' : '';
     return addHighlightStr + ellipsis;
   }
