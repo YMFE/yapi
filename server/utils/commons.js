@@ -8,7 +8,7 @@ const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
 const userModel = require('../models/user.js');
-const followModel = require('../models/follow.js')
+const followModel = require('../models/follow.js');
 const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
@@ -575,14 +575,14 @@ exports.sendNotice = async function sendNotice(projectId, data) {
     } catch (e) {
       yapi.commons.log('邮件发送失败：' + e, 'error');
     }
-}
+};
 
 function arrUnique(arr1, arr2) {
 
   let arr = arr1.concat(arr2);
   let res = arr.filter(function (item, index, arr) {
     return arr.indexOf(item) === index;
-  })
+  });
   return res;
 
 }

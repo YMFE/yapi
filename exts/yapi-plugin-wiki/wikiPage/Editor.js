@@ -16,29 +16,29 @@ class WikiEditor extends Component {
   static propTypes = {
     isConflict: PropTypes.bool,
     onUpload: PropTypes.func,
-    onCancel: PropTypes.func, 
-    notice: PropTypes.bool, 
+    onCancel: PropTypes.func,
+    notice: PropTypes.bool,
     onEmailNotice: PropTypes.func,
     desc: PropTypes.string
   };
 
-  componentDidMount() { 
+  componentDidMount() {
     this.editor = new Editor({
       el: document.querySelector('#desc'),
       initialEditType: 'wysiwyg',
       height: '500px',
       initialValue: this.props.desc
-    });   
+    });
   }
 
   onUpload = () => {
     let desc = this.editor.getHtml();
     let markdown = this.editor.getMarkdown();
-    this.props.onUpload(desc, markdown)
-  }
+    this.props.onUpload(desc, markdown);
+  };
 
   render() {
-    const {isConflict, onCancel, notice, onEmailNotice } = this.props;
+    const { isConflict, onCancel, notice, onEmailNotice } = this.props;
     return (
       <div>
         <div

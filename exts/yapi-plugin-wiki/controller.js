@@ -90,9 +90,7 @@ class wikiController extends baseController {
         });
         let upRes = await this.Model.up(result._id, data);
         ctx.body = yapi.commons.resReturn(upRes);
-      }
-
-      // console.log('result', result);   
+      } 
 
       let logData = {
         type: 'wiki',
@@ -150,7 +148,6 @@ class wikiController extends baseController {
         typeid: params.project_id,
         data: logData
       });
-      // let upRes = await this.Model.get(result._id)
       return 1;
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 400, err.message);
@@ -177,7 +174,10 @@ class wikiController extends baseController {
       ctx.websocket.on('message', async message => {
         
         let id = parseInt(ctx.query.id, 10);
-        if (!id) return ctx.websocket.send('id 参数有误');
+        if (!id) {
+          return ctx.websocket.send('id 参数有误');
+        }
+        
         result = await this.Model.get(id);   
 
         if (message === 'editor') { 
@@ -206,8 +206,6 @@ class wikiController extends baseController {
         }
       });
       ctx.websocket.on('close', async () => {
-        console.log('close');
-        // await this.Model.upEditUid(result._id, 0);
       });
     } catch (err) {
       yapi.commons.log(err, 'error');
