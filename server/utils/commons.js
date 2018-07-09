@@ -8,7 +8,7 @@ const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
 const userModel = require('../models/user.js');
-const followModel = require('../models/follow.js')
+const followModel = require('../models/follow.js');
 const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
@@ -548,38 +548,36 @@ exports.getUserdata = async function getUserdata(uid, role) {
 };
 
 exports.sendNotice = async function sendNotice(projectId, data) {
-    const followInst = yapi.getInst(followModel);
-    const userInst = yapi.getInst(userModel);
-    const projectInst = yapi.getInst(projectModel);
-    const list = await followInst.listByProjectId(projectId);
-    const starUsers = list.map(item => item.uid);
+  const followInst = yapi.getInst(followModel);
+  const userInst = yapi.getInst(userModel);
+  const projectInst = yapi.getInst(projectModel);
+  const list = await followInst.listByProjectId(projectId);
+  const starUsers = list.map(item => item.uid);
 
-    const projectList = await projectInst.get(projectId);
-    const projectMenbers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
+  const projectList = await projectInst.get(projectId);
+  const projectMenbers = projectList.members
+    .filter(item => item.email_notice)
+    .map(item => item.uid);
 
+  const users = arrUnique(projectMenbers, starUsers);
+  const usersInfo = await userInst.findByUids(users);
+  const emails = usersInfo.map(item => item.email).join(',');
 
-    const users = arrUnique(projectMenbers, starUsers);
-    const usersInfo = await userInst.findByUids(users);
-    const emails = usersInfo.map(item => item.email).join(',');
-
-    try {
-      yapi.commons.sendMail({
-        to: emails,
-        contents: data.content,
-        subject: data.title
-      });
-    } catch (e) {
-      yapi.commons.log('邮件发送失败：' + e, 'error');
-    }
-}
+  try {
+    yapi.commons.sendMail({
+      to: emails,
+      contents: data.content,
+      subject: data.title
+    });
+  } catch (e) {
+    yapi.commons.log('邮件发送失败：' + e, 'error');
+  }
+};
 
 function arrUnique(arr1, arr2) {
-
   let arr = arr1.concat(arr2);
-  let res = arr.filter(function (item, index, arr) {
+  let res = arr.filter(function(item, index, arr) {
     return arr.indexOf(item) === index;
-  })
+  });
   return res;
-
 }
-

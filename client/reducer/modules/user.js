@@ -117,7 +117,6 @@ export default (state = initialState, action) => {
         studyTip: 0
       };
     }
-    
     case SET_IMAGE_URL: {
       // console.log('state', state);
       return {

@@ -130,7 +130,7 @@ class openController extends baseController {
     let result = [];
     Object.keys(params).map(item => {
       if (/env_/gi.test(item)) {
-        let curEnv = yapi.commons.trim(params[item])
+        let curEnv = yapi.commons.trim(params[item]);
         let value = { curEnv, project_id: item.split('_')[1] };
         result.push(value);
       }
@@ -138,12 +138,12 @@ class openController extends baseController {
     return result;
   }
   async runAutoTest(ctx) {
-    if(!this.$tokenAuth ){
-      return ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败');
+    if (!this.$tokenAuth) {
+      return (ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败'));
     }
     // console.log(1231312)
     const token = ctx.query.token;
-    
+
     const projectId = ctx.params.project_id;
     const startTime = new Date().getTime();
     const records = (this.records = {});
@@ -151,7 +151,7 @@ class openController extends baseController {
     const testList = [];
     let id = ctx.params.id;
     let curEnvList = this.handleEvnParams(ctx.params);
-  
+
     let colData = await this.interfaceColModel.get(id);
     if (!colData) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在'));
@@ -172,7 +172,6 @@ class openController extends baseController {
       let curEnvItem = _.find(curEnvList, key => {
         return key.project_id == item.project_id;
       });
-      
 
       item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
       item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
@@ -192,7 +191,7 @@ class openController extends baseController {
         params: result.params,
         body: result.res_body
       };
-      testList.push(result); 
+      testList.push(result);
     }
 
     function getMessage(testList) {
@@ -317,8 +316,6 @@ class openController extends baseController {
     return result;
   }
 
-  
-
   async handleScriptTest(interfaceData, response, validRes, requestParams) {
     if (interfaceData.enable_script !== true) {
       return null;
@@ -345,9 +342,8 @@ class openController extends baseController {
   }
 
   handleReqHeader(req_header, envData, curEnvName) {
-   
     let currDomain = handleCurrDomain(envData, curEnvName);
-    
+
     let header = currDomain.header;
     header.forEach(item => {
       if (!checkNameIsExistInArray(item.name, req_header)) {

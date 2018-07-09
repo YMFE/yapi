@@ -12,7 +12,7 @@ import Loading from './components/Loading/Loading';
 import MyPopConfirm from './components/MyPopConfirm/MyPopConfirm';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
-import Notify from './components/Notify/Notify'
+import Notify from './components/Notify/Notify';
 
 const plugin = require('client/plugin.js');
 
