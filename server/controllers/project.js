@@ -115,10 +115,18 @@ class projectController extends baseController {
   }
 
   handleBasepath(basepath) {
-    if (!basepath) return '';
-    if (basepath === '/') return '';
-    if (basepath[0] !== '/') basepath = '/' + basepath;
-    if (basepath[basepath.length - 1] === '/') basepath = basepath.substr(0, basepath.length - 1);
+    if (!basepath) {
+      return '';
+    }
+    if (basepath === '/') {
+      return '';
+    }
+    if (basepath[0] !== '/') {
+      basepath = '/' + basepath;
+    }
+    if (basepath[basepath.length - 1] === '/') {
+      basepath = basepath.substr(0, basepath.length - 1);
+    }
     if (!/^\/[a-zA-Z0-9\-\/\._]+$/.test(basepath)) {
       return false;
     }
@@ -126,7 +134,9 @@ class projectController extends baseController {
   }
 
   verifyDomain(domain) {
-    if (!domain) return false;
+    if (!domain) {
+      return false;
+    }
     if (/^[a-zA-Z0-9\-_\.]+?\.[a-zA-Z0-9\-_\.]*?[a-zA-Z]{2,6}$/.test(domain)) {
       return true;
     }
@@ -457,7 +467,7 @@ class projectController extends baseController {
           yapi.commons.saveLog({
             content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了项目中的成员 <a href="/user/profile/${
               params.member_uid
-            }">${member? member.username: ''}</a>`,
+            }">${member ? member.username : ''}</a>`,
             type: 'project',
             uid: this.getUid(),
             username: username,
@@ -804,15 +814,33 @@ class projectController extends baseController {
         data.project_type = params.project_type;
       }
 
-      if (!_.isUndefined(params.name)) data.name = params.name;
-      if (!_.isUndefined(params.desc)) data.desc = params.desc;
-      if (!_.isUndefined(params.group_id)) data.group_id = params.group_id;
-      if (!_.isUndefined(params.basepath)) data.basepath = params.basepath;
-      if (!_.isUndefined(params.switch_notice)) data.switch_notice = params.switch_notice;
-      if (!_.isUndefined(params.color)) data.color = params.color;
-      if (!_.isUndefined(params.icon)) data.icon = params.icon;
-      if (!_.isUndefined(params.pre_script)) data.pre_script = params.pre_script;
-      if (!_.isUndefined(params.after_script)) data.after_script = params.after_script;
+      if (!_.isUndefined(params.name)) {
+        data.name = params.name;
+      }
+      if (!_.isUndefined(params.desc)) {
+        data.desc = params.desc;
+      }
+      if (!_.isUndefined(params.group_id)) {
+        data.group_id = params.group_id;
+      }
+      if (!_.isUndefined(params.basepath)) {
+        data.basepath = params.basepath;
+      }
+      if (!_.isUndefined(params.switch_notice)) {
+        data.switch_notice = params.switch_notice;
+      }
+      if (!_.isUndefined(params.color)) {
+        data.color = params.color;
+      }
+      if (!_.isUndefined(params.icon)) {
+        data.icon = params.icon;
+      }
+      if (!_.isUndefined(params.pre_script)) {
+        data.pre_script = params.pre_script;
+      }
+      if (!_.isUndefined(params.after_script)) {
+        data.after_script = params.after_script;
+      }
 
       let result = await this.Model.up(id, data);
       let username = this.getUsername();

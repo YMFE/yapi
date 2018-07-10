@@ -69,7 +69,6 @@ class openController extends baseController {
 
   async importData(ctx) {
     let type = ctx.params.type;
-    let url = ctx.params.url;
     let content = ctx.params.json;
     let project_id = ctx.params.project_id;
     let dataSync = ctx.params.merge;
@@ -94,23 +93,23 @@ class openController extends baseController {
 
     let successMessage;
     let errorMessage = [];
-    let data = await HanldeImportData(
-      res,
-      project_id,
-      selectCatid,
-      menuList,
-      projectData.basePath,
-      dataSync,
-      err => {
-        errorMessage.push(err);
-      },
-      msg => {
-        successMessage = msg;
-      },
-      () => {},
-      token,
-      yapi.WEBCONFIG.port
-    );
+    // let data = await HanldeImportData(
+    //   res,
+    //   project_id,
+    //   selectCatid,
+    //   menuList,
+    //   projectData.basePath,
+    //   dataSync,
+    //   err => {
+    //     errorMessage.push(err);
+    //   },
+    //   msg => {
+    //     successMessage = msg;
+    //   },
+    //   () => {},
+    //   token,
+    //   yapi.WEBCONFIG.port
+    // );
 
     if (errorMessage.length > 0) {
       return (ctx.body = yapi.commons.resReturn(null, 404, errorMessage.join('\n')));
@@ -201,8 +200,12 @@ class openController extends baseController {
         msg = '';
       testList.forEach(item => {
         len++;
-        if (item.code === 0) successNum++;
-        else failedNum++;
+        if (item.code === 0) {
+          successNum++;
+        }
+        else {
+          failedNum++;
+        }
       });
       if (failedNum === 0) {
         msg = `一共 ${len} 测试用例，全部验证通过`;
