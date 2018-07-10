@@ -93,23 +93,23 @@ class openController extends baseController {
 
     let successMessage;
     let errorMessage = [];
-    // let data = await HanldeImportData(
-    //   res,
-    //   project_id,
-    //   selectCatid,
-    //   menuList,
-    //   projectData.basePath,
-    //   dataSync,
-    //   err => {
-    //     errorMessage.push(err);
-    //   },
-    //   msg => {
-    //     successMessage = msg;
-    //   },
-    //   () => {},
-    //   token,
-    //   yapi.WEBCONFIG.port
-    // );
+    let data = await HanldeImportData(
+      res,
+      project_id,
+      selectCatid,
+      menuList,
+      projectData.basePath,
+      dataSync,
+      err => {
+        errorMessage.push(err);
+      },
+      msg => {
+        successMessage = msg;
+      },
+      () => {},
+      token,
+      yapi.WEBCONFIG.port
+    );
 
     if (errorMessage.length > 0) {
       return (ctx.body = yapi.commons.resReturn(null, 404, errorMessage.join('\n')));
