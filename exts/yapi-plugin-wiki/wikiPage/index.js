@@ -71,7 +71,7 @@ class WikiPage extends Component {
 
   // 处理多人编辑冲突问题
   handleConflict = () => {
-    let self = this;
+    // console.log(location)
     let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
@@ -84,24 +84,30 @@ class WikiPage extends Component {
         this.props.match.params.id
     );
     s.onopen = () => {
-      self.WebSocket = s;
+      this.WebSocket = s;
       s.send('start');
     };
 
     s.onmessage = e => {
       let result = JSON.parse(e.data);
       if (result.errno === 0) {
-        self.setState({
-          // curdata: result.data,
-          desc: result.data.desc,
-          username: result.data.username,
-          uid: result.data.uid,
-          editorTime: timeago(result.data.up_time),
+        // 更新
+        if (result.data) {
+          this.setState({
+            // curdata: result.data,
+            desc: result.data.desc,
+            username: result.data.username,
+            uid: result.data.uid,
+            editorTime: timeago(result.data.up_time)
+          });
+        }
+        // 新建
+        this.setState({
           isEditor: !this.state.isEditor,
           status: 'CLOSE'
         });
       } else {
-        self.setState({
+        this.setState({
           editUid: result.data.uid,
           editName: result.data.username,
           status: 'EDITOR'
@@ -110,8 +116,7 @@ class WikiPage extends Component {
     };
 
     s.onerror = () => {
-      self.setState({
-        // curdata: this.props.curdata,
+      this.setState({
         status: 'CLOSE'
       });
       console.warn('websocket 连接失败，将导致多人编辑同一个接口冲突。');
@@ -124,17 +129,29 @@ class WikiPage extends Component {
     const sendEditor = () => {
       this.WebSocket.send('editor');
     };
-    this.handleWebsocketAccidentClose(sendEditor);
+    this.handleWebsocketAccidentClose(sendEditor, status => {
+      // 如果websocket 启动不成功用户依旧可以对wiki 进行编辑
+      if (!status) {
+        this.setState({
+          isEditor: !this.state.isEditor
+        });
+      }
+    });
   };
 
   // 处理websocket  意外断开问题
-  handleWebsocketAccidentClose = fn => {
-    
-    // websocket 断开
-    if (this.WebSocket.readyState !== 1) {
-      message.error('websocket 链接失败，请重新刷新页面');
+  handleWebsocketAccidentClose = (fn, callback) => {
+    // websocket 是否启动
+    if (this.WebSocket) {
+      // websocket 断开
+      if (this.WebSocket.readyState !== 1) {
+        message.error('websocket 链接失败，请重新刷新页面');
+      } else {
+        fn();
+      }
+      callback(true);
     } else {
-      fn();
+      callback(false);
     }
   };
 
@@ -196,7 +213,7 @@ class WikiPage extends Component {
       this.props.projectMsg.role === 'owner' ||
       this.props.projectMsg.role === 'dev';
     const isConflict = status === 'EDITOR';
-    
+
     return (
       <div className="g-row">
         <div className="m-panel wiki-content">

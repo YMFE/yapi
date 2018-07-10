@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const WikiView = props => {
   const { editorEable, onEditor, uid, username, editorTime, desc } = props;
   return (
-    <div>
+    <div className="wiki-view-content">
       <div className="wiki-title">
         <Button icon="edit" onClick={onEditor} disabled={!editorEable}>
           编辑
