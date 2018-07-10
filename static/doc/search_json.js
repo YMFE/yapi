@@ -596,7 +596,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -653,7 +653,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -1149,6 +1149,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+        },
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",
@@ -1306,6 +1311,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+        },
         {
           "title": "v1.3.18",
           "url": "/documents/CHANGELOG.html#v1.3.18",

@@ -16,13 +16,16 @@ import 'jsondiffpatch/public/formatters-styles/html.css';
 
 import './TimeLine.scss';
 
-const Option = AutoComplete.Option;
+// const Option = AutoComplete.Option;
+const {Option, OptGroup} = AutoComplete;
 
 const AddDiffView = props => {
   const { title, content, className } = props;
+  
   if (!content) {
     return null;
   }
+  
   return (
     <div className={className}>
       <h3 className="title">{title}</h3>
@@ -93,8 +96,8 @@ function timeago(timestamp) {
     };
   },
   {
-    fetchNewsData: fetchNewsData,
-    fetchMoreNews: fetchMoreNews,
+    fetchNewsData,
+    fetchMoreNews,
     fetchInterfaceList
   }
 )
@@ -121,7 +124,7 @@ class TimeTree extends Component {
       curDiffData: {},
       apiList: []
     };
-    this.curInterfaceId = '';
+    this.curSelectValue = '';
   }
 
   getMore() {
@@ -135,7 +138,7 @@ class TimeTree extends Component {
           this.props.type,
           this.props.curpage + 1,
           10,
-          this.curInterfaceId
+          this.curSelectValue
         )
         .then(function() {
           that.setState({ loading: false });
@@ -176,9 +179,9 @@ class TimeTree extends Component {
     });
   }
 
-  handleSelectApi = interfaceId => {
-    this.curInterfaceId = interfaceId;
-    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, interfaceId);
+  handleSelectApi = selectValue => {
+    this.curSelectValue = selectValue;
+    this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10, selectValue);
   };
 
   render() {
@@ -198,7 +201,7 @@ class TimeTree extends Component {
       let methodColor = variable.METHOD_COLOR[item.method ? item.method.toLowerCase() : 'get'];
       return (
         <Option title={item.title} value={item._id + ''} path={item.path} key={item._id}>
-          {item.path}{' '}
+          {item.title}{' '}
           <Tag
             style={{ color: methodColor.color, backgroundColor: methodColor.bac, border: 'unset' }}
           >
@@ -217,7 +220,8 @@ class TimeTree extends Component {
     if (data && data.length) {
       data = data.map((item, i) => {
         let interfaceDiff = false;
-        if (item.data && typeof item.data === 'object' && item.data.interface_id) {
+        // 去掉了 && item.data.interface_id
+        if (item.data && typeof item.data === 'object') {
           interfaceDiff = true;
         }
         return (
@@ -257,7 +261,8 @@ class TimeTree extends Component {
       pending = <Spin />;
     }
     let diffView = showDiffMsg(jsondiffpatch, formattersHtml, curDiffData);
-
+    
+    
     return (
       <section className="news-timeline">
         <Modal
@@ -290,12 +295,9 @@ class TimeTree extends Component {
                 onSelect={this.handleSelectApi}
                 style={{ width: '100%' }}
                 placeholder="Select Api"
-                optionLabelProp="path"
+                optionLabelProp="title"
                 filterOption={(inputValue, options) => {
-                  if (options.props.value == '')
-                  {
-                    return true;
-                  }
+                  if (options.props.value == '') return true;
                   if (
                     options.props.path.indexOf(inputValue) !== -1 ||
                     options.props.title.indexOf(inputValue) !== -1
@@ -305,7 +307,14 @@ class TimeTree extends Component {
                   return false;
                 }}
               >
-                {children}
+                {/* {children} */}
+                <OptGroup label="other">
+                  <Option value="wiki" path="" title="wiki">wiki</Option>
+                </OptGroup>
+                <OptGroup label="api">
+                  {children}
+                </OptGroup>
+                
               </AutoComplete>
             </Col>
           </Row>

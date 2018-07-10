@@ -43,13 +43,15 @@ module.exports = function(){
     let caseInst = yapi.getInst(caseModel);
 
     // let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
+    // request.ip
     let ip = yapi.commons.getIp(ctx)
     //   数据库信息查询
     let listWithIp =await caseInst.model.find({
       interface_id: interfaceId,
       ip_enable: true,
       ip: ip
-    }).select('_id params');
+    }).select('_id params'); 
+    
     let matchList = [];
     listWithIp.forEach(item=>{
       let params = item.params;
@@ -158,8 +160,10 @@ module.exports = function(){
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
+    
     if(caseData){
       let data = await  handleByCase(caseData);
+      
       context.mockJson = yapi.commons.json_parse(data.res_body);
       try{
         context.mockJson = Mock.mock(mockExtra(context.mockJson, {

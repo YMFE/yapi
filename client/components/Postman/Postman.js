@@ -66,6 +66,36 @@ const InsertCodeMap = [
   }
 ];
 
+const ParamsNameComponent = props => {
+  const { example, desc, name } = props;
+  const isNull = !example && !desc;
+  const TooltipTitle = () => {
+    return (
+      <div>
+        {example && <div>示例： {example}</div>}
+        {desc && <div>备注： {desc}</div>}
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {isNull ? (
+        <Input disabled value={name} className="key" />
+      ) : (
+        <Tooltip placement="topLeft" title={<TooltipTitle />}>
+          <Input disabled value={name} className="key" />
+        </Tooltip>
+      )}
+    </div>
+  );
+};
+ParamsNameComponent.propTypes = {
+  example: PropTypes.string,
+  desc: PropTypes.string,
+  name: PropTypes.string
+};
+
 export default class Run extends Component {
   static propTypes = {
     data: PropTypes.object, //接口原有数据
@@ -160,7 +190,6 @@ export default class Run extends Component {
         required: true
       });
       body = JSON.stringify(result.data);
-      console.log('body', body);
     }
 
     this.setState(
@@ -291,7 +320,6 @@ export default class Run extends Component {
         res_body_type: 'json'
       });
     }
-
     this.setState({
       resStatusCode: result.status,
       resStatusText: result.statusText,
@@ -559,7 +587,13 @@ export default class Run extends Component {
             {req_params.map((item, index) => {
               return (
                 <div key={index} className="key-value-wrap">
-                  <Input disabled value={item.name} className="key" />
+                  {/* <Tooltip
+                    placement="topLeft"
+                    title={<TooltipContent example={item.example} desc={item.desc} />}
+                  >
+                    <Input disabled value={item.name} className="key" />
+                  </Tooltip> */}
+                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
                     value={item.value}
@@ -594,7 +628,13 @@ export default class Run extends Component {
             {req_query.map((item, index) => {
               return (
                 <div key={index} className="key-value-wrap">
-                  <Input disabled value={item.name} className="key" />
+                  {/* <Tooltip
+                    placement="topLeft"
+                    title={<TooltipContent example={item.example} desc={item.desc} />}
+                  >
+                    <Input disabled value={item.name} className="key" />
+                  </Tooltip> */}
+                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
                   &nbsp;
                   {item.required == 1 ? (
                     <Checkbox className="params-enable" checked={true} disabled />
@@ -632,7 +672,13 @@ export default class Run extends Component {
             {req_headers.map((item, index) => {
               return (
                 <div key={index} className="key-value-wrap">
-                  <Input disabled value={item.name} className="key" />
+                  {/* <Tooltip
+                    placement="topLeft"
+                    title={<TooltipContent example={item.example} desc={item.desc} />}
+                  >
+                    <Input disabled value={item.name} className="key" />
+                  </Tooltip> */}
+                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
                     value={item.value}
@@ -682,7 +728,8 @@ export default class Run extends Component {
                     高级参数设置
                   </Button>
                   <Tooltip title="高级参数设置只在json字段值中生效">
-                    {'  '}<Icon type="question-circle-o" />
+                    {'  '}
+                    <Icon type="question-circle-o" />
                   </Tooltip>
                 </div>
               )}
@@ -703,7 +750,17 @@ export default class Run extends Component {
                   {req_body_form.map((item, index) => {
                     return (
                       <div key={index} className="key-value-wrap">
-                        <Input disabled value={item.name} className="key" />
+                        {/* <Tooltip
+                          placement="topLeft"
+                          title={<TooltipContent example={item.example} desc={item.desc} />}
+                        >
+                          <Input disabled value={item.name} className="key" />
+                        </Tooltip> */}
+                        <ParamsNameComponent
+                          example={item.example}
+                          desc={item.desc}
+                          name={item.name}
+                        />
                         &nbsp;
                         {item.required == 1 ? (
                           <Checkbox className="params-enable" checked={true} disabled />

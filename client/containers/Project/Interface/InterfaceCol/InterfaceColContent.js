@@ -218,6 +218,7 @@ class InterfaceColContent extends Component {
         result;
       try {
         result = await this.handleTest(curitem);
+        
         if (result.code === 400) {
           status = 'error';
         } else if (result.code === 0) {
@@ -288,6 +289,7 @@ class InterfaceColContent extends Component {
         }
       );
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
+      
       if (validRes.length === 0) {
         result.code = 0;
         result.validRes = [
@@ -316,7 +318,9 @@ class InterfaceColContent extends Component {
   };
 
   //response, validRes
+  // 断言测试
   handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
+    // 是否启动断言
     if (interfaceData.enable_script !== true) {
       return null;
     }

@@ -936,9 +936,10 @@ class projectController extends baseController {
         return (ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空'));
       }
 
-      if ((await this.checkAuth(project_id, 'project', 'edit')) !== true) {
-        return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
-      }
+      // 去掉权限判断
+      // if ((await this.checkAuth(project_id, 'project', 'edit')) !== true) {
+      //   return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
+      // }
 
       let env = await this.Model.getByEnv(project_id);
       // console.log('project', projectData)

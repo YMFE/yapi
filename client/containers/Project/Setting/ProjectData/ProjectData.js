@@ -1,5 +1,5 @@
 import React, { PureComponent as Component } from 'react';
-import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal, Radio } from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal, Radio, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -59,7 +59,9 @@ class ProjectData extends Component {
       curExportType: null,
       showLoading: false,
       dataSync: false,
-      exportContent: 'all'
+      exportContent: 'all',
+      isSwaggerUrl: false,
+      swaggerUrl: ''
     };
   }
   static propTypes = {
@@ -116,6 +118,7 @@ class ProjectData extends Component {
     );
   };
 
+  // 本地文件上传
   handleFile = info => {
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
@@ -198,10 +201,59 @@ class ProjectData extends Component {
     });
   };
 
+  // 处理导入信息同步
   onChange = checked => {
     this.setState({
       dataSync: checked
     });
+  };
+
+  // 处理swagger URL 导入
+  handleUrlChange = checked => {
+    this.setState({
+      isSwaggerUrl: checked
+    });
+  };
+
+  // 记录输入的url
+  swaggerUrlInput = url => {
+    this.setState({
+      swaggerUrl: url
+    });
+  };
+
+
+
+  // url导入上传
+  onUrlUpload = async () => {
+
+    if (!this.state.curImportType) {
+      return message.error('请选择导入数据的方式');
+    }
+
+    if(!this.state.swaggerUrl) {
+      return message.error('url 不能为空');
+    }
+    if (this.state.selectCatid) {
+      this.setState({ showLoading: true });
+      try {
+        let content = await axios(this.state.swaggerUrl);
+        content = content.data;
+        let res = await importDataModule[this.state.curImportType].run(content);
+        if (this.state.dataSync) {
+          // 开启同步
+          this.showConfirm(res);
+        } else {
+          // 未开启同步
+          await this.handleAddInterface(res);
+        }
+      } catch (e) {
+        this.setState({ showLoading: false });
+        message.error(e.message);
+      }
+    } else {
+      message.error('请选择上传的默认分类');
+    }
   };
 
   handleChange = e => {
@@ -290,27 +342,51 @@ class ProjectData extends Component {
 
                 <Switch checked={this.state.dataSync} onChange={this.onChange} />
               </div>
-              <div style={{ marginTop: 16, height: 180 }}>
-                <Spin spinning={this.state.showLoading} tip="上传中...">
-                  <Dragger {...uploadMess}>
-                    <p className="ant-upload-drag-icon">
-                      <Icon type="inbox" />
-                    </p>
-                    <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
-                    <p
-                      className="ant-upload-hint"
-                      onClick={e => {
-                        e.stopPropagation();
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: this.state.curImportType
-                          ? importDataModule[this.state.curImportType].desc
-                          : null
-                      }}
-                    />
-                  </Dragger>
-                </Spin>
-              </div>
+              {this.state.curImportType === 'swagger' && (
+                <div className="dataSync">
+                  <span>
+                    开启url导入<Tooltip title="swagger url 导入">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>{' '}
+                    &nbsp;&nbsp;:
+                  </span>
+
+                  <Switch checked={this.state.isSwaggerUrl} onChange={this.handleUrlChange} />
+                </div>
+              )}
+              {this.state.isSwaggerUrl ? (
+                <div className="import-content url-import-content">
+                  <Input
+                    placeholder="http://demo.swagger.io/v2/swagger.json"
+                    onChange={e => this.swaggerUrlInput(e.target.value)}
+                  />
+                  <Button type="primary" className="url-btn" onClick={this.onUrlUpload} loading={this.state.showLoading}>
+                    上传
+                  </Button>
+                </div>
+              ) : (
+                <div className="import-content">
+                  <Spin spinning={this.state.showLoading} tip="上传中...">
+                    <Dragger {...uploadMess}>
+                      <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                      </p>
+                      <p className="ant-upload-text">点击或者拖拽文件到上传区域</p>
+                      <p
+                        className="ant-upload-hint"
+                        onClick={e => {
+                          e.stopPropagation();
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: this.state.curImportType
+                            ? importDataModule[this.state.curImportType].desc
+                            : null
+                        }}
+                      />
+                    </Dragger>
+                  </Spin>
+                </div>
+              )}
             </div>
 
             <div

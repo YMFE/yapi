@@ -66,7 +66,17 @@ module.exports = function (jsondiffpatch, formattersHtml, curDiffData) {
   
 
   if (curDiffData && typeof curDiffData === 'object' && curDiffData.current) {
-    const { current, old } = curDiffData;
+    const { current, old, type } = curDiffData;
+    // wiki 信息的diff 输出
+    if(type === 'wiki') {
+      if (current != old) {
+        diffView.push({
+          title: 'wiki更新',
+          content: diffText(old, current)
+        })
+      }
+      return diffView = diffView.filter(item => item.content)
+    }
     if (current.path != old.path) {
       diffView.push({
         title: 'Api 路径',

@@ -35,6 +35,7 @@ formats.forEach(item => {
 
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
+
   jsf.option(options);
   let result;
   try {
@@ -274,6 +275,7 @@ exports.sandbox = (sandbox, script) => {
   script.runInContext(context, {
     timeout: 3000
   });
+
   return sandbox;
 };
 
@@ -504,6 +506,7 @@ function convertString(variable) {
 
 exports.runCaseScript = async function runCaseScript(params) {
   let script = params.script;
+  // script 是断言
   if (!script) {
     return yapi.commons.resReturn('ok');
   }
@@ -523,11 +526,13 @@ exports.runCaseScript = async function runCaseScript(params) {
   let result = {};
   try {
     result = yapi.commons.sandbox(context, script);
+
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {
     logs.push(convertString(err));
     result.logs = logs;
+
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }
 };

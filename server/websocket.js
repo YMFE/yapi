@@ -20,10 +20,13 @@ function addPluginRouter(config) {
   pluginsRouterPath.push(routerPath);
   createAction(router, "/api", config.controller, config.action, routerPath, method, true);
 }
+
+
 function websocket(app) {
   createAction(router, "/api", interfaceController, "solveConflict", "/interface/solve_conflict", "get")
 
   yapi.emitHookSync('add_ws_router', addPluginRouter);
+
 
   app.ws.use(router.routes())
   app.ws.use(router.allowedMethods());

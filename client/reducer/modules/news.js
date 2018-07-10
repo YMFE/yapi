@@ -53,14 +53,14 @@ export default (state = initialState, action) => {
 import axios from 'axios';
 import variable from '../../constants/variable';
 
-export function fetchNewsData(typeid, type, page, limit, interfaceId) {
+export function fetchNewsData(typeid, type, page, limit, selectValue) {
   let param = {
     typeid: typeid,
     type: type,
     page: page,
     limit: limit ? limit : variable.PAGE_LIMIT,
-    interface_id: interfaceId
-  };
+    selectValue
+  }
 
   return {
     type: FETCH_NEWS_DATA,
@@ -69,14 +69,14 @@ export function fetchNewsData(typeid, type, page, limit, interfaceId) {
     })
   };
 }
-export function fetchMoreNews(typeid, type, page, limit, interfaceId) {
+export function fetchMoreNews(typeid, type, page, limit, selectValue) {
   const param = {
     typeid: typeid,
     type: type,
     page: page,
     limit: limit ? limit : variable.PAGE_LIMIT,
-    interface_id: interfaceId
-  };
+    selectValue
+  }
   return {
     type: FETCH_MORE_NEWS,
     payload: axios.get('/api/log/list', {

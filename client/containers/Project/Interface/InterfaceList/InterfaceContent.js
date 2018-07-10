@@ -110,8 +110,8 @@ class Content extends Component {
       document.getElementsByTagName('title')[0].innerText =
         this.props.curdata.title + '-' + this.title;
     }
-
-    let InterfaceTabs = {
+    
+    let InterfaceTabs = { 
       view: {
         component: View,
         name: '预览'
