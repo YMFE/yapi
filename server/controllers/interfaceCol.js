@@ -474,22 +474,15 @@ class interfaceColController extends baseController {
       const handleTypeParams = (data, name) => {
         let res = data[name];
         const type = Object.prototype.toString.call(res);
-        switch (type) {
-          case '[object Array]':
-            if (res.length) {
-              res = JSON.stringify(res);
-              try {
-                res = JSON.parse(handleReplaceStr(res));
-              } catch (e) {
-                console.log('e ->', e);
-              }
-            }
-            break;
-          case '[object String]':
-            if (data[name]) {
-              res = handleReplaceStr(res);
-            }
-            break;
+        if (type === '[object Array]' && res.length) {
+          res = JSON.stringify(res);
+          try {
+            res = JSON.parse(handleReplaceStr(res));
+          } catch (e) {
+            console.log('e ->', e);
+          }
+        } else if (type === '[object String]' && data[name]) {
+          res = handleReplaceStr(res);
         }
         return res;
       };

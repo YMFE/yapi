@@ -131,7 +131,6 @@ class InterfaceColContent extends Component {
 
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
-        
       }
 
       this.props.setColData({
@@ -142,15 +141,12 @@ class InterfaceColContent extends Component {
 
       await this.props.fetchCaseEnvList(currColId);
 
-     
-
       this.handleColdata(this.props.currCaseList);
     }
 
     this._crossRequestInterval = initCrossRequest(hasPlugin => {
       this.setState({ hasPlugin: hasPlugin });
     });
-   
   }
 
   componentWillUnmount() {
@@ -263,7 +259,6 @@ class InterfaceColContent extends Component {
       msg: '数据异常',
       validRes: []
     };
-    
 
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script);
@@ -389,7 +384,7 @@ class InterfaceColContent extends Component {
 
   async componentWillReceiveProps(nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
-    
+
     if ((newColId && this.currColId && newColId !== this.currColId) || nextProps.isRander) {
       this.currColId = newColId;
       this.props.setColData({
@@ -462,7 +457,7 @@ class InterfaceColContent extends Component {
       isRander: false
     });
     await this.props.fetchCaseList(currColId);
-    
+
     this.handleColdata(this.props.currCaseList);
   };
 
@@ -480,11 +475,17 @@ class InterfaceColContent extends Component {
   };
 
   autoTests = () => {
-    this.setState({ autoVisible: true, currColEnvObj: {}, collapseKey: ''});
+    this.setState({ autoVisible: true, currColEnvObj: {}, collapseKey: '' });
   };
 
   handleAuto = () => {
-    this.setState({ autoVisible: false, email: false, mode: 'html', currColEnvObj: {}, collapseKey: '' });
+    this.setState({
+      autoVisible: false,
+      email: false,
+      mode: 'html',
+      currColEnvObj: {},
+      collapseKey: ''
+    });
   };
 
   copyUrl = url => {
@@ -855,89 +856,91 @@ class InterfaceColContent extends Component {
             onChange={this.handleScriptChange}
           />
         </Modal>
-        {this.state.autoVisible && <Modal
-          title="服务端自动化测试"
-          width="780px"
-          style={{
-            minHeight: '500px'
-          }}
-          visible={this.state.autoVisible}
-          onCancel={this.handleAuto}
-          className="autoTestsModal"
-          footer={null}
-        >
-          <Row type="flex" justify="space-around" className="row" align="top">
-            <Col span={3} className="label" style={{ paddingTop: '16px' }}>
-              选择环境
-              <Tooltip title="默认使用测试用例选择的环境">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-              &nbsp;：
-            </Col>
-            <Col span={21}>
-              <CaseEnv
-                envList={this.props.envList}
-                currProjectEnvChange={this.currProjectEnvChange}
-                envValue={this.state.currColEnvObj}
-                collapseKey={this.state.collapseKey}
-                changeClose={this.changeCollapseClose}
-              />
-            </Col>
-          </Row>
-          <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={3} className="label">
-              输出格式：
-            </Col>
-            <Col span={21}>
-              <Select value={this.state.mode} onChange={this.modeChange}>
-                <Option key="html" value="html">
-                  html
-                </Option>
-                <Option key="json" value="json">
-                  json
-                </Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={3} className="label">
-              邮件通知
-              <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
-                <Icon
-                  type="question-circle-o"
-                  style={{
-                    width: '10px'
-                  }}
+        {this.state.autoVisible && (
+          <Modal
+            title="服务端自动化测试"
+            width="780px"
+            style={{
+              minHeight: '500px'
+            }}
+            visible={this.state.autoVisible}
+            onCancel={this.handleAuto}
+            className="autoTestsModal"
+            footer={null}
+          >
+            <Row type="flex" justify="space-around" className="row" align="top">
+              <Col span={3} className="label" style={{ paddingTop: '16px' }}>
+                选择环境
+                <Tooltip title="默认使用测试用例选择的环境">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+                &nbsp;：
+              </Col>
+              <Col span={21}>
+                <CaseEnv
+                  envList={this.props.envList}
+                  currProjectEnvChange={this.currProjectEnvChange}
+                  envValue={this.state.currColEnvObj}
+                  collapseKey={this.state.collapseKey}
+                  changeClose={this.changeCollapseClose}
                 />
-              </Tooltip>
-              &nbsp;：
-            </Col>
-            <Col span={21}>
-              <Switch
-                checked={this.state.email}
-                checkedChildren="开"
-                unCheckedChildren="关"
-                onChange={this.emailChange}
-              />
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+            <Row type="flex" justify="space-around" className="row" align="middle">
+              <Col span={3} className="label">
+                输出格式：
+              </Col>
+              <Col span={21}>
+                <Select value={this.state.mode} onChange={this.modeChange}>
+                  <Option key="html" value="html">
+                    html
+                  </Option>
+                  <Option key="json" value="json">
+                    json
+                  </Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row type="flex" justify="space-around" className="row" align="middle">
+              <Col span={3} className="label">
+                邮件通知
+                <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
+                  <Icon
+                    type="question-circle-o"
+                    style={{
+                      width: '10px'
+                    }}
+                  />
+                </Tooltip>
+                &nbsp;：
+              </Col>
+              <Col span={21}>
+                <Switch
+                  checked={this.state.email}
+                  checkedChildren="开"
+                  unCheckedChildren="关"
+                  onChange={this.emailChange}
+                />
+              </Col>
+            </Row>
 
-          <Row type="flex" justify="space-around" className="row" align="middle">
-            <Col span={21} className="autoTestUrl">
-              <a href={localUrl + autoTestsUrl} target="_blank">
-                {autoTestsUrl}
-              </a>
-            </Col>
-            <Col span={3}>
-              <Button className="copy-btn" onClick={() => this.copyUrl(localUrl + autoTestsUrl)}>
-                复制
-              </Button>
-            </Col>
-          </Row>
-          <div className="autoTestMsg">
-            注：访问该URL，可以测试所有用例，请确保YApi服务器可以访问到环境配置的 domain
-          </div>
-        </Modal>}
+            <Row type="flex" justify="space-around" className="row" align="middle">
+              <Col span={21} className="autoTestUrl">
+                <a href={localUrl + autoTestsUrl} target="_blank">
+                  {autoTestsUrl}
+                </a>
+              </Col>
+              <Col span={3}>
+                <Button className="copy-btn" onClick={() => this.copyUrl(localUrl + autoTestsUrl)}>
+                  复制
+                </Button>
+              </Col>
+            </Row>
+            <div className="autoTestMsg">
+              注：访问该URL，可以测试所有用例，请确保YApi服务器可以访问到环境配置的 domain
+            </div>
+          </Modal>
+        )}
       </div>
     );
   }

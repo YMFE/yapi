@@ -45,19 +45,19 @@ export default class Srch extends Component {
   };
 
   onSelect = async (value, option) => {
-
     if (option.props.type === '分组') {
       this.props.changeMenuItem('/group');
       this.props.history.push('/group/' + option.props['id']);
-      this.props.setCurrGroup({ group_name: value, _id: option.props['id']-0 });
-    } else if(option.props.type === '项目') {
-      await this.props.fetchGroupMsg(option.props['groupId'])
+      this.props.setCurrGroup({ group_name: value, _id: option.props['id'] - 0 });
+    } else if (option.props.type === '项目') {
+      await this.props.fetchGroupMsg(option.props['groupId']);
       this.props.history.push('/project/' + option.props['id']);
     } else if (option.props.type === '接口') {
       await this.props.fetchInterfaceListMenu(option.props['projectId']);
-      this.props.history.push('/project/' + option.props['projectId']+'/interface/api/'+option.props['id']);
+      this.props.history.push(
+        '/project/' + option.props['projectId'] + '/interface/api/' + option.props['id']
+      );
     }
-
   };
 
   handleSearch = value => {
@@ -103,9 +103,9 @@ export default class Srch extends Component {
                     >
                       {`接口: ${item.title}`}
                     </Option>
-                  )
+                  );
                   break;
-                  default: 
+                default:
                   break;
               }
             });

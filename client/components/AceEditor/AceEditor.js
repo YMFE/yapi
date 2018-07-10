@@ -11,7 +11,7 @@ const ModeMap = {
   html: 'ace/mode/html'
 };
 
-const defaultStyle = { width: '100%', height: '200px' }
+const defaultStyle = { width: '100%', height: '200px' };
 
 function getMode(mode) {
   return ModeMap[mode] || ModeMap.text;
@@ -48,12 +48,12 @@ class AceEditor extends React.PureComponent {
     if (typeof this.props.callback === 'function') {
       this.props.callback(this.editor.editor);
     }
-
-    
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.editor) return;
+    if (!this.editor) {
+      return;
+    }
     if (nextProps.data !== this.props.data && this.editor.getValue() !== nextProps.data) {
       this.editor.setValue(nextProps.data);
       let mode = nextProps.mode || 'javascript';
@@ -66,9 +66,7 @@ class AceEditor extends React.PureComponent {
     return (
       <div
         className={this.props.className}
-        style={
-          this.props.className ? undefined : this.props.style || defaultStyle
-        }
+        style={this.props.className ? undefined : this.props.style || defaultStyle}
         ref={editor => {
           this.editorElement = editor;
         }}

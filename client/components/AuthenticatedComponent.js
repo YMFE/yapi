@@ -1,30 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
-import { changeMenuItem } from '../reducer/modules/menu'
+import PropTypes from 'prop-types';
+import { changeMenuItem } from '../reducer/modules/menu';
 
-@connect(
-  (state) => {
-    return{
-      isAuthenticated: state.user.isLogin
-    }
-  },
-  {
-    changeMenuItem
-  }
-)
 export function requireAuthentication(Component) {
-  return class AuthenticatedComponent extends React.PureComponent {
-    constructor(props){
+  return @connect(
+    state => {
+      return {
+        isAuthenticated: state.user.isLogin
+      };
+    },
+    {
+      changeMenuItem
+    }
+  )
+  class AuthenticatedComponent extends React.PureComponent {
+    constructor(props) {
       super(props);
     }
-    static propTypes ={
-      isAuthenticated : PropTypes.bool,
+    static propTypes = {
+      isAuthenticated: PropTypes.bool,
       location: PropTypes.object,
       dispatch: PropTypes.func,
       history: PropTypes.object,
-      changeMenuItem:PropTypes.func
-    }
+      changeMenuItem: PropTypes.func
+    };
     componentWillMount() {
       this.checkAuth();
     }
@@ -32,20 +32,13 @@ export function requireAuthentication(Component) {
       this.checkAuth();
     }
     checkAuth() {
-      if( !this.props.isAuthenticated ){
+      if (!this.props.isAuthenticated) {
         this.props.history.push('/');
         this.props.changeMenuItem('/');
       }
     }
     render() {
-      return (
-        <div>
-          {this.props.isAuthenticated
-            ? <Component {...this.props}/>
-            : null
-          }
-        </div>
-      )
+      return <div>{this.props.isAuthenticated ? <Component {...this.props} /> : null}</div>;
     }
-  }
+  };
 }

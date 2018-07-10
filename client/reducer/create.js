@@ -9,7 +9,7 @@ export default function createStore(initialState = {}) {
 
   let finalCreateStore;
   //if (process.env.NODE_ENV === 'production') {
-    finalCreateStore = applyMiddleware(...middleware)(_createStore);
+  finalCreateStore = applyMiddleware(...middleware)(_createStore);
   // } else {
   //   finalCreateStore = compose(
   //     applyMiddleware(...middleware),

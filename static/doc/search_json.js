@@ -1519,6 +1519,11 @@ window.ydoc_plugin_search_json = {
           "title": "禁止注册",
           "url": "/devops/index.html#禁止注册",
           "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
+        },
+        {
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
         }
       ]
     },
@@ -1571,6 +1576,11 @@ window.ydoc_plugin_search_json = {
           "title": "禁止注册",
           "url": "/devops/index.html#禁止注册",
           "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
+        },
+        {
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
         }
       ]
     }

@@ -57,7 +57,6 @@ export default class MockCol extends Component {
         });
         record.res_body = JSON.stringify(result.data);
       }
-      // console.log(this.props.currInterface.req_body_is_json_schema)
       // 参数过滤schema形式
       if (this.props.currInterface.req_body_is_json_schema) {
         let result = await axios.post('/api/interface/schema2json', {
@@ -67,8 +66,7 @@ export default class MockCol extends Component {
         record.req_body_other = JSON.stringify(result.data);
       }
 
-
-      this.setState({ 
+      this.setState({
         isAdd: isAdd,
         caseDesModalVisible: true,
         caseData: record

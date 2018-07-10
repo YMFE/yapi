@@ -8,7 +8,6 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 import './Login.scss';
-// import Qsso from  '../../components/Qsso/Qsso.js'
 
 const formItemStyle = {
   marginBottom: '.16rem'

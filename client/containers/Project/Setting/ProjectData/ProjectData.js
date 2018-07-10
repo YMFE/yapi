@@ -1,17 +1,5 @@
 import React, { PureComponent as Component } from 'react';
-import {
-  Upload,
-  Icon,
-  message,
-  Select,
-  Tooltip,
-  Button,
-  Spin,
-  Switch,
-  Modal,
-  Radio,
-  Input
-} from 'antd';
+import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal, Radio, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';

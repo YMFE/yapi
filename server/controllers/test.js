@@ -1,6 +1,6 @@
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
-const fs=require('fs')   //引入文件模块 
+const fs = require('fs'); //引入文件模块
 const path = require('path');
 
 class interfaceColController extends baseController {
@@ -70,7 +70,7 @@ class interfaceColController extends baseController {
     try {
       // let params = ctx.request.body;
       let req = ctx.req;
-     
+
       let chunks = [],
         size = 0;
       req.on('data', function(chunk) {
@@ -89,11 +89,11 @@ class interfaceColController extends baseController {
           chunk.copy(data, pos);
           pos += chunk.length;
         }
-        fs.writeFileSync(path.join(yapi.WEBROOT_RUNTIME, 'test.text'), data, function(err){
-          return ctx.body = yapi.commons.resReturn(null, 402, '写入失败');
+        fs.writeFileSync(path.join(yapi.WEBROOT_RUNTIME, 'test.text'), data, function(err) {
+          return (ctx.body = yapi.commons.resReturn(null, 402, '写入失败'));
         });
       });
-      
+
       ctx.body = yapi.commons.resReturn({ res: '上传成功' });
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -109,7 +109,7 @@ class interfaceColController extends baseController {
    */
   async testFilesUpload(ctx) {
     try {
-      let params = ctx.request.body;
+      // let params = ctx.request.body;
       ctx.body = yapi.commons.resReturn({ res: '上传成功' });
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-import json5 from 'json5'
-import PropTypes from 'prop-types'
+import json5 from 'json5';
+import PropTypes from 'prop-types';
 import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js';
 import _ from 'underscore';
 
@@ -35,7 +35,11 @@ const columns = [
     width: 100,
     render: (text, item) => {
       // console.log('text',item.sub);
-      return text === 'array' ? <span>{item.sub ? item.sub.itemType || '': 'array'} []</span> : <span>{text}</span>;
+      return text === 'array' ? (
+        <span>{item.sub ? item.sub.itemType || '' : 'array'} []</span>
+      ) : (
+        <span>{text}</span>
+      );
     }
   },
   {
@@ -52,7 +56,7 @@ const columns = [
     dataIndex: 'default',
     key: 'default',
     render: text => {
-      return <div>{_.isBoolean(text) ? text+'': text}</div>;
+      return <div>{_.isBoolean(text) ? text + '' : text}</div>;
     }
   },
   {
@@ -90,28 +94,26 @@ const columns = [
 ];
 
 class SchemaTable extends Component {
-
   static propTypes = {
     dataSource: PropTypes.string
-  }
+  };
 
   constructor(props) {
     super(props);
-    
   }
 
-  render() {    
-    let product
-    try{
-      product = json5.parse(this.props.dataSource) 
-    }catch(e){
-      product = null
+  render() {
+    let product;
+    try {
+      product = json5.parse(this.props.dataSource);
+    } catch (e) {
+      product = null;
     }
-    if(!product){
+    if (!product) {
       return null;
     }
-    let data = schemaTransformToTable(product)
-    data = _.isArray(data) ? data : []
+    let data = schemaTransformToTable(product);
+    data = _.isArray(data) ? data : [];
     return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;
   }
 }

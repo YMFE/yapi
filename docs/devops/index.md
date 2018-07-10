@@ -147,3 +147,15 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 }
 
 ```
+
+## 版本通知
+在 config.json 添加 `"versionNotify": true` 配置项，就可以开启版本通知功能，默认为 `false`，修改完成后，请重启 yapi 服务器。
+
+```json
+{
+  "port": "******",
+  "adminAccount": "*****",
+  "versionNotify": true
+}
+
+```

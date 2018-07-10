@@ -3,19 +3,17 @@ import './Follows.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
-import { getFollowList } from  '../../reducer/modules/follow';
-import { setBreadcrumb } from  '../../reducer/modules/user';
-// import Subnav from '../../components/Subnav/Subnav.js';
+import { getFollowList } from '../../reducer/modules/follow';
+import { setBreadcrumb } from '../../reducer/modules/user';
 import ProjectCard from '../../components/ProjectCard/ProjectCard.js';
 import ErrMsg from '../../components/ErrMsg/ErrMsg.js';
-
 
 @connect(
   state => {
     return {
       data: state.follow.data,
       uid: state.user.uid
-    }
+    };
   },
   {
     getFollowList,
@@ -27,54 +25,63 @@ class Follows extends Component {
     super(props);
     this.state = {
       data: []
-    }
+    };
   }
   static propTypes = {
     getFollowList: PropTypes.func,
     setBreadcrumb: PropTypes.func,
     uid: PropTypes.number
-  }
+  };
 
   receiveRes = () => {
-    this.props.getFollowList(this.props.uid).then((res) => {
+    this.props.getFollowList(this.props.uid).then(res => {
       if (res.payload.data.errcode === 0) {
         this.setState({
           data: res.payload.data.data.list
-        })
+        });
       }
     });
-  }
+  };
 
   async componentWillMount() {
-    this.props.setBreadcrumb([{name: '我的关注'}]);
-    this.props.getFollowList(this.props.uid).then((res) => {
+    this.props.setBreadcrumb([{ name: '我的关注' }]);
+    this.props.getFollowList(this.props.uid).then(res => {
       if (res.payload.data.errcode === 0) {
         this.setState({
           data: res.payload.data.data.list
-        })
+        });
       }
     });
   }
 
-  render () {
+  render() {
     let data = this.state.data;
-    data = data.sort((a,b)=>{
+    data = data.sort((a, b) => {
       return b.up_time - a.up_time;
-    })
+    });
     return (
       <div>
-        <div className="g-row" style={{paddingLeft: '32px', paddingRight: '32px'}}>
+        <div className="g-row" style={{ paddingLeft: '32px', paddingRight: '32px' }}>
           <Row gutter={16} className="follow-box pannel-without-tab">
-            {data.length ? data.map((item, index) => {
-              return (
-                <Col xs={6} md={4} xl={3} key={index}>
-                  <ProjectCard projectData={item} inFollowPage={true} callbackResult={this.receiveRes} />
-                </Col>);
-            }): <ErrMsg type="noFollow"/>}
+            {data.length ? (
+              data.map((item, index) => {
+                return (
+                  <Col xs={6} md={4} xl={3} key={index}>
+                    <ProjectCard
+                      projectData={item}
+                      inFollowPage={true}
+                      callbackResult={this.receiveRes}
+                    />
+                  </Col>
+                );
+              })
+            ) : (
+              <ErrMsg type="noFollow" />
+            )}
           </Row>
         </div>
       </div>
-    )
+    );
   }
 }
 

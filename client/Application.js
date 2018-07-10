@@ -12,7 +12,7 @@ import Loading from './components/Loading/Loading';
 import MyPopConfirm from './components/MyPopConfirm/MyPopConfirm';
 import { checkLoginState } from './reducer/modules/user';
 import { requireAuthentication } from './components/AuthenticatedComponent';
-
+import Notify from './components/Notify/Notify';
 
 const plugin = require('client/plugin.js');
 
@@ -20,11 +20,18 @@ const LOADING_STATUS = 0;
 
 const alertContent = () => {
   const ua = window.navigator.userAgent,
-    isChrome = ua.indexOf("Chrome") && window.chrome;
+    isChrome = ua.indexOf('Chrome') && window.chrome;
   if (!isChrome) {
-    return <Alert style={{ zIndex: 99 }} message={'YApi 的接口测试等功能仅支持 Chrome 浏览器，请使用 Chrome 浏览器获得完整功能。'} banner closable />
+    return (
+      <Alert
+        style={{ zIndex: 99 }}
+        message={'YApi 的接口测试等功能仅支持 Chrome 浏览器，请使用 Chrome 浏览器获得完整功能。'}
+        banner
+        closable
+      />
+    );
   }
-}
+};
 
 let AppRoute = {
   home: {
@@ -82,7 +89,6 @@ export default class App extends Component {
     loginState: PropTypes.number
   };
 
-
   componentDidMount() {
     this.props.checkLoginState();
   }
@@ -92,12 +98,10 @@ export default class App extends Component {
     // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
     let container = document.createElement('div');
     document.body.appendChild(container);
-    ReactDOM.render((
-      <MyPopConfirm msg={msg} callback={callback} />
-    ), container);
-  }
+    ReactDOM.render(<MyPopConfirm msg={msg} callback={callback} />, container);
+  };
 
-  route = (status) => {
+  route = status => {
     let r;
     if (status === LOADING_STATUS) {
       return <Loading visible />;
@@ -106,19 +110,24 @@ export default class App extends Component {
         <Router getUserConfirmation={this.showConfirm}>
           <div className="g-main">
             <div className="router-main">
+              <Notify />
               {alertContent()}
               {this.props.loginState !== 1 ? <Header /> : null}
               <div className="router-container">
                 {Object.keys(AppRoute).map(key => {
                   let item = AppRoute[key];
-                  return (
-                    key === 'login' ?
-                      <Route key={key} path={item.path} component={item.component} />
-                      : key === 'home' ? <Route key={key} exact path={item.path} component={item.component} />
-                        : <Route key={key} path={item.path} component={requireAuthentication(item.component)} />
-                  )
-                })
-                }
+                  return key === 'login' ? (
+                    <Route key={key} path={item.path} component={item.component} />
+                  ) : key === 'home' ? (
+                    <Route key={key} exact path={item.path} component={item.component} />
+                  ) : (
+                    <Route
+                      key={key}
+                      path={item.path}
+                      component={requireAuthentication(item.component)}
+                    />
+                  );
+                })}
               </div>
               {/* <div className="router-container">
                 <Route exact path="/" component={Home} />
@@ -133,12 +142,11 @@ export default class App extends Component {
             </div>
             <Footer />
           </div>
-        </Router >
-
-      )
+        </Router>
+      );
     }
     return r;
-  }
+  };
 
   render() {
     return this.route(this.props.loginState);
