@@ -36,7 +36,7 @@ exports.ldapQuery = (username, password) => {
       search.on('searchEntry', entry => {
         if (entry) {
           // 获取查询对象
-          users.push(entry.dn);
+          users.push(entry.object);
         }
       });
       // 查询错误事件
@@ -64,7 +64,7 @@ exports.ldapQuery = (username, password) => {
       search.on('end', () => {
         console.log('users', users);
         if (users.length > 0) {
-          client.bind(users[0], password, e => {
+          client.bind(users[0].dn, password, e => {
             if (e) {
               let msg = {
                 type: false,
@@ -74,7 +74,8 @@ exports.ldapQuery = (username, password) => {
             } else {
               let msg = {
                 type: true,
-                message: `验证成功`
+                message: `验证成功`,
+                info: users[0]
               };
               resolve(msg);
             }
@@ -93,15 +94,23 @@ exports.ldapQuery = (username, password) => {
     // 将client绑定LDAP Server
     // 第一个参数： 是用户，必须是从根结点到用户节点的全路径
     // 第二个参数： 用户密码
-    client.bind(ldapLogin.baseDn, ldapLogin.bindPassword, err => {
-      if (err) {
-        let msg = {
-          type: false,
-          message: `LDAP server绑定失败: ${err}`
-        };
-        reject(msg);
-      }
+    return new Promise((resolve, reject) => {
+      if (ldapLogin.bindPassword) {
+        client.bind(ldapLogin.baseDn, ldapLogin.bindPassword, err => {
+          if (err) {
+            let msg = {
+              type: false,
+              message: `LDAP server绑定失败: ${err}`
+            };
+            reject(msg);
+          }
 
+          resolve()
+        });
+      } else {
+        resolve()
+      }
+    }).then(() => {
       const searchDn = ldapLogin.searchDn;
       const searchStandard = ldapLogin.searchStandard;
       // 处理可以自定义filter
