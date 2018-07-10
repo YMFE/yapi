@@ -35,6 +35,7 @@ formats.forEach(item => {
 
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
+
   jsf.option(options);
   let result;
   try {
@@ -274,7 +275,7 @@ exports.sandbox = (sandbox, script) => {
   script.runInContext(context, {
     timeout: 3000
   });
-  
+
   return sandbox;
 };
 
@@ -525,13 +526,13 @@ exports.runCaseScript = async function runCaseScript(params) {
   let result = {};
   try {
     result = yapi.commons.sandbox(context, script);
-    
+
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {
     logs.push(convertString(err));
     result.logs = logs;
-   
+
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }
 };
@@ -552,38 +553,36 @@ exports.getUserdata = async function getUserdata(uid, role) {
 };
 
 exports.sendNotice = async function sendNotice(projectId, data) {
-    const followInst = yapi.getInst(followModel);
-    const userInst = yapi.getInst(userModel);
-    const projectInst = yapi.getInst(projectModel);
-    const list = await followInst.listByProjectId(projectId);
-    const starUsers = list.map(item => item.uid);
+  const followInst = yapi.getInst(followModel);
+  const userInst = yapi.getInst(userModel);
+  const projectInst = yapi.getInst(projectModel);
+  const list = await followInst.listByProjectId(projectId);
+  const starUsers = list.map(item => item.uid);
 
-    const projectList = await projectInst.get(projectId);
-    const projectMenbers = projectList.members.filter(item => item.email_notice).map(item => item.uid);
+  const projectList = await projectInst.get(projectId);
+  const projectMenbers = projectList.members
+    .filter(item => item.email_notice)
+    .map(item => item.uid);
 
+  const users = arrUnique(projectMenbers, starUsers);
+  const usersInfo = await userInst.findByUids(users);
+  const emails = usersInfo.map(item => item.email).join(',');
 
-    const users = arrUnique(projectMenbers, starUsers);
-    const usersInfo = await userInst.findByUids(users);
-    const emails = usersInfo.map(item => item.email).join(',');
-
-    try {
-      yapi.commons.sendMail({
-        to: emails,
-        contents: data.content,
-        subject: data.title
-      });
-    } catch (e) {
-      yapi.commons.log('邮件发送失败：' + e, 'error');
-    }
+  try {
+    yapi.commons.sendMail({
+      to: emails,
+      contents: data.content,
+      subject: data.title
+    });
+  } catch (e) {
+    yapi.commons.log('邮件发送失败：' + e, 'error');
+  }
 };
 
 function arrUnique(arr1, arr2) {
-
   let arr = arr1.concat(arr2);
-  let res = arr.filter(function (item, index, arr) {
+  let res = arr.filter(function(item, index, arr) {
     return arr.indexOf(item) === index;
   });
   return res;
-
 }
-
