@@ -55,6 +55,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 链家网
 * 快手
 * 便利蜂
+* [中商惠民](http://www.huimin.cn/)
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)

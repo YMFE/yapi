@@ -135,11 +135,13 @@ class userController extends baseController {
     try {
       const { email, password } = ctx.request.body;
       // const username = email.split(/\@/g)[0];
-      await ldap.ldapQuery(email, password);
-      const username = email.split(/\@/g)[0];
+      const { info: ldapInfo } = await ldap.ldapQuery(email, password);
+      const emailPrefix = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
+      
+      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + yapi.WEBCONFIG.ldapLogin.emailPostfix : email);
+      const username = ldapInfo['name'];
 
-      const emailParams = emailPostfix ? username + yapi.WEBCONFIG.ldapLogin.emailPostfix : email;
 
       let login = await this.handleThirdLogin(emailParams, username);
       if (login === true) {
