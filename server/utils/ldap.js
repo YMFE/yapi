@@ -97,17 +97,17 @@ exports.ldapQuery = (username, password) => {
       if (ldapLogin.bindPassword) {
         client.bind(ldapLogin.baseDn, ldapLogin.bindPassword, err => {
           if (err) {
-            let msg = { 
+            let msg = {
               type: false,
               message: `LDAP server绑定失败: ${err}`
             };
             reject(msg);
           }
 
-          resolve()
+          resolve();
         });
       } else {
-        resolve()
+        resolve();
       }
     }).then(() => {
       const searchDn = ldapLogin.searchDn;
@@ -115,7 +115,7 @@ exports.ldapQuery = (username, password) => {
       // 处理可以自定义filter
       let customFilter;
       if (/^&/gi.test(searchStandard)) {
-        customFilter = util.format(searchStandard, username)
+        customFilter = util.format(searchStandard, username);
       } else {
         customFilter = `${searchStandard}=${username}`;
       }

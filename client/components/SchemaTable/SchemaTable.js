@@ -4,6 +4,7 @@ import json5 from 'json5';
 import PropTypes from 'prop-types';
 import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js';
 import _ from 'underscore';
+import './index.scss';
 
 const messageMap = {
   desc: '备注',
@@ -55,6 +56,7 @@ const columns = [
     title: '默认值',
     dataIndex: 'default',
     key: 'default',
+    width: 80,
     render: text => {
       return <div>{_.isBoolean(text) ? text + '' : text}</div>;
     }
@@ -65,9 +67,9 @@ const columns = [
     key: 'desc',
     render: (text, item) => {
       return _.isUndefined(item.childrenDesc) ? (
-        <span>{text}</span>
+        <span className="table-desc">{text}</span>
       ) : (
-        <span>{item.childrenDesc}</span>
+        <span className="table-desc">{item.childrenDesc}</span>
       );
     }
   },
