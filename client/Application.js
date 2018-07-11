@@ -110,7 +110,7 @@ export default class App extends Component {
         <Router getUserConfirmation={this.showConfirm}>
           <div className="g-main">
             <div className="router-main">
-              <Notify />
+              {process.env.versionNotify && <Notify />}
               {alertContent()}
               {this.props.loginState !== 1 ? <Header /> : null}
               <div className="router-container">
