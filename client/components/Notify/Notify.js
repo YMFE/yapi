@@ -7,8 +7,7 @@ export default class Notify extends Component {
     super(props);
     this.state = {
       newVersion: process.env.version,
-      version: process.env.version,
-      versionNotify: process.env.versionNotify
+      version: process.env.version
     };
   }
 
@@ -23,7 +22,7 @@ export default class Notify extends Component {
   }
 
   render() {
-    const isShow = this.state.versionNotify && this.state.newVersion !== this.state.version;
+    const isShow = this.state.newVersion !== this.state.version;
     return (
       <div>
         {isShow && (
