@@ -120,23 +120,23 @@ class userController extends baseController {
   /**
    * ldap登录
    * @interface /user/login_by_ldap
-   * @method 
+   * @method
    * @category user
    * @foldnumber 10
    * @param {String} email email名称，不能为空
    * @param  {String} password 密码，不能为空
    * @returns {Object}
-   * 
+   *
    */
   async  getLdapAuth(ctx) {
     try {
       const { email, password } = ctx.request.body;
       // const username = email.split(/\@/g)[0];
-      await ldap.ldapQuery(email, password);
+      const { info: ldapInfo } = await ldap.ldapQuery(email, password);
       const username = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
-      
-      const emailParams =emailPostfix ?  username + yapi.WEBCONFIG.ldapLogin.emailPostfix : email;
+
+      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  username + yapi.WEBCONFIG.ldapLogin.emailPostfix : email);
 
       let login = await this.handleThirdLogin(emailParams, username);
       if (login === true) {
