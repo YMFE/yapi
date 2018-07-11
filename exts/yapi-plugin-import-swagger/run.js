@@ -232,9 +232,10 @@ const swagger = require('swagger-client');
     let codes = Object.keys(api);
     let curCode;
     if (codes.length > 0) {
-      if (codes.indexOf(200) > -1) {
-        curCode = 200;
+      if (codes.indexOf('200') > -1) {
+        curCode = '200';
       } else curCode = codes[0];
+      
       let res = api[curCode];
       if (res && typeof res === 'object') {
         if (res.schema) {
