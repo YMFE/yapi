@@ -106,14 +106,14 @@ class wikiController extends baseController {
         let annotatedCss = fs.readFileSync(
           path.resolve(
             yapi.WEBROOT,
-            'node_modules/jsondiffpatch/public/formatters-styles/annotated.css'
+            'node_modules/jsondiffpatch/dist/formatters-styles/annotated.css'
           ),
           'utf8'
         );
         let htmlCss = fs.readFileSync(
           path.resolve(
             yapi.WEBROOT,
-            'node_modules/jsondiffpatch/public/formatters-styles/html.css'
+            'node_modules/jsondiffpatch/dist/formatters-styles/html.css'
           ),
           'utf8'
         );
