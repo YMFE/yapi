@@ -79,7 +79,6 @@ const columns = [
     dataIndex: 'sub',
     key: 'sub',
     render: text => {
-      console.log(text)
       return Object.keys(text || []).map((item, index) => {
         let name = messageMap[item];
         let value = text[item];
@@ -88,7 +87,7 @@ const columns = [
           !_.isUndefined(text[item]) && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
-              <span className="table-desc">{value.toString()}</span>
+              <span >{value.toString()}</span>
             </p>
           )
         );

@@ -575,7 +575,7 @@ class InterfaceEditForm extends Component {
           <Col span="4" draggable="false" className="interface-edit-item-content-col">
             {getFieldDecorator('req_query[' + index + '].name', {
               initialValue: data.name
-            })(<TextArea autosize={{ minRows: 1, maxRows: 1 }} placeholder="参数名称" />)}
+            })(<Input placeholder="参数名称" />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
             {getFieldDecorator('req_query[' + index + '].required', {
@@ -634,7 +634,7 @@ class InterfaceEditForm extends Component {
           <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator('req_headers[' + index + '].value', {
               initialValue: data.value
-            })(<TextArea autosize={{ minRows: 1, maxRows: 1 }} placeholder="参数值" />)}
+            })(<Input placeholder="参数值" />)}
           </Col>
           <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator('req_headers[' + index + '].example', {
@@ -670,7 +670,7 @@ class InterfaceEditForm extends Component {
           <Col span="4" className="interface-edit-item-content-col">
             {getFieldDecorator('req_body_form[' + index + '].name', {
               initialValue: data.name
-            })(<TextArea autosize={{ minRows: 1, maxRows: 1 }} placeholder="name" />)}
+            })(<Input placeholder="name" />)}
           </Col>
           <Col span="3" className="interface-edit-item-content-col">
             {getFieldDecorator('req_body_form[' + index + '].type', {

@@ -8,6 +8,12 @@ const json_parse = function(json){
     return {};
   }
 }
+// 处理字符串换行
+const handleWrap = (str) => {
+  
+  return _.isString(str) ? str.replace(/\n/gi, '<br/>') : str
+
+}
 const messageMap = {
   desc: '备注',
   default: '实例',
@@ -20,7 +26,8 @@ const messageMap = {
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
   format: 'format',
-  enum: '枚举'
+  enum: '枚举',
+  enumDesc: '枚举备注'
 };
 
 const columns = [
@@ -76,7 +83,7 @@ function createReqHeaders(req_headers) {
     for (let j = 0; j < req_headers.length; j++) {
       headersTable += `| ${req_headers[j].name || ''}  |  ${req_headers[j].value || ''} | ${
         req_headers[j].required == 1 ? '是' : '否'
-      }  |  ${req_headers[j].example || ''} |  ${req_headers[j].desc || ''} |\n`;
+      }  |  ${handleWrap(req_headers[j].example) || ''} |  ${handleWrap(req_headers[j].desc) || ''} |\n`;
     }
     return headersTable;
   }
@@ -88,8 +95,8 @@ function createPathParams(req_params) {
     let paramsTable = `**路径参数**\n\n`;
     paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
     for (let j = 0; j < req_params.length; j++) {
-      paramsTable += `| ${req_params[j].name || ''} |  ${req_params[j].example ||
-        ''} |  ${req_params[j].desc || ''} |\n`;
+      paramsTable += `| ${req_params[j].name || ''} |  ${handleWrap(req_params[j].example) ||
+        ''} |  ${handleWrap(req_params[j].desc) || ''} |\n`;
     }
     return paramsTable;
   }
@@ -97,14 +104,14 @@ function createPathParams(req_params) {
 }
 
 function createReqQuery(req_query) {
-  // console.log("req_query", req_query);
+
   if (req_query && req_query.length) {
     let headersTable = `**Query**\n\n`;
     headersTable += `| 参数名称  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ |\n`;
     for (let j = 0; j < req_query.length; j++) {
       headersTable += `| ${req_query[j].name || ''} | ${
         req_query[j].required == 1 ? '是' : '否'
-      }  |  ${req_query[j].example || ''} |  ${req_query[j].desc || ''} |\n`;
+      }  |  ${handleWrap(req_query[j].example) || ''} |  ${handleWrap(req_query[j].desc) || ''} |\n`;
     }
     return headersTable;
   }
@@ -180,8 +187,8 @@ function tableCol(col, columns, level) {
         break;
       case 'desc':
         text = _.isUndefined(col.childrenDesc)
-          ? `<span>${value}</span>`
-          : `<span>${col.childrenDesc}</span>`;
+          ? `<span style="white-space: pre-wrap">${value}</span>`
+          : `<span style="white-space: pre-wrap">${col.childrenDesc}</span>`;
         break;
       case 'name':
         text = `<span style="padding-left: ${20*level}px"><span style="color: #8c8a8a">${level>0 ? '├─':'' }</span> ${value}</span>`;
