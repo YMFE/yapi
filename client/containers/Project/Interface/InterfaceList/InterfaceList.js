@@ -9,9 +9,12 @@ import {
   fetchInterfaceList,
   fetchInterfaceCatList
 } from '../../../../reducer/modules/interface.js';
+import { getProject } from '../../../../reducer/modules/project.js';
 import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
+import Label from '../../../../components/Label/Label.js';
+
 const Option = Select.Option;
 const limit = 20;
 
@@ -30,7 +33,8 @@ const limit = 20;
   {
     fetchInterfaceListMenu,
     fetchInterfaceList,
-    fetchInterfaceCatList
+    fetchInterfaceCatList,
+    getProject
   }
 )
 class InterfaceList extends Component {
@@ -57,7 +61,8 @@ class InterfaceList extends Component {
     totalTableList: PropTypes.array,
     catTableList: PropTypes.array,
     totalCount: PropTypes.number,
-    count: PropTypes.number
+    count: PropTypes.number,
+    getProject: PropTypes.func
   };
 
   handleRequest = async props => {
@@ -86,6 +91,24 @@ class InterfaceList extends Component {
     }
   };
 
+  // 更新分类简介
+  handleChangeInterfaceCat = (desc, name) => {
+    let params = {
+      catid: this.state.catid,
+      name: name,
+      desc: desc
+    };
+
+    axios.post('/api/interface/up_cat', params).then(async res => {
+      if (res.data.errcode !== 0) {
+        return message.error(res.data.errmsg);
+      }
+      let project_id = this.props.match.params.id;
+      await this.props.getProject(project_id);
+      await this.props.fetchInterfaceListMenu(project_id);
+      message.success('接口集合简介更新成功');
+    });
+  };
   handleChange = (pagination, filters, sorter) => {
     this.setState({
       sortedInfo: sorter
@@ -272,6 +295,7 @@ class InterfaceList extends Component {
         if (cat[i]._id === this.state.catid) {
           intername = cat[i].name;
           desc = cat[i].desc;
+          break;
         }
       }
     }
@@ -318,7 +342,13 @@ class InterfaceList extends Component {
         >
           添加接口
         </Button>
-        <div>{desc && <p style={{ marginTop: '10px' }}>{desc} </p>}</div>
+        <div style={{marginTop: '10px'}}>
+          <Label
+            onChange={this.handleChangeInterfaceCat.bind(this)}
+            desc={desc}
+            cat_name={intername}
+          />
+        </div>
         <Table
           className="table-interfacelist"
           pagination={pageConfig}

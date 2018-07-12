@@ -31,6 +31,7 @@ const {
 } = require('common/postmanLib.js');
 const { handleParamsValue, json_parse } = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
+import Label from '../../../../components/Label/Label.js';
 
 const Option = Select.Option;
 
@@ -152,6 +153,24 @@ class InterfaceColContent extends Component {
   componentWillUnmount() {
     clearInterval(this._crossRequestInterval);
   }
+  
+  // 更新分类简介
+  handleChangeInterfaceCol = (desc, name) => {
+    let params = {
+      col_id: this.props.currColId,
+      name: name,
+      desc: desc
+    };
+
+    axios.post('/api/col/up_col', params).then(async res => {
+      if (res.data.errcode) {
+        return message.error(res.data.errmsg);
+      }
+      let project_id = this.props.match.params.id;
+      await this.props.fetchInterfaceColList(project_id);
+      message.success('接口分类简介更新成功');
+    });
+  };
 
   // 整合header信息
   handleReqHeader = (project_id, req_header, case_env) => {
@@ -218,7 +237,7 @@ class InterfaceColContent extends Component {
         result;
       try {
         result = await this.handleTest(curitem);
-        
+
         if (result.code === 400) {
           status = 'error';
         } else if (result.code === 0) {
@@ -289,7 +308,7 @@ class InterfaceColContent extends Component {
         }
       );
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
-      
+
       if (validRes.length === 0) {
         result.code = 0;
         result.validRes = [
@@ -727,6 +746,17 @@ class InterfaceColContent extends Component {
       this.props.token
     }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${this.state.email}`;
 
+    let col_name = '';
+    let col_desc = '';
+
+    for (var i = 0;i < this.props.interfaceColList.length;i++) {
+      if (this.props.interfaceColList[i]._id === this.props.currColId) {
+        col_name = this.props.interfaceColList[i].name;
+        col_desc = this.props.interfaceColList[i].desc;
+        break;
+      }
+    }
+
     return (
       <div className="interface-col">
         <Row type="flex" justify="center" align="top">
@@ -735,7 +765,7 @@ class InterfaceColContent extends Component {
               className="interface-title"
               style={{
                 display: 'inline-block',
-                margin: '8px 20px 16px'
+                margin: '8px 20px 16px 0px'
               }}
             >
               测试集合&nbsp;<a
@@ -798,6 +828,14 @@ class InterfaceColContent extends Component {
             )}
           </Col>
         </Row>
+
+        <div style={{ marginTop: '-10px', marginBottom: '15px' }}>
+          <Label
+            onChange={this.handleChangeInterfaceCol}
+            cat_name={col_name}
+            desc={col_desc}
+          />
+        </div>
 
         <Table.Provider
           components={components}
