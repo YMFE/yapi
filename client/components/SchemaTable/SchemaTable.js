@@ -16,6 +16,7 @@ const messageMap = {
   maxLength: '最大长度',
   minLength: '最小长度',
   enum: '枚举',
+  enumDesc: '枚举备注',
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
   format: 'format',
@@ -78,6 +79,7 @@ const columns = [
     dataIndex: 'sub',
     key: 'sub',
     render: text => {
+      console.log(text)
       return Object.keys(text || []).map((item, index) => {
         let name = messageMap[item];
         let value = text[item];
@@ -86,7 +88,7 @@ const columns = [
           !_.isUndefined(text[item]) && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
-              <span>{value.toString()}</span>
+              <span className="table-desc">{value.toString()}</span>
             </p>
           )
         );
