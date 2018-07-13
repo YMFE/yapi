@@ -153,7 +153,7 @@ class InterfaceColContent extends Component {
   componentWillUnmount() {
     clearInterval(this._crossRequestInterval);
   }
-  
+
   // 更新分类简介
   handleChangeInterfaceCol = (desc, name) => {
     let params = {
@@ -168,7 +168,7 @@ class InterfaceColContent extends Component {
       }
       let project_id = this.props.match.params.id;
       await this.props.fetchInterfaceColList(project_id);
-      message.success('接口分类简介更新成功');
+      message.success('接口集合简介更新成功');
     });
   };
 
@@ -749,7 +749,7 @@ class InterfaceColContent extends Component {
     let col_name = '';
     let col_desc = '';
 
-    for (var i = 0;i < this.props.interfaceColList.length;i++) {
+    for (var i = 0; i < this.props.interfaceColList.length; i++) {
       if (this.props.interfaceColList[i]._id === this.props.currColId) {
         col_name = this.props.interfaceColList[i].name;
         col_desc = this.props.interfaceColList[i].desc;
@@ -829,12 +829,8 @@ class InterfaceColContent extends Component {
           </Col>
         </Row>
 
-        <div style={{ marginTop: '-10px', marginBottom: '15px' }}>
-          <Label
-            onChange={this.handleChangeInterfaceCol}
-            cat_name={col_name}
-            desc={col_desc}
-          />
+        <div className="component-label-wrapper">
+          <Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />
         </div>
 
         <Table.Provider

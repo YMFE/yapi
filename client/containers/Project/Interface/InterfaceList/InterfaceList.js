@@ -342,12 +342,8 @@ class InterfaceList extends Component {
         >
           添加接口
         </Button>
-        <div style={{marginTop: '10px'}}>
-          <Label
-            onChange={this.handleChangeInterfaceCat.bind(this)}
-            desc={desc}
-            cat_name={intername}
-          />
+        <div style={{ marginTop: '10px' }}>
+          <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>
         <Table
           className="table-interfacelist"

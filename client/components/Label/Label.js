@@ -19,14 +19,21 @@ export default class Label extends Component {
   toggle = () => {
     this.setState({ inputShow: !this.state.inputShow });
   };
-  handleChange = (event) => {
-    this.setState({inputValue: event.target.value})
+  handleChange = event => {
+    this.setState({ inputValue: event.target.value });
+  };
+  componentWillReceiveProps(nextProps) {
+    if (this.props.desc === nextProps.desc) {
+      this.setState({
+        inputShow: false
+      });
+    }
   }
   render() {
     return (
       this.props.desc && (
-        <div className="label">
-          {!this.state.inputShow && (
+        <div className="component-label">
+          {!this.state.inputShow ? (
             <div>
               <p>
                 {this.props.desc} &nbsp;&nbsp;
@@ -35,27 +42,18 @@ export default class Label extends Component {
                 </Tooltip>
               </p>
             </div>
-          )}
-          {this.state.inputShow && (
-            <div className="input_wrapper">
-              <Input
-                onChange={this.handleChange}
-                defaultValue={this.props.desc}
-                size="small"
-              />
+          ) : (
+            <div className="label-input-wrapper">
+              <Input onChange={this.handleChange} defaultValue={this.props.desc} size="small" />
               <Icon
                 className="interface-delete-icon"
                 onClick={() => {
-                  this.props.onChange(this.state.inputValue, this.props.cat_name);
+                  this.props.onChange(this.state.inputValue);
                   this.toggle();
                 }}
                 type="check"
               />
-              <Icon
-                className="interface-delete-icon"
-                onClick={this.toggle}
-                type="close"
-              />
+              <Icon className="interface-delete-icon" onClick={this.toggle} type="close" />
             </div>
           )}
         </div>

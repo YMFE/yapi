@@ -1,8 +1,6 @@
-.label {
-  &>div{
-    height: 20px;
-  }
+.component-label {
   p {
+    padding: 3px 7px;
     &:hover {
       .interface-delete-icon {
         display: inline-block;
@@ -18,7 +16,7 @@
       cursor: pointer;
     }
   }
-  .input_wrapper {
+  .label-input-wrapper {
     input {
       width: 30%;
     }
