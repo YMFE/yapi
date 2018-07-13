@@ -184,7 +184,7 @@ class wikiController extends baseController {
           }
           break;
           case 'editor':
-            let userInst, userinfo, data;``
+            let userInst, userinfo, data;
             if (result && result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
               userInst = yapi.getInst(userModel);
               userinfo = await userInst.findById(result.edit_uid);
