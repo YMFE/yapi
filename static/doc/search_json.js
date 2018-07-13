@@ -720,7 +720,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持swagger url 导入功能\n2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
         },
         {
           "title": "YApi接口JSON数据导入",
@@ -757,7 +757,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持swagger url 导入功能\n2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
         },
         {
           "title": "YApi接口JSON数据导入",
@@ -1152,7 +1152,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",
-          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+          "content": "v1.3.19增加项目文档记录wiki\n支持swagger URL 导入\n接口运行和测试集合中加入参数备注信息\n测试接口导入支持状态过滤\njson schema 增加枚举备注功能\n左侧菜单栏可以支持单独滚动条\n支持新版本通知\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n导出markdown 路径参数处格式错误和参数table备注信息换行后样式错误\n"
         },
         {
           "title": "v1.3.18",
@@ -1314,7 +1314,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",
-          "content": "v1.3.19增加项目文档记录wiki\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n"
+          "content": "v1.3.19增加项目文档记录wiki\n支持swagger URL 导入\n接口运行和测试集合中加入参数备注信息\n测试接口导入支持状态过滤\njson schema 增加枚举备注功能\n左侧菜单栏可以支持单独滚动条\n支持新版本通知\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n导出markdown 路径参数处格式错误和参数table备注信息换行后样式错误\n"
         },
         {
           "title": "v1.3.18",

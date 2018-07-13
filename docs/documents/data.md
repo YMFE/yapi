@@ -36,6 +36,9 @@
 
 <br />
 1.生成 JSON 语言编写的 Swagger API 文档文件<div>  例如这样的数据 （<a href="http://petstore.swagger.io/v2/swagger.json" target="blank">http://petstore.swagger.io/v2/swagger.json</a>），可以将其内容复制到 JSON 文件中。</div>
+<br />
+
+> Tips: v1.3.19 版本开始支持swagger url 导入功能 
 
 2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入方式，选择刚才的文件，开始导入数据
 
@@ -44,6 +47,9 @@
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-5.jpg" /></div>
 
 <div><img class="doc-img"   style="width:90%"  src="./images/usage/chrome-6.jpg" /></div>
+
+
+
 
 ## YApi接口JSON数据导入
 该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。

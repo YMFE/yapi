@@ -26,7 +26,6 @@ body {
 
 ::-webkit-scrollbar {
   width: 6px;
-  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -91,7 +90,7 @@ h6, .h6 {
 ::before,
 ::after {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -217,7 +216,7 @@ input::-moz-focus-inner {
 }
 
 mark {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
 }
 
 a,
@@ -583,7 +582,7 @@ a:link, a:visited {
 }
 
 .nav-toggle {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1652,7 +1651,7 @@ pre[class*="language-"] {
   padding: .12rem;
   cursor: pointer;
   transition: color 0.2s;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1780,9 +1779,8 @@ pre[class*="language-"] {
   margin-bottom: .16rem;
 }
 
-.m-summary-block.active > .href {
-  font-weight: bold;
-  color: #1890ff;
+.m-summary-block .m-summary-block {
+  margin-bottom: 0;
 }
 
 .m-summary-title {
