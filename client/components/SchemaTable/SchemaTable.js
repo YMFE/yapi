@@ -78,6 +78,7 @@ const columns = [
     title: '其他信息',
     dataIndex: 'sub',
     key: 'sub',
+    width: 80,
     render: text => {
       return Object.keys(text || []).map((item, index) => {
         let name = messageMap[item];
