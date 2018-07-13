@@ -30,8 +30,16 @@
           padding-top: 16px;
           font-weight: 500;
           width: 100%;
-          span{
+          .label{
             padding-right: 8px;
+            width: 115px;
+            display: inline-block;
+          }
+          .label:after {
+            content: ":";
+            margin: 0 8px 0 2px;
+            position: relative;
+            top: -.5px;
           }
         }
 

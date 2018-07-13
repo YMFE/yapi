@@ -132,15 +132,21 @@ class CaseDesForm extends Component {
       req_body_type,
       method,
       req_body_other,
-      req_body_is_json_schema
+      req_body_is_json_schema,
+      req_params
     } = this.props.currInterface;
     let keys = [];
-
     req_query &&
       Array.isArray(req_query) &&
       req_query.forEach(item => {
         keys.push(item.name);
       });
+    req_params &&
+      Array.isArray(req_params) &&
+      req_params.forEach(item => {
+        keys.push(item.name);
+      });
+
     if (constants.HTTP_METHOD[method.toUpperCase()].request_body && req_body_type === 'form') {
       req_body_form &&
         Array.isArray(req_body_form) &&

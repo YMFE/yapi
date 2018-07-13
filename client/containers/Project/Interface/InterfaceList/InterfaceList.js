@@ -258,7 +258,7 @@ class InterfaceList extends Component {
         width: 14,
         render: (text, record) => {
           const key = record.key;
-          return (
+          return ( 
             <Select
               value={key + '-' + text}
               className="select"

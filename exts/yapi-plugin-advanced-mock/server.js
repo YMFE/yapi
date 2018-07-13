@@ -160,8 +160,9 @@ module.exports = function(){
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
-    
+    console.log('caseData', caseData)
     if(caseData){
+      // 匹配到高级mock
       let data = await  handleByCase(caseData);
       
       context.mockJson = yapi.commons.json_parse(data.res_body);
@@ -182,10 +183,14 @@ module.exports = function(){
     }
     let inst = yapi.getInst(advModel);
     let data = await inst.get(interfaceId);
+   
     if(!data || !data.enable || !data.mock_script){
       return context;
     }
+    
+    // mock 脚本
     let script = data.mock_script;
+    
     let sandbox = {
       header: context.ctx.header,
       query: context.ctx.query,

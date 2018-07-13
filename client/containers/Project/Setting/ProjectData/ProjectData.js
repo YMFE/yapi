@@ -333,22 +333,21 @@ class ProjectData extends Component {
                 </Select>
               </div>
               <div className="dataSync">
-                <span>
-                  开启数据同步<Tooltip title="开启数据同步后会覆盖项目中原本的数据">
+                <span className="label">
+                  开启数据同步&nbsp;<Tooltip title="开启数据同步后会覆盖项目中原本的数据">
                     <Icon type="question-circle-o" />
                   </Tooltip>{' '}
-                  :
                 </span>
 
                 <Switch checked={this.state.dataSync} onChange={this.onChange} />
               </div>
               {this.state.curImportType === 'swagger' && (
                 <div className="dataSync">
-                  <span>
-                    开启url导入<Tooltip title="swagger url 导入">
+                  <span className="label">
+                    开启url导入&nbsp;<Tooltip title="swagger url 导入">
                       <Icon type="question-circle-o" />
                     </Tooltip>{' '}
-                    &nbsp;&nbsp;:
+                    &nbsp;&nbsp;
                   </span>
 
                   <Switch checked={this.state.isSwaggerUrl} onChange={this.handleUrlChange} />

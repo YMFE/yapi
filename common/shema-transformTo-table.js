@@ -120,6 +120,7 @@ const SchemaString = (data) => {
     maxLength: data.maxLength,
     minLength: data.minLength,
     enum: data.enum,
+    enumDesc: data.enumDesc,
     format: data.format
   }
   return item

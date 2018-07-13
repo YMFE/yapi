@@ -72,8 +72,8 @@ const ParamsNameComponent = props => {
   const TooltipTitle = () => {
     return (
       <div>
-        {example && <div>示例： {example}</div>}
-        {desc && <div>备注： {desc}</div>}
+        {example && <div>示例： <span className="table-desc">{example}</span></div>}
+        {desc && <div>备注： <span className="table-desc">{desc}</span></div>}
       </div>
     );
   };
