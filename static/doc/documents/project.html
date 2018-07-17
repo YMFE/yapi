@@ -119,6 +119,7 @@
 <h3 id="请求配置-工具函数">工具函数</h3>
 <pre><code>context.utils = {
   _         //underscore &#x51FD;&#x6570;,&#x8BE6;&#x7EC6; API &#x67E5;&#x770B;&#x5B98;&#x7F51; http://underscorejs.org/
+  CryptoJS  // crypto-js&#xFF08;v1.3.20+&#x65B0;&#x589E;&#xFF09;, &#x8BE6;&#x7EC6;&#x7528;&#x6CD5;&#x770B; https://github.com/brix/crypto-js
   base64    //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; base64 &#x7F16;&#x7801;
   md5       //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; md5 &#x7F16;&#x7801;
   sha1      //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; sha1 &#x7F16;&#x7801;
@@ -129,6 +130,18 @@
   unbase64  //&#x8F6C;&#x6362; base64 &#x7F16;&#x7801;&#x4E3A;&#x5B57;&#x7B26;&#x4E32;  
   axios     // axios &#x5E93;&#xFF0C;&#x53EF;&#x7528;&#x4E8E; api &#x8BF7;&#x6C42;&#xFF0C;&#x5B98;&#x7F51; https://github.com/axios/axios
 }
+</code></pre>
+<p>CryptoJS 具体用法</p>
+<pre><code class="language-javascript"><span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+ 
+<span class="token comment">// Encrypt</span>
+<span class="token keyword">var</span> ciphertext <span class="token operator">=</span> context<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>CryptoJS<span class="token punctuation">.</span><span class="token constant">AES</span><span class="token punctuation">.</span><span class="token function">encrypt</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'secret key 123'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Decrypt</span>
+<span class="token keyword">var</span> bytes  <span class="token operator">=</span> context<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>CryptoJS<span class="token punctuation">.</span><span class="token constant">AES</span><span class="token punctuation">.</span><span class="token function">decrypt</span><span class="token punctuation">(</span>ciphertext<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'secret key 123'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> decryptedData <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>CryptoJS<span class="token punctuation">.</span>enc<span class="token punctuation">.</span>Utf8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'decryptedData'</span><span class="token punctuation">,</span>decryptedData<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <h3 id="请求配置-异步处理（v1.3.13+支持）">异步处理（v1.3.13+支持）</h3>
 <p>处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。</p>

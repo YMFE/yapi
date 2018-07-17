@@ -230,7 +230,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.20+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{id: 1}, {id: 2}] \n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes  = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n \nconsole.log('decryptedData',decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
@@ -302,7 +302,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.20+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{id: 1}, {id: 2}] \n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes  = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n \nconsole.log('decryptedData',decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
@@ -1149,6 +1149,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20请求配置增加 context.utils.CryptoJS\n"
+        },
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",
@@ -1311,6 +1316,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20请求配置增加 context.utils.CryptoJS\n"
+        },
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",

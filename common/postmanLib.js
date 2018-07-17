@@ -6,6 +6,7 @@ const utils = require('./power-string.js').utils;
 const HTTP_METHOD = constants.HTTP_METHOD;
 const axios = require('axios');
 const qs = require('qs');
+const CryptoJS = require('crypto-js');
 
 const isNode = typeof global == 'object' && global.global === global;
 const ContentTypeMap = {
@@ -235,6 +236,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
 
   context.utils = Object.freeze({
     _: _,
+    CryptoJS: CryptoJS,
     base64: utils.base64,
     md5: utils.md5,
     sha1: utils.sha1,

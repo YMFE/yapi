@@ -1,3 +1,7 @@
+### v1.3.20
+
+* 请求配置增加 context.utils.CryptoJS
+
 ### v1.3.19
 
 * 增加项目文档记录wiki

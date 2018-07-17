@@ -144,6 +144,7 @@ context.responseBody.a = 2;
 ```
 context.utils = {
   _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/
+  CryptoJS  // crypto-js（v1.3.20+新增）, 详细用法看 https://github.com/brix/crypto-js
   base64    //转换字符串为 base64 编码
   md5       //转换字符串为 md5 编码
   sha1      //转换字符串为 sha1 编码
@@ -155,6 +156,21 @@ context.utils = {
   axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios
 }
 ```
+CryptoJS 具体用法
+
+```javascript
+var data = [{id: 1}, {id: 2}]
+ 
+// Encrypt
+var ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');
+
+// Decrypt
+var bytes  = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+ 
+console.log('decryptedData',decryptedData);
+```
+
 
 ### 异步处理（v1.3.13+支持）
 
