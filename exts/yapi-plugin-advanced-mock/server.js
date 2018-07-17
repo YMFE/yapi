@@ -160,7 +160,7 @@ module.exports = function(){
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
-    console.log('caseData', caseData)
+    // console.log('caseData', caseData)
     if(caseData){
       // 匹配到高级mock
       let data = await  handleByCase(caseData);
