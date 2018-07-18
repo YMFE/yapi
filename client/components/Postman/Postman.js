@@ -72,8 +72,16 @@ const ParamsNameComponent = props => {
   const TooltipTitle = () => {
     return (
       <div>
-        {example && <div>示例： <span className="table-desc">{example}</span></div>}
-        {desc && <div>备注： <span className="table-desc">{desc}</span></div>}
+        {example && (
+          <div>
+            示例： <span className="table-desc">{example}</span>
+          </div>
+        )}
+        {desc && (
+          <div>
+            备注： <span className="table-desc">{desc}</span>
+          </div>
+        )}
       </div>
     );
   };
@@ -252,7 +260,12 @@ export default class Run extends Component {
   }
 
   handleValue(val) {
-    return handleParamsValue(val, {});
+    
+    return handleParamsValue(val, {
+      global: {
+        err: 12
+      }
+    });
   }
 
   onOpenTest = d => {
@@ -281,6 +294,8 @@ export default class Run extends Component {
     this.setState({
       loading: true
     });
+
+    
     let options = handleParams(this.state, this.handleValue),
       result;
 
@@ -483,7 +498,7 @@ export default class Run extends Component {
       inputValue,
       hasPlugin
     } = this.state;
-
+    // console.log(env);
     return (
       <div className="interface-test postman">
         {this.state.modalVisible && (

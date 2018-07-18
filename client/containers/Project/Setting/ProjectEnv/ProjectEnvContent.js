@@ -6,6 +6,27 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 import constants from 'client/constants/variable.js';
 
+const initMap = {
+  header: [
+    {
+      name: '',
+      value: ''
+    }
+  ],
+  cookie: [
+    {
+      name: '',
+      value: ''
+    }
+  ],
+  global: [
+    {
+      name: '',
+      value: ''
+    }
+  ]
+};
+
 class ProjectEnvContent extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
@@ -27,6 +48,8 @@ class ProjectEnvContent extends Component {
         value: ''
       }
     ];
+
+    console.log(curdata);
     if (curdata && curdata.length !== 0) {
       curdata.forEach(item => {
         if (item.name === 'Cookie') {
@@ -66,6 +89,12 @@ class ProjectEnvContent extends Component {
           name: '',
           value: ''
         }
+      ],
+      global: [
+        {
+          name: '',
+          value: ''
+        }
       ]
     };
   }
@@ -101,6 +130,15 @@ class ProjectEnvContent extends Component {
     let nextEnvName = nextProps.projectMsg.name;
     if (curEnvName !== nextEnvName) {
       this.handleInit(nextProps.projectMsg.header);
+
+      let global = nextProps.projectMsg.global;
+      if (global && global.length !== 0) {
+        global.push({
+          name: '',
+          value: ''
+        });
+        this.setState({ global });
+      }
     }
   }
 
@@ -184,40 +222,81 @@ class ProjectEnvContent extends Component {
       );
     };
 
-    const cookieTpl = (item, index) => {
-      const cookieLength = this.state.cookie.length - 1;
+    // const cookieTpl = (item, index) => {
+    //   const cookieLength = this.state.cookie.length - 1;
+    //   return (
+    //     <Row gutter={2} key={index}>
+    //       <Col span={10}>
+    //         <FormItem>
+    //           {getFieldDecorator('cookie[' + index + '].name', {
+    //             validateTrigger: ['onChange', 'onBlur'],
+    //             initialValue: item.name || ''
+    //           })(
+    //             <Input
+    //               placeholder="请输入 Cookie Name"
+    //               style={{ width: '200px' }}
+    //               onChange={() => this.addHeader(item, index, 'cookie')}
+    //             />
+    //           )}
+    //         </FormItem>
+    //       </Col>
+    //       <Col span={12}>
+    //         <FormItem>
+    //           {getFieldDecorator('cookie[' + index + '].value', {
+    //             validateTrigger: ['onChange', 'onBlur'],
+    //             initialValue: item.value || ''
+    //           })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
+    //         </FormItem>
+    //       </Col>
+    //       <Col span={2} className={index === cookieLength ? ' env-last-row' : null}>
+    //         {/* 新增的项中，只有最后一项没有有删除按钮 */}
+    //         <Icon
+    //           className="dynamic-delete-button delete"
+    //           type="delete"
+    //           onClick={e => {
+    //             e.stopPropagation();
+    //             this.delHeader(index, 'cookie');
+    //           }}
+    //         />
+    //       </Col>
+    //     </Row>
+    //   );
+    // };
+
+    const commonTpl = (item, index, name) => {
+      const length = this.state[name].length - 1;
       return (
         <Row gutter={2} key={index}>
           <Col span={10}>
             <FormItem>
-              {getFieldDecorator('cookie[' + index + '].name', {
+              {getFieldDecorator(`${name}[${index}].name`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 initialValue: item.name || ''
               })(
                 <Input
-                  placeholder="请输入 Cookie Name"
+                  placeholder="请输入 global Name"
                   style={{ width: '200px' }}
-                  onChange={() => this.addHeader(item, index, 'cookie')}
+                  onChange={() => this.addHeader(item, index, name)}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={12}>
             <FormItem>
-              {getFieldDecorator('cookie[' + index + '].value', {
+              {getFieldDecorator(`${name}[${index}].value`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 initialValue: item.value || ''
               })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
             </FormItem>
           </Col>
-          <Col span={2} className={index === cookieLength ? ' env-last-row' : null}>
+          <Col span={2} className={index === length ? ' env-last-row' : null}>
             {/* 新增的项中，只有最后一项没有有删除按钮 */}
             <Icon
               className="dynamic-delete-button delete"
               type="delete"
               onClick={e => {
                 e.stopPropagation();
-                this.delHeader(index, 'cookie');
+                this.delHeader(index, name);
               }}
             />
           </Col>
@@ -311,7 +390,12 @@ class ProjectEnvContent extends Component {
 
           <h3 className="env-label">Cookie</h3>
           {this.state.cookie.map((item, index) => {
-            return cookieTpl(item, index);
+            return commonTpl(item, index, 'cookie');
+          })}
+
+          <h3 className="env-label">global</h3>
+          {this.state.global.map((item, index) => {
+            return commonTpl(item, index, 'global');
           })}
         </div>
       );

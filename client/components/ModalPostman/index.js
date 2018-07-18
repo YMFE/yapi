@@ -134,11 +134,10 @@ class ModalPostman extends Component {
   //  处理常量输入
   handleConstantsInput = val => {
     val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
-
     this.setState({
       constantInput: val
     });
-    // this.mockClick(index)(val);
+    this.mockClick(0)(val);
   };
 
   handleParamsInput = (e, clickIndex, paramsIndex) => {
