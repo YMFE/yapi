@@ -191,7 +191,8 @@ class ProjectData extends Component {
 
   handleImportType = val => {
     this.setState({
-      curImportType: val
+      curImportType: val,
+      isSwaggerUrl: false
     });
   };
 
