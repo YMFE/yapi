@@ -5,9 +5,10 @@ import { setBreadcrumb } from '../../reducer/modules/user';
 //import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Popconfirm, message } from 'antd';
+import { Table, Popconfirm, message, Input } from 'antd';
 import axios from 'axios';
 
+const Search = Input.Search;
 const limit = 20;
 @connect(
   state => {
@@ -25,7 +26,9 @@ class List extends Component {
     this.state = {
       data: [],
       total: null,
-      current: 1
+      current: 1,
+      backups: [],
+      isSearch: false
     };
   }
   static propTypes = {
@@ -54,7 +57,8 @@ class List extends Component {
         });
         this.setState({
           data: list,
-          total: total
+          total: total,
+          backups: list
         });
       }
     });
@@ -92,6 +96,27 @@ class List extends Component {
 
   async componentWillMount() {
     this.props.setBreadcrumb([{ name: '用户管理' }]);
+  }
+
+  handleSearch(e, value) {
+    let params = { q: value || e.target.value };
+
+    if (params.q !== '') {
+      axios.get('/api/user/search', { params }).then(data => {
+        let userList = data.data.data;
+        if (data) {
+          this.setState({
+            data: userList,
+            isSearch: true
+          });
+        }
+      });
+    } else {
+      this.setState({
+        data: this.state.backups,
+        isSearch: false
+      });
+    }
   }
 
   render() {
@@ -167,10 +192,29 @@ class List extends Component {
       onChange: this.changePage
     };
 
+    const defaultPageConfig = {
+      total: this.state.data.length,
+      pageSize: limit,
+      current: 1
+    };
+
     return (
       <section className="user-table">
-        <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
-        <Table bordered={true} columns={columns} pagination={pageConfig} dataSource={data} />
+        <div className="user-search-wrapper">
+          <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
+          <Search
+            onChange={e => this.handleSearch(e, null)}
+            onSearch={v => this.handleSearch(null, v)}
+            placeholder="请输入用户名"
+          />
+        </div>
+        <Table
+          bordered={true}
+          rowKey={record => record._id}
+          columns={columns}
+          pagination={this.state.isSearch ? defaultPageConfig : pageConfig}
+          dataSource={data}
+        />
       </section>
     );
   }

@@ -638,6 +638,7 @@ class userController extends baseController {
       'username',
       'email',
       'role',
+      '_id',
       {
         key: 'add_time',
         alias: 'addTime'
