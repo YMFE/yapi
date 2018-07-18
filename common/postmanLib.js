@@ -128,7 +128,7 @@ function checkNameIsExistInArray(name, arr) {
 
 function handleCurrDomain(domains, case_env) {
   let currDomain = _.find(domains, item => item.name === case_env);
-  
+
   if (!currDomain) {
     currDomain = domains[0];
   }
@@ -192,7 +192,7 @@ function sandboxByBrowser(context = {}, script) {
                   `;
     err.message = `Script: ${message}
     message: ${err.message}`;
-    
+
     throw err;
   }
   return context;
@@ -207,22 +207,22 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     get href() {
       return urlObj.href;
     },
-    set href(val){
-      throw new Error('context.href 不能被赋值')
+    set href(val) {
+      throw new Error('context.href 不能被赋值');
     },
     get hostname() {
       return urlObj.hostname;
     },
-    set hostname(val){
-      throw new Error('context.hostname 不能被赋值')
+    set hostname(val) {
+      throw new Error('context.hostname 不能被赋值');
     },
 
     get caseId() {
       return options.caseId;
     },
 
-    set caseId(val){
-      throw new Error('context.caseId 不能被赋值')
+    set caseId(val) {
+      throw new Error('context.caseId 不能被赋值');
     },
 
     method: options.method,
@@ -244,7 +244,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     sha512: utils.sha512,
     unbase64: utils.unbase64,
     axios: axios
-  })
+  });
 
   if (preScript) {
     context = await sandbox(context, preScript);
@@ -361,35 +361,31 @@ function handleParams(interfaceData, handleValue, requestParams) {
   };
 
   // 对 raw 类型的 form 处理
-  try{
-    
-    if(interfaceRunData.req_body_type === 'raw'){
-      if(headers && headers['Content-Type']){
-        if(headers['Content-Type'].indexOf('application/x-www-form-urlencoded')>=0) {
+  try {
+    if (interfaceRunData.req_body_type === 'raw') {
+      if (headers && headers['Content-Type']) {
+        if (headers['Content-Type'].indexOf('application/x-www-form-urlencoded') >= 0) {
           interfaceRunData.req_body_type = 'form';
           let reqData = json_parse(interfaceRunData.req_body_other);
-          if(reqData && typeof reqData === 'object'){
+          if (reqData && typeof reqData === 'object') {
             interfaceRunData.req_body_form = [];
-            Object.keys(reqData).forEach(key=>{
+            Object.keys(reqData).forEach(key => {
               interfaceRunData.req_body_form.push({
                 name: key,
                 type: 'text',
                 value: JSON.stringify(reqData[key]),
-                enable:true
-              })
-            })
+                enable: true
+              });
+            });
           }
-          
-        } else if(headers['Content-Type'].indexOf('application/json')>=0) {
-          interfaceRunData.req_body_type = 'json';          
+        } else if (headers['Content-Type'].indexOf('application/json') >= 0) {
+          interfaceRunData.req_body_type = 'json';
         }
       }
     }
-    
-  }catch(e){
-    console.log('err',e);
+  } catch (e) {
+    console.log('err', e);
   }
-  
 
   if (HTTP_METHOD[interfaceRunData.method].request_body) {
     if (interfaceRunData.req_body_type === 'form') {
