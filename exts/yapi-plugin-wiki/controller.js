@@ -111,10 +111,7 @@ class wikiController extends baseController {
           'utf8'
         );
         let htmlCss = fs.readFileSync(
-          path.resolve(
-            yapi.WEBROOT,
-            'node_modules/jsondiffpatch/dist/formatters-styles/html.css'
-          ),
+          path.resolve(yapi.WEBROOT, 'node_modules/jsondiffpatch/dist/formatters-styles/html.css'),
           'utf8'
         );
         let project = await this.projectModel.getBaseInfo(params.project_id);
@@ -176,44 +173,63 @@ class wikiController extends baseController {
           return ctx.websocket.send('id 参数有误');
         }
         result = await this.Model.get(id);
-
-        switch (message) {
-          case 'start':
-          if (result && result.edit_uid === this.getUid()) {
-            await this.Model.upEditUid(result._id, 0);
-          }
-          break;
-          case 'editor':
-            let userInst, userinfo, data;
-            if (result && result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
-              userInst = yapi.getInst(userModel);
-              userinfo = await userInst.findById(result.edit_uid);
-              data = {
-                errno: result.edit_uid,
-                data: { uid: result.edit_uid, username: userinfo.username }
-              };
-            } else {
-              if (result) {
-                await this.Model.upEditUid(result._id, this.getUid());
-              }
-              data = {
-                errno: 0,
-                data: result
-              };
-            }
-            ctx.websocket.send(JSON.stringify(data));
-            break;
-          case 'end':
-            await this.Model.upEditUid(result._id, 0);
-            break;
-          default:
-            break;
+        let data = await this.websocketMsgMap(message, result);
+        if(data) {
+          ctx.websocket.send(JSON.stringify(data));
         }
       });
       ctx.websocket.on('close', async () => {});
     } catch (err) {
       yapi.commons.log(err, 'error');
     }
+  }
+
+
+  websocketMsgMap(msg, result) {
+    const map = {
+      start: this.startFunc.bind(this),
+      end: this.endFunc.bind(this),
+      editor: this.editorFunc.bind(this)
+    };
+
+    return map[msg](result);
+  }
+
+  // socket 开始链接
+  async startFunc(result) {
+   
+    if (result && result.edit_uid === this.getUid()) {
+      await this.Model.upEditUid(result._id, 0);
+    }
+  }
+
+  // socket 结束链接
+  async endFunc(result) {
+    if(result) {
+      await this.Model.upEditUid(result._id, 0);
+    }
+  }
+
+  // 正在编辑
+  async editorFunc(result) {
+    let userInst, userinfo, data;
+    if (result && result.edit_uid !== 0 && result.edit_uid !== this.getUid()) {
+      userInst = yapi.getInst(userModel);
+      userinfo = await userInst.findById(result.edit_uid);
+      data = {
+        errno: result.edit_uid,
+        data: { uid: result.edit_uid, username: userinfo.username }
+      };
+    } else {
+      if (result) {
+        await this.Model.upEditUid(result._id, this.getUid());
+      }
+      data = {
+        errno: 0,
+        data: result
+      };
+    }
+    return data;
   }
 }
 
