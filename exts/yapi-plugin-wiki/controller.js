@@ -205,7 +205,9 @@ class wikiController extends baseController {
 
   // socket 结束链接
   async endFunc(result) {
-    await this.Model.upEditUid(result._id, 0);
+    if(result) {
+      await this.Model.upEditUid(result._id, 0);
+    }
   }
 
   // 正在编辑
