@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete } from 'antd';
+import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete, Tooltip } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import constants from 'client/constants/variable.js';
@@ -54,12 +54,11 @@ class ProjectEnvContent extends Component {
         name: '',
         value: ''
       }
-    ]
+    ];
 
-    
     const curheader = curdata.header;
     const curGlobal = curdata.global;
-   
+
     if (curheader && curheader.length !== 0) {
       curheader.forEach(item => {
         if (item.name === 'Cookie') {
@@ -81,12 +80,12 @@ class ProjectEnvContent extends Component {
       });
     }
 
-    if(curGlobal && curGlobal.length !== 0) {
+    if (curGlobal && curGlobal.length !== 0) {
       curGlobal.forEach(item => {
-        global.unshift(item)
-      })
+        global.unshift(item);
+      });
     }
-    return { header, cookie, global }
+    return { header, cookie, global };
   }
 
   constructor(props) {
@@ -141,7 +140,7 @@ class ProjectEnvContent extends Component {
         });
         let global = values.global.filter(val => {
           return val.name !== '';
-        })
+        });
         if (cookie.length > 0) {
           header.push({
             name: 'Cookie',
@@ -342,7 +341,19 @@ class ProjectEnvContent extends Component {
             return commonTpl(item, index, 'cookie');
           })}
 
-          <h3 className="env-label">global</h3>
+          <h3 className="env-label">
+            global
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://yapi.ymfe.org/documents/project.html#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"
+              style={{ marginLeft: 8 }}
+            >
+              <Tooltip title="点击查看文档">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </a>
+          </h3>
           {this.state.global.map((item, index) => {
             return commonTpl(item, index, 'global');
           })}
