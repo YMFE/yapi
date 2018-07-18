@@ -138,9 +138,14 @@ exports.joinPath = (domain, joinPath) => {
   return domain + joinPath;
 };
 
-exports.safeArray = arr => {
+// exports.safeArray = arr => {
+//   return Array.isArray(arr) ? arr : [];
+// };
+function safeArray(arr) {
   return Array.isArray(arr) ? arr : [];
-};
+}
+exports.safeArray = safeArray;
+
 
 exports.isJson5 = function isJson5(json) {
   if (!json) return false;
@@ -179,3 +184,12 @@ exports.json_format = function(json) {
     return json;
   }
 };
+
+exports.ArrayToObject = function(arr) {
+  let obj = {} ;
+  safeArray(arr).forEach(item => {
+    obj[item.name] = item.value;
+  })
+
+  return obj;
+}

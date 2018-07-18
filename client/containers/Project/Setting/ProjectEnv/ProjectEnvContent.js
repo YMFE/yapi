@@ -49,9 +49,19 @@ class ProjectEnvContent extends Component {
       }
     ];
 
-    console.log(curdata);
-    if (curdata && curdata.length !== 0) {
-      curdata.forEach(item => {
+    let global = [
+      {
+        name: '',
+        value: ''
+      }
+    ]
+
+    
+    const curheader = curdata.header;
+    const curGlobal = curdata.global;
+   
+    if (curheader && curheader.length !== 0) {
+      curheader.forEach(item => {
         if (item.name === 'Cookie') {
           let cookieStr = item.value;
           if (cookieStr) {
@@ -69,34 +79,19 @@ class ProjectEnvContent extends Component {
           header.unshift(item);
         }
       });
-      return { header, cookie };
-    } else {
-      return { header, cookie };
     }
+
+    if(curGlobal && curGlobal.length !== 0) {
+      curGlobal.forEach(item => {
+        global.unshift(item)
+      })
+    }
+    return { header, cookie, global }
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      header: [
-        {
-          name: '',
-          value: ''
-        }
-      ],
-      cookie: [
-        {
-          name: '',
-          value: ''
-        }
-      ],
-      global: [
-        {
-          name: '',
-          value: ''
-        }
-      ]
-    };
+    this.state = Object.assign({}, initMap);
   }
   addHeader = (value, index, name) => {
     let nextHeader = this.state[name][index + 1];
@@ -129,16 +124,7 @@ class ProjectEnvContent extends Component {
     let curEnvName = this.props.projectMsg.name;
     let nextEnvName = nextProps.projectMsg.name;
     if (curEnvName !== nextEnvName) {
-      this.handleInit(nextProps.projectMsg.header);
-
-      let global = nextProps.projectMsg.global;
-      if (global && global.length !== 0) {
-        global.push({
-          name: '',
-          value: ''
-        });
-        this.setState({ global });
-      }
+      this.handleInit(nextProps.projectMsg);
     }
   }
 
@@ -153,6 +139,9 @@ class ProjectEnvContent extends Component {
         let cookie = values.cookie.filter(val => {
           return val.name !== '';
         });
+        let global = values.global.filter(val => {
+          return val.name !== '';
+        })
         if (cookie.length > 0) {
           header.push({
             name: 'Cookie',
@@ -165,7 +154,8 @@ class ProjectEnvContent extends Component {
           {
             name: values.env.name,
             domain: values.env.protocol + values.env.domain,
-            header: header
+            header: header,
+            global
           }
         );
         onSubmit(assignValue);
@@ -222,47 +212,6 @@ class ProjectEnvContent extends Component {
       );
     };
 
-    // const cookieTpl = (item, index) => {
-    //   const cookieLength = this.state.cookie.length - 1;
-    //   return (
-    //     <Row gutter={2} key={index}>
-    //       <Col span={10}>
-    //         <FormItem>
-    //           {getFieldDecorator('cookie[' + index + '].name', {
-    //             validateTrigger: ['onChange', 'onBlur'],
-    //             initialValue: item.name || ''
-    //           })(
-    //             <Input
-    //               placeholder="请输入 Cookie Name"
-    //               style={{ width: '200px' }}
-    //               onChange={() => this.addHeader(item, index, 'cookie')}
-    //             />
-    //           )}
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={12}>
-    //         <FormItem>
-    //           {getFieldDecorator('cookie[' + index + '].value', {
-    //             validateTrigger: ['onChange', 'onBlur'],
-    //             initialValue: item.value || ''
-    //           })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={2} className={index === cookieLength ? ' env-last-row' : null}>
-    //         {/* 新增的项中，只有最后一项没有有删除按钮 */}
-    //         <Icon
-    //           className="dynamic-delete-button delete"
-    //           type="delete"
-    //           onClick={e => {
-    //             e.stopPropagation();
-    //             this.delHeader(index, 'cookie');
-    //           }}
-    //         />
-    //       </Col>
-    //     </Row>
-    //   );
-    // };
-
     const commonTpl = (item, index, name) => {
       const length = this.state[name].length - 1;
       return (
@@ -274,7 +223,7 @@ class ProjectEnvContent extends Component {
                 initialValue: item.name || ''
               })(
                 <Input
-                  placeholder="请输入 global Name"
+                  placeholder={`请输入 ${name} Name`}
                   style={{ width: '200px' }}
                   onChange={() => this.addHeader(item, index, name)}
                 />

@@ -25,7 +25,7 @@ import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
-const { handleParamsValue } = require('common/utils.js');
+const { handleParamsValue, ArrayToObject } = require('common/utils.js');
 const {
   handleParams,
   checkRequestBodyIsRaw,
@@ -259,12 +259,12 @@ export default class Run extends Component {
     }
   }
 
-  handleValue(val) {
-    
+  handleValue(val, global) {
+    // console.log('val',val);
+    // console.log('global',global);
+    let globalValue = ArrayToObject(global);
     return handleParamsValue(val, {
-      global: {
-        err: 12
-      }
+      global:globalValue
     });
   }
 
@@ -295,7 +295,7 @@ export default class Run extends Component {
       loading: true
     });
 
-    
+      
     let options = handleParams(this.state, this.handleValue),
       result;
 

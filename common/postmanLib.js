@@ -307,7 +307,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     const obj = {};
     safeArray(arr).forEach(item => {
       if (item && item.name && (item.enable || item.required === '1')) {
-        obj[item.name] = handleValue(item.value);
+        obj[item.name] = handleValue(item.value, currDomain.global);
         if (requestParams) {
           requestParams[item.name] = obj[item.name];
         }
@@ -320,7 +320,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     const obj = {};
     safeArray(arr).forEach(item => {
       if (item && item.name) {
-        obj[item.name] = handleValue(item.value);
+        obj[item.name] = handleValue(item.value, currDomain.global);
         if (requestParams) {
           requestParams[item.name] = obj[item.name];
         }
@@ -333,10 +333,10 @@ function handleParams(interfaceData, handleValue, requestParams) {
   let currDomain,
     requestBody,
     requestOptions = {};
-
+  currDomain = handleCurrDomain(env, case_env);
   interfaceRunData.req_params = interfaceRunData.req_params || [];
   interfaceRunData.req_params.forEach(item => {
-    let val = handleValue(item.value);
+    let val = handleValue(item.value, currDomain.global);
     if (requestParams) {
       requestParams[item.name] = val;
     }
@@ -344,7 +344,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     path = path.replace(`{${item.name}}`, val || `{${item.name}}`);
   });
 
-  currDomain = handleCurrDomain(env, case_env);
+  
   const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
   const url = URL.format({
     protocol: urlObj.protocol || 'http',
@@ -404,7 +404,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
         if (requestParams) {
           requestParams = Object.assign(requestParams, reqBody);
         }
-        requestBody = handleJson(reqBody, handleValue);
+        requestBody = handleJson(reqBody, (val)=>handleValue(val, currDomain.global));
       }
     } else {
       requestBody = interfaceRunData.req_body_other;

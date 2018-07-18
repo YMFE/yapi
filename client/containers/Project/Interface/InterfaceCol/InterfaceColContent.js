@@ -29,7 +29,7 @@ const {
   handleCurrDomain,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
-const { handleParamsValue, json_parse } = require('common/utils.js');
+const { handleParamsValue, json_parse, ArrayToObject } = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
 import Label from '../../../../components/Label/Label.js';
 
@@ -362,8 +362,12 @@ class InterfaceColContent extends Component {
     }
   };
 
-  handleValue = val => {
-    return handleParamsValue(val, this.records);
+  handleValue = (val, global) => {
+   
+    let globalValue = ArrayToObject(global);
+    let context = Object.assign({}, {global: globalValue}, this.records);
+    
+    return handleParamsValue(val, context);
   };
 
   arrToObj = (arr, requestParams) => {

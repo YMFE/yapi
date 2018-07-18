@@ -159,17 +159,17 @@ module.exports = {
         baseConfig.output.prd.publicPath = '';
         baseConfig.output.prd.filename = '[name]@[chunkhash][ext]';
 
-        (baseConfig.module.noParse = /node_modules\/jsondiffpatch\/public\/build\/.*js/),
-          baseConfig.module.loaders.push({
-            test: /\.less$/,
-            loader: ykit.ExtractTextPlugin.extract(
-              require.resolve('style-loader'),
-              require.resolve('css-loader') +
-                '?sourceMap!' +
-                require.resolve('less-loader') +
-                '?sourceMap'
-            )
-          });
+        baseConfig.module.noParse = /node_modules\/jsondiffpatch\/public\/build\/.*js/;
+        baseConfig.module.loaders.push({
+          test: /\.less$/,
+          loader: ykit.ExtractTextPlugin.extract(
+            require.resolve('style-loader'),
+            require.resolve('css-loader') +
+              '?sourceMap!' +
+              require.resolve('less-loader') +
+              '?sourceMap'
+          )
+        });
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
