@@ -31,7 +31,7 @@ class exportController extends baseController {
       item.list = list;
       newResult[i] = item;
     }
-
+    
     return newResult;
   }
 
@@ -77,6 +77,7 @@ class exportController extends baseController {
     let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
+      console.log('curProject', curProject)
       ctx.set('Content-Type', 'application/octet-stream');
       const list = await this.handleListClass(pid, status);
 

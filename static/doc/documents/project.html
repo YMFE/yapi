@@ -51,7 +51,7 @@
 <h2 id="配置环境">配置环境</h2>
 <p><code>环境配置</code> 一项可以添加该项目下接口的实际环境，供 <a href="./case.html">接口测试</a> 使用，这里增加了全局 header，可以在项目中设置全局 header 值。在接口运行页面的选择环境 select 中也增加<code>环境配置</code>弹层。</p>
 <img src="./images/usage/project_setting_env.png">
-<p>v1.3.20 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量</p>
+<p>v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量</p>
 <img src="./images/usage/project_setting_global.png">
 <h2 id="请求配置">请求配置</h2>
 <p>通过自定义 js 脚本方式改变请求的参数和返回的 response 数据</p>
@@ -119,7 +119,7 @@
 <h3 id="请求配置-工具函数">工具函数</h3>
 <pre><code>context.utils = {
   _         //underscore &#x51FD;&#x6570;,&#x8BE6;&#x7EC6; API &#x67E5;&#x770B;&#x5B98;&#x7F51; http://underscorejs.org/
-  CryptoJS  // crypto-js&#xFF08;v1.3.20+&#x65B0;&#x589E;&#xFF09;, &#x8BE6;&#x7EC6;&#x7528;&#x6CD5;&#x770B; https://github.com/brix/crypto-js
+  CryptoJS  // crypto-js&#xFF08;v1.3.21+&#x65B0;&#x589E;&#xFF09;, &#x8BE6;&#x7EC6;&#x7528;&#x6CD5;&#x770B; https://github.com/brix/crypto-js
   base64    //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; base64 &#x7F16;&#x7801;
   md5       //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; md5 &#x7F16;&#x7801;
   sha1      //&#x8F6C;&#x6362;&#x5B57;&#x7B26;&#x4E32;&#x4E3A; sha1 &#x7F16;&#x7801;

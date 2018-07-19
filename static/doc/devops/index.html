@@ -108,7 +108,9 @@ yapi update -v v1.1.0 //升级到指定版本
       <span class="token property">"bindPassword"</span><span class="token operator">:</span> <span class="token string">"password123"</span><span class="token punctuation">,</span>
       <span class="token property">"searchDn"</span><span class="token operator">:</span> <span class="token string">"OU=UserContainer,DC=test,DC=com"</span><span class="token punctuation">,</span>
       <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"mail"</span><span class="token punctuation">,</span>    // 自定义格式： <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"&amp;(objectClass=user)(cn=%s)"</span>
-      <span class="token property">"emailPostfix"</span><span class="token operator">:</span> <span class="token string">"@163.com"</span>
+      <span class="token property">"emailPostfix"</span><span class="token operator">:</span> <span class="token string">"@163.com"</span><span class="token punctuation">,</span>
+      <span class="token property">"emailKey"</span><span class="token operator">:</span> <span class="token string">"mail"</span><span class="token punctuation">,</span>
+      <span class="token property">"usernameKey"</span><span class="token operator">:</span> <span class="token string">"name"</span>
    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
@@ -121,7 +123,9 @@ yapi update -v v1.1.0 //升级到指定版本
 <li><code>bindPassword</code> 登录该 LDAP 服务器的密码;</li>
 <li><code>searchDn</code> 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;</li>
 <li><code>searchStandard</code> 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&amp;(objectClass=user)(cn=%s), 其中%s会被username替换</li>
-<li><code>emailPostfix</code> 登陆邮箱后缀</li>
+<li><code>emailPostfix</code> 登陆邮箱后缀（非必须）</li>
+<li><code>emailKey</code>: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）</li>
+<li><code>usernameKey</code>: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）</li>
 </ul>
 <p>重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功</p>
 <img src="./ldap.png">

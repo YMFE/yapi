@@ -140,9 +140,9 @@ class userController extends baseController {
       const emailPrefix = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
       
-      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + yapi.WEBCONFIG.ldapLogin.emailPostfix : email);
-      const username = ldapInfo['name'];
-
+      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + emailPostfix : email);
+      const username = ldapInfo[yapi.WEBCONFIG.ldapLogin.usernameKey] || emailPrefix;
+     
       let login = await this.handleThirdLogin(emailParams, username);
       
       if (login === true) {
@@ -170,7 +170,6 @@ class userController extends baseController {
   }
 
   // 处理第三方登录
-
   async handleThirdLogin(email, username) {
     let user, data, passsalt;
     let userInst = yapi.getInst(userModel);
