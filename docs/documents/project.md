@@ -64,7 +64,7 @@ YApi 支持项目复制功能，但是无法复制项目中的测试集合 list�
 
 <img src="./images/usage/project_setting_env.png" />
 
-v1.3.20 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量
+v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量
 
 <img src="./images/usage/project_setting_global.png" />
 
@@ -156,7 +156,7 @@ context.responseBody.a = 2;
 ```
 context.utils = {
   _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/
-  CryptoJS  // crypto-js（v1.3.20+新增）, 详细用法看 https://github.com/brix/crypto-js
+  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js
   base64    //转换字符串为 base64 编码
   md5       //转换字符串为 md5 编码
   sha1      //转换字符串为 sha1 编码
