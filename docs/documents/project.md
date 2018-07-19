@@ -108,7 +108,7 @@ context.query.token = context.utils.md5(context.pathname + 'salt');
 ```
 ### 返回数据示例
 
-在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：
+在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：
 ```
 context = {
   pathname: '/api/user',
@@ -132,10 +132,10 @@ context = {
 }
 ```
 
-假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：
+假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：
 
 ```
-context.responseBody.a = 2;
+context.responseData.a = 2;
 
 ```
 > （v1.3.16+新增）context.href和context.hostname  
