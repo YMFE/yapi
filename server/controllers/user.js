@@ -133,6 +133,7 @@ class userController extends baseController {
    */
   async getLdapAuth(ctx) {
     try {
+     
       const { email, password } = ctx.request.body;
       // const username = email.split(/\@/g)[0];
       const { info: ldapInfo } = await ldap.ldapQuery(email, password);
@@ -204,7 +205,7 @@ class userController extends baseController {
       return true;
     } catch (e) {
       console.error('third_login:', e.message); // eslint-disable-line
-      throw new Error(`third_login: ${e.message}`)
+      throw new Error(`third_login: ${e.message}`);
       return false;
     }
   }

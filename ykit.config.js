@@ -191,15 +191,6 @@ module.exports = {
           loader: 'json-loader'
         });
 
-        baseConfig.module.preLoaders.push({
-          test: /\.(gif|jpg|jpeg|png|woff|woff2|eot|ttf|svg)(\?v=.+)?$/,
-          loader: 'url-loader',
-          options: {
-            limit: 20480,
-            name: ['[path][name].[ext]?[sha256:hash:base64:8]']
-          }
-        });
-
         if (this.env == 'prd') {
           baseConfig.plugins.push(assetsPluginInstance);
           baseConfig.plugins.push(compressPlugin);
