@@ -280,11 +280,15 @@ function createInterMarkdown(basepath, listItem, isToc) {
   return mdTemplate;
 }
 
-function createProjectMarkdown(curProject) {
+function createProjectMarkdown(curProject, wikiData) {
   let mdTemplate = ``;
   // 项目名、项目描述
   let title = `<h1 class="curproject-name"> ${curProject.name} </h1>`;
+ 
   mdTemplate += `\n ${title} \n ${curProject.desc || ''}\n\n`;
+
+  // 增加公共wiki信息展示
+  mdTemplate +=  wikiData ? `\n### 公共信息\n\n ${wikiData.markdown || ''}\n\n`: '';
 
   return mdTemplate;
 }
