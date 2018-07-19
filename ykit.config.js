@@ -192,6 +192,13 @@ module.exports = {
         });
 
         if (this.env == 'prd') {
+          // baseConfig.plugins.push(
+          //   new this.webpack.optimize.UglifyJsPlugin({
+          //     compress: {
+          //       warnings: false
+          //     }
+          //   })
+          // );
           baseConfig.plugins.push(assetsPluginInstance);
           baseConfig.plugins.push(compressPlugin);
         }

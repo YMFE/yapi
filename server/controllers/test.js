@@ -60,7 +60,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 测试 单文件上传s
+   * 测试 单文件上传
    * @interface /test/single/upload
    * @method POST
    * @returns {Object}
