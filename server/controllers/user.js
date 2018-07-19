@@ -205,7 +205,7 @@ class userController extends baseController {
     } catch (e) {
       console.error('third_login:', e.message); // eslint-disable-line
       throw new Error(`third_login: ${e.message}`);
-      return false;
+   
     }
   }
 

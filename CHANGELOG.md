@@ -2,6 +2,11 @@
 
 * 请求配置增加 context.utils.CryptoJS
 * 环境变量设置出增加全局变量
+* 增加wiki数据导出功能
+
+#### Bug Fixed
+
+* 优化ldap登陆 
 
 ### v1.3.19
 
