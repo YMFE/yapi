@@ -109,7 +109,9 @@ class interfaceColController extends baseController {
    */
   async testFilesUpload(ctx) {
     try {
-      // let params = ctx.request.body;
+      let file = ctx.request.body.files.file;
+      let newPath = path.join(yapi.WEBROOT_RUNTIME, 'test.text');
+      fs.renameSync(file.path, newPath);
       ctx.body = yapi.commons.resReturn({ res: '上传成功' });
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -141,7 +143,7 @@ class interfaceColController extends baseController {
    */
   async testDelete(ctx) {
     try {
-      let params = ctx.request.body;
+      let params = ctx.request.query;
       ctx.body = yapi.commons.resReturn(params);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -188,6 +190,21 @@ class interfaceColController extends baseController {
    * @example
    */
   async testPatch(ctx) {
+    try {
+      let params = ctx.request.body;
+      ctx.body = yapi.commons.resReturn(params);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+  /**
+   * 测试 raw
+   * @interface /test/raw
+   * @method POST
+   * @return {Object}
+   * @example
+   */
+  async testRaw(ctx) {
     try {
       let params = ctx.request.body;
       ctx.body = yapi.commons.resReturn(params);

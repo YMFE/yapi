@@ -1,7 +1,7 @@
 @import '../../styles/mixin.scss';
 
 .g-doc {
-  margin: 0 auto .24rem;
+  margin: 0 auto 0.24rem;
 }
 
 /* .user-box.css */
@@ -13,32 +13,34 @@
   margin: 0 auto;
   margin-top: 24px;
   .user-list {
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-    background: #FFF;
-    border-radius:4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background: #fff;
+    border-radius: 4px;
     min-height: 5rem;
-    .search{
+    .search {
       padding: 5px;
       background-color: #eee;
     }
-    ul{border:none}
-    .ant-menu-item{
+    ul {
+      border: none;
+    }
+    .ant-menu-item {
       font-size: 18px;
     }
   }
-  .user-name{
-    padding: .24rem;
+  .user-name {
+    padding: 0.24rem;
     background-color: #34495e;
     color: white;
     font-size: 18px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    span{
+    span {
       margin-right: 5px;
     }
   }
-  .router-content{
-    min-height:calc(100% - 2.47rem);
+  .router-content {
+    min-height: calc(100% - 2.47rem);
   }
   .user-table {
     -webkit-box-flex: 1;
@@ -52,7 +54,15 @@
         // font-size: 13px;
       }
     }
-
+    .user-search-wrapper {
+      position: relative;
+      .ant-input-search {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 250px;
+      }
+    }
   }
 
   .user-profile {
@@ -61,31 +71,31 @@
     min-height: 5rem;
     position: relative;
 
-    .edit-buttons{
-      .edit-button{
+    .edit-buttons {
+      .edit-button {
         text-align: center;
-        margin-right:10px;
+        margin-right: 10px;
       }
     }
 
-    .bacToPer{
+    .bacToPer {
       position: absolute;
       right: 8px;
       top: 8px;
       z-index: 3;
     }
-    .user-item-body{
+    .user-item-body {
       width: 95%;
       margin: 0px auto;
       padding: 32px;
       position: relative;
       // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.3), 0 1px 3px rgba(0, 0, 0, 0.01);
-      h3{
+      h3 {
         font-size: 20px;
         font-weight: 500;
         margin-bottom: 16px;
       }
-      .user-item-mask-top{
+      .user-item-mask-top {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -93,9 +103,9 @@
         width: 100%;
         background: black;
         z-index: 2;
-        opacity: .7;
+        opacity: 0.7;
       }
-      .user-item-mask{
+      .user-item-mask {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -103,14 +113,14 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background-color: rgba(0,0,0,0.70);
+        background-color: rgba(0, 0, 0, 0.7);
       }
-      .user-item{
+      .user-item {
         position: relative;
         z-index: 3;
         padding: 8px 0px;
 
-        .maoboli{
+        .maoboli {
           // background-color: rgba(225,225,225,0.16);
           position: absolute;
           width: 100%;
@@ -118,68 +128,68 @@
           left: 0px;
           top: 0px;
         }
-
       }
-
     }
     .user-item {
-      min-height:35px;
-      line-height:35px;
+      min-height: 35px;
+      line-height: 35px;
       margin: 5px;
       margin-left: 0px;
       font-size: 14px;
-      #old_password,#password,#verify_pass{
+      #old_password,
+      #password,
+      #verify_pass {
         margin-top: 20px;
       }
-      #old_password{
+      #old_password {
         margin-top: 0px;
       }
-      .ant-col-12{
-        .ant-input{
+      .ant-col-12 {
+        .ant-input {
           width: 60%;
           margin-right: 16px;
         }
       }
-      .ant-col-4{
-        color: rgba(71, 86, 99, .8);
+      .ant-col-4 {
+        color: rgba(71, 86, 99, 0.8);
         font-weight: 500;
         padding: 0px 16px;
-        text-indent: .7em;
+        text-indent: 0.7em;
         margin-right: 30px;
         white-space: nowrap;
         text-align: right;
         width: 130px;
       }
-      .text{
+      .text {
         padding-right: 16px;
       }
-      .text-button{
+      .text-button {
         color: #657289;
-        cursor: pointer
+        cursor: pointer;
       }
     }
   }
 
   .user-nav {
-    border-bottom-left-radius: .04rem;
-    border-bottom-right-radius: .04rem;
+    border-bottom-left-radius: 0.04rem;
+    border-bottom-right-radius: 0.04rem;
   }
-  .avatar-uploader{
+  .avatar-uploader {
     border: none;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
   }
   .avatar-uploader,
-  .avatar-uploader-trigger{
+  .avatar-uploader-trigger {
     width: 100px;
     height: 100px;
     overflow: hidden;
     border-radius: 50px;
   }
-  .avatar{
+  .avatar {
     width: 100px;
     min-height: 100px;
   }
-  .avatarImg{
+  .avatarImg {
     width: 100px;
     border-radius: 50px;
     overflow: hidden;
@@ -187,7 +197,7 @@
     background-color: white;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.31), 0 1px 3px rgba(0, 0, 0, 0.08);
     margin-left: 60px;
-    img{
+    img {
       width: 100%;
     }
   }
@@ -196,21 +206,20 @@
     cursor: pointer;
     height: 100px;
   }
-  .ant-upload-list{
+  .ant-upload-list {
     display: none;
   }
-  .avatar-box{
+  .avatar-box {
     width: 100px;
     position: relative;
     margin-left: 60px;
   }
-  .avatarCon{
+  .avatarCon {
     // background: gray;
     padding: 16px 0px;
     width: 100%;
     overflow: hidden;
     position: relative;
-
   }
 
   .avatar-uploader-trigger {
@@ -219,7 +228,7 @@
     font-size: 28px;
     color: #999;
   }
-  .avatarChange{
+  .avatarChange {
     display: block;
     width: 300px;
     text-align: center;
@@ -229,7 +238,4 @@
     position: absolute;
     top: 0px;
   }
-
-
-
 }

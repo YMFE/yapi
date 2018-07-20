@@ -498,7 +498,11 @@ let routerConfig = {
 		action: "testHttpCode",
 		path: "http/code",
 		method: "post"
-	}
+	}, {
+    action: "testRaw",
+    path: "raw",
+    method: 'post'
+  }
 	],
 	open: [{
 		action: "projectInterfaceData",
