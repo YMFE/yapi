@@ -37,7 +37,7 @@ blockquote {
   background: rgba(0, 0, 0, 0.2);
 }
 
-body {
+.yapi-run-auto-test {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
   font-size: 13px;
   line-height: 25px;
@@ -45,41 +45,41 @@ body {
   position: relative;
 }
 
-table {
+.yapi-run-auto-test table {
   margin: 10px 0 15px 0;
   border-collapse: collapse;
 }
 
-td,
+.yapi-run-auto-test td,
 th {
   border: 1px solid #ddd;
   padding: 3px 10px;
 }
 
-th {
+.yapi-run-auto-test th {
   padding: 5px 10px;
 }
 
-a, a:link, a:visited {
+.yapi-run-auto-test a, a:link, a:visited {
   color: #34495e;
   text-decoration: none;
 }
 
-a:hover, a:focus {
+.yapi-run-auto-test a:hover, a:focus {
   color: #59d69d;
   text-decoration: none;
 }
 
-a img {
+.yapi-run-auto-test a img {
   border: none;
 }
 
-p {
+.yapi-run-auto-test p {
   padding-left: 10px;
   margin-bottom: 9px;
 }
 
-h1,
+.yapi-run-auto-test h1,
 h2,
 h3,
 h4,
@@ -89,7 +89,7 @@ h6 {
   line-height: 36px;
 }
 
-h1 {
+.yapi-run-auto-test h1 {
   color: #2c3e50;
   font-weight: 600;
   font-size: 32px;
@@ -97,13 +97,13 @@ h1 {
   line-height: 50px;
 }
 
-h2 {
+.yapi-run-auto-test h2 {
   font-size: 28px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-h3 {
+.yapi-run-auto-test h3 {
   clear: both;
   font-weight: 400;
   margin-top: 20px;
@@ -113,39 +113,39 @@ h3 {
   font-size: 18px;
 }
 
-h4 {
+.yapi-run-auto-test h4 {
   font-size: 16px;
 }
 
-h5 {
+.yapi-run-auto-test h5 {
   font-size: 14px;
 }
 
-h6 {
+.yapi-run-auto-test h6 {
   font-size: 13px;
 }
 
-hr {
+.yapi-run-auto-test hr {
   margin: 0 0 19px;
   border: 0;
   border-bottom: 1px solid #ccc;
 }
 
-blockquote {
+.yapi-run-auto-test blockquote {
   padding: 13px 13px 21px 15px;
   margin-bottom: 18px;
   font-family: georgia, serif;
   font-style: italic;
 }
 
-blockquote:before {
+.yapi-run-auto-test blockquote:before {
   font-size: 40px;
   margin-left: -10px;
   font-family: georgia, serif;
   color: #eee;
 }
 
-blockquote p {
+.yapi-run-auto-test blockquote p {
   font-size: 14px;
   font-weight: 300;
   line-height: 18px;
@@ -153,12 +153,12 @@ blockquote p {
   font-style: italic;
 }
 
-code,
+.yapi-run-auto-test code,
 pre {
   font-family: Monaco, Andale Mono, Courier New, monospace;
 }
 
-code {
+.yapi-run-auto-test code {
   background-color: #fee9cc;
   color: rgba(0, 0, 0, 0.75);
   padding: 1px 3px;
@@ -168,7 +168,7 @@ code {
   border-radius: 3px;
 }
 
-pre {
+.yapi-run-auto-test pre {
   display: block;
   padding: 14px;
   margin: 0 0 18px;
@@ -180,14 +180,14 @@ pre {
   overflow-x: auto;
 }
 
-pre code {
+.yapi-run-auto-test pre code {
   background-color: #f6f6f6;
   color: #737373;
   font-size: 11px;
   padding: 0;
 }
 
-sup {
+.yapi-run-auto-test sup {
   font-size: 0.83em;
   vertical-align: super;
   line-height: 0;
@@ -220,7 +220,7 @@ body {
   height: 100%;
 }
 
-.menu-left {
+.yapi-run-auto-test .menu-left {
   position: fixed;
   top: 61px;
   left: 0;
@@ -230,7 +230,7 @@ body {
   width: 260px;
 }
 
-.menu-left > .list-content {
+.yapi-run-auto-test .menu-left > .list-content {
   overflow: auto;
   margin: 0px;
   box-sizing: border-box;
@@ -240,7 +240,7 @@ body {
   padding: 16px 8px 0 20px;
 }
 
-.list {
+.yapi-run-auto-test .list {
   padding: 2px 0px;
   text-decoration: none;
   font-size: 14px;
@@ -249,29 +249,29 @@ body {
 }
 
 
-.content-right {
+.yapi-run-auto-test .content-right {
   max-width: 700px;
   margin-left: 290px;
   padding-left: 70px;
   flex-grow: 1;
 }
-.content-right h2:target {
+.yapi-run-auto-test .content-right h2:target {
   padding-top: 80px;
 }
 
-body > p {
+.yapi-run-auto-test > p {
   margin-left: 30px;
 }
 
-body > table {
+.yapi-run-auto-test > table {
   margin-left: 30px;
 }
 
-body > pre {
+.yapi-run-auto-test > pre {
   margin-left: 30px;
 }
 
-.curProject {
+.yapi-run-auto-test .curProject {
   position: fixed;
   top: 20px;
   font-size: 25px;
@@ -283,17 +283,17 @@ body > pre {
   box-sizing: border-box;
 }
 
-.g-doc {
+.yapi-run-auto-test .g-doc {
   margin-top: 56px;
   padding-top: 24px;
   display: flex;
 }
 
-.curproject-name {
+.yapi-run-auto-test .curproject-name {
   font-size: 42px;
 }
 
-.m-header {
+.yapi-run-auto-test .m-header {
   background: #32363a;
   height: 56px;
   line-height: 56px;
@@ -306,7 +306,7 @@ body > pre {
   left: 0;
   right: 0;
 }
-.m-header .title {
+.yapi-run-auto-test .m-header .title {
   font-size: 22px;
   color: #fff;
   font-weight: normal;
@@ -317,29 +317,29 @@ body > pre {
   line-height: 56px;
   border: none;
 }
-.m-header .nav {
+.yapi-run-auto-test .m-header .nav {
   color: #fff;
   font-size: 16px;
   position: absolute;
   right: 32px;
   top: 0;
 }
-.m-header .nav a {
+.yapi-run-auto-test .m-header .nav a {
   color: #fff;
   margin-left: 16px;
   padding: 8px;
   transition: color .2s;
 }
-.m-header .nav a:hover {
+.yapi-run-auto-test .m-header .nav a:hover {
   color: #59d69d;
 }
 
-.m-footer {
+.yapi-run-auto-test .m-footer {
   border-top: 1px solid #ddd;
   padding-top: 16px;
   padding-bottom: 16px;
 }
-.row{
+.yapi-run-auto-test .row{
   position: relative;
   height: auto;
   zoom: 1;
@@ -347,30 +347,30 @@ body > pre {
   box-sizing: border-box;
 }
 
-.case-report {
+.yapi-run-auto-test .case-report {
   margin: 10px;
   display: flex;
 }
 
-.case-report .case-report-title {
+.yapi-run-auto-test .case-report .case-report-title {
   font-size: 14px;
   text-align: right;
   padding-right: 20px;
 }
 
-.col-3 {
+.yapi-run-auto-test .col-3 {
   display: block;
   box-sizing: border-box;
   width: 12.5%;
 }
 
-.col-21 {
+.yapi-run-auto-test .col-21 {
   display: block;
   box-sizing: border-box;
   width: 87.5%;
 }
 
-.icon {
+.yapi-run-auto-test .icon {
   display: inline-block;
   font-style: normal;
   vertical-align: baseline;
@@ -383,36 +383,36 @@ body > pre {
   font-weight: 700;
 }
 
-.icon-check-circle:before {
+.yapi-run-auto-test .icon-check-circle:before {
   content: "\2713";
 }
 
-.icon-close-circle:before {
+.yapi-run-auto-test .icon-close-circle:before {
   content: "\2715";
 }
 
-.icon-warning-circle:before {
+.yapi-run-auto-test .icon-warning-circle:before {
   content: "!";
 }
 
-.icon:before {
+.yapi-run-auto-test .icon:before {
   display: block;
   font-family: "anticon" !important;
 }
 
-.summary {
+.yapi-run-auto-test .summary {
   border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
   font-size: 18px;
 }
 
-.success{
+.yapi-run-auto-test .success{
   color: #208054;
   font-weight: 700;
 
 }
 
-.status {
+.yapi-run-auto-test .status {
   flex-shrink: 0;
   margin: 0 5px;
   width: 20px;
@@ -425,19 +425,17 @@ body > pre {
   align-items: center;
 }
 
-.status-ok {
+.yapi-run-auto-test .status-ok {
   background-color: #17c5a6;
 }
 
-.status-ok:hover {
-   
-}
 
-.status-ko {
+
+.yapi-run-auto-test .status-ko {
   background-color: #fd3c3c;
 }
 
-.status-warning {
+.yapi-run-auto-test .status-warning {
   background-color: #ffb74c;
 }
 

@@ -1,7 +1,7 @@
 const baseController = require('controllers/base.js');
 const interfaceModel = require('models/interface.js');
 const projectModel = require('models/project.js');
-
+// const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
 const interfaceCatModel = require('models/interfaceCat.js');
 const yapi = require('yapi.js');
 const markdownIt = require('markdown-it');
@@ -17,6 +17,7 @@ class exportController extends baseController {
     this.catModel = yapi.getInst(interfaceCatModel);
     this.interModel = yapi.getInst(interfaceModel);
     this.projectModel = yapi.getInst(projectModel);
+    // this.wikiModel = yapi.getInst(wikiModel);
   }
 
   async handleListClass(pid, status) {
@@ -31,7 +32,7 @@ class exportController extends baseController {
       item.list = list;
       newResult[i] = item;
     }
-
+    
     return newResult;
   }
 
@@ -70,13 +71,21 @@ class exportController extends baseController {
     let pid = ctx.request.query.pid;
     let type = ctx.request.query.type;
     let status = ctx.request.query.status;
+    let isWiki = ctx.request.query.isWiki;
+    
     if (!pid) {
       ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
     }
-    let curProject;
+    let curProject, wikiData;
     let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
+      if(isWiki === 'true') {
+        
+        const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
+        wikiData = await yapi.getInst(wikiModel).get(pid);
+      }
+      
       ctx.set('Content-Type', 'application/octet-stream');
       const list = await this.handleListClass(pid, status);
 
@@ -167,7 +176,7 @@ class exportController extends baseController {
       let mdTemplate = ``;
       try {
         // 项目名称信息
-        mdTemplate += md.createProjectMarkdown(curProject);
+        mdTemplate += md.createProjectMarkdown(curProject, wikiData);
         // 分类信息
         mdTemplate += md.createClassMarkdown(curProject, list, isToc);
         return mdTemplate;

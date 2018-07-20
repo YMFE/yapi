@@ -25,7 +25,7 @@ import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
-const { handleParamsValue } = require('common/utils.js');
+const { handleParamsValue, ArrayToObject } = require('common/utils.js');
 const {
   handleParams,
   checkRequestBodyIsRaw,
@@ -72,8 +72,16 @@ const ParamsNameComponent = props => {
   const TooltipTitle = () => {
     return (
       <div>
-        {example && <div>示例： <span className="table-desc">{example}</span></div>}
-        {desc && <div>备注： <span className="table-desc">{desc}</span></div>}
+        {example && (
+          <div>
+            示例： <span className="table-desc">{example}</span>
+          </div>
+        )}
+        {desc && (
+          <div>
+            备注： <span className="table-desc">{desc}</span>
+          </div>
+        )}
       </div>
     );
   };
@@ -251,8 +259,13 @@ export default class Run extends Component {
     }
   }
 
-  handleValue(val) {
-    return handleParamsValue(val, {});
+  handleValue(val, global) {
+    // console.log('val',val);
+    // console.log('global',global);
+    let globalValue = ArrayToObject(global);
+    return handleParamsValue(val, {
+      global:globalValue
+    });
   }
 
   onOpenTest = d => {
@@ -281,6 +294,8 @@ export default class Run extends Component {
     this.setState({
       loading: true
     });
+
+      
     let options = handleParams(this.state, this.handleValue),
       result;
 
@@ -483,7 +498,7 @@ export default class Run extends Component {
       inputValue,
       hasPlugin
     } = this.state;
-
+    // console.log(env);
     return (
       <div className="interface-test postman">
         {this.state.modalVisible && (

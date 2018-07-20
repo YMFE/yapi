@@ -1,10 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete } from 'antd';
+import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete, Tooltip } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import constants from 'client/constants/variable.js';
+
+const initMap = {
+  header: [
+    {
+      name: '',
+      value: ''
+    }
+  ],
+  cookie: [
+    {
+      name: '',
+      value: ''
+    }
+  ],
+  global: [
+    {
+      name: '',
+      value: ''
+    }
+  ]
+};
 
 class ProjectEnvContent extends Component {
   static propTypes = {
@@ -27,8 +48,19 @@ class ProjectEnvContent extends Component {
         value: ''
       }
     ];
-    if (curdata && curdata.length !== 0) {
-      curdata.forEach(item => {
+
+    let global = [
+      {
+        name: '',
+        value: ''
+      }
+    ];
+
+    const curheader = curdata.header;
+    const curGlobal = curdata.global;
+
+    if (curheader && curheader.length !== 0) {
+      curheader.forEach(item => {
         if (item.name === 'Cookie') {
           let cookieStr = item.value;
           if (cookieStr) {
@@ -46,28 +78,19 @@ class ProjectEnvContent extends Component {
           header.unshift(item);
         }
       });
-      return { header, cookie };
-    } else {
-      return { header, cookie };
     }
+
+    if (curGlobal && curGlobal.length !== 0) {
+      curGlobal.forEach(item => {
+        global.unshift(item);
+      });
+    }
+    return { header, cookie, global };
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      header: [
-        {
-          name: '',
-          value: ''
-        }
-      ],
-      cookie: [
-        {
-          name: '',
-          value: ''
-        }
-      ]
-    };
+    this.state = Object.assign({}, initMap);
   }
   addHeader = (value, index, name) => {
     let nextHeader = this.state[name][index + 1];
@@ -100,7 +123,7 @@ class ProjectEnvContent extends Component {
     let curEnvName = this.props.projectMsg.name;
     let nextEnvName = nextProps.projectMsg.name;
     if (curEnvName !== nextEnvName) {
-      this.handleInit(nextProps.projectMsg.header);
+      this.handleInit(nextProps.projectMsg);
     }
   }
 
@@ -115,6 +138,9 @@ class ProjectEnvContent extends Component {
         let cookie = values.cookie.filter(val => {
           return val.name !== '';
         });
+        let global = values.global.filter(val => {
+          return val.name !== '';
+        });
         if (cookie.length > 0) {
           header.push({
             name: 'Cookie',
@@ -127,7 +153,8 @@ class ProjectEnvContent extends Component {
           {
             name: values.env.name,
             domain: values.env.protocol + values.env.domain,
-            header: header
+            header: header,
+            global
           }
         );
         onSubmit(assignValue);
@@ -184,40 +211,40 @@ class ProjectEnvContent extends Component {
       );
     };
 
-    const cookieTpl = (item, index) => {
-      const cookieLength = this.state.cookie.length - 1;
+    const commonTpl = (item, index, name) => {
+      const length = this.state[name].length - 1;
       return (
         <Row gutter={2} key={index}>
           <Col span={10}>
             <FormItem>
-              {getFieldDecorator('cookie[' + index + '].name', {
+              {getFieldDecorator(`${name}[${index}].name`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 initialValue: item.name || ''
               })(
                 <Input
-                  placeholder="请输入 Cookie Name"
+                  placeholder={`请输入 ${name} Name`}
                   style={{ width: '200px' }}
-                  onChange={() => this.addHeader(item, index, 'cookie')}
+                  onChange={() => this.addHeader(item, index, name)}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={12}>
             <FormItem>
-              {getFieldDecorator('cookie[' + index + '].value', {
+              {getFieldDecorator(`${name}[${index}].value`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 initialValue: item.value || ''
               })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
             </FormItem>
           </Col>
-          <Col span={2} className={index === cookieLength ? ' env-last-row' : null}>
+          <Col span={2} className={index === length ? ' env-last-row' : null}>
             {/* 新增的项中，只有最后一项没有有删除按钮 */}
             <Icon
               className="dynamic-delete-button delete"
               type="delete"
               onClick={e => {
                 e.stopPropagation();
-                this.delHeader(index, 'cookie');
+                this.delHeader(index, name);
               }}
             />
           </Col>
@@ -311,7 +338,24 @@ class ProjectEnvContent extends Component {
 
           <h3 className="env-label">Cookie</h3>
           {this.state.cookie.map((item, index) => {
-            return cookieTpl(item, index);
+            return commonTpl(item, index, 'cookie');
+          })}
+
+          <h3 className="env-label">
+            global
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://yapi.ymfe.org/documents/project.html#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"
+              style={{ marginLeft: 8 }}
+            >
+              <Tooltip title="点击查看文档">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </a>
+          </h3>
+          {this.state.global.map((item, index) => {
+            return commonTpl(item, index, 'global');
           })}
         </div>
       );

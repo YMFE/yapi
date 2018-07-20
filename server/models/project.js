@@ -24,7 +24,7 @@ class projectModel extends baseModel {
           email_notice: { type: Boolean, default: true }
         }
       ],
-      env: [{ name: String, domain: String, header: Array }],
+      env: [{ name: String, domain: String, header: Array, global: Array }],
       icon: String,
       color: String,
       add_time: Number,

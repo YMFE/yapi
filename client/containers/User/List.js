@@ -98,18 +98,27 @@ class List extends Component {
     this.props.setBreadcrumb([{ name: '用户管理' }]);
   }
 
-  handleSearch(e, value) {
-    let params = { q: value || e.target.value };
-
+  handleSearch = value => {
+    let params = { q: value };
+    console.log(value);
     if (params.q !== '') {
       axios.get('/api/user/search', { params }).then(data => {
-        let userList = data.data.data;
+        let userList = [];
+
+        data = data.data.data;
         if (data) {
-          this.setState({
-            data: userList,
-            isSearch: true
-          });
+          data.forEach(v =>
+            userList.push({
+              ...v,
+              _id: v.uid
+            })
+          );
         }
+
+        this.setState({
+          data: userList,
+          isSearch: true
+        });
       });
     } else {
       this.setState({
@@ -117,7 +126,7 @@ class List extends Component {
         isSearch: false
       });
     }
-  }
+  };
 
   render() {
     const role = this.props.curUserRole;
@@ -203,8 +212,8 @@ class List extends Component {
         <div className="user-search-wrapper">
           <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
           <Search
-            onChange={e => this.handleSearch(e, null)}
-            onSearch={v => this.handleSearch(null, v)}
+            onChange={e => this.handleSearch(e.target.value)}
+            onSearch={this.handleSearch}
             placeholder="请输入用户名"
           />
         </div>
