@@ -12,8 +12,10 @@ const isNode = typeof global == 'object' && global.global === global;
 const ContentTypeMap = {
   'application/json': 'json',
   'application/xml': 'xml',
-  other: 'text',
-  'application/html': 'html'
+  'text/xml': 'xml',
+  'application/html': 'html',
+  'text/html': 'html',
+  other: 'text'
 };
 
 async function httpRequestByNode(options) {
@@ -344,7 +346,6 @@ function handleParams(interfaceData, handleValue, requestParams) {
     path = path.replace(`{${item.name}}`, val || `{${item.name}}`);
   });
 
-  
   const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
   const url = URL.format({
     protocol: urlObj.protocol || 'http',
@@ -404,7 +405,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
         if (requestParams) {
           requestParams = Object.assign(requestParams, reqBody);
         }
-        requestBody = handleJson(reqBody, (val)=>handleValue(val, currDomain.global));
+        requestBody = handleJson(reqBody, val => handleValue(val, currDomain.global));
       }
     } else {
       requestBody = interfaceRunData.req_body_other;

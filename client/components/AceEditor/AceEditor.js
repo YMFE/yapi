@@ -44,6 +44,7 @@ class AceEditor extends React.PureComponent {
     });
 
     let mode = this.props.mode || 'javascript';
+    
     this.editor.editor.getSession().setMode(getMode(mode));
     if (typeof this.props.callback === 'function') {
       this.props.callback(this.editor.editor);

@@ -861,7 +861,7 @@ export default class Run extends Component {
                     readOnly={true}
                     className="pretty-editor-header"
                     data={this.state.test_res_header}
-                    mode="json"
+                    mode="json" 
                   />
                 </div>
                 <div className="resizer">
@@ -878,6 +878,7 @@ export default class Run extends Component {
                     className="pretty-editor-body"
                     data={this.state.test_res_body}
                     mode={handleContentType(this.state.test_res_header)}
+                    // mode="html"
                   />
                 </div>
               </div>
