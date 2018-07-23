@@ -17,6 +17,7 @@ import { arrayChangeIndex } from '../../../../common.js';
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
+const headHeight = 240; // menu顶部到网页顶部部分的高度
 
 import './InterfaceColMenu.scss';
 
@@ -493,79 +494,81 @@ export default class InterfaceColMenu extends Component {
             </Button>
           </Tooltip>
         </div>
-        <Tree
-          className="col-list-tree"
-          defaultExpandedKeys={currentKes.expands}
-          defaultSelectedKeys={currentKes.selects}
-          expandedKeys={currentKes.expands}
-          selectedKeys={currentKes.selects}
-          onSelect={this.onSelect}
-          autoExpandParent
-          draggable
-          onExpand={this.onExpand}
-          onDrop={this.onDrop}
-        >
-          {list.map(col => (
-            <TreeNode
-              key={'col_' + col._id}
-              title={
-                <div className="menu-title">
-                  <span>
-                    <Icon type="folder-open" style={{ marginRight: 5 }} />
-                    <span>{col.name}</span>
-                  </span>
-                  <div className="btns">
-                    <Tooltip title="删除集合">
-                      <Icon
-                        type="delete"
-                        style={{ display: list.length > 1 ? '' : 'none' }}
-                        className="interface-delete-icon"
-                        onClick={() => {
-                          this.showDelColConfirm(col._id);
-                        }}
-                      />
-                    </Tooltip>
-                    <Tooltip title="编辑集合">
-                      <Icon
-                        type="edit"
-                        className="interface-delete-icon"
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.showColModal('edit', col);
-                        }}
-                      />
-                    </Tooltip>
-                    <Tooltip title="导入接口">
-                      <Icon
-                        type="plus"
-                        className="interface-delete-icon"
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.showImportInterfaceModal(col._id);
-                        }}
-                      />
-                    </Tooltip>
-                    <Tooltip title="克隆集合">
-                      <Icon
-                        type="copy"
-                        className="interface-delete-icon"
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.copyInterface(col);
-                        }}
-                      />
-                    </Tooltip>
-                  </div>
-                  {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+        <div className="tree-wrapper" style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px'}}>
+          <Tree
+            className="col-list-tree"
+            defaultExpandedKeys={currentKes.expands}
+            defaultSelectedKeys={currentKes.selects}
+            expandedKeys={currentKes.expands}
+            selectedKeys={currentKes.selects}
+            onSelect={this.onSelect}
+            autoExpandParent
+            draggable
+            onExpand={this.onExpand}
+            onDrop={this.onDrop}
+          >
+            {list.map(col => (
+              <TreeNode
+                key={'col_' + col._id}
+                title={
+                  <div className="menu-title">
+                    <span>
+                      <Icon type="folder-open" style={{ marginRight: 5 }} />
+                      <span>{col.name}</span>
+                    </span>
+                    <div className="btns">
+                      <Tooltip title="删除集合">
+                        <Icon
+                          type="delete"
+                          style={{ display: list.length > 1 ? '' : 'none' }}
+                          className="interface-delete-icon"
+                          onClick={() => {
+                            this.showDelColConfirm(col._id);
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip title="编辑集合">
+                        <Icon
+                          type="edit"
+                          className="interface-delete-icon"
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.showColModal('edit', col);
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip title="导入接口">
+                        <Icon
+                          type="plus"
+                          className="interface-delete-icon"
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.showImportInterfaceModal(col._id);
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip title="克隆集合">
+                        <Icon
+                          type="copy"
+                          className="interface-delete-icon"
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.copyInterface(col);
+                          }}
+                        />
+                      </Tooltip>
+                    </div>
+                    {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
                       <Icon className="opts-icon" type='ellipsis'/>
                     </Dropdown>*/}
-                </div>
-              }
-            >
-              {col.caseList.map(itemInterfaceColCreate)}
-            </TreeNode>
-          ))}
-        </Tree>
+                  </div>
+                }
+              >
+                {col.caseList.map(itemInterfaceColCreate)}
+              </TreeNode>
+            ))}
+          </Tree>
+        </div>
         <ColModalForm
           ref={this.saveFormRef}
           type={colModalType}
