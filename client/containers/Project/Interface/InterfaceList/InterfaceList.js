@@ -208,8 +208,8 @@ class InterfaceList extends Component {
         render: (item, record) => {
           const path = this.props.curProject.basepath + item;
           let methodColor =
-            variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'];
-
+            variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'] || variable.METHOD_COLOR['get'];
+          
           return (
             <div>
               <span
