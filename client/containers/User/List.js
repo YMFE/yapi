@@ -100,7 +100,6 @@ class List extends Component {
 
   handleSearch = value => {
     let params = { q: value };
-    console.log(value);
     if (params.q !== '') {
       axios.get('/api/user/search', { params }).then(data => {
         let userList = [];
