@@ -50,7 +50,7 @@ const swagger = require('swagger-client');
   }
 
   async function handleSwaggerData(res) {
-    
+
     return await new Promise(resolve => {
       let data = swagger({
         spec: res
@@ -67,14 +67,14 @@ const swagger = require('swagger-client');
       if(typeof res === 'string' && res){
         res = JSON.parse(res);
       }
-      
+
       isOAS3 = res.openapi && res.openapi === '3.0.0';
       if (isOAS3) {
         res = openapi2swagger(res);
       }
       res = await handleSwaggerData(res);
       SwaggerData = res;
-      
+
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
           interfaceData.cats.push({
@@ -85,6 +85,8 @@ const swagger = require('swagger-client');
       }
 
       _.each(res.paths, (apis, path) => {
+        // parameters is common parameters, not a method
+        delete apis.parameters;
         _.each(apis, (api, method) => {
           api.path = path;
           api.method = method;
@@ -106,12 +108,12 @@ const swagger = require('swagger-client');
             interfaceData.apis.push(data);
           }
         });
-      });      
+      });
       return interfaceData;
   }
 
   function handleSwagger(data) {
-   
+
     let api = {};
     //处理基本信息
     api.method = data.method.toUpperCase();
