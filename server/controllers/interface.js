@@ -828,11 +828,7 @@ class interfaceController extends baseController {
   async upCat(ctx) {
     try {
       let params = ctx.request.body;
-      let result = await this.catModel.up(params.catid, {
-        name: params.name,
-        desc: params.desc,
-        up_time: yapi.commons.time()
-      });
+     
 
       let username = this.getUsername();
       let cate = await this.catModel.get(params.catid);
@@ -841,6 +837,13 @@ class interfaceController extends baseController {
       if (!auth) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
       }
+
+      let result = await this.catModel.up(params.catid, {
+        name: params.name,
+        desc: params.desc,
+        up_time: yapi.commons.time()
+      });
+      
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${
           cate.project_id
