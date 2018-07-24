@@ -245,7 +245,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局mock",
           "url": "/documents/project.html#全局mock",
-          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本"
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
         },
         {
           "title": "Mock 优先级说明",
@@ -327,7 +327,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局mock",
           "url": "/documents/project.html#全局mock",
-          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本"
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
         },
         {
           "title": "Mock 优先级说明",
@@ -532,7 +532,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",
@@ -584,7 +584,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",

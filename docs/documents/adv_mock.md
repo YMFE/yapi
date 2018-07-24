@@ -58,7 +58,7 @@ YApi 提供了写 JS 脚本方式处理这一问题，可以根据用户请求�
 Mock 响应延时，单位为 ms
 
 - `Random` 
-Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
+Mock.Random 方法，可以添加自定义占位符,详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
 
 ### 使用方法
 1. 首先开启此功能
