@@ -46,31 +46,36 @@ module.exports = function(){
     // request.ip
     let ip = yapi.commons.getIp(ctx)
     //   数据库信息查询
+
+    // 过滤 开启IP
     let listWithIp =await caseInst.model.find({
       interface_id: interfaceId,
       ip_enable: true,
       ip: ip
-    }).select('_id params'); 
+    }).select('_id params case_enable'); 
     
     let matchList = [];
     listWithIp.forEach(item=>{
       let params = item.params;
-      if(lib.isDeepMatch(reqParams, params)){
+      if(item.case_enable && lib.isDeepMatch(reqParams, params)){
         matchList.push(item); 
       }
-    })    
+    })
+    
+    // 其他数据
     if(matchList.length === 0){
       let list =await caseInst.model.find({
         interface_id: interfaceId,
         ip_enable: false
-      }).select('_id params')
+      }).select('_id params case_enable')
       list.forEach(item=>{
         let params = item.params;
-        if(lib.isDeepMatch(reqParams, item.params)){
+        if(item.case_enable &&  lib.isDeepMatch(reqParams, params)){
           matchList.push(item); 
         }
       })
     }
+   
     if(matchList.length > 0){
       let maxItem = _.max(matchList, item=> (item.params &&  Object.keys(item.params).length || 0 ));
       return maxItem;
@@ -140,6 +145,17 @@ module.exports = function(){
       path: 'advmock/case/del',
       action: 'delCase'
     })
+
+    addRouter({
+      /**
+       * 隐藏期望列表
+       */
+      controller: controller,
+      method: 'post',
+      path: 'advmock/case/hide',
+      action: 'hideCase'
+    })
+
   })
   this.bindHook('interface_del', async function(id){
     let inst = yapi.getInst(advModel);
@@ -161,7 +177,8 @@ module.exports = function(){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
     
-    if(caseData){
+    // 只有开启高级mock才可用
+    if(caseData && caseData.case_enable){
       // 匹配到高级mock
       let data = await  handleByCase(caseData);
       

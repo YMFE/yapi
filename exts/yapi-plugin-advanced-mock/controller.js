@@ -168,6 +168,21 @@ class advMockController extends baseController {
     let result = await this.caseModel.del(id);
     return (ctx.body = yapi.commons.resReturn(result));
   }
+
+  async hideCase(ctx) {
+    let id = ctx.request.body.id;
+    let enable = ctx.request.body.enable
+    if (!id) {
+      return (ctx.body = yapi.commons.resReturn(null, 408, '缺少 id'));
+    }
+    let data = {
+      id,
+      case_enable: enable
+    }
+    let result = await this.caseModel.up(data);
+    return (ctx.body = yapi.commons.resReturn(result));
+
+  }
 }
 
 module.exports = advMockController;
