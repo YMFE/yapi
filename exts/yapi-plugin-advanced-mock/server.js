@@ -176,7 +176,7 @@ module.exports = function(){
   this.bindHook('mock_after', async function(context){
     let interfaceId = context.interfaceData._id;
     let caseData = await checkCase(context.ctx, interfaceId);
-    
+   
     // 只有开启高级mock才可用
     if(caseData && caseData.case_enable){
       // 匹配到高级mock
