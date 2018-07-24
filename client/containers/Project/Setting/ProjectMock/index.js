@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux'
 import { connect } from 'react-redux';
-// import axios from 'axios'
 import PropTypes from 'prop-types';
-// import { withRouter } from 'react-router-dom';
-import { Form, Switch, Button, Icon, Tooltip,message } from 'antd';
-// import mockEditor from 'client/components/AceEditor/mockEditor';
+import { Form, Switch, Button, Icon, Tooltip, message } from 'antd';
 import AceEditor from '../../../../components/AceEditor/AceEditor';
-// import constants from '../../client/constants/variable.js'
 const FormItem = Form.Item;
 import { updateProjectMock, getProject } from '../../../../reducer/modules/project';
 @connect(
@@ -45,10 +40,10 @@ export default class ProjectMock extends Component {
       id: this.props.projectId,
       project_mock_script: this.state.project_mock_script,
       is_mock_open: this.state.is_mock_open
-    }
-   
+    };
+
     let result = await this.props.updateProjectMock(params);
-    
+
     if (result.payload.data.errcode === 0) {
       message.success('保存成功');
       await this.props.getProject(this.props.projectId);
@@ -58,33 +53,10 @@ export default class ProjectMock extends Component {
   };
 
   componentWillMount() {
-    // this.getAdvMockData();
     this.setState({
       is_mock_open: this.props.projectMsg.is_mock_open,
       project_mock_script: this.props.projectMsg.project_mock_script
-    })
-  }
-
-  async getAdvMockData() {
-    // let interfaceId = this.props.match.params.actionId;
-    // let result = await axios.get('/api/plugin/advmock/get?interface_id=' + interfaceId);
-    // if (result.data.errcode === 0) {
-    //   let mockData = result.data.data;
-    //   this.setState({
-    //     enable: mockData.enable,
-    //     mock_script: mockData.mock_script
-    //   })
-    // }
-    // let that = this;
-    // mockEditor({
-    //   container: 'global-mock-script',
-    //   data: that.state.mock_script,
-    //   onChange: function(d) {
-    //     that.setState({
-    //       mock_script: d.text
-    //     });
-    //   }
-    // });
+    });
   }
 
   // 是否开启
@@ -124,7 +96,7 @@ export default class ProjectMock extends Component {
           <FormItem
             label={
               <span>
-                是否开启&nbsp;<a target="_blank" rel="noopener noreferrer" href="www.baidu.com">
+                是否开启&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/documents/project.html#token%E9%85%8D%E7%BD%AE">
                   <Tooltip title="点击查看文档">
                     <Icon type="question-circle-o" />
                   </Tooltip>
@@ -141,8 +113,11 @@ export default class ProjectMock extends Component {
             />
           </FormItem>
           <FormItem label="Mock脚本" {...formItemLayout}>
-            <AceEditor data={this.state.project_mock_script} onChange={this.handleMockJsInput} style={{ minHeight: '500px' }} />
-            
+            <AceEditor
+              data={this.state.project_mock_script}
+              onChange={this.handleMockJsInput}
+              style={{ minHeight: '500px' }}
+            />
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
@@ -154,5 +129,3 @@ export default class ProjectMock extends Component {
     );
   }
 }
-
-

@@ -429,8 +429,10 @@ class View extends Component {
             <Col span={4} className="colKey">
               Mock地址：
             </Col>
-            <Col span={18} className="colValue href">
+            <Col span={18} className="colValue">
+              {this.props.currProject.is_mock_open && <span>(全局mock已开启) </span>}
               <span
+                className="href"
                 onClick={() =>
                   window.open(
                     location.protocol +
