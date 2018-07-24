@@ -811,45 +811,8 @@ class projectController extends baseController {
       let data = {
         up_time: yapi.commons.time()
       };
-      if (params.project_type) {
-        data.project_type = params.project_type;
-      }
 
-      if (!_.isUndefined(params.name)) {
-        data.name = params.name;
-      }
-      if (!_.isUndefined(params.desc)) {
-        data.desc = params.desc;
-      }
-      if (!_.isUndefined(params.group_id)) {
-        data.group_id = params.group_id;
-      }
-      if (!_.isUndefined(params.basepath)) {
-        data.basepath = params.basepath;
-      }
-      if (!_.isUndefined(params.switch_notice)) {
-        data.switch_notice = params.switch_notice;
-      }
-      if (!_.isUndefined(params.color)) {
-        data.color = params.color;
-      }
-      if (!_.isUndefined(params.icon)) {
-        data.icon = params.icon;
-      }
-      if (!_.isUndefined(params.pre_script)) {
-        data.pre_script = params.pre_script;
-      }
-      if (!_.isUndefined(params.after_script)) {
-        data.after_script = params.after_script;
-      }
-
-      if(!_.isUndefined(params.project_mock_script)) {
-        data.project_mock_script = params.project_mock_script;
-      }
-
-      if(!_.isUndefined(params.is_mock_open)) {
-        data.is_mock_open = params.is_mock_open;
-      }
+      data = Object.assign({}, data, params);
 
       let result = await this.Model.up(id, data);
       let username = this.getUsername();
@@ -951,7 +914,7 @@ class projectController extends baseController {
       // }
 
       let env = await this.Model.getByEnv(project_id);
-      // console.log('project', projectData)
+      
 
       ctx.body = yapi.commons.resReturn(env);
     } catch (e) {

@@ -9,6 +9,7 @@
 #### Bug Fixed
 
 * 优化ldap登陆 
+* swagger 导入公共params
 
 ### v1.3.20
 
