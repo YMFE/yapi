@@ -217,3 +217,13 @@ context.promise = new Promise(function(resolve) {
 ## token 配置
 
 每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的<a  href="./case.md">自动化测试</a>，用户不需要登录就可以访问接口测试结果信息。
+
+## 全局mock
+
+v1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 <a href="./adv_mock.md#自定义-mock-脚本">自定义 Mock 脚本</a> 
+
+### Mock 优先级说明
+
+请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
+
+如果前面匹配到 Mock 数据，后面 Mock 则不返回。

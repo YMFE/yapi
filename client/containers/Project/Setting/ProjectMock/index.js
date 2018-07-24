@@ -44,7 +44,7 @@ export default class ProjectMock extends Component {
     let params = {
       id: this.props.projectId,
       project_mock_script: this.state.project_mock_script,
-      is_mock_open: this.state.enable
+      is_mock_open: this.state.is_mock_open
     }
    
     let result = await this.props.updateProjectMock(params);

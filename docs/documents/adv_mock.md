@@ -100,6 +100,6 @@ mockJson = {
 
 
 ## Mock 优先级说明
-请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。
+请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
 
 如果前面匹配到 Mock 数据，后面 Mock 则不返回。

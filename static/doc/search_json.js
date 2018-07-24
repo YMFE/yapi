@@ -225,7 +225,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -241,6 +241,16 @@ window.ydoc_plugin_search_json = {
           "title": "token 配置",
           "url": "/documents/project.html#token-配置",
           "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -297,7 +307,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -313,6 +323,16 @@ window.ydoc_plugin_search_json = {
           "title": "token 配置",
           "url": "/documents/project.html#token-配置",
           "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -532,7 +552,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -584,7 +604,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -1152,7 +1172,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量设置出增加全局变量\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
         },
         {
           "title": "v1.3.19",
@@ -1319,7 +1344,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量设置出增加全局变量\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
         },
         {
           "title": "v1.3.19",

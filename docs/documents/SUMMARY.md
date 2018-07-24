@@ -15,7 +15,7 @@
   * [配置环境](project.md#配置环境)
   * [请求配置](project.md#请求配置)
   * [token配置](project.md#token配置)
-  * [项目复制](project.md#项目复制)
+  * [全局mock](project.md#全局mock)
 * [接口操作](api.md)
   * [接口设置](api.md#接口配置)
   * [接口运行](api.md#接口运行)
