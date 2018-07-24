@@ -1,17 +1,17 @@
-const yapi = require("../yapi.js");
-const projectModel = require("../models/project.js");
-const interfaceModel = require("../models/interface.js");
-const mockExtra = require("../../common/mock-extra.js");
-const _ = require("underscore");
-const Mock = require("mockjs");
+const yapi = require('../yapi.js');
+const projectModel = require('../models/project.js');
+const interfaceModel = require('../models/interface.js');
+const mockExtra = require('../../common/mock-extra.js');
+const _ = require('underscore');
+const Mock = require('mockjs');
 /**
  *
  * @param {*} apiPath /user/tom
  * @param {*} apiRule /user/:username
  */
 function matchApi(apiPath, apiRule) {
-  let apiRules = apiRule.split("/");
-  let apiPaths = apiPath.split("/");
+  let apiRules = apiRule.split('/');
+  let apiPaths = apiPath.split('/');
   let pathRules = {};
   if (apiPaths.length !== apiRules.length) {
     return false;
@@ -24,21 +24,21 @@ function matchApi(apiPath, apiRule) {
     }
     if (
       apiRules[i].length > 2 &&
-      apiRules[i][0] === "{" &&
-      apiRules[i][apiRules[i].length - 1] === "}"
+      apiRules[i][0] === '{' &&
+      apiRules[i][apiRules[i].length - 1] === '}'
     ) {
       pathRules[apiRules[i].substr(1, apiRules[i].length - 2)] = apiPaths[i];
-    } else if (apiRules[i].indexOf(":") === 0) {
+    } else if (apiRules[i].indexOf(':') === 0) {
       pathRules[apiRules[i].substr(1)] = apiPaths[i];
     } else if (
       apiRules[i].length > 2 &&
-      apiRules[i].indexOf("{") > -1 &&
-      apiRules[i].indexOf("}") > -1
+      apiRules[i].indexOf('{') > -1 &&
+      apiRules[i].indexOf('}') > -1
     ) {
       let params = [];
       apiRules[i] = apiRules[i].replace(/\{(.+?)\}/g, function(src, match) {
         params.push(match);
-        return "(.+)";
+        return '(.+)';
       });
       apiRules[i] = new RegExp(apiRules[i]);
       if (!apiRules[i].test(apiPaths[i])) {
@@ -60,31 +60,26 @@ function matchApi(apiPath, apiRule) {
 }
 
 function parseCookie(str) {
-  if (!str || typeof str !== "string") {
+  if (!str || typeof str !== 'string') {
     return str;
   }
-  if (str.split(";")[0]) {
-    let c = str.split(";")[0].split("=");
-    return { name: c[0], value: c[1] || "" };
+  if (str.split(';')[0]) {
+    let c = str.split(';')[0].split('=');
+    return { name: c[0], value: c[1] || '' };
   }
   return null;
 }
 
 function handleCorsRequest(ctx) {
   let header = ctx.request.header;
-  ctx.set("Access-Control-Allow-Origin", header.origin);
-  ctx.set(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, HEADER, PATCH, OPTIONS"
-  );
-  ctx.set(
-    "Access-Control-Allow-Headers",
-    header["access-control-request-headers"]
-  );
-  ctx.set("Access-Control-Allow-Credentials", true);
-  ctx.set("Access-Control-Max-Age", 1728000);
-  ctx.body = "ok";
+  ctx.set('Access-Control-Allow-Origin', header.origin);
+  ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEADER, PATCH, OPTIONS');
+  ctx.set('Access-Control-Allow-Headers', header['access-control-request-headers']);
+  ctx.set('Access-Control-Allow-Credentials', true);
+  ctx.set('Access-Control-Max-Age', 1728000);
+  ctx.body = 'ok';
 }
+
 
 module.exports = async (ctx, next) => {
   // no used variable 'hostname' & 'config'
@@ -92,17 +87,17 @@ module.exports = async (ctx, next) => {
   // let config = yapi.WEBCONFIG;
   let path = ctx.path;
 
-  if (path.indexOf("/mock/") !== 0) {
+  if (path.indexOf('/mock/') !== 0) {
     if (next) await next();
     return true;
   }
 
-  let paths = path.split("/");
+  let paths = path.split('/');
   let projectId = paths[2];
   paths.splice(0, 3);
-  path = "/" + paths.join("/");
+  path = '/' + paths.join('/');
   if (!projectId) {
-    return (ctx.body = yapi.commons.resReturn(null, 400, "projectId不能为空"));
+    return (ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空'));
   }
 
   let projectInst = yapi.getInst(projectModel),
@@ -114,7 +109,7 @@ module.exports = async (ctx, next) => {
   }
 
   if (!project) {
-    return (ctx.body = yapi.commons.resReturn(null, 400, "不存在的项目"));
+    return (ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目'));
   }
 
   let interfaceData, newpath;
@@ -122,19 +117,11 @@ module.exports = async (ctx, next) => {
 
   try {
     newpath = path.substr(project.basepath.length);
-    interfaceData = await interfaceInst.getByPath(
-      project._id,
-      newpath,
-      ctx.method
-    );
+    interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
 
     //处理query_path情况
     if (!interfaceData || interfaceData.length === 0) {
-      interfaceData = await interfaceInst.getByQueryPath(
-        project._id,
-        newpath,
-        ctx.method
-      );
+      interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
 
       let i,
         l,
@@ -146,7 +133,7 @@ module.exports = async (ctx, next) => {
         match = false;
         let currentInterfaceData = interfaceData[i];
         curQuery = currentInterfaceData.query_path;
-        if (!curQuery || typeof curQuery !== "object" || !curQuery.path) {
+        if (!curQuery || typeof curQuery !== 'object' || !curQuery.path) {
           continue;
         }
         for (j = 0, len = curQuery.params.length; j < len; j++) {
@@ -182,10 +169,7 @@ module.exports = async (ctx, next) => {
 
       if (!findInterface) {
         //非正常跨域预检请求回应
-        if (
-          ctx.method === "OPTIONS" &&
-          ctx.request.header["access-control-request-method"]
-        ) {
+        if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
           return handleCorsRequest(ctx);
         }
         return (ctx.body = yapi.commons.resReturn(
@@ -200,21 +184,17 @@ module.exports = async (ctx, next) => {
     }
 
     if (interfaceData.length > 1) {
-      return (ctx.body = yapi.commons.resReturn(
-        null,
-        405,
-        "存在多个api，请检查数据库"
-      ));
+      return (ctx.body = yapi.commons.resReturn(null, 405, '存在多个api，请检查数据库'));
     } else {
       interfaceData = interfaceData[0];
     }
 
-    ctx.set("Access-Control-Allow-Origin", "*");
+    ctx.set('Access-Control-Allow-Origin', '*');
     let res;
 
     res = interfaceData.res_body;
     try {
-      if (interfaceData.res_body_type === "json") {
+      if (interfaceData.res_body_type === 'json') {
         if (interfaceData.res_body_is_json_schema === true) {
           //json-schema
           const schema = yapi.commons.json_parse(interfaceData.res_body);
@@ -224,8 +204,11 @@ module.exports = async (ctx, next) => {
         } else {
           // console.log('header', ctx.request.header['content-type'].indexOf('multipart/form-data'))
           // 处理 format-data
-          
-          if(_.isString(ctx.request.header['content-type'])&&ctx.request.header['content-type'].indexOf('multipart/form-data') > -1) {
+
+          if (
+            _.isString(ctx.request.header['content-type']) &&
+            ctx.request.header['content-type'].indexOf('multipart/form-data') > -1
+          ) {
             ctx.request.body = ctx.request.body.fields;
           }
           // console.log('body', ctx.request.body)
@@ -241,8 +224,8 @@ module.exports = async (ctx, next) => {
         try {
           res = Mock.mock(res);
         } catch (e) {
-          console.log('err', e.message)
-          yapi.commons.log(e, "error");
+          console.log('err', e.message);
+          yapi.commons.log(e, 'error');
         }
       }
 
@@ -255,35 +238,38 @@ module.exports = async (ctx, next) => {
         httpCode: 200,
         delay: 0
       };
-      await yapi.emitHook("mock_after", context);
+      // console.log('project', project);
+      if (project.is_mock_open && project.project_mock_script) {
+        // 项目层面的mock脚本解析
+        let script = project.project_mock_script;
+        yapi.commons.handleMockScript(script, context);
+        
+      }
+
+      await yapi.emitHook('mock_after', context);
+
       let handleMock = new Promise(resolve => {
         setTimeout(() => {
           resolve(true);
         }, context.delay);
       });
       await handleMock;
-      if (context.resHeader && typeof context.resHeader === "object") {
+      if (context.resHeader && typeof context.resHeader === 'object') {
         for (let i in context.resHeader) {
           let cookie;
-          if (i === "Set-Cookie") {
-            if (
-              context.resHeader[i] &&
-              typeof context.resHeader[i] === "string"
-            ) {
+          if (i === 'Set-Cookie') {
+            if (context.resHeader[i] && typeof context.resHeader[i] === 'string') {
               cookie = parseCookie(context.resHeader[i]);
-              if (cookie && typeof cookie === "object") {
+              if (cookie && typeof cookie === 'object') {
                 ctx.cookies.set(cookie.name, cookie.value, {
                   maxAge: 864000000,
                   httpOnly: false
                 });
               }
-            } else if (
-              context.resHeader[i] &&
-              Array.isArray(context.resHeader[i])
-            ) {
+            } else if (context.resHeader[i] && Array.isArray(context.resHeader[i])) {
               context.resHeader[i].forEach(item => {
                 cookie = parseCookie(item);
-                if (cookie && typeof cookie === "object") {
+                if (cookie && typeof cookie === 'object') {
                   ctx.cookies.set(cookie.name, cookie.value, {
                     maxAge: 864000000,
                     httpOnly: false
@@ -298,15 +284,15 @@ module.exports = async (ctx, next) => {
       ctx.status = context.httpCode;
       return (ctx.body = context.mockJson);
     } catch (e) {
-      yapi.commons.log(e, "error");
+      yapi.commons.log(e, 'error');
       return (ctx.body = {
         errcode: 400,
-        errmsg: "解析出错，请检查。Error: " + e.message,
+        errmsg: '解析出错，请检查。Error: ' + e.message,
         data: null
       });
     }
   } catch (e) {
-    yapi.commons.log(e, "error");
+    yapi.commons.log(e, 'error');
     return (ctx.body = yapi.commons.resReturn(null, 409, e.message));
   }
 };

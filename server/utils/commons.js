@@ -551,8 +551,8 @@ exports.getUserdata = async function getUserdata(uid, role) {
     email: userData.email
   };
 };
-
-exports.sendNotice = async function (projectId, data) {
+// 邮件发送
+exports.sendNotice = async function(projectId, data) {
   const followInst = yapi.getInst(followModel);
   const userInst = yapi.getInst(userModel);
   const projectInst = yapi.getInst(projectModel);
@@ -586,3 +586,32 @@ function arrUnique(arr1, arr2) {
   });
   return res;
 }
+
+// 处理mockJs脚本
+exports.handleMockScript = function(script, context) {
+  let sandbox = {
+    header: context.ctx.header,
+    query: context.ctx.query,
+    body: context.ctx.request.body,
+    mockJson: context.mockJson || {},
+    params: Object.assign({}, context.ctx.query, context.ctx.request.body),
+    resHeader: context.resHeader,
+    httpCode: context.httpCode,
+    delay: context.httpCode,
+    Random: Mock.Random
+  };
+  sandbox.cookie = {};
+
+  context.ctx.header.cookie &&
+    context.ctx.header.cookie.split(';').forEach(function(Cookie) {
+      var parts = Cookie.split('=');
+      sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
+    });
+  sandbox = yapi.commons.sandbox(sandbox, script);
+  sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
+
+  context.mockJson = sandbox.mockJson;
+  context.resHeader = sandbox.resHeader;
+  context.httpCode = sandbox.httpCode;
+  context.delay = sandbox.delay;
+};

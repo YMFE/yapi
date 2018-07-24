@@ -230,6 +230,14 @@ export function updateProjectScript(data) {
   };
 }
 
+// 修改全局mock 
+export function updateProjectMock(data) {
+  return {
+    type: PROJECT_UPDATE,
+    payload: axios.post('/api/project/up', data)
+  };
+}
+
 // 修改项目环境配置
 export function updateEnv(data) {
   const { env, _id } = data;

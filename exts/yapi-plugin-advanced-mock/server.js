@@ -190,30 +190,7 @@ module.exports = function(){
     
     // mock 脚本
     let script = data.mock_script;
+    yapi.commons.handleMockScript(script, context);
     
-    let sandbox = {
-      header: context.ctx.header,
-      query: context.ctx.query,
-      body: context.ctx.request.body,
-      mockJson: context.mockJson,
-      params: Object.assign({}, context.ctx.query, context.ctx.request.body),
-      resHeader: context.resHeader,
-      httpCode: context.httpCode,
-      delay: context.httpCode,
-      Random: Mock.Random
-    }
-    sandbox.cookie = {};
-    
-    context.ctx.header.cookie && context.ctx.header.cookie.split(';').forEach(function( Cookie ) {
-        var parts = Cookie.split('=');
-        sandbox.cookie[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
-    });
-    sandbox = yapi.commons.sandbox(sandbox, script);
-    sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
-    
-    context.mockJson = sandbox.mockJson;
-    context.resHeader = sandbox.resHeader;
-    context.httpCode = sandbox.httpCode;
-    context.delay = sandbox.delay;
   })
 }

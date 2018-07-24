@@ -777,7 +777,8 @@ class projectController extends baseController {
         group_id: 'number',
         desc: 'string',
         pre_script: 'string',
-        after_script: 'string'
+        after_script: 'string',
+        project_mock_script: 'string'
       });
 
       if (!id) {
@@ -840,6 +841,14 @@ class projectController extends baseController {
       }
       if (!_.isUndefined(params.after_script)) {
         data.after_script = params.after_script;
+      }
+
+      if(!_.isUndefined(params.project_mock_script)) {
+        data.project_mock_script = params.project_mock_script;
+      }
+
+      if(!_.isUndefined(params.is_mock_open)) {
+        data.is_mock_open = params.is_mock_open;
       }
 
       let result = await this.Model.up(id, data);
