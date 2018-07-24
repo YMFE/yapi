@@ -238,7 +238,7 @@ module.exports = async (ctx, next) => {
         httpCode: 200,
         delay: 0
       };
-      // console.log('project', project);
+      
       if (project.is_mock_open && project.project_mock_script) {
         // 项目层面的mock脚本解析
         let script = project.project_mock_script;

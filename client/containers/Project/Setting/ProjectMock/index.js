@@ -5,6 +5,24 @@ import { Form, Switch, Button, Icon, Tooltip, message } from 'antd';
 import AceEditor from '../../../../components/AceEditor/AceEditor';
 const FormItem = Form.Item;
 import { updateProjectMock, getProject } from '../../../../reducer/modules/project';
+
+const formItemLayout = {
+  labelCol: {
+    sm: { span: 4 }
+  },
+  wrapperCol: {
+    sm: { span: 16 }
+  }
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    sm: {
+      span: 16,
+      offset: 11
+    }
+  }
+};
+
 @connect(
   state => {
     return {
@@ -73,30 +91,18 @@ export default class ProjectMock extends Component {
   };
 
   render() {
-    const formItemLayout = {
-      labelCol: {
-        sm: { span: 4 }
-      },
-      wrapperCol: {
-        sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        sm: {
-          span: 16,
-          offset: 11
-        }
-      }
-    };
-
+   
     return (
-      <div style={{ padding: '20px 10px' }}>
+      <div className="m-panel">
         <Form>
           <FormItem
             label={
               <span>
-                是否开启&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org/documents/project.html#token%E9%85%8D%E7%BD%AE">
+                是否开启&nbsp;<a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://yapi.ymfe.org/documents/project.html#token%E9%85%8D%E7%BD%AE"
+                >
                   <Tooltip title="点击查看文档">
                     <Icon type="question-circle-o" />
                   </Tooltip>
