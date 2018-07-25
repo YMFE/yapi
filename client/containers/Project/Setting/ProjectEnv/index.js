@@ -52,10 +52,16 @@ class ProjectEnv extends Component {
   }
 
   async componentWillMount() {
+    this._isMounted = true;
     await this.props.getProject(this.props.projectId);
     const { env, _id } = this.props.projectMsg;
     this.initState(env, _id);
     this.handleClick(0, env[0]);
+  }
+
+  componentWillUnmount() {
+   
+    this._isMounted = false;
   }
 
   handleClick = (key, data) => {
@@ -106,7 +112,9 @@ class ProjectEnv extends Component {
           this.props.getProject(this.props.projectId);
           this.props.getEnv(this.props.projectId);
           message.success('修改成功! ');
-          this.setState({ ...assignValue });
+          if(this._isMounted) {
+            this.setState({ ...assignValue });
+          }
         }
       })
       .catch(() => {

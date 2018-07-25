@@ -224,9 +224,11 @@ class InterfaceEditForm extends Component {
     try {
       this.props.form.validateFields((err, values) => {
         setTimeout(() => {
-          this.setState({
-            submitStatus: false
-          });
+          if (this._isMounted) {
+            this.setState({
+              submitStatus: false
+            });
+          }
         }, 3000);
         if (!err) {
           values.desc = this.editor.getHtml();
@@ -364,6 +366,7 @@ class InterfaceEditForm extends Component {
 
   componentDidMount() {
     EditFormContext = this;
+    this._isMounted = true;
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
     });
@@ -384,6 +387,8 @@ class InterfaceEditForm extends Component {
 
   componentWillUnmount() {
     EditFormContext.props.changeEditStatus(false);
+    EditFormContext = null;
+    this._isMounted = false;
   }
 
   addParams = (name, data) => {
