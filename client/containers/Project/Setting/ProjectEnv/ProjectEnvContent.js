@@ -350,7 +350,7 @@ class ProjectEnvContent extends Component {
               style={{ marginLeft: 8 }}
             >
               <Tooltip title="点击查看文档">
-                <Icon type="question-circle-o" />
+                <Icon type="question-circle-o" style={{fontSize: '13px'}}/>
               </Tooltip>
             </a>
           </h3>

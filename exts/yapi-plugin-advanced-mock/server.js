@@ -44,9 +44,9 @@ module.exports = function(){
 
     // let ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)[0];
     // request.ip
+
     let ip = yapi.commons.getIp(ctx)
     //   数据库信息查询
-
     // 过滤 开启IP
     let listWithIp =await caseInst.model.find({
       interface_id: interfaceId,
