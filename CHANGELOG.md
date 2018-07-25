@@ -11,6 +11,7 @@
 
 * 优化ldap登陆 
 * swagger 导入公共params
+* 接口编辑 mockEditor 修改为 AceEditor
 
 ### v1.3.20
 

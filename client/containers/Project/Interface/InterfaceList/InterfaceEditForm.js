@@ -9,6 +9,7 @@ import json5 from 'json5';
 import { message, Affix, Tabs } from 'antd';
 import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 import mockEditor from 'client/components/AceEditor/mockEditor';
+import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
 import formats from 'common/formats';
 const jSchema = require('json-schema-editor-visual');
@@ -22,7 +23,7 @@ require('tui-editor/dist/tui-editor.css'); // editor ui
 require('tui-editor/dist/tui-editor-contents.css'); // editor content
 require('highlight.js/styles/github.css'); // code block highlight
 require('./editor.css');
-var Editor = require('tui-editor'); 
+var Editor = require('tui-editor');
 
 function checkIsJsonSchema(json) {
   try {
@@ -366,32 +367,6 @@ class InterfaceEditForm extends Component {
     this.setState({
       req_radio_type: HTTP_METHOD[this.state.method].request_body ? 'req-body' : 'req-query'
     });
-    let that = this;
-    const initReqBody = that.state.req_body_other;
-    const initResBody = that.state.res_body;
-    mockEditor({
-      container: 'req_body_json',
-      data: that.state.req_body_other,
-      onChange: function(d) {
-        that.setState({
-          req_body_other: d.text
-        });
-        EditFormContext.props.changeEditStatus(initReqBody !== d.text);
-      },
-      fullScreen: true
-    });
-
-    this.resBodyEditor = mockEditor({
-      container: 'res_body_json',
-      data: that.state.res_body,
-      onChange: function(d) {
-        that.setState({
-          res_body: d.text
-        });
-        EditFormContext.props.changeEditStatus(initResBody !== d.text);
-      },
-      fullScreen: true
-    });
 
     this.mockPreview = mockEditor({
       container: 'mock-preview',
@@ -439,10 +414,10 @@ class InterfaceEditForm extends Component {
         });
         return this.mockPreview.setValue(JSON.stringify(result.data));
       }
-      if (this.resBodyEditor.curData.format === true) {
-        str = JSON.stringify(this.resBodyEditor.curData.mockData(), null, '  ');
+      if (this.resBodyEditor.editor.curData.format === true) {
+        str = JSON.stringify(this.resBodyEditor.editor.curData.mockData(), null, '  ');
       } else {
-        str = '解析出错: ' + this.resBodyEditor.curData.format;
+        str = '解析出错: ' + this.resBodyEditor.editor.curData.format;
       }
     } catch (err) {
       str = '解析出错: ' + err.message;
@@ -534,6 +509,24 @@ class InterfaceEditForm extends Component {
       this.props.form.setFieldsValue(newValue);
       this.setState(newValue);
     };
+  };
+
+  // 处理res_body Editor
+  handleResBody = d => {
+    const initResBody = this.state.res_body;
+    this.setState({
+      res_body: d.text
+    });
+    EditFormContext.props.changeEditStatus(initResBody !== d.text);
+  };
+
+  // 处理 req_body_other Editor
+  handleReqBody = d => {
+    const initReqBody = this.state.req_body_other;
+    this.setState({
+      req_body_other: d.text
+    });
+    EditFormContext.props.changeEditStatus(initReqBody !== d.text);
   };
 
   render() {
@@ -1008,16 +1001,16 @@ class InterfaceEditForm extends Component {
                 />
               )}
             </Col>
-
-            <Col
-              id="req_body_json"
-              style={{
-                minHeight: '300px',
-                display: !this.props.form.getFieldValue('req_body_is_json_schema')
-                  ? 'block'
-                  : 'none'
-              }}
-            />
+            <Col>
+              {!this.props.form.getFieldValue('req_body_is_json_schema') && (
+                <AceEditor
+                  className="interface-editor"
+                  data={this.state.req_body_other}
+                  onChange={this.handleReqBody}
+                  fullScreen={true}
+                />
+              )}
+            </Col>
           </Row>
 
           {this.props.form.getFieldValue('req_body_type') === 'file' &&
@@ -1108,18 +1101,16 @@ class InterfaceEditForm extends Component {
                     />
                   </div>
                 )}
-
-                <div
-                  id="res_body_json"
-                  style={{
-                    minHeight: '300px',
-                    display:
-                      !this.props.form.getFieldValue('res_body_is_json_schema') &&
-                      this.state.jsonType === 'tpl'
-                        ? 'block'
-                        : 'none'
-                  }}
-                />
+                {!this.props.form.getFieldValue('res_body_is_json_schema') &&
+                  this.state.jsonType === 'tpl' && (
+                    <AceEditor
+                      className="interface-editor"
+                      data={this.state.res_body}
+                      onChange={this.handleResBody}
+                      ref={editor => (this.resBodyEditor = editor)}
+                      fullScreen={true}
+                    />
+                  )}
                 <div
                   id="mock-preview"
                   style={{
