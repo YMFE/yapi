@@ -153,7 +153,9 @@ const SchemaNumber =(data) => {
     maximum: data.maximum,
     minimum: data.minimum,
     default: data.default,
-    format: data.format
+    format: data.format,
+    enum: data.enum,
+    enumDesc: data.enumDesc
   }
   return item
 }
@@ -164,7 +166,9 @@ const SchemaInt = (data) =>{
     maximum: data.maximum,
     minimum: data.minimum,
     default: data.default,
-    format: data.format
+    format: data.format,
+    enum: data.enum,
+    enumDesc: data.enumDesc
   }
   return item
 }

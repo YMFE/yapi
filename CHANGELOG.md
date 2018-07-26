@@ -1,3 +1,7 @@
+### v1.3.22
+
+* json schema number和integer支持枚举
+
 ### v1.3.21
 
 * 请求配置增加 context.utils.CryptoJS
