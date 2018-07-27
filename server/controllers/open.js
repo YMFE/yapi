@@ -51,6 +51,10 @@ class openController extends baseController {
           type: 'boolean',
           default: false
         },
+        download: {
+          type: 'boolean',
+          default: false
+        },
         closeRemoveAdditional: true
       },
       importData: {
@@ -250,10 +254,14 @@ class openController extends baseController {
         </html>`
       });
     }
-
+    let mode = ctx.params.mode || 'html';
+    if(ctx.params.download === true) {
+      ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
+    }
     if (ctx.params.mode === 'json') {
       return (ctx.body = reportsResult);
     } else {
+      // ctx.set('Content-Disposition', `attachment; filename=api.html`);
       return (ctx.body = renderToHtml(reportsResult));
     }
   }
