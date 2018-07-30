@@ -1,6 +1,7 @@
 ### v1.3.22
 
 * json schema number和integer支持枚举
+* 服务端测试增加下载功能
 
 ### v1.3.21
 

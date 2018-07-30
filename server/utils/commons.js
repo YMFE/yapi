@@ -593,7 +593,7 @@ exports.handleMockScript = function(script, context) {
     header: context.ctx.header,
     query: context.ctx.query,
     body: context.ctx.request.body,
-    mockJson: context.mockJson || {},
+    mockJson: context.mockJson,
     params: Object.assign({}, context.ctx.query, context.ctx.request.body),
     resHeader: context.resHeader,
     httpCode: context.httpCode,

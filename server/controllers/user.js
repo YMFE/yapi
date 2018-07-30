@@ -196,8 +196,6 @@ class userController extends baseController {
           to: email,
           contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台，你的邮箱账号是：${email}</p>`
         });
-      } else if(user.type === 'site') {
-        throw new Error('用户邮箱已被注册')
       }
 
       this.setLoginCookie(user._id, user.passsalt);
