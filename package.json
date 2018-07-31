@@ -109,7 +109,7 @@
     "extract-text-webpack-plugin": "2.0.0",
     "ghooks": "^2.0.0",
     "happypack": "^4.0.0-beta.5",
-    "json-schema-editor-visual": "^1.0.18",
+    "json-schema-editor-visual": "^1.0.19",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "markdown-it-include": "^1.0.0",
