@@ -308,6 +308,8 @@ class InterfaceColContent extends Component {
           statusText: data.res.statusText
         }
       );
+
+      // 断言测试
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
 
       if (validRes.length === 0) {

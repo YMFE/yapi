@@ -504,7 +504,9 @@ function convertString(variable) {
   }
 }
 
+// 
 exports.runCaseScript = async function runCaseScript(params) {
+  
   let script = params.script;
   // script 是断言
   if (!script) {

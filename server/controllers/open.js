@@ -261,7 +261,6 @@ class openController extends baseController {
     if (ctx.params.mode === 'json') {
       return (ctx.body = reportsResult);
     } else {
-      // ctx.set('Content-Disposition', `attachment; filename=api.html`);
       return (ctx.body = renderToHtml(reportsResult));
     }
   }

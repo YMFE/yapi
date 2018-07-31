@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 const EditButton = props => {
   const { isAdmin, isOwner, onClick, name, admin } = props;
-
   if (isOwner) {
     // 本人
     if (admin) {
@@ -316,11 +315,10 @@ class Profile extends Component {
     }
 
     if (this.state.roleEdit === false) {
-      let btn = '';
+     
       roleEditHtml = (
         <div>
           <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
-          {btn}
         </div>
       );
     } else {

@@ -646,7 +646,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -703,7 +703,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -1170,9 +1170,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n"
+        },
+        {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
         },
         {
           "title": "v1.3.20",
@@ -1342,9 +1347,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n"
+        },
+        {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
         },
         {
           "title": "v1.3.20",
