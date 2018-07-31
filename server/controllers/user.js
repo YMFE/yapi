@@ -133,18 +133,19 @@ class userController extends baseController {
    */
   async getLdapAuth(ctx) {
     try {
-     
       const { email, password } = ctx.request.body;
       // const username = email.split(/\@/g)[0];
       const { info: ldapInfo } = await ldap.ldapQuery(email, password);
       const emailPrefix = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
-      
-      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + emailPostfix : email);
+
+      const emailParams =
+        ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] ||
+        (emailPostfix ? emailPrefix + emailPostfix : email);
       const username = ldapInfo[yapi.WEBCONFIG.ldapLogin.usernameKey] || emailPrefix;
-     
+
       let login = await this.handleThirdLogin(emailParams, username);
-      
+
       if (login === true) {
         let userInst = yapi.getInst(userModel); //创建user实体
         let result = await userInst.findByEmail(emailParams);
@@ -176,7 +177,7 @@ class userController extends baseController {
 
     try {
       user = await userInst.findByEmail(email);
-      
+
       // 新建用户信息
       if (!user || !user._id) {
         passsalt = yapi.commons.randStr();
@@ -203,7 +204,6 @@ class userController extends baseController {
     } catch (e) {
       console.error('third_login:', e.message); // eslint-disable-line
       throw new Error(`third_login: ${e.message}`);
-   
     }
   }
 

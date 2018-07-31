@@ -174,7 +174,7 @@ class wikiController extends baseController {
         }
         result = await this.Model.get(id);
         let data = await this.websocketMsgMap(message, result);
-        if(data) {
+        if (data) {
           ctx.websocket.send(JSON.stringify(data));
         }
       });
@@ -183,7 +183,6 @@ class wikiController extends baseController {
       yapi.commons.log(err, 'error');
     }
   }
-
 
   websocketMsgMap(msg, result) {
     const map = {
@@ -197,7 +196,6 @@ class wikiController extends baseController {
 
   // socket 开始链接
   async startFunc(result) {
-   
     if (result && result.edit_uid === this.getUid()) {
       await this.Model.upEditUid(result._id, 0);
     }
@@ -205,7 +203,7 @@ class wikiController extends baseController {
 
   // socket 结束链接
   async endFunc(result) {
-    if(result) {
+    if (result) {
       await this.Model.upEditUid(result._id, 0);
     }
   }

@@ -914,7 +914,6 @@ class projectController extends baseController {
       // }
 
       let env = await this.Model.getByEnv(project_id);
-      
 
       ctx.body = yapi.commons.resReturn(env);
     } catch (e) {

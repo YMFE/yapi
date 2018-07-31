@@ -315,7 +315,6 @@ class Profile extends Component {
     }
 
     if (this.state.roleEdit === false) {
-     
       roleEditHtml = (
         <div>
           <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;

@@ -32,12 +32,11 @@ class exportController extends baseController {
       item.list = list;
       newResult[i] = item;
     }
-    
+
     return newResult;
   }
 
   handleExistId(data) {
-    
     function delArrId(arr, fn) {
       if (!Array.isArray(arr)) return;
       arr.forEach(item => {
@@ -72,7 +71,7 @@ class exportController extends baseController {
     let type = ctx.request.query.type;
     let status = ctx.request.query.status;
     let isWiki = ctx.request.query.isWiki;
-    
+
     if (!pid) {
       ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
     }
@@ -80,12 +79,10 @@ class exportController extends baseController {
     let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
-      if(isWiki === 'true') {
-        
+      if (isWiki === 'true') {
         const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
         wikiData = await yapi.getInst(wikiModel).get(pid);
       }
-      
       ctx.set('Content-Type', 'application/octet-stream');
       const list = await this.handleListClass(pid, status);
 
@@ -96,7 +93,6 @@ class exportController extends baseController {
           return (ctx.body = tp);
         }
         case 'json': {
-         
           let data = this.handleExistId(list);
           tp = JSON.stringify(data, null, 2);
           ctx.set('Content-Disposition', `attachment; filename=api.json`);
@@ -134,7 +130,7 @@ class exportController extends baseController {
           return '';
         }
       );
-      
+
       return createHtml5(left || '', content);
     }
 

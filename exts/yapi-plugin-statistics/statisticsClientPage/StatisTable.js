@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 const columns = [
   {
@@ -25,19 +25,23 @@ const columns = [
   }
 ];
 
-const StatisTable = (props) => {
-  const {dataSource} = props;
-    return ( 
-      <div className="m-row-table">
-        <h3 className="statis-title">分组数据详情</h3>
-        <Table className="statis-table" pagination={false} dataSource={dataSource} columns={columns} />
-      </div>
-    ) 
-}
+const StatisTable = props => {
+  const { dataSource } = props;
+  return (
+    <div className="m-row-table">
+      <h3 className="statis-title">分组数据详情</h3>
+      <Table
+        className="statis-table"
+        pagination={false}
+        dataSource={dataSource}
+        columns={columns}
+      />
+    </div>
+  );
+};
 
 StatisTable.propTypes = {
   dataSource: PropTypes.array
-}
-
+};
 
 export default StatisTable;

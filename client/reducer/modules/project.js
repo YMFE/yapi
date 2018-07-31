@@ -230,7 +230,7 @@ export function updateProjectScript(data) {
   };
 }
 
-// 修改全局mock 
+// 修改全局mock
 export function updateProjectMock(data) {
   return {
     type: PROJECT_UPDATE,

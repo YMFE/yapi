@@ -91,7 +91,6 @@ export default class ProjectMock extends Component {
   };
 
   render() {
-   
     return (
       <div className="m-panel">
         <Form>

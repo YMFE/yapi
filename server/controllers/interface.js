@@ -740,7 +740,7 @@ class interfaceController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
   }
-   // 处理编辑冲突
+  // 处理编辑冲突
   async solveConflict(ctx) {
     try {
       let id = parseInt(ctx.query.id, 10),
@@ -828,7 +828,6 @@ class interfaceController extends baseController {
   async upCat(ctx) {
     try {
       let params = ctx.request.body;
-     
 
       let username = this.getUsername();
       let cate = await this.catModel.get(params.catid);
@@ -843,7 +842,7 @@ class interfaceController extends baseController {
         desc: params.desc,
         up_time: yapi.commons.time()
       });
-      
+
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${
           cate.project_id
@@ -1069,10 +1068,10 @@ class interfaceController extends baseController {
   async schema2json(ctx) {
     let schema = ctx.request.body.schema;
     let required = ctx.request.body.required;
-    
+
     let res = yapi.commons.schemaToJson(schema, {
       alwaysFakeOptionals: _.isUndefined(required) ? true : require
-    })
+    });
     // console.log('res',res)
     return (ctx.body = res);
   }

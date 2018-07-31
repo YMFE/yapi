@@ -366,10 +366,8 @@ class InterfaceColContent extends Component {
   };
 
   handleValue = (val, global) => {
-   
     let globalValue = ArrayToObject(global);
-    let context = Object.assign({}, {global: globalValue}, this.records);
-    
+    let context = Object.assign({}, { global: globalValue }, this.records);
     return handleParamsValue(val, context);
   };
 
@@ -529,8 +527,8 @@ class InterfaceColContent extends Component {
   };
 
   downloadChange = download => {
-    this.setState({download})
-  }
+    this.setState({ download });
+  };
 
   handleColEnvObj = envObj => {
     let str = '';
@@ -756,7 +754,9 @@ class InterfaceColContent extends Component {
     let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj);
     const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${
       this.props.token
-    }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${this.state.email}&download=${this.state.download}`;
+    }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${
+      this.state.email
+    }&download=${this.state.download}`;
 
     let col_name = '';
     let col_desc = '';

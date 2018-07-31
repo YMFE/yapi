@@ -42,9 +42,7 @@ class AceEditor extends React.PureComponent {
       readOnly: this.props.readOnly,
       fullScreen: this.props.fullScreen
     });
-
     let mode = this.props.mode || 'javascript';
-    
     this.editor.editor.getSession().setMode(getMode(mode));
     if (typeof this.props.callback === 'function') {
       this.props.callback(this.editor.editor);

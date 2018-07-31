@@ -80,7 +80,6 @@ function handleCorsRequest(ctx) {
   ctx.body = 'ok';
 }
 
-
 module.exports = async (ctx, next) => {
   // no used variable 'hostname' & 'config'
   // let hostname = ctx.hostname;
@@ -238,12 +237,11 @@ module.exports = async (ctx, next) => {
         httpCode: 200,
         delay: 0
       };
-      
+
       if (project.is_mock_open && project.project_mock_script) {
         // 项目层面的mock脚本解析
         let script = project.project_mock_script;
         yapi.commons.handleMockScript(script, context);
-        
       }
 
       await yapi.emitHook('mock_after', context);
