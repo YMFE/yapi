@@ -39,13 +39,12 @@ function simpleJsonPathParse(key, json) {
 // 全局变量 {{ global.value }}
 // value 是在环境变量中定义的字段
 function handleGlobalWord(word, json) {
-  if (!word || typeof word !== 'string' || word.indexOf('global.') !== 0 ) return word;
+  if (!word || typeof word !== 'string' || word.indexOf('global.') !== 0) return word;
   let keys = word.split('.');
   keys = keys.filter(item => {
     return item;
   });
   return json[keys[0]][keys[1]] || word;
-
 }
 
 function handleMockWord(word) {
@@ -146,7 +145,6 @@ function safeArray(arr) {
 }
 exports.safeArray = safeArray;
 
-
 exports.isJson5 = function isJson5(json) {
   if (!json) return false;
   try {
@@ -186,13 +184,13 @@ exports.json_format = function(json) {
 };
 
 exports.ArrayToObject = function(arr) {
-  let obj = {} ;
+  let obj = {};
   safeArray(arr).forEach(item => {
     obj[item.name] = item.value;
-  })
+  });
 
   return obj;
-}
+};
 
 exports.timeago = function(timestamp) {
   let minutes, hours, days, seconds, mouth, year;
@@ -238,4 +236,4 @@ exports.timeago = function(timestamp) {
   } else {
     return '刚刚';
   }
-}
+};

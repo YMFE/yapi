@@ -118,9 +118,9 @@ class exportController extends baseController {
         markerPattern: /^\[toc\]/im
       });
 
-      require('fs').writeFileSync('./a.markdown', md);
+      // require('fs').writeFileSync('./a.markdown', md);
       let tp = unescape(markdown.render(md));
-
+      // require('fs').writeFileSync('./a.html', tp);
       let left;
       // console.log('tp',tp);
       let content = tp.replace(
@@ -130,7 +130,7 @@ class exportController extends baseController {
           return '';
         }
       );
-
+      
       return createHtml5(left || '', content);
     }
 

@@ -295,8 +295,7 @@ function createProjectMarkdown(curProject, wikiData) {
   mdTemplate += `\n ${title} \n ${curProject.desc || ''}\n\n`;
 
   // 增加公共wiki信息展示
-  mdTemplate += wikiData ? `\n### 公共信息\n\n ${wikiData.markdown || ''}\n\n` : '';
-
+  mdTemplate += wikiData ? `\n### 公共信息\n${wikiData.desc || ''}\n` : '';
   return mdTemplate;
 }
 
