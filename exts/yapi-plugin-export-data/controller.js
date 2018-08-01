@@ -17,7 +17,7 @@ class exportController extends baseController {
     this.catModel = yapi.getInst(interfaceCatModel);
     this.interModel = yapi.getInst(interfaceModel);
     this.projectModel = yapi.getInst(projectModel);
-    // this.wikiModel = yapi.getInst(wikiModel);
+    
   }
 
   async handleListClass(pid, status) {
@@ -29,10 +29,12 @@ class exportController extends baseController {
       list = list.sort((a, b) => {
         return a.index - b.index;
       });
-      item.list = list;
-      newResult[i] = item;
+      if (list.length > 0) {
+        item.list = list;
+        newResult.push(item);
+      }
     }
-
+    
     return newResult;
   }
 
@@ -130,7 +132,7 @@ class exportController extends baseController {
           return '';
         }
       );
-      
+
       return createHtml5(left || '', content);
     }
 
