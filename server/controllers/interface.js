@@ -216,12 +216,14 @@ class interfaceController extends baseController {
     }
 
     // 新建接口的人成为项目dev  如果不存在的话
+    // 命令行导入时无法获知导入接口人的信息，其uid 为 999999
     let uid = this.getUid();
-    if (this.getRole() !== 'admin') {
+
+    if (this.getRole() !== 'admin' && uid !== 999999) {
       let userdata = await yapi.commons.getUserdata(uid, 'dev');
       // 检查一下是否有这个人
       let check = await this.projectModel.checkMemberRepeat(params.project_id, uid);
-      if (check === 0) {
+      if (check === 0 && userdata) {
         await this.projectModel.addMember(params.project_id, [userdata]);
       }
     }

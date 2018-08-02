@@ -3,6 +3,10 @@
 * json schema number和integer支持枚举
 * 服务端测试增加下载功能
 
+### Bug Fixed
+
+* 命令行导入成员信息为 undefined
+
 ### v1.3.21
 
 * 请求配置增加 context.utils.CryptoJS
