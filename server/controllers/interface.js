@@ -229,7 +229,7 @@ class interfaceController extends baseController {
     }
 
     let result = await this.Model.save(data);
-    yapi.emitHook('interface_add', result._id).then();
+    yapi.emitHook('interface_add', result).then();
     this.catModel.get(params.catid).then(cate => {
       let username = this.getUsername();
       let title = `<a href="/user/profile/${this.getUid()}">${username}</a> 为分类 <a href="/project/${
@@ -359,7 +359,7 @@ class interfaceController extends baseController {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
-      yapi.emitHook('interface_get', params.id).then();
+      yapi.emitHook('interface_get', result).then();
       result = result.toObject();
       if (userinfo) {
         result.username = userinfo.username;
@@ -415,7 +415,7 @@ class interfaceController extends baseController {
         total: Math.ceil(count / limit),
         list: result
       });
-      yapi.emitHook('interface_list', project_id).then();
+      yapi.emitHook('interface_list', result).then();
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
@@ -711,7 +711,7 @@ class interfaceController extends baseController {
         return (ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空'));
       }
 
-      let data = await this.Model.get(ctx.request.body.id);
+      let data = await this.Model.get(id);
 
       if (data.uid != this.getUid()) {
         let auth = await this.checkAuth(data.project_id, 'project', 'danger');
@@ -720,16 +720,16 @@ class interfaceController extends baseController {
         }
       }
 
-      let inter = await this.Model.get(id);
+      // let inter = await this.Model.get(id);
       let result = await this.Model.del(id);
-      yapi.emitHook('interface_del', id).then();
+      yapi.emitHook('interface_del', data).then();
       await this.caseModel.delByInterfaceId(id);
       let username = this.getUsername();
-      this.catModel.get(inter.catid).then(cate => {
+      this.catModel.get(data.catid).then(cate => {
         yapi.commons.saveLog({
           content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分类 <a href="/project/${
             cate.project_id
-          }/interface/api/cat_${inter.catid}">${cate.name}</a> 下的接口 "${inter.title}"`,
+          }/interface/api/cat_${data.catid}">${cate.name}</a> 下的接口 "${data.title}"`,
           type: 'project',
           uid: this.getUid(),
           username: username,
@@ -888,9 +888,10 @@ class interfaceController extends baseController {
       });
 
       let interfaceData = await this.Model.listByCatid(id);
+
       interfaceData.forEach(async item => {
         try {
-          yapi.emitHook('interface_del', item._id).then();
+          yapi.emitHook('interface_del', item).then();
           await this.caseModel.delByInterfaceId(item._id);
         } catch (e) {
           yapi.commons.log(e.message, 'error');

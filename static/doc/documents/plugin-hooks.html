@@ -22,45 +22,45 @@ var hooks = {
         type: &#x27;single&#x27;,
         listener: null
     },
-    /**
-     * &#x5BA2;&#x6237;&#x7AEF;&#x589E;&#x52A0;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
-     * @param id &#x63A5;&#x53E3;id
-     */
-    &#x27;interface_add&#x27;: {
-        type: &#x27;multi&#x27;,
-        listener: []
+     /**
+   * &#x5BA2;&#x6237;&#x7AEF;&#x589E;&#x52A0;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
+   * @param data &#x63A5;&#x53E3;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;
+   */
+    interface_add: {
+      type: &#x27;multi&#x27;,
+     listener: []
     },
     /**
-     * &#x5BA2;&#x6237;&#x7AEF;&#x5220;&#x9664;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
-     * @param id &#x63A5;&#x53E3;id
+    * &#x5BA2;&#x6237;&#x7AEF;&#x5220;&#x9664;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
+     * @param data &#x5220;&#x9664;&#x63A5;&#x53E3;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;
      */
-    &#x27;interface_del&#x27;: {
-        type: &#x27;multi&#x27;,
-        listener: []
+    interface_del: {
+     type: &#x27;multi&#x27;,
+     listener: []
     },
     /**
-    * &#x5BA2;&#x6237;&#x7AEF;&#x66F4;&#x65B0;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
-    * @param id &#x63A5;&#x53E3;id
+     * &#x5BA2;&#x6237;&#x7AEF;&#x66F4;&#x65B0;&#x63A5;&#x53E3;&#x6210;&#x529F;&#x540E;&#x89E6;&#x53D1;
+     * @param id &#x63A5;&#x53E3;id
     */
-    &#x27;interface_update&#x27;:{
-        type: &#x27;multi&#x27;,
-        listener: []
+    interface_update: {
+      type: &#x27;multi&#x27;,
+      listener: []
     },
     /**
-     * &#x5BA2;&#x6237;&#x7AEF;&#x83B7;&#x53D6;&#x63A5;&#x53E3;&#x6570;&#x636E;&#x5217;&#x8868;
-     * @param id project_id
-     */
-    &#x27;interface_list&#x27;:{
-        type: &#x27;multi&#x27;,
-        listener: []
+    * &#x5BA2;&#x6237;&#x7AEF;&#x83B7;&#x53D6;&#x63A5;&#x53E3;&#x6570;&#x636E;&#x5217;&#x8868;
+    * @param list &#x8FD4;&#x56DE;&#x63A5;&#x53E3;&#x7684;&#x6570;&#x636E;&#x5217;&#x8868;
+    */
+    interface_list: {
+      type: &#x27;multi&#x27;,
+      listener: []
     },
     /**
-     * &#x5BA2;&#x6237;&#x7AEF;&#x83B7;&#x53D6;&#x4E00;&#x6761;&#x63A5;&#x53E3;&#x4FE1;&#x606F;&#x89E6;&#x53D1;
-     * @param id &#x63A5;&#x53E3;id
-     */
-    &#x27;interface_get&#x27;:{
-        type: &#x27;multi&#x27;,
-        listener: []
+    * &#x5BA2;&#x6237;&#x7AEF;&#x83B7;&#x53D6;&#x4E00;&#x6761;&#x63A5;&#x53E3;&#x4FE1;&#x606F;&#x89E6;&#x53D1;
+    * @param data &#x63A5;&#x53E3;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;
+    */
+    interface_get: {
+      type: &#x27;multi&#x27;,
+      listener: []
     },
     /**
      * &#x5BA2;&#x6237;&#x7AEF;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x65B0;&#x9879;&#x76EE;

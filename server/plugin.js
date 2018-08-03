@@ -19,7 +19,7 @@ var hooks = {
   },
   /**
    * 客户端增加接口成功后触发
-   * @param id 接口id
+   * @param data 接口的详细信息
    */
   interface_add: {
     type: 'multi',
@@ -27,7 +27,7 @@ var hooks = {
   },
   /**
    * 客户端删除接口成功后触发
-   * @param id 接口id
+   * @param data 删除接口的详细信息
    */
   interface_del: {
     type: 'multi',
@@ -43,7 +43,7 @@ var hooks = {
   },
   /**
    * 客户端获取接口数据列表
-   * @param id project_id
+   * @param list 返回接口的数据列表
    */
   interface_list: {
     type: 'multi',
@@ -51,7 +51,7 @@ var hooks = {
   },
   /**
    * 客户端获取一条接口信息触发
-   * @param id 接口id
+   * @param data 接口的详细信息
    */
   interface_get: {
     type: 'multi',
