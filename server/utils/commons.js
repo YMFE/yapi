@@ -616,3 +616,25 @@ exports.handleMockScript = function(script, context) {
   context.httpCode = sandbox.httpCode;
   context.delay = sandbox.delay;
 };
+
+// json schema 验证器
+exports.schemaValidator = function(schema, params) {
+  const ajv = new Ajv({
+    format: false
+  });
+
+  var localize = require('ajv-i18n');
+  const validate = ajv.compile(schema);
+  let valid = validate(params);
+
+  let message = '请求参数 ';
+  if (!valid) {
+    localize.zh(validate.errors);
+    message += ajv.errorsText(validate.errors, { separator: '\n' });
+  }
+
+  return {
+    valid: valid,
+    message: message
+  };
+};

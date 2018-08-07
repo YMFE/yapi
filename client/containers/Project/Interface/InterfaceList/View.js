@@ -430,7 +430,8 @@ class View extends Component {
               Mock地址：
             </Col>
             <Col span={18} className="colValue">
-              {this.props.currProject.is_mock_open && <span>(全局mock已开启) </span>}
+              {this.props.currProject.is_mock_open ? <span>( 全局mock </span> : <span>( </span>}
+              {this.props.currProject.strice ? <span> & 严格模式 ) </span> : <span>) </span>}
               <span
                 className="href"
                 onClick={() =>

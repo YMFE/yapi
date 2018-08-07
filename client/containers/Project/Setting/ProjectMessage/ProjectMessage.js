@@ -112,7 +112,6 @@ class ProjectMessage extends Component {
         const selectGroup = _.find(groupList, item => {
           return item._id == group_id;
         });
-
         updateProject(assignValue)
           .then(res => {
             if (res.payload.data.errcode == 0) {
@@ -222,8 +221,8 @@ class ProjectMessage extends Component {
       (location.port !== '' ? ':' + location.port : '') +
       `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`;
     let initFormValues = {};
-    const { name, basepath, desc, project_type, group_id, switch_notice } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice };
+    const { name, basepath, desc, project_type, group_id, switch_notice, strice } = projectMsg;
+    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice, strice };
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (
@@ -358,6 +357,22 @@ class ProjectMessage extends Component {
                   }
                 ]
               })(<TextArea rows={8} />)}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  mock严格模式&nbsp;
+                  <Tooltip title="开启mock严格模式后会对query，body form 的必须字段和json schema 进行校验">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              {getFieldDecorator('strice', {
+                valuePropName: 'checked',
+                initialValue: initFormValues.strice
+              })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="默认开启邮件通知">
               {getFieldDecorator('switch_notice', {

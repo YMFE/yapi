@@ -32,7 +32,8 @@ class projectModel extends baseModel {
       pre_script: String,
       after_script: String,
       project_mock_script: String,
-      is_mock_open: { type: Boolean, default: false }
+      is_mock_open: { type: Boolean, default: false },
+      strice: { type: Boolean, default: false } 
     };
   }
 
@@ -82,7 +83,7 @@ class projectModel extends baseModel {
   getBaseInfo(id, select) {
     select =
       select ||
-      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open';
+      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open strice';
     return this.model
       .findOne({
         _id: id

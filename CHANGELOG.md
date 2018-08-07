@@ -2,6 +2,7 @@
 
 * json schema number和integer支持枚举
 * 服务端测试增加下载功能
+* 增加 mock 接口请求字段参数验证
 
 ### Bug Fixed
 
