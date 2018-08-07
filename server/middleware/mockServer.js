@@ -89,7 +89,6 @@ function mockValidator(interfaceData, ctx) {
   // query 判断
   for (i = 0, l = interfaceData.req_query.length; i < l; i++) {
     let curQuery = interfaceData.req_query[i];
-
     if (curQuery && typeof curQuery === 'object' && curQuery.required === '1') {
       if (!ctx.query[curQuery.name]) {
         noRequiredArr.push(curQuery.name);
@@ -108,6 +107,7 @@ function mockValidator(interfaceData, ctx) {
         ) {
           continue;
         }
+
         noRequiredArr.push(curForm.name);
       }
     }
@@ -121,7 +121,7 @@ function mockValidator(interfaceData, ctx) {
   }
 
   if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
-    let message = `错误信息： `;
+    let message = `错误信息：`;
     message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}` : '';
     message += validResult && !validResult.valid ? `shema 验证 ${validResult.message}` : '';
 

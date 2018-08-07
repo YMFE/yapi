@@ -303,7 +303,7 @@ class InterfaceEditForm extends Component {
           values.req_headers = values.req_headers
             ? values.req_headers.filter(item => item.name !== '')
             : [];
-          
+
           values.req_body_form = values.req_body_form
             ? values.req_body_form.filter(item => item.name !== '')
             : [];
@@ -344,7 +344,7 @@ class InterfaceEditForm extends Component {
         }
       });
     } catch (e) {
-      console.error(e.message)
+      console.error(e.message);
       this.setState({
         submitStatus: false
       });
