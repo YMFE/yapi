@@ -51,12 +51,15 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 去哪儿
 * 携程
 * 艺龙 
+* 美团
+* 百度
+* 阿里巴巴
 * 京东
 * 唯品支付 
 * 链家网
 * 快手
 * 便利蜂
-* [中商惠民](http://www.huimin.cn/)
+* 中商惠民
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)
