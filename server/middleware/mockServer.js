@@ -2,6 +2,7 @@ const yapi = require('../yapi.js');
 const projectModel = require('../models/project.js');
 const interfaceModel = require('../models/interface.js');
 const mockExtra = require('../../common/mock-extra.js');
+const { schemaValidator } = require('../../common/utils.js');
 const _ = require('underscore');
 const Mock = require('mockjs');
 /**
@@ -117,13 +118,13 @@ function mockValidator(interfaceData, ctx) {
   if (interfaceData.req_body_type === 'json' && interfaceData.res_body_is_json_schema === true) {
     const schema = yapi.commons.json_parse(interfaceData.req_body_other);
     const params = yapi.commons.json_parse(ctx.request.body);
-    validResult = yapi.commons.schemaValidator(schema, params);
+    validResult = schemaValidator(schema, params);
   }
 
   if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
     let message = `错误信息：`;
     message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}` : '';
-    message += validResult && !validResult.valid ? `shema 验证 ${validResult.message}` : '';
+    message += validResult && !validResult.valid ? `shema 验证请求参数 ${validResult.message}` : '';
 
     return {
       valid: false,

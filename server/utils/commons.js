@@ -617,39 +617,3 @@ exports.handleMockScript = function(script, context) {
   context.delay = sandbox.delay;
 };
 
-// json schema 验证器
-exports.schemaValidator = function(schema, params) {
-  try {
-    const ajv = new Ajv({
-      format: false,
-      meta: false,
-      allErrors: true
-    });
-
-    let metaSchema = require('ajv/lib/refs/json-schema-draft-04.json');
-    ajv.addMetaSchema(metaSchema);
-    ajv._opts.defaultMeta = metaSchema.id;
-
-    ajv._refs['http://json-schema.org/schema'] = 'http://json-schema.org/draft-04/schema';
-
-    var localize = require('ajv-i18n');
-    const validate = ajv.compile(schema);
-    let valid = validate(params);
-
-    let message = '请求参数 ';
-    if (!valid) {
-      localize.zh(validate.errors);
-      message += ajv.errorsText(validate.errors, { separator: '\n' });
-    }
-
-    return {
-      valid: valid,
-      message: message
-    };
-  } catch (e) {
-    return {
-      valid: false,
-      message: e.message
-    };
-  }
-};

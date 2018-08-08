@@ -1,6 +1,7 @@
 const Mock = require('mockjs');
 const filter = require('./power-string.js').filter;
 const json5 = require('json5');
+const Ajv = require('ajv');
 /**
  * 作用：解析规则串 key ，然后根据规则串的规则以及路径找到在 json 中对应的数据
  * 规则串：$.{key}.{body||params}.{dataPath} 其中 body 为返回数据，params 为请求数据，datapath 为数据的路径
@@ -235,5 +236,42 @@ exports.timeago = function(timestamp) {
     }
   } else {
     return '刚刚';
+  }
+};
+
+// json schema 验证器
+exports.schemaValidator = function(schema, params) {
+  try {
+    const ajv = new Ajv({
+      format: false,
+      meta: false,
+      allErrors: true
+    });
+
+    let metaSchema = require('ajv/lib/refs/json-schema-draft-04.json');
+    ajv.addMetaSchema(metaSchema);
+    ajv._opts.defaultMeta = metaSchema.id;
+
+    ajv._refs['http://json-schema.org/schema'] = 'http://json-schema.org/draft-04/schema';
+
+    var localize = require('ajv-i18n');
+    const validate = ajv.compile(schema);
+    let valid = validate(params);
+
+    let message = '';
+    if (!valid) {
+      localize.zh(validate.errors);
+      message += ajv.errorsText(validate.errors, { separator: '\n' });
+    }
+
+    return {
+      valid: valid,
+      message: message
+    };
+  } catch (e) {
+    return {
+      valid: false,
+      message: e.message
+    };
   }
 };

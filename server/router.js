@@ -538,6 +538,11 @@ let routerConfig = {
       action: 'testRaw',
       path: 'raw',
       method: 'post'
+    },
+    {
+      action: 'testResponse',
+      path: 'response',
+      method: 'get'
     }
   ],
   open: [

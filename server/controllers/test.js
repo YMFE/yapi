@@ -212,6 +212,26 @@ class interfaceColController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
   }
+
+  /**
+   * 测试返回值
+   * @interface /test/response
+   * @method get
+   * @return {Object}
+   * @example
+   */
+  async testResponse(ctx) {
+    try {
+      // let result = `<div><h2>12222222</h2></div>`
+      // let result = `wieieieieiieieie`
+      let result = {a: '12'}
+      ctx.body = result;
+      
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
 }
 
 module.exports = interfaceColController;
