@@ -221,8 +221,8 @@ class ProjectMessage extends Component {
       (location.port !== '' ? ':' + location.port : '') +
       `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`;
     let initFormValues = {};
-    const { name, basepath, desc, project_type, group_id, switch_notice, strice } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice, strice };
+    const { name, basepath, desc, project_type, group_id, switch_notice, strice, is_json5 } = projectMsg;
+    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice, strice , is_json5};
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (
@@ -372,6 +372,22 @@ class ProjectMessage extends Component {
               {getFieldDecorator('strice', {
                 valuePropName: 'checked',
                 initialValue: initFormValues.strice
+              })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  开启json5&nbsp;
+                  <Tooltip title="开启后可在接口 body 和返回值中写 json 字段">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              {getFieldDecorator('is_json5', {
+                valuePropName: 'checked',
+                initialValue: initFormValues.is_json5
               })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="默认开启邮件通知">

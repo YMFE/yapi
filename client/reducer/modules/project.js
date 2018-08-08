@@ -205,7 +205,7 @@ export function addProject(data) {
 
 // 修改项目
 export function updateProject(data) {
-  const { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice } = data;
+  const { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5 } = data;
   const param = {
     name,
     project_type,
@@ -215,7 +215,8 @@ export function updateProject(data) {
     id: _id,
     env,
     group_id,
-    strice
+    strice,
+    is_json5
   };
   return {
     type: PROJECT_UPDATE,

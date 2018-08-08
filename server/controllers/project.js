@@ -216,6 +216,7 @@ class projectController extends baseController {
       color: params.color,
       add_time: yapi.commons.time(),
       up_time: yapi.commons.time(),
+      is_json5: true,
       env: [{ name: 'local', domain: 'http://127.0.0.1' }]
     };
 
