@@ -224,14 +224,12 @@ class interfaceColController extends baseController {
     try {
       // let result = `<div><h2>12222222</h2></div>`
       // let result = `wieieieieiieieie`
-      let result = {a: '12'}
+      let result = { b: '12', a: '23' };
       ctx.body = result;
-      
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
   }
-
 }
 
 module.exports = interfaceColController;

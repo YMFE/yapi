@@ -115,12 +115,11 @@ function mockValidator(interfaceData, ctx) {
   }
   let validResult;
   // json schema 判断
-  if (interfaceData.req_body_type === 'json' && interfaceData.res_body_is_json_schema === true) {
+  if (interfaceData.req_body_type === 'json' && interfaceData.req_body_is_json_schema === true) {
     const schema = yapi.commons.json_parse(interfaceData.req_body_other);
     const params = yapi.commons.json_parse(ctx.request.body);
     validResult = schemaValidator(schema, params);
   }
-
   if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
     let message = `错误信息：`;
     message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}` : '';
@@ -242,6 +241,9 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
+    ctx.set('Access-Control-Allow-Origin', '*');
+
+
     // 必填字段是否填写好
     if (project.strice) {
       const validResult = mockValidator(interfaceData, ctx);
@@ -254,9 +256,8 @@ module.exports = async (ctx, next) => {
       }
     }
 
-    ctx.set('Access-Control-Allow-Origin', '*');
+   
     let res;
-
     // mock 返回值处理
     res = interfaceData.res_body;
     try {

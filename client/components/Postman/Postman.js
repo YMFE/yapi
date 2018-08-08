@@ -117,6 +117,7 @@ export default class Run extends Component {
     this.state = {
       loading: false,
       resStatusCode: null,
+      test_valid_msg: null,
       resStatusText: null,
       case_env: '',
       mock_verify: false,
@@ -209,6 +210,7 @@ export default class Run extends Component {
         ...data,
         req_body_other: body,
         resStatusCode: null,
+        test_valid_msg: null,
         resStatusText: null
       },
       () => this.props.type === 'inter' && this.initEnvState(data.case_env, data.env)
@@ -261,8 +263,6 @@ export default class Run extends Component {
   }
 
   handleValue(val, global) {
-    // console.log('val',val);
-    // console.log('global',global);
     let globalValue = ArrayToObject(global);
     return handleParamsValue(val, {
       global: globalValue

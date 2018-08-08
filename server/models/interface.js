@@ -143,7 +143,7 @@ class interfaceModel extends baseModel {
   getByPath(project_id, path, method, select) {
     select =
       select ||
-      '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body res_body_is_json_schema';
+      '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body res_body_is_json_schema req_body_is_json_schema';
     return this.model
       .find({
         project_id: project_id,

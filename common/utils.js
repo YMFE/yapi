@@ -244,8 +244,7 @@ exports.schemaValidator = function(schema, params) {
   try {
     const ajv = new Ajv({
       format: false,
-      meta: false,
-      allErrors: true
+      meta: false
     });
 
     let metaSchema = require('ajv/lib/refs/json-schema-draft-04.json');
