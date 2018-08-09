@@ -454,6 +454,11 @@ window.ydoc_plugin_search_json = {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
           "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -501,6 +506,11 @@ window.ydoc_plugin_search_json = {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
           "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -1172,7 +1182,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.22",
           "url": "/documents/CHANGELOG.html#v1.3.22",
-          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n"
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
         },
         {
           "title": "Bug Fixed",
@@ -1354,7 +1364,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.22",
           "url": "/documents/CHANGELOG.html#v1.3.22",
-          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n"
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
         },
         {
           "title": "Bug Fixed",

@@ -361,8 +361,6 @@ export default class Run extends Component {
       const params = json5_parse(test_res_body);
       validResult = schemaValidator(schema, params);
     }
-
-    console.log(validResult);
     return validResult;
   };
 
@@ -873,7 +871,12 @@ export default class Run extends Component {
               </h2>
               {this.state.test_valid_msg && (
                 <Alert
-                  message="Warning"
+                  message={<span>
+                    Warning &nbsp;
+                    <Tooltip title="针对定义为 json schema 的返回数据进行格式校验">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </span>}
                   type="warning"
                   showIcon
                   description={this.state.test_valid_msg}

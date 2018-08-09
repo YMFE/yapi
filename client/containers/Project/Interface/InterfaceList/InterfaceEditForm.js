@@ -542,7 +542,7 @@ class InterfaceEditForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { custom_field, projectMsg } = this.props;
- 
+
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
@@ -986,7 +986,9 @@ class InterfaceEditForm extends Component {
             {getFieldDecorator('req_body_is_json_schema', {
               valuePropName: 'checked',
               initialValue: this.state.req_body_is_json_schema || projectMsg.is_json5
-            })(<Switch checkedChildren="开" unCheckedChildren="关" disabled={projectMsg.is_json5}/>)}
+            })(
+              <Switch checkedChildren="开" unCheckedChildren="关" disabled={projectMsg.is_json5} />
+            )}
 
             <Col style={{ marginTop: '5px' }} className="interface-edit-json-info">
               {!this.props.form.getFieldValue('req_body_is_json_schema') ? (
@@ -1053,7 +1055,13 @@ class InterfaceEditForm extends Component {
           {getFieldDecorator('res_body_is_json_schema', {
             valuePropName: 'checked',
             initialValue: this.state.res_body_is_json_schema || projectMsg.is_json5
-          })(<Switch checkedChildren="json-schema" unCheckedChildren="json" disabled={ projectMsg.is_json5}/>)}
+          })(
+            <Switch
+              checkedChildren="json-schema"
+              unCheckedChildren="json"
+              disabled={projectMsg.is_json5}
+            />
+          )}
         </h2>
         <div className="container-radiogroup">
           {getFieldDecorator('res_body_type', {

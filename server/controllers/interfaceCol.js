@@ -223,7 +223,7 @@ class interfaceColController extends baseController {
         if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
-      } 
+      }
 
       for (let index = 0; index < resultList.length; index++) {
         let result = resultList[index].toObject();

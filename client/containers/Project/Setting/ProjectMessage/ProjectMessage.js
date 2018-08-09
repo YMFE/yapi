@@ -363,7 +363,7 @@ class ProjectMessage extends Component {
               label={
                 <span>
                   mock严格模式&nbsp;
-                  <Tooltip title="开启mock严格模式后会对query，body form 的必须字段和json schema 进行校验">
+                  <Tooltip title="开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验">
                     <Icon type="question-circle-o" />
                   </Tooltip>
                 </span>
