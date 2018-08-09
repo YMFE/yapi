@@ -153,7 +153,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：
 
 1. 打开 项目 -> 设置 开启 mock 严格模式
-2. 针对 query form 中设置的必须字段会进行必填校验
+2. 针对 query, form 中设置的必须字段会进行必填校验
 <img src="./images/mock-strice.png"/>
 
 3. 针对 req_body_type 是json schema 格式的数据进行校验
