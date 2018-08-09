@@ -245,9 +245,7 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
-    
-
-
+  
     // 必填字段是否填写好
     if (project.strice) {
       const validResult = mockValidator(interfaceData, ctx);
