@@ -985,9 +985,9 @@ class InterfaceEditForm extends Component {
             <span>JSON-SCHEMA:&nbsp;</span>
             {getFieldDecorator('req_body_is_json_schema', {
               valuePropName: 'checked',
-              initialValue: this.state.req_body_is_json_schema || projectMsg.is_json5
+              initialValue: this.state.req_body_is_json_schema || !projectMsg.is_json5
             })(
-              <Switch checkedChildren="开" unCheckedChildren="关" disabled={projectMsg.is_json5} />
+              <Switch checkedChildren="开" unCheckedChildren="关" disabled={!projectMsg.is_json5} />
             )}
 
             <Col style={{ marginTop: '5px' }} className="interface-edit-json-info">
@@ -1054,12 +1054,12 @@ class InterfaceEditForm extends Component {
           返回数据设置&nbsp;
           {getFieldDecorator('res_body_is_json_schema', {
             valuePropName: 'checked',
-            initialValue: this.state.res_body_is_json_schema || projectMsg.is_json5
+            initialValue: this.state.res_body_is_json_schema || !projectMsg.is_json5
           })(
             <Switch
               checkedChildren="json-schema"
               unCheckedChildren="json"
-              disabled={projectMsg.is_json5}
+              disabled={!projectMsg.is_json5}
             />
           )}
         </h2>

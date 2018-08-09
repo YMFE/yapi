@@ -34,7 +34,7 @@ class projectModel extends baseModel {
       project_mock_script: String,
       is_mock_open: { type: Boolean, default: false },
       strice: { type: Boolean, default: false },
-      is_json5: { type: Boolean, default: false }
+      is_json5: { type: Boolean, default: true }
     };
   }
 
