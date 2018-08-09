@@ -336,7 +336,7 @@ export default class Run extends Component {
       });
     }
 
-    // 对返回值数据结构和定义的返回数据结构进行 格式校验
+    // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
     let validResult = this.resBodyValidator(this.props.data, result.body);
     if (!validResult.valid) {
       this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
@@ -351,6 +351,7 @@ export default class Run extends Component {
       test_res_body: result.body
     });
   };
+
   // 返回数据与定义数据的比较判断
   resBodyValidator = (interfaceData, test_res_body) => {
     const { res_body_type, res_body_is_json_schema, res_body } = interfaceData;
@@ -361,6 +362,7 @@ export default class Run extends Component {
       const params = json5_parse(test_res_body);
       validResult = schemaValidator(schema, params);
     }
+
     return validResult;
   };
 
@@ -871,12 +873,14 @@ export default class Run extends Component {
               </h2>
               {this.state.test_valid_msg && (
                 <Alert
-                  message={<span>
-                    Warning &nbsp;
-                    <Tooltip title="针对定义为 json schema 的返回数据进行格式校验">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </span>}
+                  message={
+                    <span>
+                      Warning &nbsp;
+                      <Tooltip title="针对定义为 json schema 的返回数据进行格式校验">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </span>
+                  }
                   type="warning"
                   showIcon
                   description={this.state.test_valid_msg}
