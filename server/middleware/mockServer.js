@@ -122,7 +122,7 @@ function mockValidator(interfaceData, ctx) {
   }
   if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
     let message = `错误信息：`;
-    message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}` : '';
+    message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}  ` : '';
     message += validResult && !validResult.valid ? `shema 验证请求参数 ${validResult.message}` : '';
 
     return {
@@ -149,6 +149,9 @@ module.exports = async (ctx, next) => {
   let projectId = paths[2];
   paths.splice(0, 3);
   path = '/' + paths.join('/');
+
+  ctx.set('Access-Control-Allow-Origin', '*');
+
   if (!projectId) {
     return (ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空'));
   }
@@ -224,6 +227,7 @@ module.exports = async (ctx, next) => {
         if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
           return handleCorsRequest(ctx);
         }
+        
         return (ctx.body = yapi.commons.resReturn(
           null,
           404,
@@ -241,7 +245,7 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
-    ctx.set('Access-Control-Allow-Origin', '*');
+    
 
 
     // 必填字段是否填写好
