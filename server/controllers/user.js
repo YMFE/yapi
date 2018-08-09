@@ -133,18 +133,19 @@ class userController extends baseController {
    */
   async getLdapAuth(ctx) {
     try {
-     
       const { email, password } = ctx.request.body;
       // const username = email.split(/\@/g)[0];
       const { info: ldapInfo } = await ldap.ldapQuery(email, password);
       const emailPrefix = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
-      
-      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + emailPostfix : email);
+
+      const emailParams =
+        ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] ||
+        (emailPostfix ? emailPrefix + emailPostfix : email);
       const username = ldapInfo[yapi.WEBCONFIG.ldapLogin.usernameKey] || emailPrefix;
-     
+
       let login = await this.handleThirdLogin(emailParams, username);
-      
+
       if (login === true) {
         let userInst = yapi.getInst(userModel); //创建user实体
         let result = await userInst.findByEmail(emailParams);
@@ -176,7 +177,7 @@ class userController extends baseController {
 
     try {
       user = await userInst.findByEmail(email);
-      
+
       // 新建用户信息
       if (!user || !user._id) {
         passsalt = yapi.commons.randStr();
@@ -196,8 +197,6 @@ class userController extends baseController {
           to: email,
           contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi平台，你的邮箱账号是：${email}</p>`
         });
-      } else if(user.type === 'site') {
-        throw new Error('用户邮箱已被注册')
       }
 
       this.setLoginCookie(user._id, user.passsalt);
@@ -205,7 +204,6 @@ class userController extends baseController {
     } catch (e) {
       console.error('third_login:', e.message); // eslint-disable-line
       throw new Error(`third_login: ${e.message}`);
-   
     }
   }
 

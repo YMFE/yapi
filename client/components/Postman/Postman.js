@@ -13,19 +13,20 @@ import {
   Tabs,
   Switch,
   Row,
-  Col
+  Col,
+  Alert
 } from 'antd';
 import constants from '../../constants/variable.js';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import _ from 'underscore';
-import { isJson, deepCopyJson } from '../../common.js';
+import { isJson, deepCopyJson, json5_parse } from '../../common.js';
 import axios from 'axios';
 import ModalPostman from '../ModalPostman/index.js';
 import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
-const { handleParamsValue, ArrayToObject } = require('common/utils.js');
+const { handleParamsValue, ArrayToObject, schemaValidator } = require('common/utils.js');
 const {
   handleParams,
   checkRequestBodyIsRaw,
@@ -116,6 +117,7 @@ export default class Run extends Component {
     this.state = {
       loading: false,
       resStatusCode: null,
+      test_valid_msg: null,
       resStatusText: null,
       case_env: '',
       mock_verify: false,
@@ -208,6 +210,7 @@ export default class Run extends Component {
         ...data,
         req_body_other: body,
         resStatusCode: null,
+        test_valid_msg: null,
         resStatusText: null
       },
       () => this.props.type === 'inter' && this.initEnvState(data.case_env, data.env)
@@ -260,11 +263,9 @@ export default class Run extends Component {
   }
 
   handleValue(val, global) {
-    // console.log('val',val);
-    // console.log('global',global);
     let globalValue = ArrayToObject(global);
     return handleParamsValue(val, {
-      global:globalValue
+      global: globalValue
     });
   }
 
@@ -295,7 +296,6 @@ export default class Run extends Component {
       loading: true
     });
 
-      
     let options = handleParams(this.state, this.handleValue),
       result;
 
@@ -335,12 +335,35 @@ export default class Run extends Component {
         res_body_type: 'json'
       });
     }
+
+    // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
+    let validResult = this.resBodyValidator(this.props.data, result.body);
+    if (!validResult.valid) {
+      this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
+    } else {
+      this.setState({ test_valid_msg: '' });
+    }
+
     this.setState({
       resStatusCode: result.status,
       resStatusText: result.statusText,
       test_res_header: result.header,
       test_res_body: result.body
     });
+  };
+
+  // 返回数据与定义数据的比较判断
+  resBodyValidator = (interfaceData, test_res_body) => {
+    const { res_body_type, res_body_is_json_schema, res_body } = interfaceData;
+    let validResult = { valid: true };
+
+    if (res_body_type === 'json' && res_body_is_json_schema) {
+      const schema = json5_parse(res_body);
+      const params = json5_parse(test_res_body);
+      validResult = schemaValidator(schema, params);
+    }
+
+    return validResult;
   };
 
   changeParam = (name, v, index, key) => {
@@ -848,6 +871,21 @@ export default class Run extends Component {
               >
                 {this.state.resStatusCode + '  ' + this.state.resStatusText}
               </h2>
+              {this.state.test_valid_msg && (
+                <Alert
+                  message={
+                    <span>
+                      Warning &nbsp;
+                      <Tooltip title="针对定义为 json schema 的返回数据进行格式校验">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </span>
+                  }
+                  type="warning"
+                  showIcon
+                  description={this.state.test_valid_msg}
+                />
+              )}
 
               <div className="container-header-body">
                 <div className="header">
@@ -861,7 +899,7 @@ export default class Run extends Component {
                     readOnly={true}
                     className="pretty-editor-header"
                     data={this.state.test_res_header}
-                    mode="json" 
+                    mode="json"
                   />
                 </div>
                 <div className="resizer">

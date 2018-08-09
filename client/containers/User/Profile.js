@@ -6,6 +6,40 @@ import PropTypes from 'prop-types';
 import { setBreadcrumb, setImageUrl } from '../../reducer/modules/user';
 import { connect } from 'react-redux';
 
+const EditButton = props => {
+  const { isAdmin, isOwner, onClick, name, admin } = props;
+  if (isOwner) {
+    // 本人
+    if (admin) {
+      return null;
+    }
+    return (
+      <Button
+        icon="edit"
+        onClick={() => {
+          onClick(name, true);
+        }}
+      >
+        修改
+      </Button>
+    );
+  } else if (isAdmin) {
+    // 管理员
+    return (
+      <Button
+        icon="edit"
+        onClick={() => {
+          onClick(name, true);
+        }}
+      >
+        修改
+      </Button>
+    );
+  } else {
+    return null;
+  }
+};
+
 @connect(
   state => {
     return {
@@ -178,49 +212,24 @@ class Profile extends Component {
     } else {
       userType = false;
     }
+
+    // 用户名信息修改
     if (this.state.usernameEdit === false) {
-      let btn = '';
-      if (userType) {
-        if (userinfo.uid === this.props.curUid) {
-          //本人
-          btn = (
-            <Button
-              icon="edit"
-              onClick={() => {
-                this.handleEdit('usernameEdit', true);
-              }}
-            >
-              修改
-            </Button>
-          );
-        } else {
-          if (this.props.curRole === 'admin') {
-            btn = (
-              <Button
-                icon="edit"
-                onClick={() => {
-                  this.handleEdit('usernameEdit', true);
-                }}
-              >
-                修改
-              </Button>
-            );
-          } else {
-            btn = '';
-          }
-        }
-      } else {
-        // if(userinfo.uid === this.props.curUid){//本人
-        //   btn = <Button  icon="edit" onClick={() => { this.handleEdit('usernameEdit', true) }}>修改</Button>;
-        // }else{
-        btn = '';
-        // }
-      }
       userNameEditHtml = (
         <div>
           <span className="text">{userinfo.username}</span>&nbsp;&nbsp;
           {/*<span className="text-button"  onClick={() => { this.handleEdit('usernameEdit', true) }}><Icon type="edit" />修改</span>*/}
-          {btn}
+          {/* {btn} */}
+          {/* 站点登陆才能编辑 */}
+          {userType && (
+            <EditButton
+              userType={userType}
+              isOwner={userinfo.uid === this.props.curUid}
+              isAdmin={this.props.curRole === 'admin'}
+              onClick={this.handleEdit}
+              name="usernameEdit"
+            />
+          )}
         </div>
       );
     } else {
@@ -254,54 +263,23 @@ class Profile extends Component {
         </div>
       );
     }
-
+    // 邮箱信息修改
     if (this.state.emailEdit === false) {
-      let btn = '';
-      if (userType) {
-        if (userinfo.uid === this.props.curUid) {
-          //本人
-          btn = (
-            <Button
-              icon="edit"
-              onClick={() => {
-                this.handleEdit('emailEdit', true);
-              }}
-            >
-              修改
-            </Button>
-          );
-          if (userinfo.role === 'admin') {
-            btn = '';
-          }
-        } else {
-          if (this.props.curRole === 'admin') {
-            btn = (
-              <Button
-                icon="edit"
-                onClick={() => {
-                  this.handleEdit('emailEdit', true);
-                }}
-              >
-                修改
-              </Button>
-            );
-          } else {
-            btn = '';
-          }
-        }
-      } else {
-        if (userinfo.uid === this.props.curUid) {
-          //本人
-          // btn = <Button  icon="edit" onClick={() => { this.handleEdit('emailEdit', true) }}>修改</Button>
-        } else {
-          btn = '';
-        }
-      }
       emailEditHtml = (
         <div>
           <span className="text">{userinfo.email}</span>&nbsp;&nbsp;
           {/*<span className="text-button" onClick={() => { this.handleEdit('emailEdit', true) }} ><Icon type="edit" />修改</span>*/}
-          {btn}
+          {/* {btn} */}
+          {/* 站点登陆才能编辑 */}
+          {userType && (
+            <EditButton
+              admin={userinfo.role === 'admin'}
+              isOwner={userinfo.uid === this.props.curUid}
+              isAdmin={this.props.curRole === 'admin'}
+              onClick={this.handleEdit}
+              name="emailEdit"
+            />
+          )}
         </div>
       );
     } else {
@@ -337,11 +315,9 @@ class Profile extends Component {
     }
 
     if (this.state.roleEdit === false) {
-      let btn = '';
       roleEditHtml = (
         <div>
           <span className="text">{roles[userinfo.role]}</span>&nbsp;&nbsp;
-          {btn}
         </div>
       );
     } else {
@@ -442,6 +418,16 @@ class Profile extends Component {
             <div className="maoboli" />
             <Col span={4}>角色</Col>
             <Col span={12}>{roleEditHtml}</Col>
+          </Row>
+          <Row
+            className="user-item"
+            style={{ display: this.props.curRole === 'admin' ? '' : 'none' }}
+            type="flex"
+            justify="start"
+          >
+            <div className="maoboli" />
+            <Col span={4}>登陆方式</Col>
+            <Col span={12}>{userinfo.type === 'site' ? '站点登陆' : '第三方登陆'}</Col>
           </Row>
           <Row className="user-item" type="flex" justify="start">
             <div className="maoboli" />

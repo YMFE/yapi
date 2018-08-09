@@ -1,19 +1,17 @@
 const schema = require('./shema-transformTo-table.js');
 const _ = require('underscore');
 
-const json_parse = function(json){
-  try{
+const json_parse = function(json) {
+  try {
     return JSON.parse(json);
-  }catch(err){
+  } catch (err) {
     return {};
   }
-}
+};
 // 处理字符串换行
-const handleWrap = (str) => {
-  
-  return _.isString(str) ? str.replace(/\n/gi, '<br/>') : str
-
-}
+const handleWrap = str => {
+  return _.isString(str) ? str.replace(/\n/gi, '<br/>') : str;
+};
 const messageMap = {
   desc: '备注',
   default: '实例',
@@ -83,7 +81,8 @@ function createReqHeaders(req_headers) {
     for (let j = 0; j < req_headers.length; j++) {
       headersTable += `| ${req_headers[j].name || ''}  |  ${req_headers[j].value || ''} | ${
         req_headers[j].required == 1 ? '是' : '否'
-      }  |  ${handleWrap(req_headers[j].example) || ''} |  ${handleWrap(req_headers[j].desc) || ''} |\n`;
+      }  |  ${handleWrap(req_headers[j].example) || ''} |  ${handleWrap(req_headers[j].desc) ||
+        ''} |\n`;
     }
     return headersTable;
   }
@@ -104,14 +103,14 @@ function createPathParams(req_params) {
 }
 
 function createReqQuery(req_query) {
-
   if (req_query && req_query.length) {
     let headersTable = `**Query**\n\n`;
     headersTable += `| 参数名称  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ |\n`;
     for (let j = 0; j < req_query.length; j++) {
       headersTable += `| ${req_query[j].name || ''} | ${
         req_query[j].required == 1 ? '是' : '否'
-      }  |  ${handleWrap(req_query[j].example) || ''} |  ${handleWrap(req_query[j].desc) || ''} |\n`;
+      }  |  ${handleWrap(req_query[j].example) || ''} |  ${handleWrap(req_query[j].desc) ||
+        ''} |\n`;
     }
     return headersTable;
   }
@@ -180,7 +179,9 @@ function tableCol(col, columns, level) {
         break;
       case 'type':
         text =
-          value === 'array' ? `<span>${col.sub ? col.sub.itemType || '': 'array'} []</span>` : `<span>${value}</span>`;
+          value === 'array'
+            ? `<span>${col.sub ? col.sub.itemType || '' : 'array'} []</span>`
+            : `<span>${value}</span>`;
         break;
       case 'required':
         text = value ? '必须' : '非必须';
@@ -191,7 +192,9 @@ function tableCol(col, columns, level) {
           : `<span style="white-space: pre-wrap">${col.childrenDesc}</span>`;
         break;
       case 'name':
-        text = `<span style="padding-left: ${20*level}px"><span style="color: #8c8a8a">${level>0 ? '├─':'' }</span> ${value}</span>`;
+        text = `<span style="padding-left: ${20 * level}px"><span style="color: #8c8a8a">${
+          level > 0 ? '├─' : ''
+        }</span> ${value}</span>`;
         break;
       default:
         text = value;
@@ -209,7 +212,7 @@ function tableBody(dataSource, columns, level) {
     let child = null;
     tpl += `<tr key=${col.key}>${tableCol(col, columns, level)}</tr>`;
     if (!_.isUndefined(col.children) && _.isArray(col.children)) {
-      let index = level+1;
+      let index = level + 1;
       child = tableBody(col.children, columns, index);
     }
     tpl += child ? `${child}` : ``;
@@ -275,7 +278,11 @@ function createInterMarkdown(basepath, listItem, isToc) {
   );
   // Response
   // Response-body
-  mdTemplate += createResponse(listItem.res_body, listItem.res_body_is_json_schema, listItem.res_body_type);
+  mdTemplate += createResponse(
+    listItem.res_body,
+    listItem.res_body_is_json_schema,
+    listItem.res_body_type
+  );
 
   return mdTemplate;
 }
@@ -284,12 +291,11 @@ function createProjectMarkdown(curProject, wikiData) {
   let mdTemplate = ``;
   // 项目名、项目描述
   let title = `<h1 class="curproject-name"> ${curProject.name} </h1>`;
- 
+
   mdTemplate += `\n ${title} \n ${curProject.desc || ''}\n\n`;
 
   // 增加公共wiki信息展示
-  mdTemplate +=  wikiData ? `\n### 公共信息\n\n ${wikiData.markdown || ''}\n\n`: '';
-
+  mdTemplate += wikiData ? `\n### 公共信息\n${wikiData.desc || ''}\n` : '';
   return mdTemplate;
 }
 

@@ -23,6 +23,7 @@
   * [方式1. mockjs](mock.md#方式1. mockjs)
   * [方式2. json-schema](mock.md#方式2. json-schema)
   * [如何使用](mock.md#如何使用 Mock)
+  * [严格模式](mock.md#mock请求严格模式)
 * [高级Mock](adv_mock.md)
   * [Mock 期望](adv_mock.md#Mock 期望)
   * [自定义脚本](adv_mock.md#自定义 Mock 脚本)

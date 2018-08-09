@@ -112,6 +112,7 @@ class InterfaceColContent extends Component {
       autoVisible: false,
       mode: 'html',
       email: false,
+      download: false,
       currColEnvObj: {},
       collapseKey: ''
     };
@@ -307,6 +308,8 @@ class InterfaceColContent extends Component {
           statusText: data.res.statusText
         }
       );
+
+      // 断言测试
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
 
       if (validRes.length === 0) {
@@ -363,10 +366,8 @@ class InterfaceColContent extends Component {
   };
 
   handleValue = (val, global) => {
-   
     let globalValue = ArrayToObject(global);
-    let context = Object.assign({}, {global: globalValue}, this.records);
-    
+    let context = Object.assign({}, { global: globalValue }, this.records);
     return handleParamsValue(val, context);
   };
 
@@ -505,6 +506,7 @@ class InterfaceColContent extends Component {
     this.setState({
       autoVisible: false,
       email: false,
+      download: false,
       mode: 'html',
       currColEnvObj: {},
       collapseKey: ''
@@ -522,6 +524,10 @@ class InterfaceColContent extends Component {
 
   emailChange = email => {
     this.setState({ email });
+  };
+
+  downloadChange = download => {
+    this.setState({ download });
   };
 
   handleColEnvObj = envObj => {
@@ -748,7 +754,9 @@ class InterfaceColContent extends Component {
     let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj);
     const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${
       this.props.token
-    }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${this.state.email}`;
+    }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${
+      this.state.email
+    }&download=${this.state.download}`;
 
     let col_name = '';
     let col_desc = '';
@@ -961,7 +969,28 @@ class InterfaceColContent extends Component {
                 />
               </Col>
             </Row>
-
+            <Row type="flex" justify="space-around" className="row" align="middle">
+              <Col span={3} className="label">
+                下载数据
+                <Tooltip title={'开启后，测试数据将被下载到本地'}>
+                  <Icon
+                    type="question-circle-o"
+                    style={{
+                      width: '10px'
+                    }}
+                  />
+                </Tooltip>
+                &nbsp;：
+              </Col>
+              <Col span={21}>
+                <Switch
+                  checked={this.state.download}
+                  checkedChildren="开"
+                  unCheckedChildren="关"
+                  onChange={this.downloadChange}
+                />
+              </Col>
+            </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
               <Col span={21} className="autoTestUrl">
                 <a href={localUrl + autoTestsUrl} target="_blank">

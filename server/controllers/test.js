@@ -38,9 +38,13 @@ class interfaceColController extends baseController {
    */
 
   async testHttpCode(ctx) {
-    let params = ctx.request.body;
-    ctx.status = +ctx.query.code || 200;
-    ctx.body = yapi.commons.resReturn(params);
+    try {
+      let params = ctx.request.body;
+      ctx.status = +ctx.query.code || 200;
+      ctx.body = yapi.commons.resReturn(params);
+    } catch(e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
   }
 
   /**
@@ -208,6 +212,24 @@ class interfaceColController extends baseController {
     try {
       let params = ctx.request.body;
       ctx.body = yapi.commons.resReturn(params);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+  /**
+   * 测试返回值
+   * @interface /test/response
+   * @method get
+   * @return {Object}
+   * @example
+   */
+  async testResponse(ctx) {
+    try {
+      let result = `<div><h2>12222222</h2></div>`;
+      // let result = `wieieieieiieieie`
+      // let result = { b: '12', c: '23' };
+      ctx.body = result;
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }

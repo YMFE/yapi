@@ -50,7 +50,13 @@
 
 > 安装完插件记得刷新页面
 
-<img src="./images/interface_run.png" />
+<img src="./images/interface_run.png" height="50%"/>
+
+### 接口返回数据验证
+
+版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验
+
+<img src="./images/interface_run_valid.png"/>
 
 
 

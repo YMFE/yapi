@@ -112,7 +112,6 @@ class ProjectMessage extends Component {
         const selectGroup = _.find(groupList, item => {
           return item._id == group_id;
         });
-
         updateProject(assignValue)
           .then(res => {
             if (res.payload.data.errcode == 0) {
@@ -222,8 +221,8 @@ class ProjectMessage extends Component {
       (location.port !== '' ? ':' + location.port : '') +
       `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`;
     let initFormValues = {};
-    const { name, basepath, desc, project_type, group_id, switch_notice } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice };
+    const { name, basepath, desc, project_type, group_id, switch_notice, strice, is_json5 } = projectMsg;
+    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice, strice , is_json5};
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (
@@ -358,6 +357,38 @@ class ProjectMessage extends Component {
                   }
                 ]
               })(<TextArea rows={8} />)}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  mock严格模式&nbsp;
+                  <Tooltip title="开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              {getFieldDecorator('strice', {
+                valuePropName: 'checked',
+                initialValue: initFormValues.strice
+              })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  开启json5&nbsp;
+                  <Tooltip title="开启后可在接口 body 和返回值中写 json 字段">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              {getFieldDecorator('is_json5', {
+                valuePropName: 'checked',
+                initialValue: initFormValues.is_json5
+              })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="默认开启邮件通知">
               {getFieldDecorator('switch_notice', {

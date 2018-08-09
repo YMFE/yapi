@@ -251,11 +251,12 @@ exports.handleVarPath = (pathname, params) => {
  * path第一位必需为 /, path 只允许由 字母数字-/_:.{}= 组成
  */
 exports.verifyPath = path => {
-  if (/^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path)) {
-    return true;
-  } else {
-    return false;
-  }
+  // if (/^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path)) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  return /^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path);
 };
 
 /**
@@ -593,7 +594,7 @@ exports.handleMockScript = function(script, context) {
     header: context.ctx.header,
     query: context.ctx.query,
     body: context.ctx.request.body,
-    mockJson: context.mockJson || {},
+    mockJson: context.mockJson,
     params: Object.assign({}, context.ctx.query, context.ctx.request.body),
     resHeader: context.resHeader,
     httpCode: context.httpCode,
@@ -615,3 +616,4 @@ exports.handleMockScript = function(script, context) {
   context.httpCode = sandbox.httpCode;
   context.delay = sandbox.delay;
 };
+

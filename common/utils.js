@@ -1,6 +1,7 @@
 const Mock = require('mockjs');
 const filter = require('./power-string.js').filter;
 const json5 = require('json5');
+const Ajv = require('ajv');
 /**
  * 作用：解析规则串 key ，然后根据规则串的规则以及路径找到在 json 中对应的数据
  * 规则串：$.{key}.{body||params}.{dataPath} 其中 body 为返回数据，params 为请求数据，datapath 为数据的路径
@@ -39,13 +40,12 @@ function simpleJsonPathParse(key, json) {
 // 全局变量 {{ global.value }}
 // value 是在环境变量中定义的字段
 function handleGlobalWord(word, json) {
-  if (!word || typeof word !== 'string' || word.indexOf('global.') !== 0 ) return word;
+  if (!word || typeof word !== 'string' || word.indexOf('global.') !== 0) return word;
   let keys = word.split('.');
   keys = keys.filter(item => {
     return item;
   });
   return json[keys[0]][keys[1]] || word;
-
 }
 
 function handleMockWord(word) {
@@ -146,7 +146,6 @@ function safeArray(arr) {
 }
 exports.safeArray = safeArray;
 
-
 exports.isJson5 = function isJson5(json) {
   if (!json) return false;
   try {
@@ -186,10 +185,95 @@ exports.json_format = function(json) {
 };
 
 exports.ArrayToObject = function(arr) {
-  let obj = {} ;
+  let obj = {};
   safeArray(arr).forEach(item => {
     obj[item.name] = item.value;
-  })
+  });
 
   return obj;
-}
+};
+
+exports.timeago = function(timestamp) {
+  let minutes, hours, days, seconds, mouth, year;
+  const timeNow = parseInt(new Date().getTime() / 1000);
+  seconds = timeNow - timestamp;
+  if (seconds > 86400 * 30 * 12) {
+    year = parseInt(seconds / (86400 * 30 * 12));
+  } else {
+    year = 0;
+  }
+  if (seconds > 86400 * 30) {
+    mouth = parseInt(seconds / (86400 * 30));
+  } else {
+    mouth = 0;
+  }
+  if (seconds > 86400) {
+    days = parseInt(seconds / 86400);
+  } else {
+    days = 0;
+  }
+  if (seconds > 3600) {
+    hours = parseInt(seconds / 3600);
+  } else {
+    hours = 0;
+  }
+  minutes = parseInt(seconds / 60);
+  if (year > 0) {
+    return year + '年前';
+  } else if (mouth > 0 && year <= 0) {
+    return mouth + '月前';
+  } else if (days > 0 && mouth <= 0) {
+    return days + '天前';
+  } else if (days <= 0 && hours > 0) {
+    return hours + '小时前';
+  } else if (hours <= 0 && minutes > 0) {
+    return minutes + '分钟前';
+  } else if (minutes <= 0 && seconds > 0) {
+    if (seconds < 30) {
+      return '刚刚';
+    } else {
+      return seconds + '秒前';
+    }
+  } else {
+    return '刚刚';
+  }
+};
+
+// json schema 验证器
+exports.schemaValidator = function(schema, params) {
+  try {
+    const ajv = new Ajv({
+      format: false,
+      meta: false
+    });
+    let metaSchema = require('ajv/lib/refs/json-schema-draft-04.json');
+    ajv.addMetaSchema(metaSchema);
+    ajv._opts.defaultMeta = metaSchema.id;
+    ajv._refs['http://json-schema.org/schema'] = 'http://json-schema.org/draft-04/schema';
+    var localize = require('ajv-i18n');
+
+    schema = schema || {
+      type: 'object',
+      title: 'empty object',
+      properties: {}
+    };
+    const validate = ajv.compile(schema);
+    let valid = validate(params);
+
+    let message = '';
+    if (!valid) {
+      localize.zh(validate.errors);
+      message += ajv.errorsText(validate.errors, { separator: '\n' });
+    }
+
+    return {
+      valid: valid,
+      message: message
+    };
+  } catch (e) {
+    return {
+      valid: false,
+      message: e.message
+    };
+  }
+};

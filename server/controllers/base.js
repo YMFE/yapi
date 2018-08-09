@@ -192,7 +192,7 @@ class baseController {
           return 'owner';
         }
         let memberData = _.find(projectData.members, m => {
-          if (m.uid === this.getUid()) {
+          if (m && m.uid === this.getUid()) {
             return true;
           }
         });

@@ -16,45 +16,45 @@ var hooks = {
         type: 'single',
         listener: null
     },
-    /**
-     * 客户端增加接口成功后触发
-     * @param id 接口id
-     */
-    'interface_add': {
-        type: 'multi',
-        listener: []
+     /**
+   * 客户端增加接口成功后触发
+   * @param data 接口的详细信息
+   */
+    interface_add: {
+      type: 'multi',
+     listener: []
     },
     /**
-     * 客户端删除接口成功后触发
-     * @param id 接口id
+    * 客户端删除接口成功后触发
+     * @param data 删除接口的详细信息
      */
-    'interface_del': {
-        type: 'multi',
-        listener: []
+    interface_del: {
+     type: 'multi',
+     listener: []
     },
     /**
-    * 客户端更新接口成功后触发
-    * @param id 接口id
+     * 客户端更新接口成功后触发
+     * @param id 接口id
     */
-    'interface_update':{
-        type: 'multi',
-        listener: []
+    interface_update: {
+      type: 'multi',
+      listener: []
     },
     /**
-     * 客户端获取接口数据列表
-     * @param id project_id
-     */
-    'interface_list':{
-        type: 'multi',
-        listener: []
+    * 客户端获取接口数据列表
+    * @param list 返回接口的数据列表
+    */
+    interface_list: {
+      type: 'multi',
+      listener: []
     },
     /**
-     * 客户端获取一条接口信息触发
-     * @param id 接口id
-     */
-    'interface_get':{
-        type: 'multi',
-        listener: []
+    * 客户端获取一条接口信息触发
+    * @param data 接口的详细信息
+    */
+    interface_get: {
+      type: 'multi',
+      listener: []
     },
     /**
      * 客户端增加一个新项目

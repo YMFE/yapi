@@ -55,18 +55,6 @@ const MenuUser = props => (
         </Menu.Item>
       );
     })}
-    {/*<Menu.Item key="0">*/}
-    {/*<Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>*/}
-    {/*</Menu.Item>*/}
-    {/*<Menu.Item key="1">*/}
-    {/*<Link to={`/follow`} onClick={props.relieveLink}><Icon type="star-o"/>我的关注</Link>*/}
-    {/*</Menu.Item>*/}
-    {/*{*/}
-    {/*props.role === "admin" ? <Menu.Item key="2">*/}
-    {/*<Link to={`/user/list`}><Icon type="solution"/>用户管理</Link>*/}
-    {/*</Menu.Item> : ""*/}
-    {/*}*/}
-
     <Menu.Item key="9">
       <a onClick={props.logout}>
         <Icon type="logout" />退出

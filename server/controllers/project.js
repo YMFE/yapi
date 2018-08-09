@@ -216,6 +216,7 @@ class projectController extends baseController {
       color: params.color,
       add_time: yapi.commons.time(),
       up_time: yapi.commons.time(),
+      is_json5: false,
       env: [{ name: 'local', domain: 'http://127.0.0.1' }]
     };
 
@@ -914,7 +915,6 @@ class projectController extends baseController {
       // }
 
       let env = await this.Model.getByEnv(project_id);
-      
 
       ctx.body = yapi.commons.resReturn(env);
     } catch (e) {

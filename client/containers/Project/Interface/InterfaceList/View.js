@@ -241,6 +241,18 @@ class View extends Component {
     message.success('已经成功复制到剪切板');
   };
 
+  flagMsg = (mock, strice) => {
+    if (mock && strice) {
+      return <span>( 全局mock & 严格模式 )</span>;
+    }  else if (!mock && strice) {
+      return <span>( 严格模式 )</span>;
+    } else if (mock && !strice) {
+      return <span>( 全局mock )</span>;
+    } else {
+      return;
+    }
+  };
+
   render() {
     const dataSource = [];
     if (this.props.curData.req_headers && this.props.curData.req_headers.length) {
@@ -430,7 +442,9 @@ class View extends Component {
               Mock地址：
             </Col>
             <Col span={18} className="colValue">
-              {this.props.currProject.is_mock_open && <span>(全局mock已开启) </span>}
+              {this.flagMsg(this.props.currProject.is_mock_open, this.props.currProject.strice)}
+              {/* {this.props.currProject.is_mock_open ? <span>( 全局mock </span> : <span>( </span>}
+              {this.props.currProject.strice ? <span> & 严格模式 ) </span> : <span>) </span>} */}
               <span
                 className="href"
                 onClick={() =>

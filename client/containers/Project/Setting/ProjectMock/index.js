@@ -91,7 +91,6 @@ export default class ProjectMock extends Component {
   };
 
   render() {
-   
     return (
       <div className="m-panel">
         <Form>
@@ -101,7 +100,7 @@ export default class ProjectMock extends Component {
                 是否开启&nbsp;<a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://yapi.ymfe.org/documents/project.html#token%E9%85%8D%E7%BD%AE"
+                  href="https://yapi.ymfe.org/documents/project.html#%E5%85%A8%E5%B1%80mock"
                 >
                   <Tooltip title="点击查看文档">
                     <Icon type="question-circle-o" />

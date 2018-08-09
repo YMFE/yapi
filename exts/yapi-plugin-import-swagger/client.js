@@ -1,20 +1,20 @@
 import { message } from 'antd';
-import run from './run'
+import run from './run';
 
 module.exports = function() {
-  this.bindHook('import_data', function(importDataModule){
+  this.bindHook('import_data', function(importDataModule) {
     if (!importDataModule || typeof importDataModule !== 'object') {
       console.error('importDataModule 参数Must be Object Type');
       return null;
     }
     importDataModule.swagger = {
       name: 'Swagger',
-      run: async function(res){
-        try{
-          return await run(res)
-        }catch(err){
-          console.error(err)
-          message.error('解析失败')
+      run: async function(res) {
+        try {
+          return await run(res);
+        } catch (err) {
+          console.error(err);
+          message.error('解析失败');
         }
       },
       desc: `<p>Swagger数据导入（ 支持 v2.0+ ）</p>
@@ -24,6 +24,4 @@ module.exports = function() {
       `
     };
   });
-
-  
 };

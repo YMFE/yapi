@@ -2,6 +2,7 @@ const yapi = require('../yapi.js');
 const projectModel = require('../models/project.js');
 const interfaceModel = require('../models/interface.js');
 const mockExtra = require('../../common/mock-extra.js');
+const { schemaValidator } = require('../../common/utils.js');
 const _ = require('underscore');
 const Mock = require('mockjs');
 /**
@@ -79,7 +80,59 @@ function handleCorsRequest(ctx) {
   ctx.set('Access-Control-Max-Age', 1728000);
   ctx.body = 'ok';
 }
+// 必填字段是否填写好
+function mockValidator(interfaceData, ctx) {
+  let i,
+    j,
+    l,
+    len,
+    noRequiredArr = [];
+  // query 判断
+  for (i = 0, l = interfaceData.req_query.length; i < l; i++) {
+    let curQuery = interfaceData.req_query[i];
+    if (curQuery && typeof curQuery === 'object' && curQuery.required === '1') {
+      if (!ctx.query[curQuery.name]) {
+        noRequiredArr.push(curQuery.name);
+      }
+    }
+  }
+  // form 表单判断
+  if (interfaceData.req_body_type === 'form') {
+    for (j = 0, len = interfaceData.req_body_form.length; j < len; j++) {
+      let curForm = interfaceData.req_body_form[j];
+      if (curForm && typeof curForm === 'object' && curForm.required === '1') {
+        if (
+          ctx.request.body[curForm.name] ||
+          (ctx.request.body.fields && ctx.request.body.fields[curForm.name]) ||
+          (ctx.request.body.files && ctx.request.body.files[curForm.name])
+        ) {
+          continue;
+        }
 
+        noRequiredArr.push(curForm.name);
+      }
+    }
+  }
+  let validResult;
+  // json schema 判断
+  if (interfaceData.req_body_type === 'json' && interfaceData.req_body_is_json_schema === true) {
+    const schema = yapi.commons.json_parse(interfaceData.req_body_other);
+    const params = yapi.commons.json_parse(ctx.request.body);
+    validResult = schemaValidator(schema, params);
+  }
+  if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
+    let message = `错误信息：`;
+    message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}  ` : '';
+    message += validResult && !validResult.valid ? `shema 验证请求参数 ${validResult.message}` : '';
+
+    return {
+      valid: false,
+      message
+    };
+  }
+
+  return { valid: true };
+}
 
 module.exports = async (ctx, next) => {
   // no used variable 'hostname' & 'config'
@@ -96,6 +149,9 @@ module.exports = async (ctx, next) => {
   let projectId = paths[2];
   paths.splice(0, 3);
   path = '/' + paths.join('/');
+
+  ctx.set('Access-Control-Allow-Origin', '*');
+
   if (!projectId) {
     return (ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空'));
   }
@@ -119,10 +175,9 @@ module.exports = async (ctx, next) => {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
 
-    //处理query_path情况
+    //处理query_path情况  url 中有 ?params=xxx
     if (!interfaceData || interfaceData.length === 0) {
       interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
-
       let i,
         l,
         j,
@@ -144,6 +199,7 @@ module.exports = async (ctx, next) => {
             match = true;
           }
         }
+
         if (match) {
           interfaceData = [currentInterfaceData];
           break;
@@ -157,7 +213,6 @@ module.exports = async (ctx, next) => {
     //处理动态路由
     if (!interfaceData || interfaceData.length === 0) {
       let newData = await interfaceInst.getVar(project._id, ctx.method);
-
       let findInterface = _.find(newData, item => {
         let m = matchApi(newpath, item.path);
         if (m !== false) {
@@ -172,6 +227,7 @@ module.exports = async (ctx, next) => {
         if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
           return handleCorsRequest(ctx);
         }
+        
         return (ctx.body = yapi.commons.resReturn(
           null,
           404,
@@ -189,9 +245,22 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
-    ctx.set('Access-Control-Allow-Origin', '*');
-    let res;
+  
+    // 必填字段是否填写好
+    if (project.strice) {
+      const validResult = mockValidator(interfaceData, ctx);
+      if (!validResult.valid) {
+        return (ctx.body = yapi.commons.resReturn(
+          null,
+          404,
+          `接口字段验证不通过, ${validResult.message}`
+        ));
+      }
+    }
 
+   
+    let res;
+    // mock 返回值处理
     res = interfaceData.res_body;
     try {
       if (interfaceData.res_body_type === 'json') {
@@ -238,12 +307,11 @@ module.exports = async (ctx, next) => {
         httpCode: 200,
         delay: 0
       };
-      
+
       if (project.is_mock_open && project.project_mock_script) {
         // 项目层面的mock脚本解析
         let script = project.project_mock_script;
         yapi.commons.handleMockScript(script, context);
-        
       }
 
       await yapi.emitHook('mock_after', context);

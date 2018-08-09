@@ -21,7 +21,7 @@ exports.ldapQuery = (username, password) => {
         };
         reject(msg);
       }
-    }); 
+    });
     // 注册事件处理函数
     const ldapSearch = (err, search) => {
       const users = [];

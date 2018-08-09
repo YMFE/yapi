@@ -19,22 +19,18 @@ class statisMockModel extends baseModel {
     };
   }
 
-  
-
   save(data) {
     let m = new this.model(data);
     return m.save();
   }
 
- 
-
   get(project_id) {
-    return this.model.findOne({
-      project_id: project_id
-    })
+    return this.model
+      .findOne({
+        project_id: project_id
+      })
       .exec();
   }
-
 
   up(id, data) {
     return this.model.update(
@@ -47,11 +43,13 @@ class statisMockModel extends baseModel {
   }
 
   upEditUid(id, uid) {
-    return this.model.update({
-      _id: id
-    },
+    return this.model.update(
+      {
+        _id: id
+      },
       { edit_uid: uid },
-      { runValidators: true });
+      { runValidators: true }
+    );
   }
 }
 

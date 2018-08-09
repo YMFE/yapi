@@ -169,8 +169,8 @@ class ProjectList extends Component {
                 rules: [
                   {
                     required: false,
-                    message: '描述不超过50字!',
-                    max: 50
+                    message: '描述不超过144字!',
+                    max: 144
                   }
                 ]
               })(<TextArea rows={4} />)}

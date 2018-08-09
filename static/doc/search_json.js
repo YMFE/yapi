@@ -370,6 +370,11 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
@@ -407,6 +412,11 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
@@ -453,7 +463,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -500,7 +515,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -646,7 +666,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -703,7 +723,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -1010,7 +1030,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1027,7 +1047,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1170,9 +1190,19 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+        },
+        {
+          "title": "Bug Fixed",
+          "url": "/documents/CHANGELOG.html#bug-fixed",
+          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
         },
         {
           "title": "v1.3.20",
@@ -1342,9 +1372,19 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+        },
+        {
+          "title": "Bug Fixed",
+          "url": "/documents/CHANGELOG.html#bug-fixed",
+          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
           "title": "v1.3.21",
           "url": "/documents/CHANGELOG.html#v1.3.21",
-          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\nBug Fixed优化ldap登陆\n"
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
         },
         {
           "title": "v1.3.20",

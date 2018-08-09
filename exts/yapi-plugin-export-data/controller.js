@@ -17,7 +17,7 @@ class exportController extends baseController {
     this.catModel = yapi.getInst(interfaceCatModel);
     this.interModel = yapi.getInst(interfaceModel);
     this.projectModel = yapi.getInst(projectModel);
-    // this.wikiModel = yapi.getInst(wikiModel);
+    
   }
 
   async handleListClass(pid, status) {
@@ -29,15 +29,16 @@ class exportController extends baseController {
       list = list.sort((a, b) => {
         return a.index - b.index;
       });
-      item.list = list;
-      newResult[i] = item;
+      if (list.length > 0) {
+        item.list = list;
+        newResult.push(item);
+      }
     }
     
     return newResult;
   }
 
   handleExistId(data) {
-    
     function delArrId(arr, fn) {
       if (!Array.isArray(arr)) return;
       arr.forEach(item => {
@@ -72,7 +73,7 @@ class exportController extends baseController {
     let type = ctx.request.query.type;
     let status = ctx.request.query.status;
     let isWiki = ctx.request.query.isWiki;
-    
+
     if (!pid) {
       ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
     }
@@ -80,12 +81,10 @@ class exportController extends baseController {
     let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
-      if(isWiki === 'true') {
-        
+      if (isWiki === 'true') {
         const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
         wikiData = await yapi.getInst(wikiModel).get(pid);
       }
-      
       ctx.set('Content-Type', 'application/octet-stream');
       const list = await this.handleListClass(pid, status);
 
@@ -96,7 +95,6 @@ class exportController extends baseController {
           return (ctx.body = tp);
         }
         case 'json': {
-         
           let data = this.handleExistId(list);
           tp = JSON.stringify(data, null, 2);
           ctx.set('Content-Disposition', `attachment; filename=api.json`);
@@ -122,9 +120,9 @@ class exportController extends baseController {
         markerPattern: /^\[toc\]/im
       });
 
-      require('fs').writeFileSync('./a.markdown', md);
+      // require('fs').writeFileSync('./a.markdown', md);
       let tp = unescape(markdown.render(md));
-
+      // require('fs').writeFileSync('./a.html', tp);
       let left;
       // console.log('tp',tp);
       let content = tp.replace(
@@ -134,7 +132,7 @@ class exportController extends baseController {
           return '';
         }
       );
-      
+
       return createHtml5(left || '', content);
     }
 

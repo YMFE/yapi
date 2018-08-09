@@ -208,8 +208,8 @@ class InterfaceList extends Component {
         render: (item, record) => {
           const path = this.props.curProject.basepath + item;
           let methodColor =
-            variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'] || variable.METHOD_COLOR['get'];
-          
+            variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'] ||
+            variable.METHOD_COLOR['get'];
           return (
             <div>
               <span
@@ -258,7 +258,7 @@ class InterfaceList extends Component {
         width: 14,
         render: (text, record) => {
           const key = record.key;
-          return ( 
+          return (
             <Select
               value={key + '-' + text}
               className="select"

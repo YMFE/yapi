@@ -5,7 +5,6 @@ class interfaceModel extends baseModel {
   getName() {
     return 'interface';
   }
-  
 
   getSchema() {
     return {
@@ -24,50 +23,65 @@ class interfaceModel extends baseModel {
       type: { type: String, enum: ['static', 'var'], default: 'static' },
       query_path: {
         path: String,
-        params: [{
-          name: String, value: String
-        }]
+        params: [
+          {
+            name: String,
+            value: String
+          }
+        ]
       },
-      req_query: [{
-        name: String, 
-        value: String, 
-        example: String, 
-        desc: String, 
-        required: {
-          type: String,
-          enum: ["1", "0"],
-          default: "1"
+      req_query: [
+        {
+          name: String,
+          value: String,
+          example: String,
+          desc: String,
+          required: {
+            type: String,
+            enum: ['1', '0'],
+            default: '1'
+          }
         }
-      }],
-      req_headers: [{
-        name: String, value: String, example: String, desc: String, required: {
-          type: String,
-          enum: ["1", "0"],
-          default: "1"
+      ],
+      req_headers: [
+        {
+          name: String,
+          value: String,
+          example: String,
+          desc: String,
+          required: {
+            type: String,
+            enum: ['1', '0'],
+            default: '1'
+          }
         }
-      }],
-      req_params: [{
-        name: String,
-        desc: String,
-        example: String
-      }],
+      ],
+      req_params: [
+        {
+          name: String,
+          desc: String,
+          example: String
+        }
+      ],
       req_body_type: {
         type: String,
         enum: ['form', 'json', 'text', 'file', 'raw']
       },
       req_body_is_json_schema: { type: Boolean, default: false },
-      req_body_form: [{
-        name: String, 
-        type: { type: String, enum: ['text', 'file'] }, 
-        example: String, 
-        value: String,
-        desc: String, 
-        required: {
-          type: String,
-          enum: ["1", "0"],
-          default: "1"
+      req_body_form: [
+        {
+          name: String,
+          type: { type: String, enum: ['text', 'file'] },
+          example: String,
+          value: String,
+          desc: String,
+          required: {
+            type: String,
+            enum: ['1', '0'],
+            default: '1'
+          }
         }
-      }],
+      ],
       req_body_other: String,
       res_body_type: {
         type: String,
@@ -83,50 +97,60 @@ class interfaceModel extends baseModel {
     };
   }
 
-  
   save(data) {
     let m = new this.model(data);
     return m.save();
   }
 
   get(id) {
-    return this.model.findOne({
-      _id: id
-    })
+    return this.model
+      .findOne({
+        _id: id
+      })
       .exec();
   }
 
   getBaseinfo(id) {
-    return this.model.findOne({
-      _id: id
-    }).select('path method uid title project_id cat_id status ').exec()
+    return this.model
+      .findOne({
+        _id: id
+      })
+      .select('path method uid title project_id cat_id status ')
+      .exec();
   }
 
   getVar(project_id, method) {
-    return this.model.find({
-      project_id: project_id,
-      type: 'var',
-      method: method
-    }).select('_id path').exec()
+    return this.model
+      .find({
+        project_id: project_id,
+        type: 'var',
+        method: method
+      })
+      .select('_id path')
+      .exec();
   }
 
   getByQueryPath(project_id, path, method) {
-    return this.model.find({
-      project_id: project_id,
-      "query_path.path": path,
-      method: method
-    })
+    return this.model
+      .find({
+        project_id: project_id,
+        'query_path.path': path,
+        method: method
+      })
       .exec();
   }
 
   getByPath(project_id, path, method, select) {
-    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body res_body_is_json_schema'
-    return this.model.find({
-      project_id: project_id,
-      path: path,
-      method: method
-    })
-    .select(select)
+    select =
+      select ||
+      '_id title uid path method project_id catid edit_uid status add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value res_body res_body_is_json_schema req_body_is_json_schema';
+    return this.model
+      .find({
+        project_id: project_id,
+        path: path,
+        method: method
+      })
+      .select(select)
       .exec();
   }
 
@@ -145,10 +169,12 @@ class interfaceModel extends baseModel {
   }
 
   list(project_id, select) {
-    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time'
-    return this.model.find({
-      project_id: project_id
-    })
+    select =
+      select || '_id title uid path method project_id catid edit_uid status add_time up_time';
+    return this.model
+      .find({
+        project_id: project_id
+      })
       .select(select)
       .sort({ title: 1 })
       .exec();
@@ -157,21 +183,24 @@ class interfaceModel extends baseModel {
   listWithPage(project_id, page, limit) {
     page = parseInt(page);
     limit = parseInt(limit);
-    return this.model.find({
-      project_id: project_id
-    })
+    return this.model
+      .find({
+        project_id: project_id
+      })
       .sort({ title: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('_id title uid path method project_id catid api_opened edit_uid status add_time up_time')
+      .select(
+        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time'
+      )
       .exec();
-
   }
 
   listByPid(project_id) {
-    return this.model.find({
-      project_id: project_id
-    })
+    return this.model
+      .find({
+        project_id: project_id
+      })
       .sort({ title: 1 })
       .exec();
   }
@@ -182,10 +211,12 @@ class interfaceModel extends baseModel {
   }
 
   listByCatid(catid, select) {
-    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time index'
-    return this.model.find({
-      catid: catid
-    })
+    select =
+      select || '_id title uid path method project_id catid edit_uid status add_time up_time index';
+    return this.model
+      .find({
+        catid: catid
+      })
       .select(select)
       .sort({ index: 1 })
       .exec();
@@ -194,31 +225,33 @@ class interfaceModel extends baseModel {
   listByCatidWithPage(catid, page, limit) {
     page = parseInt(page);
     limit = parseInt(limit);
-    return this.model.find({
-      catid: catid
-    })
+    return this.model
+      .find({
+        catid: catid
+      })
       .sort({ index: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index')
+      .select(
+        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index'
+      )
       .exec();
-
   }
 
-  listByInterStatus(catid, status){
-    
-    let option ={}
-    if(status === 'open') {
+  listByInterStatus(catid, status) {
+    let option = {};
+    if (status === 'open') {
       option = {
         catid: catid,
         api_opened: true
-      }
+      };
     } else {
       option = {
         catid: catid
-      }
+      };
     }
-    return this.model.find(option)
+    return this.model
+      .find(option)
       .select()
       .sort({ title: 1 })
       .exec();
@@ -233,35 +266,44 @@ class interfaceModel extends baseModel {
   delByCatid(id) {
     return this.model.remove({
       catid: id
-    })
+    });
   }
 
   delByProjectId(id) {
     return this.model.remove({
       project_id: id
-    })
+    });
   }
 
   up(id, data) {
     data.up_time = yapi.commons.time();
-    return this.model.update({
-      _id: id
-    }, data, { runValidators: true });
+    return this.model.update(
+      {
+        _id: id
+      },
+      data,
+      { runValidators: true }
+    );
   }
 
   upEditUid(id, uid) {
-    return this.model.update({
-      _id: id
-    },
+    return this.model.update(
+      {
+        _id: id
+      },
       { edit_uid: uid },
-      { runValidators: true });
+      { runValidators: true }
+    );
   }
-  getcustomFieldValue(id,value) {
-    return this.model.find({
-      project_id: id,
-      custom_field_value: value
-    })
-    .select('title uid path method edit_uid status desc add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value')
+  getcustomFieldValue(id, value) {
+    return this.model
+      .find({
+        project_id: id,
+        custom_field_value: value
+      })
+      .select(
+        'title uid path method edit_uid status desc add_time up_time type query_path req_query req_headers req_params req_body_type req_body_form req_body_other res_body_type custom_field_value'
+      )
       .exec();
   }
 
@@ -270,21 +312,23 @@ class interfaceModel extends baseModel {
   }
 
   upIndex(id, index) {
-    return this.model.update({
+    return this.model.update(
+      {
         _id: id
-    }, {
-            index: index
-        })
+      },
+      {
+        index: index
+      }
+    );
   }
 
   search(keyword) {
-    return this.model.find({
-      title: new RegExp(keyword, 'ig')
-    })
+    return this.model
+      .find({
+        title: new RegExp(keyword, 'ig')
+      })
       .limit(10);
   }
-
-
 }
 
 module.exports = interfaceModel;
