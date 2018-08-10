@@ -755,7 +755,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",
@@ -792,7 +792,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",

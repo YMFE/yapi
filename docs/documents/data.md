@@ -30,6 +30,8 @@
 
 <div><img class="doc-img"   style="width:50%"  src="./images/usage/chrome-3.jpg" /></div>
 
+> Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据
+
 ## Swagger 数据导入
 <p>什么是 Swagger ？</p>
 <div>[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)</div>
