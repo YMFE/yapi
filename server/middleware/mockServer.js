@@ -174,7 +174,7 @@ module.exports = async (ctx, next) => {
   try {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
-    
+
     //处理query_path情况  url 中有 ?params=xxx
     if (!interfaceData || interfaceData.length === 0) {
       interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
@@ -227,7 +227,7 @@ module.exports = async (ctx, next) => {
         if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
           return handleCorsRequest(ctx);
         }
-        
+
         return (ctx.body = yapi.commons.resReturn(
           null,
           404,
@@ -245,7 +245,6 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
-  
     // 必填字段是否填写好
     if (project.strice) {
       const validResult = mockValidator(interfaceData, ctx);
@@ -258,7 +257,6 @@ module.exports = async (ctx, next) => {
       }
     }
 
-   
     let res;
     // mock 返回值处理
     res = interfaceData.res_body;
@@ -345,12 +343,15 @@ module.exports = async (ctx, next) => {
                 }
               });
             }
-          } else ctx.set(i, context.resHeader[i]);
+          } else {
+            ctx.set(i, context.resHeader[i]);
+          }
         }
       }
 
       ctx.status = context.httpCode;
-      return (ctx.body = context.mockJson);
+      ctx.body = context.mockJson;
+      return;  
     } catch (e) {
       yapi.commons.log(e, 'error');
       return (ctx.body = {

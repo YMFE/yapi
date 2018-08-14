@@ -1190,14 +1190,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
-          "title": "v1.3.22",
-          "url": "/documents/CHANGELOG.html#v1.3.22",
-          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+          "title": "v1.3.23",
+          "url": "/documents/CHANGELOG.html#v1.3.23",
+          "content": "v1.3.23Bug Fixed接口path中写入 ?name=xxx bug\n"
         },
         {
-          "title": "Bug Fixed",
-          "url": "/documents/CHANGELOG.html#bug-fixed",
-          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\nBug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
         },
         {
           "title": "v1.3.21",
@@ -1372,14 +1372,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
-          "title": "v1.3.22",
-          "url": "/documents/CHANGELOG.html#v1.3.22",
-          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+          "title": "v1.3.23",
+          "url": "/documents/CHANGELOG.html#v1.3.23",
+          "content": "v1.3.23Bug Fixed接口path中写入 ?name=xxx bug\n"
         },
         {
-          "title": "Bug Fixed",
-          "url": "/documents/CHANGELOG.html#bug-fixed",
-          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\nBug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
         },
         {
           "title": "v1.3.21",
