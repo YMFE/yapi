@@ -1,3 +1,9 @@
+### v1.3.23
+
+#### Bug Fixed
+
+* 接口path中写入 ?name=xxx bug
+
 ### v1.3.22
 
 * json schema number和integer支持枚举
@@ -5,7 +11,7 @@
 * 增加 mock 接口请求字段参数验证
 * 增加返回数据验证
 
-### Bug Fixed
+#### Bug Fixed
 
 * 命令行导入成员信息为 undefined
 * 修复form 参数为空时 接口无法保存的问题

@@ -157,7 +157,7 @@ class interfaceModel extends baseModel {
   checkRepeat(id, path, method) {
     return this.model.count({
       project_id: id,
-      path: path,
+      'query_path.path': path,
       method: method
     });
   }

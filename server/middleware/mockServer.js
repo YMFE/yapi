@@ -174,7 +174,7 @@ module.exports = async (ctx, next) => {
   try {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
-
+    
     //处理query_path情况  url 中有 ?params=xxx
     if (!interfaceData || interfaceData.length === 0) {
       interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
