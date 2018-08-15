@@ -104,7 +104,8 @@ class interfaceController extends baseController {
           method: minLengthStringField,
           catid: 'number',
           switch_notice: 'boolean',
-          message: minLengthStringField
+          message: minLengthStringField,
+          tag: 'string'
         },
         addAndUpCommonField
       ),
@@ -364,7 +365,7 @@ class interfaceController extends baseController {
       if (userinfo) {
         result.username = userinfo.username;
       }
-
+      
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -605,7 +606,7 @@ class interfaceController extends baseController {
         data.req_params = [];
       }
     }
-
+    
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);

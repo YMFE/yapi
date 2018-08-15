@@ -93,7 +93,8 @@ class interfaceModel extends baseModel {
       field2: String,
       field3: String,
       api_opened: { type: Boolean, default: false },
-      index: { type: Number, default: 0 }
+      index: { type: Number, default: 0 },
+      tag: String
     };
   }
 
@@ -191,7 +192,7 @@ class interfaceModel extends baseModel {
       .skip((page - 1) * limit)
       .limit(limit)
       .select(
-        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time'
+        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time tag'
       )
       .exec();
   }
@@ -212,7 +213,7 @@ class interfaceModel extends baseModel {
 
   listByCatid(catid, select) {
     select =
-      select || '_id title uid path method project_id catid edit_uid status add_time up_time index';
+      select || '_id title uid path method project_id catid edit_uid status add_time up_time index tag';
     return this.model
       .find({
         catid: catid
@@ -233,7 +234,7 @@ class interfaceModel extends baseModel {
       .skip((page - 1) * limit)
       .limit(limit)
       .select(
-        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index'
+        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index, tag'
       )
       .exec();
   }

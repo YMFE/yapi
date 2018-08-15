@@ -758,7 +758,7 @@ class InterfaceEditForm extends Component {
     });
 
     const DEMOPATH = '/api/user/{id}';
-
+    
     return (
       <Form onSubmit={this.handleSubmit}>
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -856,7 +856,19 @@ class InterfaceEditForm extends Component {
               </Col>
             </Row>
           </FormItem>
-
+          <FormItem className="interface-edit-item" {...formItemLayout} label="Tag">
+            {getFieldDecorator('tag', { initialValue: this.state.tag  })(
+              <Select placeholder="请选择 tag ">
+                {projectMsg.tag.map(item => {
+                  return (
+                    <Option value={item.name} key={item._id}>
+                      {item.name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            )}
+          </FormItem>
           <FormItem className="interface-edit-item" {...formItemLayout} label="状态">
             {getFieldDecorator('status', { initialValue: this.state.status })(
               <Select>

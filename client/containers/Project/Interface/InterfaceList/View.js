@@ -244,7 +244,7 @@ class View extends Component {
   flagMsg = (mock, strice) => {
     if (mock && strice) {
       return <span>( 全局mock & 严格模式 )</span>;
-    }  else if (!mock && strice) {
+    } else if (!mock && strice) {
       return <span>( 严格模式 )</span>;
     } else if (mock && !strice) {
       return <span>( 全局mock )</span>;
@@ -407,6 +407,16 @@ class View extends Component {
             </Col>
             <Col span={8}>{formatTime(this.props.curData.up_time)}</Col>
           </Row>
+          {this.props.curData.tag && (
+            <Row className="row remark">
+              <Col span={4} className="colKey">
+                   Tag ：
+              </Col>
+              <Col span={18} className="colValue">
+                {this.props.curData.tag}
+              </Col>
+            </Row>
+          )}
           <Row className="row">
             <Col span={4} className="colKey">
               接口路径：
