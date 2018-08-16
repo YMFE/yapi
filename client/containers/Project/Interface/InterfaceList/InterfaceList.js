@@ -296,12 +296,12 @@ class InterfaceList extends Component {
         key: 'tag',
         width: 14,
         render: text => {
-          // const key = record.key;
-          return <div>{text || '未设置'}</div>;
+          let textMsg = text.length > 0 ? text.join('\n') : '未设置';
+          return <div className="table-desc">{textMsg}</div>
         },
         filters: filter,
         onFilter: (value, record) => {
-          return record.tag && record.tag.indexOf(value) === 0;
+          return record.tag.indexOf(value) >= 0;
         }
       }
     ];

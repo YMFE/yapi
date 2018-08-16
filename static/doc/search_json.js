@@ -1202,7 +1202,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23Bug Fixed接口path中写入 ?name=xxx bug\n"
+          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n"
         },
         {
           "title": "v1.3.22",
@@ -1384,7 +1384,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23Bug Fixed接口path中写入 ?name=xxx bug\n"
+          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n"
         },
         {
           "title": "v1.3.22",

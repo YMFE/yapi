@@ -142,7 +142,6 @@ class InterfaceEdit extends Component {
   }
 
   onTagClick = () => {
-    console.log(111);
     this.setState({
       visible: true
     });

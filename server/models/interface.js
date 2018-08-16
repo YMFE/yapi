@@ -94,7 +94,7 @@ class interfaceModel extends baseModel {
       field3: String,
       api_opened: { type: Boolean, default: false },
       index: { type: Number, default: 0 },
-      tag: String
+      tag: Array
     };
   }
 

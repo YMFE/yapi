@@ -105,7 +105,7 @@ class interfaceController extends baseController {
           catid: 'number',
           switch_notice: 'boolean',
           message: minLengthStringField,
-          tag: 'string'
+          tag: 'array'
         },
         addAndUpCommonField
       ),

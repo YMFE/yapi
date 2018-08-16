@@ -45,6 +45,10 @@ function isJson5(json) {
     return false;
   }
 }
+exports.safeArray = function(arr) {
+  return Array.isArray(arr) ? arr : [];
+};
+
 
 exports.json5_parse = function(json) {
   try {

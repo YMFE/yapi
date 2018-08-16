@@ -859,7 +859,7 @@ class InterfaceEditForm extends Component {
           </FormItem>
           <FormItem className="interface-edit-item" {...formItemLayout} label="Tag">
             {getFieldDecorator('tag', { initialValue: this.state.tag })(
-              <Select placeholder="请选择 tag ">
+              <Select placeholder="请选择 tag " mode="multiple">
                 {projectMsg.tag.map(item => {
                   return (
                     <Option value={item.name} key={item._id}>
