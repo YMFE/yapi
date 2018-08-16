@@ -188,9 +188,9 @@ class InterfaceList extends Component {
   render() {
     let tag = this.props.curProject.tag;
     let filter = tag.map(item => {
-      return {text: item.name, value: item.name}
-    })
-   
+      return { text: item.name, value: item.name };
+    });
+
     const columns = [
       {
         title: '接口名称',
@@ -301,7 +301,7 @@ class InterfaceList extends Component {
         },
         filters: filter,
         onFilter: (value, record) => {
-          return record.tag && record.tag.indexOf(value) === 0
+          return record.tag && record.tag.indexOf(value) === 0;
         }
       }
     ];
@@ -348,7 +348,7 @@ class InterfaceList extends Component {
     const isDisabled = this.props.catList.length === 0;
 
     // console.log(this.props.curProject.tag)
-    
+
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>

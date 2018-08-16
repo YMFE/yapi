@@ -635,7 +635,7 @@ class interfaceController extends baseController {
     });
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
-
+    
     if (params.switch_notice === true) {
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
       let annotatedCss = fs.readFileSync(
@@ -651,6 +651,7 @@ class interfaceController extends baseController {
       );
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
+      
       let interfaceUrl = `http://${ctx.request.host}/project/${
         interfaceData.project_id
       }/interface/api/${id}`;
