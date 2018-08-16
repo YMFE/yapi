@@ -297,7 +297,7 @@ class InterfaceList extends Component {
         width: 14,
         render: text => {
           let textMsg = text.length > 0 ? text.join('\n') : '未设置';
-          return <div className="table-desc">{textMsg}</div>
+          return <div className="table-desc">{textMsg}</div>;
         },
         filters: filter,
         onFilter: (value, record) => {

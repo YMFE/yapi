@@ -372,8 +372,8 @@ class View extends Component {
       methodColor = 'get';
     }
 
-    const {tag, up_time, title, uid, username} = this.props.curData
-    
+    const { tag, up_time, title, uid, username } = this.props.curData;
+
     let res = (
       <div className="caseContainer">
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -409,16 +409,17 @@ class View extends Component {
             </Col>
             <Col span={8}>{formatTime(up_time)}</Col>
           </Row>
-          {safeArray(tag) && safeArray(tag).length>0 && (
-            <Row className="row remark">
-              <Col span={4} className="colKey">
-                   Tag ：
-              </Col>
-              <Col span={18} className="colValue">
-                {tag.join(' ,')}
-              </Col>
-            </Row>
-          )}
+          {safeArray(tag) &&
+            safeArray(tag).length > 0 && (
+              <Row className="row remark">
+                <Col span={4} className="colKey">
+                  Tag ：
+                </Col>
+                <Col span={18} className="colValue">
+                  {tag.join(' , ')}
+                </Col>
+              </Row>
+            )}
           <Row className="row">
             <Col span={4} className="colKey">
               接口路径：
@@ -455,8 +456,6 @@ class View extends Component {
             </Col>
             <Col span={18} className="colValue">
               {this.flagMsg(this.props.currProject.is_mock_open, this.props.currProject.strice)}
-              {/* {this.props.currProject.is_mock_open ? <span>( 全局mock </span> : <span>( </span>}
-              {this.props.currProject.strice ? <span> & 严格模式 ) </span> : <span>) </span>} */}
               <span
                 className="href"
                 onClick={() =>
