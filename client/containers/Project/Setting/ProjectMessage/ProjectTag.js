@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Row, Col, Input } from 'antd';
-// const FormItem = Form.Item;
 import './ProjectTag.scss';
+
+
 class ProjectTag extends Component {
   static propTypes = {
     tagMsg: PropTypes.array,
-    // form: PropTypes.object,
     tagSubmit: PropTypes.func
   };
   constructor(props) {
     super(props);
-    // let newValue = this.handleInit(props.tagMsg);
     this.state = {
       tag: [{ name: '', desc: '' }]
     };
@@ -37,9 +36,8 @@ class ProjectTag extends Component {
   }
 
   handleInit(data) {
-    // this.props.form.resetFields();
+    
     let newValue = this.initState(data);
-    // return newValue;
     this.setState({ ...newValue });
   }
 
@@ -56,13 +54,12 @@ class ProjectTag extends Component {
   };
 
   delHeader = (key, name) => {
-    // let curValue = this.props.form.getFieldValue(name);
+   
     let curValue = this.state[name];
     let newValue = {};
     newValue[name] = curValue.filter((val, index) => {
       return index !== key;
     });
-    // this.props.form.setFieldsValue(newValue);
     this.setState(newValue);
   };
 

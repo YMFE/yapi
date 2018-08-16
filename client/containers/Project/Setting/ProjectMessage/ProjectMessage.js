@@ -219,7 +219,6 @@ class ProjectMessage extends Component {
 
   async componentWillMount() {
     await this.props.fetchGroupList();
-    // await this.props.getProject(this.props.projectId);
     await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
   }
 

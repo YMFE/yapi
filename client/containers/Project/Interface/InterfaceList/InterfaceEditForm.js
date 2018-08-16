@@ -129,7 +129,8 @@ class InterfaceEditForm extends Component {
     noticed: PropTypes.bool,
     cat: PropTypes.array,
     changeEditStatus: PropTypes.func,
-    projectMsg: PropTypes.object
+    projectMsg: PropTypes.object,
+    onTagClick: PropTypes.func
   };
 
   initState(curdata) {
@@ -758,7 +759,7 @@ class InterfaceEditForm extends Component {
     });
 
     const DEMOPATH = '/api/user/{id}';
-    
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -857,7 +858,7 @@ class InterfaceEditForm extends Component {
             </Row>
           </FormItem>
           <FormItem className="interface-edit-item" {...formItemLayout} label="Tag">
-            {getFieldDecorator('tag', { initialValue: this.state.tag  })(
+            {getFieldDecorator('tag', { initialValue: this.state.tag })(
               <Select placeholder="请选择 tag ">
                 {projectMsg.tag.map(item => {
                   return (
@@ -866,6 +867,11 @@ class InterfaceEditForm extends Component {
                     </Option>
                   );
                 })}
+                <Option value="tag设置" disabled style={{ cursor: 'pointer', color: '#2395f1' }}>
+                  <Button type="primary" onClick={this.props.onTagClick}>
+                    Tag设置
+                  </Button>
+                </Option>
               </Select>
             )}
           </FormItem>

@@ -255,6 +255,11 @@ let routerConfig = {
       method: 'post'
     },
     {
+      action: 'upTag',
+      path: 'up_tag',
+      method: 'post'
+    },
+    {
       action: 'token',
       path: 'token',
       method: 'get'
