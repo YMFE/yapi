@@ -1,5 +1,13 @@
 # 项目操作
 
+## 基本设置
+
+- tag 信息：可自定义tag名称和tag描述，tag信息可用在接口tag标识中;
+- mock 严格模式：开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验;
+- 开启json5：开启后允许接口请求body 和返回值中写 json 字段。yapi建议用户关闭 json5， 因为json-schema 格式可以进行接口格式校验。
+
+<img src="./images/usage/project-message.png" />
+
 ## 新建项目
 
 点击右上角的 `+` 新建项目，进入新建项目页面。

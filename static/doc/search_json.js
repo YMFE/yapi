@@ -178,6 +178,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/project.html",
       "children": [
         {
+          "title": "基本设置",
+          "url": "/documents/project.html#基本设置",
+          "content": "基本设置tag 信息：可自定义tag名称和tag描述，tag信息可用在接口tag标识中;\nmock 严格模式：开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验;\n开启json5：开启后允许接口请求body 和返回值中写 json 字段。yapi建议用户关闭 json5， 因为json-schema 格式可以进行接口格式校验。\n"
+        },
+        {
           "title": "新建项目",
           "url": "/documents/project.html#新建项目",
           "content": "新建项目点击右上角的 + 新建项目，进入新建项目页面。在新建项目页，填写项目信息：\n项目名称不允许重复，包括其他分组\n基本路径为接口统一添加了前缀\n新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。\n\n"
@@ -260,6 +265,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/project.html",
       "children": [
         {
+          "title": "基本设置",
+          "url": "/documents/project.html#基本设置",
+          "content": "基本设置tag 信息：可自定义tag名称和tag描述，tag信息可用在接口tag标识中;\nmock 严格模式：开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验;\n开启json5：开启后允许接口请求body 和返回值中写 json 字段。yapi建议用户关闭 json5， 因为json-schema 格式可以进行接口格式校验。\n"
+        },
+        {
           "title": "新建项目",
           "url": "/documents/project.html#新建项目",
           "content": "新建项目点击右上角的 + 新建项目，进入新建项目页面。在新建项目页，填写项目信息：\n项目名称不允许重复，包括其他分组\n基本路径为接口统一添加了前缀\n新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。\n\n"
@@ -349,7 +359,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "基本设置",
           "url": "/documents/api.html#接口配置-基本设置",
-          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\n"
+          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\nTag：用于标识接口tag信息（v1.3.23+）,在接口list页可以根据tag过滤接口\n"
         },
         {
           "title": "请求参数设置",
@@ -391,7 +401,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "基本设置",
           "url": "/documents/api.html#接口配置-基本设置",
-          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\n"
+          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\nTag：用于标识接口tag信息（v1.3.23+）,在接口list页可以根据tag过滤接口\n"
         },
         {
           "title": "请求参数设置",

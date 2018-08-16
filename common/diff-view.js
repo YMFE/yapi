@@ -116,7 +116,7 @@ module.exports = function(jsondiffpatch, formattersHtml, curDiffData) {
       });
     }
 
-    if (current.tag != old.tag) {
+    if (current.tag !== old.tag) {
       diffView.push({
         title: '接口tag',
         content: diffText(old.tag, current.tag)

@@ -15,6 +15,7 @@
 - 接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数
 - 选择分类：可以更改接口所在分类
 - 状态：用于标识接口是否开发完成。
+- Tag：用于标识接口tag信息（v1.3.23+）,在接口list页可以根据tag过滤接口
 
 <img src="./images/baseSet.png" />
 

@@ -348,7 +348,6 @@ class InterfaceMenu extends Component {
             interfaceFilter = true;
             return true;
           });
-          
           arr.push('cat_' + item._id);
           return interfaceFilter === true;
         }
@@ -428,7 +427,6 @@ class InterfaceMenu extends Component {
         )}
       </div>
     );
-    
     const defaultExpandedKeys = () => {
       const { router, inter, list } = this.props,
         rNull = { expands: [], selects: [] };
@@ -509,10 +507,8 @@ class InterfaceMenu extends Component {
         />
       );
     };
-
-
-    let currentKes = defaultExpandedKeys();
     
+    let currentKes = defaultExpandedKeys();
     let menuList;
     if (this.state.filter) {
       let arr = [];

@@ -365,7 +365,6 @@ class interfaceController extends baseController {
       if (userinfo) {
         result.username = userinfo.username;
       }
-      
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -606,7 +605,6 @@ class interfaceController extends baseController {
         data.req_params = [];
       }
     }
-    
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
@@ -635,7 +633,6 @@ class interfaceController extends baseController {
     });
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
-    
     if (params.switch_notice === true) {
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
       let annotatedCss = fs.readFileSync(

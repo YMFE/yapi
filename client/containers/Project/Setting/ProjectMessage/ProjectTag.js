@@ -36,7 +36,6 @@ class ProjectTag extends Component {
   }
 
   handleInit(data) {
-    
     let newValue = this.initState(data);
     this.setState({ ...newValue });
   }
@@ -54,7 +53,6 @@ class ProjectTag extends Component {
   };
 
   delHeader = (key, name) => {
-   
     let curValue = this.state[name];
     let newValue = {};
     newValue[name] = curValue.filter((val, index) => {
