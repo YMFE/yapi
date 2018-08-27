@@ -41,21 +41,22 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
 
-### YApi 教程
+### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
-* [Centos-安装环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
-* [MacOS-YAPI初次使用指南](https://github.com/liuyuan1989/yapi_user_guide/blob/master/YAPI%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97_MacOS.md) By liuyuan1989
 
 ### YApi 的一些客户
 * 去哪儿
 * 携程
 * 艺龙 
+* 美团
+* 百度
+* 阿里巴巴
 * 京东
 * 唯品支付 
 * 链家网
 * 快手
 * 便利蜂
-* [中商惠民](http://www.huimin.cn/)
+* 中商惠民
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)

@@ -138,12 +138,14 @@ class userController extends baseController {
       const { info: ldapInfo } = await ldap.ldapQuery(email, password);
       const emailPrefix = email.split(/\@/g)[0];
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
-      
-      const emailParams = ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ?  emailPrefix + yapi.WEBCONFIG.ldapLogin.emailPostfix : email);
-      const username = ldapInfo['name'];
 
+      const emailParams =
+        ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] ||
+        (emailPostfix ? emailPrefix + emailPostfix : email);
+      const username = ldapInfo[yapi.WEBCONFIG.ldapLogin.usernameKey] || emailPrefix;
 
       let login = await this.handleThirdLogin(emailParams, username);
+
       if (login === true) {
         let userInst = yapi.getInst(userModel); //创建user实体
         let result = await userInst.findByEmail(emailParams);
@@ -155,7 +157,7 @@ class userController extends baseController {
             email: result.email,
             add_time: result.add_time,
             up_time: result.up_time,
-            type: 'third',
+            type: result.type || 'third',
             study: result.study
           },
           0,
@@ -169,7 +171,6 @@ class userController extends baseController {
   }
 
   // 处理第三方登录
-
   async handleThirdLogin(email, username) {
     let user, data, passsalt;
     let userInst = yapi.getInst(userModel);
@@ -177,6 +178,7 @@ class userController extends baseController {
     try {
       user = await userInst.findByEmail(email);
 
+      // 新建用户信息
       if (!user || !user._id) {
         passsalt = yapi.commons.randStr();
         data = {
@@ -201,7 +203,7 @@ class userController extends baseController {
       return true;
     } catch (e) {
       console.error('third_login:', e.message); // eslint-disable-line
-      return false;
+      throw new Error(`third_login: ${e.message}`);
     }
   }
 
@@ -257,7 +259,7 @@ class userController extends baseController {
     }
   }
 
-  async handlePrivateGroup(uid, username, email) {
+  async handlePrivateGroup(uid) {
     var groupInst = yapi.getInst(groupModel);
     await groupInst.save({
       uid: uid,

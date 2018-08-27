@@ -1,5 +1,18 @@
 import React, { PureComponent as Component } from 'react';
-import { Upload, Icon, message, Select, Tooltip, Button, Spin, Switch, Modal, Radio, Input } from 'antd';
+import {
+  Upload,
+  Icon,
+  message,
+  Select,
+  Tooltip,
+  Button,
+  Spin,
+  Switch,
+  Modal,
+  Radio,
+  Input,
+  Checkbox
+} from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './ProjectData.scss';
@@ -18,13 +31,13 @@ const importDataModule = {};
 const exportDataModule = {};
 const HandleImportData = require('common/HandleImportData');
 
-function handleExportRouteParams(url, value) {
+function handleExportRouteParams(url, status, isWiki) {
   if (!url) {
     return;
   }
   let urlObj = URL.parse(url, true),
     query = {};
-  query = Object.assign(query, urlObj.query, { status: value });
+  query = Object.assign(query, urlObj.query, { status, isWiki });
   return URL.format({
     pathname: urlObj.pathname,
     query
@@ -61,7 +74,8 @@ class ProjectData extends Component {
       dataSync: false,
       exportContent: 'all',
       isSwaggerUrl: false,
-      swaggerUrl: ''
+      swaggerUrl: '',
+      isWiki: false
     };
   }
   static propTypes = {
@@ -191,13 +205,15 @@ class ProjectData extends Component {
 
   handleImportType = val => {
     this.setState({
-      curImportType: val
+      curImportType: val,
+      isSwaggerUrl: false
     });
   };
 
   handleExportType = val => {
     this.setState({
-      curExportType: val
+      curExportType: val,
+      isWiki: false
     });
   };
 
@@ -222,16 +238,13 @@ class ProjectData extends Component {
     });
   };
 
-
-
   // url导入上传
   onUrlUpload = async () => {
-
     if (!this.state.curImportType) {
       return message.error('请选择导入数据的方式');
     }
 
-    if(!this.state.swaggerUrl) {
+    if (!this.state.swaggerUrl) {
       return message.error('url 不能为空');
     }
     if (this.state.selectCatid) {
@@ -256,8 +269,16 @@ class ProjectData extends Component {
     }
   };
 
+  // 处理导出接口是全部还是公开
   handleChange = e => {
     this.setState({ exportContent: e.target.value });
+  };
+
+  //  处理是否开启wiki导出
+  handleWikiChange = e => {
+    this.setState({
+      isWiki: e.target.checked
+    });
   };
 
   /**
@@ -280,7 +301,7 @@ class ProjectData extends Component {
       this.state.curExportType &&
       exportDataModule[this.state.curExportType] &&
       exportDataModule[this.state.curExportType].route;
-    let exportHref = handleExportRouteParams(exportUrl, this.state.exportContent);
+    let exportHref = handleExportRouteParams(exportUrl, this.state.exportContent, this.state.isWiki);
 
     // console.log('inter', this.state.exportContent);
     return (
@@ -359,7 +380,12 @@ class ProjectData extends Component {
                     placeholder="http://demo.swagger.io/v2/swagger.json"
                     onChange={e => this.swaggerUrlInput(e.target.value)}
                   />
-                  <Button type="primary" className="url-btn" onClick={this.onUrlUpload} loading={this.state.showLoading}>
+                  <Button
+                    type="primary"
+                    className="url-btn"
+                    onClick={this.onUrlUpload}
+                    loading={this.state.showLoading}
+                  >
                     上传
                   </Button>
                 </div>
@@ -409,6 +435,7 @@ class ProjectData extends Component {
                   })}
                 </Select>
               </div>
+
               <div className="dataExport">
                 <RadioGroup defaultValue="all" onChange={this.handleChange}>
                   <Radio value="all">全部接口</Radio>
@@ -425,6 +452,16 @@ class ProjectData extends Component {
                         导出{' '}
                       </Button>
                     </a>
+                    <Checkbox
+                      checked={this.state.isWiki}
+                      onChange={this.handleWikiChange}
+                      className="wiki-btn"
+                      disabled = {this.state.curExportType === 'json'}
+                    >
+                      添加wiki&nbsp;<Tooltip title="开启后 html 和 markdown 数据导出会带上wiki数据">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>{' '}
+                    </Checkbox>
                   </div>
                 ) : (
                   <Button disabled className="export-button" type="primary" size="large">

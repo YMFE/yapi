@@ -4,7 +4,6 @@ let hooks, pluginModule;
  * type component  组件
  *      listener   监听函数
  * mulit 是否绑定多个监听函数
- *
  */
 
 hooks = {
@@ -23,7 +22,6 @@ hooks = {
    * @info
    * 可参考 vendors/exts/yapi-plugin-import-swagger插件
    * importDataModule = {};
-   *
    */
   import_data: {
     type: 'listener',
@@ -163,7 +161,6 @@ hooks = {
    * 
    * @info
    * importDataModule = {}; 
-   * 
    */
 
   add_reducer: {
@@ -183,14 +180,12 @@ hooks = {
       members: { name: '成员管理', path: "/project/:id/members" , component: ProjectMember},
       setting: { name: '设置', path: "/project/:id/setting" , component: Setting}
     }
-   * 
    */
   sub_nav: {
     type: 'listener',
     mulit: true,
     listener: []
   }
-
 };
 
 function bindHook(name, listener) {

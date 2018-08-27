@@ -195,12 +195,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目迁移",
           "url": "/documents/project.html#项目迁移",
-          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+          "content": "项目迁移YApi 中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的 owner 有权限对位置进行修改。项目 owner 主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner 权限判断的优先级是 项目权限 > 分组权限\n"
         },
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi 支持项目复制功能，但是无法复制项目中的测试集合 list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -210,7 +210,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置环境",
           "url": "/documents/project.html#配置环境",
-          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加环境配置弹层。"
+          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局 header，可以在项目中设置全局 header 值。在接口运行页面的选择环境 select 中也增加环境配置弹层。v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量"
         },
         {
           "title": "请求配置",
@@ -220,27 +220,37 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');"
         },
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve){    setTimeout(function(){\n      console.log('delay 1000ms')\n      resolve('ok')\n\t}, 1000)\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token 配置",
+          "url": "/documents/project.html#token-配置",
+          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -267,12 +277,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目迁移",
           "url": "/documents/project.html#项目迁移",
-          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+          "content": "项目迁移YApi 中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的 owner 有权限对位置进行修改。项目 owner 主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner 权限判断的优先级是 项目权限 > 分组权限\n"
         },
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi 支持项目复制功能，但是无法复制项目中的测试集合 list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -282,7 +292,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置环境",
           "url": "/documents/project.html#配置环境",
-          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加环境配置弹层。"
+          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局 header，可以在项目中设置全局 header 值。在接口运行页面的选择环境 select 中也增加环境配置弹层。v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量"
         },
         {
           "title": "请求配置",
@@ -292,27 +302,37 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');"
         },
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n（v1.3.16+新增）context.href和context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve){    setTimeout(function(){\n      console.log('delay 1000ms')\n      resolve('ok')\n\t}, 1000)\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token 配置",
+          "url": "/documents/project.html#token-配置",
+          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+        },
+        {
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -350,6 +370,11 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
@@ -387,6 +412,11 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
@@ -433,7 +463,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -480,7 +515,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -512,7 +552,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",
@@ -532,7 +572,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -564,7 +604,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",
@@ -584,7 +624,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -626,7 +666,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -683,7 +723,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
@@ -990,7 +1030,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1007,7 +1047,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1149,6 +1189,26 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+        },
+        {
+          "title": "Bug Fixed",
+          "url": "/documents/CHANGELOG.html#bug-fixed",
+          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
+          "title": "v1.3.21",
+          "url": "/documents/CHANGELOG.html#v1.3.21",
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
+        },
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",
@@ -1311,6 +1371,26 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\n"
+        },
+        {
+          "title": "Bug Fixed",
+          "url": "/documents/CHANGELOG.html#bug-fixed",
+          "content": "Bug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
+          "title": "v1.3.21",
+          "url": "/documents/CHANGELOG.html#v1.3.21",
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
+        },
         {
           "title": "v1.3.19",
           "url": "/documents/CHANGELOG.html#v1.3.19",
@@ -1513,7 +1593,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
@@ -1521,9 +1601,9 @@ window.ydoc_plugin_search_json = {
           "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
         },
         {
-          "title": "版本通知(v1.3.19+)",
-          "url": "/devops/index.html#版本通知v1.3.19+",
-          "content": "版本通知(v1.3.19+)在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
         }
       ]
     },
@@ -1570,7 +1650,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
@@ -1578,9 +1658,9 @@ window.ydoc_plugin_search_json = {
           "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
         },
         {
-          "title": "版本通知(v1.3.19+)",
-          "url": "/devops/index.html#版本通知v1.3.19+",
-          "content": "版本通知(v1.3.19+)在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
         }
       ]
     }

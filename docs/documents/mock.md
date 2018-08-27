@@ -129,6 +129,17 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <img src="./images/ykit.jpg" />
 
+具体用法如下：
+
+0. 清除本地配置的 hosts
+1. 下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999
+2. 启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry
+3. 在 jerry 中重新配置 hosts
+4. 在 Jerry 中点击 URL MAP 并添加配置  
+
+详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/guide/proxy.html">代理工具</a>
+
+
 <span id="mock"></span>
 
 #### 2.4 基于 Charles 代理
@@ -136,4 +147,17 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
 
 <img src="./images/charles.png" width="60%" />
+
+## mock请求严格模式
+
+版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：
+
+1. 打开 项目 -> 设置 开启 mock 严格模式
+2. 针对 query, form 中设置的必须字段会进行必填校验
+<img src="./images/mock-strice.png"/>
+
+3. 针对 req_body_type 是json schema 格式的数据进行校验
+
+<img src="./images/mock-strice3.png"/>
+<img src="./images/mock-strice2.png"/>
   

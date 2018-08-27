@@ -1,18 +1,18 @@
 /**
  * Created by gxl.gao on 2017/10/25.
  */
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import axios from 'axios'
-import PropTypes from 'prop-types'
-import './index.scss'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import './index.scss';
 // import { withRouter } from 'react-router-dom';
 import { Row, Col, Tooltip, Icon } from 'antd';
 import { setBreadcrumb } from 'client/reducer/modules/user';
 import StatisChart from './StatisChart';
-import StatisTable from './StatisTable'
+import StatisTable from './StatisTable';
 
-const CountOverview = (props) => (
+const CountOverview = props => (
   <Row type="flex" justify="space-start" className="m-row">
     <Col className="gutter-row" span={6}>
       <span>
@@ -22,7 +22,6 @@ const CountOverview = (props) => (
         </Tooltip>
       </span>
       <h2 className="gutter-box">{props.date.groupCount}</h2>
-
     </Col>
     <Col className="gutter-row" span={6}>
       <span>
@@ -60,13 +59,15 @@ CountOverview.propTypes = {
   date: PropTypes.object
 };
 
-const StatusOverview = (props) => (
+const StatusOverview = props => (
   <Row type="flex" justify="space-start" className="m-row">
-    
     <Col className="gutter-row" span={6}>
       <span>
         操作系统类型
-        <Tooltip placement="rightTop" title="操作系统类型,返回值有'darwin', 'freebsd', 'linux', 'sunos' , 'win32'">
+        <Tooltip
+          placement="rightTop"
+          title="操作系统类型,返回值有'darwin', 'freebsd', 'linux', 'sunos' , 'win32'"
+        >
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
@@ -88,7 +89,9 @@ const StatusOverview = (props) => (
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
-      <h2 className="gutter-box">{props.data.freemem} G / {props.data.totalmem} G </h2>
+      <h2 className="gutter-box">
+        {props.data.freemem} G / {props.data.totalmem} G{' '}
+      </h2>
     </Col>
     <Col className="gutter-row" span={6}>
       <span>
@@ -98,7 +101,6 @@ const StatusOverview = (props) => (
         </Tooltip>
       </span>
       <h2 className="gutter-box">{props.data.mail}</h2>
-
     </Col>
   </Row>
 );
@@ -107,16 +109,16 @@ StatusOverview.propTypes = {
   data: PropTypes.object
 };
 
-
 @connect(
-  null, {
+  null,
+  {
     setBreadcrumb
   }
 )
 class statisticsPage extends Component {
   static propTypes = {
     setBreadcrumb: PropTypes.func
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -135,7 +137,7 @@ class statisticsPage extends Component {
         uptime: ''
       },
       dataTotal: []
-    }
+    };
   }
 
   async componentWillMount() {
@@ -159,7 +161,7 @@ class statisticsPage extends Component {
   // 获取系统信息
 
   async getSystemStatusData() {
-    let result = await axios.get('/api/plugin/statismock/get_system_status')
+    let result = await axios.get('/api/plugin/statismock/get_system_status');
     if (result.data.errcode === 0) {
       let statusData = result.data.data;
       this.setState({
@@ -171,22 +173,17 @@ class statisticsPage extends Component {
   // 获取分组详细信息
 
   async getGroupData() {
-    let result = await axios.get('/api/plugin/statismock/group_data_statis')
+    let result = await axios.get('/api/plugin/statismock/group_data_statis');
     if (result.data.errcode === 0) {
-      let statusData = result.data.data
-      statusData.map(item=> {
-        return item['key'] = item.name
-      })
+      let statusData = result.data.data;
+      statusData.map(item => {
+        return (item['key'] = item.name);
+      });
       this.setState({
         dataTotal: statusData
       });
     }
   }
-
-    
-    
-
-
 
   render() {
     const { count, status, dataTotal } = this.state;
@@ -196,19 +193,17 @@ class statisticsPage extends Component {
         <div className="content">
           <h2 className="title">系统状况</h2>
           <div className="system-content">
-            <StatusOverview data={status}></StatusOverview>
+            <StatusOverview data={status} />
           </div>
           <h2 className="title">数据统计</h2>
           <div>
-            <CountOverview date={count}/>
-            <StatisTable dataSource={dataTotal}/>
+            <CountOverview date={count} />
+            <StatisTable dataSource={dataTotal} />
             <StatisChart />
           </div>
-
         </div>
       </div>
-
-    )
+    );
   }
 }
 

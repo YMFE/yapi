@@ -112,6 +112,23 @@ export default class MockCol extends Component {
     });
   };
 
+  // mock case 可以设置开启的关闭
+  openMockCase = async (id , enable=true)=> {
+    const interface_id = this.props.match.params.actionId;
+
+    await axios.post('/api/plugin/advmock/case/hide', {
+      id,
+      enable: !enable
+    }).then(async res => {
+      if (res.data.errcode === 0) {
+        message.success('修改成功');
+        await this.props.fetchMockCol(interface_id);
+      } else {
+        message.error(res.data.errmsg);
+      }
+    })
+  }
+
   render() {
     const { list: data, currInterface } = this.props;
     const { isAdd, caseData, caseDesModalVisible } = this.state;
@@ -185,6 +202,7 @@ export default class MockCol extends Component {
         dataIndex: '_id',
         key: '_id',
         render: (_id, recode) => {
+          // console.log(recode)
           return (
             !isGuest && (
               <div>
@@ -193,7 +211,7 @@ export default class MockCol extends Component {
                     编辑
                   </Button>
                 </span>
-                <span>
+                <span style={{ marginRight: 5 }}>
                   <Popconfirm
                     title="你确定要删除这条期望?"
                     onConfirm={() => this.deleteCase(_id)}
@@ -204,6 +222,11 @@ export default class MockCol extends Component {
                       删除
                     </Button>
                   </Popconfirm>
+                </span>
+                <span>
+                  <Button size="small" onClick={() => this.openMockCase(_id, recode.case_enable)}>
+                    {recode.case_enable ? <span>已开启</span> : <span>未开启</span>}
+                  </Button>
                 </span>
               </div>
             )

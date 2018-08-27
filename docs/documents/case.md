@@ -139,6 +139,16 @@ http request params, 合并了 query 和 body
 
 log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息
 
+```
+log(234)   
+assert.equal(status, 400)
+log(123)
+```
+输出结果：
+log: 234  
+AssertionError: 200 == 400
+
+
 ### 示例
 
 ```

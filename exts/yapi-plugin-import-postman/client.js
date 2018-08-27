@@ -215,10 +215,9 @@ function postman(importDataModule) {
           res[item] = data[reflect[item]];
         }
       }
-     
     } catch (err) {
       console.log(err.message);
-      message.error(`${err.message}, 导入的postman格式有误`)
+      message.error(`${err.message}, 导入的postman格式有误`);
     }
     return res;
   }

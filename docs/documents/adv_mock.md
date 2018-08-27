@@ -58,7 +58,7 @@ YApi 提供了写 JS 脚本方式处理这一问题，可以根据用户请求�
 Mock 响应延时，单位为 ms
 
 - `Random` 
-Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
+Mock.Random 方法，可以添加自定义占位符,详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
 
 ### 使用方法
 1. 首先开启此功能
@@ -100,6 +100,6 @@ mockJson = {
 
 
 ## Mock 优先级说明
-请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。
+请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
 
 如果前面匹配到 Mock 数据，后面 Mock 则不返回。

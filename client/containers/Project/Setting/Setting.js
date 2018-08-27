@@ -5,6 +5,7 @@ import ProjectMessage from './ProjectMessage/ProjectMessage.js';
 import ProjectEnv from './ProjectEnv/index.js';
 import ProjectRequest from './ProjectRequest/ProjectRequest';
 import ProjectToken from './ProjectToken/ProjectToken';
+import ProjectMock from './ProjectMock/index.js';
 import { connect } from 'react-redux';
 const TabPane = Tabs.TabPane;
 
@@ -40,6 +41,9 @@ class Setting extends Component {
               <ProjectToken projectId={+id} curProjectRole={this.props.curProjectRole} />
             </TabPane>
           ) : null}
+          <TabPane tab="全局mock脚本" key="5">
+            <ProjectMock projectId={+id} />
+          </TabPane>
         </Tabs>
       </div>
     );

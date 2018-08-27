@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { timeago } from '../util.js';
+import { timeago } from '../../../common/utils';
 import { Link } from 'react-router-dom';
 import WikiView from './View.js';
 import WikiEditor from './Editor.js';
@@ -75,7 +75,7 @@ class WikiPage extends Component {
     let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
-    let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+    let wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
     s = new WebSocket(
       wsProtocol +
         '://' +

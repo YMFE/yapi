@@ -13,7 +13,7 @@ const {
   handleCurrDomain,
   checkNameIsExistInArray
 } = require('../../common/postmanLib');
-const { handleParamsValue } = require('../../common/utils.js');
+const { handleParamsValue, ArrayToObject } = require('../../common/utils.js');
 const renderToHtml = require('../utils/reportHtml');
 const axios = require('axios');
 const HanldeImportData = require('../../common/HandleImportData');
@@ -48,6 +48,10 @@ class openController extends baseController {
           default: 'html'
         },
         email: {
+          type: 'boolean',
+          default: false
+        },
+        download: {
           type: 'boolean',
           default: false
         },
@@ -121,8 +125,10 @@ class openController extends baseController {
     ctx.body = 'projectInterfaceData';
   }
 
-  handleValue(val) {
-    return handleParamsValue(val, this.records);
+  handleValue(val, global) {
+    let globalValue = ArrayToObject(global);
+    let context = Object.assign({}, {global: globalValue}, this.records);
+    return handleParamsValue(val, context);
   }
 
   handleEvnParams(params) {
@@ -248,7 +254,10 @@ class openController extends baseController {
         </html>`
       });
     }
-
+    let mode = ctx.params.mode || 'html';
+    if(ctx.params.download === true) {
+      ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
+    }
     if (ctx.params.mode === 'json') {
       return (ctx.body = reportsResult);
     } else {

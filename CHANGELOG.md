@@ -1,3 +1,38 @@
+### v1.3.22
+
+* json schema number和integer支持枚举
+* 服务端测试增加下载功能
+* 增加 mock 接口请求字段参数验证
+* 增加返回数据验证
+
+### Bug Fixed
+
+* 命令行导入成员信息为 undefined
+* 修复form 参数为空时 接口无法保存的问题
+
+### v1.3.21
+
+* 请求配置增加 context.utils.CryptoJS
+* 环境变量支持自定义全局变量
+* 增加wiki数据导出功能
+* 用户管理处增加搜索功能
+* 增加项目全局 mock 脚本功能
+* 高级 mock 期望 支持关闭开启功能
+
+#### Bug Fixed
+
+* 优化ldap登陆 
+* swagger 导入公共params
+* 接口编辑 mockEditor 修改为 AceEditor
+
+### v1.3.20
+
+#### Bug Fixed
+* 修复 ykit 打包代码问题
+* 修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题
+* 修复 wiki controller 后端报错问题
+
+
 ### v1.3.19
 
 * 增加项目文档记录wiki
