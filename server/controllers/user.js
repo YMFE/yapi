@@ -140,8 +140,7 @@ class userController extends baseController {
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix;
 
       const emailParams =
-        ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] ||
-        (emailPostfix ? emailPrefix + emailPostfix : email);
+        ldapInfo[yapi.WEBCONFIG.ldapLogin.emailKey || 'mail'] || (emailPostfix ? emailPrefix + emailPostfix : email);
       const username = ldapInfo[yapi.WEBCONFIG.ldapLogin.usernameKey] || emailPrefix;
 
       let login = await this.handleThirdLogin(emailParams, username);
@@ -154,6 +153,7 @@ class userController extends baseController {
             username: result.username,
             role: result.role,
             uid: result._id,
+            _id: result._id,
             email: result.email,
             add_time: result.add_time,
             up_time: result.up_time,
@@ -206,7 +206,36 @@ class userController extends baseController {
       throw new Error(`third_login: ${e.message}`);
     }
   }
-
+  async handleSmartProxyLogin() {
+    try {
+      const { ctx } = this;
+      const { name } = ctx.request.user;
+      const email = name + '@tencent.com';
+      const login = await this.handleThirdLogin(email, name);
+      if (login === true) {
+        let userInst = yapi.getInst(userModel); //创建user实体
+        let result = await userInst.findByEmail(email);
+        return (ctx.body = yapi.commons.resReturn(
+          {
+            username: result.username,
+            role: result.role,
+            uid: result._id,
+            _id: result._id,
+            email: result.email,
+            add_time: result.add_time,
+            up_time: result.up_time,
+            type: result.type || 'third',
+            study: result.study
+          },
+          0,
+          'logout success...'
+        ));
+      }
+    } catch (e) {
+      console.error('smart_proxy_login:', e.message); // eslint-disable-line
+      throw new Error(`smart_proxy_login: ${e.message}`);
+    }
+  }
   /**
    * 修改用户密码
    * @interface /user/change_password
@@ -356,9 +385,7 @@ class userController extends baseController {
       });
       yapi.commons.sendMail({
         to: user.email,
-        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${
-          params.email
-        } 已经注册成功</p>`
+        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${params.email} 已经注册成功</p>`
       });
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 401, e.message);
@@ -719,6 +746,36 @@ class userController extends baseController {
       return (ctx.body = yapi.commons.resReturn(result));
     } catch (e) {
       return (ctx.body = yapi.commons.resReturn(result, 422, e.message));
+    }
+  }
+
+  /**
+   *
+   * @param {*} ctx
+   */
+  async getLoginStatus(ctx) {
+    let body;
+    if ((await this.checkLogin(ctx)) === true) {
+      let result = yapi.commons.fieldSelect(this.$user, [
+        '_id',
+        'username',
+        'email',
+        'up_time',
+        'add_time',
+        'role',
+        'type',
+        'study'
+      ]);
+      body = yapi.commons.resReturn(result);
+    } else {
+      body = yapi.commons.resReturn(null, 40011, '请登录...');
+    }
+    // 智能网管登录
+    if (ctx.request.user) {
+      await this.handleSmartProxyLogin();
+    } else {
+      body.ladp = await this.checkLDAP();
+      ctx.body = body;
     }
   }
 }

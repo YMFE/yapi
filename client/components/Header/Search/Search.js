@@ -90,7 +90,7 @@ export default class Srch extends Component {
                 case 'interface':
                   dataSource.push(
                     <Option key={`接口${item._id}`} type="接口" id={`${item._id}`} projectId={`${item.projectId}`}>
-                      {`接口: ${item.title}`}
+                      {`接口: ${item.title}:${item.path}`}
                     </Option>
                   );
                   break;

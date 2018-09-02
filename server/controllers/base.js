@@ -6,7 +6,6 @@ const groupModel = require('../models/group.js');
 const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
-
 class baseController {
   constructor(ctx) {
     this.ctx = ctx;
@@ -126,32 +125,6 @@ class baseController {
     } else {
       return yapi.WEBCONFIG.ldapLogin.enable || false;
     }
-  }
-  /**
-   *
-   * @param {*} ctx
-   */
-
-  async getLoginStatus(ctx) {
-    let body;
-    if ((await this.checkLogin(ctx)) === true) {
-      let result = yapi.commons.fieldSelect(this.$user, [
-        '_id',
-        'username',
-        'email',
-        'up_time',
-        'add_time',
-        'role',
-        'type',
-        'study'
-      ]);
-      body = yapi.commons.resReturn(result);
-    } else {
-      body = yapi.commons.resReturn(null, 40011, '请登录...');
-    }
-
-    body.ladp = await this.checkLDAP();
-    ctx.body = body;
   }
 
   getRole() {
