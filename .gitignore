@@ -44,3 +44,4 @@ client/plugin-module.js
 .vscode
 /iconfont
 /static/prd/
+package-lock.json
