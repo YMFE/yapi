@@ -179,6 +179,8 @@ class statisticsPage extends Component {
       statusData.map(item => {
         return (item['key'] = item.name);
       });
+      // 按照接口数量降序
+      statusData = statusData.sort((a,b)=>b.interface-a.interface)
       this.setState({
         dataTotal: statusData
       });
