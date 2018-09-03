@@ -128,8 +128,8 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 
 - `enable` 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);
 - `server ` LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;
-- `baseDn` LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;
-- `bindPassword` 登录该 LDAP 服务器的密码;
+- `baseDn` LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);
+- `bindPassword` 登录该 LDAP 服务器的密码(非必须);
 - `searchDn` 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;
 - `searchStandard` 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换
 - `emailPostfix` 登陆邮箱后缀（非必须）

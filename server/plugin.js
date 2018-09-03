@@ -66,6 +66,14 @@ var hooks = {
     listener: []
   },
   /**
+   * 客户端更新一个新项目
+   * @param id 项目id
+   */
+  project_up: {
+    type: 'multi',
+    listener: []
+  },
+  /**
    * 客户端删除删除一个项目
    * @param id 项目id
    */

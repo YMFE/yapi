@@ -257,6 +257,7 @@ class projectController extends baseController {
       username: username,
       typeid: result._id
     });
+    yapi.emitHook('project_add', result).then();
     ctx.body = yapi.commons.resReturn(result);
   }
 
@@ -534,7 +535,7 @@ class projectController extends baseController {
     }
     result.role = await this.getProjectRole(params.id, 'project');
 
-    yapi.emitHook('project_add', params.id).then();
+    yapi.emitHook('project_get', result).then();
     ctx.body = yapi.commons.resReturn(result);
   }
 
@@ -826,6 +827,7 @@ class projectController extends baseController {
         username: username,
         typeid: id
       });
+      yapi.emitHook('project_up', result).then();
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
