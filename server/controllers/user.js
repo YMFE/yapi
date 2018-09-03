@@ -755,7 +755,8 @@ class userController extends baseController {
    */
   async getLoginStatus(ctx) {
     let body;
-    if ((await this.checkLogin(ctx)) === true) {
+    const isLogin = await this.checkLogin(ctx);
+    if (isLogin) {
       let result = yapi.commons.fieldSelect(this.$user, [
         '_id',
         'username',
@@ -771,7 +772,7 @@ class userController extends baseController {
       body = yapi.commons.resReturn(null, 40011, '请登录...');
     }
     // 智能网管登录
-    if (ctx.request.user) {
+    if (!isLogin && ctx.request.user) {
       await this.handleSmartProxyLogin();
     } else {
       body.ladp = await this.checkLDAP();
