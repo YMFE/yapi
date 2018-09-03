@@ -2,7 +2,7 @@
  * @Author: edenhliu
  * @Date: 2018-08-31 19:34:58
  * @Last Modified by: edenhliu
- * @Last Modified time: 2018-09-03 11:29:35
+ * @Last Modified time: 2018-09-03 12:58:59
  */
 const chalk = require('chalk');
 const axios = require('axios');
@@ -159,7 +159,7 @@ function saveInterface({ _id: project_id, cat }, detail) {
       return data.data;
     })
     .then(data => {
-      console.log(chalk.green('saveInterface'), data);
+      console.log(chalk.green('saveInterface'), params.path);
       return data;
     });
 }

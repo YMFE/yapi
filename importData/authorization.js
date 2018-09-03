@@ -5,6 +5,6 @@ module.exports = {
   },
   imdocHeader: {
     Cookie:
-      '_yapi_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExLCJpYXQiOjE1MzU5NDQxODMsImV4cCI6MTUzNjU0ODk4M30.ptczF0bY1kUVwQCEMFfo1Oo-4Rlkq2YV5SVD5AGIBfU; _yapi_uid=11'
+      '_yapi_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExLCJpYXQiOjE1MzU5NTA1MDUsImV4cCI6MTUzNjU1NTMwNX0.QTVeJgvW-0rbwR8b9w2DQbSUj_FunN_lHqTz-m4ZC8Y; _yapi_uid=11'
   }
 };
