@@ -26,7 +26,7 @@ var hooks = {
     },
     /**
     * 客户端删除接口成功后触发
-     * @param data 删除接口的详细信息
+     * @param data 接口id
      */
     interface_del: {
      type: 'multi',

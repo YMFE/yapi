@@ -721,7 +721,7 @@ class interfaceController extends baseController {
 
       // let inter = await this.Model.get(id);
       let result = await this.Model.del(id);
-      yapi.emitHook('interface_del', data).then();
+      yapi.emitHook('interface_del', id).then();
       await this.caseModel.delByInterfaceId(id);
       let username = this.getUsername();
       this.catModel.get(data.catid).then(cate => {
@@ -890,7 +890,7 @@ class interfaceController extends baseController {
 
       interfaceData.forEach(async item => {
         try {
-          yapi.emitHook('interface_del', item).then();
+          yapi.emitHook('interface_del', item._id).then();
           await this.caseModel.delByInterfaceId(item._id);
         } catch (e) {
           yapi.commons.log(e.message, 'error');

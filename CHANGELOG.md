@@ -6,6 +6,7 @@
 #### Bug Fixed
 
 * 接口path中写入 ?name=xxx bug
+* 高级mock 匹配 data: [{item: XXX}] 时匹配不成功
 
 ### v1.3.22
 
