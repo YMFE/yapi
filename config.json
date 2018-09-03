@@ -3,10 +3,10 @@
   "adminAccount": "admin@admin.com",
   "db": {
     "servername": "127.0.0.1",
-    "DATABASE": "yapi",
+    "DATABASE": "imapi",
     "port": 27017,
-    "user": "test1",
-    "pass": "test1",
+    "user": "imapi",
+    "pass": "imapi",
     "authSource": ""
   },
   "mail": {
