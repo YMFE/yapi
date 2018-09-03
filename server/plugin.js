@@ -74,6 +74,14 @@ var hooks = {
     listener: []
   },
   /**
+   * 客户端获取一个项目
+   * @param id 项目id
+   */
+  project_get: {
+    type: 'multi',
+    listener: []
+  },
+  /**
    * 客户端删除删除一个项目
    * @param id 项目id
    */

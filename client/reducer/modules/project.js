@@ -1,5 +1,6 @@
 import axios from 'axios';
 import variable from '../../constants/variable';
+import {htmlFilter} from '../../common';
 
 // Actions
 const FETCH_PROJECT_LIST = 'yapi/project/FETCH_PROJECT_LIST';
@@ -173,7 +174,7 @@ export function getProjectMemberList(id) {
 // }
 
 export function addProject(data) {
-  const {
+  let {
     name,
     prd_host,
     basepath,
@@ -185,6 +186,9 @@ export function addProject(data) {
     color,
     project_type
   } = data;
+
+  // 过滤项目名称中有html标签存在的情况
+  name = htmlFilter(name);
   const param = {
     name,
     prd_host,
@@ -205,7 +209,10 @@ export function addProject(data) {
 
 // 修改项目
 export function updateProject(data) {
-  const { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5, tag } = data;
+  let { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5, tag } = data;
+  
+  // 过滤项目名称中有html标签存在的情况
+  name = htmlFilter(name);
   const param = {
     name,
     project_type,

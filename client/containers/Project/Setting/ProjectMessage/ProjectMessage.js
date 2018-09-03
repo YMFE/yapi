@@ -34,7 +34,7 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
-import { nameLengthLimit, entries, trim } from '../../../../common';
+import { nameLengthLimit, entries, trim, htmlFilter } from '../../../../common';
 import '../Setting.scss';
 import _ from 'underscore';
 import ProjectTag from './ProjectTag.js';
@@ -129,13 +129,14 @@ class ProjectMessage extends Component {
               // 如果如果项目所在的分组位置发生改变
               this.props.fetchGroupMsg(group_id);
               // this.props.history.push('/group');
+              let projectName = htmlFilter(assignValue.name);
               this.props.setBreadcrumb([
                 {
                   name: selectGroup.group_name,
                   href: '/group/' + group_id
                 },
                 {
-                  name: assignValue.name
+                  name: projectName
                 }
               ]);
             }

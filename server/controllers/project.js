@@ -535,7 +535,7 @@ class projectController extends baseController {
     }
     result.role = await this.getProjectRole(params.id, 'project');
 
-    yapi.emitHook('project_get', result).then();
+    yapi.emitHook('project_get', result).then(); 
     ctx.body = yapi.commons.resReturn(result);
   }
 
