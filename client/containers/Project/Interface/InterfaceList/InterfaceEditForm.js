@@ -759,7 +759,7 @@ class InterfaceEditForm extends Component {
     });
 
     const DEMOPATH = '/api/user/{id}';
-
+    
     return (
       <Form onSubmit={this.handleSubmit}>
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -1003,7 +1003,7 @@ class InterfaceEditForm extends Component {
             <span>JSON-SCHEMA:&nbsp;</span>
             {getFieldDecorator('req_body_is_json_schema', {
               valuePropName: 'checked',
-              initialValue: this.state.req_body_is_json_schema || !projectMsg.is_json5
+              initialValue: this.state.req_body_is_json_schema
             })(
               <Switch checkedChildren="开" unCheckedChildren="关" disabled={!projectMsg.is_json5} />
             )}
