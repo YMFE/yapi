@@ -11,12 +11,12 @@
   },
   "mail": {
     "enable": true,
-    "host": "smtp.163.com",
+    "host": "mail.tencent.com",
     "port": 465,
-    "from": "***@163.com",
+    "from": "imapi@tencent.com",
     "auth": {
-      "user": "***@163.com",
-      "pass": "*****"
+      "user": "imapi@tencent.com",
+      "pass": "imapi"
     }
   }
 }
