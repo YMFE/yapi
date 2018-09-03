@@ -21,9 +21,6 @@ class SmartProxy {
     }
     this.options = Object.assign({}, _defaultOptions, options);
 
-    if (this.options.env === 'development') {
-      this.enable = false;
-    }
     if (typeof options === 'object' && options.enable) {
       this.enable = true;
     }
@@ -31,10 +28,7 @@ class SmartProxy {
     this.token = this.options.token;
 
     if (!this.enable) {
-      this.log(
-        'warning',
-        `智能网关未开启，将会返回默认用户：${this.options.defaultUserInfo.name}`
-      );
+      this.log('warning', `智能网关未开启，将会返回默认用户：${this.options.defaultUserInfo.name}`);
     } else if (!this.token) {
       throw new Error('token required');
     }
@@ -46,24 +40,21 @@ class SmartProxy {
 
   valid(info) {
     console.log(info.host);
-    const currentToken = this.token[info.host];
+    const currentToken = this.token;
     if (!currentToken) {
       this.log('failed', 'token参数不能为空');
       return false;
     }
 
     const timestamp = parseInt(info.timestamp, 10);
-    const nowTimestamp =
-      this.options.timestamp || ~~(new Date().getTime() / 1000); //eslint-disable-line
+    const nowTimestamp = this.options.timestamp || ~~(new Date().getTime() / 1000); //eslint-disable-line
     if (Math.abs(nowTimestamp - timestamp) > 180) {
       this.log('failed', '时间误差超过180秒');
       return false;
     }
 
     const signature = sha256(
-      `${timestamp}${currentToken}${info.xRioSeq},${info.staffId},${
-        info.staffName
-      },${info.xExtData}${timestamp}`
+      `${timestamp}${currentToken}${info.xRioSeq},${info.staffId},${info.staffName},${info.xExtData}${timestamp}`
     );
     if (signature.toUpperCase() !== info.signature) {
       this.log('failed', '签名校验失败');
@@ -79,12 +70,7 @@ class SmartProxy {
 
     if (!this.enable) {
       result = this.options.defaultUserInfo;
-      this.log(
-        'info',
-        `智能网关未开启，返回默认用户信息：${JSON.stringify(
-          this.options.defaultUserInfo
-        )}`
-      );
+      this.log('info', `智能网关未开启，返回默认用户信息：${JSON.stringify(this.options.defaultUserInfo)}`);
     } else if (this.valid(info)) {
       result = {
         id: info.staffId,

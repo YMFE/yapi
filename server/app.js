@@ -27,7 +27,7 @@ yapi.app = app;
 // app.use(bodyParser({multipart: true}));
 app.use(koaBody({ multipart: true }));
 app.use(mockServer);
-app.use(smartProxyAuth());
+app.use(smartProxyAuth('bxed7naOq5zU2r1hISYInQiUQ1CMgc0t'));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
