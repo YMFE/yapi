@@ -26,7 +26,7 @@ function setupSql() {
   let result = userInst.save({
     username: yapi.WEBCONFIG.adminAccount.substr(0, yapi.WEBCONFIG.adminAccount.indexOf('@')),
     email: yapi.WEBCONFIG.adminAccount,
-    password: yapi.commons.generatePassword('ymfe.org', passsalt),
+    password: yapi.commons.generatePassword('admin', passsalt),
     passsalt: passsalt,
     role: 'admin',
     add_time: yapi.commons.time(),

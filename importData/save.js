@@ -2,12 +2,19 @@
  * @Author: edenhliu
  * @Date: 2018-08-31 19:34:58
  * @Last Modified by: edenhliu
- * @Last Modified time: 2018-09-02 15:58:42
+ * @Last Modified time: 2018-09-03 11:29:35
  */
 const chalk = require('chalk');
 const axios = require('axios');
 const { imdocHeader: headers } = require('./authorization');
-
+function request(...args) {
+  return axios(...args).then(res => {
+    if (res.data.errcode) {
+      console.log(chalk.red('request error'), res.data);
+    }
+    return res;
+  });
+}
 const baseURL = 'http://127.0.0.1:9001';
 /**
  * @typedef Cat Object
@@ -27,29 +34,27 @@ const baseURL = 'http://127.0.0.1:9001';
  *
  */
 function findGroup(name) {
-  return axios({
+  return request({
     headers,
     method: 'get',
     baseURL,
-    url: '/api/group/list',
-  })
-    .then(r => r.data.data)
-    .then(data => {
-      // // console.log('TCL: findGroup -> data', data);
-      return data.find(i => i.group_name === name);
-    });
+    url: '/api/group/list'
+  }).then(({ data }) => {
+    // console.log('TCL: findGroup -> data', data);
+    return data.data.find(i => i.group_name === name);
+  });
 }
 function findProject(group_id, name) {
   // console.log('TCL: findProject -> group_id', group_id);
   // console.log('TCL: findProject -> name', name);
-  return axios({
+  return request({
     headers,
     method: 'get',
     baseURL,
     url: '/api/project/list',
     params: {
-      group_id,
-    },
+      group_id
+    }
   })
     .then(({ data }) => {
       // console.log('TCL: findProject -> data', data);
@@ -68,15 +73,15 @@ function findProject(group_id, name) {
  * @param {Cat} cat
  */
 function saveGroup(cat) {
-  return axios({
+  return request({
     headers,
     method: 'post',
     baseURL,
     url: '/api/group/add',
     data: {
       group_name: cat.name,
-      group_desc: '',
-    },
+      group_desc: ''
+    }
   })
     .then(r => {
       if (r.data.errcode) {
@@ -91,7 +96,7 @@ function saveGroup(cat) {
 }
 
 function saveProject(group_id, project) {
-  return axios({
+  return request({
     headers,
     method: 'post',
     baseURL,
@@ -102,8 +107,8 @@ function saveProject(group_id, project) {
       desc: '',
       icon: 'code-o',
       color: 'yellow',
-      project_type: 'public',
-    },
+      project_type: 'public'
+    }
   })
     .then(({ data }) => {
       if (data.errcode) {
@@ -118,14 +123,14 @@ function saveProject(group_id, project) {
     });
 }
 function getProject(id) {
-  return axios({
+  return request({
     headers,
     method: 'get',
     baseURL,
     url: '/api/project/get',
     params: {
-      id,
-    },
+      id
+    }
   }).then(({ data }) => {
     if (data.errcode) {
       return Promise.reject(data.errmsg);
@@ -137,15 +142,15 @@ function saveInterface({ _id: project_id, cat }, detail) {
   const params = {
     project_id,
     catid: cat[0]._id,
-    ...detail,
+    ...detail
   };
   params.path = params.path.replace(/[^\d\w-/_:.!]/g, '');
-  return axios({
+  return request({
     headers,
     method: 'post',
     baseURL,
     url: '/api/interface/add',
-    data: params,
+    data: params
   })
     .then(({ data }) => {
       if (data.errcode) {
@@ -154,19 +159,20 @@ function saveInterface({ _id: project_id, cat }, detail) {
       return data.data;
     })
     .then(data => {
+      console.log(chalk.green('saveInterface'), data);
       return data;
     });
 }
 function updateEnv(project_id, domain) {
-  return axios({
+  return request({
     headers,
     method: 'post',
     baseURL,
     url: '/api/project/up_env',
     data: {
       id: project_id,
-      env: [{ name: 'public', domain, header: [], global: [] }],
-    },
+      env: [{ name: 'public', domain, header: [], global: [] }]
+    }
   })
     .then(({ data }) => {
       if (data.errcode) {
@@ -182,5 +188,5 @@ function updateEnv(project_id, domain) {
 module.exports = {
   saveGroup,
   saveProject,
-  saveInterface,
+  saveInterface
 };

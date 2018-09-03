@@ -45,3 +45,4 @@ client/plugin-module.js
 /iconfont
 static/prd/
 package-lock.json
+init.lock

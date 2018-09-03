@@ -6,8 +6,8 @@ const req_t_data = [
     paramType: 'json',
     children: [
       { name: 'p1', desc: 'xxx', paramType: 'string', required: 1 },
-      { name: 'p2', desc: 'test', paramType: 'init', required: 1 },
-    ],
+      { name: 'p2', desc: 'test', paramType: 'init', required: 1 }
+    ]
   },
   {
     name: 'p2',
@@ -16,9 +16,9 @@ const req_t_data = [
     paramType: 'json',
     children: [
       { name: 'p1', desc: '33', paramType: 'init', required: 1 },
-      { name: 'p2', desc: '444', paramType: 'init', required: 1 },
-    ],
-  },
+      { name: 'p2', desc: '444', paramType: 'init', required: 1 }
+    ]
+  }
 ];
 const res_t_data = {
   ec: { type: 'number', desc: 'ec' },
@@ -26,14 +26,14 @@ const res_t_data = {
   data: {
     type: 'array',
     desc: 'data',
-    children: { name: { type: 'string', desc: 'name' }, age: { type: 'string', desc: 'age' } },
+    children: { name: { type: 'string', desc: 'name' }, age: { type: 'string', desc: 'age' } }
   },
   field_5: {
     type: 'object',
     desc: 'field_5',
-    children: { field_6: { type: 'string', desc: 'field_6' } },
+    children: { field_6: { type: 'string', desc: 'field_6' } }
   },
-  field_7: { type: 'array', desc: 'field_7' },
+  field_7: { type: 'array', desc: 'field_7' }
 };
 const chalk = require('chalk');
 
@@ -46,26 +46,33 @@ function parserInterface(input) {
   const result = {};
   result.desc = data.desc;
   result.method = method[0] ? 'GET' : 'POST';
-  result.title = `/${data.name}`;
-  result.path = `/${data.name}`;
+  if (!/^\//.test(data.name)) {
+    data.name = '/' + data.name;
+  }
+  result.title = data.name;
+  result.path = data.name;
   result.status = 'done';
 
   result.req_body_is_json_schema = true;
   if (result.method === 'GET') {
     result.req_query = JSON.parse(data.request);
   } else {
-    result.req_body_other = JSON.stringify(parseReq(JSON.parse(data.request)));
+    result.req_body_other = JSON.stringify({
+      type: 'object',
+      properties: parseReq(JSON.parse(data.request)),
+      description: ''
+    });
     result.req_body_type = 'json';
   }
   try {
     const { response_wiki } = data;
     const t = {
-      children: isObject(response_wiki) ? response_wiki : JSON.parse(response_wiki || '{}'),
+      children: isObject(response_wiki) ? response_wiki : JSON.parse(response_wiki || '{}')
     };
     result.res_body = JSON.stringify({
       $schema: 'http://json-schema.org/draft-04/schema#',
       type: 'object',
-      properties: parseRes(t).properties,
+      properties: parseRes(t).properties
     });
   } catch (e) {
     console.log(chalk.red('error'), e, data.response_wiki);
@@ -78,7 +85,7 @@ const TYPE_MAP = {
   json: 'object',
   int: 'number',
   string: 'string',
-  boolean: 'boolean',
+  boolean: 'boolean'
 };
 function parseReq(req = []) {
   const output = {};
@@ -86,7 +93,7 @@ function parseReq(req = []) {
     const item = (output[name] = {
       type: TYPE_MAP[paramType],
       description: desc,
-      required: [],
+      required: []
     });
 
     if (paramType === 'json') {
@@ -103,7 +110,7 @@ function parseReq(req = []) {
 function parseRes(res, depth = 0) {
   const output = {
     type: res.type,
-    description: res.desc || '',
+    description: res.desc || ''
   };
   const { children } = res;
   // array 如果里面items不是object就不会存在children
@@ -116,7 +123,7 @@ function parseRes(res, depth = 0) {
       output.items = {
         type: 'object',
         properties,
-        required: [], // linkstart 不存在必填
+        required: [] // linkstart 不存在必填
       };
     } else {
       output.properties = properties;
@@ -138,5 +145,5 @@ function parseRes(res, depth = 0) {
 //   )
 // );
 module.exports = {
-  parserInterface,
+  parserInterface
 };

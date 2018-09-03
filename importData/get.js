@@ -8,7 +8,7 @@ function getCats() {
     method: 'get',
     url: '/cgi/menu/fetch',
     headers,
-    data: {},
+    data: {}
   }).then(r => r.data.list);
 }
 
@@ -20,8 +20,8 @@ function getProject(name) {
     headers,
     params: {
       menuName: name,
-      fetchType: 2,
-    },
+      fetchType: 2
+    }
   }).then(r => r.data.list);
 }
 function getInterface(pid) {
@@ -33,12 +33,12 @@ function getInterface(pid) {
     params: {
       start: 0,
       end: 10000,
-      pid,
-    },
+      pid
+    }
   }).then(r=>r.data.list)
 }
 module.exports = {
   getCats,
   getProject,
-  getInterface,
+  getInterface
 };
