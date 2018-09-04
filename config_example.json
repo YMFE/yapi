@@ -1,22 +1,22 @@
 {
-  "port": "3000",
+  "port": "9001",
   "adminAccount": "admin@admin.com",
   "db": {
     "servername": "127.0.0.1",
-    "DATABASE": "yapi",
+    "DATABASE": "imapi",
     "port": 27017,
-    "user": "test1",
-    "pass": "test1",
+    "user": "imapi",
+    "pass": "imapi",
     "authSource": ""
   },
   "mail": {
     "enable": true,
-    "host": "smtp.163.com",
+    "host": "mail.tencent.com",
     "port": 465,
-    "from": "***@163.com",
+    "from": "imapi@tencent.com",
     "auth": {
-      "user": "***@163.com",
-      "pass": "*****"
+      "user": "imapi@tencent.com",
+      "pass": "imapi"
     }
   }
 }

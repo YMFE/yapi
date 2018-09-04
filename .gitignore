@@ -44,3 +44,4 @@ client/plugin-module.js
 .vscode
 /iconfont
 init.lock
+config.json

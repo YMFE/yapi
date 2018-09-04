@@ -12,6 +12,7 @@ const { Header } = Layout;
 import LogoSVG from '../LogoSVG/index.js';
 import Breadcrumb from '../Breadcrumb/Breadcrumb.js';
 import GuideBtns from '../GuideBtns/GuideBtns.js';
+import JoinGroup from './JoinGroup';
 const plugin = require('client/plugin.js');
 
 let HeaderMenu = {
@@ -57,7 +58,8 @@ const MenuUser = props => (
     })}
     <Menu.Item key="9">
       <a onClick={props.logout}>
-        <Icon type="logout" />退出
+        <Icon type="logout" />
+        退出
       </a>
     </Menu.Item>
   </Menu>
@@ -305,10 +307,8 @@ export default class HeaderCom extends Component {
             </div>
           </Link>
           <Breadcrumb />
-          <div
-            className="user-toolbar"
-            style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}
-          >
+          <JoinGroup />
+          <div className="user-toolbar" style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}>
             {login ? (
               <ToolUser
                 {...{ studyTip, study, user, msg, uid, role, imageUrl }}

@@ -1,5 +1,6 @@
 const sha256 = require('./sha256');
 const debug = require('debug')('smart-proxy');
+debug.enabled = true;
 
 const _defaultOptions = {
   token: '',
@@ -7,29 +8,18 @@ const _defaultOptions = {
   logger(msg) {
     debug(msg);
   },
-  env: process.env.NODE_ENV || 'development',
   defaultUserInfo: {
     id: '6666',
-    name: 'edenhliu'
+    name: 'edenhliut'
   }
 };
-
 class SmartProxy {
   constructor(options) {
-    if (typeof options === 'string') {
-      options = { token: options };
-    }
-    this.options = Object.assign({}, _defaultOptions, options);
-
-    if (typeof options === 'object' && options.enable) {
-      this.enable = true;
-    }
+    this.options = { ..._defaultOptions, ...options };
 
     this.token = this.options.token;
 
-    if (!this.enable) {
-      this.log('warning', `智能网关未开启，将会返回默认用户：${this.options.defaultUserInfo.name}`);
-    } else if (!this.token) {
+    if (!this.token) {
       throw new Error('token required');
     }
   }
@@ -67,10 +57,13 @@ class SmartProxy {
 
   auth(info) {
     let result = {};
-
-    if (!this.enable) {
-      result = this.options.defaultUserInfo;
-      this.log('info', `智能网关未开启，返回默认用户信息：${JSON.stringify(this.options.defaultUserInfo)}`);
+    if (!info.staffName) {
+      if (process.env.NODE_ENV === 'development') {
+        this.log('info', '智能网管没有开启,使用默认用户');
+        result = _defaultOptions.defaultUserInfo;
+      } else {
+        result = false;
+      }
     } else if (this.valid(info)) {
       result = {
         id: info.staffId,
@@ -81,7 +74,6 @@ class SmartProxy {
       result = false;
       this.log('failed', '智能代理校验失败');
     }
-
     return result;
   }
 }

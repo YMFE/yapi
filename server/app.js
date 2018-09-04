@@ -8,7 +8,7 @@ const dbModule = require('./utils/db.js');
 yapi.connect = dbModule.connect();
 const mockServer = require('./middleware/mockServer.js');
 const smartProxyAuth = require('./middleware/smart-proxy-koa2/auth');
-const plugins = require('./plugin.js');
+require('./plugin.js'); // 安装插件
 const websockify = require('koa-websocket');
 const websocket = require('./websocket.js');
 

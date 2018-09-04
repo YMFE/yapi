@@ -8,7 +8,7 @@
     "dev-server": " nodemon server/app.js dev -L",
     "install-server": " node server/install.js",
     "dev-client": "npm run dev-copy-icon && ykit s -p 4000",
-    "dev": "npm run dev-server & npm run dev-client",
+    "dev": "NODE_ENV=development npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
     "test": "ava",
     "build-client": "NODE_ENV=production ykit pack -m"

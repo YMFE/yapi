@@ -1,20 +1,11 @@
-const SmartProxy = require('./lib/SmartProxy.class');
+const SmartProxy = require('./lib/SmartProxy');
 
 module.exports = options => {
   if (typeof options === 'string') {
     options = { token: options, enable: true };
   }
 
-  options = Object.assign(
-    {
-      key: 'user',
-      async errorHandler(ctx, next) {
-        ctx.body = 'SmartProxy access deny';
-        ctx.status = 403;
-      }
-    },
-    options
-  );
+  options = { key: 'user', ...options };
 
   const smartProxy = new SmartProxy(options);
 
@@ -28,11 +19,6 @@ module.exports = options => {
       xExtData: ctx.request.header['x-ext-data'] || '',
       host: ctx.request.header.host
     });
-
-    if (ctx.request[options.key]) {
-      await next();
-    } else {
-      await options.errorHandler(ctx, next);
-    }
+    await next();
   };
 };

@@ -159,19 +159,12 @@ class groupController extends baseController {
     };
 
     let result = await groupInst.save(data);
-    result = yapi.commons.fieldSelect(result, [
-      '_id',
-      'group_name',
-      'group_desc',
-      'uid',
-      'members',
-      'type'
-    ]);
+    result = yapi.commons.fieldSelect(result, ['_id', 'group_name', 'group_desc', 'uid', 'members', 'type']);
     let username = this.getUsername();
     yapi.commons.saveLog({
-      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组 <a href="/group/${
-        result._id
-      }">${params.group_name}</a>`,
+      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 新增了分组 <a href="/group/${result._id}">${
+        params.group_name
+      }</a>`,
       type: 'group',
       uid: this.getUid(),
       username: username,
@@ -399,10 +392,7 @@ class groupController extends baseController {
           if (publicCount > 0) {
             newResult.push(result[i]);
           } else {
-            let projectCountWithAuth = await projectInst.getProjectWithAuth(
-              result[i]._id,
-              this.getUid()
-            );
+            let projectCountWithAuth = await projectInst.getProjectWithAuth(result[i]._id, this.getUid());
             if (projectCountWithAuth > 0) {
               newResult.push(result[i]);
             }
@@ -479,15 +469,41 @@ class groupController extends baseController {
     let result = await groupInst.up(params.id, params);
     let username = this.getUsername();
     yapi.commons.saveLog({
-      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了 <a href="/group/${
-        params.id
-      }">${params.group_name}</a> 分组`,
+      content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了 <a href="/group/${params.id}">${
+        params.group_name
+      }</a> 分组`,
       type: 'group',
       uid: this.getUid(),
       username: username,
       typeid: params.id
     });
     ctx.body = yapi.commons.resReturn(result);
+  }
+  async joinAllPublicGroup(ctx) {
+    let { $user } = this;
+    if ($user.role === 'admin' || $user.study) {
+      ctx.body = yapi.commons.resReturn(null, 400, '加入失败');
+      return;
+    }
+    var groupInst = yapi.getInst(groupModel);
+    let result = await groupInst.list();
+    for (let i = 0, len = result.length; i < len; i++) {
+      let group = result[i];
+      let check = await groupInst.checkMemberRepeat(group._id, $user._id);
+      let add_members = [];
+      if (check <= 0) {
+        $user.role !== 'admin' &&
+          add_members.push({
+            role: 'dev',
+            uid: $user._id,
+            username: $user.username,
+            email: $user.email
+          });
+      }
+      await groupInst.addMember(group._id, add_members);
+    }
+    console.log($user);
+    ctx.body = yapi.commons.resReturn(null);
   }
 }
 
