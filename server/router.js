@@ -99,6 +99,11 @@ let routerConfig = {
       action: 'get',
       path: 'get',
       method: 'get'
+    },
+    {
+      action: 'joinAllPublicGroup',
+      path: 'join_all_public_group',
+      method: 'get'
     }
   ],
   user: [

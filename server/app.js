@@ -7,7 +7,8 @@ yapi.commons = commons;
 const dbModule = require('./utils/db.js');
 yapi.connect = dbModule.connect();
 const mockServer = require('./middleware/mockServer.js');
-const plugins = require('./plugin.js');
+const smartProxyAuth = require('./middleware/smart-proxy-koa2/auth');
+require('./plugin.js'); // 安装插件
 const websockify = require('koa-websocket');
 const websocket = require('./websocket.js');
 
@@ -26,6 +27,7 @@ yapi.app = app;
 // app.use(bodyParser({multipart: true}));
 app.use(koaBody({ multipart: true }));
 app.use(mockServer);
+app.use(smartProxyAuth('bxed7naOq5zU2r1hISYInQiUQ1CMgc0t'));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
@@ -54,6 +56,4 @@ app.use(async (ctx, next) => {
 app.use(koaStatic(yapi.path.join(yapi.WEBROOT, 'static'), { index: indexFile, gzip: true }));
 
 app.listen(yapi.WEBCONFIG.port);
-commons.log(
-  `the server is start at 127.0.0.1${yapi.WEBCONFIG.port == '80' ? '' : ':' + yapi.WEBCONFIG.port}`
-);
+commons.log(`the server is start at 127.0.0.1${yapi.WEBCONFIG.port == '80' ? '' : ':' + yapi.WEBCONFIG.port}`);

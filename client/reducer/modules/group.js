@@ -10,6 +10,7 @@ const DEL_GROUP_MEMBER = 'yapi/group/DEL_GROUP_MEMBER';
 const CHANGE_GROUP_MEMBER = 'yapi/group/CHANGE_GROUP_MEMBER';
 const CHANGE_GROUP_MESSAGE = 'yapi/group/CHANGE_GROUP_MESSAGE';
 const UPDATE_GROUP_LIST = 'yapi/group/UPDATE_GROUP_LIST';
+const JOIN_ALL_PUBLIC_GROUP = 'yapi/group/ADD_ALL_PUBLIC_GROUP';
 const DEL_GROUP = 'yapi/group/DEL_GROUP';
 
 // Reducer
@@ -155,5 +156,12 @@ export function setCurrGroup(group) {
   return {
     type: SET_CURR_GROUP,
     payload: group
+  };
+}
+
+export function joinAllPublicGroup() {
+  return {
+    type: JOIN_ALL_PUBLIC_GROUP,
+    payload: axios.get('/api/group/join_all_public_group')
   };
 }

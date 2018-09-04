@@ -169,8 +169,7 @@ class interfaceModel extends baseModel {
   }
 
   list(project_id, select) {
-    select =
-      select || '_id title uid path method project_id catid edit_uid status add_time up_time';
+    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time';
     return this.model
       .find({
         project_id: project_id
@@ -190,9 +189,7 @@ class interfaceModel extends baseModel {
       .sort({ title: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select(
-        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time'
-      )
+      .select('_id title uid path method project_id catid api_opened edit_uid status add_time up_time')
       .exec();
   }
 
@@ -211,8 +208,7 @@ class interfaceModel extends baseModel {
   }
 
   listByCatid(catid, select) {
-    select =
-      select || '_id title uid path method project_id catid edit_uid status add_time up_time index';
+    select = select || '_id title uid path method project_id catid edit_uid status add_time up_time index';
     return this.model
       .find({
         catid: catid
@@ -232,9 +228,7 @@ class interfaceModel extends baseModel {
       .sort({ index: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select(
-        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index'
-      )
+      .select('_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index')
       .exec();
   }
 
@@ -325,7 +319,12 @@ class interfaceModel extends baseModel {
   search(keyword) {
     return this.model
       .find({
-        title: new RegExp(keyword, 'ig')
+        $or: [
+          { title: new RegExp(keyword, 'ig') },
+          {
+            path: new RegExp(keyword, 'ig')
+          }
+        ]
       })
       .limit(10);
   }

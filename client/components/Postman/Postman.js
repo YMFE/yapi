@@ -46,24 +46,24 @@ const InsertCodeMap = [
     title: '断言 httpCode 等于 200'
   },
   {
-    code: 'assert.equal(body.errcode, 0)',
-    title: '断言返回数据 errcode 是 0'
+    code: 'assert.equal(body.retcode, 0)',
+    title: '断言返回数据 retcode 是 0'
   },
   {
     code: 'assert.notEqual(status, 404)',
     title: '断言 httpCode 不是 404'
   },
   {
-    code: 'assert.notEqual(body.errcode, 40000)',
-    title: '断言返回数据 errcode 不是 40000'
+    code: 'assert.notEqual(body.retcode, 40000)',
+    title: '断言返回数据 retcode 不是 40000'
   },
   {
-    code: 'assert.deepEqual(body, {"errcode": 0})',
-    title: '断言对象 body 等于 {"errcode": 0}'
+    code: 'assert.deepEqual(body, {"retcode": 0})',
+    title: '断言对象 body 等于 {"retcode": 0}'
   },
   {
-    code: 'assert.notDeepEqual(body, {"errcode": 0})',
-    title: '断言对象 body 不等于 {"errcode": 0}'
+    code: 'assert.notDeepEqual(body, {"retcode": 0})',
+    title: '断言对象 body 不等于 {"retcode": 0}'
   }
 ];
 

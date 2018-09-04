@@ -1041,6 +1041,7 @@ class projectController extends baseController {
       '_id',
       'uid',
       { key: 'title', alias: 'title' },
+      { key: 'path', alias: 'path' },
       { key: 'project_id', alias: 'projectId' },
       { key: 'add_time', alias: 'addTime' },
       { key: 'up_time', alias: 'upTime' }

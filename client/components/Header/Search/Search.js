@@ -2,6 +2,8 @@ import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Input, AutoComplete } from 'antd';
+import debounce from 'lodash/debounce';
+
 import './Search.scss';
 import { withRouter } from 'react-router';
 import axios from 'axios';
@@ -30,6 +32,7 @@ export default class Srch extends Component {
     this.state = {
       dataSource: []
     };
+    this.handleSearch = debounce(this.handleSearch, 500);
   }
 
   static propTypes = {
@@ -54,13 +57,14 @@ export default class Srch extends Component {
       this.props.history.push('/project/' + option.props['id']);
     } else if (option.props.type === '接口') {
       await this.props.fetchInterfaceListMenu(option.props['projectId']);
-      this.props.history.push(
-        '/project/' + option.props['projectId'] + '/interface/api/' + option.props['id']
-      );
+      this.props.history.push('/project/' + option.props['projectId'] + '/interface/api/' + option.props['id']);
     }
   };
 
   handleSearch = value => {
+    if (value === '') {
+      return;
+    }
     axios
       .get('/api/project/search?q=' + value)
       .then(res => {
@@ -71,37 +75,22 @@ export default class Srch extends Component {
               switch (title) {
                 case 'group':
                   dataSource.push(
-                    <Option
-                      key={`分组${item._id}`}
-                      type="分组"
-                      value={`${item.groupName}`}
-                      id={`${item._id}`}
-                    >
+                    <Option key={`分组${item._id}`} type="分组" value={`${item.groupName}`} id={`${item._id}`}>
                       {`分组: ${item.groupName}`}
                     </Option>
                   );
                   break;
                 case 'project':
                   dataSource.push(
-                    <Option
-                      key={`项目${item._id}`}
-                      type="项目"
-                      id={`${item._id}`}
-                      groupId={`${item.groupId}`}
-                    >
+                    <Option key={`项目${item._id}`} type="项目" id={`${item._id}`} groupId={`${item.groupId}`}>
                       {`项目: ${item.name}`}
                     </Option>
                   );
                   break;
                 case 'interface':
                   dataSource.push(
-                    <Option
-                      key={`接口${item._id}`}
-                      type="接口"
-                      id={`${item._id}`}
-                      projectId={`${item.projectId}`}
-                    >
-                      {`接口: ${item.title}`}
+                    <Option key={`接口${item._id}`} type="接口" id={`${item._id}`} projectId={`${item.projectId}`}>
+                      {`接口: ${item.title}:${item.path}`}
                     </Option>
                   );
                   break;
