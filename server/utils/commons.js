@@ -18,24 +18,33 @@ const ejs = require('easy-json-schema');
 
 const jsf = require('json-schema-faker');
 const formats = require('../../common/formats');
+
+jsf.extend ('mock', function () {
+  return {
+    mock: function (xx) {
+      return Mock.mock (xx);
+    }
+  };
+});
+
 const defaultOptions = {
   failOnInvalidTypes: false,
   failOnInvalidFormat: false
 };
 
-formats.forEach(item => {
-  item = item.name;
-  jsf.format(item, () => {
-    if (item === 'mobile') {
-      return jsf.random.randexp('^[1][34578][0-9]{9}$');
-    }
-    return Mock.mock('@' + item);
-  });
-});
+// formats.forEach(item => {
+//   item = item.name;
+//   jsf.format(item, () => {
+//     if (item === 'mobile') {
+//       return jsf.random.randexp('^[1][34578][0-9]{9}$');
+//     }
+//     return Mock.mock('@' + item);
+//   });
+// });
 
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
-
+  
   jsf.option(options);
   let result;
   try {
