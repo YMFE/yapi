@@ -12,6 +12,7 @@ const projectModel = require('../models/project.js');
 const jsondiffpatch = require('jsondiffpatch');
 const formattersHtml = jsondiffpatch.formatters.html;
 const showDiffMsg = require('../../common/diff-view.js');
+const mergeJsonSchema = require('../../common/mergeJsonSchema');
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -115,7 +116,8 @@ class interfaceController extends baseController {
           title: minLengthStringField,
           path: minLengthStringField,
           method: minLengthStringField,
-          message: minLengthStringField
+          message: minLengthStringField,
+          dataSync: 'string'
         },
         addAndUpCommonField
       )
@@ -281,7 +283,7 @@ class interfaceController extends baseController {
 
   async save(ctx) {
     let params = ctx.params;
-
+    
     if (!this.$tokenAuth) {
       let auth = await this.checkAuth(params.project_id, 'project', 'edit');
       if (!auth) {
@@ -301,16 +303,25 @@ class interfaceController extends baseController {
       ));
     }
 
-    let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id');
+    let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id res_body');
 
     if (result.length > 0) {
       result.forEach(async item => {
         params.id = item._id;
         // console.log(this.schemaMap['up'])
-        let validResult = yapi.commons.validateParams(this.schemaMap['up'], params);
+        let validParams = Object.assign({}, params)
+        let validResult = yapi.commons.validateParams(this.schemaMap['up'], validParams);
         if (validResult.valid) {
           let data = {};
-          data.params = params;
+          data.params = validParams;
+
+          if(params.res_body_is_json_schema && params.dataSync === 'good'){
+            try{
+              let new_res_body = yapi.commons.json_parse(params.res_body)
+              let old_res_body = yapi.commons.json_parse(item.res_body)
+              data.params.res_body = JSON.stringify(mergeJsonSchema(old_res_body, new_res_body),null,2);
+            }catch(err){}
+          }
           await this.up(data);
         } else {
           return (ctx.body = yapi.commons.resReturn(null, 400, validResult.message));
