@@ -10,9 +10,6 @@ function handleProperties(sourceProperties, mergeProperties){
     return mergeProperties
   }
   Object.keys(mergeProperties).forEach(key=>{
-    if(key === 'field_1'){
-      console.log(1)
-    }
     mergeProperties[key]= handleSchema(sourceProperties[key], mergeProperties[key])
   })
   return mergeProperties;
