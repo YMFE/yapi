@@ -11,11 +11,10 @@ import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 import mockEditor from 'client/components/AceEditor/mockEditor';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
-import formats from 'common/formats';
 const jSchema = require('json-schema-editor-visual');
 
-const ResBodySchema = jSchema({ lang: 'zh_CN', format: formats });
-const ReqBodySchema = jSchema({ lang: 'zh_CN', format: formats });
+const ResBodySchema = jSchema({ lang: 'zh_CN' });
+const ReqBodySchema = jSchema({ lang: 'zh_CN' });
 const TabPane = Tabs.TabPane;
 
 require('codemirror/lib/codemirror.css'); // codemirror
@@ -548,24 +547,10 @@ class InterfaceEditForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
     };
+  
+    const res_body_use_schema_editor = checkIsJsonSchema(this.state.res_body) || ''
 
-    let res_body = '';
-    let req_body_other = '';
-    try {
-      res_body = this.state.res_body
-        ? JSON.stringify(json5.parse(this.state.res_body), null, 2)
-        : '';
-    } catch (e) {
-      res_body = '';
-    }
-
-    try {
-      req_body_other = this.state.req_body_other
-        ? JSON.stringify(json5.parse(this.state.req_body_other), null, 2)
-        : '';
-    } catch (e) {
-      req_body_other = '';
-    }
+    const req_body_other_use_schema_editor = checkIsJsonSchema(this.state.req_body_other) || ''
 
     const queryTpl = (data, index) => {
       return (
@@ -1028,7 +1013,7 @@ class InterfaceEditForm extends Component {
                       EditFormContext.props.changeEditStatus(true);
                     }
                   }}
-                  data={req_body_other}
+                  data={req_body_other_use_schema_editor}
                 />
               )}
             </Col>
@@ -1134,7 +1119,7 @@ class InterfaceEditForm extends Component {
                           EditFormContext.props.changeEditStatus(true);
                         }
                       }}
-                      data={res_body}
+                      data={res_body_use_schema_editor}
                     />
                   </div>
                 )}

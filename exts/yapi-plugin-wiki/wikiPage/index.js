@@ -75,7 +75,7 @@ class WikiPage extends Component {
     let domain = location.hostname + (location.port !== '' ? ':' + location.port : '');
     let s;
     //因后端 node 仅支持 ws， 暂不支持 wss
-    let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+    let wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
     s = new WebSocket(
       wsProtocol +
         '://' +

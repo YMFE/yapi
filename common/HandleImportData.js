@@ -1,5 +1,7 @@
 const _ = require('underscore');
 const axios = require('axios');
+
+
 const isNode = typeof global == 'object' && global.global === global;
 
 async function handle(
@@ -84,13 +86,14 @@ async function handle(
       }
       data.token = token;
 
-      if (dataSync) {
+      if (dataSync !== 'normal') {
         // 开启同步功能
         count++;
         let apipath = '/api/interface/save';
         if (isNode) {
           apipath = 'http://127.0.0.1:' + port + apipath;
         }
+        data.dataSync = dataSync;
         let result = await axios.post(apipath, data);
         if (result.data.errcode) {
           successNum--;

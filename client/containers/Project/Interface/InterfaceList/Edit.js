@@ -85,7 +85,7 @@ class InterfaceEdit extends Component {
     let s,
       initData = false;
     //因后端 node 仅支持 ws， 暂不支持 wss
-    let wsProtocol = location.protocol === 'https' ? 'ws' : 'ws';
+    let wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
 
     setTimeout(() => {
       if (initData === false) {
