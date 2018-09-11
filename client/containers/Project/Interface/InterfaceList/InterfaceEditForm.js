@@ -1013,6 +1013,7 @@ class InterfaceEditForm extends Component {
                       EditFormContext.props.changeEditStatus(true);
                     }
                   }}
+                  isMock={true}
                   data={req_body_other_use_schema_editor}
                 />
               )}
@@ -1119,6 +1120,7 @@ class InterfaceEditForm extends Component {
                           EditFormContext.props.changeEditStatus(true);
                         }
                       }}
+                      isMock={true}
                       data={res_body_use_schema_editor}
                     />
                   </div>

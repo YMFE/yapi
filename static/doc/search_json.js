@@ -453,12 +453,17 @@ window.ydoc_plugin_search_json = {
         {
           "title": "方式2. json-schema",
           "url": "/documents/mock.html#方式2.-json-schema",
-          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+          "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再试用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+        },
+        {
+          "title": "集成 mockjs",
+          "url": "/documents/mock.html#方式2.-json-schema-集成-mockjs",
+          "content": "集成 mockjs基本书写方式为 mock 的数据占位符@xxx, 具体字段详见Mockjs 官网\n如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值\n"
         },
         {
           "title": "如何使用 Mock",
@@ -505,12 +510,17 @@ window.ydoc_plugin_search_json = {
         {
           "title": "方式2. json-schema",
           "url": "/documents/mock.html#方式2.-json-schema",
-          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+          "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再试用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+        },
+        {
+          "title": "集成 mockjs",
+          "url": "/documents/mock.html#方式2.-json-schema-集成-mockjs",
+          "content": "集成 mockjs基本书写方式为 mock 的数据占位符@xxx, 具体字段详见Mockjs 官网\n如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值\n"
         },
         {
           "title": "如何使用 Mock",
@@ -1040,7 +1050,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 接口id\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1057,7 +1067,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 删除接口的详细信息\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 接口id\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
@@ -1202,7 +1212,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n"
+          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n"
         },
         {
           "title": "v1.3.22",
@@ -1384,7 +1394,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n"
+          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n"
         },
         {
           "title": "v1.3.22",

@@ -59,13 +59,20 @@
 }
 
 </code></pre>
-<p>详细使用文档请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a></p>
+<p>详细使用文档请查看：<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a></p>
 <h2 id="方式2.-json-schema">方式2. json-schema</h2>
 <img src="./images/usage/json-schema-demo.jpg">
-<p>开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。</p>
-<h3 id="方式2.-json-schema-如何生成随机的邮箱或-ip？">如何生成随机的邮箱或 ip？</h3>
+<p>开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。</p>
+<h3 id="方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再试用？">如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？</h3>
 <img src="./images/usage/json-schema-mock.jpg">
 <p>点击高级设置，选择 <code>format</code> 选项，比如选择 <code>email</code> 则该字段生成随机邮箱字符串。</p>
+<h3 id="方式2.-json-schema-集成-mockjs">集成 mockjs</h3>
+<p>基本书写方式为 mock 的数据占位符@xxx, 具体字段详见<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a>
+<img src="./images/schema-mock-2.png">
+<img src="./images/schema-mock-1.png"></p>
+<blockquote>
+<p>如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值</p>
+</blockquote>
 <h2 id="如何使用-mock">如何使用 Mock</h2>
 <h3 id="如何使用-mock-1-在-js-代码直接请求yapi提供的-mock-地址（不用担心跨域问题）">1 在 js 代码直接请求yapi提供的 mock 地址（不用担心跨域问题）</h3>
 <p>在代码直接请求 yapi 提供的 mock 地址，以 jQuery 为例：</p>
