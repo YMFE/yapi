@@ -7,6 +7,9 @@
 
 * 接口path中写入 ?name=xxx bug
 * 高级mock 匹配 data: [{item: XXX}] 时匹配不成功
+* 接口运行 query params 自动勾选
+* mock get 带 cookie 时跨域
+* json schema 嵌套多层 array 预览不展示 bug
 
 ### v1.3.22
 

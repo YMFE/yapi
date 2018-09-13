@@ -1,4 +1,5 @@
 const _ = require('underscore');
+let fieldNum = 1;
 
 exports.schemaTransformToTable = schema => {
   try {
@@ -66,6 +67,9 @@ const Schema = (data, key) => {
 
     if (_.isArray(children)) {
       item = Object.assign({}, item, { children });
+    } else if (!_.isUndefined(children)) {
+      children.key = 'max-' + fieldNum++;
+      item = Object.assign({}, item, { children: [children] });
     }
 
     return item;

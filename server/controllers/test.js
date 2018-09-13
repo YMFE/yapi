@@ -147,7 +147,6 @@ class interfaceColController extends baseController {
    */
   async testDelete(ctx) {
     try {
-      let params = ctx.request.query;
       let body = ctx.request.body;
       ctx.body = yapi.commons.resReturn(body);
     } catch (e) {
