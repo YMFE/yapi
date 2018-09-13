@@ -1,5 +1,6 @@
 const Mock = require('mockjs');
 const filter = require('./power-string.js').filter;
+const stringUtils = require('./power-string.js').utils;
 const json5 = require('json5');
 const Ajv = require('ajv');
 /**
@@ -167,6 +168,14 @@ function isJson(json) {
 }
 
 exports.isJson = isJson;
+
+exports.unbase64 = function(base64Str) {
+    try {
+      return stringUtils.unbase64(base64Str);
+    } catch (err) {
+      return base64Str;
+    }
+  };
 
 exports.json_parse = function(json) {
   try {
