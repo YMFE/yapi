@@ -278,6 +278,11 @@ let routerConfig = {
       action: 'copy',
       path: 'copy',
       method: 'post'
+    },
+    {
+      action: 'swaggerUrl',
+      path: 'swagger_url',
+      method: 'get'
     }
   ],
   interface: [

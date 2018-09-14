@@ -1,6 +1,7 @@
 ### v1.3.23
 
 * 接口tag功能
+* 数据导入增加 merge 功能
 
 
 #### Bug Fixed
@@ -10,6 +11,7 @@
 * 接口运行 query params 自动勾选
 * mock get 带 cookie 时跨域
 * json schema 嵌套多层 array 预览不展示 bug
+* swagger URL 导入 跨域问题
 
 ### v1.3.22
 

@@ -21,7 +21,7 @@ const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
 const PROJECT_GET_ENV = 'yapi/project/PROJECT_GET_ENV';
 const CHANGE_MEMBER_EMAIL_NOTICE = 'yapi/project/CHANGE_MEMBER_EMAIL_NOTICE';
-
+const GET_SWAGGER_URL_DATA = 'yapi/project/GET_SWAGGER_URL_DATA'
 // Reducer
 const initialState = {
   isUpdateModalShow: false,
@@ -40,7 +40,8 @@ const initialState = {
         header: []
       }
     ]
-  }
+  },
+  swaggerUrlData: {}
 };
 
 export default (state = initialState, action) => {
@@ -97,6 +98,13 @@ export default (state = initialState, action) => {
       return {
         ...state
       };
+    }
+
+    case GET_SWAGGER_URL_DATA: {
+      return {
+        ...state,
+        swaggerUrlData: action.payload.data.data
+      }
     }
     default:
       return state;
@@ -318,5 +326,12 @@ export async function checkProjectName(name, group_id) {
     payload: axios.get('/api/project/check_project_name', {
       params: { name, group_id }
     })
+  };
+}
+
+export async function handleSwaggerUrlData(url) {
+  return {
+    type: GET_SWAGGER_URL_DATA,
+    payload: axios.get('/api/project/swagger_url?url='+url)
   };
 }

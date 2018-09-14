@@ -12,6 +12,7 @@ const userModel = require('../models/user.js');
 const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
 const tokenModel = require('../models/token.js');
+const axios = require('axios');
 
 const sha = require('sha.js');
 
@@ -535,7 +536,7 @@ class projectController extends baseController {
     }
     result.role = await this.getProjectRole(params.id, 'project');
 
-    yapi.emitHook('project_get', result).then(); 
+    yapi.emitHook('project_get', result).then();
     ctx.body = yapi.commons.resReturn(result);
   }
 
@@ -891,7 +892,7 @@ class projectController extends baseController {
     }
   }
 
-   /**
+  /**
    * 编辑项目
    * @interface /project/up_tag
    * @method POST
@@ -925,7 +926,7 @@ class projectController extends baseController {
         up_time: yapi.commons.time()
       };
       data.tag = params.tag;
-     
+
       let result = await this.Model.up(id, data);
       let username = this.getUsername();
       yapi.commons.saveLog({
@@ -1110,6 +1111,20 @@ class projectController extends baseController {
     };
 
     return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));
+  }
+
+  // 输入 swagger url  的时候node端请求数据
+  async swaggerUrl(ctx) {
+    try {
+      let url = ctx.request.query.url;
+      console.log('url', url);
+
+      let result = await axios.get(url);
+      
+      ctx.body = yapi.commons.resReturn(result.data);
+    } catch (err) {
+      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+    }
   }
 }
 

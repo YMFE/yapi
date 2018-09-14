@@ -456,9 +456,9 @@ window.ydoc_plugin_search_json = {
           "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再试用？",
-          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再适用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
         },
         {
           "title": "集成 mockjs",
@@ -513,9 +513,9 @@ window.ydoc_plugin_search_json = {
           "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再试用？",
-          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再试用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再适用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
         },
         {
           "title": "集成 mockjs",
@@ -764,28 +764,28 @@ window.ydoc_plugin_search_json = {
     },
     {
       "title": "数据导入",
-      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。",
+      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。v1.3.23+ 增加数据导入的3种同步方式  normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；例如，用户对字段code 添加了mock信息, 当再次数据导入的时候 mock 字段将不会被覆盖\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\n",
       "url": "/documents/data.html",
       "children": [
         {
           "title": "Postman 数据导入",
           "url": "/documents/data.html#postman-数据导入",
-          "content": "Postman 数据导入1.首先在postman导出接口2.选择collection_v1,点击export导出接口到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和postman导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "Postman 数据导入1.首先在 postman 导出接口2.选择 collection_v1,点击 export 导出接口到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 postman 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据"
         },
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击 network，首次使用请先 clear 所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击 save as HAR with content,将数据保存到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 har 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持swagger url 导入功能\n2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持 swagger url 导入功能\n2.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 swagger 导入 \b 方式，\b 选择刚才的文件，开始导入数据"
         },
         {
-          "title": "YApi接口JSON数据导入",
-          "url": "/documents/data.html#yapi接口json数据导入",
-          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+          "title": "YApi 接口 JSON 数据导入",
+          "url": "/documents/data.html#yapi-接口-json-数据导入",
+          "content": "YApi 接口 JSON 数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
         },
         {
           "title": "通过命令行导入接口数据",
@@ -795,34 +795,34 @@ window.ydoc_plugin_search_json = {
         {
           "title": "使用方法",
           "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
-          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": false,\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 是否覆盖旧的接口，默认不开启，配置 true 开启server 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": \"normal\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目 token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 有三种导入方式(v1.3.23+支持) normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\nserver 是 yapi 服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },
     {
       "title": "数据导入",
-      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。",
+      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。v1.3.23+ 增加数据导入的3种同步方式  normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；例如，用户对字段code 添加了mock信息, 当再次数据导入的时候 mock 字段将不会被覆盖\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\n",
       "url": "/documents/data.html",
       "children": [
         {
           "title": "Postman 数据导入",
           "url": "/documents/data.html#postman-数据导入",
-          "content": "Postman 数据导入1.首先在postman导出接口2.选择collection_v1,点击export导出接口到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和postman导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "Postman 数据导入1.首先在 postman 导出接口2.选择 collection_v1,点击 export 导出接口到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 postman 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据"
         },
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击 network，首次使用请先 clear 所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击 save as HAR with content,将数据保存到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 har 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持swagger url 导入功能\n2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持 swagger url 导入功能\n2.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 swagger 导入 \b 方式，\b 选择刚才的文件，开始导入数据"
         },
         {
-          "title": "YApi接口JSON数据导入",
-          "url": "/documents/data.html#yapi接口json数据导入",
-          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+          "title": "YApi 接口 JSON 数据导入",
+          "url": "/documents/data.html#yapi-接口-json-数据导入",
+          "content": "YApi 接口 JSON 数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
         },
         {
           "title": "通过命令行导入接口数据",
@@ -832,7 +832,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "使用方法",
           "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
-          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": false,\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 是否覆盖旧的接口，默认不开启，配置 true 开启server 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": \"normal\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目 token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 有三种导入方式(v1.3.23+支持) normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\nserver 是 yapi 服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },
@@ -1212,7 +1212,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
@@ -1394,7 +1394,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
