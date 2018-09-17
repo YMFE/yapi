@@ -11,10 +11,10 @@ import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
 import mockEditor from 'client/components/AceEditor/mockEditor';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
+import { MOCK_SOURCE } from '../../../../constants/variable.js';
 const jSchema = require('json-schema-editor-visual');
-
-const ResBodySchema = jSchema({ lang: 'zh_CN' });
-const ReqBodySchema = jSchema({ lang: 'zh_CN' });
+const ResBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
+const ReqBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
 const TabPane = Tabs.TabPane;
 
 require('codemirror/lib/codemirror.css'); // codemirror
@@ -547,10 +547,10 @@ class InterfaceEditForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 }
     };
-  
-    const res_body_use_schema_editor = checkIsJsonSchema(this.state.res_body) || ''
 
-    const req_body_other_use_schema_editor = checkIsJsonSchema(this.state.req_body_other) || ''
+    const res_body_use_schema_editor = checkIsJsonSchema(this.state.res_body) || '';
+
+    const req_body_other_use_schema_editor = checkIsJsonSchema(this.state.req_body_other) || '';
 
     const queryTpl = (data, index) => {
       return (
@@ -744,7 +744,7 @@ class InterfaceEditForm extends Component {
     });
 
     const DEMOPATH = '/api/user/{id}';
-    
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -784,7 +784,10 @@ class InterfaceEditForm extends Component {
                 <Tooltip
                   title={
                     <div>
-                      <p>1. 支持动态路由,例如:{DEMOPATH}</p>
+                      <p>
+                        1. 支持动态路由,例如:
+                        {DEMOPATH}
+                      </p>
                       <p>
                         2. 支持 ?controller=xxx 的QueryRouter,非router的Query参数请定义到
                         Request设置-&#62;Query
@@ -985,7 +988,14 @@ class InterfaceEditForm extends Component {
                 : 'hide')
             }
           >
-            <span>JSON-SCHEMA:&nbsp;</span>
+            <span>
+              JSON-SCHEMA:&nbsp;
+              {!projectMsg.is_json5 && (
+                <Tooltip title="项目 -> 设置 开启 json5">
+                  <Icon type="question-circle-o" />{' '}
+                </Tooltip>
+              )}
+            </span>
             {getFieldDecorator('req_body_is_json_schema', {
               valuePropName: 'checked',
               initialValue: this.state.req_body_is_json_schema
@@ -1056,6 +1066,11 @@ class InterfaceEditForm extends Component {
 
         <h2 className="interface-title">
           返回数据设置&nbsp;
+          {!projectMsg.is_json5 && (
+            <Tooltip title="项目 -> 设置 开启 json5">
+              <Icon type="question-circle-o" />{' '}
+            </Tooltip>
+          )}
           {getFieldDecorator('res_body_is_json_schema', {
             valuePropName: 'checked',
             initialValue: this.state.res_body_is_json_schema || !projectMsg.is_json5

@@ -116,7 +116,8 @@ const SchemaString = data => {
     minLength: data.minLength,
     enum: data.enum,
     enumDesc: data.enumDesc,
-    format: data.format
+    format: data.format,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -149,7 +150,8 @@ const SchemaNumber = data => {
     default: data.default,
     format: data.format,
     enum: data.enum,
-    enumDesc: data.enumDesc
+    enumDesc: data.enumDesc,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -162,7 +164,8 @@ const SchemaInt = data => {
     default: data.default,
     format: data.format,
     enum: data.enum,
-    enumDesc: data.enumDesc
+    enumDesc: data.enumDesc,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -171,7 +174,8 @@ const SchemaBoolean = data => {
   let item = {
     desc: data.description,
     default: data.default,
-    enum: data.enum
+    enum: data.enum,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -179,7 +183,8 @@ const SchemaBoolean = data => {
 const SchemaOther = data => {
   let item = {
     desc: data.description,
-    default: data.default
+    default: data.default,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };

@@ -396,7 +396,7 @@ class ProjectMessage extends Component {
               label={
                 <span>
                   tag 信息&nbsp;
-                  <Tooltip title="用户可以在这里定义 tag  信息">
+                  <Tooltip title="定义 tag 信息，过滤接口">
                     <Icon type="question-circle-o" />
                   </Tooltip>
                 </span>

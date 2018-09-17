@@ -1117,10 +1117,8 @@ class projectController extends baseController {
   async swaggerUrl(ctx) {
     try {
       let url = ctx.request.query.url;
-      console.log('url', url);
-
-      let result = await axios.get(url);
       
+      let result = await axios.get(url);
       ctx.body = yapi.commons.resReturn(result.data);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);

@@ -77,7 +77,8 @@
     text-overflow:ellipsis;
     white-space: nowrap;
     padding-right: 24px;
-    line-height: 100%;
+    // line-height: 100%;
+    vertical-align: middle;
   }
 
   .opened {
