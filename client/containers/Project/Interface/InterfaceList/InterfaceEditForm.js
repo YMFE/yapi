@@ -1068,7 +1068,7 @@ class InterfaceEditForm extends Component {
           返回数据设置&nbsp;
           {!projectMsg.is_json5 && (
             <Tooltip title="项目 -> 设置 开启 json5">
-              <Icon type="question-circle-o" />{' '}
+              <Icon type="question-circle-o" className="tooltip"/>{' '}
             </Tooltip>
           )}
           {getFieldDecorator('res_body_is_json_schema', {
