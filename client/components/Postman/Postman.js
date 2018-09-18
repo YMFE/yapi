@@ -367,7 +367,7 @@ export default class Run extends Component {
   };
 
   changeParam = (name, v, index, key) => {
-    console.log('key', key);
+    
     key = key || 'value';
     const pathParam = deepCopyJson(this.state[name]);
 

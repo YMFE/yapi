@@ -67,9 +67,6 @@ const Schema = (data, key) => {
 
     if (_.isArray(children)) {
       item = Object.assign({}, item, { children });
-    } else if (!_.isUndefined(children)) {
-      children.key = 'max-' + fieldNum++;
-      item = Object.assign({}, item, { children: [children] });
     }
 
     return item;
@@ -126,6 +123,12 @@ const SchemaArray = (data, index) => {
   data.items = data.items || { type: 'string' };
   let items = checkJsonSchema(data.items);
   let optionForm = mapping(items, index);
+  //  处理array嵌套array的问题
+  let children =optionForm ;
+  if (!_.isArray(optionForm) && !_.isUndefined(optionForm)) {
+    optionForm.key = 'array-' + fieldNum++;
+    children = [optionForm];
+  }
 
   let item = {
     desc: data.description,
@@ -134,7 +137,7 @@ const SchemaArray = (data, index) => {
     uniqueItems: data.uniqueItems,
     maxItems: data.maxItems,
     itemType: items.type,
-    children: optionForm
+    children
   };
   if (items.type === 'string') {
     item = Object.assign({}, item, { itemFormat: items.format });

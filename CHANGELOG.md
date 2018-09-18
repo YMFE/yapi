@@ -2,6 +2,8 @@
 
 * 接口tag功能
 * 数据导入增加 merge 功能
+* 增加参数的批量导入功能
+* json schema 可视化编辑器增加 mock 功能
 
 
 #### Bug Fixed

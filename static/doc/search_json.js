@@ -1212,7 +1212,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
@@ -1394,7 +1394,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
