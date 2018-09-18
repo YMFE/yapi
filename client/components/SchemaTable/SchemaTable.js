@@ -80,16 +80,19 @@ const columns = [
     dataIndex: 'sub',
     key: 'sub',
     width: 180,
-    render: text => {
-      return Object.keys(text || []).map((item, index) => {
+    render: (text, record) => {
+      let result = text || record;
+
+      return Object.keys(result).map((item, index) => {
         let name = messageMap[item];
-        let value = text[item];
+        let value = result[item];
+        let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name);
 
         return (
-          !_.isUndefined(text[item]) && (
+          isShow && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
-              <span >{value.toString()}</span>
+              <span>{value.toString()}</span>
             </p>
           )
         );
@@ -119,7 +122,6 @@ class SchemaTable extends Component {
     }
     let data = schemaTransformToTable(product);
     data = _.isArray(data) ? data : [];
-    
     return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;
   }
 }

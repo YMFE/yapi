@@ -237,12 +237,12 @@ class InterfaceList extends Component {
         title: '接口分类',
         dataIndex: 'catid',
         key: 'catid',
-        width: 18,
+        width: 28,
         render: (item, record) => {
           return (
             <Select
               value={item + ''}
-              className="select"
+              className="select path"
               onChange={catid => this.changeInterfaceCat(record._id, catid)}
             >
               {this.props.catList.map(cat => {
