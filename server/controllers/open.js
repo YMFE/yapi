@@ -97,7 +97,7 @@ class openController extends baseController {
 
     let successMessage;
     let errorMessage = [];
-    let data = await HanldeImportData(
+    await HanldeImportData(
       res,
       project_id,
       selectCatid,
