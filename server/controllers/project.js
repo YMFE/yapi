@@ -12,7 +12,7 @@ const userModel = require('../models/user.js');
 const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
 const tokenModel = require('../models/token.js');
-const axios = require('axios');
+const url = require('url');
 
 const sha = require('sha.js');
 
@@ -1116,10 +1116,10 @@ class projectController extends baseController {
   // 输入 swagger url  的时候node端请求数据
   async swaggerUrl(ctx) {
     try {
-      let url = ctx.request.query.url;
-      
-      let result = await axios.get(url);
-      ctx.body = yapi.commons.resReturn(result.data);
+      let ops = url.parse(ctx.request.query.url);
+      let result = await yapi.commons.createWebAPIRequest(ops);
+
+      ctx.body = yapi.commons.resReturn(result);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }

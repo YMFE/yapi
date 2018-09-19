@@ -31,7 +31,7 @@ const RadioGroup = Radio.Group;
 const importDataModule = {};
 const exportDataModule = {};
 const HandleImportData = require('common/HandleImportData');
-
+import {json5_parse} from '../../../../common.js'
 function handleExportRouteParams(url, status, isWiki) {
   if (!url) {
     return;
@@ -89,7 +89,7 @@ class ProjectData extends Component {
     fetchUpdateLogData: PropTypes.func,
     updateLogList: PropTypes.array,
     handleSwaggerUrlData: PropTypes.func,
-    swaggerUrlData: PropTypes.object
+    swaggerUrlData: PropTypes.string
   };
 
   componentWillMount() {
@@ -258,8 +258,8 @@ class ProjectData extends Component {
       try {
         // 处理swagger url 导入
         await this.props.handleSwaggerUrlData(this.state.swaggerUrl);
-
-        let res = await importDataModule[this.state.curImportType].run(this.props.swaggerUrlData);
+        let result = json5_parse(this.props.swaggerUrlData)
+        let res = await importDataModule[this.state.curImportType].run(result);
         if (this.state.dataSync === 'merge') {
           // merge
           this.showConfirm(res);
