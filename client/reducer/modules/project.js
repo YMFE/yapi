@@ -41,7 +41,7 @@ const initialState = {
       }
     ]
   },
-  swaggerUrlData: {}
+  swaggerUrlData: ''
 };
 
 export default (state = initialState, action) => {

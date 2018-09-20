@@ -656,7 +656,9 @@ exports.createWebAPIRequest = function(ops) {
         }
       }
     );
-   
+    http_client.on('error', (e) => {
+      reject(e);
+    });
     http_client.end();
   });
 }
