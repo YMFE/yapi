@@ -993,7 +993,10 @@ class InterfaceColContent extends Component {
             </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
               <Col span={21} className="autoTestUrl">
-                <a href={localUrl + autoTestsUrl} target="_blank">
+                <a 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={localUrl + autoTestsUrl} >
                   {autoTestsUrl}
                 </a>
               </Col>

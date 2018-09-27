@@ -484,7 +484,10 @@ class ProjectData extends Component {
                 {this.state.curExportType ? (
                   <div>
                     <p className="export-desc">{exportDataModule[this.state.curExportType].desc}</p>
-                    <a target="_blank" href={exportHref}>
+                    <a 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={exportHref}>
                       <Button className="export-button" type="primary" size="large">
                         {' '}
                         导出{' '}
