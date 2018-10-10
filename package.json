@@ -62,7 +62,7 @@
     "markdown-it-table-of-contents": "0.3.2",
     "md5": "2.2.1",
     "mockjs": "1.0.1-beta3",
-    "moment": "2.18.1",
+    "moment": "^2.19.3",
     "mongoose": "4.7.0",
     "mongoose-auto-increment": "5.0.1",
     "moox": "^1.0.2",
