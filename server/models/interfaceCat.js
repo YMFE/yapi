@@ -35,7 +35,7 @@ class interfaceCat extends baseModel {
   }
 
   checkRepeat(name) {
-    return this.model.count({
+    return this.model.countDocuments({
       name: name
     });
   }
