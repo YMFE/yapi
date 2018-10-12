@@ -63,7 +63,7 @@ class interfaceCase extends baseModel {
 
   //获取全部测试接口信息
   getInterfaceCaseListCount() {
-    return this.model.count({});
+    return this.model.countDocuments({});
   }
 
   get(id) {
