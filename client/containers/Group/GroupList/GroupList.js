@@ -221,17 +221,12 @@ export default class GroupList extends Component {
           <div className="curr-group">
             <div className="curr-group-name">
               <span className="name">{currGroup.group_name}</span>
-              {/* this.props.curUserRole === "admin" || this.props.curUserRoleInGroup === 'owner' ? (menu) : '' */}
-              {/* 只有超级管理员能添加分组 */
-              this.props.curUserRole === 'admin' ? (
-                <Tooltip title="添加分组">
-                  <a className="editSet">
-                    <Icon className="btn" type="folder-add" onClick={this.showModal} />
-                  </a>
-                </Tooltip>
-              ) : (
-                ''
-              )}
+              <Tooltip title="添加分组">
+                <a className="editSet">
+                  <Icon className="btn" type="folder-add" onClick={this.showModal} />
+                </a>
+              </Tooltip>
+            
             </div>
             <div className="curr-group-desc">简介: {currGroup.group_desc}</div>
           </div>
