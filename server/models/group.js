@@ -86,13 +86,13 @@ class groupModel extends baseModel {
   }
 
   checkRepeat(name) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_name: name
     });
   }
   //  分组数量统计
   getGroupListCount() {
-    return this.model.count({ type: 'public' });
+    return this.model.countDocuments({ type: 'public' });
   }
 
   addMember(id, data) {
@@ -131,7 +131,7 @@ class groupModel extends baseModel {
   }
 
   checkMemberRepeat(id, uid) {
-    return this.model.count({
+    return this.model.countDocuments({
       _id: id,
       'members.uid': uid
     });

@@ -21,7 +21,7 @@ class statisMockModel extends baseModel {
     }
 
     countByGroupId(id){
-        return this.model.count({
+        return this.model.countDocuments({
             group_id: id
         })
     }
@@ -32,7 +32,7 @@ class statisMockModel extends baseModel {
     }
 
     getTotalCount() {
-        return this.model.count({});
+        return this.model.countDocuments({});
     }
 
     getDayCount(timeInterval) {
@@ -62,7 +62,7 @@ class statisMockModel extends baseModel {
 
     up(id, data) {
         data.up_time = yapi.commons.time();
-        return this.model.update({
+        return this.model.updateOne({
             _id: id
         }, data, { runValidators: true });
     }
