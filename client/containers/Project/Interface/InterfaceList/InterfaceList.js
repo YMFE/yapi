@@ -336,7 +336,7 @@ class InterfaceList extends Component {
     data = data.map(item => {
       item.key = item._id;
       return item;
-    });
+    }) : null;
 
     const pageConfig = {
       total: total,
