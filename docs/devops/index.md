@@ -112,7 +112,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
   "mail": {...},
   "ldapLogin": {
       "enable": true,
-      "server": "ldap://l-ldapt1.ops.dev.cn0.qunar.com",
+      "server": "ldap://l-ldapt1.com",
       "baseDn": "CN=Admin,CN=Users,DC=test,DC=com",
       "bindPassword": "password123",
       "searchDn": "OU=UserContainer,DC=test,DC=com",
