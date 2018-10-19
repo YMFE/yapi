@@ -106,7 +106,7 @@ class logModel extends baseModel {
       .exec();
   }
   listCountByGroup(typeid, pidList) {
-    return this.model.count({
+    return this.model.countDocuments({
       $or: [
         {
           type: 'project',
@@ -132,7 +132,7 @@ class logModel extends baseModel {
     if (selectValue && !isNaN(selectValue)) {
       params['data.interface_id'] = +selectValue;
     }
-    return this.model.count(params);
+    return this.model.countDocuments(params);
   }
 
   listWithCatid(typeid, type, interfaceId) {

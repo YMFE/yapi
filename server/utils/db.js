@@ -36,9 +36,6 @@ function connect(callback) {
     }
   }
 
-  console.log(connectString,
-    options,)
-
   let db = mongoose.connect(
     connectString,
     options,
