@@ -183,3 +183,5 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 详细配置参考： [wiki](https://mongoosejs.com/docs/connections.html#multiple_connections)
 
 ```
+
+详细配置参考： [wiki](https://mongoosejs.com/docs/connections.html#multiple_connections)
