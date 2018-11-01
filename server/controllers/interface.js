@@ -193,13 +193,13 @@ class interfaceController extends baseController {
       });
     });
 
-    let checkRepeat = await this.Model.checkRepeat(params.project_id, http_path.pathname, params.method);
+    let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
 
     if (checkRepeat > 0) {
       return (ctx.body = yapi.commons.resReturn(
         null,
         40022,
-        '已存在的接口:' + http_path.pathname + '[' + params.method + ']'
+        '已存在的接口:' + params.path + '[' + params.method + ']'
       ));
     }
 
@@ -567,8 +567,9 @@ class interfaceController extends baseController {
       },
       params
     );
-    let http_path;
+    
     if (params.path) {
+      let http_path;
       http_path = url.parse(params.path, true);
 
       if (!yapi.commons.verifyPath(http_path.pathname)) {
@@ -596,14 +597,14 @@ class interfaceController extends baseController {
     ) {
       let checkRepeat = await this.Model.checkRepeat(
         interfaceData.project_id,
-        http_path.pathname,
+        params.path,
         params.method
       );
       if (checkRepeat > 0) {
         return (ctx.body = yapi.commons.resReturn(
           null,
           401,
-          '已存在的接口:' + http_path.pathname + '[' + params.method + ']'
+          '已存在的接口:' + params.path + '[' + params.method + ']'
         ));
       }
     }
