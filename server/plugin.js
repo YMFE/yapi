@@ -27,7 +27,7 @@ var hooks = {
   },
   /**
    * 客户端删除接口成功后触发
-   * @param data 删除接口的详细信息
+   * @param data 接口id
    */
   interface_del: {
     type: 'multi',
@@ -62,6 +62,22 @@ var hooks = {
    * @param id 项目id
    */
   project_add: {
+    type: 'multi',
+    listener: []
+  },
+  /**
+   * 客户端更新一个新项目
+   * @param id 项目id
+   */
+  project_up: {
+    type: 'multi',
+    listener: []
+  },
+  /**
+   * 客户端获取一个项目
+   * @param id 项目id
+   */
+  project_get: {
     type: 'multi',
     listener: []
   },

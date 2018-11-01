@@ -114,6 +114,7 @@ class InterfaceMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.list !== nextProps.list) {
+      // console.log('next', nextProps.list)
       this.setState({
         list: nextProps.list
       });
@@ -254,14 +255,14 @@ class InterfaceMenu extends Component {
       draftData.path = draftData.path + '_' + Date.now();
     });
 
-    axios.post('/api/interface/add', newData).then(res => {
+    axios.post('/api/interface/add', newData).then(async res => {
       if (res.data.errcode !== 0) {
         return message.error(res.data.errmsg);
       }
       message.success('接口添加成功');
       let interfaceId = res.data.data._id;
+      await this.getList();
       this.props.history.push('/project/' + this.props.projectId + '/interface/api/' + interfaceId);
-      this.getList();
       this.setState({
         visible: false
       });
@@ -329,10 +330,38 @@ class InterfaceMenu extends Component {
       this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   };
+  // 数据过滤
+  filterList = (list, arr) => {
+    let that = this;
+    let menuList = produce(list, draftList => {
+      draftList.filter(item => {
+        let interfaceFilter = false;
+        if (item.name.indexOf(that.state.filter) === -1) {
+          item.list = item.list.filter(inter => {
+            if (
+              inter.title.indexOf(that.state.filter) === -1 &&
+              inter.path.indexOf(that.state.filter) === -1
+            ) {
+              return false;
+            }
+            //arr.push('cat_' + inter.catid)
+            interfaceFilter = true;
+            return true;
+          });
+          arr.push('cat_' + item._id);
+          return interfaceFilter === true;
+        }
+        arr.push('cat_' + item._id);
+        return true;
+      });
+    });
+
+    return menuList;
+  };
 
   render() {
     const matchParams = this.props.match.params;
-    let menuList = this.state.list;
+    // let menuList = this.state.list;
     const searchBox = (
       <div className="interface-filter">
         <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索接口" />
@@ -398,9 +427,6 @@ class InterfaceMenu extends Component {
         )}
       </div>
     );
-    if (menuList.length === 0) {
-      return searchBox;
-    }
     const defaultExpandedKeys = () => {
       const { router, inter, list } = this.props,
         rNull = { expands: [], selects: [] };
@@ -432,26 +458,6 @@ class InterfaceMenu extends Component {
     };
 
     const itemInterfaceCreate = item => {
-      // let color;
-      // switch (item.method) {
-      //   case 'GET': color = "green"; break;
-      //   case 'POST': color = "blue"; break;
-      //   case 'PUT': color = "yellow"; break;
-      //   case 'DELETE': color = 'red'; break;
-      //   default: color = "yellow";
-      // }
-      // const menu = (item) => {
-      //   return <Menu>
-      //     <Menu.Item>
-      //       <span onClick={() => { this.showConfirm(item._id) }}>删除接口</span>
-      //     </Menu.Item>
-      //     <Menu.Item>
-      //       <span onClick={() => {
-      //         this.copyInterface(item)
-      //       }}>复制接口</span>
-      //     </Menu.Item>
-      //   </Menu>
-      // };
 
       return (
         <TreeNode
@@ -501,62 +507,14 @@ class InterfaceMenu extends Component {
         />
       );
     };
-
-    // const menu = (item) => {
-    //   return <Menu>
-    //     <Menu.Item>
-    //       <span onClick={() => {
-    //         this.changeModal('visible', true);
-    //         this.setState({
-    //           curCatid: item._id
-    //         })
-    //       }}>添加接口</span>
-    //     </Menu.Item>
-    //     <Menu.Item>
-    //       <span onClick={() => {
-    //         this.changeModal('change_cat_modal_visible', true);
-    //         this.setState({
-    //           curCatdata: item
-    //         })
-    //       }}>修改分类</span>
-    //     </Menu.Item>
-    //     <Menu.Item>
-    //       <span onClick={() => {
-    //         this.showDelCatConfirm(item._id)
-    //       }}>删除分类</span>
-    //     </Menu.Item>
-    //   </Menu>
-    // };
-
+    
     let currentKes = defaultExpandedKeys();
-
+    let menuList;
     if (this.state.filter) {
       let arr = [];
-      menuList = menuList.filter(item => {
-        let interfaceFilter = false;
-        if (item.name.indexOf(this.state.filter) === -1) {
-          item.list = item.list.filter(inter => {
-            if (
-              inter.title.indexOf(this.state.filter) === -1 &&
-              inter.path.indexOf(this.state.filter) === -1
-            ) {
-              return false;
-            }
-            //arr.push('cat_' + inter.catid)
-            interfaceFilter = true;
-            return true;
-          });
-
-          arr.push('cat_' + item._id);
-          return interfaceFilter === true;
-        }
-        arr.push('cat_' + item._id);
-        return true;
-      });
-      // console.log('arr', arr);
-      if (arr.length > 0) {
-        currentKes.expands = arr;
-      }
+      menuList = this.filterList(this.state.list, arr);
+    } else {
+      menuList = this.state.list;
     }
 
     return (

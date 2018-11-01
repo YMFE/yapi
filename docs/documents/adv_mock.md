@@ -11,9 +11,9 @@ Mock 期望就是根据设置的请求过滤规则，返回期望数据。
 <div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case1.png"/></div>
 2. 点击『添加期望』，填写过滤规则以及期望返回数据，点击『确定』保存。
 <div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case3.png"/></div>
-<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case4.png"/></div>
+<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case4-new.png"/></div>
 3. 然后尝试在浏览器里发送符合规则的请求，查看返回的数据是否符合期望。
-<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case5.png"/></div>
+<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case5-new.png"/></div>
 
 ### 期望填写
 

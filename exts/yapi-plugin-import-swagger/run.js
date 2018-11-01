@@ -65,7 +65,11 @@ const swagger = require('swagger-client');
   async function run(res) {
       let interfaceData = { apis: [], cats: [] };
       if(typeof res === 'string' && res){
-        res = JSON.parse(res);
+        try{
+          res = JSON.parse(res);
+        } catch (e) {
+          console.error('json 解析出错',e.message)
+        }
       }
 
       isOAS3 = res.openapi && res.openapi === '3.0.0';

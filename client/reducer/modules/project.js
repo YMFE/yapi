@@ -1,5 +1,6 @@
 import axios from 'axios';
 import variable from '../../constants/variable';
+import {htmlFilter} from '../../common';
 
 // Actions
 const FETCH_PROJECT_LIST = 'yapi/project/FETCH_PROJECT_LIST';
@@ -20,7 +21,7 @@ const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
 const PROJECT_GET_ENV = 'yapi/project/PROJECT_GET_ENV';
 const CHANGE_MEMBER_EMAIL_NOTICE = 'yapi/project/CHANGE_MEMBER_EMAIL_NOTICE';
-
+const GET_SWAGGER_URL_DATA = 'yapi/project/GET_SWAGGER_URL_DATA'
 // Reducer
 const initialState = {
   isUpdateModalShow: false,
@@ -39,7 +40,8 @@ const initialState = {
         header: []
       }
     ]
-  }
+  },
+  swaggerUrlData: ''
 };
 
 export default (state = initialState, action) => {
@@ -96,6 +98,13 @@ export default (state = initialState, action) => {
       return {
         ...state
       };
+    }
+
+    case GET_SWAGGER_URL_DATA: {
+      return {
+        ...state,
+        swaggerUrlData: action.payload.data.data
+      }
     }
     default:
       return state;
@@ -173,7 +182,7 @@ export function getProjectMemberList(id) {
 // }
 
 export function addProject(data) {
-  const {
+  let {
     name,
     prd_host,
     basepath,
@@ -185,6 +194,9 @@ export function addProject(data) {
     color,
     project_type
   } = data;
+
+  // 过滤项目名称中有html标签存在的情况
+  name = htmlFilter(name);
   const param = {
     name,
     prd_host,
@@ -205,7 +217,10 @@ export function addProject(data) {
 
 // 修改项目
 export function updateProject(data) {
-  const { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5 } = data;
+  let { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5, tag } = data;
+  
+  // 过滤项目名称中有html标签存在的情况
+  name = htmlFilter(name);
   const param = {
     name,
     project_type,
@@ -216,7 +231,8 @@ export function updateProject(data) {
     env,
     group_id,
     strice,
-    is_json5
+    is_json5,
+    tag
   };
   return {
     type: PROJECT_UPDATE,
@@ -310,5 +326,12 @@ export async function checkProjectName(name, group_id) {
     payload: axios.get('/api/project/check_project_name', {
       params: { name, group_id }
     })
+  };
+}
+
+export async function handleSwaggerUrlData(url) {
+  return {
+    type: GET_SWAGGER_URL_DATA,
+    payload: axios.get('/api/project/swagger_url?url='+url)
   };
 }

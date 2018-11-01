@@ -45,6 +45,9 @@ function isJson5(json) {
     return false;
   }
 }
+exports.safeArray = function(arr) {
+  return Array.isArray(arr) ? arr : [];
+};
 
 exports.json5_parse = function(json) {
   try {
@@ -171,6 +174,13 @@ exports.nameLengthLimit = type => {
       }
     }
   ];
+};
+
+// 去除所有html标签只保留文字
+
+exports.htmlFilter = html => {
+  let reg = /<\/?.+?\/?>/g;
+  return html.replace(reg, '') || '新项目';
 };
 
 // 实现 Object.entries() 方法

@@ -93,7 +93,8 @@ class interfaceModel extends baseModel {
       field2: String,
       field3: String,
       api_opened: { type: Boolean, default: false },
-      index: { type: Number, default: 0 }
+      index: { type: Number, default: 0 },
+      tag: Array
     };
   }
 
@@ -155,15 +156,15 @@ class interfaceModel extends baseModel {
   }
 
   checkRepeat(id, path, method) {
-    return this.model.count({
+    return this.model.countDocuments({
       project_id: id,
-      path: path,
+      'query_path.path': path,
       method: method
     });
   }
 
   countByProjectId(id) {
-    return this.model.count({
+    return this.model.countDocuments({
       project_id: id
     });
   }
@@ -191,7 +192,7 @@ class interfaceModel extends baseModel {
       .skip((page - 1) * limit)
       .limit(limit)
       .select(
-        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time'
+        '_id title uid path method project_id catid api_opened edit_uid status add_time up_time tag'
       )
       .exec();
   }
@@ -207,12 +208,12 @@ class interfaceModel extends baseModel {
 
   //获取全部接口信息
   getInterfaceListCount() {
-    return this.model.count({});
+    return this.model.countDocuments({});
   }
 
   listByCatid(catid, select) {
     select =
-      select || '_id title uid path method project_id catid edit_uid status add_time up_time index';
+      select || '_id title uid path method project_id catid edit_uid status add_time up_time index tag';
     return this.model
       .find({
         catid: catid
@@ -233,7 +234,7 @@ class interfaceModel extends baseModel {
       .skip((page - 1) * limit)
       .limit(limit)
       .select(
-        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index'
+        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index, tag'
       )
       .exec();
   }
@@ -308,7 +309,7 @@ class interfaceModel extends baseModel {
   }
 
   listCount(option) {
-    return this.model.count(option);
+    return this.model.countDocuments(option);
   }
 
   upIndex(id, index) {

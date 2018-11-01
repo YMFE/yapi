@@ -1,4 +1,5 @@
 const _ = require('underscore');
+let fieldNum = 1;
 
 exports.schemaTransformToTable = schema => {
   try {
@@ -112,7 +113,8 @@ const SchemaString = data => {
     minLength: data.minLength,
     enum: data.enum,
     enumDesc: data.enumDesc,
-    format: data.format
+    format: data.format,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -121,6 +123,12 @@ const SchemaArray = (data, index) => {
   data.items = data.items || { type: 'string' };
   let items = checkJsonSchema(data.items);
   let optionForm = mapping(items, index);
+  //  处理array嵌套array的问题
+  let children =optionForm ;
+  if (!_.isArray(optionForm) && !_.isUndefined(optionForm)) {
+    optionForm.key = 'array-' + fieldNum++;
+    children = [optionForm];
+  }
 
   let item = {
     desc: data.description,
@@ -129,7 +137,7 @@ const SchemaArray = (data, index) => {
     uniqueItems: data.uniqueItems,
     maxItems: data.maxItems,
     itemType: items.type,
-    children: optionForm
+    children
   };
   if (items.type === 'string') {
     item = Object.assign({}, item, { itemFormat: items.format });
@@ -145,7 +153,8 @@ const SchemaNumber = data => {
     default: data.default,
     format: data.format,
     enum: data.enum,
-    enumDesc: data.enumDesc
+    enumDesc: data.enumDesc,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -158,7 +167,8 @@ const SchemaInt = data => {
     default: data.default,
     format: data.format,
     enum: data.enum,
-    enumDesc: data.enumDesc
+    enumDesc: data.enumDesc,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -167,7 +177,8 @@ const SchemaBoolean = data => {
   let item = {
     desc: data.description,
     default: data.default,
-    enum: data.enum
+    enum: data.enum,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };
@@ -175,7 +186,8 @@ const SchemaBoolean = data => {
 const SchemaOther = data => {
   let item = {
     desc: data.description,
-    default: data.default
+    default: data.default,
+    mock: data.mock && data.mock.mock
   };
   return item;
 };

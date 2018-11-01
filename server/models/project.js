@@ -34,7 +34,8 @@ class projectModel extends baseModel {
       project_mock_script: String,
       is_mock_open: { type: Boolean, default: false },
       strice: { type: Boolean, default: false },
-      is_json5: { type: Boolean, default: true }
+      is_json5: { type: Boolean, default: true },
+      tag: [{name: String, desc: String}]
     };
   }
 
@@ -75,7 +76,7 @@ class projectModel extends baseModel {
   }
 
   getProjectWithAuth(group_id, uid) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id,
       'members.uid': uid
     });
@@ -84,7 +85,7 @@ class projectModel extends baseModel {
   getBaseInfo(id, select) {
     select =
       select ||
-      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open strice is_json5';
+      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open strice is_json5 tag';
     return this.model
       .findOne({
         _id: id
@@ -102,14 +103,14 @@ class projectModel extends baseModel {
   }
 
   checkNameRepeat(name, groupid) {
-    return this.model.count({
+    return this.model.countDocuments({
       name: name,
       group_id: groupid
     });
   }
 
   checkDomainRepeat(domain, basepath) {
-    return this.model.count({
+    return this.model.countDocuments({
       prd_host: domain,
       basepath: basepath
     });
@@ -128,12 +129,12 @@ class projectModel extends baseModel {
 
   // 获取项目数量统计
   getProjectListCount() {
-    return this.model.count();
+    return this.model.countDocuments();
   }
 
   countWithPublic(group_id) {
     let params = { group_id: group_id, project_type: 'public' };
-    return this.model.count(params);
+    return this.model.countDocuments(params);
   }
 
   listWithPaging(group_id, page, limit) {
@@ -150,13 +151,13 @@ class projectModel extends baseModel {
   }
 
   listCount(group_id) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id
     });
   }
 
   countByGroupId(group_id) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id
     });
   }
@@ -208,7 +209,7 @@ class projectModel extends baseModel {
   }
 
   checkMemberRepeat(id, uid) {
-    return this.model.count({
+    return this.model.countDocuments({
       _id: id,
       'members.uid': uid
     });

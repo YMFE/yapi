@@ -139,6 +139,7 @@ module.exports = async (ctx, next) => {
   // let hostname = ctx.hostname;
   // let config = yapi.WEBCONFIG;
   let path = ctx.path;
+  let header = ctx.request.header;
 
   if (path.indexOf('/mock/') !== 0) {
     if (next) await next();
@@ -150,7 +151,10 @@ module.exports = async (ctx, next) => {
   paths.splice(0, 3);
   path = '/' + paths.join('/');
 
-  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Origin', header.origin);
+  ctx.set('Access-Control-Allow-Credentials', true);
+
+  // ctx.set('Access-Control-Allow-Origin', '*');
 
   if (!projectId) {
     return (ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空'));
@@ -227,7 +231,7 @@ module.exports = async (ctx, next) => {
         if (ctx.method === 'OPTIONS' && ctx.request.header['access-control-request-method']) {
           return handleCorsRequest(ctx);
         }
-        
+
         return (ctx.body = yapi.commons.resReturn(
           null,
           404,
@@ -245,7 +249,6 @@ module.exports = async (ctx, next) => {
       interfaceData = interfaceData[0];
     }
 
-  
     // 必填字段是否填写好
     if (project.strice) {
       const validResult = mockValidator(interfaceData, ctx);
@@ -258,7 +261,6 @@ module.exports = async (ctx, next) => {
       }
     }
 
-   
     let res;
     // mock 返回值处理
     res = interfaceData.res_body;
@@ -345,12 +347,15 @@ module.exports = async (ctx, next) => {
                 }
               });
             }
-          } else ctx.set(i, context.resHeader[i]);
+          } else {
+            ctx.set(i, context.resHeader[i]);
+          }
         }
       }
 
       ctx.status = context.httpCode;
-      return (ctx.body = context.mockJson);
+      ctx.body = context.mockJson;
+      return;  
     } catch (e) {
       yapi.commons.log(e, 'error');
       return (ctx.body = {

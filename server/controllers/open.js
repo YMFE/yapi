@@ -64,8 +64,8 @@ class openController extends baseController {
         json: 'string',
         project_id: 'string',
         merge: {
-          type: 'boolean',
-          default: false
+          type: 'string',
+          default: 'normal'
         }
       }
     };
@@ -97,7 +97,7 @@ class openController extends baseController {
 
     let successMessage;
     let errorMessage = [];
-    let data = await HanldeImportData(
+    await HanldeImportData(
       res,
       project_id,
       selectCatid,

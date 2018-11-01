@@ -367,10 +367,14 @@ export default class Run extends Component {
   };
 
   changeParam = (name, v, index, key) => {
+    
     key = key || 'value';
     const pathParam = deepCopyJson(this.state[name]);
 
     pathParam[index][key] = v;
+    if (key === 'value') {
+      pathParam[index].enable = !!v;
+    }
     this.setState({
       [name]: pathParam
     });
@@ -380,7 +384,7 @@ export default class Run extends Component {
     const bodyForm = deepCopyJson(this.state.req_body_form);
     key = key || 'value';
     if (key === 'value') {
-      bodyForm[index].enable = true;
+      bodyForm[index].enable = !!v;
       if (bodyForm[index].type === 'file') {
         bodyForm[index].value = 'file_' + index;
       } else {

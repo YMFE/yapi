@@ -20,7 +20,8 @@ const messageMap = {
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
   format: 'format',
-  itemFormat: 'format'
+  itemFormat: 'format',
+  mock: 'mock'
 };
 
 const columns = [
@@ -78,17 +79,20 @@ const columns = [
     title: '其他信息',
     dataIndex: 'sub',
     key: 'sub',
-    width: 80,
-    render: text => {
-      return Object.keys(text || []).map((item, index) => {
+    width: 180,
+    render: (text, record) => {
+      let result = text || record;
+
+      return Object.keys(result).map((item, index) => {
         let name = messageMap[item];
-        let value = text[item];
+        let value = result[item];
+        let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name);
 
         return (
-          !_.isUndefined(text[item]) && (
+          isShow && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
-              <span >{value.toString()}</span>
+              <span>{value.toString()}</span>
             </p>
           )
         );

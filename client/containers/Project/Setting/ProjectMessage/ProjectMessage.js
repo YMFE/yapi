@@ -34,9 +34,10 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 import constants from '../../../../constants/variable.js';
 const confirm = Modal.confirm;
-import { nameLengthLimit, entries, trim } from '../../../../common';
+import { nameLengthLimit, entries, trim, htmlFilter } from '../../../../common';
 import '../Setting.scss';
 import _ from 'underscore';
+import ProjectTag from './ProjectTag.js';
 // layout
 const formItemLayout = {
   labelCol: {
@@ -106,12 +107,19 @@ class ProjectMessage extends Component {
     const { form, updateProject, projectMsg, groupList } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
-        let assignValue = Object.assign(projectMsg, values);
+        let { tag } = this.tag.state;
+        // let tag = this.refs.tag;
+        tag = tag.filter(val => {
+          return val.name !== '';
+        });
+        let assignValue = Object.assign(projectMsg, values, { tag });
+
         values.protocol = this.state.protocol.split(':')[0];
         const group_id = assignValue.group_id;
         const selectGroup = _.find(groupList, item => {
           return item._id == group_id;
         });
+
         updateProject(assignValue)
           .then(res => {
             if (res.payload.data.errcode == 0) {
@@ -121,13 +129,14 @@ class ProjectMessage extends Component {
               // 如果如果项目所在的分组位置发生改变
               this.props.fetchGroupMsg(group_id);
               // this.props.history.push('/group');
+              let projectName = htmlFilter(assignValue.name);
               this.props.setBreadcrumb([
                 {
                   name: selectGroup.group_name,
                   href: '/group/' + group_id
                 },
                 {
-                  name: assignValue.name
+                  name: projectName
                 }
               ]);
             }
@@ -136,6 +145,10 @@ class ProjectMessage extends Component {
         form.resetFields();
       }
     });
+  };
+
+  tagSubmit = tag => {
+    this.tag = tag;
   };
 
   showConfirm = () => {
@@ -207,7 +220,6 @@ class ProjectMessage extends Component {
 
   async componentWillMount() {
     await this.props.fetchGroupList();
-    // await this.props.getProject(this.props.projectId);
     await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
   }
 
@@ -221,8 +233,28 @@ class ProjectMessage extends Component {
       (location.port !== '' ? ':' + location.port : '') +
       `/mock/${projectMsg._id}${projectMsg.basepath}+$接口请求路径`;
     let initFormValues = {};
-    const { name, basepath, desc, project_type, group_id, switch_notice, strice, is_json5 } = projectMsg;
-    initFormValues = { name, basepath, desc, project_type, group_id, switch_notice, strice , is_json5};
+    const {
+      name,
+      basepath,
+      desc,
+      project_type,
+      group_id,
+      switch_notice,
+      strice,
+      is_json5,
+      tag
+    } = projectMsg;
+    initFormValues = {
+      name,
+      basepath,
+      desc,
+      project_type,
+      group_id,
+      switch_notice,
+      strice,
+      is_json5,
+      tag
+    };
 
     const colorArr = entries(constants.PROJECT_COLOR);
     const colorSelector = (
@@ -358,6 +390,21 @@ class ProjectMessage extends Component {
                 ]
               })(<TextArea rows={8} />)}
             </FormItem>
+
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  tag 信息&nbsp;
+                  <Tooltip title="定义 tag 信息，过滤接口">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
+            >
+              <ProjectTag tagMsg={tag} ref={this.tagSubmit} />
+              {/* <Tag tagMsg={tag} ref={this.tagSubmit} /> */}
+            </FormItem>
             <FormItem
               {...formItemLayout}
               label={
@@ -412,10 +459,11 @@ class ProjectMessage extends Component {
                     <span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
                   </Radio>
                   <br />
-                  <Radio value="public" className="radio">
+                  {projectMsg.role === 'admin' && <Radio value="public" className="radio">
                     <Icon type="unlock" />公开<br />
                     <span className="radio-desc">任何人都可以索引并查看项目信息</span>
-                  </Radio>
+                  </Radio>}
+                  
                 </RadioGroup>
               )}
             </FormItem>

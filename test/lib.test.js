@@ -166,3 +166,15 @@ test('isDeepMatch', t=>{
     res_body: '111',
     code: 1 }, {t:'1'}))
 })
+
+test('isDeepMatch', t=>{
+    t.true(lib.isDeepMatch({ t:[{a: 1}]}, { t:[{a: 1}]}))
+  })
+
+  test('isDeepMatch', t=>{
+    t.false(lib.isDeepMatch({ t:[{a: 1, b: 12}]}, { t:[{a: 1}]}))
+  })
+
+  test('isDeepMatch', t=>{
+    t.true(lib.isDeepMatch([{a: 1}], [{a: 1}]))
+  })

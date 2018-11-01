@@ -69,13 +69,13 @@ class advMockController extends baseController {
         let userinfo = await this.userModel.findById(result[i].uid);
         result[i] = result[i].toObject();
         // if (userinfo) {
-          result[i].username = userinfo.username;
+        result[i].username = userinfo.username;
         // }
       }
 
       ctx.body = yapi.commons.resReturn(result);
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 400, err.message)
+      ctx.body = yapi.commons.resReturn(null, 400, err.message);
     }
   }
 
@@ -137,8 +137,6 @@ class advMockController extends baseController {
       for (let i in data.params) {
         findRepeatParams['params.' + i] = data.params[i];
       }
-    } else {
-      findRepeatParams.params = null;
     }
 
     if (data.ip_enable) {
@@ -146,6 +144,7 @@ class advMockController extends baseController {
     }
 
     findRepeat = await this.caseModel.get(findRepeatParams);
+
     if (findRepeat && findRepeat._id !== params.id) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '已存在的期望'));
     }
@@ -171,17 +170,16 @@ class advMockController extends baseController {
 
   async hideCase(ctx) {
     let id = ctx.request.body.id;
-    let enable = ctx.request.body.enable
+    let enable = ctx.request.body.enable;
     if (!id) {
       return (ctx.body = yapi.commons.resReturn(null, 408, '缺少 id'));
     }
     let data = {
       id,
       case_enable: enable
-    }
+    };
     let result = await this.caseModel.up(data);
     return (ctx.body = yapi.commons.resReturn(result));
-
   }
 }
 

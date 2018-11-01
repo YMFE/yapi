@@ -64,6 +64,7 @@ async function handle(
     let existNum = 0;
     if (len === 0) {
       messageError(`解析数据为空`);
+      callback({ showLoading: false });
       return;
     }
     for (let index = 0; index < res.length; index++) {

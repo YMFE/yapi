@@ -115,6 +115,14 @@ module.exports = function(jsondiffpatch, formattersHtml, curDiffData) {
         content: diffText(valueMaps[old.status], valueMaps[current.status])
       });
     }
+
+    if (current.tag !== old.tag) {
+      diffView.push({
+        title: '接口tag',
+        content: diffText(old.tag, current.tag)
+      });
+    }
+
     diffView.push({
       title: 'Request Path Params',
       content: diffArray(old.req_params, current.req_params)

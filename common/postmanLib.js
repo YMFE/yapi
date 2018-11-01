@@ -285,6 +285,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
         }
         resolve(data);
       };
+      
       window.crossRequest(options);
     });
   }
@@ -421,7 +422,6 @@ function handleParams(interfaceData, handleValue, requestParams) {
       requestOptions.file = 'single-file';
     }
   }
-
   return requestOptions;
 }
 

@@ -77,7 +77,8 @@
     text-overflow:ellipsis;
     white-space: nowrap;
     padding-right: 24px;
-    line-height: 100%;
+    // line-height: 100%;
+    vertical-align: middle;
   }
 
   .opened {
@@ -107,5 +108,9 @@
 .toolTip .ant-tooltip-inner{
   white-space: normal;
   word-break: break-all;
+}
+
+.tag-modal-center {
+  padding-left: 48px;
 }
 

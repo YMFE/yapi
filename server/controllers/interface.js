@@ -105,7 +105,8 @@ class interfaceController extends baseController {
           method: minLengthStringField,
           catid: 'number',
           switch_notice: 'boolean',
-          message: minLengthStringField
+          message: minLengthStringField,
+          tag: 'array'
         },
         addAndUpCommonField
       ),
@@ -192,13 +193,13 @@ class interfaceController extends baseController {
       });
     });
 
-    let checkRepeat = await this.Model.checkRepeat(params.project_id, params.path, params.method);
+    let checkRepeat = await this.Model.checkRepeat(params.project_id, http_path.pathname, params.method);
 
     if (checkRepeat > 0) {
       return (ctx.body = yapi.commons.resReturn(
         null,
         40022,
-        '已存在的接口:' + params.path + '[' + params.method + ']'
+        '已存在的接口:' + http_path.pathname + '[' + params.method + ']'
       ));
     }
 
@@ -375,7 +376,6 @@ class interfaceController extends baseController {
       if (userinfo) {
         result.username = userinfo.username;
       }
-
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -567,9 +567,9 @@ class interfaceController extends baseController {
       },
       params
     );
-
+    let http_path;
     if (params.path) {
-      let http_path = url.parse(params.path, true);
+      http_path = url.parse(params.path, true);
 
       if (!yapi.commons.verifyPath(http_path.pathname)) {
         return (ctx.body = yapi.commons.resReturn(
@@ -596,14 +596,14 @@ class interfaceController extends baseController {
     ) {
       let checkRepeat = await this.Model.checkRepeat(
         interfaceData.project_id,
-        params.path,
+        http_path.pathname,
         params.method
       );
       if (checkRepeat > 0) {
         return (ctx.body = yapi.commons.resReturn(
           null,
           401,
-          '已存在的接口:' + params.path + '[' + params.method + ']'
+          '已存在的接口:' + http_path.pathname + '[' + params.method + ']'
         ));
       }
     }
@@ -616,7 +616,6 @@ class interfaceController extends baseController {
         data.req_params = [];
       }
     }
-
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
@@ -645,7 +644,6 @@ class interfaceController extends baseController {
     });
 
     this.projectModel.up(interfaceData.project_id, { up_time: new Date().getTime() }).then();
-
     if (params.switch_notice === true) {
       let diffView = showDiffMsg(jsondiffpatch, formattersHtml, logData);
       let annotatedCss = fs.readFileSync(
@@ -661,6 +659,7 @@ class interfaceController extends baseController {
       );
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
+      
       let interfaceUrl = `http://${ctx.request.host}/project/${
         interfaceData.project_id
       }/interface/api/${id}`;
@@ -733,7 +732,7 @@ class interfaceController extends baseController {
 
       // let inter = await this.Model.get(id);
       let result = await this.Model.del(id);
-      yapi.emitHook('interface_del', data).then();
+      yapi.emitHook('interface_del', id).then();
       await this.caseModel.delByInterfaceId(id);
       let username = this.getUsername();
       this.catModel.get(data.catid).then(cate => {
@@ -902,7 +901,7 @@ class interfaceController extends baseController {
 
       interfaceData.forEach(async item => {
         try {
-          yapi.emitHook('interface_del', item).then();
+          yapi.emitHook('interface_del', item._id).then();
           await this.caseModel.delByInterfaceId(item._id);
         } catch (e) {
           yapi.commons.log(e.message, 'error');

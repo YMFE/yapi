@@ -1,6 +1,6 @@
 const yapi = require('../yapi.js');
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
+const autoIncrement = require('../utils/mongoose-auto-increment');
 
 /**
  * 所有的model都需要继承baseModel, 且需要 getSchema和getName方法，不然会报错

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Table, Icon, Row, Col, Tooltip, message } from 'antd';
 import { Link } from 'react-router-dom';
 import AceEditor from 'client/components/AceEditor/AceEditor';
-import { formatTime } from '../../../../common.js';
+import { formatTime, safeArray } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js';
@@ -244,7 +244,7 @@ class View extends Component {
   flagMsg = (mock, strice) => {
     if (mock && strice) {
       return <span>( 全局mock & 严格模式 )</span>;
-    }  else if (!mock && strice) {
+    } else if (!mock && strice) {
       return <span>( 严格模式 )</span>;
     } else if (mock && !strice) {
       return <span>( 全局mock )</span>;
@@ -372,6 +372,8 @@ class View extends Component {
       methodColor = 'get';
     }
 
+    const { tag, up_time, title, uid, username } = this.props.curData;
+
     let res = (
       <div className="caseContainer">
         <h2 className="interface-title" style={{ marginTop: 0 }}>
@@ -383,15 +385,15 @@ class View extends Component {
               接口名称：
             </Col>
             <Col span={8} className="colName">
-              {this.props.curData.title}
+              {title}
             </Col>
             <Col span={4} className="colKey">
               创&ensp;建&ensp;人：
             </Col>
             <Col span={8} className="colValue">
-              <Link className="user-name" to={'/user/profile/' + this.props.curData.uid}>
-                <img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />
-                {this.props.curData.username}
+              <Link className="user-name" to={'/user/profile/' + uid}>
+                <img src={'/api/user/avatar?uid=' + uid} className="user-img" />
+                {username}
               </Link>
             </Col>
           </Row>
@@ -405,8 +407,19 @@ class View extends Component {
             <Col span={4} className="colKey">
               更新时间：
             </Col>
-            <Col span={8}>{formatTime(this.props.curData.up_time)}</Col>
+            <Col span={8}>{formatTime(up_time)}</Col>
           </Row>
+          {safeArray(tag) &&
+            safeArray(tag).length > 0 && (
+              <Row className="row remark">
+                <Col span={4} className="colKey">
+                  Tag ：
+                </Col>
+                <Col span={18} className="colValue">
+                  {tag.join(' , ')}
+                </Col>
+              </Row>
+            )}
           <Row className="row">
             <Col span={4} className="colKey">
               接口路径：
@@ -443,8 +456,6 @@ class View extends Component {
             </Col>
             <Col span={18} className="colValue">
               {this.flagMsg(this.props.currProject.is_mock_open, this.props.currProject.strice)}
-              {/* {this.props.currProject.is_mock_open ? <span>( 全局mock </span> : <span>( </span>}
-              {this.props.currProject.strice ? <span> & 严格模式 ) </span> : <span>) </span>} */}
               <span
                 className="href"
                 onClick={() =>

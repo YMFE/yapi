@@ -67,18 +67,28 @@
 
 
 
-详细使用文档请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
+详细使用文档请查看：<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a>
 
 ## 方式2. json-schema
 <img src="./images/usage/json-schema-demo.jpg" />
 
-开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
+开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。
 
-### 如何生成随机的邮箱或 ip？
+### 如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？
 
 <img src="./images/usage/json-schema-mock.jpg" />
 
 点击高级设置，选择 `format` 选项，比如选择 `email` 则该字段生成随机邮箱字符串。
+
+### 集成 mockjs
+
+基本书写方式为 mock 的数据占位符@xxx, 具体字段详见<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a>
+<img src="./images/schema-mock-2.png" />
+<img src="./images/schema-mock-1.png" />
+
+> 如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值
+
+
 
 
 

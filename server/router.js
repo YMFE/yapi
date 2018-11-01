@@ -255,6 +255,11 @@ let routerConfig = {
       method: 'post'
     },
     {
+      action: 'upTag',
+      path: 'up_tag',
+      method: 'post'
+    },
+    {
       action: 'token',
       path: 'token',
       method: 'get'
@@ -273,6 +278,11 @@ let routerConfig = {
       action: 'copy',
       path: 'copy',
       method: 'post'
+    },
+    {
+      action: 'swaggerUrl',
+      path: 'swagger_url',
+      method: 'get'
     }
   ],
   interface: [

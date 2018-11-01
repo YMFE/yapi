@@ -34,7 +34,7 @@ class userModel extends baseModel {
   }
 
   checkRepeat(email) {
-    return this.model.count({
+    return this.model.countDocuments({
       email: email
     });
   }
@@ -68,7 +68,7 @@ class userModel extends baseModel {
   }
 
   listCount() {
-    return this.model.count();
+    return this.model.countDocuments();
   }
 
   findByEmail(email) {
