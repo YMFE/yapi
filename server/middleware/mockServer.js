@@ -5,6 +5,7 @@ const mockExtra = require('../../common/mock-extra.js');
 const { schemaValidator } = require('../../common/utils.js');
 const _ = require('underscore');
 const Mock = require('mockjs');
+const variable = require('../../client/constants/variable.js')
 /**
  *
  * @param {*} apiPath /user/tom
@@ -87,6 +88,7 @@ function mockValidator(interfaceData, ctx) {
     l,
     len,
     noRequiredArr = [];
+  let method = interfaceData.method.toUpperCase() || 'GET';
   // query 判断
   for (i = 0, l = interfaceData.req_query.length; i < l; i++) {
     let curQuery = interfaceData.req_query[i];
@@ -97,7 +99,7 @@ function mockValidator(interfaceData, ctx) {
     }
   }
   // form 表单判断
-  if (interfaceData.req_body_type === 'form') {
+  if (variable.HTTP_METHOD[method].request_body && interfaceData.req_body_type === 'form') {
     for (j = 0, len = interfaceData.req_body_form.length; j < len; j++) {
       let curForm = interfaceData.req_body_form[j];
       if (curForm && typeof curForm === 'object' && curForm.required === '1') {
@@ -115,7 +117,7 @@ function mockValidator(interfaceData, ctx) {
   }
   let validResult;
   // json schema 判断
-  if (interfaceData.req_body_type === 'json' && interfaceData.req_body_is_json_schema === true) {
+  if (variable.HTTP_METHOD[method].request_body  && interfaceData.req_body_type === 'json' && interfaceData.req_body_is_json_schema === true) {
     const schema = yapi.commons.json_parse(interfaceData.req_body_other);
     const params = yapi.commons.json_parse(ctx.request.body);
     validResult = schemaValidator(schema, params);
