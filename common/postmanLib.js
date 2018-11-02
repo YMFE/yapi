@@ -77,7 +77,7 @@ async function httpRequestByNode(options) {
     return handleRes(response);
   } catch (err) {
     if (err.response === undefined) {
-      handleRes({
+      return handleRes({
         headers: {},
         status: null,
         data: err.message
