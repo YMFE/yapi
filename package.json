@@ -1,5 +1,5 @@
 {
-  "name": "yapi-verndor",
+  "name": "yapi-vendor",
   "version": "1.4.1",
   "description": "YAPI",
   "main": "server/app.js",
