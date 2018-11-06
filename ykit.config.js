@@ -163,11 +163,11 @@ module.exports = {
           )
         });
 
-        baseConfig.module.preLoaders.push({
+        baseConfig.module.loaders.push({
           test: /.(gif|jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
           loader: 'url-loader',
           options: {
-            limit: 20480,
+            limit: 8192,
             name: ['[path][name].[ext]?[sha256#base64:8]']
           }
         })

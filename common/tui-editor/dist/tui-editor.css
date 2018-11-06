@@ -753,7 +753,7 @@
 }
 
 .tui-toolbar-icons {
-    background: url('tui-editor.png');
+    background: url('./tui-editor.png');
     background-size: 218px 188px;
     display: inline-block;
 }
@@ -766,7 +766,7 @@ only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
   .tui-toolbar-icons {
-    background: url('tui-editor-2x.png');
+    background: url('./tui-editor-2x.png');
     background-size: 218px 188px;
     display: inline-block;
   }
