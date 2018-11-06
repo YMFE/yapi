@@ -78,7 +78,7 @@ module.exports = {
           defaultQuery.plugins.push(['import', { libraryName: 'antd' }]);
           return defaultQuery;
         },
-        exclude: /node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual))/
+        exclude: /(tui-editor|node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual)))/
       }
     }
   ],
@@ -103,21 +103,13 @@ module.exports = {
             'reactabular-table',
             'reactabular-dnd',
             'table-resolver',
-            'recharts'
+            
           ],
-          lib2: ['brace', 'mockjs', 'json5', 'url', 'axios', 'moment'],
+          lib2: ['brace', 'json5', 'url', 'axios'],
           lib3: [
-            // 'codemirror',
-            // "highlight.js",
-            // "jquery",
-            // "markdown-it",
-            // "plantuml-encoder",
-            // "squire-rte",
-            // "to-mark",
-            // "tui-chart",
-            // "tui-code-snippet",
-            // "tui-color-picker",
-            'tui-editor'
+            'mockjs',
+            'moment',
+            'recharts'
           ]
         }
       },
@@ -170,6 +162,16 @@ module.exports = {
               '?sourceMap'
           )
         });
+
+        baseConfig.module.preLoaders.push({
+          test: /.(gif|jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
+          loader: 'url-loader',
+          options: {
+            limit: 20480,
+            name: ['[path][name].[ext]?[sha256#base64:8]']
+          }
+        })
+        
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -182,7 +184,7 @@ module.exports = {
 
         baseConfig.module.preLoaders.push({
           test: /\.(js|jsx)$/,
-          exclude: /node_modules|google-diff.js/,
+          exclude: /tui-editor|node_modules|google-diff.js/,
           loader: 'eslint-loader'
         });
 
@@ -201,6 +203,12 @@ module.exports = {
           );
           baseConfig.plugins.push(assetsPluginInstance);
           baseConfig.plugins.push(compressPlugin);
+          baseConfig.plugins.push (
+            new this.webpack.ContextReplacementPlugin (
+              /moment[\\\/]locale$/,
+              /^\.\/(zh-cn|en-gb)$/
+            )
+          )
         }
         return baseConfig;
       }

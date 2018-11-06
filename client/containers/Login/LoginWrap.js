@@ -23,11 +23,8 @@ export default class LoginWrap extends Component {
   };
 
   render() {
-    const { loginWrapActiveKey, canRegister } = this.props;
+    const { loginWrapActiveKey } = this.props;
     {/** show only login when register is disabled */}
-    if (!canRegister) {
-      return (<LoginForm />);
-    }
     return (
       <Tabs
         defaultActiveKey={loginWrapActiveKey}
