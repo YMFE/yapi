@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import URL from 'url';
 const GenerateSchema = require('generate-schema/src/schemas/json.js');
-import { json_parse } from '../../common/utils.js';
+import { json_parse, unbase64 } from '../../common/utils.js';
 
 const transformJsonToSchema = json => {
   json = json || {};
@@ -199,7 +199,12 @@ function postman(importDataModule) {
         res[item] = 'json';
       } else if (item === 'res_body') {
         res.res_body_is_json_schema = true;
-        res[item] = transformJsonToSchema(data.response.content.text);
+        if (data.response.content.encoding && data.response.content.encoding == 'base64') {
+            //base64
+            res[item] = transformJsonToSchema(unbase64(data.response.content.text));
+        } else {
+            res[item] = transformJsonToSchema(data.response.content.text);
+        }
       } else {
         res[item] = data.request[reflect[item]];
       }

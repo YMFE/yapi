@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const yapi = require('../yapi.js');
-const autoIncrement = require('mongoose-auto-increment');
+const autoIncrement = require('./mongoose-auto-increment');
 
 function model(model, schema) {
   if (schema instanceof mongoose.Schema === false) {
@@ -9,26 +9,32 @@ function model(model, schema) {
 
   schema.set('autoIndex', false);
 
-  return yapi.connect.model(model, schema, model);
+  return mongoose.model(model, schema, model);
 }
 
 function connect(callback) {
   mongoose.Promise = global.Promise;
 
   let config = yapi.WEBCONFIG;
-  let options = { useMongoClient: true };
+  let options = {useNewUrlParser: true };
 
   if (config.db.user) {
     options.user = config.db.user;
     options.pass = config.db.pass;
   }
 
-  var connectString = `mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`;
-  if (config.db.authSource) {
-    connectString = connectString + `?authSource=${config.db.authSource}`;
-  }
+  options = Object.assign({}, options, config.db.options)
 
-  //yapi.commons.log(connectString);
+  var connectString = '';
+
+  if(config.db.connectString){
+    connectString = config.db.connectString;
+  }else{
+    connectString = `mongodb://${config.db.servername}:${config.db.port}/${config.db.DATABASE}`;
+    if (config.db.authSource) {
+      connectString = connectString + `?authSource=${config.db.authSource}`;
+    }
+  }
 
   let db = mongoose.connect(
     connectString,

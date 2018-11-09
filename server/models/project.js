@@ -76,7 +76,7 @@ class projectModel extends baseModel {
   }
 
   getProjectWithAuth(group_id, uid) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id,
       'members.uid': uid
     });
@@ -103,14 +103,14 @@ class projectModel extends baseModel {
   }
 
   checkNameRepeat(name, groupid) {
-    return this.model.count({
+    return this.model.countDocuments({
       name: name,
       group_id: groupid
     });
   }
 
   checkDomainRepeat(domain, basepath) {
-    return this.model.count({
+    return this.model.countDocuments({
       prd_host: domain,
       basepath: basepath
     });
@@ -129,12 +129,12 @@ class projectModel extends baseModel {
 
   // 获取项目数量统计
   getProjectListCount() {
-    return this.model.count();
+    return this.model.countDocuments();
   }
 
   countWithPublic(group_id) {
     let params = { group_id: group_id, project_type: 'public' };
-    return this.model.count(params);
+    return this.model.countDocuments(params);
   }
 
   listWithPaging(group_id, page, limit) {
@@ -151,13 +151,13 @@ class projectModel extends baseModel {
   }
 
   listCount(group_id) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id
     });
   }
 
   countByGroupId(group_id) {
-    return this.model.count({
+    return this.model.countDocuments({
       group_id: group_id
     });
   }
@@ -209,7 +209,7 @@ class projectModel extends baseModel {
   }
 
   checkMemberRepeat(id, uid) {
-    return this.model.count({
+    return this.model.countDocuments({
       _id: id,
       'members.uid': uid
     });

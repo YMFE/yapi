@@ -112,7 +112,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
   "mail": {...},
   "ldapLogin": {
       "enable": true,
-      "server": "ldap://l-ldapt1.ops.dev.cn0.qunar.com",
+      "server": "ldap://l-ldapt1.com",
       "baseDn": "CN=Admin,CN=Users,DC=test,DC=com",
       "bindPassword": "password123",
       "searchDn": "OU=UserContainer,DC=test,DC=com",
@@ -164,3 +164,23 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 }
 
 ```
+
+
+### 如何配置mongodb集群
+
+请升级到 yapi >= **1.4.0**以上版本，然后在 config.json db项，配置 connectString:
+
+```json
+
+{
+  "port": "***",
+  "db": {
+    "connectString": "mongodb://127.0.0.100:8418,127.0.0.101:8418,127.0.0.102:8418/yapidb?slaveOk=true",
+    "user": "******",
+    "pass": "******"
+  },
+}
+
+```
+
+详细配置参考： [wiki](https://mongoosejs.com/docs/connections.html#multiple_connections)

@@ -12,17 +12,17 @@ import mockEditor from 'client/components/AceEditor/mockEditor';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
 import { MOCK_SOURCE } from '../../../../constants/variable.js';
+import Editor from 'common/tui-editor/dist/tui-editor-Editor-all.min.js';
 const jSchema = require('json-schema-editor-visual');
 const ResBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
 const ReqBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
 const TabPane = Tabs.TabPane;
 
-require('codemirror/lib/codemirror.css'); // codemirror
-require('tui-editor/dist/tui-editor.css'); // editor ui
-require('tui-editor/dist/tui-editor-contents.css'); // editor content
-require('highlight.js/styles/github.css'); // code block highlight
+
+require('common/tui-editor/dist/tui-editor.css'); // editor ui
+require('common/tui-editor/dist/tui-editor-contents.css'); // editor content
 require('./editor.css');
-var Editor = require('tui-editor');
+
 
 function checkIsJsonSchema(json) {
   try {

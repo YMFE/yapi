@@ -80,6 +80,7 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
     const { isLDAP } = this.props;
 
     const emailRule =

@@ -45,6 +45,9 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
 
+### YApi 一些工具
+* [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
+
 ### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 
@@ -61,6 +64,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 快手
 * 便利蜂
 * 中商惠民
+* 新浪
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)

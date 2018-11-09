@@ -8,7 +8,8 @@ import './Login.scss';
 const TabPane = Tabs.TabPane;
 
 @connect(state => ({
-  loginWrapActiveKey: state.user.loginWrapActiveKey
+  loginWrapActiveKey: state.user.loginWrapActiveKey,
+  canRegister: state.user.canRegister
 }))
 export default class LoginWrap extends Component {
   constructor(props) {
@@ -17,11 +18,13 @@ export default class LoginWrap extends Component {
 
   static propTypes = {
     form: PropTypes.object,
-    loginWrapActiveKey: PropTypes.string
+    loginWrapActiveKey: PropTypes.string,
+    canRegister: PropTypes.bool
   };
 
   render() {
-    const { loginWrapActiveKey } = this.props;
+    const { loginWrapActiveKey, canRegister } = this.props;
+    {/** show only login when register is disabled */}
     return (
       <Tabs
         defaultActiveKey={loginWrapActiveKey}
@@ -31,7 +34,7 @@ export default class LoginWrap extends Component {
         <TabPane tab="登录" key="1">
           <LoginForm />
         </TabPane>
-        <TabPane tab="注册" key="2">
+        <TabPane tab="注册" key="2" disabled={!canRegister}>
           <RegForm />
         </TabPane>
       </Tabs>

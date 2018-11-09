@@ -57,7 +57,7 @@ class followModel extends baseModel {
   }
 
   checkProjectRepeat(uid, projectid) {
-    return this.model.count({
+    return this.model.countDocuments({
       uid: uid,
       projectid: projectid
     });
