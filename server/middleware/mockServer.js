@@ -181,7 +181,6 @@ module.exports = async (ctx, next) => {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
     let queryPathInterfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
-    console.log('length', interfaceData.length, queryPathInterfaceData.length)
     //处理query_path情况  url 中有 ?params=xxx
     if (!interfaceData || interfaceData.length != queryPathInterfaceData.length) {
 
@@ -206,8 +205,6 @@ module.exports = async (ctx, next) => {
             match = true;
           }
         }
-
-        console.log('match', match);
 
         if (match) {
           interfaceData = [currentInterfaceData];
