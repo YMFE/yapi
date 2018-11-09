@@ -163,8 +163,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   background-color: #f7f7f7;
   white-space: nowrap;
 }
-.CodeMirror-linenumbers {
-}
+
 .CodeMirror-linenumber {
   padding: 0 3px 0 5px;
   min-width: 20px;
@@ -242,8 +241,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 
 /* Can style cursor different in overwrite (non-insert) mode */
-.CodeMirror-overwrite .CodeMirror-cursor {
-}
+/* .CodeMirror-overwrite .CodeMirror-cursor {
+} */
 
 .cm-tab {
   display: inline-block;
@@ -305,11 +304,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .cm-s-default .cm-def {
   color: #00f;
 }
-.cm-s-default .cm-variable,
+/* .cm-s-default .cm-variable,
 .cm-s-default .cm-punctuation,
 .cm-s-default .cm-property,
 .cm-s-default .cm-operator {
-}
+} */
 .cm-s-default .cm-variable-2 {
   color: #05a;
 }
@@ -520,8 +519,8 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
   padding: 0.1px; /* Force widget margins to stay inside of the container */
 }
 
-.CodeMirror-widget {
-}
+/* .CodeMirror-widget {
+} */
 
 .CodeMirror-rtl pre {
   direction: rtl;
