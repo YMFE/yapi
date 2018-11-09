@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Checkbox } from 'antd';
 import Editor from 'common/tui-editor/dist/tui-editor-Editor-all.min.js';
-require('common/tui-editor/dist/tui-editor.css'); // editor ui
-require('common/tui-editor/dist/tui-editor-contents.css'); // editor content
+require('common/tui-editor/dist/tui-editor.min.css'); // editor ui
+require('common/tui-editor/dist/tui-editor-contents.min.css'); // editor content
 class WikiEditor extends Component {
   constructor(props) {
     super(props);
