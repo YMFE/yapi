@@ -331,11 +331,13 @@ class InterfaceMenu extends Component {
     }
   };
   // 数据过滤
-  filterList = (list, arr) => {
+  filterList = list => {
     let that = this;
+    let arr = [];
     let menuList = produce(list, draftList => {
       draftList.filter(item => {
         let interfaceFilter = false;
+        // arr = [];
         if (item.name.indexOf(that.state.filter) === -1) {
           item.list = item.list.filter(inter => {
             if (
@@ -356,7 +358,7 @@ class InterfaceMenu extends Component {
       });
     });
 
-    return menuList;
+    return { menuList, arr };
   };
 
   render() {
@@ -458,7 +460,6 @@ class InterfaceMenu extends Component {
     };
 
     const itemInterfaceCreate = item => {
-
       return (
         <TreeNode
           title={
@@ -507,12 +508,13 @@ class InterfaceMenu extends Component {
         />
       );
     };
-    
+
     let currentKes = defaultExpandedKeys();
     let menuList;
     if (this.state.filter) {
-      let arr = [];
-      menuList = this.filterList(this.state.list, arr);
+      let res = this.filterList(this.state.list);
+      menuList = res.menuList;
+      currentKes.expands = res.arr;
     } else {
       menuList = this.state.list;
     }
@@ -546,7 +548,8 @@ class InterfaceMenu extends Component {
                     }}
                     to={'/project/' + matchParams.id + '/interface/api'}
                   >
-                    <Icon type="folder" style={{ marginRight: 5 }} />全部接口
+                    <Icon type="folder" style={{ marginRight: 5 }} />
+                    全部接口
                   </Link>
                 }
                 key="root"
