@@ -498,7 +498,8 @@ class InterfaceColContent extends Component {
       [project_id]: envName
     };
     this.setState({ currColEnvObj });
-    this.handleColdata(this.props.currCaseList, envName, project_id);
+   // this.handleColdata(this.props.currCaseList, envName, project_id);
+   this.handleColdata(this.props.currCaseList,currColEnvObj);
   };
 
   autoTests = () => {
