@@ -628,6 +628,10 @@ class interfaceController extends baseController {
     };
 
     this.catModel.get(interfaceData.catid).then(cate => {
+      let diffView2 = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+      if (diffView2.length <= 0) {
+          return; // 没有变化时，不写日志
+      }
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 
                     更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${
