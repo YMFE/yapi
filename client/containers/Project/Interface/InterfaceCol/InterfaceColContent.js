@@ -196,19 +196,22 @@ class InterfaceColContent extends Component {
     return req_header;
   };
 
-  handleColdata = (rows, currColEnv = '', project_id = null) => {
+  handleColdata = (rows, currColEnvObj=null) => {
     let that = this;
     let newRows = produce(rows, draftRows => {
       draftRows.map(item => {
         item.id = item._id;
         item._test_status = item.test_status;
-        item.case_env =
-          item.project_id === project_id ? currColEnv || item.case_env : item.case_env;
+        if(currColEnvObj[item.project_id]!=null){
+          item.case_env =currColEnvObj[item.project_id];
+        }else{
+          item.case_env=undefined;
+        }
         item.req_headers = that.handleReqHeader(item.project_id, item.req_headers, item.case_env);
         return item;
       });
     });
-
+    console.log(newRows)
     this.setState({ rows: newRows });
   };
 
@@ -495,7 +498,8 @@ class InterfaceColContent extends Component {
       [project_id]: envName
     };
     this.setState({ currColEnvObj });
-    this.handleColdata(this.props.currCaseList, envName, project_id);
+   // this.handleColdata(this.props.currCaseList, envName, project_id);
+   this.handleColdata(this.props.currCaseList,currColEnvObj);
   };
 
   autoTests = () => {
