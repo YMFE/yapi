@@ -61,7 +61,7 @@ const HomeGuest = () => (
           </Col>
           <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
-              <img className="img" src={getImgPath('/image/demo-img', 'jpg')} />
+              
             </div>
           </Col>
         </Row>
