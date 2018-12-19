@@ -1,3 +1,6 @@
+### Todo
+* 修复接口更新时，如果 requestType 是 json，自动增加header "content-type/json"
+
 ### v1.3.23
 
 * 接口tag功能

@@ -19,6 +19,49 @@ const path = require('path');
 // const annotatedCss = require("jsondiffpatch/public/formatters-styles/annotated.css");
 // const htmlCss = require("jsondiffpatch/public/formatters-styles/html.css");
 
+
+function handleHeaders(values){
+  let isfile = false,
+  isHavaContentType = false;
+  if (values.req_body_type === 'form') {
+    values.req_body_form.forEach(item => {
+      if (item.type === 'file') {
+        isfile = true;
+      }
+    });
+
+    values.req_headers.map(item => {
+      if (item.name === 'Content-Type') {
+        item.value = isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
+        isHavaContentType = true;
+      }
+    });
+    if (isHavaContentType === false) {
+      values.req_headers.unshift({
+        name: 'Content-Type',
+        value: isfile ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
+      });
+    }
+  } else if (values.req_body_type === 'json') {
+    values.req_headers
+      ? values.req_headers.map(item => {
+          if (item.name === 'Content-Type') {
+            item.value = 'application/json';
+            isHavaContentType = true;
+          }
+        })
+      : [];
+    if (isHavaContentType === false) {
+      values.req_headers = values.req_headers || [];
+      values.req_headers.unshift({
+        name: 'Content-Type',
+        value: 'application/json'
+      });
+    }
+  }
+}
+
+
 class interfaceController extends baseController {
   constructor(ctx) {
     super(ctx);
@@ -182,6 +225,8 @@ class interfaceController extends baseController {
         'path第一位必需为 /, 只允许由 字母数字-/_:.! 组成'
       ));
     }
+
+    handleHeaders(params)
 
     params.query_path = {};
     params.query_path.path = http_path.pathname;
@@ -549,6 +594,8 @@ class interfaceController extends baseController {
     params.message = params.message.replace(/\n/g, '<br>');
     // params.res_body_is_json_schema = _.isUndefined (params.res_body_is_json_schema) ? true : params.res_body_is_json_schema;
     // params.req_body_is_json_schema = _.isUndefined(params.req_body_is_json_schema) ?  true : params.req_body_is_json_schema;
+
+    handleHeaders(params)
 
     let interfaceData = await this.Model.get(id);
     if (!interfaceData) {
