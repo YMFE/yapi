@@ -179,10 +179,8 @@ class InterfaceColContent extends Component {
       return item._id === project_id;
     });
 
-    // let env = this.props.currProject.env; console.log('env', case_env);
     let currDomain = handleCurrDomain(envItem && envItem.env, case_env);
     let header = currDomain.header;
-    // console.log('header', header)
     header.forEach(item => {
       if (!checkNameIsExistInArray(item.name, req_header)) {
         // item.abled = true;
@@ -196,22 +194,21 @@ class InterfaceColContent extends Component {
     return req_header;
   };
 
-  handleColdata = (rows, currColEnvObj=null) => {
+  handleColdata = (rows, currColEnvObj = {}) => {
     let that = this;
     let newRows = produce(rows, draftRows => {
       draftRows.map(item => {
         item.id = item._id;
         item._test_status = item.test_status;
-        if(currColEnvObj[item.project_id]!=null){
+        if(currColEnvObj[item.project_id]){
           item.case_env =currColEnvObj[item.project_id];
         }else{
-          item.case_env=undefined;
+          delete item.case_env;
         }
         item.req_headers = that.handleReqHeader(item.project_id, item.req_headers, item.case_env);
         return item;
       });
     });
-    console.log(newRows)
     this.setState({ rows: newRows });
   };
 
@@ -236,7 +233,6 @@ class InterfaceColContent extends Component {
       newRows = [].concat([], rows);
       newRows[i] = curitem;
       this.setState({ rows: newRows });
-      // console.log('newRows', newRows);
       let status = 'error',
         result;
       try {
@@ -543,7 +539,6 @@ class InterfaceColContent extends Component {
   };
 
   render() {
-    // console.log('rows',this.props.currProject);
     const currProjectId = this.props.currProject._id;
     const columns = [
       {
