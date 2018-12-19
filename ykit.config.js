@@ -102,15 +102,10 @@ module.exports = {
             'react-dnd',
             'reactabular-table',
             'reactabular-dnd',
-            'table-resolver',
-            
+            'table-resolver'
           ],
           lib2: ['brace', 'json5', 'url', 'axios'],
-          lib3: [
-            'mockjs',
-            'moment',
-            'recharts'
-          ]
+          lib3: ['mockjs', 'moment', 'recharts']
         }
       },
       modifyWebpackConfig: function(baseConfig) {
@@ -170,8 +165,8 @@ module.exports = {
             limit: 8192,
             name: ['[path][name].[ext]?[sha256#base64:8]']
           }
-        })
-        
+        });
+
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
@@ -203,12 +198,9 @@ module.exports = {
           );
           baseConfig.plugins.push(assetsPluginInstance);
           baseConfig.plugins.push(compressPlugin);
-          baseConfig.plugins.push (
-            new this.webpack.ContextReplacementPlugin (
-              /moment[\\\/]locale$/,
-              /^\.\/(zh-cn|en-gb)$/
-            )
-          )
+          baseConfig.plugins.push(
+            new this.webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(zh-cn|en-gb)$/)
+          );
         }
         return baseConfig;
       }

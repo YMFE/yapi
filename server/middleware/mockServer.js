@@ -180,19 +180,19 @@ module.exports = async (ctx, next) => {
   try {
     newpath = path.substr(project.basepath.length);
     interfaceData = await interfaceInst.getByPath(project._id, newpath, ctx.method);
-
+    let queryPathInterfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
     //处理query_path情况  url 中有 ?params=xxx
-    if (!interfaceData || interfaceData.length === 0) {
-      interfaceData = await interfaceInst.getByQueryPath(project._id, newpath, ctx.method);
+    if (!interfaceData || interfaceData.length != queryPathInterfaceData.length) {
+
       let i,
         l,
         j,
         len,
         curQuery,
         match = false;
-      for (i = 0, l = interfaceData.length; i < l; i++) {
+      for (i = 0, l = queryPathInterfaceData.length; i < l; i++) {
         match = false;
-        let currentInterfaceData = interfaceData[i];
+        let currentInterfaceData = queryPathInterfaceData[i];
         curQuery = currentInterfaceData.query_path;
         if (!curQuery || typeof curQuery !== 'object' || !curQuery.path) {
           continue;
@@ -210,9 +210,10 @@ module.exports = async (ctx, next) => {
           interfaceData = [currentInterfaceData];
           break;
         }
-        if (i === l - 1) {
-          interfaceData = [];
-        }
+        // if (i === l - 1) {
+        //   interfaceData = [];
+        // }
+
       }
     }
 

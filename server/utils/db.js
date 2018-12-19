@@ -16,7 +16,7 @@ function connect(callback) {
   mongoose.Promise = global.Promise;
 
   let config = yapi.WEBCONFIG;
-  let options = {useNewUrlParser: true };
+  let options = {useNewUrlParser: true, useCreateIndex: true};
 
   if (config.db.user) {
     options.user = config.db.user;

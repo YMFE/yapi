@@ -675,6 +675,10 @@ class interfaceController extends baseController {
     };
 
     this.catModel.get(interfaceData.catid).then(cate => {
+      let diffView2 = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+      if (diffView2.length <= 0) {
+          return; // 没有变化时，不写日志
+      }
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 
                     更新了分类 <a href="/project/${cate.project_id}/interface/api/cat_${
@@ -707,10 +711,11 @@ class interfaceController extends baseController {
       );
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
-      
-      let interfaceUrl = `http://${ctx.request.host}/project/${
+    
+      let interfaceUrl = `${ctx.request.origin}/project/${
         interfaceData.project_id
       }/interface/api/${id}`;
+
       yapi.commons.sendNotice(interfaceData.project_id, {
         title: `${username} 更新了接口`,
         content: `<html>

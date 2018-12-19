@@ -21,8 +21,7 @@ const changeHeight = {
   state => {
     return {
       loginData: state.user,
-      isLDAP: state.user.isLDAP,
-      canRegister: state.user.canRegister
+      isLDAP: state.user.isLDAP
     };
   },
   {
@@ -44,8 +43,7 @@ class Login extends Component {
     history: PropTypes.object,
     loginActions: PropTypes.func,
     loginLdapActions: PropTypes.func,
-    isLDAP: PropTypes.bool,
-    canRegister: PropTypes.bool
+    isLDAP: PropTypes.bool
   };
 
   handleSubmit = e => {
@@ -81,7 +79,8 @@ class Login extends Component {
   };
 
   render() {
-    const { getFieldDecorator, canRegister } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
+
     const { isLDAP } = this.props;
 
     const emailRule =
@@ -99,7 +98,7 @@ class Login extends Component {
           <FormItem>
             <RadioGroup defaultValue="ldap" onChange={this.handleFormLayoutChange}>
               <Radio value="ldap">LDAP</Radio>
-              <Radio value="normal" disabled={!canRegister}>普通登录</Radio>
+              <Radio value="normal">普通登录</Radio>
             </RadioGroup>
           </FormItem>
         )}

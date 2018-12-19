@@ -70,7 +70,7 @@ class ProjectData extends Component {
     this.state = {
       selectCatid: '',
       menuList: [],
-      curImportType: null,
+      curImportType: 'swagger',
       curExportType: null,
       showLoading: false,
       dataSync: 'good',
@@ -336,6 +336,7 @@ class ProjectData extends Component {
               <div className="dataImportTile">
                 <Select
                   placeholder="请选择导入数据的方式"
+                  value={this.state.curImportType}
                   onChange={this.handleImportType}
                 >
                   {Object.keys(importDataModule).map(name => {

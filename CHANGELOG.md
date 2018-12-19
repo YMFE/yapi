@@ -1,5 +1,16 @@
-### Todo
-* 修复接口更新时，如果 requestType 是 json，自动增加header "content-type/json"
+### v1.4.2
+* 优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header "content-type/json"
+
+### v1.4.1
+
+* 支持任何人都可以添加分组，只有管理员才能修改项目是否公开
+* 支持 mongodb 集群
+
+#### Bug Fixed
+* 修改 mock严格模式，GET带有 JSON BODY 导致的验证问题
+* 对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径
+* 因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题
+
 
 ### v1.3.23
 

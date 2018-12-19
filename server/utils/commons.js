@@ -657,7 +657,7 @@ exports.createWebAPIRequest = function(ops) {
       }
     );
     http_client.on('error', (e) => {
-      reject({message: 'request error'});
+      reject({message: `request error: ${e.message}`});
     });
     http_client.end();
   });
