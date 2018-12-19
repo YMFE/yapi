@@ -132,13 +132,9 @@ export default (state = initialState, action) => {
 
 // Action Creators
 export function checkLoginState() {
-  return dispatch => {
-    axios.get('/api/user/status').then(res => {
-      dispatch({
-        type: GET_LOGIN_STATE,
-        payload: res
-      });
-    });
+  return {
+    type: GET_LOGIN_STATE,
+    payload: axios.get('/api/user/status')
   };
 }
 

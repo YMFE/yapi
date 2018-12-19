@@ -93,7 +93,6 @@ module.exports = {
             'react',
             'react-dom',
             'redux',
-            'redux-thunk',
             'redux-promise',
             'react-router',
             'react-router-dom',
