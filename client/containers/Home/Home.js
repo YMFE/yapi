@@ -41,6 +41,10 @@ const HomeGuest = () => (
         <Row>
           <Col lg={9} xs={24}>
             <div className="home-des">
+              <div className="detail">
+                乐知行API管理平台<br />
+                <span className="desc">基于开源API管理平台YApi开发</span>
+              </div>
               <div className="logo">
                 <LogoSVG length="72px" />
                 <span className="name">YAPI</span>

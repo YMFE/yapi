@@ -44,3 +44,5 @@ tsconfig.json
 client/plugin-module.js
 .vscode
 /iconfont
+
+static/prd/*

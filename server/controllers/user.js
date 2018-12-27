@@ -453,6 +453,8 @@ class userController extends baseController {
 
       let userInst = yapi.getInst(userModel);
       let id = ctx.request.body.id;
+      // todo: 增加多个管理员后，禁止删除其它管理员。
+      // todo: 用户删除后，给对应的邮箱发邮件
       if (id == this.getUid()) {
         return (ctx.body = yapi.commons.resReturn(null, 403, '禁止删除管理员'));
       }

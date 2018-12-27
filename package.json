@@ -10,6 +10,7 @@
     "dev-client": "npm run dev-copy-icon && ykit s -p 4000",
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
+    "mongo": "nohup mongod --dbpath ~/mongodata>log &",
     "test": "ava",
     "build-client": "NODE_ENV=production ykit pack -m"
   },
