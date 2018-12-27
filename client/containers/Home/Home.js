@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button, Icon, Card } from 'antd';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { getImgPath } from '../../common.js';
 import LogoSVG from '../../components/LogoSVG/index.js';
 import { changeMenuItem } from '../../reducer/modules/menu';
 const plugin = require('client/plugin.js');
@@ -61,7 +60,7 @@ const HomeGuest = () => (
           </Col>
           <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
-              <img className="img" src={getImgPath('/image/demo-img', 'jpg')} />
+              
             </div>
           </Col>
         </Row>

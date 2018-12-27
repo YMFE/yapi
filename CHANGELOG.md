@@ -1,5 +1,11 @@
-### v1.4.1
+### v1.4.2
+* 优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header "content-type/json"
+* fix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692
+* fix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'
+* opti: 去掉没必要的redux-thunk
+* 接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志
 
+### v1.4.1
 
 * 支持任何人都可以添加分组，只有管理员才能修改项目是否公开
 * 支持 mongodb 集群
