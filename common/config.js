@@ -12,6 +12,8 @@ module.exports = {
   },{
     name: 'export-data'
   },{
+    name: 'export-swagger2-data'
+  },{
     name: 'import-yapi-json'
   },{
     name: 'wiki'
