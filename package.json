@@ -11,7 +11,8 @@
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
     "test": "ava",
-    "build-client": "NODE_ENV=production ykit pack -m"
+    "build-client": "NODE_ENV=production ykit pack -m",
+    "npm-publish": "node ./npm-publish.js"
   },
   "scripts-info": {
     "start": "运行生产环境服务器",
