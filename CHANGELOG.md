@@ -1,3 +1,8 @@
+### v1.4.3
+* 修复了可视化安装，mongodb 报错的问题
+* 支持了 swagger 导出功能
+* 支持了克隆测试用例
+
 ### v1.4.2
 * 优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header "content-type/json"
 * fix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692
