@@ -14,6 +14,9 @@ function model(model, schema) {
 
 function connect(callback) {
   mongoose.Promise = global.Promise;
+  mongoose.set('useNewUrlParser', true);
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
 
   let config = yapi.WEBCONFIG;
   let options = {useNewUrlParser: true, useCreateIndex: true};

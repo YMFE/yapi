@@ -21,4 +21,4 @@ shell.exec ('git push origin ' + version);
 console.log('git push success', version)
 
 console.log('正在执行npm发布')
-shell.exec('npm run publish')
+shell.exec('npm publish')
