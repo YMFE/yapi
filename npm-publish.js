@@ -1,7 +1,12 @@
 const shell = require ('shelljs');
 const packageJson = require ('./package.json');
 
-const version = packageJson.json;
+const version = packageJson.version;
+
+if(!version){
+  console.error('version 不能为空')
+  process.exit(1)
+}
 
 shell.exec ('npm install --registry https://registry.npm.taobao.org');
 shell.exec ('npm run build-client');
