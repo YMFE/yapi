@@ -6,7 +6,8 @@ import {
   fetchInterfaceColList,
   fetchInterfaceCaseList,
   setColData,
-  fetchCaseList
+  fetchCaseList,
+  fetchCaseData
 } from '../../../../reducer/modules/interfaceCol';
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
@@ -54,6 +55,7 @@ const ColModalForm = Form.create()(props => {
   {
     fetchInterfaceColList,
     fetchInterfaceCaseList,
+    fetchCaseData,
     // fetchInterfaceListMenu,
     fetchCaseList,
     setColData,
@@ -69,6 +71,7 @@ export default class InterfaceColMenu extends Component {
     fetchInterfaceCaseList: PropTypes.func,
     // fetchInterfaceListMenu: PropTypes.func,
     fetchCaseList: PropTypes.func,
+    fetchCaseData: PropTypes.func,
     setColData: PropTypes.func,
     currCaseId: PropTypes.number,
     history: PropTypes.object,
@@ -235,6 +238,26 @@ export default class InterfaceColMenu extends Component {
       title: '此测试集合为最后一个集合',
       content: '温馨提示：建议不要删除'
     });
+  };
+  caseCopy = async caseId=> {
+    let that = this;
+    let caseData = await that.props.fetchCaseData(caseId);
+    let data = caseData.payload.data.data;
+    data.casename=`${data.casename}_copy`
+    data._id=null
+    const res = await axios.post('/api/col/add_case',data);
+      if (!res.data.errcode) {
+        message.success('克隆用例成功');
+        let colId = res.data.data.col_id;
+        let projectId=res.data.data.project_id;
+        await this.getList();
+        this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+        this.setState({
+          visible: false
+        });
+      } else {
+        message.error(res.data.errmsg);
+      }
   };
   showDelCaseConfirm = caseId => {
     let that = this;
@@ -429,17 +452,30 @@ export default class InterfaceColMenu extends Component {
               title={interfaceCase.casename}
             >
               <span className="casename">{interfaceCase.casename}</span>
-              <Tooltip title="删除用例">
-                <Icon
-                  type="delete"
-                  className="case-delete-icon"
-                  onClick={e => {
-                    e.stopPropagation();
-                    this.showDelCaseConfirm(interfaceCase._id);
-                  }}
-                  style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
-                />
-              </Tooltip>
+              <div className="btns">
+                <Tooltip title="删除用例">
+                  <Icon
+                    type="delete"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.showDelCaseConfirm(interfaceCase._id);
+                    }}
+                    style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+                <Tooltip title="克隆用例">
+                  <Icon
+                    type="copy"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.caseCopy(interfaceCase._id);
+                    }}
+                    style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+              </div>
             </div>
           }
         />
