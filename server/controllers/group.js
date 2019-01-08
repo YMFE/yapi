@@ -211,6 +211,16 @@ class groupController extends baseController {
     };
   }
 
+  async getMyGroup(ctx){
+    var groupInst = yapi.getInst(groupModel);
+    let privateGroup = await groupInst.getByPrivateUid(this.getUid());
+    if(privateGroup){
+      ctx.body = yapi.commons.resReturn(privateGroup)
+    }else{
+      ctx.body = yapi.commons.resReturn(null)
+    }
+  }
+
   /**
    * 添加项目分组成员
    * @interface /group/add_member

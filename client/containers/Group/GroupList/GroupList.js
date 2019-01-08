@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Icon, Modal, Input, message, Row, Menu, Col, Popover, Tooltip } from 'antd';
+import { Icon, Modal, Input, message,Spin,  Row, Menu, Col, Popover, Tooltip } from 'antd';
 import { autobind } from 'core-decorators';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -240,6 +240,11 @@ export default class GroupList extends Component {
               />
             </div>
           </div>
+          {this.state.groupList.length === 0 && <Spin style={{
+            marginTop: 20,
+            display: 'flex',
+            justifyContent: 'center'
+          }} />}
           <Menu
             className="group-list"
             mode="inline"

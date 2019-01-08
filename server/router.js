@@ -56,6 +56,13 @@ let INTERFACE_CONFIG = {
 let routerConfig = {
   group: [
     {
+      action: 'getMyGroup',
+      path: 'get_mygroup',
+      method: 'get'
+    },
+
+    
+    {
       action: 'list',
       path: 'list',
       method: 'get'
