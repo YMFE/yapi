@@ -141,6 +141,13 @@ class InterfaceColContent extends Component {
       let result = await this.props.fetchCaseList(currColId);
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
+
+        this.setState({
+          commonSetting:{
+            checkHttpCodeIs200: result.payload.data.colData.checkHttpCodeIs200,
+            checkResponseField: result.payload.data.colData.checkResponseField
+          }
+        })
       }
 
       this.props.setColData({
@@ -338,7 +345,12 @@ class InterfaceColContent extends Component {
         res_body: data.body || data.message,
         status: null,
         statusText: data.message,
-        code: 400
+        code: 400,
+        validRes: [
+          {
+            message: data.message
+          }
+        ]
       };
     }
 
@@ -358,7 +370,8 @@ class InterfaceColContent extends Component {
         response: response,
         records: this.records,
         script: interfaceData.test_script,
-        params: requestParams
+        params: requestParams,
+        col_id: this.props.currColId
       });
       if (test.data.errcode !== 0) {
         test.data.data.logs.forEach(item => {
@@ -427,6 +440,12 @@ class InterfaceColContent extends Component {
       let result = await this.props.fetchCaseList(newColId);
       if (result.payload.data.errcode === 0) {
         this.reports = handleReport(result.payload.data.colData.test_report);
+        this.setState({
+          commonSetting:{
+            checkHttpCodeIs200: result.payload.data.colData.checkHttpCodeIs200,
+            checkResponseField: result.payload.data.colData.checkResponseField
+          }
+        })
       }
 
       await this.props.fetchCaseList(newColId);
@@ -553,6 +572,21 @@ class InterfaceColContent extends Component {
   };
 
   handleCommonSetting = ()=>{
+    let setting = this.state.commonSetting;
+
+    let params = {
+      col_id: this.props.currColId,
+      checkHttpCodeIs200: setting.checkHttpCodeIs200,
+      checkResponseField: setting.checkResponseField
+    };
+
+    axios.post('/api/col/up_col', params).then(async res => {
+      if (res.data.errcode) {
+        return message.error(res.data.errmsg);
+      }
+      message.success('配置测试集成功');
+    });
+
     this.setState({
       commonSettingModalVisible: false
     })

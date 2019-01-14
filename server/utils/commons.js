@@ -516,6 +516,9 @@ function convertString(variable) {
 }
 
 exports.runCaseScript = async function runCaseScript(params, colId) {
+  const colInst = yapi.getInst(interfaceColModel);
+  let colData = await colInst.get(colId);
+
   let script = params.script;
   // script 是断言
   if (!script) {
@@ -536,6 +539,21 @@ exports.runCaseScript = async function runCaseScript(params, colId) {
 
   let result = {};
   try {
+
+    if(colData.checkHttpCodeIs200){
+      let status = +params.response.status;
+      if(status !== 200){
+        logs.push('Http status code 不是 200，请检查(该检查在测试机高级设置配置)')
+      }
+    }
+  
+    if(colData.checkResponseField.enable){
+      if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
+        logs.push(`返回 json "${colData.checkResponseField.name}" 值不是${colData.checkResponseField.value}，请检查(该检查在测试机高级设置配置)`)
+      }
+    }
+
+
     result = yapi.commons.sandbox(context, script);
 
     result.logs = logs;

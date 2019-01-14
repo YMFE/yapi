@@ -243,8 +243,9 @@ export default class InterfaceColMenu extends Component {
     let that = this;
     let caseData = await that.props.fetchCaseData(caseId);
     let data = caseData.payload.data.data;
+    data = JSON.parse(JSON.stringify(data));
     data.casename=`${data.casename}_copy`
-    data._id=null
+    delete data._id 
     const res = await axios.post('/api/col/add_case',data);
       if (!res.data.errcode) {
         message.success('克隆用例成功');
@@ -490,19 +491,16 @@ export default class InterfaceColMenu extends Component {
     if (this.state.filterValue) {
       let arr = [];
       list = list.filter(item => {
-        let interfaceFilter = false;
-        if (item.name.indexOf(this.state.filterValue) === -1) {
-          item.caseList = item.caseList.filter(inter => {
-            if (inter.casename.indexOf(this.state.filterValue) === -1) {
-              return false;
-            }
-            //arr.push('cat_' + inter.catid)
-            interfaceFilter = true;
-            return true;
-          });
-          arr.push('col_' + item._id);
-          return interfaceFilter === true;
-        }
+
+        item.caseList = item.caseList.filter(inter => {
+          if (inter.casename.indexOf(this.state.filterValue) === -1 
+          && inter.path.indexOf(this.state.filterValue) === -1
+          ) {
+            return false;
+          }
+          return true;
+        });
+
         arr.push('col_' + item._id);
         return true;
       });

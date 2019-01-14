@@ -275,7 +275,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
           res = json_parse(data.res.body);
           data.res.body = res;
         }
-        if (!isNode) message = '请求异常，请检查 chrome network 错误信息...';
+        if (!isNode) message = '请求异常，请检查 chrome network 错误信息...（如果不懂 chrome network，请百度查询 "chrome network教程"）';
         if (isNaN(data.res.status)) {
           reject({
             body: res || message,

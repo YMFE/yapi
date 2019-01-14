@@ -39,22 +39,6 @@ class interfaceCol extends baseModel {
     };
   }
 
-  upCommonTestSetting(id, enableHttpCodeCheck = false, responseInfo = {
-    name: 'code',
-    value: '0',
-    enable: false
-  }) {
-    return this.model.update(
-      {
-        _id: id
-      },
-      {
-        checkHttpCodeIs200: enableHttpCodeCheck,
-        checkResponseField: responseInfo
-      }
-    );
-  }
-
   save(data) {
     let m = new this.model(data);
     return m.save();
