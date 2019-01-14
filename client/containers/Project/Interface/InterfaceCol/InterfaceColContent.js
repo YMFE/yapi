@@ -948,7 +948,7 @@ class InterfaceColContent extends Component {
                 )}
                 <Button onClick={this.openCommonSetting} style={{
                         marginRight: '8px'
-                      }} >高级配置</Button>
+                      }} >通用规则配置</Button>
                 &nbsp;
                 <Button type="primary" onClick={this.executeTests}>
                   开始测试
