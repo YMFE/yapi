@@ -15,8 +15,44 @@ class interfaceCol extends baseModel {
       add_time: Number,
       up_time: Number,
       index: { type: Number, default: 0 },
-      test_report: { type: String, default: '{}' }
+      test_report: { type: String, default: '{}' },
+      checkHttpCodeIs200: {
+        type:Boolean,
+        default: false
+      },
+      checkResponseField: {
+        name: {
+          type: String,
+          required: true,
+          default: "code"
+        },
+        value: {
+          type: String,
+          required: true,
+          default: "0"
+        },
+        enable: {
+          type: Boolean,
+          default: false
+        }
+      }
     };
+  }
+
+  upCommonTestSetting(id, enableHttpCodeCheck = false, responseInfo = {
+    name: 'code',
+    value: '0',
+    enable: false
+  }) {
+    return this.model.update(
+      {
+        _id: id
+      },
+      {
+        checkHttpCodeIs200: enableHttpCodeCheck,
+        checkResponseField: responseInfo
+      }
+    );
   }
 
   save(data) {
