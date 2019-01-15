@@ -15,6 +15,7 @@ const CaseReport = function(props) {
   let headers = jsonFormat(props.headers, null, '   ');
   let res_header = jsonFormat(props.res_header, null, '   ');
   let res_body = jsonFormat(props.res_body);
+  let httpCode = props.status;
   let validRes;
   if (props.validRes && Array.isArray(props.validRes)) {
     validRes = props.validRes.map((item, index) => {
@@ -64,6 +65,14 @@ const CaseReport = function(props) {
           ) : null}
         </TabPane>
         <TabPane className="case-report-pane" tab="Response" key="response">
+          <Row  className="case-report">
+            <Col className="case-report-title" span="6">
+              HttpCode
+            </Col>
+            <Col span="18">
+              <pre>{httpCode}</pre>
+            </Col>
+          </Row>
           {props.res_header ? (
             <Row className="case-report">
               <Col className="case-report-title" span="6">
@@ -91,7 +100,9 @@ const CaseReport = function(props) {
               <Col className="case-report-title" span="6">
                 验证结果
               </Col>
-              <Col span="18">{validRes}</Col>
+              <Col span="18"><pre>
+                {validRes}  
+              </pre></Col>
             </Row>
           ) : null}
         </TabPane>
@@ -107,7 +118,8 @@ CaseReport.propTypes = {
   res_header: PropTypes.object,
   res_body: PropTypes.any,
   query: PropTypes.string,
-  validRes: PropTypes.array
+  validRes: PropTypes.array,
+  status: PropTypes.number
 };
 
 export default CaseReport;

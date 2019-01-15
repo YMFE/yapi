@@ -329,16 +329,14 @@ class openController extends baseController {
   }
 
   async handleScriptTest(interfaceData, response, validRes, requestParams) {
-    if (interfaceData.enable_script !== true) {
-      return null;
-    }
+    
     try {
       let test = await yapi.commons.runCaseScript({
         response: response,
         records: this.records,
         script: interfaceData.test_script,
         params: requestParams
-      });
+      }, interfaceData.col_id, interfaceData._id);
       if (test.errcode !== 0) {
         test.data.logs.forEach(item => {
           validRes.push({

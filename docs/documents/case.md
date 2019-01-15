@@ -169,3 +169,8 @@ assert.equal(status, 200)
 
 <img src="./images/autoTest.png" />
 <img src="./images/autoTestResult.png" />
+
+## 配置通用规则
+![](2019-01-15-14-05-46.png)
+
+配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case.

@@ -40,30 +40,30 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
 
-const InsertCodeMap = [
+export const InsertCodeMap = [
   {
     code: 'assert.equal(status, 200)',
     title: '断言 httpCode 等于 200'
   },
   {
-    code: 'assert.equal(body.errcode, 0)',
-    title: '断言返回数据 errcode 是 0'
+    code: 'assert.equal(body.code, 0)',
+    title: '断言返回数据 code 是 0'
   },
   {
     code: 'assert.notEqual(status, 404)',
     title: '断言 httpCode 不是 404'
   },
   {
-    code: 'assert.notEqual(body.errcode, 40000)',
-    title: '断言返回数据 errcode 不是 40000'
+    code: 'assert.notEqual(body.code, 40000)',
+    title: '断言返回数据 code 不是 40000'
   },
   {
-    code: 'assert.deepEqual(body, {"errcode": 0})',
-    title: '断言对象 body 等于 {"errcode": 0}'
+    code: 'assert.deepEqual(body, {"code": 0})',
+    title: '断言对象 body 等于 {"code": 0}'
   },
   {
-    code: 'assert.notDeepEqual(body, {"errcode": 0})',
-    title: '断言对象 body 不等于 {"errcode": 0}'
+    code: 'assert.notDeepEqual(body, {"code": 0})',
+    title: '断言对象 body 不等于 {"code": 0}'
   }
 ];
 

@@ -277,11 +277,22 @@
 }
 
 .common-setting-modal{
+  
   .setting-item{
     margin: 10px;
     line-height: 35px;
     .col-item{
       padding:5px;
     }
+  }
+
+  .case-script{
+    min-height: 200px;
+    margin: 10px;
+    width: 98%;
+  }
+
+  .insert-code{
+    padding-top: 45px;
   }
 }

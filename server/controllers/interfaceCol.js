@@ -855,7 +855,7 @@ class interfaceColController extends baseController {
 
   async runCaseScript(ctx) {
     let params = ctx.request.body;
-    ctx.body = await yapi.commons.runCaseScript(params, params.col_id);
+    ctx.body = await yapi.commons.runCaseScript(params, params.col_id, params.interface_id);
   }
 
   // 数组去重

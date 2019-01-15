@@ -17,7 +17,7 @@ const Mock = require('mockjs');
 const ejs = require('easy-json-schema');
 
 const jsf = require('json-schema-faker');
-const formats = require('../../common/formats');
+const { schemaValidator } = require('../../common/utils');
 const http = require('http');
 
 jsf.extend ('mock', function () {
@@ -509,21 +509,19 @@ function convertString(variable) {
     return variable.name + ': ' + variable.message;
   }
   try {
+    if(variable && typeof variable === 'string'){
+      return variable;
+    }
     return JSON.stringify(variable, null, '   ');
   } catch (err) {
     return variable || '';
   }
 }
 
-exports.runCaseScript = async function runCaseScript(params, colId) {
+exports.runCaseScript = async function runCaseScript(params, colId, interfaceId) {
   const colInst = yapi.getInst(interfaceColModel);
   let colData = await colInst.get(colId);
 
-  let script = params.script;
-  // script 是断言
-  if (!script) {
-    return yapi.commons.resReturn('ok');
-  }
   const logs = [];
   const context = {
     assert: require('assert'),
@@ -543,19 +541,46 @@ exports.runCaseScript = async function runCaseScript(params, colId) {
     if(colData.checkHttpCodeIs200){
       let status = +params.response.status;
       if(status !== 200){
-        logs.push('Http status code 不是 200，请检查(该规则来源于于"测试集->通用规则配置")')
+        throw ('Http status code 不是 200，请检查(该规则来源于于 [测试集->通用规则配置] )')
       }
     }
   
     if(colData.checkResponseField.enable){
       if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
-        logs.push(`返回 json "${colData.checkResponseField.name}" 值不是${colData.checkResponseField.value}，请检查(该规则来源于于"测试集->通用规则配置")`)
+        throw (`返回json ${colData.checkResponseField.name} 值不是${colData.checkResponseField.value}，请检查(该规则来源于于 [测试集->通用规则配置] )`)
+      }
+    }
+
+    if(colData.checkResponseSchema){
+      const interfaceInst = yapi.getInst(interfaceModel);
+      let interfaceData = await interfaceInst.get(interfaceId);
+      if(interfaceData.res_body_is_json_schema && interfaceData.res_body){
+        let schema = JSON.parse(interfaceData.res_body);
+        let result = schemaValidator(schema, context.body)
+        if(!result.valid){
+          throw (`返回Json 不符合 response 定义的数据结构,原因: ${result.message}
+数据结构如下：
+${JSON.stringify(schema,null,2)}`)
+        }
+      }
+    }
+
+    if(colData.checkScript.enable){
+      let globalScript = colData.checkScript.content;
+      // script 是断言
+      if (globalScript) {
+        logs.push('执行脚本：' + globalScript)
+        result = yapi.commons.sandbox(context, globalScript);
       }
     }
 
 
-    result = yapi.commons.sandbox(context, script);
-
+    let script = params.script;
+    // script 是断言
+    if (script) {
+      logs.push('执行脚本:' + script)
+      result = yapi.commons.sandbox(context, script);
+    }
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {

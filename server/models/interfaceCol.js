@@ -20,6 +20,10 @@ class interfaceCol extends baseModel {
         type:Boolean,
         default: false
       },
+      checkResponseSchema: {
+        type:Boolean,
+        default: false
+      },
       checkResponseField: {
         name: {
           type: String,
@@ -30,6 +34,15 @@ class interfaceCol extends baseModel {
           type: String,
           required: true,
           default: "0"
+        },
+        enable: {
+          type: Boolean,
+          default: false
+        }
+      },
+      checkScript: {
+        content: {
+          type: String
         },
         enable: {
           type: Boolean,
