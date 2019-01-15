@@ -1,7 +1,7 @@
 const shell = require ('shelljs');
 const packageJson = require ('./package.json');
 
-const version = packageJson.version;
+const version = "v" + packageJson.version;
 
 if(!version){
   console.error('version 不能为空')
