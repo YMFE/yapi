@@ -25,10 +25,15 @@
   }
 }
 
-// .setting-project-member {
-//   border: 1px solid #e9e9e9;
-//   border-radius: 4px;
-// }
+.setting-project-member {
+  .btn{
+    margin-left: 8px;
+  }
+  .m-user-name {
+    padding-right: 16px;
+  }
+
+}
 
 .setting-group {
   margin-top: .48rem;
@@ -215,4 +220,8 @@
       margin-bottom: .16rem;
     }
   }
+}
+
+.radio.ant-radio-wrapper{
+  line-height: unset
 }

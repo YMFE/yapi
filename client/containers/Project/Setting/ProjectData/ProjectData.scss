@@ -1,7 +1,7 @@
 .postman-dataImport{
     display: flex;
     .dataImportCon{
-        min-width: 274px;
+        min-width: 304px;
         background-color: #ececec;
         padding: 16px;
         border-radius: 4px;
@@ -19,6 +19,42 @@
                 width: 100%;
             }
         }
+
+        .dataExport{
+          padding-bottom: 16px;
+          font-weight: 500;
+          width: 100%;
+        }
+
+        .dataSync{
+          padding-top: 16px;
+          font-weight: 500;
+          width: 100%;
+          .label{
+            padding-right: 8px;
+            width: 115px;
+            display: inline-block;
+          }
+          .label:after {
+            content: ":";
+            margin: 0 8px 0 2px;
+            position: relative;
+            top: -.5px;
+          }
+        }
+
+        .import-content {
+          margin-top: 16px;
+          height: 180px;
+        }
+
+        .url-import-content {
+          text-align: center;
+          .url-btn{ 
+            margin-top: 16px;
+          }
+        }
+
         .export-content{
             text-align: center;
         }
@@ -29,6 +65,39 @@
             width: 100px;
             height:35px;
         }
+
+        .wiki-btn {
+          margin-left: 8px;
+        }
     }
 }
+
+.postman-dataImport-modal{
+  
+  .postman-dataImport-modal-content{
+    max-height: 600px;
+    min-width: 534px;
+    overflow-y: scroll;
+    padding-top: 8px;
+
+  }
+  .postman-dataImport-show-diff{
+    padding:  4px 0;
+  
+  }
+
+  .info{
+    font-weight: 400;
+    font-size: 16px;
+    padding-top: 24px;
+  }
+  
+}
+
+.dataImport-confirm{
+  .ant-modal-content .ant-confirm-btns{
+    margin-top: 10px;
+  }
+}
+
 

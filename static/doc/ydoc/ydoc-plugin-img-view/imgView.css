@@ -1,0 +1,48 @@
+.m-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1001;
+  display: none;
+  transition: all .4s;
+}
+.m-mask.active {
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+.m-mask .container {
+  background-color: #fff;
+  padding: 16px;
+  width: 90%;
+  display: inline-block;
+  border-radius: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all .4s;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.m-mask.active .container {
+  opacity: 1;
+}
+.m-mask .img {
+  width: 100%;
+}
+
+/* responsive */
+@media screen and (min-width: 600px) {
+  .m-mask .container {
+    width: auto;
+    padding: 24px;
+  }
+  .m-mask .img {
+    width: auto;
+    max-width: 80vw;
+    max-height: 90vh;
+  }
+}

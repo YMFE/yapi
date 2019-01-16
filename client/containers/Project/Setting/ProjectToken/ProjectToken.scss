@@ -1,0 +1,62 @@
+.project-token {
+  background: #fff;
+  padding: 15px;
+  min-height: 4.68rem;
+
+  .token{
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+
+  }
+
+  .token-message{
+    padding: 8px; 
+    margin-right: 8px;
+    background-color: #f5f5f5;
+
+  }
+
+  .message{
+    padding: 16px 0 0 16px;
+    font-size: 14px;
+  }
+
+  .token-title{
+    font-size: 16px;
+    // background-color: #eee;
+    // border-radius: 4px;
+    // margin-bottom: 15px;
+    font-weight: 400;
+    margin-bottom: 0.16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
+  }
+
+  .blockquote{
+    border-left: 4px solid #ff561b;
+    // background-color: #f8f8f8;
+    padding: .12rem .24rem;
+    position: relative;
+    margin-left: 16px;
+  }
+
+  .blockquote:before {
+    content: '!';
+    display: block;
+    position: absolute;
+    left: -.12rem;
+    top: .12rem;
+    width: 20px;
+    height: 20px;
+    background-color: #ff561b;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+}
+
+  .token-btn{
+    margin-right: 8px;
+  }
+}

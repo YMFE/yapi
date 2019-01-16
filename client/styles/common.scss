@@ -2,7 +2,7 @@
 
 
 html {
-  font-size:625%;
+  font-size:100px;
 }
 html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -167,6 +167,26 @@ em {
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
   border: none;
 }
+
+.ant-tabs.ant-tabs-card > .ant-tabs-content{
+  margin-top: -1px;
+}
+
+.tabs-large .ant-tabs-nav-container{
+  font-size: 16px;
+}
+
+.ant-tree li .ant-tree-node-content-wrapper{
+  padding: 3px 5px;
+  height: unset;
+  // line-height: 25px;
+}
+
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+  background-color: #d5ebfc;
+}
+
+
 
 // 页面级底部固定 需要添加padding以保证页面底部不被覆盖
 // .has-affix-footer {

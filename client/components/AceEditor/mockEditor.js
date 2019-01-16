@@ -3,13 +3,13 @@ var ace = require('brace'),
 require('brace/mode/javascript');
 require('brace/mode/json');
 require('brace/mode/xml');
-require('brace/mode/html')
+require('brace/mode/html');
 require('brace/theme/xcode');
-require("brace/ext/language_tools.js");
+require('brace/ext/language_tools.js');
 var json5 = require('json5');
-const MockExtra = require('common/mock-extra.js')
+const MockExtra = require('common/mock-extra.js');
 
-var langTools = ace.acequire("ace/ext/language_tools"),
+var langTools = ace.acequire('ace/ext/language_tools'),
   wordList = [
     { name: '字符串', mock: '@string' },
     { name: '自然数', mock: '@natural' },
@@ -22,12 +22,12 @@ var langTools = ace.acequire("ace/ext/language_tools"),
     { name: 'id', mock: '@id' },
     { name: 'guid', mock: '@guid' },
     { name: '当前时间', mock: '@now' },
-    { name: '时间戳', mock: '@timestamp'},
+    { name: '时间戳', mock: '@timestamp' },
     { name: '日期', mock: '@date' },
     { name: '时间', mock: '@time' },
     { name: '日期时间', mock: '@datetime' },
     { name: '图片连接', mock: '@image' },
-    { name: '图片data', mock: "@imageData" },
+    { name: '图片data', mock: '@imageData' },
     { name: '颜色', mock: '@color' },
     { name: '颜色hex', mock: '@hex' },
     { name: '颜色rgba', mock: '@rgba' },
@@ -60,24 +60,22 @@ var langTools = ace.acequire("ace/ext/language_tools"),
     { name: '协议', mock: '@protocol' }
   ];
 
-let dom = ace.acequire("ace/lib/dom");
-ace.acequire("ace/commands/default_commands").commands.push({
-  name: "Toggle Fullscreen",
-  bindKey: "F9",
-  exec: function(editor) {  
-    if(editor._fullscreen_yapi){
-      let fullScreen = dom.toggleCssClass(document.body, "fullScreen")
-      dom.setCssClass(editor.container, "fullScreen", fullScreen)
-      editor.setAutoScrollEditorIntoView(!fullScreen)
-      editor.resize()
-    }    
+let dom = ace.acequire('ace/lib/dom');
+ace.acequire('ace/commands/default_commands').commands.push({
+  name: 'Toggle Fullscreen',
+  bindKey: 'F9',
+  exec: function(editor) {
+    if (editor._fullscreen_yapi) {
+      let fullScreen = dom.toggleCssClass(document.body, 'fullScreen');
+      dom.setCssClass(editor.container, 'fullScreen', fullScreen);
+      editor.setAutoScrollEditorIntoView(!fullScreen);
+      editor.resize();
+    }
   }
-})
+});
 
 function run(options) {
-  var editor,
-    mockEditor,
-    rhymeCompleter;
+  var editor, mockEditor, rhymeCompleter;
   function handleJson(json) {
     var curData = mockEditor.curData;
     try {
@@ -85,7 +83,7 @@ function run(options) {
       var obj = json5.parse(json);
       curData.format = true;
       curData.jsonData = obj;
-      curData.mockData = ()=>Mock.mock(MockExtra(obj, {})); //为防止时时 mock 导致页面卡死的问题，改成函数式需要用到再计算
+      curData.mockData = () => Mock.mock(MockExtra(obj, {})); //为防止时时 mock 导致页面卡死的问题，改成函数式需要用到再计算
     } catch (e) {
       curData.format = e.message;
     }
@@ -93,19 +91,24 @@ function run(options) {
   options = options || {};
   var container, data;
   container = options.container || 'mock-editor';
-  if (options.wordList && typeof options.wordList === 'object' && options.wordList.name && options.wordList.mock) {
+  if (
+    options.wordList &&
+    typeof options.wordList === 'object' &&
+    options.wordList.name &&
+    options.wordList.mock
+  ) {
     wordList.push(options.wordList);
   }
   data = options.data || '';
   options.readOnly = options.readOnly || false;
   options.fullScreen = options.fullScreen || false;
 
-  editor = ace.edit(container)
+  editor = ace.edit(container);
   editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
   if (options.readOnly === true) {
     editor.setReadOnly(true);
-    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.renderer.$cursorLayer.element.style.display = 'none';
   }
   editor.setTheme('ace/theme/xcode');
   editor.setOptions({
@@ -117,69 +120,68 @@ function run(options) {
   editor._fullscreen_yapi = options.fullScreen;
   mockEditor = {
     curData: {},
-    getValue: ()=>mockEditor.curData.text,
-    setValue: function (data) {
-        editor.setValue(handleData(data));
+    getValue: () => mockEditor.curData.text,
+    setValue: function(data) {
+      editor.setValue(handleData(data));
     },
     editor: editor,
     options: options,
-    insertCode: (code)=>{
-      let pos = editor.selection.getCursor()
-      editor.session.insert(pos, code)
+    insertCode: code => {
+      let pos = editor.selection.getCursor();
+      editor.session.insert(pos, code);
     }
-  }
+  };
 
-  function formatJson(json){
-    try{
+  function formatJson(json) {
+    try {
       return JSON.stringify(JSON.parse(json), null, 2);
-    }catch(err){
+    } catch (err) {
       return json;
     }
   }
 
-  function handleData(data){
+  function handleData(data) {
     data = data || '';
-    if(typeof data === 'string'){
+    if (typeof data === 'string') {
       return formatJson(data);
-    }else if (typeof data === 'object') {
-      return JSON.stringify(data, null, "  ")
+    } else if (typeof data === 'object') {
+      return JSON.stringify(data, null, '  ');
+    } else {
+      return '' + data;
     }
   }
 
   rhymeCompleter = {
     identifierRegexps: [/[@]/],
-    getCompletions: function (editor, session, pos, prefix, callback) {
+    getCompletions: function(editor, session, pos, prefix, callback) {
       if (prefix.length === 0) {
         callback(null, []);
         return;
       }
-      callback(null, wordList.map(function (ea) {
-        return { name: ea.mock, value: ea.mock, score: ea.mock, meta: ea.name }
-      }));
+      callback(
+        null,
+        wordList.map(function(ea) {
+          return { name: ea.mock, value: ea.mock, score: ea.mock, meta: ea.name };
+        })
+      );
     }
-  }
+  };
 
   langTools.addCompleter(rhymeCompleter);
   mockEditor.setValue(handleData(data));
-  handleJson(editor.getValue())
+  handleJson(editor.getValue());
 
   editor.clearSelection();
 
   editor.getSession().on('change', () => {
-    handleJson(editor.getValue())
+    handleJson(editor.getValue());
     if (typeof options.onChange === 'function') {
       options.onChange.call(mockEditor, mockEditor.curData);
     }
     editor.clearSelection();
-
   });
-
   return mockEditor;
 }
-
-
-
-
 
 /**
  * mockEditor({

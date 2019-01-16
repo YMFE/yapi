@@ -1,0 +1,442 @@
+@charset "UTF-8";
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.yapi-run-auto-test {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  font-size: 13px;
+  line-height: 25px;
+  color: #393838;
+  position: relative;
+}
+
+.yapi-run-auto-test table {
+  margin: 10px 0 15px 0;
+  border-collapse: collapse;
+}
+
+.yapi-run-auto-test td,
+th {
+  border: 1px solid #ddd;
+  padding: 3px 10px;
+}
+
+.yapi-run-auto-test th {
+  padding: 5px 10px;
+}
+
+.yapi-run-auto-test a, a:link, a:visited {
+  color: #34495e;
+  text-decoration: none;
+}
+
+.yapi-run-auto-test a:hover, a:focus {
+  color: #59d69d;
+  text-decoration: none;
+}
+
+.yapi-run-auto-test a img {
+  border: none;
+}
+
+.yapi-run-auto-test p {
+  padding-left: 10px;
+  margin-bottom: 9px;
+}
+
+.yapi-run-auto-test h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #404040;
+  line-height: 36px;
+}
+
+.yapi-run-auto-test h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 32px;
+  padding-bottom: 16px;
+  line-height: 50px;
+}
+
+.yapi-run-auto-test h2 {
+  font-size: 28px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.yapi-run-auto-test h3 {
+  clear: both;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-left: 3px solid #59d69d;
+  padding-left: 8px;
+  font-size: 18px;
+}
+
+.yapi-run-auto-test h4 {
+  font-size: 16px;
+}
+
+.yapi-run-auto-test h5 {
+  font-size: 14px;
+}
+
+.yapi-run-auto-test h6 {
+  font-size: 13px;
+}
+
+.yapi-run-auto-test hr {
+  margin: 0 0 19px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.yapi-run-auto-test blockquote {
+  padding: 13px 13px 21px 15px;
+  margin-bottom: 18px;
+  font-family: georgia, serif;
+  font-style: italic;
+}
+
+.yapi-run-auto-test blockquote:before {
+  font-size: 40px;
+  margin-left: -10px;
+  font-family: georgia, serif;
+  color: #eee;
+}
+
+.yapi-run-auto-test blockquote p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.yapi-run-auto-test code,
+pre {
+  font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+
+.yapi-run-auto-test code {
+  background-color: #fee9cc;
+  color: rgba(0, 0, 0, 0.75);
+  padding: 1px 3px;
+  font-size: 12px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.yapi-run-auto-test pre {
+  display: block;
+  padding: 14px;
+  margin: 0 0 18px;
+  line-height: 16px;
+  font-size: 11px;
+  border: 1px solid #d9d9d9;
+  white-space: pre-wrap;
+  background: #f6f6f6;
+  overflow-x: auto;
+}
+
+.yapi-run-auto-test pre code {
+  background-color: #f6f6f6;
+  color: #737373;
+  font-size: 11px;
+  padding: 0;
+}
+
+.yapi-run-auto-test sup {
+  font-size: 0.83em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+* {
+  -webkit-print-color-adjust: exact;
+}
+
+@media print {
+  body,
+  code,
+  pre code,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black;
+  }
+
+  table,
+  pre {
+    page-break-inside: avoid;
+  }
+}
+html,
+body {
+  height: 100%;
+}
+
+.yapi-run-auto-test .menu-left {
+  position: fixed;
+  top: 61px;
+  left: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 260px;
+}
+
+.yapi-run-auto-test .menu-left > .list-content {
+  overflow: auto;
+  margin: 0px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 8px 0 20px;
+}
+
+.yapi-run-auto-test .list {
+  padding: 2px 0px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding-right: 8px;
+}
+
+
+.yapi-run-auto-test .content-right {
+  max-width: 700px;
+  margin-left: 290px;
+  padding-left: 70px;
+  flex-grow: 1;
+}
+.yapi-run-auto-test .content-right h2:target {
+  padding-top: 80px;
+}
+
+.yapi-run-auto-test > p {
+  margin-left: 30px;
+}
+
+.yapi-run-auto-test > table {
+  margin-left: 30px;
+}
+
+.yapi-run-auto-test > pre {
+  margin-left: 30px;
+}
+
+.yapi-run-auto-test .curProject {
+  position: fixed;
+  top: 20px;
+  font-size: 25px;
+  color: black;
+  margin-left: -240px;
+  width: 240px;
+  padding: 5px;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+
+.yapi-run-auto-test .g-doc {
+  margin-top: 56px;
+  padding-top: 24px;
+  display: flex;
+}
+
+.yapi-run-auto-test .curproject-name {
+  font-size: 42px;
+}
+
+.yapi-run-auto-test .m-header {
+  background: #32363a;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 60px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.yapi-run-auto-test .m-header .title {
+  font-size: 22px;
+  color: #fff;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  margin-left: 16px;
+  padding: 0;
+  line-height: 56px;
+  border: none;
+}
+.yapi-run-auto-test .m-header .nav {
+  color: #fff;
+  font-size: 16px;
+  position: absolute;
+  right: 32px;
+  top: 0;
+}
+.yapi-run-auto-test .m-header .nav a {
+  color: #fff;
+  margin-left: 16px;
+  padding: 8px;
+  transition: color .2s;
+}
+.yapi-run-auto-test .m-header .nav a:hover {
+  color: #59d69d;
+}
+
+.yapi-run-auto-test .m-footer {
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.yapi-run-auto-test .row{
+  position: relative;
+  height: auto;
+  zoom: 1;
+  display: block;
+  box-sizing: border-box;
+}
+
+.yapi-run-auto-test .case-report {
+  margin: 10px;
+  display: flex;
+}
+
+.yapi-run-auto-test .case-report .case-report-title {
+  font-size: 14px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.yapi-run-auto-test .col-3 {
+  display: block;
+  box-sizing: border-box;
+  width: 12.5%;
+}
+
+.yapi-run-auto-test .col-21 {
+  display: block;
+  box-sizing: border-box;
+  width: 87.5%;
+}
+
+.yapi-run-auto-test .icon {
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.yapi-run-auto-test .icon-check-circle:before {
+  content: "\2713";
+}
+
+.yapi-run-auto-test .icon-close-circle:before {
+  content: "\2715";
+}
+
+.yapi-run-auto-test .icon-warning-circle:before {
+  content: "!";
+}
+
+.yapi-run-auto-test .icon:before {
+  display: block;
+  font-family: "anticon" !important;
+}
+
+.yapi-run-auto-test .summary {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  font-size: 18px;
+}
+
+.yapi-run-auto-test .success{
+  color: #208054;
+  font-weight: 700;
+
+}
+
+.yapi-run-auto-test .status {
+  flex-shrink: 0;
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  border-radius: 2px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yapi-run-auto-test .status-ok {
+  background-color: #17c5a6;
+}
+
+
+
+.yapi-run-auto-test .status-ko {
+  background-color: #fd3c3c;
+}
+
+.yapi-run-auto-test .status-warning {
+  background-color: #ffb74c;
+}
+
+/*# sourceMappingURL=defaultTheme.css.map */

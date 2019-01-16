@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         groupList: action.payload
-      }
+      };
     }
     case SET_CURR_GROUP: {
       return {
@@ -62,11 +62,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         role: action.payload.data.data.role,
+        currGroup: action.payload.data.data,
         field: {
           name: action.payload.data.data.custom_field1.name,
           enable: action.payload.data.data.custom_field1.enable
         }
-
       };
     }
 
@@ -82,7 +82,7 @@ export function fetchGroupMsg(id) {
     payload: axios.get('/api/group/get', {
       params: { id }
     })
-  }
+  };
 }
 
 // 添加分组成员
@@ -90,7 +90,7 @@ export function addMember(param) {
   return {
     type: ADD_GROUP_MEMBER,
     payload: axios.post('/api/group/add_member', param)
-  }
+  };
 }
 
 // 删除分组成员
@@ -98,7 +98,7 @@ export function delMember(param) {
   return {
     type: DEL_GROUP_MEMBER,
     payload: axios.post('/api/group/del_member', param)
-  }
+  };
 }
 
 // 修改分组成员权限
@@ -106,7 +106,7 @@ export function changeMemberRole(param) {
   return {
     type: CHANGE_GROUP_MEMBER,
     payload: axios.post('/api/group/change_member_role', param)
-  }
+  };
 }
 
 // 修改分组信息
@@ -114,7 +114,7 @@ export function changeGroupMsg(param) {
   return {
     type: CHANGE_GROUP_MESSAGE,
     payload: axios.post('/api/group/up', param)
-  }
+  };
 }
 
 // 更新左侧的分组列表
@@ -122,7 +122,7 @@ export function updateGroupList(param) {
   return {
     type: UPDATE_GROUP_LIST,
     payload: param
-  }
+  };
 }
 
 // 删除分组
@@ -130,7 +130,7 @@ export function deleteGroup(param) {
   return {
     type: DEL_GROUP,
     payload: axios.post('/api/group/del', param)
-  }
+  };
 }
 
 // 获取分组成员列表
@@ -140,7 +140,7 @@ export function fetchGroupMemberList(id) {
     payload: axios.get('/api/group/get_member_list', {
       params: { id }
     })
-  }
+  };
 }
 
 // Action Creators
@@ -148,12 +148,12 @@ export function fetchGroupList() {
   return {
     type: FETCH_GROUP_LIST,
     payload: axios.get('/api/group/list')
-  }
+  };
 }
 
 export function setCurrGroup(group) {
   return {
     type: SET_CURR_GROUP,
     payload: group
-  }
+  };
 }

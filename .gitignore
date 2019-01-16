@@ -8,6 +8,7 @@ target/
 .settings/
 .project
 .classpath
+.history
 
 # idea ignore
 .idea/
@@ -35,12 +36,11 @@ Thumbs.db
 
 node_modules/
 runtime/
-./prd/
-plugins/
-dev/
+/prd/
+/dev/
 .tags
 .tags1
 tsconfig.json
 client/plugin-module.js
-package-lock.json
 .vscode
+/iconfont

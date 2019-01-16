@@ -8,6 +8,10 @@
     .ant-form-item-label label:after{
       margin-left: 4px;
     }
+
+    .interface-editor {
+      min-height: 300px;
+    }
   }
 
   .interface-edit-json-info{
@@ -21,6 +25,11 @@
     margin-bottom: 16px;
     .interface-edit-item-content-col{
       padding:0 1px;
+    }
+    .interface-edit-item-content-col-drag{
+      width:24px;
+      padding: 7px;
+      cursor: ns-resize;
     }
   }
   .interface-edit-del-icon{
@@ -45,13 +54,13 @@
      z-index: 999;
   }
   .interface-edit-submit-button{
-      background-color: #32325d;
+      background-color: #1d1d3d;
       color: #fff;
   }
 
   .interface-edit-submit-button:hover{
-    color: #32325d;
-    border-color: #32325d;
+    border-color: #434370;
+    background-color: #434370;
   }
 }
 
@@ -62,10 +71,20 @@
     table-layout: fixed;
   }
   .path {
-    width: 100%;
+    width: 95%;
+    display: inline-block;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+    padding-right: 24px;
+    // line-height: 100%;
+    vertical-align: middle;
+  }
+
+  .opened {
+    color: #00a854;
+    padding-right: 6px;
+    font-size: 14px;
   }
   .colValue{
     display: inline-block;
@@ -89,5 +108,9 @@
 .toolTip .ant-tooltip-inner{
   white-space: normal;
   word-break: break-all;
+}
+
+.tag-modal-center {
+  padding-left: 48px;
 }
 

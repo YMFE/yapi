@@ -16,7 +16,7 @@ import { withRouter } from 'react-router';
  *
  */
 
- /**
+/**
  * 标题
  * 一般用于描述错误信息名称
  * @property title
@@ -36,16 +36,21 @@ class ErrMsg extends Component {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     desc: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     opration: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-  }
+  };
 
-  render () {
+  render() {
     let { type, title, desc, opration } = this.props;
     let icon = 'frown-o';
     if (type) {
       switch (type) {
         case 'noFollow':
           title = '你还没有关注项目呢';
-          desc = <span>先去 <a onClick={() => this.props.history.push('/group')}>“项目广场”</a> 逛逛吧, 那里可以添加关注。</span>;
+          desc = (
+            <span>
+              先去 <a onClick={() => this.props.history.push('/group')}>“项目广场”</a> 逛逛吧,
+              那里可以添加关注。
+            </span>
+          );
           break;
         case 'noInterface':
           title = '该项目还没有接口呢';
@@ -63,11 +68,11 @@ class ErrMsg extends Component {
           break;
         case 'noData':
           title = '暂无数据';
-          desc = '先去别处逛逛吧';          
+          desc = '先去别处逛逛吧';
           break;
         case 'noChange':
           title = '没有改动';
-          desc = '该操作未改动 Api 数据'
+          desc = '该操作未改动 Api 数据';
           icon = 'meh-o';
           break;
         default:
@@ -81,7 +86,7 @@ class ErrMsg extends Component {
         <p className="desc">{desc}</p>
         <p className="opration">{opration}</p>
       </div>
-    )
+    );
   }
 }
 

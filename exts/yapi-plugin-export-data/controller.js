@@ -1,15 +1,15 @@
 const baseController = require('controllers/base.js');
 const interfaceModel = require('models/interface.js');
 const projectModel = require('models/project.js');
-
+// const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
 const interfaceCatModel = require('models/interfaceCat.js');
 const yapi = require('yapi.js');
-const markdownIt = require("markdown-it");
-const markdownItAnchor = require("markdown-it-anchor");
-const markdownItTableOfContents = require("markdown-it-table-of-contents");
-const defaultTheme = require("./defaultTheme.js");
+const markdownIt = require('markdown-it');
+const markdownItAnchor = require('markdown-it-anchor');
+const markdownItTableOfContents = require('markdown-it-table-of-contents');
+const defaultTheme = require('./defaultTheme.js');
+const md = require('../../common/markdown');
 
-let isMarkdown = false;
 // const htmlToPdf = require("html-pdf");
 class exportController extends baseController {
   constructor(ctx) {
@@ -17,106 +17,123 @@ class exportController extends baseController {
     this.catModel = yapi.getInst(interfaceCatModel);
     this.interModel = yapi.getInst(interfaceModel);
     this.projectModel = yapi.getInst(projectModel);
+    
   }
 
-  async handleListClass(pid) {
-    let result = await this.catModel.list(pid), newResult = [];
+  async handleListClass(pid, status) {
+    let result = await this.catModel.list(pid),
+      newResult = [];
     for (let i = 0, item, list; i < result.length; i++) {
-      item = result[i].toObject()
-      list = await this.interModel.listByCatid(item._id, '_id title method path desc query_path req_headers req_params req_query req_body_type req_body_other req_body_form res_body')
-      for (let j = 0; j < list.length; j++) {
-        list[j] = list[j].toObject()
+      item = result[i].toObject();
+      list = await this.interModel.listByInterStatus(item._id, status);
+      list = list.sort((a, b) => {
+        return a.index - b.index;
+      });
+      if (list.length > 0) {
+        item.list = list;
+        newResult.push(item);
       }
-      item.list = list;
-      newResult[i] = item
     }
     
     return newResult;
+  }
 
+  handleExistId(data) {
+    function delArrId(arr, fn) {
+      if (!Array.isArray(arr)) return;
+      arr.forEach(item => {
+        delete item._id;
+        delete item.__v;
+        delete item.uid;
+        delete item.edit_uid;
+        delete item.catid;
+        delete item.project_id;
+
+        if (typeof fn === 'function') fn(item);
+      });
+    }
+
+    delArrId(data, function(item) {
+      delArrId(item.list, function(api) {
+        delArrId(api.req_body_form);
+        delArrId(api.req_params);
+        delArrId(api.req_query);
+        delArrId(api.req_headers);
+        if (api.query_path && typeof api.query_path === 'object') {
+          delArrId(api.query_path.params);
+        }
+      });
+    });
+
+    return data;
   }
 
   async exportData(ctx) {
     let pid = ctx.request.query.pid;
     let type = ctx.request.query.type;
+    let status = ctx.request.query.status;
+    let isWiki = ctx.request.query.isWiki;
+
     if (!pid) {
-      ctx.body = yapi.commons.resReturn(null, 200, "pid 不为空");
+      ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
     }
-    let curProject;
-    let tp = "";
+    let curProject, wikiData;
+    let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
-      ctx.set("Content-Type", "application/octet-stream");
+      if (isWiki === 'true') {
+        const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
+        wikiData = await yapi.getInst(wikiModel).get(pid);
+      }
+      ctx.set('Content-Type', 'application/octet-stream');
+      const list = await this.handleListClass(pid, status);
 
       switch (type) {
-        case "markdown": {
-          isMarkdown = true;
-          tp = await createMarkdown.bind(this)(pid, false);
-          ctx.set("Content-Disposition", `attachment; filename=api.md`);
-          return ctx.body = tp;
+        case 'markdown': {
+          tp = await createMarkdown.bind(this)(list, false);
+          ctx.set('Content-Disposition', `attachment; filename=api.md`);
+          return (ctx.body = tp);
         }
-        // case "pdf": {
-        //   tp = await createPdf.bind(this)(pid,false);
-        //   // ctx.set("Content-Disposition",'filename="api.pdf"');
-        //   return ctx.body = tp;
-        // }
-        default: {//默认为html
-          tp = await createHtml.bind(this)(pid);
-          ctx.set("Content-Disposition", `attachment; filename=api.html`);
-          return ctx.body = tp;
+        case 'json': {
+          let data = this.handleExistId(list);
+          tp = JSON.stringify(data, null, 2);
+          ctx.set('Content-Disposition', `attachment; filename=api.json`);
+          return (ctx.body = tp);
         }
-
+        default: {
+          //默认为html
+          tp = await createHtml.bind(this)(list);
+          ctx.set('Content-Disposition', `attachment; filename=api.html`);
+          return (ctx.body = tp);
+        }
       }
     } catch (error) {
       yapi.commons.log(error, 'error');
-      ctx.body = yapi.commons.resReturn(null, 502, "下载出错");
+      ctx.body = yapi.commons.resReturn(null, 502, '下载出错');
     }
 
-    // async function createPdf(){
-    //   let md = await createMarkdown.bind(this)(pid);
-    //   let markdown = new markdownIt();
-    //   markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
-    //   markdown.use(markdownItTableOfContents,{
-    //     markerPattern: /^\[toc\]/im
-    //   });
-    //   let tp = defaultTheme + unescape(markdown.render(md));
-    //   tp = createHtml5(tp);
-
-    //   let htp = htmlToPdf.create(tp);
-
-    //   let getPdfBuffer = ()=>{
-    //     return new Promise((resolve, reject)=>{
-    //       htp.toBuffer(function(err, buffer){
-    //         if(err) reject(err);
-    //         resolve(buffer)
-    //       })
-    //     })
-    //   }
-    //   let result = await getPdfBuffer();
-    //   return result;
-    // }
-
-    async function createHtml(pid) {
-      let md = await createMarkdown.bind(this)(pid, true);
-      let markdown = new markdownIt();
+    async function createHtml(list) {
+      let md = await createMarkdown.bind(this)(list, true);
+      let markdown = markdownIt({ html: true, breaks: true });
       markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
       markdown.use(markdownItTableOfContents, {
         markerPattern: /^\[toc\]/im
       });
 
+      // require('fs').writeFileSync('./a.markdown', md);
       let tp = unescape(markdown.render(md));
+      // require('fs').writeFileSync('./a.html', tp);
       let left;
       // console.log('tp',tp);
-      let content = tp.replace(/<div\s+?class="table-of-contents"\s*>[\s\S]*?<\/ul>\s*<\/div>/gi, function (match) {
-        left = match;
-        return '';
-      });
-      // console.log('left',left);
-      return createHtml5(left, content);
-    }
+      let content = tp.replace(
+        /<div\s+?class="table-of-contents"\s*>[\s\S]*?<\/ul>\s*<\/div>/gi,
+        function(match) {
+          left = match;
+          return '';
+        }
+      );
 
-
-    function escapeStr(str) {
-      return !isMarkdown ? escape(str) : str;
+      return createHtml5(left || '', content);
     }
 
     function createHtml5(left, tp) {
@@ -150,120 +167,22 @@ class exportController extends baseController {
       `;
       return html;
     }
-    function createBaseMessage(inter) {
-      // 基本信息
-      let baseMessage = `### 基本信息\n\n**Path：** ${curProject.basepath + inter.path}\n\n**Method：** ${inter.method}\n\n**接口描述：**\n${inter.desc ? escapeStr(inter.desc) : ""}\n`;
-      return baseMessage;
-    }
-    function replaceBr(str) {
-      return str.replace("\n", escapeStr("<br/>"));
-    }
-    function createReqHeaders(req_headers) {
-      // Request-headers
-      if (req_headers && req_headers.length) {
-        let headersTable = `**Headers**\n\n`;
-        headersTable += `| 参数名称  | 参数值  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
-        for (let j = 0; j < req_headers.length; j++) {
-          headersTable += `| ${replaceBr(req_headers[j].name || "") || ""}  |  ${replaceBr(req_headers[j].value || "") || ""} | ${req_headers[j].required == 1 ? "是" : "否"}  |  ${replaceBr(req_headers[j].example || "") || ""} |  ${replaceBr(req_headers[j].desc || "") || ""} |\n`;
-        }
-        return headersTable;
-      }
-      return "";
-    }
 
-    function createPathParams(req_params) {
-      if (req_params && req_params.length) {
-        let paramsTable = `**路径参数**\n`;
-        paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
-        for (let j = 0; j < req_params.length; j++) {
-          paramsTable += `| ${replaceBr(req_params[j].name || "") || ""} |  ${replaceBr(req_params[j].example || "") || ""} |  ${replaceBr(req_params[j].desc || "") || ""} |\n`;
-        }
-        return paramsTable;
-      }
-      return "";
-    }
-
-    function createReqQuery(req_query) {
-      // console.log("req_query", req_query);
-      if (req_query && req_query.length) {
-        let headersTable = `**Query**\n\n`;
-        headersTable += `| 参数名称  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ |\n`;
-        for (let j = 0; j < req_query.length; j++) {
-          headersTable += `| ${replaceBr(req_query[j].name || "") || ""} | ${req_query[j].required == 1 ? "是" : "否"}  |  ${replaceBr(req_query[j].example || "") || ""} |  ${replaceBr(req_query[j].desc || "") || ""} |\n`;
-        }
-        return headersTable;
-      }
-      return "";
-    }
-
-    function createReqBody(req_body_type, req_body_form, req_body_other) {
-      if (req_body_type === "form" && req_body_form.length) {
-        let bodyTable = `**Body**\n\n`
-        bodyTable += `| 参数名称  | 参数类型  |  是否必须 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`; let req_body = req_body_form;
-        for (let j = 0; j < req_body.length; j++) {
-          bodyTable += `| ${replaceBr(req_body[j].name || "") || ""} | ${req_body[j].type || ""}  |  ${req_body[j].required == 1 ? "是" : "否"} |  ${replaceBr(req_body[j].example || "") || ""}  |  ${replaceBr(req_body[j].desc || "") || ""} |\n`;
-        }
-        return `${bodyTable}\n\n`;
-      } else if (req_body_other) {//other
-        return `**Body**\n\n` + "```javascript" + `\n${req_body_other || ""}` + "\n```";
-      }
-      return "";
-    }
-
-    function createResponse(res_body) {
-      let resTitle = `\n### Reponse\n\n`;
-      if (res_body) {
-        let resBody = "```javascript" + `\n${res_body || ""}\n` + "```";
-        return resTitle + resBody;
-      }
-      return "";
-    }
-
-    async function createMarkdown(pid, isToc) {//拼接markdown
+    function createMarkdown(list, isToc) {
+      //拼接markdown
       //模板
       let mdTemplate = ``;
-      const toc = `[TOC]\n\n`;
       try {
-        // const interList = await this.interModel.listByPid(pid);
-        const list = await this.handleListClass(pid);
-
-        // 项目名、项目描述
-        let title = escapeStr('<h1 class="curproject-name">' + curProject.name + '</h1>');
-        mdTemplate += `\n ${title} \n ${curProject.desc || ""}\n${escapeStr("<br>")}\n`
-        list.map(item => {
-          mdTemplate += `\n# ${escapeStr(item.name)}\n`;
-          isToc && (mdTemplate += toc)
-          for (let i = 0; i < item.list.length; i++) {//循环拼接 接口
-            // console.log('interList',interList)
-            // 接口名称
-            mdTemplate += `\n## ${escapeStr(`${item.list[i].title}\n<a id=${item.list[i].title}> </a>`)}\n`;
-            isToc && (mdTemplate += toc)
-            // 基本信息
-            mdTemplate += createBaseMessage(item.list[i]);
-            // Request
-            mdTemplate += `\n### Request\n`;
-            // Request-headers
-            mdTemplate += createReqHeaders(item.list[i].req_headers);
-            // Request-params
-            mdTemplate += createPathParams(item.list[i].req_params);
-            // Request-query
-            mdTemplate += createReqQuery(item.list[i].req_query);
-            // Request-body
-            mdTemplate += createReqBody(item.list[i].req_body_type, item.list[i].req_body_form, item.list[i].req_body_other);
-            // Response
-            // Response-body
-            mdTemplate += createResponse(item.list[i].res_body);
-          }
-
-        })
-
+        // 项目名称信息
+        mdTemplate += md.createProjectMarkdown(curProject, wikiData);
+        // 分类信息
+        mdTemplate += md.createClassMarkdown(curProject, list, isToc);
         return mdTemplate;
       } catch (e) {
         yapi.commons.log(e, 'error');
-        ctx.body = yapi.commons.resReturn(null, 502, "下载出错");
+        ctx.body = yapi.commons.resReturn(null, 502, '下载出错');
       }
     }
-
   }
 }
 

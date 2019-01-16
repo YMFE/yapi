@@ -16,6 +16,12 @@
             width: 100px;
             padding-left: 10px;
         }
+
+        .colName{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
     }
     .col-title{margin-bottom: 5px}
     .colValue.href {
@@ -24,6 +30,10 @@
     }
     .ace_print-margin{
         display: none;
+    }
+
+    .interface-url-icon{
+      padding-left: 8px;
     }
     .colBody{
         .query-icon {

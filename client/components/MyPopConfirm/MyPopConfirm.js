@@ -37,6 +37,7 @@ class MyPopConfirm extends Component {
     return (<Modal
       title="你即将离开编辑页面"
       visible={this.state.visible}
+      onCancel={this.no}
       footer={[
         <Button key="back" onClick={this.no}>取 消</Button>,
         <Button key="submit" onClick={this.yes}>确 定</Button>

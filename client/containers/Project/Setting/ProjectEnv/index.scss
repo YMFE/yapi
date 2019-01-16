@@ -1,6 +1,6 @@
 .m-env-panel {
   // padding-top: 8px;
-  min-height: 4.68px;
+  min-height: 4.68rem;
   margin-top: 0;
   background-color: #fff;
 }
@@ -67,6 +67,9 @@
 
   .env-label{
     padding-bottom: 8px;
+    a {
+      color: #636363;
+    }
   }
 
   .env-last-row {
@@ -78,6 +81,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
+  .btnwrap-changeproject {
+    text-align: center;
+    padding: .16rem 0;
+    background: #fff;
+    background-color: #fff;
+    margin: 0 -.4rem;
+    background-size: 4px 4px;
+}
   
 }

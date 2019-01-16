@@ -7,7 +7,7 @@ module.exports = {
     "instructionsUrlPath": "", //使用说明demo路径 (需要配合JS-Component注释的@instructions使用)
     "common": { // 通用默认配置，包括主页配置等
         "title": "YApi 接口管理平台", //page title
-        "footer": "&copy; 2017 <a href=\"https://ymfe.org\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
+        "footer": "&copy; 2018 <a href=\"https://ymfe.org\">YMFE</a> Team. Build by <a href=\"http://ued.qunar.com/ydoc/\">ydoc</a>&nbsp;", // 通用尾
         "home": '<img src="./images/logo_header@2x.png" /> &nbsp;YAPI', 
         "homeUrl": "./index.html", 
         "keywords": "api管理,接口管理,接口文档,api文档",
@@ -26,8 +26,8 @@ module.exports = {
             "homepage": { // 配置首页，样式区别于其他页面
                 "version": "v" + require('./package.json').version, // 版本信息将显示在banner底部
                 "button": [{ // 按钮组将显示在banner底部
-                    "name": "开始",
-                    "href": "./usage.html"
+                    "name": "产品演示",
+                    "href": "http://yapi.demo.qunar.com"
                 },{
                     "name": "Github",
                     "href": "https://github.com/YMFE/yapi"
@@ -214,8 +214,8 @@ module.exports = {
     "menuLevel": 2,
     "content": "./CHANGELOG.md"
   },{
-    "name": "demo站点",
-    "title": "demo 站点",
+    "name": "产品演示",
+    "title": "产品演示",
     "url": "http://yapi.demo.qunar.com/"
   },
     {

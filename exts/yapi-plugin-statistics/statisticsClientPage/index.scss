@@ -4,16 +4,29 @@
   @include row-width-limit;
   margin: 0 auto .24rem;
   margin-top: 24px;
-  .statis-content {
+  min-width: 11.2rem;
+  
+  
+  .content {
     -webkit-box-flex: 1;
     padding: 24px;
     width:100%;
     background: #fff;
     min-height: 5rem;
+    // overflow-x: scroll;
   }
   .m-row {
     border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 16px;
+    padding: 16px 0;
+  }
+
+  .m-row-table {
+    padding-top: 16px 
+
+  }
+
+  .statis-table {
+    margin-left: 16px;
   }
 
   .m-help {
@@ -53,5 +66,18 @@
   .statis-footer{
     margin:16px 0;
     text-align: center;
+    width: 1050px;
+  }
+
+  .title{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0.16rem;
+    border-left: 3px solid #2395f1;
+    padding-left: 8px;
+  }
+
+  .system-content{
+    margin-bottom: 16px;
   }
 }

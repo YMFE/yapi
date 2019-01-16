@@ -3,12 +3,14 @@
   .ant-tree-node-content-wrapper {
     width: calc(100% - 28px);
   }
-  .opts-icon, .case-delete-icon {
+  .opts-icon,
+  .case-delete-icon {
     line-height: 25px;
     width: 30px;
     font-weight: bold;
   }
-  .opts-icon:hover, .case-delete-icon:hover {
+  .opts-icon:hover,
+  .case-delete-icon:hover {
     color: #2395f1;
   }
   .menu-title {
@@ -18,7 +20,7 @@
     .casename {
       overflow: hidden;
     }
-    .case-delete-icon{
+    .case-delete-icon {
       margin-left: 5px;
       display: none;
     }
@@ -77,56 +79,107 @@
   background-color: rgba(0, 0, 0, 0.4);
   cursor: move;
 }
-.report{
+.report {
   min-height: 500px;
-  .case-report-pane{
+  .case-report-pane {
     margin-top: 10px;
   }
-  .url{
+  .url {
     overflow: auto;
   }
-  .case-report{
+  .case-report {
     margin: 10px;
 
-    .case-report-title{
+    .case-report-title {
       font-size: 14px;
       font-weight: bold;
       text-align: right;
       padding-right: 20px;
     }
 
-    pre{
-      white-space: pre-wrap
+    pre {
+      white-space: pre-wrap;
     }
   }
 }
 
-.interface-col{
+.interface-col {
   padding: 24px;
-  .interface-col-table-header{
+  .interface-col-table-header {
     background-color: rgb(238, 238, 238);
     height: 50px;
     line-height: 50px;
     text-align: left;
   }
 
-  .interface-col-table-body{
+  .interface-col-table-body {
     height: 50px;
     line-height: 50px;
   }
 
-  .interface-col-table-header th{
-    padding-left:5px;
+  .interface-col-table-header th {
+    padding-left: 5px;
   }
 
-  .interface-col-table-body td{
-    padding-left:5px;
+  .interface-col-table-body td {
+    padding-left: 5px;
   }
 
-  .interface-col-table-action button{
+  .interface-col-table-action button {
     margin-right: 5px;
     padding: 5px 10px;
     max-width: 90px;
   }
+  .component-label-wrapper {
+    margin-top: -10px;
+    margin-bottom: 15px;
+  }
 }
 
+.import-case-modal {
+  .ant-modal-body {
+    max-height: 800px;
+    overflow-y: scroll;
+  }
+
+  .select-project {
+    margin-bottom: 16px;
+  }
+}
+
+.autoTestsModal {
+  .autoTestUrl {
+    background-color: #f5f5f5;
+    border: 1px solid #f1f1f1ce;
+    padding: 16px;
+  }
+
+  .autoTestMsg {
+    padding: 8px 0 16px;
+    font-size: 12px;
+  }
+
+  .copy-btn {
+    margin-left: 16px;
+    height: 50px;
+    font-size: 14px;
+    width: 70px;
+  }
+
+  .ant-modal-body {
+    padding-top: 32px;
+  }
+
+  .row {
+    margin-bottom: 0.24rem;
+  }
+
+  .label {
+    text-align: left;
+  }
+}
+
+.tree-wrapper {
+  min-height: 500px;
+  overflow-y: scroll;
+}

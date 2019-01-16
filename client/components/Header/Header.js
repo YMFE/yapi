@@ -1,16 +1,16 @@
-import './Header.scss'
-import React, { PureComponent as Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Icon, Layout, Menu, Dropdown, message, Tooltip, Popover, Tag } from 'antd'
-import { checkLoginState, logoutActions, loginTypeAction } from '../../reducer/modules/user'
-import { changeMenuItem } from '../../reducer/modules/menu'
+import './Header.scss';
+import React, { PureComponent as Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Icon, Layout, Menu, Dropdown, message, Tooltip, Popover, Tag } from 'antd';
+import { checkLoginState, logoutActions, loginTypeAction } from '../../reducer/modules/user';
+import { changeMenuItem } from '../../reducer/modules/menu';
 import { withRouter } from 'react-router';
-import Srch from './Search/Search'
+import Srch from './Search/Search';
 const { Header } = Layout;
-import { logoSVG } from '../../common.js';
-import Breadcrumb from '../Breadcrumb/Breadcrumb.js'
+import LogoSVG from '../LogoSVG/index.js';
+import Breadcrumb from '../Breadcrumb/Breadcrumb.js';
 import GuideBtns from '../GuideBtns/GuideBtns.js';
 const plugin = require('client/plugin.js');
 
@@ -31,60 +31,68 @@ let HeaderMenu = {
 
 plugin.emitHook('header_menu', HeaderMenu);
 
-const MenuUser = (props) => (
+const MenuUser = props => (
   <Menu theme="dark" className="user-menu">
     {Object.keys(HeaderMenu).map(key => {
       let item = HeaderMenu[key];
       const isAdmin = props.role === 'admin';
       if (item.adminFlag && !isAdmin) {
-        return null
+        return null;
       }
       return (
         <Menu.Item key={key}>
-          {
-            item.name === '个人中心' ? <Link to={item.path + `/${props.uid}`}>
+          {item.name === '个人中心' ? (
+            <Link to={item.path + `/${props.uid}`}>
               <Icon type={item.icon} />
               {item.name}
-            </Link> : !item.adminFlag ? <Link to={item.path}><Icon type={item.icon} />
-              {item.name}
-            </Link> : <Link to={item.path}><Icon type={item.icon} />
+            </Link>
+          ) : (
+            <Link to={item.path}>
+              <Icon type={item.icon} />
               {item.name}
             </Link>
-          }
+          )}
         </Menu.Item>
-      )
+      );
     })}
-    {/*<Menu.Item key="0">*/}
-    {/*<Link to={`/user/profile/${props.uid}`} onClick={props.relieveLink}><Icon type="user"/>个人中心</Link>*/}
-    {/*</Menu.Item>*/}
-    {/*<Menu.Item key="1">*/}
-    {/*<Link to={`/follow`} onClick={props.relieveLink}><Icon type="star-o"/>我的关注</Link>*/}
-    {/*</Menu.Item>*/}
-    {/*{*/}
-    {/*props.role === "admin" ? <Menu.Item key="2">*/}
-    {/*<Link to={`/user/list`}><Icon type="solution"/>用户管理</Link>*/}
-    {/*</Menu.Item> : ""*/}
-    {/*}*/}
-
     <Menu.Item key="9">
-      <a onClick={props.logout}><Icon type="logout" />退出</a>
+      <a onClick={props.logout}>
+        <Icon type="logout" />退出
+      </a>
     </Menu.Item>
   </Menu>
 );
 
-const tipFollow = (<div className="title-container">
-  <h3 className="title"><Icon type="star" /> 关注</h3>
-  <p>这里是你的专属收藏夹，便于你找到自己的项目</p>
-</div>);
-const tipAdd = (<div className="title-container">
-  <h3 className="title"><Icon type="plus-circle" /> 新建项目</h3>
-  <p>在任何页面都可以快速新建项目</p>
-</div>);
-const tipDoc = (<div className="title-container">
-  <h3 className="title">使用文档 <Tag color="orange">推荐!</Tag></h3>
-  <p>初次使用 YApi，强烈建议你阅读 <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer">使用文档</a>
-    ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！ </p>
-</div>);
+const tipFollow = (
+  <div className="title-container">
+    <h3 className="title">
+      <Icon type="star" /> 关注
+    </h3>
+    <p>这里是你的专属收藏夹，便于你找到自己的项目</p>
+  </div>
+);
+const tipAdd = (
+  <div className="title-container">
+    <h3 className="title">
+      <Icon type="plus-circle" /> 新建项目
+    </h3>
+    <p>在任何页面都可以快速新建项目</p>
+  </div>
+);
+const tipDoc = (
+  <div className="title-container">
+    <h3 className="title">
+      使用文档 <Tag color="orange">推荐!</Tag>
+    </h3>
+    <p>
+      初次使用 YApi，强烈建议你阅读{' '}
+      <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer">
+        使用文档
+      </a>
+      ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{' '}
+    </p>
+  </div>
+);
 
 MenuUser.propTypes = {
   user: PropTypes.string,
@@ -93,9 +101,9 @@ MenuUser.propTypes = {
   uid: PropTypes.number,
   relieveLink: PropTypes.func,
   logout: PropTypes.func
-}
+};
 
-const ToolUser = (props) => {
+const ToolUser = props => {
   let imageUrl = props.imageUrl ? props.imageUrl : `/api/user/avatar?uid=${props.uid}`;
   return (
     <ul>
@@ -144,13 +152,13 @@ const ToolUser = (props) => {
       >
         <Tooltip placement="bottom" title={'使用文档'}>
           <li className="toolbar-li">
-            <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer"><Icon
-              className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" /></a>
+            <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer">
+              <Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" />
+            </a>
           </li>
         </Tooltip>
       </Popover>
       <li className="toolbar-li">
-
         <Dropdown
           placement="bottomRight"
           trigger={['click']}
@@ -163,19 +171,21 @@ const ToolUser = (props) => {
               relieveLink={props.relieveLink}
               logout={props.logout}
             />
-          }>
+          }
+        >
           <a className="dropdown-link">
             <span className="avatar-image">
               <img src={imageUrl} />
             </span>
             {/*props.imageUrl? <Avatar src={props.imageUrl} />: <Avatar src={`/api/user/avatar?uid=${props.uid}`} />*/}
-            <span className="name"><Icon type="down" /></span>
+            <span className="name">
+              <Icon type="down" />
+            </span>
           </a>
         </Dropdown>
-
       </li>
     </ul>
-  )
+  );
 };
 ToolUser.propTypes = {
   user: PropTypes.string,
@@ -190,9 +200,8 @@ ToolUser.propTypes = {
   imageUrl: PropTypes.any
 };
 
-
 @connect(
-  (state) => {
+  state => {
     return {
       user: state.user.userName,
       uid: state.user.uid,
@@ -202,7 +211,7 @@ ToolUser.propTypes = {
       studyTip: state.user.studyTip,
       study: state.user.study,
       imageUrl: state.user.imageUrl
-    }
+    };
   },
   {
     loginTypeAction,
@@ -234,50 +243,54 @@ export default class HeaderCom extends Component {
     study: PropTypes.bool,
     studyTip: PropTypes.number,
     imageUrl: PropTypes.any
-  }
-  linkTo = (e) => {
+  };
+  linkTo = e => {
     if (e.key != '/doc') {
       this.props.changeMenuItem(e.key);
       if (!this.props.login) {
         message.info('请先登录', 1);
       }
     }
-  }
+  };
   relieveLink = () => {
-    this.props.changeMenuItem("");
-  }
-  logout = (e) => {
+    this.props.changeMenuItem('');
+  };
+  logout = e => {
     e.preventDefault();
-    this.props.logoutActions().then((res) => {
-      if (res.payload.data.errcode == 0) {
-        this.props.history.push('/');
-        this.props.changeMenuItem("/");
-        message.success('退出成功! ');
-      } else {
-        message.error(res.payload.data.errmsg);
-      }
-    }).catch((err) => {
-      message.error(err);
-    });
-  }
-  handleLogin = (e) => {
+    this.props
+      .logoutActions()
+      .then(res => {
+        if (res.payload.data.errcode == 0) {
+          this.props.history.push('/');
+          this.props.changeMenuItem('/');
+          message.success('退出成功! ');
+        } else {
+          message.error(res.payload.data.errmsg);
+        }
+      })
+      .catch(err => {
+        message.error(err);
+      });
+  };
+  handleLogin = e => {
     e.preventDefault();
-    this.props.loginTypeAction("1");
-  }
-  handleReg = (e) => {
+    this.props.loginTypeAction('1');
+  };
+  handleReg = e => {
     e.preventDefault();
-    this.props.loginTypeAction("2");
-  }
+    this.props.loginTypeAction('2');
+  };
   checkLoginState = () => {
-    this.props.checkLoginState.then((res) => {
-      if (res.payload.data.errcode !== 0) {
-        this.props.history.push('/');
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
+    this.props.checkLoginState
+      .then(res => {
+        if (res.payload.data.errcode !== 0) {
+          this.props.history.push('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     const { login, user, msg, uid, role, studyTip, study, imageUrl } = this.props;
@@ -286,23 +299,28 @@ export default class HeaderCom extends Component {
         <div className="content g-row">
           <Link onClick={this.relieveLink} to="/group" className="logo">
             <div className="href">
-              <span className="img">{logoSVG('32px')}</span>
-              {/*<span className="logo-name">YApi</span>*/}
+              <span className="img">
+                <LogoSVG length="32px" />
+              </span>
             </div>
           </Link>
           <Breadcrumb />
-          <div className="user-toolbar"
-            style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}>
-            {login ?
+          <div
+            className="user-toolbar"
+            style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}
+          >
+            {login ? (
               <ToolUser
                 {...{ studyTip, study, user, msg, uid, role, imageUrl }}
                 relieveLink={this.relieveLink}
                 logout={this.logout}
               />
-              : ""}
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </Header>
-    )
+    );
   }
 }

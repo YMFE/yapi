@@ -1,11 +1,13 @@
-## Version
+## 版本号
 ~ 
 
-## What is expected
+## 什么问题
 ~
 
-## Step to reproduce
+## 如何复现此问题
 ~ 
 
-## Environment
+## 什么浏览器
 ~ 
+
+## 什么系统（Linux, Windows, macOS）

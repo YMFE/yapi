@@ -1,4 +1,5 @@
 ## YApi  可视化接口管理平台
+<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
 
 ### 平台介绍
 ![avatar](yapi-base-flow.jpg)
@@ -20,6 +21,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 #### 环境要求
 * nodejs（7.6+)
 * mongodb（2.6+）
+* git
 #### 安装
 使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码为 ymfe.org 登录系统（默认密码可在个人中心修改）。
 
@@ -33,38 +35,45 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
+    
+### 教程
+* [使用 YApi 管理 API 文档，测试， mock](https://juejin.im/post/5acc879f6fb9a028c42e8822)
+* [自动更新 Swagger 接口数据到 YApi 平台](https://juejin.im/post/5af500e251882567096140dd)
+* [自动化测试](https://juejin.im/post/5a388892f265da430e4f4681)
 
-
-
-### 在线 Demo
-<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
-
-管理员账号
-```
-用户名： yapi.demo@admin.com
-密码： ymfe.org
-```
-### YApi 资源
+### YApi 插件
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
-* [yapi docker 部署](https://github.com/branchzero/yapi-docker) By branchzero
+* [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
+
+### YApi 一些工具
+* [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
+* [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
+
+### YApi docker部署（非官方）
+* [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 
 ### YApi 的一些客户
 * 去哪儿
 * 携程
 * 艺龙 
+* 美团
+* 百度
+* 阿里巴巴
 * 京东
 * 唯品支付 
 * 链家网
 * 快手
 * 便利蜂
+* 中商惠民
+* 新浪
 
 ### Authors
-* [suxiaoxin](https://github.com/suxiaoxin)
+* [hellosean1025](https://github.com/hellosean1025)
 * [zwjamnsss](https://github.com/amnsss)
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
 * [gaoxiaomumu](https://github.com/gaoxiaomumu)
 
 ### License
-Apache Licene 2.0
+Apache License 2.0
 

@@ -42,6 +42,7 @@
         .ant-timeline-item-head-custom {
           padding: 0;
           width: 0;
+          left: -14px;
         }
         .ant-timeline-item-head{
           // width: 40px;
@@ -51,6 +52,9 @@
           // // border-color:#e1e3e4;
           // border:2px solid #e1e3e4;
           // border-radius: 50%;
+          .anticon{
+            display: none;
+          }
         }
         .ant-timeline-item-tail{
           // top: 30px;

@@ -6,15 +6,15 @@ import { Menu } from 'antd';
 
 class Subnav extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   static propTypes = {
     data: PropTypes.array,
     default: PropTypes.string
-  }
+  };
 
-  render () {
+  render() {
     return (
       <div className="m-subnav">
         <Menu
@@ -32,11 +32,11 @@ class Subnav extends Component {
               <Menu.Item className="item" key={item.name.replace(' ', '')}>
                 <Link to={item.path}>{this.props.data[index].name}</Link>
               </Menu.Item>
-            )
+            );
           })}
         </Menu>
       </div>
-    )
+    );
   }
 }
 

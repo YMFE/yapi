@@ -1,0 +1,164 @@
+<html lang="zh-CN"><head><meta charSet="UTF-8"/><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><link rel="apple-touch-icon" sizes="180x180" href="../ydoc/images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="../ydoc/images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="../ydoc/images/favicon-16x16.png"/><link rel="manifest" href="../ydoc/images/manifest.json"/><link rel="mask-icon" href="../ydoc/images/safari-pinned-tab.svg&quot;" color="#5bbad5"/><meta name="theme-color" content="#ffffff"/><meta http-equiv="Cache-Control" content="no-transform"/><meta http-equiv="Cache-Control" content="no-siteapp"/><title>内网部署</title><link rel="stylesheet" href="../ydoc/styles/style.css"/><meta name="author" content="ymfe"/><meta name="keywords" content="api管理,接口管理,接口文档,api文档"/><meta name="description" content="YApi 是高效、易用、功能强大的 api 管理平台，旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API，YApi 还为用户提供了优秀的交互体验，开发人员只需利用平台提供的接口数据写入工具以及简单的点击操作就可以实现接口的管理"/><meta id="releativePath" content=".."/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-search/search.css"/><link rel="stylesheet" href="../ydoc/ydoc-plugin-img-view/imgView.css"/><link rel="stylesheet" href="../web.css"/></head><body><div class="g-doc"><div class="m-aside"><div class="m-summary" id="js-menu"><div class="m-summary-content" id="js-menu-content"><div class="m-summary-block"><ul class="m-summary-list"><li class="item"><a href="index.html#%e5%ae%89%e8%a3%85" class="href">安装</a></li><li class="item"><a href="index.html#%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ae%a1%e7%90%86" class="href">服务器管理</a></li><li class="item"><a href="index.html#%e5%8d%87%e7%ba%a7" class="href">升级</a></li><li class="item"><a href="index.html#%e9%85%8d%e7%bd%ae%e9%82%ae%e7%ae%b1" class="href">配置邮箱</a></li><li class="item"><a href="index.html#%e9%85%8d%e7%bd%aeldap%e7%99%bb%e5%bd%95" class="href">配置LDAP登录</a></li><li class="item"><a href="index.html#%e7%a6%81%e6%ad%a2%e6%b3%a8%e5%86%8c" class="href">禁止注册</a></li><li class="item"><a href="index.html#%e7%89%88%e6%9c%ac%e9%80%9a%e7%9f%a5" class="href">版本通知</a></li></ul></div></div></div><div class="m-summary-switch" id="js-summary-switch"><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="bottom"><g transform="translate(904.92214,-879.1482)"><path d="m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,-55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,-174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,-174.68583 0.6895,0 26.281,25.03215 56.8701,55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864-231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,-104.0616 -231.873,-231.248 z" fill="#fff"></path></g></svg><svg viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15" class="top"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="aaa" fill="#fff" fill-rule="nonzero"><path d="M231.2455,342.502 L0,111.25397 L55.6165,55.62697 C86.2056,25.03212 111.7971,-2.99999998e-05 112.4866,-2.99999998e-05 C113.176,-2.99999998e-05 192.3503,78.60859 288.4293,174.6858 L463.1185,349.3716 L637.8077,174.6858 C733.8867,78.60859 813.060896,-2.99999997e-05 813.750396,-2.99999997e-05 C814.439896,-2.99999997e-05 840.031396,25.03212 870.620496,55.62697 L926.236996,111.25397 L694.9915,342.502 C567.8065,469.6884 463.4636,573.75 463.1185,573.75 C462.7734,573.75 358.4305,469.6884 231.2455,342.502 Z" id="Shape" transform="translate(463.118498, 286.874985) scale(1, -1) translate(-463.118498, -286.874985) "></path></g></g></svg></div></div><div class="m-main" id="js-panel"><header class="m-header" id="js-header"><div class="m-header-title js-logo"><a href="../index.html" target="_self"><img class="logo" width="36" src="../documents/images/logo_header@2x.png"/><h6 class="name">YApi</h6></a></div><div><div class="m-search">
+      <div class="icon">&#xf0fd;</div>
+      <input type="text" class="input js-input" placeholder="搜索" />
+      <div class="m-search-result js-search-result"></div>
+    </div>
+<div class="m-search">
+      <div class="icon">&#xf0fd;</div>
+      <input type="text" class="input js-input" placeholder="搜索" />
+      <div class="m-search-result js-search-result"></div>
+    </div></div><nav class="m-header-nav js-nav"><ul class="m-header-items"><li class="item "><a class="href" href="../documents/index.html">教程</a></li><li class="item active"><a class="href" href="">内网部署</a></li></ul></nav><div id="js-nav-btn" class="m-header-btn ui-font-ydoc"></div></header><div class="m-content" id="js-content"><div id="markdown-body" class="m-content-container markdown-body"><h1>内网部署</h1>
+<p>使用我们提供的 yapi-cli 工具，部署 YApi 平台是非常容易的。建议部署成 http 站点，因 chrome 浏览器安全限制，部署成 https 会导致测试功能在请求 http 站点时文件上传功能异常。</p>
+<p>如果您是将服务器代理到 nginx 服务器，请配置 nginx 支持 websocket。</p>
+<pre><code>&#x5728;location /&#x6DFB;&#x52A0;
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection &#x22;upgrade&#x22;;
+</code></pre>
+<h2 id="环境要求">环境要求</h2>
+<ul>
+<li>nodejs（7.6+)</li>
+<li>mongodb（2.6+）</li>
+</ul>
+<h2 id="安装">安装</h2>
+<h3 id="安装-方式一.-可视化部署[推荐]">方式一. 可视化部署[推荐]</h3>
+<p>执行 yapi server 启动可视化部署程序，输入相应的配置和点击开始部署，就能完成整个网站的部署。部署完成之后，可按照提示信息，执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）。</p>
+<pre><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> -g yapi-cli --registry https://registry.npm.taobao.org
+yapi server
+</code></pre>
+<h3 id="安装-方式二.-命令行部署">方式二. 命令行部署</h3>
+<p>如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法</p>
+<pre><code class="language-bash"><span class="token function">mkdir</span> yapi
+<span class="token function">cd</span> yapi
+<span class="token function">git</span> clone https://github.com/YMFE/yapi.git vendors //或者下载 <span class="token function">zip</span> 包解压到 vendors 目录
+<span class="token function">cp</span> vendors/config_example.json ./config.json //复制完成后请修改相关配置
+<span class="token function">cd</span> vendors
+<span class="token function">npm</span> <span class="token function">install</span> --production --registry https://registry.npm.taobao.org
+<span class="token function">npm</span> run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+node server/app.js //启动服务器后，请访问 127.0.0.1:<span class="token punctuation">{</span>config.json配置的端口<span class="token punctuation">}</span>，初次运行会有个编译的过程，请耐心等候
+</code></pre>
+<p>安装后的目录结构如下：</p>
+<pre><code>|-- config.json
+|-- init.lock
+|-- log
+&#x60;-- vendors
+    |-- CHANGELOG.md
+    |-- LICENSE
+    |-- README.md
+    |-- client
+    |-- common
+    |-- config_example.json
+    |-- doc
+    |-- exts
+    |-- nodemon.json
+    |-- npm-debug.log
+    |-- package.json
+    |-- plugin.json
+    |-- server
+    |-- static
+    |-- test
+    |-- webpack.alias.js
+    |-- yapi-base-flow.jpg
+    |-- ydocfile.js
+    &#x60;-- ykit.config.js
+</code></pre>
+<h2 id="服务器管理">服务器管理</h2>
+<p>推荐使用 pm2 管理 node 服务器启动，停止，具体使用方法可参考下面的教程：</p>
+<ul>
+<li><a href="http://pm2.keymetrics.io/docs/usage/quick-start/" target="_blank">官网文档</a></li>
+<li><a href="http://imweb.io/topic/57c8cbb27f226f687b365636" target="_blank">PM2实用入门指南</a></li>
+</ul>
+<h2 id="升级">升级</h2>
+<p>升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。</p>
+<pre><code>cd  {项目目录}
+yapi ls //查看版本号列表
+yapi update //升级到最新版本
+yapi update -v v1.1.0 //升级到指定版本
+</code></pre>
+<h2 id="配置邮箱">配置邮箱</h2>
+<p>打开项目目录 config.json 文件，新增 mail 配置， 替换默认的邮箱配置</p>
+<pre><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"adminAccount"</span><span class="token operator">:</span> <span class="token string">"********"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"mail"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"enable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"host"</span><span class="token operator">:</span> <span class="token string">"smtp.163.com"</span><span class="token punctuation">,</span>    //邮箱服务器
+    <span class="token property">"port"</span><span class="token operator">:</span> <span class="token number">465</span><span class="token punctuation">,</span>               //端口
+    <span class="token property">"from"</span><span class="token operator">:</span> <span class="token string">"***@163.com"</span><span class="token punctuation">,</span>     //发送人邮箱
+    <span class="token property">"auth"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"user"</span><span class="token operator">:</span> <span class="token string">"***@163.com"</span><span class="token punctuation">,</span> //邮箱服务器账号
+        <span class="token property">"pass"</span><span class="token operator">:</span> <span class="token string">"*****"</span>        //邮箱服务器密码
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如何申请STMP服务器账号和密码可以参考下面的教程：<a href="https://jingyan.baidu.com/article/fdbd42771da9b0b89e3f48a8.html" target="_blank">如何开通电子邮箱的SMTP功能</a></p>
+<h2 id="配置ldap登录">配置LDAP登录</h2>
+<p>打开项目目录 config.json 文件，添加如下字段：</p>
+<pre><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"adminAccount"</span><span class="token operator">:</span> <span class="token string">"********"</span><span class="token punctuation">,</span>
+  <span class="token property">"db"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"mail"</span><span class="token operator">:</span> <span class="token punctuation">{</span>...<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"ldapLogin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"enable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"server"</span><span class="token operator">:</span> <span class="token string">"ldap://l-ldapt1.ops.dev.cn0.qunar.com"</span><span class="token punctuation">,</span>
+      <span class="token property">"baseDn"</span><span class="token operator">:</span> <span class="token string">"CN=Admin,CN=Users,DC=test,DC=com"</span><span class="token punctuation">,</span>
+      <span class="token property">"bindPassword"</span><span class="token operator">:</span> <span class="token string">"password123"</span><span class="token punctuation">,</span>
+      <span class="token property">"searchDn"</span><span class="token operator">:</span> <span class="token string">"OU=UserContainer,DC=test,DC=com"</span><span class="token punctuation">,</span>
+      <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"mail"</span><span class="token punctuation">,</span>    // 自定义格式： <span class="token property">"searchStandard"</span><span class="token operator">:</span> <span class="token string">"&amp;(objectClass=user)(cn=%s)"</span>
+      <span class="token property">"emailPostfix"</span><span class="token operator">:</span> <span class="token string">"@163.com"</span><span class="token punctuation">,</span>
+      <span class="token property">"emailKey"</span><span class="token operator">:</span> <span class="token string">"mail"</span><span class="token punctuation">,</span>
+      <span class="token property">"usernameKey"</span><span class="token operator">:</span> <span class="token string">"name"</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>这里面的配置项含义如下：</p>
+<ul>
+<li><code>enable</code> 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);</li>
+<li><code>server</code> LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;</li>
+<li><code>baseDn</code> LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);</li>
+<li><code>bindPassword</code> 登录该 LDAP 服务器的密码(非必须);</li>
+<li><code>searchDn</code> 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;</li>
+<li><code>searchStandard</code> 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&amp;(objectClass=user)(cn=%s), 其中%s会被username替换</li>
+<li><code>emailPostfix</code> 登陆邮箱后缀（非必须）</li>
+<li><code>emailKey</code>: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）</li>
+<li><code>usernameKey</code>: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）</li>
+</ul>
+<p>重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功</p>
+<img src="./ldap.png">
+<h2 id="禁止注册">禁止注册</h2>
+<p>在 config.json 添加 <code>closeRegister:true</code> 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。</p>
+<pre><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"closeRegister"</span><span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h2 id="版本通知">版本通知</h2>
+<p>（v1.3.19+ 增加）在 config.json 添加 <code>&quot;versionNotify&quot;: true</code> 配置项，就可以开启版本通知功能，默认为 <code>false</code>，修改完成后，请重启 yapi 服务器。</p>
+<pre><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"******"</span><span class="token punctuation">,</span>
+  <span class="token property">"adminAccount"</span><span class="token operator">:</span> <span class="token string">"*****"</span><span class="token punctuation">,</span>
+  <span class="token property">"versionNotify"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+</div></div></div></div><div><div class="m-mask js-mask">
+    <div class="container">
+      <img src="" alt="" class="img js-mask-img" />
+    </div>
+    </div></div><script>
+    var $content = document.getElementById('js-content');
+    var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
+    var $menu = document.getElementById('js-menu');
+    if ($menu && sessionStorage.menuScrollTop) {
+		$menu.scrollTop = sessionStorage.menuScrollTop;
+    }
+    // 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
+    if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
+      $content.scrollTop = sessionStorage.contentScrollTop;
+    }
+    sessionStorage.setItem('locationPathname', window.location.pathname);</script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-img-view/imgView.js"></script><script src="../search_json.js"></script><script src="../search_json.js"></script></body></html>
