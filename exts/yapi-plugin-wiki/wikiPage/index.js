@@ -131,11 +131,11 @@ class WikiPage extends Component {
     };
     this.handleWebsocketAccidentClose(sendEditor, status => {
       // 如果websocket 启动不成功用户依旧可以对wiki 进行编辑
-      if (!status) {
+      // if (!status) {
         this.setState({
           isEditor: !this.state.isEditor
         });
-      }
+      // }
     });
   };
 
