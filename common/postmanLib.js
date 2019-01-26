@@ -72,6 +72,7 @@ async function httpRequestByNode(options) {
       url: options.url,
       headers: options.headers,
       timeout: 5000,
+      maxRedirects: 0,
       data: options.data
     });
     return handleRes(response);
