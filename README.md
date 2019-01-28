@@ -58,6 +58,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 艺龙 
 * 美团
 * 百度
+* 腾讯
 * 阿里巴巴
 * 京东
 * 唯品支付 
