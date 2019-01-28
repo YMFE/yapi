@@ -398,13 +398,19 @@ class interfaceController extends baseController {
    * @example ./api/interface/get.json
    */
   async get(ctx) {
-    let params = ctx.request.query;
+    let params = ctx.params;
     if (!params.id) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空'));
     }
 
     try {
       let result = await this.Model.get(params.id);
+      if(this.$tokenAuth){
+        if(params.project_id !== result.project_id){
+          ctx.body = yapi.commons.resReturn(null, 400, 'token有误')
+          return;
+        }
+      }
       // console.log('result', result);
       if (!result) {
         return (ctx.body = yapi.commons.resReturn(null, 490, '不存在的'));
@@ -440,7 +446,7 @@ class interfaceController extends baseController {
    * @example ./api/interface/list.json
    */
   async list(ctx) {
-    let project_id = ctx.request.query.project_id;
+    let project_id = ctx.params.project_id;
     let page = ctx.request.query.page || 1,
       limit = ctx.request.query.limit || 10;
     let project = await this.projectModel.getBaseInfo(project_id);
@@ -520,7 +526,7 @@ class interfaceController extends baseController {
   }
 
   async listByMenu(ctx) {
-    let project_id = ctx.request.query.project_id;
+    let project_id = ctx.params.project_id;
     if (!project_id) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
     }
@@ -980,7 +986,7 @@ class interfaceController extends baseController {
    */
 
   async getCatMenu(ctx) {
-    let project_id = ctx.request.query.project_id;
+    let project_id = ctx.params.project_id;
 
     if (!project_id || isNaN(project_id)) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));

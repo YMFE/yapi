@@ -417,8 +417,9 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
     let inst = new routerController(ctx);
     try {
       await inst.init(ctx);
+      ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
       if (inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]) {
-        ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
+        
         let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
 
         if (!validResult.valid) {

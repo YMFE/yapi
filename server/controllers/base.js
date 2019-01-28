@@ -6,6 +6,7 @@ const groupModel = require('../models/group.js');
 const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
+const OPENAPI_USER = 99999999;
 
 class baseController {
   constructor(ctx) {
@@ -38,11 +39,15 @@ class baseController {
 
     let openApiRouter = [
       '/api/open/run_auto_test',
-      '/api/open/import_data',
-      '/api/interface/add',
-      '/api/interface/save',
-      '/api/interface/up',
-      '/api/interface/add_cat'
+			'/api/open/import_data',
+			'/api/interface/add',
+			'/api/interface/save',
+			'/api/interface/up',
+			'/api/interface/get',
+			'/api/interface/list',
+			'/api/interface/list_menu',
+			'/api/interface/add_cat',
+			'/api/interface/getCatMenu'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
@@ -63,7 +68,7 @@ class baseController {
       if (projectData) {
         ctx.params.project_id = checkId;
         this.$tokenAuth = true;
-        this.$uid = '999999';
+        this.$uid = OPENAPI_USER;
         this.$user = {
           _id: this.$uid,
           role: 'member',
@@ -258,6 +263,9 @@ class baseController {
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
+    if(this.getUid() === OPENAPI_USER){
+      role = 'dev'
+    }
 
     if (action === 'danger') {
       if (role === 'admin' || role === 'owner') {

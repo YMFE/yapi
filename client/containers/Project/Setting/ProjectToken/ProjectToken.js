@@ -56,7 +56,7 @@ class ProjectToken extends Component {
       <div className="project-token">
         <h2 className="token-title">工具标识</h2>
         <div className="message">
-          每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。
+          每个项目都有唯一的标识token，用户可以使用这个token值来请求项目 openapi.
         </div>
         <div className="token">
           <span>
@@ -74,6 +74,22 @@ class ProjectToken extends Component {
         <div className="blockquote">
           为确保项目内数据的安全性和私密性，请勿轻易将该token暴露给项目组外用户。
         </div>
+        <br />
+        {/* <h2  className="token-title">open接口：</h2> */}
+        {/* <div>
+          <ul className="open-api">
+            <li>/api/open/run_auto_test [运行自动化测试]</li>
+            <li>/api/open/import_data [导入数据]</li>
+            <li>/api/interface/add [新增接口]</li>
+            <li>/api/interface/save [保存接口]</li>
+            <li>/api/interface/up [更新接口]</li>
+            <li>/api/interface/get [获取接口]</li>
+            <li>/api/interface/list [获取接口列表]</li>
+            <li>/api/interface/list_menu [获取接口菜单]</li>
+            <li>/api/interface/add_cat [新增接口分类]</li>
+            <li>/api/interface/getCatMenu [获取所有分类]</li>
+          </ul>
+        </div> */}
       </div>
     );
   }
