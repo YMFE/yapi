@@ -26,6 +26,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -90,7 +91,7 @@ h6, .h6 {
 ::before,
 ::after {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 html {
@@ -216,7 +217,7 @@ input::-moz-focus-inner {
 }
 
 mark {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 a,
@@ -582,7 +583,7 @@ a:link, a:visited {
 }
 
 .nav-toggle {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -604,6 +605,10 @@ a:link, a:visited {
   .m-header-btn {
     display: none;
   }
+}
+
+html {
+  height: 100%;
 }
 
 body {
@@ -1371,6 +1376,14 @@ body {
   font-weight: 500;
 }
 
+.markdown-body h2 {
+  margin: .54rem 0 .24rem;
+}
+
+.markdown-body h3 {
+  margin: .32rem 0 .16rem;
+}
+
 .markdown-body a {
   text-decoration: none;
   background-color: rgba(187, 239, 253, 0.3);
@@ -1383,6 +1396,25 @@ body {
   text-decoration: none;
   background-color: #bbeffd;
   border-bottom-color: rgba(3, 17, 31, 0.87);
+}
+
+.markdown-body .type {
+  color: #1890ff;
+  font-size: 16px;
+}
+
+.markdown-body .versionTag {
+  background: #1890ff;
+  color: white;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 14px;
+}
+
+.markdown-body .desc {
+  font-size: 16px;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.65);
 }
 
 /* PrismJS 1.14.0
@@ -1608,15 +1640,25 @@ pre[class*="language-"] {
 
 .m-header-nav .m-header-subtitle .link {
   display: inline-block;
+  padding-left: .5em;
+  padding-right: .5em;
   width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  line-height: .32rem;
+  transition: all 0.2s;
+}
+
+.m-header-nav .m-header-subtitle .link:hover {
+  color: #1890ff;
+  background-color: #d9edff;
 }
 
 .m-header-nav .item {
-  margin-bottom: 0.08rem;
   width: 100%;
   display: inline-block;
   line-height: 1.8;
-  margin: 0 0.08rem;
+  padding: 0 0.08rem;
   position: relative;
   cursor: pointer;
   transition: all 0.2s;
@@ -1629,15 +1671,24 @@ pre[class*="language-"] {
 
 .m-header-nav .item.active {
   font-weight: bold;
-  color: rgba(3, 17, 31, 0.87);
-}
-
-.m-header-nav .item.active .href {
-  border-bottom: 2px solid #1890ff;
+  color: #1890ff;
 }
 
 .m-header-nav .href {
-  padding: .5em;
+  display: inline-block;
+  padding-left: .5em;
+  padding-right: .5em;
+  height: .32rem;
+  line-height: .32rem;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.m-header-nav .href:active {
+  color: #1890ff;
+  background-color: #d9edff;
 }
 
 .m-header-btn {
@@ -1651,7 +1702,7 @@ pre[class*="language-"] {
   padding: .12rem;
   cursor: pointer;
   transition: color 0.2s;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1676,7 +1727,8 @@ pre[class*="language-"] {
     padding: 0;
   }
   .m-header-nav .m-header-items > .item:hover .m-header-subtitle {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
   }
   .m-header-nav .m-header-subtitle {
     display: none;
@@ -1710,15 +1762,36 @@ pre[class*="language-"] {
     top: -.16rem;
     transform: translateX(-50%);
   }
+  .m-header-nav .m-header-subtitle .link {
+    display: inline-block;
+    padding: 0;
+    width: auto;
+  }
+  .m-header-nav .m-header-subtitle .link:hover {
+    font-weight: bold;
+    color: rgba(3, 17, 31, 0.87);
+    background-color: transparent;
+  }
+  .m-header-nav .href {
+    border-radius: 0;
+  }
+  .m-header-nav .href:hover {
+    font-weight: bold;
+    color: rgba(3, 17, 31, 0.87);
+    background-color: transparent;
+  }
   .m-header-nav .item {
     margin: 0 0.16rem;
     line-height: .64rem;
     width: auto;
     transition: color 0.2s;
   }
-  .m-header-nav .item:hover {
+  .m-header-nav .item.active {
     font-weight: bold;
     color: rgba(3, 17, 31, 0.87);
+  }
+  .m-header-nav .item.active .href {
+    border-bottom: 2px solid #1890ff;
   }
   .m-header .m-header-nav {
     overflow: inherit;
@@ -1779,8 +1852,9 @@ pre[class*="language-"] {
   margin-bottom: .16rem;
 }
 
-.m-summary-block .m-summary-block {
-  margin-bottom: 0;
+.m-summary-block.active > .href {
+  font-weight: bold;
+  color: #1890ff;
 }
 
 .m-summary-title {

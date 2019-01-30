@@ -74,7 +74,7 @@ function initComponents() {
 	navigation = responsiveNav('.js-nav', {
 		customToggle: '#js-nav-btn',
 		open: function() {
-			$menu.classList.remove('active');
+			if ($menu) $menu.classList.remove('active');
 			setTimeout(itemAddActive, 0);
 		}
 	});

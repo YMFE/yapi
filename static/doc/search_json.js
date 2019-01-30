@@ -702,6 +702,11 @@ window.ydoc_plugin_search_json = {
           "title": "详细使用方法",
           "url": "/documents/case.html#服务端自动化测试-详细使用方法",
           "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
+        },
+        {
+          "title": "配置通用规则",
+          "url": "/documents/case.html#配置通用规则",
+          "content": "配置通用规则配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case."
         }
       ]
     },
@@ -759,6 +764,11 @@ window.ydoc_plugin_search_json = {
           "title": "详细使用方法",
           "url": "/documents/case.html#服务端自动化测试-详细使用方法",
           "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
+        },
+        {
+          "title": "配置通用规则",
+          "url": "/documents/case.html#配置通用规则",
+          "content": "配置通用规则配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case."
         }
       ]
     },
@@ -1210,9 +1220,34 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.5.0",
+          "url": "/documents/CHANGELOG.html#v1.5.0",
+          "content": "v1.5.0优化开放 api功能，现在 token 带有用户信息了\n修复无法获取请求302 跳转前的 headers\n"
+        },
+        {
+          "title": "v1.4.4",
+          "url": "/documents/CHANGELOG.html#v1.4.4",
+          "content": "v1.4.4优化了 json-schema 编辑器交互，修复了参数名写到一半提示重复的问题\n优化了首页体验，提升页面打开速度\n新增自动化测试通用规则配置功能\n"
+        },
+        {
+          "title": "v1.4.3",
+          "url": "/documents/CHANGELOG.html#v1.4.3",
+          "content": "v1.4.3修复了可视化安装，mongodb 报错的问题\n支持了 swagger 导出功能\n支持了克隆测试用例\n"
+        },
+        {
+          "title": "v1.4.2",
+          "url": "/documents/CHANGELOG.html#v1.4.2",
+          "content": "v1.4.2优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header \"content-type/json\"\nfix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692\nfix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'\nopti: 去掉没必要的redux-thunk\n接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志\n"
+        },
+        {
+          "title": "v1.4.1",
+          "url": "/documents/CHANGELOG.html#v1.4.1",
+          "content": "v1.4.1支持任何人都可以添加分组，只有管理员才能修改项目是否公开\n支持 mongodb 集群\nBug Fixed修改 mock严格模式，GET带有 JSON BODY 导致的验证问题\n对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径\n因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题\n"
+        },
+        {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\njson schema 可视化编辑器增加 mock 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
@@ -1392,9 +1427,34 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.5.0",
+          "url": "/documents/CHANGELOG.html#v1.5.0",
+          "content": "v1.5.0优化开放 api功能，现在 token 带有用户信息了\n修复无法获取请求302 跳转前的 headers\n"
+        },
+        {
+          "title": "v1.4.4",
+          "url": "/documents/CHANGELOG.html#v1.4.4",
+          "content": "v1.4.4优化了 json-schema 编辑器交互，修复了参数名写到一半提示重复的问题\n优化了首页体验，提升页面打开速度\n新增自动化测试通用规则配置功能\n"
+        },
+        {
+          "title": "v1.4.3",
+          "url": "/documents/CHANGELOG.html#v1.4.3",
+          "content": "v1.4.3修复了可视化安装，mongodb 报错的问题\n支持了 swagger 导出功能\n支持了克隆测试用例\n"
+        },
+        {
+          "title": "v1.4.2",
+          "url": "/documents/CHANGELOG.html#v1.4.2",
+          "content": "v1.4.2优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header \"content-type/json\"\nfix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692\nfix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'\nopti: 去掉没必要的redux-thunk\n接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志\n"
+        },
+        {
+          "title": "v1.4.1",
+          "url": "/documents/CHANGELOG.html#v1.4.1",
+          "content": "v1.4.1支持任何人都可以添加分组，只有管理员才能修改项目是否公开\n支持 mongodb 集群\nBug Fixed修改 mock严格模式，GET带有 JSON BODY 导致的验证问题\n对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径\n因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题\n"
+        },
+        {
           "title": "v1.3.23",
           "url": "/documents/CHANGELOG.html#v1.3.23",
-          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\njson schema 可视化编辑器增加 mock 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
         },
         {
           "title": "v1.3.22",
@@ -1613,7 +1673,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
@@ -1624,6 +1684,11 @@ window.ydoc_plugin_search_json = {
           "title": "版本通知",
           "url": "/devops/index.html#版本通知",
           "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+        },
+        {
+          "title": "如何配置mongodb集群",
+          "url": "/devops/index.html#版本通知-如何配置mongodb集群",
+          "content": "如何配置mongodb集群请升级到 yapi >= 1.4.0以上版本，然后在 config.json db项，配置 connectString:{\n  \"port\": \"***\",\n  \"db\": {\n    \"connectString\": \"mongodb://127.0.0.100:8418,127.0.0.101:8418,127.0.0.102:8418/yapidb?slaveOk=true\",\n    \"user\": \"******\",\n    \"pass\": \"******\"\n  },\n}\n\n详细配置参考： wiki"
         }
       ]
     },
@@ -1670,7 +1735,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
         },
         {
           "title": "禁止注册",
@@ -1681,6 +1746,11 @@ window.ydoc_plugin_search_json = {
           "title": "版本通知",
           "url": "/devops/index.html#版本通知",
           "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+        },
+        {
+          "title": "如何配置mongodb集群",
+          "url": "/devops/index.html#版本通知-如何配置mongodb集群",
+          "content": "如何配置mongodb集群请升级到 yapi >= 1.4.0以上版本，然后在 config.json db项，配置 connectString:{\n  \"port\": \"***\",\n  \"db\": {\n    \"connectString\": \"mongodb://127.0.0.100:8418,127.0.0.101:8418,127.0.0.102:8418/yapidb?slaveOk=true\",\n    \"user\": \"******\",\n    \"pass\": \"******\"\n  },\n}\n\n详细配置参考： wiki"
         }
       ]
     }

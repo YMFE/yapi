@@ -75,8 +75,9 @@ class ProjectToken extends Component {
           为确保项目内数据的安全性和私密性，请勿轻易将该token暴露给项目组外用户。
         </div>
         <br />
-        {/* <h2  className="token-title">open接口：</h2> */}
-        {/* <div>
+        <h2  className="token-title">open接口：</h2>
+        <p><a target="_blank" rel="noopener noreferrer"   href="https://yapi.ymfe.org/openapi.html">详细接口文档</a></p>
+        <div>
           <ul className="open-api">
             <li>/api/open/run_auto_test [运行自动化测试]</li>
             <li>/api/open/import_data [导入数据]</li>
@@ -89,7 +90,7 @@ class ProjectToken extends Component {
             <li>/api/interface/add_cat [新增接口分类]</li>
             <li>/api/interface/getCatMenu [获取所有分类]</li>
           </ul>
-        </div> */}
+        </div>
       </div>
     );
   }

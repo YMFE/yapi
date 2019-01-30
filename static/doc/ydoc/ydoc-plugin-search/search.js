@@ -10,10 +10,10 @@ $(function(){
 
   // 判断是否为空对象
   function realObj(obj) {
-    for (var i in obj) {
-      return true;
+    if (JSON.stringify(obj) === '{}') {
+      return false; // 如果为空,返回false
     }
-    return false;
+    return true;
   }
 
   // 防抖函数
@@ -35,15 +35,16 @@ $(function(){
     var index = str.indexOf(val);
     var startIndex = index > highlightTextPrevNum ? index - highlightTextPrevNum : 0;
     var sliceStr = str.slice(startIndex, index + val.length + highlightTextNextNum);
-    var addHighlightStr = sliceStr.replace(val, '<span class="highlight">' + val + '</span>');
+    var reg = new RegExp('(' + val + ')', 'gi'); // 搜索的值进行高亮替换时, 忽略大小写
+    var addHighlightStr = sliceStr.replace(reg, '<span class="highlight">' + '$1' + '</span>');
     var ellipsis = (sliceStr.lastIndexOf(val) != -1) || (sliceStr.lastIndexOf(val) > highlightTextNextNum) ? '...' : '';
     return addHighlightStr + ellipsis;
   }
 
   // 隐藏搜索结果框
-  function hideSearchResult() {
-    $searchResult.hide();
-  }
+  // function hideSearchResult() {
+  //   $searchResult.hide();
+  // }
 
   // 监听输入的内容
   $searchInput.on('input', debounce(function(e) {
@@ -97,6 +98,7 @@ $(function(){
             activeIndex = (activeIndex + 1) % length;
             $captions[activeIndex].classList.add('active');
           } else if (e.keyCode == 13) {
+            $searchResult.hide();
             window.open($captions[activeIndex].href, '_self');
           }
         });
@@ -113,7 +115,7 @@ $(function(){
     }
   }, 300));
 
-  $searchResult.on('click', function(e){
+  $searchResult.on('click', function (e) {
     return false;
   })
 
