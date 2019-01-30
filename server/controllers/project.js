@@ -13,7 +13,7 @@ const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
 const tokenModel = require('../models/token.js');
 const url = require('url');
-
+const {getToken} = require('../utils/token')
 const sha = require('sha.js');
 
 class projectController extends baseController {
@@ -1004,10 +1004,13 @@ class projectController extends baseController {
           .update(passsalt)
           .digest('hex')
           .substr(0, 20);
+
         await this.tokenModel.save({ project_id, token });
       } else {
         token = data.token;
       }
+
+      token = getToken(token, this.getUid())
 
       ctx.body = yapi.commons.resReturn(token);
     } catch (err) {
@@ -1037,6 +1040,7 @@ class projectController extends baseController {
           .digest('hex')
           .substr(0, 20);
         result = await this.tokenModel.up(project_id, token);
+        token = getToken(token);
         result.token = token;
       } else {
         ctx.body = yapi.commons.resReturn(null, 402, '没有查到token信息');

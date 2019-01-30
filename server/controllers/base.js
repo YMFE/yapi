@@ -6,7 +6,7 @@ const groupModel = require('../models/group.js');
 const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
-const OPENAPI_USER = 99999999;
+const {parseToken} = require('../utils/token')
 
 class baseController {
   constructor(ctx) {
@@ -54,26 +54,51 @@ class baseController {
     let token = params.token;
 
     if (token && openApiRouter.indexOf(ctx.path) > -1) {
-      if (this.$auth) {
-        ctx.params.project_id = await this.getProjectIdByToken(token);
+      let tokens = parseToken(token)
 
-        if (!ctx.params.project_id) {
-          return (this.$tokenAuth = false);
-        }
-        return (this.$tokenAuth = true);
+      const oldTokenUid = '999999'
+
+      let tokenUid = oldTokenUid;
+
+      if(!tokens){
+        let checkId = await this.getProjectIdByToken(token);
+        if(!checkId)return;
+      }else{
+        token = tokens.projectToken;
+        tokenUid = tokens.uid;
       }
 
+      // if (this.$auth) {
+      //   ctx.params.project_id = await this.getProjectIdByToken(token);
+
+      //   if (!ctx.params.project_id) {
+      //     return (this.$tokenAuth = false);
+      //   }
+      //   return (this.$tokenAuth = true);
+      // }
+
       let checkId = await this.getProjectIdByToken(token);
+      if(!checkId){
+        ctx.body = yapi.commons.resReturn(null, 42014, 'token 无效');
+      }
       let projectData = await this.projectModel.get(checkId);
       if (projectData) {
         ctx.params.project_id = checkId;
         this.$tokenAuth = true;
-        this.$uid = OPENAPI_USER;
-        this.$user = {
-          _id: this.$uid,
-          role: 'member',
-          username: 'system'
-        };
+        this.$uid = tokenUid;
+        let result;
+        if(tokenUid === oldTokenUid){
+          result = {
+            _id: tokenUid,
+            role: 'member',
+            username: 'system'
+          }
+        }else{
+          let userInst = yapi.getInst(userModel); //创建user实体
+          result = await userInst.findById(tokenUid);
+        }
+        
+        this.$user = result;
         this.$auth = true;
       }
     }
@@ -263,9 +288,6 @@ class baseController {
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
-    if(this.getUid() === OPENAPI_USER){
-      role = 'dev'
-    }
 
     if (action === 'danger') {
       if (role === 'admin' || role === 'owner') {
