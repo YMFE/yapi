@@ -39,6 +39,13 @@ const EditButton = props => {
     return null;
   }
 };
+EditButton.propTypes = {
+  isAdmin: PropTypes.bool,
+  isOwner: PropTypes.bool,
+  onClick: PropTypes.func,
+  name: PropTypes.string,
+  admin: PropTypes.bool
+};
 
 @connect(
   state => {
