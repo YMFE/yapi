@@ -7,7 +7,7 @@ export default class Notify extends Component {
     super(props);
     this.state = {
       newVersion: process.env.version,
-      version: 'v1.0'
+      version: process.env.version
     };
   }
 
