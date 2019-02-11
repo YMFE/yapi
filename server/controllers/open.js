@@ -110,9 +110,10 @@ class openController extends baseController {
       msg => {
         successMessage = msg;
       },
-      () => {},
+      () => { },
       token,
-      yapi.WEBCONFIG.port
+      yapi.WEBCONFIG.port,
+      projectData.switch_notice
     );
 
     if (errorMessage.length > 0) {
@@ -127,7 +128,7 @@ class openController extends baseController {
 
   handleValue(val, global) {
     let globalValue = ArrayToObject(global);
-    let context = Object.assign({}, {global: globalValue}, this.records);
+    let context = Object.assign({}, { global: globalValue }, this.records);
     return handleParamsValue(val, context);
   }
 
@@ -235,7 +236,7 @@ class openController extends baseController {
     if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
       let autoTestUrl = `${
         ctx.request.origin
-      }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
+        }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
       yapi.commons.sendNotice(projectId, {
         title: `YApi自动化测试报告`,
         content: `
@@ -255,7 +256,7 @@ class openController extends baseController {
       });
     }
     let mode = ctx.params.mode || 'html';
-    if(ctx.params.download === true) {
+    if (ctx.params.download === true) {
       ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
     }
     if (ctx.params.mode === 'json') {
@@ -329,7 +330,7 @@ class openController extends baseController {
   }
 
   async handleScriptTest(interfaceData, response, validRes, requestParams) {
-    
+
     try {
       let test = await yapi.commons.runCaseScript({
         response: response,

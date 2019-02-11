@@ -15,7 +15,8 @@ async function handle(
   messageSuccess,
   callback,
   token,
-  port
+  port,
+  switch_notice
 ) {
   const handleAddCat = async cats => {
     let catsObj = {};
@@ -95,6 +96,7 @@ async function handle(
           apipath = 'http://127.0.0.1:' + port + apipath;
         }
         data.dataSync = dataSync;
+        data.switch_notice = switch_notice;
         let result = await axios.post(apipath, data);
         if (result.data.errcode) {
           successNum--;
