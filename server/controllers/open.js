@@ -73,9 +73,9 @@ class openController extends baseController {
 
   async importData(ctx) {
     let type = ctx.params.type;
-    let content = ctx.params.json;
+    let content = ctx.params.content;
     let project_id = ctx.params.project_id;
-    let dataSync = ctx.params.merge;
+    let dataSync = ctx.params.dataSync;
     let token = ctx.params.token;
     if (!type || !importDataModule[type]) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, '不存在的导入方式'));
