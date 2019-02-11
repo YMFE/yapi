@@ -61,9 +61,9 @@ class openController extends baseController {
         '*type': 'string',
         url: 'string',
         '*token': 'string',
-        json: 'string',
+        content: 'string',
         project_id: 'string',
-        merge: {
+        dataSync: {
           type: 'string',
           default: 'normal'
         }
