@@ -1,3 +1,9 @@
+### v1.5.1
+
+* 优化 restful api 动态路由权重匹配算法，匹配更加精确
+* openapi 新增 `/api/interface/list_cat`，获取某个分类下所有接口
+* 新增了 rap数据导入到 yapi 插件 [rap2yapi](https://github.com/wxxcarl/yapi-plugin-import-rap)
+
 ### v1.5.0
 
 * 优化开放 api功能，现在 token 带有用户信息了

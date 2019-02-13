@@ -47,7 +47,8 @@ class baseController {
 			'/api/interface/list',
 			'/api/interface/list_menu',
 			'/api/interface/add_cat',
-			'/api/interface/getCatMenu'
+      '/api/interface/getCatMenu',
+      '/api/interface/list_cat'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
