@@ -14,7 +14,10 @@ const variable = require('../../client/constants/variable.js')
 function matchApi(apiPath, apiRule) {
   let apiRules = apiRule.split('/');
   let apiPaths = apiPath.split('/');
-  let pathRules = {};
+  let pathParams = {
+    __weight: 0
+  };
+
   if (apiPaths.length !== apiRules.length) {
     return false;
   }
@@ -29,9 +32,9 @@ function matchApi(apiPath, apiRule) {
       apiRules[i][0] === '{' &&
       apiRules[i][apiRules[i].length - 1] === '}'
     ) {
-      pathRules[apiRules[i].substr(1, apiRules[i].length - 2)] = apiPaths[i];
+      pathParams[apiRules[i].substr(1, apiRules[i].length - 2)] = apiPaths[i];
     } else if (apiRules[i].indexOf(':') === 0) {
-      pathRules[apiRules[i].substr(1)] = apiPaths[i];
+      pathParams[apiRules[i].substr(1)] = apiPaths[i];
     } else if (
       apiRules[i].length > 2 &&
       apiRules[i].indexOf('{') > -1 &&
@@ -40,7 +43,7 @@ function matchApi(apiPath, apiRule) {
       let params = [];
       apiRules[i] = apiRules[i].replace(/\{(.+?)\}/g, function(src, match) {
         params.push(match);
-        return '(.+)';
+        return '([^\\/\\s]+)';
       });
       apiRules[i] = new RegExp(apiRules[i]);
       if (!apiRules[i].test(apiPaths[i])) {
@@ -50,15 +53,17 @@ function matchApi(apiPath, apiRule) {
       let matchs = apiPaths[i].match(apiRules[i]);
 
       params.forEach((item, index) => {
-        pathRules[item] = matchs[index + 1];
+        pathParams[item] = matchs[index + 1];
       });
     } else {
       if (apiRules[i] !== apiPaths[i]) {
         return false;
+      }else{
+        pathParams.__weight++;
       }
     }
   }
-  return pathRules;
+  return pathParams;
 }
 
 function parseCookie(str) {
@@ -220,9 +225,16 @@ module.exports = async (ctx, next) => {
     //处理动态路由
     if (!interfaceData || interfaceData.length === 0) {
       let newData = await interfaceInst.getVar(project._id, ctx.method);
-      let findInterface = _.find(newData, item => {
+
+      let findInterface;
+      let weight = 0;
+      _.each(newData, item => {
         let m = matchApi(newpath, item.path);
         if (m !== false) {
+          if(m.__weight >= weight){
+            findInterface = item;
+          }
+          delete m.__weight;
           ctx.request.query = Object.assign(m, ctx.request.query);
           return true;
         }

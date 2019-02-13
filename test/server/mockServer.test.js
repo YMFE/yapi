@@ -28,14 +28,25 @@ test('matchApi', t => {
   let r5 = matchApi('/user/ac/ttt/bd', apiRule_5);
   t.deepEqual(r5, {
     aaa: 'ac', 
-    bbbb: 'bd' 
+    bbbb: 'bd',
+    __weight: 2
   });
 
   const apiRule_6 = '/user/a1={aaa}/ttt/b1={bbbb}';
   let r6 = matchApi('/user/a1=aaa/ttt/b1=111q', apiRule_6);
   t.deepEqual(r6, {
     aaa: 'aaa', 
-    bbbb: '111q' 
+    bbbb: '111q',
+    __weight: 2
+  });
+
+
+  const apiRule_7 = '/user/a1={aaa}/ttt/b1={bbbb}/xxx/yyy';
+  let r7 = matchApi('/user/a1=aaa/ttt/b1=111q/xxx/yyy', apiRule_7);
+  t.deepEqual(r7, {
+    aaa: 'aaa', 
+    bbbb: '111q',
+    __weight: 4
   });
 
 });
