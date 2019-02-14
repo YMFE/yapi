@@ -93,7 +93,8 @@ class projectController extends baseController {
         '*id': id
       },
       get: {
-        '*id': id
+        'id': id,
+        'project_id': id
       },
       list: {
         '*group_id': group_id
@@ -517,7 +518,8 @@ class projectController extends baseController {
 
   async get(ctx) {
     let params = ctx.params;
-    let result = await this.Model.getBaseInfo(params.id);
+    let projectId= params.id || params.project_id; // 通过 token 访问
+    let result = await this.Model.getBaseInfo(projectId);
 
     if (!result) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '不存在的项目'));
