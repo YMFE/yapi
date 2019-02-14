@@ -1,3 +1,6 @@
+### v1.5.2
+* 新增 openapi `/api/project/get`，可获取项目基本信息
+
 ### v1.5.1
 
 * 优化 restful api 动态路由权重匹配算法，匹配更加精确
