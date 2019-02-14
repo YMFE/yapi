@@ -35,35 +35,54 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
-
+    
+### 教程
+* [使用 YApi 管理 API 文档，测试， mock](https://juejin.im/post/5acc879f6fb9a028c42e8822)
+* [自动更新 Swagger 接口数据到 YApi 平台](https://juejin.im/post/5af500e251882567096140dd)
+* [自动化测试](https://juejin.im/post/5a388892f265da430e4f4681)
 
 ### YApi 插件
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
+* [yapi gitlab集成插件](https://github.com/cyj0122/yapi-plugin-gitlab)
+* [oauto2.0登录](https://github.com/xwxsee2014/yapi-plugin-oauth2)
+* [rap平台数据导入](https://github.com/wxxcarl/yapi-plugin-import-rap)
 
-### YApi 教程
-* [Centos-安装环境配置](https://github.com/suxiaoxin/yapi_user_guide/blob/master/centos%20%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
-* [MacOS-YAPI初次使用指南](https://github.com/liuyuan1989/yapi_user_guide/blob/master/YAPI%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97_MacOS.md) By liuyuan1989
+### 代码生成
+* [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
+* [yapi-gen-js-code: 根据 YApi 的接口定义生成 javascript 的请求函数](https://github.com/hellosean1025/yapi-gen-js-code)
+
+### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 
+### YApi 一些工具
+* [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
 
 ### YApi 的一些客户
 * 去哪儿
 * 携程
 * 艺龙 
+* 美团
+* 百度
+* 腾讯
+* 阿里巴巴
 * 京东
+* 今日头条
 * 唯品支付 
 * 链家网
 * 快手
 * 便利蜂
+* 中商惠民
+* 新浪
 
 ### Authors
-* [suxiaoxin](https://github.com/suxiaoxin)
+* [hellosean1025](https://github.com/hellosean1025)
+* [gaoxiaomumu](https://github.com/gaoxiaomumu)
 * [zwjamnsss](https://github.com/amnsss)
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
-* [gaoxiaomumu](https://github.com/gaoxiaomumu)
+
 
 ### License
-Apache Licene 2.0
+Apache License 2.0
 

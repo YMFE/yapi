@@ -50,7 +50,7 @@ const swagger = require('swagger-client');
   }
 
   async function handleSwaggerData(res) {
-    
+
     return await new Promise(resolve => {
       let data = swagger({
         spec: res
@@ -65,16 +65,20 @@ const swagger = require('swagger-client');
   async function run(res) {
       let interfaceData = { apis: [], cats: [] };
       if(typeof res === 'string' && res){
-        res = JSON.parse(res);
+        try{
+          res = JSON.parse(res);
+        } catch (e) {
+          console.error('json 解析出错',e.message)
+        }
       }
-      
+
       isOAS3 = res.openapi && res.openapi === '3.0.0';
       if (isOAS3) {
         res = openapi2swagger(res);
       }
       res = await handleSwaggerData(res);
       SwaggerData = res;
-      
+
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
           interfaceData.cats.push({
@@ -85,6 +89,8 @@ const swagger = require('swagger-client');
       }
 
       _.each(res.paths, (apis, path) => {
+        // parameters is common parameters, not a method
+        delete apis.parameters;
         _.each(apis, (api, method) => {
           api.path = path;
           api.method = method;
@@ -106,12 +112,12 @@ const swagger = require('swagger-client');
             interfaceData.apis.push(data);
           }
         });
-      });      
+      });
       return interfaceData;
   }
 
   function handleSwagger(data) {
-   
+
     let api = {};
     //处理基本信息
     api.method = data.method.toUpperCase();
@@ -232,9 +238,10 @@ const swagger = require('swagger-client');
     let codes = Object.keys(api);
     let curCode;
     if (codes.length > 0) {
-      if (codes.indexOf(200) > -1) {
-        curCode = 200;
+      if (codes.indexOf('200') > -1) {
+        curCode = '200';
       } else curCode = codes[0];
+      
       let res = api[curCode];
       if (res && typeof res === 'object') {
         if (res.schema) {

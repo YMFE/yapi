@@ -11,15 +11,13 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case GET_FOLLOW_LIST: {
-      return {
-        ...state,
-        data: action.payload.data.data
-      };
-    }
-    default:
-      return state;
+  if (action.type === GET_FOLLOW_LIST) {
+    return {
+      ...state,
+      data: action.payload.data.data
+    };
+  } else {
+    return state;
   }
 };
 
@@ -30,7 +28,7 @@ export function getFollowList(uid) {
     payload: axios.get('/api/follow/list', {
       params: { uid }
     })
-  }
+  };
 }
 
 // 添加关注
@@ -38,7 +36,7 @@ export function addFollow(param) {
   return {
     type: ADD_FOLLOW,
     payload: axios.post('/api/follow/add', param)
-  }
+  };
 }
 
 // 删除关注
@@ -46,5 +44,5 @@ export function delFollow(id) {
   return {
     type: DEL_FOLLOW,
     payload: axios.post('/api/follow/del', { projectid: id })
-  }
+  };
 }

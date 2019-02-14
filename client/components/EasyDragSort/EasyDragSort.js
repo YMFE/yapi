@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 /**
  * @author suxiaoxin
@@ -12,8 +12,14 @@ import PropTypes from "prop-types";
  */
 let curDragIndex = null;
 
-function isDom(obj){
-  return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string' && typeof obj.getAttribute === 'function';
+function isDom(obj) {
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    obj.nodeType === 1 &&
+    typeof obj.nodeName === 'string' &&
+    typeof obj.getAttribute === 'function'
+  );
 }
 
 export default class EasyDragSort extends React.Component {
@@ -28,16 +34,18 @@ export default class EasyDragSort extends React.Component {
   render() {
     const that = this;
     const props = this.props;
-    const {onlyChild} = props;
+    const { onlyChild } = props;
     let container = props.children;
     const onChange = (from, to) => {
-      if (from === to) return;
+      if (from === to) {
+        return;
+      }
       let curValue;
 
       curValue = props.data();
 
       let newValue = arrMove(curValue, from, to);
-      if (typeof props.onChange === "function") {
+      if (typeof props.onChange === 'function') {
         return props.onChange(newValue, from, to);
       }
     };
@@ -47,41 +55,40 @@ export default class EasyDragSort extends React.Component {
           if (React.isValidElement(item)) {
             return React.cloneElement(item, {
               draggable: onlyChild ? false : true,
-              ref: "x" + index,
-              "data-ref": "x" + index,
+              ref: 'x' + index,
+              'data-ref': 'x' + index,
               onDragStart: function() {
                 curDragIndex = index;
               },
               /**
                * 控制 dom 是否可拖动
-               * @param {*} e 
+               * @param {*} e
                */
               onMouseDown(e) {
-                if(!onlyChild) return;
-                let el     = e.target,
-                    target = e.target;
-                if(!isDom(el)) return;         
+                if (!onlyChild) {
+                  return;
+                }
+                let el = e.target,
+                  target = e.target;
+                if (!isDom(el)) {
+                  return;
+                }
                 do {
-                  if(
-                    el &&
-                    isDom(el)&&
-                    el.getAttribute(onlyChild)                    
-                  ){
+                  if (el && isDom(el) && el.getAttribute(onlyChild)) {
                     target = el;
                   }
-                  if (
-                    el &&
-                    el.tagName == "DIV" &&
-                    el.getAttribute("data-ref")
-                  ) {
+                  if (el && el.tagName == 'DIV' && el.getAttribute('data-ref')) {
                     break;
                   }
-                  
                 } while ((el = el.parentNode));
-                if(!el) return;
-                let ref = that.refs[el.getAttribute("data-ref")];
+                if (!el) {
+                  return;
+                }
+                let ref = that.refs[el.getAttribute('data-ref')];
                 let dom = ReactDOM.findDOMNode(ref);
-                if(dom) dom.draggable = target.getAttribute(onlyChild) ? true: false;
+                if (dom) {
+                  dom.draggable = target.getAttribute(onlyChild) ? true : false;
+                }
               },
               onDragEnter: function() {
                 onChange(curDragIndex, index);
@@ -89,7 +96,7 @@ export default class EasyDragSort extends React.Component {
               },
               onDragEnd: function() {
                 curDragIndex = null;
-                if (typeof props.onDragEnd === "function") {
+                if (typeof props.onDragEnd === 'function') {
                   props.onDragEnd();
                 }
               }

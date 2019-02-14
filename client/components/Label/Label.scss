@@ -1,0 +1,28 @@
+.component-label {
+  p {
+    padding: 3px 7px;
+    &:hover {
+      .interface-delete-icon {
+        display: inline-block;
+      }
+    }
+    .interface-delete-icon {
+      display: none;
+    }
+  }
+  .interface-delete-icon {
+    &:hover {
+      color: #2395f1;
+      cursor: pointer;
+    }
+  }
+  .label-input-wrapper {
+    input {
+      width: 30%;
+    }
+    .interface-delete-icon {
+      font-size: 1.4em;
+      margin-left: 10px;
+    }
+  }
+}

@@ -1,3 +1,162 @@
+### v1.5.2
+* 新增 openapi `/api/project/get`，可获取项目基本信息
+
+### v1.5.1
+
+* 优化 restful api 动态路由权重匹配算法，匹配更加精确
+* openapi 新增 `/api/interface/list_cat`，获取某个分类下所有接口
+* 新增了 rap数据导入到 yapi 插件 [rap2yapi](https://github.com/wxxcarl/yapi-plugin-import-rap)
+
+### v1.5.0
+
+* 优化开放 api功能，现在 token 带有用户信息了
+* 修复无法获取请求302 跳转前的 headers
+
+### v1.4.4
+* 优化了 json-schema 编辑器交互，修复了参数名写到一半提示重复的问题
+* 优化了首页体验，提升页面打开速度
+* 新增自动化测试通用规则配置功能
+
+### v1.4.3
+* 修复了可视化安装，mongodb 报错的问题
+* 支持了 swagger 导出功能
+* 支持了克隆测试用例
+
+### v1.4.2
+* 优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header "content-type/json"
+* fix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692
+* fix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'
+* opti: 去掉没必要的redux-thunk
+* 接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志
+
+### v1.4.1
+
+* 支持任何人都可以添加分组，只有管理员才能修改项目是否公开
+* 支持 mongodb 集群
+
+#### Bug Fixed
+* 修改 mock严格模式，GET带有 JSON BODY 导致的验证问题
+* 对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径
+* 因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题
+
+
+### v1.3.23
+
+* 接口tag功能
+* 数据导入增加 merge 功能
+* 增加参数的批量导入功能
+* json schema 可视化编辑器增加 mock 功能
+
+
+#### Bug Fixed
+
+* 接口path中写入 ?name=xxx bug
+* 高级mock 匹配 data: [{item: XXX}] 时匹配不成功
+* 接口运行 query params 自动勾选
+* mock get 带 cookie 时跨域
+* json schema 嵌套多层 array 预览不展示 bug
+* swagger URL 导入 跨域问题
+
+### v1.3.22
+
+* json schema number和integer支持枚举
+* 服务端测试增加下载功能
+* 增加 mock 接口请求字段参数验证
+* 增加返回数据验证
+
+#### Bug Fixed
+
+* 命令行导入成员信息为 undefined
+* 修复form 参数为空时 接口无法保存的问题
+
+### v1.3.21
+
+* 请求配置增加 context.utils.CryptoJS
+* 环境变量支持自定义全局变量
+* 增加wiki数据导出功能
+* 用户管理处增加搜索功能
+* 增加项目全局 mock 脚本功能
+* 高级 mock 期望 支持关闭开启功能
+
+#### Bug Fixed
+
+* 优化ldap登陆 
+* swagger 导入公共params
+* 接口编辑 mockEditor 修改为 AceEditor
+
+### v1.3.20
+
+#### Bug Fixed
+* 修复 ykit 打包代码问题
+* 修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题
+* 修复 wiki controller 后端报错问题
+
+
+### v1.3.19
+
+* 增加项目文档记录wiki
+* 支持swagger URL 导入
+* 接口运行和测试集合中加入参数备注信息
+* 测试接口导入支持状态过滤
+* json schema 增加枚举备注功能
+* 左侧菜单栏可以支持单独滚动条
+* 支持新版本通知
+
+#### Bug Fixed
+
+* 修复测试用例名称为空时保存测试用例出现的bug
+* 导出markdown 路径参数处格式错误和参数table备注信息换行后样式错误
+
+
+
+### v1.3.18
+
+* 增加全局接口搜索功能
+* 邮件通知过滤功能
+
+#### Bug Fixed
+
+* 新建接口自动添加为项目成员
+* 修复type为raw header type 为form 时运行body 为空问题
+* mongodb3.4-> 3.6 聚合 cursor报错
+* path 路径支持 ！
+* json-schema 编辑器修复修改 type 导致描述信息被重置的问题
+
+### v1.3.17
+
+* 请求配置中添加 context.castId 字段用于标识测试用例
+
+#### Bug Fixed
+* 修复服务器端测试，邮件通知开启token undefined bug
+* 将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema
+* 有分类为空时导出json后再导入报错
+* 只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动
+* ldap登陆允许用户输入的登陆账号非邮箱
+
+
+### v1.3.16
+
+* 支持自定义域名邮箱登录
+* 测试用例支持导入不同项目接口
+* 完善可视化表达式，可根据焦点编辑表达式
+* req_body json 支持指针位置可视化插入表达式
+
+
+#### Bug Fixed
+
+* 导入postman  headers 为 null 时报错
+* format-data 数据解析不成功
+* 导出的接口顺序按照api的接口顺序
+
+
+
+### v1.3.15
+* 增强跨域请求安全性，只允许 YApi 网站进行跨域请求
+* 优化文档
+* 修复 schema 描述信息展示 bug
+* 增加禁止普通用户注册功能
+
+
 ### v1.3.14
 * 修复接口编辑白屏问题
 
@@ -14,7 +173,7 @@
 * 项目复制
 * 预览页面交互优化
 * 优化服务端自动化测试文案
-* 增加项目接口数据导入导出功能
+* 增加项目接口json数据导入导出功能
 
 #### Bug Fixed
 
@@ -359,3 +518,7 @@
 
 * 接口备注集成了富文本编辑
 * 支持 har 协议的接口数据导入
+
+
+todo:
+新增 crypto 加密函数

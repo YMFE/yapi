@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Table, Icon, Row, Col, Tooltip, message } from 'antd';
 import { Link } from 'react-router-dom';
 import AceEditor from 'client/components/AceEditor/AceEditor';
-import { formatTime } from '../../../../common.js';
+import { formatTime, safeArray } from '../../../../common.js';
 import ErrMsg from '../../../../components/ErrMsg/ErrMsg.js';
 import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js';
@@ -72,6 +72,7 @@ class View extends Component {
           title: '示例',
           dataIndex: 'example',
           key: 'example',
+          width: 80,
           render(_, item) {
             return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
           }
@@ -171,6 +172,7 @@ class View extends Component {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
+        width: 80,
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
@@ -206,7 +208,9 @@ class View extends Component {
   countEnter(str) {
     let i = 0;
     let c = 0;
-    if (!str || !str.indexOf) return 0;
+    if (!str || !str.indexOf) {
+      return 0;
+    }
     while (str.indexOf('\n', i) > -1) {
       i = str.indexOf('\n', i) + 2;
       c++;
@@ -235,6 +239,18 @@ class View extends Component {
   copyUrl = url => {
     copy(url);
     message.success('已经成功复制到剪切板');
+  };
+
+  flagMsg = (mock, strice) => {
+    if (mock && strice) {
+      return <span>( 全局mock & 严格模式 )</span>;
+    } else if (!mock && strice) {
+      return <span>( 严格模式 )</span>;
+    } else if (mock && !strice) {
+      return <span>( 全局mock )</span>;
+    } else {
+      return;
+    }
   };
 
   render() {
@@ -274,6 +290,7 @@ class View extends Component {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
+        width: 80,
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
@@ -311,6 +328,7 @@ class View extends Component {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
+        width: '80px',
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
@@ -338,20 +356,23 @@ class View extends Component {
     let requestShow =
       (dataSource && dataSource.length) ||
       (req_dataSource && req_dataSource.length) ||
-      (this.props.curData.req_query && this.props.curData.req_query.length) || bodyShow
-      
+      (this.props.curData.req_query && this.props.curData.req_query.length) ||
+      bodyShow;
+
     let methodColor =
       variable.METHOD_COLOR[
         this.props.curData.method ? this.props.curData.method.toLowerCase() : 'get'
       ];
 
-    
-
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
     // const aceEditor = <div style={{ display: this.props.curData.req_body_other && (this.props.curData.req_body_type !== "form") ? "block" : "none" }} className="colBody">
     //   <AceEditor data={this.props.curData.req_body_other} readOnly={true} style={{ minHeight: 300 }} mode={this.props.curData.req_body_type === 'json' ? 'javascript' : 'text'} />
     // </div>
-    if (!methodColor) methodColor = 'get';
+    if (!methodColor) {
+      methodColor = 'get';
+    }
+
+    const { tag, up_time, title, uid, username } = this.props.curData;
 
     let res = (
       <div className="caseContainer">
@@ -364,15 +385,15 @@ class View extends Component {
               接口名称：
             </Col>
             <Col span={8} className="colName">
-              {this.props.curData.title}
+              {title}
             </Col>
             <Col span={4} className="colKey">
               创&ensp;建&ensp;人：
             </Col>
             <Col span={8} className="colValue">
-              <Link className="user-name" to={'/user/profile/' + this.props.curData.uid}>
-                <img src={'/api/user/avatar?uid=' + this.props.curData.uid} className="user-img" />
-                {this.props.curData.username}
+              <Link className="user-name" to={'/user/profile/' + uid}>
+                <img src={'/api/user/avatar?uid=' + uid} className="user-img" />
+                {username}
               </Link>
             </Col>
           </Row>
@@ -386,8 +407,19 @@ class View extends Component {
             <Col span={4} className="colKey">
               更新时间：
             </Col>
-            <Col span={8}>{formatTime(this.props.curData.up_time)}</Col>
+            <Col span={8}>{formatTime(up_time)}</Col>
           </Row>
+          {safeArray(tag) &&
+            safeArray(tag).length > 0 && (
+              <Row className="row remark">
+                <Col span={4} className="colKey">
+                  Tag ：
+                </Col>
+                <Col span={18} className="colValue">
+                  {tag.join(' , ')}
+                </Col>
+              </Row>
+            )}
           <Row className="row">
             <Col span={4} className="colKey">
               接口路径：
@@ -422,8 +454,10 @@ class View extends Component {
             <Col span={4} className="colKey">
               Mock地址：
             </Col>
-            <Col span={18} className="colValue href">
+            <Col span={18} className="colValue">
+              {this.flagMsg(this.props.currProject.is_mock_open, this.props.currProject.strice)}
               <span
+                className="href"
                 onClick={() =>
                   window.open(
                     location.protocol +

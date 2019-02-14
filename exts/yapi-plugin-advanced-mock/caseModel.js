@@ -23,7 +23,8 @@ class caseModel extends baseModel {
       params: mongoose.Schema.Types.Mixed,
       uid: String,
       up_time: Number,
-      res_body: {type: String, required: true}
+      res_body: {type: String, required: true},
+      case_enable: {type: Boolean,  default: true}
     };
   }
 

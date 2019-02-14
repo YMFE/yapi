@@ -40,10 +40,13 @@
 ```
 {
   "name": "${query.name}", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming
-  "type": "${body.type}"   //请求的requestBody type=1,返回的type字段是1
+  "type": "${body.type}",   //请求的requestBody type=1,返回的type字段是1
+  
 }
 
 ```
+
+
 
 3. 示例
 ```
@@ -64,18 +67,28 @@
 
 
 
-详细使用文档请查看：<a href="http://mockjs.com/examples.html">Mockjs 官网</a>
+详细使用文档请查看：<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a>
 
 ## 方式2. json-schema
 <img src="./images/usage/json-schema-demo.jpg" />
 
-开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。
+开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。
 
-### 如何生成随机的邮箱或 ip？
+### 如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？
 
 <img src="./images/usage/json-schema-mock.jpg" />
 
 点击高级设置，选择 `format` 选项，比如选择 `email` 则该字段生成随机邮箱字符串。
+
+### 集成 mockjs
+
+基本书写方式为 mock 的数据占位符@xxx, 具体字段详见<a href="http://mockjs.com/examples.html" target="_blank">Mockjs 官网</a>
+<img src="./images/schema-mock-2.png" />
+<img src="./images/schema-mock-1.png" />
+
+> 如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值
+
+
 
 
 
@@ -116,7 +129,7 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.xxx.com/mock/58/api/user/status`
 
-详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugins-mock.html#获取远程数据_Map_Remote_">ykit-config-mock</a>
+详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugin/ykit-config-mock.html">ykit-config-mock</a>
 
 
 
@@ -126,6 +139,17 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 
 <img src="./images/ykit.jpg" />
 
+具体用法如下：
+
+0. 清除本地配置的 hosts
+1. 下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999
+2. 启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry
+3. 在 jerry 中重新配置 hosts
+4. 在 Jerry 中点击 URL MAP 并添加配置  
+
+详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/guide/proxy.html">代理工具</a>
+
+
 <span id="mock"></span>
 
 #### 2.4 基于 Charles 代理
@@ -133,4 +157,17 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
 
 <img src="./images/charles.png" width="60%" />
+
+## mock请求严格模式
+
+版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：
+
+1. 打开 项目 -> 设置 开启 mock 严格模式
+2. 针对 query, form 中设置的必须字段会进行必填校验
+<img src="./images/mock-strice.png"/>
+
+3. 针对 req_body_type 是json schema 格式的数据进行校验
+
+<img src="./images/mock-strice3.png"/>
+<img src="./images/mock-strice2.png"/>
   

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-import json5 from 'json5'
-import PropTypes from 'prop-types'
+import json5 from 'json5';
+import PropTypes from 'prop-types';
 import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js';
 import _ from 'underscore';
+import './index.scss';
 
 const messageMap = {
   desc: '备注',
@@ -15,10 +16,12 @@ const messageMap = {
   maxLength: '最大长度',
   minLength: '最小长度',
   enum: '枚举',
+  enumDesc: '枚举备注',
   uniqueItems: '元素是否都不同',
   itemType: 'item 类型',
   format: 'format',
-  itemFormat: 'format'
+  itemFormat: 'format',
+  mock: 'mock'
 };
 
 const columns = [
@@ -35,7 +38,11 @@ const columns = [
     width: 100,
     render: (text, item) => {
       // console.log('text',item.sub);
-      return text === 'array' ? <span>{item.sub ? item.sub.itemType || '': 'array'} []</span> : <span>{text}</span>;
+      return text === 'array' ? (
+        <span>{item.sub ? item.sub.itemType || '' : 'array'} []</span>
+      ) : (
+        <span>{text}</span>
+      );
     }
   },
   {
@@ -50,18 +57,21 @@ const columns = [
   {
     title: '默认值',
     dataIndex: 'default',
-    key: 'default'
+    key: 'default',
+    width: 80,
+    render: text => {
+      return <div>{_.isBoolean(text) ? text + '' : text}</div>;
+    }
   },
   {
     title: '备注',
     dataIndex: 'desc',
     key: 'desc',
     render: (text, item) => {
-      // console.log('text',item.sub);
       return _.isUndefined(item.childrenDesc) ? (
-        <span>{text}</span>
+        <span className="table-desc">{text}</span>
       ) : (
-        <span>{item.childrenDesc}</span>
+        <span className="table-desc">{item.childrenDesc}</span>
       );
     }
   },
@@ -69,13 +79,17 @@ const columns = [
     title: '其他信息',
     dataIndex: 'sub',
     key: 'sub',
-    render: text => {
-      return Object.keys(text || []).map((item, index) => {
+    width: 180,
+    render: (text, record) => {
+      let result = text || record;
+
+      return Object.keys(result).map((item, index) => {
         let name = messageMap[item];
-        let value = text[item];
+        let value = result[item];
+        let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name);
 
         return (
-          !_.isUndefined(text[item]) && (
+          isShow && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
               <span>{value.toString()}</span>
@@ -88,28 +102,26 @@ const columns = [
 ];
 
 class SchemaTable extends Component {
-
   static propTypes = {
     dataSource: PropTypes.string
-  }
+  };
 
   constructor(props) {
     super(props);
-    
   }
 
-  render() {    
-    let product
-    try{
-      product = json5.parse(this.props.dataSource) 
-    }catch(e){
-      product = null
+  render() {
+    let product;
+    try {
+      product = json5.parse(this.props.dataSource);
+    } catch (e) {
+      product = null;
     }
-    if(!product){
+    if (!product) {
       return null;
     }
-    let data = schemaTransformToTable(product)
-    data = _.isArray(data) ? data : []
+    let data = schemaTransformToTable(product);
+    data = _.isArray(data) ? data : [];
     return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;
   }
 }

@@ -21,7 +21,7 @@ class statisMockModel extends baseModel {
     }
 
     countByGroupId(id){
-        return this.model.count({
+        return this.model.countDocuments({
             group_id: id
         })
     }
@@ -32,13 +32,14 @@ class statisMockModel extends baseModel {
     }
 
     getTotalCount() {
-        return this.model.count({});
+        return this.model.countDocuments({});
     }
 
-    getDayCount(timeInterval) {
+    async getDayCount(timeInterval) {
         let end = timeInterval[1];
         let start = timeInterval[0];
-        return this.model.aggregate([
+        let data = [];
+        const cursor = this.model.aggregate([
             {
                 $match: {
                     date: { $gt: start, $lte: end }
@@ -53,8 +54,11 @@ class statisMockModel extends baseModel {
             {
                 $sort: { _id: 1 }
             }
-        ]);
-    }
+        ]).cursor({}).exec();
+		await cursor.eachAsync(doc => data.push(doc));
+		return data;
+
+	}
 
     list() {
         return this.model.find({}).select('date').exec();
@@ -62,7 +66,7 @@ class statisMockModel extends baseModel {
 
     up(id, data) {
         data.up_time = yapi.commons.time();
-        return this.model.update({
+        return this.model.updateOne({
             _id: id
         }, data, { runValidators: true });
     }

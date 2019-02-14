@@ -8,6 +8,7 @@ target/
 .settings/
 .project
 .classpath
+.history
 
 # idea ignore
 .idea/

@@ -64,12 +64,11 @@ class MemberList extends Component {
     role: PropTypes.string
   };
 
- 
   showAddMemberModal = () => {
     this.setState({
       visible: true
     });
-  }
+  };
 
   // 重新获取列表
   reFetchList = () => {
@@ -79,11 +78,11 @@ class MemberList extends Component {
         visible: false
       });
     });
-  }
+  };
 
   // 增 - 添加成员
- 
-  handleOk = () =>  {
+
+  handleOk = () => {
     this.props
       .addMember({
         id: this.props.currGroup._id,
@@ -103,18 +102,18 @@ class MemberList extends Component {
           this.reFetchList(); // 添加成功后重新获取分组成员列表
         }
       });
-  }
+  };
   // 添加成员时 选择新增成员权限
- 
-  changeNewMemberRole = (value) => {
+
+  changeNewMemberRole = value => {
     this.setState({
       inputRole: value
     });
-  }
+  };
 
   // 删 - 删除分组成员
-  
-  deleteConfirm = (member_uid) => {
+
+  deleteConfirm = member_uid => {
     return () => {
       const id = this.props.currGroup._id;
       this.props.delMember({ id, member_uid }).then(res => {
@@ -124,10 +123,10 @@ class MemberList extends Component {
         }
       });
     };
-  }
+  };
 
   // 改 - 修改成员权限
-  changeUserRole = (e) => {
+  changeUserRole = e => {
     const id = this.props.currGroup._id;
     const role = e.split('-')[0];
     const member_uid = e.split('-')[1];
@@ -137,7 +136,7 @@ class MemberList extends Component {
         this.reFetchList(); // 添加成功后重新获取分组成员列表
       }
     });
-  }
+  };
 
   // 关闭模态框
 
@@ -148,7 +147,6 @@ class MemberList extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    
     if (this._groupId !== this._groupId) {
       return null;
     }
@@ -167,7 +165,6 @@ class MemberList extends Component {
   }
 
   componentDidMount() {
-    
     const currGroupId = (this._groupId = this.props.currGroup._id);
     this.props.fetchGroupMsg(currGroupId).then(res => {
       this.setState({

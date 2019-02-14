@@ -18,6 +18,7 @@ const MEMBER_STATUS = 2;
 // Reducer user
 const initialState = {
   isLogin: false,
+  canRegister: true,
   isLDAP: false,
   userName: null,
   uid: null,
@@ -43,10 +44,11 @@ export default (state = initialState, action) => {
     case GET_LOGIN_STATE: {
       return {
         ...state,
-        isLogin: (action.payload.data.errcode == 0),
-        isLDAP: (action.payload.data.ladp),
+        isLogin: action.payload.data.errcode == 0,
+        isLDAP: action.payload.data.ladp,
+        canRegister: action.payload.data.canRegister,
         role: action.payload.data.data ? action.payload.data.data.role : null,
-        loginState: (action.payload.data.errcode == 0) ? MEMBER_STATUS : GUEST_STATUS,
+        loginState: action.payload.data.errcode == 0 ? MEMBER_STATUS : GUEST_STATUS,
         userName: action.payload.data.data ? action.payload.data.data.username : null,
         uid: action.payload.data.data ? action.payload.data.data._id : null,
         type: action.payload.data.data ? action.payload.data.data.type : null,
@@ -54,7 +56,6 @@ export default (state = initialState, action) => {
       };
     }
     case LOGIN: {
-      
       if (action.payload.data.errcode === 0) {
         return {
           ...state,
@@ -79,7 +80,7 @@ export default (state = initialState, action) => {
         uid: null,
         role: '',
         type: ''
-      }
+      };
     }
     case LOGIN_TYPE: {
       return {
@@ -108,7 +109,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         studyTip: state.studyTip + 1
-      }
+      };
     }
     case FINISH_STUDY: {
       return {
@@ -117,13 +118,12 @@ export default (state = initialState, action) => {
         studyTip: 0
       };
     }
-
     case SET_IMAGE_URL: {
       // console.log('state', state);
       return {
         ...state,
         imageUrl: action.data
-      }
+      };
     }
     default:
       return state;
@@ -132,14 +132,10 @@ export default (state = initialState, action) => {
 
 // Action Creators
 export function checkLoginState() {
-  return (dispatch) => {
-    axios.get('/api/user/status').then((res) => {
-      dispatch({
-        type: GET_LOGIN_STATE,
-        payload: res
-      });
-    })
-  }
+  return {
+    type: GET_LOGIN_STATE,
+    payload: axios.get('/api/user/status')
+  };
 }
 
 export function loginActions(data) {
@@ -173,41 +169,39 @@ export function logoutActions() {
   return {
     type: LOGIN_OUT,
     payload: axios.get('/api/user/logout')
-  }
+  };
 }
 
 export function loginTypeAction(index) {
   return {
     type: LOGIN_TYPE,
     index
-  }
+  };
 }
 
 export function setBreadcrumb(data) {
   return {
     type: SET_BREADCRUMB,
     data
-  }
+  };
 }
 
 export function setImageUrl(data) {
-
   return {
     type: SET_IMAGE_URL,
     data
-  }
-
+  };
 }
 
 export function changeStudyTip() {
   return {
     type: CHANGE_STUDY_TIP
-  }
+  };
 }
 
 export function finishStudy() {
   return {
     type: FINISH_STUDY,
     payload: axios.get('/api/user/up_study')
-  }
+  };
 }

@@ -16,45 +16,45 @@ var hooks = {
         type: 'single',
         listener: null
     },
-    /**
-     * 客户端增加接口成功后触发
-     * @param id 接口id
-     */
-    'interface_add': {
-        type: 'multi',
-        listener: []
+     /**
+   * 客户端增加接口成功后触发
+   * @param data 接口的详细信息
+   */
+    interface_add: {
+      type: 'multi',
+     listener: []
     },
     /**
-     * 客户端删除接口成功后触发
-     * @param id 接口id
+    * 客户端删除接口成功后触发
+     * @param data 接口id
      */
-    'interface_del': {
-        type: 'multi',
-        listener: []
+    interface_del: {
+     type: 'multi',
+     listener: []
     },
     /**
-    * 客户端更新接口成功后触发
-    * @param id 接口id
+     * 客户端更新接口成功后触发
+     * @param id 接口id
     */
-    'interface_update':{
-        type: 'multi',
-        listener: []
+    interface_update: {
+      type: 'multi',
+      listener: []
     },
     /**
-     * 客户端获取接口数据列表
-     * @param id project_id
-     */
-    'interface_list':{
-        type: 'multi',
-        listener: []
+    * 客户端获取接口数据列表
+    * @param list 返回接口的数据列表
+    */
+    interface_list: {
+      type: 'multi',
+      listener: []
     },
     /**
-     * 客户端获取一条接口信息触发
-     * @param id 接口id
-     */
-    'interface_get':{
-        type: 'multi',
-        listener: []
+    * 客户端获取一条接口信息触发
+    * @param data 接口的详细信息
+    */
+    interface_get: {
+      type: 'multi',
+      listener: []
     },
     /**
      * 客户端增加一个新项目
@@ -126,6 +126,20 @@ hooks = {
     listener: null
   },
   /**
+   * 导入数据
+   * @param Object importDataModule
+   *
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
+   * importDataModule = {};
+   *
+   */
+  import_data: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
    * 导出数据
    * @param Object exportDataModule
    * @param projectId
@@ -138,20 +152,6 @@ hooks = {
    * }
    */
   export_data: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
-  /**
-   * 导入数据
-   * @param importDataModule
-   *
-   * @info
-   * 可参考 vendors/exts/yapi-plugin-import-swagger插件
-   * importDataModule = {};
-   *
-   */
-  import_data: {
     type: 'listener',
     mulit: true,
     listener: []
@@ -178,6 +178,104 @@ hooks = {
     }
    */
   interface_tab: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * header下拉菜单 menu 钩子
+   * @param HeaderMenu
+   *
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-statistics
+   * let HeaderMenu = {
+  user: {
+    path: '/user/profile',
+    name: '个人中心',
+    icon: 'user',
+    adminFlag: false
+  },
+  star: {
+    path: '/follow',
+    name: '我的关注',
+    icon: 'star-o',
+    adminFlag: false
+  },
+  solution: {
+    path: '/user/list',
+    name: '用户管理',
+    icon: 'solution',
+    adminFlag: true
+
+  },
+  logout: {
+    path: '',
+    name: '退出',
+    icon: 'logout',
+    adminFlag: false
+
+  }
+};
+   */
+  header_menu: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * Route路由列表钩子
+   * @param AppRoute
+   *
+   * @info
+   * 可参考 vendors/exts/yapi-plugin-statistics
+   * 添加位置在Application.js 中
+   * let AppRoute = {
+  home: {
+    path: '/',
+    component: Home
+  },
+  group: {
+    path: '/group',
+    component: Group
+  },
+  project: {
+    path: '/project/:id',
+    component: Project
+  },
+  user: {
+    path: '/user',
+    component: User
+  },
+  follow: {
+    path: '/follow',
+    component: Follows
+  },
+  addProject: {
+    path: '/add-project',
+    component: AddProject
+  },
+  login: {
+    path: '/login',
+    component: Login
+  }
+};
+};
+   */
+  app_route: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /*
+   * 添加 reducer
+   * @param Object reducerModules
+   *
+   * @info
+   * importDataModule = {};
+   *
+   */
+
+  add_reducer: {
     type: 'listener',
     mulit: true,
     listener: []

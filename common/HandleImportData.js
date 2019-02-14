@@ -1,9 +1,11 @@
-const _ = require("underscore");
-const axios =require ('axios')
+const _ = require('underscore');
+const axios = require('axios');
+
+
 const isNode = typeof global == 'object' && global.global === global;
 
 async function handle(
-  res,  
+  res,
   projectId,
   selectCatid,
   menuList,
@@ -25,10 +27,9 @@ async function handle(
         if (findCat) {
           cat.id = findCat._id;
         } else {
-          
-          let apipath = "/api/interface/add_cat"
-          if(isNode){
-            apipath = 'http://127.0.0.1:' + port + apipath
+          let apipath = '/api/interface/add_cat';
+          if (isNode) {
+            apipath = 'http://127.0.0.1:' + port + apipath;
           }
 
           let data = {
@@ -36,9 +37,8 @@ async function handle(
             project_id: projectId,
             desc: cat.desc,
             token
-          }
+          };
           let result = await axios.post(apipath, data);
-
 
           if (result.data.errcode) {
             messageError(result.data.errmsg);
@@ -64,37 +64,37 @@ async function handle(
     let existNum = 0;
     if (len === 0) {
       messageError(`解析数据为空`);
+      callback({ showLoading: false });
       return;
     }
     for (let index = 0; index < res.length; index++) {
       let item = res[index];
-      let data = Object.assign(item,{
+      let data = Object.assign(item, {
         project_id: projectId,
         catid: selectCatid
       });
       if (basePath) {
         data.path =
-          data.path.indexOf(basePath) === 0
-            ? data.path.substr(basePath.length)
-            : data.path;
+          data.path.indexOf(basePath) === 0 ? data.path.substr(basePath.length) : data.path;
       }
       if (
         data.catname &&
         cats[data.catname] &&
-        typeof cats[data.catname] === "object" &&
+        typeof cats[data.catname] === 'object' &&
         cats[data.catname].id
       ) {
         data.catid = cats[data.catname].id;
       }
       data.token = token;
 
-      if (dataSync) {
+      if (dataSync !== 'normal') {
         // 开启同步功能
         count++;
-        let apipath = "/api/interface/save"
-        if(isNode){
-          apipath = 'http://127.0.0.1:' + port + apipath
+        let apipath = '/api/interface/save';
+        if (isNode) {
+          apipath = 'http://127.0.0.1:' + port + apipath;
         }
+        data.dataSync = dataSync;
         let result = await axios.post(apipath, data);
         if (result.data.errcode) {
           successNum--;
@@ -106,9 +106,9 @@ async function handle(
       } else {
         // 未开启同步功能
         count++;
-        let apipath = "/api/interface/add"
-        if(isNode){
-          apipath = 'http://127.0.0.1:' + port + apipath
+        let apipath = '/api/interface/add';
+        if (isNode) {
+          apipath = 'http://127.0.0.1:' + port + apipath;
         }
         let result = await axios.post(apipath, data);
         if (result.data.errcode) {
@@ -118,16 +118,14 @@ async function handle(
           }
           if (result.data.errcode == 40033) {
             callback({ showLoading: false });
-            messageError("没有权限");
+            messageError('没有权限');
             break;
           }
         }
       }
       if (count === len) {
         callback({ showLoading: false });
-        messageSuccess(
-          `成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`
-        );
+        messageSuccess(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
       }
     }
   };

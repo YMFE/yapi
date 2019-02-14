@@ -28,7 +28,7 @@ const initialState = {
   resParams: '',
   project: {},
   clipboard: () => {}
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -36,138 +36,138 @@ export default (state = initialState, action) => {
       return {
         ...state,
         url: action.payload
-      }
+      };
     case FETCH_ADD_INTERFACE_TAG_VALUE:
       return {
         ...state,
         tagValue: action.payload
-      }
+      };
     case FETCH_ADD_INTERFACE_HEADER_VALUE:
       return {
         ...state,
         headerValue: action.payload
-      }
+      };
     case ADD_INTERFACE_SEQ_HEADER:
       return {
         ...state,
         seqGroup: action.payload
-      }
+      };
     case DELETE_INTERFACE_SEQ_HEADER:
       return {
         ...state,
         seqGroup: action.payload
-      }
+      };
     case GET_INTERFACE_REQ_PARAMS:
       return {
         ...state,
         reqParams: action.payload
-      }
+      };
     case GET_INTERFACE_RES_PARAMS:
       return {
         ...state,
         resParams: action.payload
-      }
+      };
     case PUSH_INTERFACE_NAME:
       return {
         ...state,
         interfaceName: action.payload
-      }
+      };
     case PUSH_INTERFACE_METHOD:
       return {
         ...state,
         method: action.payload
-      }
+      };
     case FETCH_INTERFACE_PROJECT:
       return {
         ...state,
         project: action.payload.data.data
-      }
+      };
     case ADD_INTERFACE_CLIPBOARD:
       return {
         ...state,
         clipboard: action.payload
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 // Action Creators
-import axios from 'axios'
+import axios from 'axios';
 
-export function pushInputValue (value) {
+export function pushInputValue(value) {
   return {
     type: FETCH_ADD_INTERFACE_INPUT,
     payload: value
   };
 }
 
-export function reqTagValue (value) {
+export function reqTagValue(value) {
   return {
     type: FETCH_ADD_INTERFACE_TAG_VALUE,
     payload: value
   };
 }
 
-export function reqHeaderValue (value) {
+export function reqHeaderValue(value) {
   return {
     type: FETCH_ADD_INTERFACE_HEADER_VALUE,
     payload: value
   };
 }
 
-export function addReqHeader (value) {
+export function addReqHeader(value) {
   return {
     type: ADD_INTERFACE_SEQ_HEADER,
     payload: value
   };
 }
 
-export function deleteReqHeader (value) {
+export function deleteReqHeader(value) {
   return {
     type: DELETE_INTERFACE_SEQ_HEADER,
     payload: value
   };
 }
 
-export function getReqParams (value) {
+export function getReqParams(value) {
   return {
     type: GET_INTERFACE_REQ_PARAMS,
     payload: value
   };
 }
 
-export function getResParams (value) {
+export function getResParams(value) {
   return {
     type: GET_INTERFACE_RES_PARAMS,
     payload: value
   };
 }
 
-export function pushInterfaceName (value) {
+export function pushInterfaceName(value) {
   return {
     type: PUSH_INTERFACE_NAME,
     payload: value
-  }
+  };
 }
 
-export function pushInterfaceMethod (value) {
+export function pushInterfaceMethod(value) {
   return {
     type: PUSH_INTERFACE_METHOD,
     payload: value
-  }
+  };
 }
 
 export function fetchInterfaceProject(id) {
   return {
     type: FETCH_INTERFACE_PROJECT,
-    payload: axios.get('/api/project/get', { params: {id}})
-  }
+    payload: axios.get('/api/project/get', { params: { id } })
+  };
 }
 
-export function addInterfaceClipboard (func) {
+export function addInterfaceClipboard(func) {
   return {
     type: ADD_INTERFACE_CLIPBOARD,
     payload: func
-  }
+  };
 }

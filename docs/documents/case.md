@@ -5,7 +5,7 @@
 YApi 为了解决这个问题，开发了可视化接口自动化测试功能，只需要配置每个接口的入参和对 RESPONSE 断言，即可实现对接口的自动化测试，大大提升了接口测试的效率。
 
 ## 第一步，测试集合
-使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。
+使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。
 
 ![](case-col.png)
 
@@ -137,11 +137,22 @@ http request params, 合并了 query 和 body
 
 #### 7.log
 
-log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印
+log（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息
+
+```
+log(234)   
+assert.equal(status, 400)
+log(123)
+```
+输出结果：
+log: 234  
+AssertionError: 200 == 400
+
 
 ### 示例
 
 ```
+
 assert.equal(body.errcode, 0)
 assert.equal(body.data.group_name, 'testGroup')
 assert.equal(status, 200)
@@ -158,3 +169,8 @@ assert.equal(status, 200)
 
 <img src="./images/autoTest.png" />
 <img src="./images/autoTestResult.png" />
+
+## 配置通用规则
+![](2019-01-15-14-05-46.png)
+
+配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case.

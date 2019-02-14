@@ -34,7 +34,6 @@ class MyPopConfirm extends Component {
     if (!this.state.visible) {
       return null;
     }
-    
     return (<Modal
       title="你即将离开编辑页面"
       visible={this.state.visible}

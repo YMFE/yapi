@@ -11,9 +11,9 @@ Mock 期望就是根据设置的请求过滤规则，返回期望数据。
 <div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case1.png"/></div>
 2. 点击『添加期望』，填写过滤规则以及期望返回数据，点击『确定』保存。
 <div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case3.png"/></div>
-<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case4.png"/></div>
+<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case4-new.png"/></div>
 3. 然后尝试在浏览器里发送符合规则的请求，查看返回的数据是否符合期望。
-<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case5.png"/></div>
+<div class="doc-img-wrapper"><img class="doc-img-r" src="./images/usage/adv-mock-case5-new.png"/></div>
 
 ### 期望填写
 
@@ -58,7 +58,7 @@ YApi 提供了写 JS 脚本方式处理这一问题，可以根据用户请求�
 Mock 响应延时，单位为 ms
 
 - `Random` 
-Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
+Mock.Random 方法，可以添加自定义占位符,详细使用方法请查看 <a href="https://github.com/nuysoft/Mock/wiki/Mock.Random">Wiki</a>
 
 ### 使用方法
 1. 首先开启此功能
@@ -69,17 +69,17 @@ Mock.Random 方法，详细使用方法请查看 <a href="https://github.com/nuy
 ```
 if(params.type == 1){
   mockJson.errcode = 400;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 if(header.token == 't'){
   mockJson.errcode = 300;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 if(cookie.type == 'a'){
   mockJson.errcode = 500;
-  mockJson.errmsg = 'error;
+  mockJson.errmsg = 'error';
 }
 
 ```
@@ -100,6 +100,6 @@ mockJson = {
 
 
 ## Mock 优先级说明
-请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。
+请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
 
 如果前面匹配到 Mock 数据，后面 Mock 则不返回。

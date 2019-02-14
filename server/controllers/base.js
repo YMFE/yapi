@@ -6,6 +6,7 @@ const groupModel = require('../models/group.js');
 const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
+const {parseToken} = require('../utils/token')
 
 class baseController {
   constructor(ctx) {
@@ -32,49 +33,84 @@ class baseController {
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
-    }else {
+    } else {
       await this.checkLogin(ctx);
     }
 
     let openApiRouter = [
       '/api/open/run_auto_test',
-      '/api/open/import_data',
-      '/api/interface/add',
-      '/api/interface/save',
-      '/api/interface/up',
-      '/api/interface/add_cat'
-    ]
+			'/api/open/import_data',
+			'/api/interface/add',
+			'/api/interface/save',
+			'/api/interface/up',
+			'/api/interface/get',
+			'/api/interface/list',
+			'/api/interface/list_menu',
+			'/api/interface/add_cat',
+      '/api/interface/getCatMenu',
+      '/api/interface/list_cat',
+      '/api/project/get'
+    ];
 
-    let params = Object.assign({}, ctx.query, ctx.request.body)
-    let token = params.token ;
-    
-    if(token && openApiRouter.indexOf(ctx.path) > -1){
-      if(this.$auth){
-        ctx.params.project_id = await this.getProjectIdByToken(token)
-        return this.$tokenAuth = true;
+    let params = Object.assign({}, ctx.query, ctx.request.body);
+    let token = params.token;
+
+    if (token && openApiRouter.indexOf(ctx.path) > -1) {
+      let tokens = parseToken(token)
+
+      const oldTokenUid = '999999'
+
+      let tokenUid = oldTokenUid;
+
+      if(!tokens){
+        let checkId = await this.getProjectIdByToken(token);
+        if(!checkId)return;
+      }else{
+        token = tokens.projectToken;
+        tokenUid = tokens.uid;
       }
-      
+
+      // if (this.$auth) {
+      //   ctx.params.project_id = await this.getProjectIdByToken(token);
+
+      //   if (!ctx.params.project_id) {
+      //     return (this.$tokenAuth = false);
+      //   }
+      //   return (this.$tokenAuth = true);
+      // }
+
       let checkId = await this.getProjectIdByToken(token);
+      if(!checkId){
+        ctx.body = yapi.commons.resReturn(null, 42014, 'token 无效');
+      }
       let projectData = await this.projectModel.get(checkId);
-      if(projectData) {
+      if (projectData) {
         ctx.params.project_id = checkId;
         this.$tokenAuth = true;
-        this.$uid = '999999'
-        this.$user = {
-          _id: this.$uid,
-          role: 'member',
-          username: 'system'
+        this.$uid = tokenUid;
+        let result;
+        if(tokenUid === oldTokenUid){
+          result = {
+            _id: tokenUid,
+            role: 'member',
+            username: 'system'
+          }
+        }else{
+          let userInst = yapi.getInst(userModel); //创建user实体
+          result = await userInst.findById(tokenUid);
         }
-        this.$auth = true
-      };
+        
+        this.$user = result;
+        this.$auth = true;
+      }
     }
   }
 
-  async getProjectIdByToken(token){
+  async getProjectIdByToken(token) {
     let projectId = await this.tokenModel.findId(token);
-    if(projectId) {
-      return projectId.toObject().project_id
-    } 
+    if (projectId) {
+      return projectId.toObject().project_id;
+    }
   }
 
   getUid() {
@@ -85,18 +121,21 @@ class baseController {
     let token = ctx.cookies.get('_yapi_token');
     let uid = ctx.cookies.get('_yapi_uid');
     try {
-      if (!token || !uid) return false;
-      let userInst = yapi.getInst(userModel); //创建user实体
-      let result = await userInst.findById(uid);
-      if(!result) return false;
-
-      let decoded;
-      try{
-        decoded = jwt.verify(token, result.passsalt);
-      }catch(err){
+      if (!token || !uid) {
         return false;
       }
-       
+      let userInst = yapi.getInst(userModel); //创建user实体
+      let result = await userInst.findById(uid);
+      if (!result) {
+        return false;
+      }
+
+      let decoded;
+      try {
+        decoded = jwt.verify(token, result.passsalt);
+      } catch (err) {
+        return false;
+      }
 
       if (decoded.uid == uid) {
         this.$uid = uid;
@@ -107,36 +146,53 @@ class baseController {
 
       return false;
     } catch (e) {
-      yapi.commons.log(e, 'error')
+      yapi.commons.log(e, 'error');
       return false;
     }
-
+  }
+  
+  async checkRegister() {
+    // console.log('config', yapi.WEBCONFIG);
+    if (yapi.WEBCONFIG.closeRegister) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async checkLDAP() {
     // console.log('config', yapi.WEBCONFIG);
     if (!yapi.WEBCONFIG.ldapLogin) {
-      return false
+      return false;
     } else {
-      return yapi.WEBCONFIG.ldapLogin.enable || false
+      return yapi.WEBCONFIG.ldapLogin.enable || false;
     }
-
   }
   /**
-   * 
-   * @param {*} ctx 
+   *
+   * @param {*} ctx
    */
 
   async getLoginStatus(ctx) {
     let body;
-    if (await this.checkLogin(ctx) === true) {
-      let result = yapi.commons.fieldSelect(this.$user, ['_id', 'username', 'email', 'up_time', 'add_time', 'role', 'type', 'study']);
+    if ((await this.checkLogin(ctx)) === true) {
+      let result = yapi.commons.fieldSelect(this.$user, [
+        '_id',
+        'username',
+        'email',
+        'up_time',
+        'add_time',
+        'role',
+        'type',
+        'study'
+      ]);
       body = yapi.commons.resReturn(result);
     } else {
       body = yapi.commons.resReturn(null, 40011, '请登录...');
     }
 
     body.ladp = await this.checkLDAP();
+    body.canRegister = await this.checkRegister();
     ctx.body = body;
   }
 
@@ -160,7 +216,7 @@ class baseController {
       }
       if (type === 'interface') {
         let interfaceInst = yapi.getInst(interfaceModel);
-        let interfaceData = await interfaceInst.get(id)
+        let interfaceData = await interfaceInst.get(id);
         result.interfaceData = interfaceData;
         // 项目创建者相当于 owner
         if (interfaceData.uid === this.getUid()) {
@@ -177,12 +233,11 @@ class baseController {
           // 建立项目的人
           return 'owner';
         }
-        let memberData = _.find(projectData.members, (m) => {
-          if (m.uid === this.getUid()) {
+        let memberData = _.find(projectData.members, m => {
+          if (m && m.uid === this.getUid()) {
             return true;
           }
-        })
-        
+        });
 
         if (memberData && memberData.role) {
           if (memberData.role === 'owner') {
@@ -194,7 +249,7 @@ class baseController {
           }
         }
         type = 'group';
-        id = projectData.group_id
+        id = projectData.group_id;
       }
 
       if (type === 'group') {
@@ -205,39 +260,37 @@ class baseController {
           return 'owner';
         }
 
-        
-        let groupMemberData = _.find(groupData.members, (m) => {
+        let groupMemberData = _.find(groupData.members, m => {
           if (m.uid === this.getUid()) {
             return true;
           }
-        })
+        });
         if (groupMemberData && groupMemberData.role) {
           if (groupMemberData.role === 'owner') {
             return 'owner';
           } else if (groupMemberData.role === 'dev') {
-            return 'dev'
+            return 'dev';
           } else {
-            return 'guest'
+            return 'guest';
           }
         }
       }
 
       return 'member';
-    }
-    catch (e) {
-      yapi.commons.log(e, 'error')
+    } catch (e) {
+      yapi.commons.log(e, 'error');
       return false;
     }
   }
   /**
    * 身份验证
    * @param {*} id type对应的id
-   * @param {*} type enum[interface, project, group] 
+   * @param {*} type enum[interface, project, group]
    * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
    */
   async checkAuth(id, type, action) {
     let role = await this.getProjectRole(id, type);
-    
+
     if (action === 'danger') {
       if (role === 'admin' || role === 'owner') {
         return true;

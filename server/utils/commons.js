@@ -1,61 +1,70 @@
-const fs = require("fs-extra");
-const path = require("path");
-const yapi = require("../yapi.js");
-const sha1 = require("sha1");
-const logModel = require("../models/log.js");
-const projectModel = require("../models/project.js");
-const interfaceColModel = require("../models/interfaceCol.js");
-const interfaceCaseModel = require("../models/interfaceCase.js");
-const interfaceModel = require("../models/interface.js");
-const json5 = require("json5");
-const _ = require("underscore");
-const Ajv = require("ajv");
-const Mock = require('mockjs')
-const ajv = new Ajv({
-  allErrors: true,
-  coerceTypes: true,
-  useDefaults: true,
-  removeAdditional: true
-});
-var localize = require("ajv-i18n");
-const ejs = require("easy-json-schema");
+const fs = require('fs-extra');
+const path = require('path');
+const yapi = require('../yapi.js');
+const sha1 = require('sha1');
+const logModel = require('../models/log.js');
+const projectModel = require('../models/project.js');
+const interfaceColModel = require('../models/interfaceCol.js');
+const interfaceCaseModel = require('../models/interfaceCase.js');
+const interfaceModel = require('../models/interface.js');
+const userModel = require('../models/user.js');
+const followModel = require('../models/follow.js');
+const json5 = require('json5');
+const _ = require('underscore');
+const Ajv = require('ajv');
+const Mock = require('mockjs');
 
-const jsf = require('json-schema-faker');  
-const formats = require('../../common/formats')
+
+
+const ejs = require('easy-json-schema');
+
+const jsf = require('json-schema-faker');
+const { schemaValidator } = require('../../common/utils');
+const http = require('http');
+
+jsf.extend ('mock', function () {
+  return {
+    mock: function (xx) {
+      return Mock.mock (xx);
+    }
+  };
+});
+
 const defaultOptions = {
   failOnInvalidTypes: false,
   failOnInvalidFormat: false
-}
+};
 
-formats.forEach(item=>{
-  item = item.name;
-  jsf.format(item, ()=>{
-    if(item === 'mobile'){
-      return jsf.random.randexp('^[1][34578][0-9]{9}$')
-    }
-    return Mock.mock('@'+ item)
-  })
-})
+// formats.forEach(item => {
+//   item = item.name;
+//   jsf.format(item, () => {
+//     if (item === 'mobile') {
+//       return jsf.random.randexp('^[1][34578][0-9]{9}$');
+//     }
+//     return Mock.mock('@' + item);
+//   });
+// });
 
-exports.schemaToJson = function(schema, options={}){  
-  Object.assign(options, defaultOptions)
+exports.schemaToJson = function(schema, options = {}) {
+  Object.assign(options, defaultOptions);
+  
   jsf.option(options);
-  let result
-  try{
-    result = jsf(schema)
-  }catch(err){
-    result = err.message
+  let result;
+  try {
+    result = jsf(schema);
+  } catch (err) {
+    result = err.message;
   }
-  jsf.option(defaultOptions)
+  jsf.option(defaultOptions);
   return result;
-}
+};
 
 exports.resReturn = (data, num, errmsg) => {
   num = num || 0;
 
   return {
     errcode: num,
-    errmsg: errmsg || "成功！",
+    errmsg: errmsg || '成功！',
     data: data
   };
 };
@@ -65,18 +74,18 @@ exports.log = (msg, type) => {
     return;
   }
 
-  type = type || "log";
+  type = type || 'log';
 
   let f;
 
   switch (type) {
-    case "log":
+    case 'log':
       f = console.log; // eslint-disable-line
       break;
-    case "warn":
+    case 'warn':
       f = console.warn; // eslint-disable-line
       break;
-    case "error":
+    case 'error':
       f = console.error; // eslint-disable-line
       break;
     default:
@@ -84,15 +93,15 @@ exports.log = (msg, type) => {
       break;
   }
 
-  f(type + ":", msg);
+  f(type + ':', msg);
 
   let date = new Date();
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
 
-  let logfile = path.join(yapi.WEBROOT_LOG, year + "-" + month + ".log");
+  let logfile = path.join(yapi.WEBROOT_LOG, year + '-' + month + '.log');
 
-  if (typeof msg === "object") {
+  if (typeof msg === 'object') {
     if (msg instanceof Error) msg = msg.message;
     else msg = JSON.stringify(msg);
   }
@@ -101,7 +110,7 @@ exports.log = (msg, type) => {
   let data = `[ ${new Date().toLocaleString()} ] [ ${type} ] ${msg}\n`;
 
   fs.writeFileSync(logfile, data, {
-    flag: "a"
+    flag: 'a'
   });
 };
 
@@ -125,7 +134,7 @@ exports.fieldSelect = (data, field) => {
   var arr = {};
 
   field.forEach(f => {
-    typeof data[f] !== "undefined" && (arr[f] = data[f]);
+    typeof data[f] !== 'undefined' && (arr[f] = data[f]);
   });
 
   return arr;
@@ -151,9 +160,7 @@ exports.randStr = () => {
 exports.getIp = ctx => {
   let ip;
   try {
-    ip = ctx.ip.match(/\d+.\d+.\d+.\d+/)
-      ? ctx.ip.match(/\d+.\d+.\d+.\d+/)[0]
-      : "localhost";
+    ip = ctx.ip.match(/\d+.\d+.\d+.\d+/) ? ctx.ip.match(/\d+.\d+.\d+.\d+/)[0] : 'localhost';
   } catch (e) {
     ip = null;
   }
@@ -172,20 +179,15 @@ exports.expireDate = day => {
 
 exports.sendMail = (options, cb) => {
   if (!yapi.mail) return false;
-  options.subject = options.subject
-    ? options.subject + "-YApi 平台"
-    : "YApi 平台";
+  options.subject = options.subject ? options.subject + '-YApi 平台' : 'YApi 平台';
 
   cb =
     cb ||
     function(err) {
       if (err) {
-        yapi.commons.log(
-          "send mail " + options.to + " error," + err.message,
-          "error"
-        );
+        yapi.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
       } else {
-        yapi.commons.log("send mail " + options.to + " success");
+        yapi.commons.log('send mail ' + options.to + ' success');
       }
     };
 
@@ -200,7 +202,7 @@ exports.sendMail = (options, cb) => {
       cb
     );
   } catch (e) {
-    yapi.commons.log(e.message, "error");
+    yapi.commons.log(e.message, 'error');
     console.error(e.message); // eslint-disable-line
   }
 };
@@ -218,9 +220,9 @@ exports.filterRes = (list, rules) => {
     let filteredRes = {};
 
     rules.forEach(rule => {
-      if (typeof rule == "string") {
+      if (typeof rule == 'string') {
         filteredRes[rule] = item[rule];
-      } else if (typeof rule == "object") {
+      } else if (typeof rule == 'object') {
         filteredRes[rule.alias] = item[rule.key];
       }
     });
@@ -234,18 +236,18 @@ exports.handleVarPath = (pathname, params) => {
     if (!_.find(params, { name: name })) {
       params.push({
         name: name,
-        desc: ""
+        desc: ''
       });
     }
   }
 
   if (!pathname) return;
-  if (pathname.indexOf(":") !== -1) {
-    let paths = pathname.split("/"),
+  if (pathname.indexOf(':') !== -1) {
+    let paths = pathname.split('/'),
       name,
       i;
     for (i = 1; i < paths.length; i++) {
-      if (paths[i] && paths[i][0] === ":") {
+      if (paths[i] && paths[i][0] === ':') {
         name = paths[i].substr(1);
         insertParams(name);
       }
@@ -261,11 +263,12 @@ exports.handleVarPath = (pathname, params) => {
  * path第一位必需为 /, path 只允许由 字母数字-/_:.{}= 组成
  */
 exports.verifyPath = path => {
-  if (/^\/[a-zA-Z0-9\-\/_:\.\{\}\=]*$/.test(path)) {
-    return true;
-  } else {
-    return false;
-  }
+  // if (/^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path)) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  return /^\/[a-zA-Z0-9\-\/_:!\.\{\}\=]*$/.test(path);
 };
 
 /**
@@ -278,13 +281,14 @@ exports.verifyPath = path => {
  * a = {a: 2}
  */
 exports.sandbox = (sandbox, script) => {
-  const vm = require("vm");
+  const vm = require('vm');
   sandbox = sandbox || {};
   script = new vm.Script(script);
   const context = new vm.createContext(sandbox);
   script.runInContext(context, {
     timeout: 3000
   });
+
   return sandbox;
 };
 
@@ -293,9 +297,9 @@ function trim(str) {
     return str;
   }
 
-  str = str + "";
+  str = str + '';
 
-  return str.replace(/(^\s*)|(\s*$)/g, "");
+  return str.replace(/(^\s*)|(\s*$)/g, '');
 }
 
 function ltrim(str) {
@@ -303,9 +307,9 @@ function ltrim(str) {
     return str;
   }
 
-  str = str + "";
+  str = str + '';
 
-  return str.replace(/(^\s*)/g, "");
+  return str.replace(/(^\s*)/g, '');
 }
 
 function rtrim(str) {
@@ -313,9 +317,9 @@ function rtrim(str) {
     return str;
   }
 
-  str = str + "";
+  str = str + '';
 
-  return str.replace(/(\s*$)/g, "");
+  return str.replace(/(\s*$)/g, '');
 }
 
 exports.trim = trim;
@@ -329,12 +333,7 @@ exports.rtrim = rtrim;
  * @return Object {a: 'ab', b: 123}
  */
 exports.handleParams = (params, keys) => {
-  if (
-    !params ||
-    typeof params !== "object" ||
-    !keys ||
-    typeof keys !== "object"
-  ) {
+  if (!params || typeof params !== 'object' || !keys || typeof keys !== 'object') {
     return false;
   }
 
@@ -342,14 +341,14 @@ exports.handleParams = (params, keys) => {
     var filter = keys[key];
     if (params[key]) {
       switch (filter) {
-        case "string":
-          params[key] = trim(params[key] + "");
+        case 'string':
+          params[key] = trim(params[key] + '');
           break;
-        case "number":
+        case 'number':
           params[key] = !isNaN(params[key]) ? parseInt(params[key], 10) : 0;
           break;
         default:
-          params[key] = trim(params + "");
+          params[key] = trim(params + '');
       }
     }
   }
@@ -357,15 +356,28 @@ exports.handleParams = (params, keys) => {
   return params;
 };
 
-exports.validateParams = (schema, params) => {
-  schema = ejs(schema);
-  schema.additionalProperties = false;
+exports.validateParams = (schema2, params) => {
+  const flag = schema2.closeRemoveAdditional;
+  const ajv = new Ajv({
+    allErrors: true,
+    coerceTypes: true,
+    useDefaults: true,
+    removeAdditional: flag ? false : true
+  });
+
+  var localize = require('ajv-i18n');
+  delete schema2.closeRemoveAdditional;
+
+  const schema = ejs(schema2);
+
+  schema.additionalProperties = flag ? true : false;
   const validate = ajv.compile(schema);
   let valid = validate(params);
-  let message = "请求参数 ";
+
+  let message = '请求参数 ';
   if (!valid) {
     localize.zh(validate.errors);
-    message += ajv.errorsText(validate.errors, { separator: "\n" });
+    message += ajv.errorsText(validate.errors, { separator: '\n' });
   }
 
   return {
@@ -385,9 +397,10 @@ exports.saveLog = logData => {
       typeid: logData.typeid,
       data: logData.data
     };
+
     logInst.save(data).then();
   } catch (e) {
-    yapi.commons.log(e, "error"); // eslint-disable-line
+    yapi.commons.log(e, 'error'); // eslint-disable-line
   }
 };
 
@@ -401,55 +414,32 @@ exports.saveLog = logData => {
  * @param {*} action controller action_name
  * @param {*} ws enable ws
  */
-exports.createAction = (
-  router,
-  baseurl,
-  routerController,
-  action,
-  path,
-  method,
-  ws
-) => {
+exports.createAction = (router, baseurl, routerController, action, path, method, ws) => {
   router[method](baseurl + path, async ctx => {
     let inst = new routerController(ctx);
     try {
       await inst.init(ctx);
-      if (
-        inst.schemaMap &&
-        typeof inst.schemaMap === "object" &&
-        inst.schemaMap[action]
-      ) {
-        ctx.params = Object.assign(
-          {},
-          ctx.request.query,
-          ctx.request.body,
-          ctx.params
-        );
-        let validResult = yapi.commons.validateParams(
-          inst.schemaMap[action],
-          ctx.params
-        );
+      ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
+      if (inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]) {
+        
+        let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
 
         if (!validResult.valid) {
-          return (ctx.body = yapi.commons.resReturn(
-            null,
-            400,
-            validResult.message
-          ));
+          return (ctx.body = yapi.commons.resReturn(null, 400, validResult.message));
         }
       }
       if (inst.$auth === true) {
         await inst[action].call(inst, ctx);
       } else {
         if (ws === true) {
-          ctx.ws.send("请登录...");
+          ctx.ws.send('请登录...');
         } else {
-          ctx.body = yapi.commons.resReturn(null, 40011, "请登录...");
+          ctx.body = yapi.commons.resReturn(null, 40011, '请登录...');
         }
       }
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 40011, "服务器出错...");
-      yapi.commons.log(err, "error");
+      ctx.body = yapi.commons.resReturn(null, 40011, '服务器出错...');
+      yapi.commons.log(err, 'error');
     }
   });
 };
@@ -471,7 +461,7 @@ function handleParamsValue(params, val) {
     value[item.name] = item;
   });
   params.forEach((item, index) => {
-    if (!value[item.name] || typeof value[item.name] !== "object") return null;
+    if (!value[item.name] || typeof value[item.name] !== 'object') return null;
     params[index].value = value[item.name].value;
     if (!_.isUndefined(value[item.name].enable)) {
       params[index].enable = value[item.name].enable;
@@ -488,7 +478,7 @@ exports.getCaseList = async function getCaseList(id) {
   const projectInst = yapi.getInst(projectModel);
   const interfaceInst = yapi.getInst(interfaceModel);
 
-  let resultList = await caseInst.list(id, "all");
+  let resultList = await caseInst.list(id, 'all');
   let colData = await colInst.get(id);
   for (let index = 0; index < resultList.length; index++) {
     let result = resultList[index].toObject();
@@ -502,15 +492,9 @@ exports.getCaseList = async function getCaseList(id) {
     result.method = data.method;
     result.title = data.title;
     result.req_body_type = data.req_body_type;
-    result.req_headers = handleParamsValue(
-      data.req_headers,
-      result.req_headers
-    );
+    result.req_headers = handleParamsValue(data.req_headers, result.req_headers);
     result.res_body_type = data.res_body_type;
-    result.req_body_form = handleParamsValue(
-      data.req_body_form,
-      result.req_body_form
-    );
+    result.req_body_form = handleParamsValue(data.req_body_form, result.req_body_form);
     result.req_query = handleParamsValue(data.req_query, result.req_query);
     result.req_params = handleParamsValue(data.req_params, result.req_params);
     resultList[index] = result;
@@ -525,41 +509,203 @@ exports.getCaseList = async function getCaseList(id) {
 
 function convertString(variable) {
   if (variable instanceof Error) {
-    return variable.name + ": " + variable.message;
+    return variable.name + ': ' + variable.message;
   }
   try {
-    return JSON.stringify(variable, null, "   ");
+    if(variable && typeof variable === 'string'){
+      return variable;
+    }
+    return JSON.stringify(variable, null, '   ');
   } catch (err) {
-    return variable || "";
+    return variable || '';
   }
 }
 
-exports.runCaseScript = async function runCaseScript(params) {
-  let script = params.script;
-  if (!script) {
-    return yapi.commons.resReturn("ok");
-  }
+exports.runCaseScript = async function runCaseScript(params, colId, interfaceId) {
+  const colInst = yapi.getInst(interfaceColModel);
+  let colData = await colInst.get(colId);
+
   const logs = [];
   const context = {
-    assert: require("assert"),
+    assert: require('assert'),
     status: params.response.status,
     body: params.response.body,
     header: params.response.header,
     records: params.records,
     params: params.params,
     log: msg => {
-      logs.push("log: " + convertString(msg));
+      logs.push('log: ' + convertString(msg));
     }
   };
 
   let result = {};
   try {
-    result = yapi.commons.sandbox(context, script);
+
+    if(colData.checkHttpCodeIs200){
+      let status = +params.response.status;
+      if(status !== 200){
+        throw ('Http status code 不是 200，请检查(该规则来源于于 [测试集->通用规则配置] )')
+      }
+    }
+  
+    if(colData.checkResponseField.enable){
+      if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
+        throw (`返回json ${colData.checkResponseField.name} 值不是${colData.checkResponseField.value}，请检查(该规则来源于于 [测试集->通用规则配置] )`)
+      }
+    }
+
+    if(colData.checkResponseSchema){
+      const interfaceInst = yapi.getInst(interfaceModel);
+      let interfaceData = await interfaceInst.get(interfaceId);
+      if(interfaceData.res_body_is_json_schema && interfaceData.res_body){
+        let schema = JSON.parse(interfaceData.res_body);
+        let result = schemaValidator(schema, context.body)
+        if(!result.valid){
+          throw (`返回Json 不符合 response 定义的数据结构,原因: ${result.message}
+数据结构如下：
+${JSON.stringify(schema,null,2)}`)
+        }
+      }
+    }
+
+    if(colData.checkScript.enable){
+      let globalScript = colData.checkScript.content;
+      // script 是断言
+      if (globalScript) {
+        logs.push('执行脚本：' + globalScript)
+        result = yapi.commons.sandbox(context, globalScript);
+      }
+    }
+
+
+    let script = params.script;
+    // script 是断言
+    if (script) {
+      logs.push('执行脚本:' + script)
+      result = yapi.commons.sandbox(context, script);
+    }
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {
     logs.push(convertString(err));
     result.logs = logs;
-    return yapi.commons.resReturn(result, 400, err.name + ": " + err.message);
+
+    return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }
 };
+
+exports.getUserdata = async function getUserdata(uid, role) {
+  role = role || 'dev';
+  let userInst = yapi.getInst(userModel);
+  let userData = await userInst.findById(uid);
+  if (!userData) {
+    return null;
+  }
+  return {
+    role: role,
+    uid: userData._id,
+    username: userData.username,
+    email: userData.email
+  };
+};
+// 邮件发送
+exports.sendNotice = async function(projectId, data) {
+  const followInst = yapi.getInst(followModel);
+  const userInst = yapi.getInst(userModel);
+  const projectInst = yapi.getInst(projectModel);
+  const list = await followInst.listByProjectId(projectId);
+  const starUsers = list.map(item => item.uid);
+
+  const projectList = await projectInst.get(projectId);
+  const projectMenbers = projectList.members
+    .filter(item => item.email_notice)
+    .map(item => item.uid);
+
+  const users = arrUnique(projectMenbers, starUsers);
+  const usersInfo = await userInst.findByUids(users);
+  const emails = usersInfo.map(item => item.email).join(',');
+
+  try {
+    yapi.commons.sendMail({
+      to: emails,
+      contents: data.content,
+      subject: data.title
+    });
+  } catch (e) {
+    yapi.commons.log('邮件发送失败：' + e, 'error');
+  }
+};
+
+function arrUnique(arr1, arr2) {
+  let arr = arr1.concat(arr2);
+  let res = arr.filter(function(item, index, arr) {
+    return arr.indexOf(item) === index;
+  });
+  return res;
+}
+
+// 处理mockJs脚本
+exports.handleMockScript = function(script, context) {
+  let sandbox = {
+    header: context.ctx.header,
+    query: context.ctx.query,
+    body: context.ctx.request.body,
+    mockJson: context.mockJson,
+    params: Object.assign({}, context.ctx.query, context.ctx.request.body),
+    resHeader: context.resHeader,
+    httpCode: context.httpCode,
+    delay: context.httpCode,
+    Random: Mock.Random
+  };
+  sandbox.cookie = {};
+
+  context.ctx.header.cookie &&
+    context.ctx.header.cookie.split(';').forEach(function(Cookie) {
+      var parts = Cookie.split('=');
+      sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
+    });
+  sandbox = yapi.commons.sandbox(sandbox, script);
+  sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
+
+  context.mockJson = sandbox.mockJson;
+  context.resHeader = sandbox.resHeader;
+  context.httpCode = sandbox.httpCode;
+  context.delay = sandbox.delay;
+};
+
+
+
+exports.createWebAPIRequest = function(ops) {
+  return new Promise(function(resolve, reject) {
+    let req = '';
+    let http_client = http.request(
+      {
+        host: ops.hostname,
+        method: 'GET',
+        port: ops.port,
+        path: ops.path
+      },
+      function(res) {
+        res.on('error', function(err) {
+          reject(err);
+        });
+        res.setEncoding('utf8');
+        if (res.statusCode != 200) {
+          reject({message: 'statusCode != 200'});
+        } else {
+          res.on('data', function(chunk) {
+            req += chunk;
+          });
+          res.on('end', function() {
+            resolve(req);
+          });
+        }
+      }
+    );
+    http_client.on('error', (e) => {
+      reject({message: `request error: ${e.message}`});
+    });
+    http_client.end();
+  });
+}
+

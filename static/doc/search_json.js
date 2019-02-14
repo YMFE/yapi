@@ -178,6 +178,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/project.html",
       "children": [
         {
+          "title": "基本设置",
+          "url": "/documents/project.html#基本设置",
+          "content": "基本设置tag 信息：可自定义tag名称和tag描述，tag信息可用在接口tag标识中;\nmock 严格模式：开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验;\n开启json5：开启后允许接口请求body 和返回值中写 json 字段。yapi建议用户关闭 json5， 因为json-schema 格式可以进行接口格式校验。\n"
+        },
+        {
           "title": "新建项目",
           "url": "/documents/project.html#新建项目",
           "content": "新建项目点击右上角的 + 新建项目，进入新建项目页面。在新建项目页，填写项目信息：\n项目名称不允许重复，包括其他分组\n基本路径为接口统一添加了前缀\n新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。\n\n"
@@ -195,12 +200,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目迁移",
           "url": "/documents/project.html#项目迁移",
-          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+          "content": "项目迁移YApi 中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的 owner 有权限对位置进行修改。项目 owner 主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner 权限判断的优先级是 项目权限 > 分组权限\n"
         },
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi 支持项目复制功能，但是无法复制项目中的测试集合 list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -210,7 +215,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置环境",
           "url": "/documents/project.html#配置环境",
-          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加环境配置弹层。"
+          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局 header，可以在项目中设置全局 header 值。在接口运行页面的选择环境 select 中也增加环境配置弹层。v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量"
         },
         {
           "title": "请求配置",
@@ -220,32 +225,37 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');"
         },
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token 配置",
+          "url": "/documents/project.html#token-配置",
+          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
         },
         {
-          "title": "项目克隆",
-          "url": "/documents/project.html#项目克隆",
-          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -255,6 +265,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/project.html",
       "children": [
         {
+          "title": "基本设置",
+          "url": "/documents/project.html#基本设置",
+          "content": "基本设置tag 信息：可自定义tag名称和tag描述，tag信息可用在接口tag标识中;\nmock 严格模式：开启后 mock 请求会对 query，body form 的必须字段和 json schema 进行校验;\n开启json5：开启后允许接口请求body 和返回值中写 json 字段。yapi建议用户关闭 json5， 因为json-schema 格式可以进行接口格式校验。\n"
+        },
+        {
           "title": "新建项目",
           "url": "/documents/project.html#新建项目",
           "content": "新建项目点击右上角的 + 新建项目，进入新建项目页面。在新建项目页，填写项目信息：\n项目名称不允许重复，包括其他分组\n基本路径为接口统一添加了前缀\n新建项目页只列出了部分配置，其他详细配置(环境配置、项目图标等)需要进入项目页的“设置”面板进行配置。\n\n"
@@ -272,12 +287,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "项目迁移",
           "url": "/documents/project.html#项目迁移",
-          "content": "项目迁移YApi中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的owner有权限对位置进行修改。项目owner主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner权限判断的优先级是 项目权限 > 分组权限\n"
+          "content": "项目迁移YApi 中支持项目迁移到不同的分组中。迁移权限： 只有管理员和该项目的 owner 有权限对位置进行修改。项目 owner 主要有创建该项目的人、项目中的组长、创建分组的人、分组中的组长。Tips: owner 权限判断的优先级是 项目权限 > 分组权限\n"
         },
         {
           "title": "项目拷贝",
           "url": "/documents/project.html#项目拷贝",
-          "content": "项目拷贝YApi支持项目复制功能，但是无法复制项目中的测试集合list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
+          "content": "项目拷贝该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。YApi 支持项目复制功能，但是无法复制项目中的测试集合 list。操作： 点击下图左上角的复制按钮，在弹窗中写入复制项目名称点击确定就可以完成项目复制Tips: 如果你在该分组下有新建项目的权限，那你也同时拥有复制项目的权限\n"
         },
         {
           "title": "删除项目",
@@ -287,7 +302,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置环境",
           "url": "/documents/project.html#配置环境",
-          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局header，可以在项目中设置全局header值。在接口运行页面的选择环境select中也增加环境配置弹层。"
+          "content": "配置环境环境配置 一项可以添加该项目下接口的实际环境，供 接口测试 使用，这里增加了全局 header，可以在项目中设置全局 header 值。在接口运行页面的选择环境 select 中也增加环境配置弹层。v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的名称和值, 接口运行或者测试集合里面可以通过 {{ global.err }} 来访问当前环境变量下定义的全局变量"
         },
         {
           "title": "请求配置",
@@ -297,38 +312,43 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求参数示例",
           "url": "/documents/project.html#请求配置-请求参数示例",
-          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在 url 增加一个 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');\n"
+          "content": "请求参数示例以 jquery ajax 为例，假设当前的请求参数是{  url: '/api/user?id=1',\n  method: 'POST',\n  headers: {\n    xxx: 'xxx'\n  },\n  data: {\n    type: 1\n  }\n}\n那么公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  }\n}\n假设我们需要在一组接口的 url 上增加一个公共的 token 参数，可以写如下自定义脚本：context.query.token = context.utils.md5(context.pathname + 'salt');"
         },
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseBody={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseBody a 的值为 2，可以填写如下自定义脚本：context.responseBody.a = 2;\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
-          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\n"
+          "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
         },
         {
           "title": "异步处理（v1.3.13+支持）",
           "url": "/documents/project.html#请求配置-异步处理（v1.3.13+支持）",
-          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve){    var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status')\n    api.then(function(result){\n        //...\n        console.log(result.data)\n        resolve()\n    })\n\n})\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
+          "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识token，用户可以使用这个token值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token 配置",
+          "url": "/documents/project.html#token-配置",
+          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
         },
         {
-          "title": "项目克隆",
-          "url": "/documents/project.html#项目克隆",
-          "content": "项目克隆该功能在 v1.3.12 版本上线，项目克隆功能可复制项目全部接口到一个新项目，如下图所示,点击红色框里面的 icon 使用。"
+          "title": "全局mock",
+          "url": "/documents/project.html#全局mock",
+          "content": "全局mockv1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 自定义 Mock 脚本可以针对项目自定义 Mock 占位符，具体使用方法如下：Random.extend({    constellation: function(date) {\n        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']\n        return this.pick(constellations)\n    }\n})\n\n在接口编辑中使用{  \"data\": \"@CONSTELLATION\"   // => \"水瓶座\"\n}\n"
+        },
+        {
+          "title": "Mock 优先级说明",
+          "url": "/documents/project.html#全局mock-mock-优先级说明",
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
     {
       "title": "接口设置",
-      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
+      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使接口结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
       "url": "/documents/api.html",
       "children": [
         {
@@ -339,7 +359,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "基本设置",
           "url": "/documents/api.html#接口配置-基本设置",
-          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\n"
+          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\nTag：用于标识接口tag信息（v1.3.23+）,在接口list页可以根据tag过滤接口\n"
         },
         {
           "title": "请求参数设置",
@@ -360,12 +380,17 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
     {
       "title": "接口设置",
-      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使结构结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
+      "content": "进入项目页，可以看到项目下的所有接口，需要注意的是，YApi有 接口集合 和 测试集合 两个概念。接口集合 将接口进行分类，使接口结构更清晰，一个接口只能属于一个集合，且不允许与其他接口重名。\n测试集合 为了方便我们测试接口，测试集合 将若干接口组合在一起，在这里一个接口可以属于不同集合。\n",
       "url": "/documents/api.html",
       "children": [
         {
@@ -376,7 +401,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "基本设置",
           "url": "/documents/api.html#接口配置-基本设置",
-          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\n"
+          "content": "基本设置接口路径：可以更改 HTTP 请求方式，并且支持 restful 动态路由，例如 /api/{id}/{name}, id和name是动态参数\n选择分类：可以更改接口所在分类\n状态：用于标识接口是否开发完成。\nTag：用于标识接口tag信息（v1.3.23+）,在接口list页可以根据tag过滤接口\n"
         },
         {
           "title": "请求参数设置",
@@ -397,6 +422,11 @@ window.ydoc_plugin_search_json = {
           "title": "接口运行",
           "url": "/documents/api.html#接口运行",
           "content": "接口运行接口运行功能，是用来测试真实接口的，类似『Postman』的功能。点击运行 tab ,可进入到接口测试页面，首先安装\b『chrome crossRequest』扩展，才可正常使用此功能。点击保存按钮可把当前接口保存到测试集，方便下次调试。安装完插件记得刷新页面\n"
+        },
+        {
+          "title": "接口返回数据验证",
+          "url": "/documents/api.html#接口运行-接口返回数据验证",
+          "content": "接口返回数据验证版本 v1.3.22 新增返回数据验证功能， 如果接口的返回数据格式为json schema 在接口运行时会对接口返回数据和定义数据格式进行校验"
         }
       ]
     },
@@ -418,17 +448,22 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
           "url": "/documents/mock.html#方式2.-json-schema",
-          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+          "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再适用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+        },
+        {
+          "title": "集成 mockjs",
+          "url": "/documents/mock.html#方式2.-json-schema-集成-mockjs",
+          "content": "集成 mockjs基本书写方式为 mock 的数据占位符@xxx, 具体字段详见Mockjs 官网\n如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值\n"
         },
         {
           "title": "如何使用 Mock",
@@ -443,7 +478,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -465,17 +505,22 @@ window.ydoc_plugin_search_json = {
         {
           "title": "原理",
           "url": "/documents/mock.html#方式1.-mockjs-原理",
-          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\"   //请求的requestBody type=1,返回的type字段是1\n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
+          "content": "原理基于 mockjs，跟 Mockjs 区别是 yapi 基于 json + 注释 定义 mock 数据，无法使用 mockjs 原有的函数功能。正则表达式需要基于 rule 书写，示例如下：\n{  \"name|regexp\": \"[a-z0-9_]+?\",\n  \"type|regexp\": \"json|text|xml\"\n}\n\n支持替换请求的 query, body 参数\n{  \"name\": \"${query.name}\", //请求的url是/path?name=xiaoming, 返回的name字段是xiaoming\n  \"type\": \"${body.type}\",   //请求的requestBody type=1,返回的type字段是1\n  \n}\n\n示例\n/** * 这是一个接口返回数据示例\n */\n\n{\n    \"errcode\": 0,\n    \"errmsg\": \"@word\",\n    \"data\": {\n        \"id\": \"@id\", //@id 随机生成 id\n        \"name\": \"@name\" //@name 随机生成用户名\n    }\n}\n\n详细使用文档请查看：Mockjs 官网"
         },
         {
           "title": "方式2. json-schema",
           "url": "/documents/mock.html#方式2.-json-schema",
-          "content": "方式2. json-schema开启 json-schema 功能后，将不再使用 mockjs 解析定义的返回数据，而是根据 json-schema 定义的数据结构，生成随机数据。"
+          "content": "方式2. json-schema开启 json-schema 功能后，根据 json-schema 定义的数据结构，生成随机数据。"
         },
         {
-          "title": "如何生成随机的邮箱或 ip？",
-          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip？",
-          "content": "如何生成随机的邮箱或 ip？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+          "title": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？",
+          "url": "/documents/mock.html#方式2.-json-schema-如何生成随机的邮箱或-ip该方法在v1.3.22之后不再适用？",
+          "content": "如何生成随机的邮箱或 ip(该方法在v1.3.22之后不再适用)？点击高级设置，选择 format 选项，比如选择 email 则该字段生成随机邮箱字符串。"
+        },
+        {
+          "title": "集成 mockjs",
+          "url": "/documents/mock.html#方式2.-json-schema-集成-mockjs",
+          "content": "集成 mockjs基本书写方式为 mock 的数据占位符@xxx, 具体字段详见Mockjs 官网\n如果不是以@字符开头的话或者匹配不到Mockjs中的占位符就会直接生成输入的值\n"
         },
         {
           "title": "如何使用 Mock",
@@ -490,7 +535,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "2 \b基于本地服务器反向代理",
           "url": "/documents/mock.html#如何使用-mock-2-\b基于本地服务器反向代理",
-          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+          "content": "2 \b基于本地服务器反向代理优点:不用修改项目代码2.1 基于 nginx 反向代理location /baseapi{\nproxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有\"/\"\n}\n2.2 基于 ykit mock功能{    pattern: /\\/api\\/(.*)/,\n    responder: 'http://yapi.xxx.com/mock/58/api/$1'\n}\n上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 http://localhost/api/user/status 会成为 http://yapi.xxx.com/mock/58/api/user/status详细使用指南: ykit-config-mock2.3 基于 ykit Jerry 代理假设您本地服务器访问地址是： http://xxx.com具体用法如下：清除本地配置的 hosts\n下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999\n启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry\n在 jerry 中重新配置 hosts\n在 Jerry 中点击 URL MAP 并添加配置\n详细使用指南: 代理工具2.4 基于 Charles 代理点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息："
+        },
+        {
+          "title": "mock请求严格模式",
+          "url": "/documents/mock.html#mock请求严格模式",
+          "content": "mock请求严格模式版本 v1.3.22 新增 mock 接口请求字段参数验证功能，具体使用方法如下：\n打开 项目 -> 设置 开启 mock 严格模式\n\n\n针对 query, form 中设置的必须字段会进行必填校验\n\n\n\n针对 req_body_type 是json schema 格式的数据进行校验\n\n"
         }
       ]
     },
@@ -522,7 +572,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",
@@ -532,7 +582,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "示例1, 根据请求参数重写 mockJson",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例1,-根据请求参数重写-mockjson",
-          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error;\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error;\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error;\n}\n\n"
+          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error';\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error';\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error';\n}\n\n"
         },
         {
           "title": "示例2, 生成高度自定义数据内容",
@@ -542,7 +592,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -574,7 +624,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "全局变量",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-全局变量",
-          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，详细使用方法请查看 Wiki\n\n"
+          "content": "全局变量请求header 请求的 HTTP 头\nparams 请求参数，包括 Body、Query 中所有参数\ncookie 请求带的 Cookies\n响应\nmockJson\n接口定义的响应数据 Mock 模板\n\n\nresHeader\n响应的 HTTP 头\n\n\nhttpCode\n响应的 HTTP 状态码\n\n\ndelay\nMock 响应延时，单位为 ms\n\n\nRandom\nMock.Random 方法，可以添加自定义占位符,详细使用方法请查看 Wiki\n\n"
         },
         {
           "title": "使用方法",
@@ -584,7 +634,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "示例1, 根据请求参数重写 mockJson",
           "url": "/documents/adv_mock.html#自定义-mock-脚本-示例1,-根据请求参数重写-mockjson",
-          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error;\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error;\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error;\n}\n\n"
+          "content": "示例1, 根据请求参数重写 mockJsonif(params.type == 1){  mockJson.errcode = 400;\n  mockJson.errmsg = 'error';\n}\n\nif(header.token == 't'){\n  mockJson.errcode = 300;\n  mockJson.errmsg = 'error';\n}\n\nif(cookie.type == 'a'){\n  mockJson.errcode = 500;\n  mockJson.errmsg = 'error';\n}\n\n"
         },
         {
           "title": "示例2, 生成高度自定义数据内容",
@@ -594,7 +644,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "Mock 优先级说明",
           "url": "/documents/adv_mock.html#mock-优先级说明",
-          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+          "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
         }
       ]
     },
@@ -606,7 +656,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -636,12 +686,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
           "url": "/documents/case.html#断言脚本公共变量-示例",
-          "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
+          "content": "示例assert.equal(body.errcode, 0)\nassert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
         },
         {
           "title": "服务端自动化测试",
@@ -652,6 +702,11 @@ window.ydoc_plugin_search_json = {
           "title": "详细使用方法",
           "url": "/documents/case.html#服务端自动化测试-详细使用方法",
           "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
+        },
+        {
+          "title": "配置通用规则",
+          "url": "/documents/case.html#配置通用规则",
+          "content": "配置通用规则配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case."
         }
       ]
     },
@@ -663,7 +718,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "第一步，测试集合",
           "url": "/documents/case.html#第一步，测试集合",
-          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口。"
+          "content": "第一步，测试集合使用 YApi 自动化测试，第一步需要做得是创建测试集合和导入接口,点击添加集合创建，创建完成后导入接口(同一个接口可以多次导入)。"
         },
         {
           "title": "第二步，编辑测试用例",
@@ -693,12 +748,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "1.assert",
           "url": "/documents/case.html#断言脚本公共变量-1.assert",
-          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印"
+          "content": "1.assert断言函数，详细 api 可查看 document常用 api\nassert(value)\n判断 value 是否为 truth, 例如 assert(1) 通过， assert(0) 不通过，只要 value 不是 null, 0, false 等值验证通过\n\n\nassert.equal(actual, expected)\n判断 actual 是否等于 expected，例如 assert(1, 1)通过\n\n\nassert.notEqual(actual, expected)\n判断 actual 是否不等于 expected\n\n\nassert.deepEqual(actual, expected)\n假设： actual = {a:1} 是一个对象，即便 expected = {a:1}，如果使用 assert.equal 可能也是不相等的，因为在 js 引用的只是对象的一个指针，需要使用 assert.deepEqual 比较两个对象是否相等\n\n\nassert.notDeepEaual(actual, expected)\n深度比较两个对象是否不相等\n\n2.statushttp 状态码3.paramshttp request params, 合并了 query 和 body4.body返回 response body5.header返回 response header6.records记录的 http 请求信息，假设需要获取 key 为 555 的接口参数或者响应数据，可通过 records[555].params 或 records[555].body 获取7.loglog（message） 函数,调试时使用，log 信息仅仅在断言失败后打印,失败断言前的信息log(234)   assert.equal(status, 400)\nlog(123)\n输出结果：log: 234\nAssertionError: 200 == 400"
         },
         {
           "title": "示例",
           "url": "/documents/case.html#断言脚本公共变量-示例",
-          "content": "示例assert.equal(body.errcode, 0)assert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
+          "content": "示例assert.equal(body.errcode, 0)\nassert.equal(body.data.group_name, 'testGroup')\nassert.equal(status, 200)\n"
         },
         {
           "title": "服务端自动化测试",
@@ -709,33 +764,38 @@ window.ydoc_plugin_search_json = {
           "title": "详细使用方法",
           "url": "/documents/case.html#服务端自动化测试-详细使用方法",
           "content": "详细使用方法点击服务端测试，出现如下弹窗，用户访问该 url 就可以获取当前测试用例的所有测试结果。"
+        },
+        {
+          "title": "配置通用规则",
+          "url": "/documents/case.html#配置通用规则",
+          "content": "配置通用规则配置通用规则能够使自动化测试，可以基于通用的规则去控制，无需手动一个一个维护case."
         }
       ]
     },
     {
       "title": "数据导入",
-      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。",
+      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。v1.3.23+ 增加数据导入的3种同步方式  normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；例如，用户对字段code 添加了mock信息, 当再次数据导入的时候 mock 字段将不会被覆盖\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\n",
       "url": "/documents/data.html",
       "children": [
         {
           "title": "Postman 数据导入",
           "url": "/documents/data.html#postman-数据导入",
-          "content": "Postman 数据导入1.首先在postman导出接口2.选择collection_v1,点击export导出接口到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和postman导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "Postman 数据导入1.首先在 postman 导出接口2.选择 collection_v1,点击 export 导出接口到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 postman 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据"
         },
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击 network，首次使用请先 clear 所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击 save as HAR with content,将数据保存到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 har 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持 swagger url 导入功能\n2.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 swagger 导入 \b 方式，\b 选择刚才的文件，开始导入数据"
         },
         {
-          "title": "YApi接口JSON数据导入",
-          "url": "/documents/data.html#yapi接口json数据导入",
-          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+          "title": "YApi 接口 JSON 数据导入",
+          "url": "/documents/data.html#yapi-接口-json-数据导入",
+          "content": "YApi 接口 JSON 数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
         },
         {
           "title": "通过命令行导入接口数据",
@@ -745,34 +805,34 @@ window.ydoc_plugin_search_json = {
         {
           "title": "使用方法",
           "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
-          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": false,\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 是否覆盖旧的接口，默认不开启，配置 true 开启server 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": \"normal\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目 token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 有三种导入方式(v1.3.23+支持) normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\nserver 是 yapi 服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },
     {
       "title": "数据导入",
-      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。",
+      "content": "在数据管理可快速导入其他格式的接口数据，方便快速添加接口。YApi 目前支持 postman, swagger, har 数据导入。v1.3.23+ 增加数据导入的3种同步方式  normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；例如，用户对字段code 添加了mock信息, 当再次数据导入的时候 mock 字段将不会被覆盖\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\n",
       "url": "/documents/data.html",
       "children": [
         {
           "title": "Postman 数据导入",
           "url": "/documents/data.html#postman-数据导入",
-          "content": "Postman 数据导入1.首先在postman导出接口2.选择collection_v1,点击export导出接口到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和postman导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "Postman 数据导入1.首先在 postman 导出接口2.选择 collection_v1,点击 export 导出接口到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 postman 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据"
         },
         {
           "title": "HAR\b\b 数据导入",
           "url": "/documents/data.html#har\b\b-数据导入",
-          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击network，首次使用请先clear所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击save as HAR with content,将数据保存到文件xxx3.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和har导入\b方式，\b选择刚才保存的文件路径，开始导入数据"
+          "content": "HAR\b\b 数据导入可用 chrome 实现录制接口数据的功能，方便开发者快速导入项目接口1.打开 Chrome 浏览器开发者工具，点击 network，首次使用请先 clear 所有请求信息，确保录制功能开启（红色为开启状态）2.操作页面实际功能，完成后点击 save as HAR with content,将数据保存到文件 xxx3.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 har 导入 \b 方式，\b 选择刚才保存的文件路径，开始导入数据Tips: har 数据导入只支持 response.content.mimeType 为 application/json 类型的数据\n"
         },
         {
           "title": "Swagger 数据导入",
           "url": "/documents/data.html#swagger-数据导入",
-          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。2.打开yapi平台，进入到项目页面，点击数据管理，选择相应的分组和swagger导入\b方式，\b选择刚才的文件，开始导入数据"
+          "content": "Swagger 数据导入什么是 Swagger ？[Swagger从入门到精通](https://www.gitbook.com/book/huangwenchao/swagger/details)1.生成 JSON 语言编写的 Swagger API 文档文件  例如这样的数据 （http://petstore.swagger.io/v2/swagger.json），可以将其内容复制到 JSON 文件中。Tips: v1.3.19 版本开始支持 swagger url 导入功能\n2.打开 yapi 平台，进入到项目页面，点击数据管理，选择相应的分组和 swagger 导入 \b 方式，\b 选择刚才的文件，开始导入数据"
         },
         {
-          "title": "YApi接口JSON数据导入",
-          "url": "/documents/data.html#yapi接口json数据导入",
-          "content": "YApi接口JSON数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
+          "title": "YApi 接口 JSON 数据导入",
+          "url": "/documents/data.html#yapi-接口-json-数据导入",
+          "content": "YApi 接口 JSON 数据导入该功能在 v1.3.12 版本上线，可导入在 yapi 平台导出的 json 接口数据。"
         },
         {
           "title": "通过命令行导入接口数据",
@@ -782,7 +842,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "使用方法",
           "url": "/documents/data.html#通过命令行导入接口数据-使用方法",
-          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": false,\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 是否覆盖旧的接口，默认不开启，配置 true 开启server 是yapi服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
+          "content": "使用方法第一步，确保 yapi-cli >= 1.2.7 版本，如果低于此版本请升级 yapi-cli 工具npm install -g yapi-cli第二步，在任意一个目录下新建配置文件 yapi-import.json，内容如下：{  \"type\": \"swagger\",\n  \"token\": \"17fba0027f300248b804\",\n  \"file\": \"swagger.json\",\n  \"merge\": \"normal\",\n  \"server\": \"http://yapi.local.qunar.com:3000\"\n}\ntype 是数据数据方式，目前官方只支持 swaggertoken 是项目 token，在 项目设置 -> token 设置获取file 是 swagger 接口文档文件，可使用绝对路径或 urlmerge 有三种导入方式(v1.3.23+支持) normal, good, mergin普通模式(normal)：不导入已存在的接口；\n智能合并(good)：已存在的接口，将合并返回数据的 response，适用于导入了 swagger 数据，保留对数据结构的改动；\n完全覆盖(mergin)：不保留旧数据，完全使用新数据，适用于接口定义完全交给后端定义， 默认为 normal\nserver 是 yapi 服务器地址第三步，在新建配置文件的当前目录，执行下面指令yapi import"
         }
       ]
     },
@@ -1000,12 +1060,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 接口id\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
           "url": "/documents/plugin-hooks.html#前端-hooklist",
-          "content": "前端 hookList/** * type component  组件\n *      listener   监听函数\n * mulit 是否绑定多个监听函数\n *\n */\n\nhooks = {\n  /**\n   * 第三方登录 //可参考 yapi-plugin-qsso 插件\n   */\n  third_login: {\n    type: 'component',\n    mulit: false,\n    listener: null\n  },\n  /**\n   * 导出数据\n   * @param Object exportDataModule\n   * @param projectId\n   * @info\n   * exportDataModule = {};\n   * exportDataModule.pdf = {\n   *   name: 'Pdf',\n   *   route: '/api/plugin/export/pdf',\n   *   desc: '导出项目接口文档为 pdf 文件'\n   * }\n   */\n  export_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 导入数据\n   * @param importDataModule\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-import-swagger插件\n   * importDataModule = {};\n   *\n   */\n  import_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 接口页面 tab 钩子\n   * @param InterfaceTabs\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-advanced-mock\n   * let InterfaceTabs = {\n      view: {\n        component: View,\n        name: '预览'\n      },\n      edit: {\n        component: Edit,\n        name: '编辑'\n      },\n      run: {\n        component: Run,\n        name: '运行'\n      }\n    }\n   */\n  interface_tab: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  }\n};\n"
+          "content": "前端 hookList/** * type component  组件\n *      listener   监听函数\n * mulit 是否绑定多个监听函数\n *\n */\n\nhooks = {\n  /**\n   * 第三方登录 //可参考 yapi-plugin-qsso 插件\n   */\n  third_login: {\n    type: 'component',\n    mulit: false,\n    listener: null\n  },\n  /**\n   * 导入数据\n   * @param Object importDataModule\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-import-swagger插件\n   * importDataModule = {};\n   *\n   */\n  import_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 导出数据\n   * @param Object exportDataModule\n   * @param projectId\n   * @info\n   * exportDataModule = {};\n   * exportDataModule.pdf = {\n   *   name: 'Pdf',\n   *   route: '/api/plugin/export/pdf',\n   *   desc: '导出项目接口文档为 pdf 文件'\n   * }\n   */\n  export_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 接口页面 tab 钩子\n   * @param InterfaceTabs\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-advanced-mock\n   * let InterfaceTabs = {\n      view: {\n        component: View,\n        name: '预览'\n      },\n      edit: {\n        component: Edit,\n        name: '编辑'\n      },\n      run: {\n        component: Run,\n        name: '运行'\n      }\n    }\n   */\n  interface_tab: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * header下拉菜单 menu 钩子\n   * @param HeaderMenu\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-statistics\n   * let HeaderMenu = {\n  user: {\n    path: '/user/profile',\n    name: '个人中心',\n    icon: 'user',\n    adminFlag: false\n  },\n  star: {\n    path: '/follow',\n    name: '我的关注',\n    icon: 'star-o',\n    adminFlag: false\n  },\n  solution: {\n    path: '/user/list',\n    name: '用户管理',\n    icon: 'solution',\n    adminFlag: true\n\n  },\n  logout: {\n    path: '',\n    name: '退出',\n    icon: 'logout',\n    adminFlag: false\n\n  }\n};\n   */\n  header_menu: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * Route路由列表钩子\n   * @param AppRoute\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-statistics\n   * 添加位置在Application.js 中\n   * let AppRoute = {\n  home: {\n    path: '/',\n    component: Home\n  },\n  group: {\n    path: '/group',\n    component: Group\n  },\n  project: {\n    path: '/project/:id',\n    component: Project\n  },\n  user: {\n    path: '/user',\n    component: User\n  },\n  follow: {\n    path: '/follow',\n    component: Follows\n  },\n  addProject: {\n    path: '/add-project',\n    component: AddProject\n  },\n  login: {\n    path: '/login',\n    component: Login\n  }\n};\n};\n   */\n  app_route: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /*\n   * 添加 reducer\n   * @param Object reducerModules\n   *\n   * @info\n   * importDataModule = {};\n   *\n   */\n\n  add_reducer: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  }\n};\n"
         }
       ]
     },
@@ -1017,12 +1077,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "后端 hookList",
           "url": "/documents/plugin-hooks.html#后端-hooklist",
-          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n    /**\n     * 客户端增加接口成功后触发\n     * @param id 接口id\n     */\n    'interface_add': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除接口成功后触发\n     * @param id 接口id\n     */\n    'interface_del': {\n        type: 'multi',\n        listener: []\n    },\n    /**\n    * 客户端更新接口成功后触发\n    * @param id 接口id\n    */\n    'interface_update':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取接口数据列表\n     * @param id project_id\n     */\n    'interface_list':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端获取一条接口信息触发\n     * @param id 接口id\n     */\n    'interface_get':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
+          "content": "后端 hookList目前 hooksList 只有下面列出的部分，如果您有其他的需求，可提建议到 github 或者 qq 群/** * 钩子配置\n */\nvar hooks = {\n    /**\n     * 第三方sso登录钩子，暂只支持设置一个\n     * @param ctx\n     * @return 必需返回一个 promise 对象，resolve({username: '', email: ''})\n     */\n    'third_login': {\n        type: 'single',\n        listener: null\n    },\n     /**\n   * 客户端增加接口成功后触发\n   * @param data 接口的详细信息\n   */\n    interface_add: {\n      type: 'multi',\n     listener: []\n    },\n    /**\n    * 客户端删除接口成功后触发\n     * @param data 接口id\n     */\n    interface_del: {\n     type: 'multi',\n     listener: []\n    },\n    /**\n     * 客户端更新接口成功后触发\n     * @param id 接口id\n    */\n    interface_update: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取接口数据列表\n    * @param list 返回接口的数据列表\n    */\n    interface_list: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n    * 客户端获取一条接口信息触发\n    * @param data 接口的详细信息\n    */\n    interface_get: {\n      type: 'multi',\n      listener: []\n    },\n    /**\n     * 客户端增加一个新项目\n     * @param id 项目id\n     */\n    'project_add':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 客户端删除删除一个项目\n     * @param id 项目id\n     */\n    'project_del':{\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * MockServer生成mock数据后触发\n     * @param context Object\n     * {\n     *  projectData: project,\n        interfaceData: interfaceData,\n        ctx: ctx,\n        mockJson: res\n     * }\n     *\n     */\n    mock_after: {\n        type: 'multi',\n        listener: []\n    },\n    /**\n     * 增加路由的钩子\n     * type Sync\n     * @param addPluginRouter Function\n     * addPLuginPLugin(config)\n     * config = {\n     *  path,      // String\n     *  method,    // String\n     *  controller // Class 继承baseController的class\n     *  action     // String controller的Action\n     * }\n     */\n    add_router: {\n        type: 'multi',\n        listener: []\n    }\n};\n"
         },
         {
           "title": "前端 hookList",
           "url": "/documents/plugin-hooks.html#前端-hooklist",
-          "content": "前端 hookList/** * type component  组件\n *      listener   监听函数\n * mulit 是否绑定多个监听函数\n *\n */\n\nhooks = {\n  /**\n   * 第三方登录 //可参考 yapi-plugin-qsso 插件\n   */\n  third_login: {\n    type: 'component',\n    mulit: false,\n    listener: null\n  },\n  /**\n   * 导出数据\n   * @param Object exportDataModule\n   * @param projectId\n   * @info\n   * exportDataModule = {};\n   * exportDataModule.pdf = {\n   *   name: 'Pdf',\n   *   route: '/api/plugin/export/pdf',\n   *   desc: '导出项目接口文档为 pdf 文件'\n   * }\n   */\n  export_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 导入数据\n   * @param importDataModule\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-import-swagger插件\n   * importDataModule = {};\n   *\n   */\n  import_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 接口页面 tab 钩子\n   * @param InterfaceTabs\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-advanced-mock\n   * let InterfaceTabs = {\n      view: {\n        component: View,\n        name: '预览'\n      },\n      edit: {\n        component: Edit,\n        name: '编辑'\n      },\n      run: {\n        component: Run,\n        name: '运行'\n      }\n    }\n   */\n  interface_tab: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  }\n};\n"
+          "content": "前端 hookList/** * type component  组件\n *      listener   监听函数\n * mulit 是否绑定多个监听函数\n *\n */\n\nhooks = {\n  /**\n   * 第三方登录 //可参考 yapi-plugin-qsso 插件\n   */\n  third_login: {\n    type: 'component',\n    mulit: false,\n    listener: null\n  },\n  /**\n   * 导入数据\n   * @param Object importDataModule\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-import-swagger插件\n   * importDataModule = {};\n   *\n   */\n  import_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 导出数据\n   * @param Object exportDataModule\n   * @param projectId\n   * @info\n   * exportDataModule = {};\n   * exportDataModule.pdf = {\n   *   name: 'Pdf',\n   *   route: '/api/plugin/export/pdf',\n   *   desc: '导出项目接口文档为 pdf 文件'\n   * }\n   */\n  export_data: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * 接口页面 tab 钩子\n   * @param InterfaceTabs\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-advanced-mock\n   * let InterfaceTabs = {\n      view: {\n        component: View,\n        name: '预览'\n      },\n      edit: {\n        component: Edit,\n        name: '编辑'\n      },\n      run: {\n        component: Run,\n        name: '运行'\n      }\n    }\n   */\n  interface_tab: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * header下拉菜单 menu 钩子\n   * @param HeaderMenu\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-statistics\n   * let HeaderMenu = {\n  user: {\n    path: '/user/profile',\n    name: '个人中心',\n    icon: 'user',\n    adminFlag: false\n  },\n  star: {\n    path: '/follow',\n    name: '我的关注',\n    icon: 'star-o',\n    adminFlag: false\n  },\n  solution: {\n    path: '/user/list',\n    name: '用户管理',\n    icon: 'solution',\n    adminFlag: true\n\n  },\n  logout: {\n    path: '',\n    name: '退出',\n    icon: 'logout',\n    adminFlag: false\n\n  }\n};\n   */\n  header_menu: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /**\n   * Route路由列表钩子\n   * @param AppRoute\n   *\n   * @info\n   * 可参考 vendors/exts/yapi-plugin-statistics\n   * 添加位置在Application.js 中\n   * let AppRoute = {\n  home: {\n    path: '/',\n    component: Home\n  },\n  group: {\n    path: '/group',\n    component: Group\n  },\n  project: {\n    path: '/project/:id',\n    component: Project\n  },\n  user: {\n    path: '/user',\n    component: User\n  },\n  follow: {\n    path: '/follow',\n    component: Follows\n  },\n  addProject: {\n    path: '/add-project',\n    component: AddProject\n  },\n  login: {\n    path: '/login',\n    component: Login\n  }\n};\n};\n   */\n  app_route: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  },\n  /*\n   * 添加 reducer\n   * @param Object reducerModules\n   *\n   * @info\n   * importDataModule = {};\n   *\n   */\n\n  add_reducer: {\n    type: 'listener',\n    mulit: true,\n    listener: []\n  }\n};\n"
         }
       ]
     },
@@ -1034,7 +1094,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "安装YApi",
           "url": "/documents/redev.html#安装yapi",
-          "content": "安装YApi1.创建工程目录mkdir yapi && cd yapigit clone https://github.com/YMFE/yapi.git vendors --depth=1 # 或者下载 zip 包解压到 vendors 目录\n2.修改配置cp vendors/config_example.json ./config.json # 复制完成后请修改相关配置vi ./config.json\n配置如下，主要配置 MongoDB 数据库，以及 Admin 账号。{  \"port\": \"3011\",\n  \"adminAccount\": \"admin@admin.com\",\n  \"db\": {\n    \"servername\": \"127.0.0.1\",\n    \"DATABASE\":  \"yapi\",\n    \"port\": 27017,\n    \"user\": \"yapi\",\n    \"pass\": \"yapi123\"\n  },\n  \"mail\": {\n    \"enable\": true,\n    \"host\": \"smtp.163.com\",\n    \"port\": 465,\n    \"from\": \"***@163.com\",\n    \"auth\": {\n        \"user\": \"***@163.com\",\n        \"pass\": \"*****\"\n    }\n  }\n}\ndb.user 和 db.pass 是 mongodb 的用户名和密码，如果没有开启 mongo 认证功能，请删除这两个选项。\n3.安装依赖cd vendorsnpm install --production --registry https://registry.npm.taobao.org # 安装依赖\n4.初始化npm run install-server  # 安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置# 默认输出\n# 初始化管理员账号成功,账号名：\"admin@admin.com\"，密码：\"ymfe.org\"\n5.启动开发机npm run dev# 启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n# 127.0.0.1:3011\n目录结构|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
+          "content": "安装YApi1.创建工程目录mkdir yapi && cd yapigit clone https://github.com/YMFE/yapi.git vendors --depth=1 # 或者下载 zip 包解压到 vendors 目录\n2.修改配置cp vendors/config_example.json ./config.json # 复制完成后请修改相关配置vi ./config.json\n配置如下，主要配置 MongoDB 数据库，以及 Admin 账号。{  \"port\": \"3011\",\n  \"adminAccount\": \"admin@admin.com\",\n  \"db\": {\n    \"servername\": \"127.0.0.1\",\n    \"DATABASE\":  \"yapi\",\n    \"port\": 27017,\n    \"user\": \"yapi\",\n    \"pass\": \"yapi123\"\n  },\n  \"mail\": {\n    \"enable\": true,\n    \"host\": \"smtp.163.com\",\n    \"port\": 465,\n    \"from\": \"***@163.com\",\n    \"auth\": {\n        \"user\": \"***@163.com\",\n        \"pass\": \"*****\"\n    }\n  }\n}\ndb.user 和 db.pass 是 mongodb 的用户名和密码，如果没有开启 mongo 认证功能，请删除这两个选项。\n3.安装依赖cd vendorsnpm install  --registry https://registry.npm.taobao.org # 安装依赖\n4.初始化npm run install-server  # 安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置# 默认输出\n# 初始化管理员账号成功,账号名：\"admin@admin.com\"，密码：\"ymfe.org\"\n5.启动开发机npm run dev# 启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n# 127.0.0.1:3011\n目录结构|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
         },
         {
           "title": "技术栈说明",
@@ -1061,7 +1121,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "安装YApi",
           "url": "/documents/redev.html#安装yapi",
-          "content": "安装YApi1.创建工程目录mkdir yapi && cd yapigit clone https://github.com/YMFE/yapi.git vendors --depth=1 # 或者下载 zip 包解压到 vendors 目录\n2.修改配置cp vendors/config_example.json ./config.json # 复制完成后请修改相关配置vi ./config.json\n配置如下，主要配置 MongoDB 数据库，以及 Admin 账号。{  \"port\": \"3011\",\n  \"adminAccount\": \"admin@admin.com\",\n  \"db\": {\n    \"servername\": \"127.0.0.1\",\n    \"DATABASE\":  \"yapi\",\n    \"port\": 27017,\n    \"user\": \"yapi\",\n    \"pass\": \"yapi123\"\n  },\n  \"mail\": {\n    \"enable\": true,\n    \"host\": \"smtp.163.com\",\n    \"port\": 465,\n    \"from\": \"***@163.com\",\n    \"auth\": {\n        \"user\": \"***@163.com\",\n        \"pass\": \"*****\"\n    }\n  }\n}\ndb.user 和 db.pass 是 mongodb 的用户名和密码，如果没有开启 mongo 认证功能，请删除这两个选项。\n3.安装依赖cd vendorsnpm install --production --registry https://registry.npm.taobao.org # 安装依赖\n4.初始化npm run install-server  # 安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置# 默认输出\n# 初始化管理员账号成功,账号名：\"admin@admin.com\"，密码：\"ymfe.org\"\n5.启动开发机npm run dev# 启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n# 127.0.0.1:3011\n目录结构|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
+          "content": "安装YApi1.创建工程目录mkdir yapi && cd yapigit clone https://github.com/YMFE/yapi.git vendors --depth=1 # 或者下载 zip 包解压到 vendors 目录\n2.修改配置cp vendors/config_example.json ./config.json # 复制完成后请修改相关配置vi ./config.json\n配置如下，主要配置 MongoDB 数据库，以及 Admin 账号。{  \"port\": \"3011\",\n  \"adminAccount\": \"admin@admin.com\",\n  \"db\": {\n    \"servername\": \"127.0.0.1\",\n    \"DATABASE\":  \"yapi\",\n    \"port\": 27017,\n    \"user\": \"yapi\",\n    \"pass\": \"yapi123\"\n  },\n  \"mail\": {\n    \"enable\": true,\n    \"host\": \"smtp.163.com\",\n    \"port\": 465,\n    \"from\": \"***@163.com\",\n    \"auth\": {\n        \"user\": \"***@163.com\",\n        \"pass\": \"*****\"\n    }\n  }\n}\ndb.user 和 db.pass 是 mongodb 的用户名和密码，如果没有开启 mongo 认证功能，请删除这两个选项。\n3.安装依赖cd vendorsnpm install  --registry https://registry.npm.taobao.org # 安装依赖\n4.初始化npm run install-server  # 安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置# 默认输出\n# 初始化管理员账号成功,账号名：\"admin@admin.com\"，密码：\"ymfe.org\"\n5.启动开发机npm run dev# 启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n# 127.0.0.1:3011\n目录结构|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
         },
         {
           "title": "技术栈说明",
@@ -1160,6 +1220,76 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.5.0",
+          "url": "/documents/CHANGELOG.html#v1.5.0",
+          "content": "v1.5.0优化开放 api功能，现在 token 带有用户信息了\n修复无法获取请求302 跳转前的 headers\n"
+        },
+        {
+          "title": "v1.4.4",
+          "url": "/documents/CHANGELOG.html#v1.4.4",
+          "content": "v1.4.4优化了 json-schema 编辑器交互，修复了参数名写到一半提示重复的问题\n优化了首页体验，提升页面打开速度\n新增自动化测试通用规则配置功能\n"
+        },
+        {
+          "title": "v1.4.3",
+          "url": "/documents/CHANGELOG.html#v1.4.3",
+          "content": "v1.4.3修复了可视化安装，mongodb 报错的问题\n支持了 swagger 导出功能\n支持了克隆测试用例\n"
+        },
+        {
+          "title": "v1.4.2",
+          "url": "/documents/CHANGELOG.html#v1.4.2",
+          "content": "v1.4.2优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header \"content-type/json\"\nfix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692\nfix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'\nopti: 去掉没必要的redux-thunk\n接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志\n"
+        },
+        {
+          "title": "v1.4.1",
+          "url": "/documents/CHANGELOG.html#v1.4.1",
+          "content": "v1.4.1支持任何人都可以添加分组，只有管理员才能修改项目是否公开\n支持 mongodb 集群\nBug Fixed修改 mock严格模式，GET带有 JSON BODY 导致的验证问题\n对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径\n因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题\n"
+        },
+        {
+          "title": "v1.3.23",
+          "url": "/documents/CHANGELOG.html#v1.3.23",
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\njson schema 可视化编辑器增加 mock 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+        },
+        {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\nBug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
+          "title": "v1.3.21",
+          "url": "/documents/CHANGELOG.html#v1.3.21",
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
+        },
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\n支持swagger URL 导入\n接口运行和测试集合中加入参数备注信息\n测试接口导入支持状态过滤\njson schema 增加枚举备注功能\n左侧菜单栏可以支持单独滚动条\n支持新版本通知\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n导出markdown 路径参数处格式错误和参数table备注信息换行后样式错误\n"
+        },
+        {
+          "title": "v1.3.18",
+          "url": "/documents/CHANGELOG.html#v1.3.18",
+          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n修复type为raw header type 为form 时运行body 为空问题\nmongodb3.4-> 3.6 聚合 cursor报错\npath 路径支持 ！\njson-schema 编辑器修复修改 type 导致描述信息被重置的问题\n"
+        },
+        {
+          "title": "v1.3.17",
+          "url": "/documents/CHANGELOG.html#v1.3.17",
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\nldap登陆允许用户输入的登陆账号非邮箱\n"
+        },
+        {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
+        },
+        {
+          "title": "v1.3.15",
+          "url": "/documents/CHANGELOG.html#v1.3.15",
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
+        },
+        {
           "title": "v1.3.14",
           "url": "/documents/CHANGELOG.html#v1.3.14",
           "content": "v1.3.14修复接口编辑白屏问题\n"
@@ -1172,7 +1302,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口json数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
@@ -1287,7 +1417,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.0.1",
           "url": "/documents/CHANGELOG.html#v1.0.1",
-          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\n"
+          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\ntodo:新增 crypto 加密函数"
         }
       ]
     },
@@ -1296,6 +1426,76 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.0",
+          "url": "/documents/CHANGELOG.html#v1.5.0",
+          "content": "v1.5.0优化开放 api功能，现在 token 带有用户信息了\n修复无法获取请求302 跳转前的 headers\n"
+        },
+        {
+          "title": "v1.4.4",
+          "url": "/documents/CHANGELOG.html#v1.4.4",
+          "content": "v1.4.4优化了 json-schema 编辑器交互，修复了参数名写到一半提示重复的问题\n优化了首页体验，提升页面打开速度\n新增自动化测试通用规则配置功能\n"
+        },
+        {
+          "title": "v1.4.3",
+          "url": "/documents/CHANGELOG.html#v1.4.3",
+          "content": "v1.4.3修复了可视化安装，mongodb 报错的问题\n支持了 swagger 导出功能\n支持了克隆测试用例\n"
+        },
+        {
+          "title": "v1.4.2",
+          "url": "/documents/CHANGELOG.html#v1.4.2",
+          "content": "v1.4.2优化数据导入对 headers 处理，如果 requestType 是 json，自动增加header \"content-type/json\"\nfix: 修改了测试集合有多个项目接口时，切换执行环境相互覆盖不生效的问题 #692\nfix: mongoose warning 'Error: (node:3819) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead'\nopti: 去掉没必要的redux-thunk\n接口更新没有变化时，不记录日志，避免cron多次导入swagger的接口时，导致动态里展示一大堆的无意义日志\n"
+        },
+        {
+          "title": "v1.4.1",
+          "url": "/documents/CHANGELOG.html#v1.4.1",
+          "content": "v1.4.1支持任何人都可以添加分组，只有管理员才能修改项目是否公开\n支持 mongodb 集群\nBug Fixed修改 mock严格模式，GET带有 JSON BODY 导致的验证问题\n对 queryPath 改动导致的bug，支持通过 xxx?controller=name 等 query 参数区分路径\n因 tui-editor 需要安装github 依赖，导致部分机器无法部署成功的问题\n"
+        },
+        {
+          "title": "v1.3.23",
+          "url": "/documents/CHANGELOG.html#v1.3.23",
+          "content": "v1.3.23接口tag功能\n数据导入增加 merge 功能\n增加参数的批量导入功能\njson schema 可视化编辑器增加 mock 功能\nBug Fixed接口path中写入 ?name=xxx bug\n高级mock 匹配 data: [{item: XXX}] 时匹配不成功\n接口运行 query params 自动勾选\nmock get 带 cookie 时跨域\njson schema 嵌套多层 array 预览不展示 bug\nswagger URL 导入 跨域问题\n"
+        },
+        {
+          "title": "v1.3.22",
+          "url": "/documents/CHANGELOG.html#v1.3.22",
+          "content": "v1.3.22json schema number和integer支持枚举\n服务端测试增加下载功能\n增加 mock 接口请求字段参数验证\n增加返回数据验证\nBug Fixed命令行导入成员信息为 undefined\n修复form 参数为空时 接口无法保存的问题\n"
+        },
+        {
+          "title": "v1.3.21",
+          "url": "/documents/CHANGELOG.html#v1.3.21",
+          "content": "v1.3.21请求配置增加 context.utils.CryptoJS\n环境变量支持自定义全局变量\n增加wiki数据导出功能\n用户管理处增加搜索功能\n增加项目全局 mock 脚本功能\n高级 mock 期望 支持关闭开启功能\nBug Fixed优化ldap登陆\nswagger 导入公共params\n接口编辑 mockEditor 修改为 AceEditor\n"
+        },
+        {
+          "title": "v1.3.20",
+          "url": "/documents/CHANGELOG.html#v1.3.20",
+          "content": "v1.3.20Bug Fixed修复 ykit 打包代码问题\n修复 swagger url 导入选中后再切换其他数据方式时拖拽区域不出现问题\n修复 wiki controller 后端报错问题\n"
+        },
+        {
+          "title": "v1.3.19",
+          "url": "/documents/CHANGELOG.html#v1.3.19",
+          "content": "v1.3.19增加项目文档记录wiki\n支持swagger URL 导入\n接口运行和测试集合中加入参数备注信息\n测试接口导入支持状态过滤\njson schema 增加枚举备注功能\n左侧菜单栏可以支持单独滚动条\n支持新版本通知\nBug Fixed修复测试用例名称为空时保存测试用例出现的bug\n导出markdown 路径参数处格式错误和参数table备注信息换行后样式错误\n"
+        },
+        {
+          "title": "v1.3.18",
+          "url": "/documents/CHANGELOG.html#v1.3.18",
+          "content": "v1.3.18增加全局接口搜索功能\n邮件通知过滤功能\nBug Fixed新建接口自动添加为项目成员\n修复type为raw header type 为form 时运行body 为空问题\nmongodb3.4-> 3.6 聚合 cursor报错\npath 路径支持 ！\njson-schema 编辑器修复修改 type 导致描述信息被重置的问题\n"
+        },
+        {
+          "title": "v1.3.17",
+          "url": "/documents/CHANGELOG.html#v1.3.17",
+          "content": "v1.3.17请求配置中添加 context.castId 字段用于标识测试用例\nBug Fixed修复服务器端测试，邮件通知开启token undefined bug\n将状态由未完成修改成已完成之后，原来的json格式的数据会变成json-schema\n有分类为空时导出json后再导入报错\n只修改参数 必需/非必需, 文本/文件 时, 查看改动详情, 提示没有改动\nldap登陆允许用户输入的登陆账号非邮箱\n"
+        },
+        {
+          "title": "v1.3.16",
+          "url": "/documents/CHANGELOG.html#v1.3.16",
+          "content": "v1.3.16支持自定义域名邮箱登录\n测试用例支持导入不同项目接口\n完善可视化表达式，可根据焦点编辑表达式\nreq_body json 支持指针位置可视化插入表达式\nBug Fixed导入postman  headers 为 null 时报错\nformat-data 数据解析不成功\n导出的接口顺序按照api的接口顺序\n"
+        },
+        {
+          "title": "v1.3.15",
+          "url": "/documents/CHANGELOG.html#v1.3.15",
+          "content": "v1.3.15增强跨域请求安全性，只允许 YApi 网站进行跨域请求\n优化文档\n修复 schema 描述信息展示 bug\n增加禁止普通用户注册功能\n"
+        },
         {
           "title": "v1.3.14",
           "url": "/documents/CHANGELOG.html#v1.3.14",
@@ -1309,7 +1509,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.3.12",
           "url": "/documents/CHANGELOG.html#v1.3.12",
-          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
+          "content": "v1.3.12Feature接口列表支持路径查询\n项目复制\n预览页面交互优化\n优化服务端自动化测试文案\n增加项目接口json数据导入导出功能\nBug Fixed项目中访客权限的账号可以 增、删、改接口中高级mock的设置\n高级Mock 中的响应时间值无法保存（实际提示为：保存成功）\n分类为空时添加接口\n"
         },
         {
           "title": "v1.3.11",
@@ -1424,7 +1624,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "v1.0.1",
           "url": "/documents/CHANGELOG.html#v1.0.1",
-          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\n"
+          "content": "v1.0.1Fix Bug修改接口名字后，需要刷新页面左边的侧边栏才会显示正确的名字\nmockJson 出现 null，mock 出现格式不对问题\n没有权限的分组不可选\n项目列表图标设计大小优化下\n关注的项目不显眼\n添加接口之后，再次选择添加接口，会保留上次填写的信息\n用例名称太长，导致无法使用删除功能\n别人知道项目 id 虽然没有权限，但能看到里面所有内容\nFeatures接口备注集成了富文本编辑\n支持 har 协议的接口数据导入\ntodo:新增 crypto 加密函数"
         }
       ]
     }
@@ -1473,7 +1673,22 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+        },
+        {
+          "title": "禁止注册",
+          "url": "/devops/index.html#禁止注册",
+          "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
+        },
+        {
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+        },
+        {
+          "title": "如何配置mongodb集群",
+          "url": "/devops/index.html#版本通知-如何配置mongodb集群",
+          "content": "如何配置mongodb集群请升级到 yapi >= 1.4.0以上版本，然后在 config.json db项，配置 connectString:{\n  \"port\": \"***\",\n  \"db\": {\n    \"connectString\": \"mongodb://127.0.0.100:8418,127.0.0.101:8418,127.0.0.102:8418/yapidb?slaveOk=true\",\n    \"user\": \"******\",\n    \"pass\": \"******\"\n  },\n}\n\n详细配置参考： wiki"
         }
       ]
     },
@@ -1520,7 +1735,22 @@ window.ydoc_plugin_search_json = {
         {
           "title": "配置LDAP登录",
           "url": "/devops/index.html#配置ldap登录",
-          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.ops.dev.cn0.qunar.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径;\nbindPassword 登录该 LDAP 服务器的密码;\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+          "content": "配置LDAP登录打开项目目录 config.json 文件，添加如下字段：{  \"port\": \"*****\",\n  \"adminAccount\": \"********\",\n  \"db\": {...},\n  \"mail\": {...},\n  \"ldapLogin\": {\n      \"enable\": true,\n      \"server\": \"ldap://l-ldapt1.com\",\n      \"baseDn\": \"CN=Admin,CN=Users,DC=test,DC=com\",\n      \"bindPassword\": \"password123\",\n      \"searchDn\": \"OU=UserContainer,DC=test,DC=com\",\n      \"searchStandard\": \"mail\",    // 自定义格式： \"searchStandard\": \"&(objectClass=user)(cn=%s)\"\n      \"emailPostfix\": \"@163.com\",\n      \"emailKey\": \"mail\",\n      \"usernameKey\": \"name\"\n   }\n}\n\n这里面的配置项含义如下：enable 表示是否配置 LDAP 登录，true(支持 LDAP登录 )/false(不支持LDAP登录);\nserver LDAP 服务器地址，前面需要加上 ldap:// 前缀，也可以是 ldaps:// 表示是通过 SSL 连接;\nbaseDn LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径(非必须);\nbindPassword 登录该 LDAP 服务器的密码(非必须);\nsearchDn 查询用户数据的路径，类似数据库中的一张表的地址，注意这里也必须是全路径;\nsearchStandard 查询条件，这里是 mail 表示查询用户信息是通过邮箱信息来查询的。注意，该字段信息与LDAP数据库存储数据的字段相对应，如果如果存储用户邮箱信息的字段是 email,  这里就需要修改成 email.（1.3.18+支持）自定义filter表达式，基本形式为：&(objectClass=user)(cn=%s), 其中%s会被username替换\nemailPostfix 登陆邮箱后缀（非必须）\nemailKey: ldap数据库存放邮箱信息的字段（v1.3.21 新增 非必须）\nusernameKey: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）\n重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功"
+        },
+        {
+          "title": "禁止注册",
+          "url": "/devops/index.html#禁止注册",
+          "content": "禁止注册在 config.json 添加 closeRegister:true 配置项,就可以禁止用户注册 yapi 平台，修改完成后，请重启 yapi 服务器。{  \"port\": \"*****\",\n  \"closeRegister\":true\n}\n\n"
+        },
+        {
+          "title": "版本通知",
+          "url": "/devops/index.html#版本通知",
+          "content": "版本通知（v1.3.19+ 增加）在 config.json 添加 \"versionNotify\": true 配置项，就可以开启版本通知功能，默认为 false，修改完成后，请重启 yapi 服务器。{  \"port\": \"******\",\n  \"adminAccount\": \"*****\",\n  \"versionNotify\": true\n}\n\n"
+        },
+        {
+          "title": "如何配置mongodb集群",
+          "url": "/devops/index.html#版本通知-如何配置mongodb集群",
+          "content": "如何配置mongodb集群请升级到 yapi >= 1.4.0以上版本，然后在 config.json db项，配置 connectString:{\n  \"port\": \"***\",\n  \"db\": {\n    \"connectString\": \"mongodb://127.0.0.100:8418,127.0.0.101:8418,127.0.0.102:8418/yapidb?slaveOk=true\",\n    \"user\": \"******\",\n    \"pass\": \"******\"\n  },\n}\n\n详细配置参考： wiki"
         }
       ]
     }
