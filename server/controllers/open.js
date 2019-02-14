@@ -194,10 +194,19 @@ class openController extends baseController {
       reports[item.id] = result;
       records[item.id] = {
         params: result.params,
-        body: result.res_body
+        body: result.res_body,
+          header: handleCookie(result.res_header)
       };
       testList.push(result);
     }
+
+      function handleCookie(header){
+          let cookie = header['set-cookie'];
+          if(cookie){
+              header['cookies'] = cookie.join(";");
+          }
+          return header;
+      }
 
     function getMessage(testList) {
       let successNum = 0,
