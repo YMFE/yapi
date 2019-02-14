@@ -44,13 +44,19 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 ### YApi 插件
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
+* [yapi gitlab集成插件](https://github.com/cyj0122/yapi-plugin-gitlab)
+* [oauto2.0登录](https://github.com/xwxsee2014/yapi-plugin-oauth2)
+* [rap平台数据导入](https://github.com/wxxcarl/yapi-plugin-import-rap)
 
-### YApi 一些工具
-* [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
+### 代码生成
 * [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
+* [yapi-gen-js-code: 根据 YApi 的接口定义生成 javascript 的请求函数](https://github.com/hellosean1025/yapi-gen-js-code)
 
 ### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
+
+### YApi 一些工具
+* [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
 
 ### YApi 的一些客户
 * 去哪儿
