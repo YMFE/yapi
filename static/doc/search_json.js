@@ -243,9 +243,9 @@ window.ydoc_plugin_search_json = {
           "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token 配置",
-          "url": "/documents/project.html#token-配置",
-          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token配置",
+          "url": "/documents/project.html#token配置",
+          "content": "token配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
         },
         {
           "title": "全局mock",
@@ -330,9 +330,9 @@ window.ydoc_plugin_search_json = {
           "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token 配置",
-          "url": "/documents/project.html#token-配置",
-          "content": "token 配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的自动化测试，用户不需要登录就可以访问接口测试结果信息。"
+          "title": "token配置",
+          "url": "/documents/project.html#token配置",
+          "content": "token配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
         },
         {
           "title": "全局mock",

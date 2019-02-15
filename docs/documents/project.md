@@ -222,9 +222,12 @@ context.promise = new Promise(function(resolve) {
 
 > 处理完成后，不要忘记 `resolve()`，不然会一直处于挂起状态
 
-## token 配置
+## token配置
 
-每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求项目的所有资源数据。目前用到的地方是接口的<a  href="./case.md">自动化测试</a>，用户不需要登录就可以访问接口测试结果信息。
+每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。
+
+[openapi 文档地址](https://hellosean1025.github.io/yapi/openapi.html)
+
 
 ## 全局mock
 
