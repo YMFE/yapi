@@ -1031,7 +1031,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表qsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
         }
       ]
     },
@@ -1048,7 +1048,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表qsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
         }
       ]
     },
