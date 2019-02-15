@@ -13,7 +13,7 @@
     "test": "ava",
     "build-client": "NODE_ENV=production ykit pack -m",
     "npm-publish": "node ./npm-publish.js",
-    "docs": "ydoc build && cp docs/openapi-doc.html static/doc/openapi.html"
+    "docs": "ydoc build"
   },
   "scripts-info": {
     "start": "运行生产环境服务器",

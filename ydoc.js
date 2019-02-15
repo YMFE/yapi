@@ -1,10 +1,3 @@
-const shell = require ('shelljs');
-
-setTimeout(()=>{
-  shell.cd(__dirname)
-  shell.exec('cp docs/openapi-doc.html static/doc/openapi.html')
-})
-
 module.exports = {
   "title": "YApi 接口管理平台",
   "keywords": "api管理,接口管理,接口文档,api文档",
