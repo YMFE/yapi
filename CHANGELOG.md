@@ -1,3 +1,6 @@
+### v1.5.3
+* cross-request 升级到 2.9
+
 ### v1.5.2
 * 新增 openapi `/api/project/get`，可获取项目基本信息
 
