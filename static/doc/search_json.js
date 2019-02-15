@@ -1031,7 +1031,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表qsso sso 第三方登录\n"
+          "content": "插件列表qsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
         }
       ]
     },
@@ -1048,7 +1048,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表qsso sso 第三方登录\n"
+          "content": "插件列表qsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
         }
       ]
     },
@@ -1219,6 +1219,16 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.2",
+          "url": "/documents/CHANGELOG.html#v1.5.2",
+          "content": "v1.5.2新增 openapi /api/project/get，可获取项目基本信息\n"
+        },
+        {
+          "title": "v1.5.1",
+          "url": "/documents/CHANGELOG.html#v1.5.1",
+          "content": "v1.5.1优化 restful api 动态路由权重匹配算法，匹配更加精确\nopenapi 新增 /api/interface/list_cat，获取某个分类下所有接口\n新增了 rap数据导入到 yapi 插件 rap2yapi\n"
+        },
         {
           "title": "v1.5.0",
           "url": "/documents/CHANGELOG.html#v1.5.0",
@@ -1426,6 +1436,16 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.2",
+          "url": "/documents/CHANGELOG.html#v1.5.2",
+          "content": "v1.5.2新增 openapi /api/project/get，可获取项目基本信息\n"
+        },
+        {
+          "title": "v1.5.1",
+          "url": "/documents/CHANGELOG.html#v1.5.1",
+          "content": "v1.5.1优化 restful api 动态路由权重匹配算法，匹配更加精确\nopenapi 新增 /api/interface/list_cat，获取某个分类下所有接口\n新增了 rap数据导入到 yapi 插件 rap2yapi\n"
+        },
         {
           "title": "v1.5.0",
           "url": "/documents/CHANGELOG.html#v1.5.0",
@@ -1653,7 +1673,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "方式二. 命令行部署",
           "url": "/devops/index.html#安装-方式二.-命令行部署",
-          "content": "方式二. 命令行部署如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法mkdir yapicd yapi\ngit clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录\ncp vendors/config_example.json ./config.json //复制完成后请修改相关配置\ncd vendors\nnpm install --production --registry https://registry.npm.taobao.org\nnpm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置\nnode server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n安装后的目录结构如下：|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
+          "content": "方式二. 命令行部署如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法mkdir yapicd yapi\ngit clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录（clone 整个仓库大概 140+ M，可以通过 `git clone --depth=1 https://github.com/YMFE/yapi.git vendors` 命令减少，大概 10+ M）\ncp vendors/config_example.json ./config.json //复制完成后请修改相关配置\ncd vendors\nnpm install --production --registry https://registry.npm.taobao.org\nnpm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置\nnode server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n安装后的目录结构如下：|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
         },
         {
           "title": "服务器管理",
@@ -1715,7 +1735,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "方式二. 命令行部署",
           "url": "/devops/index.html#安装-方式二.-命令行部署",
-          "content": "方式二. 命令行部署如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法mkdir yapicd yapi\ngit clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录\ncp vendors/config_example.json ./config.json //复制完成后请修改相关配置\ncd vendors\nnpm install --production --registry https://registry.npm.taobao.org\nnpm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置\nnode server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n安装后的目录结构如下：|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
+          "content": "方式二. 命令行部署如果 github 压缩文件无法下载，或需要部署到一些特殊的服务器，可尝试此方法mkdir yapicd yapi\ngit clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录（clone 整个仓库大概 140+ M，可以通过 `git clone --depth=1 https://github.com/YMFE/yapi.git vendors` 命令减少，大概 10+ M）\ncp vendors/config_example.json ./config.json //复制完成后请修改相关配置\ncd vendors\nnpm install --production --registry https://registry.npm.taobao.org\nnpm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置\nnode server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候\n安装后的目录结构如下：|-- config.json|-- init.lock\n|-- log\n`-- vendors\n    |-- CHANGELOG.md\n    |-- LICENSE\n    |-- README.md\n    |-- client\n    |-- common\n    |-- config_example.json\n    |-- doc\n    |-- exts\n    |-- nodemon.json\n    |-- npm-debug.log\n    |-- package.json\n    |-- plugin.json\n    |-- server\n    |-- static\n    |-- test\n    |-- webpack.alias.js\n    |-- yapi-base-flow.jpg\n    |-- ydocfile.js\n    `-- ykit.config.js\n"
         },
         {
           "title": "服务器管理",
