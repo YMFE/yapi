@@ -81,23 +81,25 @@ class openController extends baseController {
       return (ctx.body = yapi.commons.resReturn(null, 40022, '不存在的导入方式'));
     }
 
-    if (!content) {
-      return (ctx.body = yapi.commons.resReturn(null, 40022, 'json 不能为空'));
+    if (!content || !ctx.params.url) {
+      return (ctx.body = yapi.commons.resReturn(null, 40022, 'json 或者 url 参数，不能都为空'));
     }
     try {
-      if(content.indexOf('http://') === 0 || content.indexOf('https://') === 0){
-        let request = require("request");// let Promise = require('Promise');
-        let syncGet = function (url){
-            return new Promise(function(resolve, reject){
-                request.get({url : url}, function(error, response, body){
-                    if(error){
-                        reject(error);
-                    }else{
-                        resolve(body);
-                    }
-                });
-            });
-        }        
+      let request = require("request");// let Promise = require('Promise');
+      let syncGet = function (url){
+          return new Promise(function(resolve, reject){
+              request.get({url : url}, function(error, response, body){
+                  if(error){
+                      reject(error);
+                  }else{
+                      resolve(body);
+                  }
+              });
+          });
+      } 
+      if(ctx.params.url){
+        content = await syncGet(ctx.params.url);
+      }else if(content.indexOf('http://') === 0 || content.indexOf('https://') === 0){
         content = await syncGet(content);
       }
       content = JSON.parse(content);
