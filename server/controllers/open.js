@@ -85,9 +85,24 @@ class openController extends baseController {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'json 不能为空'));
     }
     try {
+      if(content.indexOf('http://') === 0 || content.indexOf('https://') === 0){
+        let request = require("request");// let Promise = require('Promise');
+        let syncGet = function (url){
+            return new Promise(function(resolve, reject){
+                request.get({url : url}, function(error, response, body){
+                    if(error){
+                        reject(error);
+                    }else{
+                        resolve(body);
+                    }
+                });
+            });
+        }        
+        content = await syncGet(content);
+      }
       content = JSON.parse(content);
     } catch (e) {
-      return (ctx.body = yapi.commons.resReturn(null, 40022, 'json 格式有误'));
+      return (ctx.body = yapi.commons.resReturn(null, 40022, 'json 格式有误:' + e));
     }
 
     let menuList = await this.interfaceCatModel.list(project_id);
