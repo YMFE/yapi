@@ -1,4 +1,4 @@
-### v1.5.4
+### v1.5.5
 * cross-request 升级到 2.10
 * /api/open/import_data 新增 url 参数，支持服务端 url 导入
 
