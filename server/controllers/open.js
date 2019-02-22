@@ -1,3 +1,5 @@
+var _globalCookies = false;
+
 const projectModel = require('../models/project.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
@@ -284,6 +286,10 @@ class openController extends baseController {
     let requestParams = {};
     let options;
     options = handleParams(interfaceData, this.handleValue, requestParams);
+    if(_globalCookies){
+        options.headers['Cookie'] = _globalCookies;
+    }
+
     let result = {
       id: interfaceData.id,
       name: interfaceData.casename,
@@ -294,6 +300,19 @@ class openController extends baseController {
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script);
       let res = data.res;
+      if(res.header['set-cookie']){
+        // 如果设置了cookie，保存它用于后续请求
+        let arrCookie = res.header['set-cookie'].toString().split(',');
+        var tmp = '';
+        for(let i = 0;i < arrCookie.length; i++){
+          let idx = arrCookie[i].indexOf(';');
+          if(tmp.length > 0){
+            tmp += '; ';
+          }
+          tmp += arrCookie[i].substring(0, idx);
+        }
+        _globalCookies = tmp;
+      }
 
       result = Object.assign(result, {
         status: res.status,
