@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mongo-yapi: 
+    image: mongo
+    volumes:
+      - mongo_data_yapi:/data/db
+    privileged: true
+
+  yapi: 
+    image: registry.cn-hangzhou.aliyuncs.com/anoy/yapi
+    links:
+      - mongo-yapi:mongo
+    ports:
+      - 3000:3000
+    working_dir: /api/vendors
+    privileged: true
+    command: server/app.js
+
+volumes:
+  mongo_data_yapi:
