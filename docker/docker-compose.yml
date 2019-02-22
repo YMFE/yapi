@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - mongo_data_yapi:/data/db
+    networks:
+      - yapi
+    privileged: true
+
+  yapi:
+    build: .
+    depends_on:
+      - mongodb
+    networks:
+      - yapi
+    volumes:
+      - ./config.json:/tools/yapi/config.json
+    ports:
+      - 3000:3000
+    privileged: true
+
+
+volumes:
+  mongo_data_yapi:
+
+networks:
+  yapi:
