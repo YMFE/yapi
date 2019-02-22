@@ -1220,6 +1220,16 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.5.6",
+          "url": "/documents/CHANGELOG.html#v1.5.6",
+          "content": "v1.5.6修复 /api/open/import_data 参数bug\n修复  /api/open/import_data 文档错误，merge 参数误写为 dataSync\n"
+        },
+        {
+          "title": "v1.5.5",
+          "url": "/documents/CHANGELOG.html#v1.5.5",
+          "content": "v1.5.5cross-request 升级到 2.10\n/api/open/import_data 新增 url 参数，支持服务端 url 导入\n"
+        },
+        {
           "title": "v1.5.2",
           "url": "/documents/CHANGELOG.html#v1.5.2",
           "content": "v1.5.2新增 openapi /api/project/get，可获取项目基本信息\n"
@@ -1436,6 +1446,16 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.6",
+          "url": "/documents/CHANGELOG.html#v1.5.6",
+          "content": "v1.5.6修复 /api/open/import_data 参数bug\n修复  /api/open/import_data 文档错误，merge 参数误写为 dataSync\n"
+        },
+        {
+          "title": "v1.5.5",
+          "url": "/documents/CHANGELOG.html#v1.5.5",
+          "content": "v1.5.5cross-request 升级到 2.10\n/api/open/import_data 新增 url 参数，支持服务端 url 导入\n"
+        },
         {
           "title": "v1.5.2",
           "url": "/documents/CHANGELOG.html#v1.5.2",
