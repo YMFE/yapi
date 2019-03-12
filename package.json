@@ -28,7 +28,7 @@
     "url": "git@github.com:YMFE/yapi.git"
   },
   "author": "",
-  "license": "Apache2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "ajv": "^5.5.1",
     "ajv-i18n": "^2.2.0",
