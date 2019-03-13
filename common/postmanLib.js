@@ -7,6 +7,7 @@ const HTTP_METHOD = constants.HTTP_METHOD;
 const axios = require('axios');
 const qs = require('qs');
 const CryptoJS = require('crypto-js');
+const jsrsasign = require('jsrsasign');
 
 const isNode = typeof global == 'object' && global.global === global;
 const ContentTypeMap = {
@@ -240,6 +241,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
   context.utils = Object.freeze({
     _: _,
     CryptoJS: CryptoJS,
+    jsrsasign: jsrsasign,
     base64: utils.base64,
     md5: utils.md5,
     sha1: utils.sha1,
@@ -276,7 +278,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
           res = json_parse(data.res.body);
           data.res.body = res;
         }
-        if (!isNode) message = '请求异常，请检查 chrome network 错误信息...（如果不懂 chrome network，请百度查询 "chrome network教程"）';
+        if (!isNode) message = '请求异常，请检查 chrome network 错误信息... https://juejin.im/post/5c888a3e5188257dee0322af 通过该链接查看教程"）';
         if (isNaN(data.res.status)) {
           reject({
             body: res || message,
@@ -286,7 +288,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
         }
         resolve(data);
       };
-      
+
       window.crossRequest(options);
     });
   }

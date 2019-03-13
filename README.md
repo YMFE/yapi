@@ -48,6 +48,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [oauto2.0登录](https://github.com/xwxsee2014/yapi-plugin-oauth2)
 * [rap平台数据导入](https://github.com/wxxcarl/yapi-plugin-import-rap)
 * [dingding](https://github.com/zgs225/yapi-plugin-dding) 钉钉机器人推送插件
+* [export-docx-data](https://github.com/inceptiongt/Yapi-plugin-export-docx-data) 数据导出docx文档
 
 ### 代码生成
 * [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)

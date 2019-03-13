@@ -815,13 +815,14 @@ export default class Run extends Component {
                         )}
                         <span className="eq-symbol">=</span>
                         {item.type === 'file' ? (
-                          <Input
-                            type="file"
-                            id={'file_' + index}
-                            onChange={e => this.changeBody(e.target.value, index, 'value')}
-                            multiple
-                            className="value"
-                          />
+                          '因Chrome最新版安全策略限制，不再支持文件上传'
+                          // <Input
+                          //   type="file"
+                          //   id={'file_' + index}
+                          //   onChange={e => this.changeBody(e.target.value, index, 'value')}
+                          //   multiple
+                          //   className="value"
+                          // />
                         ) : (
                           <Input
                             value={item.value}
@@ -875,6 +876,9 @@ export default class Run extends Component {
               >
                 {this.state.resStatusCode + '  ' + this.state.resStatusText}
               </h2>
+              <div>
+                <a rel="noopener noreferrer"  target="_blank" href="https://juejin.im/post/5c888a3e5188257dee0322af">YApi 新版如何查看 httq 请求数据</a>
+              </div>
               {this.state.test_valid_msg && (
                 <Alert
                   message={
