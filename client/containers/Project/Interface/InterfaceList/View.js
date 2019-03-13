@@ -444,7 +444,7 @@ class View extends Component {
                 <Icon
                   type="copy"
                   className="interface-url-icon"
-                  onClick={() => this.copyUrl(this.props.curData.path)}
+                  onClick={() => this.copyUrl(this.props.currProject.basepath + this.props.curData.path)}
                   style={{ display: this.state.enter ? 'inline-block' : 'none' }}
                 />
               </Tooltip>
