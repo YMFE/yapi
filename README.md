@@ -45,7 +45,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
 * [yapi cas 登录插件](https://github.com/wsfe/yapi-plugin-cas) By wsfe
 * [yapi gitlab集成插件](https://github.com/cyj0122/yapi-plugin-gitlab)
-* [oauto2.0登录](https://github.com/xwxsee2014/yapi-plugin-oauth2)
+* [oauth2.0登录](https://github.com/xwxsee2014/yapi-plugin-oauth2)
 * [rap平台数据导入](https://github.com/wxxcarl/yapi-plugin-import-rap)
 * [dingding](https://github.com/zgs225/yapi-plugin-dding) 钉钉机器人推送插件
 * [export-docx-data](https://github.com/inceptiongt/Yapi-plugin-export-docx-data) 数据导出docx文档
