@@ -2,6 +2,7 @@
 * 解决 license should be a valid SPDX license expression 报错
 * 修改OpenAPI比较版本方法
 * fix复制路径不包含基本路径
+* 修复了第一次部署，首页一直处于 loading bug
 
 ### v1.5.7
 * 数据导入默认使用完全覆盖
