@@ -1,4 +1,4 @@
-### v1.5.8
+### v1.5.9
 * 解决 license should be a valid SPDX license expression 报错
 * 修改OpenAPI比较版本方法
 * fix复制路径不包含基本路径
