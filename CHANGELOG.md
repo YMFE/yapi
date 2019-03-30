@@ -1,3 +1,8 @@
+### v1.5.8
+* 解决 license should be a valid SPDX license expression 报错
+* 修改OpenAPI比较版本方法
+* fix复制路径不包含基本路径
+
 ### v1.5.7
 * 数据导入默认使用完全覆盖
 * 升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传
