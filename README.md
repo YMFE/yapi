@@ -77,6 +77,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 便利蜂
 * 中商惠民
 * 新浪
+* VIPKID
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)
