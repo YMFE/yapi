@@ -11,6 +11,7 @@ var assetsPluginInstance = new AssetsPlugin({
 var fs = require('fs');
 var package = require('./package.json');
 var yapi = require('./server/yapi');
+var isWin = require('os').platform() === 'win32'
 
 var compressPlugin = new CompressionPlugin({
   asset: '[path].gz[query]',
@@ -78,7 +79,7 @@ module.exports = {
           defaultQuery.plugins.push(['import', { libraryName: 'antd' }]);
           return defaultQuery;
         },
-        exclude: /(tui-editor|node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual)))/
+        exclude: isWin ? /(tui-editor|node_modules\\(?!_?(yapi-plugin|json-schema-editor-visual)))/ : /(tui-editor|node_modules\/(?!_?(yapi-plugin|json-schema-editor-visual)))/
       }
     }
   ],

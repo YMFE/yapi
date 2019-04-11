@@ -1,6 +1,6 @@
 {
   "name": "yapi-vendor",
-  "version": "1.5.5",
+  "version": "1.5.10",
   "description": "YAPI",
   "main": "server/app.js",
   "scripts": {
@@ -28,11 +28,12 @@
     "url": "git@github.com:YMFE/yapi.git"
   },
   "author": "",
-  "license": "Apache2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "ajv": "^5.5.1",
     "ajv-i18n": "^2.2.0",
     "axios": "^0.16.2",
+    "compare-versions": "^3.4.0",
     "copy-to-clipboard": "3.0.8",
     "cpu-load": "^1.0.0",
     "crypto-js": "^3.1.9-1",
@@ -48,6 +49,7 @@
     "json5": "0.5.1",
     "jsondiffpatch": "0.3.11",
     "jsonwebtoken": "7.4.1",
+    "jsrsasign": "^8.0.12",
     "koa": "2.0.0",
     "koa-body": "^2.5.0",
     "koa-bodyparser": "3.2.0",
@@ -116,7 +118,6 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "markdown-it-include": "^1.0.0",
-    "moment": "2.19.3",
     "node-sass": "^4.9.0",
     "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",

@@ -6,3 +6,4 @@ Fork [yapi](https://github.com/YMFE/yapi), 然后修改 docs/documents/plugin-li
 * [dingding](https://github.com/zgs225/yapi-plugin-dding) 钉钉机器人推送插件
 * [qsso](https://github.com/ymfe/yapi-plugin-qsso) sso 第三方登录
 * [import-rap](https://github.com/wxxcarl/yapi-plugin-import-rap) 从rap中导入项目
+* [export-docx-data](https://github.com/inceptiongt/Yapi-plugin-export-docx-data) 数据导出docx文档

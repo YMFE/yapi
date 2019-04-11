@@ -73,7 +73,7 @@ class ProjectData extends Component {
       curImportType: 'swagger',
       curExportType: null,
       showLoading: false,
-      dataSync: 'good',
+      dataSync: 'merge',
       exportContent: 'all',
       isSwaggerUrl: false,
       swaggerUrl: '',

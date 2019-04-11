@@ -1,3 +1,19 @@
+### v1.5.10
+* 解决 license should be a valid SPDX license expression 报错
+* 修改OpenAPI比较版本方法
+* fix复制路径不包含基本路径
+* 修复了第一次部署，首页一直处于 loading bug
+
+### v1.5.7
+* 数据导入默认使用完全覆盖
+* 升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传
+* fix 重复的 moment 依赖，导致安装时报错
+* feat: add jsrsasign Lib
+
+### v1.5.6
+* 修复 /api/open/import_data 参数bug
+* 修复  /api/open/import_data 文档错误，merge 参数误写为 dataSync
+
 ### v1.5.5
 * cross-request 升级到 2.10
 * /api/open/import_data 新增 url 参数，支持服务端 url 导入

@@ -214,6 +214,15 @@ class groupController extends baseController {
   async getMyGroup(ctx){
     var groupInst = yapi.getInst(groupModel);
     let privateGroup = await groupInst.getByPrivateUid(this.getUid());
+    if (!privateGroup) {
+      privateGroup = await groupInst.save({
+        uid: this.getUid(),
+        group_name: 'User-' + this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time(),
+        type: 'private'
+      });
+    }
     if(privateGroup){
       ctx.body = yapi.commons.resReturn(privateGroup)
     }else{
