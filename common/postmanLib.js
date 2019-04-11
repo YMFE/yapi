@@ -20,6 +20,33 @@ const ContentTypeMap = {
   other: 'text'
 };
 
+const nodeSetItem = function(key, value, project){
+  if(!global[project]) {
+    global[project] = {};
+  }
+  global[project][key] = value;
+};
+const nodeGetItem = function(key, project){
+  if(global[project]) {
+    return global[project][key];
+  }
+  return '';
+};
+/**
+ * 模仿浏览器默认的localStorage方法
+ * 区别是存在node的全局变量global中，非文件存储
+ * project类似domain
+ */
+const localStorage = {
+  getItem(key, project) {
+    return nodeGetItem(key, project);
+  },
+  setItem(key, value, project) {
+    nodeSetItem(key, value, project);
+  },
+  isNode: true //用于和浏览器默认的localStorage做区分
+};
+
 async function httpRequestByNode(options) {
   function handleRes(response) {
     if (!response || typeof response !== 'object') {
@@ -161,6 +188,7 @@ async function sandbox(context = {}, script) {
       context.console = console;
       context.Promise = Promise;
       context.setTimeout = setTimeout;
+      context.localStorage = localStorage;
       context = sandboxByNode(context, script);
     } catch (err) {
       err.message = `Script: ${script}
