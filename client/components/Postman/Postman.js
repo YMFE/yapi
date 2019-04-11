@@ -300,7 +300,7 @@ export default class Run extends Component {
       result;
 
     try {
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script);
+      result = await crossRequest(options, this.state.pre_script, this.state.after_script, this.state.env, this.state.project_id);
       result = {
         header: result.res.header,
         body: result.res.body,
