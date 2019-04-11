@@ -210,11 +210,11 @@ function handleEnvArrayToObj(env) {
   let envJsonObj = {};
   if (env) {
     for (let i = 0; i < env.length; i++) {
-      let envItemObj = env[i];
+      let envItemObj = Object.assign({}, env[i]);
       //处理对象的global属性
-      envItemObj.global = envJsonArray2Obj(envItemObj.global);
+      envItemObj.global = envJsonArray2Obj(env[i].global);
       //处理对象的header属性
-      envItemObj.header = envJsonArray2Obj(envItemObj.header);
+      envItemObj.header = envJsonArray2Obj(env[i].header);
       envJsonObj[envItemObj.name] = envItemObj;
     }
   }
@@ -228,7 +228,7 @@ function handleEnvObjToArray(envJsonObj) {
   let envArray = [];
   if (envJsonObj) {
     for (let key in envJsonObj) {
-      let jsonItem = envJsonObj[key];
+      let jsonItem = Object.assign({}, envJsonObj[key]);
       jsonItem.global = envObj2JsonArray(jsonItem.global);
       jsonItem.header = envObj2JsonArray(jsonItem.header);
 
@@ -272,7 +272,7 @@ function updateEnv(afterHandleEnvParams, projectId) {
   //处理完之后将env存入数据库
   let updateEnvParams = {
     id: projectId,
-    env: handleEnvObjToArray(afterHandleEnvParams)
+    env: afterHandleEnvParams
   }
   axios.post('/api/project/up_env', updateEnvParams)
 }
@@ -337,7 +337,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
     });
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
-    updateEnv(afterHandleEnvParams, projectId);
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
   }
 
   let data;
@@ -367,7 +367,6 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
       window.crossRequest(options);
     });
   }
-
   if (afterScript) {
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
@@ -378,8 +377,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
     data.res.header = context.responseHeader;
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
-
-    updateEnv(afterHandleEnvParams, projectId);
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
   }
   
   return data;
