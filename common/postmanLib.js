@@ -210,11 +210,9 @@ function handleEnvArrayToObj(env) {
   let envJsonObj = {};
   if (env) {
     for (let i = 0; i < env.length; i++) {
-      let envItemObj = Object.assign({}, env[i]);
+      let envItemObj = env[i];
       //处理对象的global属性
       envItemObj.global = envJsonArray2Obj(env[i].global);
-      //处理对象的header属性
-      envItemObj.header = envJsonArray2Obj(env[i].header);
       envJsonObj[envItemObj.name] = envItemObj;
     }
   }
@@ -228,9 +226,8 @@ function handleEnvObjToArray(envJsonObj) {
   let envArray = [];
   if (envJsonObj) {
     for (let key in envJsonObj) {
-      let jsonItem = Object.assign({}, envJsonObj[key]);
+      let jsonItem =  envJsonObj[key];
       jsonItem.global = envObj2JsonArray(jsonItem.global);
-      jsonItem.header = envObj2JsonArray(jsonItem.header);
 
       envArray.push(jsonItem);
     }
@@ -368,6 +365,9 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
     });
   }
   if (afterScript) {
+    if (preScript) {
+      afterHandleEnvParams = handleEnvArrayToObj(envParams);
+    }
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
     context.responseStatus = data.res.status;
