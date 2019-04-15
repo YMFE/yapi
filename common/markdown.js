@@ -92,7 +92,7 @@ function createReqHeaders(req_headers) {
 function createPathParams(req_params) {
   if (req_params && req_params.length) {
     let paramsTable = `**路径参数**\n\n`;
-    paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
+    paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ |\n`;
     for (let j = 0; j < req_params.length; j++) {
       paramsTable += `| ${req_params[j].name || ''} |  ${handleWrap(req_params[j].example) ||
         ''} |  ${handleWrap(req_params[j].desc) || ''} |\n`;
