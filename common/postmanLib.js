@@ -8,6 +8,7 @@ const axios = require('axios');
 const qs = require('qs');
 const CryptoJS = require('crypto-js');
 const jsrsasign = require('jsrsasign');
+const https = require('https');
 
 const isNode = typeof global == 'object' && global.global === global;
 const ContentTypeMap = {
@@ -74,6 +75,9 @@ async function httpRequestByNode(options) {
       headers: options.headers,
       timeout: 5000,
       maxRedirects: 0,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+      }),
       data: options.data
     });
     return handleRes(response);
