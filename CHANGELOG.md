@@ -1,3 +1,8 @@
+### v1.5.11
+* 支持自动化测试使用 localStorage
+* 修复丢失了部分自动化测试错误提示
+* 优化 markdown 导出部分 bug
+
 ### v1.5.10
 * 解决 license should be a valid SPDX license expression 报错
 * 修改OpenAPI比较版本方法
