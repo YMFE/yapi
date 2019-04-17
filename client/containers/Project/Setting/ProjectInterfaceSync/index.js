@@ -9,14 +9,14 @@ import { getProject, updateProjectSync } from '../../../../reducer/modules/proje
 // layout
 const formItemLayout = {
   labelCol: {
-    lg: { offset: 1, span: 3 },
+    lg: { span: 5 },
     xs: { span: 24 },
-    sm: { span: 6 }
+    sm: { span: 10 }
   },
   wrapperCol: {
-    lg: { span: 19 },
+    lg: { span: 16 },
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 12 }
   },
   className: 'form-item'
 };
@@ -201,7 +201,7 @@ export default class ProjectInterfaceSync extends Component {
                 })(<Input />)}
               </FormItem>
 
-              <FormItem {...formItemLayout} label="定时任务cron表达式">
+              <FormItem {...formItemLayout} label="定时cron表达式(默认每分钟更新一次)">
                 {getFieldDecorator('sync_cron', {
                   rules: [
                     {
@@ -209,7 +209,7 @@ export default class ProjectInterfaceSync extends Component {
                       message: '输入正确的cron表达式!'
                     }
                   ],
-                  initialValue: initFormValues.sync_cron
+                  initialValue: initFormValues.sync_cron? initFormValues.sync_cron : '30 * * * * *'
                 })(<Input />)}
               </FormItem>
             </div>
