@@ -6,6 +6,7 @@ import ProjectEnv from './ProjectEnv/index.js';
 import ProjectRequest from './ProjectRequest/ProjectRequest';
 import ProjectToken from './ProjectToken/ProjectToken';
 import ProjectMock from './ProjectMock/index.js';
+import ProjectInterfaceSync from './ProjectInterfaceSync/index.js';
 import { connect } from 'react-redux';
 const TabPane = Tabs.TabPane;
 
@@ -43,6 +44,9 @@ class Setting extends Component {
           ) : null}
           <TabPane tab="全局mock脚本" key="5">
             <ProjectMock projectId={+id} />
+          </TabPane>
+          <TabPane tab="Swagger自动同步" key="6">
+            <ProjectInterfaceSync projectId={+id} />
           </TabPane>
         </Tabs>
       </div>

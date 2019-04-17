@@ -39,7 +39,7 @@ class baseController {
 
     let openApiRouter = [
       '/api/open/run_auto_test',
-			'/api/open/import_data',
+      '/api/open/import_data',
 			'/api/interface/add',
 			'/api/interface/save',
 			'/api/interface/up',
@@ -49,7 +49,8 @@ class baseController {
 			'/api/interface/add_cat',
       '/api/interface/getCatMenu',
       '/api/interface/list_cat',
-      '/api/project/get'
+      '/api/project/get',
+      '/api/plugin/export'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
@@ -85,6 +86,7 @@ class baseController {
       }
       let projectData = await this.projectModel.get(checkId);
       if (projectData) {
+        ctx.query.pid = checkId; // 兼容：/api/plugin/export
         ctx.params.project_id = checkId;
         this.$tokenAuth = true;
         this.$uid = tokenUid;

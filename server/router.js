@@ -262,6 +262,11 @@ let routerConfig = {
       method: 'post'
     },
     {
+      action: 'upSync',
+      path: 'up_sync',
+      method: 'post'
+    },
+    {
       action: 'upTag',
       path: 'up_tag',
       method: 'post'
