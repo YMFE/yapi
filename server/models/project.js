@@ -33,6 +33,10 @@ class projectModel extends baseModel {
       after_script: String,
       project_mock_script: String,
       is_mock_open: { type: Boolean, default: false },
+      is_sync_open: { type: Boolean, default: false },
+      sync_cron: String,
+      sync_json_url: String,
+      sync_mode: String,
       strice: { type: Boolean, default: false },
       is_json5: { type: Boolean, default: true },
       tag: [{name: String, desc: String}]
@@ -85,7 +89,7 @@ class projectModel extends baseModel {
   getBaseInfo(id, select) {
     select =
       select ||
-      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open strice is_json5 tag';
+      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open is_sync_open sync_cron sync_json_url sync_mode strice is_json5 tag';
     return this.model
       .findOne({
         _id: id
@@ -122,6 +126,16 @@ class projectModel extends baseModel {
       .find(params)
       .select(
         '_id uid name basepath switch_notice desc group_id project_type color icon env add_time up_time'
+      )
+      .sort({ _id: -1 })
+      .exec();
+  }
+
+  listAll() {
+    return this.model
+      .find({})
+      .select(
+        '_id uid name basepath switch_notice desc group_id project_type color icon env add_time up_time is_sync_open sync_cron sync_json_url sync_mode'
       )
       .sort({ _id: -1 })
       .exec();

@@ -4,6 +4,7 @@ const groupController = require('./controllers/group.js');
 const userController = require('./controllers/user.js');
 const interfaceColController = require('./controllers/interfaceCol.js');
 const testController = require('./controllers/test.js');
+const tokenController = require('./controllers/token.js');
 
 const yapi = require('./yapi.js');
 const projectController = require('./controllers/project.js');
@@ -259,6 +260,11 @@ let routerConfig = {
     {
       action: 'upEnv',
       path: 'up_env',
+      method: 'post'
+    },
+    {
+      action: 'upSync',
+      path: 'up_sync',
       method: 'post'
     },
     {

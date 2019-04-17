@@ -13,6 +13,7 @@ const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
 const tokenModel = require('../models/token.js');
 const url = require('url');
+const interfaceSyncUtils = require('../utils/interfaceSyncUtils')
 const {getToken} = require('../utils/token')
 const sha = require('sha.js');
 
@@ -25,6 +26,7 @@ class projectController extends baseController {
     this.followModel = yapi.getInst(followModel);
     this.tokenModel = yapi.getInst(tokenModel);
     this.interfaceModel = yapi.getInst(interfaceModel);
+    this.interfaceSyncUtils = yapi.getInst(interfaceSyncUtils);
 
     const id = 'number';
     const member_uid = ['number'];
@@ -622,6 +624,8 @@ class projectController extends baseController {
     let interfaceInst = yapi.getInst(interfaceModel);
     let interfaceColInst = yapi.getInst(interfaceColModel);
     let interfaceCaseInst = yapi.getInst(interfaceCaseModel);
+    //如果存在定时任务则删除
+    interfaceSyncUtils.deleteSyncJob(id);
     await interfaceInst.delByProjectId(id);
     await interfaceCaseInst.delByProjectId(id);
     await interfaceColInst.delByProjectId(id);
@@ -820,6 +824,62 @@ class projectController extends baseController {
       data = Object.assign({}, data, params);
 
       let result = await this.Model.up(id, data);
+      let username = this.getUsername();
+      yapi.commons.saveLog({
+        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api">${
+          projectData.name
+        }</a>`,
+        type: 'project',
+        uid: this.getUid(),
+        username: username,
+        typeid: id
+      });
+      yapi.emitHook('project_up', result).then();
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+  /**
+   * 编辑项目自动同步
+   * @interface /project/upSync
+   * @method POST
+   * @category project
+   * @foldnumber 10
+   * @param {Number} id 项目id，不能为空
+   * @returns {Object}
+   * @example ./api/project/up.json
+   */
+  async upSync(ctx) {
+    try {
+      let id = ctx.request.body.id;
+      let params = ctx.request.body;
+      params = yapi.commons.handleParams(params, {
+        sync_cron: 'string',
+        sync_json_url: 'string'
+      });
+
+      if (!id) {
+        return (ctx.body = yapi.commons.resReturn(null, 405, '项目id不能为空'));
+      }
+
+      let projectData = await this.Model.get(id);
+
+      let data = {
+        up_time: yapi.commons.time()
+      };
+
+      data = Object.assign({}, data, params);
+      let result = await this.Model.up(id, data);
+
+      //操作定时任务
+      if (params.is_sync_open) {
+        this.interfaceSyncUtils.addSyncJob(id, params.sync_cron, params.sync_json_url, params.sync_mode, projectData.uid);
+      } else {
+        this.interfaceSyncUtils.deleteSyncJob(id);
+      }
+
       let username = this.getUsername();
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了项目 <a href="/project/${id}/interface/api">${
