@@ -207,11 +207,83 @@ function sandboxByBrowser(context = {}, script) {
   return context;
 }
 
-async function crossRequest(defaultOptions, preScript, afterScript) {
+/**
+ * 处理环境配置中的多环境参数从头数组转为json,以环境名作为key,方便pre request脚本获取
+ */
+function handleEnvArrayToObj(env) {
+  let envJsonObj = {};
+  if (env) {
+    for (let i = 0; i < env.length; i++) {
+      let envItemObj = env[i];
+      //处理对象的global属性
+      envItemObj.global = envJsonArray2Obj(env[i].global);
+      envJsonObj[envItemObj.name] = envItemObj;
+    }
+  }
+  return envJsonObj;
+}
+
+/**
+ * 处理环境配置中的多环境从json转换为array
+ */
+function handleEnvObjToArray(envJsonObj) {
+  let envArray = [];
+  if (envJsonObj) {
+    for (let key in envJsonObj) {
+      let jsonItem =  envJsonObj[key];
+      jsonItem.global = envObj2JsonArray(jsonItem.global);
+
+      envArray.push(jsonItem);
+    }
+  }
+  return envArray;
+}
+
+/**
+ * 处理[{"name:":"2"},{"value":"221"}] 转换为便于通过属性获取值的js对象 {2:"221"}
+ */
+function envJsonArray2Obj (paramsArray) {
+  let paramsJson = {};
+  if (paramsArray) {
+    for (let i = 0, len = paramsArray.length; i < len; i++) {
+      let paramItem = paramsArray[i];
+      paramsJson[paramItem.name] = paramItem.value;
+    }
+  }
+  return paramsJson;
+}
+
+/**
+ *  转换json {"2":"221"} 为 [{"name:":"2"},{"value":"221"}]
+ */
+function envObj2JsonArray (paramsJson) {
+  let paramsArray = [];
+  if (paramsJson) {
+    for (let key in paramsJson) {
+      paramsArray.push({
+        name: key,
+        value: paramsJson[key]
+      });
+    }
+  }
+  return paramsArray;
+}
+
+function updateEnv(afterHandleEnvParams, projectId) {
+  //处理完之后将env存入数据库
+  let updateEnvParams = {
+    id: projectId,
+    env: afterHandleEnvParams
+  }
+  axios.post('/api/project/up_env', updateEnvParams)
+}
+
+async function crossRequest(defaultOptions, preScript, afterScript, envParams, projectId) {
   let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true),
     query = {};
   query = Object.assign(query, urlObj.query);
+  let afterHandleEnvParams = handleEnvArrayToObj(envParams);
   let context = {
     get href() {
       return urlObj.href;
@@ -233,7 +305,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     set caseId(val) {
       throw new Error('context.caseId 不能被赋值');
     },
-
+    envParams: afterHandleEnvParams,
     method: options.method,
     pathname: urlObj.pathname,
     query: query,
@@ -241,7 +313,6 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     requestBody: options.data,
     promise: false
   };
-
   context.utils = Object.freeze({
     _: _,
     CryptoJS: CryptoJS,
@@ -267,6 +338,7 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     });
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
   }
 
   let data;
@@ -296,8 +368,10 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
       window.crossRequest(options);
     });
   }
-
   if (afterScript) {
+    if (preScript) {
+      afterHandleEnvParams = handleEnvArrayToObj(envParams);
+    }
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
     context.responseStatus = data.res.status;
@@ -307,7 +381,9 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     data.res.header = context.responseHeader;
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
   }
+  
   return data;
 }
 

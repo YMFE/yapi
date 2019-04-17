@@ -16,6 +16,9 @@ const koaStatic = require('koa-static');
 // const bodyParser = require('koa-bodyparser');
 const koaBody = require('koa-body');
 const router = require('./router.js');
+//start sync job
+const interfaceSyncUtils = require('./utils/interfaceSyncUtils.js')
+yapi.getInst(interfaceSyncUtils)
 
 let indexFile = process.argv[2] === 'dev' ? 'dev.html' : 'index.html';
 

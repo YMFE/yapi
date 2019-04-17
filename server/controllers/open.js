@@ -307,7 +307,7 @@ class openController extends baseController {
       validRes: []
     };
     try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script);
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, interfaceData.env, interfaceData.project_id);
       let res = data.res;
 
       result = Object.assign(result, {
