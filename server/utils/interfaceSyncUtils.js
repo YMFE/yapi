@@ -56,7 +56,7 @@ class syncUtils {
 
     //同步接口
     async syncInterface(projectId, cronExpression, swaggerUrl, syncMode, uid, projectToken) {
-        yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
+        // yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
 
         let oldPorjectData = await this.projectModel.get(projectId);
         let newSwaggerJsonData;
