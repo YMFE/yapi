@@ -25,7 +25,8 @@ const messageMap = {
   itemType: 'item 类型',
   format: 'format',
   enum: '枚举',
-  enumDesc: '枚举备注'
+  enumDesc: '枚举备注',
+  mock: 'mock'
 };
 
 const columns = [
@@ -69,7 +70,7 @@ function createBaseMessage(basepath, inter) {
   // 基本信息
   let baseMessage = `### 基本信息\n\n**Path：** ${basepath + inter.path}\n\n**Method：** ${
     inter.method
-  }\n\n**接口描述：**\n${inter.desc}\n`;
+  }\n\n**接口描述：**\n${_.isUndefined(inter.desc) ? '' : inter.desc}\n`;
   return baseMessage;
 }
 
@@ -92,7 +93,7 @@ function createReqHeaders(req_headers) {
 function createPathParams(req_params) {
   if (req_params && req_params.length) {
     let paramsTable = `**路径参数**\n\n`;
-    paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ | ------------ | ------------ |\n`;
+    paramsTable += `| 参数名称 | 示例  | 备注  |\n| ------------ | ------------ | ------------ |\n`;
     for (let j = 0; j < req_params.length; j++) {
       paramsTable += `| ${req_params[j].name || ''} |  ${handleWrap(req_params[j].example) ||
         ''} |  ${handleWrap(req_params[j].desc) || ''} |\n`;
