@@ -64,12 +64,12 @@ class syncUtils {
             newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl)
             if (!newSwaggerJsonData || typeof newSwaggerJsonData !== 'object') {
                 yapi.commons.log('数据格式出错，请检查')
-                this.saveSyncLog(0, syncMode, "数据格式出错，请检查", uid, projectId);
+                return this.saveSyncLog(0, syncMode, "数据格式出错，请检查", uid, projectId);
             }
             newSwaggerJsonData = JSON.stringify(newSwaggerJsonData)
         } catch (e) {
             this.saveSyncLog(0, syncMode, "获取数据失败，请检查", uid, projectId);
-            yapi.commons.log('获取数据失败' + e.message)
+            return yapi.commons.log('获取数据失败' + e.message)
         }
 
         //更新之前判断本次swagger json数据是否跟上次的相同,相同则不更新
@@ -183,13 +183,18 @@ class syncUtils {
         const axios = require('axios')
         try {
             let response = await axios.get(swaggerUrl);
+            console.log(response)
             if (response.status > 400) {
                 throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
             }
             return response.data;
         } catch (e) {
             let response = e.response;
-            throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
+            if(response){
+              throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
+            }
+            throw e;
+            
         }
     }
 
