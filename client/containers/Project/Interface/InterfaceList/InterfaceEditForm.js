@@ -407,6 +407,7 @@ class InterfaceEditForm extends Component {
   delParams = (key, name) => {
     let curValue = this.props.form.getFieldValue(name);
     let newValue = {};
+    if (curValue.length === 1) return;
     newValue[name] = curValue.filter((val, index) => {
       return index !== key;
     });
@@ -548,8 +549,9 @@ class InterfaceEditForm extends Component {
 
     this.state.bulkValue.split('\n').forEach((item, index) => {
       let valueItem = Object.assign({}, curValue[index] || dataTpl[this.state.bulkName]);
-      valueItem.name = item.split(':')[0];
-      valueItem.example = item.split(':')[1] || '';
+      // valueItem.name = item.split(':')[0];
+      // valueItem.example = item.split(':')[1] || '';
+      [valueItem.name , valueItem.example, valueItem.desc] = item.split(':') || '';
       newValue.push(valueItem);
     });
 
@@ -575,7 +577,11 @@ class InterfaceEditForm extends Component {
 
     let bulkValue = ``;
     value.forEach(item => {
-      return (bulkValue += item.name ? `${item.name}:${item.example || ''}\n` : '');
+      let query = '';
+      if (item.name) query = `${item.name}:`;
+      if (item.example) query += `${item.example}:`;
+      if (item.desc) query += `${item.desc}`;
+      return (bulkValue += `${query}\n`);
     });
 
     this.setState({
@@ -809,7 +815,7 @@ class InterfaceEditForm extends Component {
         >
           <div>
             <TextArea
-              placeholder="每行一个name:examples"
+              placeholder="每行一个name : examples : desc，注意examples中不得含有英文冒号 ':'"
               autosize={{ minRows: 6, maxRows: 10 }}
               value={this.state.bulkValue}
               onChange={this.handleBulkValueInput}
