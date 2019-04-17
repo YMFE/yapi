@@ -41,6 +41,10 @@ class projectModel extends baseModel {
       sync_json_url: String,
       //接口合并模式  good,nomarl等等 意思也就是智能合并,完全覆盖等
       sync_mode: String,
+      //上次成功同步接口时间,
+      last_sync_time: Number,
+      //上次同步的swagger 文档内容
+      old_swagger_content: String,
       strice: { type: Boolean, default: false },
       is_json5: { type: Boolean, default: true },
       tag: [{name: String, desc: String}]
@@ -93,7 +97,7 @@ class projectModel extends baseModel {
   getBaseInfo(id, select) {
     select =
       select ||
-      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open is_sync_open sync_cron sync_json_url sync_mode strice is_json5 tag';
+      '_id uid name basepath switch_notice desc group_id project_type env icon color add_time up_time pre_script after_script project_mock_script is_mock_open is_sync_open sync_cron sync_json_url sync_mode old_swagger_content last_sync_time strice is_json5 tag';
     return this.model
       .findOne({
         _id: id
@@ -139,7 +143,7 @@ class projectModel extends baseModel {
     return this.model
       .find({})
       .select(
-        '_id uid name basepath switch_notice desc group_id project_type color icon env add_time up_time is_sync_open sync_cron sync_json_url sync_mode'
+        '_id uid name basepath switch_notice desc group_id project_type color icon env add_time up_time is_sync_open sync_cron sync_json_url sync_mode old_swagger_content last_sync_time'
       )
       .sort({ _id: -1 })
       .exec();

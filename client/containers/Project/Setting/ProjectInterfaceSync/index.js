@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { formatTime } from '../../../../common.js';
 import { Form, Switch, Button, Icon, Tooltip, message, Input, Select } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -87,7 +88,8 @@ export default class ProjectInterfaceSync extends Component {
     this.setState({
       is_sync_open: this.props.projectMsg.is_sync_open,
       sync_cron: this.props.projectMsg.sync_cron,
-      sync_json_url: this.props.projectMsg.sync_json_url
+      sync_json_url: this.props.projectMsg.sync_json_url,
+      last_sync_time: this.props.projectMsg.last_sync_time
     });
   }
 
@@ -114,7 +116,8 @@ export default class ProjectInterfaceSync extends Component {
       tag,
       sync_cron,
       sync_json_url,
-      sync_mode
+      sync_mode,
+      last_sync_time
     } = projectMsg;
     initFormValues = {
       name,
@@ -128,7 +131,8 @@ export default class ProjectInterfaceSync extends Component {
       tag,
       sync_cron,
       sync_json_url,
-      sync_mode
+      sync_mode,
+      last_sync_time
     };
     return (
       <div className="m-panel">
@@ -143,6 +147,7 @@ export default class ProjectInterfaceSync extends Component {
               checkedChildren="开"
               unCheckedChildren="关"
             />
+            {this.state.last_sync_time ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.last_sync_time )}</span></div>) : null}
           </FormItem>
 
           {this.state.is_sync_open ? (
@@ -201,12 +206,12 @@ export default class ProjectInterfaceSync extends Component {
                 })(<Input />)}
               </FormItem>
 
-              <FormItem {...formItemLayout} label="定时cron表达式(默认每分钟更新一次)">
+              <FormItem {...formItemLayout} label={<span>类cron风格表达式(默认每分钟更新一次)&nbsp;<a href="https://github.com/node-schedule/node-schedule">参考</a></span>}>
                 {getFieldDecorator('sync_cron', {
                   rules: [
                     {
                       required: true,
-                      message: '输入正确的cron表达式!'
+                      message: '输入node-schedule的类cron表达式!'
                     }
                   ],
                   initialValue: initFormValues.sync_cron? initFormValues.sync_cron : '30 * * * * *'
