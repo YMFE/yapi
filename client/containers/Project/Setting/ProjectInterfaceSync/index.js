@@ -5,7 +5,7 @@ import { formatTime } from '../../../../common.js';
 import { Form, Switch, Button, Icon, Tooltip, message, Input, Select } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-import { getProject, updateProjectSync } from '../../../../reducer/modules/project';
+import { getProject, updateProjectSync, handleSwaggerUrlData} from '../../../../reducer/modules/project';
 
 // layout
 const formItemLayout = {
@@ -38,7 +38,8 @@ const tailFormItemLayout = {
   },
   {
     getProject,
-    updateProjectSync
+    updateProjectSync,
+    handleSwaggerUrlData
   }
 )
 @Form.create()
@@ -49,7 +50,8 @@ export default class ProjectInterfaceSync extends Component {
     projectId: PropTypes.number,
     projectMsg: PropTypes.object,
     getProject: PropTypes.func,
-    updateProjectSync: PropTypes.func
+    updateProjectSync: PropTypes.func,
+    handleSwaggerUrlData: PropTypes.func
   };
 
   constructor(props) {
@@ -83,6 +85,15 @@ export default class ProjectInterfaceSync extends Component {
     });
 
   };
+
+  validSwaggerUrl = async (rule, value, callback) => {
+    try{
+      await this.props.handleSwaggerUrlData(value);
+    } catch(e) {
+      callback('swagger地址不正确');
+    } 
+    callback()
+  }
 
   componentWillMount() {
     this.setState({
@@ -147,7 +158,7 @@ export default class ProjectInterfaceSync extends Component {
               checkedChildren="开"
               unCheckedChildren="关"
             />
-            {this.state.last_sync_time ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.last_sync_time )}</span></div>) : null}
+            {this.state.last_sync_time ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.last_sync_time)}</span></div>) : null}
           </FormItem>
 
           {this.state.is_sync_open ? (
@@ -194,12 +205,15 @@ export default class ProjectInterfaceSync extends Component {
                 )}
               </FormItem>
 
-              <FormItem {...formItemLayout} label="项目的swagger地址(xxx/api/docs)">
+              <FormItem {...formItemLayout} label="项目的swagger json地址">
                 {getFieldDecorator('sync_json_url', {
                   rules: [
                     {
                       required: true,
                       message: '输入swagger地址'
+                    },
+                    {
+                      validator: this.validSwaggerUrl
                     }
                   ],
                   initialValue: initFormValues.sync_json_url
@@ -214,7 +228,7 @@ export default class ProjectInterfaceSync extends Component {
                       message: '输入node-schedule的类cron表达式!'
                     }
                   ],
-                  initialValue: initFormValues.sync_cron? initFormValues.sync_cron : '30 * * * * *'
+                  initialValue: initFormValues.sync_cron ? initFormValues.sync_cron : '30 * * * * *'
                 })(<Input />)}
               </FormItem>
             </div>

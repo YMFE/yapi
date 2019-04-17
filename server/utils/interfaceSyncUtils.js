@@ -57,16 +57,21 @@ class syncUtils {
     //同步接口
     async syncInterface(projectId, cronExpression, swaggerUrl, syncMode, uid, projectToken) {
         yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
-            
-        let oldPorjectData = await this.projectModel.get(projectId);
-        let newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl);
 
-        //判断获取的json数据是否正确
-        if(!newSwaggerJsonData || newSwaggerJsonData.indexOf('error') != -1) {
-            //记录日志
-            this.saveSyncLog(0, syncMode, newSwaggerJsonData, uid, projectId);
-            return;
+        let oldPorjectData = await this.projectModel.get(projectId);
+        let newSwaggerJsonData;
+        try {
+            newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl)
+            if (!newSwaggerJsonData || typeof newSwaggerJsonData !== 'object') {
+                yapi.commons.log('数据格式出错，请检查')
+                this.saveSyncLog(0, syncMode, "数据格式出错，请检查", uid, projectId);
+            }
+            newSwaggerJsonData = JSON.stringify(newSwaggerJsonData)
+        } catch (e) {
+            this.saveSyncLog(0, syncMode, "获取数据失败，请检查", uid, projectId);
+            yapi.commons.log('获取数据失败' + e.message)
         }
+
         //更新之前判断本次swagger json数据是否跟上次的相同,相同则不更新
         if (oldPorjectData.old_swagger_content && oldPorjectData.old_swagger_content == md5(newSwaggerJsonData)) {
             //记录日志
@@ -87,7 +92,7 @@ class syncUtils {
             params: _params
         };
         await this.openController.importData(requestObj);
-        
+
         //修改project的属性
         oldPorjectData.last_sync_time = yapi.commons.time();
         oldPorjectData.old_swagger_content = md5(newSwaggerJsonData);
@@ -175,27 +180,17 @@ class syncUtils {
     }
 
     async getSwaggerContent(swaggerUrl) {
-        let content = '';
+        const axios = require('axios')
         try {
-            let request = require("request");// let Promise = require('Promise');
-            let syncGet = function (url) {
-                return new Promise(function (resolve, reject) {
-                    request.get({ url: url }, function (error, response, body) {
-                        if (error) {
-                            reject(error);
-                        } else {
-                            resolve(body);
-                        }
-                    });
-                });
+            let response = await axios.get(swaggerUrl);
+            if (response.status > 400) {
+                throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
             }
-            if (swaggerUrl) {
-                content = await syncGet(swaggerUrl);
-            } 
+            return response.data;
         } catch (e) {
-            return 'error:json格式有误:' + e;
+            let response = e.response;
+            throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
         }
-        return content;
     }
 
 }
