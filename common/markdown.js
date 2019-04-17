@@ -70,7 +70,7 @@ function createBaseMessage(basepath, inter) {
   // 基本信息
   let baseMessage = `### 基本信息\n\n**Path：** ${basepath + inter.path}\n\n**Method：** ${
     inter.method
-  }\n\n**接口描述：**\n${inter.desc ? inter.desc : ""}\n`;
+  }\n\n**接口描述：**\n${_.isUndefined(inter.desc) ? '' : inter.desc}\n`;
   return baseMessage;
 }
 
