@@ -40,47 +40,10 @@ class syncUtils {
      */
     async addSyncJob(projectId, cronExpression, swaggerUrl, syncMode, uid) {
         let projectToken = await this.getProjectToken(projectId, uid);
-
+        //立即执行一次
+        this.syncInterface(projectId, cronExpression, swaggerUrl, syncMode, uid, projectToken);
         let scheduleItem = schedule.scheduleJob(cronExpression, async () => {
-            yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
-            
-            let oldPorjectData = await this.projectModel.get(projectId);
-            let newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl);
-
-            //判断获取的json数据是否正确
-            if(!newSwaggerJsonData || newSwaggerJsonData.indexOf('error') != -1) {
-                //记录日志
-                this.saveSyncLog(0, syncMode, newSwaggerJsonData, uid, projectId);
-                return;
-            }
-            //更新之前判断本次swagger json数据是否跟上次的相同,相同则不更新
-            if (oldPorjectData.old_swagger_content && oldPorjectData.old_swagger_content == md5(newSwaggerJsonData)) {
-                //记录日志
-                this.saveSyncLog(0, syncMode, "接口无更新", uid, projectId);
-                oldPorjectData.last_sync_time = yapi.commons.time();
-                await this.projectModel.up(projectId, oldPorjectData);
-                return;
-            }
-
-            let _params = {
-                type: 'swagger',
-                json: newSwaggerJsonData,
-                project_id: projectId,
-                merge: syncMode,
-                token: projectToken
-            }
-            let requestObj = {
-                params: _params
-            };
-            await this.openController.importData(requestObj);
-            
-            //修改project的属性
-            oldPorjectData.last_sync_time = yapi.commons.time();
-            oldPorjectData.old_swagger_content = md5(newSwaggerJsonData);
-            await this.projectModel.up(projectId, oldPorjectData);
-
-            //记录日志
-            this.saveSyncLog(requestObj.body.errcode, syncMode, requestObj.body.errmsg, uid, projectId);
+            this.syncInterface(projectId, cronExpression, swaggerUrl, syncMode, uid, projectToken);
         });
 
         //判断是否已经存在这个任务
@@ -91,6 +54,48 @@ class syncUtils {
         jobMap.set(projectId, scheduleItem);
     }
 
+    //同步接口
+    async syncInterface(projectId, cronExpression, swaggerUrl, syncMode, uid, projectToken) {
+        yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
+            
+        let oldPorjectData = await this.projectModel.get(projectId);
+        let newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl);
+
+        //判断获取的json数据是否正确
+        if(!newSwaggerJsonData || newSwaggerJsonData.indexOf('error') != -1) {
+            //记录日志
+            this.saveSyncLog(0, syncMode, newSwaggerJsonData, uid, projectId);
+            return;
+        }
+        //更新之前判断本次swagger json数据是否跟上次的相同,相同则不更新
+        if (oldPorjectData.old_swagger_content && oldPorjectData.old_swagger_content == md5(newSwaggerJsonData)) {
+            //记录日志
+            this.saveSyncLog(0, syncMode, "接口无更新", uid, projectId);
+            oldPorjectData.last_sync_time = yapi.commons.time();
+            await this.projectModel.up(projectId, oldPorjectData);
+            return;
+        }
+
+        let _params = {
+            type: 'swagger',
+            json: newSwaggerJsonData,
+            project_id: projectId,
+            merge: syncMode,
+            token: projectToken
+        }
+        let requestObj = {
+            params: _params
+        };
+        await this.openController.importData(requestObj);
+        
+        //修改project的属性
+        oldPorjectData.last_sync_time = yapi.commons.time();
+        oldPorjectData.old_swagger_content = md5(newSwaggerJsonData);
+        await this.projectModel.up(projectId, oldPorjectData);
+
+        //记录日志
+        this.saveSyncLog(requestObj.body.errcode, syncMode, requestObj.body.errmsg, uid, projectId);
+    }
 
     getSyncJob(projectId) {
         return jobMap.get(projectId);
