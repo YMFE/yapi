@@ -33,9 +33,13 @@ class projectModel extends baseModel {
       after_script: String,
       project_mock_script: String,
       is_mock_open: { type: Boolean, default: false },
+      //是否开启自动同步
       is_sync_open: { type: Boolean, default: false },
+      //自动同步定时任务的cron表达式
       sync_cron: String,
+      //自动同步获取json的url
       sync_json_url: String,
+      //接口合并模式  good,nomarl等等 意思也就是智能合并,完全覆盖等
       sync_mode: String,
       strice: { type: Boolean, default: false },
       is_json5: { type: Boolean, default: true },
