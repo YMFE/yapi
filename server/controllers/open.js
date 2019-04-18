@@ -215,7 +215,7 @@ class openController extends baseController {
       let result;
       // console.log('item',item.case_env)
       try {
-        result = await this.handleTest(item);
+        result = await this.handleTest(item, ctx.request.origin);
       } catch (err) {
         result = err;
       }
@@ -294,7 +294,7 @@ class openController extends baseController {
     }
   }
 
-  async handleTest(interfaceData) {
+  async handleTest(interfaceData, originUrl) {
     let requestParams = {};
     let options;
     options = handleParams(interfaceData, this.handleValue, requestParams);
@@ -306,7 +306,14 @@ class openController extends baseController {
       validRes: []
     };
     try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, interfaceData.env.toObject(), interfaceData.project_id);
+      let envObj = interfaceData.env.toObject();
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, envObj, interfaceData.project_id, false);
+      //更新project的env
+      let upParams = {
+        up_time: yapi.commons.time(),
+        env: envObj
+      };
+      await this.projectModel.up(interfaceData.project_id, upParams);
       let res = data.res;
 
       result = Object.assign(result, {
