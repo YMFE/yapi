@@ -269,16 +269,28 @@ function envObj2JsonArray (paramsJson) {
   return paramsArray;
 }
 
-function updateEnv(afterHandleEnvParams, projectId) {
+async function updateEnv(afterHandleEnvParams, projectId, needUpdateEnv) {
+  if (!needUpdateEnv) {
+    return;
+  }
   //处理完之后将env存入数据库
   let updateEnvParams = {
     id: projectId,
     env: afterHandleEnvParams
   }
-  axios.post('/api/project/up_env', updateEnvParams)
+  await axios.post('/api/project/up_env', updateEnvParams)
 }
 
-async function crossRequest(defaultOptions, preScript, afterScript, envParams, projectId) {
+/**
+ * 
+ * @param {*} defaultOptions 接口参数
+ * @param {*} preScript 请求前脚本
+ * @param {*} afterScript 请求完成后脚本
+ * @param {*} envParams 环境配置的参数
+ * @param {*} projectId 项目id
+ * @param {*} needUpdateEnv 是否需要在脚本执行完成之后更新数据库的env,默认需求更新,服务端测试的情况下不需要更新
+ */
+async function crossRequest(defaultOptions, preScript, afterScript, envParams, projectId, needUpdateEnv = true) {
   let options = Object.assign({}, defaultOptions);
   let urlObj = URL.parse(options.url, true),
     query = {};
@@ -338,7 +350,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
     });
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
-    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId, needUpdateEnv);
   }
 
   let data;
@@ -381,7 +393,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, envParams, p
     data.res.header = context.responseHeader;
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
-    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId);
+    updateEnv(handleEnvObjToArray(afterHandleEnvParams), projectId, needUpdateEnv);
   }
   
   return data;
