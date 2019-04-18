@@ -156,6 +156,22 @@ context.responseData.a = 2;
 
 ```
 
+### 获取和设置环境设置里面的global变量
+
+比如我配置如下环境配置
+![环境变量设置](https://user-images.githubusercontent.com/20592210/55942768-b2ac2300-5c77-11e9-9a8f-b8955d4221a5.png)
+
+然后我在pre-request中修改getTokenTime,通过`context.envParams.环境名称.global.属性名`进行获取和设置环境变量值
+
+比如我的pre-request代码如下,get_token是我的环境变量名,getTokenTime是我的变量名
+
+```javascript
+context.envParams.get_token.global.getTokenTime = new Date().getTime();
+```
+
+执行任意接口运行后,可以看到结果如下,getTokenTime的值进行了修改,证明pre-request脚本中修改有效,并且pre request script中修改的值在pre response script就能获取到
+![global脚本变更](https://user-images.githubusercontent.com/20592210/56008013-424fe100-5d0d-11e9-9a7e-3e008f3989d4.png)
+
 > （v1.3.16+新增）context.href 和 context.hostname  
 > （v1.3.17+新增）context.caseId 测试用例的唯一 key 值
 
@@ -258,3 +274,46 @@ Random.extend({
 请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
 
 如果前面匹配到 Mock 数据，后面 Mock 则不返回。
+
+## Swagger自动同步
+
+自动同步接口,需要*刷新页面*才能看到效果,在动态里面能看到同步是否成功的日志
+
+- 打开自动同步开关可以开启自动同步功能
+- 数据同步的方式选择完全覆盖,智能合并等,根据自己的需求
+- swagger的地址是获取json文件的路径,如果路径不对不能保存成功
+- 类cron表达式,因为这里定时任务使用的是`node-schedule`,他的cron表达式并不是完整的cron表达式,具体参考[node-schedule的cron表达式](https://github.com/node-schedule/node-schedule)
+
+默认的cron表达式`30 * * * * *`代表每份钟的第30s执行这个任务
+
+这里的cron表达式风格
+
+```other
+*    *    *    *    *    *
+┬    ┬    ┬    ┬    ┬    ┬
+│    │    │    │    │    │
+│    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)
+│    │    │    │    └───── month (1 - 12)
+│    │    │    └────────── day of month (1 - 31)
+│    │    └─────────────── hour (0 - 23)
+│    └──────────────────── minute (0 - 59)
+└───────────────────────── second (0 - 59, OPTIONAL)
+```
+
+列举一些常用的cron表达式
+
+```other
+#Execute a cron job when the minute is 42 (e.g. 19:42, 20:42, etc.). 每小时的第42分钟触发执行
+42 * * * *
+
+#Execute a cron job every 5 Minutes 每五分钟执行一次
+*/5 * * * *
+```
+
+设置如下图
+![image](https://user-images.githubusercontent.com/20592210/56284747-0327f280-6148-11e9-9cb4-1fe526c12d82.png)
+
+
+我们可以查看动态里面的日志查看是否同步成功
+
+![image](https://user-images.githubusercontent.com/20592210/56285241-5cdcec80-6149-11e9-9647-1c4cfefc1361.png)
