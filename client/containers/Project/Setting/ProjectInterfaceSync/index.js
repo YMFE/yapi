@@ -158,7 +158,7 @@ export default class ProjectInterfaceSync extends Component {
               checkedChildren="开"
               unCheckedChildren="关"
             />
-            {this.state.last_sync_time ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.last_sync_time)}</span></div>) : null}
+            {this.state.last_sync_time !=null ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.last_sync_time)}</span></div>) : null}
           </FormItem>
 
           {this.state.is_sync_open ? (

@@ -193,7 +193,6 @@ class openController extends baseController {
     }
 
     let projectData = await this.projectModel.get(projectId);
-
     let caseList = await yapi.commons.getCaseList(id);
     if (caseList.errcode !== 0) {
       ctx.body = caseList;
@@ -307,7 +306,7 @@ class openController extends baseController {
       validRes: []
     };
     try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, interfaceData.env, interfaceData.project_id);
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, interfaceData.env.toObject(), interfaceData.project_id);
       let res = data.res;
 
       result = Object.assign(result, {
