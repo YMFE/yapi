@@ -215,7 +215,7 @@ class openController extends baseController {
       let result;
       // console.log('item',item.case_env)
       try {
-        result = await this.handleTest(item, ctx.request.origin);
+        result = await this.handleTest(item);
       } catch (err) {
         result = err;
       }
@@ -294,7 +294,7 @@ class openController extends baseController {
     }
   }
 
-  async handleTest(interfaceData, originUrl) {
+  async handleTest(interfaceData) {
     let requestParams = {};
     let options;
     options = handleParams(interfaceData, this.handleValue, requestParams);
