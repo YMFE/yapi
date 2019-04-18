@@ -294,13 +294,6 @@ class openController extends baseController {
     }
   }
 
-  handleEnvArray(mongooseArray) {
-    let envArray = [];
-    for (let item in mongooseArray) {
-      console.log(item)
-    }
-  }
-
   async handleTest(interfaceData) {
     let requestParams = {};
     let options;
