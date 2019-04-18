@@ -230,7 +230,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n"
+        },
+        {
+          "title": "获取和设置环境设置里面的global变量",
+          "url": "/documents/project.html#请求配置-获取和设置环境设置里面的global变量",
+          "content": "获取和设置环境设置里面的global变量比如我配置如下环境配置然后我在pre-request中修改getTokenTime,通过context.envParams.环境名称.global.属性名进行获取和设置环境变量值比如我的pre-request代码如下,get_token是我的环境变量名,getTokenTime是我的变量名context.envParams.get_token.global.getTokenTime = new Date().getTime();执行任意接口运行后,可以看到结果如下,getTokenTime的值进行了修改,证明pre-request脚本中修改有效,并且pre request script中修改的值在pre response script就能获取到（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -256,6 +261,11 @@ window.ydoc_plugin_search_json = {
           "title": "Mock 优先级说明",
           "url": "/documents/project.html#全局mock-mock-优先级说明",
           "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+        },
+        {
+          "title": "Swagger自动同步",
+          "url": "/documents/project.html#swagger自动同步",
+          "content": "Swagger自动同步自动同步接口,需要刷新页面才能看到效果,在动态里面能看到同步是否成功的日志打开自动同步开关可以开启自动同步功能\n数据同步的方式选择完全覆盖,智能合并等,根据自己的需求\nswagger的地址是获取json文件的路径,如果路径不对不能保存成功\n类cron表达式,因为这里定时任务使用的是node-schedule,他的cron表达式并不是完整的cron表达式,具体参考node-schedule的cron表达式\n默认的cron表达式30 * * * * *代表每份钟的第30s执行这个任务这里的cron表达式风格*    *    *    *    *    *┬    ┬    ┬    ┬    ┬    ┬\n│    │    │    │    │    │\n│    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)\n│    │    │    │    └───── month (1 - 12)\n│    │    │    └────────── day of month (1 - 31)\n│    │    └─────────────── hour (0 - 23)\n│    └──────────────────── minute (0 - 59)\n└───────────────────────── second (0 - 59, OPTIONAL)\n列举一些常用的cron表达式#Execute a cron job when the minute is 42 (e.g. 19:42, 20:42, etc.). 每小时的第42分钟触发执行42 * * * *\n\n#Execute a cron job every 5 Minutes 每五分钟执行一次\n*/5 * * * *\n设置如下图我们可以查看动态里面的日志查看是否同步成功"
         }
       ]
     },
@@ -317,7 +327,12 @@ window.ydoc_plugin_search_json = {
         {
           "title": "返回数据示例",
           "url": "/documents/project.html#请求配置-返回数据示例",
-          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
+          "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n"
+        },
+        {
+          "title": "获取和设置环境设置里面的global变量",
+          "url": "/documents/project.html#请求配置-获取和设置环境设置里面的global变量",
+          "content": "获取和设置环境设置里面的global变量比如我配置如下环境配置然后我在pre-request中修改getTokenTime,通过context.envParams.环境名称.global.属性名进行获取和设置环境变量值比如我的pre-request代码如下,get_token是我的环境变量名,getTokenTime是我的变量名context.envParams.get_token.global.getTokenTime = new Date().getTime();执行任意接口运行后,可以看到结果如下,getTokenTime的值进行了修改,证明pre-request脚本中修改有效,并且pre request script中修改的值在pre response script就能获取到（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
           "title": "工具函数",
@@ -343,6 +358,11 @@ window.ydoc_plugin_search_json = {
           "title": "Mock 优先级说明",
           "url": "/documents/project.html#全局mock-mock-优先级说明",
           "content": "Mock 优先级说明请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。如果前面匹配到 Mock 数据，后面 Mock 则不返回。"
+        },
+        {
+          "title": "Swagger自动同步",
+          "url": "/documents/project.html#swagger自动同步",
+          "content": "Swagger自动同步自动同步接口,需要刷新页面才能看到效果,在动态里面能看到同步是否成功的日志打开自动同步开关可以开启自动同步功能\n数据同步的方式选择完全覆盖,智能合并等,根据自己的需求\nswagger的地址是获取json文件的路径,如果路径不对不能保存成功\n类cron表达式,因为这里定时任务使用的是node-schedule,他的cron表达式并不是完整的cron表达式,具体参考node-schedule的cron表达式\n默认的cron表达式30 * * * * *代表每份钟的第30s执行这个任务这里的cron表达式风格*    *    *    *    *    *┬    ┬    ┬    ┬    ┬    ┬\n│    │    │    │    │    │\n│    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)\n│    │    │    │    └───── month (1 - 12)\n│    │    │    └────────── day of month (1 - 31)\n│    │    └─────────────── hour (0 - 23)\n│    └──────────────────── minute (0 - 59)\n└───────────────────────── second (0 - 59, OPTIONAL)\n列举一些常用的cron表达式#Execute a cron job when the minute is 42 (e.g. 19:42, 20:42, etc.). 每小时的第42分钟触发执行42 * * * *\n\n#Execute a cron job every 5 Minutes 每五分钟执行一次\n*/5 * * * *\n设置如下图我们可以查看动态里面的日志查看是否同步成功"
         }
       ]
     },
@@ -1031,7 +1051,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\nexport-docx-data 数据导出docx文档\n"
         }
       ]
     },
@@ -1048,7 +1068,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\nexport-docx-data 数据导出docx文档\n"
         }
       ]
     },
@@ -1219,6 +1239,26 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.6.0",
+          "url": "/documents/CHANGELOG.html#v1.6.0",
+          "content": "v1.6.0新增 swagger 文档自动更新功能\n"
+        },
+        {
+          "title": "v1.5.11",
+          "url": "/documents/CHANGELOG.html#v1.5.11",
+          "content": "v1.5.11修复丢失了部分自动化测试错误提示\n优化 markdown 导出部分 bug\n"
+        },
+        {
+          "title": "v1.5.10",
+          "url": "/documents/CHANGELOG.html#v1.5.10",
+          "content": "v1.5.10解决 license should be a valid SPDX license expression 报错\n修改OpenAPI比较版本方法\nfix复制路径不包含基本路径\n修复了第一次部署，首页一直处于 loading bug\n"
+        },
+        {
+          "title": "v1.5.7",
+          "url": "/documents/CHANGELOG.html#v1.5.7",
+          "content": "v1.5.7数据导入默认使用完全覆盖\n升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传\nfix 重复的 moment 依赖，导致安装时报错\nfeat: add jsrsasign Lib\n"
+        },
         {
           "title": "v1.5.6",
           "url": "/documents/CHANGELOG.html#v1.5.6",
@@ -1446,6 +1486,26 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.6.0",
+          "url": "/documents/CHANGELOG.html#v1.6.0",
+          "content": "v1.6.0新增 swagger 文档自动更新功能\n"
+        },
+        {
+          "title": "v1.5.11",
+          "url": "/documents/CHANGELOG.html#v1.5.11",
+          "content": "v1.5.11修复丢失了部分自动化测试错误提示\n优化 markdown 导出部分 bug\n"
+        },
+        {
+          "title": "v1.5.10",
+          "url": "/documents/CHANGELOG.html#v1.5.10",
+          "content": "v1.5.10解决 license should be a valid SPDX license expression 报错\n修改OpenAPI比较版本方法\nfix复制路径不包含基本路径\n修复了第一次部署，首页一直处于 loading bug\n"
+        },
+        {
+          "title": "v1.5.7",
+          "url": "/documents/CHANGELOG.html#v1.5.7",
+          "content": "v1.5.7数据导入默认使用完全覆盖\n升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传\nfix 重复的 moment 依赖，导致安装时报错\nfeat: add jsrsasign Lib\n"
+        },
         {
           "title": "v1.5.6",
           "url": "/documents/CHANGELOG.html#v1.5.6",

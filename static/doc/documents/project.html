@@ -120,6 +120,15 @@
 <pre><code>context.responseData.a = 2;
 
 </code></pre>
+<h3 id="请求配置-获取和设置环境设置里面的global变量">获取和设置环境设置里面的global变量</h3>
+<p>比如我配置如下环境配置
+<img src="https://user-images.githubusercontent.com/20592210/55942768-b2ac2300-5c77-11e9-9a8f-b8955d4221a5.png" alt="环境变量设置"></p>
+<p>然后我在pre-request中修改getTokenTime,通过<code>context.envParams.环境名称.global.属性名</code>进行获取和设置环境变量值</p>
+<p>比如我的pre-request代码如下,get_token是我的环境变量名,getTokenTime是我的变量名</p>
+<pre><code class="language-javascript">context<span class="token punctuation">.</span>envParams<span class="token punctuation">.</span>get_token<span class="token punctuation">.</span>global<span class="token punctuation">.</span>getTokenTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>执行任意接口运行后,可以看到结果如下,getTokenTime的值进行了修改,证明pre-request脚本中修改有效,并且pre request script中修改的值在pre response script就能获取到
+<img src="https://user-images.githubusercontent.com/20592210/56008013-424fe100-5d0d-11e9-9a7e-3e008f3989d4.png" alt="global脚本变更"></p>
 <blockquote>
 <p>（v1.3.16+新增）context.href 和 context.hostname<br>
 （v1.3.17+新增）context.caseId 测试用例的唯一 key 值</p>
@@ -196,6 +205,37 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h3 id="全局mock-mock-优先级说明">Mock 优先级说明</h3>
 <p>请求 Mock 数据时，规则匹配优先级：Mock 期望 &gt; 自定义 Mock 脚本 &gt; 项目全局 mock 脚本 &gt; 普通 Mock。</p>
 <p>如果前面匹配到 Mock 数据，后面 Mock 则不返回。</p>
+<h2 id="swagger自动同步">Swagger自动同步</h2>
+<p>自动同步接口,需要<em>刷新页面</em>才能看到效果,在动态里面能看到同步是否成功的日志</p>
+<ul>
+<li>打开自动同步开关可以开启自动同步功能</li>
+<li>数据同步的方式选择完全覆盖,智能合并等,根据自己的需求</li>
+<li>swagger的地址是获取json文件的路径,如果路径不对不能保存成功</li>
+<li>类cron表达式,因为这里定时任务使用的是<code>node-schedule</code>,他的cron表达式并不是完整的cron表达式,具体参考<a href="https://github.com/node-schedule/node-schedule" target="_blank">node-schedule的cron表达式</a></li>
+</ul>
+<p>默认的cron表达式<code>30 * * * * *</code>代表每份钟的第30s执行这个任务</p>
+<p>这里的cron表达式风格</p>
+<pre><code class="language-other">*    *    *    *    *    *
+&#x252C;    &#x252C;    &#x252C;    &#x252C;    &#x252C;    &#x252C;
+&#x2502;    &#x2502;    &#x2502;    &#x2502;    &#x2502;    &#x2502;
+&#x2502;    &#x2502;    &#x2502;    &#x2502;    &#x2502;    &#x2514; day of week (0 - 7) (0 or 7 is Sun)
+&#x2502;    &#x2502;    &#x2502;    &#x2502;    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; month (1 - 12)
+&#x2502;    &#x2502;    &#x2502;    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; day of month (1 - 31)
+&#x2502;    &#x2502;    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; hour (0 - 23)
+&#x2502;    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; minute (0 - 59)
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; second (0 - 59, OPTIONAL)
+</code></pre>
+<p>列举一些常用的cron表达式</p>
+<pre><code class="language-other">#Execute a cron job when the minute is 42 (e.g. 19:42, 20:42, etc.). &#x6BCF;&#x5C0F;&#x65F6;&#x7684;&#x7B2C;42&#x5206;&#x949F;&#x89E6;&#x53D1;&#x6267;&#x884C;
+42 * * * *
+
+#Execute a cron job every 5 Minutes &#x6BCF;&#x4E94;&#x5206;&#x949F;&#x6267;&#x884C;&#x4E00;&#x6B21;
+*/5 * * * *
+</code></pre>
+<p>设置如下图
+<img src="https://user-images.githubusercontent.com/20592210/56284747-0327f280-6148-11e9-9cb4-1fe526c12d82.png" alt="image"></p>
+<p>我们可以查看动态里面的日志查看是否同步成功</p>
+<p><img src="https://user-images.githubusercontent.com/20592210/56285241-5cdcec80-6149-11e9-9647-1c4cfefc1361.png" alt="image"></p>
 </div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="manage.html" class="href"><span class="ui-font-ydoc"></span>权限</a></div><div class="m-paging-next m-paging-item"><a href="api.html" class="href">接口操作<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div><div class="m-mask js-mask">
     <div class="container">
       <img src="" alt="" class="img js-mask-img" />
