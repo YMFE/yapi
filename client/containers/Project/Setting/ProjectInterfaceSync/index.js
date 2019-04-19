@@ -67,9 +67,9 @@ export default class ProjectInterfaceSync extends Component {
       id: this.props.projectId,
       is_sync_open: this.state.is_sync_open
     };
-
     form.validateFields((err, values) => {
       if (!err) {
+        
         let assignValue = Object.assign(params, values);
         updateProjectSync(assignValue)
           .then(res => {
@@ -216,6 +216,7 @@ export default class ProjectInterfaceSync extends Component {
                       validator: this.validSwaggerUrl
                     }
                   ],
+                  validateTrigger: 'onBlur',
                   initialValue: initFormValues.sync_json_url
                 })(<Input />)}
               </FormItem>
