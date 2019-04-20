@@ -691,7 +691,7 @@ export default class Run extends Component {
                   )}
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    value={item.value ? item.value : item.example}
                     className="value"
                     onChange={e => this.changeParam('req_query', e.target.value, index)}
                     placeholder="参数值"
@@ -825,7 +825,7 @@ export default class Run extends Component {
                           // />
                         ) : (
                           <Input
-                            value={item.value}
+                            value={item.value ? item.value : item.example}
                             className="value"
                             onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"

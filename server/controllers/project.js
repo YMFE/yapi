@@ -624,8 +624,6 @@ class projectController extends baseController {
     let interfaceInst = yapi.getInst(interfaceModel);
     let interfaceColInst = yapi.getInst(interfaceColModel);
     let interfaceCaseInst = yapi.getInst(interfaceCaseModel);
-    //如果存在定时任务则删除
-    interfaceSyncUtils.deleteSyncJob(id);
     await interfaceInst.delByProjectId(id);
     await interfaceCaseInst.delByProjectId(id);
     await interfaceColInst.delByProjectId(id);
