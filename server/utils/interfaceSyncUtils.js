@@ -59,6 +59,13 @@ class syncUtils {
         // yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
 
         let oldPorjectData = await this.projectModel.get(projectId);
+        //如果项目已经删除了
+        if (!oldPorjectData) {
+            yapi.commons.log('项目:' + projectId + '不存在');
+            this.deleteSyncJob(projectId);
+            return;
+        }
+
         let newSwaggerJsonData;
         try {
             newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl)
