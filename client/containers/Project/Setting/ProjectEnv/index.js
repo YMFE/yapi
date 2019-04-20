@@ -154,7 +154,10 @@ class ProjectEnv extends Component {
   render() {
     const { env, currentKey } = this.state;
 
-    const envSettingItems = env.map((item, index) => {
+    const envSettingItems = env.filter(item=>{
+      if(item && typeof item === 'object')return true;
+      return false;
+    }).map((item, index) => {
       return (
         <Row
           key={index}
