@@ -248,6 +248,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
   query = Object.assign(query, urlObj.query);
   let context = {
     ...commonContext,
+    isNode,
     get href() {
       return urlObj.href;
     },
