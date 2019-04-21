@@ -8,6 +8,9 @@ import ProjectToken from './ProjectToken/ProjectToken';
 import ProjectMock from './ProjectMock/index.js';
 import { connect } from 'react-redux';
 const TabPane = Tabs.TabPane;
+const plugin = require('client/plugin.js');
+
+const routers = {}
 
 import './Setting.scss';
 
@@ -23,7 +26,7 @@ class Setting extends Component {
   };
   render() {
     const id = this.props.match.params.id;
-
+    plugin.emitHook('sub_setting_nav', routers);
     return (
       <div className="g-row">
         <Tabs type="card" className="has-affix-footer tabs-large">
@@ -44,6 +47,12 @@ class Setting extends Component {
           <TabPane tab="全局mock脚本" key="5">
             <ProjectMock projectId={+id} />
           </TabPane>
+          {Object.keys(routers).map(key=>{
+            const C = routers[key].component;
+            return <TabPane tab={routers[key].name} key={routers[key].name}>
+              <C projectId={+id} />
+            </TabPane>
+          })}
         </Tabs>
       </div>
     );
