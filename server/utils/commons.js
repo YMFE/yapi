@@ -521,33 +521,10 @@ function convertString(variable) {
   }
 }
 
-const _cache = {}
 
-function creater(key){
-  const _storage ={
-    getItem(key){
-      return _storage[key]
-    },
-    setItem(key, value){
-      _storage[key] = value;
-    }
-  }
-  if(!_cache[key]){
-    _cache[key] = _storage;
-    
-    setTimeout(()=>{
-      delete _cache[key];
-    }, 1000* 3600)  //一个小时后释放掉，防止长时间调用内存导致内存占用过大
-    return _storage;
-  }else{
-    return _cache[key]
-  }
-}
-
-exports.runCaseScript = async function runCaseScript(params, colId, interfaceId, userId) {
+exports.runCaseScript = async function runCaseScript(params, colId, interfaceId) {
   const colInst = yapi.getInst(interfaceColModel);
   let colData = await colInst.get(colId);
-  let localStorage = creater(colId + '/' +userId);
   const logs = [];
   const context = {
     assert: require('assert'),
@@ -556,7 +533,6 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId,
     header: params.response.header,
     records: params.records,
     params: params.params,
-    localStorage,
     log: msg => {
       logs.push('log: ' + convertString(msg));
     }

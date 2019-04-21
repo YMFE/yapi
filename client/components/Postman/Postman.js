@@ -1,4 +1,5 @@
 import React, { PureComponent as Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -34,6 +35,8 @@ const {
   crossRequest,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
+
+const createContext = require('common/createContext')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
@@ -105,11 +108,21 @@ ParamsNameComponent.propTypes = {
   name: PropTypes.string
 };
 
+@connect(
+  state => {
+    return {
+      curUid: state.user.uid
+    };
+  }
+)
 export default class Run extends Component {
   static propTypes = {
     data: PropTypes.object, //接口原有数据
     save: PropTypes.func, //保存回调方法
-    type: PropTypes.string //enum[case, inter], 判断是在接口页面使用还是在测试集
+    type: PropTypes.string, //enum[case, inter], 判断是在接口页面使用还是在测试集
+    curUid: PropTypes.number.isRequired,
+    interfaceId: PropTypes.number.isRequired,
+    projectId: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -300,7 +313,12 @@ export default class Run extends Component {
       result;
 
     try {
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script);
+      options.taskId = this.props.curUid;
+      result = await crossRequest(options, this.state.pre_script, this.state.after_script, createContext(
+        this.props.curUid,
+        this.props.projectId,
+        this.props.interfaceId
+      ));
       result = {
         header: result.res.header,
         body: result.res.body,

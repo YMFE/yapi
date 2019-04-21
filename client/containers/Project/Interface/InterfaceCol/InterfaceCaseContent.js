@@ -221,6 +221,8 @@ export default class InterfaceCaseContent extends Component {
               saveTip="更新保存修改"
               save={this.updateCase}
               ref={this.savePostmanRef}
+              interfaceId={currCase.interface_id}
+              projectId={currCase.project_id}
             />
           )}
         </div>

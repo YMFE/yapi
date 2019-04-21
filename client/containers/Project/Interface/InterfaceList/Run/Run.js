@@ -95,6 +95,8 @@ export default class Run extends Component {
           saveTip="保存到集合"
           save={() => this.setState({ saveCaseModalVisible: true })}
           ref={this.savePostmanRef}
+          interfaceId={currInterface._id}
+          projectId={currInterface.project_id}
         />
         <AddColModal
           visible={this.state.saveCaseModalVisible}

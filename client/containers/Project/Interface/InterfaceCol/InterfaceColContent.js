@@ -36,6 +36,7 @@ import CaseEnv from 'client/components/CaseEnv';
 import Label from '../../../../components/Label/Label.js';
 
 const Option = Select.Option;
+const createContext = require('common/createContext')
 
 import copy from 'copy-to-clipboard';
 
@@ -64,7 +65,8 @@ function handleReport(json) {
       token: state.project.token,
       envList: state.interfaceCol.envList,
       curProjectRole: state.project.currProject.role,
-      projectEnv: state.project.projectEnv
+      projectEnv: state.project.projectEnv,
+      curUid: state.user.uid
     };
   },
   {
@@ -98,7 +100,8 @@ class InterfaceColContent extends Component {
     getEnv: PropTypes.func,
     projectEnv: PropTypes.object,
     fetchCaseEnvList: PropTypes.func,
-    envList: PropTypes.array
+    envList: PropTypes.array,
+    curUid: PropTypes.number
   };
 
   constructor(props) {
@@ -309,7 +312,12 @@ class InterfaceColContent extends Component {
     };
 
     try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script);
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, createContext(
+        this.props.curUid,
+        this.props.match.params.id,
+        interfaceData.interface_id
+      ));
+      options.taskId = this.props.curUid;
       let res = (data.res.body = json_parse(data.res.body));
       result = {
         ...options,
