@@ -220,7 +220,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求配置",
           "url": "/documents/project.html#请求配置",
-          "content": "请求配置通过自定义 js 脚本方式改变请求的参数和返回的 response 数据"
+          "content": "请求配置pre-script, 通过自定义 js 脚本方式改变请求的参数和返回的 response 数据"
         },
         {
           "title": "请求参数示例",
@@ -233,6 +233,11 @@ window.ydoc_plugin_search_json = {
           "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
+          "title": "storage",
+          "url": "/documents/project.html#请求配置-storage",
+          "content": "storagestorage.setItem 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage。storage 一共两个 api，分别是 setItem 和 getItemstorage.setItem('xxx', 'token-----xxxxx')context.query.token = storage.getItem('xxx')\n"
+        },
+        {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
           "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
@@ -243,9 +248,9 @@ window.ydoc_plugin_search_json = {
           "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
+          "title": "token",
+          "url": "/documents/project.html#token",
+          "content": "token每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
         },
         {
           "title": "全局mock",
@@ -307,7 +312,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "请求配置",
           "url": "/documents/project.html#请求配置",
-          "content": "请求配置通过自定义 js 脚本方式改变请求的参数和返回的 response 数据"
+          "content": "请求配置pre-script, 通过自定义 js 脚本方式改变请求的参数和返回的 response 数据"
         },
         {
           "title": "请求参数示例",
@@ -320,6 +325,11 @@ window.ydoc_plugin_search_json = {
           "content": "返回数据示例在上面的示例请求完成后，假设返回 responseData={a:1},公共变量 context 包含以下属性：context = {  pathname: '/api/user',\n  query: {\n    id: 1\n  },\n  requestHeader: {\n    xxx: 'xxx'\n  },\n  method: 'POST',\n  requestBody: {\n    type:1\n  },\n  responseData: {\n    a:1\n  },\n  responseHeader: {\n    content-type: 'application/json'\n    ...\n  }\n}\n假设我们需要修改响应数据 responseData a 的值为 2，可以填写如下自定义脚本：context.responseData.a = 2;\n（v1.3.16+新增）context.href 和 context.hostname\n（v1.3.17+新增）context.caseId 测试用例的唯一 key 值\n"
         },
         {
+          "title": "storage",
+          "url": "/documents/project.html#请求配置-storage",
+          "content": "storagestorage.setItem 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage。storage 一共两个 api，分别是 setItem 和 getItemstorage.setItem('xxx', 'token-----xxxxx')context.query.token = storage.getItem('xxx')\n"
+        },
+        {
           "title": "工具函数",
           "url": "/documents/project.html#请求配置-工具函数",
           "content": "工具函数context.utils = {  _         //underscore 函数,详细 API 查看官网 http://underscorejs.org/\n  CryptoJS  // crypto-js（v1.3.21+新增）, 详细用法看 https://github.com/brix/crypto-js\n  base64    //转换字符串为 base64 编码\n  md5       //转换字符串为 md5 编码\n  sha1      //转换字符串为 sha1 编码\n  sha224    //转换字符串为 sha224 编码\n  sha256    //转换字符串为 sha256 编码\n  sha384    //转换字符串为 sha384 编码\n  sha512    //转换字符串为 sha512 编码\n  unbase64  //转换 base64 编码为字符串  \n  axios     // axios 库，可用于 api 请求，官网 https://github.com/axios/axios\n}\nCryptoJS 具体用法var data = [{ id: 1 }, { id: 2 }];\n// Encrypt\nvar ciphertext = context.utils.CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');\n\n// Decrypt\nvar bytes = context.utils.CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');\nvar decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));\n\nconsole.log('decryptedData', decryptedData);\n"
@@ -330,9 +340,9 @@ window.ydoc_plugin_search_json = {
           "content": "异步处理（v1.3.13+支持）处理请求参数，或返回数据，可能还会涉及到异步处理，比如 ajax 请求，YApi 在 v1.3.13 版本支持了异步处理。context.promise = new Promise(function(resolve) {  var api = context.utils.axios.get('http://yapi.local.qunar.com:3000/api/user/status');\n  api.then(function(result) {\n    //...\n    console.log(result.data);\n    resolve();\n  });\n});\npromise 还可以来设置接口延迟context.promise = new Promise(function(resolve) {  setTimeout(function() {\n    console.log('delay 1000ms');\n    resolve('ok');\n  }, 1000);\n});\n使用方法就是在 context 里面添加 promise 参数,并且返回一个 Promise，不熟悉 Promise 的童鞋可以查下相关用法，ajax 请求可以使用 context.utils.axios 库。处理完成后，不要忘记 resolve()，不然会一直处于挂起状态\n"
         },
         {
-          "title": "token配置",
-          "url": "/documents/project.html#token配置",
-          "content": "token配置每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
+          "title": "token",
+          "url": "/documents/project.html#token",
+          "content": "token每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。openapi 文档地址"
         },
         {
           "title": "全局mock",
@@ -1031,7 +1041,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\nexport-docx-data 数据导出docx文档\n"
         }
       ]
     },
@@ -1048,7 +1058,7 @@ window.ydoc_plugin_search_json = {
         {
           "title": "插件列表",
           "url": "/documents/plugin-list.html#插件列表",
-          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\n"
+          "content": "插件列表dingding 钉钉机器人推送插件\nqsso sso 第三方登录\nimport-rap 从rap中导入项目\nexport-docx-data 数据导出docx文档\n"
         }
       ]
     },
@@ -1219,6 +1229,21 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.12",
+          "url": "/documents/CHANGELOG.html#v1.5.12",
+          "content": "v1.5.12废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
+        },
+        {
+          "title": "v1.5.10",
+          "url": "/documents/CHANGELOG.html#v1.5.10",
+          "content": "v1.5.10解决 license should be a valid SPDX license expression 报错\n修改OpenAPI比较版本方法\nfix复制路径不包含基本路径\n修复了第一次部署，首页一直处于 loading bug\n"
+        },
+        {
+          "title": "v1.5.7",
+          "url": "/documents/CHANGELOG.html#v1.5.7",
+          "content": "v1.5.7数据导入默认使用完全覆盖\n升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传\nfix 重复的 moment 依赖，导致安装时报错\nfeat: add jsrsasign Lib\n"
+        },
         {
           "title": "v1.5.6",
           "url": "/documents/CHANGELOG.html#v1.5.6",
@@ -1446,6 +1471,21 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.12",
+          "url": "/documents/CHANGELOG.html#v1.5.12",
+          "content": "v1.5.12废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
+        },
+        {
+          "title": "v1.5.10",
+          "url": "/documents/CHANGELOG.html#v1.5.10",
+          "content": "v1.5.10解决 license should be a valid SPDX license expression 报错\n修改OpenAPI比较版本方法\nfix复制路径不包含基本路径\n修复了第一次部署，首页一直处于 loading bug\n"
+        },
+        {
+          "title": "v1.5.7",
+          "url": "/documents/CHANGELOG.html#v1.5.7",
+          "content": "v1.5.7数据导入默认使用完全覆盖\n升级新版本 cross-request 扩展，因 chrome 安全策略限制，不再支持文件上传\nfix 重复的 moment 依赖，导致安装时报错\nfeat: add jsrsasign Lib\n"
+        },
         {
           "title": "v1.5.6",
           "url": "/documents/CHANGELOG.html#v1.5.6",
