@@ -1,3 +1,9 @@
+### v1.5.11
+* 废弃 v1.6.x 新增功能，因为有不可控的bug出现
+* 支持项目设置 hook
+* 开放api 新增 '/api/plugin/export'
+* 接口运行部分请求参数默认使用示例填写值
+
 ### v1.5.10
 * 解决 license should be a valid SPDX license expression 报错
 * 修改OpenAPI比较版本方法
