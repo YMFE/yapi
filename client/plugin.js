@@ -185,6 +185,19 @@ hooks = {
     type: 'listener',
     mulit: true,
     listener: []
+  },
+  /*
+   * 添加项目设置 nav
+   * @param Object routers
+   * 
+   *  let routers = {
+      interface: { name: 'xxx', component: Xxx },
+    }
+   */
+  sub_setting_nav:{
+    type: 'listener',
+    mulit: true,
+    listener: []
   }
 };
 
