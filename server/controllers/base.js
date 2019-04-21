@@ -49,7 +49,8 @@ class baseController {
 			'/api/interface/add_cat',
       '/api/interface/getCatMenu',
       '/api/interface/list_cat',
-      '/api/project/get'
+      '/api/project/get',
+      '/api/plugin/export'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
@@ -78,13 +79,14 @@ class baseController {
       //   }
       //   return (this.$tokenAuth = true);
       // }
-
+      
       let checkId = await this.getProjectIdByToken(token);
       if(!checkId){
         ctx.body = yapi.commons.resReturn(null, 42014, 'token 无效');
       }
       let projectData = await this.projectModel.get(checkId);
       if (projectData) {
+        ctx.query.pid = checkId; // 兼容：/api/plugin/export
         ctx.params.project_id = checkId;
         this.$tokenAuth = true;
         this.$uid = tokenUid;
