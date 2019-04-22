@@ -68,19 +68,26 @@ class exportController extends baseController {
     return data;
   }
 
-  async exportData(ctx) {
+  // @feat: serives
+
+  async exportFullData (ctx) {
+    return this.exportData(ctx, 'full-path');
+  }
+
+  async exportData(ctx, fullPath) {
     let pid = ctx.request.query.pid;
     let type = ctx.request.query.type;
     let status = ctx.request.query.status;
     let isWiki = ctx.request.query.isWiki;
 
     if (!pid) {
-      ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
+      return ctx.body = yapi.commons.resReturn(null, 200, 'pid 不为空');
     }
     let curProject, wikiData;
     let tp = '';
     try {
       curProject = await this.projectModel.get(pid);
+      const basepath = curProject.basepath;
       if (isWiki === 'true') {
         const wikiModel = require('../yapi-plugin-wiki/wikiModel.js');
         wikiData = await yapi.getInst(wikiModel).get(pid);
@@ -96,6 +103,19 @@ class exportController extends baseController {
         }
         case 'json': {
           let data = this.handleExistId(list);
+          if (Array.isArray(data) && fullPath === 'full-path' && basepath) {
+            data.forEach(function(cate) {
+              if (Array.isArray(cate.list)) {
+                cate.proBasepath = basepath;
+                cate.proName = curProject.name;
+                cate.proDescription = curProject.desc;
+                cate.list = cate.list.map(function(api) {
+                  api.path = api.query_path.path = (basepath + '/' + api.path).replace(/[\/]{2,}/g, '/');
+                  return api;
+                });
+              }
+            })
+          }
           tp = JSON.stringify(data, null, 2);
           ctx.set('Content-Disposition', `attachment; filename=api.json`);
           return (ctx.body = tp);

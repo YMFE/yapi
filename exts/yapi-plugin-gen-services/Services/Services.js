@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { getToken } from '../../../../reducer/modules/project';
+import { getToken } from '../../../client/reducer/modules/project.js'
 
 
 import './Services.scss';
@@ -16,23 +16,22 @@ import './Services.scss';
     getToken
   }
 )
-
 export default class Services extends Component {
   static propTypes = {
-    match: PropTypes.object,
+    projectId: PropTypes.string,
     token: PropTypes.string,
     getToken: PropTypes.func
   }
 
   async componentDidMount() {
-    const id = this.props.match.params.id;
+    const id = this.props.projectId;
     await this.props.getToken(id);
     
   }
   render () {
-    const id = this.props.match.params.id;
+    const id = this.props.projectId;
     return (
-      <div className="g-row project-services">
+      <div className="project-services">
         <section className="news-box m-panel">
           <div className="token">
             <h5>安装工具</h5>

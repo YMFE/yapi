@@ -5,12 +5,14 @@ const controller = require('./controller');
 
 module.exports = function(){
   this.bindHook('add_router', function(addRouter){
+    // @feat: serives 
     addRouter({
       controller: controller,
       method: 'get',
-      path: 'export',
-      action: 'exportData'
-    })
+      prefix: '/open',
+      path: 'export-full',
+      action: 'exportFullData'
+    });
   })
 
 }

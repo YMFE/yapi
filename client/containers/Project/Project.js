@@ -12,7 +12,6 @@ import Setting from './Setting/Setting.js';
 import Loading from '../../components/Loading/Loading';
 import ProjectMember from './Setting/ProjectMember/ProjectMember.js';
 import ProjectData from './Setting/ProjectData/ProjectData.js';
-import Services from './Setting/Services/Services.js';
 const plugin = require('client/plugin.js');
 @connect(
   state => {
@@ -81,7 +80,6 @@ export default class Project extends Component {
       interface: { name: '接口', path: '/project/:id/interface/:action', component: Interface },
       activity: { name: '动态', path: '/project/:id/activity', component: Activity },
       data: { name: '数据管理', path: '/project/:id/data', component: ProjectData },
-      services: { name: '生成services代码', path: '/project/:id/services', component: Services },
       members: { name: '成员管理', path: '/project/:id/members', component: ProjectMember },
       setting: { name: '设置', path: '/project/:id/setting', component: Setting }
     };
