@@ -1230,9 +1230,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
-          "title": "v1.5.12",
-          "url": "/documents/CHANGELOG.html#v1.5.12",
-          "content": "v1.5.12废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
+          "title": "v1.5.13",
+          "url": "/documents/CHANGELOG.html#v1.5.13",
+          "content": "v1.5.13支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage\n修复了swagger 数据导入bug\n修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug\n"
+        },
+        {
+          "title": "v1.5.12  （存在bug）",
+          "url": "/documents/CHANGELOG.html#v1.5.12-（存在bug）",
+          "content": "v1.5.12  （存在bug）废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
         },
         {
           "title": "v1.5.10",
@@ -1472,9 +1477,14 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
-          "title": "v1.5.12",
-          "url": "/documents/CHANGELOG.html#v1.5.12",
-          "content": "v1.5.12废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
+          "title": "v1.5.13",
+          "url": "/documents/CHANGELOG.html#v1.5.13",
+          "content": "v1.5.13支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage\n修复了swagger 数据导入bug\n修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug\n"
+        },
+        {
+          "title": "v1.5.12  （存在bug）",
+          "url": "/documents/CHANGELOG.html#v1.5.12-（存在bug）",
+          "content": "v1.5.12  （存在bug）废弃 v1.6.x 新增功能，因为有不可控的bug出现\n支持项目设置 hook\n开放api 新增 '/api/plugin/export'\n接口运行部分请求参数默认使用示例填写值\n"
         },
         {
           "title": "v1.5.10",
