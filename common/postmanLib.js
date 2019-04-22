@@ -246,8 +246,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
   let urlObj = URL.parse(options.url, true),
     query = {};
   query = Object.assign(query, urlObj.query);
-  let context = {
-    ...commonContext,
+  let context = Object.assign({}, commonContext, {
     isNode,
     get href() {
       return urlObj.href;
@@ -277,7 +276,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     requestBody: options.data,
     promise: false,
     storage: await getStorage(taskId)
-  };
+  });
 
   context.utils = Object.freeze({
     _: _,
