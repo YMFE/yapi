@@ -1230,6 +1230,11 @@ window.ydoc_plugin_search_json = {
       "url": "/documents/CHANGELOG.html",
       "children": [
         {
+          "title": "v1.5.14",
+          "url": "/documents/CHANGELOG.html#v1.5.14",
+          "content": "v1.5.14支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口\n"
+        },
+        {
           "title": "v1.5.13",
           "url": "/documents/CHANGELOG.html#v1.5.13",
           "content": "v1.5.13支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage\n修复了swagger 数据导入bug\n修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug\n"
@@ -1476,6 +1481,11 @@ window.ydoc_plugin_search_json = {
       "content": "",
       "url": "/documents/CHANGELOG.html",
       "children": [
+        {
+          "title": "v1.5.14",
+          "url": "/documents/CHANGELOG.html#v1.5.14",
+          "content": "v1.5.14支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口\n"
+        },
         {
           "title": "v1.5.13",
           "url": "/documents/CHANGELOG.html#v1.5.13",
