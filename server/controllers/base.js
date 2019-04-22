@@ -33,6 +33,8 @@ class baseController {
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
+    } else if (/^\/api\/open\/.*/.test(ctx.path)) {
+      // do nothing here
     } else {
       await this.checkLogin(ctx);
     }
@@ -50,7 +52,8 @@ class baseController {
       '/api/interface/getCatMenu',
       '/api/interface/list_cat',
       '/api/project/get',
-      '/api/plugin/export'
+      '/api/plugin/export',
+			'/api/open/plugin/export-full'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);

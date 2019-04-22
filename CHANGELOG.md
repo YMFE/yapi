@@ -1,3 +1,6 @@
+### v1.5.14
+* 支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口
+
 ### v1.5.13
 * 支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage
 * 修复了swagger 数据导入bug

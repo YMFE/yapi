@@ -10,7 +10,15 @@ module.exports = function(){
       method: 'get',
       path: 'export',
       action: 'exportData'
-    })
+    });
+    // @feat: serives 
+    addRouter({
+      controller: controller,
+      method: 'get',
+      prefix: '/open',
+      path: 'export-full',
+      action: 'exportFullData'
+    });
   })
 
 }
