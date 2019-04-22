@@ -73,7 +73,7 @@ class projectModel extends baseModel {
     if(Array.isArray(data.env)){
       data.env = data.env.map(item=>{
         item.global = item.global.filter(g=>{
-          if(!g || typeof g !== 'undefined'){
+          if(!g || typeof g !== 'object'){
             isFix = true;
             return false;
           }

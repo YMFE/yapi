@@ -1,5 +1,4 @@
 import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -107,14 +106,6 @@ ParamsNameComponent.propTypes = {
   desc: PropTypes.string,
   name: PropTypes.string
 };
-
-@connect(
-  state => {
-    return {
-      curUid: state.user.uid
-    };
-  }
-)
 export default class Run extends Component {
   static propTypes = {
     data: PropTypes.object, //接口原有数据
