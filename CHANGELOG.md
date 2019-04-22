@@ -1,4 +1,4 @@
-### v1.5.12
+### v1.7.0-beta.0
 * 废弃 v1.6.x 新增功能，因为有不可控的bug出现
 * 支持项目设置 hook
 * 开放api 新增 '/api/plugin/export'
