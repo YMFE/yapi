@@ -588,7 +588,8 @@ function addPluginRouter(config) {
     throw new Error('Plugin Route config Error');
   }
   let method = config.method || 'GET';
-  // @feat: services 需要 prefix
+  // let routerPath = '/plugin/' + config.path;
+  // 支持 /api/open/plugin 前缀的 openApi
   let routerPath = (config.prefix || '') + '/plugin/' + config.path;
   if (pluginsRouterPath.indexOf(routerPath) > -1) {
     throw new Error('Plugin Route path conflict, please try rename the path');

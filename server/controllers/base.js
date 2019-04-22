@@ -33,8 +33,6 @@ class baseController {
     ];
     if (ignoreRouter.indexOf(ctx.path) > -1) {
       this.$auth = true;
-    } else if (/^\/api\/open\/.*/.test(ctx.path)) {
-      // do nothing here
     } else {
       await this.checkLogin(ctx);
     }
@@ -52,14 +50,14 @@ class baseController {
       '/api/interface/getCatMenu',
       '/api/interface/list_cat',
       '/api/project/get',
-      '/api/plugin/export',
-			'/api/open/plugin/export-full'
+      '/api/plugin/export'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
     let token = params.token;
 
-    if (token && openApiRouter.indexOf(ctx.path) > -1) {
+    // 如果前缀是 /api/open，执行 parse token 逻辑
+    if (token && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0 )) {
       let tokens = parseToken(token)
 
       const oldTokenUid = '999999'
