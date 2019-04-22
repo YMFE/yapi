@@ -1,4 +1,9 @@
-### v1.7.0-beta.0
+### v1.5.13
+* 支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage
+* 修复了swagger 数据导入bug
+* 修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug
+
+### v1.5.12
 * 废弃 v1.6.x 新增功能，因为有不可控的bug出现
 * 支持项目设置 hook
 * 开放api 新增 '/api/plugin/export'
