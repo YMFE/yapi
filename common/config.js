@@ -17,6 +17,8 @@ module.exports = {
     name: 'import-yapi-json'
   },{
     name: 'wiki'
+  }, {
+    name: 'swagger-auto-sync'
   }
   // {
   //   name: 'test'
