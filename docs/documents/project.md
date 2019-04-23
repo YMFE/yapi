@@ -80,7 +80,7 @@ v1.3.21 新增全局变量，用户可以在环境列表中定义全局变量的
 
 ## 请求配置
 
-通过自定义 js 脚本方式改变请求的参数和返回的 response 数据
+pre-script, 通过自定义 js 脚本方式改变请求的参数和返回的 response 数据
 
 ### 请求参数示例
 
@@ -159,6 +159,17 @@ context.responseData.a = 2;
 > （v1.3.16+新增）context.href 和 context.hostname  
 > （v1.3.17+新增）context.caseId 测试用例的唯一 key 值
 
+
+### storage
+
+storage.setItem 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage。
+storage 一共两个 api，分别是 setItem 和 getItem
+
+```js
+storage.setItem('xxx', 'token-----xxxxx')
+context.query.token = storage.getItem('xxx')
+```
+
 ### 工具函数
 
 ```
@@ -222,7 +233,7 @@ context.promise = new Promise(function(resolve) {
 
 > 处理完成后，不要忘记 `resolve()`，不然会一直处于挂起状态
 
-## token配置
+## token
 
 每个项目都有唯一的标识 token，用户可以使用这个 token 值来请求 openapi。
 

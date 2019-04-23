@@ -14,14 +14,16 @@ import './Run.scss';
 
 @connect(state => ({
   currInterface: state.inter.curdata,
-  currProject: state.project.currProject
+  currProject: state.project.currProject,
+  curUid: state.user.uid
 }))
 @withRouter
 export default class Run extends Component {
   static propTypes = {
     currProject: PropTypes.object,
     currInterface: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    curUid: PropTypes.number
   };
 
   state = {};
@@ -95,6 +97,9 @@ export default class Run extends Component {
           saveTip="保存到集合"
           save={() => this.setState({ saveCaseModalVisible: true })}
           ref={this.savePostmanRef}
+          interfaceId={currInterface._id}
+          projectId={currInterface.project_id}
+          curUid={this.props.curUid}
         />
         <AddColModal
           visible={this.state.saveCaseModalVisible}

@@ -25,7 +25,8 @@ import './InterfaceCaseContent.scss';
       currCase: state.interfaceCol.currCase,
       isShowCol: state.interfaceCol.isShowCol,
       currProject: state.project.currProject,
-      projectEnv: state.project.projectEnv
+      projectEnv: state.project.projectEnv,
+      curUid: state.user.uid
     };
   },
   {
@@ -52,7 +53,8 @@ export default class InterfaceCaseContent extends Component {
     isShowCol: PropTypes.bool,
     currProject: PropTypes.object,
     getEnv: PropTypes.func,
-    projectEnv: PropTypes.object
+    projectEnv: PropTypes.object,
+    curUid: PropTypes.number
   };
 
   state = {
@@ -221,6 +223,9 @@ export default class InterfaceCaseContent extends Component {
               saveTip="更新保存修改"
               save={this.updateCase}
               ref={this.savePostmanRef}
+              interfaceId={currCase.interface_id}
+              projectId={currCase.project_id}
+              curUid={this.props.curUid}
             />
           )}
         </div>

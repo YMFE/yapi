@@ -1,4 +1,16 @@
-### v1.5.12
+### v1.5.15
+* 支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口
+
+### v1.5.14 
+* 修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug
+* 修复无法保存 global bug
+
+### v1.5.13 （存在bug）
+* 支持 pre-script 脚本持久化数据存储，storage 兼容浏览器和服务端，并且是持久化数据存储，不会丢失，用法类似于 localStorage
+* 修复了swagger 数据导入bug
+* 修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug
+
+### v1.5.12  （存在bug）
 * 废弃 v1.6.x 新增功能，因为有不可控的bug出现
 * 支持项目设置 hook
 * 开放api 新增 '/api/plugin/export'

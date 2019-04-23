@@ -70,16 +70,19 @@ class projectModel extends baseModel {
     data = data.toObject();
     data.toObject = ()=> data;
     let isFix = false;
-    data.env = data.env.map(item=>{
-      item.global = item.global.filter(g=>{
-        if(!g || typeof g !== 'undefined'){
-          isFix = true;
-          return false;
-        }
-        return true;
+    if(Array.isArray(data.env)){
+      data.env = data.env.map(item=>{
+        item.global = item.global.filter(g=>{
+          if(!g || typeof g !== 'object'){
+            isFix = true;
+            return false;
+          }
+          return true;
+        })
+        return item;
       })
-      return item;
-    })
+    }
+    
     if(isFix){
       this.model.update(
         {
