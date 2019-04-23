@@ -20,6 +20,32 @@ const ContentTypeMap = {
   other: 'text'
 };
 
+const getStorage = async (id)=>{
+  try{
+    if(isNode){
+      let storage = global.storageCreator(id);
+      let data = await storage.getItem();
+      return {
+        getItem: (name)=> data[name],
+        setItem: (name, value)=>{
+          data[name] = value;
+          storage.setItem(name, value)
+        }
+      }
+    }else{
+      return {
+        getItem: (name)=> window.localStorage.getItem(name),
+        setItem: (name, value)=>  window.localStorage.setItem(name, value)
+      }
+    }
+  }catch(e){
+    console.error(e)
+    return (...args)=>{
+      console.error(...args)
+    }
+  }
+}
+
 async function httpRequestByNode(options) {
   function handleRes(response) {
     if (!response || typeof response !== 'object') {
@@ -207,12 +233,22 @@ function sandboxByBrowser(context = {}, script) {
   return context;
 }
 
-async function crossRequest(defaultOptions, preScript, afterScript) {
+/**
+ * 
+ * @param {*} defaultOptions 
+ * @param {*} preScript 
+ * @param {*} afterScript 
+ * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
+ */
+async function crossRequest(defaultOptions, preScript, afterScript, commonContext = {}) {
   let options = Object.assign({}, defaultOptions);
+  const taskId = options.taskId || Math.random() + '';
   let urlObj = URL.parse(options.url, true),
     query = {};
   query = Object.assign(query, urlObj.query);
   let context = {
+    ...commonContext,
+    isNode,
     get href() {
       return urlObj.href;
     },
@@ -239,7 +275,8 @@ async function crossRequest(defaultOptions, preScript, afterScript) {
     query: query,
     requestHeader: options.headers || {},
     requestBody: options.data,
-    promise: false
+    promise: false,
+    storage: await getStorage(taskId)
   };
 
   context.utils = Object.freeze({
@@ -395,7 +432,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
       }
     }
   } catch (e) {
-    console.log('err', e);
+    console.error('err', e);
   }
 
   if (HTTP_METHOD[interfaceRunData.method].request_body) {

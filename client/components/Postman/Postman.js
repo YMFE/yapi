@@ -35,6 +35,8 @@ const {
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
 
+const createContext = require('common/createContext')
+
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
 const Option = Select.Option;
@@ -104,12 +106,14 @@ ParamsNameComponent.propTypes = {
   desc: PropTypes.string,
   name: PropTypes.string
 };
-
 export default class Run extends Component {
   static propTypes = {
     data: PropTypes.object, //接口原有数据
     save: PropTypes.func, //保存回调方法
-    type: PropTypes.string //enum[case, inter], 判断是在接口页面使用还是在测试集
+    type: PropTypes.string, //enum[case, inter], 判断是在接口页面使用还是在测试集
+    curUid: PropTypes.number.isRequired,
+    interfaceId: PropTypes.number.isRequired,
+    projectId: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -300,7 +304,12 @@ export default class Run extends Component {
       result;
 
     try {
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script);
+      options.taskId = this.props.curUid;
+      result = await crossRequest(options, this.state.pre_script, this.state.after_script, createContext(
+        this.props.curUid,
+        this.props.projectId,
+        this.props.interfaceId
+      ));
       result = {
         header: result.res.header,
         body: result.res.body,
@@ -691,7 +700,7 @@ export default class Run extends Component {
                   )}
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value ? item.value : item.example}
+                    value={item.value}
                     className="value"
                     onChange={e => this.changeParam('req_query', e.target.value, index)}
                     placeholder="参数值"
@@ -825,7 +834,7 @@ export default class Run extends Component {
                           // />
                         ) : (
                           <Input
-                            value={item.value ? item.value : item.example}
+                            value={item.value}
                             className="value"
                             onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
