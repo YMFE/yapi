@@ -23,6 +23,7 @@ import './InterfaceCaseContent.scss';
       currColId: state.interfaceCol.currColId,
       currCaseId: state.interfaceCol.currCaseId,
       currCase: state.interfaceCol.currCase,
+      moduleId: state.interfaceCol.moduleId,
       isShowCol: state.interfaceCol.isShowCol,
       currProject: state.project.currProject,
       projectEnv: state.project.projectEnv,
@@ -50,6 +51,7 @@ export default class InterfaceCaseContent extends Component {
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
     currCase: PropTypes.object,
+    moduleId: PropTypes.number,
     isShowCol: PropTypes.bool,
     currProject: PropTypes.object,
     getEnv: PropTypes.func,
@@ -79,7 +81,7 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id, this.props.moduleId);
     let { currCaseId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
@@ -148,7 +150,7 @@ export default class InterfaceCaseContent extends Component {
 
     const res = await axios.post('/api/col/up_case', params);
     if (this.props.currCase.casename !== casename) {
-      this.props.fetchInterfaceColList(this.props.match.params.id);
+      this.props.fetchInterfaceColList(this.props.match.params.id, this.props.moduleId);
     }
     if (res.data.errcode) {
       message.error(res.data.errmsg);

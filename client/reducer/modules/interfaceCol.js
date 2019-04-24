@@ -4,6 +4,7 @@ const FETCH_INTERFACE_COL_LIST = 'yapi/interfaceCol/FETCH_INTERFACE_COL_LIST';
 const FETCH_CASE_DATA = 'yapi/interfaceCol/FETCH_CASE_DATA';
 const FETCH_CASE_LIST = 'yapi/interfaceCol/FETCH_CASE_LIST';
 const SET_COL_DATA = 'yapi/interfaceCol/SET_COL_DATA';
+const SET_MODULE_ID = 'yapi/interfaceCol/SET_MODULE_ID';
 const FETCH_VARIABLE_PARAMS_LIST = 'yapi/interfaceCol/FETCH_VARIABLE_PARAMS_LIST';
 const FETCH_CASE_ENV_LIST = 'yapi/interfaceCol/FETCH_CASE_ENV_LIST';
 // Reducer
@@ -63,6 +64,12 @@ export default (state = initialState, action) => {
         ...action.payload
       };
     }
+    case SET_MODULE_ID: {
+      return {
+        ...state,
+        moduleId: action.payload
+      };
+    }
     case FETCH_CASE_ENV_LIST: {
       return {
         ...state,
@@ -75,10 +82,10 @@ export default (state = initialState, action) => {
 };
 
 // Action Creators
-export function fetchInterfaceColList(projectId) {
+export function fetchInterfaceColList(projectId, moduleId) {
   return {
     type: FETCH_INTERFACE_COL_LIST,
-    payload: axios.get('/api/col/list?project_id=' + projectId)
+    payload: axios.get('/api/col/list?project_id=' + projectId + '&module_id=' + moduleId)
   };
 }
 
@@ -115,6 +122,13 @@ export function fetchVariableParamsList(colId) {
 export function setColData(data) {
   return {
     type: SET_COL_DATA,
+    payload: data
+  };
+}
+
+export function setModuleId(data) {
+  return {
+    type: SET_MODULE_ID,
     payload: data
   };
 }

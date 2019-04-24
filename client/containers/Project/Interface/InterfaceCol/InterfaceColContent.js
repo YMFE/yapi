@@ -33,7 +33,7 @@ const {
 } = require('common/postmanLib.js');
 const { handleParamsValue, json_parse, ArrayToObject } = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
-import Label from '../../../../components/Label/Label.js';
+// import Label from '../../../../components/Label/Label.js';
 
 const Option = Select.Option;
 const createContext = require('common/createContext')
@@ -61,6 +61,7 @@ function handleReport(json) {
       isShowCol: state.interfaceCol.isShowCol,
       isRander: state.interfaceCol.isRander,
       currCaseList: state.interfaceCol.currCaseList,
+      moduleId: state.interfaceCol.moduleId,
       currProject: state.project.currProject,
       token: state.project.token,
       envList: state.interfaceCol.envList,
@@ -91,6 +92,7 @@ class InterfaceColContent extends Component {
     currCaseList: PropTypes.array,
     currColId: PropTypes.number,
     currCaseId: PropTypes.number,
+    moduleId: PropTypes.number,
     isShowCol: PropTypes.bool,
     isRander: PropTypes.bool,
     currProject: PropTypes.object,
@@ -168,7 +170,7 @@ class InterfaceColContent extends Component {
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id, this.props.moduleId);
     await this.props.getToken(this.props.match.params.id);
     let { currColId } = this.props;
     const params = this.props.match.params;
@@ -201,7 +203,7 @@ class InterfaceColContent extends Component {
         return message.error(res.data.errmsg);
       }
       let project_id = this.props.match.params.id;
-      await this.props.fetchInterfaceColList(project_id);
+      await this.props.fetchInterfaceColList(project_id, this.props.moduleId);
       message.success('接口集合简介更新成功');
     });
   };
@@ -437,7 +439,7 @@ class InterfaceColContent extends Component {
       changes.push({ id: item._id, index: index });
     });
     axios.post('/api/col/up_case_index', changes).then(() => {
-      this.props.fetchInterfaceColList(this.props.match.params.id);
+      this.props.fetchInterfaceColList(this.props.match.params.id, this.props.moduleId);
     });
   };
   onMoveRow({ sourceRowId, targetRowId }) {
@@ -449,7 +451,7 @@ class InterfaceColContent extends Component {
   }
 
   onChangeTest = d => {
-    
+
     this.setState({
       commonSetting: {
         ...this.state.commonSetting,
@@ -642,7 +644,7 @@ class InterfaceColContent extends Component {
       })
     }
   }
-  
+
   render() {
     const currProjectId = this.props.currProject._id;
     const columns = [
@@ -862,12 +864,12 @@ class InterfaceColContent extends Component {
       this.state.email
     }&download=${this.state.download}`;
 
-    let col_name = '';
+    // let col_name = '';
     let col_desc = '';
 
     for (var i = 0; i < this.props.interfaceColList.length; i++) {
       if (this.props.interfaceColList[i]._id === this.props.currColId) {
-        col_name = this.props.interfaceColList[i].name;
+        // col_name = this.props.interfaceColList[i].name;
         col_desc = this.props.interfaceColList[i].desc;
         break;
       }
@@ -1065,7 +1067,8 @@ class InterfaceColContent extends Component {
         </Row>
 
         <div className="component-label-wrapper">
-          <Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />
+          {/*<Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />*/}
+          <div dangerouslySetInnerHTML={{__html: col_desc}} />
         </div>
 
         <Table.Provider
@@ -1216,7 +1219,7 @@ class InterfaceColContent extends Component {
             </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
               <Col span={21} className="autoTestUrl">
-                <a 
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href={localUrl + autoTestsUrl} >

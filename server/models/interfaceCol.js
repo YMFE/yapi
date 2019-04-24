@@ -11,6 +11,7 @@ class interfaceCol extends baseModel {
       name: { type: String, required: true },
       uid: { type: Number, required: true },
       project_id: { type: Number, required: true },
+      module_id: Number,
       desc: String,
       add_time: Number,
       up_time: Number,
@@ -71,12 +72,16 @@ class interfaceCol extends baseModel {
     });
   }
 
-  list(project_id) {
+  list(project_id, module_id) {
+    let where = {
+      project_id: project_id
+    };
+    if(module_id && module_id > 0) {
+      where.module_id = module_id;
+    }
     return this.model
-      .find({
-        project_id: project_id
-      })
-      .select('name uid project_id desc add_time up_time, index')
+      .find(where)
+      .select('name uid project_id module_id desc add_time up_time, index')
       .exec();
   }
 

@@ -6,24 +6,27 @@ import {
   fetchInterfaceColList,
   fetchInterfaceCaseList,
   setColData,
+  setModuleId,
   fetchCaseList,
   fetchCaseData
 } from '../../../../reducer/modules/interfaceCol';
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
 import ImportInterface from './ImportInterface';
-import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
+import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form, Select } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 const headHeight = 240; // menu顶部到网页顶部部分的高度
+const Option = Select.Option;
+const { TextArea } = Input;
 
 import './InterfaceColMenu.scss';
 
 const ColModalForm = Form.create()(props => {
-  const { visible, onCancel, onCreate, form, title } = props;
+  const { visible, onCancel, onCreate, form, title, moduleList } = props;
   const { getFieldDecorator } = form;
   return (
     <Modal visible={visible} title={title} onCancel={onCancel} onOk={onCreate}>
@@ -33,11 +36,24 @@ const ColModalForm = Form.create()(props => {
             rules: [{ required: true, message: '请输入集合命名！' }]
           })(<Input />)}
         </FormItem>
-        <FormItem label="简介">{getFieldDecorator('colDesc')(<Input type="textarea" />)}</FormItem>
+        <FormItem label="所属模块">
+          {getFieldDecorator('moduleId', {
+            rules: [{ required: true, message: '请选择所属模块！' }]
+          })(<Select>
+            {
+              moduleList.map((item, index) => (
+                <Option key={index} value={item._id}>{item.name}</Option>
+              ))
+            }
+          </Select>)}
+        </FormItem>
+        <FormItem label="简介">{getFieldDecorator('colDesc')(<TextArea type="textarea" />)}</FormItem>
       </Form>
     </Modal>
   );
 });
+
+const allModule = {_id: -1, name: '全部模块'};
 
 @connect(
   state => {
@@ -59,6 +75,7 @@ const ColModalForm = Form.create()(props => {
     // fetchInterfaceListMenu,
     fetchCaseList,
     setColData,
+    setModuleId,
     fetchProjectList
   }
 )
@@ -73,6 +90,7 @@ export default class InterfaceColMenu extends Component {
     fetchCaseList: PropTypes.func,
     fetchCaseData: PropTypes.func,
     setColData: PropTypes.func,
+    setModuleId: PropTypes.func,
     currCaseId: PropTypes.number,
     history: PropTypes.object,
     isRander: PropTypes.bool,
@@ -95,7 +113,11 @@ export default class InterfaceColMenu extends Component {
     expands: null,
     list: [],
     delIcon: null,
-    selectedProject: null
+    selectedProject: null,
+    addModuleVisible: false,
+    newModuleName: '',
+    selectModuleId: -1,
+    moduleList: [allModule]
   };
 
   constructor(props) {
@@ -103,6 +125,8 @@ export default class InterfaceColMenu extends Component {
   }
 
   componentWillMount() {
+    this.props.setModuleId(-1);
+    this.getModuleList();
     this.getList();
   }
 
@@ -114,23 +138,47 @@ export default class InterfaceColMenu extends Component {
     }
   }
 
-  async getList() {
-    let r = await this.props.fetchInterfaceColList(this.props.match.params.id);
+  async getModuleList() {
+    const project_id = this.props.match.params.id;
+    const res = await axios.get('/api/col/module_list?project_id=' + project_id);
+    if (!res.data.errcode) {
+      if(!res.data.data) {
+        res.data.data = [];
+      }
+      res.data.data.unshift(allModule);
+      this.setState({
+        moduleList: res.data.data
+      });
+    } else {
+      message.error(res.data.errmsg);
+    }
+  }
+
+  async getList(moduleId) {
+    let r = await this.props.fetchInterfaceColList(this.props.match.params.id, moduleId !== undefined ? moduleId : this.state.selectModuleId);
     this.setState({
       list: r.payload.data.data
     });
     return r;
   }
 
+  onSelectModuleChange = (moduleValue) => {
+    this.props.setModuleId(moduleValue);
+    this.setState({
+      selectModuleId: moduleValue
+    });
+    this.getList(moduleValue);
+  };
+
   addorEditCol = async () => {
-    const { colName: name, colDesc: desc } = this.form.getFieldsValue();
+    const { colName: name, colDesc: desc, moduleId: module_id } = this.form.getFieldsValue();
     const { colModalType, editColId: col_id } = this.state;
     const project_id = this.props.match.params.id;
     let res = {};
     if (colModalType === 'add') {
-      res = await axios.post('/api/col/add_col', { name, desc, project_id });
+      res = await axios.post('/api/col/add_col', { name, desc, project_id, module_id });
     } else if (colModalType === 'edit') {
-      res = await axios.post('/api/col/up_col', { name, desc, col_id });
+      res = await axios.post('/api/col/up_col', { name, desc, col_id, module_id });
     }
     if (!res.data.errcode) {
       this.setState({
@@ -199,12 +247,12 @@ export default class InterfaceColMenu extends Component {
       return;
     }
     this._copyInterfaceSign = true;
-    const { desc, project_id, _id: col_id } = item;
+    const { desc, project_id, module_id, _id: col_id } = item;
     let { name } = item;
     name = `${name} copy`;
 
     // 添加集合
-    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id });
+    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id, module_id });
 
     if (add_col_res.data.errcode) {
       message.error(add_col_res.data.errmsg);
@@ -245,7 +293,7 @@ export default class InterfaceColMenu extends Component {
     let data = caseData.payload.data.data;
     data = JSON.parse(JSON.stringify(data));
     data.casename=`${data.casename}_copy`
-    delete data._id 
+    delete data._id
     const res = await axios.post('/api/col/add_case',data);
       if (!res.data.errcode) {
         message.success('克隆用例成功');
@@ -288,7 +336,8 @@ export default class InterfaceColMenu extends Component {
   };
   showColModal = (type, col) => {
     const editCol =
-      type === 'edit' ? { colName: col.name, colDesc: col.desc } : { colName: '', colDesc: '' };
+      type === 'edit' ? { colName: col.name, colDesc: col.desc, moduleId: col.module_id > 0 ? col.module_id : -1 } :
+          { colName: '', colDesc: '', moduleId: this.state.selectModuleId };
     this.setState({
       colModalVisible: true,
       colModalType: type || 'add',
@@ -311,6 +360,31 @@ export default class InterfaceColMenu extends Component {
     await this.props.fetchProjectList(groupId);
     // await this.props.fetchInterfaceListMenu(projectId)
     this.setState({ importInterVisible: true, importColId: colId });
+  };
+
+  newModuleNameChanged = (e) => {
+    this.setState({newModuleName: e.target.value });
+  };
+  showAddModuleModal = () => {
+    this.setState({ addModuleVisible: true, newModuleName: '' });
+  };
+  handleAddModuleOk = async () => {
+    const project_id = this.state.selectedProject || this.props.match.params.id;
+    const { newModuleName } = this.state;
+    const res = await axios.post('/api/col/add_module', {
+      name: newModuleName,
+      project_id
+    });
+    if (!res.data.errcode) {
+      this.setState({ addModuleVisible: false });
+      message.success('新建模块成功');
+      this.getModuleList();
+    } else {
+      message.error(res.data.errmsg);
+    }
+  };
+  handleAddModuleCancel = () => {
+    this.setState({ addModuleVisible: false });
   };
 
   handleImportOk = async () => {
@@ -390,7 +464,7 @@ export default class InterfaceColMenu extends Component {
 
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
-    const { colModalType, colModalVisible, importInterVisible } = this.state;
+    const { colModalType, colModalVisible, importInterVisible, addModuleVisible } = this.state;
     const currProjectId = this.props.match.params.id;
     // const menu = (col) => {
     //   return (
@@ -493,7 +567,7 @@ export default class InterfaceColMenu extends Component {
       list = list.filter(item => {
 
         item.caseList = item.caseList.filter(inter => {
-          if (inter.casename.indexOf(this.state.filterValue) === -1 
+          if (inter.casename.indexOf(this.state.filterValue) === -1
           && inter.path.indexOf(this.state.filterValue) === -1
           ) {
             return false;
@@ -515,6 +589,25 @@ export default class InterfaceColMenu extends Component {
 
     return (
       <div>
+        <div className="module-filter">
+          <Select value={this.state.selectModuleId} onChange={this.onSelectModuleChange} style={{ width: 174 }}>
+            {
+              this.state.moduleList.map((item, index) => (
+                <Option key={index} value={item._id}>{item.name}</Option>
+              ))
+            }
+          </Select>
+          <Tooltip placement="bottom" title="新建模块">
+            <Button
+                type="primary"
+                style={{ marginLeft: '16px' }}
+                onClick={() => this.showAddModuleModal()}
+                className="btn-filter"
+            >
+              新建模块
+            </Button>
+          </Tooltip>
+        </div>
         <div className="interface-filter">
           <Input placeholder="搜索测试集合" onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
@@ -607,6 +700,7 @@ export default class InterfaceColMenu extends Component {
           ref={this.saveFormRef}
           type={colModalType}
           visible={colModalVisible}
+          moduleList={this.state.moduleList}
           onCancel={() => {
             this.setState({ colModalVisible: false });
           }}
@@ -622,6 +716,16 @@ export default class InterfaceColMenu extends Component {
           width={800}
         >
           <ImportInterface currProjectId={currProjectId} selectInterface={this.selectInterface} />
+        </Modal>
+        <Modal
+            title="新建模块"
+            visible={addModuleVisible}
+            onOk={this.handleAddModuleOk}
+            onCancel={this.handleAddModuleCancel}
+            className="import-case-modal"
+            width={400}
+        >
+          <Input placeholder="请输入模块名" value={this.state.newModuleName} onChange={this.newModuleNameChanged}/>
         </Modal>
       </div>
     );

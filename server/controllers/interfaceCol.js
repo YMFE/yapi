@@ -2,6 +2,7 @@ const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
 const projectModel = require('../models/project.js');
+const moduleModel = require('../models/module.js');
 const baseController = require('./base.js');
 const yapi = require('../yapi.js');
 const _ = require('underscore');
@@ -13,6 +14,75 @@ class interfaceColController extends baseController {
     this.caseModel = yapi.getInst(interfaceCaseModel);
     this.interfaceModel = yapi.getInst(interfaceModel);
     this.projectModel = yapi.getInst(projectModel);
+    this.moduleModel = yapi.getInst(moduleModel);
+  }
+
+  /**
+   * 增加模块
+   * @interface /col/add_module
+   * @method POST
+   * @category col
+   */
+
+  async addModule(ctx) {
+    try {
+      let params = ctx.request.body;
+      params = yapi.commons.handleParams(params, {
+        name: 'string',
+        project_id: 'number'
+      });
+
+      if (!params.project_id) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+      }
+      if (!params.name) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空'));
+      }
+
+      let auth = await this.checkAuth(params.project_id, 'project', 'edit');
+      if (!auth) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
+      }
+
+      let result = await this.moduleModel.save({
+        name: params.name,
+        project_id: params.project_id
+      });
+      let username = this.getUsername();
+      yapi.commons.saveLog({
+        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了模块 ${params.name}`,
+        type: 'project',
+        uid: this.getUid(),
+        username: username,
+        typeid: params.project_id
+      });
+      // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+  /**
+   * 获取所有模块列表
+   * @interface /col/module_list
+   * @method GET
+   */
+  async moduleList(ctx) {
+    try {
+      let id = ctx.query.project_id;
+      let project = await this.projectModel.getBaseInfo(id);
+      if (project.project_type === 'private') {
+        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+        }
+      }
+      let result = await this.moduleModel.list(id);
+
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
   }
 
   /**
@@ -34,7 +104,7 @@ class interfaceColController extends baseController {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
-      let result = await this.colModel.list(id);
+      let result = await this.colModel.list(id, ctx.query.module_id);
       result = result.sort((a, b) => {
         return a.index - b.index;
       });
@@ -54,7 +124,7 @@ class interfaceColController extends baseController {
           return a.index - b.index;
         });
         result[i].caseList = caseList;
-        
+
       }
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
@@ -81,6 +151,7 @@ class interfaceColController extends baseController {
       params = yapi.commons.handleParams(params, {
         name: 'string',
         project_id: 'number',
+        module_id: 'number',
         desc: 'string'
       });
 
@@ -99,6 +170,7 @@ class interfaceColController extends baseController {
       let result = await this.colModel.save({
         name: params.name,
         project_id: params.project_id,
+        module_id: params.module_id,
         desc: params.desc,
         uid: this.getUid(),
         add_time: yapi.commons.time(),
