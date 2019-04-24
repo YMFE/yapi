@@ -1,5 +1,7 @@
-### v1.5.15
+### v1.7.0-beta.0
 * 支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口
+* 支持swagger数据同步
+* 修复不兼容 node7.6 bug
 
 ### v1.5.14 
 * 修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug
