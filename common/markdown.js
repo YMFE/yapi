@@ -25,7 +25,8 @@ const messageMap = {
   itemType: 'item 类型',
   format: 'format',
   enum: '枚举',
-  enumDesc: '枚举备注'
+  enumDesc: '枚举备注',
+  mock: 'mock'
 };
 
 const columns = [
@@ -69,7 +70,7 @@ function createBaseMessage(basepath, inter) {
   // 基本信息
   let baseMessage = `### 基本信息\n\n**Path：** ${basepath + inter.path}\n\n**Method：** ${
     inter.method
-  }\n\n**接口描述：**\n${inter.desc}\n`;
+  }\n\n**接口描述：**\n${_.isUndefined(inter.desc) ? '' : inter.desc}\n`;
   return baseMessage;
 }
 
