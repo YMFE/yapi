@@ -372,7 +372,7 @@ class openController extends baseController {
         records: this.records,
         script: interfaceData.test_script,
         params: requestParams
-      }, interfaceData.col_id, interfaceData._id, this.getUid());
+      }, interfaceData.col_id, interfaceData.interface_id, this.getUid());
       if (test.errcode !== 0) {
         test.data.logs.forEach(item => {
           validRes.push({
