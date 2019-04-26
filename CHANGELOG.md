@@ -1,3 +1,6 @@
+### v1.7.0
+* fix：修复md两个undefined以及run_auto_test中执行用例id问题 #1024
+
 ### v1.7.0-beta.1
 * 修复storage保存逻辑错误
 
