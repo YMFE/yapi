@@ -1,3 +1,6 @@
+### v1.7.0-beta.1
+* 修复storage保存逻辑错误
+
 ### v1.7.0-beta.0
 * **[插件]** 新增默认插件，支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口
 * **[插件]** 新增默认插件，支持swagger]数据同步
