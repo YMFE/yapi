@@ -343,8 +343,11 @@ class View extends Component {
       }
     ];
     let status = {
-      undone: '未完成',
-      done: '已完成'
+      undone: '开发中',
+      testing: '已提测',
+      deprecated: '已过时',
+      stoping: '暂停开发',
+      done: '已发布'
     };
 
     let bodyShow =

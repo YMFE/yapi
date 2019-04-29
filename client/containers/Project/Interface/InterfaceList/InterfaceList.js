@@ -270,22 +270,43 @@ class InterfaceList extends Component {
               onChange={this.changeInterfaceStatus}
             >
               <Option value={key + '-done'}>
-                <span className="tag-status done">已完成</span>
+                <span className="tag-status done">已发布</span>
               </Option>
               <Option value={key + '-undone'}>
-                <span className="tag-status undone">未完成</span>
+                <span className="tag-status undone">开发中</span>
+              </Option>
+              <Option value={key + '-testing'}>
+                <span className="tag-status undone">已提测</span>
+              </Option>
+              <Option value={key + '-deprecated'}>
+                <span className="tag-status undone">已过时</span>
+              </Option>
+              <Option value={key + '-stoping'}>
+                <span className="tag-status undone">暂停开发</span>
               </Option>
             </Select>
           );
         },
         filters: [
           {
-            text: '已完成',
+            text: '已发布',
             value: 'done'
           },
           {
-            text: '未完成',
+            text: '开发中',
             value: 'undone'
+          },
+          {
+            text: '已提测',
+            value: 'testing'
+          },
+          {
+            text: '已过时',
+            value: 'deprecated'
+          },
+          {
+            text: '暂停开发',
+            value: 'stoping'
           }
         ],
         onFilter: (value, record) => record.status.indexOf(value) === 0

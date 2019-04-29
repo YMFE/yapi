@@ -938,8 +938,11 @@ class InterfaceEditForm extends Component {
             <FormItem className="interface-edit-item" {...formItemLayout} label="状态">
               {getFieldDecorator('status', { initialValue: this.state.status })(
                 <Select>
-                  <Option value="done">已完成</Option>
-                  <Option value="undone">未完成</Option>
+                  <Option value="done">已发布</Option>
+                  <Option value="undone">开发中</Option>
+                  <Option value="testing">已提测</Option>
+                  <Option value="deprecated">已过时</Option>
+                  <Option value="stoping">暂停开发</Option>
                 </Select>
               )}
             </FormItem>

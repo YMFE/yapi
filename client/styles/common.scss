@@ -156,6 +156,15 @@ em {
     background-color: #57cf27;
   }
   &.undone::before {
+    background-color: #61fff8;
+  }
+  &.testing::before {
+    background-color: #50a3ff;
+  }
+  &.deprecated::before {
+    background-color: #000000;
+  }
+  &.stoping::before {
     background-color: #ff561b;
   }
 }

@@ -192,20 +192,36 @@ export default class ImportInterface extends Component {
           return (
             text &&
             (text === 'done' ? (
-              <span className="tag-status done">已完成</span>
-            ) : (
-              <span className="tag-status undone">未完成</span>
-            ))
+              <span className="tag-status done">已发布</span>
+            ) : (text === 'undone' ? (<span className="tag-status undone">开发中</span>
+                 ) : (text === 'testing' ? (<span className="tag-status testing">已提测</span>
+                       ) : (text === 'stoping' ? (<span className="tag-status stoping">暂停开发</span>
+                            ) : ( <span className="tag-status deprecated">已过时</span>
+                            )
+                        )
+                    )
+            )
+            )
           );
         },
         filters: [
           {
-            text: '已完成',
+            text: '已发布',
             value: 'done'
           },
+            {
+                text: '开发中',
+                value: 'undone'
+            },          {
+                text: '已提测',
+                value: 'testing'
+            },          {
+                text: '暂停开发',
+                value: 'stoping'
+            },
           {
-            text: '未完成',
-            value: 'undone'
+            text: '已过时',
+            value: 'deprecated'
           }
         ],
         onFilter: (value, record) => {

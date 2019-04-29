@@ -34,7 +34,7 @@ class AddInterfaceForm extends Component {
     });
   }
 
-  handlePath = (e) => {
+  handlePath = (e) => { 
     let val = e.target.value
     this.props.form.setFieldsValue({
       path: handleApiPath(val)
