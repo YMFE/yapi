@@ -272,17 +272,20 @@ class InterfaceList extends Component {
               <Option value={key + '-done'}>
                 <span className="tag-status done">已发布</span>
               </Option>
+              <Option value={key + '-design'}>
+                <span className="tag-status design">设计中</span>
+              </Option>
               <Option value={key + '-undone'}>
                 <span className="tag-status undone">开发中</span>
               </Option>
               <Option value={key + '-testing'}>
-                <span className="tag-status undone">已提测</span>
+                <span className="tag-status testing">已提测</span>
               </Option>
               <Option value={key + '-deprecated'}>
-                <span className="tag-status undone">已过时</span>
+                <span className="tag-status deprecated">已过时</span>
               </Option>
               <Option value={key + '-stoping'}>
-                <span className="tag-status undone">暂停开发</span>
+                <span className="tag-status stoping">暂停开发</span>
               </Option>
             </Select>
           );
@@ -291,6 +294,10 @@ class InterfaceList extends Component {
           {
             text: '已发布',
             value: 'done'
+          },
+          {
+            text: '设计中',
+            value: 'design'
           },
           {
             text: '开发中',

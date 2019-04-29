@@ -39,8 +39,12 @@ module.exports = function(jsondiffpatch, formattersHtml, curDiffData) {
     '0': '非必需',
     text: '文本',
     file: '文件',
-    undone: '未完成',
-    done: '已完成'
+    undone: '开发中',
+    testing: '已提测',
+    deprecated: '已过时',
+    stoping: '暂停开发',
+    design: '设计中',
+    done: '已发布'
   };
 
   const handleParams = item => {

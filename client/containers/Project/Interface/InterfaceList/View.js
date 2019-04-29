@@ -345,6 +345,7 @@ class View extends Component {
     let status = {
       undone: '开发中',
       testing: '已提测',
+      design: '设计中',
       deprecated: '已过时',
       stoping: '暂停开发',
       done: '已发布'
@@ -402,7 +403,7 @@ class View extends Component {
           </Row>
           <Row className="row">
             <Col span={4} className="colKey">
-              状&emsp;&emsp;态：
+              状&emsp;&emsp;态1：
             </Col>
             <Col span={8} className={'tag-status ' + this.props.curData.status}>
               {status[this.props.curData.status]}
