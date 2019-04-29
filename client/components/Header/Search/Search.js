@@ -142,9 +142,9 @@ export default class Srch extends Component {
           defaultActiveFirstOption={false}
           onSelect={this.onSelect}
           onSearch={this.handleSearch}
-          filterOption={(inputValue, option) =>
-            option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-          }
+          // filterOption={(inputValue, option) =>
+          //   option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          // }
         >
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
