@@ -40,8 +40,13 @@ const getStorage = async (id)=>{
     }
   }catch(e){
     console.error(e)
-    return (...args)=>{
-      console.error(...args)
+    return {
+      getItem: (name)=>{
+        console.error(name, e)
+      },
+      setItem: (name, value)=>{
+        console.error(name, value, e)
+      }
     }
   }
 }
@@ -247,7 +252,6 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     query = {};
   query = Object.assign(query, urlObj.query);
   let context = {
-    ...commonContext,
     isNode,
     get href() {
       return urlObj.href;
@@ -278,6 +282,8 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     promise: false,
     storage: await getStorage(taskId)
   };
+
+  Object.assign(context, commonContext)
 
   context.utils = Object.freeze({
     _: _,

@@ -12,15 +12,16 @@ module.exports = function storageCreator(id) {
     },
     setItem: async (name, value) => {
       let inst = yapi.getInst(storageModel);
-      let data = await inst.get(id) || defaultData;
+      let curData = await inst.get(id);
+      let data =  curData || defaultData;
       let result;
       data[name] = value;
-      if(!data){
+      if(!curData){
         result = await inst.save(id, data, true)
       }else{
         result = await inst.save(id, data, false)
       }
-      
+
       return result;
     }
   }
