@@ -39,7 +39,7 @@ class baseController {
 
     let openApiRouter = [
       '/api/open/run_auto_test',
-			'/api/open/import_data',
+      '/api/open/import_data',
 			'/api/interface/add',
 			'/api/interface/save',
 			'/api/interface/up',

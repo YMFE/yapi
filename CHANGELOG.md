@@ -1,3 +1,14 @@
+### v1.7.0
+* fix：修复md两个undefined以及run_auto_test中执行用例id问题 #1024
+
+### v1.7.0-beta.1
+* 修复storage保存逻辑错误
+
+### v1.7.0-beta.0
+* **[插件]** 新增默认插件，支持通过 token 导出包含 basepath 的 json 格式接口，并整合添加 sm2tsservice 入口
+* **[插件]** 新增默认插件，支持swagger数据同步
+* 修复不兼容 node7.6 bug
+
 ### v1.5.14 
 * 修复接口运行部分请求参数默认使用示例填写值导致无法删除参数bug
 * 修复无法保存 global bug
