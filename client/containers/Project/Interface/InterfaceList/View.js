@@ -69,7 +69,7 @@ class View extends Component {
           width: 100
         },
         {
-          title: '示   例',
+          title: '示例',
           dataIndex: 'example',
           key: 'example',
           render(_, item) {
@@ -168,7 +168,7 @@ class View extends Component {
         key: 'required'
       },
       {
-        title: '示  例',
+        title: '示例',
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
@@ -285,7 +285,7 @@ class View extends Component {
         width: 140
       },
       {
-        title: '示    例',
+        title: '示例',
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
@@ -322,7 +322,7 @@ class View extends Component {
         width: '100px'
       },
       {
-        title: '示    例',
+        title: '示例',
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
