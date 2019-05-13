@@ -169,7 +169,7 @@ class View extends Component {
         key: 'required'
       },
       {
-        title: '示 例',
+        title: '示  例',
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
@@ -248,7 +248,7 @@ class View extends Component {
     } else if (mock && !strice) {
       return <span>( 全局mock )</span>;
     } else {
-      return;
+
     }
   };
 
