@@ -169,7 +169,7 @@ class View extends Component {
         key: 'required'
       },
       {
-        title: '示例',
+        title: '示 例',
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
