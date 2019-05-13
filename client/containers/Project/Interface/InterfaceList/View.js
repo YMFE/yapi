@@ -285,10 +285,9 @@ class View extends Component {
         width: 140
       },
       {
-        title: '示例',
+        title: '示    例',
         dataIndex: 'example',
         key: 'example',
-        width: 80,
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
@@ -323,10 +322,9 @@ class View extends Component {
         width: '100px'
       },
       {
-        title: '示例',
+        title: '示    例',
         dataIndex: 'example',
         key: 'example',
-        width: '80px',
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
