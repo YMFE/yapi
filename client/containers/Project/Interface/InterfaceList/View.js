@@ -172,7 +172,6 @@ class View extends Component {
         title: '示例',
         dataIndex: 'example',
         key: 'example',
-        width: 80,
         render(_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
         }
