@@ -11,6 +11,9 @@ import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js';
 import copy from 'copy-to-clipboard';
 import SchemaTable from '../../../../components/SchemaTable/SchemaTable.js';
+import forJson from '../../../../components/JsonView/JsonView.js';
+import  '../../../../components/JsonView/JsonView.scss';
+
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 
@@ -73,7 +76,7 @@ class View extends Component {
           dataIndex: 'example',
           key: 'example',
           render(_, item) {
-            return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
+            return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
           }
         },
         {
@@ -172,7 +175,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }}dangerouslySetInnerHTML={forJson(item.example)}></p>;
         }
       },
       {
@@ -289,7 +292,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
         }
       },
       {
@@ -326,7 +329,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
         }
       },
       {

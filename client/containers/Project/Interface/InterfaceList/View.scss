@@ -133,3 +133,49 @@
     padding-left: .38rem;
   }
 }
+
+
+
+pre {font-family:'consolas';}
+.Canvas {
+  font:14px/18px 'consolas';
+  background-color: #ECECEC;
+  color: #000000;
+  border: solid 1px #CECECE;
+}
+.ObjectBrace {
+  color: #00AA00;
+  font-weight: bold;
+}
+.ArrayBrace {
+  color: #0033FF;
+  font-weight: bold;
+}
+.PropertyName {
+  color: #CC0000;
+  font-weight: bold;
+}
+.String {
+  color: #007777;
+}
+.Number {
+  color: #AA00AA;
+}
+.Boolean {
+  color: #0000FF;
+}
+.Function {
+  color: #AA6633;
+  text-decoration: italic;
+}
+.Null {
+  color: #0000FF;
+}
+.Comma {
+  color: #000000;
+  font-weight: bold;
+}
+PRE.CodeContainer {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
