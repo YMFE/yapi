@@ -44,7 +44,7 @@ export function forJson(json) {
         reg = /\:/g;
         json = json.replace(reg, ':');
     }
-    (json.split('\r\n')).forEach(function (node, index) {
+    (json.split('\r\n')).forEach(function (node) {
         //console.log(node);
         var i = 0,
             indent = 0,
@@ -68,7 +68,7 @@ export function forJson(json) {
         pad += indent;
     });
     return formatted;
-};
+}
 //引用示例部分
 //(1)创建json格式或者从后台拿到对应的json格式
 //var originalJson = {"name": "binginsist", "sex": "男", "age": "25"};
@@ -138,8 +138,8 @@ function ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
                 } else {
                     html += GetRow(indent, "<span class='ObjectBrace'>{</span>", isPropertyContent);
                     var j = 0;
-                    for (var prop in obj) {
-                        html += GetRow(indent + 1, '<span class="PropertyName">"' + prop + '"</span>: ' + ProcessObject(obj[prop], indent + 1, ++j < numProps, false, true))
+                    for (var prop1 in obj) {
+                        html += GetRow(indent + 1, '<span class="PropertyName">"' + prop1 + '"</span>: ' + ProcessObject(obj[prop1], indent + 1, ++j < numProps, false, true))
                     }
                     html += GetRow(indent, "<span class='ObjectBrace'>}</span>" + comma);
                 }
@@ -166,7 +166,7 @@ function ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
         }
     }
     return html;
-};
+}
 
 function FormatLiteral(literal, quote, comma, indent, isArray, style) {
     if (typeof literal == "string") {
@@ -185,8 +185,8 @@ function FormatFunction(indent, obj) {
     }
     var funcStrArray = obj.toString().split("\n");
     var str = "";
-    for (var i = 0; i < funcStrArray.length; i++) {
-        str += ((i == 0) ? "": tabs) + funcStrArray[i] + "\n";
+    for (var j= 0; j < funcStrArray.length; j++) {
+        str += ((j == 0) ? "": tabs) + funcStrArray[j] + "\n";
     }
     return str;
 }
@@ -199,4 +199,4 @@ function GetRow(indent, data, isPropertyContent) {
         data = data + "\n";
     }
     return tabs + data;
-};
+}
