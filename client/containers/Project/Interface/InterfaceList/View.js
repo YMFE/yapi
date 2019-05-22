@@ -402,7 +402,7 @@ class View extends Component {
           </Row>
           <Row className="row">
             <Col span={4} className="colKey">
-              状&emsp;&emsp;态1：
+              状&emsp;&emsp;态：
             </Col>
             <Col span={8} className={'tag-status ' + this.props.curData.status}>
               {status[this.props.curData.status]}
