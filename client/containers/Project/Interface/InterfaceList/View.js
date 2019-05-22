@@ -76,7 +76,7 @@ class View extends Component {
           dataIndex: 'example',
           key: 'example',
           render(_, item) {
-            return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
+            return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
           }
         },
         {
@@ -175,7 +175,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}dangerouslySetInnerHTML={forJson(item.example)}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }}dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {
@@ -292,7 +292,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {
@@ -329,7 +329,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={forJson(item.example)}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {

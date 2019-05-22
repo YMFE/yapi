@@ -1,4 +1,4 @@
-export function forJson(json) {
+export default  function forJson(json) {
     var html='';
     try {
         var fomjson=formatJson(json);
@@ -131,6 +131,7 @@ function ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
             if (type == "object") {
                 var numProps = 0;
                 for (var prop in obj) {
+                    prop=prop+""; 
                     numProps++;
                 }
                 if (numProps == 0) {
