@@ -11,7 +11,7 @@ import variable from '../../../../constants/variable';
 import constants from '../../../../constants/variable.js';
 import copy from 'copy-to-clipboard';
 import SchemaTable from '../../../../components/SchemaTable/SchemaTable.js';
-import forJson from '../../../../components/JsonView/JsonView.js';
+import forJson from '../../../../components/JsonView/JsonView2.js';
 import  '../../../../components/JsonView/JsonView.scss';
 
 
