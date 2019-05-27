@@ -80,8 +80,17 @@ export default class ProjectInterfaceSync extends Component {
         });
       }
     });
+  }
 
-  };
+  forceSync = async() => {
+    await axios.get('/api/plugin/autoSync/forceSync?project_id=' + this.props.projectId).then(res => {
+      if (res.data.errcode === 0) {
+        message.success('保存成功');
+      } else {
+        message.error(res.data.errmsg);
+      }
+    });
+  }
 
   validSwaggerUrl = async (rule, value, callback) => {
     try{
@@ -141,6 +150,9 @@ export default class ProjectInterfaceSync extends Component {
               unCheckedChildren="关"
             />
             {this.state.sync_data.last_sync_time != null ? (<div>上次更新时间:<span className="logtime">{formatTime(this.state.sync_data.last_sync_time)}</span></div>) : null}
+            <Button type="primary" htmlType="submit" icon="save" size="large" onClick={this.forceSync}>
+              强制同步一次
+            </Button>
           </FormItem>
 
           <div>
@@ -218,6 +230,7 @@ export default class ProjectInterfaceSync extends Component {
             <Button type="primary" htmlType="submit" icon="save" size="large" onClick={this.handleSubmit}>
               保存
             </Button>
+            
           </FormItem>
         </Form>
       </div>
