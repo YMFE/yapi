@@ -549,7 +549,7 @@ class InterfaceEditForm extends Component {
     this.state.bulkValue.split('\n').forEach((item, index) => {
       let valueItem = Object.assign({}, curValue[index] || dataTpl[this.state.bulkName]);
       valueItem.name = item.split(':')[0];
-      valueItem.example = item.replace(item.split(":")[0]+":","") || '';
+      valueItem.example = item.replace(item.split(':')[0]+':','') || '';
       newValue.push(valueItem);
     });
 
