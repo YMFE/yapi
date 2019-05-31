@@ -330,6 +330,13 @@ class interfaceModel extends baseModel {
       })
       .limit(10);
   }
+  searchp(keyword) {
+    return this.model
+        .find({
+          path: new RegExp(keyword, 'ig')
+        })
+        .limit(10);
+  }
 }
 
 module.exports = interfaceModel;

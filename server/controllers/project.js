@@ -1078,6 +1078,7 @@ class projectController extends baseController {
     let projectList = await this.Model.search(q);
     let groupList = await this.groupModel.search(q);
     let interfaceList = await this.interfaceModel.search(q);
+    let interfaceList2 = await this.interfaceModel.searchp(q);
 
     let projectRules = [
       '_id',
@@ -1101,6 +1102,7 @@ class projectController extends baseController {
     let interfaceRules = [
       '_id',
       'uid',
+      'path',
       { key: 'title', alias: 'title' },
       { key: 'project_id', alias: 'projectId' },
       { key: 'add_time', alias: 'addTime' },
@@ -1110,13 +1112,16 @@ class projectController extends baseController {
     projectList = commons.filterRes(projectList, projectRules);
     groupList = commons.filterRes(groupList, groupRules);
     interfaceList = commons.filterRes(interfaceList, interfaceRules);
+    interfaceList2 = commons.filterRes(interfaceList2, interfaceRules);
+
     let queryList = {
       project: projectList,
       group: groupList,
-      interface: interfaceList
+      interface: interfaceList,
+      interface2: interfaceList2
     };
 
-    return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));
+    return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));t
   }
 
   // 输入 swagger url  的时候node端请求数据

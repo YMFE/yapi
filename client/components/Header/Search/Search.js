@@ -45,6 +45,7 @@ export default class Srch extends Component {
   };
 
   onSelect = async (value, option) => {
+    console.log("option.props.type:"+option.props.type);
     if (option.props.type === '分组') {
       this.props.changeMenuItem('/group');
       this.props.history.push('/group/' + option.props['id']);
@@ -57,6 +58,9 @@ export default class Srch extends Component {
       this.props.history.push(
         '/project/' + option.props['projectId'] + '/interface/api/' + option.props['id']
       );
+    } else if (option.props.type === '路径') {
+      await this.props.fetchInterfaceListMenu(option.props['projectId']);
+      this.props.history.push('/project/' + option.props['projectId'] + '/interface/api/' + option.props['id']);
     }
   };
 
@@ -105,6 +109,18 @@ export default class Srch extends Component {
                     </Option>
                   );
                   break;
+                case 'interface2':
+                  dataSource.push(
+                    <Option
+                      key={`路径${item._id}`}
+                      type="路径"
+                      id={`${item._id}`}
+                      projectId={`${item.projectId}`}
+                    >
+                      {`路径: ${item.path}`}
+                    </Option>
+                  );
+                  break;
                 default:
                   break;
               }
@@ -148,7 +164,7 @@ export default class Srch extends Component {
         >
           <Input
             prefix={<Icon type="search" className="srch-icon" />}
-            placeholder="搜索分组/项目/接口"
+            placeholder="搜索分组/项目/接口/路径"
             className="search-input"
           />
         </AutoComplete>
