@@ -93,6 +93,12 @@ export default class ProjectInterfaceSync extends Component {
   }
 
   validSwaggerUrl = async (rule, value, callback) => {
+    //如果未开启就不校验
+    if (!this.state.sync_data.is_sync_open) {
+      callback();
+      return;
+    }
+
     try{
       await this.props.handleSwaggerUrlData(value);
     } catch(e) {
