@@ -16,9 +16,9 @@ class syncUtils {
         this.ctx = ctx;
         this.openController = yapi.getInst(openController);
         this.syncModel = yapi.getInst(syncModel);
-        this.tokenModel = yapi.getInst(tokenModel)
+        this.tokenModel = yapi.getInst(tokenModel);
         this.projectModel = yapi.getInst(projectModel);
-        this.init()
+        this.init();
     }
 
     //初始化定时任务
@@ -59,9 +59,9 @@ class syncUtils {
     //同步接口
     async syncInterface(projectId, swaggerUrl, syncMode, uid, projectToken) {
         yapi.commons.log('定时器触发, syncJsonUrl:' + swaggerUrl + ",合并模式:" + syncMode);
-        let oldPorjectData;
+        let oldProjectData;
         try {
-            oldPorjectData = await this.projectModel.get(projectId);
+            oldProjectData = await this.projectModel.get(projectId);
         } catch(e) {
             yapi.commons.log('获取项目:' + projectId + '失败');
             this.deleteSyncJob(projectId);
@@ -70,7 +70,7 @@ class syncUtils {
             return;
         }
         //如果项目已经删除了
-        if (!oldPorjectData) {
+        if (!oldProjectData) {
             yapi.commons.log('项目:' + projectId + '不存在');
             this.deleteSyncJob(projectId);
             //删除数据库定时任务
@@ -82,11 +82,11 @@ class syncUtils {
             newSwaggerJsonData = await this.getSwaggerContent(swaggerUrl)
             if (!newSwaggerJsonData || typeof newSwaggerJsonData !== 'object') {
                 yapi.commons.log('数据格式出错，请检查')
-                this.saveSyncLog(0, syncMode, "数据格式出错，请检查", uid, projectId);
+                this.saveSyncLog(-1, syncMode, "数据格式出错，请检查", uid, projectId);
             }
             newSwaggerJsonData = JSON.stringify(newSwaggerJsonData)
         } catch (e) {
-            this.saveSyncLog(0, syncMode, "获取数据失败，请检查", uid, projectId);
+            this.saveSyncLog(-1, syncMode, "获取数据失败，请检查", uid, projectId);
             yapi.commons.log('获取数据失败' + e.message)
         }
 
