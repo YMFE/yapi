@@ -1,6 +1,5 @@
 const yapi = require('yapi.js');
 const baseModel = require('models/base.js');
-const  mongoose = require('mongoose');
 
 class syncModel extends baseModel {
   getName() {
