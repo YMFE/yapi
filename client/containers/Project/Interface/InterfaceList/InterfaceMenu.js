@@ -1,23 +1,24 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
+import React, {PureComponent as Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  fetchInterfaceListMenu,
-  fetchInterfaceList,
+  deleteInterfaceCatData,
+  deleteInterfaceData,
   fetchInterfaceCatList,
   fetchInterfaceData,
-  deleteInterfaceData,
-  deleteInterfaceCatData,
+  fetchInterfaceList,
+  fetchInterfaceListMenu,
   initInterface
 } from '../../../../reducer/modules/interface.js';
-import { getProject } from '../../../../reducer/modules/project.js';
-import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
+import {fetchProjectList, getProject} from '../../../../reducer/modules/project.js';
+import MoveInterface from './MoveInterface';
+import {Button, Icon, Input, message, Modal, Tooltip, Tree} from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios';
-import { Link, withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import produce from 'immer';
-import { arrayChangeIndex } from '../../../../common.js';
+import {arrayChangeIndex} from '../../../../common.js';
 
 import './interfaceMenu.scss';
 
@@ -42,6 +43,7 @@ const headHeight = 240; // menu顶部到网页顶部部分的高度
     initInterface,
     getProject,
     fetchInterfaceCatList,
+    fetchProjectList,
     fetchInterfaceList
   }
 )
@@ -61,7 +63,14 @@ class InterfaceMenu extends Component {
     router: PropTypes.object,
     getProject: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
+    fetchProjectList: PropTypes.func,
     fetchInterfaceList: PropTypes.func
+  };
+  state = {
+    moveInterVisible: false,
+    moveId: 0,
+    moveToProjectId: 0,
+    moveToCatId: 0
   };
 
   /**
@@ -74,9 +83,9 @@ class InterfaceMenu extends Component {
     this.setState(newState);
   };
 
-  handleCancel = () => {
+  handleMoveCancel = () => {
     this.setState({
-      visible: false
+      moveInterVisible: false
     });
   };
 
@@ -225,6 +234,8 @@ class InterfaceMenu extends Component {
     });
   };
 
+
+
   showDelCatConfirm = catid => {
     let that = this;
     const ref = confirm({
@@ -283,6 +294,7 @@ class InterfaceMenu extends Component {
       list: JSON.parse(JSON.stringify(this.props.list))
     });
   };
+
 
   onExpand = e => {
     this.setState({
@@ -360,6 +372,30 @@ class InterfaceMenu extends Component {
 
     return { menuList, arr };
   };
+
+  showMoveInterfaceModal = async id => {
+    const groupId = this.props.curProject.group_id;
+    await this.props.fetchProjectList(groupId);
+    this.setState({ moveInterVisible: true, moveId: id });
+    console.log("this.state.moveInterVisible "+ this.state.moveInterVisible)
+  };
+
+  handleMoveOk = async () =>{
+    const {moveId,moveToProjectId,moveToCatId} =  this.state;
+    await axios.post('/api/interface/move', { moveId, pid:moveToProjectId,cid:moveToCatId });
+    message.success("小手一抖，接口移走！ " );
+    this.props.fetchInterfaceListMenu(this.props.projectId);
+   this.setState({
+     moveInterVisible: false
+   });
+  }
+
+  movecallback = (pid,cid)=>{
+    this.setState({
+      moveToProjectId: pid,
+      moveToCatId: cid
+    })
+   }
 
   render() {
     const matchParams = this.props.match.params;
@@ -462,50 +498,62 @@ class InterfaceMenu extends Component {
     const itemInterfaceCreate = item => {
       return (
         <TreeNode
-          title={
-            <div
-              className="container-title"
-              onMouseEnter={() => this.enterItem(item._id)}
-              onMouseLeave={this.leaveItem}
-            >
-              <Link
-                className="interface-item"
-                onClick={e => e.stopPropagation()}
-                to={'/project/' + matchParams.id + '/interface/api/' + item._id}
+            title={
+              <div
+                  className="container-title"
+                  onMouseEnter={() => this.enterItem(item._id)}
+                  onMouseLeave={this.leaveItem}
               >
-                {item.title}
-              </Link>
-              <div className="btns">
-                <Tooltip title="删除接口">
-                  <Icon
-                    type="delete"
-                    className="interface-delete-icon"
-                    onClick={e => {
-                      e.stopPropagation();
-                      this.showConfirm(item);
-                    }}
-                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
-                  />
-                </Tooltip>
-                <Tooltip title="复制接口">
-                  <Icon
-                    type="copy"
-                    className="interface-delete-icon"
-                    onClick={e => {
-                      e.stopPropagation();
-                      this.copyInterface(item._id);
-                    }}
-                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
-                  />
-                </Tooltip>
+                <Link
+                    className="interface-item"
+                    onClick={e => e.stopPropagation()}
+                    to={'/project/' + matchParams.id + '/interface/api/' + item._id}
+                >
+                  {item.title}
+                </Link>
+                <div className="btns">
+                  <Tooltip title="删除接口">
+                    <Icon
+                        type="delete"
+                        className="interface-delete-icon"
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.showConfirm(item);
+                        }}
+                        style={{display: this.state.delIcon == item._id ? 'block' : 'none'}}
+                    />
+                  </Tooltip>
+                  <Tooltip title="复制接口">
+                    <Icon
+                        type="copy"
+                        className="interface-delete-icon"
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.copyInterface(item._id);
+                        }}
+                        style={{display: this.state.delIcon == item._id ? 'block' : 'none'}}
+                    />
+                  </Tooltip>
+                  <Tooltip title="移动接口">
+                    <Icon
+                        type="scan"
+                        className="interface-delete-icon"
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.showMoveInterfaceModal(item._id);
+                        }}
+                        style={{display: this.state.delIcon == item._id ? 'block' : 'none'}}
+                    />
+                  </Tooltip>
+                </div>
+                {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
+           <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
+        </Dropdown>*/}
               </div>
-              {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
-            <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
-          </Dropdown>*/}
-            </div>
-          }
-          key={'' + item._id}
+            }
+            key={'' + item._id}
         />
+
       );
     };
 
@@ -518,6 +566,8 @@ class InterfaceMenu extends Component {
     } else {
       menuList = this.state.list;
     }
+
+    console.log("render this.state.moveInterVisible " + this.state.moveInterVisible);
 
     return (
       <div>
@@ -631,6 +681,20 @@ class InterfaceMenu extends Component {
             </Tree>
           </div>
         ) : null}
+        <Modal
+            title="移动接口到其他项目"
+            visible={this.state.moveInterVisible}
+            className="import-case-modal"
+            onOk={this.handleMoveOk}
+            onCancel={this.handleMoveCancel}
+            width={500}
+            destroyOnClose
+        >
+          <MoveInterface
+              currProjectId={this.props.projectId}
+              movecallback={this.movecallback}
+          />
+        </Modal>
       </div>
     );
   }

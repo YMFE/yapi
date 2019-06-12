@@ -735,6 +735,41 @@ class interfaceColController extends baseController {
   }
 
   /**
+   * 移动用例case
+   * @interface /col/move
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @param {Array}  [id, index]
+   * @returns {Object}
+   * @example
+   */
+
+  async move(ctx) {
+    let params = ctx.params;
+    if (!this.$tokenAuth) {
+      let auth = await this.checkAuth(params.pid, 'project', 'edit');
+      if (!auth) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
+      }
+    }
+
+
+    try {
+      this.caseModel.move(params.caseId, params.inpid, params.cid).then(
+          res => {},
+          err => {
+            yapi.commons.log(err.message, 'error');
+          }
+      );
+      return (ctx.body = yapi.commons.resReturn('成功！'));
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 400, e.message);
+    }
+  }
+
+
+  /**
    * 更新多个测试集合 index
    * @interface /col/up_col_index
    * @method POST

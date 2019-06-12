@@ -130,6 +130,18 @@ class interfaceCase extends baseModel {
       }
     );
   }
+
+  move(id, inpid,cid) {
+    return this.model.update(
+        {
+          _id: id
+        },
+        {
+          project_id: inpid,
+          col_id: cid
+        }
+    );
+  }
 }
 
 module.exports = interfaceCase;

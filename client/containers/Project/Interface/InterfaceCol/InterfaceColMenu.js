@@ -11,6 +11,7 @@ import {
 } from '../../../../reducer/modules/interfaceCol';
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
+import MoveCase from './MoveCase';
 import ImportInterface from './ImportInterface';
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
@@ -87,6 +88,7 @@ export default class InterfaceColMenu extends Component {
   state = {
     colModalType: '',
     colModalVisible: false,
+    moveCaseVisible: false,
     editColId: 0,
     filterValue: '',
     importInterVisible: false,
@@ -95,7 +97,8 @@ export default class InterfaceColMenu extends Component {
     expands: null,
     list: [],
     delIcon: null,
-    selectedProject: null
+    selectedProject: null,
+    moveToColId: 0
   };
 
   constructor(props) {
@@ -387,29 +390,49 @@ export default class InterfaceColMenu extends Component {
   leaveItem = () => {
     this.setState({ delIcon: null });
   };
+  handleCaseMoveCancel = () => {
+    this.setState({
+      moveCaseVisible: false
+    });
+  };
+  handleCaseMoveOk = async () =>{
+    const currProjectId = this.props.match.params.id;
+    const caseId=this.props.currCase._id;
+    const { moveToColId }=this.state;
+    console.log("caseId:"+caseId);
+    console.log(this.props.currCase);
+    let res=await axios.get('/api/interface/get?id=' + this.props.currCase.interface_id);
+    console.log(res);
+    // const {moveId,moveToProjectId,moveToCatId} =  this.state;
+    // await axios.post('/api/interface/move', { moveId, pid:moveToProjectId,cid:moveToCatId });
+    message.success("小手一抖，用例移走！ " );
+     await axios.post('/api/col/move', { caseId, inpid:res.data.data.project_id,cid:moveToColId });
+
+    this.props.history.push('/project/' + currProjectId + '/interface/col/' + this.props.currCase.col_id);
+    this.setState({
+      moveCaseVisible: false
+    });
+  }
+
+  showMoveCaseModal = async id => {
+    const groupId = this.props.curProject.group_id;
+    await this.props.fetchProjectList(groupId);
+    this.setState({ moveCaseVisible: true, moveId: id });
+    console.log("this.state.moveCaseVisible "+ this.state.moveCaseVisible)
+  };
+
+  moveCasecallback = (cid)=>{
+    console.log("moveCasecallback   cid  " + cid  );
+    this.setState({
+      moveToColId: cid
+    })
+  }
+
 
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
     const { colModalType, colModalVisible, importInterVisible } = this.state;
     const currProjectId = this.props.match.params.id;
-    // const menu = (col) => {
-    //   return (
-    //     <Menu>
-    //       <Menu.Item>
-    //         <span onClick={() => this.showColModal('edit', col)}>修改集合</span>
-    //       </Menu.Item>
-    //       <Menu.Item>
-    //         <span onClick={() => {
-    //           this.showDelColConfirm(col._id)
-    //         }}>删除集合</span>
-    //       </Menu.Item>
-    //       <Menu.Item>
-    //         <span onClick={() => this.showImportInterface(col._id)}>导入接口</span>
-    //       </Menu.Item>
-    //     </Menu>
-    //   )
-    // };
-
     const defaultExpandedKeys = () => {
       const { router, currCase, interfaceColList } = this.props,
         rNull = { expands: [], selects: [] };
@@ -474,6 +497,17 @@ export default class InterfaceColMenu extends Component {
                       this.caseCopy(interfaceCase._id);
                     }}
                     style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+                <Tooltip title="移动用例">
+                  <Icon
+                      type="scan"
+                      className="interface-delete-icon"
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.showMoveCaseModal(interfaceCase._id);
+                      }}
+                      style={{display: this.state.delIcon == interfaceCase._id ? 'block' : 'none'}}
                   />
                 </Tooltip>
               </div>
@@ -612,6 +646,21 @@ export default class InterfaceColMenu extends Component {
           }}
           onCreate={this.addorEditCol}
         />
+
+        <Modal
+            title="移动用例到其他项目"
+            visible={this.state.moveCaseVisible}
+            className="import-case-modal"
+            onOk={this.handleCaseMoveOk}
+            onCancel={this.handleCaseMoveCancel}
+            width={500}
+            destroyOnClose
+        >
+          <MoveCase
+              currProjectId={currProjectId}
+              movecallback={this.moveCasecallback}
+          />
+        </Modal>
 
         <Modal
           title="导入接口到集合"

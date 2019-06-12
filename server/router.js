@@ -374,6 +374,11 @@ let routerConfig = {
       method: 'post'
     },
     {
+      action: 'move',
+      path: 'move',
+      method: 'post'
+    },
+    {
       action: 'upIndex',
       path: 'up_index',
       method: 'post'
@@ -477,6 +482,11 @@ let routerConfig = {
     {
       action: 'upColIndex',
       path: 'up_col_index',
+      method: 'post'
+    },
+    {
+      action: 'move',
+      path: 'move',
       method: 'post'
     },
     {

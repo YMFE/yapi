@@ -323,6 +323,20 @@ class interfaceModel extends baseModel {
     );
   }
 
+  move(id, pid,cid) {
+    return this.model.update(
+        {
+          _id: id
+        },
+        {
+          project_id: pid,
+          catid: cid
+        }
+    );
+  }
+
+
+
   search(keyword) {
     return this.model
       .find({
