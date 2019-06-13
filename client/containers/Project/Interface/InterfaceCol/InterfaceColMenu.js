@@ -397,19 +397,20 @@ export default class InterfaceColMenu extends Component {
   };
   handleCaseMoveOk = async () =>{
     const currProjectId = this.props.match.params.id;
-    const caseId=this.props.currCase._id;
+    const caseId=this.state.moveId;
     const { moveToColId }=this.state;
     console.log("caseId:"+caseId);
-    console.log(this.props.currCase);
-    let res=await axios.get('/api/interface/get?id=' + this.props.currCase.interface_id);
+    let res0=await axios.get('/api/col/case?caseid=' + caseId);
+    let currCase=res0.data.data;
+    let res=await axios.get('/api/interface/get?id=' + currCase.interface_id);
     console.log(res);
     // const {moveId,moveToProjectId,moveToCatId} =  this.state;
     // await axios.post('/api/interface/move', { moveId, pid:moveToProjectId,cid:moveToCatId });
     message.success("小手一抖，用例移走！ " );
      await axios.post('/api/col/move', { caseId, inpid:res.data.data.project_id,cid:moveToColId });
-
-    this.props.history.push('/project/' + currProjectId + '/interface/col/' + this.props.currCase.col_id);
-    this.setState({
+    this.props.history.push('/project/' + currProjectId + '/interface/col/' + currCase.col_id);
+      this.getList();
+      this.setState({
       moveCaseVisible: false
     });
   }

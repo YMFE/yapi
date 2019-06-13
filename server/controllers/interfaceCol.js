@@ -734,6 +734,39 @@ class interfaceColController extends baseController {
     }
   }
 
+
+    /**
+     * 根据接口id 刷新用例
+     * @interface /col/flush
+     * @method POST
+     * @category col
+     * @foldnumber 10
+     * @param {Number}  interface_id
+     * @returns {Object}
+     * @example
+     */
+    async flush(ctx) {
+        let params = ctx.params;
+        if (!this.$tokenAuth) {
+            let auth = await this.checkAuth(params.pid, 'project', 'edit');
+            if (!auth) {
+                return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
+            }
+        }
+
+        try {
+            this.caseModel.flush(params.inpid,params.pid).then(
+                res => {},
+                err => {
+                    yapi.commons.log(err.message, 'error');
+                }
+            );
+            return (ctx.body = yapi.commons.resReturn('成功！'));
+        } catch (e) {
+            ctx.body = yapi.commons.resReturn(null, 400, e.message);
+        }
+    }
+
   /**
    * 移动用例case
    * @interface /col/move

@@ -495,6 +495,11 @@ let routerConfig = {
       method: 'get'
     },
     {
+      action: 'flush',
+      path: 'flush',
+      method: 'post'
+    },
+    {
       action: 'delCase',
       path: 'del_case',
       method: 'get'

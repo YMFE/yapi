@@ -383,7 +383,8 @@ class InterfaceMenu extends Component {
   handleMoveOk = async () =>{
     const {moveId,moveToProjectId,moveToCatId} =  this.state;
     await axios.post('/api/interface/move', { moveId, pid:moveToProjectId,cid:moveToCatId });
-    message.success("小手一抖，接口移走！ " );
+    await axios.post('/api/col/flush', { inpid:moveId, pid:moveToProjectId});
+    message.success("小手一抖，接口移走！咻咻……咻…… " );
     this.props.fetchInterfaceListMenu(this.props.projectId);
    this.setState({
      moveInterVisible: false

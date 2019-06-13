@@ -130,6 +130,17 @@ class interfaceCase extends baseModel {
       }
     );
   }
+  flush(inid,pid) {
+    return this.model.updateMany(
+        {
+          interface_id: inid
+        },
+        {
+          project_id: pid
+        }
+    );
+  }
+
 
   move(id, inpid,cid) {
     return this.model.update(
