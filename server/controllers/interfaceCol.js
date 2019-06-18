@@ -789,7 +789,7 @@ class interfaceColController extends baseController {
 
 
     try {
-      this.caseModel.move(params.caseId, params.inpid, params.cid).then(
+      this.caseModel.move(params.caseId,  params.cid).then(
           res => {},
           err => {
             yapi.commons.log(err.message, 'error');

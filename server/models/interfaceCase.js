@@ -142,13 +142,12 @@ class interfaceCase extends baseModel {
   }
 
 
-  move(id, inpid,cid) {
+  move(id, cid) {
     return this.model.update(
         {
           _id: id
         },
         {
-          project_id: inpid,
           col_id: cid
         }
     );
