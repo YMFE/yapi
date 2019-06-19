@@ -246,20 +246,20 @@ export default class Run extends Component {
         hasPlugin: hasPlugin
       });
     });
-    if (this.props.type === 'inter') {
-      //给req.query, body_form增加example为默认值
-      for (let i = 0, len = this.props.data.req_query.length; i < len; i++) {
-        if (typeof this.props.data.req_query[i].value == "undefined") {
-          this.props.data.req_query[i].value = this.props.data.req_query[i].example;
-        }
-      }
-      //处理body_form的参数默认值
-      for (let i = 0, len = this.props.data.req_body_form.length; i < len; i++) {
-        if (typeof this.props.data.req_body_form[i].value == "undefined") {
-          this.props.data.req_body_form[i].value = this.props.data.req_body_form[i].example;
-        }
-      }
-    }
+    // if (this.props.type === 'inter') {
+    //   //给req.query, body_form增加example为默认值
+    //   for (let i = 0, len = this.props.data.req_query.length; i < len; i++) {
+    //     if (typeof this.props.data.req_query[i].value == "undefined") {
+    //       this.props.data.req_query[i].value = this.props.data.req_query[i].example;
+    //     }
+    //   }
+    //   //处理body_form的参数默认值
+    //   for (let i = 0, len = this.props.data.req_body_form.length; i < len; i++) {
+    //     if (typeof this.props.data.req_body_form[i].value == "undefined") {
+    //       this.props.data.req_body_form[i].value = this.props.data.req_body_form[i].example;
+    //     }
+    //   }
+    // }
     this.initState(this.props.data);
   }
 
@@ -661,7 +661,7 @@ export default class Run extends Component {
                   <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    defaultValue={item.value == undefined ? item.example : item.value}
                     className="value"
                     onChange={e => this.changeParam('req_params', e.target.value, index)}
                     placeholder="参数值"
@@ -714,7 +714,7 @@ export default class Run extends Component {
                   )}
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    defaultValue={item.value == undefined ? item.example : item.value}
                     className="value"
                     onChange={e => this.changeParam('req_query', e.target.value, index)}
                     placeholder="参数值"
@@ -746,7 +746,7 @@ export default class Run extends Component {
                   <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    defaultValue={item.value == undefined ? item.example : item.value}
                     disabled={!!item.abled}
                     className="value"
                     onChange={e => this.changeParam('req_headers', e.target.value, index)}
@@ -848,7 +848,7 @@ export default class Run extends Component {
                           // />
                         ) : (
                           <Input
-                            value={item.value}
+                            defaultValue={item.value == undefined ? item.example : item.value}
                             className="value"
                             onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
