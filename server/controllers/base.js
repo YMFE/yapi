@@ -50,7 +50,8 @@ class baseController {
       '/api/interface/getCatMenu',
       '/api/interface/list_cat',
       '/api/project/get',
-      '/api/plugin/export'
+      '/api/plugin/export',
+        '/api/col/add_col/'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
