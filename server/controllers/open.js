@@ -309,7 +309,7 @@ class openController extends baseController {
     };
     try {
       options.taskId = this.getUid();
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,createContex(
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script,createContex(
         this.getUid(),
         interfaceData.project_id,
         interfaceData.interface_id

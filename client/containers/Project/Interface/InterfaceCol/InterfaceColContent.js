@@ -312,7 +312,7 @@ class InterfaceColContent extends Component {
     };
 
     try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, createContext(
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script, createContext(
         this.props.curUid,
         this.props.match.params.id,
         interfaceData.interface_id
