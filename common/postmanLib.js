@@ -196,6 +196,7 @@ async function sandbox(context = {}, script) {
     } catch (err) {
       err.message = `Script: ${script}
       message: ${err.message}`;
+      console.error(err);
       throw err;
     }
   } else {
@@ -207,6 +208,7 @@ async function sandbox(context = {}, script) {
     } catch (err) {
       err.message = `Script: ${script}
       message: ${err.message}`;
+      console.error(err);
       throw err;
     }
   }
@@ -245,7 +247,7 @@ function sandboxByBrowser(context = {}, script) {
  * @param {*} afterScript 
  * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
  */
-async function crossRequest(defaultOptions, preScript, afterScript, commonContext = {}) {
+async function crossRequest(defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext = {}) {
   let options = Object.assign({}, defaultOptions);
   const taskId = options.taskId || Math.random() + '';
   let urlObj = URL.parse(options.url, true),
@@ -311,6 +313,17 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
   }
+  if (case_pre_script) {
+    context = await sandbox(context, case_pre_script);
+    defaultOptions.url = options.url = URL.format({
+      protocol: urlObj.protocol,
+      host: urlObj.host,
+      query: context.query,
+      pathname: context.pathname
+    });
+    defaultOptions.headers = options.headers = context.requestHeader;
+    defaultOptions.data = options.data = context.requestBody;
+  }
 
   let data;
 
@@ -340,6 +353,18 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     });
   }
 
+  if (case_post_script) {
+    context.responseData = data.res.body;
+    context.responseHeader = data.res.header;
+    context.responseStatus = data.res.status;
+    context.runTime = data.runTime;
+    context = await sandbox(context, case_post_script);
+    data.res.body = context.responseData;
+    data.res.header = context.responseHeader;
+    data.res.status = context.responseStatus;
+    data.runTime = context.runTime;
+  }
+
   if (afterScript) {
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
@@ -351,6 +376,8 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
   }
+  console.log("准备打印测试用例执行上下文！");
+  console.log(context);
   return data;
 }
 

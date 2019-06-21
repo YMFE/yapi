@@ -1,31 +1,32 @@
-import React, { PureComponent as Component } from 'react';
+import React, {PureComponent as Component} from 'react';
 import PropTypes from 'prop-types';
 import {
+  Alert,
   Button,
-  Input,
   Checkbox,
+  Col,
+  Collapse, Form,
+  Icon,
+  Input,
   Modal,
+  Row,
   Select,
   Spin,
-  Icon,
-  Collapse,
-  Tooltip,
-  Tabs,
   Switch,
-  Row,
-  Col,
-  Alert
+  Tabs,
+  Tooltip
 } from 'antd';
 import constants from '../../constants/variable.js';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import _ from 'underscore';
-import { isJson, deepCopyJson, json5_parse } from '../../common.js';
+import {deepCopyJson, isJson, json5_parse} from '../../common.js';
 import axios from 'axios';
 import ModalPostman from '../ModalPostman/index.js';
-import CheckCrossInstall, { initCrossRequest } from './CheckCrossInstall.js';
+import CheckCrossInstall, {initCrossRequest} from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
+const FormItem = Form.Item;
 const { handleParamsValue, ArrayToObject, schemaValidator } = require('common/utils.js');
 const {
   handleParams,
@@ -127,6 +128,8 @@ export default class Run extends Component {
       mock_verify: false,
       enable_script: false,
       test_script: '',
+      case_pre_script: '',
+      case_post_script: '',
       hasPlugin: true,
       inputValue: '',
       cursurPosition: { row: 1, column: -1 },
@@ -182,8 +185,7 @@ export default class Run extends Component {
     if (!this.checkInterfaceData(data)) {
       return null;
     }
-
-    const { req_body_other, req_body_type, req_body_is_json_schema } = data;
+    const { req_body_other, req_body_type, req_body_is_json_schema ,case_post_script,case_pre_script} = data;
     let body = req_body_other;
     // 运行时才会进行转换
     if (
@@ -205,6 +207,9 @@ export default class Run extends Component {
       });
       body = JSON.stringify(result.data);
     }
+
+    data.case_pre_script= typeof case_pre_script === "undefined"?'':case_pre_script;
+    data.case_post_script= typeof case_post_script === "undefined"?'':case_post_script;
 
     this.setState(
       {
@@ -279,6 +284,7 @@ export default class Run extends Component {
     });
   };
 
+
   handleInsertCode = code => {
     this.aceEditor.editor.insertCode(code);
   };
@@ -290,6 +296,7 @@ export default class Run extends Component {
   };
 
   reqRealInterface = async () => {
+    const {pre_script,after_script,case_pre_script,case_post_script}=this.state;
     if (this.state.loading === true) {
       this.setState({
         loading: false
@@ -305,7 +312,7 @@ export default class Run extends Component {
 
     try {
       options.taskId = this.props.curUid;
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script, createContext(
+      result = await crossRequest(options, pre_script, after_script,case_pre_script,case_post_script, createContext(
         this.props.curUid,
         this.props.projectId,
         this.props.interfaceId
@@ -532,7 +539,9 @@ export default class Run extends Component {
       loading,
       case_env,
       inputValue,
-      hasPlugin
+      hasPlugin,
+      case_pre_script = '',
+      case_post_script = ''
     } = this.state;
     // console.log(env);
     return (
@@ -866,6 +875,34 @@ export default class Run extends Component {
                   <Input type="file" id="single-file" />
                 </div>
               )}
+          </Panel>
+          <Panel header="用例前置/后置js处理器" key="4">
+            <div className="project-request">
+              <Form >
+                <FormItem  label="前置处理器:">
+                  <AceEditor
+                      data={case_pre_script}
+                      onChange={editor => this.setState({ case_pre_script: editor.text }) }
+                      fullScreen={true}
+                      className="request-editor"
+                      ref={aceEditor => {
+                        this.aceEditor = aceEditor;
+                      }}
+                  />
+                </FormItem>
+                <FormItem  label="后置处理器">
+                  <AceEditor
+                      data={case_post_script}
+                      onChange={editor => this.setState({ case_post_script: editor.text })}
+                      fullScreen={true}
+                      className="request-editor"
+                      ref={aceEditor => {
+                        this.aceEditor = aceEditor;
+                      }}
+                  />
+                </FormItem>
+              </Form>
+            </div>
           </Panel>
         </Collapse>
 

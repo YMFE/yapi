@@ -52,7 +52,10 @@ class interfaceCase extends baseModel {
       test_res_header: Schema.Types.Mixed,
       mock_verify: { type: Boolean, default: false },
       enable_script: { type: Boolean, default: false },
-      test_script: String
+      test_script: String,
+      case_pre_script: String,
+      case_post_script: String
+
     };
   }
 

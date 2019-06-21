@@ -552,6 +552,8 @@ class interfaceColController extends baseController {
    * @param {String} req_body_type
    * @param {Array} req_body_form
    * @param {String} req_body_other
+   * @param {String} pre_script
+   * @param {String} post_script
    * @returns {Object}
    * @example
    */
@@ -583,6 +585,7 @@ class interfaceColController extends baseController {
       //不允许修改接口id和项目id
       delete params.interface_id;
       delete params.project_id;
+      //console.log(params);
       let result = await this.caseModel.up(params.id, params);
       let username = this.getUsername();
       this.colModel.get(caseData.col_id).then(col => {
