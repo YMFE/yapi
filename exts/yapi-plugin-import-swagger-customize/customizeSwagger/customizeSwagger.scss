@@ -1,0 +1,30 @@
+.appiont-swagger-data{
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+
+  .card{
+    width: 400px;
+    background-color: #ececec;
+    padding: 16px;
+    border-radius: 4px;
+    
+    h3{
+      margin-bottom: 16px;
+    }
+
+    .label{
+      margin: 16px 0;
+      font-weight: 500;
+    }
+
+    .select{
+      display: block;
+    }
+    
+    .button{
+      margin-top: 16px;
+    }
+  }
+}
