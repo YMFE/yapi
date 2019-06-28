@@ -62,16 +62,17 @@ const compareVersions = require('compare-versions');
     });
   }
 
-  async function run(res, interfaceName) {
+  async function run(res, interfaceName, messageError) {
       let interfaceData = { apis: [], cats: [] };
       if(typeof res === 'string' && res){
         try{
           res = JSON.parse(res);
         } catch (e) {
-          console.error('json 解析出错',e.message)
+          console.error('json 解析出错', e.message);
+          messageError('json 解析出错');
         }
       }
-
+      
       isOAS3 = res.openapi && compareVersions(res.openapi,'3.0.0') >= 0;
       if (isOAS3) {
         res = openapi2swagger(res);
@@ -87,9 +88,16 @@ const compareVersions = require('compare-versions');
           });
         });
       }
-      let paths = {}
-      _.each(interfaceName, api => paths[api] = res.paths[api])
-
+      let paths = {};
+      _.each(interfaceName, api => {
+        const item = res.paths[api];
+        if (item){
+          paths[api] = res.paths[api];
+        } else {
+          messageError(`接口${api}名称不正确`);
+        }
+      })
+      
       _.each(paths, (apis, path) => {
         // parameters is common parameters, not a method
         delete apis.parameters;

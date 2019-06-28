@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Radio, Select, Input, message } from 'antd';
+import { Button, Radio, Select, Input, message, Tooltip, Icon } from 'antd';
 import axios from 'axios';
 import './customizeSwagger.scss';
 
@@ -67,8 +67,9 @@ export default class ProjectInterfaceSync extends Component {
   };
 
   interfaceNameInput = e => {
+    const arr = e.target.value.split(',')
     this.setState({
-      interfaceName: [e.target.value]
+      interfaceName: arr.map(item => item.trim())
     });
   };
 
@@ -81,7 +82,7 @@ export default class ProjectInterfaceSync extends Component {
   importData = async () => {
     const { importType, swaggerUrl, interfaceName } = this.state
     const { projectId, projectMsg } = this.props 
-    
+
     if (!swaggerUrl) {
       return message.error('swagger url 不能为空!');
     }
@@ -111,12 +112,22 @@ export default class ProjectInterfaceSync extends Component {
             <Radio value="add">添加接口</Radio>
             <Radio value="update">更新接口</Radio>
           </RadioGroup>
-          <div className="label">项目的swagger json地址:</div>
+          <div className="label">项目的swaggerUrl:</div>
           <Input
             placeholder="http://demo.swagger.io/v2/swagger.json"
             onChange={this.swaggerUrlInput}
           />
-          <div className="label">接口名称：</div>
+          <div className="label">接口名称&nbsp;
+            <Tooltip
+              title={
+                <div>
+                  <p>1、添加多个新接口时请用,隔开</p>
+                  <p>2、接口名称必须和后端定义的一致</p>
+                </div>
+              }
+            >
+              <Icon type="question-circle-o" />
+            </Tooltip>{' '}：</div>
           {importType === 'add' ? (
             <Input
               placeholder="/api/interface/add"

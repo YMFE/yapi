@@ -12,7 +12,7 @@ class importController extends baseController {
   constructor(ctx) {
     super(ctx);
     this.projectModel = yapi.getInst(projectModel);
-    this.tokenModel = yapi.getInst(tokenModel)
+    this.tokenModel = yapi.getInst(tokenModel);
   }
   async updateData (ctx) {
 
@@ -23,10 +23,23 @@ class importController extends baseController {
     if (!projectId) {
       return (ctx.body = yapi.commons.resReturn(null, 408, '缺少项目Id'));
     }
+    // 获取项目信息
     const projectData = await this.projectModel.get(projectId);
-    const { basePath, uid } = projectData
+    const { basePath, uid } = projectData;
+    // 获取swaggerJSON
+    const swaggerData = await this.getSwaggerData(swaggerUrl, ctx);
 
-    const res = await formatData(this.getSwaggerData(swaggerUrl), interfaceName);
+    if (swaggerData.errorMsg) {
+      return (ctx.body = yapi.commons.resReturn(null, 404, swaggerData.errorMsg));
+    }
+    // 格式化swagger数据
+    const res = await formatData(
+      swaggerData,
+      interfaceName,
+      err => {
+        errorMessage.push(err);
+      }
+    );
 
     await HanldeImportData(
       res,
@@ -76,19 +89,17 @@ class importController extends baseController {
         return "";
     }
   }
-
+  
   async getSwaggerData(swaggerUrl) {
     try {
-        let response = await axios.get(swaggerUrl);
-        if (response.status > 400) {
-            throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
-        }
-        return response.data;
+      const response = await axios.get(swaggerUrl);
+      return response.data;
     } catch (e) {
-        let response = e.response;
-        throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
+      return {
+        errorMsg: '获取数据失败，请确认 swaggerUrl 是否正确'
+      }
     }
-}
+  }
 }
 
 module.exports = importController;
