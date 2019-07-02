@@ -29,7 +29,7 @@ const HomeGuest = () => (
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://yapi.ymfe.org"
+                href="https://hellosean1025.github.io/yapi"
                 className="item"
               >
                 使用文档
@@ -371,7 +371,7 @@ class Home extends Component {
                   </Button>
                 </Link>
                 <Button className="btn-home btn-home-normal">
-                  <a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org">
+                  <a target="_blank" rel="noopener noreferrer" href="https://hellosean1025.github.io/yapi">
                     使用文档
                   </a>
                 </Button>
