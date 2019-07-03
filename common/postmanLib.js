@@ -186,21 +186,21 @@ function sandboxByNode(sandbox = {}, script) {
 }
 
 async function sandbox(context = {}, script) {
-  if (isNode) {
-    try {
+  try {
+    if (isNode) {
       context.context = context;
       context.console = console;
       context.Promise = Promise;
       context.setTimeout = setTimeout;
       context = sandboxByNode(context, script);
-    } catch (err) {
-      err.message = `Script: ${script}
-      message: ${err.message}`;
-      console.error(err);
-      throw err;
+    } else {
+      context = sandboxByBrowser(context, script);
     }
-  } else {
-    context = sandboxByBrowser(context, script);
+  } catch (err) {
+    err.message = `Script: ${script}
+    message: ${err.message}`;
+    console.error(err);
+    throw err;
   }
   if (context.promise && typeof context.promise === 'object' && context.promise.then) {
     try {
@@ -212,7 +212,8 @@ async function sandbox(context = {}, script) {
       throw err;
     }
   }
-  return context;
+
+    return context;
 }
 
 function sandboxByBrowser(context = {}, script) {
