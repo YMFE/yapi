@@ -1,4 +1,4 @@
-## 当前分支补充功能说明：
+### <font color=RED size=24 face="黑体">  crazy-yapi</font>分支补充功能说明：
 *  接口定义中参数示例参数如果是json格式，则会进行染色并格式化
 *  增加接口/用例空间内跨项目移动功能
 *  全局搜索增加支持接口路劲搜索（不包含basepath）
@@ -8,6 +8,35 @@
 *  增加用例前置/后置脚本处理器，兼容context、storage，执行顺序：项目请求前置脚本-》用例前置脚本-》用例后置脚本-》项目响应处理脚本
 *  在F12-console控制台打印用例执行的context内容，减小对cross控制台查看请求参数的依赖
 *  在控制台打印请求配置脚本以及前置后置js脚本的异常错误，提高调试效率
+
+### 当前分支用户（使用当前分支的请提交issure，用的人越多 功能支持更新越快）
+*   小影
+
+### 分支部署说明
+<font size=5 color=red  >前置条件：</font>
+先参考主分支部署说明部署主分支，停止yapi服务后，再进行以下操作
+
+1. 安装forerver（使用forerver 后台运行nodejs）,安装 ykit
+2.  cd xxxx/yapi/vendors
+3. 添加 分支仓库（若已经添加，无需重复添加） git remote add yehaoapi https://github.com/xian-crazy/yapi.git
+4. 删除本地文件rm -rf *
+5. 获取全部代码：git reset --hard yehaoapi/master
+6. 安装依赖 npm install  --registry https://registry.npm.taobao.org
+7. 前端打包 ykit pack -m
+8. 启动服务 forever start -o out.log -e err.log server/app.js
+
+### 分支升级说明
+1. 停止服务：forever stopall
+2. cd xxx/yapi/vendors/
+3. 拉取新代码 git pull yehaoapi master
+4. 打包 ykit pack -m
+5. 启动服务 forever start -o out.log -e err.log server/app.js
+
+### crazy-yapi 分支 作者
+* crazy  330126160@qq.com
+
+
+<font color=RED size=24 face="黑体"> ---------------------以下类容为主分支说明文档------------------------------</font>
 
 ## YApi  可视化接口管理平台
 <p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
@@ -73,7 +102,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
 * [idea 一键上传接口到yapi插件](https://github.com/FurionCS/YapiIdeaUploadPlugin)
 
-### YApi 的一些客户
+### YApi 主分支 的一些客户
 * 去哪儿
 * 携程
 * 艺龙 
@@ -91,12 +120,16 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 新浪
 * VIPKID
 
-### Authors
+
+
+### 主分支 Authors
 * [hellosean1025](https://github.com/hellosean1025)
 * [gaoxiaomumu](https://github.com/gaoxiaomumu)
 * [zwjamnsss](https://github.com/amnsss)
 * [dwb1994](https://github.com/dwb1994)
 * [fungezi](https://github.com/fungezi)
+
+
 
 
 ### License
