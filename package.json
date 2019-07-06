@@ -5,13 +5,13 @@
   "main": "server/app.js",
   "scripts": {
     "dev-copy-icon": "cp -r static/iconfont ./",
-    "dev-server": " nodemon server/app.js dev -L",
+    "dev-server": " nodemon --inspect server/app.js dev -L",
     "install-server": " node server/install.js",
     "dev-client": "npm run dev-copy-icon && ykit s -p 4000",
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
     "test": "ava",
-    "build-client": "NODE_ENV=production ykit pack -m",
+    "build-client": "cross-env NODE_ENV=production ykit pack -m",
     "npm-publish": "node ./npm-publish.js",
     "docs": "ydoc build"
   },
@@ -32,7 +32,7 @@
   "dependencies": {
     "ajv": "^5.5.1",
     "ajv-i18n": "^2.2.0",
-    "axios": "0.18.0",
+    "axios": "^0.16.2",
     "compare-versions": "^3.4.0",
     "copy-to-clipboard": "3.0.8",
     "cpu-load": "^1.0.0",
@@ -107,6 +107,7 @@
     "compression-webpack-plugin": "^1.0.0",
     "copy-webpack-plugin": "^4.0.1",
     "core-decorators": "^0.17.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.4",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.9.0",

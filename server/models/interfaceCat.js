@@ -17,7 +17,8 @@ class interfaceCat extends baseModel {
       desc: String,
       add_time: Number,
       up_time: Number,
-      index: { type: Number, default: 0 }
+      index: { type: Number, default: 0 },
+      parent_id: { type: Number},
     };
   }
 

@@ -871,9 +871,11 @@ class interfaceController extends baseController {
       }
 
       let result = await this.catModel.save({
+        parent_id:params.parent_id || 0,
         name: params.name,
         project_id: params.project_id,
         desc: params.desc,
+        index: params.index || 0,
         uid: this.getUid(),
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
@@ -909,8 +911,10 @@ class interfaceController extends baseController {
       }
 
       let result = await this.catModel.up(params.catid, {
+        parent_id:params.parent_id || 0,
         name: params.name,
         desc: params.desc,
+        index: params.index || 0,
         up_time: yapi.commons.time()
       });
 

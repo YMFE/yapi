@@ -240,7 +240,8 @@ class projectController extends baseController {
         desc: '公共分类',
         uid: this.getUid(),
         add_time: yapi.commons.time(),
-        up_time: yapi.commons.time()
+        up_time: yapi.commons.time(),
+        parent_id: 0
       });
     }
     let uid = this.getUid();

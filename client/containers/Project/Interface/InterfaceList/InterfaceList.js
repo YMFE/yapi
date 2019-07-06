@@ -2,7 +2,7 @@ import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Table, Button, Modal, message, Tooltip, Select, Icon } from 'antd';
+import { Table, Button, Modal, message, Tooltip, TreeSelect, Select, Icon } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import {
   fetchInterfaceListMenu,
@@ -239,20 +239,32 @@ class InterfaceList extends Component {
         key: 'catid',
         width: 28,
         render: (item, record) => {
+          const temp = [...this.props.catList];
+          temp.forEach(f => {
+            f.children = temp.filter(g => g.parent_id == f._id);
+            f.children.forEach(x => {
+              x.value = x._id + '';
+              x.title = x.name;
+              x.selectable = (x._id + '') != item + ''
+            });
+          });
+          const treeData = temp.filter(f => f.parent_id == 0);
+          treeData.forEach(x => {
+            x.value = x._id + '';
+            x.title = x.name;
+            x.selectable = (x._id + '') != item + ''
+          });
+
+          treeData.splice(0, 0, {
+            _id: 0,
+            value: 0 + '',
+            title: '空',
+            selectable: (0 + '') != item + ''
+          });
+
           return (
-            <Select
-              value={item + ''}
-              className="select path"
-              onChange={catid => this.changeInterfaceCat(record._id, catid)}
-            >
-              {this.props.catList.map(cat => {
-                return (
-                  <Option key={cat.id + ''} value={cat._id + ''}>
-                    <span>{cat.name}</span>
-                  </Option>
-                );
-              })}
-            </Select>
+            <TreeSelect className="select path" treeData={treeData} onChange={catid => this.changeInterfaceCat(record._id, catid)} value={item + ''}>
+            </TreeSelect>
           );
         }
       },
