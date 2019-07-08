@@ -69,18 +69,8 @@ Footer.defaultProps = {
       iconType: 'github',
       linkList: [
         {
-          itemTitle: 'YApi 源码仓库',
-          itemLink: 'https://github.com/YMFE/yapi'
-        }
-      ]
-    },
-    {
-      title: '团队',
-      iconType: 'team',
-      linkList: [
-        {
-          itemTitle: 'YMFE',
-          itemLink: 'https://ymfe.org'
+          itemTitle: 'Crazy-YApi 源码仓库',
+          itemLink: 'https://github.com/xian-crazy/yapi'
         }
       ]
     },
@@ -90,11 +80,11 @@ Footer.defaultProps = {
       linkList: [
         {
           itemTitle: 'Github Issues',
-          itemLink: 'https://github.com/YMFE/yapi/issues'
+          itemLink: 'https://github.com/xian-crazy/yapi/issues'
         },
         {
           itemTitle: 'Github Pull Requests',
-          itemLink: 'https://github.com/YMFE/yapi/pulls'
+          itemLink: 'https://github.com/xian-crazy/yapi/pulls'
         }
       ]
     },
@@ -102,12 +92,12 @@ Footer.defaultProps = {
       title: 'Copyright © 2018 YMFE',
       linkList: [
         {
-          itemTitle: `版本: ${version} `,
-          itemLink: 'https://github.com/YMFE/yapi/blob/master/CHANGELOG.md'
+          itemTitle: `版本: crazy-${version} `,
+          itemLink: 'https://github.com/xian-crazy/yapi/blob/master/README.md'
         },
         {
           itemTitle: '使用文档',
-          itemLink: 'https://yapi.ymfe.org'
+          itemLink: '/doc/index.html'
         }
       ]
     }
