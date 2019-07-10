@@ -93,7 +93,7 @@ async function httpRequestByNode(options) {
         typeof options.data === 'object' &&
         options.data
       ) {
-        options.data = qs.stringify(options.data);
+        options.data = qs.stringify(options.data, { indices: false });
       }
     }
   }
@@ -104,7 +104,7 @@ async function httpRequestByNode(options) {
       method: options.method,
       url: options.url,
       headers: options.headers,
-      timeout: 5000,
+      timeout: 10000,
       maxRedirects: 0,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false
@@ -349,6 +349,11 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
         }
         resolve(data);
       };
+      Object.keys(options.data).map(function (key) {
+        if(Array.isArray(options.data[key])){
+          options.data[key]=options.data[key][0];
+        }
+      })
 
       window.crossRequest(options);
     });
@@ -377,8 +382,10 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
   }
-  console.log("准备打印测试用例执行上下文！");
-  console.log(context);
+  if (!isNode) {
+    console.log("准备打印测试用例执行上下文！");
+    console.log(context);
+  }
   return data;
 }
 
@@ -388,7 +395,11 @@ function handleParams(interfaceData, handleValue, requestParams) {
     const obj = {};
     safeArray(arr).forEach(item => {
       if (item && item.name && (item.enable || item.required === '1')) {
-        obj[item.name] = handleValue(item.value, currDomain.global);
+        let value= handleValue(item.value, currDomain.global);
+        if(item.type == 'list'){
+          value=value.split(',');
+        }
+        obj[item.name] = value;
         if (requestParams) {
           requestParams[item.name] = obj[item.name];
         }
@@ -473,7 +484,7 @@ function handleParams(interfaceData, handleValue, requestParams) {
     if (interfaceRunData.req_body_type === 'form') {
       requestBody = paramsToObjectWithEnable(
         safeArray(interfaceRunData.req_body_form).filter(item => {
-          return item.type == 'text';
+          return item.type == 'text'||item.type == 'list';
         })
       );
     } else if (interfaceRunData.req_body_type === 'json') {

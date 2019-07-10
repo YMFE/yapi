@@ -54,15 +54,28 @@ class View extends Component {
           width: 100,
           render: text => {
             text = text || '';
-            return text.toLowerCase() === 'text' ? (
-              <span>
-                <i className="query-icon text">T</i>文本
-              </span>
-            ) : (
-              <span>
-                <Icon type="file" className="query-icon" />文件
-              </span>
-            );
+            switch (text.toLowerCase()) {
+              case 'text':
+                return (
+                  <span>
+                    <i className="query-icon text">T</i>文本
+                  </span>
+                );
+              case 'file':
+                return (
+                  <span>
+                    <Icon type="file" className="query-icon"/>文件
+                  </span>
+                );
+              case 'list':
+                return (
+                  <span>
+                    <i className="query-icon text">T</i>数组文本
+                  </span>
+                );
+              default:
+                break;
+            }
           }
         },
         {

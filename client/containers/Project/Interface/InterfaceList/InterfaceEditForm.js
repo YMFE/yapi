@@ -148,7 +148,7 @@ class InterfaceEditForm extends Component {
     }
     if (curdata.req_body_form) {
       curdata.req_body_form = curdata.req_body_form.map(item => {
-        item.type = item.type === 'text' ? 'text' : 'file';
+        item.type = item.type === 'text' ? 'text' : item.type === 'list'?'list':'file';
         return item;
       });
     }
@@ -720,6 +720,7 @@ class InterfaceEditForm extends Component {
             })(
               <Select>
                 <Option value="text">text</Option>
+                <Option value="list">list</Option>
                 <Option value="file">file</Option>
               </Select>
             )}

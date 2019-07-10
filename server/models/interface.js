@@ -71,7 +71,7 @@ class interfaceModel extends baseModel {
       req_body_form: [
         {
           name: String,
-          type: { type: String, enum: ['text', 'file'] },
+          type: { type: String, enum: ['text', 'file','list'] },
           example: String,
           value: String,
           desc: String,
