@@ -1,0 +1,22 @@
+{
+   "port": "80",
+   "adminAccount": "hao.ye@quvideo.com",
+   "db": {
+      "servername": "172.16.1.22",
+      "DATABASE": "quvideoyapi",
+      "port": 27111,
+      "user": "quvideoqa",
+      "pass": "plmokn1!",
+      "authSource": ""
+   },
+   "mail": {
+      "enable": true,
+      "host": "smtp.exmail.qq.com",
+      "port": 465,
+      "from": "qa.admin@quvideo.com",
+      "auth": {
+         "user": "qa.admin@quvideo.com",
+         "pass": "XIAOying12"
+      }
+   }
+}

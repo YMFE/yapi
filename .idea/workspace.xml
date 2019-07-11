@@ -1,0 +1,1425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9eff73ff-3415-492f-ae20-bdf41282a01c" name="Default Changelist" comment="更新footer">
+      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.npmrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/Application.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/common.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/AceEditor/AceEditor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/AceEditor/AceEditor.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/AceEditor/mockEditor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/AuthenticatedComponent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Breadcrumb/Breadcrumb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Breadcrumb/Breadcrumb.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/CaseEnv/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/CaseEnv/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/EasyDragSort/EasyDragSort.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ErrMsg/ErrMsg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ErrMsg/ErrMsg.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Footer/Footer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Footer/Footer.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/GuideBtns/GuideBtns.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Header/Header.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Header/Header.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Header/Search/Search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Header/Search/Search.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Intro/Intro.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Intro/Intro.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/JsonView/JsonView.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/JsonView/JsonView2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Label/Label.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Label/Label.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Loading/Loading.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Loading/Loading.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/LogoSVG/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/MockDoc/MockDoc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/MockDoc/MockDoc.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ModalPostman/MethodsList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ModalPostman/MockList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ModalPostman/VariablesSelect.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ModalPostman/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ModalPostman/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/MyPopConfirm/MyPopConfirm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Notify/Notify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Postman/CheckCrossInstall.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Postman/Postman.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Postman/Postman.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ProjectCard/ProjectCard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/ProjectCard/ProjectCard.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/SchemaTable/SchemaTable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/SchemaTable/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Subnav/Subnav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/Subnav/Subnav.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/TimeLine/TimeLine.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/TimeLine/TimeLine.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/UsernameAutoComplete/UsernameAutoComplete.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/components/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/constants/variable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/AddProject/AddProject.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/AddProject/Addproject.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/DevTools/DevTools.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Follows/Follows.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Follows/Follows.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/Group.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/Group.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/GroupList/GroupList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/GroupList/GroupList.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/GroupLog/GroupLog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/GroupSetting/GroupSetting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/GroupSetting/GroupSetting.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/MemberList/MemberList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/MemberList/MemberList.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/ProjectList/ProjectList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/ProjectList/ProjectList.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Group/ProjectList/UpDateModal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Home/Home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Home/Home.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Login/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Login/Login.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Login/LoginContainer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Login/LoginWrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Login/Reg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/News/News.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/News/News.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/News/NewsList/NewsList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/News/NewsTimeline/NewsTimeline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Activity/Activity.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Activity/Activity.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/Interface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/CaseReport.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/ImportInterface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceCaseContent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceCaseContent.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColContent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColMenu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColMenu.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/MoveCase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/AddInterfaceCatForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/AddInterfaceForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Edit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Edit.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceContent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceEditForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceMenu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/MoveInterface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Run/AddColModal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Run/Run.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Run/Run.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/View.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/View.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/editor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/interfaceMenu.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Interface/interface.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectData/ProjectData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectData/ProjectData.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectEnv/ProjectEnvContent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectEnv/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectEnv/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectMember/ProjectMember.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectMessage/ProjectMessage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectMessage/ProjectTag.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectMessage/ProjectTag.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectMock/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectRequest/ProjectRequest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectRequest/project-request.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectToken/ProjectToken.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/ProjectToken/ProjectToken.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/Setting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/Project/Setting/Setting.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/User/List.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/User/Profile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/User/User.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/User/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/containers/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/font/QIconLab.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/font/QIconLab.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/font/QIconLab.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/font/QIconLab.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/images/loading.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/create.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/middleware/messageMiddleware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/addInterface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/follow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/group.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/interface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/interfaceCol.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/mockCol.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/news.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/reducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/reducer/modules/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/styles/common.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/styles/mixin.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/styles/public-sass.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/styles/theme.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/HandleImportData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/createContext.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/diff-view.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/formats.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/lib.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/markdown.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/mergeJsonSchema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/mock-extra.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/postmanLib.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/power-string.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/shema-transformTo-table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-Editor-all.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-Editor.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-Viewer-all.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-Viewer.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-contents.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-extChart.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-extColorSyntax.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-extScrollSync.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-extTable.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor-extUML.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tui-editor/dist/tui-editor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_example.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/NAV.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/devops/SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/devops/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/devops/ldap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/2019-01-15-14-05-46.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/adv_mock.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/api.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/case-col.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/case.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/clone-project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/clone-project.png.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/data.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/export-data.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/export-data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/autoTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/autoTestResult.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/baseSet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/bianlif.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/case_add.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/case_add_modal.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/case_col_add.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/case_col_add_modal.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/case_list.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/charles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/dbbmklogo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/elong.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/getQuery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/interface_add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/interface_add_cat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/interface_run.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/interface_run_valid.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/intro_page_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/intro_page_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/intro_page_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/jd.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/jsonSchema.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/kuaishou.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/lianjia.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/logo_header22@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/logo_header@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/mock-strice.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/mock-strice2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/mock-strice3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/project-remove.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/project_add_view.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/project_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/project_list.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/requestSet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/schema-mock-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/schema-mock-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/shouqian.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/show.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/add-group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case4-new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case5-new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock-case5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/adv-mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/api_add_btn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/api_add_panel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/api_res.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case-edit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case-list.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case-list.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case_key_body_json.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case_key_list.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case_key_query.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case_key_res.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/case_key_res_query.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/chrome-6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/index.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/json-schema-demo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/json-schema-mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/manage_ask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/manage_ask_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/manage_find_manager.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/manage_find_project_owner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/manage_intro_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/mock-demo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/modal-postman-tips.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/modal-postman.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/postman-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/postman-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/postman-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project-message.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/projectCopy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_add_panel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_copy_ok.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_setting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_setting_env.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_setting_global.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/project_setting_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/usage/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/vip.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/xuetangx.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/ykit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/images/yonyou.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/import-case.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/import-json-data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/manage.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/mock.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/plugin-dev.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/plugin-hooks.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/plugin-index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/plugin-list.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/project.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/qa.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/quickstart.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/redev.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/documents/test-case.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/openapi-doc.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/openapi.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/web.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/AdvMock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/MockCol/CaseDesModal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/MockCol/CaseDesModal.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/MockCol/MockCol.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/MockCol/mockColReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/advMockModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/caseModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-advanced-mock/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/.sass-cache/3f3d6afdb6793d0137c849fff0c1eee600369f02/defaultTheme.scssc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/.sass-cache/8d7dcd37f61732054a9966925c8cce5b23a209ac/defaultTheme.scssc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/defaultTheme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/defaultTheme.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/defaultTheme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/defaultTheme.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-data/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-swagger2-data/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-swagger2-data/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-swagger2-data/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-export-swagger2-data/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/.sass-cache/3f3d6afdb6793d0137c849fff0c1eee600369f02/defaultTheme.scssc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/.sass-cache/8d7dcd37f61732054a9966925c8cce5b23a209ac/defaultTheme.scssc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/Services/Services.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/Services/Services.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/defaultTheme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/defaultTheme.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/defaultTheme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/defaultTheme.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-gen-services/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-har/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-har/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-postman/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-postman/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-swagger/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-swagger/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-swagger/run.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-swagger/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-yapi-json/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-import-yapi-json/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/statisMockModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/statisticsClientPage/StatisChart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/statisticsClientPage/StatisTable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/statisticsClientPage/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/statisticsClientPage/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-statistics/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/controller/syncController.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/interfaceSyncUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/swaggerAutoSync/swaggerAutoSync.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-swagger-auto-sync/syncModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-test/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-test/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/Editor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/View.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/npm-publish.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/base.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/follow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/group.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/interface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/interfaceCol.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/log.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/open.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/install.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/middleware/mockServer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/avatar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/base.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/follow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/group.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/interface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/interfaceCase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/interfaceCat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/interfaceCol.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/log.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/storage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/token.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/commons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/db.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/initConfig.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/ldap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/mongoose-auto-increment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/reportHtml/defaultTheme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/reportHtml/defaultTheme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/reportHtml/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/storage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/token.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/websocket.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/yapi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/attachment/cross-request.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/dev.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/devops/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/devops/ldap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/2019-01-15-14-05-46.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/CHANGELOG.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/adv_mock.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/api.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/case-col.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/case.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/clone-project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/clone-project.png.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/data.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/export-data.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/export-data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/autoTest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/autoTestResult.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/baseSet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/bianlif.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/case_add.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/case_add_modal.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/case_col_add.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/case_col_add_modal.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/case_list.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/charles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/dbbmklogo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/elong.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/getQuery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/interface_add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/interface_add_cat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/interface_run.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/interface_run_valid.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/intro_page_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/intro_page_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/intro_page_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/jd.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/jsonSchema.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/kuaishou.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/lianjia.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/logo_header22@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/logo_header@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/mock-strice.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/mock-strice2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/mock-strice3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/project-remove.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/project_add_view.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/project_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/project_list.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/requestSet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/schema-mock-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/schema-mock-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/shouqian.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/show.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/add-group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case4-new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case5-new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock-case5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/adv-mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/api_add_btn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/api_add_panel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/api_res.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case-edit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case-list.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case-list.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case_key_body_json.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case_key_list.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case_key_query.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case_key_res.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/case_key_res_query.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/chrome-6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/index.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/json-schema-demo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/json-schema-mock.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/manage_ask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/manage_ask_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/manage_find_manager.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/manage_find_project_owner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/manage_intro_group.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/mock-demo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/modal-postman-tips.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/modal-postman.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/postman-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/postman-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/postman-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project-message.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/projectCopy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_add_panel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_copy_ok.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_setting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_setting_env.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_setting_global.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/project_setting_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/usage/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/vip.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/xuetangx.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/ykit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/images/yonyou.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/import-case.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/import-json-data.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/manage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/mock.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/plugin-dev.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/plugin-hooks.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/plugin-index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/plugin-list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/project.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/qa.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/quickstart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/redev.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/documents/test-case.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/openapi-doc.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/openapi.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/search_json.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/web.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/browserconfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/dog@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/dog@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/dogbg@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/dogbg@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/favicon-16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/favicon-32x32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/images/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/scripts/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/scripts/plugins/dollar.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/scripts/plugins/responsive-nav.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/scripts/plugins/slideout.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/styles/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/ydoc-plugin-img-view/imgView.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/ydoc-plugin-img-view/imgView.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/ydoc-plugin-search/core.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/ydoc-plugin-search/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/ydoc/ydoc-plugin-search/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/iconfont/iconfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/iconfont/iconfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/iconfont/iconfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/iconfont/iconfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/avatar-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/avatar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/demo-img@1x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/demo-img@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/common/common.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/common/mergeJsonSchema.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/lib.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mock-extra.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/server/commons.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/server/mockServer.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.alias.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yapi-base-flow.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ydoc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ydocfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ykit.config.js" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>paramsToObjectUnWithEnable</find>
+      <find>paramsToObjectWithEnable</find>
+      <find>require('common/postmanLib.js')</find>
+      <find>handleParams(</find>
+      <find>run_script</find>
+      <find>runCaseScript</find>
+      <find>crossRequest</find>
+      <find>5000</find>
+      <find>403</find>
+      <find>case_pre_script</find>
+      <find>httpRequestByNode</find>
+      <find>handleParams</find>
+      <find>requestParams</find>
+      <find>准备打印测试用例执行上下文！</find>
+      <find>isNode</find>
+      <find>switch</find>
+      <find>file</find>
+      <find>请求参数设置</find>
+      <find>requestBodyTpl</find>
+      <find>requestBodyList</find>
+      <find>YApi 新版如何查看 http 请求数据</find>
+      <find>fil</find>
+      <find>test_valid_msg</find>
+      <find>Storage</find>
+      <find>10000</find>
+      <find>stroageModel</find>
+      <find>stroage</find>
+      <find>tokenModel</find>
+      <find>getIte</find>
+      <find>返回参数</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>MoveInterface</replace>
+      <replace>MoveCase</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\33012\IdeaProjects\yapi</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/client/components/JsonView/JsonView.js" />
+        <option value="$PROJECT_DIR$/client/components/JsonView/JsonView2.js" />
+        <option value="$PROJECT_DIR$/client/components/Header/Search/Search.js" />
+        <option value="$PROJECT_DIR$/static/iconfont/iconfont.svg" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/MoveInterface.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/MoveCase.js" />
+        <option value="$PROJECT_DIR$/server/controllers/project.js" />
+        <option value="$PROJECT_DIR$/server/router.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceMenu.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColMenu.js" />
+        <option value="$PROJECT_DIR$/server/controllers/base.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceCaseContent.js" />
+        <option value="$PROJECT_DIR$/server/models/interfaceCase.js" />
+        <option value="$PROJECT_DIR$/server/controllers/interfaceCol.js" />
+        <option value="$PROJECT_DIR$/client/components/Postman/Postman.js" />
+        <option value="$PROJECT_DIR$/server/utils/storage.js" />
+        <option value="$PROJECT_DIR$/server/controllers/open.js" />
+        <option value="$PROJECT_DIR$/client/plugin-module.js" />
+        <option value="$PROJECT_DIR$/client/components/Footer/Footer.js" />
+        <option value="$PROJECT_DIR$/common/postmanLib_old.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColContent.js" />
+        <option value="$PROJECT_DIR$/server/models/interface.js" />
+        <option value="$PROJECT_DIR$/server/controllers/interface.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/View.js" />
+        <option value="$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceEditForm.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/server/models/storage.js" />
+        <option value="$PROJECT_DIR$/common/postmanLib.js" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\devsoft\mvn_repository" />
+        <option name="mavenHome" value="C:/devsoft/apache-maven-3.5.3" />
+        <option name="userSettingsFile" value="C:\devsoft\apache-maven-3.5.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="vmOptions" value="-Dfile.encoding=GBK" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1939" />
+    <option name="height" value="1049" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vendors" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.runner" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\33012\IdeaProjects\yapi\common" />
+      <recent name="C:\Users\33012\IdeaProjects\yapi\node_modules" />
+      <recent name="C:\Users\33012\IdeaProjects\yapi\client\containers\Project\Interface\InterfaceCol" />
+      <recent name="C:\Users\33012\IdeaProjects\yapi\client\containers\Project\Interface\InterfaceList" />
+      <recent name="C:\Users\33012\IdeaProjects\yapi\client\components\JsonView" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9eff73ff-3415-492f-ae20-bdf41282a01c" name="Default Changelist" comment="" />
+      <created>1558499168245</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1558499168245</updated>
+      <workItem from="1558499171657" duration="4357000" />
+      <workItem from="1558512455438" duration="625000" />
+      <workItem from="1558669973555" duration="2733000" />
+      <workItem from="1558942261561" duration="2769000" />
+      <workItem from="1559214907582" duration="10485000" />
+      <workItem from="1559307205433" duration="1178000" />
+      <workItem from="1559528888659" duration="4674000" />
+      <workItem from="1559631548707" duration="46853000" />
+      <workItem from="1560224544386" duration="18105000" />
+      <workItem from="1560305318397" duration="40403000" />
+      <workItem from="1560407412229" duration="10706000" />
+      <workItem from="1560828254602" duration="37887000" />
+      <workItem from="1561107862054" duration="4604000" />
+      <workItem from="1561514123759" duration="276000" />
+      <workItem from="1561601788157" duration="594000" />
+      <workItem from="1561718100741" duration="618000" />
+      <workItem from="1561947975906" duration="1808000" />
+      <workItem from="1562067257732" duration="598000" />
+      <workItem from="1562138638214" duration="10278000" />
+      <workItem from="1562224220543" duration="729000" />
+      <workItem from="1562550952085" duration="40416000" />
+      <workItem from="1562822710224" duration="3733000" />
+      <workItem from="1562832636784" duration="3819000" />
+    </task>
+    <task id="LOCAL-00001" summary="更新代码匹配规范">
+      <created>1558502262730</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1558502262730</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update2">
+      <created>1558505084670</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1558505084670</updated>
+    </task>
+    <task id="LOCAL-00003" summary="修改json格式化方法">
+      <created>1558670900964</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1558670900964</updated>
+    </task>
+    <task id="LOCAL-00004" summary="修复issue#1102：form 参数批量导入时，如果示例值中包含冒号，导入后，冒号后面的内容丢失">
+      <created>1559013633757</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1559013633758</updated>
+    </task>
+    <task id="LOCAL-00005" summary="修复issue#1102：form 参数批量导入时，如果示例值中包含冒号，导入后，冒号后面的内容丢失">
+      <created>1559013972889</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1559013972889</updated>
+    </task>
+    <task id="LOCAL-00006" summary="修复issue#1102：3更：form 参数批量导入时，如果示例值中包含冒号，导入后，冒号后面的内容丢失">
+      <created>1559014172381</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1559014172381</updated>
+    </task>
+    <task id="LOCAL-00007" summary="全局搜索增加支持接口路径搜索">
+      <created>1559293756998</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1559293756998</updated>
+    </task>
+    <task id="LOCAL-00008" summary="空间内 跨项目移动接口和用例：遗留问题 需要先移动接口再移动接口对应的用例">
+      <created>1560356152579</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1560356152579</updated>
+    </task>
+    <task id="LOCAL-00009" summary="空间内 跨项目移动接口和用例，2更修复之前遗留得bug">
+      <created>1560415909800</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1560415909800</updated>
+    </task>
+    <task id="LOCAL-00010" summary="修改移动测试用例没有权限bug">
+      <created>1560830992392</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1560830992392</updated>
+    </task>
+    <task id="LOCAL-00011" summary="openapi 增加 添加测试集">
+      <created>1561010906054</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1561010906054</updated>
+    </task>
+    <task id="LOCAL-00012" summary="补充当前分支readme">
+      <created>1561011490109</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1561011490109</updated>
+    </task>
+    <task id="LOCAL-00013" summary="*  增加用例前置/后置脚本处理器，兼容context、storage，执行顺序：项目请求前置脚本-》用例前置脚本-》用例后置脚本-》项目响应处理脚本&#10;*  在F12-console控制台打印用例执行的context内容，减小对cross控制台查看请求参数的依赖">
+      <created>1561091739085</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1561091739085</updated>
+    </task>
+    <task id="LOCAL-00014" summary="修复用例前置后置脚本在服务器测试不执行的bug">
+      <created>1561110580497</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1561110580497</updated>
+    </task>
+    <task id="LOCAL-00015" summary="在控制台打印请求配置以及前置后置脚本错误，提高调试脚本效率">
+      <created>1562156590827</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1562156590827</updated>
+    </task>
+    <task id="LOCAL-00016" summary="更新readme">
+      <created>1562156791156</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1562156791156</updated>
+    </task>
+    <task id="LOCAL-00017" summary="更新footer">
+      <created>1562589625245</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1562589625245</updated>
+    </task>
+    <task id="LOCAL-00018" summary="更新footer">
+      <created>1562760829491</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1562760829491</updated>
+    </task>
+    <task id="LOCAL-00019" summary="更新footer">
+      <created>1562834481049</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1562834481049</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="248248000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26407507" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.2181303" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Tail" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.17286915" />
+      <window_info anchor="bottom" id="Database Changes" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.11914894" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="TypeScript" order="13" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="SciView" order="7" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21519838" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32893157" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Tail" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.17286915" />
+      <window_info anchor="bottom" id="Database Changes" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.11914894" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="update" />
+    <MESSAGE value="更新代码匹配规范" />
+    <MESSAGE value="update2" />
+    <MESSAGE value="修改json格式化方法" />
+    <MESSAGE value="修复issue#1102：form 参数批量导入时，如果示例值中包含冒号，导入后，冒号后面的内容丢失" />
+    <MESSAGE value="修复issue#1102：3更：form 参数批量导入时，如果示例值中包含冒号，导入后，冒号后面的内容丢失" />
+    <MESSAGE value="全局搜索增加支持接口路径搜索" />
+    <MESSAGE value="空间内 跨项目移动接口和用例：遗留问题 需要先移动接口再移动接口对应的用例" />
+    <MESSAGE value="空间内 跨项目移动接口和用例，2更修复之前遗留得bug" />
+    <MESSAGE value="修改移动测试用例没有权限bug" />
+    <MESSAGE value="openapi 增加 添加测试集" />
+    <MESSAGE value="补充当前分支readme" />
+    <MESSAGE value="*  增加用例前置/后置脚本处理器，兼容context、storage，执行顺序：项目请求前置脚本-》用例前置脚本-》用例后置脚本-》项目响应处理脚本&#10;*  在F12-console控制台打印用例执行的context内容，减小对cross控制台查看请求参数的依赖" />
+    <MESSAGE value="修复用例前置后置脚本在服务器测试不执行的bug" />
+    <MESSAGE value="在控制台打印请求配置以及前置后置脚本错误，提高调试脚本效率" />
+    <MESSAGE value="更新readme" />
+    <MESSAGE value="更新footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新footer" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-oauth2/server.js" />
+    <entry file="file://$PROJECT_DIR$/common/plugin.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/plugin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="230" column="47" selection-start-line="230" selection-start-column="47" selection-end-line="230" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/koa-static/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="603">
+          <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/components/Footer/Footer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/controllers/base.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="306" column="14" selection-start-line="306" selection-start-column="10" selection-end-line="306" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-test/client.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-test/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/Editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exts/yapi-plugin-wiki/wikiPage/index.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="144" column="25" selection-start-line="144" selection-start-column="25" selection-end-line="144" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es2015.core.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="285" column="4" selection-start-line="285" selection-start-column="4" selection-end-line="285" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/controllers/follow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="93" column="32" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/postmanLib_old.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/axios/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/components/Postman/CheckCrossInstall.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mongoose/lib/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="17249" column="12" selection-start-line="17249" selection-start-column="12" selection-end-line="17249" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/qs/lib/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/qs/lib/stringify.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/Interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="124" column="87" selection-start-line="124" selection-start-column="87" selection-end-line="124" selection-end-column="87" />
+          <folding>
+            <element signature="e#268#294#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceCol/InterfaceColContent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2338">
+          <caret line="335" column="7" selection-start-line="335" selection-start-column="7" selection-end-line="335" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/interfaceCat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1093" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="73" column="59" selection-start-line="73" selection-start-column="59" selection-end-line="73" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/controllers/interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7448">
+          <caret line="589" column="17" selection-start-line="589" selection-start-column="17" selection-end-line="589" selection-end-column="17" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceContent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2936">
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8778">
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/View.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/MoveInterface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-171">
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/Edit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1232">
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="380">
+            <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/controllers/interfaceCol.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="928" column="40" selection-start-line="928" selection-start-column="40" selection-end-line="928" selection-end-column="40" />
+          <folding>
+            <element signature="n#!!block;n#list#0;n#interfaceColController#0" />
+            <element signature="n#!!doc;n#addCol#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#addCol#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#getCaseList#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#getCaseEnvList#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#getCaseListByVariableParams#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#addCaseList#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#cloneCaseList#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#upCase#0;n#interfaceColController#0" />
+            <element signature="n#!!block;n#upCol#0;n#interfaceColController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/containers/Project/Interface/InterfaceList/InterfaceEditForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1976">
+          <caret line="130" column="33" selection-start-line="130" selection-start-column="33" selection-end-line="130" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+            <element signature="e#1959#2086#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/antd/lib/form/Form.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1254">
+          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/components/EasyDragSort/EasyDragSort.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2156">
+          <caret line="2164" column="15" selection-start-line="2164" selection-start-column="15" selection-end-line="2164" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mongoose/lib/model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58558">
+          <caret line="3082" selection-start-line="3082" selection-end-line="3082" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/base.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/token.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6441">
+          <caret line="505" column="6" selection-start-line="505" selection-start-column="6" selection-end-line="505" selection-end-column="6" />
+          <folding>
+            <element signature="e#750#818#0" />
+            <element signature="e#828#886#0" />
+            <element signature="e#897#957#0" />
+            <element signature="e#970#1034#0" />
+            <element signature="e#1418#2255#0" />
+            <element signature="e#3603#5290#0" />
+            <element signature="e#8949#9968#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/prd_sourcemap/lib3@3eebee78a8b2168b5ca6.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27683">
+          <caret column="1457701" selection-start-column="1457701" selection-end-column="1457701" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/components/Postman/Postman.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="357" column="39" selection-start-line="357" selection-start-column="39" selection-end-line="357" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/utils/commons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="524" selection-start-line="524" selection-end-line="524" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/yapi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/storage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/utils/storage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/postmanLib.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!block;n#handleContentType#0" />
+            <element signature="n#!!block;n#checkRequestBodyIsRaw#0" />
+            <element signature="n#!!block;n#checkNameIsExistInArray#0" />
+            <element signature="n#!!block;n#handleCurrDomain#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8 (2)</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
