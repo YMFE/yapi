@@ -180,7 +180,7 @@ function sandboxByNode(sandbox = {}, script) {
   script = new vm.Script(script);
   const context = new vm.createContext(sandbox);
   script.runInContext(context, {
-    timeout: 3000
+    timeout: 10000
   });
   return sandbox;
 }
@@ -349,11 +349,17 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
         }
         resolve(data);
       };
-      Object.keys(options.data).map(function (key) {
-        if(Array.isArray(options.data[key])){
-          options.data[key]=options.data[key][0];
+      try {
+        if(options.data) {
+          Object.keys(options.data).map(function (key) {
+            if (Array.isArray(options.data[key])) {
+              options.data[key] = options.data[key][0];
+            }
+          })
         }
-      })
+      }catch(e){
+          console.log(e);
+      }
 
       window.crossRequest(options);
     });
