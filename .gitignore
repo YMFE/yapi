@@ -37,6 +37,7 @@ Thumbs.db
 node_modules/
 runtime/
 /prd/
+/prd_sourcemap/
 /dev/
 .tags
 .tags1
