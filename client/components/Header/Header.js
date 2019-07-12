@@ -86,7 +86,7 @@ const tipDoc = (
     </h3>
     <p>
       初次使用 YApi，强烈建议你阅读{' '}
-      <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer">
+      <a target="_blank" href="https://hellosean1025.github.io/yapi/" rel="noopener noreferrer">
         使用文档
       </a>
       ，我们为你提供了通俗易懂的快速入门教程，更有详细的使用说明，欢迎阅读！{' '}
@@ -152,7 +152,7 @@ const ToolUser = props => {
       >
         <Tooltip placement="bottom" title={'使用文档'}>
           <li className="toolbar-li">
-            <a target="_blank" href="https://yapi.ymfe.org" rel="noopener noreferrer">
+            <a target="_blank" href="https://hellosean1025.github.io/yapi" rel="noopener noreferrer">
               <Icon className="dropdown-link" style={{ fontSize: 16 }} type="question-circle" />
             </a>
           </li>

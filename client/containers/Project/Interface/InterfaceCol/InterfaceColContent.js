@@ -683,7 +683,7 @@ class InterfaceColContent extends Component {
                       {' '}
                       每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用{' '}
                       <a
-                        href="https://yapi.ymfe.org/documents/case.html#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%8C%E7%BC%96%E8%BE%91%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"
+                        href="https://hellosean1025.github.io/yapi/documents/case.html#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%8C%E7%BC%96%E8%BE%91%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"
                         className="link-tooltip"
                         target="blank"
                       >
@@ -1002,7 +1002,7 @@ class InterfaceColContent extends Component {
               测试集合&nbsp;<a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://yapi.ymfe.org/documents/case.html"
+                href="https://hellosean1025.github.io/yapi/documents/case.html"
               >
                 <Tooltip title="点击查看文档">
                   <Icon type="question-circle-o" />
