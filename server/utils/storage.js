@@ -4,26 +4,34 @@ module.exports = function storageCreator(id) {
   const defaultData = {}
   return {
     getItem: async (name = '') => {
+      let getIteminfo={};
       let inst = yapi.getInst(storageModel);
       let data = await inst.get(id);
       data = data || defaultData;
       if (name) return data[name];
+      getIteminfo["des"]="key: "+id+"--->getItem:"+name;
+      getIteminfo["data"]=data;
+      //console.log(getIteminfo);
       return data;
     },
-    setItem: async (name, value) => {
-      console.log(name+"="+value);
+    setItem: async (data,name,value) => {
+      let setIteminfo={};
       let inst = yapi.getInst(storageModel);
       let curData = await inst.get(id);
-      let data =  curData || defaultData;
+     //let data =  curData || defaultData;
       let result;
-      data[name] = value;
+
+      //data[name] = value;
       if(!curData){
         result = await inst.save(id, data, true)
-        console.log(result);
       }else{
         result = await inst.save(id, data, false)
       }
-
+      setIteminfo["des"]="key: "+id+"--->setItem:"+name+"="+value;
+      setIteminfo["data"]=data;
+      setIteminfo["action"]=curData?"update":"insert";
+      setIteminfo["result"]=result;
+      //console.log(setIteminfo);
       return result;
     }
   }

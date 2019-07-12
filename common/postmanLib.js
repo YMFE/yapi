@@ -25,12 +25,11 @@ const getStorage = async (id)=>{
     if(isNode){
       let storage = global.storageCreator(id);
       let data = await storage.getItem();
-      console.log(data);
       return {
         getItem: (name)=> data[name],
         setItem: (name, value)=>{
           data[name] = value;
-          storage.setItem(name, value)
+          storage.setItem(data,name,value)
         }
       }
     }else{
@@ -250,12 +249,12 @@ function sandboxByBrowser(context = {}, script) {
  * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
  */
 async function crossRequest(defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext = {}) {
-  system.log("ddd");
   let options = Object.assign({}, defaultOptions);
   const taskId = options.taskId || Math.random() + '';
   let urlObj = URL.parse(options.url, true),
     query = {};
   query = Object.assign(query, urlObj.query);
+  console.log("context init start!");
   let context = {
     isNode,
     get href() {
@@ -287,7 +286,7 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
     promise: false,
     storage: await getStorage(taskId)
   };
-
+  console.log("context init end!");
   Object.assign(context, commonContext)
 
   context.utils = Object.freeze({
