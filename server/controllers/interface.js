@@ -125,7 +125,8 @@ class interfaceController extends baseController {
       api_opened: 'boolean',
       req_body_is_json_schema: 'string',
       res_body_is_json_schema: 'string',
-      markdown: 'string'
+      markdown: 'string',
+      tag: 'array'
     };
 
     this.schemaMap = {
@@ -148,8 +149,7 @@ class interfaceController extends baseController {
           method: minLengthStringField,
           catid: 'number',
           switch_notice: 'boolean',
-          message: minLengthStringField,
-          tag: 'array'
+          message: minLengthStringField
         },
         addAndUpCommonField
       ),
