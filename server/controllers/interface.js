@@ -329,7 +329,7 @@ class interfaceController extends baseController {
 
   async save(ctx) {
     let params = ctx.params;
-    
+
     if (!this.$tokenAuth) {
       let auth = await this.checkAuth(params.project_id, 'project', 'edit');
       if (!auth) {
@@ -449,6 +449,8 @@ class interfaceController extends baseController {
     let project_id = ctx.params.project_id;
     let page = ctx.request.query.page || 1,
       limit = ctx.request.query.limit || 10;
+    let status = ctx.request.query.status,
+      tag = ctx.request.query.tag;
     let project = await this.projectModel.getBaseInfo(project_id);
     if (!project) {
       return (ctx.body = yapi.commons.resReturn(null, 407, '不存在的项目'));
@@ -463,14 +465,31 @@ class interfaceController extends baseController {
     }
 
     try {
-      let result;
+      let result, count;
       if (limit === 'all') {
         result = await this.Model.list(project_id);
+        count = await this.Model.listCount({project_id});
       } else {
-        result = await this.Model.listWithPage(project_id, page, limit);
+        let option = {project_id};
+        if (status) {
+          if (Array.isArray(status)) {
+            option.status = {"$in": status};
+          } else {
+            option.status = status;
+          }
+        }
+        if (tag) {
+          if (Array.isArray(tag)) {
+            option.tag = {"$in": tag};
+          } else {
+            option.tag = tag;
+          }
+        }
+
+        result = await this.Model.listByOptionWithPage(option, page, limit);
+        count = await this.Model.listCount(option);
       }
 
-      let count = await this.Model.listCount({ project_id });
 
       ctx.body = yapi.commons.resReturn({
         count: count,
@@ -497,6 +516,8 @@ class interfaceController extends baseController {
     let catid = ctx.request.query.catid;
     let page = ctx.request.query.page || 1,
       limit = ctx.request.query.limit || 10;
+    let status = ctx.request.query.status,
+      tag = ctx.request.query.tag;
 
     if (!catid) {
       return (ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空'));
@@ -511,9 +532,26 @@ class interfaceController extends baseController {
         }
       }
 
-      let result = await this.Model.listByCatidWithPage(catid, page, limit);
 
-      let count = await this.Model.listCount({ catid });
+      let option = {catid}
+      if (status) {
+        if (Array.isArray(status)) {
+          option.status = {"$in": status};
+        } else {
+          option.status = status;
+        }
+      }
+      if (tag) {
+        if (Array.isArray(tag)) {
+          option.tag = {"$in": tag};
+        } else {
+          option.tag = tag;
+        }
+      }
+
+      let result = await this.Model.listByOptionWithPage(option, page, limit);
+
+      let count = await this.Model.listCount(option);
 
       ctx.body = yapi.commons.resReturn({
         count: count,
@@ -620,7 +658,7 @@ class interfaceController extends baseController {
       },
       params
     );
-    
+
     if (params.path) {
       let http_path;
       http_path = url.parse(params.path, true);
@@ -717,7 +755,7 @@ class interfaceController extends baseController {
       );
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
-    
+
       let interfaceUrl = `${ctx.request.origin}/project/${
         interfaceData.project_id
       }/interface/api/${id}`;
