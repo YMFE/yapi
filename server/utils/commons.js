@@ -356,6 +356,40 @@ exports.handleParams = (params, keys) => {
   return params;
 };
 
+
+
+exports.translateDataToTree=data=> {
+
+  data.forEach(item=>{
+    if(!data.find(me=>me._id===item.parent_id)){
+      item.parent_id=-1;
+    }
+  });
+  let parents = JSON.parse(JSON.stringify(data.filter(value => value.parent_id == 'undefined' || value.parent_id == -1)));
+  let children = JSON.parse(JSON.stringify(data.filter(value => value.parent_id !== 'undefined' && value.parent_id != -1)));
+  let translator = (parents, children) => {
+    parents.forEach((parent) => {
+        children.forEach((current, index) => {
+            if (current.parent_id === parent._id) {
+              let temp = JSON.parse(JSON.stringify(children))
+              temp.splice(index, 1)
+              translator([current], temp)
+              if(typeof parent.children !== 'undefined'){
+                parent.children.push(current)
+              } else{
+                parent.children = [current]
+              }
+            }
+          }
+        )
+      }
+    )
+  }
+
+  translator(parents, children)
+   return parents
+}
+
 exports.validateParams = (schema2, params) => {
   const flag = schema2.closeRemoveAdditional;
   const ajv = new Ajv({

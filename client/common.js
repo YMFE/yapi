@@ -219,9 +219,11 @@ exports.safeAssign = (Obj, nextObj) => {
 
 // 交换数组的位置
 exports.arrayChangeIndex = (arr, start, end) => {
+  console.log({arr,start,end});
   let newArr = [].concat(arr);
   // newArr[start] = arr[end];
   // newArr[end] = arr[start];
+  end=end>newArr.length-1?newArr.length-1:end;
   let startItem = newArr[start];
   newArr.splice(start, 1);
   // end自动加1

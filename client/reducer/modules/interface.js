@@ -19,6 +19,7 @@ const initialState = {
   list: [],
   editStatus: false, // 记录编辑页面是否有编辑,
   totalTableList: [],
+  aggregate: [],
   catTableList: [],
   count: 0,
   totalCount: 0
@@ -54,7 +55,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         totalTableList: action.payload.data.data.list,
-        totalCount: action.payload.data.data.count
+        totalCount: action.payload.data.data.count,
+        aggregate:action.payload.data.data.aggregate
       };
     }
 
@@ -62,7 +64,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         catTableList: action.payload.data.data.list,
-        count: action.payload.data.data.count
+        count: action.payload.data.data.count,
+        aggregate:action.payload.data.data.aggregate
       };
     }
     default:

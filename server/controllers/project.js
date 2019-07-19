@@ -532,7 +532,9 @@ class projectController extends baseController {
     result = result.toObject();
     let catInst = yapi.getInst(interfaceCatModel);
     let cat = await catInst.list(params.id);
-    result.cat = cat;
+
+    result.cat = yapi.commons.translateDataToTree(cat);
+
     if (result.env.length === 0) {
       result.env.push({ name: 'local', domain: 'http://127.0.0.1' });
     }

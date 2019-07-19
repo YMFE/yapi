@@ -181,12 +181,13 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
-  listWithPage(project_id, page, limit) {
+  listWithPage(project_id, page, limit,status) {
     page = parseInt(page);
     limit = parseInt(limit);
     return this.model
       .find({
-        project_id: project_id
+        project_id: project_id,
+        status:{ $in: status }
       })
       .sort({ title: 1 })
       .skip((page - 1) * limit)
@@ -223,12 +224,13 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
-  listByCatidWithPage(catid, page, limit) {
+  listByCatidWithPage(catid, page, limit,status) {
     page = parseInt(page);
     limit = parseInt(limit);
     return this.model
       .find({
-        catid: catid
+        catid: catid,
+        status:{ $in: status }
       })
       .sort({ index: 1 })
       .skip((page - 1) * limit)
@@ -308,9 +310,27 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
+  aggregate(option) {
+    return this.model
+      .aggregate(
+        [
+          {$match : option},
+          {
+            $group : {
+              _id : "$status",
+              count: { $sum: 1 }
+            }
+          }
+        ]
+        )
+  }
+
   listCount(option) {
+    console.log(option);
     return this.model.countDocuments(option);
   }
+
+
 
   upIndex(id, index) {
     return this.model.update(

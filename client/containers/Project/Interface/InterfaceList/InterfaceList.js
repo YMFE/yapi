@@ -1,22 +1,55 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
+import React, {PureComponent as Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Table, Button, Modal, message, Tooltip, Select, Icon } from 'antd';
+import {Button, Icon, message, Modal, Select, Table, Tooltip} from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import {
-  fetchInterfaceListMenu,
+  fetchInterfaceCatList,
   fetchInterfaceList,
-  fetchInterfaceCatList
+  fetchInterfaceListMenu
 } from '../../../../reducer/modules/interface.js';
-import { getProject } from '../../../../reducer/modules/project.js';
-import { Link } from 'react-router-dom';
+import {getProject} from '../../../../reducer/modules/project.js';
+import {Link} from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
 import Label from '../../../../components/Label/Label.js';
 
 const Option = Select.Option;
 const limit = 20;
+const apistatusArr
+
+  = [
+  {
+    text: '已发布',
+    value: 'done'
+  },
+  {
+    text: '设计中',
+    value: 'design'
+  },
+  {
+    text: '开发中',
+    value: 'undone'
+  },
+  {
+    text: '已提测',
+    value: 'testing'
+  },
+  {
+    text: '已过时',
+    value: 'deprecated'
+  },
+  {
+    text: '暂停开发',
+    value: 'stoping'
+  }
+];
+const apistatus = {
+  "status": apistatusArr.map(item => {
+    return item.value
+  })
+};
 
 @connect(
   state => {
@@ -25,6 +58,7 @@ const limit = 20;
       curProject: state.project.currProject,
       catList: state.inter.list,
       totalTableList: state.inter.totalTableList,
+      aggregate: state.inter.aggregate,
       catTableList: state.inter.catTableList,
       totalCount: state.inter.totalCount,
       count: state.inter.count
@@ -38,17 +72,6 @@ const limit = 20;
   }
 )
 class InterfaceList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      data: [],
-      catid: null,
-      total: null,
-      current: 1
-    };
-  }
-
   static propTypes = {
     curData: PropTypes.object,
     catList: PropTypes.array,
@@ -59,14 +82,28 @@ class InterfaceList extends Component {
     fetchInterfaceList: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
     totalTableList: PropTypes.array,
+    aggregate: PropTypes.array,
     catTableList: PropTypes.array,
     totalCount: PropTypes.number,
     count: PropTypes.number,
     getProject: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+      data: [],
+      catid: null,
+      total: null,
+      current: 1,
+      filters: apistatus
+    };
+  }
+
   handleRequest = async props => {
     const { params } = props.match;
+    //console.log({"handleRequest status":this.state});
     if (!params.actionId) {
       let projectId = params.id;
       this.setState({
@@ -75,7 +112,8 @@ class InterfaceList extends Component {
       let option = {
         page: this.state.current,
         limit,
-        project_id: projectId
+        project_id: projectId,
+        status: this.state.filters.status.join(',')
       };
       await this.props.fetchInterfaceList(option);
     } else if (isNaN(params.actionId)) {
@@ -84,9 +122,9 @@ class InterfaceList extends Component {
       let option = {
         page: this.state.current,
         limit,
-        catid
+        catid,
+        status: this.state.filters.status.join(',')
       };
-
       await this.props.fetchInterfaceCatList(option);
     }
   };
@@ -110,9 +148,13 @@ class InterfaceList extends Component {
     });
   };
   handleChange = (pagination, filters, sorter) => {
-    this.setState({
-      sortedInfo: sorter
-    });
+    this.setState(
+      {
+        sortedInfo: sorter,
+        filters: filters.status.length > 0 ? filters : apistatus,
+        pagination: pagination
+      },
+      () => this.handleRequest(this.props));
   };
 
   componentWillMount() {
@@ -136,6 +178,7 @@ class InterfaceList extends Component {
 
   handleAddInterface = data => {
     data.project_id = this.props.curProject._id;
+    data.catid=data.catids.pop();
     axios.post('/api/interface/add', data).then(res => {
       if (res.data.errcode !== 0) {
         return message.error(`${res.data.errmsg}, 你可以在左侧的接口列表中对接口进行删改`);
@@ -180,8 +223,7 @@ class InterfaceList extends Component {
     this.setState(
       {
         current: current
-      },
-      () => this.handleRequest(this.props)
+      }
     );
   };
 
@@ -290,32 +332,7 @@ class InterfaceList extends Component {
             </Select>
           );
         },
-        filters: [
-          {
-            text: '已发布',
-            value: 'done'
-          },
-          {
-            text: '设计中',
-            value: 'design'
-          },
-          {
-            text: '开发中',
-            value: 'undone'
-          },
-          {
-            text: '已提测',
-            value: 'testing'
-          },
-          {
-            text: '已过时',
-            value: 'deprecated'
-          },
-          {
-            text: '暂停开发',
-            value: 'stoping'
-          }
-        ],
+        filters: apistatusArr,
         onFilter: (value, record) => record.status.indexOf(value) === 0
       },
       {
@@ -337,14 +354,27 @@ class InterfaceList extends Component {
       desc = '';
     let cat = this.props.curProject ? this.props.curProject.cat : [];
 
+
+    let getMycat = (catz, id) => {
+      let ret = {};
+      let itrcat = (cats, catid, ret) => {
+        cats.some(item => {
+          if (item._id === catid) {
+            ret.mycat = item;
+            return true;
+          } else {
+            item.children ? itrcat(item.children, catid, ret) : '';
+          }
+        })
+      };
+      itrcat(catz, id, ret);
+      return ret.mycat;
+    };
+
     if (cat) {
-      for (let i = 0; i < cat.length; i++) {
-        if (cat[i]._id === this.state.catid) {
-          intername = cat[i].name;
-          desc = cat[i].desc;
-          break;
-        }
-      }
+      let mycat = getMycat(cat, this.state.catid);
+      intername = mycat?mycat.name:'';
+      desc = mycat?mycat.desc:'';
     }
     // const data = this.state.data ? this.state.data.map(item => {
     //   item.key = item._id;
@@ -352,6 +382,7 @@ class InterfaceList extends Component {
     // }) : [];
     let data = [];
     let total = 0;
+
     const { params } = this.props.match;
     if (!params.actionId) {
       data = this.props.totalTableList;
@@ -360,6 +391,12 @@ class InterfaceList extends Component {
       data = this.props.catTableList;
       total = this.props.count;
     }
+    let aggregate = this.props.aggregate;
+
+    let aggregateMessage = JSON.stringify(aggregate.map(obj => {
+      let types = apistatusArr.find(item => item.value === obj._id);
+      return types.text + ': ' + obj.count + ' 个';
+    }));
 
     data = data.map(item => {
       item.key = item._id;
@@ -380,7 +417,7 @@ class InterfaceList extends Component {
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
-          {intername ? intername : '全部接口'}共 ({total}) 个
+          {intername ? intername : '全部接口'}共 ({total}) 个,其中：{aggregateMessage}
         </h2>
 
         <Button

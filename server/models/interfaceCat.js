@@ -14,6 +14,7 @@ class interfaceCat extends baseModel {
       name: { type: String, required: true },
       uid: { type: Number, required: true },
       project_id: { type: Number, required: true },
+      parent_id: { type: Number, required: true },
       desc: String,
       add_time: Number,
       up_time: Number,

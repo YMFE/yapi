@@ -448,6 +448,7 @@ class interfaceController extends baseController {
   async list(ctx) {
     let project_id = ctx.params.project_id;
     let page = ctx.request.query.page || 1,
+      status = ctx.request.query.status ? ctx.request.query.status.split(',') : [],
       limit = ctx.request.query.limit || 10;
     let project = await this.projectModel.getBaseInfo(project_id);
     if (!project) {
@@ -467,15 +468,19 @@ class interfaceController extends baseController {
       if (limit === 'all') {
         result = await this.Model.list(project_id);
       } else {
-        result = await this.Model.listWithPage(project_id, page, limit);
+        result = await this.Model.listWithPage(project_id, page, limit, status);
       }
 
-      let count = await this.Model.listCount({ project_id });
-
+      // let count = await this.Model.listCount({ project_id, status:{ $in: status }});
+      project_id = parseInt(project_id);
+      let aggregate = await this.Model.aggregate({project_id});
+      let count = 0;
+      aggregate.forEach(item => count += item.count);
       ctx.body = yapi.commons.resReturn({
         count: count,
         total: Math.ceil(count / limit),
-        list: result
+        list: result,
+        aggregate: aggregate
       });
       yapi.emitHook('interface_list', result).then();
     } catch (err) {
@@ -496,6 +501,7 @@ class interfaceController extends baseController {
   async listByCat(ctx) {
     let catid = ctx.request.query.catid;
     let page = ctx.request.query.page || 1,
+      status = ctx.request.query.status ? ctx.request.query.status.split(',') : [],
       limit = ctx.request.query.limit || 10;
 
     if (!catid) {
@@ -511,14 +517,20 @@ class interfaceController extends baseController {
         }
       }
 
-      let result = await this.Model.listByCatidWithPage(catid, page, limit);
+      let result = await this.Model.listByCatidWithPage(catid, page, limit, status);
 
-      let count = await this.Model.listCount({ catid });
+      catid = parseInt(catid);
+      let aggregate = await this.Model.aggregate({catid});
+      let count = 0;
+      aggregate.forEach(item => count += item.count);
+
+      //let count = await this.Model.listCount({ catid,status:{ $in: status } });
 
       ctx.body = yapi.commons.resReturn({
         count: count,
         total: Math.ceil(count / limit),
-        list: result
+        list: result,
+        aggregate: aggregate
       });
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message + '1');
@@ -541,6 +553,7 @@ class interfaceController extends baseController {
       }
     }
 
+
     try {
       let result = await this.catModel.list(project_id),
         newResult = [];
@@ -554,10 +567,12 @@ class interfaceController extends baseController {
         item.list = list;
         newResult[i] = item;
       }
+      newResult = yapi.commons.translateDataToTree(newResult);
       ctx.body = yapi.commons.resReturn(newResult);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
+
   }
 
   /**
@@ -875,6 +890,7 @@ class interfaceController extends baseController {
         project_id: params.project_id,
         desc: params.desc,
         uid: this.getUid(),
+        parent_id: params.parent_id,
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
       });
@@ -907,12 +923,18 @@ class interfaceController extends baseController {
       if (!auth) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
       }
-
-      let result = await this.catModel.up(params.catid, {
-        name: params.name,
-        desc: params.desc,
+      let updata = {
         up_time: yapi.commons.time()
-      });
+      };
+      if (params.parent_id) {
+        updata.parent_id = params.parent_id;
+      }
+      if (params.name) {
+        updata.name = params.name;
+        updata.desc = params.desc;
+      }
+
+      let result = await this.catModel.up(params.catid, updata);
 
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${
@@ -1088,11 +1110,13 @@ class interfaceController extends baseController {
         return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
       }
     }
-
+    if (typeof params.pid === 'undefined' || params.pid === null || typeof params.cid === 'undefined' || params.cid === null) {
+      return (ctx.body = yapi.commons.resReturn(null, 404, '未选择移动的分类'));
+    }
 
     try {
       this.Model.move(params.moveId, params.pid, params.cid).then(
-        res => {},
+        //res => {},
           err => {
             yapi.commons.log(err.message, 'error');
            }
@@ -1124,7 +1148,7 @@ class interfaceController extends baseController {
       params.forEach(item => {
         if (item.id) {
           this.Model.upIndex(item.id, item.index).then(
-            res => {},
+            //res => {},
             err => {
               yapi.commons.log(err.message, 'error');
             }
@@ -1158,7 +1182,7 @@ class interfaceController extends baseController {
       params.forEach(item => {
         if (item.id) {
           this.catModel.upCatIndex(item.id, item.index).then(
-            res => {},
+            //res => {},
             err => {
               yapi.commons.log(err.message, 'error');
             }
@@ -1222,6 +1246,8 @@ class interfaceController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
   }
+
+
 }
 
 module.exports = interfaceController;

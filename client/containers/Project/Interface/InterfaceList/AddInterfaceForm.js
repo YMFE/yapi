@@ -1,6 +1,6 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Cascader, Button,Select } from 'antd';
 
 import constants from '../../../../constants/variable.js'
 import { handleApiPath, nameLengthLimit } from '../../../../common.js'
@@ -22,6 +22,7 @@ class AddInterfaceForm extends Component {
     catid: PropTypes.number,
     catdata: PropTypes.array
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -40,6 +41,34 @@ class AddInterfaceForm extends Component {
       path: handleApiPath(val)
     })
   }
+  reinit = data => {
+    let initialValue=[this.props.catdata[0]._id + ''];
+    let reinitdata = (data,parentPath) => {
+
+      return data.map(item => {
+          let node = {
+            value: item._id ,
+            label: item.name,
+            path:[item._id]
+          };
+        node.path.unshift(...parentPath);
+        if (item.children) {
+          node.children = reinitdata(item.children,node.path);
+        }
+          if(item._id===this.props.catid){
+            initialValue=node.path;
+          }
+
+          return node;
+        }
+      )
+    }
+    let redata=reinitdata(data,[]);
+    //console.log(initialValue);
+
+    return {redata,initialValue};
+  }
+
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const prefixSelector = getFieldDecorator('method', {
@@ -62,6 +91,7 @@ class AddInterfaceForm extends Component {
       }
     };
 
+    const ret=this.reinit(this.props.catdata);
 
     return (
 
@@ -70,15 +100,9 @@ class AddInterfaceForm extends Component {
           {...formItemLayout}
           label="接口分类"
         >
-          {getFieldDecorator('catid', {
-            initialValue: this.props.catid ? this.props.catid + '' : this.props.catdata[0]._id + ''
-          })(
-            <Select>
-              {this.props.catdata.map(item => {
-                return <Option key={item._id} value={item._id + ""}>{item.name}</Option>
-              })}
-            </Select>
-            )}
+          {getFieldDecorator('catids', {
+            initialValue: ret.initialValue
+          })(<Cascader options={ret.redata} />)}
         </FormItem>
         <FormItem
           {...formItemLayout}
