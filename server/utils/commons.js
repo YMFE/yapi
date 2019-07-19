@@ -47,7 +47,7 @@ const defaultOptions = {
 
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
-  
+
   jsf.option(options);
   let result;
   try {
@@ -421,7 +421,7 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
       await inst.init(ctx);
       ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
       if (inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]) {
-        
+
         let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
 
         if (!validResult.valid) {
@@ -547,7 +547,7 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
         throw ('Http status code 不是 200，请检查(该规则来源于于 [测试集->通用规则配置] )')
       }
     }
-  
+
     if(colData.checkResponseField.enable){
       if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
         throw (`返回json ${colData.checkResponseField.name} 值不是${colData.checkResponseField.value}，请检查(该规则来源于于 [测试集->通用规则配置] )`)
@@ -637,12 +637,13 @@ exports.sendNotice = async function(projectId, data) {
 };
 
 function arrUnique(arr1, arr2) {
-  let arr = arr1.concat(arr2);
-  let res = arr.filter(function(item, index, arr) {
+  let arr = arr2 ? arr1.concat(arr2) : arr1;
+  let res = arr.filter(function (item, index, arr) {
     return arr.indexOf(item) === index;
   });
   return res;
 }
+exports.arrUnique = arrUnique
 
 // 处理mockJs脚本
 exports.handleMockScript = function(script, context) {
@@ -661,9 +662,9 @@ exports.handleMockScript = function(script, context) {
 
   context.ctx.header.cookie &&
     context.ctx.header.cookie.split(';').forEach(function(Cookie) {
-      var parts = Cookie.split('=');
-      sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
-    });
+    var parts = Cookie.split('=');
+    sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
+  });
   sandbox = yapi.commons.sandbox(sandbox, script);
   sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
 

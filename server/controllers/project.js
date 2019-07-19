@@ -1079,6 +1079,10 @@ class projectController extends baseController {
     let groupList = await this.groupModel.search(q);
     let interfaceList = await this.interfaceModel.search(q);
 
+    projectList = await this.filterByAuth(projectList, "project");
+    groupList = await this.filterByAuth(groupList, "group");
+    interfaceList = await this.filterByAuth(interfaceList, "interface");
+
     let projectRules = [
       '_id',
       'name',

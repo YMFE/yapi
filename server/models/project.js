@@ -30,8 +30,8 @@ class projectModel extends baseModel {
         }
       ],
       env: [{ name: String, domain: String, header: Array, global: [{
-        name: String,
-        value: String
+          name: String,
+          value: String
       }] }],
       icon: String,
       color: String,
@@ -82,7 +82,7 @@ class projectModel extends baseModel {
         return item;
       })
     }
-    
+
     if(isFix){
       this.model.update(
         {
@@ -104,6 +104,19 @@ class projectModel extends baseModel {
         _id: id
       })
       .exec().then(this.handleEnvNullData)
+  }
+
+  getByIds(ids) {
+    return this.model
+      .find({
+        _id: {'$in': ids}
+      })
+      .exec().then(projects => {
+        if (projects) {
+          projects.forEach(this.handleEnvNullData);
+        }
+        return projects;
+      });
   }
 
   getByEnv(id) {

@@ -7,6 +7,7 @@ const tokenModel = require('../models/token.js');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
 const {parseToken} = require('../utils/token')
+const commons = require('../utils/commons')
 
 class baseController {
   constructor(ctx) {
@@ -80,7 +81,7 @@ class baseController {
       //   }
       //   return (this.$tokenAuth = true);
       // }
-      
+
       let checkId = await this.getProjectIdByToken(token);
       if(!checkId){
         ctx.body = yapi.commons.resReturn(null, 42014, 'token 无效');
@@ -102,7 +103,7 @@ class baseController {
           let userInst = yapi.getInst(userModel); //创建user实体
           result = await userInst.findById(tokenUid);
         }
-        
+
         this.$user = result;
         this.$auth = true;
       }
@@ -153,7 +154,7 @@ class baseController {
       return false;
     }
   }
-  
+
   async checkRegister() {
     // console.log('config', yapi.WEBCONFIG);
     if (yapi.WEBCONFIG.closeRegister) {
@@ -285,6 +286,168 @@ class baseController {
       return false;
     }
   }
+
+  /**
+   * 根据浏览权限过滤接口列表
+   * 当前用户非接口所有者，将尝试读取接口所在项目的浏览权限
+   */
+  async filterInterfaceByAuthView(list) {
+
+    if (!(list && list.length > 0)) {
+      return list;
+    }
+
+    let checkProject = [];
+    for (let i = 0; i < list.length; i++) {
+      let inter = list[i];
+
+      //creator(admin)
+      if (inter.uid === this.getUid()) {
+        continue;
+      }
+
+      checkProject.push(inter.project_id);
+    }
+
+    //拿到有权限访问的项目
+    if (checkProject.length > 0) {
+      checkProject = commons.arrUnique(checkProject);
+      let projectInst = yapi.getInst(projectModel);
+      let projectData = await projectInst.getByIds(checkProject);
+      let filteredProject = await this.filterProjectByAuthView(projectData);
+      checkProject = filteredProject.map(project => project._id)
+    }
+
+    let filteredList = [];
+    for (let i = 0; i < list.length; i++) {
+      let inter = list[i];
+
+      //creator(admin) or has view auth in project
+      if (inter.uid === this.getUid() ||
+        checkProject.indexOf(inter.project_id) !== -1) {
+        filteredList.push(inter);
+      }
+    }
+    return filteredList;
+  }
+
+  /**
+   * 根据浏览权限过滤项目列表
+   * 当前用户对项目没有直接浏览权限的，将尝试读取项目所在分组的浏览权限
+   */
+  async filterProjectByAuthView(list) {
+
+    if (!(list && list.length > 0)) {
+      return list;
+    }
+
+    let checkGroup = [];
+    for (let i = 0; i < list.length; i++) {
+      let project = list[i];
+
+      //creator(admin)
+      if (project.uid === this.getUid()) {
+        continue;
+      }
+
+      //member
+      let memberData = _.find(project.members, m => {
+        if (m && m.uid === this.getUid()) {
+          return true;
+        }
+      });
+
+      if (memberData && memberData.role) {
+        continue
+      }
+
+      checkGroup.push(project.group_id);
+    }
+
+    //拿到有权限访问的组
+    if (checkGroup.length > 0) {
+      checkGroup = commons.arrUnique(checkGroup);
+      let groupInst = yapi.getInst(groupModel);
+      let groupData = await groupInst.getByIds(checkGroup);
+      let filteredGroup = await this.filterGroupByAuthView(groupData);
+      checkGroup = filteredGroup.map(group => group._id)
+    }
+
+    let filteredList = [];
+    for (let i = 0; i < list.length; i++) {
+      let project = list[i];
+
+      //creator(admin) or has view auth in group
+      if (project.uid === this.getUid() || checkGroup.indexOf(project.group_id) !== -1) {
+        filteredList.push(project);
+        continue;
+      }
+
+      //member
+      let memberData = _.find(project.members, m => {
+        if (m && m.uid === this.getUid()) {
+          return true;
+        }
+      });
+
+      if (memberData && memberData.role) {
+        filteredList.push(project);
+      }
+    }
+    return filteredList;
+
+  }
+
+  /**
+   * 根据浏览权限过滤分组列表
+   */
+  async filterGroupByAuthView(list) {
+
+    if (!(list && list.length > 0)) {
+      return list;
+    }
+
+    let filteredList = [];
+    for (let i = 0; i < list.length; i++) {
+      let group = list[i];
+
+      //creator(admin)
+      if (group.uid === this.getUid()) {
+        filteredList.push(group);
+        continue;
+      }
+
+      //member
+      let memberData = _.find(group.members, m => {
+        if (m && m.uid === this.getUid()) {
+          return true;
+        }
+      });
+
+      if (memberData && memberData.role) {
+        filteredList.push(group);
+      }
+    }
+    return filteredList;
+  }
+
+  //filter list by auth
+  async filterByAuth(list, type) {
+
+    if (this.getRole() === 'admin') {
+      return list;
+    }
+
+    if (type === "interface") {
+      return await this.filterInterfaceByAuthView(list)
+    } else if (type === "project") {
+      return await this.filterProjectByAuthView(list)
+    } else if (type === "group") {
+      return await this.filterGroupByAuthView(list)
+    }
+    return list;
+  }
+
   /**
    * 身份验证
    * @param {*} id type对应的id

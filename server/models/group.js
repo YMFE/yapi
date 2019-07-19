@@ -51,6 +51,14 @@ class groupModel extends baseModel {
       .exec();
   }
 
+  getByIds(ids) {
+    return this.model
+      .find({
+        _id: {'$in': ids}
+      })
+      .exec();
+  }
+
   updateMember(data) {
     return this.model.update(
       {
