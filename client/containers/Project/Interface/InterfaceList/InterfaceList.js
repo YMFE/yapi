@@ -2,7 +2,7 @@ import React, {PureComponent as Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {Button, Icon, message, Modal, Select, Table, Tooltip} from 'antd';
+import {Button, Icon, message, Modal, Select, TreeSelect,Table, Tooltip} from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import {
   fetchInterfaceCatList,
@@ -151,7 +151,7 @@ class InterfaceList extends Component {
     this.setState(
       {
         sortedInfo: sorter,
-        filters: filters.status.length > 0 ? filters : apistatus,
+        filters: (filters.status||[]).length > 0 ? filters : apistatus,
         pagination: pagination
       },
       () => this.handleRequest(this.props));
@@ -193,7 +193,7 @@ class InterfaceList extends Component {
   changeInterfaceCat = async (id, catid) => {
     const params = {
       id: id,
-      catid
+      catid:catid
     };
     let result = await axios.post('/api/interface/up', params);
     if (result.data.errcode === 0) {
@@ -282,19 +282,12 @@ class InterfaceList extends Component {
         width: 28,
         render: (item, record) => {
           return (
-            <Select
+            <TreeSelect
               value={item + ''}
               className="select path"
               onChange={catid => this.changeInterfaceCat(record._id, catid)}
-            >
-              {this.props.catList.map(cat => {
-                return (
-                  <Option key={cat.id + ''} value={cat._id + ''}>
-                    <span>{cat.name}</span>
-                  </Option>
-                );
-              })}
-            </Select>
+              treeData={this.props.catList}
+            />
           );
         }
       },

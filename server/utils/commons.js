@@ -361,6 +361,9 @@ exports.handleParams = (params, keys) => {
 exports.translateDataToTree=data=> {
 
   data.forEach(item=>{
+    item.title=item.name;
+    item.key=item._id;
+    item.value=item._id+'';
     if(!data.find(me=>me._id===item.parent_id)){
       item.parent_id=-1;
     }
