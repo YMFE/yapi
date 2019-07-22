@@ -200,8 +200,6 @@ class InterfaceList extends Component {
     let tagFilter = tag.map(item => {
       return {text: item.name, value: item.name};
     });
-    let {filteredInfo} = this.state;
-    filteredInfo = filteredInfo || {};
 
     const columns = [
       {
