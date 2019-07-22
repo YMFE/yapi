@@ -111,6 +111,14 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
+  getbypath(path) {
+    return this.model
+      .findOne({
+        path: path
+      })
+      .exec();
+  }
+
   getBaseinfo(id) {
     return this.model
       .findOne({

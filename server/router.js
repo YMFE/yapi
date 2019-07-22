@@ -319,6 +319,11 @@ let routerConfig = {
       method: 'get'
     },
     {
+      action: 'getbypath',
+      path: 'getbypath',
+      method: 'get'
+    },
+    {
       action: 'up',
       path: 'up',
       method: 'post'

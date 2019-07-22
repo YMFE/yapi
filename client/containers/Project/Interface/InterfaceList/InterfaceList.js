@@ -213,6 +213,7 @@ class InterfaceList extends Component {
     let result = await axios.post('/api/interface/up', params);
     if (result.data.errcode === 0) {
       message.success('修改成功');
+      this.props.fetchInterfaceListMenu(this.props.curProject._id);
       this.handleRequest(this.props);
     } else {
       message.error(result.data.errmsg);

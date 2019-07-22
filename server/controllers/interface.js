@@ -388,7 +388,7 @@ class interfaceController extends baseController {
   }
 
   /**
-   * 获取项目分组
+   * 获取接口
    * @interface /interface/get
    * @method GET
    * @category interface
@@ -423,6 +423,52 @@ class interfaceController extends baseController {
         }
       }
       yapi.emitHook('interface_get', result).then();
+      result = result.toObject();
+      if (userinfo) {
+        result.username = userinfo.username;
+      }
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 402, e.message);
+    }
+  }
+
+  /**
+   * 通过接口path获取接口
+   * @interface /interface/getbypath
+   * @method GET
+   * @category interface
+   * @foldnumber 10
+   * @param {String}   path path，不能为空
+   * @returns {Object}
+   * @example ./api/interface/getbypat.json
+   */
+  async getbypath(ctx) {
+    let params = ctx.params;
+    if (!params.path) {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '接口path不能为空'));
+    }
+
+    try {
+      let result = await this.Model.getbypath(params.path);
+      if(this.$tokenAuth){
+        if(params.project_id !== result.project_id){
+          ctx.body = yapi.commons.resReturn(null, 400, 'token有误')
+          return;
+        }
+      }
+      // console.log('result', result);
+      if (!result) {
+        return (ctx.body = yapi.commons.resReturn(null, 490, '不存在的'));
+      }
+      let userinfo = await this.userModel.findById(result.uid);
+      let project = await this.projectModel.getBaseInfo(result.project_id);
+      if (project.project_type === 'private') {
+        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+        }
+      }
+      //yapi.emitHook('interface_get', result).then();
       result = result.toObject();
       if (userinfo) {
         result.username = userinfo.username;
