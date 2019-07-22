@@ -515,7 +515,7 @@ class InterfaceMenu extends Component {
     // let menuList = this.state.list;
     const searchBox = (
       <div className="interface-filter">
-        <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索接口"/>
+        <Input onChange={this.onFilter} value={this.state.filter} placeholder="搜索分类/接口名/PATH"/>
         <Button
           type="primary"
           onClick={() => {
