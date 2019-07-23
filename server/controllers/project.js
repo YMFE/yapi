@@ -1075,9 +1075,24 @@ class projectController extends baseController {
       return (ctx.body = yapi.commons.resReturn(void 0, 400, 'Bad query.'));
     }
 
-    let projectList = await this.Model.search(q);
-    let groupList = await this.groupModel.search(q);
-    let interfaceList = await this.interfaceModel.search(q);
+    let projectList;
+    let groupList;
+    let interfaceList;
+    if (this.getRole() === 'admin') {
+      //admin has access to all data
+      projectList = await this.Model.search(q);
+      groupList = await this.groupModel.search(q);
+      interfaceList = await this.interfaceModel.search(q);
+    } else {
+      let uid = this.getUid();
+      let roles = this.getAccessibleRoles("view");
+      let accessibleGroupIds = await this.groupModel.findAccessibleGroupIds(uid, roles);
+      let accessibleProjectIds = await this.Model.findAccessibleProjectIds(uid, roles, accessibleGroupIds);
+      groupList = await this.groupModel.search(q, accessibleGroupIds);
+      projectList = await this.Model.search(q, accessibleProjectIds);
+      interfaceList = await this.interfaceModel.search(q, accessibleProjectIds);
+    }
+
 
     let projectRules = [
       '_id',

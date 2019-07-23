@@ -309,6 +309,22 @@ class baseController {
     }
     return false;
   }
+
+  /**
+   * 根据操作获得需要的角色
+   * @param action 操作
+   * @returns {*[]|Array} 需要的角色
+   */
+  getAccessibleRoles(action) {
+    if (action === 'danger') {
+      return ['admin', 'owner'];
+    } else if (action === 'edit') {
+      return ['admin', 'owner', 'dev'];
+    } else if (action === 'view') {
+      return ['admin', 'owner', 'dev', 'guest'];
+    }
+    return []
+  }
 }
 
 module.exports = baseController;

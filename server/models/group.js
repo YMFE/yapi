@@ -176,12 +176,31 @@ class groupModel extends baseModel {
       .exec();
   }
 
-  search(keyword) {
+  search(keyword, ids) {
+    let options = {
+      group_name: new RegExp(keyword, 'i')
+    };
+    if (ids) {
+      options["_id"] = {
+        "$in": ids
+      }
+    }
+
     return this.model
-      .find({
-        group_name: new RegExp(keyword, 'i')
-      })
+      .find(options)
       .limit(10);
+  }
+
+  findAccessibleGroupIds(uid, roles) {
+    let options = [{"uid": uid}, {"members": {"$elemMatch": {"uid": uid, "role": {"$in": roles}}}}];//creator or member,And the private groups are included
+    return this.model
+      .find({"$or": options})
+      .select(
+        '_id'
+      )
+      .sort({_id: -1})
+      .exec()
+      .then(groups => groups.map(group => group._id));
   }
 }
 

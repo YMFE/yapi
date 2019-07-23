@@ -82,7 +82,7 @@ class projectModel extends baseModel {
         return item;
       })
     }
-    
+
     if(isFix){
       this.model.update(
         {
@@ -279,12 +279,34 @@ class projectModel extends baseModel {
     );
   }
 
-  search(keyword) {
+  search(keyword, ids) {
+    let options = {
+      name: new RegExp(keyword, 'i')
+    };
+    if (ids) {
+      options["_id"] = {
+        "$in": ids
+      }
+    }
+
     return this.model
-      .find({
-        name: new RegExp(keyword, 'ig')
-      })
+      .find(options)
       .limit(10);
+  }
+
+  findAccessibleProjectIds(uid, roles, groupIds) {
+    let options = [{"uid": uid}, {"members": {"$elemMatch": {"uid": uid, "role": {"$in": roles}}}}];//creator or member
+    if (groupIds) {
+      options.push({"group_id": {"$in": groupIds}})
+    }
+    return this.model
+      .find({"$or": options})
+      .select(
+        '_id'
+      )
+      .sort({_id: -1})
+      .exec()
+      .then(projects => projects.map(project => project._id));
   }
 }
 

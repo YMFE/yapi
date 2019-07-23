@@ -337,14 +337,22 @@ class interfaceModel extends baseModel {
     );
   }
 
-  search(keyword) {
+  search(keyword, projectIds) {
+    let options = {
+      $or: [
+        {'title': new RegExp(keyword, 'ig')},
+        {'path': new RegExp(keyword, 'ig')}
+      ]
+    };
+
+    if (projectIds) {
+      options["project_id"] = {
+        "$in": projectIds
+      }
+    }
+
     return this.model
-      .find({
-        $or: [
-          { 'title': new RegExp(keyword, 'ig') },
-          { 'path': new RegExp(keyword, 'ig') }
-        ]
-      })
+      .find(options)
       .limit(10);
   }
 }
