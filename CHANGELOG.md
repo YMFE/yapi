@@ -1,3 +1,6 @@
+### v1.8.0
+* filtering interface on the server instead of client
+
 ### v1.7.2
 * 支持接口路径模糊搜索，不包含 basepath
 
