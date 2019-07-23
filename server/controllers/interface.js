@@ -545,37 +545,43 @@ class interfaceController extends baseController {
   }
 
   async listByCat(ctx) {
-    let catid = ctx.request.query.catid;
+    let catids = ctx.request.query.catid ? ctx.request.query.catid.split(',') : [];
     let page = ctx.request.query.page || 1,
       status = ctx.request.query.status ? ctx.request.query.status.split(',') : [],
       limit = ctx.request.query.limit || 10;
 
-    if (!catid) {
+    if (catids.length === 0) {
       return (ctx.body = yapi.commons.resReturn(null, 400, 'catid不能为空'));
     }
     try {
-      let catdata = await this.catModel.get(catid);
+      let results = [];
 
-      let project = await this.projectModel.getBaseInfo(catdata.project_id);
-      if (project.project_type === 'private') {
-        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
-          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+      for (let i = 0; i < catids.length; i++) {
+        let catid = catids[i];
+        let catdata = await this.catModel.get(catid);
+        let project = await this.projectModel.getBaseInfo(catdata.project_id);
+        if (project.project_type === 'private') {
+          if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+            return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+          }
         }
+
+        let res = await this.Model.listByCatidWithPage(catid, page, limit, status);
+        results = [...results, ...res];
       }
-
-      let result = await this.Model.listByCatidWithPage(catid, page, limit, status);
-
-      catid = parseInt(catid);
-      let aggregate = await this.Model.aggregate({catid});
+      catids = catids.map(catid => {
+        return parseInt(catid);
+      });
+      //  catid = parseInt(catid);
+      let aggregate = await this.Model.aggregate({catid: {$in: catids}});
       let count = 0;
       aggregate.forEach(item => count += item.count);
-
       //let count = await this.Model.listCount({ catid,status:{ $in: status } });
 
       ctx.body = yapi.commons.resReturn({
         count: count,
         total: Math.ceil(count / limit),
-        list: result,
+        list: results,
         aggregate: aggregate
       });
     } catch (err) {
@@ -613,7 +619,8 @@ class interfaceController extends baseController {
         item.list = list;
         newResult[i] = item;
       }
-      newResult = yapi.commons.translateDataToTree(newResult);
+      let islist = ctx.params.islist && ctx.params.islist === '1' ? true : false;
+      newResult = islist ? newResult : yapi.commons.translateDataToTree(newResult);
       ctx.body = yapi.commons.resReturn(newResult);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);

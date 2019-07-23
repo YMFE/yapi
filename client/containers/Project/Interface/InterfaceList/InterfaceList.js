@@ -2,7 +2,7 @@ import React, {PureComponent as Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {Button, Icon, message, Modal, Select, TreeSelect,Table, Tooltip} from 'antd';
+import {Button, Checkbox, Icon, message, Modal, Select, Table, Tooltip, TreeSelect} from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import {
   fetchInterfaceCatList,
@@ -97,18 +97,20 @@ class InterfaceList extends Component {
       catid: null,
       total: null,
       current: 1,
-      filters: apistatus
+      filters: apistatus,
+      checked:false,
+      currentCat:{}
     };
   }
 
   handleRequest = async props => {
     const { params } = props.match;
-    //console.log({"handleRequest status":this.state});
     if (!params.actionId) {
       let projectId = params.id;
       this.setState({
         catid: null
       });
+
       let option = {
         page: this.state.current,
         limit,
@@ -157,19 +159,39 @@ class InterfaceList extends Component {
       () => this.handleRequest(this.props));
   };
 
+  fineme=(list)=>{
+    list.find(he=>{
+      if('cat_'+he._id===this.actionId){
+        this.setState(
+          {
+            currentCat:he
+          }
+        )
+        return true;
+      }
+      if(he.children){
+        this.fineme(he.children);
+      }
+      return this.state.currentCat._id===this.actionId;
+    })
+  }
+
   componentWillMount() {
     this.actionId = this.props.match.params.actionId;
     this.handleRequest(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    let _actionId = nextProps.match.params.actionId;
+    console.log({"componentWillReceiveProps ":nextProps});
 
+    let _actionId = nextProps.match.params.actionId;
+    this.fineme(nextProps.catList);
     if (this.actionId !== _actionId) {
       this.actionId = _actionId;
       this.setState(
         {
-          current: 1
+          current: 1,
+          checked:false
         },
         () => this.handleRequest(nextProps)
       );
@@ -226,6 +248,54 @@ class InterfaceList extends Component {
         current: current
       }
     );
+  };
+
+  joinChilds = (item, idstr) => {
+    idstr.push(item._id);
+    if (item.children) {
+      item.children.forEach(me => {
+        this.joinChilds(me, idstr)
+      })
+    }
+  };
+
+  getMycat = (catz, id) => {
+    let ret = {};
+    let itrcat = (cats, catid, ret) => {
+      cats.some(item => {
+        if (item._id === catid) {
+          ret.mycat = item;
+          let idstr = [];
+          this.joinChilds(item, idstr);
+          ret.mycat.childscat = idstr.join();
+          return true;
+        } else {
+          item.children ? itrcat(item.children, catid, ret) : '';
+        }
+      })
+    };
+    itrcat(catz, id, ret);
+    return ret.mycat;
+  };
+
+  onChangeCheckbox = async e => {
+
+    let checked = e.target.checked;
+    let childscat = this.state.catid;
+    this.setState({
+      checked: checked?true:false
+    });
+    if (checked) {
+      childscat = e.target.childscat;
+    }
+    let option = {
+      page: this.state.current,
+      limit,
+      catid: childscat,
+      status: this.state.filters.status.join(',')
+    };
+    await this.props.fetchInterfaceCatList(option);
+
   };
 
   render() {
@@ -345,30 +415,18 @@ class InterfaceList extends Component {
       }
     ];
     let intername = '',
-      desc = '';
+      desc = '',
+      childscat = '';
     let cat = this.props.curProject ? this.props.curProject.cat : [];
 
 
-    let getMycat = (catz, id) => {
-      let ret = {};
-      let itrcat = (cats, catid, ret) => {
-        cats.some(item => {
-          if (item._id === catid) {
-            ret.mycat = item;
-            return true;
-          } else {
-            item.children ? itrcat(item.children, catid, ret) : '';
-          }
-        })
-      };
-      itrcat(catz, id, ret);
-      return ret.mycat;
-    };
+
 
     if (cat) {
-      let mycat = getMycat(cat, this.state.catid);
+      let mycat = this.getMycat(cat, this.state.catid);
       intername = mycat?mycat.name:'';
       desc = mycat?mycat.desc:'';
+      childscat = mycat ? mycat.childscat : '';
     }
     // const data = this.state.data ? this.state.data.map(item => {
     //   item.key = item._id;
@@ -389,7 +447,7 @@ class InterfaceList extends Component {
 
     let aggregateMessage = JSON.stringify(aggregate.map(obj => {
       let types = apistatusArr.find(item => item.value === obj._id);
-      return types.text + ': ' + obj.count + ' 个';
+      return types.text + ': ' + obj.count + ' 个  ';
     }));
 
     data = data.map(item => {
@@ -412,6 +470,12 @@ class InterfaceList extends Component {
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
           {intername ? intername : '全部接口'}共 ({total}) 个,其中：{aggregateMessage}
+          {intername&&this.state.currentCat.children&&this.state.currentCat.children.length>0 ? (
+            <Checkbox
+              childscat={childscat}
+              checked={this.state.checked}
+              onChange={this.onChangeCheckbox}
+            >包含子分类接口</Checkbox>) : ''}
         </h2>
 
         <Button

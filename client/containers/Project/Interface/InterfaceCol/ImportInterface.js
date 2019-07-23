@@ -1,10 +1,11 @@
-import React, { PureComponent as Component } from 'react';
+import React, {PureComponent as Component} from 'react';
 import PropTypes from 'prop-types';
-import { Table, Select, Tooltip, Icon } from 'antd';
+import {Icon, Select, Table, Tooltip} from 'antd';
 import variable from '../../../../constants/variable';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {fetchInterfaceListMenu} from '../../../../reducer/modules/interface.js';
+
 const Option = Select.Option;
-import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
 
 @connect(
   state => {
@@ -51,35 +52,67 @@ export default class ImportInterface extends Component {
     await this.props.fetchInterfaceListMenu(val);
   };
 
-  render() {
-    const { list, projectList } = this.props;
-
-    // const { selectedRowKeys } = this.state;
-    const data = list.map(item => {
-      return {
-        key: 'category_' + item._id,
-        title: item.name,
-        isCategory: true,
-        children: item.list
-          ? item.list.map(e => {
+  datainit = list => {
+    let reinitdata = list => {
+      return list.map(item => {
+          let node = {
+            key: 'category_' + item._id,
+            title: item.name,
+            isCategory: true
+          };
+          let catChild = [];
+          if (item.children) {
+            catChild = reinitdata(item.children);
+          }
+          let intfChild = [];
+          if (item.list) {
+            intfChild = item.list.map(e => {
               e.key = e._id;
               e.categoryKey = 'category_' + item._id;
               e.categoryLength = item.list.length;
               return e;
-            })
-          : []
-      };
-    });
+            });
+          }
+          if (catChild.length > 0 || intfChild.length > 0) {
+            node.children = [...catChild, ...intfChild]
+          }
+          return node;
+        }
+      )
+    };
+    let redata = reinitdata(list);
+    //console.log(initialValue);
+
+    return redata;
+  };
+
+
+  render() {
+    const { list, projectList } = this.props;
+    console.log({list});
+    // const { selectedRowKeys } = this.state;
+
+
+    // const data = list.map(item => {
+    //   return {
+    //     key: 'category_' + item._id,
+    //     title: item.name,
+    //     isCategory: true,
+    //     children: item.list
+    //       ? item.list.map(e => {
+    //           e.key = e._id;
+    //           e.categoryKey = 'category_' + item._id;
+    //           e.categoryLength = item.list.length;
+    //           return e;
+    //         })
+    //       : []
+    //   };
+    // });
+    const data = this.datainit(list);
+
     const self = this;
     const rowSelection = {
-      // onChange: (selectedRowKeys) => {
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      // if (selectedRows.isCategory) {
-      //   const selectedRowKeys = selectedRows.children.map(item => item._id)
-      //   this.setState({ selectedRowKeys })
-      // }
-      // this.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
-      // },
+
       onSelect: (record, selected) => {
         // console.log(record, selected, selectedRows);
         const oldSelecteds = self.state.selectedRowKeys;

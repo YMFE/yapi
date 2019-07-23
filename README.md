@@ -5,6 +5,13 @@
 断言功能加强
 公共参数备注链接
 
+2019/7/23
+*  增加：选择父分类后，接口列表页 复选框【包含子分类接口】
+*  增加open api  根据接口path(完全匹配)查找接口：例如：http://127.0.0.1/api/interface/getbypath?token=xxxx&&path=/a
+*  接口 /api/interface/list_menu  增加 islist参数，默认不传返回的是多级目录tree，例/api/interface/list_menu?project_id=348&islist=1
+*  修复 测试用例集合 导入接口支持接口多级分类
+
+
 2019/7/22
 *  修复接口列表分页bug
 *  修复搜索接口bug
@@ -12,7 +19,7 @@
 *  增加：命中的关键字高亮显示
 *  增加：树目录中接口增加状态显示
 *  修复接口列表接口状态修改后，分类树中接口状态不变更的bug
-*  增加open api  根据接口path(完全匹配)查找接口：例如：http://127.0.0.1/api/interface/getbypath?token=xxxx&&path=/a
+
 
 
 
