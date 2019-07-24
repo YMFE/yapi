@@ -344,7 +344,12 @@ class InterfaceMenu extends Component {
               inter.title.indexOf(that.state.filter) === -1 &&
               inter.path.indexOf(that.state.filter) === -1
             ) {
-              return false;
+              if (
+                !Array.isArray(inter.tag) ||
+                inter.tag.filter(tag => tag.indexOf(that.state.filter) !== -1).length <= 0
+              ) {
+                return false;
+              }
             }
             //arr.push('cat_' + inter.catid)
             interfaceFilter = true;

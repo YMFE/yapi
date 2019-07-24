@@ -342,7 +342,8 @@ class interfaceModel extends baseModel {
       .find({
         $or: [
           { 'title': new RegExp(keyword, 'ig') },
-          { 'path': new RegExp(keyword, 'ig') }
+          { 'path': new RegExp(keyword, 'ig') },
+          { 'tag': { $in: [ new RegExp(keyword, 'ig') ] } }
         ]
       })
       .limit(10);
