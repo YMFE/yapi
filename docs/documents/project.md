@@ -244,26 +244,6 @@ context.promise = new Promise(function(resolve) {
 
 v1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 <a href="./adv_mock.md#自定义-mock-脚本">自定义 Mock 脚本</a> 
 
-可以针对项目自定义 Mock 占位符，具体使用方法如下：
-
-```
-Random.extend({
-    constellation: function(date) {
-        var constellations = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']
-        return this.pick(constellations)
-    }
-})
-
-```
-在接口编辑中使用
-
-```
-{
-  "data": "@CONSTELLATION"   // => "水瓶座"
-}
-```
-
-
 ### Mock 优先级说明
 
 请求 Mock 数据时，规则匹配优先级：Mock 期望 > 自定义 Mock 脚本 > 项目全局 mock 脚本 > 普通 Mock。
