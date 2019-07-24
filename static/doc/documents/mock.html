@@ -89,28 +89,7 @@ $<span class="token punctuation">.</span><span class="token function">post</span
 <span class="token keyword">proxy_pass</span>   <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yapi<span class="token punctuation">.</span>xxx<span class="token punctuation">.</span>com<span class="token operator">/</span>mock<span class="token operator">/</span><span class="token number">2817</span><span class="token operator">/</span>baseapi<span class="token punctuation">;</span> <span class="token comment">#baseapi后面没有"/"</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h4>2.2 基于 ykit mock功能</h4>
-<pre><code class="language-javascript"><span class="token punctuation">{</span>
-    pattern<span class="token punctuation">:</span> <span class="token regex">/\/api\/(.*)/</span><span class="token punctuation">,</span>
-    responder<span class="token punctuation">:</span> <span class="token string">'http://yapi.xxx.com/mock/58/api/$1'</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 <code>http://localhost/api/user/status</code> 会成为 <code>http://yapi.xxx.com/mock/58/api/user/status</code></p>
-<p>详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugin/ykit-config-mock.html">ykit-config-mock</a></p>
-<h4>2.3 基于 ykit Jerry 代理</h4>
-<p>假设您本地服务器访问地址是： http://xxx.com</p>
-<img src="./images/ykit.jpg">
-<p>具体用法如下：</p>
-<ol start="0">
-<li>清除本地配置的 hosts</li>
-<li>下载 Chrome 插件 SwitchyOmega 点击“选项” =&gt; 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999</li>
-<li>启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry</li>
-<li>在 jerry 中重新配置 hosts</li>
-<li>在 Jerry 中点击 URL MAP 并添加配置</li>
-</ol>
-<p>详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/guide/proxy.html">代理工具</a></p>
-<p><span id="mock"></span></p>
-<h4>2.4 基于 Charles 代理</h4>
+<h4>2.1 基于 Charles 代理</h4>
 <p>点击 Charles 工具栏下的 tools &gt;&gt; Rewrite Settings 填写如下信息：</p>
 <img src="./images/charles.png" width="60%">
 <h2 id="mock请求严格模式">mock请求严格模式</h2>
