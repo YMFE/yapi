@@ -13,6 +13,7 @@ class interfaceCol extends baseModel {
       project_id: { type: Number, required: true },
       desc: String,
       add_time: Number,
+      parent_id: Number,
       up_time: Number,
       index: { type: Number, default: 0 },
       test_report: { type: String, default: '{}' },
@@ -76,7 +77,7 @@ class interfaceCol extends baseModel {
       .find({
         project_id: project_id
       })
-      .select('name uid project_id desc add_time up_time, index')
+      .select('name uid project_id parent_id desc add_time up_time, index')
       .exec();
   }
 

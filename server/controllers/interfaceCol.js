@@ -53,9 +53,12 @@ class interfaceColController extends baseController {
         caseList = caseList.sort((a, b) => {
           return a.index - b.index;
         });
-        result[i].caseList = caseList;
-        
+        if(caseList&&caseList.length>0){
+         result[i].caseList = caseList;
+        }
       }
+
+      result =  yapi.commons.translateDataToTree(result);
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -81,11 +84,15 @@ class interfaceColController extends baseController {
       params = yapi.commons.handleParams(params, {
         name: 'string',
         project_id: 'number',
-        desc: 'string'
+        desc: 'string',
+        parent_id: 'number'
       });
 
       if (!params.project_id) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+      }
+      if (!params.parent_id) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '父集合id不能为空'));
       }
       if (!params.name) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '名称不能为空'));
@@ -101,6 +108,7 @@ class interfaceColController extends baseController {
         project_id: params.project_id,
         desc: params.desc,
         uid: this.getUid(),
+        parent_id: params.parent_id,
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
       });

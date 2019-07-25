@@ -361,6 +361,7 @@ exports.handleParams = (params, keys) => {
 exports.translateDataToTree=data=> {
 
   data.forEach(item=>{
+
     item.title=item.name;
     item.key=item._id;
     item.value=item._id+'';
@@ -368,20 +369,28 @@ exports.translateDataToTree=data=> {
       item.parent_id=-1;
     }
   });
-  let parents = JSON.parse(JSON.stringify(data.filter(value => value.parent_id == 'undefined' || value.parent_id == -1)));
-  let children = JSON.parse(JSON.stringify(data.filter(value => value.parent_id !== 'undefined' && value.parent_id != -1)));
+  let parents = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) == 'undefined' || value.parent_id == -1)));
+  let children = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) !== 'undefined' && value.parent_id != -1)));
   let translator = (parents, children) => {
     parents.forEach((parent) => {
+      parent.parent_id=(typeof parent.parent_id) == 'undefined'?-1: parent.parent_id;
+      parent.treePath=(typeof parent.treePath) == 'undefined'?[]: parent.treePath;
         children.forEach((current, index) => {
             if (current.parent_id === parent._id) {
-              let temp = JSON.parse(JSON.stringify(children))
-              temp.splice(index, 1)
-              translator([current], temp)
+
               if(typeof parent.children !== 'undefined'){
-                parent.children.push(current)
+                parent.children.push(current);
               } else{
-                parent.children = [current]
+                parent.children = [current];
               }
+              if(typeof current.treePath !== 'undefined'){
+                current.treePath.push(...parent.treePath,parent._id);
+              } else{
+                current.treePath = [...parent.treePath,parent._id];
+              }
+              let temp = JSON.parse(JSON.stringify(children));
+              temp.splice(index, 1);
+              translator([current], temp);
             }
           }
         )
@@ -392,6 +401,8 @@ exports.translateDataToTree=data=> {
   translator(parents, children)
    return parents
 }
+
+
 
 exports.validateParams = (schema2, params) => {
   const flag = schema2.closeRemoveAdditional;

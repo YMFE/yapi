@@ -217,6 +217,27 @@ exports.safeAssign = (Obj, nextObj) => {
   }, {});
 };
 
+//从树种找到自己
+exports.findMeInTree=(roots,meid)=>{
+  //console.log({roots,meid});
+  meid=Number.parseInt(meid);
+  let ret={"me":{}};
+  let findme=(roots,meid,temp)=>{
+    roots.find(he=>{
+      if(he._id===meid){
+        temp.me=he;
+        return true;
+      }
+      if(he.children){
+        findme(he.children,meid,temp);
+      }
+      return false
+    })
+  }
+  findme(roots,meid,ret);
+  return ret.me;
+}
+
 // 交换数组的位置
 exports.arrayChangeIndex = (arr, start, end) => {
   console.log({arr,start,end});

@@ -18,7 +18,7 @@ import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
 import produce from 'immer';
-import {arrayChangeIndex} from '../../../../common.js';
+import {arrayChangeIndex,findMeInTree} from '../../../../common.js';
 
 import './interfaceMenu.scss';
 
@@ -31,8 +31,7 @@ const headHeight = 240; // menu顶部到网页顶部部分的高度
     return {
       list: state.inter.list,
       inter: state.inter.curdata,
-      curProject: state.project.currProject,
-      expands: []
+      curProject: state.project.currProject
     };
   },
   {
@@ -84,8 +83,9 @@ class InterfaceMenu extends Component {
       change_cat_modal_visible: false,
       del_cat_modal_visible: false,
       curCatdata: {},
-      expands: null,
-      list: []
+      list: [],
+      expandedKeys: [],
+      selectedKey:[]
     };
   }
 
@@ -119,6 +119,7 @@ class InterfaceMenu extends Component {
 
   componentWillMount() {
     this.handleRequest();
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -128,31 +129,46 @@ class InterfaceMenu extends Component {
         list: nextProps.list
       });
     }
+    if(this.state.expandedKeys.length===0){
+      this.initexpandedKeys(this.props.curProject.cat);
+    }
   }
 
-  onSelect = selectedKeys => {
+  onSelect = (selectedKeys,e) => {
     const {history, match} = this.props;
-    let curkey = selectedKeys[0];
+    //console.log({"onselect": this.state,selectedKeys,e});
+    let key = e.node.props.eventKey;
 
-    if (!curkey || !selectedKeys) {
-      return false;
-    }
     let basepath = '/project/' + match.params.id + '/interface/api';
-    if (curkey === 'root') {
+    if (key === 'root') {
       history.push(basepath);
     } else {
-      history.push(basepath + '/' + curkey);
+      history.push(basepath + '/' + key);
     }
-    this.setState({
-      expands: null
-    });
+
+
+    let ex=JSON.parse(JSON.stringify(this.state.expandedKeys));
+    if (ex.indexOf(key) === -1) {
+      ex.push(key);
+      this.setState({
+        expandedKeys: ex,
+        selectedKey: [key]
+      });
+    } else {
+      let nex=ex;
+      if(!e.selected){
+        nex=ex.filter(it=>{return it!==key})
+      }
+      this.setState({
+        expandedKeys: nex,
+        selectedKey: [key]
+      })
+    }
+
+
   };
 
-  changeExpands = () => {
-    this.setState({
-      expands: null
-    });
-  };
+
 
   handleAddInterface = (data, cb) => {
     data.project_id = this.props.projectId;
@@ -291,18 +307,18 @@ class InterfaceMenu extends Component {
   };
 
   onFilter = e => {
-    this.setState({
-      filter: e.target.value,
-      list: JSON.parse(JSON.stringify(this.props.list))
-    });
+    let res = this.filterList(this.props.list,e.target.value);
+    //menuList = res.menuList;
+    console.log({res});
+    this.setState(
+      {
+        expandedKeys:res.arr,
+        list: res.menuList,
+        filter:e.target.value
+      }
+    )
   };
 
-
-  onExpand = e => {
-    this.setState({
-      expands: e
-    });
-  };
 
   getcatItem = (c, ids, iscat) => {
     let inids = JSON.parse(JSON.stringify(ids));
@@ -321,8 +337,6 @@ class InterfaceMenu extends Component {
   onDrop = async e => {
     let dropCatIndex = e.node.props.pos.split('-');
     let dragCatIndex = e.dragNode.props.pos.split('-');
-    //console.log(JSON.stringify({dropCatIndex,dragCatIndex}));
-    //console.log({'e.node.props':e.node.props,'e.dragNode.props':e.dragNode.props});
     dropCatIndex.shift();
     dropCatIndex[0] = dropCatIndex[0] - 1;
     dragCatIndex.shift();
@@ -399,10 +413,8 @@ class InterfaceMenu extends Component {
     this.props.fetchInterfaceListMenu(this.props.projectId);
   };
 
-  changeStyle = str => {
-    const searchValue = this.state.filter;
+  changeStyle = (str,searchValue) => {
     const index = str.indexOf(searchValue);
-
     if (index > -1) {
       const beforeStr = str.substr(0, index);
       const afterStr = str.substr(index + searchValue.length);
@@ -418,25 +430,24 @@ class InterfaceMenu extends Component {
     }
   };
   // 数据过滤
-  filterList = list => {
-    let that = this;
+  filterList = (list,filter) => {
     let arr = [];
 
     let iterater = item => {
 
       //console.log(JSON.parse(JSON.stringify(item)));
       // arr = [];
-      if (item.name.indexOf(that.state.filter) === -1) {
+      if (item.name.indexOf(filter) === -1) {
 
         item.children = item.children ? item.children.filter(me => iterater(me)) : [];
         item.list = item.list.filter(inter => {
           if (
-            inter.title.indexOf(that.state.filter) === -1 &&
-            inter.path.indexOf(that.state.filter) === -1
+            inter.title.indexOf(filter) === -1 &&
+            inter.path.indexOf(filter) === -1
           ) {
             return false;
           } else {
-            inter.title = inter.path.indexOf(that.state.filter) === -1 ? this.changeStyle(inter.title) : (
+            inter.title = inter.path.indexOf(filter) === -1 ? this.changeStyle(inter.title,filter) : (
               <span style={{color: 'blue'}}>{inter.title}</span>)
           }
           return true;
@@ -452,7 +463,7 @@ class InterfaceMenu extends Component {
         return item.in ;
       } else {
         arr.push('cat_' + item._id);
-        item.title = this.changeStyle(item.title);
+        item.title = this.changeStyle(item.title,filter);
         item.in = true;
         return true;
       }
@@ -464,18 +475,6 @@ class InterfaceMenu extends Component {
         }
       );
     });
-    // let cleanNarr = list => {
-    //   list.forEach(item=> {
-    //     if (!arr.includes('cat_' + item._id)) {
-    //       item = null;
-    //     } else {
-    //       cleanNarr(item.children);
-    //     }
-    //   }
-    // )
-    // };
-    // cleanNarr(menuList);
-
     console.log({menuList, arr});
     return {menuList, arr};
   };
@@ -509,6 +508,35 @@ class InterfaceMenu extends Component {
       moveToCatId: cid
     })
   };
+
+  initexpandedKeys =list=>{
+
+    try {
+      let treePath=[];
+      let catid=0;
+      let par=this.props.router.params;
+      let selectedKey=[];
+      if(par.actionId) {
+        catid = Number(par.actionId.indexOf('cat_')===0?par.actionId.substr(4):this.props.inter.catid);
+        selectedKey.push(par.actionId);
+      }
+      if (catid) {
+        treePath = findMeInTree(list, catid).treePath;
+        treePath.push(catid);
+        treePath = treePath.map(it => {
+          return 'cat_' + it
+        });
+        this.setState(
+          {
+            expandedKeys: treePath,
+            selectedKey:selectedKey
+          }
+        )
+      }
+    }catch (e){
+    }
+  }
+
 
   render() {
     const matchParams = this.props.match.params;
@@ -586,35 +614,6 @@ class InterfaceMenu extends Component {
         )}
       </div>
     );
-    const defaultExpandedKeys = () => {
-      const {router, inter, list} = this.props,
-        rNull = {expands: [], selects: []};
-      if (list.length === 0) {
-        return rNull;
-      }
-      if (router) {
-        if (!isNaN(router.params.actionId)) {
-          if (!inter || !inter._id) {
-            return rNull;
-          }
-          return {
-            expands: this.state.expands ? this.state.expands : ['cat_' + inter.catid],
-            selects: [inter._id + '']
-          };
-        } else {
-          let catid = router.params.actionId.substr(4);
-          return {
-            expands: this.state.expands ? this.state.expands : ['cat_' + catid],
-            selects: ['cat_' + catid]
-          };
-        }
-      } else {
-        return {
-          expands: this.state.expands ? this.state.expands : ['cat_' + list[0]._id],
-          selects: ['root']
-        };
-      }
-    };
 
     const itemCatCreate = item => {
       return (
@@ -627,10 +626,6 @@ class InterfaceMenu extends Component {
             >
               <Link
                 className="interface-item"
-                onClick={e => {
-                  e.stopPropagation();
-                  this.changeExpands();
-                }}
                 to={'/project/' + matchParams.id + '/interface/api/cat_' + item._id}
               >
                 <Icon type="folder-open" style={{marginRight: 5}}/>
@@ -700,7 +695,6 @@ class InterfaceMenu extends Component {
             </div>
           }
           key={'cat_' + item._id}
-          className={`interface-item-nav ${item.list.length || (item.children ? item.children.length : false) ? '' : 'cat_switch_hidden'}`}
         >
           {item.children ? item.children.filter(me => (me.in === true || typeof me.in === "undefined")).map(itemCatCreate) : ''}
           {item.list.map(itemInterfaceCreate)}
@@ -720,7 +714,6 @@ class InterfaceMenu extends Component {
             >
               <Link
                 className="interface-item"
-                onClick={e => e.stopPropagation()}
                 to={'/project/' + matchParams.id + '/interface/api/' + item._id}
               >
                 <span className={"tag-status "+item.status}>
@@ -773,15 +766,9 @@ class InterfaceMenu extends Component {
       );
     };
 
-    let currentKes = defaultExpandedKeys();
-    let menuList;
-    if (this.state.filter) {
-      let res = this.filterList(this.state.list);
-      menuList = res.menuList;
-      currentKes.expands = res.arr;
-    } else {
-      menuList = this.state.list;
-    }
+
+    let menuList=this.state.list;
+
 
     //  //console.log("render this.state.moveInterVisible " + this.state.moveInterVisible);
     //console.log({menuList});
@@ -795,12 +782,9 @@ class InterfaceMenu extends Component {
           >
             <Tree
               className="interface-list"
-              defaultExpandedKeys={currentKes.expands}
-              defaultSelectedKeys={currentKes.selects}
-              expandedKeys={currentKes.expands}
-              selectedKeys={currentKes.selects}
+              selectedKeys={this.state.selectedKey}
+              expandedKeys={this.state.expandedKeys}
               onSelect={this.onSelect}
-              onExpand={this.onExpand}
               draggable
               onDrop={this.onDrop}
             >
@@ -808,10 +792,6 @@ class InterfaceMenu extends Component {
                 className="item-all-interface"
                 title={
                   <Link
-                    onClick={e => {
-                      e.stopPropagation();
-                      this.changeExpands();
-                    }}
                     to={'/project/' + matchParams.id + '/interface/api'}
                   >
                     <Icon type="folder" style={{marginRight: 5}}/>

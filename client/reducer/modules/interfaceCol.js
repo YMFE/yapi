@@ -8,18 +8,7 @@ const FETCH_VARIABLE_PARAMS_LIST = 'yapi/interfaceCol/FETCH_VARIABLE_PARAMS_LIST
 const FETCH_CASE_ENV_LIST = 'yapi/interfaceCol/FETCH_CASE_ENV_LIST';
 // Reducer
 const initialState = {
-  interfaceColList: [
-    {
-      _id: 0,
-      name: '',
-      uid: 0,
-      project_id: 0,
-      desc: '',
-      add_time: 0,
-      up_time: 0,
-      caseList: [{}]
-    }
-  ],
+  interfaceColList: [],
   isShowCol: true,
   isRender: false,
   currColId: 0,
@@ -33,6 +22,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_INTERFACE_COL_LIST: {
+      console.log({"FETCH_INTERFACE_COL_LIST":action.payload.data.data});
       return {
         ...state,
         interfaceColList: action.payload.data.data

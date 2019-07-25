@@ -182,8 +182,6 @@ class InterfaceList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log({"componentWillReceiveProps ":nextProps});
-
     let _actionId = nextProps.match.params.actionId;
     this.fineme(nextProps.catList);
     if (this.actionId !== _actionId) {
