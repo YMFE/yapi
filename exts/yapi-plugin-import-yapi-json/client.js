@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-function improtData(importDataModule) {
+function importData(importDataModule) {
   async function run(res) {
     try {
       let interfaceData = { apis: [], cats: [] };
@@ -35,5 +35,5 @@ function improtData(importDataModule) {
 }
 
 module.exports = function() {
-  this.bindHook('import_data', improtData);
+  this.bindHook('import_data', importData);
 };
