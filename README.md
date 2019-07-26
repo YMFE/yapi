@@ -71,13 +71,13 @@
 ![avatar](readmeRes/接口分类.gif)
 
 ### 用例多级目录：
-![avatar](readmeRes\用例集合.gif)
+![avatar](readmeRes/用例集合.gif)
 
 ### 用例导入示例参数
-![avatar](readmeRes\用例导入示例参数.gif)
+![avatar](readmeRes/用例导入示例参数.gif)
 
 ### 单用例前置后置js处理器（支持context storage）
-![avatar](readmeRes\用例前置后置js处理器.gif)
+![avatar](readmeRes/用例前置后置js处理器.gif)
 
 
 
