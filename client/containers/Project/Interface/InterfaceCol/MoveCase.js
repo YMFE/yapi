@@ -50,17 +50,28 @@ export default class MoveCase extends Component {
   //  await this.props.fetchInterfaceListMenu(val);
   };
 
+  reinit = data => {
+    let reinitdata = data => {
+      return data.map(item => {
+          let node = {
+            key: 'category_' + item._id,
+            title: item.name,
+            isCategory: true,
+            _id: item._id
+          };
+          if (item.children) {
+            node.children = reinitdata(item.children);
+          }
+          return node;
+        }
+      )
+    }
+    return reinitdata(data);
+  }
+
   render() {
     const {  projectList } = this.props;
-    const data = this.state.list1.map(item => {
-      console.log(item);
-      return {
-        key: 'category_' + item._id,
-        title: item.name,
-        isCategory: true,
-        _id: item._id
-      };
-    });
+    const data = this.reinit(this.state.list1);
     const rowRadioSelection = {
       type:'radio',
       onSelect: (record) => {

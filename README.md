@@ -65,6 +65,19 @@
     -  list 参数仅在【服务器端】执行用例时全部生效
     -  list 参数在【浏览器端】执行用例时，因cross插件当前不支持list类型，会取list第一个参数发起请求，其他参数忽略，该问题影响不大，后续有时间的时候修改cross插件兼容
 
+## 特性功能演示：
+
+### 接口多级目录：
+![avatar](readmeRes/接口分类.gif)
+
+### 用例多级目录：
+![avatar](readmeRes\用例集合.gif)
+
+### 用例导入示例参数
+![avatar](readmeRes\用例导入示例参数.gif)
+
+### 单用例前置后置js处理器（支持context storage）
+![avatar](readmeRes\用例前置后置js处理器.gif)
 
 
 

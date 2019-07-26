@@ -5,7 +5,8 @@ import {
   Button,
   Checkbox,
   Col,
-  Collapse, Form,
+  Collapse,
+  Form,
   Icon,
   Input,
   Modal,
@@ -26,6 +27,7 @@ import CheckCrossInstall, {initCrossRequest} from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
+
 const FormItem = Form.Item;
 const { handleParamsValue, ArrayToObject, schemaValidator } = require('common/utils.js');
 const {
@@ -78,7 +80,8 @@ const ParamsNameComponent = props => {
       <div>
         {example && (
           <div>
-            示例： <span className="table-desc">{example}</span>
+            示例：点击可在示例值/用例值间切换
+            <div><span className="table-desc">{example}</span></div>
           </div>
         )}
         {desc && (
@@ -382,35 +385,9 @@ export default class Run extends Component {
     return validResult;
   };
 
-  changeParam = (name, v, index, key) => {
-    
-    key = key || 'value';
-    const pathParam = deepCopyJson(this.state[name]);
 
-    pathParam[index][key] = v;
-    if (key === 'value') {
-      pathParam[index].enable = !!v;
-    }
-    this.setState({
-      [name]: pathParam
-    });
-  };
 
-  changeBody = (v, index, key) => {
-    const bodyForm = deepCopyJson(this.state.req_body_form);
-    key = key || 'value';
-    if (key === 'value') {
-      bodyForm[index].enable = !!v;
-      if (bodyForm[index].type === 'file') {
-        bodyForm[index].value = 'file_' + index;
-      } else {
-        bodyForm[index].value = v;
-      }
-    } else if (key === 'enable') {
-      bodyForm[index].enable = v;
-    }
-    this.setState({ req_body_form: bodyForm });
-  };
+
 
   // 模态框的相关操作
   showModal = (val, index, type) => {
@@ -524,6 +501,57 @@ export default class Run extends Component {
     this.setState({
       envModalVisible: false
     });
+  };
+  changeParam = (name, v, index, key) => {
+
+    key = key || 'value';
+    const pathParam = deepCopyJson(this.state[name]);
+    console.log({pathParam,name, v, index, key});
+
+    pathParam[index][key] = v;
+    if (key === 'value') {
+      pathParam[index].enable = !!v;
+    }
+    this.setState({
+      [name]: pathParam
+    });
+  };
+
+  changeBody = (v, index, key) => {
+    const bodyForm = deepCopyJson(this.state.req_body_form);
+    key = key || 'value';
+    if (key === 'value') {
+      bodyForm[index].enable = !!v;
+      if (bodyForm[index].type === 'file') {
+        bodyForm[index].value = 'file_' + index;
+      } else {
+        bodyForm[index].value = v;
+      }
+    } else if (key === 'enable') {
+      bodyForm[index].enable = v;
+    }
+    this.setState({ req_body_form: bodyForm });
+  };
+
+  changetv = (item,name, index, key) => {
+    item.tempValue=item.value===item.example?item.tempValue:item.value;
+    if(item.value!==item.example){
+      name==='req_body_form'?this.changeBody(item.example, index, key):this.changeParam(name,item.example,index,key);
+    }else{
+      name==='req_body_form'?this.changeBody(item.tempValue, index, key):this.changeParam(name,item.tempValue,index,key);
+    }
+  };
+
+  content = (item, name, index, key) => {
+    return (
+      <div >
+        <Icon type="swap" onClick={e => {
+          e.stopPropagation();
+          this.changetv(item,name, index, key);
+        }} />
+        {' '+ item.example}
+      </div>
+    )
   };
 
   render() {
@@ -653,7 +681,7 @@ export default class Run extends Component {
                   >
                     <Input disabled value={item.name} className="key" />
                   </Tooltip> */}
-                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
+                  <ParamsNameComponent example={this.content(item, 'req_params',index)} desc={item.desc} name={item.name}/>
                   <span className="eq-symbol">=</span>
                   <Input
                     value={item.value}
@@ -668,6 +696,7 @@ export default class Run extends Component {
                       />
                     }
                   />
+
                 </div>
               );
             })}
@@ -694,7 +723,7 @@ export default class Run extends Component {
                   >
                     <Input disabled value={item.name} className="key" />
                   </Tooltip> */}
-                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
+                  <ParamsNameComponent example={this.content(item, 'req_query',index)} desc={item.desc} name={item.name} />
                   &nbsp;
                   {item.required == 1 ? (
                     <Checkbox className="params-enable" checked={true} disabled />
@@ -738,7 +767,7 @@ export default class Run extends Component {
                   >
                     <Input disabled value={item.name} className="key" />
                   </Tooltip> */}
-                  <ParamsNameComponent example={item.example} desc={item.desc} name={item.name} />
+                  <ParamsNameComponent example={this.content(item, 'req_headers',index)} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
                     value={item.value}
@@ -817,7 +846,7 @@ export default class Run extends Component {
                           <Input disabled value={item.name} className="key" />
                         </Tooltip> */}
                         <ParamsNameComponent
-                          example={item.example}
+                          example={this.content(item, 'req_body_form',index)}
                           desc={item.desc}
                           name={item.name}
                         />

@@ -57,8 +57,8 @@ class interfaceColController extends baseController {
          result[i].caseList = caseList;
         }
       }
-
-      result =  yapi.commons.translateDataToTree(result);
+      let islist = ctx.params.islist && ctx.params.islist === '1' ? true : false;
+      result = islist ? result :  yapi.commons.translateDataToTree(result);
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);

@@ -4,7 +4,8 @@ banner:
   desc: '旨在为开发、产品、测试人员提供更优雅的接口管理服务。可以帮助开发者轻松创建、发布、维护 API'
   btns: 
     - { name: '开始', href: './documents/index.html', primary: true }
-    - { name: 'Github >', href: 'https://github.com/ymfe/yapi' }
+    - { name: '官方-Github', href: 'https://github.com/ymfe/yapi' }
+    - { name: 'xiancrazy-Github', href: 'https://github.com/xian-crazy/yapi' }
 features: 
   - { name: '权限管理', desc: 'YApi 成熟的团队管理扁平化项目权限配置满足各类企业的需求' }
   - { name: '可视化接口管理', desc: '基于 websocket 的多人协作接口编辑功能和类 postman 测试工具，让多人协作成倍提升开发效率' }
@@ -24,6 +25,7 @@ footer:
     Git仓库:
       - { name: 'Github', href: 'https://github.com/YMFE/yapi' }
       - { name: 'Github Issue', href: 'https://github.com/YMFE/yapi/issues' }
+      - { name: 'xiancrazy-Github ', href: 'https://github.com/xian-crazy/yapi' }
 
 ---
 {
