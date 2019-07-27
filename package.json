@@ -1,6 +1,6 @@
 {
   "name": "yapi-vendor",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "YAPI",
   "main": "server/app.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "ajv": "^5.5.1",
     "ajv-i18n": "^2.2.0",
-    "axios": "^0.16.2",
+    "axios": "0.18.0",
     "compare-versions": "^3.4.0",
     "copy-to-clipboard": "3.0.8",
     "cpu-load": "^1.0.0",
@@ -81,7 +81,8 @@
     "tslib": "1.8.0",
     "underscore": "1.8.3",
     "url": "0.11.0",
-    "yapi-plugin-qsso": "^1.1.0"
+    "yapi-plugin-qsso": "^1.1.0",
+    "qs": "^6.7.0"
   },
   "devDependencies": {
     "antd": "3.2.2",

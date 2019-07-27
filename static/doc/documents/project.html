@@ -185,20 +185,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><a href="https://hellosean1025.github.io/yapi/openapi.html" target="_blank">openapi 文档地址</a></p>
 <h2 id="全局mock">全局mock</h2>
 <p>v1.3.21 新增全局 mock 设置，方便用户在项目层面上全局设置公共的mock数据，具体 mock 脚本详细使用方法详见 <a href="./adv_mock.html#自定义-mock-脚本">自定义 Mock 脚本</a></p>
-<p>可以针对项目自定义 Mock 占位符，具体使用方法如下：</p>
-<pre><code>Random.extend({
-    constellation: function(date) {
-        var constellations = [&#x27;&#x767D;&#x7F8A;&#x5EA7;&#x27;, &#x27;&#x91D1;&#x725B;&#x5EA7;&#x27;, &#x27;&#x53CC;&#x5B50;&#x5EA7;&#x27;, &#x27;&#x5DE8;&#x87F9;&#x5EA7;&#x27;, &#x27;&#x72EE;&#x5B50;&#x5EA7;&#x27;, &#x27;&#x5904;&#x5973;&#x5EA7;&#x27;, &#x27;&#x5929;&#x79E4;&#x5EA7;&#x27;, &#x27;&#x5929;&#x874E;&#x5EA7;&#x27;, &#x27;&#x5C04;&#x624B;&#x5EA7;&#x27;, &#x27;&#x6469;&#x7FAF;&#x5EA7;&#x27;, &#x27;&#x6C34;&#x74F6;&#x5EA7;&#x27;, &#x27;&#x53CC;&#x9C7C;&#x5EA7;&#x27;]
-        return this.pick(constellations)
-    }
-})
-
-</code></pre>
-<p>在接口编辑中使用</p>
-<pre><code>{
-  &#x22;data&#x22;: &#x22;@CONSTELLATION&#x22;   // =&#x3E; &#x22;&#x6C34;&#x74F6;&#x5EA7;&#x22;
-}
-</code></pre>
 <h3 id="全局mock-mock-优先级说明">Mock 优先级说明</h3>
 <p>请求 Mock 数据时，规则匹配优先级：Mock 期望 &gt; 自定义 Mock 脚本 &gt; 项目全局 mock 脚本 &gt; 普通 Mock。</p>
 <p>如果前面匹配到 Mock 数据，后面 Mock 则不返回。</p>

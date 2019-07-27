@@ -43,6 +43,7 @@ class InterfaceList extends Component {
     this.state = {
       visible: false,
       data: [],
+      filteredInfo: {},
       catid: null,
       total: null,
       current: 1
@@ -75,18 +76,21 @@ class InterfaceList extends Component {
       let option = {
         page: this.state.current,
         limit,
-        project_id: projectId
+        project_id: projectId,
+        status: this.state.filteredInfo.status,
+        tag: this.state.filteredInfo.tag
       };
       await this.props.fetchInterfaceList(option);
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4);
-      this.setState({ catid: +catid });
+      this.setState({catid: +catid});
       let option = {
         page: this.state.current,
         limit,
-        catid
+        catid,
+        status: this.state.filteredInfo.status,
+        tag: this.state.filteredInfo.tag
       };
-
       await this.props.fetchInterfaceCatList(option);
     }
   };
@@ -109,10 +113,13 @@ class InterfaceList extends Component {
       message.success('接口集合简介更新成功');
     });
   };
+
   handleChange = (pagination, filters, sorter) => {
     this.setState({
-      sortedInfo: sorter
-    });
+      current: pagination.current || 1,
+      sortedInfo: sorter,
+      filteredInfo: filters
+    }, () => this.handleRequest(this.props));
   };
 
   componentWillMount() {
@@ -176,19 +183,22 @@ class InterfaceList extends Component {
     }
   };
 
-  changePage = current => {
-    this.setState(
-      {
-        current: current
-      },
-      () => this.handleRequest(this.props)
-    );
-  };
+  //page change will be processed in handleChange by pagination
+  // changePage = current => {
+  //   if (this.state.current !== current) {
+  //     this.setState(
+  //       {
+  //         current: current
+  //       },
+  //       () => this.handleRequest(this.props)
+  //     );
+  //   }
+  // };
 
   render() {
     let tag = this.props.curProject.tag;
-    let filter = tag.map(item => {
-      return { text: item.name, value: item.name };
+    let tagFilter = tag.map(item => {
+      return {text: item.name, value: item.name};
     });
 
     const columns = [
@@ -299,7 +309,7 @@ class InterfaceList extends Component {
           let textMsg = text.length > 0 ? text.join('\n') : '未设置';
           return <div className="table-desc">{textMsg}</div>;
         },
-        filters: filter,
+        filters: tagFilter,
         onFilter: (value, record) => {
           return record.tag.indexOf(value) >= 0;
         }
@@ -341,8 +351,8 @@ class InterfaceList extends Component {
     const pageConfig = {
       total: total,
       pageSize: limit,
-      current: this.state.current,
-      onChange: this.changePage
+      current: this.state.current
+      // onChange: this.changePage
     };
 
     const isDisabled = this.props.catList.length === 0;
