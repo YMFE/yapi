@@ -76,7 +76,7 @@ class ProjectToken extends Component {
         </div>
         <br />
         <h2  className="token-title">open接口：</h2>
-        <p><a target="_blank" rel="noopener noreferrer"   href="https://yapi.ymfe.org/openapi.html">详细接口文档</a></p>
+        <p><a target="_blank" rel="noopener noreferrer"   href="https://hellosean1025.github.io/yapi/openapi.html">详细接口文档</a></p>
         <div>
           <ul className="open-api">
             <li>/api/open/run_auto_test [运行自动化测试]</li>

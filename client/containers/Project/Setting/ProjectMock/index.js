@@ -100,7 +100,7 @@ export default class ProjectMock extends Component {
                 是否开启&nbsp;<a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://yapi.ymfe.org/documents/project.html#%E5%85%A8%E5%B1%80mock"
+                  href="https://hellosean1025.github.io/yapi/documents/project.html#%E5%85%A8%E5%B1%80mock"
                 >
                   <Tooltip title="点击查看文档">
                     <Icon type="question-circle-o" />

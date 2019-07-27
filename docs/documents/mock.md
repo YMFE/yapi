@@ -118,41 +118,8 @@ proxy_pass   http://yapi.xxx.com/mock/2817/baseapi; #baseapi后面没有"/"
 }
 ````
 
-#### 2.2 基于 ykit mock功能
 
-```javascript
-{
-    pattern: /\/api\/(.*)/,
-    responder: 'http://yapi.xxx.com/mock/58/api/$1'
-}
-```
-
-上面通过正则匹配，将所有接口转到 http://yapi.xxx.com 上，比如 `http://localhost/api/user/status` 会成为 `http://yapi.xxx.com/mock/58/api/user/status`
-
-详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/plugin/ykit-config-mock.html">ykit-config-mock</a>
-
-
-
-#### 2.3 基于 ykit Jerry 代理
-
-假设您本地服务器访问地址是： http://xxx.com
-
-<img src="./images/ykit.jpg" />
-
-具体用法如下：
-
-0. 清除本地配置的 hosts
-1. 下载 Chrome 插件 SwitchyOmega 点击“选项” => 新建情景模式 设置代理服务器 127.0.0.1 代理端口 999
-2. 启动 sudo ykit s -x 浏览器访问 http://127.0.0.1:1334/jerry
-3. 在 jerry 中重新配置 hosts
-4. 在 Jerry 中点击 URL MAP 并添加配置  
-
-详细使用指南: <a target="_blank" href="https://ykit.ymfe.org/guide/proxy.html">代理工具</a>
-
-
-<span id="mock"></span>
-
-#### 2.4 基于 Charles 代理
+#### 2.1 基于 Charles 代理
 
 点击 Charles 工具栏下的 tools >> Rewrite Settings 填写如下信息：
 

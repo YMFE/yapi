@@ -1,5 +1,10 @@
 ## YApi  可视化接口管理平台
+示例站点：
 <p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
+
+
+文档：
+<p><a target="_blank" href="https://hellosean1025.github.io/yapi">hellosean1025.github.io/yapi</a></p>
 
 ### 平台介绍
 ![avatar](yapi-base-flow.jpg)
@@ -50,6 +55,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [dingding](https://github.com/zgs225/yapi-plugin-dding) 钉钉机器人推送插件
 * [export-docx-data](https://github.com/inceptiongt/Yapi-plugin-export-docx-data) 数据导出docx文档
 * [interface-oauth-token](https://github.com/shouldnotappearcalm/yapi-plugin-interface-oauth2-token) 定时自动获取鉴权token的插件
+* [import-swagger-customize](https://github.com/follow-my-heart/yapi-plugin-import-swagger-customize) 导入指定swagger接口
 
 ### 代码生成
 * [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
@@ -58,10 +64,12 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 ### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 * [docker-yapi](https://github.com/Ryan-Miao/docker-yapi)
+* [docker-compose一键部署yapi](https://github.com/jinfeijie/yapi)
 
 ### YApi 一些工具
 * [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
-* [idea 一键上传接口到yapi插件](https://github.com/FurionCS/YapiIdeaUploadPlugin)
+* [idea 一键上传接口到yapi插件](https://github.com/diwand/YapiIdeaUploadPlugin)
+* [idea 接口上传调试插件 easy-yapi](https://github.com/tangcent/easy-yapi)
 
 ### YApi 的一些客户
 * 去哪儿
@@ -80,6 +88,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * 中商惠民
 * 新浪
 * VIPKID
+* 马蜂窝
 
 ### Authors
 * [hellosean1025](https://github.com/hellosean1025)

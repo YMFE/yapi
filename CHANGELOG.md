@@ -1,3 +1,12 @@
+### v1.8.0
+* filtering interface on the server instead of client
+
+### v1.7.2
+* 支持接口路径模糊搜索，不包含 basepath
+
+### v1.7.1
+* 废弃 yapi.ymfe.org 文档站点
+
 ### v1.7.0
 * fix：修复md两个undefined以及run_auto_test中执行用例id问题 #1024
 
