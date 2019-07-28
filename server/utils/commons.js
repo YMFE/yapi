@@ -21,6 +21,7 @@ const ejs = require('easy-json-schema');
 const jsf = require('json-schema-faker');
 const { schemaValidator } = require('../../common/utils');
 const http = require('http');
+const https = require('https');
 
 jsf.extend ('mock', function () {
   return {
@@ -677,8 +678,12 @@ exports.handleMockScript = function(script, context) {
 
 exports.createWebAPIRequest = function(ops) {
   return new Promise(function(resolve, reject) {
+    let request = http;
+    if (ops.protocol.indexOf("https") != -1) {
+      request = https;
+    }
     let req = '';
-    let http_client = http.request(
+    let http_client = request.request(
       {
         host: ops.hostname,
         method: 'GET',
