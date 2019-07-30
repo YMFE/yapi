@@ -22,6 +22,7 @@ const jsf = require('json-schema-faker');
 const { schemaValidator } = require('../../common/utils');
 const http = require('http');
 const https = require('https');
+const axios = require('axios');
 
 jsf.extend ('mock', function () {
   return {
@@ -676,41 +677,19 @@ exports.handleMockScript = function(script, context) {
 
 
 
-exports.createWebAPIRequest = function(ops) {
-  return new Promise(function(resolve, reject) {
-    let request = http;
-    if (ops.protocol.indexOf("https") != -1) {
-      request = https;
-    }
-    let req = '';
-    let http_client = request.request(
-      {
-        host: ops.hostname,
-        method: 'GET',
-        port: ops.port,
-        path: ops.path
-      },
-      function(res) {
-        res.on('error', function(err) {
-          reject(err);
-        });
-        res.setEncoding('utf8');
-        if (res.statusCode != 200) {
-          reject({message: 'statusCode != 200'});
-        } else {
-          res.on('data', function(chunk) {
-            req += chunk;
-          });
-          res.on('end', function() {
-            resolve(req);
-          });
-        }
-      }
-    );
-    http_client.on('error', (e) => {
-      reject({message: `request error: ${e.message}`});
-    });
-    http_client.end();
+exports.createWebAPIRequest = async function(ops) {
+  let response = await axios({
+    method: 'GET',
+    url: ops.href,
+    timeout: 5000,
+    maxRedirects: 0,
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false
+    })
   });
+  if (response.status > 400) {
+    throw new Error('获取数据失败，请确认 swaggerUrl 是否正确')
+  }
+  return "swagger地址可以访问";
 }
 
