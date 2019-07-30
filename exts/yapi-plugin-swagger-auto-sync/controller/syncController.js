@@ -22,6 +22,11 @@ class syncController extends baseController {
     if (!projectId) {
       return (ctx.body = yapi.commons.resReturn(null, 408, '缺少项目Id'));
     }
+
+    if ((await this.checkAuth(projectId, 'project', 'edit')) !== true) {
+      return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
+    }
+
     let result;
     if (requestBody.id) {
       result = await this.syncModel.up(requestBody);
