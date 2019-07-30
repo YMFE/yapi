@@ -53,7 +53,6 @@ exports.parseToken = function parseToken(token){
   let tokens;
   try{
     tokens = aseDecode(token, yapi.WEBCONFIG.passsalt)
-    console.log({"tokens":tokens});
   }catch(e){}  
   if(tokens && typeof tokens === 'string' && tokens.indexOf('|') > 0){
     tokens = tokens.split('|')

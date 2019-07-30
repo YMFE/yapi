@@ -217,8 +217,35 @@ exports.safeAssign = (Obj, nextObj) => {
   }, {});
 };
 
+exports.findMeInTree = (catz, id) => {
+  let ret = {};
+  let joinChilds = (item, idstr) => {
+    idstr.push(item._id);
+    if (item.children) {
+      item.children.forEach(me => {
+        joinChilds(me, idstr)
+      })
+    }
+  }
+  let itrcat = (cats, catid, ret) => {
+    cats.some(item => {
+      if (item._id === catid) {
+        ret.me = item;
+        let idstr = [];
+        joinChilds(item, idstr);
+        ret.me.childs = idstr.join();
+        return true;
+      } else {
+        item.children ? itrcat(item.children, catid, ret) : '';
+      }
+    })
+  };
+  itrcat(catz, id, ret);
+  return ret.me;
+};
+
 //从树种找到自己
-exports.findMeInTree=(roots,meid)=>{
+exports.findMeInTree2=(roots,meid)=>{
   //console.log({roots,meid});
   meid=Number.parseInt(meid);
   let ret={"me":{}};

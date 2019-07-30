@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
 import Label from '../../../../components/Label/Label.js';
+import {findMeInTree} from '../../../../common.js';
 
 const Option = Select.Option;
 const limit = 20;
@@ -248,48 +249,24 @@ class InterfaceList extends Component {
     );
   };
 
-  joinChilds = (item, idstr) => {
-    idstr.push(item._id);
-    if (item.children) {
-      item.children.forEach(me => {
-        this.joinChilds(me, idstr)
-      })
-    }
-  };
 
-  getMycat = (catz, id) => {
-    let ret = {};
-    let itrcat = (cats, catid, ret) => {
-      cats.some(item => {
-        if (item._id === catid) {
-          ret.mycat = item;
-          let idstr = [];
-          this.joinChilds(item, idstr);
-          ret.mycat.childscat = idstr.join();
-          return true;
-        } else {
-          item.children ? itrcat(item.children, catid, ret) : '';
-        }
-      })
-    };
-    itrcat(catz, id, ret);
-    return ret.mycat;
-  };
+
+
 
   onChangeCheckbox = async e => {
 
     let checked = e.target.checked;
-    let childscat = this.state.catid;
+    let childs = this.state.catid;
     this.setState({
       checked: checked?true:false
     });
     if (checked) {
-      childscat = e.target.childscat;
+      childs = e.target.childs;
     }
     let option = {
       page: this.state.current,
       limit,
-      catid: childscat,
+      catid: childs,
       status: this.state.filters.status.join(',')
     };
     await this.props.fetchInterfaceCatList(option);
@@ -414,17 +391,14 @@ class InterfaceList extends Component {
     ];
     let intername = '',
       desc = '',
-      childscat = '';
+      childs = '';
     let cat = this.props.curProject ? this.props.curProject.cat : [];
 
-
-
-
     if (cat) {
-      let mycat = this.getMycat(cat, this.state.catid);
-      intername = mycat?mycat.name:'';
-      desc = mycat?mycat.desc:'';
-      childscat = mycat ? mycat.childscat : '';
+      let me = findMeInTree(cat, this.state.catid);
+      intername = me?me.name:'';
+      desc = me?me.desc:'';
+      childs = me ? me.childs : '';
     }
     // const data = this.state.data ? this.state.data.map(item => {
     //   item.key = item._id;
@@ -470,7 +444,7 @@ class InterfaceList extends Component {
           {intername ? intername : '全部接口'}共 ({total}) 个,其中：{aggregateMessage}
           {intername&&this.state.currentCat.children&&this.state.currentCat.children.length>0 ? (
             <Checkbox
-              childscat={childscat}
+              childs={childs}
               checked={this.state.checked}
               onChange={this.onChangeCheckbox}
             >包含子分类接口</Checkbox>) : ''}

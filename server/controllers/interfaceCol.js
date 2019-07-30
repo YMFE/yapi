@@ -34,35 +34,17 @@ class interfaceColController extends baseController {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
-      let result = await this.colModel.list(id);
-      result = result.sort((a, b) => {
-        return a.index - b.index;
-      });
-
-      for (let i = 0; i < result.length; i++) {
-        result[i] = result[i].toObject();
-        let caseList = await this.caseModel.list(result[i]._id);
-
-        for(let j=0; j< caseList.length; j++){
-          let item = caseList[j].toObject();
-          let interfaceData = await this.interfaceModel.getBaseinfo(item.interface_id);
-          item.path = interfaceData.path;
-          caseList[j] = item;
-        }
-
-        caseList = caseList.sort((a, b) => {
-          return a.index - b.index;
-        });
-        if(caseList&&caseList.length>0){
-         result[i].caseList = caseList;
-        }
-      }
       let islist = ctx.params.islist && ctx.params.islist === '1' ? true : false;
-      result = islist ? result :  yapi.commons.translateDataToTree(result);
+      let result = await this.getCol(id,islist);
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
+  }
+
+  async getCol(project_id,islist,mycatid) {
+    let result= yapi.commons.getCol(project_id,islist,mycatid);
+    return result;
   }
 
   /**
@@ -140,21 +122,51 @@ class interfaceColController extends baseController {
    * @example
    */
   async getCaseList(ctx) {
-    try {
-      let id = ctx.query.col_id;
-      if (!id || id == 0) {
-        return (ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空'));
-      }
+    let catids = ctx.query.col_id ? ctx.query.col_id.split(',') : [];
 
-      let colData = await this.colModel.get(id);
-      let project = await this.projectModel.getBaseInfo(colData.project_id);
-      if (project.project_type === 'private') {
-        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
-          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+    let handleReport=json=> {
+      try {
+        return JSON.parse(json);
+      } catch (e) {
+        return {};
+      }
+    }
+
+    try {
+      let alldata={};
+      for(let i=0;i<catids.length;i++)
+      {
+        let id = Number(catids[i]);
+        if (!id || id == 0) {
+          return (ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空'));
+        }
+
+        let colData = await this.colModel.get(id);
+
+        let project = await this.projectModel.getBaseInfo(colData.project_id);
+        if (project.project_type === 'private') {
+          if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+            return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+          }
+        }
+
+         let ret= await yapi.commons.getCaseList(id);
+        let test_report=handleReport(ret.colData.test_report);
+        if(ret.errcode!==0){
+          alldata=ret;
+          break;
+        }else{
+          alldata.data=alldata.data?alldata.data.concat(ret.data):ret.data;
+          typeof alldata.test_report==='undefined'?(alldata.test_report={}):'';
+         Object.assign(alldata.test_report,test_report)
+        //  console.log({test_report});
         }
       }
 
-      ctx.body = await yapi.commons.getCaseList(id);
+      let ctxBody = yapi.commons.resReturn(alldata.data);
+      ctxBody.test_report = alldata.test_report;
+      ctx.body=ctxBody;
+    //  console.log({'ctx.body':ctx.body});
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
@@ -171,31 +183,40 @@ class interfaceColController extends baseController {
    * @example
    */
   async getCaseEnvList(ctx) {
+    let catids = ctx.query.col_id ? ctx.query.col_id.split(',') : [];
+
     try {
-      let id = ctx.query.col_id;
-      if (!id || id == 0) {
-        return (ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空'));
-      }
-
-      let colData = await this.colModel.get(id);
-      let project = await this.projectModel.getBaseInfo(colData.project_id);
-      if (project.project_type === 'private') {
-        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
-          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
-        }
-      }
-
-      // 通过col_id 找到 caseList
-      let projectList = await this.caseModel.list(id, 'project_id');
-      // 对projectList 进行去重处理
-      projectList = this.unique(projectList, 'project_id');
-
-      // 遍历projectList 找到项目和env
       let projectEnvList = [];
-      for (let i = 0; i < projectList.length; i++) {
-        let result = await this.projectModel.getBaseInfo(projectList[i], 'name  env');
+      let envProjectIdList=[];
+      for(let i=0;i<catids.length;i++) {
+        let id = Number(catids[i]);
+        if (!id || id == 0) {
+          return (ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空'));
+        }
+
+        let colData = await this.colModel.get(id);
+        let project = await this.projectModel.getBaseInfo(colData.project_id);
+        if (project.project_type === 'private') {
+          if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+            return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+          }
+        }
+
+        // 通过col_id 找到 caseList
+        let projectList = await this.caseModel.list(id, 'project_id');
+        // 对projectList 进行去重处理
+
+        projectList = this.unique(projectList, 'project_id');
+        projectList.forEach(id=>{envProjectIdList.includes(id)?'':envProjectIdList.push(id)});
+        // 遍历projectList 找到项目和env
+
+
+      }
+      for (let i = 0; i < envProjectIdList.length; i++) {
+        let result = await this.projectModel.getBaseInfo(envProjectIdList[i], 'name  env');
         projectEnvList.push(result);
       }
+      //projectEnvList=this.unique(projectEnvList, '_id');
       ctx.body = yapi.commons.resReturn(projectEnvList);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -872,19 +893,32 @@ class interfaceColController extends baseController {
           return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
         }
       }
-      let result = await this.colModel.del(id);
-      await this.caseModel.delByCol(id);
+
+      let coltreenode=await this.getCol(colData.project_id,false,id);
+      let delcoltree= async coldata => {
+
+        if(coldata.children&&coldata.children.length>0){
+          coldata.children.forEach(subcol=>{
+            delcoltree(subcol)
+          })
+        }
+
+        let result = await this.colModel.del(coldata._id);
+        await this.caseModel.delByCol(coldata._id);
+        return result
+      }
+      let r=delcoltree(coltreenode);
       let username = this.getUsername();
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 ${
           colData.name
-        } 及其下面的接口`,
+        } 及子接口集以及其下面的接口`,
         type: 'project',
         uid: this.getUid(),
         username: username,
         typeid: colData.project_id
       });
-      return (ctx.body = yapi.commons.resReturn(result));
+      return (ctx.body = yapi.commons.resReturn(r));
     } catch (e) {
       yapi.commons.resReturn(null, 400, e.message);
     }

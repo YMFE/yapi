@@ -85,7 +85,8 @@ class InterfaceMenu extends Component {
       curCatdata: {},
       list: [],
       expandedKeys: [],
-      selectedKey:[]
+      selectedKey:[],
+      isdelall:false
     };
   }
 
@@ -257,11 +258,11 @@ class InterfaceMenu extends Component {
     let that = this;
     const ref = confirm({
       title: '确定删除此接口分类吗？',
-      content: '温馨提示：该操作会删除该分类下所有接口，接口删除后无法恢复',
+      content: '温馨提示：该操作会删除该分类下“所有接口及子分类”，接口删除后无法恢复)',
       okText: '确认',
       cancelText: '取消',
       async onOk() {
-        await that.props.deleteInterfaceCatData(catid, that.props.projectId);
+        await that.props.deleteInterfaceCatData(catid);
         await that.getList();
         await that.props.getProject(that.props.projectId);//需要重新获取当前项目接口分类，否则新建接口中会出现已经删除的分类
         await that.props.fetchInterfaceList({project_id: that.props.projectId});

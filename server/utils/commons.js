@@ -358,8 +358,8 @@ exports.handleParams = (params, keys) => {
 
 
 
-exports.translateDataToTree=data=> {
-
+exports.translateDataToTree=(data,mynodeid)=> {
+  let mynode={"id":Number(mynodeid),"node":null};
   data.forEach(item=>{
 
     item.title=item.name;
@@ -371,10 +371,11 @@ exports.translateDataToTree=data=> {
   });
   let parents = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) == 'undefined' || value.parent_id == -1)));
   let children = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) !== 'undefined' && value.parent_id != -1)));
-  let translator = (parents, children) => {
+    let translator = (parents, children,mynode) => {
     parents.forEach((parent) => {
       parent.parent_id=(typeof parent.parent_id) == 'undefined'?-1: parent.parent_id;
       parent.treePath=(typeof parent.treePath) == 'undefined'?[]: parent.treePath;
+      mynode.node=mynode.id===parent._id?parent:mynode.node;
         children.forEach((current, index) => {
             if (current.parent_id === parent._id) {
 
@@ -388,18 +389,58 @@ exports.translateDataToTree=data=> {
               } else{
                 current.treePath = [...parent.treePath,parent._id];
               }
+              if(current.treePath.includes(mynode.id)){
+                if(typeof mynode.node.descendants !== 'undefined'){
+                  mynode.node.descendants.push(current._id);
+                } else{
+                  mynode.node.descendants = [current._id];
+                }
+              }
               let temp = JSON.parse(JSON.stringify(children));
               temp.splice(index, 1);
-              translator([current], temp);
+              translator([current], temp,mynode);
             }
           }
         )
       }
     )
   }
+  translator(parents, children,mynode)
+  let ret=mynode.node?mynode.node:parents;
+   return ret
+}
 
-  translator(parents, children)
-   return parents
+
+ exports.getCol = async function getCol(project_id,islist,mycatid) {
+
+   const caseInst = yapi.getInst(interfaceCaseModel);
+   const colInst = yapi.getInst(interfaceColModel);
+   const interfaceInst = yapi.getInst(interfaceModel);
+  let result = await colInst.list(project_id);
+  result = result.sort((a, b) => {
+    return a.index - b.index;
+  });
+
+  for (let i = 0; i < result.length; i++) {
+    result[i] = result[i].toObject();
+    let caseList = await caseInst.list(result[i]._id);
+
+    for(let j=0; j< caseList.length; j++){
+      let item = caseList[j].toObject();
+      let interfaceData = await interfaceInst.getBaseinfo(item.interface_id);
+      item.path = interfaceData.path;
+      caseList[j] = item;
+    }
+
+    caseList = caseList.sort((a, b) => {
+      return a.index - b.index;
+    });
+    if(caseList&&caseList.length>0){
+      result[i].caseList = caseList;
+    }
+  }
+  result = islist ? result :  this.translateDataToTree(result,mycatid);
+  return result;
 }
 
 
@@ -545,6 +586,7 @@ exports.getCaseList = async function getCaseList(id) {
     result.req_body_form = handleParamsValue(data.req_body_form, result.req_body_form);
     result.req_query = handleParamsValue(data.req_query, result.req_query);
     result.req_params = handleParamsValue(data.req_params, result.req_params);
+    result.col_name=colData.name;
     resultList[index] = result;
   }
   resultList = resultList.sort((a, b) => {

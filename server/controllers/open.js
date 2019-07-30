@@ -15,7 +15,6 @@ const {
 } = require('../../common/postmanLib');
 const { handleParamsValue, ArrayToObject } = require('../../common/utils.js');
 const renderToHtml = require('../utils/reportHtml');
-const axios = require('axios');
 const HanldeImportData = require('../../common/HandleImportData');
 const _ = require('underscore');
 const createContex = require('../../common/createContext')
@@ -185,51 +184,62 @@ class openController extends baseController {
     const records = (this.records = {});
     const reports = (this.reports = {});
     const testList = [];
-    let id = ctx.params.id;
+    let rootid = ctx.params.id;
     let curEnvList = this.handleEvnParams(ctx.params);
 
-    let colData = await this.interfaceColModel.get(id);
-    if (!colData) {
+
+    let colData2 = await yapi.commons.getCol(projectId,false,rootid);
+    let colids=[];
+    colids.push(colData2._id);
+    console.log({ctx,projectId,'ctx.params':ctx.params});
+    if(ctx.params.descendants|| ctx.params.descendants==='true') {
+      colids = colids.concat(colData2.descendants);
+    }
+    console.log({colids});
+    if (!colData2) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在'));
     }
 
     let projectData = await this.projectModel.get(projectId);
-
-    let caseList = await yapi.commons.getCaseList(id);
-    if (caseList.errcode !== 0) {
-      ctx.body = caseList;
-    }
-    caseList = caseList.data;
-    for (let i = 0, l = caseList.length; i < l; i++) {
-      let item = caseList[i];
-      let projectEvn = await this.projectModel.getByEnv(item.project_id);
-
-      item.id = item._id;
-      let curEnvItem = _.find(curEnvList, key => {
-        return key.project_id == item.project_id;
-      });
-
-      item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
-      item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
-      item.pre_script = projectData.pre_script;
-      item.after_script = projectData.after_script;
-      item.env = projectEvn.env;
-      let result;
-      // console.log('item',item.case_env)
-      try {
-        result = await this.handleTest(item);
-      } catch (err) {
-        result = err;
+//--------------
+    for(let c=0;c<colids.length;c++){
+      let id=colids[c];
+      let caseList = await yapi.commons.getCaseList(id);
+      if (caseList.errcode !== 0) {
+        ctx.body = caseList;
       }
+      caseList = caseList.data;
+      for (let i = 0, l = caseList.length; i < l; i++) {
+        let item = caseList[i];
+        let projectEvn = await this.projectModel.getByEnv(item.project_id);
 
-      reports[item.id] = result;
-      records[item.id] = {
-        params: result.params,
-        body: result.res_body
-      };
-      testList.push(result);
+        item.id = item._id;
+        let curEnvItem = _.find(curEnvList, key => {
+          return key.project_id == item.project_id;
+        });
+
+        item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
+        item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
+        item.pre_script = projectData.pre_script;
+        item.after_script = projectData.after_script;
+        item.env = projectEvn.env;
+        let result;
+        // console.log('item',item.case_env)
+        try {
+          result = await this.handleTest(item);
+        } catch (err) {
+          result = err;
+        }
+
+        reports[item.id] = result;
+        records[item.id] = {
+          params: result.params,
+          body: result.res_body
+        };
+        testList.push(result);
+      }
     }
-
+//-----------------------
     function getMessage(testList) {
       let successNum = 0,
         failedNum = 0,
@@ -256,6 +266,7 @@ class openController extends baseController {
     const endTime = new Date().getTime();
     const executionTime = (endTime - startTime) / 1000;
 
+    console.log({testList});
     let reportsResult = {
       message: getMessage(testList),
       runTime: executionTime + 's',
@@ -266,9 +277,9 @@ class openController extends baseController {
     if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
       let autoTestUrl = `${
         ctx.request.origin
-      }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
+      }/api/open/run_auto_test?id=${rootid}&token=${token}&mode=${ctx.params.mode}`;
       yapi.commons.sendNotice(projectId, {
-        title: `YApi自动化测试报告`,
+        title: `crazy-YApi自动化测试报告`,
         content: `
         <html>
         <head>

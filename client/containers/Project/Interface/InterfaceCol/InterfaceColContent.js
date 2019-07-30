@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import {findMeInTree} from '../../../../common.js';
 //import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon,Input, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd';
+import {Tooltip, Icon, Input, Button, Row, Col, Spin, Modal, message, Select, Switch, Checkbox} from 'antd';
 import {
   fetchInterfaceColList,
   fetchCaseList,
@@ -42,14 +43,6 @@ import copy from 'copy-to-clipboard';
 
 const defaultModalStyle = {
   top: 10
-}
-
-function handleReport(json) {
-  try {
-    return JSON.parse(json);
-  } catch (e) {
-    return {};
-  }
 }
 
 @connect(
@@ -114,7 +107,6 @@ class InterfaceColContent extends Component {
       visible: false,
       curCaseid: null,
       hasPlugin: false,
-
       advVisible: false,
       curScript: '',
       enableScript: false,
@@ -122,6 +114,7 @@ class InterfaceColContent extends Component {
       mode: 'html',
       email: false,
       download: false,
+      descendants:false,
       currColEnvObj: {},
       collapseKey: '1',
       commonSettingModalVisible: false,
@@ -152,7 +145,8 @@ class InterfaceColContent extends Component {
 
     let result = await this.props.fetchCaseList(newColId);
     if (result.payload.data.errcode === 0) {
-      this.reports = handleReport(result.payload.data.colData.test_report);
+      this.reports = result.payload.data.test_report;
+    //  console.log({"reports":JSON.parse(JSON.stringify(this.reports))});
       this.setState({
         commonSetting:{
           ...this.state.commonSetting,
@@ -228,6 +222,7 @@ class InterfaceColContent extends Component {
   };
 
   handleColdata = (rows, currColEnvObj = {}) => {
+  //  console.log({'rows':JSON.parse(JSON.stringify(rows))});
     let that = this;
     let newRows = produce(rows, draftRows => {
       draftRows.map(item => {
@@ -243,7 +238,23 @@ class InterfaceColContent extends Component {
     this.setState({ rows: newRows });
   };
 
+  executeTestsauto = async () =>{
+console.log({"state":this.state,'propers':this.props})
+    // await axios.get('/api/open/run_auto_test', {
+    //   'id': 1048,
+    //   'token': 564bcc63c02c9bdd69b8d1496904b8effd7ca2a80afaa3d62ce4cf27ae55d914,
+    //   'env_324': mock,
+    // env_348: mock,
+    // 'mode': json,
+    // 'email': false,
+    // 'download': false,
+    // 'descendants': true,
+    // });
+
+  }
+
   executeTests = async () => {
+   await this.executeTestsauto();
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
 
@@ -470,6 +481,11 @@ class InterfaceColContent extends Component {
 
     if ((newColId && this.currColId && newColId !== this.currColId) || nextProps.isRander) {
       this.currColId = newColId;
+        this.setState(
+          {
+            descendants:false
+          }
+        );
       this.handleColIdChange(newColId)
     }
   }
@@ -495,16 +511,16 @@ class InterfaceColContent extends Component {
     this.setState({ visible: true, curCaseid: id });
   };
 
-  openAdv = id => {
-    let findCase = _.find(this.props.currCaseList, item => item.id === id);
-
-    this.setState({
-      enableScript: findCase.enable_script,
-      curScript: findCase.test_script,
-      advVisible: true,
-      curCaseid: id
-    });
-  };
+  // openAdv = id => {
+  //   let findCase = _.find(this.props.currCaseList, item => item.id === id);
+  //
+  //   this.setState({
+  //     enableScript: findCase.enable_script,
+  //     curScript: findCase.test_script,
+  //     advVisible: true,
+  //     curCaseid: id
+  //   });
+  // };
 
   handleScriptChange = d => {
     this.setState({ curScript: d.text });
@@ -559,6 +575,7 @@ class InterfaceColContent extends Component {
       autoVisible: false,
       email: false,
       download: false,
+      descendants:false,
       mode: 'html',
       currColEnvObj: {},
       collapseKey: ''
@@ -582,6 +599,7 @@ class InterfaceColContent extends Component {
     this.setState({ download });
   };
 
+
   handleColEnvObj = envObj => {
     let str = '';
     for (let key in envObj) {
@@ -598,7 +616,7 @@ class InterfaceColContent extends Component {
       ...setting
 
     };
-    console.log(params)
+  //  console.log(params)
 
     axios.post('/api/col/up_col', params).then(async res => {
       if (res.data.errcode) {
@@ -642,7 +660,33 @@ class InterfaceColContent extends Component {
       })
     }
   }
-  
+
+  onChangeCheckbox = async e => {
+    await this.flushdescendants(e.target.checked,  e.target.allChilds)
+  };
+
+  //descendants
+  descendants = async (descendants,e) => {
+    console.log({descendants,'e.target.dataset':e.target.dataset})
+    await this.flushdescendants(descendants, e.target.dataset.allchilds+'');
+  };
+
+  flushdescendants = async (descendants,allChilds) => {
+    let childscol = this.props.currColId;
+    this.setState({
+      descendants
+    });
+    //   console.log({"state":this.state,e,"props":this.props});
+    if (descendants) {
+      childscol = allChilds;
+    }
+    await this.props.fetchCaseList(childscol);
+    await this.props.fetchCaseEnvList(childscol);
+    this.changeCollapseClose();
+    this.handleColdata(this.props.currCaseList);
+  };
+
+
   render() {
     const currProjectId = this.props.currProject._id;
     const columns = [
@@ -683,7 +727,7 @@ class InterfaceColContent extends Component {
                       {' '}
                       每个用例都有唯一的key，用于获取所匹配接口的响应数据，例如使用{' '}
                       <a
-                        href="https://yapi.ymfe.org/documents/case.html#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%8C%E7%BC%96%E8%BE%91%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"
+                        href="doc/documents/case.html#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%8C%E7%BC%96%E8%BE%91%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"
                         className="link-tooltip"
                         target="blank"
                       >
@@ -860,17 +904,17 @@ class InterfaceColContent extends Component {
       this.props.token
     }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${
       this.state.email
-    }&download=${this.state.download}`;
+    }&download=${this.state.download}&descendants=${this.state.descendants}`;
 
     let col_name = '';
     let col_desc = '';
+      let allChilds=[];
 
-    for (var i = 0; i < this.props.interfaceColList.length; i++) {
-      if (this.props.interfaceColList[i]._id === this.props.currColId) {
-        col_name = this.props.interfaceColList[i].name;
-        col_desc = this.props.interfaceColList[i].desc;
-        break;
-      }
+    if (this.props.interfaceColList) {
+      let me = findMeInTree(this.props.interfaceColList, this.props.currColId);
+      col_name = me?me.name:'';
+      col_desc = me?me.desc:'';
+      allChilds = me ? me.childs : '';
     }
 
     return (
@@ -1002,13 +1046,21 @@ class InterfaceColContent extends Component {
               测试集合&nbsp;<a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://yapi.ymfe.org/documents/case.html"
+                href="/doc/documents/case.html"
               >
                 <Tooltip title="点击查看文档">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </a>
             </h2>
+            <div>
+              {(
+                <Checkbox
+                  allChilds={allChilds}
+                  checked={this.state.descendants}
+                  onChange={this.onChangeCheckbox}
+                >包含子集合用例</Checkbox>)}
+            </div>
           </Col>
           <Col span={10}>
             <CaseEnv
@@ -1101,30 +1153,6 @@ class InterfaceColContent extends Component {
           <CaseReport {...this.reports[this.state.curCaseid]} />
         </Modal>
 
-        <Modal
-          title="自定义测试脚本"
-          width="660px"
-          style={{
-            minHeight: '500px'
-          }}
-          visible={this.state.advVisible}
-          onCancel={this.handleAdvCancel}
-          onOk={this.handleAdvOk}
-          maskClosable={false}
-        >
-          <h3>
-            是否开启:&nbsp;
-            <Switch
-              checked={this.state.enableScript}
-              onChange={e => this.setState({ enableScript: e })}
-            />
-          </h3>
-          <AceEditor
-            className="case-script"
-            data={this.state.curScript}
-            onChange={this.handleScriptChange}
-          />
-        </Modal>
         {this.state.autoVisible && (
           <Modal
             title="服务端自动化测试"
@@ -1156,10 +1184,10 @@ class InterfaceColContent extends Component {
               </Col>
             </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
-              <Col span={3} className="label">
+              <Col span={3} >
                 输出格式：
               </Col>
-              <Col span={21}>
+              <Col span={3}>
                 <Select value={this.state.mode} onChange={this.modeChange}>
                   <Option key="html" value="html">
                     html
@@ -1169,9 +1197,8 @@ class InterfaceColContent extends Component {
                   </Option>
                 </Select>
               </Col>
-            </Row>
-            <Row type="flex" justify="space-around" className="row" align="middle">
-              <Col span={3} className="label">
+
+              <Col span={3} >
                 邮件通知
                 <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
                   <Icon
@@ -1183,7 +1210,7 @@ class InterfaceColContent extends Component {
                 </Tooltip>
                 &nbsp;：
               </Col>
-              <Col span={21}>
+              <Col span={3}>
                 <Switch
                   checked={this.state.email}
                   checkedChildren="开"
@@ -1191,9 +1218,8 @@ class InterfaceColContent extends Component {
                   onChange={this.emailChange}
                 />
               </Col>
-            </Row>
-            <Row type="flex" justify="space-around" className="row" align="middle">
-              <Col span={3} className="label">
+
+              <Col span={3} >
                 下载数据
                 <Tooltip title={'开启后，测试数据将被下载到本地'}>
                   <Icon
@@ -1205,12 +1231,33 @@ class InterfaceColContent extends Component {
                 </Tooltip>
                 &nbsp;：
               </Col>
-              <Col span={21}>
+              <Col span={3}>
                 <Switch
                   checked={this.state.download}
                   checkedChildren="开"
                   unCheckedChildren="关"
                   onChange={this.downloadChange}
+                />
+              </Col>
+              <Col span={3} >
+                含子集合
+                <Tooltip title={'开启后，将同时执行子集合所有用例'}>
+                  <Icon
+                    type="question-circle-o"
+                    style={{
+                      width: '10px'
+                    }}
+                  />
+                </Tooltip>
+                &nbsp;：
+              </Col>
+              <Col span={3}>
+                <Switch
+                  checked={this.state.descendants}
+                  data-allChilds={allChilds}
+                  checkedChildren="开"
+                  unCheckedChildren="关"
+                  onChange={this.descendants}
                 />
               </Col>
             </Row>

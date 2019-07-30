@@ -451,6 +451,9 @@ class interfaceController extends baseController {
 
     try {
       let result = await this.Model.getbypath(params.path);
+      if (!result) {
+        return (ctx.body = yapi.commons.resReturn(null, 490, '不存在的'));
+      }
       if(this.$tokenAuth){
         if(params.project_id !== result.project_id){
           ctx.body = yapi.commons.resReturn(null, 400, 'token有误')
@@ -458,9 +461,6 @@ class interfaceController extends baseController {
         }
       }
       // console.log('result', result);
-      if (!result) {
-        return (ctx.body = yapi.commons.resReturn(null, 490, '不存在的'));
-      }
       let userinfo = await this.userModel.findById(result.uid);
       let project = await this.projectModel.getBaseInfo(result.project_id);
       if (project.project_type === 'private') {
@@ -605,28 +605,35 @@ class interfaceController extends baseController {
       }
     }
 
-
     try {
-      let result = await this.catModel.list(project_id),
-        newResult = [];
-      for (let i = 0, item, list; i < result.length; i++) {
-        item = result[i].toObject();
-        list = await this.Model.listByCatid(item._id);
-        for (let j = 0; j < list.length; j++) {
-          list[j] = list[j].toObject();
-        }
-
-        item.list = list;
-        newResult[i] = item;
-      }
       let islist = ctx.params.islist && ctx.params.islist === '1' ? true : false;
-      newResult = islist ? newResult : yapi.commons.translateDataToTree(newResult);
+      let  newResult=await this.getCat(project_id,islist);
       ctx.body = yapi.commons.resReturn(newResult);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
 
   }
+
+  async getCat(project_id,islist,mycatid) {
+      let result = await this.catModel.list(project_id),
+        newResult = [];
+
+      for (let i = 0, item, list; i < result.length; i++) {
+        item = result[i].toObject();
+        list = await this.Model.listByCatid(item._id);
+        for (let j = 0; j < list.length; j++) {
+          list[j] = list[j].toObject();
+        }
+        item.list = list;
+        newResult[i] = item;
+
+      }
+
+    newResult = islist ? newResult : yapi.commons.translateDataToTree(newResult,mycatid);
+      return newResult;
+  }
+
 
   /**
    * 编辑接口
@@ -1005,6 +1012,8 @@ class interfaceController extends baseController {
     }
   }
 
+
+
   async delCat(ctx) {
     try {
       let id = ctx.request.body.catid;
@@ -1024,25 +1033,34 @@ class interfaceController extends baseController {
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分类 "${
           catData.name
-        }" 及该分类下的接口`,
+        }" 及该分类及子分类及其接口`,
         type: 'project',
         uid: this.getUid(),
         username: username,
         typeid: catData.project_id
       });
+      let cattreenode=await this.getCat(catData.project_id,false,id);
 
-      let interfaceData = await this.Model.listByCatid(id);
-
-      interfaceData.forEach(async item => {
-        try {
-          yapi.emitHook('interface_del', item._id).then();
-          await this.caseModel.delByInterfaceId(item._id);
-        } catch (e) {
-          yapi.commons.log(e.message, 'error');
+      let delcattree= async catdata => {
+        let interfaceData = catdata.list;
+        if(catdata.children&&catdata.children.length>0){
+          catdata.children.forEach(subcat=>{
+            delcattree(subcat)
+          })
         }
-      });
-      await this.catModel.del(id);
-      let r = await this.Model.delByCatid(id);
+        interfaceData.forEach(async item => {
+          try {
+            yapi.emitHook('interface_del', item._id).then();
+            await this.caseModel.delByInterfaceId(item._id);
+          } catch (e) {
+            yapi.commons.log(e.message, 'error');
+          }
+        });
+        await this.catModel.del(catdata._id);
+        let r = await this.Model.delByCatid(catdata._id);
+        return r
+      }
+     let r=delcattree(cattreenode);
       return (ctx.body = yapi.commons.resReturn(r));
     } catch (e) {
       yapi.commons.resReturn(null, 400, e.message);
