@@ -286,7 +286,7 @@ exports.sandbox = (sandbox, script) => {
   script = new vm.Script(script);
   const context = new vm.createContext(sandbox);
   script.runInContext(context, {
-    timeout: 3000
+    timeout: 10000
   });
 
   return sandbox;
@@ -623,6 +623,8 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
     header: params.response.header,
     records: params.records,
     params: params.params,
+    utils:params.utils,
+    storage:params.storage,
     log: msg => {
       logs.push('log: ' + convertString(msg));
     }
@@ -662,7 +664,7 @@ ${JSON.stringify(schema,null,2)}`)
       let globalScript = colData.checkScript.content;
       // script 是断言
       if (globalScript) {
-        logs.push('执行脚本：' + globalScript)
+        logs.push('执行globalScript test脚本：' + globalScript)
         result = yapi.commons.sandbox(context, globalScript);
       }
     }
@@ -671,7 +673,7 @@ ${JSON.stringify(schema,null,2)}`)
     let script = params.script;
     // script 是断言
     if (script) {
-      logs.push('执行脚本:' + script)
+      logs.push('执行test 脚本:' + script)
       result = yapi.commons.sandbox(context, script);
     }
     result.logs = logs;

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { message, Tooltip, Input } from 'antd';
-import { getEnv } from '../../../../reducer/modules/project';
+import { getEnv ,getToken} from '../../../../reducer/modules/project';
 import {
   fetchInterfaceColList,
   setColData,
@@ -26,7 +26,8 @@ import './InterfaceCaseContent.scss';
       isShowCol: state.interfaceCol.isShowCol,
       currProject: state.project.currProject,
       projectEnv: state.project.projectEnv,
-      curUid: state.user.uid
+      curUid: state.user.uid,
+      token: state.project.token
     };
   },
   {
@@ -34,7 +35,8 @@ import './InterfaceCaseContent.scss';
     fetchCaseData,
     setColData,
     fetchCaseList,
-    getEnv
+    getEnv,
+    getToken
   }
 )
 @withRouter
@@ -53,6 +55,8 @@ export default class InterfaceCaseContent extends Component {
     isShowCol: PropTypes.bool,
     currProject: PropTypes.object,
     getEnv: PropTypes.func,
+    getToken: PropTypes.func,
+    token: PropTypes.string,
     projectEnv: PropTypes.object,
     curUid: PropTypes.number
   };
@@ -90,6 +94,7 @@ export default class InterfaceCaseContent extends Component {
     this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false });
     // 获取当前case 下的环境变量
     await this.props.getEnv(this.props.currCase.project_id);
+    await this.props.getToken(this.props.currCase.project_id);
     // await this.getCurrEnv()
 
     this.setState({ editCasename: this.props.currCase.casename });
@@ -150,6 +155,7 @@ export default class InterfaceCaseContent extends Component {
       case_post_script
     };
 
+    console.log({params});
     const res = await axios.post('/api/col/up_case', params);
     if (this.props.currCase.casename !== casename) {
       this.props.fetchInterfaceColList(this.props.match.params.id);
@@ -223,6 +229,7 @@ export default class InterfaceCaseContent extends Component {
           {Object.keys(currCase).length > 0 && (
             <Postman
               data={data}
+              projectToken={this.props.token}
               type="case"
               saveTip="更新保存修改"
               save={this.updateCase}

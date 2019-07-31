@@ -23,22 +23,19 @@ import _ from 'underscore';
 import {deepCopyJson, isJson, json5_parse} from '../../common.js';
 import axios from 'axios';
 import ModalPostman from '../ModalPostman/index.js';
-import CheckCrossInstall, {initCrossRequest} from './CheckCrossInstall.js';
 import './Postman.scss';
 import ProjectEnv from '../../containers/Project/Setting/ProjectEnv/index.js';
 import json5 from 'json5';
 
+
 const FormItem = Form.Item;
 const { handleParamsValue, ArrayToObject, schemaValidator } = require('common/utils.js');
 const {
-  handleParams,
   checkRequestBodyIsRaw,
   handleContentType,
-  crossRequest,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
 
-const createContext = require('common/createContext')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
@@ -46,6 +43,10 @@ const Option = Select.Option;
 const Panel = Collapse.Panel;
 
 export const InsertCodeMap = [
+  {
+    code: 'storage.getItem()',
+    title: '从storage取值'
+  },
   {
     code: 'assert.equal(status, 200)',
     title: '断言 httpCode 等于 200'
@@ -69,6 +70,10 @@ export const InsertCodeMap = [
   {
     code: 'assert.notDeepEqual(body, {"code": 0})',
     title: '断言对象 body 不等于 {"code": 0}'
+  },
+ {
+  code: 'utils.',
+    title: '使用utils工具函数'
   }
 ];
 
@@ -110,11 +115,13 @@ ParamsNameComponent.propTypes = {
   desc: PropTypes.string,
   name: PropTypes.string
 };
+
 export default class Run extends Component {
   static propTypes = {
     data: PropTypes.object, //接口原有数据
     save: PropTypes.func, //保存回调方法
     type: PropTypes.string, //enum[case, inter], 判断是在接口页面使用还是在测试集
+    projectToken:PropTypes.string,
     curUid: PropTypes.number.isRequired,
     interfaceId: PropTypes.number.isRequired,
     projectId: PropTypes.number.isRequired
@@ -126,6 +133,7 @@ export default class Run extends Component {
       loading: false,
       resStatusCode: null,
       test_valid_msg: null,
+      test_script_msg: null,
       resStatusText: null,
       case_env: '',
       mock_verify: false,
@@ -223,6 +231,7 @@ export default class Run extends Component {
         req_body_other: body,
         resStatusCode: null,
         test_valid_msg: null,
+        test_script_msg:null,
         resStatusText: null
       },
       () => this.props.type === 'inter' && this.initEnvState(data.case_env, data.env)
@@ -248,18 +257,12 @@ export default class Run extends Component {
     );
   }
 
-  componentWillMount() {
-    this._crossRequestInterval = initCrossRequest(hasPlugin => {
-      this.setState({
-        hasPlugin: hasPlugin
-      });
-    });
+   componentWillMount() {
+
     this.initState(this.props.data);
+
   }
 
-  componentWillUnmount() {
-    clearInterval(this._crossRequestInterval);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.checkInterfaceData(nextProps.data) && this.checkInterfaceData(this.props.data)) {
@@ -298,8 +301,29 @@ export default class Run extends Component {
     });
   };
 
-  reqRealInterface = async () => {
-    const {pre_script,after_script,case_pre_script,case_post_script}=this.state;
+  reqRealInterfaceinserver = async () => {
+    const {pre_script,after_script}=this.state;
+
+    let curitem = Object.assign(
+      {},
+      {caseitme:this.state},
+      {
+        pre_script: pre_script,
+        after_script: after_script
+      },
+      {
+        token: this.props.projectToken,
+        taskId: this.props.curUid
+      }
+    );
+
+    curitem.caseitme.taskId = this.props.curUid;
+      console.log({"用例请求数据":curitem});
+     let result = await axios.get('/api/open/run_case', {params:curitem});
+      result=result.data.data;
+
+    console.log({"用例执行结果数据":result});
+
     if (this.state.loading === true) {
       this.setState({
         loading: false
@@ -310,31 +334,8 @@ export default class Run extends Component {
       loading: true
     });
 
-    let options = handleParams(this.state, this.handleValue),
-      result;
 
-    try {
-      options.taskId = this.props.curUid;
-      result = await crossRequest(options, pre_script, after_script,case_pre_script,case_post_script, createContext(
-        this.props.curUid,
-        this.props.projectId,
-        this.props.interfaceId
-      ));
-      result = {
-        header: result.res.header,
-        body: result.res.body,
-        status: result.res.status,
-        statusText: result.res.statusText,
-        runTime: result.runTime
-      };
-    } catch (data) {
-      result = {
-        header: data.header,
-        body: data.body,
-        status: null,
-        statusText: data.message
-      };
-    }
+
     if (this.state.loading === true) {
       this.setState({
         loading: false
@@ -343,33 +344,42 @@ export default class Run extends Component {
       return null;
     }
 
-    let tempJson = result.body;
+    let tempJson = result.res_body;
     if (tempJson && typeof tempJson === 'object') {
-      result.body = JSON.stringify(tempJson, null, '  ');
+      result.res_body = JSON.stringify(tempJson, null, '  ');
       this.setState({
         res_body_type: 'json'
       });
-    } else if (isJson(result.body)) {
+    } else if (isJson(result.res_body)) {
       this.setState({
         res_body_type: 'json'
       });
     }
 
     // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
-    let validResult = this.resBodyValidator(this.props.data, result.body);
+    let validResult = this.resBodyValidator(this.props.data, result.res_body);
     if (!validResult.valid) {
       this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
     } else {
       this.setState({ test_valid_msg: '' });
     }
 
+    let validRes=result.validRes;
+    if (validRes.length>1) {
+      this.setState({ test_script_msg: JSON.stringify(validRes,null,2) });
+    } else {
+      this.setState({ test_script_msg: '' });
+    }
+
     this.setState({
       resStatusCode: result.status,
       resStatusText: result.statusText,
-      test_res_header: result.header,
-      test_res_body: result.body
+      test_res_header: result.res_header,
+      test_res_body: result.res_body
     });
   };
+
+
 
   // 返回数据与定义数据的比较判断
   resBodyValidator = (interfaceData, test_res_body) => {
@@ -384,9 +394,6 @@ export default class Run extends Component {
 
     return validResult;
   };
-
-
-
 
 
   // 模态框的相关操作
@@ -506,7 +513,7 @@ export default class Run extends Component {
 
     key = key || 'value';
     const pathParam = deepCopyJson(this.state[name]);
-    console.log({pathParam,name, v, index, key});
+ //   console.log({pathParam,name, v, index, key});
 
     pathParam[index][key] = v;
     if (key === 'value') {
@@ -598,7 +605,6 @@ export default class Run extends Component {
             <ProjectEnv projectId={this.props.data.project_id} onOk={this.handleEnvOk} />
           </Modal>
         )}
-        <CheckCrossInstall hasPlugin={hasPlugin} />
 
         <div className="url">
           <InputGroup compact style={{ display: 'flex' }}>
@@ -645,7 +651,7 @@ export default class Run extends Component {
           >
             <Button
               disabled={!hasPlugin}
-              onClick={this.reqRealInterface}
+              onClick={this.reqRealInterfaceinserver}
               type="primary"
               style={{ marginLeft: 10 }}
               icon={loading ? 'loading' : ''}
@@ -952,7 +958,7 @@ export default class Run extends Component {
                 {this.state.resStatusCode + '  ' + this.state.resStatusText}
               </h2>
               <div>
-                <a rel="noopener noreferrer"  target="_blank" href="https://juejin.im/post/5c888a3e5188257dee0322af">YApi 新版如何查看 http 请求数据</a>
+                请通过按键【F12】 进入开发者工具，在console中查看原始请求数据和响应
               </div>
               {this.state.test_valid_msg && (
                 <Alert
@@ -967,6 +973,14 @@ export default class Run extends Component {
                   type="warning"
                   showIcon
                   description={this.state.test_valid_msg}
+                />
+              )}
+              {this.state.test_script_msg && (
+                <Alert
+                  message="Error"
+                  type="error"
+                  showIcon
+                  description={<pre>{this.state.test_script_msg}</pre>}
                 />
               )}
 

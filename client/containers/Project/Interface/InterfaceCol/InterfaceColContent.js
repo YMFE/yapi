@@ -22,22 +22,17 @@ import * as resolve from 'table-resolver';
 import axios from 'axios';
 import CaseReport from './CaseReport.js';
 import _ from 'underscore';
-import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js';
 import produce from 'immer';
 import {InsertCodeMap} from 'client/components/Postman/Postman.js'
 
 const {
-  handleParams,
-  crossRequest,
   handleCurrDomain,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
-const { handleParamsValue, json_parse, ArrayToObject } = require('common/utils.js');
+
 import CaseEnv from 'client/components/CaseEnv';
 import Label from '../../../../components/Label/Label.js';
-
 const Option = Select.Option;
-const createContext = require('common/createContext')
 
 import copy from 'copy-to-clipboard';
 
@@ -106,7 +101,6 @@ class InterfaceColContent extends Component {
       reports: {},
       visible: false,
       curCaseid: null,
-      hasPlugin: false,
       advVisible: false,
       curScript: '',
       enableScript: false,
@@ -172,10 +166,6 @@ class InterfaceColContent extends Component {
     if (currColId && currColId != 0) {
       await this.handleColIdChange(currColId)
     }
-
-    this._crossRequestInterval = initCrossRequest(hasPlugin => {
-      this.setState({ hasPlugin: hasPlugin });
-    });
   }
 
   componentWillUnmount() {
@@ -238,23 +228,9 @@ class InterfaceColContent extends Component {
     this.setState({ rows: newRows });
   };
 
-  executeTestsauto = async () =>{
-console.log({"state":this.state,'propers':this.props})
-    // await axios.get('/api/open/run_auto_test', {
-    //   'id': 1048,
-    //   'token': 564bcc63c02c9bdd69b8d1496904b8effd7ca2a80afaa3d62ce4cf27ae55d914,
-    //   'env_324': mock,
-    // env_348: mock,
-    // 'mode': json,
-    // 'email': false,
-    // 'download': false,
-    // 'descendants': true,
-    // });
 
-  }
 
   executeTests = async () => {
-   await this.executeTestsauto();
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
 
@@ -264,22 +240,24 @@ console.log({"state":this.state,'propers':this.props})
 
       curitem = Object.assign(
         {},
-        rows[i],
+        {caseitme:rows[i]},
         {
           env: envItem.env,
           pre_script: this.props.currProject.pre_script,
           after_script: this.props.currProject.after_script
         },
-        { test_status: 'loading' }
+        {token:this.props.token}
       );
+      curitem.caseitme.test_status='loading'
       newRows = [].concat([], rows);
-      newRows[i] = curitem;
+      newRows[i] = curitem.caseitme;
       this.setState({ rows: newRows });
       let status = 'error',
         result;
       try {
-        result = await this.handleTest(curitem);
-
+       // console.log({curitem});
+        result = await axios.get('/api/open/run_case', {params:curitem});
+        result=result.data.data;
         if (result.code === 400) {
           status = 'error';
         } else if (result.code === 0) {
@@ -292,10 +270,11 @@ console.log({"state":this.state,'propers':this.props})
         status = 'error';
         result = e;
       }
+      console.log({['用例：'+curitem.caseitme.casename+'执行结果']:result})
 
       //result.body = result.data;
-      this.reports[curitem._id] = result;
-      this.records[curitem._id] = {
+      this.reports[curitem.caseitme._id] = result;
+      this.records[curitem.caseitme._id] = {
         status: result.status,
         params: result.params,
         body: result.res_body
@@ -304,6 +283,7 @@ console.log({"state":this.state,'propers':this.props})
       curitem = Object.assign({}, rows[i], { test_status: status });
       newRows = [].concat([], rows);
       newRows[i] = curitem;
+      //console.log({newRows});
       this.setState({ rows: newRows });
     }
     await axios.post('/api/col/up_col', {
@@ -312,131 +292,8 @@ console.log({"state":this.state,'propers':this.props})
     });
   };
 
-  handleTest = async interfaceData => {
-    let requestParams = {};
-    let options = handleParams(interfaceData, this.handleValue, requestParams);
 
-    let result = {
-      code: 400,
-      msg: '数据异常',
-      validRes: []
-    };
 
-    try {
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script, createContext(
-        this.props.curUid,
-        this.props.match.params.id,
-        interfaceData.interface_id
-      ));
-      options.taskId = this.props.curUid;
-      let res = (data.res.body = json_parse(data.res.body));
-      result = {
-        ...options,
-        ...result,
-        res_header: data.res.header,
-        res_body: res,
-        status: data.res.status,
-        statusText: data.res.statusText
-      };
-
-      if (options.data && typeof options.data === 'object') {
-        requestParams = {
-          ...requestParams,
-          ...options.data
-        };
-      }
-
-      let validRes = [];
-
-      let responseData = Object.assign(
-        {},
-        {
-          status: data.res.status,
-          body: res,
-          header: data.res.header,
-          statusText: data.res.statusText
-        }
-      );
-
-      // 断言测试
-      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
-
-      if (validRes.length === 0) {
-        result.code = 0;
-        result.validRes = [
-          {
-            message: '验证通过'
-          }
-        ];
-      } else if (validRes.length > 0) {
-        result.code = 1;
-        result.validRes = validRes;
-      }
-    } catch (data) {
-      result = {
-        ...options,
-        ...result,
-        res_header: data.header,
-        res_body: data.body || data.message,
-        status: 0,
-        statusText: data.message,
-        code: 400,
-        validRes: [
-          {
-            message: data.message
-          }
-        ]
-      };
-    }
-
-    result.params = requestParams;
-    return result;
-  };
-
-  //response, validRes
-  // 断言测试
-  handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
-    // 是否启动断言
-    try {
-      let test = await axios.post('/api/col/run_script', {
-        response: response,
-        records: this.records,
-        script: interfaceData.test_script,
-        params: requestParams,
-        col_id: this.props.currColId,
-        interface_id: interfaceData.interface_id
-      });
-      if (test.data.errcode !== 0) {
-        test.data.data.logs.forEach(item => {
-          validRes.push({ message: item });
-        });
-      }
-    } catch (err) {
-      validRes.push({
-        message: 'Error: ' + err.message
-      });
-    }
-  };
-
-  handleValue = (val, global) => {
-    let globalValue = ArrayToObject(global);
-    let context = Object.assign({}, { global: globalValue }, this.records);
-    return handleParamsValue(val, context);
-  };
-
-  arrToObj = (arr, requestParams) => {
-    arr = arr || [];
-    const obj = {};
-    arr.forEach(item => {
-      if (item.name && item.enable && item.type !== 'file') {
-        obj[item.name] = this.handleValue(item.value);
-        if (requestParams) {
-          requestParams[item.name] = obj[item.name];
-        }
-      }
-    });
-    return obj;
-  };
 
   onRow(row) {
     return { rowId: row.id, onMove: this.onMoveRow, onDrop: this.onDrop };
@@ -703,6 +560,7 @@ console.log({"state":this.state,'propers':this.props})
         cell: {
           formatters: [
             (text, { rowData }) => {
+           // console.log({rowData});
               let record = rowData;
               return (
                 <Link to={'/project/' + currProjectId + '/interface/case/' + record._id}>
@@ -1072,7 +930,7 @@ console.log({"state":this.state,'propers':this.props})
             />
           </Col>
           <Col span={9}>
-            {this.state.hasPlugin ? (
+            {(
               <div
                 style={{
                   float: 'right',
@@ -1099,19 +957,6 @@ console.log({"state":this.state,'propers':this.props})
                   开始测试
                 </Button>
               </div>
-            ) : (
-              <Tooltip title="请安装 cross-request Chrome 插件">
-                <Button
-                  disabled
-                  type="primary"
-                  style={{
-                    float: 'right',
-                    marginTop: '8px'
-                  }}
-                >
-                  开始测试
-                </Button>
-              </Tooltip>
             )}
           </Col>
         </Row>

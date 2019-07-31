@@ -181,8 +181,6 @@ class openController extends baseController {
 
     const projectId = ctx.params.project_id;
     const startTime = new Date().getTime();
-    const records = (this.records = {});
-    const reports = (this.reports = {});
     const testList = [];
     let rootid = ctx.params.id;
     let curEnvList = this.handleEvnParams(ctx.params);
@@ -191,11 +189,11 @@ class openController extends baseController {
     let colData2 = await yapi.commons.getCol(projectId,false,rootid);
     let colids=[];
     colids.push(colData2._id);
-    console.log({ctx,projectId,'ctx.params':ctx.params});
+   // console.log({ctx,projectId,'ctx.params':ctx.params});
     if(ctx.params.descendants|| ctx.params.descendants==='true') {
       colids = colids.concat(colData2.descendants);
     }
-    console.log({colids});
+   // console.log({colids});
     if (!colData2) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在'));
     }
@@ -210,32 +208,37 @@ class openController extends baseController {
       }
       caseList = caseList.data;
       for (let i = 0, l = caseList.length; i < l; i++) {
-        let item = caseList[i];
-        let projectEvn = await this.projectModel.getByEnv(item.project_id);
 
-        item.id = item._id;
+        let item = caseList[i];
         let curEnvItem = _.find(curEnvList, key => {
           return key.project_id == item.project_id;
         });
+        // let projectEvn = await this.projectModel.getByEnv(item.project_id);
+        //
+        // item.id = item._id;
+        // let curEnvItem = _.find(curEnvList, key => {
+        //   return key.project_id == item.project_id;
+        // });
+        //
+        // item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
+        // item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
+        // item.pre_script = projectData.pre_script;
+        // item.after_script = projectData.after_script;
+        // item.env = projectEvn.env;
+        // let result;
+        // // console.log('item',item.case_env)
+        // try {
+        //   result = await this.handleTest(item);
+        // } catch (err) {
+        //   result = err;
+        // }
+        let result = await this.caseItemrun(caseList[i], curEnvItem, projectData.pre_script,projectData.after_script);
 
-        item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
-        item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
-        item.pre_script = projectData.pre_script;
-        item.after_script = projectData.after_script;
-        item.env = projectEvn.env;
-        let result;
-        // console.log('item',item.case_env)
-        try {
-          result = await this.handleTest(item);
-        } catch (err) {
-          result = err;
-        }
-
-        reports[item.id] = result;
-        records[item.id] = {
-          params: result.params,
-          body: result.res_body
-        };
+        // reports[item.id] = result;
+        // records[item.id] = {
+        //   params: result.params,
+        //   body: result.res_body
+        // };
         testList.push(result);
       }
     }
@@ -266,7 +269,7 @@ class openController extends baseController {
     const endTime = new Date().getTime();
     const executionTime = (endTime - startTime) / 1000;
 
-    console.log({testList});
+  //  console.log({testList});
     let reportsResult = {
       message: getMessage(testList),
       runTime: executionTime + 's',
@@ -307,6 +310,47 @@ class openController extends baseController {
     }
   }
 
+  async caseItemrun(caseme, curEnvItem, pre_script,after_script) {
+    const records = (this.records = {});
+    // const reports = (this.reports = {});
+    let item = caseme;
+    let projectEvn = await this.projectModel.getByEnv(item.project_id);
+    item.id = item._id;
+    item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
+    item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
+    item.pre_script = pre_script;
+    item.after_script = after_script;
+    item.env = projectEvn.env;
+    let result;
+    // console.log('item',item.case_env)
+    try {
+      result = await this.handleTest(item);
+    } catch (err) {
+      result = err;
+    }
+    // reports[item.id] = result;
+    records[item.id] = {
+      params: result.params,
+      body: result.res_body
+    };
+    return result
+  }
+
+  async runCase(ctx) {
+    if (!this.$tokenAuth) {
+      return (ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败'));
+    }
+
+    let caseme = JSON.parse(ctx.params.caseitme);
+  //  console.log({caseme});
+
+    let pre_script=ctx.params.pre_script
+    let after_script=ctx.params.after_script
+    let curEnvItem = ctx.params.env;
+    let result = await this.caseItemrun(caseme, curEnvItem, pre_script,after_script);
+    return (ctx.body = yapi.commons.resReturn(result));
+  }
+
   async handleTest(interfaceData) {
     let requestParams = {};
     let options;
@@ -319,7 +363,7 @@ class openController extends baseController {
       validRes: []
     };
     try {
-      options.taskId = this.getUid();
+
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script,createContex(
         this.getUid(),
         interfaceData.project_id,
@@ -353,14 +397,17 @@ class openController extends baseController {
         }
       );
 
-      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
+      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams,   data.utils,
+        data.storage);
       result.params = requestParams;
       if (validRes.length === 0) {
         result.code = 0;
         result.validRes = [{ message: '验证通过' }];
+        result.statusText='OK'
       } else if (validRes.length > 0) {
         result.code = 1;
         result.validRes = validRes;
+        result.statusText='test脚本出错：奈何兄弟没文化！一句xx走天下！'
       }
     } catch (data) {
       result = Object.assign(options, result, {
@@ -375,13 +422,15 @@ class openController extends baseController {
     return result;
   }
 
-  async handleScriptTest(interfaceData, response, validRes, requestParams) {
+  async handleScriptTest(interfaceData, response, validRes, requestParams,utils,storage) {
     
     try {
       let test = await yapi.commons.runCaseScript({
         response: response,
         records: this.records,
         script: interfaceData.test_script,
+        utils:utils,
+        storage:storage,
         params: requestParams
       }, interfaceData.col_id, interfaceData.interface_id, this.getUid());
       if (test.errcode !== 0) {

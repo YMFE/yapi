@@ -187,19 +187,17 @@ function sandboxByNode(sandbox = {}, script) {
 
 async function sandbox(context = {}, script) {
   try {
-    if (isNode) {
+
       context.context = context;
       context.console = console;
       context.Promise = Promise;
       context.setTimeout = setTimeout;
       context = sandboxByNode(context, script);
-    } else {
-      context = sandboxByBrowser(context, script);
-    }
+
   } catch (err) {
     err.message = `Script: ${script}
     message: ${err.message}`;
-    console.error(err);
+    //console.error(err);
     throw err;
   }
   if (context.promise && typeof context.promise === 'object' && context.promise.then) {
@@ -208,7 +206,7 @@ async function sandbox(context = {}, script) {
     } catch (err) {
       err.message = `Script: ${script}
       message: ${err.message}`;
-      console.error(err);
+     // console.error(err);
       throw err;
     }
   }
@@ -216,30 +214,7 @@ async function sandbox(context = {}, script) {
     return context;
 }
 
-function sandboxByBrowser(context = {}, script) {
-  if (!script || typeof script !== 'string') {
-    return context;
-  }
-  let beginScript = '';
-  for (var i in context) {
-    beginScript += `var ${i} = context.${i};`;
-  }
-  try {
-    eval(beginScript + script);
-  } catch (err) {
-    let message = `Script:
-                   ----CodeBegin----:
-                   ${beginScript}
-                   ${script}
-                   ----CodeEnd----
-                  `;
-    err.message = `Script: ${message}
-    message: ${err.message}`;
 
-    throw err;
-  }
-  return context;
-}
 
 /**
  * 
@@ -329,42 +304,12 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
 
   let data;
 
-  if (isNode) {
+
     data = await httpRequestByNode(options);
     data.req = options;
-  } else {
-    data = await new Promise((resolve, reject) => {
-      options.error = options.success = function(res, header, data) {
-        let message = '';
-        if (res && typeof res === 'string') {
-          res = json_parse(data.res.body);
-          data.res.body = res;
-        }
-        if (!isNode) message = '请求异常，请检查 chrome network 错误信息... https://juejin.im/post/5c888a3e5188257dee0322af 通过该链接查看教程"）';
-        if (isNaN(data.res.status)) {
-          reject({
-            body: res || message,
-            header,
-            message
-          });
-        }
-        resolve(data);
-      };
-      try {
-        if(options.data) {
-          Object.keys(options.data).map(function (key) {
-            if (Array.isArray(options.data[key])) {
-              options.data[key] = options.data[key][0];
-            }
-          })
-        }
-      }catch(e){
-          console.log(e);
-      }
+    data.utils=context.utils;
+    data.storage=context.storage;
 
-      window.crossRequest(options);
-    });
-  }
 
   if (case_post_script) {
     context.responseData = data.res.body;
@@ -389,10 +334,7 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
     data.res.status = context.responseStatus;
     data.runTime = context.runTime;
   }
-  if (!isNode) {
-    console.log("准备打印测试用例执行上下文！");
-    console.log(context);
-  }
+
   return data;
 }
 
