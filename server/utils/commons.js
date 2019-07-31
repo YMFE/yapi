@@ -679,7 +679,7 @@ ${JSON.stringify(schema,null,2)}`)
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {
-    logs.push(convertString(err));
+    //logs.push(convertString(err));
     result.logs = logs;
     logs.push(err.name + ': ' + err.message)
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
