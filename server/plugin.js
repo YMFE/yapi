@@ -175,6 +175,11 @@ var hooks = {
   import_data: {
     type: 'multi',
     listener: []
+  },
+
+  addNotice:{
+    type: 'multi',
+    listener: []
   }
 };
 
