@@ -177,6 +177,14 @@ var hooks = {
     listener: []
   },
 
+  /**
+   * addNoticePlugin(config)
+   * 
+   * config.weixin = {
+   *    title: 'wechat',
+   *    hander: (emails, title, content)=> {...}
+   * }
+   */
   addNotice:{
     type: 'multi',
     listener: []
