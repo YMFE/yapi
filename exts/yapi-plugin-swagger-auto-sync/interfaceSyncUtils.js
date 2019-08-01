@@ -93,7 +93,7 @@ class syncUtils {
         let oldSyncJob = await this.syncModel.getByProjectId(projectId);
 
         //更新之前判断本次swagger json数据是否跟上次的相同,相同则不更新
-        if (oldSyncJob.old_swagger_content && oldSyncJob.old_swagger_content == md5(newSwaggerJsonData)) {
+        if (newSwaggerJsonData && oldSyncJob.old_swagger_content && oldSyncJob.old_swagger_content == md5(newSwaggerJsonData)) {
             //记录日志
             this.saveSyncLog(0, syncMode, "接口无更新", uid, projectId);
             oldSyncJob.last_sync_time = yapi.commons.time();

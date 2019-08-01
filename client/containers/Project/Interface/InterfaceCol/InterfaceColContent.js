@@ -1172,8 +1172,8 @@ class InterfaceColContent extends Component {
             </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
               <Col span={3} className="label">
-                邮件通知
-                <Tooltip title={'测试不通过时，会给项目组成员发送邮件'}>
+                消息通知
+                <Tooltip title={'测试不通过时，会给项目组成员发送消息通知'}>
                   <Icon
                     type="question-circle-o"
                     style={{
