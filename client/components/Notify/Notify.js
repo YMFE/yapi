@@ -12,7 +12,7 @@ export default class Notify extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://www.easy-mock.com/mock/5c2851e3d84c733cb500c3b9/yapi/versions').then(req => {
+    axios.get('https://www.easy-mock.com/mock/5d42ca207a50134cfd05d7a9/crazy-yapi/version').then(req => {
       if (req.status === 200) {
         this.setState({ newVersion: req.data.data[0] });
       } else {
@@ -33,7 +33,7 @@ export default class Notify extends Component {
                 &nbsp;&nbsp;&nbsp;
                 <a
                   target="view_window"
-                  href="https://github.com/YMFE/yapi/blob/master/CHANGELOG.md"
+                  href="https://github.com/xian-crazy/yapi/blob/master/README.md"
                 >
                   版本详情
                 </a>

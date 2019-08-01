@@ -5,6 +5,10 @@
 公共参数备注链接
 
 
+2019/8/1
+*  crazy-yapi发布演示站点
+*  配置crazy-yapi升级提醒
+
 2019/7/31
 *  变更：去掉依赖跨域插件，PS：去除跨域插件后，测试请求均从yapiserver发起，因此需要部署yapi的服务器能够与被测服务的环境配置进行http通信
 *  test 断言功能加强：支持storage，支持工具函数utils
@@ -108,30 +112,41 @@
 *   CNGTZ
 
 ### 分支部署说明
-<font size=5 color=red  >前置条件：</font>
-先参考主分支部署说明部署主分支，停止yapi服务后，再进行以下操作
 
-1. 安装forerver（使用forerver 后台运行nodejs）,安装 ykit
-2.  cd xxxx/yapi/vendors
-3. 添加 分支仓库（若已经添加，无需重复添加） git remote add yehaoapi https://github.com/xian-crazy/yapi.git
-4. 删除本地文件rm -rf *
-5. 获取全部代码：git reset --hard yehaoapi/master
-6. 安装依赖 npm install  --registry https://registry.npm.taobao.org
-7. 前端打包 ykit pack -m
-8. 启动服务 forever start -o out.log -e err.log server/app.js
+#### 环境要求
+* nodejs（7.6+)
+* mongodb（2.6+）
+* git
+* forever
+* ykit
+
+####  crazy-yapi 分支部署
+
+
+    mkdir crazy-yapi
+    cd crazy-yapi
+    git clone --depth=1  https://github.com/xian-crazy/yapi.git vendors
+    cp vendors/config_example.json ./config.json //复制完成后请修改相关配置（先在mongodb中创建好数据库和账户，根据实际值修改config.json）
+    cd vendors
+    npm install  --registry https://registry.npm.taobao.org
+    ykit pack -m   //大概60秒左右 编译过程中 如果显示 [Bundler] 1908/1912 build modules 不动了，按一下回车
+    npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置
+    forever start -o out.log -e err.log server/app.js  //启动服务器后，请访问 127.0.0.1:{config.json配置的端口}，初次运行会有个编译的过程，请耐心等候
+
 
 ### 分支升级说明
 1. 停止服务：forever stopall
 2. cd xxx/yapi/vendors/
-3. 拉取新代码 git pull yehaoapi master
-4. 打包 ykit pack -m
-5. 启动服务 forever start -o out.log -e err.log server/app.js
+3. 添加 分支仓库（若已经添加，无需重复添加） git remote add yehaoapi https://github.com/xian-crazy/yapi.git
+4. 拉取新代码 git pull yehaoapi master
+5. 打包 ykit pack -m
+6. 启动服务 forever start -o out.log -e err.log server/app.js
 
 ### crazy-yapi 分支 作者
 * crazy  330126160@qq.com
 
 
-<font color=RED size=24 face="黑体"> ---------------------以下类容为主分支说明文档------------------------------</font>
+<font color=RED size=24 face="黑体"> ---------------------以下内容为官方主分支说明文档------------------------------</font>
 
 ## YApi  可视化接口管理平台
 <p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>

@@ -29,7 +29,7 @@ const HomeGuest = () => (
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://yapi.ymfe.org"
+                href="/doc/index.html"
                 className="item"
               >
                 使用文档
@@ -38,7 +38,7 @@ const HomeGuest = () => (
           </Col>
         </Row>
         <Row>
-          <Col lg={9} xs={24}>
+          <Col lg={11} xs={24}>
             <div className="home-des">
               <div className="logo">
                 <LogoSVG length="72px" />
@@ -46,7 +46,13 @@ const HomeGuest = () => (
               </div>
               <div className="detail">
                 高效、易用、功能强大的API管理平台<br />
-                <span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span>
+                <span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span><br />
+                <span className="desc">本演示站点非yapi官方站点，为crazy-yapi分支版本，二次开发了一些功能，欢迎大家体验</span><br />
+                <div className="desc"><a color="#57cf27" target="_blank" rel="noopener noreferrer"
+                                         href="https://github.com/xian-crazy/yapi/blob/master/README.md">
+                  crazy-yapi 功能说明
+                </a>
+                </div>
               </div>
               <div className="btn-group">
                 <Link to="/login">
@@ -371,7 +377,7 @@ class Home extends Component {
                   </Button>
                 </Link>
                 <Button className="btn-home btn-home-normal">
-                  <a target="_blank" rel="noopener noreferrer" href="https://yapi.ymfe.org">
+                  <a target="_blank" rel="noopener noreferrer" href="/doc/index.html">
                     使用文档
                   </a>
                 </Button>

@@ -702,6 +702,7 @@ exports.getUserdata = async function getUserdata(uid, role) {
 };
 // 邮件发送
 exports.sendNotice = async function(projectId, data) {
+
   const followInst = yapi.getInst(followModel);
   const userInst = yapi.getInst(userModel);
   const projectInst = yapi.getInst(projectModel);
@@ -716,7 +717,7 @@ exports.sendNotice = async function(projectId, data) {
   const users = arrUnique(projectMenbers, starUsers);
   const usersInfo = await userInst.findByUids(users);
   const emails = usersInfo.map(item => item.email).join(',');
-
+  console.log({'sendNotice':usersInfo});
   try {
     yapi.commons.sendMail({
       to: emails,
@@ -724,6 +725,7 @@ exports.sendNotice = async function(projectId, data) {
       subject: data.title
     });
   } catch (e) {
+    console.log({'sendNotice':e});
     yapi.commons.log('邮件发送失败：' + e, 'error');
   }
 };
