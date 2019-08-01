@@ -608,41 +608,6 @@ exports.getUserdata = async function getUserdata(uid, role) {
     email: userData.email
   };
 };
-// 邮件发送
-exports.sendNotice = async function(projectId, data) {
-  const followInst = yapi.getInst(followModel);
-  const userInst = yapi.getInst(userModel);
-  const projectInst = yapi.getInst(projectModel);
-  const list = await followInst.listByProjectId(projectId);
-  const starUsers = list.map(item => item.uid);
-
-  const projectList = await projectInst.get(projectId);
-  const projectMenbers = projectList.members
-    .filter(item => item.email_notice)
-    .map(item => item.uid);
-
-  const users = arrUnique(projectMenbers, starUsers);
-  const usersInfo = await userInst.findByUids(users);
-  const emails = usersInfo.map(item => item.email).join(',');
-
-  try {
-    yapi.commons.sendMail({
-      to: emails,
-      contents: data.content,
-      subject: data.title
-    });
-  } catch (e) {
-    yapi.commons.log('邮件发送失败：' + e, 'error');
-  }
-};
-
-function arrUnique(arr1, arr2) {
-  let arr = arr1.concat(arr2);
-  let res = arr.filter(function(item, index, arr) {
-    return arr.indexOf(item) === index;
-  });
-  return res;
-}
 
 // 处理mockJs脚本
 exports.handleMockScript = function(script, context) {

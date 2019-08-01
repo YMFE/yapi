@@ -437,7 +437,7 @@ class ProjectMessage extends Component {
                 initialValue: initFormValues.is_json5
               })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="默认开启邮件通知">
+            <FormItem {...formItemLayout} label="默认开启消息通知">
               {getFieldDecorator('switch_notice', {
                 valuePropName: 'checked',
                 initialValue: initFormValues.switch_notice
