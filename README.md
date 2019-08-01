@@ -65,6 +65,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 * [docker-yapi](https://github.com/Ryan-Miao/docker-yapi)
 * [docker-compose一键部署yapi](https://github.com/jinfeijie/yapi)
+* [docker-YApi: 更易用的 YApi 镜像](https://github.com/fjc0k/docker-YApi)
 
 ### YApi 一些工具
 * [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
