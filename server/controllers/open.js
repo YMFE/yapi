@@ -213,32 +213,10 @@ class openController extends baseController {
         let curEnvItem = _.find(curEnvList, key => {
           return key.project_id == item.project_id;
         });
-        // let projectEvn = await this.projectModel.getByEnv(item.project_id);
-        //
-        // item.id = item._id;
-        // let curEnvItem = _.find(curEnvList, key => {
-        //   return key.project_id == item.project_id;
-        // });
-        //
-        // item.case_env = curEnvItem ? curEnvItem.curEnv || item.case_env : item.case_env;
-        // item.req_headers = this.handleReqHeader(item.req_headers, projectEvn.env, item.case_env);
-        // item.pre_script = projectData.pre_script;
-        // item.after_script = projectData.after_script;
-        // item.env = projectEvn.env;
-        // let result;
-        // // console.log('item',item.case_env)
-        // try {
-        //   result = await this.handleTest(item);
-        // } catch (err) {
-        //   result = err;
-        // }
+
         let result = await this.caseItemrun(caseList[i], curEnvItem, projectData.pre_script,projectData.after_script);
 
-        // reports[item.id] = result;
-        // records[item.id] = {
-        //   params: result.params,
-        //   body: result.res_body
-        // };
+
         testList.push(result);
       }
     }
@@ -354,6 +332,8 @@ class openController extends baseController {
   async handleTest(interfaceData) {
     let requestParams = {};
     let options;
+
+
     options = handleParams(interfaceData, this.handleValue, requestParams);
     let result = {
       id: interfaceData.id,
@@ -362,13 +342,14 @@ class openController extends baseController {
       code: 400,
       validRes: []
     };
-    try {
 
+    try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script,createContex(
         this.getUid(),
         interfaceData.project_id,
-        interfaceData.interface_id
+        interfaceData.interface_id||interfaceData.id
       ));
+
       let res = data.res;
 
       result = Object.assign(result, {
@@ -397,8 +378,10 @@ class openController extends baseController {
         }
       );
 
+      if(interfaceData.test_script.length>0){
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams,   data.utils,
         data.storage);
+      }
       result.params = requestParams;
       if (validRes.length === 0) {
         result.code = 0;
@@ -423,8 +406,7 @@ class openController extends baseController {
   }
 
   async handleScriptTest(interfaceData, response, validRes, requestParams,utils,storage) {
-    
-    try {
+      try {
       let test = await yapi.commons.runCaseScript({
         response: response,
         records: this.records,
@@ -433,6 +415,7 @@ class openController extends baseController {
         storage:storage,
         params: requestParams
       }, interfaceData.col_id, interfaceData.interface_id, this.getUid());
+
       if (test.errcode !== 0) {
         test.data.logs.forEach(item => {
           validRes.push({

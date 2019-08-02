@@ -216,6 +216,7 @@ export default class Run extends Component {
         schema: schema,
         required: true
       });
+
       body = JSON.stringify(result.data);
     }
 

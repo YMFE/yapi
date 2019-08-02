@@ -318,18 +318,34 @@ class projectController extends baseController {
 
         // 拷贝接口列表
         let cat = params.cat;
-        for (let i = 0; i < cat.length; i++) {
-          let item = cat[i];
+        let oldcatVSnewCats=[];
+        let oldidVSnewid={};
+        let catlist=[];
+        let treetolist=(cats,catlist)=>{
+          cats.forEach(cat=>{
+            catlist.push(cat);
+          if(cat.children&&cat.children.length>0){
+            treetolist(cat.children,catlist);
+          }
+          })
+        }
+
+        treetolist(cat,catlist);
+
+        for (let i = 0; i < catlist.length; i++) {
+          let item = catlist[i];
           let catDate = {
             name: item.name,
             project_id: result._id,
+            parent_id:-1,
             desc: item.desc,
             uid: this.getUid(),
             add_time: yapi.commons.time(),
             up_time: yapi.commons.time()
           };
           let catResult = await catInst.save(catDate);
-
+          oldcatVSnewCats.push({item,catResult});
+          oldidVSnewid[item._id]=catResult._id;
           // 获取每个集合中的interface
           let interfaceData = await this.interfaceModel.listByInterStatus(item._id);
 
@@ -344,10 +360,18 @@ class projectController extends baseController {
               up_time: yapi.commons.time()
             });
             delete data._id;
-
             await this.interfaceModel.save(data);
           }
         }
+
+        for (let i = 0; i < oldcatVSnewCats.length; i++) {
+          let catwe=oldcatVSnewCats[i];
+          let id=catwe.catResult._id;
+          let parent_id=oldidVSnewid[catwe.item.parent_id];
+          await catInst.up(id,{parent_id});
+        }
+
+
       }
 
       // 增加member

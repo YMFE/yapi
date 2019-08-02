@@ -12,7 +12,7 @@ export default class Notify extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://www.easy-mock.com/mock/5d42ca207a50134cfd05d7a9/crazy-yapi/version').then(req => {
+    axios.get('http://crazy-yapi.camdy.cn/mock/182/version').then(req => {
       if (req.status === 200) {
         this.setState({ newVersion: req.data.data[0] });
       } else {

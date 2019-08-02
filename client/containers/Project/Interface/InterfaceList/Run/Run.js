@@ -12,10 +12,12 @@ import AddColModal from './AddColModal';
 
 import './Run.scss';
 
+
 @connect(state => ({
   currInterface: state.inter.curdata,
   currProject: state.project.currProject,
-  curUid: state.user.uid
+  curUid: state.user.uid,
+  token: state.project.token
 }))
 @withRouter
 export default class Run extends Component {
@@ -23,7 +25,8 @@ export default class Run extends Component {
     currProject: PropTypes.object,
     currInterface: PropTypes.object,
     match: PropTypes.object,
-    curUid: PropTypes.number
+    curUid: PropTypes.number,
+    token: PropTypes.string
   };
 
   state = {};
@@ -32,7 +35,8 @@ export default class Run extends Component {
     super(props);
   }
 
-  componentWillMount() {}
+   componentWillMount() {
+  }
 
   componentWillReceiveProps() {}
 
@@ -99,6 +103,7 @@ export default class Run extends Component {
           ref={this.savePostmanRef}
           interfaceId={currInterface._id}
           projectId={currInterface.project_id}
+          projectToken={this.props.token}
           curUid={this.props.curUid}
         />
         <AddColModal

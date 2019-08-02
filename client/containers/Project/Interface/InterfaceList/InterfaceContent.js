@@ -8,6 +8,7 @@ import { Prompt } from 'react-router';
 import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
 import Run from './Run/Run.js';
+import {getToken} from "client/reducer/modules/project";
 const plugin = require('client/plugin.js');
 
 const TabPane = Tabs.TabPane;
@@ -20,7 +21,8 @@ const TabPane = Tabs.TabPane;
     };
   },
   {
-    fetchInterfaceData
+    fetchInterfaceData,
+    getToken
   }
 )
 class Content extends Component {
@@ -29,6 +31,7 @@ class Content extends Component {
     list: PropTypes.array,
     curdata: PropTypes.object,
     fetchInterfaceData: PropTypes.func,
+    getToken: PropTypes.func,
     history: PropTypes.object,
     editStatus: PropTypes.bool
   };
@@ -63,6 +66,7 @@ class Content extends Component {
   handleRequest(nextProps) {
     const params = nextProps.match.params;
     this.props.fetchInterfaceData(params.actionId);
+    this.props.getToken(params.id)
     this.setState({
       curtab: 'view'
     });
