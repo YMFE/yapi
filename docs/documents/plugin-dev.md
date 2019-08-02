@@ -16,7 +16,7 @@ npm run dev #启动开发服务器
   },
   ...
   "plugins": [{
-    "name": "demo"，
+    "name": "demo",
     "options": {}
   }]
 }
