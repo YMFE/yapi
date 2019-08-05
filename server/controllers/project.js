@@ -12,9 +12,9 @@ const userModel = require('../models/user.js');
 const logModel = require('../models/log.js');
 const followModel = require('../models/follow.js');
 const tokenModel = require('../models/token.js');
-const url = require('url');
 const {getToken} = require('../utils/token')
 const sha = require('sha.js');
+const axios = require('axios').default;
 
 class projectController extends baseController {
   constructor(ctx) {
@@ -1119,15 +1119,17 @@ class projectController extends baseController {
     return (ctx.body = yapi.commons.resReturn(queryList, 0, 'ok'));
   }
 
-  // 输入 swagger url  的时候node端请求数据
+  // 输入 swagger url 的时候 node 端请求数据
   async swaggerUrl(ctx) {
     try {
-      let ops = url.parse(ctx.request.query.url);
-      let result = await yapi.commons.createWebAPIRequest(ops);
-
-      ctx.body = yapi.commons.resReturn(result);
+      const { url } = ctx.request.query;
+      const { data } = await axios.get(url);
+      if (data == null || typeof data !== 'object') {
+        throw new Error('返回数据格式不是 JSON');
+      }
+      ctx.body = yapi.commons.resReturn(data);
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 402, err.message);
+      ctx.body = yapi.commons.resReturn(null, 402, String(err));
     }
   }
 }
