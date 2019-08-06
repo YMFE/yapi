@@ -1,3 +1,6 @@
+### v1.8.1
+* swagger接口加了https，配置swagger同步会报错
+
 ### v1.8.0
 * filtering interface on the server instead of client
 
