@@ -378,7 +378,7 @@ class openController extends baseController {
         }
       );
 
-      if(interfaceData.test_script.length>0){
+      if(interfaceData.test_script&&interfaceData.test_script.length>0){
       await this.handleScriptTest(interfaceData, responseData, validRes, requestParams,   data.utils,
         data.storage);
       }
