@@ -89,7 +89,7 @@ class View extends Component {
           dataIndex: 'example',
           key: 'example',
           render(_, item) {
-            return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
+            return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
           }
         },
         {
@@ -97,7 +97,7 @@ class View extends Component {
           dataIndex: 'value',
           key: 'value',
           render(_, item) {
-            return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>;
+            return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }}>{item.value}</p>;
           }
         }
       ];
@@ -188,7 +188,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }}dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {
@@ -196,7 +196,7 @@ class View extends Component {
         dataIndex: 'value',
         key: 'value',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }}>{item.value}</p>;
         }
       }
     ];
@@ -305,7 +305,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {
@@ -313,7 +313,7 @@ class View extends Component {
         dataIndex: 'desc',
         key: 'desc',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }}>{item.desc}</p>;
         }
       }
     ];
@@ -342,7 +342,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }} dangerouslySetInnerHTML={{ __html: forJson(item.example)}}></p>;
         }
       },
       {
@@ -350,7 +350,7 @@ class View extends Component {
         dataIndex: 'desc',
         key: 'desc',
         render(_, item) {
-          return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>;
+          return <p style={{ whiteSpace: 'pre-wrap',wordWrap: 'break-word', wordBreak: 'break-all' }}>{item.desc}</p>;
         }
       }
     ];
