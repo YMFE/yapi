@@ -1,10 +1,10 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import { Modal, Collapse, Row, Col, Input, message, Button, Icon } from 'antd';
+import React, {PureComponent as Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Col, Collapse, Input, message, Modal, Row, Table} from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { withRouter } from 'react-router';
-import { fetchInterfaceColList } from '../../../../../reducer/modules/interfaceCol';
+import {withRouter} from 'react-router';
+import {fetchInterfaceColList} from '../../../../../reducer/modules/interfaceCol';
 
 const { TextArea } = Input;
 const Panel = Collapse.Panel;
@@ -67,13 +67,26 @@ export default class AddColModal extends Component {
     }
   };
 
-  select = id => {
-    this.setState({ id });
+  rowRadioSelection = {
+    type: 'radio',
+    onSelect: (record) => {
+      this.setState({
+        id: record._id
+      });
+    }
   };
 
   render() {
     const { interfaceColList = [] } = this.props;
     const { id } = this.state;
+    const columns = [
+      {
+        title: '用例集合',
+        dataIndex: 'title',
+        width: '100%'
+      }
+    ];
+
     return (
       <Modal
         className="add-col-modal"
@@ -95,22 +108,8 @@ export default class AddColModal extends Component {
           </Col>
         </Row>
         <p>请选择添加到的集合：</p>
-        <ul className="col-list">
-          {interfaceColList.length ? (
-            interfaceColList.map(col => (
-              <li
-                key={col._id}
-                className={`col-item ${col._id === id ? 'selected' : ''}`}
-                onClick={() => this.select(col._id)}
-              >
-                <Icon type="folder-open" style={{ marginRight: 6 }} />
-                {col.name}
-              </li>
-            ))
-          ) : (
-            <span>暂无集合，请添加！</span>
-          )}
-        </ul>
+        <Table columns={columns} rowSelection={this.rowRadioSelection} dataSource={interfaceColList}
+               pagination={false}/>
         <Collapse>
           <Panel header="添加新集合">
             <Row gutter={6} className="modal-input">

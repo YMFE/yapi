@@ -517,11 +517,50 @@ export default class Run extends Component {
  //   console.log({pathParam,name, v, index, key});
 
     pathParam[index][key] = v;
+    pathParam[index].isexampler=v===pathParam[index].example;
     if (key === 'value') {
       pathParam[index].enable = !!v;
     }
     this.setState({
       [name]: pathParam
+    });
+  };
+
+  swichitemvalue=item=>{
+    console.log({item});
+    item.tempValue=item.value===item.example?item.tempValue:item.value;
+    item.isexampler=item.isexampler?false:true;
+    if(item.value!==item.example){
+      item.value = item.example;
+    }else{
+      item.value = item.tempValue;
+    }
+  }
+
+  isexampler = () => {
+    const req_params = deepCopyJson(this.state.req_params);
+    const req_query = deepCopyJson(this.state.req_query);
+    const req_headers = deepCopyJson(this.state.req_headers);
+    const bodyForm = deepCopyJson(this.state.req_body_form);
+
+    //   console.log({pathParam,name, v, index, key});
+    for(let i=0;i<req_params.length;i++){
+      this.swichitemvalue(req_params[i]);
+    }
+    for(let i=0;i<req_query.length;i++){
+      this.swichitemvalue(req_query[i]);
+    }
+    for(let i=0;i<req_headers.length;i++){
+      this.swichitemvalue(req_headers[i]);
+    }
+    for(let i=0;i<bodyForm.length;i++){
+      this.swichitemvalue(bodyForm[i]);
+    }
+    this.setState({
+      req_params : req_params,
+      req_query:req_query,
+      req_headers:req_headers,
+      req_body_form:bodyForm
     });
   };
 
@@ -543,6 +582,7 @@ export default class Run extends Component {
 
   changetv = (item,name, index, key) => {
     item.tempValue=item.value===item.example?item.tempValue:item.value;
+    item.isexampler=item.isexampler?false:true;
     if(item.value!==item.example){
       name==='req_body_form'?this.changeBody(item.example, index, key):this.changeParam(name,item.example,index,key);
     }else{
@@ -553,7 +593,7 @@ export default class Run extends Component {
   content = (item, name, index, key) => {
     return (
       <div >
-        <Icon type="swap" onClick={e => {
+        <Icon type="swap" style={{ color: item.isexampler?'rgba(255, 0, 0,0.7)':'rgba(0, 0, 0,0.7)'}} onClick={e => {
           e.stopPropagation();
           this.changetv(item,name, index, key);
         }} />
@@ -561,6 +601,17 @@ export default class Run extends Component {
       </div>
     )
   };
+
+    prefix=(item, name, index)=>{
+     console.log({item})
+      return (
+        <Icon type="swap" style={{ color: item.isexampler?'rgba(255, 0, 0,0.7)':'rgba(0, 0, 0,0.7)'}}
+              onClick={e => {
+                e.stopPropagation();
+                this.changetv(item,name, index);
+              }}/>
+      )
+    }
 
   render() {
     const {
@@ -642,6 +693,20 @@ export default class Run extends Component {
 
           <Tooltip
             placement="bottom"
+            title='示例数据和参数值间切换'
+          >
+            <Button
+              onClick={this.isexampler}
+              type="primary"
+              style={{ marginLeft: 10 }}
+
+            >
+              切换参数
+            </Button>
+          </Tooltip>
+
+          <Tooltip
+            placement="bottom"
             title={(() => {
               if (hasPlugin) {
                 return '发送请求';
@@ -691,7 +756,8 @@ export default class Run extends Component {
                   <ParamsNameComponent example={this.content(item, 'req_params',index)} desc={item.desc} name={item.name}/>
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    value={item.isexampler?item.example:item.value}
+                    prefix={this.prefix(item, 'req_params',index)}
                     className="value"
                     onChange={e => this.changeParam('req_params', e.target.value, index)}
                     placeholder="参数值"
@@ -745,7 +811,8 @@ export default class Run extends Component {
                   )}
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    value={item.isexampler?item.example:item.value}
+                    prefix={this.prefix(item, 'req_query',index)}
                     className="value"
                     onChange={e => this.changeParam('req_query', e.target.value, index)}
                     placeholder="参数值"
@@ -777,7 +844,8 @@ export default class Run extends Component {
                   <ParamsNameComponent example={this.content(item, 'req_headers',index)} desc={item.desc} name={item.name} />
                   <span className="eq-symbol">=</span>
                   <Input
-                    value={item.value}
+                    value={item.isexampler?item.example:item.value}
+                    prefix={this.prefix(item, 'req_headers',index)}
                     disabled={!!item.abled}
                     className="value"
                     onChange={e => this.changeParam('req_headers', e.target.value, index)}
@@ -879,7 +947,8 @@ export default class Run extends Component {
                           // />
                         ) : (
                           <Input
-                            value={item.value}
+                            value={item.isexampler?item.example:item.value}
+                            prefix={this.prefix(item, 'req_body_form',index)}
                             className="value"
                             onChange={e => this.changeBody(e.target.value, index)}
                             placeholder="参数值"
