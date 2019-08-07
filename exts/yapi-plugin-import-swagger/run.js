@@ -123,7 +123,8 @@ const compareVersions = require('compare-versions');
     api.method = data.method.toUpperCase();
     api.title = data.summary || data.path;
     api.desc = data.description;
-    api.catname = data.tags && Array.isArray(data.tags) ? data.tags[0] : null;
+    api.catname = data.tags && Array.isArray(data.tags) ? data.tags[data.tags.length - 1] : null;
+    api.tags = data.tags.slice(0,data.tags.length - 1);
 
     api.path = handlePath(data.path);
     api.req_params = [];

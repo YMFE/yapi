@@ -247,13 +247,11 @@ class interfaceController extends baseController {
         '已存在的接口:' + params.path + '[' + params.method + ']'
       ));
     }
-
     let data = Object.assign(params, {
-      uid: this.getUid(),
+      uid: params.uid ? params.uid : this.getUid(),
       add_time: yapi.commons.time(),
       up_time: yapi.commons.time()
     });
-
     yapi.commons.handleVarPath(params.path, params.req_params);
 
     if (params.req_params.length > 0) {
@@ -336,6 +334,9 @@ class interfaceController extends baseController {
         return (ctx.body = yapi.commons.resReturn(null, 40033, '没有权限'));
       }
     }
+    //设置tag
+    params.tag = ctx.request.body.tags;
+
     params.method = params.method || 'GET';
     params.method = params.method.toUpperCase();
 
@@ -350,6 +351,8 @@ class interfaceController extends baseController {
     }
 
     let result = await this.Model.getByPath(params.project_id, params.path, params.method, '_id res_body');
+
+
 
     if (result.length > 0) {
       result.forEach(async item => {
@@ -368,6 +371,23 @@ class interfaceController extends baseController {
               data.params.res_body = JSON.stringify(mergeJsonSchema(old_res_body, new_res_body),null,2);
             }catch(err){}
           }
+          //判断接口是否完成
+          if (data.params.desc) {
+            let obj = JSON.parse(data.params.desc);
+            if (obj.status) {
+              data.params.status = obj.status;
+            } else {
+              data.params.status = 'undone';
+            }
+            data.params.desc = obj.desc;
+            if (obj.uid) {
+              data.params.uid = obj.uid;
+            } else if (obj.userName) {
+              let user = await this.userModel.findByName(obj.userName);
+              data.params.uid = user._id;
+              console.log(data.params.uid)
+            }
+          }
           await this.up(data);
         } else {
           return (ctx.body = yapi.commons.resReturn(null, 400, validResult.message));
@@ -377,6 +397,22 @@ class interfaceController extends baseController {
       let validResult = yapi.commons.validateParams(this.schemaMap['add'], params);
       if (validResult.valid) {
         let data = {};
+        //判断接口是否完成
+        if (params.desc) {
+          let obj = JSON.parse(params.desc);
+          if (obj.status) {
+            params.status = obj.status;
+          } else {
+            params.status = 'undone';
+          }
+          params.desc = obj.desc;
+          if (obj.uid) {
+            params.uid = obj.uid;
+          } else if (obj.userName) {
+            let user = await this.userModel.findByName(obj.userName);
+            params.uid = user._id;
+          }
+        }
         data.params = params;
         await this.add(data);
       } else {
@@ -654,6 +690,7 @@ class interfaceController extends baseController {
 
     let data = Object.assign(
       {
+        uid: params.uid ? params.uid : this.getUid(),
         up_time: yapi.commons.time()
       },
       params

@@ -109,6 +109,10 @@ class userModel extends baseModel {
       )
       .limit(10);
   }
+
+  findByName(userName) {
+    return this.model.findOne({username: userName});
+  }
 }
 
 module.exports = userModel;
