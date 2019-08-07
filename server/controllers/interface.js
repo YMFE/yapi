@@ -384,8 +384,9 @@ class interfaceController extends baseController {
               data.params.uid = obj.uid;
             } else if (obj.userName) {
               let user = await this.userModel.findByName(obj.userName);
-              data.params.uid = user._id;
-              console.log(data.params.uid)
+              if(user && user._id) {
+                data.params.uid = user._id;
+              }
             }
           }
           await this.up(data);
@@ -410,7 +411,9 @@ class interfaceController extends baseController {
             params.uid = obj.uid;
           } else if (obj.userName) {
             let user = await this.userModel.findByName(obj.userName);
-            params.uid = user._id;
+            if(user && user._id) {
+              params.uid = user._id;
+            }
           }
         }
         data.params = params;
