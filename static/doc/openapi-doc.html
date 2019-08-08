@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+      <html>
+      <head>
+      <title>yapi开放 api</title>
+      <meta charset="utf-8" />
+      <style>@charset "UTF-8";
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  font-size: 13px;
+  line-height: 25px;
+  color: #393838;
+  position: relative;
+}
+
+table {
+  margin: 10px 0 15px 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 3px 10px;
+}
+
+th {
+  padding: 5px 10px;
+}
+
+a, a:link, a:visited {
+  color: #34495e;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #59d69d;
+  text-decoration: none;
+}
+
+a img {
+  border: none;
+}
+
+p {
+  padding-left: 10px;
+  margin-bottom: 9px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #404040;
+  line-height: 36px;
+}
+
+h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-size: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  line-height: 50px;
+}
+
+h2 {
+  font-size: 28px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+h3 {
+  clear: both;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-left: 3px solid #59d69d;
+  padding-left: 8px;
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 13px;
+}
+
+hr {
+  margin: 0 0 19px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+blockquote {
+  padding: 13px 13px 21px 15px;
+  margin-bottom: 18px;
+  font-family: georgia, serif;
+  font-style: italic;
+}
+
+blockquote:before {
+  font-size: 40px;
+  margin-left: -10px;
+  font-family: georgia, serif;
+  color: #eee;
+}
+
+blockquote p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+code,
+pre {
+  font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+
+code {
+  background-color: #fee9cc;
+  color: rgba(0, 0, 0, 0.75);
+  padding: 1px 3px;
+  font-size: 12px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+pre {
+  display: block;
+  padding: 14px;
+  margin: 0 0 18px;
+  line-height: 16px;
+  font-size: 11px;
+  border: 1px solid #d9d9d9;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #f6f6f6;
+}
+
+pre code {
+  background-color: #f6f6f6;
+  color: #737373;
+  font-size: 11px;
+  padding: 0;
+}
+
+sup {
+  font-size: 0.83em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+* {
+  -webkit-print-color-adjust: exact;
+}
+
+@media print {
+  body,
+  code,
+  pre code,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black;
+  }
+
+  table,
+  pre {
+    page-break-inside: avoid;
+  }
+}
+html,
+body {
+  height: 100%;
+}
+
+.table-of-contents {
+  position: fixed;
+  top: 61px;
+  left: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 260px;
+}
+
+.table-of-contents > ul > li > a {
+  font-size: 20px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.table-of-contents ul {
+  overflow: auto;
+  margin: 0px;
+  height: 100%;
+  padding: 0px 0px;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+.table-of-contents ul li {
+  padding-left: 20px;
+}
+
+.table-of-contents a {
+  padding: 2px 0px;
+  display: block;
+  text-decoration: none;
+}
+
+.content-right {
+  max-width: 700px;
+  margin-left: 290px;
+  padding-left: 70px;
+  flex-grow: 1;
+}
+.content-right h2:target {
+  padding-top: 80px;
+}
+
+body > p {
+  margin-left: 30px;
+}
+
+body > table {
+  margin-left: 30px;
+}
+
+body > pre {
+  margin-left: 30px;
+}
+
+.curProject {
+  position: fixed;
+  top: 20px;
+  font-size: 25px;
+  color: black;
+  margin-left: -240px;
+  width: 240px;
+  padding: 5px;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+
+.g-doc {
+  margin-top: 56px;
+  padding-top: 24px;
+  display: flex;
+}
+
+.curproject-name {
+  font-size: 42px;
+}
+
+.m-header {
+  background: #32363a;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 60px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.m-header .title {
+  font-size: 22px;
+  color: #fff;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  margin-left: 16px;
+  padding: 0;
+  line-height: 56px;
+  border: none;
+}
+.m-header .nav {
+  color: #fff;
+  font-size: 16px;
+  position: absolute;
+  right: 32px;
+  top: 0;
+}
+.m-header .nav a {
+  color: #fff;
+  margin-left: 16px;
+  padding: 8px;
+  transition: color .2s;
+}
+.m-header .nav a:hover {
+  color: #59d69d;
+}
+
+.m-footer {
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+/*# sourceMappingURL=defaultTheme.css.map */
+</style>
+      </head>
+      <body>
+        <div class="m-header">
+          <a href="#" style="display: inherit;"><svg class="svg" width="32px" height="32px" viewBox="0 0 64 64" version="1.1"><title>Icon</title><desc>Created with Sketch.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#F2F2F2" offset="100%"></stop></linearGradient><circle id="path-2" cx="31.9988602" cy="31.9988602" r="2.92886048"></circle><filter x="-85.4%" y="-68.3%" width="270.7%" height="270.7%" filterUnits="objectBoundingBox" id="filter-3"><feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.159703351 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix></filter></defs><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="大屏幕"><g id="Icon"><circle id="Oval-1" fill="url(#linearGradient-1)" cx="32" cy="32" r="32"></circle><path d="M36.7078009,31.8054514 L36.7078009,51.7110548 C36.7078009,54.2844537 34.6258634,56.3695395 32.0579205,56.3695395 C29.4899777,56.3695395 27.4099998,54.0704461 27.4099998,51.7941246 L27.4099998,31.8061972 C27.4099998,29.528395 29.4909575,27.218453 32.0589004,27.230043 C34.6268432,27.241633 36.7078009,29.528395 36.7078009,31.8054514 Z" id="blue" fill="#2359F1" fill-rule="nonzero"></path><path d="M45.2586091,17.1026914 C45.2586091,17.1026914 45.5657231,34.0524383 45.2345291,37.01141 C44.9033351,39.9703817 43.1767091,41.6667796 40.6088126,41.6667796 C38.040916,41.6667796 35.9609757,39.3676862 35.9609757,37.0913646 L35.9609757,17.1034372 C35.9609757,14.825635 38.0418959,12.515693 40.6097924,12.527283 C43.177689,12.538873 45.2586091,14.825635 45.2586091,17.1026914 Z" id="green" fill="#57CF27" fill-rule="nonzero" transform="translate(40.674608, 27.097010) rotate(60.000000) translate(-40.674608, -27.097010) "></path><path d="M28.0410158,17.0465598 L28.0410158,36.9521632 C28.0410158,39.525562 25.9591158,41.6106479 23.3912193,41.6106479 C20.8233227,41.6106479 18.7433824,39.3115545 18.7433824,37.035233 L18.7433824,17.0473055 C18.7433824,14.7695034 20.8243026,12.4595614 23.3921991,12.4711513 C25.9600956,12.4827413 28.0410158,14.7695034 28.0410158,17.0465598 Z" id="red" fill="#FF561B" fill-rule="nonzero" transform="translate(23.392199, 27.040878) rotate(-60.000000) translate(-23.392199, -27.040878) "></path><g id="inner-round"><use fill="black" fill-opacity="1" filter="url(#filter-3)" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#path-2"></use><use fill="#F7F7F7" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#path-2"></use></g></g></g></g></svg></a>
+          <a href="#"><h1 class="title">YAPI 接口文档</h1></a>
+          <div class="nav">
+            <a href="https://yapi.ymfe.org/">YApi</a>
+          </div>
+        </div>
+        <div class="g-doc">
+          <div class="table-of-contents"><ul><li><a href="#u5f00u653eu63a5u53e3api">开放接口api</a><ul><li><a href="#u83b7u53d6u9879u76eeu57fau672cu4fe1u606f0a3ca20id3du83b7u53d6u9879u76eeu57fau672cu4fe1u606f3e203ca3e">获取项目基本信息
+<a id=获取项目基本信息> </a></a></li><li><a href="#u65b0u589eu63a5u53e3u5206u7c7b0a3ca20id3du65b0u589eu63a5u53e3u5206u7c7b3e203ca3e">新增接口分类
+<a id=新增接口分类> </a></a></li><li><a href="#u83b7u53d6u83dcu5355u5217u88680a3ca20id3du83b7u53d6u83dcu5355u5217u88683e203ca3e">获取菜单列表
+<a id=获取菜单列表> </a></a></li><li><a href="#u670du52a1u7aefu6570u636eu5bfcu51650a3ca20id3du670du52a1u7aefu6570u636eu5bfcu51653e203ca3e">服务端数据导入
+<a id=服务端数据导入> </a></a></li><li><a href="#u83b7u53d6u63a5u53e3u6570u636euff08u6709u8be6u7ec6u63a5u53e3u6570u636eu5b9au4e49u6587u6863uff090a3ca20id3du83b7u53d6u63a5u53e3u6570u636euff08u6709u8be6u7ec6u63a5u53e3u6570u636eu5b9au4e49u6587u6863uff093e203ca3e">获取接口数据（有详细接口数据定义文档）
+<a id=获取接口数据（有详细接口数据定义文档）> </a></a></li><li><a href="#u83b7u53d6u67d0u4e2au5206u7c7bu4e0bu63a5u53e3u5217u88680a3ca20id3du83b7u53d6u67d0u4e2au5206u7c7bu4e0bu63a5u53e3u5217u88683e203ca3e">获取某个分类下接口列表
+<a id=获取某个分类下接口列表> </a></a></li><li><a href="#u65b0u589eu63a5u53e30a3ca20id3du65b0u589eu63a5u53e33e203ca3e">新增接口
+<a id=新增接口> </a></a></li><li><a href="#u65b0u589eu6216u8005u66f4u65b0u63a5u53e30a3ca20id3du65b0u589eu6216u8005u66f4u65b0u63a5u53e33e203ca3e">新增或者更新接口
+<a id=新增或者更新接口> </a></a></li><li><a href="#u83b7u53d6u63a5u53e3u5217u8868u6570u636e0a3ca20id3du83b7u53d6u63a5u53e3u5217u8868u6570u636e3e203ca3e">获取接口列表数据
+<a id=获取接口列表数据> </a></a></li><li><a href="#u66f4u65b0u63a5u53e30a3ca20id3du66f4u65b0u63a5u53e33e203ca3e">更新接口
+<a id=更新接口> </a></a></li><li><a href="#u83b7u53d6u63a5u53e3u83dcu5355u5217u88680a3ca20id3du83b7u53d6u63a5u53e3u83dcu5355u5217u88683e203ca3e">获取接口菜单列表
+<a id=获取接口菜单列表> </a></a></li></ul></li></ul></div>
+          <div id="right" class="content-right">
+           <h1 class="curproject-name"> yapi开放 api </h1> 
+<h1 id="u5f00u653eu63a5u53e3api">开放接口api</h1>
+<p></p>
+<h2 id="u83b7u53d6u9879u76eeu57fau672cu4fe1u606f0a3ca20id3du83b7u53d6u9879u76eeu57fau672cu4fe1u606f3e203ca3e">获取项目基本信息
+<a id=获取项目基本信息> </a></h2>
+<p></p>
+<h3 id="">基本信息</h3>
+<p><strong>Path：</strong> /api/project/get</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-2">请求参数</h3>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td>项目token</td>
+</tr>
+</tbody>
+</table>
+<h2 id="u65b0u589eu63a5u53e3u5206u7c7b0a3ca20id3du65b0u589eu63a5u53e3u5206u7c7b3e203ca3e">新增接口分类
+<a id=新增接口分类> </a></h2>
+<p></p>
+<h3 id="-3">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/add_cat</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-4">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>desc</td>
+<td>text</td>
+<td>否</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_id</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>token</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="u83b7u53d6u83dcu5355u5217u88680a3ca20id3du83b7u53d6u83dcu5355u5217u88683e203ca3e">获取菜单列表
+<a id=获取菜单列表> </a></h2>
+<p></p>
+<h3 id="-5">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/getCatMenu</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-6">请求参数</h3>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_id</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="u670du52a1u7aefu6570u636eu5bfcu51650a3ca20id3du670du52a1u7aefu6570u636eu5bfcu51653e203ca3e">服务端数据导入
+<a id=服务端数据导入> </a></h2>
+<p></p>
+<h3 id="-7">基本信息</h3>
+<p><strong>Path：</strong> /api/open/import_data</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-8">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>text</td>
+<td>是</td>
+<td>swagger</td>
+<td>导入方式</td>
+</tr>
+<tr>
+<td>json</td>
+<td>text</td>
+<td>否</td>
+<td>{&quot;a&quot;: 1}</td>
+<td>json 数据，类型为序列化后的字符串，请勿传递 object</td>
+</tr>
+<tr>
+<td>merge</td>
+<td>text</td>
+<td>是</td>
+<td>normal</td>
+<td>数据同步方式 normal&quot;(普通模式) , &quot;good&quot;(智能合并), &quot;merge&quot;(完全覆盖) 三种模式</td>
+</tr>
+<tr>
+<td>token</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url</td>
+<td>text</td>
+<td>否</td>
+<td></td>
+<td>导入数据url，如果存在该参数，将会通过 url 方式获取数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="u83b7u53d6u63a5u53e3u6570u636euff08u6709u8be6u7ec6u63a5u53e3u6570u636eu5b9au4e49u6587u6863uff090a3ca20id3du83b7u53d6u63a5u53e3u6570u636euff08u6709u8be6u7ec6u63a5u53e3u6570u636eu5b9au4e49u6587u6863uff093e203ca3e">获取接口数据（有详细接口数据定义文档）
+<a id=获取接口数据（有详细接口数据定义文档）> </a></h2>
+<p></p>
+<h3 id="-9">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/get</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-10">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>是</td>
+<td></td>
+<td>接口id</td>
+</tr>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="-11">返回数据</h3>
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> errcode</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> errmsg</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> _id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">接口id</span></td><td key=5></td></tr><tr key=0-2-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> project_id</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">项目id</span></td><td key=5></td></tr><tr key=0-2-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> catid</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">品类id</span></td><td key=5></td></tr><tr key=0-2-3><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-4><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> path</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">请求路径</span></td><td key=5></td></tr><tr key=0-2-5><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> method</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">请求method</span></td><td key=5></td></tr><tr key=0-2-6><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> req_body_type</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">请求数据类型</span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>raw,form,json</span></p></td></tr><tr key=0-2-7><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> res_body</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">返回数据</span></td><td key=5></td></tr><tr key=0-2-8><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> res_body_type</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">返回数据类型</span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>json,raw</span></p></td></tr><tr key=0-2-9><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> uid</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">用户uid</span></td><td key=5></td></tr><tr key=0-2-10><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> add_time</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-11><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> up_time</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-12><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> req_body_form</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">请求 form 参数</span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-2-12-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-12-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-12-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> example</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-12-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> desc</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-12-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> required</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3>1</td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>1,0</span></p></td></tr><tr key=0-2-13><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> req_params</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-2-13-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-13-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> example</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-13-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> desc</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-14><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> req_headers</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-2-14-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-14-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-14-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> example</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-14-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> desc</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-14-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> required</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3>1</td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>1,0</span></p></td></tr><tr key=0-2-15><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> req_query</span></td><td key=1><span>object []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key=0-2-15-0><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> name</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-15-1><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> type</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-15-2><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> example</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-15-3><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> desc</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-2-15-4><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> required</span></td><td key=1><span>string</span></td><td key=2>必须</td><td key=3>1</td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=2><span style="font-weight: '700'">枚举: </span><span>1,0</span></p></td></tr><tr key=0-2-16><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> status</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">接口状态</span></td><td key=5></td></tr><tr key=0-2-17><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> edit_uid</span></td><td key=1><span>number</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">修改的用户uid</span></td><td key=5></td></tr><tr key=0-2-18><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> res_body_is_json_schema</span></td><td key=1><span>boolean</span></td><td key=2>必须</td><td key=3>false</td><td key=4><span style="white-space: pre-wrap">返回数据是否为 json-schema</span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+<h2 id="u83b7u53d6u67d0u4e2au5206u7c7bu4e0bu63a5u53e3u5217u88680a3ca20id3du83b7u53d6u67d0u4e2au5206u7c7bu4e0bu63a5u53e3u5217u88683e203ca3e">获取某个分类下接口列表
+<a id=获取某个分类下接口列表> </a></h2>
+<p></p>
+<h3 id="-12">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/list_cat</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-13">请求参数</h3>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td>项目token</td>
+</tr>
+<tr>
+<td>catid</td>
+<td>是</td>
+<td></td>
+<td>分类id</td>
+</tr>
+<tr>
+<td>page</td>
+<td>否</td>
+<td>1</td>
+<td>当前页面</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>否</td>
+<td>10</td>
+<td>每页数量，默认为10，如果不想要分页数据，可将 limit 设置为比较大的数字，比如 1000</td>
+</tr>
+</tbody>
+</table>
+<h2 id="u65b0u589eu63a5u53e30a3ca20id3du65b0u589eu63a5u53e33e203ca3e">新增接口
+<a id=新增接口> </a></h2>
+<p></p>
+<h3 id="-14">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/add</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-15">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<pre><code class="language-javascript">{
+   &quot;token&quot;: &quot;xxx&quot;,
+   &quot;req_query&quot;: [],
+   &quot;req_headers&quot;: [
+      {
+         &quot;name&quot;: &quot;Content-Type&quot;
+      }
+   ],
+   &quot;req_body_form&quot;: [],
+   &quot;title&quot;: &quot;/api/group/list&quot;,
+   &quot;catid&quot;: &quot;1376&quot;,
+   &quot;path&quot;: &quot;/api/group/list&quot;,
+   &quot;status&quot;: &quot;undone&quot;,
+   &quot;res_body_type&quot;: &quot;json&quot;,
+   &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: [\n      {\n         \&quot;_id\&quot;: 11,\n         \&quot;group_name\&quot;: \&quot;个人空间\&quot;,\n         \&quot;add_time\&quot;: 1507877807,\n         \&quot;up_time\&quot;: 1507877807,\n         \&quot;type\&quot;: \&quot;private\&quot;,\n         \&quot;role\&quot;: \&quot;owner\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 358,\n         \&quot;group_name\&quot;: \&quot;测试新组长\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152313,\n         \&quot;up_time\&quot;: 1510216549,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 295,\n         \&quot;group_name\&quot;: \&quot;eerurueuff\&quot;,\n         \&quot;group_desc\&quot;: \&quot;sdsuddhdh\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1509678660,\n         \&quot;up_time\&quot;: 1509678660,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 19,\n         \&quot;group_name\&quot;: \&quot;demo\&quot;,\n         \&quot;group_desc\&quot;: \&quot;demo\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507877873,\n         \&quot;up_time\&quot;: 1509679366,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 402,\n         \&quot;group_name\&quot;: \&quot;yy\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511431183,\n         \&quot;up_time\&quot;: 1511431183,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 390,\n         \&quot;group_name\&quot;: \&quot;ttt\&quot;,\n         \&quot;group_desc\&quot;: \&quot;4\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511430683,\n         \&quot;up_time\&quot;: 1511430683,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 384,\n         \&quot;group_name\&quot;: \&quot;yapi 上线测试分组（误删）\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511264706,\n         \&quot;up_time\&quot;: 1511264706,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 373,\n         \&quot;group_name\&quot;: \&quot;test\&quot;,\n         \&quot;group_desc\&quot;: \&quot;巍峨如如如如\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510747315,\n         \&quot;up_time\&quot;: 1510747315,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 366,\n         \&quot;group_name\&quot;: \&quot;测试新组长1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152399,\n         \&quot;up_time\&quot;: 1510152403,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 151,\n         \&quot;group_name\&quot;: \&quot;test_123\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1508489714,\n         \&quot;up_time\&quot;: 1508489714,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 40,\n         \&quot;group_name\&quot;: \&quot;test1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507882145,\n         \&quot;up_time\&quot;: 1507882145,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      }\n   ]\n}&quot;,
+   &quot;switch_notice&quot;: false,
+   &quot;message&quot;: &quot;&quot;,
+   &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+   &quot;method&quot;: &quot;GET&quot;,
+   &quot;req_params&quot;: []
+}
+</code></pre>
+<h3 id="-16">返回数据</h3>
+<pre><code class="language-javascript">{
+   &quot;errcode&quot;: 0,
+   &quot;errmsg&quot;: &quot;成功！&quot;,
+   &quot;data&quot;: {
+      &quot;ok&quot;: 1,
+      &quot;nModified&quot;: 1,
+      &quot;n&quot;: 1
+   }
+}
+</code></pre>
+<h2 id="u65b0u589eu6216u8005u66f4u65b0u63a5u53e30a3ca20id3du65b0u589eu6216u8005u66f4u65b0u63a5u53e33e203ca3e">新增或者更新接口
+<a id=新增或者更新接口> </a></h2>
+<p></p>
+<h3 id="-17">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/save</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-18">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<pre><code class="language-javascript">{
+   &quot;token&quot;: &quot;...&quot;,
+   &quot;req_query&quot;: [],
+   &quot;req_headers&quot;: [
+      {
+         &quot;name&quot;: &quot;Content-Type&quot;
+      }
+   ],
+   &quot;req_body_form&quot;: [],
+   &quot;title&quot;: &quot;/api/group/list&quot;,
+   &quot;catid&quot;: &quot;1376&quot;,
+   &quot;path&quot;: &quot;/api/group/list&quot;,
+   &quot;status&quot;: &quot;undone&quot;,
+   &quot;res_body_type&quot;: &quot;json&quot;,
+   &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: [\n      {\n         \&quot;_id\&quot;: 11,\n         \&quot;group_name\&quot;: \&quot;个人空间\&quot;,\n         \&quot;add_time\&quot;: 1507877807,\n         \&quot;up_time\&quot;: 1507877807,\n         \&quot;type\&quot;: \&quot;private\&quot;,\n         \&quot;role\&quot;: \&quot;owner\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 358,\n         \&quot;group_name\&quot;: \&quot;测试新组长\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152313,\n         \&quot;up_time\&quot;: 1510216549,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 295,\n         \&quot;group_name\&quot;: \&quot;eerurueuff\&quot;,\n         \&quot;group_desc\&quot;: \&quot;sdsuddhdh\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1509678660,\n         \&quot;up_time\&quot;: 1509678660,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 19,\n         \&quot;group_name\&quot;: \&quot;demo\&quot;,\n         \&quot;group_desc\&quot;: \&quot;demo\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507877873,\n         \&quot;up_time\&quot;: 1509679366,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 402,\n         \&quot;group_name\&quot;: \&quot;yy\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511431183,\n         \&quot;up_time\&quot;: 1511431183,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 390,\n         \&quot;group_name\&quot;: \&quot;ttt\&quot;,\n         \&quot;group_desc\&quot;: \&quot;4\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511430683,\n         \&quot;up_time\&quot;: 1511430683,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 384,\n         \&quot;group_name\&quot;: \&quot;yapi 上线测试分组（误删）\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511264706,\n         \&quot;up_time\&quot;: 1511264706,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 373,\n         \&quot;group_name\&quot;: \&quot;test\&quot;,\n         \&quot;group_desc\&quot;: \&quot;巍峨如如如如\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510747315,\n         \&quot;up_time\&quot;: 1510747315,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 366,\n         \&quot;group_name\&quot;: \&quot;测试新组长1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152399,\n         \&quot;up_time\&quot;: 1510152403,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 151,\n         \&quot;group_name\&quot;: \&quot;test_123\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1508489714,\n         \&quot;up_time\&quot;: 1508489714,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 40,\n         \&quot;group_name\&quot;: \&quot;test1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507882145,\n         \&quot;up_time\&quot;: 1507882145,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      }\n   ]\n}&quot;,
+   &quot;switch_notice&quot;: false,
+   &quot;message&quot;: &quot;&quot;,
+   &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+   &quot;method&quot;: &quot;GET&quot;,
+   &quot;req_params&quot;: [],
+   &quot;id&quot;: &quot;4396&quot;
+}
+</code></pre>
+<h3 id="-19">返回数据</h3>
+<pre><code class="language-javascript">{
+   &quot;errcode&quot;: 0,
+   &quot;errmsg&quot;: &quot;成功！&quot;,
+   &quot;data&quot;: {
+      &quot;ok&quot;: 1,
+      &quot;nModified&quot;: 1,
+      &quot;n&quot;: 1
+   }
+}
+</code></pre>
+<h2 id="u83b7u53d6u63a5u53e3u5217u8868u6570u636e0a3ca20id3du83b7u53d6u63a5u53e3u5217u8868u6570u636e3e203ca3e">获取接口列表数据
+<a id=获取接口列表数据> </a></h2>
+<p></p>
+<h3 id="-20">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/list</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-21">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_id</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>是</td>
+<td>1</td>
+<td>当前页数</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>是</td>
+<td>10</td>
+<td>每页数量，默认为10，如果不想要分页数据，可将 limit 设置为比较大的数字，比如 1000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-22">返回数据</h3>
+<pre><code class="language-javascript">{
+   &quot;errcode&quot;: 0,
+   &quot;errmsg&quot;: &quot;成功！&quot;,
+   &quot;data&quot;: [
+      {
+         &quot;_id&quot;: 4444,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/del&quot;,
+         &quot;path&quot;: &quot;/api/group/del&quot;,
+         &quot;method&quot;: &quot;POST&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431246,
+         &quot;up_time&quot;: 1511751531,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4436,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/up&quot;,
+         &quot;path&quot;: &quot;/api/group/up&quot;,
+         &quot;method&quot;: &quot;POST&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431246,
+         &quot;up_time&quot;: 1511751572,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4428,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/get_member_list&quot;,
+         &quot;path&quot;: &quot;/api/group/get_member_list&quot;,
+         &quot;method&quot;: &quot;GET&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511431245,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4420,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/log/list&quot;,
+         &quot;path&quot;: &quot;/api/log/list&quot;,
+         &quot;method&quot;: &quot;GET&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511431245,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4412,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/get&quot;,
+         &quot;path&quot;: &quot;/api/group/get&quot;,
+         &quot;method&quot;: &quot;GET&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511431245,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4404,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/project/list&quot;,
+         &quot;path&quot;: &quot;/api/project/list&quot;,
+         &quot;method&quot;: &quot;GET&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511431245,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4396,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/list&quot;,
+         &quot;path&quot;: &quot;/api/group/list&quot;,
+         &quot;method&quot;: &quot;GET&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511431245,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      },
+      {
+         &quot;_id&quot;: 4388,
+         &quot;project_id&quot;: 299,
+         &quot;catid&quot;: 1376,
+         &quot;title&quot;: &quot;/api/group/add&quot;,
+         &quot;path&quot;: &quot;/api/group/add&quot;,
+         &quot;method&quot;: &quot;POST&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511431245,
+         &quot;up_time&quot;: 1511493611,
+         &quot;status&quot;: &quot;undone&quot;,
+         &quot;edit_uid&quot;: 0
+      }
+   ]
+}
+</code></pre>
+<h2 id="u66f4u65b0u63a5u53e30a3ca20id3du66f4u65b0u63a5u53e33e203ca3e">更新接口
+<a id=更新接口> </a></h2>
+<p></p>
+<h3 id="-23">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/up</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-24">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Body</strong></p>
+<pre><code class="language-javascript">{
+   &quot;token&quot;: &quot;xxx&quot;,
+   &quot;req_query&quot;: [],
+   &quot;req_headers&quot;: [
+      {
+         &quot;name&quot;: &quot;Content-Type&quot;
+      }
+   ],
+   &quot;req_body_form&quot;: [],
+   &quot;title&quot;: &quot;/api/group/list&quot;,
+   &quot;catid&quot;: &quot;1376&quot;,
+   &quot;path&quot;: &quot;/api/group/list&quot;,
+   &quot;status&quot;: &quot;undone&quot;,
+   &quot;res_body_type&quot;: &quot;json&quot;,
+   &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: [\n      {\n         \&quot;_id\&quot;: 11,\n         \&quot;group_name\&quot;: \&quot;个人空间\&quot;,\n         \&quot;add_time\&quot;: 1507877807,\n         \&quot;up_time\&quot;: 1507877807,\n         \&quot;type\&quot;: \&quot;private\&quot;,\n         \&quot;role\&quot;: \&quot;owner\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 358,\n         \&quot;group_name\&quot;: \&quot;测试新组长\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152313,\n         \&quot;up_time\&quot;: 1510216549,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 295,\n         \&quot;group_name\&quot;: \&quot;eerurueuff\&quot;,\n         \&quot;group_desc\&quot;: \&quot;sdsuddhdh\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1509678660,\n         \&quot;up_time\&quot;: 1509678660,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 19,\n         \&quot;group_name\&quot;: \&quot;demo\&quot;,\n         \&quot;group_desc\&quot;: \&quot;demo\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507877873,\n         \&quot;up_time\&quot;: 1509679366,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 402,\n         \&quot;group_name\&quot;: \&quot;yy\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511431183,\n         \&quot;up_time\&quot;: 1511431183,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 390,\n         \&quot;group_name\&quot;: \&quot;ttt\&quot;,\n         \&quot;group_desc\&quot;: \&quot;4\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511430683,\n         \&quot;up_time\&quot;: 1511430683,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 384,\n         \&quot;group_name\&quot;: \&quot;yapi 上线测试分组（误删）\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511264706,\n         \&quot;up_time\&quot;: 1511264706,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 373,\n         \&quot;group_name\&quot;: \&quot;test\&quot;,\n         \&quot;group_desc\&quot;: \&quot;巍峨如如如如\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510747315,\n         \&quot;up_time\&quot;: 1510747315,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 366,\n         \&quot;group_name\&quot;: \&quot;测试新组长1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152399,\n         \&quot;up_time\&quot;: 1510152403,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 151,\n         \&quot;group_name\&quot;: \&quot;test_123\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1508489714,\n         \&quot;up_time\&quot;: 1508489714,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 40,\n         \&quot;group_name\&quot;: \&quot;test1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507882145,\n         \&quot;up_time\&quot;: 1507882145,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      }\n   ]\n}&quot;,
+   &quot;switch_notice&quot;: false,
+   &quot;message&quot;: &quot;&quot;,
+   &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+   &quot;method&quot;: &quot;GET&quot;,
+   &quot;req_params&quot;: [],
+   &quot;id&quot;: &quot;4396&quot;
+}
+</code></pre>
+<h3 id="-25">返回数据</h3>
+<pre><code class="language-javascript">{
+   &quot;errcode&quot;: 0,
+   &quot;errmsg&quot;: &quot;成功！&quot;,
+   &quot;data&quot;: {
+      &quot;ok&quot;: 1,
+      &quot;nModified&quot;: 1,
+      &quot;n&quot;: 1
+   }
+}
+</code></pre>
+<h2 id="u83b7u53d6u63a5u53e3u83dcu5355u5217u88680a3ca20id3du83b7u53d6u63a5u53e3u83dcu5355u5217u88683e203ca3e">获取接口菜单列表
+<a id=获取接口菜单列表> </a></h2>
+<p></p>
+<h3 id="-26">基本信息</h3>
+<p><strong>Path：</strong> /api/interface/list_menu</p>
+<p><strong>Method：</strong> GET</p>
+<p><strong>接口描述：</strong></p>
+<h3 id="-27">请求参数</h3>
+<p><strong>Headers</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Query</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_id</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>token</td>
+<td>是</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="-28">返回数据</h3>
+<pre><code class="language-javascript">{
+   &quot;errcode&quot;: 0,
+   &quot;errmsg&quot;: &quot;成功！&quot;,
+   &quot;data&quot;: [
+      {
+         &quot;_id&quot;: 1376,
+         &quot;name&quot;: &quot;公共分类&quot;,
+         &quot;project_id&quot;: 299,
+         &quot;desc&quot;: &quot;公共分类&quot;,
+         &quot;uid&quot;: 11,
+         &quot;add_time&quot;: 1511428816,
+         &quot;up_time&quot;: 1511428816,
+         &quot;__v&quot;: 0,
+         &quot;list&quot;: [
+            {
+               &quot;_id&quot;: 4396,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/list&quot;,
+               &quot;path&quot;: &quot;/api/group/list&quot;,
+               &quot;method&quot;: &quot;GET&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: [\n      {\n         \&quot;_id\&quot;: 11,\n         \&quot;group_name\&quot;: \&quot;个人空间\&quot;,\n         \&quot;add_time\&quot;: 1507877807,\n         \&quot;up_time\&quot;: 1507877807,\n         \&quot;type\&quot;: \&quot;private\&quot;,\n         \&quot;role\&quot;: \&quot;owner\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 358,\n         \&quot;group_name\&quot;: \&quot;测试新组长\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152313,\n         \&quot;up_time\&quot;: 1510216549,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 295,\n         \&quot;group_name\&quot;: \&quot;eerurueuff\&quot;,\n         \&quot;group_desc\&quot;: \&quot;sdsuddhdh\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1509678660,\n         \&quot;up_time\&quot;: 1509678660,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 19,\n         \&quot;group_name\&quot;: \&quot;demo\&quot;,\n         \&quot;group_desc\&quot;: \&quot;demo\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507877873,\n         \&quot;up_time\&quot;: 1509679366,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 402,\n         \&quot;group_name\&quot;: \&quot;yy\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511431183,\n         \&quot;up_time\&quot;: 1511431183,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 390,\n         \&quot;group_name\&quot;: \&quot;ttt\&quot;,\n         \&quot;group_desc\&quot;: \&quot;4\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511430683,\n         \&quot;up_time\&quot;: 1511430683,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 384,\n         \&quot;group_name\&quot;: \&quot;yapi 上线测试分组（误删）\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1511264706,\n         \&quot;up_time\&quot;: 1511264706,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 373,\n         \&quot;group_name\&quot;: \&quot;test\&quot;,\n         \&quot;group_desc\&quot;: \&quot;巍峨如如如如\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510747315,\n         \&quot;up_time\&quot;: 1510747315,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 366,\n         \&quot;group_name\&quot;: \&quot;测试新组长1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;是组长，但不是超级管理员的情况\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1510152399,\n         \&quot;up_time\&quot;: 1510152403,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 151,\n         \&quot;group_name\&quot;: \&quot;test_123\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1508489714,\n         \&quot;up_time\&quot;: 1508489714,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      },\n      {\n         \&quot;_id\&quot;: 40,\n         \&quot;group_name\&quot;: \&quot;test1\&quot;,\n         \&quot;group_desc\&quot;: \&quot;\&quot;,\n         \&quot;uid\&quot;: 11,\n         \&quot;add_time\&quot;: 1507882145,\n         \&quot;up_time\&quot;: 1507882145,\n         \&quot;type\&quot;: \&quot;public\&quot;,\n         \&quot;role\&quot;: \&quot;admin\&quot;\n      }\n   ]\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511431245,
+               &quot;__v&quot;: 0,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04a&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/list&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4404,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/project/list&quot;,
+               &quot;path&quot;: &quot;/api/project/list&quot;,
+               &quot;method&quot;: &quot;GET&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;list\&quot;: []\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511431245,
+               &quot;__v&quot;: 0,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04e&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [
+                  {
+                     &quot;name&quot;: &quot;group_id&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04d&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;name&quot;: &quot;page&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04c&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;name&quot;: &quot;limit&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04b&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/project/list&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4412,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/get&quot;,
+               &quot;path&quot;: &quot;/api/group/get&quot;,
+               &quot;method&quot;: &quot;GET&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;_id\&quot;: 402,\n      \&quot;group_name\&quot;: \&quot;yy\&quot;,\n      \&quot;group_desc\&quot;: \&quot;\&quot;,\n      \&quot;uid\&quot;: 11,\n      \&quot;add_time\&quot;: 1511431183,\n      \&quot;up_time\&quot;: 1511431183,\n      \&quot;type\&quot;: \&quot;public\&quot;,\n      \&quot;role\&quot;: \&quot;admin\&quot;\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511431245,
+               &quot;__v&quot;: 0,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb050&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [
+                  {
+                     &quot;name&quot;: &quot;id&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb04f&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/get&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4420,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/log/list&quot;,
+               &quot;path&quot;: &quot;/api/log/list&quot;,
+               &quot;method&quot;: &quot;GET&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;list\&quot;: [\n         {\n            \&quot;_id\&quot;: 18246,\n            \&quot;content\&quot;: \&quot;&lt;a href=\\\&quot;/user/profile/11\\\&quot;&gt;admin&lt;/a&gt; 新增了分组 &lt;a href=\\\&quot;/group/402\\\&quot;&gt;yy&lt;/a&gt;\&quot;,\n            \&quot;type\&quot;: \&quot;group\&quot;,\n            \&quot;uid\&quot;: 11,\n            \&quot;username\&quot;: \&quot;admin\&quot;,\n            \&quot;typeid\&quot;: 402,\n            \&quot;add_time\&quot;: 1511431183,\n            \&quot;__v\&quot;: 0\n         }\n      ],\n      \&quot;total\&quot;: 1\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511431245,
+               &quot;__v&quot;: 0,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb055&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [
+                  {
+                     &quot;name&quot;: &quot;typeid&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb054&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;name&quot;: &quot;type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb053&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;name&quot;: &quot;page&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb052&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;name&quot;: &quot;limit&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb051&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/log/list&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4428,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/get_member_list&quot;,
+               &quot;path&quot;: &quot;/api/group/get_member_list&quot;,
+               &quot;method&quot;: &quot;GET&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: []\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511431245,
+               &quot;__v&quot;: 0,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb057&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [
+                  {
+                     &quot;name&quot;: &quot;id&quot;,
+                     &quot;_id&quot;: &quot;5a169c4d13e840ea363bb056&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/get_member_list&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4436,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/up&quot;,
+               &quot;path&quot;: &quot;/api/group/up&quot;,
+               &quot;method&quot;: &quot;POST&quot;,
+               &quot;req_body_type&quot;: &quot;form&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;ok\&quot;: 1,\n      \&quot;nModified\&quot;: 1,\n      \&quot;n\&quot;: 1\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431246,
+               &quot;up_time&quot;: 1511751572,
+               &quot;req_body_other&quot;: &quot;{\n   \&quot;group_name\&quot;: \&quot;yy\&quot;,\n   \&quot;group_desc\&quot;: \&quot;hhh\&quot;,\n   \&quot;id\&quot;: 402\n}&quot;,
+               &quot;__v&quot;: 0,
+               &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+               &quot;req_body_form&quot;: [
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f940b6d003897955456&quot;,
+                     &quot;type&quot;: &quot;text&quot;,
+                     &quot;name&quot;: &quot;group_name&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f940b6d003897955455&quot;,
+                     &quot;desc&quot;: &quot;&quot;,
+                     &quot;example&quot;: &quot;&quot;,
+                     &quot;type&quot;: &quot;text&quot;,
+                     &quot;name&quot;: &quot;group_desc&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  },
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f940b6d003897955454&quot;,
+                     &quot;desc&quot;: &quot;&quot;,
+                     &quot;example&quot;: &quot;&quot;,
+                     &quot;type&quot;: &quot;text&quot;,
+                     &quot;name&quot;: &quot;id&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f940b6d003897955453&quot;,
+                     &quot;value&quot;: &quot;application/x-www-form-urlencoded&quot;,
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/up&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4444,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/del&quot;,
+               &quot;path&quot;: &quot;/api/group/del&quot;,
+               &quot;method&quot;: &quot;POST&quot;,
+               &quot;req_body_type&quot;: &quot;form&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;ok\&quot;: 1,\n      \&quot;n\&quot;: 1\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431246,
+               &quot;up_time&quot;: 1511751531,
+               &quot;req_body_other&quot;: &quot;{\n   \&quot;id\&quot;: 402\n}&quot;,
+               &quot;__v&quot;: 0,
+               &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+               &quot;req_body_form&quot;: [
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f6b0b6d003897955452&quot;,
+                     &quot;type&quot;: &quot;text&quot;,
+                     &quot;name&quot;: &quot;id&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;_id&quot;: &quot;5a1b7f6b0b6d003897955451&quot;,
+                     &quot;value&quot;: &quot;application/x-www-form-urlencoded&quot;,
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/del&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            },
+            {
+               &quot;_id&quot;: 4388,
+               &quot;project_id&quot;: 299,
+               &quot;catid&quot;: 1376,
+               &quot;title&quot;: &quot;/api/group/add&quot;,
+               &quot;path&quot;: &quot;/api/group/add&quot;,
+               &quot;method&quot;: &quot;POST&quot;,
+               &quot;req_body_type&quot;: &quot;json&quot;,
+               &quot;res_body&quot;: &quot;{\n   \&quot;errcode\&quot;: 0,\n   \&quot;errmsg\&quot;: \&quot;成功！\&quot;,\n   \&quot;data\&quot;: {\n      \&quot;_id\&quot;: 402,\n      \&quot;group_name\&quot;: \&quot;yy\&quot;,\n      \&quot;group_desc\&quot;: \&quot;\&quot;,\n      \&quot;uid\&quot;: 11,\n      \&quot;members\&quot;: [],\n      \&quot;type\&quot;: \&quot;public\&quot;\n   }\n}&quot;,
+               &quot;res_body_type&quot;: &quot;json&quot;,
+               &quot;uid&quot;: 11,
+               &quot;add_time&quot;: 1511431245,
+               &quot;up_time&quot;: 1511493611,
+               &quot;req_body_other&quot;: &quot;{\n   \&quot;group_name\&quot;: \&quot;yy\&quot;,\n   \&quot;group_desc\&quot;: \&quot;\&quot;,\n   \&quot;owner_uids\&quot;: []\n}&quot;,
+               &quot;__v&quot;: 0,
+               &quot;desc&quot;: &quot;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&quot;,
+               &quot;req_body_form&quot;: [],
+               &quot;req_params&quot;: [],
+               &quot;req_headers&quot;: [
+                  {
+                     &quot;_id&quot;: &quot;5a178feb7fd68d078196352b&quot;,
+                     &quot;value&quot;: &quot;application/json&quot;,
+                     &quot;name&quot;: &quot;Content-Type&quot;,
+                     &quot;required&quot;: &quot;1&quot;
+                  }
+               ],
+               &quot;req_query&quot;: [],
+               &quot;query_path&quot;: {
+                  &quot;path&quot;: &quot;/api/group/add&quot;,
+                  &quot;params&quot;: []
+               },
+               &quot;type&quot;: &quot;static&quot;,
+               &quot;status&quot;: &quot;undone&quot;,
+               &quot;edit_uid&quot;: 0
+            }
+         ]
+      }
+   ]
+}
+</code></pre>
+
+            <footer class="m-footer">
+              <p>Build by <a href="https://ymfe.org/">YMFE</a>.</p>
+            </footer>
+          </div>
+        </div>
+      </body>
+      </html>
+      
