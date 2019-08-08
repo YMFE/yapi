@@ -136,7 +136,7 @@ export default class Run extends Component {
       resStatusCode: null,
       test_valid_msg: null,
       test_script_msg: null,
-      resStatusText: null,
+      resStatusText: '',
       case_env: '',
       mock_verify: false,
       enable_script: false,
@@ -235,7 +235,7 @@ export default class Run extends Component {
         resStatusCode: null,
         test_valid_msg: null,
         test_script_msg:null,
-        resStatusText: null
+        resStatusText: ''
       },
       () => this.props.type === 'inter' && this.initEnvState(data.case_env, data.env)
     );

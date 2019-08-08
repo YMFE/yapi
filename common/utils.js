@@ -111,7 +111,7 @@ function handleParamsValue(val, context = {}) {
   if (!match) {
     // val ==> @name 或者 $.body
     if (val[0] === '@' || val[0] === '$') {
-      return handleFilter(val, val, context);
+       return handleFilter(val, val, context);
     }
   } else {
     return handleFilter(val, match[1], context);

@@ -182,6 +182,8 @@ class openController extends baseController {
     const projectId = ctx.params.project_id;
     const startTime = new Date().getTime();
     const testList = [];
+    const records = (this.records = {});
+    const reports = (this.reports = {});
     let rootid = ctx.params.id;
     let curEnvList = this.handleEvnParams(ctx.params);
 
@@ -214,7 +216,7 @@ class openController extends baseController {
           return key.project_id == item.project_id;
         });
 
-        let result = await this.caseItemrun(caseList[i], curEnvItem, projectData.pre_script,projectData.after_script);
+        let result = await this.caseItemrun(caseList[i], curEnvItem, projectData.pre_script,projectData.after_script,records,reports);
 
 
         testList.push(result);
@@ -288,9 +290,8 @@ class openController extends baseController {
     }
   }
 
-  async caseItemrun(caseme, curEnvItem, pre_script,after_script) {
-    const records = (this.records = {});
-    // const reports = (this.reports = {});
+  async caseItemrun(caseme, curEnvItem, pre_script,after_script,records,reports) {
+
     let item = caseme;
     let projectEvn = await this.projectModel.getByEnv(item.project_id);
     item.id = item._id;
@@ -306,7 +307,7 @@ class openController extends baseController {
     } catch (err) {
       result = err;
     }
-    // reports[item.id] = result;
+    reports[item.id] = result;
     records[item.id] = {
       params: result.params,
       body: result.res_body
@@ -314,26 +315,9 @@ class openController extends baseController {
     return result
   }
 
-  async runCase(ctx) {
-    if (!this.$tokenAuth) {
-      return (ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败'));
-    }
-
-    let caseme = JSON.parse(ctx.params.caseitme);
-  //  console.log({caseme});
-
-    let pre_script=ctx.params.pre_script
-    let after_script=ctx.params.after_script
-    let curEnvItem = ctx.params.env;
-    let result = await this.caseItemrun(caseme, curEnvItem, pre_script,after_script);
-    return (ctx.body = yapi.commons.resReturn(result));
-  }
-
   async handleTest(interfaceData) {
     let requestParams = {};
     let options;
-
-
     options = handleParams(interfaceData, this.handleValue, requestParams);
     let result = {
       id: interfaceData.id,
@@ -344,6 +328,8 @@ class openController extends baseController {
     };
 
     try {
+      options.taskId = this.getUid();
+
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script,createContex(
         this.getUid(),
         interfaceData.project_id,

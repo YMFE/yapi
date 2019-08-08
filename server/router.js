@@ -594,11 +594,6 @@ let routerConfig = {
       method: 'get'
     },
     {
-      action: 'runCase',
-      path: 'run_case',
-      method: 'post'
-    },
-    {
       action: 'importData',
       path: 'import_data',
       method: 'post'
