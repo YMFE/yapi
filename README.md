@@ -130,10 +130,11 @@
 
 #### 环境要求
 * nodejs（7.6+)
-* mongodb（2.6+）
+* mongodb（2.6+）   https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
 * git
 * forever
 * ykit
+* chrome  开启跨域 设置教程见：http://crazy-yapi.camdy.cn/doc/documents/chromeCORS.html
 
 ####  crazy-yapi 分支部署
 

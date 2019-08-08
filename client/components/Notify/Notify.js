@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Alert, message } from 'antd';
 
+
+
 export default class Notify extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,8 @@ export default class Notify extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://crazy-yapi.camdy.cn/mock/182/version').then(req => {
+
+    axios.get("http://crazy-yapi.camdy.cn/mock/11/version").then(req => {
       if (req.status === 200) {
         this.setState({ newVersion: req.data.data[0] });
       } else {

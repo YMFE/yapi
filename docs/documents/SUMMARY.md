@@ -28,6 +28,7 @@
 * [高级Mock](adv_mock.md)
   * [Mock 期望](adv_mock.md#Mock 期望)
   * [自定义脚本](adv_mock.md#自定义 Mock 脚本)
+* [Chrome跨域](chromeCORS.md)
 * [自动化测试](case.md)
   * [第一步，测试集合](case.md#第一步，测试集合)
   * [第二步，编辑测试用例](case.md#第二步，编辑测试用例)

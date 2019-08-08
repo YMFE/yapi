@@ -116,7 +116,12 @@ module.exports = {
                 "name": "数据导入",
                 "index": "data",
                 "content": "./doc/page/usage/data.md"
-            }
+            },
+              {
+                "name": "Chrome跨域",
+                "index": "chromecors",
+                "content": "./doc/page/usage/chromeCORS.md"
+              }
         ]
         }
     },

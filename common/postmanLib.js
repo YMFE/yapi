@@ -113,7 +113,11 @@ async function httpRequestByNode(options) {
     });
     return handleRes(response);
   } catch (err) {
+    console.log({err});
     if (err.response === undefined) {
+      if(err.message==="Network Error"){
+        err.message={"err":err.message,"des":"请参考教程开启chrome 跨域请求：http://crazy-yapi.camdy.cn/doc/documents/chromeCORS.html"}
+      }
       return handleRes({
         headers: {},
         status: null,

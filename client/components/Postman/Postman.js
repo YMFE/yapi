@@ -31,11 +31,13 @@ import json5 from 'json5';
 const FormItem = Form.Item;
 const { handleParamsValue, ArrayToObject, schemaValidator } = require('common/utils.js');
 const {
+  handleParams,
   checkRequestBodyIsRaw,
   handleContentType,
+  crossRequest,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
-
+const createContext = require('common/createContext')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
 const InputGroup = Input.Group;
@@ -302,6 +304,79 @@ export default class Run extends Component {
     });
   };
 
+  reqRealInterface = async () => {
+    const {pre_script,after_script,case_pre_script,case_post_script}=this.state;
+    if (this.state.loading === true) {
+      this.setState({
+        loading: false
+      });
+      return null;
+    }
+    this.setState({
+      loading: true
+    });
+
+    let options = handleParams(this.state, this.handleValue),
+      result;
+
+    try {
+      options.taskId = this.props.curUid;
+      result = await crossRequest(options, pre_script, after_script,case_pre_script,case_post_script, createContext(
+        this.props.curUid,
+        this.props.projectId,
+        this.props.interfaceId
+      ));
+      result = {
+        header: result.res.header,
+        body: result.res.body,
+        status: result.res.status,
+        statusText: result.res.statusText,
+        runTime: result.runTime
+      };
+    } catch (data) {
+      result = {
+        header: data.header,
+        body: data.body,
+        status: null,
+        statusText: data.message
+      };
+    }
+    if (this.state.loading === true) {
+      this.setState({
+        loading: false
+      });
+    } else {
+      return null;
+    }
+
+    let tempJson = result.body;
+    if (tempJson && typeof tempJson === 'object') {
+      result.body = JSON.stringify(tempJson, null, '  ');
+      this.setState({
+        res_body_type: 'json'
+      });
+    } else if (isJson(result.body)) {
+      this.setState({
+        res_body_type: 'json'
+      });
+    }
+
+    // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
+    let validResult = this.resBodyValidator(this.props.data, result.body);
+    if (!validResult.valid) {
+      this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
+    } else {
+      this.setState({ test_valid_msg: '' });
+    }
+
+    this.setState({
+      resStatusCode: result.status,
+      resStatusText: result.statusText,
+      test_res_header: result.header,
+      test_res_body: result.body
+    });
+  };
+
   reqRealInterfaceinserver = async () => {
     const {pre_script,after_script}=this.state;
 
@@ -320,7 +395,7 @@ export default class Run extends Component {
 
     curitem.caseitme.taskId = this.props.curUid;
       console.log({"用例请求数据":curitem});
-     let result = await axios.get('/api/open/run_case', {params:curitem});
+     let result = await axios.post('/api/open/run_case', {params:curitem});
       result=result.data.data;
 
     console.log({"用例执行结果数据":result});
@@ -527,7 +602,7 @@ export default class Run extends Component {
   };
 
   swichitemvalue=item=>{
-    console.log({item});
+    //console.log({item});
     item.tempValue=item.value===item.example?item.tempValue:item.value;
     item.isexampler=item.isexampler?false:true;
     if(item.value!==item.example){
@@ -540,7 +615,7 @@ export default class Run extends Component {
   isexampler = () => {
     const req_params = deepCopyJson(this.state.req_params);
     const req_query = deepCopyJson(this.state.req_query);
-    const req_headers = deepCopyJson(this.state.req_headers);
+    // const req_headers = deepCopyJson(this.state.req_headers);
     const bodyForm = deepCopyJson(this.state.req_body_form);
 
     //   console.log({pathParam,name, v, index, key});
@@ -550,16 +625,17 @@ export default class Run extends Component {
     for(let i=0;i<req_query.length;i++){
       this.swichitemvalue(req_query[i]);
     }
-    for(let i=0;i<req_headers.length;i++){
-      this.swichitemvalue(req_headers[i]);
-    }
+    //header本身有参数值，参数全量切换，不需要切换header的示例值
+    // for(let i=0;i<req_headers.length;i++){
+    //   this.swichitemvalue(req_headers[i]);
+    // }
     for(let i=0;i<bodyForm.length;i++){
       this.swichitemvalue(bodyForm[i]);
     }
     this.setState({
       req_params : req_params,
       req_query:req_query,
-      req_headers:req_headers,
+      // req_headers:req_headers,
       req_body_form:bodyForm
     });
   };
@@ -603,7 +679,7 @@ export default class Run extends Component {
   };
 
     prefix=(item, name, index)=>{
-     console.log({item})
+     //console.log({item})
       return (
         <Icon type="swap" style={{ color: item.isexampler?'rgba(255, 0, 0,0.7)':'rgba(0, 0, 0,0.7)'}}
               onClick={e => {
@@ -717,7 +793,7 @@ export default class Run extends Component {
           >
             <Button
               disabled={!hasPlugin}
-              onClick={this.reqRealInterfaceinserver}
+              onClick={this.reqRealInterface}
               type="primary"
               style={{ marginLeft: 10 }}
               icon={loading ? 'loading' : ''}

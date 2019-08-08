@@ -25,14 +25,18 @@ import _ from 'underscore';
 import produce from 'immer';
 import {InsertCodeMap} from 'client/components/Postman/Postman.js'
 
+
 const {
+  handleParams,
   handleCurrDomain,
+  crossRequest,
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
-
+const { handleParamsValue, json_parse, ArrayToObject } = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
 import Label from '../../../../components/Label/Label.js';
 const Option = Select.Option;
+const createContext = require('common/createContext')
 
 import copy from 'copy-to-clipboard';
 
@@ -230,7 +234,7 @@ class InterfaceColContent extends Component {
 
 
 
-  executeTests = async () => {
+  executeTestsinserver = async () => {
     for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
       let { rows } = this.state;
 
@@ -256,7 +260,7 @@ class InterfaceColContent extends Component {
         result;
       try {
        // console.log({curitem});
-        result = await axios.get('/api/open/run_case', {params:curitem});
+        result = await axios.post('/api/open/run_case', {params:curitem});
         result=result.data.data;
         if (result.code === 400) {
           status = 'error';
@@ -293,6 +297,189 @@ class InterfaceColContent extends Component {
   };
 
 
+  executeTests = async () => {
+    for (let i = 0, l = this.state.rows.length, newRows, curitem; i < l; i++) {
+      let { rows } = this.state;
+
+      let envItem = _.find(this.props.envList, item => {
+        return item._id === rows[i].project_id;
+      });
+
+      curitem = Object.assign(
+        {},
+        rows[i],
+        {
+          env: envItem.env,
+          pre_script: this.props.currProject.pre_script,
+          after_script: this.props.currProject.after_script
+        },
+        { test_status: 'loading' }
+      );
+      newRows = [].concat([], rows);
+      newRows[i] = curitem;
+      this.setState({ rows: newRows });
+      let status = 'error',
+        result;
+      try {
+        result = await this.handleTest(curitem);
+
+        if (result.code === 400) {
+          status = 'error';
+        } else if (result.code === 0) {
+          status = 'ok';
+        } else if (result.code === 1) {
+          status = 'invalid';
+        }
+      } catch (e) {
+        console.error(e);
+        status = 'error';
+        result = e;
+      }
+
+      //result.body = result.data;
+      this.reports[curitem._id] = result;
+      this.records[curitem._id] = {
+        status: result.status,
+        params: result.params,
+        body: result.res_body
+      };
+
+      curitem = Object.assign({}, rows[i], { test_status: status });
+      newRows = [].concat([], rows);
+      newRows[i] = curitem;
+      this.setState({ rows: newRows });
+    }
+    await axios.post('/api/col/up_col', {
+      col_id: this.props.currColId,
+      test_report: JSON.stringify(this.reports)
+    });
+  };
+
+  handleTest = async interfaceData => {
+    let requestParams = {};
+    let options = handleParams(interfaceData, this.handleValue, requestParams);
+
+    let result = {
+      code: 400,
+      msg: '数据异常',
+      validRes: []
+    };
+
+    try {
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script, createContext(
+        this.props.curUid,
+        this.props.match.params.id,
+        interfaceData.interface_id
+      ));
+      options.taskId = this.props.curUid;
+      let res = (data.res.body = json_parse(data.res.body));
+      result = {
+        ...options,
+        ...result,
+        res_header: data.res.header,
+        res_body: res,
+        status: data.res.status,
+        statusText: data.res.statusText
+      };
+
+      if (options.data && typeof options.data === 'object') {
+        requestParams = {
+          ...requestParams,
+          ...options.data
+        };
+      }
+
+      let validRes = [];
+
+      let responseData = Object.assign(
+        {},
+        {
+          status: data.res.status,
+          body: res,
+          header: data.res.header,
+          statusText: data.res.statusText
+        }
+      );
+
+      // 断言测试
+      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams);
+
+      if (validRes.length === 0) {
+        result.code = 0;
+        result.validRes = [
+          {
+            message: '验证通过'
+          }
+        ];
+      } else if (validRes.length > 0) {
+        result.code = 1;
+        result.validRes = validRes;
+      }
+    } catch (data) {
+      result = {
+        ...options,
+        ...result,
+        res_header: data.header,
+        res_body: data.body || data.message,
+        status: 0,
+        statusText: data.message,
+        code: 400,
+        validRes: [
+          {
+            message: data.message
+          }
+        ]
+      };
+    }
+
+    result.params = requestParams;
+    return result;
+  };
+
+  //response, validRes
+  // 断言测试
+  handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
+    // 是否启动断言
+    try {
+      let test = await axios.post('/api/col/run_script', {
+        response: response,
+        records: this.records,
+        script: interfaceData.test_script,
+        params: requestParams,
+        col_id: this.props.currColId,
+        interface_id: interfaceData.interface_id
+      });
+      if (test.data.errcode !== 0) {
+        test.data.data.logs.forEach(item => {
+          validRes.push({ message: item });
+        });
+      }
+    } catch (err) {
+      validRes.push({
+        message: 'Error: ' + err.message
+      });
+    }
+  };
+
+  handleValue = (val, global) => {
+    let globalValue = ArrayToObject(global);
+    let context = Object.assign({}, { global: globalValue }, this.records);
+    return handleParamsValue(val, context);
+  };
+
+  arrToObj = (arr, requestParams) => {
+    arr = arr || [];
+    const obj = {};
+    arr.forEach(item => {
+      if (item.name && item.enable && item.type !== 'file') {
+        obj[item.name] = this.handleValue(item.value);
+        if (requestParams) {
+          requestParams[item.name] = obj[item.name];
+        }
+      }
+    });
+    return obj;
+  };
 
 
   onRow(row) {
