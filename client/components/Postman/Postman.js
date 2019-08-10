@@ -133,8 +133,16 @@ export default class Run extends Component {
       envModalVisible: false,
       test_res_header: null,
       test_res_body: null,
+      autoPreviewHTML: true,
       ...this.props.data
     };
+  }
+
+  get testResponseBodyIsHTML() {
+    const hd = this.state.test_res_header
+    return hd != null
+      && typeof hd === 'object'
+      && String(hd['Content-Type'] || hd['content-type']).indexOf('text/html') !== -1
   }
 
   checkInterfaceData(data) {
@@ -927,14 +935,25 @@ export default class Run extends Component {
                 <div className="body">
                   <div className="container-title">
                     <h4>Body</h4>
+                    <Checkbox
+                      checked={this.state.autoPreviewHTML}
+                      onChange={e => this.setState({ autoPreviewHTML: e.target.checked })}>
+                      <span>自动预览HTML</span>
+                    </Checkbox>
                   </div>
-                  <AceEditor
-                    readOnly={true}
-                    className="pretty-editor-body"
-                    data={this.state.test_res_body}
-                    mode={handleContentType(this.state.test_res_header)}
-                    // mode="html"
-                  />
+                  {
+                    this.state.autoPreviewHTML && this.testResponseBodyIsHTML
+                      ? <iframe
+                          className="pretty-editor-body"
+                          srcDoc={this.state.test_res_body}
+                        />
+                      : <AceEditor
+                          readOnly={true}
+                          className="pretty-editor-body"
+                          data={this.state.test_res_body}
+                          mode={handleContentType(this.state.test_res_header)}
+                      />
+                  }
                 </div>
               </div>
             </Spin>
