@@ -80,7 +80,6 @@
     "swagger-client": "^3.5.1",
     "tslib": "1.8.0",
     "underscore": "1.8.3",
-    "url": "0.11.0",
     "yapi-plugin-qsso": "^1.1.0"
   },
   "devDependencies": {

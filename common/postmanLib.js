@@ -1,7 +1,7 @@
-const { isJson5, json_parse, handleJson, queryParams, safeArray } = require('./utils');
+const { isJson5, json_parse, handleJson, joinPath, safeArray } = require('./utils');
 const constants = require('../client/constants/variable.js');
 const _ = require('underscore');
-const {URL} = require('url');
+const URL = require('url');
 const utils = require('./power-string.js').utils;
 const HTTP_METHOD = constants.HTTP_METHOD;
 const axios = require('axios');
@@ -74,7 +74,6 @@ async function httpRequestByNode(options) {
 
   function handleData() {
     let contentTypeItem;
-
     if (!options) return;
     if (typeof options.headers === 'object' && options.headers) {
       Object.keys(options.headers).forEach(key => {
@@ -100,7 +99,6 @@ async function httpRequestByNode(options) {
   }
 
   try {
-
     handleData(options);
     let response = await axios({
       method: options.method,
@@ -113,7 +111,6 @@ async function httpRequestByNode(options) {
       }),
       data: options.data
     });
-
     return handleRes(response);
   } catch (err) {
     console.log({err});
@@ -195,11 +192,11 @@ function sandboxByNode(sandbox = {}, script) {
 async function sandbox(context = {}, script) {
   try {
 
-      context.context = context;
-      context.console = console;
-      context.Promise = Promise;
-      context.setTimeout = setTimeout;
-      context = sandboxByNode(context, script);
+    context.context = context;
+    context.console = console;
+    context.Promise = Promise;
+    context.setTimeout = setTimeout;
+    context = sandboxByNode(context, script);
 
   } catch (err) {
     err.message = `Script: ${script}
@@ -213,30 +210,29 @@ async function sandbox(context = {}, script) {
     } catch (err) {
       err.message = `Script: ${script}
       message: ${err.message}`;
-     // console.error(err);
+      // console.error(err);
       throw err;
     }
   }
 
-    return context;
+  return context;
 }
 
 
 
 /**
- * 
- * @param {*} defaultOptions 
- * @param {*} preScript 
- * @param {*} afterScript 
+ *
+ * @param {*} defaultOptions
+ * @param {*} preScript
+ * @param {*} afterScript
  * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
  */
 async function crossRequest(defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext = {}) {
   let options = Object.assign({}, defaultOptions);
-    const taskId = options.taskId || Math.random() + '';
-   // console.log({"options.url":options.url})
-  let urlObj = new URL(options.url),
+  console.log({defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext})
+  const taskId = options.taskId || Math.random() + '';
+  let urlObj = URL.parse(options.url, true),
     query = {};
-  //console.log({"urlObj":urlObj})
   query = Object.assign(query, urlObj.query);
   //console.log("context init start!");
 
@@ -291,46 +287,34 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
 
   if (preScript) {
     context = await sandbox(context, preScript);
-    // defaultOptions.url = options.url = URL.format({
-    //   protocol: urlObj.protocol,
-    //   host: urlObj.host,
-    //   query: context.query,
-    //   pathname: context.pathname
-    // });
-
-
-    urlObj.search=queryParams(context.query);
-    urlObj.pathname=context.pathname;
-    defaultOptions.url = options.url ==urlObj.href;
-
+    defaultOptions.url = options.url = URL.format({
+      protocol: urlObj.protocol,
+      host: urlObj.host,
+      query: context.query,
+      pathname: context.pathname
+    });
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
   }
   if (case_pre_script) {
-
     context = await sandbox(context, case_pre_script);
-    // defaultOptions.url = options.url = URL.format({
-    //   protocol: urlObj.protocol,
-    //   host: urlObj.host,
-    //   query: context.query,
-    //   pathname: context.pathname
-    // });
-
-    urlObj.search=queryParams(context.query);
-    urlObj.pathname=context.pathname;
-    defaultOptions.url = options.url ==urlObj.href;
-
+    defaultOptions.url = options.url = URL.format({
+      protocol: urlObj.protocol,
+      host: urlObj.host,
+      query: context.query,
+      pathname: context.pathname
+    });
     defaultOptions.headers = options.headers = context.requestHeader;
     defaultOptions.data = options.data = context.requestBody;
   }
 
-
-
   let data;
-    data = await httpRequestByNode(options);
-    data.req = options;
-    data.utils=context.utils;
-    data.storage=context.storage;
+
+
+  data = await httpRequestByNode(options);
+  data.req = options;
+  data.utils=context.utils;
+  data.storage=context.storage;
 
 
   if (case_post_script) {
@@ -362,7 +346,6 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
 
 function handleParams(interfaceData, handleValue, requestParams) {
   let interfaceRunData = Object.assign({}, interfaceData);
-
   function paramsToObjectWithEnable(arr) {
     const obj = {};
     safeArray(arr).forEach(item => {
@@ -408,19 +391,14 @@ function handleParams(interfaceData, handleValue, requestParams) {
     path = path.replace(`{${item.name}}`, val || `{${item.name}}`);
   });
 
-  // console.log({"joinPath":joinPath(currDomain.domain, path)})
-  // const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
-  // console.log({"me":paramsToObjectWithEnable(interfaceRunData.req_query)})
-  // const url = URL.format({
-  //   protocol: urlObj.protocol || 'http',
-  //   host: urlObj.host,
-  //   pathname: urlObj.pathname,
-  //   query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceRunData.req_query))
-  // });
-  const myURL = new URL(path, currDomain.domain);
-  //const p=new URLSearchParams(paramsToObjectWithEnable(interfaceRunData.req_query))
-  myURL.search=queryParams(paramsToObjectWithEnable(interfaceRunData.req_query));
-  const url=myURL.href;
+  const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
+  const url = URL.format({
+    protocol: urlObj.protocol || 'http',
+    host: urlObj.host,
+    pathname: urlObj.pathname,
+    query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceRunData.req_query))
+  });
+
   let headers = paramsToObjectUnWithEnable(interfaceRunData.req_headers);
   requestOptions = {
     url,
@@ -453,7 +431,6 @@ function handleParams(interfaceData, handleValue, requestParams) {
         }
       }
     }
-
   } catch (e) {
     console.error('err', e);
   }
@@ -489,7 +466,6 @@ function handleParams(interfaceData, handleValue, requestParams) {
       requestOptions.file = 'single-file';
     }
   }
-
   return requestOptions;
 }
 
