@@ -526,7 +526,6 @@ class projectController extends baseController {
     if (!params.id) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
     }
-
     let project = await this.Model.get(params.id);
     ctx.body = yapi.commons.resReturn(project.members);
   }
@@ -543,6 +542,7 @@ class projectController extends baseController {
    */
 
   async get(ctx) {
+
     let params = ctx.params;
     let projectId= params.id || params.project_id; // 通过 token 访问
     let result = await this.Model.getBaseInfo(projectId);
@@ -565,7 +565,7 @@ class projectController extends baseController {
     if (result.env.length === 0) {
       result.env.push({ name: 'local', domain: 'http://127.0.0.1' });
     }
-    result.role = await this.getProjectRole(params.id, 'project');
+    result.role = await this.getProjectRole(projectId, 'project');
 
     yapi.emitHook('project_get', result).then();
     ctx.body = yapi.commons.resReturn(result);

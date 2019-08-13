@@ -199,7 +199,6 @@ class openController extends baseController {
     if (!colData2) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'id值不存在'));
     }
-
     let projectData = await this.projectModel.get(projectId);
 //--------------
     for(let c=0;c<colids.length;c++){

@@ -53,7 +53,7 @@ const getStorage = async (id)=>{
 
 async function httpRequestByNode(options) {
   function handleRes(response) {
-    console.log({response});
+    //console.log({response});
     if (!response || typeof response !== 'object') {
       return {
         res: {

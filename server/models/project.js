@@ -99,6 +99,9 @@ class projectModel extends baseModel {
   }
 
   get(id) {
+    if(typeof  id==='undefined'){
+      console.trace()
+    }
     return this.model
       .findOne({
         _id: id

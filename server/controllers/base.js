@@ -64,7 +64,6 @@ class baseController {
     //如果是全局token，则直接跳过认证
 
     if (token && godApi.indexOf(ctx.path) > -1 ) {
-
       let godtoken=yapi.WEBCONFIG.godtoken
     if(token===godtoken){
       this.$auth = true;
