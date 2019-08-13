@@ -377,83 +377,83 @@ export default class Run extends Component {
     });
   };
 
-  reqRealInterfaceinserver = async () => {
-    const {pre_script,after_script}=this.state;
-
-    let curitem = Object.assign(
-      {},
-      {caseitme:this.state},
-      {
-        pre_script: pre_script,
-        after_script: after_script
-      },
-      {
-        token: this.props.projectToken,
-        taskId: this.props.curUid
-      }
-    );
-
-    curitem.caseitme.taskId = this.props.curUid;
-      console.log({"用例请求数据":curitem});
-     let result = await axios.post('/api/open/run_case', {params:curitem});
-      result=result.data.data;
-
-    console.log({"用例执行结果数据":result});
-
-    if (this.state.loading === true) {
-      this.setState({
-        loading: false
-      });
-      return null;
-    }
-    this.setState({
-      loading: true
-    });
-
-
-
-    if (this.state.loading === true) {
-      this.setState({
-        loading: false
-      });
-    } else {
-      return null;
-    }
-
-    let tempJson = result.res_body;
-    if (tempJson && typeof tempJson === 'object') {
-      result.res_body = JSON.stringify(tempJson, null, '  ');
-      this.setState({
-        res_body_type: 'json'
-      });
-    } else if (isJson(result.res_body)) {
-      this.setState({
-        res_body_type: 'json'
-      });
-    }
-
-    // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
-    let validResult = this.resBodyValidator(this.props.data, result.res_body);
-    if (!validResult.valid) {
-      this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
-    } else {
-      this.setState({ test_valid_msg: '' });
-    }
-
-    let validRes=result.validRes;
-    if (validRes.length>1) {
-      this.setState({ test_script_msg: JSON.stringify(validRes,null,2) });
-    } else {
-      this.setState({ test_script_msg: '' });
-    }
-
-    this.setState({
-      resStatusCode: result.status,
-      resStatusText: result.statusText,
-      test_res_header: result.res_header,
-      test_res_body: result.res_body
-    });
-  };
+  // reqRealInterfaceinserver = async () => {
+  //   const {pre_script,after_script}=this.state;
+  //
+  //   let curitem = Object.assign(
+  //     {},
+  //     {caseitme:this.state},
+  //     {
+  //       pre_script: pre_script,
+  //       after_script: after_script
+  //     },
+  //     {
+  //       token: this.props.projectToken,
+  //       taskId: this.props.curUid
+  //     }
+  //   );
+  //
+  //   curitem.caseitme.taskId = this.props.curUid;
+  //     console.log({"用例请求数据":curitem});
+  //    let result = await axios.post('/api/open/run_case', {params:curitem});
+  //     result=result.data.data;
+  //
+  //   console.log({"用例执行结果数据":result});
+  //
+  //   if (this.state.loading === true) {
+  //     this.setState({
+  //       loading: false
+  //     });
+  //     return null;
+  //   }
+  //   this.setState({
+  //     loading: true
+  //   });
+  //
+  //
+  //
+  //   if (this.state.loading === true) {
+  //     this.setState({
+  //       loading: false
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  //
+  //   let tempJson = result.res_body;
+  //   if (tempJson && typeof tempJson === 'object') {
+  //     result.res_body = JSON.stringify(tempJson, null, '  ');
+  //     this.setState({
+  //       res_body_type: 'json'
+  //     });
+  //   } else if (isJson(result.res_body)) {
+  //     this.setState({
+  //       res_body_type: 'json'
+  //     });
+  //   }
+  //
+  //   // 对 返回值数据结构 和定义的 返回数据结构 进行 格式校验
+  //   let validResult = this.resBodyValidator(this.props.data, result.res_body);
+  //   if (!validResult.valid) {
+  //     this.setState({ test_valid_msg: `返回参数 ${validResult.message}` });
+  //   } else {
+  //     this.setState({ test_valid_msg: '' });
+  //   }
+  //
+  //   let validRes=result.validRes;
+  //   if (validRes.length>1) {
+  //     this.setState({ test_script_msg: JSON.stringify(validRes,null,2) });
+  //   } else {
+  //     this.setState({ test_script_msg: '' });
+  //   }
+  //
+  //   this.setState({
+  //     resStatusCode: result.status,
+  //     resStatusText: result.statusText,
+  //     test_res_header: result.res_header,
+  //     test_res_body: result.res_body
+  //   });
+  // };
 
 
 

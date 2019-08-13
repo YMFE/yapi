@@ -53,6 +53,7 @@ const getStorage = async (id)=>{
 
 async function httpRequestByNode(options) {
   function handleRes(response) {
+    console.log({response});
     if (!response || typeof response !== 'object') {
       return {
         res: {
@@ -67,7 +68,8 @@ async function httpRequestByNode(options) {
       res: {
         header: response.headers,
         status: response.status,
-        body: response.data
+        body: response.data,
+        statusText:response.statusText
       }
     };
   }
@@ -229,7 +231,7 @@ async function sandbox(context = {}, script) {
  */
 async function crossRequest(defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext = {}) {
   let options = Object.assign({}, defaultOptions);
-  console.log({defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext})
+ // console.log({defaultOptions, preScript, afterScript,case_pre_script,case_post_script, commonContext})
   const taskId = options.taskId || Math.random() + '';
   let urlObj = URL.parse(options.url, true),
     query = {};
