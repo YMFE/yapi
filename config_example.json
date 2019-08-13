@@ -9,6 +9,7 @@
     "pass": "test1",
     "authSource": ""
   },
+  "godtoken": "xxxxxxxxxxx",
   "mail": {
     "enable": true,
     "host": "smtp.163.com",

@@ -65,7 +65,8 @@ class baseController {
 
     if (token && godApi.indexOf(ctx.path) > -1 ) {
 
-    if(token==="我爱中国，我为国家而骄傲"){
+      let godtoken=yapi.WEBCONFIG.godtoken
+    if(token===godtoken){
       this.$auth = true;
       return
     }
