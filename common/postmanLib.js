@@ -96,13 +96,18 @@ async function httpRequestByNode(options) {
         options.data
       ) {
         options.data = qs.stringify(options.data, { indices: false });
+      }else if(contentTypeItem === 'multipart/form-data' &&
+        typeof options.data === 'object' &&
+        options.data){
+        let formdata=new FormData();
+        Object.keys(options.data).forEach(k=>{formdata.append(k,options.data[k])})
+        options.data=formdata;
       }
     }
   }
-
   try {
     handleData(options);
-    let response = await axios({
+    let axioscontent={
       method: options.method,
       url: options.url,
       headers: options.headers,
@@ -112,7 +117,9 @@ async function httpRequestByNode(options) {
         rejectUnauthorized: false
       }),
       data: options.data
-    });
+    }
+    console.log({"axios请求：":axioscontent})
+    let response = await axios(axioscontent);
     return handleRes(response);
   } catch (err) {
     console.log({err});
