@@ -18,7 +18,7 @@ import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
 import produce from 'immer';
-import {arrayChangeIndex,findMeInTree} from '../../../../common.js';
+import {arrayChangeIndex,findMeInTree,isContained} from '../../../../common.js';
 
 import './interfaceMenu.scss';
 
@@ -124,14 +124,49 @@ class InterfaceMenu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log({"this.props":this.props})
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
       this.setState({
         list: nextProps.list
       });
     }
+    //this.appendSetExpandedKeys(this.props.curProject.cat);
     if(this.state.expandedKeys.length===0){
       this.initexpandedKeys(this.props.curProject.cat);
+    }
+  }
+  appendSetExpandedKeys=list=>{
+    try {
+      let treePath=[];
+      let catid=0;
+      let par=this.props.router.params;
+      let selectedKey=[];
+      if(par.actionId) {
+        catid = Number(par.actionId.indexOf('cat_')===0?par.actionId.substr(4):this.props.inter.catid);
+        selectedKey.push(par.actionId);
+      }
+      if (catid) {
+        treePath = findMeInTree(list, catid).treePath;
+        treePath.push(catid);
+        treePath = treePath.map(it => {
+          return 'cat_' + it
+        });
+        let expandedKeys=[];
+        if(isContained(this.state.expandedKeys,treePath)){
+          expandedKeys=this.state.expandedKeys;
+        }else{
+          expandedKeys=this.state.expandedKeys.concat(treePath);
+        }
+        this.state.expandedKeys
+        this.setState(
+          {
+            expandedKeys: expandedKeys,
+            selectedKey:selectedKey
+          }
+        )
+      }
+    }catch (e){
     }
   }
 

@@ -47,7 +47,6 @@ export default  function forJson(json) {
 //着色
  function Process(json) {
    //var json = $('#y1').text();
-    console.log(json);
     var html = "";
     try {
         if (json == "") {

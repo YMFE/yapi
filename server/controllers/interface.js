@@ -950,7 +950,7 @@ class interfaceController extends baseController {
         project_id: params.project_id,
         desc: params.desc,
         uid: this.getUid(),
-        parent_id: params.parent_id,
+        parent_id: params.parent_id||-1,
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
       });

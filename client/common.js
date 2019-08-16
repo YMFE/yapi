@@ -49,6 +49,31 @@ exports.safeArray = function(arr) {
   return Array.isArray(arr) ? arr : [];
 };
 
+exports.isContained=function (aa, bb) {
+  if(!(aa instanceof Array) || !(bb instanceof Array) || ((aa.length < bb.length))) {
+    return false;
+  }
+  //var aaStr = aa.toString();
+  /*for(var i = 0; i < bb.length; i++) {
+      if(aaStr.indexOf(bb[i]) < 0) return false;
+  }*/
+  for (var i = 0; i < bb.length; i++) {
+    var flag = false;
+    for(var j = 0; j < aa.length; j++){
+      if(aa[j] == bb[i]){
+        flag = true;
+        break;
+      }
+    }
+    if(flag == false){
+      return flag;
+    }
+  }
+
+  return true;
+}
+
+
 exports.json5_parse = function(json) {
   try {
     return json5.parse(json);

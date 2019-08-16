@@ -325,7 +325,7 @@ class ProjectData extends Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://yapi.ymfe.org/documents/data.html"
+                    href="http://restapi.quvideo.com/doc/documents/data.html#swagger-数据导入"
                   >
                     <Tooltip title="点击查看文档">
                       <Icon type="question-circle-o" />

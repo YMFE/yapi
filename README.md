@@ -10,6 +10,11 @@
 - 用例执行统计报表
 - 接口统计报表
 
+### 2019/8/16
+
+*  修复bug:  #12 项目设置中使用swagger同步接口，提示interface_cat validation failed:parent_id:Path'parent_id'is required
+
+
 ### 2019/8/14
 
 *   优化：body参数示例状态可直接编辑，状态变为自定义状态

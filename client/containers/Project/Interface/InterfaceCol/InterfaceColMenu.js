@@ -117,7 +117,7 @@ export default class InterfaceColMenu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("componentWillReceiveProps");
+    console.log({"this.props":this.props})
     if (this.props.interfaceColList !== nextProps.interfaceColList) {
       this.setState({
         list: nextProps.interfaceColList
@@ -134,6 +134,7 @@ export default class InterfaceColMenu extends Component {
     let colid=0;
     let selectedKey=[];
     try {
+
     switch (this.props.router.params.action) {
       case 'case':
         colid = this.props.currCase.col_id;
@@ -215,6 +216,7 @@ export default class InterfaceColMenu extends Component {
     }
 
     let key = e.node.props.eventKey;
+    console.log({key})
     let ex=JSON.parse(JSON.stringify(this.state.expandedKeys));
     if (ex.indexOf(key) === -1) {
       ex.push(key);
