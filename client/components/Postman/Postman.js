@@ -220,6 +220,22 @@ export default class Run extends Component {
         test_res_header: null,
         test_res_body: null,
         ...data,
+        ...(
+          // 设置 header、query、form 的默认值为其示例值
+          ['req_headers', 'req_query', 'req_body_form'].reduce(
+            (res, key) => {
+              res[key] = (data[key] || []).map(item => {
+                // 跳过文件类型
+                if (item.type !== 'file') {
+                  item.value = item.value || item.example || '';
+                }
+                return item;
+              })
+              return res;
+            },
+            {}
+          )
+        ),
         req_body_other: body,
         resStatusCode: null,
         test_valid_msg: null,
