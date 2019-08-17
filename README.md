@@ -34,7 +34,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi server 
     
 #### 服务管理
-利用pm2方便服务管理维护
+利用pm2方便服务管理维护。
 
     npm install pm2 -g  //安装pm2
     cd  {项目目录}
