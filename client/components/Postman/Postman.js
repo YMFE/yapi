@@ -221,13 +221,16 @@ export default class Run extends Component {
         test_res_body: null,
         ...data,
         ...(
-          // 设置 header、query、form 的默认值为其示例值
+          // 设置 header、query、form 的初始值为其示例值
           ['req_headers', 'req_query', 'req_body_form'].reduce(
             (res, key) => {
               res[key] = (data[key] || []).map(item => {
-                // 跳过文件类型
-                if (item.type !== 'file') {
-                  item.value = item.value || item.example || '';
+                if (
+                  item.type !== 'file' // 不是文件类型
+                    && (item.value == null || item.value === '') // 初始值为空
+                    && item.example != null // 有示例值
+                ) {
+                  item.value = item.example;
                 }
                 return item;
               })
