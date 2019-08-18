@@ -32,10 +32,20 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
     yapi server 
+    
+#### 服务管理
+利用pm2方便服务管理维护。
+
+    npm install pm2 -g  //安装pm2
+    cd  {项目目录}
+    pm2 start "vendors/server/app.js" --name yapi //pm2管理yapi服务
+    pm2 info yapi //查看服务信息
+    pm2 stop yapi //停止服务
+    pm2 restart yapi //重启服务
 
 #### 升级
 升级项目版本是非常容易的，并且不会影响已有的项目数据，只会同步 vendors 目录下的源码文件。
-
+    
     cd  {项目目录}
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
