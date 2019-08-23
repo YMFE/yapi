@@ -146,6 +146,28 @@ class groupModel extends baseModel {
       .exec();
   }
 
+  getAuthList(uid){
+    return this.model.find({
+      $or: [{
+        'members.uid': uid,
+        'type': 'public'
+      }, {
+        'type': 'public',
+        uid
+      }]
+    }).select(' _id group_desc add_time up_time type uid custom_field1')
+    .exec();
+    
+  }
+
+  findByGroups(ids = []){
+    return this.model.find({
+      _id: {
+        $in: ids
+      }
+    })
+  }
+
   del(id) {
     return this.model.remove({
       _id: id

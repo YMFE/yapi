@@ -11,6 +11,17 @@ class projectModel extends baseModel {
     this.handleEnvNullData = this.handleEnvNullData.bind(this)
   }
 
+  getAuthList(uid){
+    return this.model.find({
+      $or: [{
+        'members.uid': uid
+      }, {
+        uid
+      }]
+    }).select('group_id')
+    .exec();
+  }
+
   getSchema() {
     return {
       uid: { type: Number, required: true },

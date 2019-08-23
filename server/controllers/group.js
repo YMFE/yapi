@@ -6,6 +6,7 @@ const userModel = require('../models/user.js');
 const interfaceModel = require('../models/interface.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
+const _ = require('underscore')
 
 const rolename = {
   owner: '组长',
@@ -400,7 +401,7 @@ class groupController extends baseController {
   async list(ctx) {
     var groupInst = yapi.getInst(groupModel);
     let projectInst = yapi.getInst(projectModel);
-    let result = await groupInst.list();
+    let result = await groupInst.getAuthList(this.getUid());
 
     let privateGroup = await groupInst.getByPrivateUid(this.getUid());
     let newResult = [];
@@ -415,28 +416,48 @@ class groupController extends baseController {
       });
     }
 
-    if (result && result.length > 0) {
-      for (let i = 0; i < result.length; i++) {
+    if(result && result.length > 0 ){
+      for (let i = 0; i < result.length; i++){
         result[i] = result[i].toObject();
-        result[i].role = await this.getProjectRole(result[i]._id, 'group');
-        if (result[i].role !== 'member') {
-          newResult.unshift(result[i]);
-        } else {
-          let publicCount = await projectInst.countWithPublic(result[i]._id);
-          if (publicCount > 0) {
-            newResult.push(result[i]);
-          } else {
-            let projectCountWithAuth = await projectInst.getProjectWithAuth(
-              result[i]._id,
-              this.getUid()
-            );
-            if (projectCountWithAuth > 0) {
-              newResult.push(result[i]);
-            }
-          }
-        }
+        newResult.unshift(result[i])
       }
     }
+
+    const groupIds = newResult.map(item=> item._id);
+
+    let groupByProject = await projectInst.getAuthList(this.getUid());
+    if(groupByProject && groupByProject.length > 0){
+      groupByProject.forEach( _data=>{
+        if(!_.find(groupIds, id=> id === _data.group_id)){
+          groupIds.push(_data.group_id)
+        }
+      })
+    }
+    
+    newResult = await groupInst.findByGroups(groupIds)
+
+    // if (result && result.length > 0) {
+    //   for (let i = 0; i < result.length; i++) {
+    //     result[i] = result[i].toObject();
+    //     result[i].role = await this.getProjectRole(result[i]._id, 'group');
+    //     if (result[i].role !== 'member') {
+    //       newResult.unshift(result[i]);
+    //     } else {
+    //       let publicCount = await projectInst.countWithPublic(result[i]._id);
+    //       if (publicCount > 0) {
+    //         newResult.push(result[i]);
+    //       } else {
+    //         let projectCountWithAuth = await projectInst.getProjectWithAuth(
+    //           result[i]._id,
+    //           this.getUid()
+    //         );
+    //         if (projectCountWithAuth > 0) {
+    //           newResult.push(result[i]);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     if (privateGroup) {
       privateGroup = privateGroup.toObject();
       privateGroup.group_name = '个人空间';
