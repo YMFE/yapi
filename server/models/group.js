@@ -155,7 +155,7 @@ class groupModel extends baseModel {
         'type': 'public',
         uid
       }]
-    }).select(' _id group_desc add_time up_time type uid custom_field1')
+    }).select(' _id group_name group_desc add_time up_time type uid custom_field1')
     .exec();
     
   }

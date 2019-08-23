@@ -424,17 +424,22 @@ class groupController extends baseController {
     }
 
     const groupIds = newResult.map(item=> item._id);
+    const newGroupIds = [];
 
     let groupByProject = await projectInst.getAuthList(this.getUid());
     if(groupByProject && groupByProject.length > 0){
       groupByProject.forEach( _data=>{
-        if(!_.find(groupIds, id=> id === _data.group_id)){
-          groupIds.push(_data.group_id)
+        const _temp = [...groupIds, ...newGroupIds];
+        if(!_.find(_temp, id=> id === _data.group_id)){
+          newGroupIds.push(_data.group_id)
         }
       })
     }
-    
-    newResult = await groupInst.findByGroups(groupIds)
+    let newData = await groupInst.findByGroups(newGroupIds)
+    newData.forEach(_data=>{
+      _data = _data.toObject();
+      newResult.push(_data);
+    })
 
     // if (result && result.length > 0) {
     //   for (let i = 0; i < result.length; i++) {
