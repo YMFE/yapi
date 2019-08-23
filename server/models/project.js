@@ -14,9 +14,13 @@ class projectModel extends baseModel {
   getAuthList(uid){
     return this.model.find({
       $or: [{
-        'members.uid': uid
+        'members.uid': uid,
+        project_type: 'private'
       }, {
-        uid
+        uid,
+        project_type: 'private'
+      }, {
+        project_type: 'public'
       }]
     }).select('group_id')
     .exec();

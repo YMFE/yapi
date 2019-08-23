@@ -164,7 +164,8 @@ class groupModel extends baseModel {
     return this.model.find({
       _id: {
         $in: ids
-      }
+      },
+      type: 'public'
     })
   }
 
