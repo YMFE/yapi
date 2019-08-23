@@ -214,12 +214,33 @@ export default class Run extends Component {
       body = JSON.stringify(result.data);
     }
 
+    let example = {}
+    if(this.props.type === 'inter'){
+      example = ['req_headers', 'req_query', 'req_body_form'].reduce(
+        (res, key) => {
+          res[key] = (data[key] || []).map(item => {
+            if (
+              item.type !== 'file' // 不是文件类型
+                && (item.value == null || item.value === '') // 初始值为空
+                && item.example != null // 有示例值
+            ) {
+              item.value = item.example;
+            }
+            return item;
+          })
+          return res;
+        },
+        {}
+      )
+    }
+
     this.setState(
       {
         ...this.state,
         test_res_header: null,
         test_res_body: null,
         ...data,
+        ...example,
         req_body_other: body,
         resStatusCode: null,
         test_valid_msg: null,

@@ -210,7 +210,7 @@ class syncUtils {
             }
             return response.data;
         } catch (e) {
-            let response = e.response;
+            let response = e.response || {status: e.message || 'error'};
             throw new Error(`http status "${response.status}"` + '获取数据失败，请确认 swaggerUrl 是否正确')
         }
     }
