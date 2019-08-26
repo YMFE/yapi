@@ -1,6 +1,6 @@
 {
   "name": "yapi-vendor",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "YAPI",
   "main": "server/app.js",
   "scripts": {
