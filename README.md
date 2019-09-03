@@ -109,8 +109,11 @@
 *  请求超时时间从5秒修改为10秒
 *   post form 参数增加list类型
     -  当参数类型为list时，value以“,”逗号分隔符连接多个value  如 value1,value2,value3;
-    -  list 参数仅在【服务器端】执行用例时全部生效
-    -  list 参数在【浏览器端】执行用例时，因cross插件当前不支持list类型，会取list第一个参数发起请求，其他参数忽略，该问题影响不大，后续有时间的时候修改cross插件兼容
+    -   例子：form data:
+
+        name=zhang2
+        name=lisi
+
 
 ## 特性功能演示：
 

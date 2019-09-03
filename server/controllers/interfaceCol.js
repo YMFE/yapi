@@ -16,7 +16,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 获取所有接口集
+   * 获取所有接口用例集
    * @interface /col/list
    * @method GET
    * @category col

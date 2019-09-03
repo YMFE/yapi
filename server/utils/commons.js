@@ -429,7 +429,9 @@ exports.translateDataToTree=(data,mynodeid)=> {
       let item = caseList[j].toObject();
       let interfaceData = await interfaceInst.getBaseinfo(item.interface_id);
       item.path = interfaceData.path;
+      item.parent_id=(typeof item.parent_id) == 'undefined'?-1: item.parent_id;
       caseList[j] = item;
+
     }
 
     caseList = caseList.sort((a, b) => {
