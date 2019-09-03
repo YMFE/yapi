@@ -43,4 +43,5 @@ runtime/
 tsconfig.json
 client/plugin-module.js
 .vscode
+yarn.lock
 /iconfont
