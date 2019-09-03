@@ -423,13 +423,13 @@ exports.translateDataToTree=(data,mynodeid)=> {
 
   for (let i = 0; i < result.length; i++) {
     result[i] = result[i].toObject();
+    result[i].parent_id=(typeof result[i].parent_id) == 'undefined'?-1: result[i].parent_id;
     let caseList = await caseInst.list(result[i]._id);
 
     for(let j=0; j< caseList.length; j++){
       let item = caseList[j].toObject();
       let interfaceData = await interfaceInst.getBaseinfo(item.interface_id);
       item.path = interfaceData.path;
-      item.parent_id=(typeof item.parent_id) == 'undefined'?-1: item.parent_id;
       caseList[j] = item;
 
     }
