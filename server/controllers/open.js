@@ -324,7 +324,8 @@ class openController extends baseController {
       path: caseItemData.path,
       code: 400,
       validRes: [],
-      intf_id:caseItemData.interface_id
+      intf_id:caseItemData.interface_id,
+      uid:caseItemData.uid
     };
 
     try {
