@@ -891,9 +891,9 @@ class interfaceController extends baseController {
       params = yapi.commons.handleParams(params, {
         name: 'string',
         project_id: 'number',
+        parent_id: 'number',
         desc: 'string'
       });
-
       if (!params.project_id) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
       }
@@ -911,6 +911,7 @@ class interfaceController extends baseController {
       let result = await this.catModel.save({
         name: params.name,
         project_id: params.project_id,
+        parent_id:  params.parent_id || -1,
         desc: params.desc,
         uid: this.getUid(),
         add_time: yapi.commons.time(),
@@ -925,7 +926,8 @@ class interfaceController extends baseController {
         type: 'project',
         uid: this.getUid(),
         username: username,
-        typeid: params.project_id
+        typeid: params.project_id,
+        parent_id: params.parent_id
       });
 
       ctx.body = yapi.commons.resReturn(result);
