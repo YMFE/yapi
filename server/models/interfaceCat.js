@@ -41,10 +41,11 @@ class interfaceCat extends baseModel {
     });
   }
 
-  list(project_id) {
+  list(project_id, parent_id = 1) {
     return this.model
       .find({
-        project_id: project_id
+        project_id,
+        parent_id
       })
       .sort({ index: 1 })
       .exec();

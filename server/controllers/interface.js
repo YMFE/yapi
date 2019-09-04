@@ -564,7 +564,7 @@ class interfaceController extends baseController {
   }
 
   async listByMenu(ctx) {
-    let project_id = ctx.params.project_id;
+    let { project_id, parent_id} = ctx.params;
     if (!project_id) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
     }
@@ -580,7 +580,7 @@ class interfaceController extends baseController {
     }
 
     try {
-      let result = await this.catModel.list(project_id),
+      let result = await this.catModel.list(project_id,parent_id),
         newResult = [];
       for (let i = 0, item, list; i < result.length; i++) {
         item = result[i].toObject();
