@@ -314,25 +314,26 @@ class openController extends baseController {
     return result
   }
 
-  async handleTest(interfaceData) {
+  async handleTest(caseItemData) {
     let requestParams = {};
     let options;
-    options = handleParams(interfaceData, this.handleValue, requestParams);
+    options = handleParams(caseItemData, this.handleValue, requestParams);
     let result = {
-      id: interfaceData.id,
-      name: interfaceData.casename,
-      path: interfaceData.path,
+      id: caseItemData.id,
+      name: caseItemData.casename,
+      path: caseItemData.path,
       code: 400,
-      validRes: []
+      validRes: [],
+      intf_id:caseItemData.interface_id
     };
 
     try {
       options.taskId = this.getUid();
 
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,interfaceData.case_pre_script,interfaceData.case_post_script,createContex(
+      let data = await crossRequest(options, caseItemData.pre_script, caseItemData.after_script,caseItemData.case_pre_script,caseItemData.case_post_script,createContex(
         this.getUid(),
-        interfaceData.project_id,
-        interfaceData.interface_id||interfaceData.id
+        caseItemData.project_id,
+        caseItemData.interface_id||caseItemData.id
       ));
 
       let res = data.res;
@@ -363,8 +364,8 @@ class openController extends baseController {
         }
       );
 
-      if(interfaceData.test_script&&interfaceData.test_script.length>0){
-      await this.handleScriptTest(interfaceData, responseData, validRes, requestParams,   data.utils,
+      if(caseItemData.test_script&&caseItemData.test_script.length>0){
+      await this.handleScriptTest(caseItemData, responseData, validRes, requestParams,   data.utils,
         data.storage);
       }
       result.params = requestParams;
@@ -390,16 +391,16 @@ class openController extends baseController {
     return result;
   }
 
-  async handleScriptTest(interfaceData, response, validRes, requestParams,utils,storage) {
+  async handleScriptTest(caseItemData, response, validRes, requestParams,utils,storage) {
       try {
       let test = await yapi.commons.runCaseScript({
         response: response,
         records: this.records,
-        script: interfaceData.test_script,
+        script: caseItemData.test_script,
         utils:utils,
         storage:storage,
         params: requestParams
-      }, interfaceData.col_id, interfaceData.interface_id, this.getUid());
+      }, caseItemData.col_id, caseItemData.interface_id, this.getUid());
 
       if (test.errcode !== 0) {
         test.data.logs.forEach(item => {
