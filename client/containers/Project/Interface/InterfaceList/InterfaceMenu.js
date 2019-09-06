@@ -92,7 +92,8 @@ class InterfaceMenu extends Component {
       del_cat_modal_visible: false,
       curCatdata: {},
       expands: null,
-      list: []
+      list: [],
+      curChildList: []
     };
   }
 
@@ -101,11 +102,18 @@ class InterfaceMenu extends Component {
     this.getList();
   }
 
-  async getList() {
-    let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
-    this.setState({
-      list: r.payload.data.data
-    });
+  async getList(getChild = false) {
+    let r = await this.props.fetchInterfaceListMenu(
+      this.props.projectId,
+      this.curCatid
+    );
+    if (!getChild) {
+      this.setState({
+        list: r.payload.data.data
+      });
+    } else {
+      return r.payload.data.data;
+    }
   }
 
   componentWillMount() {
@@ -348,34 +356,55 @@ class InterfaceMenu extends Component {
     let arr = [];
     let menuList = produce(list, (draftList) => {
       draftList.filter((item) => {
-        let interfaceFilter = false;
-        // arr = [];
-        if (item.name.indexOf(that.state.filter) === -1) {
-          item.list = item.list.filter((inter) => {
-            if (
-              inter.title.indexOf(that.state.filter) === -1 &&
-              inter.path.indexOf(that.state.filter) === -1
-            ) {
-              return false;
-            }
-            //arr.push('cat_' + inter.catid)
-            interfaceFilter = true;
-            return true;
-          });
-          arr.push('cat_' + item._id);
-          return interfaceFilter === true;
-        }
-        arr.push('cat_' + item._id);
+        //   let interfaceFilter = false;
+        //   // arr = [];
+        //   if (item.name.indexOf(that.state.filter) === -1) {
+        //     item.list = item.list.filter((inter) => {
+        //       if (
+        //         inter.title.indexOf(that.state.filter) === -1 &&
+        //         inter.path.indexOf(that.state.filter) === -1
+        //       ) {
+        //         return false;
+        //       }
+        //       //arr.push('cat_' + inter.catid)
+        //       interfaceFilter = true;
+        //       return true;
+        //     });
+        //     arr.push('cat_' + item._id);
+        //     return interfaceFilter === true;
+        //   }
+        //   arr.push('cat_' + item._id);
         return true;
       });
     });
-
     return { menuList, arr };
   };
-
+  
+  // 动态加载子节点数据
+ onLoadData = (treeNode) => {
+    console.log(6666666)
+    return new Promise(async (resolve) => {
+           console.log(9999999999999999)
+      console.log(childrenList)
+      if (treeNode.props.children) {
+        resolve();
+        return;
+      }
+      const childrenList = await this.getList(true);
+      console.log(9999999999999999)
+      console.log(childrenList)
+      treeNode.props.dataRef.children = childrenList;
+      this.setState({
+        list: [...this.state.list]
+      });
+      resolve()
+    }).catch(err => {
+      console.log('出错了！！！')
+    })
+ };  
+      
   render() {
     const matchParams = this.props.match.params;
-    // let menuList = this.state.list;
     const searchBox = (
       <div className="interface-filter">
         <Input
@@ -480,7 +509,7 @@ class InterfaceMenu extends Component {
         };
       }
     };
-    
+
     const ItemInterfaceColTitle = (props) => {
       const item = props.item;
       return (
@@ -574,58 +603,86 @@ class InterfaceMenu extends Component {
         // }
       );
     };
-    const itemInterfaceCreate = (item) => {
+    const ItemInterfaceCreateTitle = (props) => {
+      let item = props.item;
       return (
-        <TreeNode
-          title={
-            <div
-              className="container-title"
-              onMouseEnter={() => this.enterItem(item._id)}
-              onMouseLeave={this.leaveItem}
-            >
-              <Link
-                className="interface-item"
-                onClick={(e) => e.stopPropagation()}
-                to={'/project/' + matchParams.id + '/interface/api/' + item._id}
-              >
-                {item.title}
-              </Link>
-              <div className="btns">
-                <Tooltip title="删除接口">
-                  <Icon
-                    type="delete"
-                    className="interface-delete-icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      this.showConfirm(item);
-                    }}
-                    style={{
-                      display: this.state.delIcon == item._id ? 'block' : 'none'
-                    }}
-                  />
-                </Tooltip>
-                <Tooltip title="复制接口">
-                  <Icon
-                    type="copy"
-                    className="interface-delete-icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      this.copyInterface(item._id);
-                    }}
-                    style={{
-                      display: this.state.delIcon == item._id ? 'block' : 'none'
-                    }}
-                  />
-                </Tooltip>
-              </div>
-              {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
+        <div
+          className="container-title"
+          onMouseEnter={() => this.enterItem(item._id)}
+          onMouseLeave={this.leaveItem}
+        >
+          <Link
+            className="interface-item"
+            onClick={(e) => e.stopPropagation()}
+            to={'/project/' + matchParams.id + '/interface/api/' + item._id}
+          >
+            {item.title}
+          </Link>
+          <div className="btns">
+            <Tooltip title="删除接口">
+              <Icon
+                type="delete"
+                className="interface-delete-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  this.showConfirm(item);
+                }}
+                style={{
+                  display: this.state.delIcon == item._id ? 'block' : 'none'
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="复制接口">
+              <Icon
+                type="copy"
+                className="interface-delete-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  this.copyInterface(item._id);
+                }}
+                style={{
+                  display: this.state.delIcon == item._id ? 'block' : 'none'
+                }}
+              />
+            </Tooltip>
+          </div>
+          {/*<Dropdown overlay={menu(item)} trigger={['click']} onClick={e => e.stopPropagation()}>
             <Icon type='ellipsis' className="interface-delete-icon" style={{ opacity: this.state.delIcon == item._id ? 1 : 0 }}/>
           </Dropdown>*/}
-            </div>
-          }
-          key={'' + item._id}
-        />
+        </div>
       );
+    };
+    
+    // 子节点渲染 0 文件夹 1 接口
+    const renderTreeNodes = (data) => {
+      return data.map((item) => {
+        if (item.child_type === 0) {
+          return (
+            <TreeNode
+              title={<ItemInterfaceColTitle item={item} />}
+              key={item._id}
+              className =  'interface-item-nav cat_switch_hidden'
+              // className={`interface-item-nav ${
+              //   item.list.length ? '' : 'cat_switch_hidden'
+              // }`
+              // }
+            >
+              {/* {item.list.map(itemInterfaceCreate)} */}
+            </TreeNode>
+          );
+        }
+        return (
+          <TreeNode
+            title={<ItemInterfaceCreateTitle item={item} />}
+            key={item._id}
+            className =  'interface-item-nav cat_switch_hidden'
+            // className={`interface-item-nav ${
+            //   item.list.length ? '' : 'cat_switch_hidden'
+            // }`
+            // }
+          />
+        );
+      });
     };
 
     let currentKes = defaultExpandedKeys();
@@ -651,11 +708,12 @@ class InterfaceMenu extends Component {
           >
             <Tree
               className="interface-list"
+              loadData={this.onLoadData}
               defaultExpandedKeys={currentKes.expands}
               defaultSelectedKeys={currentKes.selects}
               expandedKeys={currentKes.expands}
               selectedKeys={currentKes.selects}
-              onSelect={this.onSelect}
+              // onSelect={this.onSelect}
               onExpand={this.onExpand}
               draggable
               onDrop={this.onDrop}
@@ -675,20 +733,8 @@ class InterfaceMenu extends Component {
                   </Link>
                 }
                 key="root"
-              />
-              {menuList.map((item) => {
-                return (
-                  <TreeNode
-                    title={<ItemInterfaceColTitle item={ item } />}
-                    key={'cat_' + item._id}
-                    className={`interface-item-nav ${
-                      item.list.length ? '' : 'cat_switch_hidden'
-                    }`}
-                  >
-                    {item.list.map(itemInterfaceCreate)}
-                  </TreeNode>
-                );
-              })}
+              /> 
+              { renderTreeNodes(menuList) }
             </Tree>
           </div>
         ) : null}

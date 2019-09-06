@@ -580,19 +580,36 @@ class interfaceController extends baseController {
     }
 
     try {
-      let result = await this.catModel.list(project_id,parent_id),
-        newResult = [];
-      for (let i = 0, item, list; i < result.length; i++) {
-        item = result[i].toObject();
-        list = await this.Model.listByCatid(item._id);
-        for (let j = 0; j < list.length; j++) {
-          list[j] = list[j].toObject();
-        }
+      // let result = await this.catModel.list(project_id,parent_id),
+      //   newResult = [];
+      // for (let i = 0, item, list; i < result.length; i++) {
+      //   item = result[i].toObject();
+      //   list = await this.Model.listByCatid(item._id);
+      //   for (let j = 0; j < list.length; j++) {
+      //     list[j] = list[j].toObject();
+      //   }
 
-        item.list = list;
-        newResult[i] = item;
+      //   item.list = list;
+      //   newResult[i] = item;
+      // }
+      
+      // wendyye:由于添加了子目录，该接口修改成返回子目录列表和接口列表
+      let catList = await this.catModel.list(project_id,parent_id),
+      interfaceList =await this.Model.listByCatid(34),
+      newCatList = [],
+      newInterfaceList = [];
+      // 标记分类文件夹
+      for (let i = 0; i < catList.length; i++ ) {
+        newCatList[i] = catList[i].toObject(); 
+        newCatList[i].child_type = 0;
       }
-      ctx.body = yapi.commons.resReturn(newResult);
+      // 标记接口
+      for (let i = 0 ; i < interfaceList.length; i++ ) {
+        newInterfaceList[i] = interfaceList[i].toObject();
+        newInterfaceList[i].child_type = 1;
+      }
+      let result = [...newCatList, ...newInterfaceList];
+      ctx.body = yapi.commons.resReturn(result);
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
