@@ -4,6 +4,7 @@ import qs from 'qs';
 const INIT_INTERFACE_DATA = 'yapi/interface/INIT_INTERFACE_DATA';
 const FETCH_INTERFACE_DATA = 'yapi/interface/FETCH_INTERFACE_DATA';
 const FETCH_INTERFACE_LIST_MENU = 'yapi/interface/FETCH_INTERFACE_LIST_MENU';
+const FETCH_CHILD_NODE_NTERFACE_LIST_MENU = 'yapi/interface/FETCH_CHILD_NODE_NTERFACE_LIST_MENU';
 const DELETE_INTERFACE_DATA = 'yapi/interface/DELETE_INTERFACE_DATA';
 const DELETE_INTERFACE_CAT_DATA = 'yapi/interface/DELETE_INTERFACE_CAT_DATA';
 const UPDATE_INTERFACE_DATA = 'yapi/interface/UPDATE_INTERFACE_DATA';
@@ -44,6 +45,11 @@ export default (state = initialState, action) => {
         ...state,
         list: action.payload.data.data
       };
+      case FETCH_CHILD_NODE_NTERFACE_LIST_MENU:
+        return {
+          ...state,
+          childNodeList: action.payload.data.data
+        };
     case CHANGE_EDIT_STATUS: {
       return {
         ...state,
@@ -126,12 +132,19 @@ export async function fetchInterfaceData(interfaceId) {
   };
 }
 
-export async function fetchInterfaceListMenu(projectId, parentId = -1) {
+export async function fetchInterfaceListMenu(projectId, parentId=-1, getChild=false) {
   let result = await axios.get('/api/interface/list_menu?project_id=' + projectId + '&parent_id=' + parentId);
-  return {
-    type: FETCH_INTERFACE_LIST_MENU,
-    payload: result
-  };
+  if(!getChild) {
+    return {
+      type: FETCH_INTERFACE_LIST_MENU,
+      payload: result
+    };
+  } else {
+    return {
+      type: FETCH_CHILD_NODE_NTERFACE_LIST_MENU,
+      payload: result
+    }; 
+  }
 }
 
 export async function fetchInterfaceList(params) {

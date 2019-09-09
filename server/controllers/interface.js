@@ -593,9 +593,9 @@ class interfaceController extends baseController {
       //   newResult[i] = item;
       // }
       
-      // wendyye:由于添加了子目录，该接口修改成返回子目录列表和接口列表
+      // 由于添加了子目录，该接口修改成返回子目录列表和接口列表
       let catList = await this.catModel.list(project_id,parent_id),
-      interfaceList =await this.Model.listByCatid(34),
+      interfaceList =await this.Model.listByCatid(parent_id),
       newCatList = [],
       newInterfaceList = [];
       // 标记分类文件夹

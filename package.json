@@ -85,7 +85,7 @@
     "yapi-plugin-qsso": "^1.1.0"
   },
   "devDependencies": {
-    "antd": "^3.23.1",
+    "antd": "^3.23.2",
     "anujs": "^1.2.6",
     "assets-webpack-plugin": "^3.5.1",
     "ava": "^0.22.0",
