@@ -147,7 +147,7 @@ class InterfaceMenu extends Component {
       history.push(basepath + '/' + curkey);
     }
     this.setState({
-      expands: null,
+      // expands: null,
       currentSelectNode: e.selectedNodes
     });
   };
@@ -399,7 +399,7 @@ class InterfaceMenu extends Component {
           className="interface-item"
           onClick={(e) => {
             e.stopPropagation();
-            this.changeExpands();
+            // this.changeExpands();
             this.setState({
               curCatid: Number(item._id)
             });
@@ -574,6 +574,7 @@ class InterfaceMenu extends Component {
          key={item._id}
          {...item}
          dataRef={item}
+         isLeaf = {true}
          className =  'interface-item-nav cat_switch_hidden'
          // className={`interface-item-nav ${
          //   item.list.length ? '' : 'cat_switch_hidden'
@@ -728,7 +729,7 @@ class InterfaceMenu extends Component {
               onExpand={this.onExpand}
               draggable
               onDrop={this.onDrop}
-              expandAction={'false'}
+              expandAction={false}
             >
               <TreeNode
                 className="item-all-interface"
@@ -738,7 +739,7 @@ class InterfaceMenu extends Component {
                   <Link
                     onClick={(e) => {
                       e.stopPropagation();
-                      this.changeExpands();
+                      // this.changeExpands();
                       this.setState({
                         curCatid: Number(-1)
                       });
