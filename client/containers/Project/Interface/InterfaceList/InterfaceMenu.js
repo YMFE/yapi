@@ -91,7 +91,8 @@ class InterfaceMenu extends Component {
       change_cat_modal_visible: false,
       del_cat_modal_visible: false,
       curCatdata: {},
-      expands: null,
+      expands: [],
+      // loadedKeysSet: [],
       list: [],
       currentSelectNode: {}
     };
@@ -134,6 +135,7 @@ class InterfaceMenu extends Component {
   // e:{selected: bool, selectedNodes, node, event}
   onSelect = (selectedKeys, e) => {
     console.log(e.selectedNodes);
+    console.log("sssssssssss");
     const { history, match } = this.props;
     let curkey = selectedKeys[0];
 
@@ -146,9 +148,13 @@ class InterfaceMenu extends Component {
     } else {
       history.push(basepath + '/' + curkey);
     }
+    const curNode = e.selectedNodes[0].props;
+    console.log('12345',curNode);
+    const catId = curNode.child_type === 0 ? curNode._id : curNode.catid;
     this.setState({
       // expands: null,
-      currentSelectNode: e.selectedNodes
+      currentSelectNode: e.selectedNodes[0],
+      curCatid: catId
     });
   };
 
@@ -169,7 +175,8 @@ class InterfaceMenu extends Component {
       this.props.history.push(
         '/project/' + this.props.projectId + '/interface/api/' + interfaceId
       );
-      this.getList();
+      // this.getList();
+      this.onLoadData(this.state.currentSelectNode);
       this.setState({
         visible: false
       });
@@ -187,12 +194,18 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类添加成功');
-      // this.getList();
-      this.onLoadData();
       this.props.getProject(data.project_id);
+      // 把当前需要更新且已经加载的目录从已加载目录中删除
+      const curParentKey = 'cat_'+ this.state.currentSelectNode.props.parent_id;
+      let arr = this.state.expands.slice(0);
+      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
+      this.onLoadData(this.state.currentSelectNode);
       this.setState({
-        add_cat_modal_visible: false
+        add_cat_modal_visible: false,
+        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey],
       });
+      // 更新当前目录列表
+      console.log('gengxin',this.state.currentSelectNode);
     });
   };
 
@@ -210,11 +223,12 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类更新成功');
-      this.getList();
+      // this.getList();
       this.props.getProject(data.project_id);
       this.setState({
         change_cat_modal_visible: false
       });
+      this.changeExpands
     });
   };
 
@@ -398,7 +412,7 @@ class InterfaceMenu extends Component {
         <Link
           className="interface-item"
           onClick={(e) => {
-            e.stopPropagation();
+            // e.stopPropagation();
             // this.changeExpands();
             this.setState({
               curCatid: Number(item._id)
@@ -514,21 +528,26 @@ class InterfaceMenu extends Component {
     );
   };
    // 动态加载子节点数据
- onLoadData = (treeNode) => { 
+ onLoadData = (treeNode) => {
   console.log(treeNode.props._id);
-  console.log(treeNode);
+  console.log('tree',treeNode);
+  const getCurCatId = treeNode.props.child_type === 0 ? treeNode.props._id : treeNode.props.catid;
    return new Promise((resolve) => {
      let childrenList = [];
-     if (treeNode.props.children) {
-        resolve();
-       return;
-     }
+    //  if (treeNode.props.children) {
+    //     resolve();
+    //    return;
+    //  }
+     console.log("eeeeee")
      // setState异步更新
      this.setState({
-      curCatid: Number(treeNode.props._id)
+      curCatid: getCurCatId
      }, async()=>{
       childrenList = await this.getList(true);
+      console.log('更新孩子----')
       treeNode.props.dataRef.children = childrenList;
+      console.log('更新孩子11----',treeNode)
+
        resolve()
      });
    }).catch(err => {
@@ -597,7 +616,17 @@ class InterfaceMenu extends Component {
         />
         <Button
           type="primary"
-          onClick={() => this.changeModal('add_cat_modal_visible', true)}
+          onClick={
+            () => {
+              // 选中目录才可以添加
+              console.log('-----------',this.state.currentSelectNode)
+              if(this.state.currentSelectNode.props.child_type === 1) {
+                message.error('接口不可再添加分类');
+              } else {
+                this.changeModal('add_cat_modal_visible', true);
+              }
+            }
+          }
           className="btn-filter"
         >
           添加分类
@@ -720,6 +749,7 @@ class InterfaceMenu extends Component {
             <Tree
               className="interface-list"
               loadData={this.onLoadData}
+              // loadedKeys={this.state.loadedKeysSet}
               autoExpandParent = { false }
               defaultExpandedKeys={currentKes.expands}
               defaultSelectedKeys={currentKes.selects}
