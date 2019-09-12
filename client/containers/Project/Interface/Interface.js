@@ -45,7 +45,8 @@ const InterfaceRoute = props => {
 
 InterfaceRoute.propTypes = {
   match: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object,
+  location: PropTypes.object,
 };
 
 @connect(

@@ -29,7 +29,6 @@ class AddInterfaceForm extends Component {
         this.props.onSubmit(values, () => {
           this.props.form.resetFields();
         });
-
       }
     });
   }

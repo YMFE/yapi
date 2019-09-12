@@ -56,6 +56,7 @@ class InterfaceList extends Component {
     match: PropTypes.object,
     curProject: PropTypes.object,
     history: PropTypes.object,
+    location: PropTypes.object,
     fetchInterfaceListMenu: PropTypes.func,
     fetchInterfaceList: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
@@ -109,7 +110,7 @@ class InterfaceList extends Component {
       }
       let project_id = this.props.match.params.id;
       await this.props.getProject(project_id);
-      await this.props.fetchInterfaceListMenu(project_id);
+      await this.props.fetchInterfaceListMenu(project_id, this.state.catid,true);
       message.success('接口集合简介更新成功');
     });
   };
@@ -148,9 +149,10 @@ class InterfaceList extends Component {
         return message.error(`${res.data.errmsg}, 你可以在左侧的接口列表中对接口进行删改`);
       }
       message.success('接口添加成功');
+      this.handleRequest(this.props);
       let interfaceId = res.data.data._id;
-      this.props.history.push('/project/' + data.project_id + '/interface/api/' + interfaceId);
-      this.props.fetchInterfaceListMenu(data.project_id);
+      this.props.history.push('/project/' + data.project_id + '/interface/api/' + interfaceId + '?addApiFromList=true');
+      this.props.fetchInterfaceListMenu(data.project_id, this.state.catid,true);
     });
   };
 
@@ -364,7 +366,7 @@ class InterfaceList extends Component {
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
           {intername ? intername : '全部接口'}共 ({total}) 个
         </h2>
-
+        { this.props.location.pathname.indexOf('cat_') > -1 ?
         <Button
           style={{ float: 'right' }}
           disabled={isDisabled}
@@ -373,6 +375,9 @@ class InterfaceList extends Component {
         >
           添加接口
         </Button>
+        :
+        ''
+        }
         <div style={{ marginTop: '10px' }}>
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>

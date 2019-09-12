@@ -31,7 +31,7 @@ const headHeight = 240; // menu顶部到网页顶部部分的高度
       list: state.inter.list,
       inter: state.inter.curdata,
       curProject: state.project.currProject,
-      expands: []
+      expands: [],
     };
   },
   {
@@ -92,6 +92,7 @@ class InterfaceMenu extends Component {
       del_cat_modal_visible: false,
       curCatdata: {},
       expands: [],
+      selects: ['root'],
       // loadedKeysSet: [],
       list: [],
       currentSelectNode: {}
@@ -122,7 +123,17 @@ class InterfaceMenu extends Component {
   componentWillMount() {
     this.handleRequest();
   }
-
+  componentDidMount(){
+    // 监听在接口列表添加接口后的路由变化，刷新子目录，通过监听路由来同步同级路由的状态
+    this.props.history.listen((location, action)=>{
+      console.log('监听路由变化')
+      console.log(location)
+      console.log(action)
+      if(location.search.indexOf('addApiFromList') > -1) {
+        this.reloadCurParentList();
+      }
+     })
+    }
   componentWillReceiveProps(nextProps) {
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
@@ -137,24 +148,25 @@ class InterfaceMenu extends Component {
     console.log(e.selectedNodes);
     console.log("sssssssssss");
     const { history, match } = this.props;
-    let curkey = selectedKeys[0];
+    let curkey = selectedKeys[0] ? selectedKeys[0] : 'root';
+    const curNode = e.selectedNodes[0];
+    let catId = null;
 
     if (!curkey || !selectedKeys) {
       return false;
     }
     let basepath = '/project/' + match.params.id + '/interface/api';
     if (curkey === 'root') {
+      catId = -1;
       history.push(basepath);
     } else {
+      curNode.props.child_type === 0 ? curNode.props._id : curNode.props.catid;
       history.push(basepath + '/' + curkey);
     }
-    const curNode = e.selectedNodes[0].props;
-    console.log('12345',curNode);
-    const catId = curNode.child_type === 0 ? curNode._id : curNode.catid;
     this.setState({
-      // expands: null,
-      currentSelectNode: e.selectedNodes[0],
-      curCatid: catId
+      currentSelectNode: curNode,
+      curCatid: catId,
+      selects: [curkey]
     });
   };
 
@@ -163,7 +175,29 @@ class InterfaceMenu extends Component {
       expands: null
     });
   };
-
+  reloadCurParentList = () => {
+    // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
+    console.log('@@@@@',this.state.currentSelectNode)
+    console.log('322^^^^^^',this.state.curCatid)
+    if (this.state.curCatid !== -1 && this.state.selects[0]!== 'root') {
+      console.log("hhahahg")
+      console.log(this.state.currentSelectNode)
+      console.log(this.state.curCatid)
+      const curParentKey = 'cat_'+ this.state.currentSelectNode.props.parent_id;
+      let arr = this.state.expands.slice(0);
+      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
+      this.onLoadData(this.state.currentSelectNode);
+      this.setState({
+        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey],
+      })
+    } else {
+     this.getList();
+     console.log("gogogogogo")
+    //  this.setState({
+    //    expands: null
+    //  })      
+    }
+  }
   handleAddInterface = (data, cb) => {
     data.project_id = this.props.projectId;
     axios.post('/api/interface/add', data).then((res) => {
@@ -175,10 +209,9 @@ class InterfaceMenu extends Component {
       this.props.history.push(
         '/project/' + this.props.projectId + '/interface/api/' + interfaceId
       );
-      // this.getList();
-      this.onLoadData(this.state.currentSelectNode);
+      this.reloadCurParentList();
       this.setState({
-        visible: false
+        visible: false,
       });
       if (cb) {
         cb();
@@ -188,24 +221,19 @@ class InterfaceMenu extends Component {
 
   handleAddInterfaceCat = (data) => {
     data.project_id = this.props.projectId;
-    data.parent_id = this.state.curCatid;
+    data.parent_id = this.state.selects.indexOf('root') > -1 ?  -1 : this.state.curCatid;
     axios.post('/api/interface/add_cat', data).then((res) => {
       if (res.data.errcode !== 0) {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类添加成功');
       this.props.getProject(data.project_id);
-      // 把当前需要更新且已经加载的目录从已加载目录中删除
-      const curParentKey = 'cat_'+ this.state.currentSelectNode.props.parent_id;
-      let arr = this.state.expands.slice(0);
-      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
-      this.onLoadData(this.state.currentSelectNode);
+      if(this.curCatid !== -1) {
+        this.reloadCurParentList();
+      }
       this.setState({
         add_cat_modal_visible: false,
-        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey],
       });
-      // 更新当前目录列表
-      console.log('gengxin',this.state.currentSelectNode);
     });
   };
 
@@ -223,12 +251,11 @@ class InterfaceMenu extends Component {
         return message.error(res.data.errmsg);
       }
       message.success('接口分类更新成功');
-      // this.getList();
       this.props.getProject(data.project_id);
+      this.reloadCurParentList();
       this.setState({
         change_cat_modal_visible: false
       });
-      this.changeExpands
     });
   };
 
@@ -406,7 +433,7 @@ class InterfaceMenu extends Component {
     return (
       <div
         className="container-title"
-        onMouseEnter={() => this.enterItem(item._id)}
+        onClick={() => this.enterItem(item._id)}
         onMouseLeave={this.leaveItem}
       >
         <Link
@@ -462,9 +489,10 @@ class InterfaceMenu extends Component {
               }}
               onClick={(e) => {
                 e.stopPropagation();
-                this.changeModal('visible', true);
                 this.setState({
                   curCatid: Number(item._id)
+                }, ()=> {
+                  this.changeModal('visible', true);
                 });
               }}
             />
@@ -545,9 +573,11 @@ class InterfaceMenu extends Component {
      }, async()=>{
       childrenList = await this.getList(true);
       console.log('更新孩子----')
-      treeNode.props.dataRef.children = childrenList;
+      treeNode.props.dataRef.children = [...childrenList];
+      this.setState({
+        currentSelectNode: treeNode
+      })
       console.log('更新孩子11----',treeNode)
-
        resolve()
      });
    }).catch(err => {
@@ -620,7 +650,7 @@ class InterfaceMenu extends Component {
             () => {
               // 选中目录才可以添加
               console.log('-----------',this.state.currentSelectNode)
-              if(this.state.currentSelectNode.props.child_type === 1) {
+              if(this.state.currentSelectNode.props &&  this.state.currentSelectNode.props.child_type === 1) {
                 message.error('接口不可再添加分类');
               } else {
                 this.changeModal('add_cat_modal_visible', true);
@@ -644,6 +674,7 @@ class InterfaceMenu extends Component {
               catid={this.state.curCatid}
               onCancel={() => this.changeModal('visible', false)}
               onSubmit={this.handleAddInterface}
+
             />
           </Modal>
         ) : (
@@ -689,6 +720,7 @@ class InterfaceMenu extends Component {
       </div>
     );
     const defaultExpandedKeys = () => {
+      console.log('jajajja', this.state.selects)
       const { router, inter, list } = this.props,
         rNull = { expands: [], selects: [] };
       if (list.length === 0) {
@@ -703,13 +735,13 @@ class InterfaceMenu extends Component {
             expands: this.state.expands
               ? this.state.expands
               : ['cat_' + inter.catid],
-            selects: [inter._id + '']
+            selects: this.state.selects ? this.state.selects : [inter._id + '']
           };
         } else {
           let catid = router.params.actionId.substr(4);
           return {
             expands: this.state.expands ? this.state.expands : ['cat_' + catid],
-            selects: ['cat_' + catid]
+            selects: this.state.selects ? this.state.selects : ['cat_' + catid]
           };
         }
       } else {
@@ -764,7 +796,7 @@ class InterfaceMenu extends Component {
               <TreeNode
                 className="item-all-interface"
                 isLeaf = {true}
-                selectable = {false}
+                selectable = {true}
                 title={
                   <Link
                     onClick={(e) => {
