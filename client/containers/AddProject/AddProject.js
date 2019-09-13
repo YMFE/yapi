@@ -89,7 +89,7 @@ class ProjectList extends Component {
     });
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     this.props.setBreadcrumb([{ name: '新建项目' }]);
     if (!this.props.currGroup._id) {
       await this.props.fetchGroupList();

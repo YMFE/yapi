@@ -60,7 +60,7 @@ const HomeGuest = () => (
           </Col>
           <Col lg={15} xs={0} className="col-img">
             <div className="img-container">
-              
+
             </div>
           </Col>
         </Row>
@@ -336,20 +336,17 @@ class Home extends Component {
   constructor(props) {
     super(props);
   }
-
-  componentWillMount() {
-    if (this.props.login) {
-      this.props.history.push('/group/261');
-    }
-  }
-
-  componentDidMount() {}
   static propTypes = {
     introList: PropTypes.array,
     login: PropTypes.bool,
     history: PropTypes.object,
     changeMenuItem: PropTypes.func
-  };
+  }
+  componentDidMount() {
+    if (this.props.login) {
+      this.props.history.push('/group/261');
+    }
+  }
   toStart = () => {
     this.props.changeMenuItem('/group');
   };

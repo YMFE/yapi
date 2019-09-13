@@ -92,7 +92,7 @@ export default class ProjectInterfaceSync extends Component {
     callback()
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //查询同步任务
     this.setState({
       sync_data: {}

@@ -102,11 +102,11 @@ export default class InterfaceColMenu extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getList();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.interfaceColList !== nextProps.interfaceColList) {
       this.setState({
         list: nextProps.interfaceColList

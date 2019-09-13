@@ -20,7 +20,7 @@ class StatisChart extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getMockData();
   }
 

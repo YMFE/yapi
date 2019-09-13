@@ -64,9 +64,7 @@ class List extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getUserList();
-  }
+
 
   confirm = uid => {
     axios
@@ -94,7 +92,8 @@ class List extends Component {
       );
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
+    this.getUserList();
     this.props.setBreadcrumb([{ name: '用户管理' }]);
   }
 

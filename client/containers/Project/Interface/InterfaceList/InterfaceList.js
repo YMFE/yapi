@@ -84,7 +84,7 @@ class InterfaceList extends Component {
       await this.props.fetchInterfaceList(option);
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4);
-      this.setState({catid: +catid});
+      this.setState({ catid: +catid });
       let option = {
         page: this.state.current,
         limit,
@@ -110,7 +110,7 @@ class InterfaceList extends Component {
       }
       let project_id = this.props.match.params.id;
       await this.props.getProject(project_id);
-      await this.props.fetchInterfaceListMenu(project_id, this.state.catid,true);
+      await this.props.fetchInterfaceListMenu(project_id, this.state.catid, true);
       message.success('接口集合简介更新成功');
     });
   };
@@ -123,12 +123,12 @@ class InterfaceList extends Component {
     }, () => this.handleRequest(this.props));
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.actionId = this.props.match.params.actionId;
     this.handleRequest(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     let _actionId = nextProps.match.params.actionId;
 
     if (this.actionId !== _actionId) {
@@ -152,7 +152,7 @@ class InterfaceList extends Component {
       this.handleRequest(this.props);
       let interfaceId = res.data.data._id;
       this.props.history.push('/project/' + data.project_id + '/interface/api/' + interfaceId + '?addApiFromList=true');
-      this.props.fetchInterfaceListMenu(data.project_id, this.state.catid,true);
+      this.props.fetchInterfaceListMenu(data.project_id, this.state.catid, true);
     });
   };
 
@@ -200,7 +200,7 @@ class InterfaceList extends Component {
   render() {
     let tag = this.props.curProject.tag;
     let tagFilter = tag.map(item => {
-      return {text: item.name, value: item.name};
+      return { text: item.name, value: item.name };
     });
 
     const columns = [
@@ -366,17 +366,17 @@ class InterfaceList extends Component {
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
           {intername ? intername : '全部接口'}共 ({total}) 个
         </h2>
-        { this.props.location.pathname.indexOf('cat_') > -1 ?
-        <Button
-          style={{ float: 'right' }}
-          disabled={isDisabled}
-          type="primary"
-          onClick={() => this.setState({ visible: true })}
-        >
-          添加接口
-        </Button>
-        :
-        ''
+        {this.props.location.pathname.indexOf('cat_') > -1 ?
+          <Button
+            style={{ float: 'right' }}
+            disabled={isDisabled}
+            type="primary"
+            onClick={() => this.setState({ visible: true })}
+          >
+            添加接口
+          </Button>
+          :
+          ''
         }
         <div style={{ marginTop: '10px' }}>
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />

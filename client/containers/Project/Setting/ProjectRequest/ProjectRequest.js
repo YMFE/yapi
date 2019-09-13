@@ -27,7 +27,7 @@ export default class ProjectRequest extends Component {
     projectId: PropTypes.number
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       pre_script: this.props.projectMsg.pre_script,
       after_script: this.props.projectMsg.after_script

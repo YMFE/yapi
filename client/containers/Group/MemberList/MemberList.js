@@ -146,7 +146,7 @@ class MemberList extends Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this._groupId !== this._groupId) {
       return null;
     }
