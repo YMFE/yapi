@@ -1244,6 +1244,60 @@ class interfaceController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
   }
+
+
+
+  /**
+   * 查询分类集合
+   * @interface /interface/queryCatAndInterface
+   * @method post
+   * @category interface
+   * @foldnumber 10
+   * @param {Number}   project_id 项目id，不能为空
+   * @param {String}   query_text 查询字符串，不能为空
+   * @returns {Object}
+   * @example ./api/interface/queryCatAndInterface
+   */
+
+  async queryCatAndInterface(ctx) {
+    let project_id = ctx.params.project_id;
+    let query_text = ctx.params.query_text;
+
+    if (!project_id || isNaN(project_id)) {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+    }
+
+    if (!query_text || query_text =='') {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '查询内容不能为空'));
+    }
+    try {
+      let project = await this.projectModel.getBaseInfo(project_id);
+      if (project.project_type === 'private') {
+        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+        }
+      }
+
+      let catList = await this.catModel.list(project_id),
+      interfaceList = await this.Model.list(project_id),
+      newCatList = [],
+      newInterfaceList = [];
+      // 标记分类文件夹 模糊匹配
+      for (let i = 0; i < catList.length; i++ ) {
+        newCatList[i] = catList[i].toObject(); 
+        newCatList[i].child_type = 0;
+      }
+      // 标记接口 模糊匹配
+      for (let i = 0 ; i < interfaceList.length; i++ ) {
+        newInterfaceList[i] = interfaceList[i].toObject();
+        newInterfaceList[i].child_type = 1;
+      }
+      let result = [...newCatList, ...newInterfaceList];
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      yapi.commons.resReturn(null, 400, e.message);
+    }
+  }
 }
 
 module.exports = interfaceController;

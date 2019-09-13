@@ -308,7 +308,7 @@ class InterfaceList extends Component {
         key: 'tag',
         width: 14,
         render: text => {
-          let textMsg = text.length > 0 ? text.join('\n') : '未设置';
+          let textMsg = (text && text.length > 0) ? text.join('\n') : '未设置';
           return <div className="table-desc">{textMsg}</div>;
         },
         filters: tagFilter,

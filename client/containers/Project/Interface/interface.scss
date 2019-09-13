@@ -55,6 +55,9 @@
   .ant-input {
     width: 100%;
   }
+  .ant-btn {
+    padding: 0 4px;
+  }
   .interface-filter {
     padding: 12px 16px;
     padding-right: 140px;
@@ -71,7 +74,7 @@
     transform: translateY(-50%);
   }
   .interface-search-bt {
-    right: 100px;
+    right: 80px;
   }
   .ant-tree li .ant-tree-node-content-wrapper {
     width: calc(100% - 28px);

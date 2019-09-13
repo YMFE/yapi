@@ -12,6 +12,7 @@ const CHANGE_EDIT_STATUS = 'yapi/interface/CHANGE_EDIT_STATUS';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
 const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA';
 const FETCH_INTERFACE_CAT_LIST = 'yapi/interface/FETCH_INTERFACE_CAT_LIST';
+const QUERY_CAT_AND_AINTERFACE = 'yapi/interface/QUERY_CAT_AND_AINTERFACE';
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -45,11 +46,16 @@ export default (state = initialState, action) => {
         ...state,
         list: action.payload.data.data
       };
-      case FETCH_CHILD_NODE_NTERFACE_LIST_MENU:
-        return {
-          ...state,
-          childNodeList: action.payload.data.data
-        };
+    case QUERY_CAT_AND_AINTERFACE:
+      return {
+        ...state,
+        list: action.payload.data.data
+      };
+    case FETCH_CHILD_NODE_NTERFACE_LIST_MENU:
+      return {
+        ...state,
+        childNodeList: action.payload.data.data
+      };
     case CHANGE_EDIT_STATUS: {
       return {
         ...state,
@@ -100,7 +106,7 @@ export function updateInterfaceData(updata) {
 }
 
 export async function deleteInterfaceData(id) {
-  let result = await axios.post('/api/interface/del', {id: id});
+  let result = await axios.post('/api/interface/del', { id: id });
   return {
     type: DELETE_INTERFACE_DATA,
     payload: result
@@ -116,7 +122,7 @@ export async function saveImportData(data) {
 }
 
 export async function deleteInterfaceCatData(id) {
-  let result = await axios.post('/api/interface/del_cat', {catid: id});
+  let result = await axios.post('/api/interface/del_cat', { catid: id });
   return {
     type: DELETE_INTERFACE_CAT_DATA,
     payload: result
@@ -132,9 +138,9 @@ export async function fetchInterfaceData(interfaceId) {
   };
 }
 
-export async function fetchInterfaceListMenu(projectId, parentId=-1, getChild=false) {
+export async function fetchInterfaceListMenu(projectId, parentId = -1, getChild = false) {
   let result = await axios.get('/api/interface/list_menu?project_id=' + projectId + '&parent_id=' + parentId);
-  if(!getChild) {
+  if (!getChild) {
     return {
       type: FETCH_INTERFACE_LIST_MENU,
       payload: result
@@ -143,7 +149,7 @@ export async function fetchInterfaceListMenu(projectId, parentId=-1, getChild=fa
     return {
       type: FETCH_CHILD_NODE_NTERFACE_LIST_MENU,
       payload: result
-    }; 
+    };
   }
 }
 
@@ -151,7 +157,7 @@ export async function fetchInterfaceList(params) {
   let result = await axios.get('/api/interface/list', {
     params,
     paramsSerializer: params => {
-      return qs.stringify(params, {indices: false})
+      return qs.stringify(params, { indices: false })
     }
   })
   return {
@@ -164,11 +170,19 @@ export async function fetchInterfaceCatList(params) {
   let result = axios.get('/api/interface/list_cat', {
     params,
     paramsSerializer: params => {
-      return qs.stringify(params, {indices: false})
+      return qs.stringify(params, { indices: false })
     }
   })
   return {
     type: FETCH_INTERFACE_CAT_LIST,
+    payload: result
+  };
+}
+
+export async function queryCatAndInterface(params) {
+  let result = axios.post('/api/interface/queryCatAndInterface', params)
+  return {
+    type: QUERY_CAT_AND_AINTERFACE,
     payload: result
   };
 }

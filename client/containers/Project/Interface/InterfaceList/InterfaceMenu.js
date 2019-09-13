@@ -8,8 +8,8 @@ import {
   fetchInterfaceData,
   deleteInterfaceData,
   deleteInterfaceCatData,
-  initInterface
-  // queryInterfaceData
+  initInterface,
+  queryCatAndInterface
 } from '../../../../reducer/modules/interface.js';
 import { getProject } from '../../../../reducer/modules/project.js';
 import { Input, Icon, Button, Modal, message, Tree, Tooltip } from 'antd';
@@ -43,7 +43,8 @@ const headHeight = 240; // menu顶部到网页顶部部分的高度
     initInterface,
     getProject,
     fetchInterfaceCatList,
-    fetchInterfaceList
+    fetchInterfaceList,
+    queryCatAndInterface
   }
 )
 class InterfaceMenu extends Component {
@@ -62,7 +63,8 @@ class InterfaceMenu extends Component {
     router: PropTypes.object,
     getProject: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
-    fetchInterfaceList: PropTypes.func
+    fetchInterfaceList: PropTypes.func,
+    queryCatAndInterface: PropTypes.func
   };
 
   /**
@@ -92,6 +94,7 @@ class InterfaceMenu extends Component {
       change_cat_modal_visible: false,
       del_cat_modal_visible: false,
       curCatdata: {},
+      filter: '',
       expands: [],
       selects: ['root'],
       // loadedKeysSet: [],
@@ -142,8 +145,14 @@ class InterfaceMenu extends Component {
     }
   }
 
-  doInterfaceSearch() {
-
+  async doInterfaceSearch() {
+    let r = await this.props.queryCatAndInterface({
+      project_id: Number(this.props.projectId),
+      query_text: this.state.filter
+    });
+    this.setState({
+      list: r.payload.data.data
+    });
   }
 
   // e:{selected: bool, selectedNodes, node, event}
@@ -363,10 +372,9 @@ class InterfaceMenu extends Component {
     this.setState({ delIcon: null });
   };
 
-  onFilter = (e) => {
+  onInputChange = (e) => {
     this.setState({
-      filter: e.target.value,
-      list: JSON.parse(JSON.stringify(this.props.list))
+      filter: e.target.value
     });
   };
 
@@ -669,9 +677,9 @@ class InterfaceMenu extends Component {
     const searchBox = (
       <div className="interface-filter">
         <Input
-          // onChange={this.onFilter}
+          onChange={this.onInputChange}
           value={this.state.filter}
-          placeholder="搜索接口"
+          placeholder="搜索接口/分类"
         />
         <Button
           type="primary"

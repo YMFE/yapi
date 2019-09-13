@@ -48,6 +48,7 @@ class baseController {
 			'/api/interface/list_menu',
 			'/api/interface/add_cat',
       '/api/interface/getCatMenu',
+      '/api/interface/queryCatAndInterface',
       '/api/interface/list_cat',
       '/api/project/get',
       '/api/plugin/export'

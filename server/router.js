@@ -387,6 +387,11 @@ let routerConfig = {
       action: 'schema2json',
       path: 'schema2json',
       method: 'post'
+    },
+    {
+      action: 'queryCatAndInterface',
+      path: 'queryCatAndInterface',
+      method: 'post'
     }
   ],
   log: [
