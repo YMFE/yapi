@@ -97,7 +97,7 @@ class InterfaceMenu extends Component {
       filter: '',
       expands: [],
       selects: ['root'],
-      // loadedKeysSet: [],
+      loadedKeysSet: [],
       list: [],
       currentSelectNode: {}
     };
@@ -146,13 +146,24 @@ class InterfaceMenu extends Component {
   }
 
   async doInterfaceSearch() {
-    let r = await this.props.queryCatAndInterface({
-      project_id: Number(this.props.projectId),
-      query_text: this.state.filter
-    });
-    this.setState({
-      list: r.payload.data.data
-    });
+    if(this.state.filter === '') {
+      message.error('搜索内容不能为空');
+    }else{
+      this.setState({
+        list: [],
+        expands: [],
+        selects: [],
+        loadedKeysSet: []
+      })
+      let r = await this.props.queryCatAndInterface({
+        project_id: Number(this.props.projectId),
+        query_text: this.state.filter
+      });
+      this.setState({
+        list: r.payload.data.data
+      });
+    }
+ 
   }
 
   // e:{selected: bool, selectedNodes, node, event}
@@ -805,14 +816,7 @@ class InterfaceMenu extends Component {
 
 
     let currentKes = defaultExpandedKeys();
-    let menuList;
-    if (this.state.filter) {
-      let res = this.filterList(this.state.list);
-      menuList = res.menuList;
-      currentKes.expands = res.arr;
-    } else {
-      menuList = this.state.list;
-    }
+    let menuList = this.state.list;
 
     return (
       <div>
@@ -829,6 +833,7 @@ class InterfaceMenu extends Component {
               className="interface-list"
               loadData={this.onLoadData}
               autoExpandParent={false}
+              // loadedKeys={this.state.loadedKeysSet}
               defaultExpandedKeys={currentKes.expands}
               defaultSelectedKeys={currentKes.selects}
               expandedKeys={currentKes.expands}

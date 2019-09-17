@@ -14,10 +14,10 @@ import axios from 'axios';
 import ImportInterface from './ImportInterface';
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
+const { confirm } = Modal;
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-const confirm = Modal.confirm;
 const headHeight = 240; // menu顶部到网页顶部部分的高度
 
 import './InterfaceColMenu.scss';
@@ -90,6 +90,7 @@ export default class InterfaceColMenu extends Component {
     editColId: 0,
     filterValue: '',
     importInterVisible: false,
+    confirmImportVisble: false,
     importInterIds: [],
     importColId: 0,
     expands: null,
@@ -322,6 +323,7 @@ export default class InterfaceColMenu extends Component {
       project_id
     });
     if (!res.data.errcode) {
+      // this.setState({ importInterVisible: false , importInterIds: [], selectedProject: null});
       this.setState({ importInterVisible: false });
       message.success('导入集合成功');
       // await this.props.fetchInterfaceColList(project_id);
@@ -333,9 +335,23 @@ export default class InterfaceColMenu extends Component {
     }
   };
   handleImportCancel = () => {
+    // this.setState({ importInterVisible: false , importInterIds: [], selectedProject: null });
     this.setState({ importInterVisible: false });
   };
-
+  showConfirm = () => {
+    let that = this;
+    confirm({
+      title: '已选中'+this.state.importInterIds.length+'条接口，确认提交吗?',
+      content: '只能导入已展开的的目录下接口',
+      onOk() {
+       that.handleImportOk();
+      },
+      onCancel() {
+        that.handleImportCancel()
+      },
+    });
+  };
+  
   filterCol = e => {
     const value = e.target.value;
     // console.log('list', this.props.interfaceColList);
@@ -518,6 +534,19 @@ export default class InterfaceColMenu extends Component {
         <div className="interface-filter">
           <Input placeholder="搜索测试集合" onChange={this.filterCol} />
           <Tooltip placement="bottom" title="添加集合">
+          <Button
+          type="primary"
+          onClick={
+            () => {
+              this.doInterfaceSearch();
+            }
+          }
+          className="btn-filter interface-search-bt"
+        >
+          搜索
+        </Button>
+          </Tooltip>
+          <Tooltip placement="bottom" title="添加集合">
             <Button
               type="primary"
               style={{ marginLeft: '16px' }}
@@ -616,7 +645,7 @@ export default class InterfaceColMenu extends Component {
         <Modal
           title="导入接口到集合"
           visible={importInterVisible}
-          onOk={this.handleImportOk}
+          onOk={this.showConfirm}
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}

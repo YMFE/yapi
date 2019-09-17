@@ -396,6 +396,11 @@ class interfaceColController extends baseController {
 
       for (let i = 0; i < params.interface_list.length; i++) {
         let interfaceData = await this.interfaceModel.get(params.interface_list[i]);
+
+        if (!interfaceData) {
+          return (ctx.body = yapi.commons.resReturn(null, 400, '不能导入空目录'));
+        }
+
         data.interface_id = params.interface_list[i];
         data.casename = interfaceData.title;
 

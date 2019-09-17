@@ -602,6 +602,7 @@ class interfaceController extends baseController {
       for (let i = 0; i < catList.length; i++ ) {
         newCatList[i] = catList[i].toObject(); 
         newCatList[i].child_type = 0;
+        newCatList[i].children = [];
       }
       // 标记接口
       for (let i = 0 ; i < interfaceList.length; i++ ) {
@@ -1284,13 +1285,21 @@ class interfaceController extends baseController {
       newInterfaceList = [];
       // 标记分类文件夹 模糊匹配
       for (let i = 0; i < catList.length; i++ ) {
-        newCatList[i] = catList[i].toObject(); 
-        newCatList[i].child_type = 0;
+        const { name } = catList[i].toObject();
+        if(name.indexOf(query_text) > -1) {
+          let obj = catList[i].toObject();
+          obj.child_type = 0;
+          newCatList.push(obj); 
+        }
       }
       // 标记接口 模糊匹配
       for (let i = 0 ; i < interfaceList.length; i++ ) {
-        newInterfaceList[i] = interfaceList[i].toObject();
-        newInterfaceList[i].child_type = 1;
+        const { title, path } = interfaceList[i].toObject();
+        if(title.indexOf(query_text) > -1 || path.indexOf(query_text) > -1 ) {
+          let obj = interfaceList[i].toObject();
+          obj.child_type = 1;
+          newInterfaceList.push(obj); 
+        }
       }
       let result = [...newCatList, ...newInterfaceList];
       ctx.body = yapi.commons.resReturn(result);

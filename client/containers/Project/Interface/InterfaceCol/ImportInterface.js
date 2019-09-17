@@ -10,7 +10,7 @@ import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js
   state => {
     return {
       projectList: state.project.projectList,
-      list: state.inter.list
+      list: state.inter.list,
     };
   },
   {
@@ -25,7 +25,8 @@ export default class ImportInterface extends Component {
   state = {
     selectedRowKeys: [],
     categoryCount: {},
-    project: this.props.currProjectId
+    project: this.props.currProjectId,
+    list: []
   };
 
   static propTypes = {
@@ -38,7 +39,10 @@ export default class ImportInterface extends Component {
 
   async componentDidMount() {
     // console.log(this.props.currProjectId)
-    await this.props.fetchInterfaceListMenu(this.props.currProjectId);
+    const r = await this.props.fetchInterfaceListMenu(this.props.currProjectId);
+    this.setState({
+      list: r.payload.data.data
+    })
   }
 
   // 切换项目
@@ -48,23 +52,64 @@ export default class ImportInterface extends Component {
       selectedRowKeys: [],
       categoryCount: {}
     });
-    await this.props.fetchInterfaceListMenu(val);
+    const r = await this.props.fetchInterfaceListMenu(val);
+    this.setState({
+      list: r.payload.data.data
+    })
+  };
+
+  // 点击展开图标
+  onExpandCat = async(expanded, record, list) => {
+    if (expanded && !record.ischild) {
+    // const parentCatId = record.key.slice(9) ;
+    console.log('-----',record);
+    const parentCatId = record._id || record.key.slice(9) ;
+    let newList = list ? list : this.state.list;
+    // 展开一级目录递归展开下一级目录
+    const result = await this.props.fetchInterfaceListMenu(this.state.project, Number(parentCatId));
+    const childList = result.payload.data.data;
+    for(let i = 0; i < newList.length; i++) {
+      if(newList[i]._id === Number(parentCatId)) {
+        newList[i].children = childList;
+        for(let j = 0; j < childList.length; j++) {
+          childList[j].isChild = true;
+          childList[j].categoryKey = 'category_' + childList[j].parent_id;
+          childList[j].title = childList[j].name;
+          if(childList[j].children) {
+            childList[j].isCategory = true;
+            childList[j].categoryLength = childList.length;
+            this.onExpandCat(true, childList[j], childList);
+            childList[j].key = "category_" + childList[j]._id;
+          } else {
+            childList[j].key = childList[j]._id;
+          }
+        }
+      }
+    }
+    }
+    this.setState({
+      list: this.state.list
+    })
   };
 
   render() {
-    const { list, projectList } = this.props;
-
+    const { projectList } = this.props;
+    const list = this.state.list;
     // const { selectedRowKeys } = this.state;
     const data = list.map(item => {
       return {
         key: 'category_' + item._id,
         title: item.name,
         isCategory: true,
-        children: item.list
-          ? item.list.map(e => {
-              e.key = e._id;
+        children: item.children
+          ? item.children.map(e => {
+              e.key = e.children ? "category_" + e._id : e._id;
+              e.title = e.name;
+              if(e.child_type === 0) {
+                e.isCategory = true;
+              }
               e.categoryKey = 'category_' + item._id;
-              e.categoryLength = item.list.length;
+              e.categoryLength = item.children.length;
               return e;
             })
           : []
@@ -88,7 +133,12 @@ export default class ImportInterface extends Component {
         const categoryLength = record.categoryLength;
         let selectedRowKeys = [];
         if (record.isCategory) {
-          selectedRowKeys = record.children.map(item => item._id).concat(record.key);
+          console.log("isCategory")
+          console.log("isCategory")
+          // selectedRowKeys = record.children.map(item => item._id).concat(record.key);
+          selectedRowKeys = record.children.map(item => {
+            return  item.children ? 'category_' + item._id : item._id;
+          }).concat(record.key);
           if (selected) {
             selectedRowKeys = selectedRowKeys
               .filter(id => oldSelecteds.indexOf(id) === -1)
@@ -98,7 +148,10 @@ export default class ImportInterface extends Component {
             selectedRowKeys = oldSelecteds.filter(id => selectedRowKeys.indexOf(id) === -1);
             categoryCount[categoryKey] = 0;
           }
+          console.log('selectedRowKeys',selectedRowKeys)
+
         } else {
+
           if (selected) {
             selectedRowKeys = oldSelecteds.concat(record._id);
             if (categoryCount[categoryKey]) {
@@ -116,8 +169,12 @@ export default class ImportInterface extends Component {
             }
             selectedRowKeys = selectedRowKeys.filter(id => id !== categoryKey);
           }
+          console.log('111111',selectedRowKeys)
+
         }
+
         self.setState({ selectedRowKeys, categoryCount });
+        console.log("0000000",selectedRowKeys)
         self.props.selectInterface(
           selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1),
           self.state.project
@@ -127,13 +184,19 @@ export default class ImportInterface extends Component {
         // console.log(selected, selectedRows, changeRows);
         let selectedRowKeys = [];
         let categoryCount = self.state.categoryCount;
-        if (selected) {
+        let selectChild = (data) => {
           data.forEach(item => {
             if (item.children) {
               categoryCount['category_' + item._id] = item.children.length;
-              selectedRowKeys = selectedRowKeys.concat(item.children.map(item => item._id));
+              selectedRowKeys = selectedRowKeys.concat(item.children.map(item => {
+                return  item.children ? 'category_' + item._id : item._id;
+              }));
+              selectChild(item.children)
             }
           });
+        }
+        if (selected) {
+          selectChild(data);
           selectedRowKeys = selectedRowKeys.concat(data.map(item => item.key));
         } else {
           categoryCount = {};
@@ -234,7 +297,7 @@ export default class ImportInterface extends Component {
             })}
           </Select>
         </div>
-        <Table columns={columns} rowSelection={rowSelection} dataSource={data} pagination={false} />
+        <Table columns={columns} rowSelection={rowSelection} dataSource={data} onExpand={this.onExpandCat} pagination={false} />
       </div>
     );
   }
