@@ -11,6 +11,7 @@ class interfaceCol extends baseModel {
       name: { type: String, required: true },
       uid: { type: Number, required: true },
       project_id: { type: Number, required: true },
+      parent_id: { type: Number, required: true },
       desc: String,
       add_time: Number,
       up_time: Number,
@@ -71,12 +72,13 @@ class interfaceCol extends baseModel {
     });
   }
 
-  list(project_id) {
+  list(project_id, parent_id = -1) {
     return this.model
       .find({
-        project_id: project_id
+        project_id,
+        parent_id
       })
-      .select('name uid project_id desc add_time up_time, index')
+      .select('name uid project_id desc add_time up_time, index, parent_id')
       .exec();
   }
 

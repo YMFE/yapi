@@ -69,7 +69,7 @@ export default class InterfaceCaseContent extends Component {
   getColId(colList, currCaseId) {
     let currColId = 0;
     colList.forEach(col => {
-      col.caseList.forEach(caseItem => {
+      col.children.forEach(caseItem => {
         if (+caseItem._id === +currCaseId) {
           currColId = col._id;
         }

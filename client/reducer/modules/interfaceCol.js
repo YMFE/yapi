@@ -1,6 +1,7 @@
 import axios from 'axios';
 // Actions
 const FETCH_INTERFACE_COL_LIST = 'yapi/interfaceCol/FETCH_INTERFACE_COL_LIST';
+const FETCH_CHILD_NODE_INTERFACE_COL_LIST = 'yapi/interfaceCol/FETCH_CHILD_NODE_INTERFACE_COL_LIST';
 const FETCH_CASE_DATA = 'yapi/interfaceCol/FETCH_CASE_DATA';
 const FETCH_CASE_LIST = 'yapi/interfaceCol/FETCH_CASE_LIST';
 const SET_COL_DATA = 'yapi/interfaceCol/SET_COL_DATA';
@@ -36,6 +37,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         interfaceColList: action.payload.data.data
+      };
+    }
+    case FETCH_CHILD_NODE_INTERFACE_COL_LIST: {
+      return {
+        ...state,
+        childNodeList: action.payload.data.data
       };
     }
     case FETCH_CASE_DATA: {
@@ -75,11 +82,19 @@ export default (state = initialState, action) => {
 };
 
 // Action Creators
-export function fetchInterfaceColList(projectId) {
-  return {
-    type: FETCH_INTERFACE_COL_LIST,
-    payload: axios.get('/api/col/list?project_id=' + projectId)
-  };
+export function fetchInterfaceColList(projectId, parentId = -1, getChild = false) {
+  const result =  axios.get('/api/col/list?project_id=' + projectId + '&parent_id=' + parentId);
+  if (!getChild) {
+    return {
+      type: FETCH_INTERFACE_COL_LIST,
+      payload: result
+    };
+  } else {
+    return {
+      type: FETCH_CHILD_NODE_INTERFACE_COL_LIST,
+      payload: result
+    };
+  }
 }
 
 export function fetchCaseData(caseId) {

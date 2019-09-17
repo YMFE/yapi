@@ -163,7 +163,6 @@ class InterfaceMenu extends Component {
         list: r.payload.data.data
       });
     }
- 
   }
 
   // e:{selected: bool, selectedNodes, node, event}
@@ -183,8 +182,7 @@ class InterfaceMenu extends Component {
       catId = -1;
       history.push(basepath);
     } else {
-      catId = curNode.props._id;
-      curNode.props.child_type === 0 ? curNode.props._id : curNode.props.catid;
+      catId = curNode.props.child_type === 0 ? curNode.props._id : curNode.props.catid;
       history.push(basepath + '/' + curkey);
     }
     this.setState({
@@ -199,27 +197,7 @@ class InterfaceMenu extends Component {
       expands: null
     });
   };
-  reloadCurChildList = () => {
-    // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
-    console.log('@@@@@', this.state.currentSelectNode)
-    console.log('322^^^^^^', this.state.curCatid)
-    if (this.state.curCatid !== -1) {
-      console.log("hhahahg")
-      console.log(this.state.currentSelectNode)
-      console.log(this.state.curCatid)
-      const curParentKey = 'cat_' + this.state.currentSelectNode.parent_id;
-      let arr = this.state.expands ? this.state.expands.slice(0) : [];
-      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
-      this.onLoadData(this.state.currentSelectNode);
-      this.setState({
-        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
-      })
-    } else {
-      this.changeExpands();
-      this.getList();
-      console.log("gogogogogo")
-    }
-  }
+
   copyInterface = async (id) => {
     let interfaceData = await this.props.fetchInterfaceData(id);
     let data = interfaceData.payload.data.data;
@@ -389,9 +367,9 @@ class InterfaceMenu extends Component {
     });
   };
 
-  onExpand = (e) => {
+  onExpand = (keys, e) => {
     this.setState({
-      expands: e
+      expands: keys
     });
   };
 
@@ -681,6 +659,28 @@ class InterfaceMenu extends Component {
       }
     });
   };
+
+  reloadCurChildList = () => {
+    // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
+    console.log('@@@@@', this.state.currentSelectNode)
+    console.log('322^^^^^^', this.state.curCatid)
+    if (this.state.curCatid !== -1) {
+      console.log("hhahahg")
+      console.log(this.state.currentSelectNode)
+      console.log(this.state.curCatid)
+      const curParentKey = 'cat_' + this.state.currentSelectNode.parent_id;
+      let arr = this.state.expands ? this.state.expands.slice(0) : [];
+      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
+      this.onLoadData(this.state.currentSelectNode);
+      this.setState({
+        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
+      })
+    } else {
+      this.changeExpands();
+      this.getList();
+      console.log("gogogogogo")
+    }
+  }
 
 
   render() {

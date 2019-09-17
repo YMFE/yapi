@@ -27,35 +27,61 @@ class interfaceColController extends baseController {
    */
   async list(ctx) {
     try {
-      let id = ctx.query.project_id;
-      let project = await this.projectModel.getBaseInfo(id);
+      let { project_id, parent_id} = ctx.query;
+      let project = await this.projectModel.getBaseInfo(project_id);
       if (project.project_type === 'private') {
         if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
-      let result = await this.colModel.list(id);
-      result = result.sort((a, b) => {
-        return a.index - b.index;
-      });
+      // let result = await this.colModel.list(project_id, parent_id);
+      // result = result.sort((a, b) => {
+      //   return a.index - b.index;
+      // });
 
-      for (let i = 0; i < result.length; i++) {
-        result[i] = result[i].toObject();
-        let caseList = await this.caseModel.list(result[i]._id);
+      // for (let i = 0; i < result.length; i++) {
+      //   result[i] = result[i].toObject();
+      //   let caseList = await this.caseModel.list(result[i]._id);
 
-        for(let j=0; j< caseList.length; j++){
-          let item = caseList[j].toObject();
-          let interfaceData = await this.interfaceModel.getBaseinfo(item.interface_id);
-          item.path = interfaceData.path;
-          caseList[j] = item;
-        }
+      //   for(let j=0; j< caseList.length; j++){
+      //     let item = caseList[j].toObject();
+      //     let interfaceData = await this.interfaceModel.getBaseinfo(item.interface_id);
+      //     item.path = interfaceData.path;
+      //     caseList[j] = item;
+      //   }
 
-        caseList = caseList.sort((a, b) => {
-          return a.index - b.index;
-        });
-        result[i].caseList = caseList;
+      //   caseList = caseList.sort((a, b) => {
+      //     return a.index - b.index;
+      //   });
+      //   result[i].caseList = caseList;
         
+      // }
+
+    
+      // 由于添加了子目录，该接口修改成返回子目录列表和接口用例列表
+      let colList = await this.colModel.list(project_id, parent_id),
+      caseList =await this.caseModel.list(parent_id),
+      newColList = [],
+      newInterfaceCaseList = [];
+
+      // 标记分类文件夹
+      for (let i = 0; i < colList.length; i++ ) {
+        newColList[i] = colList[i].toObject(); 
+        newColList[i].child_type = 0;
+        newColList[i].children = [];
       }
+      console.info("ppppppp", JSON.stringify(caseList))
+      // 标记接口
+      for (let j = 0 ; j < caseList.length; j++ ) {
+        let item = caseList[j].toObject();
+        let interfaceData = await this.interfaceModel.getBaseinfo(item.interface_id);
+        item.path = interfaceData.path;
+        newInterfaceCaseList[j] = item;
+        newInterfaceCaseList[j].child_type = 1;
+      }
+      let result = [...newColList, ...newInterfaceCaseList];
+
+
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
@@ -81,6 +107,7 @@ class interfaceColController extends baseController {
       params = yapi.commons.handleParams(params, {
         name: 'string',
         project_id: 'number',
+        parent_id: 'number',
         desc: 'string'
       });
 
@@ -99,6 +126,7 @@ class interfaceColController extends baseController {
       let result = await this.colModel.save({
         name: params.name,
         project_id: params.project_id,
+        parent_id:  params.parent_id || -1,
         desc: params.desc,
         uid: this.getUid(),
         add_time: yapi.commons.time(),
@@ -112,7 +140,8 @@ class interfaceColController extends baseController {
         type: 'project',
         uid: this.getUid(),
         username: username,
-        typeid: params.project_id
+        typeid: params.project_id,
+        parent_id: params.parent_id
       });
       // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
       ctx.body = yapi.commons.resReturn(result);
@@ -139,6 +168,7 @@ class interfaceColController extends baseController {
       }
 
       let colData = await this.colModel.get(id);
+      console.log("hahhhahaha", colData)
       let project = await this.projectModel.getBaseInfo(colData.project_id);
       if (project.project_type === 'private') {
         if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {

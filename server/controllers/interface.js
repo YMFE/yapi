@@ -564,22 +564,23 @@ class interfaceController extends baseController {
   }
 
   async listByMenu(ctx) {
-    let { project_id, parent_id} = ctx.params;
-    if (!project_id) {
-      return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
-    }
-
-    let project = await this.projectModel.getBaseInfo(project_id);
-    if (!project) {
-      return (ctx.body = yapi.commons.resReturn(null, 406, '不存在的项目'));
-    }
-    if (project.project_type === 'private') {
-      if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
-        return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
-      }
-    }
-
     try {
+      let { project_id, parent_id} = ctx.params;
+      if (!project_id) {
+        return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+      }
+
+      let project = await this.projectModel.getBaseInfo(project_id);
+      if (!project) {
+        return (ctx.body = yapi.commons.resReturn(null, 406, '不存在的项目'));
+      }
+      if (project.project_type === 'private') {
+        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+        }
+      }
+
+
       // let result = await this.catModel.list(project_id,parent_id),
       //   newResult = [];
       // for (let i = 0, item, list; i < result.length; i++) {
