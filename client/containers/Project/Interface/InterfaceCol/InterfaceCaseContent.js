@@ -67,31 +67,35 @@ export default class InterfaceCaseContent extends Component {
   }
 
   getColId(colList, currCaseId) {
-    let currColId = 0;
-    colList.forEach(col => {
-      col.children.forEach(caseItem => {
-        if (+caseItem._id === +currCaseId) {
-          currColId = col._id;
-        }
-      });
-    });
-    return currColId;
+    // let currColId = 0;
+    // colList.forEach(col => {
+    //   col.children.forEach(caseItem => {
+    //     if (+caseItem._id === +currCaseId) {
+    //       currColId = col._id;
+    //     }
+    //   });
+    // });
+    const urlArr =location.search.split('colId=');
+    const colId = urlArr[1];
+    console.log("urlArr", urlArr);
+    console.log("colId", colId);
+    return Number(colId);
   }
 
   async componentDidMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    // const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
     let { currCaseId } = this.props;
     const params = this.props.match.params;
+    console.log("match", this.props.match)
     const { actionId } = params;
-    currCaseId = +actionId || +currCaseId || result.payload.data.data[0].caseList[0]._id;
-    let currColId = this.getColId(result.payload.data.data, currCaseId);
+    currCaseId = +actionId || +currCaseId;
+    let currColId = this.getColId();
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId);
     await this.props.fetchCaseData(currCaseId);
     this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false });
     // 获取当前case 下的环境变量
     await this.props.getEnv(this.props.currCase.project_id);
     // await this.getCurrEnv()
-
     this.setState({ editCasename: this.props.currCase.casename });
   }
 
@@ -99,7 +103,7 @@ export default class InterfaceCaseContent extends Component {
     const oldCaseId = this.props.match.params.actionId;
     const newCaseId = nextProps.match.params.actionId;
     const { interfaceColList } = nextProps;
-    let currColId = this.getColId(interfaceColList, newCaseId);
+    let currColId = this.getColId();
     if (oldCaseId !== newCaseId) {
       await this.props.fetchCaseData(newCaseId);
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false });

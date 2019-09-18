@@ -14,6 +14,8 @@ import axios from 'axios';
 import ImportInterface from './ImportInterface';
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
+import { Link } from 'react-router-dom';
+
 const { confirm } = Modal;
 
 const TreeNode = Tree.TreeNode;
@@ -93,7 +95,7 @@ export default class InterfaceColMenu extends Component {
     confirmImportVisble: false,
     importInterIds: [],
     importColId: 0,
-    expands: null,
+    expands: [],
     selects: ['root'],
     list: [],
     delIcon: null,
@@ -176,7 +178,7 @@ export default class InterfaceColMenu extends Component {
       this.setState({
         currentSelectNode: curNode,
         curColId: colId,
-        selects: [curkey]
+        selects: [curkey],
       });
       if (type === 'col') {
         this.props.setColData({
@@ -187,7 +189,7 @@ export default class InterfaceColMenu extends Component {
         this.props.setColData({
           isRander: false
         });
-        this.props.history.push('/project/' + project_id + '/interface/case/' + id);
+        this.props.history.push('/project/' + project_id + '/interface/case/' + id + '?colId=' + colId);
       }
     }
 
@@ -448,7 +450,18 @@ export default class InterfaceColMenu extends Component {
   };
   itemInterfaceColTitle(col) {
     return (
-      <div className="menu-title">
+      <div 
+      className="menu-title"
+      onMouseEnter={() => { this.enterItem('col_' + col._id) }}
+      onMouseLeave={this.leaveItem}
+      onClick={(e) => {
+        // e.stopPropagation();
+        // this.setState({
+        //   curColId: Number(col._id),
+        //   currentSelectNode: col
+        // })
+      }}
+      >
       <span>
         <Icon type="folder-open" style={{ marginRight: 5 }} />
         <span>{col.name}</span>
@@ -459,6 +472,9 @@ export default class InterfaceColMenu extends Component {
             type="delete"
             // style={{ display: list.length > 1 ? '' : 'none' }}
             className="interface-delete-icon"
+            style={{
+              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+            }}
             onClick={() => {
               this.showDelColConfirm(col._id);
               this.setState({
@@ -486,6 +502,9 @@ export default class InterfaceColMenu extends Component {
           <Icon
             type="plus"
             className="interface-delete-icon"
+            style={{
+              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+            }}
             onClick={e => {
               e.stopPropagation();
               this.showImportInterfaceModal(col._id);
@@ -500,6 +519,9 @@ export default class InterfaceColMenu extends Component {
           <Icon
             type="copy"
             className="interface-delete-icon"
+            style={{
+              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+            }}
             onClick={e => {
               e.stopPropagation();
               this.setState({
@@ -525,6 +547,9 @@ export default class InterfaceColMenu extends Component {
       onMouseEnter={() => this.enterItem(interfaceCase._id)}
       onMouseLeave={this.leaveItem}
       title={interfaceCase.casename}
+      onClick={(e) => {
+        // e.stopPropagation();
+      }}
     >
       <span className="casename">{interfaceCase.casename}</span>
       <div className="btns">
@@ -596,6 +621,7 @@ export default class InterfaceColMenu extends Component {
         if (item.children && item.children.length > 0) {
           return (
             <TreeNode
+              checkable={true}
               key={'col_' + item._id}
               {...item}
               title={this.itemInterfaceColTitle(item)}
@@ -608,6 +634,7 @@ export default class InterfaceColMenu extends Component {
         }
         return (
           <TreeNode
+            checkable={true}
             key={'col_' + item._id}
             {...item}
             title={this.itemInterfaceColTitle(item)}
@@ -622,6 +649,7 @@ export default class InterfaceColMenu extends Component {
       } else {
         return (
           <TreeNode
+            checkable={true}
             key={'case_' + item._id}
             {...item}
             title={this.itemInterfaceCreateTitle(item)}
@@ -648,13 +676,14 @@ export default class InterfaceColMenu extends Component {
         expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
       })
     } else {
-      this.changeExpands();
+      // this.changeExpands();
       this.getList();
       console.log("gogogogogo")
     }
   };
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
+    const matchParams = this.props.match.params;
     const { colModalType, colModalVisible, importInterVisible } = this.state;
     const currProjectId = this.props.match.params.id;
     // const menu = (col) => {
@@ -683,21 +712,25 @@ export default class InterfaceColMenu extends Component {
       }
       if (router) {
         if (router.params.action === 'case') {
+          console.log("aaaaaa",)
           if (!currCase || !currCase._id) {
             return rNull;
           }
+          console.log("bbbbbbb",this.state.expands,currCase.col_id)
           return {
             expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id],
-            selects: this.state.selects ? this.state.selects : ['case_' +currCase._id + '']
+            selects: this.state.selects ? this.state.selects : ['case_' + currCase._id + '']
           };
         } else {
           let col_id = router.params.actionId;
+          console.log("cccccc",this.state.expands,col_id)
           return {
             expands: this.state.expands ? this.state.expands : ['col_' + col_id],
             selects: this.state.selects ? this.state.selects : ['col_' + col_id]
           };
         }
       } else {
+        console.log("ddddd",this.state.expands,interfaceColList[0]._id)
         return {
           expands: this.state.expands ? this.state.expands : ['col_' + interfaceColList[0]._id],
           selects: ['root']
@@ -722,27 +755,27 @@ export default class InterfaceColMenu extends Component {
 
     let list = this.state.list;
 
-    if (this.state.filterValue) {
-      let arr = [];
-      list = list.filter(item => {
+    // if (this.state.filterValue) {
+    //   let arr = [];
+    //   list = list.filter(item => {
 
-        item.caseList = item.caseList.filter(inter => {
-          if (inter.casename.indexOf(this.state.filterValue) === -1 
-          && inter.path.indexOf(this.state.filterValue) === -1
-          ) {
-            return false;
-          }
-          return true;
-        });
+    //     item.caseList = item.caseList.filter(inter => {
+    //       if (inter.casename.indexOf(this.state.filterValue) === -1 
+    //       && inter.path.indexOf(this.state.filterValue) === -1
+    //       ) {
+    //         return false;
+    //       }
+    //       return true;
+    //     });
 
-        arr.push('col_' + item._id);
-        return true;
-      });
-      // console.log('arr', arr);
-      if (arr.length > 0) {
-        currentKes.expands = arr;
-      }
-    }
+    //     arr.push('col_' + item._id);
+    //     return true;
+    //   });
+    //   // console.log('arr', arr);
+    //   if (arr.length > 0) {
+    //     currentKes.expands = arr;
+    //   }
+    // }
 
     // console.log('list', list);
     // console.log('currentKey', currentKes)
@@ -788,7 +821,7 @@ export default class InterfaceColMenu extends Component {
             draggable
             onExpand={this.onExpand}
             onDrop={this.onDrop}
-            expandAction={false}
+            expandAction={"doubleClick"}
           >
             {/* {list.map(col => (
               <TreeNode
@@ -800,6 +833,25 @@ export default class InterfaceColMenu extends Component {
                 {col.caseList.map(itemInterfaceColCreate)}
               </TreeNode>
             ))} */}
+            {/* <TreeNode
+                className="item-all-interface"
+                isLeaf={true}
+                title={
+                  <Link
+                    onClick={(e)=> {
+                      e.stopPropagation();
+                      this.setState({
+                        curCatid: Number(-1)
+                      });
+                    }}
+                    to={'/project/' + matchParams.id + '/interface/case'}
+                  >
+                    <Icon type="folder" style={{ marginRight: 5 }} />
+                    全部测试用例
+                  </Link>
+                }
+                key="root"
+              /> */}
               {this.renderTreeNodes(list)}
           </Tree>
         </div>

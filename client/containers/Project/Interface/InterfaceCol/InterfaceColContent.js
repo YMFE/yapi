@@ -168,12 +168,17 @@ class InterfaceColContent extends Component {
   }
 
   async componentDidMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
     await this.props.getToken(this.props.match.params.id);
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
+    // this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
+    if (actionId) {
+      this.currColId = currColId = +actionId;
+    } else {
+      const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+      this.currColId = result.payload.data.data[0]._id;
+    }
     this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
     if (currColId && currColId != 0) {
       await this.handleColIdChange(currColId)
