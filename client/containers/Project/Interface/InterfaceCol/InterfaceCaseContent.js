@@ -92,13 +92,13 @@ export default class InterfaceCaseContent extends Component {
     const { actionId } = params;
     currCaseId = +actionId || +currCaseId;
     let currColId = this.getColId();
-    this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId);
-    await this.props.fetchCaseData(currCaseId);
-    this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false });
+    // this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId);
+    // await this.props.fetchCaseData(currCaseId);
+    // this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false });
     // 获取当前case 下的环境变量
-    await this.props.getEnv(this.props.currCase.project_id);
+    // await this.props.getEnv(this.props.currCase.project_id);
     // await this.getCurrEnv()
-    this.setState({ editCasename: this.props.currCase.casename });
+    // this.setState({ editCasename: this.props.currCase.casename });
   }
 
   async UNSAFE_componentWillReceiveProps(nextProps) {

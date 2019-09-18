@@ -33,7 +33,8 @@ const ColModalForm = Form.create()(props => {
       <Form layout="vertical">
         <FormItem label="集合名">
           {getFieldDecorator('colName', {
-            rules: [{ required: true, message: '请输入集合命名！' }]
+            rules: [{ required: true, message: '请输入集合命名！' }],
+
           })(<Input />)}
         </FormItem>
         <FormItem label="简介">{getFieldDecorator('colDesc')(<Input type="textarea" />)}</FormItem>
@@ -146,6 +147,7 @@ export default class InterfaceColMenu extends Component {
     const project_id = this.props.match.params.id;
     let res = {};
     if (colModalType === 'add') {
+      console.log("999999", this.state.curColId);
       res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id: col_id});
     } else if (colModalType === 'edit') {
       res = await axios.post('/api/col/up_col', { name, desc, col_id });
@@ -155,8 +157,17 @@ export default class InterfaceColMenu extends Component {
         colModalVisible: false
       });
       message.success(colModalType === 'edit' ? '修改集合成功' : '添加集合成功');
-      // await this.props.fetchInterfaceColList(project_id);
-      this.getList(true);
+      if (colModalType === 'edit') {
+        let currentNode = this.state.currentSelectNode;
+        currentNode.name = name;
+        this.setState({
+          currentSelectNode: currentNode
+        })
+      } else {
+        this.reloadCurChildList();
+      }
+
+
     } else {
       message.error(res.data.errmsg);
     }
@@ -199,6 +210,13 @@ export default class InterfaceColMenu extends Component {
 
   };
 
+  changeExpands = () => {
+    this.setState({
+      expands: null
+    });
+  };
+
+
   showDelColConfirm = colId => {
     let that = this;
     const params = this.props.match.params;
@@ -211,9 +229,8 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_col?col_id=' + colId);
         if (!res.data.errcode) {
           message.success('删除集合成功');
-          const result = await that.getList();
-          const nextColId = result.payload.data.data[0]._id;
-
+          const nextColId = that.state.list[0]._id;
+          that.reloadColMenuList();
           that.props.history.push('/project/' + params.id + '/interface/col/' + nextColId);
         } else {
           message.error(res.data.errmsg);
@@ -228,12 +245,11 @@ export default class InterfaceColMenu extends Component {
       return;
     }
     this._copyInterfaceSign = true;
-    const { desc, project_id, _id: col_id } = item;
+    const { desc, project_id, _id: col_id, parent_id} = item;
     let { name } = item;
     name = `${name} copy`;
-    let parent_id = this.state.curColId;
     // 添加集合
-    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id,parent_id });
+    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id });
 
     if (add_col_res.data.errcode) {
       message.error(add_col_res.data.errmsg);
@@ -257,11 +273,23 @@ export default class InterfaceColMenu extends Component {
 
     // 刷新接口列表
     // await this.props.fetchInterfaceColList(project_id);
-    this.getList(true);
+    // this.getList(true);
+
     this.props.setColData({ isRander: true });
     message.success('克隆测试集成功');
+    this.reloadColMenuList();
   };
 
+  reloadColMenuList = () => {
+    this.changeExpands();
+    this.setState({
+      expands: null,
+      curColId: -1,
+      list: []
+    }, async() => {
+      await this.getList();
+    })
+  };
   showNoDelColConfirm = () => {
     confirm({
       title: '此测试集合为最后一个集合',
@@ -280,11 +308,11 @@ export default class InterfaceColMenu extends Component {
         message.success('克隆用例成功');
         let colId = res.data.data.col_id;
         let projectId=res.data.data.project_id;
-        await this.getList(true);
         this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
         this.setState({
           visible: false
         });
+        that.reloadColMenuList();
       } else {
         message.error(res.data.errmsg);
       }
@@ -301,7 +329,7 @@ export default class InterfaceColMenu extends Component {
         const res = await axios.get('/api/col/del_case?caseid=' + caseId);
         if (!res.data.errcode) {
           message.success('删除用例成功');
-          that.getList(true);
+          that.reloadColMenuList();
           // 如果删除当前选中 case，切换路由到集合
           if (+caseId === +that.props.currCaseId) {
             that.props.history.push('/project/' + params.id + '/interface/col/');
@@ -321,7 +349,7 @@ export default class InterfaceColMenu extends Component {
     this.setState({
       colModalVisible: true,
       colModalType: type || 'add',
-      curColId: col && col._id
+      curColId: this.state.curColId
     });
     this.form.setFieldsValue(editCol);
   };
@@ -441,19 +469,19 @@ export default class InterfaceColMenu extends Component {
         list: [],
         expands: [],
         selects: []
-      })
-      let r = await this.props.queryColAndInterfaceCase({
-        project_id: Number(this.props.projectId),
-        query_text: this.state.filter
+      }, async()=>{
+        let r = await this.props.queryColAndInterfaceCase({
+          project_id: Number(this.props.projectId),
+          query_text: this.state.filter
+        });
+        const data = r.payload.data.data;
+        if (data.length === 0) {
+          message.info('搜索结果为空')
+        }
+        this.setState({
+          list: data
+        });
       });
-      const data = r.payload.data.data;
-      if (data.length === 0) {
-        message.info('搜索结果为空')
-      }
-      this.setState({
-        list: data
-      });
-    // }
   };
   itemInterfaceColTitle(col) {
     return (
@@ -491,7 +519,7 @@ export default class InterfaceColMenu extends Component {
             }}
           />
         </Tooltip>
-        <Tooltip title="编辑集合">
+        <Tooltip title="修改集合">
           <Icon
             type="edit"
             className="interface-delete-icon"
@@ -683,7 +711,7 @@ export default class InterfaceColMenu extends Component {
         expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
       })
     } else {
-      // this.changeExpands();
+      this.changeExpands();
       this.getList();
       console.log("gogogogogo")
     }
@@ -808,7 +836,18 @@ export default class InterfaceColMenu extends Component {
             <Button
               type="primary"
               style={{ marginLeft: '16px' }}
-              onClick={() => this.showColModal('add')}
+              onClick={
+                () =>{
+                  // 选中目录才可以添加
+                  if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 1) {
+                    message.error('接口不可再添加集合');
+                  } else if(this.state.selects.length === 0) {
+                    message.error('选中文件夹再添加集合');
+                  } else {
+                    this.showColModal('add', this.state.currentSelectNode);
+                  }
+                } 
+              }
               className="btn-filter"
             >
               添加集合

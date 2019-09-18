@@ -179,9 +179,9 @@ class InterfaceColContent extends Component {
       const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
       this.currColId = result.payload.data.data[0]._id;
     }
-    this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
+    // this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
     if (currColId && currColId != 0) {
-      await this.handleColIdChange(currColId)
+      // await this.handleColIdChange(currColId)
     }
 
     this._crossRequestInterval = initCrossRequest(hasPlugin => {
