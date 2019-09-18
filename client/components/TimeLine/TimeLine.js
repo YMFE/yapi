@@ -252,13 +252,16 @@ class TimeTree extends Component {
                 optionLabelProp="title"
                 filterOption={(inputValue, options) => {
                   console.log({options});
-
-                  if (options.props.children.props.value == '') return true;
+                  try{
+                  let props=typeof(options.props.children.props) =="undefined"?options.props:options.props.children.props;
+                  if (props.value == '') return true;
                   if (
-                    options.props.children.props.path.indexOf(inputValue) !== -1 ||
-                    options.props.children.props.title.indexOf(inputValue) !== -1
+                    props.path.indexOf(inputValue) !== -1 ||
+                    props.title.indexOf(inputValue) !== -1
                   ) {
                     return true;
+                  }}catch (e) {
+                    return false;
                   }
                   return false;
                 }}
