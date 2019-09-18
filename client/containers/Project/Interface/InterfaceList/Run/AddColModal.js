@@ -56,7 +56,8 @@ export default class AddColModal extends Component {
   addCol = async () => {
     const { addColName: name, addColDesc: desc } = this.state;
     const project_id = this.props.match.params.id;
-    const res = await axios.post('/api/col/add_col', { name, desc, project_id });
+    const parent_id=-1;
+    const res = await axios.post('/api/col/add_col', { name, desc,parent_id, project_id });
     if (!res.data.errcode) {
       message.success('添加集合成功');
       await this.props.fetchInterfaceColList(project_id);
