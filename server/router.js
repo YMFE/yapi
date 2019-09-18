@@ -503,6 +503,11 @@ let routerConfig = {
       action: 'getCaseEnvList',
       path: 'case_env_list',
       method: 'get'
+    },
+    {
+      action: 'queryColAndInterfaceCase',
+      path: 'queryColAndInterfaceCase',
+      method: 'post'
     }
   ],
   test: [

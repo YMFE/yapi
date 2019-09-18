@@ -7,7 +7,8 @@ import {
   fetchInterfaceCaseList,
   setColData,
   fetchCaseList,
-  fetchCaseData
+  fetchCaseData,
+  queryColAndInterfaceCase
 } from '../../../../reducer/modules/interfaceCol';
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
@@ -61,7 +62,8 @@ const ColModalForm = Form.create()(props => {
     // fetchInterfaceListMenu,
     fetchCaseList,
     setColData,
-    fetchProjectList
+    fetchProjectList,
+    queryColAndInterfaceCase
   }
 )
 @withRouter
@@ -82,7 +84,9 @@ export default class InterfaceColMenu extends Component {
     router: PropTypes.object,
     currCase: PropTypes.object,
     curProject: PropTypes.object,
-    fetchProjectList: PropTypes.func
+    fetchProjectList: PropTypes.func,
+    queryColAndInterfaceCase: PropTypes.func
+
     // projectList: PropTypes.array
   };
 
@@ -90,7 +94,7 @@ export default class InterfaceColMenu extends Component {
     colModalType: '',
     colModalVisible: false,
     curColId: 0,
-    filterValue: '',
+    filter: '',
     importInterVisible: false,
     confirmImportVisble: false,
     importInterIds: [],
@@ -382,8 +386,8 @@ export default class InterfaceColMenu extends Component {
     // const newList = produce(this.props.interfaceColList, draftList => {})
     // console.log('newList',newList);
     this.setState({
-      filterValue: value,
-      list: JSON.parse(JSON.stringify(this.props.interfaceColList))
+      filter: value,
+      // list: JSON.parse(JSON.stringify(this.props.interfaceColList))
       // list: newList
     });
   };
@@ -436,16 +440,19 @@ export default class InterfaceColMenu extends Component {
       this.setState({
         list: [],
         expands: [],
-        selects: [],
-        loadedKeysSet: []
+        selects: []
       })
-      // let r = await this.props.queryCatAndInterface({
-      //   project_id: Number(this.props.projectId),
-      //   query_text: this.state.filter
-      // });
-      // this.setState({
-      //   list: r.payload.data.data
-      // });
+      let r = await this.props.queryColAndInterfaceCase({
+        project_id: Number(this.props.projectId),
+        query_text: this.state.filter
+      });
+      const data = r.payload.data.data;
+      if (data.length === 0) {
+        message.info('搜索结果为空')
+      }
+      this.setState({
+        list: data
+      });
     }
   };
   itemInterfaceColTitle(col) {
@@ -783,8 +790,8 @@ export default class InterfaceColMenu extends Component {
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="搜索测试集合" onChange={this.filterCol} />
-          <Tooltip placement="bottom" title="添加集合">
+          <Input placeholder="搜索测试集合" onChange={this.filterCol} value={this.state.filter} />
+          <Tooltip placement="bottom" title="搜索测试集合">
           <Button
           type="primary"
           onClick={

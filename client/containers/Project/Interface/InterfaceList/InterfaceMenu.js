@@ -152,15 +152,18 @@ class InterfaceMenu extends Component {
       this.setState({
         list: [],
         expands: [],
-        selects: [],
-        loadedKeysSet: []
+        selects: []
       })
       let r = await this.props.queryCatAndInterface({
         project_id: Number(this.props.projectId),
         query_text: this.state.filter
       });
+      const data = r.payload.data.data;
+      if (data.length === 0) {
+        message.info('搜索结果为空')
+      }
       this.setState({
-        list: r.payload.data.data
+        list: data
       });
     }
   }

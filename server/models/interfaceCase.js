@@ -76,19 +76,25 @@ class interfaceCase extends baseModel {
 
   list(col_id, select) {
     select = select || 'casename uid col_id _id index interface_id project_id';
-    if (select === 'all') {
+    if (col_id) {
+      if (select === 'all') {
+        return this.model
+          .find({
+            col_id: col_id
+          })
+          .exec();
+      }
       return this.model
         .find({
           col_id: col_id
         })
+        .select(select)
         .exec();
-    }
-    return this.model
-      .find({
-        col_id: col_id
-      })
+    } else {
+      return this.model.find({})
       .select(select)
       .exec();
+    }
   }
 
   del(id) {

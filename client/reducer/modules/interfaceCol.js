@@ -7,6 +7,8 @@ const FETCH_CASE_LIST = 'yapi/interfaceCol/FETCH_CASE_LIST';
 const SET_COL_DATA = 'yapi/interfaceCol/SET_COL_DATA';
 const FETCH_VARIABLE_PARAMS_LIST = 'yapi/interfaceCol/FETCH_VARIABLE_PARAMS_LIST';
 const FETCH_CASE_ENV_LIST = 'yapi/interfaceCol/FETCH_CASE_ENV_LIST';
+const QUERY_COL_AND_INTERFACE_CASE = 'yapi/interface/QUERY_COL_AND_INTERFACE_CASE';
+
 // Reducer
 const initialState = {
   interfaceColList: [
@@ -131,5 +133,13 @@ export function setColData(data) {
   return {
     type: SET_COL_DATA,
     payload: data
+  };
+}
+
+export async function queryColAndInterfaceCase(params) {
+  let result = axios.post('/api/col/queryColAndInterfaceCase', params)
+  return {
+    type: QUERY_COL_AND_INTERFACE_CASE,
+    payload: result
   };
 }

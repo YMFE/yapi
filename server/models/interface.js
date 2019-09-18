@@ -111,13 +111,23 @@ class interfaceModel extends baseModel {
       .exec();
   }
 
-  getBaseinfo(id) {
-    return this.model
+  getBaseinfo(id, query_text) {
+    if (!query_text) {
+      return this.model
       .findOne({
         _id: id
       })
       .select('path method uid title project_id cat_id status ')
       .exec();
+    } else {
+      return this.model
+      .findOne({
+        _id: id,
+        path: new RegExp(query_text + "+", "g")
+      })
+      .select('path method uid title project_id cat_id status ')
+      .exec();
+    }
   }
 
   getVar(project_id, method) {

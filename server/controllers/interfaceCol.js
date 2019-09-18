@@ -70,7 +70,6 @@ class interfaceColController extends baseController {
         newColList[i].child_type = 0;
         newColList[i].children = [];
       }
-      console.info("ppppppp", JSON.stringify(caseList))
       // 标记接口
       for (let j = 0 ; j < caseList.length; j++ ) {
         let item = caseList[j].toObject();
@@ -906,6 +905,70 @@ class interfaceColController extends baseController {
       return item[compare];
     });
   }
+
+  
+  /**
+   * 查询分类集合
+   * @interface /col/queryColAndInterfaceCase
+   * @method post
+   * @category col
+   * @foldnumber 10
+   * @param {Number}   project_id 项目id，不能为空
+   * @param {String}   query_text 查询字符串，不能为空
+   * @returns {Object}
+   * @example ./api/col/queryColAndInterfaceCase
+   */
+
+  async queryColAndInterfaceCase(ctx) {
+    let project_id = ctx.params.project_id;
+    let query_text = ctx.params.query_text;
+    
+    if (!project_id || isNaN(project_id)) {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+    }
+
+    if (!query_text || query_text =='') {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '查询内容不能为空'));
+    }
+    try {
+      let project = await this.projectModel.getBaseInfo(project_id);
+      if (project.project_type === 'private') {
+        if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
+          return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
+        }
+      }
+
+      let colList = await this.colModel.list(project_id, undefined, query_text),
+      caseList =await this.caseModel.list(),
+      newColList = [],
+      newInterfaceCaseList = [];
+ 
+      // 标记分类文件夹 模糊匹配
+      for (let i = 0; i < colList.length; i++ ) {
+        let obj = colList[i].toObject();
+        obj.child_type = 0;
+        obj.children = [];
+        newColList.push(obj); 
+      }
+      // 标记接口 模糊匹配
+      for (let i = 0 ; i < caseList.length; i++ ) {
+        let item = caseList[i].toObject();
+        let interfaceData = await this.interfaceModel.getBaseinfo(item.interface_id);
+        const { path } = interfaceData;
+        const { casename } = item;
+        if(casename.indexOf(query_text) > -1 || path.indexOf(query_text) > -1 ) {
+          let obj = item;
+          obj.child_type = 1;
+          newInterfaceCaseList.push(obj); 
+        }
+      }
+      let result = [ ...newColList, ...newInterfaceCaseList];
+      ctx.body = yapi.commons.resReturn(result);
+    } catch (e) {
+      yapi.commons.resReturn(null, 400, e.message);
+    }
+  }
+
 }
 
 module.exports = interfaceColController;

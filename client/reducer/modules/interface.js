@@ -12,7 +12,7 @@ const CHANGE_EDIT_STATUS = 'yapi/interface/CHANGE_EDIT_STATUS';
 const FETCH_INTERFACE_LIST = 'yapi/interface/FETCH_INTERFACE_LIST';
 const SAVE_IMPORT_DATA = 'yapi/interface/SAVE_IMPORT_DATA';
 const FETCH_INTERFACE_CAT_LIST = 'yapi/interface/FETCH_INTERFACE_CAT_LIST';
-const QUERY_CAT_AND_AINTERFACE = 'yapi/interface/QUERY_CAT_AND_AINTERFACE';
+const QUERY_CAT_AND_INTERFACE = 'yapi/interface/QUERY_CAT_AND_INTERFACE';
 // const SAVE_INTERFACE_PROJECT_ID = 'yapi/interface/SAVE_INTERFACE_PROJECT_ID';
 // const GET_INTERFACE_GROUP_LIST = 'yapi/interface/GET_INTERFACE_GROUP_LIST';
 
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
         ...state,
         list: action.payload.data.data
       };
-    case QUERY_CAT_AND_AINTERFACE:
+    case QUERY_CAT_AND_INTERFACE:
       return {
         ...state,
         list: action.payload.data.data
@@ -182,7 +182,7 @@ export async function fetchInterfaceCatList(params) {
 export async function queryCatAndInterface(params) {
   let result = axios.post('/api/interface/queryCatAndInterface', params)
   return {
-    type: QUERY_CAT_AND_AINTERFACE,
+    type: QUERY_CAT_AND_INTERFACE,
     payload: result
   };
 }

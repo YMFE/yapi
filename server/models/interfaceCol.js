@@ -72,11 +72,22 @@ class interfaceCol extends baseModel {
     });
   }
 
-  list(project_id, parent_id = -1) {
+  list(project_id, parent_id = -1, query_text) {
+    if (!query_text) {
+      return this.model
+      .find({
+        project_id,
+        parent_id,
+
+      })
+      .select('name uid project_id desc add_time up_time, index, parent_id')
+      .exec();
+    }
     return this.model
       .find({
         project_id,
-        parent_id
+        parent_id,
+        name: new RegExp(query_text + "+", "g"),
       })
       .select('name uid project_id desc add_time up_time, index, parent_id')
       .exec();
