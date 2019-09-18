@@ -18,7 +18,7 @@ export default class Notify extends Component {
     axios.get("http://crazy-yapi.camdy.cn/mock/11/version").then(req => {
       if (req.status === 200) {
         console.log({req});
-        this.setState({ newVersion: req.data.data[0] });
+        this.setState({ newVersion: req.data[0] });
       } else {
         message.error('无法获取新版本信息！');
       }
