@@ -83,7 +83,9 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentDidMount() {
-    // const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    if(this.props.interfaceColList.length === 0) {
+      const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    }
     let { currCaseId } = this.props;
     const params = this.props.match.params;
     console.log("match", this.props.match)

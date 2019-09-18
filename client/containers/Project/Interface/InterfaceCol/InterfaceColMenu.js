@@ -434,9 +434,9 @@ export default class InterfaceColMenu extends Component {
 
 
   async doInterfaceSearch() {
-    if(this.state.filter === '') {
-      message.error('搜索内容不能为空');
-    }else{
+    // if(this.state.filter === '') {
+    //   message.error('搜索内容不能为空');
+    // }else{
       this.setState({
         list: [],
         expands: [],
@@ -453,7 +453,7 @@ export default class InterfaceColMenu extends Component {
       this.setState({
         list: data
       });
-    }
+    // }
   };
   itemInterfaceColTitle(col) {
     return (

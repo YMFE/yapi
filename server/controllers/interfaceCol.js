@@ -927,9 +927,9 @@ class interfaceColController extends baseController {
       return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
     }
 
-    if (!query_text || query_text =='') {
-      return (ctx.body = yapi.commons.resReturn(null, 400, '查询内容不能为空'));
-    }
+    // if (!query_text || query_text =='') {
+    //   return (ctx.body = yapi.commons.resReturn(null, 400, '查询内容不能为空'));
+    // }
     try {
       let project = await this.projectModel.getBaseInfo(project_id);
       if (project.project_type === 'private') {
