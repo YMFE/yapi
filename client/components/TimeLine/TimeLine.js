@@ -251,6 +251,7 @@ class TimeTree extends Component {
                 placeholder="Select Api"
                 optionLabelProp="title"
                 filterOption={(inputValue, options) => {
+                  console.log({options});
                   if (options.props.value == '') return true;
                   if (
                     options.props.path.indexOf(inputValue) !== -1 ||
