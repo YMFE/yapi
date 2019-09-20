@@ -143,6 +143,8 @@ class exportSwaggerController extends baseController {
                                 apiItem['description'] = api.markdown;
                                 switch (api.req_body_type) {
                                     case 'form':
+                                        apiItem['consumes'] = ['application/x-www-form-urlencoded']; //form data required
+                                        break;
                                     case 'file':
                                         apiItem['consumes'] = ['multipart/form-data']; //form data required
                                         break;
@@ -167,7 +169,7 @@ class exportSwaggerController extends baseController {
                                             name: p.name,
                                             in: 'header',
                                             description: `${p.name} (Only:${p.value})`,
-                                            required: p.required === 1,
+                                            required: p.required == 1,
                                             type: 'string', //always be type string
                                             default: p.value
                                         });
@@ -187,7 +189,7 @@ class exportSwaggerController extends baseController {
                                         paramArray.push({
                                             name: p.name,
                                             in: 'query',
-                                            required: p.required === 1,
+                                            required: p.required == 1,
                                             description: p.desc,
                                             type: 'string' //always be type string
                                         });
@@ -200,10 +202,13 @@ class exportSwaggerController extends baseController {
                                                     paramArray.push({
                                                         name: p.name,
                                                         in: 'formData',
-                                                        required: p.required === 1,
+                                                        required: p.required == 1,
                                                         description: p.desc,
                                                         type: p.type === 'text' ? 'string' : 'file' //in this time .formData type have only text or file
                                                     });
+                                                    if (p.type === 'file') {
+                                                        apiItem['consumes'] = ['multipart/form-data']; //form data required
+                                                    }
                                                 }
                                                 break;
                                             }
