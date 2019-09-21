@@ -88,9 +88,12 @@
       background-color: #eef7fe;
       position: absolute;
       top: 50%;
-      right: 0;
+      // right: 0;
       transform: translateY(-60%);
       transition: all 0.2s;
+    }
+    .interface-btns {
+      right: 0;
     }
   }
   .ant-tree li .ant-tree-node-selected {

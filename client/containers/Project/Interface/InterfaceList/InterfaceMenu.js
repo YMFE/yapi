@@ -468,7 +468,7 @@ class InterfaceMenu extends Component {
           <Icon type="folder-open" style={{ marginRight: 5 }} />
           {item.name}
         </Link>
-        <div className="btns">
+        <div className="btns interface-btns">
           <Tooltip title="删除分类">
             <Icon
               type="delete"
@@ -550,7 +550,7 @@ class InterfaceMenu extends Component {
         >
           {item.title}
         </Link>
-        <div className="btns">
+        <div className="btns interface-btns">
           <Tooltip title="删除接口">
             <Icon
               type="delete"
