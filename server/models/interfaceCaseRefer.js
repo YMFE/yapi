@@ -14,6 +14,7 @@ class interfaceCaseRefer extends baseModel {
       uid: { type: Number, required: true },
       refer_caseid: { type: Number, required: true },
       col_id: { type: Number, required: true },
+      project_id: { type: Number, required: true },
       add_time: Number,
       up_time: Number,
       index: { type: Number, default: 0 }
@@ -33,53 +34,39 @@ class interfaceCaseRefer extends baseModel {
       .exec();
   }
 
-  checkRepeat(name) {
-    return this.model.countDocuments({
-      name: name
-    });
-  }
 
-  list(project_id, parent_id = -1) {
+  referColList(project_id, case_id) {
     return this.model
       .find({
         project_id,
-        parent_id
+        refer_caseid: case_id
       })
       .sort({ index: 1 })
       .exec();
   }
 
+
+  caseReferListByCol(project_id, col_id) {
+    return this.model
+      .find({
+        project_id,
+        col_id
+      })
+      .sort({ index: 1 })
+      .exec();
+  }
+  // 删除该用例的所有映射
+  delAllByCaseid(project_id, refer_caseid) {
+    return this.model.deleteMany({
+      project_id,
+      refer_caseid
+    });
+  }
+  // 解除单个映射
   del(id) {
-    return this.model.remove({
-      _id: id
-    });
-  }
-
-  delByProjectId(id) {
-    return this.model.remove({
-      project_id: id
-    });
-  }
-
-  up(id, data) {
-    data.up_time = yapi.commons.time();
-    return this.model.update(
-      {
+    return this.model.deleteOne({
         _id: id
-      },
-      data
-    );
-  }
-
-  upCatIndex(id, index) {
-    return this.model.update(
-      {
-        _id: id
-      },
-      {
-        index: index
-      }
-    );
+      });
   }
 }
 

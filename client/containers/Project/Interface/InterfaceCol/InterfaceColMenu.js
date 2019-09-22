@@ -112,6 +112,7 @@ export default class InterfaceColMenu extends Component {
     addToColVisible: false,
     addFirstTargetCol: null,
     addTargetCol: null,
+    addType: null
   };
 
   constructor(props) {
@@ -495,9 +496,6 @@ export default class InterfaceColMenu extends Component {
         });
       });
   };
-  doSearchAllReference() {
-
-  };
   // 动态加载子节点数据
   onLoadData = (treeNode) => {
     console.log(treeNode._id);
@@ -558,19 +556,26 @@ export default class InterfaceColMenu extends Component {
             title={this.itemInterfaceColTitle(item)}
             dataRef={item}
             className='interface-item-nav'
-          // className={`interface-item-nav ${
-          //   item.list.length ? '' : 'cat_switch_hidden'
-          // }`
-          // }
           />
         );
-      } else {
+      } else if(item.child_type === 1) {
         return (
           <TreeNode
             checkable={true}
             key={'case_' + item._id}
             {...item}
             title={this.itemInterfaceCreateTitle(item)}
+            dataRef={item}
+            isLeaf={true}
+          />
+        );
+      } else {
+        return (
+          <TreeNode
+            // checkable={true}
+            key={'refercase_' + item.refer_caseid}
+            {...item}
+            title={this.itemInterfaceReferTitle(item)}
             dataRef={item}
             isLeaf={true}
           />
@@ -657,16 +662,14 @@ export default class InterfaceColMenu extends Component {
   };
   showAddToColConfirm = async()=> {
     console.log("checks", this.state.checks);
-    if (this.state.checks.length == 0) {
-      message.info("请先勾选需要添加的接口");
-      return;
-    } 
+    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
     if (this.state.addFirstTargetCol === null || this.state.addTargetCol === null) {
       message.info("请选择目标测试集");
       return;
     }
-    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1)
-    caseChecks.forEach(async(key) => {
+
+    if(this.state.addType === 0) {
+      caseChecks.forEach(async(key) => {
         let caseId = key.split('_')[1];
         let that = this;
         let caseData = await that.props.fetchCaseData(caseId);
@@ -686,7 +689,90 @@ export default class InterfaceColMenu extends Component {
           } else {
             message.error(res.data.errmsg);
           }
-      })
+      });
+    } else {
+
+      caseChecks.forEach(async(key) => {
+        let caseId = key.split('_')[1];
+        let that = this;
+        let data = { };
+        data.col_id = Number(this.state.addTargetCol);
+        data.refer_caseid = Number(caseId);
+        data.project_id = Number(this.props.match.params.id);
+        const res = await axios.post('/api/col/addRefer',data);
+          if (!res.data.errcode) {
+            message.success('添加成功');
+            // let colId = res.data.data.col_id;
+            // let projectId=res.data.data.project_id;
+            // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+            that.handleToColCancel();
+            that.reloadColMenuList();
+          } else {
+            message.error(res.data.errmsg);
+          }
+      });
+    }
+  };
+  async doSearchAllReference() {
+    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+    if (caseChecks.length == 0) {
+      message.info("请先勾选需要查看映射的接口");
+      return;
+    } else if(caseChecks.length > 1) {
+      message.info("最多勾选一个接口");
+      return;
+    }
+    let data = { };
+    data.case_id =  Number(caseChecks[0].split('_')[1]);
+    data.project_id =  Number(this.props.match.params.id);
+    const res = await axios.post('/api/col/referColListByCase',data);
+      if (!res.data.errcode) {
+        this.setState({
+          list: res.data.data
+        })
+      } else {
+        message.error(res.data.errmsg);
+      }
+  };
+  async deleteAllRefer() {
+    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+    let that = this;
+    confirm({
+      title: '确定解除该条接口的所有映射吗?',
+      content: '',
+      async onOk() {
+        const refer_caseid =  Number(caseChecks[0].split('_')[1]);
+        const res = await axios.post('/api/col/deleteAllReferCase', {refer_caseid});
+          if (!res.data.errcode) {
+            message.success('成功解除映射' + res.data.data.n + '条');
+           that.reloadColMenuList();
+          } else {
+            message.error(res.data.errmsg);
+          }     
+        
+        },
+      onCancel() {
+      },
+    });
+  };
+  async deleteOneRefer(id) {
+    let that = this;
+    confirm({
+      title: '确定解除该条映射吗?',
+      content: '',
+      async onOk() {
+        const res = await axios.post('/api/col/deleteReferCaseById', {id});
+          if (!res.data.errcode) {
+            message.success('成功解除映射!');
+            that.reloadColMenuList();
+          } else {
+            message.error(res.data.errmsg);
+          }     
+        
+        },
+      onCancel() {
+      },
+    });
   };
   itemInterfaceColTitle(col) {
     return (
@@ -785,8 +871,10 @@ export default class InterfaceColMenu extends Component {
       onClick={(e) => {
         // e.stopPropagation();
       }}
-    >
-      <span className="casename">{interfaceCase.casename}</span>
+    > 
+      <span className="casename">
+        {interfaceCase.casename}
+      </span>
       <div className="btns">
         <Tooltip title="删除用例">
           <Icon
@@ -811,6 +899,32 @@ export default class InterfaceColMenu extends Component {
           />
         </Tooltip>
       </div>
+    </div>
+    );
+  };
+  itemInterfaceReferTitle(interfaceCaseRefer) {
+    return (
+      <div
+      className="menu-title"
+      title={interfaceCaseRefer.casename}
+      onClick={(e) => {
+        // e.stopPropagation();
+      }}
+    >
+      <span className="casename">
+        <Tooltip title="解除映射">
+          <Icon 
+            type="star"
+            className="refer-star"
+            theme="filled"
+            onClick={e => {
+              e.stopPropagation();
+              this.deleteOneRefer(interfaceCaseRefer._id);              
+            }}
+          />
+        </Tooltip>
+        {interfaceCaseRefer.casename}
+      </span>
     </div>
     );
   }
@@ -847,7 +961,10 @@ export default class InterfaceColMenu extends Component {
         if (router.params.action === 'case') {
           console.log("aaaaaa",)
           if (!currCase || !currCase._id) {
-            return rNull;
+            // return rNull;
+            return { 
+              expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id]
+            }
           }
           console.log("bbbbbbb",this.state.expands,currCase.col_id)
           return {
@@ -938,7 +1055,7 @@ export default class InterfaceColMenu extends Component {
                 () =>{
                   // 选中目录才可以添加
                   if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 1) {
-                    message.error('接口不可再添加集合');
+                    message.error('测试用例不可再添加集合');
                   } else if(this.state.selects.length === 0) {
                     message.error('选中文件夹再添加集合');
                   } else {
@@ -959,10 +1076,16 @@ export default class InterfaceColMenu extends Component {
             className="operation-icon"
             onClick={e => {
               e.stopPropagation();
+              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+              if (caseChecks.length == 0) {
+                message.info("请先勾选需要添加的接口");
+                return;
+              } 
               this.setState({
                 addToColVisible: true,
                 secondColList: [],
-                addTargetCol: ''
+                addTargetCol: '',
+                addType: 0
               })
               // this.showDelCaseConfirm(interfaceCase._id);
             }}
@@ -973,18 +1096,37 @@ export default class InterfaceColMenu extends Component {
             type="interaction"
             className="operation-icon"
             onClick={e => {
-              e.stopPropagation();
+              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+              if (caseChecks.length == 0) {
+                message.info("请先勾选需要添加的接口");
+                return;
+              }else if(caseChecks.length > 1) {
+                message.info("每次最多只能添加一条映射");
+              }
+              this.setState({
+                addToColVisible: true,
+                secondColList: [],
+                addTargetCol: '',
+                addType: 1
+              })
               // this.showDelCaseConfirm(interfaceCase._id);
             }}
           />
         </Tooltip>
-        <Tooltip title="解除映射">
+        <Tooltip title="解除该接口所有映射">
           <Icon
             type="disconnect"
             className="operation-icon"
             onClick={e => {
               e.stopPropagation();
-              // this.caseCopy(interfaceCase._id);
+              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+              if (caseChecks.length == 0) {
+                message.info("请先勾选需要解除映射的接口");
+                return;
+              } else if(caseChecks.length > 1) {
+                message.info("每次最多只能选择一个接口");
+              }
+              this.deleteAllRefer();
             }}
           />
         </Tooltip>
@@ -995,7 +1137,7 @@ export default class InterfaceColMenu extends Component {
             onClick={e => {
               e.stopPropagation();
               this.doSearchAllReference();
-              // this.caseCopy(interfaceCase._id);
+
             }}
           />
         </Tooltip>
@@ -1013,7 +1155,7 @@ export default class InterfaceColMenu extends Component {
             onCheck={this.onCheck}
             // checkedKeys={this.state.checks}
             autoExpandParent={false}
-            draggable
+            draggable={false}
             onExpand={this.onExpand}
             onDrop={this.onDrop}
             expandAction={"doubleClick"}

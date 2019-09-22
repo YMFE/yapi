@@ -508,7 +508,27 @@ let routerConfig = {
       action: 'queryColAndInterfaceCase',
       path: 'queryColAndInterfaceCase',
       method: 'post'
-    }
+    },
+    {
+      action: 'referColListByCase',
+      path: 'referColListByCase',
+      method: 'post'
+    },
+    {
+      action: 'addRefer',
+      path: 'addRefer',
+      method: 'post'
+    },
+    {
+      action: 'deleteReferCaseById',
+      path: 'deleteReferCaseById',
+      method: 'post'
+    },
+    {
+      action: 'deleteAllReferCase',
+      path: 'deleteAllReferCase',
+      method: 'post'
+    },
   ],
   test: [
     {

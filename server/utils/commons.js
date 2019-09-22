@@ -7,6 +7,7 @@ const projectModel = require('../models/project.js');
 const interfaceColModel = require('../models/interfaceCol.js');
 const interfaceCaseModel = require('../models/interfaceCase.js');
 const interfaceModel = require('../models/interface.js');
+const interfaceCaseReferModel = require('../models/interfaceCaseRefer.js');
 const userModel = require('../models/user.js');
 const followModel = require('../models/follow.js');
 const json5 = require('json5');
