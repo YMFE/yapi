@@ -190,6 +190,7 @@ const compareVersions = require('compare-versions');
           required: param.required ? '1' : '0'
         };
 
+        if (param.in) {
         switch (param.in) {
           case 'path':
             api.req_params.push(defaultParam);
@@ -208,6 +209,9 @@ const compareVersions = require('compare-versions');
             api.req_headers.push(defaultParam);
             break;
         }
+      } else {
+        api.req_query.push(defaultParam);
+      }
       });
     }
 
