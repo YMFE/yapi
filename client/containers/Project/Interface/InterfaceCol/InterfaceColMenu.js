@@ -572,7 +572,7 @@ export default class InterfaceColMenu extends Component {
       } else {
         return (
           <TreeNode
-            // checkable={true}
+            checkable={false}
             key={'refercase_' + item.refer_caseid}
             {...item}
             title={this.itemInterfaceReferTitle(item)}
@@ -727,9 +727,13 @@ export default class InterfaceColMenu extends Component {
     data.project_id =  Number(this.props.match.params.id);
     const res = await axios.post('/api/col/referColListByCase',data);
       if (!res.data.errcode) {
-        this.setState({
-          list: res.data.data
-        })
+        if (res.data.data.length === 0) {
+          message.info("没有该用例的映射");
+        } else {
+          this.setState({
+            list: res.data.data
+          })
+        }
       } else {
         message.error(res.data.errmsg);
       }
@@ -912,7 +916,7 @@ export default class InterfaceColMenu extends Component {
       }}
     >
       <span className="casename">
-        <Tooltip title="解除映射">
+        <Tooltip title="用例映射，点击星号删除">
           <Icon 
             type="star"
             className="refer-star"

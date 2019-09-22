@@ -122,15 +122,15 @@ class interfaceColController extends baseController {
    * @method POST
    * @category col
    * @foldnumber 10
-   * @param {Number} referId 映射id
+   * @param {Number} id  映射id
    * @returns {Object}
    * @example
    */
 
   async deleteReferCaseById(ctx) {
     try {
-      let { referId, } = ctx.request.body;
-      let referData = await this.referModel.get(referId);
+      let { id } = ctx.request.body;
+      let referData = await this.referModel.get(id);
       if (!referData) {
         ctx.body = yapi.commons.resReturn(null, 400, '不存在的映射id');
       }
@@ -142,7 +142,7 @@ class interfaceColController extends baseController {
         }
       }
 
-      let result = await this.referModel.del(referId);
+      let result = await this.referModel.del(id);
 
       let username = this.getUsername();
       let colData = this.colModel.get(referData.col_id);
