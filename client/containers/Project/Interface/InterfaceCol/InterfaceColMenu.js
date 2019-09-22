@@ -95,7 +95,7 @@ export default class InterfaceColMenu extends Component {
   state = {
     colModalType: '',
     colModalVisible: false,
-    curColId: 0,
+    curColId: -1,
     filter: '',
     importInterVisible: false,
     confirmImportVisble: false,
@@ -691,26 +691,26 @@ export default class InterfaceColMenu extends Component {
           }
       });
     } else {
-
+      let caseList = [];
       caseChecks.forEach(async(key) => {
         let caseId = key.split('_')[1];
-        let that = this;
-        let data = { };
-        data.col_id = Number(this.state.addTargetCol);
-        data.refer_caseid = Number(caseId);
-        data.project_id = Number(this.props.match.params.id);
-        const res = await axios.post('/api/col/addRefer',data);
-          if (!res.data.errcode) {
-            message.success('添加成功');
-            // let colId = res.data.data.col_id;
-            // let projectId=res.data.data.project_id;
-            // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
-            that.handleToColCancel();
-            that.reloadColMenuList();
-          } else {
-            message.error(res.data.errmsg);
-          }
+        caseList.push(caseId);
       });
+      const data = { };
+      data.col_id = Number(this.state.addTargetCol);
+      data.case_list = caseList;
+      data.project_id = Number(this.props.match.params.id);
+      const res = await axios.post('/api/col/addRefer',data);
+      if (!res.data.errcode) {
+        message.success('添加成功');
+          // let colId = res.data.data.col_id;
+          // let projectId=res.data.data.project_id;
+          // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+        this.handleToColCancel();
+        this.reloadColMenuList();
+      } else {
+        message.error(res.data.errmsg);
+      }
     }
   };
   async doSearchAllReference() {
@@ -730,9 +730,13 @@ export default class InterfaceColMenu extends Component {
         if (res.data.data.length === 0) {
           message.info("没有该用例的映射");
         } else {
+          const showColList = res.data.data;
+          showColList.forEach(item => {
+            item._id = item.col_id;
+          });
           this.setState({
-            list: res.data.data
-          })
+            list: showColList,
+          });
         }
       } else {
         message.error(res.data.errmsg);
@@ -1060,6 +1064,9 @@ export default class InterfaceColMenu extends Component {
                   // 选中目录才可以添加
                   if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 1) {
                     message.error('测试用例不可再添加集合');
+                  } 
+                  if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 2) {
+                    message.error('映射不可再添加集合');
                   } else if(this.state.selects.length === 0) {
                     message.error('选中文件夹再添加集合');
                   } else {
@@ -1095,7 +1102,7 @@ export default class InterfaceColMenu extends Component {
             }}
           />
         </Tooltip>
-        <Tooltip title="添加映射">
+        <Tooltip title="批量添加映射">
           <Icon
             type="interaction"
             className="operation-icon"
@@ -1104,9 +1111,10 @@ export default class InterfaceColMenu extends Component {
               if (caseChecks.length == 0) {
                 message.info("请先勾选需要添加的接口");
                 return;
-              }else if(caseChecks.length > 1) {
-                message.info("每次最多只能添加一条映射");
               }
+              // else if(caseChecks.length > 1) {
+              //   message.info("每次最多只能添加一条映射");
+              // }
               this.setState({
                 addToColVisible: true,
                 secondColList: [],

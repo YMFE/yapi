@@ -43,8 +43,12 @@ class interfaceColController extends baseController {
       let resultList = await this.referModel.referColList(project_id, case_id);
       
       for (let i = 0; i < resultList.length; i++) {
+        let colData = await this.colModel.get(resultList[i].col_id);
+        console.info("cccc",colData)
         resultList[i] = resultList[i].toObject(); 
         resultList[i].child_type = 0;
+        resultList[i].name = colData.name;
+        resultList[i].desc = colData.desc;
       }
       ctx.body = yapi.commons.resReturn(resultList);
     } catch (e) {
@@ -59,7 +63,7 @@ class interfaceColController extends baseController {
    * @category col
    * @foldnumber 10
    * @param {Number} project_id
-   * @param {Number} refer_caseid
+   * @param {Array} case_list
    * @param {Number} col_id
    * @returns {Object}
    * @example
@@ -77,7 +81,7 @@ class interfaceColController extends baseController {
       if (!params.project_id) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
       }
-      if (!params.refer_caseid) {
+      if (!params.case_list) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '映射的用例id不能为空'));
       }
       if (!params.col_id) {
@@ -88,29 +92,33 @@ class interfaceColController extends baseController {
       if (!auth) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
       }
-
-      let result = await this.referModel.save({
-        project_id: params.project_id,
-        col_id:  params.col_id,
-        refer_caseid: params.refer_caseid,
-        uid: this.getUid(),
-        add_time: yapi.commons.time(),
-        up_time: yapi.commons.time()
-      });
-      let username = this.getUsername();
-      yapi.commons.saveLog({
-        content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了用例的映射 <a href="/project/${
-          params.project_id
-        }/interface/col/${result._id}">${params.name}</a>`,
-        type: 'project',
-        uid: this.getUid(),
-        username: username,
-        typeid: params.project_id,
-        col_id: params.col_id,
-        refer_caseid: params.refer_caseid
-      });
+      let result;
+      for (let i = 0; i< params.case_list.length; i ++) {
+          result = await this.referModel.save({
+          project_id: params.project_id,
+          col_id:  params.col_id,
+          refer_caseid: Number(params.case_list[i]),
+          uid: this.getUid(),
+          add_time: yapi.commons.time(),
+          up_time: yapi.commons.time()
+        });
+        let username = this.getUsername();
+        let colData = await this.colModel.get(params.col_id);
+        yapi.commons.saveLog({
+          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了用例的映射 <a href="/project/${
+            params.project_id
+          }/interface/col/${result._id}">${colData.name}</a>`,
+          type: 'project',
+          uid: this.getUid(),
+          username: username,
+          typeid: params.project_id,
+          col_id: params.col_id,
+          refer_caseid: params.refer_caseid
+        });
+      }
+    
       // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
-      ctx.body = yapi.commons.resReturn(result);
+      ctx.body = yapi.commons.resReturn('ok');
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
