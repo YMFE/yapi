@@ -13,18 +13,17 @@ import {
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
 import ImportInterface from './ImportInterface';
-import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form, Select} from 'antd';
+import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form, Select } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
-import { Link } from 'react-router-dom';
 
 const { confirm } = Modal;
+const { Option } = Select;
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 const headHeight = 240; // menu顶部到网页顶部部分的高度
 
 import './InterfaceColMenu.scss';
-import { set } from 'mongoose';
 
 const ColModalForm = Form.create()(props => {
   const { visible, onCancel, onCreate, form, title } = props;
@@ -34,8 +33,7 @@ const ColModalForm = Form.create()(props => {
       <Form layout="vertical">
         <FormItem label="集合名">
           {getFieldDecorator('colName', {
-            rules: [{ required: true, message: '请输入集合命名！' }],
-
+            rules: [{ required: true, message: '请输入集合命名！' }]
           })(<Input />)}
         </FormItem>
         <FormItem label="简介">{getFieldDecorator('colDesc')(<Input type="textarea" />)}</FormItem>
@@ -150,12 +148,12 @@ export default class InterfaceColMenu extends Component {
 
   addorEditCol = async () => {
     const { colName: name, colDesc: desc } = this.form.getFieldsValue();
-    const { colModalType, curColId: col_id} = this.state;
+    const { colModalType, curColId: col_id } = this.state;
     const project_id = this.props.match.params.id;
     let res = {};
     if (colModalType === 'add') {
       console.log("999999", this.state.curColId);
-      res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id: col_id});
+      res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id: col_id });
     } else if (colModalType === 'edit') {
       res = await axios.post('/api/col/up_col', { name, desc, col_id });
     }
@@ -180,10 +178,10 @@ export default class InterfaceColMenu extends Component {
     }
   };
 
-  onExpand = (keys,e) => {
+  onExpand = (keys) => {
     this.setState({ expands: keys });
   };
-  onCheck = (keys, e) => {
+  onCheck = (keys) => {
     console.log("kyes", keys)
     this.setState({
       checks: keys
@@ -198,14 +196,14 @@ export default class InterfaceColMenu extends Component {
       const colId = curNode.props.child_type === 0 ? curNode.props._id : curNode.props.col_id;
       const curkey = keys[0];
 
-      console.log('curnode',curNode)
-      console.log('curkey',curkey)
-      console.log('colId',colId)
+      console.log('curnode', curNode)
+      console.log('curkey', curkey)
+      console.log('colId', colId)
 
       this.setState({
         currentSelectNode: curNode,
         curColId: colId,
-        selects: [curkey],
+        selects: [curkey]
       });
       if (type === 'col') {
         this.props.setColData({
@@ -257,7 +255,7 @@ export default class InterfaceColMenu extends Component {
       return;
     }
     this._copyInterfaceSign = true;
-    const { desc, project_id, _id: col_id, parent_id} = item;
+    const { desc, project_id, _id: col_id, parent_id } = item;
     let { name } = item;
     name = `${name} copy`;
     // 添加集合
@@ -298,7 +296,7 @@ export default class InterfaceColMenu extends Component {
       list: [],
       selects: [],
       checks: []
-    },()=>{
+    }, () => {
       this.changeExpands();
       this.getList();
     });
@@ -309,26 +307,26 @@ export default class InterfaceColMenu extends Component {
       content: '温馨提示：建议不要删除'
     });
   };
-  caseCopy = async caseId=> {
+  caseCopy = async caseId => {
     let that = this;
     let caseData = await that.props.fetchCaseData(caseId);
     let data = caseData.payload.data.data;
     data = JSON.parse(JSON.stringify(data));
-    data.casename=`${data.casename}_copy`
-    delete data._id 
-    const res = await axios.post('/api/col/add_case',data);
-      if (!res.data.errcode) {
-        message.success('克隆用例成功');
-        let colId = res.data.data.col_id;
-        let projectId=res.data.data.project_id;
-        this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
-        this.setState({
-          visible: false
-        });
-        that.reloadColMenuList();
-      } else {
-        message.error(res.data.errmsg);
-      }
+    data.casename = `${data.casename}_copy`
+    delete data._id
+    const res = await axios.post('/api/col/add_case', data);
+    if (!res.data.errcode) {
+      message.success('克隆用例成功');
+      let colId = res.data.data.col_id;
+      let projectId = res.data.data.project_id;
+      this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+      this.setState({
+        visible: false
+      });
+      that.reloadColMenuList();
+    } else {
+      message.error(res.data.errmsg);
+    }
   };
   showDelCaseConfirm = caseId => {
     let that = this;
@@ -410,29 +408,27 @@ export default class InterfaceColMenu extends Component {
   showConfirm = () => {
     let that = this;
     confirm({
-      title: '已选中'+this.state.importInterIds.length+'条接口，确认提交吗?',
+      title: '已选中' + this.state.importInterIds.length + '条接口，确认提交吗?',
       content: '只能导入已展开目录下的接口',
       onOk() {
-       that.handleImportOk();
+        that.handleImportOk();
       },
       onCancel() {
         that.handleImportCancel()
-      },
+      }
     });
   };
-  
   filterCol = e => {
     const value = e.target.value;
     // console.log('list', this.props.interfaceColList);
     // const newList = produce(this.props.interfaceColList, draftList => {})
     // console.log('newList',newList);
     this.setState({
-      filter: value,
+      filter: value
       // list: JSON.parse(JSON.stringify(this.props.interfaceColList))
       // list: newList
     });
   };
-
   onDrop = async e => {
     // const projectId = this.props.match.params.id;
     const { interfaceColList } = this.props;
@@ -478,28 +474,26 @@ export default class InterfaceColMenu extends Component {
     // if(this.state.filter === '') {
     //   message.error('搜索内容不能为空');
     // }else{
-      this.setState({
-        list: [],
-        expands: [],
-        selects: []
-      }, async()=>{
-        let r = await this.props.queryColAndInterfaceCase({
-          project_id: Number(this.props.projectId),
-          query_text: this.state.filter
-        });
-        const data = r.payload.data.data;
-        if (data.length === 0) {
-          message.info('搜索结果为空')
-        }
-        this.setState({
-          list: data
-        });
+    this.setState({
+      list: [],
+      expands: [],
+      selects: []
+    }, async () => {
+      let r = await this.props.queryColAndInterfaceCase({
+        project_id:  Number(this.props.match.params.id),
+        query_text: this.state.filter
       });
-  };
+      const data = r.payload.data.data;
+      if (data.length === 0) {
+        message.info('搜索结果为空')
+      }
+      this.setState({
+        list: data
+      });
+    });
+  }
   // 动态加载子节点数据
   onLoadData = (treeNode) => {
-    console.log(treeNode._id);
-    console.log('tree', treeNode);
     const id = (!treeNode.props) ? treeNode._id : treeNode.props._id;
     const catid = (!treeNode.props) ? treeNode.parent_id : treeNode.props.parent_id;
     const child_type = (!treeNode.props) ? treeNode.child_type : treeNode.props.child_type;
@@ -558,7 +552,7 @@ export default class InterfaceColMenu extends Component {
             className='interface-item-nav'
           />
         );
-      } else if(item.child_type === 1) {
+      } else if (item.child_type === 1) {
         return (
           <TreeNode
             checkable={true}
@@ -604,7 +598,7 @@ export default class InterfaceColMenu extends Component {
       console.log("gogogogogo")
     }
   };
-  handleSecondColChange = (e)=> {
+  handleSecondColChange = (e) => {
     this.setState({
       addTargetCol: e
     });
@@ -624,43 +618,43 @@ export default class InterfaceColMenu extends Component {
     // })
 
   };
-  handleFirstColChange = (e, option, setState=true)=> {
+  handleFirstColChange = (e, option, setState = true) => {
     this.setState({
       curColId: e
-    }, async()=> {
+    }, async () => {
       const result = await this.getList(true);
       const oldSecondlist = this.state.secondColList;
       let newSecondlist = [];
       const colResult = result.filter(item => item.child_type === 0)
-      if(colResult && colResult.length > 0) {
+      if (colResult && colResult.length > 0) {
         newSecondlist = [...oldSecondlist, ...colResult];
         if (colResult && colResult.length > 0) {
-            colResult.forEach(item => {
-              this.handleFirstColChange(item._id, undefined,false);
-          })
-        } 
-      if(setState === true) {
+          colResult.forEach(item => {
+            this.handleFirstColChange(item._id, undefined, false);
+          });
+        }
+        if (setState === true) {
           this.setState({
+            addFirstTargetCol: e,
+            secondColList: [{ _id: e, name: '不选择，默认添加到一级目录' }, ...newSecondlist]
+          })
+        }
+      } else if (setState === true) {
+        this.setState({
           addFirstTargetCol: e,
-          secondColList: [{_id: e, name: '不选择，默认添加到一级目录'}, ...oldSecondlist, ...colResult]
+          secondColList: [{ _id: e, name: '无子目录，默认添加到一级目录' }]
         })
       }
-     }else if(setState === true) {
-      this.setState({
-        addFirstTargetCol: e,
-        secondColList: [{_id: e, name: '无子目录，默认添加到一级目录'}]
-      })
-     }
     })
   };
-  handleToColCancel = ()=> {
+  handleToColCancel = () => {
     this.setState({
       addToColVisible: false,
       addFirstTargetCol: null,
       addTargetCol: null
     })
   };
-  showAddToColConfirm = async()=> {
+  showAddToColConfirm = async () => {
     console.log("checks", this.state.checks);
     const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
     if (this.state.addFirstTargetCol === null || this.state.addTargetCol === null) {
@@ -668,44 +662,44 @@ export default class InterfaceColMenu extends Component {
       return;
     }
 
-    if(this.state.addType === 0) {
-      caseChecks.forEach(async(key) => {
+    if (this.state.addType === 0) {
+      caseChecks.forEach(async (key) => {
         let caseId = key.split('_')[1];
         let that = this;
         let caseData = await that.props.fetchCaseData(caseId);
         let data = caseData.payload.data.data;
         data.col_id = this.state.addTargetCol;
         data = JSON.parse(JSON.stringify(data));
-        data.casename=`${data.casename}_copy`
-        delete data._id 
-        const res = await axios.post('/api/col/add_case',data);
-          if (!res.data.errcode) {
-            message.success('添加成功');
-            // let colId = res.data.data.col_id;
-            // let projectId=res.data.data.project_id;
-            // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
-            that.handleToColCancel();
-            that.reloadColMenuList();
-          } else {
-            message.error(res.data.errmsg);
-          }
-      });
-    } else {
-      let caseList = [];
-      caseChecks.forEach(async(key) => {
-        let caseId = key.split('_')[1];
-        caseList.push(caseId);
-      });
-      const data = { };
-      data.col_id = Number(this.state.addTargetCol);
-      data.case_list = caseList;
-      data.project_id = Number(this.props.match.params.id);
-      const res = await axios.post('/api/col/addRefer',data);
-      if (!res.data.errcode) {
-        message.success('添加成功');
+        data.casename = `${data.casename}_copy`
+        delete data._id
+        const res = await axios.post('/api/col/add_case', data);
+        if (!res.data.errcode) {
+          message.success('添加成功');
           // let colId = res.data.data.col_id;
           // let projectId=res.data.data.project_id;
           // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+          that.handleToColCancel();
+          that.reloadColMenuList();
+        } else {
+          message.error(res.data.errmsg);
+        }
+      });
+    } else {
+      let caseList = [];
+      caseChecks.forEach(async (key) => {
+        let caseId = key.split('_')[1];
+        caseList.push(caseId);
+      });
+      const data = {};
+      data.col_id = Number(this.state.addTargetCol);
+      data.case_list = caseList;
+      data.project_id = Number(this.props.match.params.id);
+      const res = await axios.post('/api/col/addRefer', data);
+      if (!res.data.errcode) {
+        message.success('添加成功');
+        // let colId = res.data.data.col_id;
+        // let projectId=res.data.data.project_id;
+        // this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
         this.handleToColCancel();
         this.reloadColMenuList();
       } else {
@@ -718,30 +712,30 @@ export default class InterfaceColMenu extends Component {
     if (caseChecks.length == 0) {
       message.info("请先勾选需要查看映射的接口");
       return;
-    } else if(caseChecks.length > 1) {
+    } else if (caseChecks.length > 1) {
       message.info("最多勾选一个接口");
       return;
     }
-    let data = { };
-    data.case_id =  Number(caseChecks[0].split('_')[1]);
-    data.project_id =  Number(this.props.match.params.id);
-    const res = await axios.post('/api/col/referColListByCase',data);
-      if (!res.data.errcode) {
-        if (res.data.data.length === 0) {
-          message.info("没有该用例的映射");
-        } else {
-          const showColList = res.data.data;
-          showColList.forEach(item => {
-            item._id = item.col_id;
-          });
-          this.setState({
-            list: showColList,
-          });
-        }
+    let data = {};
+    data.case_id = Number(caseChecks[0].split('_')[1]);
+    data.project_id = Number(this.props.match.params.id);
+    const res = await axios.post('/api/col/referColListByCase', data);
+    if (!res.data.errcode) {
+      if (res.data.data.length === 0) {
+        message.info("没有该用例的映射");
       } else {
-        message.error(res.data.errmsg);
+        const showColList = res.data.data;
+        showColList.forEach(item => {
+          item._id = item.col_id;
+        });
+        this.setState({
+          list: showColList
+        });
       }
-  };
+    } else {
+      message.error(res.data.errmsg);
+    }
+  }
   async deleteAllRefer() {
     const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
     let that = this;
@@ -749,196 +743,193 @@ export default class InterfaceColMenu extends Component {
       title: '确定解除该条接口的所有映射吗?',
       content: '',
       async onOk() {
-        const refer_caseid =  Number(caseChecks[0].split('_')[1]);
-        const res = await axios.post('/api/col/deleteAllReferCase', {refer_caseid});
-          if (!res.data.errcode) {
-            message.success('成功解除映射' + res.data.data.n + '条');
-           that.reloadColMenuList();
-          } else {
-            message.error(res.data.errmsg);
-          }     
-        
-        },
-      onCancel() {
+        const refer_caseid = Number(caseChecks[0].split('_')[1]);
+        const res = await axios.post('/api/col/deleteAllReferCase', { refer_caseid });
+        if (!res.data.errcode) {
+          message.success('成功解除映射' + res.data.data.n + '条');
+          that.reloadColMenuList();
+        } else {
+          message.error(res.data.errmsg);
+        }
+
       },
+      onCancel() {
+      }
     });
-  };
+  }
   async deleteOneRefer(id) {
     let that = this;
     confirm({
       title: '确定解除该条映射吗?',
       content: '',
       async onOk() {
-        const res = await axios.post('/api/col/deleteReferCaseById', {id});
-          if (!res.data.errcode) {
-            message.success('成功解除映射!');
-            that.reloadColMenuList();
-          } else {
-            message.error(res.data.errmsg);
-          }     
-        
-        },
-      onCancel() {
+        const res = await axios.post('/api/col/deleteReferCaseById', { id });
+        if (!res.data.errcode) {
+          message.success('成功解除映射!');
+          that.reloadColMenuList();
+        } else {
+          message.error(res.data.errmsg);
+        }
+
       },
+      onCancel() {
+      }
     });
-  };
+  }
   itemInterfaceColTitle(col) {
     return (
-      <div 
-      className="menu-title"
-      onMouseEnter={() => { this.enterItem('col_' + col._id) }}
-      onMouseLeave={this.leaveItem}
-      onClick={(e) => {
-      }}
+      <div
+        className="menu-title"
+        onMouseEnter={() => { this.enterItem('col_' + col._id) }}
+        onMouseLeave={this.leaveItem}
+        // onClick={(e) => {
+        // }}
       >
-      <span>
-        <Icon type="folder-open" style={{ marginRight: 5 }} />
-        <span>{col.name}</span>
-      </span>
-      <div className="btns">
-        <Tooltip title="删除集合">
-          <Icon
-            type="delete"
-            // style={{ display: list.length > 1 ? '' : 'none' }}
-            className="interface-delete-icon"
-            style={{
-              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
-            }}
-            onClick={() => {
-              this.showDelColConfirm(col._id);
-              this.setState({
-                curColId: Number(col._id),
-                currentSelectNode: col
-              });
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="修改集合">
-          <Icon
-            type="edit"
-            className="interface-delete-icon"
-            onClick={e => {
-              e.stopPropagation();
-              this.showColModal('edit', col);
-              this.setState({
-                curColId: Number(col._id),
-                currentSelectNode: col
-              });
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="导入接口">
-          <Icon
-            type="plus"
-            className="interface-delete-icon"
-            style={{
-              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
-            }}
-            onClick={e => {
-              e.stopPropagation();
-              this.showImportInterfaceModal(col._id);
-              this.setState({
-                curColId: Number(col._id),
-                currentSelectNode: col
-              });
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="克隆集合">
-          <Icon
-            type="copy"
-            className="interface-delete-icon"
-            style={{
-              display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
-            }}
-            onClick={e => {
-              e.stopPropagation();
-              this.setState({
-                curColId: Number(col._id),
-                currentSelectNode: col
-              });
-              this.copyInterface(col);
-            }}
-          />
-        </Tooltip>
-      </div>
-      {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
+        <span>
+          <Icon type="folder-open" style={{ marginRight: 5 }} />
+          <span>{col.name}</span>
+        </span>
+        <div className="btns">
+          <Tooltip title="删除集合">
+            <Icon
+              type="delete"
+              // style={{ display: list.length > 1 ? '' : 'none' }}
+              className="interface-delete-icon"
+              style={{
+                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+              }}
+              onClick={() => {
+                this.showDelColConfirm(col._id);
+                this.setState({
+                  curColId: Number(col._id),
+                  currentSelectNode: col
+                });
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="修改集合">
+            <Icon
+              type="edit"
+              className="interface-delete-icon"
+              onClick={e => {
+                e.stopPropagation();
+                this.showColModal('edit', col);
+                this.setState({
+                  curColId: Number(col._id),
+                  currentSelectNode: col
+                });
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="导入接口">
+            <Icon
+              type="plus"
+              className="interface-delete-icon"
+              style={{
+                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+              }}
+              onClick={e => {
+                e.stopPropagation();
+                this.showImportInterfaceModal(col._id);
+                this.setState({
+                  curColId: Number(col._id),
+                  currentSelectNode: col
+                });
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="克隆集合">
+            <Icon
+              type="copy"
+              className="interface-delete-icon"
+              style={{
+                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+              }}
+              onClick={e => {
+                e.stopPropagation();
+                this.setState({
+                  curColId: Number(col._id),
+                  currentSelectNode: col
+                });
+                this.copyInterface(col);
+              }}
+            />
+          </Tooltip>
+        </div>
+        {/*<Dropdown overlay={menu(col)} trigger={['click']} onClick={e => e.stopPropagation()}>
         <Icon className="opts-icon" type='ellipsis'/>
       </Dropdown>*/}
-    </div>
+      </div>
     );
   }
 
   itemInterfaceCreateTitle(interfaceCase) {
     return (
       <div
-      className="menu-title"
-      onMouseEnter={() => this.enterItem(interfaceCase._id)}
-      onMouseLeave={this.leaveItem}
-      title={interfaceCase.casename}
-      onClick={(e) => {
-        // e.stopPropagation();
-      }}
-    > 
-      <span className="casename">
-        {interfaceCase.casename}
-      </span>
-      <div className="btns">
-        <Tooltip title="删除用例">
-          <Icon
-            type="delete"
-            className="interface-delete-icon"
-            onClick={e => {
-              e.stopPropagation();
-              this.showDelCaseConfirm(interfaceCase._id);
-            }}
-            style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
-          />
-        </Tooltip>
-        <Tooltip title="克隆用例">
-          <Icon
-            type="copy"
-            className="interface-delete-icon"
-            onClick={e => {
-              e.stopPropagation();
-              this.caseCopy(interfaceCase._id);
-            }}
-            style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
-          />
-        </Tooltip>
+        className="menu-title"
+        onMouseEnter={() => this.enterItem(interfaceCase._id)}
+        onMouseLeave={this.leaveItem}
+        title={interfaceCase.casename}
+      >
+        <span className="casename">
+          {interfaceCase.casename}
+        </span>
+        <div className="btns">
+          <Tooltip title="删除用例">
+            <Icon
+              type="delete"
+              className="interface-delete-icon"
+              onClick={e => {
+                e.stopPropagation();
+                this.showDelCaseConfirm(interfaceCase._id);
+              }}
+              style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+            />
+          </Tooltip>
+          <Tooltip title="克隆用例">
+            <Icon
+              type="copy"
+              className="interface-delete-icon"
+              onClick={e => {
+                e.stopPropagation();
+                this.caseCopy(interfaceCase._id);
+              }}
+              style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+            />
+          </Tooltip>
+        </div>
       </div>
-    </div>
     );
-  };
+  }
   itemInterfaceReferTitle(interfaceCaseRefer) {
     return (
       <div
-      className="menu-title"
-      title={interfaceCaseRefer.casename}
-      onClick={(e) => {
-        // e.stopPropagation();
-      }}
-    >
-      <span className="casename">
-        <Tooltip title="用例映射，点击星号删除">
-          <Icon 
-            type="star"
-            className="refer-star"
-            theme="filled"
-            onClick={e => {
-              e.stopPropagation();
-              this.deleteOneRefer(interfaceCaseRefer._id);              
-            }}
-          />
-        </Tooltip>
-        {interfaceCaseRefer.casename}
-      </span>
-    </div>
+        className="menu-title"
+        title={interfaceCaseRefer.casename}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <span className="casename">
+          <Tooltip title="用例映射，点击星号删除">
+            <Icon
+              type="star"
+              className="refer-star"
+              theme="filled"
+              onClick={e => {
+                e.stopPropagation();
+                this.deleteOneRefer(interfaceCaseRefer._id);
+              }}
+            />
+          </Tooltip>
+          {interfaceCaseRefer.casename}
+        </span>
+      </div>
     );
   }
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
-    const matchParams = this.props.match.params;
+    // const matchParams = this.props.match.params;
     const { colModalType, colModalVisible, importInterVisible, addToColVisible } = this.state;
     const currProjectId = this.props.match.params.id;
     // const menu = (col) => {
@@ -962,33 +953,33 @@ export default class InterfaceColMenu extends Component {
     const defaultExpandedKeys = () => {
       const { router, currCase, interfaceColList } = this.props,
         rNull = { expands: [], selects: [] };
-      if (interfaceColList&&interfaceColList.length === 0) {
+      if (interfaceColList && interfaceColList.length === 0) {
         return rNull;
       }
       if (router) {
         if (router.params.action === 'case') {
-          console.log("aaaaaa",)
+          console.log("aaaaaa")
           if (!currCase || !currCase._id) {
             // return rNull;
-            return { 
+            return {
               expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id]
             }
           }
-          console.log("bbbbbbb",this.state.expands,currCase.col_id)
+          console.log("bbbbbbb", this.state.expands, currCase.col_id)
           return {
             expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id],
             selects: this.state.selects ? this.state.selects : ['case_' + currCase._id + '']
           };
         } else {
           let col_id = router.params.actionId;
-          console.log("cccccc",this.state.expands,col_id)
+          console.log("cccccc", this.state.expands, col_id)
           return {
             expands: this.state.expands ? this.state.expands : ['col_' + col_id],
             selects: this.state.selects ? this.state.selects : ['col_' + col_id]
           };
         }
       } else {
-        console.log("ddddd",this.state.expands,interfaceColList[0]._id)
+        console.log("ddddd", this.state.expands, interfaceColList[0]._id)
         return {
           expands: this.state.expands ? this.state.expands : ['col_' + interfaceColList[0]._id],
           selects: ['root']
@@ -1002,7 +993,7 @@ export default class InterfaceColMenu extends Component {
     //       style={{ width: '100%' }}
     //       key={'case_' + interfaceCase._id}
     //       title={
-            
+
     //       }
     //     />
     //   );
@@ -1043,36 +1034,36 @@ export default class InterfaceColMenu extends Component {
         <div className="interface-filter">
           <Input placeholder="搜索测试集合" onChange={this.filterCol} value={this.state.filter} />
           <Tooltip placement="bottom" title="搜索测试集合">
-          <Button
-          type="primary"
-          onClick={
-            () => {
-              this.doInterfaceSearch();
-            }
-          }
-          className="btn-filter interface-search-bt"
-        >
-          搜索
-        </Button>
+            <Button
+              type="primary"
+              onClick={
+                () => {
+                  this.doInterfaceSearch();
+                }
+              }
+              className="btn-filter interface-search-bt"
+            >
+              搜索
+            </Button>
           </Tooltip>
           <Tooltip placement="bottom" title="添加集合">
             <Button
               type="primary"
               style={{ marginLeft: '16px' }}
               onClick={
-                () =>{
+                () => {
                   // 选中目录才可以添加
                   if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 1) {
                     message.error('测试用例不可再添加集合');
-                  } 
+                  }
                   if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 2) {
                     message.error('映射不可再添加集合');
-                  } else if(this.state.selects.length === 0) {
+                  } else if (this.state.selects.length === 0) {
                     message.error('选中文件夹再添加集合');
                   } else {
                     this.showColModal('add', this.state.currentSelectNode);
                   }
-                } 
+                }
               }
               className="btn-filter"
             >
@@ -1081,80 +1072,81 @@ export default class InterfaceColMenu extends Component {
           </Tooltip>
         </div>
         <div className="interface-operation">
-        <Tooltip title="添加到测试集">
-          <Icon
-            type="plus-square"
-            className="operation-icon"
-            onClick={e => {
-              e.stopPropagation();
-              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
-              if (caseChecks.length == 0) {
-                message.info("请先勾选需要添加的接口");
-                return;
-              } 
-              this.setState({
-                addToColVisible: true,
-                secondColList: [],
-                addTargetCol: '',
-                addType: 0
-              })
-              // this.showDelCaseConfirm(interfaceCase._id);
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="批量添加映射">
-          <Icon
-            type="interaction"
-            className="operation-icon"
-            onClick={e => {
-              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
-              if (caseChecks.length == 0) {
-                message.info("请先勾选需要添加的接口");
-                return;
-              }
-              // else if(caseChecks.length > 1) {
-              //   message.info("每次最多只能添加一条映射");
-              // }
-              this.setState({
-                addToColVisible: true,
-                secondColList: [],
-                addTargetCol: '',
-                addType: 1
-              })
-              // this.showDelCaseConfirm(interfaceCase._id);
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="解除该接口所有映射">
-          <Icon
-            type="disconnect"
-            className="operation-icon"
-            onClick={e => {
-              e.stopPropagation();
-              const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
-              if (caseChecks.length == 0) {
-                message.info("请先勾选需要解除映射的接口");
-                return;
-              } else if(caseChecks.length > 1) {
-                message.info("每次最多只能选择一个接口");
-              }
-              this.deleteAllRefer();
-            }}
-          />
-        </Tooltip>
-        <Tooltip title="查看所有映射">
-          <Icon
-            type="eye"
-            className="operation-icon"
-            onClick={e => {
-              e.stopPropagation();
-              this.doSearchAllReference();
+          <Tooltip title="添加到测试集">
+            <Icon
+              type="plus-square"
+              className="operation-icon"
+              onClick={e => {
+                e.stopPropagation();
+                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                if (caseChecks.length == 0) {
+                  message.info("请先勾选需要添加的接口");
+                  return;
+                }
+                this.setState({
+                  addToColVisible: true,
+                  secondColList: [],
+                  addTargetCol: '',
+                  addType: 0
+                })
+                // this.showDelCaseConfirm(interfaceCase._id);
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="批量添加映射">
+            <Icon
+              type="interaction"
+              className="operation-icon"
+              onClick={e => {
+                e.stopPropagation();
+                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                if (caseChecks.length == 0) {
+                  message.info("请先勾选需要添加的接口");
+                  return;
+                }
+                // else if(caseChecks.length > 1) {
+                //   message.info("每次最多只能添加一条映射");
+                // }
+                this.setState({
+                  addToColVisible: true,
+                  secondColList: [],
+                  addTargetCol: '',
+                  addType: 1
+                })
+                // this.showDelCaseConfirm(interfaceCase._id);
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="解除该接口所有映射">
+            <Icon
+              type="disconnect"
+              className="operation-icon"
+              onClick={e => {
+                e.stopPropagation();
+                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                if (caseChecks.length == 0) {
+                  message.info("请先勾选需要解除映射的接口");
+                  return;
+                } else if (caseChecks.length > 1) {
+                  message.info("每次最多只能选择一个接口");
+                }
+                this.deleteAllRefer();
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="查看所有映射">
+            <Icon
+              type="eye"
+              className="operation-icon"
+              onClick={e => {
+                e.stopPropagation();
+                this.doSearchAllReference();
 
-            }}
-          />
-        </Tooltip>
+              }}
+            />
+          </Tooltip>
         </div>
-        <div className="tree-wrapper" style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px'}}>
+        <div className="tree-wrapper" style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px' }}>
           <Tree
             checkable={true}
             className="col-list-tree"
@@ -1201,7 +1193,7 @@ export default class InterfaceColMenu extends Component {
                 }
                 key="root"
               /> */}
-              {this.renderTreeNodes(list)}
+            {this.renderTreeNodes(list)}
           </Tree>
         </div>
         <ColModalForm
@@ -1225,7 +1217,7 @@ export default class InterfaceColMenu extends Component {
           <ImportInterface currProjectId={currProjectId} selectInterface={this.selectInterface} />
         </Modal>
 
-        
+
         <Modal
           title="选择添加到的测试集"
           visible={addToColVisible}
@@ -1237,7 +1229,7 @@ export default class InterfaceColMenu extends Component {
           <div>
             <div>
               <p className={"select-title"}>选择一级目录</p>
-              <p className= {"select-title"}>选择子目录</p>
+              <p className={"select-title"}>选择子目录</p>
             </div>
             <Select
               // defaultValue={0}
@@ -1257,8 +1249,8 @@ export default class InterfaceColMenu extends Component {
               {this.state.secondColList.map(item => (
                 <Option key={item._id}>{item.name}</Option>
               ))}
-          </Select>
-         </div>
+            </Select>
+          </div>
         </Modal>
       </div>
     );

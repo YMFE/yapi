@@ -10,7 +10,7 @@ import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js
   state => {
     return {
       projectList: state.project.projectList,
-      list: state.inter.list,
+      list: state.inter.list
     };
   },
   {

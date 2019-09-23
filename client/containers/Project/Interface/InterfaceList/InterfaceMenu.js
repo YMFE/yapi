@@ -369,8 +369,7 @@ class InterfaceMenu extends Component {
       filter: e.target.value
     });
   };
-
-  onExpand = (keys, e) => {
+  onExpand = (keys) => {
     this.setState({
       expands: keys
     });

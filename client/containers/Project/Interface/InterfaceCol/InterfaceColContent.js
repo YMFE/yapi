@@ -175,6 +175,9 @@ class InterfaceColContent extends Component {
     // this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
     if(this.props.interfaceColList.length === 0) {
       const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+      this.setState({
+        interfaceColList: result
+      })
     }
     if (actionId) {
       this.currColId = currColId = +actionId;
