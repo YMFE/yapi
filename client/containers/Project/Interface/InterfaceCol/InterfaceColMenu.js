@@ -201,7 +201,7 @@ export default class InterfaceColMenu extends Component {
   };
   onCheck = (keys, e) => {
     console.log("lkkkkk", keys)
-    if (e.checked === true && e.node.props.child_type === 0) {
+    if ((e.checked === true && e.node.props.child_type === 0) || e.autoClik === true ) {
     const checkChildKeys = [];
     this.onLoadData(e.node)
       .then(res => {
@@ -209,7 +209,7 @@ export default class InterfaceColMenu extends Component {
           if(res[i].child_type === 0){
             let key = 'col_' + res[i]._id;
             checkChildKeys.push(key);
-            this.onCheck(key, { node:res[i]})
+            this.onCheck(key, { node:res[i], autoClik : true})
           } else if(res[i].child_type === 1){
             checkChildKeys.push('case_' + res[i]._id)
           } else {
@@ -217,7 +217,7 @@ export default class InterfaceColMenu extends Component {
           }
         this.setState({
           checks: Array.from(new Set([...this.state.checks, keys, ...checkChildKeys])),
-          expands: keys
+          expands:[this.state.expands, ...keys]
        });
        console.log("thisssssssssss", this.checks);
       }
