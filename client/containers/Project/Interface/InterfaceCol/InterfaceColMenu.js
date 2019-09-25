@@ -182,11 +182,17 @@ export default class InterfaceColMenu extends Component {
     this.setState({ expands: keys });
   };
   onCheck = async(keys, e) => {
-    await this.onLoadData(e.node);
-    this.setState({
-      checks: keys,
-      expands: keys
-    })
+    if (e.checked === true && e.node.props.child_type === 0) {
+      await this.onLoadData(e.node);
+      this.setState({
+        checks: keys,
+        expands: keys
+      })
+    } else {
+      this.setState({
+        checks: keys
+      }) 
+    }
   };
   onSelect = (keys, e) => {
     if (keys.length) {
@@ -334,7 +340,7 @@ export default class InterfaceColMenu extends Component {
     const params = this.props.match.params;
     confirm({
       title: '您确认删除此测试用例',
-      content: '温馨提示：用例删除后无法恢复',
+      content: '温馨提示：用例删除后无法恢复， 所有该用例的映射也将一并删除',
       okText: '确认',
       cancelText: '取消',
       async onOk() {
