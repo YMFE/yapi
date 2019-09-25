@@ -44,7 +44,6 @@ class interfaceColController extends baseController {
       
       for (let i = 0; i < resultList.length; i++) {
         let colData = await this.colModel.get(resultList[i].col_id);
-        console.info("cccc",colData)
         resultList[i] = resultList[i].toObject(); 
         resultList[i].child_type = 0;
         resultList[i].name = colData.name;
@@ -199,7 +198,6 @@ class interfaceColController extends baseController {
       }
 
       let result = await this.referModel.delAllByCaseid(caseData.project_id,refer_caseid);
-      console.info("8888888",result)
      
       let username = this.getUsername();
       yapi.commons.saveLog({
@@ -1062,7 +1060,9 @@ class interfaceColController extends baseController {
       }
 
       let result = await this.caseModel.del(caseid);
-
+      // 删除用例后要把对改用例的引用也全部删除
+      await this.referModel.delAllByCaseid(caseData.project_id, caseid);
+      
       let username = this.getUsername();
       this.colModel.get(caseData.col_id).then(col => {
         yapi.commons.saveLog({

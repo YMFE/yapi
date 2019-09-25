@@ -181,10 +181,11 @@ export default class InterfaceColMenu extends Component {
   onExpand = (keys) => {
     this.setState({ expands: keys });
   };
-  onCheck = (keys) => {
-    console.log("kyes", keys)
+  onCheck = async(keys, e) => {
+    await this.onLoadData(e.node);
     this.setState({
-      checks: keys
+      checks: keys,
+      expands: keys
     })
   };
   onSelect = (keys, e) => {
@@ -250,7 +251,7 @@ export default class InterfaceColMenu extends Component {
   };
 
   // 复制测试集合
-  copyInterface = async item => {
+  copyInterface =  async(item) => {
     if (this._copyInterfaceSign === true) {
       return;
     }
@@ -498,9 +499,6 @@ export default class InterfaceColMenu extends Component {
     const catid = (!treeNode.props) ? treeNode.parent_id : treeNode.props.parent_id;
     const child_type = (!treeNode.props) ? treeNode.child_type : treeNode.props.child_type;
     const getCurCatId = child_type === 0 ? id : catid;
-    console.log("11111111", id)
-    console.log("11111111", catid)
-    console.log("11111111", getCurCatId)
     return new Promise((resolve) => {
       let childrenList = [];
       // setState异步更新
@@ -579,12 +577,7 @@ export default class InterfaceColMenu extends Component {
   };
   reloadCurChildList = () => {
     // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
-    console.log('@@@@@', this.state.currentSelectNode)
-    console.log('322^^^^^^', this.state.curColId)
     if (this.state.curColId !== -1) {
-      console.log("hhahahg")
-      console.log(this.state.currentSelectNode)
-      console.log(this.state.curColId)
       const curParentKey = 'col_' + this.state.currentSelectNode.parent_id;
       let arr = this.state.expands ? this.state.expands.slice(0) : [];
       const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
@@ -595,7 +588,6 @@ export default class InterfaceColMenu extends Component {
     } else {
       this.changeExpands();
       this.getList();
-      console.log("gogogogogo")
     }
   };
   handleSecondColChange = (e) => {

@@ -168,33 +168,24 @@ class InterfaceColContent extends Component {
   }
 
   async componentDidMount() {
-    await this.props.getToken(this.props.match.params.id);
-    let { currColId } = this.props;
+    const { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
-    // this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
     if(this.props.interfaceColList.length === 0) {
-      const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
-      this.setState({
-        interfaceColList: result
-      })
+      await this.props.fetchInterfaceColList(this.props.match.params.id);
     }
-    if (actionId) {
-      this.currColId = currColId = +actionId;
-    } else {
-      const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
-      this.currColId = result.payload.data.data[0]._id;
-    }
-    // this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
-    if (currColId && currColId != 0) {
-      // await this.handleColIdChange(currColId)
-    }
+    const firstColId = this.props.interfaceColList[0]._id;
+    await this.props.getToken(this.props.match.params.id);
 
+    this.currColId = currColId || +actionId || firstColId;
+    // this.props.history.push('/project/' + params.id + '/interface/col/' + this.currColId);
+    if (this.currColId && this.currColId != 0) {
+      await this.handleColIdChange(this.currColId)
+    }
     this._crossRequestInterval = initCrossRequest(hasPlugin => {
       this.setState({ hasPlugin: hasPlugin });
     });
   }
-
   componentWillUnmount() {
     clearInterval(this._crossRequestInterval);
   }

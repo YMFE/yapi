@@ -12,16 +12,16 @@ const QUERY_COL_AND_INTERFACE_CASE = 'yapi/interface/QUERY_COL_AND_INTERFACE_CAS
 // Reducer
 const initialState = {
   interfaceColList: [
-    {
-      _id: 0,
-      name: '',
-      uid: 0,
-      project_id: 0,
-      desc: '',
-      add_time: 0,
-      up_time: 0,
-      caseList: [{}]
-    }
+    // {
+    //   _id: 0,
+    //   name: '',
+    //   uid: 0,
+    //   project_id: 0,
+    //   desc: '',
+    //   add_time: 0,
+    //   up_time: 0,
+    //   caseList: [{}]
+    // }
   ],
   isShowCol: true,
   isRender: false,
