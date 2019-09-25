@@ -13,7 +13,17 @@ import {
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
 import ImportInterface from './ImportInterface';
-import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form, Select } from 'antd';
+import {
+  Input,
+  Icon,
+  Button,
+  Modal,
+  message,
+  Tooltip,
+  Tree,
+  Form,
+  Select
+} from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
 
 const { confirm } = Modal;
@@ -25,7 +35,7 @@ const headHeight = 240; // menu顶部到网页顶部部分的高度
 
 import './InterfaceColMenu.scss';
 
-const ColModalForm = Form.create()(props => {
+const ColModalForm = Form.create()((props) => {
   const { visible, onCancel, onCreate, form, title } = props;
   const { getFieldDecorator } = form;
   return (
@@ -36,14 +46,16 @@ const ColModalForm = Form.create()(props => {
             rules: [{ required: true, message: '请输入集合命名！' }]
           })(<Input />)}
         </FormItem>
-        <FormItem label="简介">{getFieldDecorator('colDesc')(<Input type="textarea" />)}</FormItem>
+        <FormItem label="简介">
+          {getFieldDecorator('colDesc')(<Input type="textarea" />)}
+        </FormItem>
       </Form>
     </Modal>
   );
 });
 
 @connect(
-  state => {
+  (state) => {
     return {
       interfaceColList: state.interfaceCol.interfaceColList,
       currCase: state.interfaceCol.currCase,
@@ -100,7 +112,7 @@ export default class InterfaceColMenu extends Component {
     importInterIds: [],
     importColId: 0,
     expands: [],
-    selects: ['root'],
+    selects: [],
     checks: [],
     list: [],
     delIcon: null,
@@ -140,7 +152,7 @@ export default class InterfaceColMenu extends Component {
       this.setState({
         list: r.payload.data.data
       });
-      return r.payload.data.data
+      return r.payload.data.data;
     } else {
       return r.payload.data.data;
     }
@@ -152,8 +164,12 @@ export default class InterfaceColMenu extends Component {
     const project_id = this.props.match.params.id;
     let res = {};
     if (colModalType === 'add') {
-      console.log("999999", this.state.curColId);
-      res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id: col_id });
+      res = await axios.post('/api/col/add_col', {
+        name,
+        desc,
+        project_id,
+        parent_id: col_id
+      });
     } else if (colModalType === 'edit') {
       res = await axios.post('/api/col/up_col', { name, desc, col_id });
     }
@@ -161,18 +177,20 @@ export default class InterfaceColMenu extends Component {
       this.setState({
         colModalVisible: false
       });
-      message.success(colModalType === 'edit' ? '修改集合成功' : '添加集合成功');
+      message.success(
+        colModalType === 'edit' ? '修改集合成功' : '添加集合成功'
+      );
       if (colModalType === 'edit') {
         let currentNode = this.state.currentSelectNode;
         currentNode.name = name;
         this.setState({
           currentSelectNode: currentNode
-        })
+        });
+      } else if (col_id === -1) {
+        this.reloadColMenuList();
       } else {
         this.reloadCurChildList();
       }
-
-
     } else {
       message.error(res.data.errmsg);
     }
@@ -181,17 +199,33 @@ export default class InterfaceColMenu extends Component {
   onExpand = (keys) => {
     this.setState({ expands: keys });
   };
-  onCheck = async(keys, e) => {
+  onCheck = (keys, e) => {
+    console.log("lkkkkk", keys)
     if (e.checked === true && e.node.props.child_type === 0) {
-      await this.onLoadData(e.node);
-      this.setState({
-        checks: keys,
-        expands: keys
-      })
+    const checkChildKeys = [];
+    this.onLoadData(e.node)
+      .then(res => {
+        for (let i = 0 ; i < res.length; i++) {
+          if(res[i].child_type === 0){
+            let key = 'col_' + res[i]._id;
+            checkChildKeys.push(key);
+            this.onCheck(key, { node:res[i]})
+          } else if(res[i].child_type === 1){
+            checkChildKeys.push('case_' + res[i]._id)
+          } else {
+            checkChildKeys.push('refercase_' + res[i]._id)
+          }
+        this.setState({
+          checks: Array.from(new Set([...this.state.checks, keys, ...checkChildKeys])),
+          expands: keys
+       });
+       console.log("thisssssssssss", this.checks);
+      }
+    });
     } else {
       this.setState({
         checks: keys
-      }) 
+      });
     }
   };
   onSelect = (keys, e) => {
@@ -200,12 +234,15 @@ export default class InterfaceColMenu extends Component {
       const id = keys[0].split('_')[1];
       const project_id = this.props.match.params.id;
       const curNode = e.selectedNodes[0];
-      const colId = curNode.props.child_type === 0 ? curNode.props._id : curNode.props.col_id;
+      const colId =
+        curNode.props.child_type === 0
+          ? curNode.props._id
+          : curNode.props.col_id;
       const curkey = keys[0];
 
-      console.log('curnode', curNode)
-      console.log('curkey', curkey)
-      console.log('colId', colId)
+      console.log('curnode', curNode);
+      console.log('curkey', curkey);
+      console.log('colId', colId);
 
       this.setState({
         currentSelectNode: curNode,
@@ -216,15 +253,18 @@ export default class InterfaceColMenu extends Component {
         this.props.setColData({
           isRander: false
         });
-        this.props.history.push('/project/' + project_id + '/interface/col/' + id);
+        this.props.history.push(
+          '/project/' + project_id + '/interface/col/' + id
+        );
       } else {
         this.props.setColData({
           isRander: false
         });
-        this.props.history.push('/project/' + project_id + '/interface/case/' + id + '?colId=' + colId);
+        this.props.history.push(
+          '/project/' + project_id + '/interface/case/' + id + '?colId=' + colId
+        );
       }
     }
-
   };
 
   changeExpands = () => {
@@ -233,8 +273,7 @@ export default class InterfaceColMenu extends Component {
     });
   };
 
-
-  showDelColConfirm = colId => {
+  showDelColConfirm = (colId) => {
     let that = this;
     const params = this.props.match.params;
     confirm({
@@ -247,8 +286,10 @@ export default class InterfaceColMenu extends Component {
         if (!res.data.errcode) {
           message.success('删除集合成功');
           const nextColId = that.state.list[0]._id;
-          that.reloadColMenuList();
-          that.props.history.push('/project/' + params.id + '/interface/col/' + nextColId);
+          // that.reloadColMenuList();
+          that.props.history.push(
+            '/project/' + params.id + '/interface/col/' + nextColId
+          );
         } else {
           message.error(res.data.errmsg);
         }
@@ -257,7 +298,7 @@ export default class InterfaceColMenu extends Component {
   };
 
   // 复制测试集合
-  copyInterface =  async(item) => {
+  copyInterface = async (item) => {
     if (this._copyInterfaceSign === true) {
       return;
     }
@@ -266,7 +307,12 @@ export default class InterfaceColMenu extends Component {
     let { name } = item;
     name = `${name} copy`;
     // 添加集合
-    const add_col_res = await axios.post('/api/col/add_col', { name, desc, project_id, parent_id });
+    const add_col_res = await axios.post('/api/col/add_col', {
+      name,
+      desc,
+      project_id,
+      parent_id
+    });
 
     if (add_col_res.data.errcode) {
       message.error(add_col_res.data.errmsg);
@@ -298,15 +344,19 @@ export default class InterfaceColMenu extends Component {
   };
 
   reloadColMenuList = () => {
-    this.setState({
-      curColId: -1,
-      list: [],
-      selects: [],
-      checks: []
-    }, () => {
-      this.changeExpands();
-      this.getList();
-    });
+    this.setState(
+      {
+        curColId: -1,
+        list: [],
+        selects: [],
+        checks: [],
+        expands: null
+      },
+      async () => {
+        this.changeExpands();
+        await this.getList();
+      }
+    );
   };
   showNoDelColConfirm = () => {
     confirm({
@@ -314,19 +364,21 @@ export default class InterfaceColMenu extends Component {
       content: '温馨提示：建议不要删除'
     });
   };
-  caseCopy = async caseId => {
+  caseCopy = async (caseId) => {
     let that = this;
     let caseData = await that.props.fetchCaseData(caseId);
     let data = caseData.payload.data.data;
     data = JSON.parse(JSON.stringify(data));
-    data.casename = `${data.casename}_copy`
-    delete data._id
+    data.casename = `${data.casename}_copy`;
+    delete data._id;
     const res = await axios.post('/api/col/add_case', data);
     if (!res.data.errcode) {
       message.success('克隆用例成功');
       let colId = res.data.data.col_id;
       let projectId = res.data.data.project_id;
-      this.props.history.push('/project/' + projectId + '/interface/col/' + colId);
+      this.props.history.push(
+        '/project/' + projectId + '/interface/col/' + colId
+      );
       this.setState({
         visible: false
       });
@@ -335,7 +387,7 @@ export default class InterfaceColMenu extends Component {
       message.error(res.data.errmsg);
     }
   };
-  showDelCaseConfirm = caseId => {
+  showDelCaseConfirm = (caseId) => {
     let that = this;
     const params = this.props.match.params;
     confirm({
@@ -350,7 +402,9 @@ export default class InterfaceColMenu extends Component {
           that.reloadColMenuList();
           // 如果删除当前选中 case，切换路由到集合
           if (+caseId === +that.props.currCaseId) {
-            that.props.history.push('/project/' + params.id + '/interface/col/');
+            that.props.history.push(
+              '/project/' + params.id + '/interface/col/'
+            );
           } else {
             // that.props.fetchInterfaceColList(that.props.match.params.id);
             that.props.setColData({ isRander: true });
@@ -363,7 +417,9 @@ export default class InterfaceColMenu extends Component {
   };
   showColModal = (type, col) => {
     const editCol =
-      type === 'edit' ? { colName: col.name, colDesc: col.desc } : { colName: '', colDesc: '' };
+      type === 'edit'
+        ? { colName: col.name, colDesc: col.desc }
+        : { colName: '', colDesc: '' };
     this.setState({
       colModalVisible: true,
       colModalType: type || 'add',
@@ -371,7 +427,7 @@ export default class InterfaceColMenu extends Component {
     });
     this.form.setFieldsValue(editCol);
   };
-  saveFormRef = form => {
+  saveFormRef = (form) => {
     this.form = form;
   };
 
@@ -379,7 +435,7 @@ export default class InterfaceColMenu extends Component {
     this.setState({ importInterIds, selectedProject });
   };
 
-  showImportInterfaceModal = async colId => {
+  showImportInterfaceModal = async (colId) => {
     // const projectId = this.props.match.params.id;
     // console.log('project', this.props.curProject)
     const groupId = this.props.curProject.group_id;
@@ -415,17 +471,18 @@ export default class InterfaceColMenu extends Component {
   showConfirm = () => {
     let that = this;
     confirm({
-      title: '已选中' + this.state.importInterIds.length + '条接口，确认提交吗?',
+      title:
+        '已选中' + this.state.importInterIds.length + '条接口，确认提交吗?',
       content: '只能导入已展开目录下的接口',
       onOk() {
         that.handleImportOk();
       },
       onCancel() {
-        that.handleImportCancel()
+        that.handleImportCancel();
       }
     });
   };
-  filterCol = e => {
+  filterCol = (e) => {
     const value = e.target.value;
     // console.log('list', this.props.interfaceColList);
     // const newList = produce(this.props.interfaceColList, draftList => {})
@@ -436,7 +493,7 @@ export default class InterfaceColMenu extends Component {
       // list: newList
     });
   };
-  onDrop = async e => {
+  onDrop = async (e) => {
     // const projectId = this.props.match.params.id;
     const { interfaceColList } = this.props;
     const dropColIndex = e.node.props.pos.split('-')[1];
@@ -457,7 +514,10 @@ export default class InterfaceColMenu extends Component {
         let changes = arrayChangeIndex(caseList, dragIndex, dropIndex);
         axios.post('/api/col/up_case_index', changes).then();
       }
-      await axios.post('/api/col/up_case', { id: id.split('_')[1], col_id: dropColId });
+      await axios.post('/api/col/up_case', {
+        id: id.split('_')[1],
+        col_id: dropColId
+      });
       // this.props.fetchInterfaceColList(projectId);
       this.getList();
       this.props.setColData({ isRander: true });
@@ -468,7 +528,7 @@ export default class InterfaceColMenu extends Component {
     }
   };
 
-  enterItem = id => {
+  enterItem = (id) => {
     this.setState({ delIcon: id });
   };
 
@@ -476,56 +536,65 @@ export default class InterfaceColMenu extends Component {
     this.setState({ delIcon: null });
   };
 
-
   async doInterfaceSearch() {
     // if(this.state.filter === '') {
     //   message.error('搜索内容不能为空');
     // }else{
-    this.setState({
-      list: [],
-      expands: [],
-      selects: []
-    }, async () => {
-      let r = await this.props.queryColAndInterfaceCase({
-        project_id:  Number(this.props.match.params.id),
-        query_text: this.state.filter
-      });
-      const data = r.payload.data.data;
-      if (data.length === 0) {
-        message.info('搜索结果为空')
+    this.setState(
+      {
+        list: [],
+        expands: [],
+        selects: []
+      },
+      async () => {
+        let r = await this.props.queryColAndInterfaceCase({
+          project_id: Number(this.props.match.params.id),
+          query_text: this.state.filter
+        });
+        const data = r.payload.data.data;
+        if (data.length === 0) {
+          message.info('搜索结果为空');
+        }
+        this.setState({
+          list: data
+        });
       }
-      this.setState({
-        list: data
-      });
-    });
+    );
   }
   // 动态加载子节点数据
   onLoadData = (treeNode) => {
-    const id = (!treeNode.props) ? treeNode._id : treeNode.props._id;
-    const catid = (!treeNode.props) ? treeNode.parent_id : treeNode.props.parent_id;
-    const child_type = (!treeNode.props) ? treeNode.child_type : treeNode.props.child_type;
+    const id = !treeNode.props ? treeNode._id : treeNode.props._id;
+    const catid = !treeNode.props
+      ? treeNode.parent_id
+      : treeNode.props.parent_id;
+    const child_type = !treeNode.props
+      ? treeNode.child_type
+      : treeNode.props.child_type;
     const getCurCatId = child_type === 0 ? id : catid;
     return new Promise((resolve) => {
       let childrenList = [];
       // setState异步更新
-      this.setState({
-        curColId: getCurCatId
-      }, async () => {
-        childrenList = await this.getList(true);
-        console.log('更新孩子----')
-        if (treeNode.props) {
-          treeNode.props.dataRef.children = [...childrenList];
-        } else {
-          treeNode.children = [...childrenList];
+      this.setState(
+        {
+          curColId: getCurCatId
+        },
+        async () => {
+          childrenList = await this.getList(true);
+          console.log('更新孩子----');
+          if (treeNode.props) {
+            treeNode.props.dataRef.children = [...childrenList];
+          } else {
+            treeNode.children = [...childrenList];
+          }
+          this.setState({
+            currentSelectNode: treeNode
+          });
+          resolve(childrenList);
         }
-        this.setState({
-          currentSelectNode: treeNode
-        })
-        resolve()
-      });
-    }).catch(err => {
+      );
+    }).catch((err) => {
       console.log(err.message);
-    })
+    });
   };
 
   // 子节点渲染 0 文件夹 1 接口
@@ -540,7 +609,7 @@ export default class InterfaceColMenu extends Component {
               {...item}
               title={this.itemInterfaceColTitle(item)}
               dataRef={item}
-              className='interface-item-nav'
+              className="interface-item-nav"
             >
               {this.renderTreeNodes(item.children)}
             </TreeNode>
@@ -553,7 +622,7 @@ export default class InterfaceColMenu extends Component {
             {...item}
             title={this.itemInterfaceColTitle(item)}
             dataRef={item}
-            className='interface-item-nav'
+            className="interface-item-nav"
           />
         );
       } else if (item.child_type === 1) {
@@ -589,8 +658,13 @@ export default class InterfaceColMenu extends Component {
       const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
       this.onLoadData(this.state.currentSelectNode);
       this.setState({
-        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
-      })
+        expands: [
+          ...this.state.expands,
+          this.state.currentSelectNode.key,
+          curParentKey,
+          newLoadKeys
+        ]
+      });
     } else {
       this.changeExpands();
       this.getList();
@@ -614,49 +688,59 @@ export default class InterfaceColMenu extends Component {
     //     })
     //  }
     // })
-
   };
   handleFirstColChange = (e, option, setState = true) => {
-    this.setState({
-      curColId: e
-    }, async () => {
-      const result = await this.getList(true);
-      const oldSecondlist = this.state.secondColList;
-      let newSecondlist = [];
-      const colResult = result.filter(item => item.child_type === 0)
-      if (colResult && colResult.length > 0) {
-        newSecondlist = [...oldSecondlist, ...colResult];
+    this.setState(
+      {
+        curColId: e
+      },
+      async () => {
+        const result = await this.getList(true);
+        const oldSecondlist = this.state.secondColList;
+        let newSecondlist = [];
+        const colResult = result.filter((item) => item.child_type === 0);
         if (colResult && colResult.length > 0) {
-          colResult.forEach(item => {
-            this.handleFirstColChange(item._id, undefined, false);
-          });
-        }
-        if (setState === true) {
+          newSecondlist = [...oldSecondlist, ...colResult];
+          if (colResult && colResult.length > 0) {
+            colResult.forEach((item) => {
+              this.handleFirstColChange(item._id, undefined, false);
+            });
+          }
+          if (setState === true) {
+            this.setState({
+              addFirstTargetCol: e,
+              secondColList: [
+                { _id: e, name: '不选择，默认添加到一级目录' },
+                ...newSecondlist
+              ]
+            });
+          }
+        } else if (setState === true) {
           this.setState({
             addFirstTargetCol: e,
-            secondColList: [{ _id: e, name: '不选择，默认添加到一级目录' }, ...newSecondlist]
-          })
+            secondColList: [{ _id: e, name: '无子目录，默认添加到一级目录' }]
+          });
         }
-      } else if (setState === true) {
-        this.setState({
-          addFirstTargetCol: e,
-          secondColList: [{ _id: e, name: '无子目录，默认添加到一级目录' }]
-        })
       }
-    })
+    );
   };
   handleToColCancel = () => {
     this.setState({
       addToColVisible: false,
       addFirstTargetCol: null,
       addTargetCol: null
-    })
+    });
   };
   showAddToColConfirm = async () => {
-    console.log("checks", this.state.checks);
-    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
-    if (this.state.addFirstTargetCol === null || this.state.addTargetCol === null) {
-      message.info("请选择目标测试集");
+    console.log('checks', this.state.checks);
+    const caseChecks = this.state.checks.filter(
+      (item) => item.indexOf('case') > -1
+    );
+    if (
+      this.state.addFirstTargetCol === null ||
+      this.state.addTargetCol === null
+    ) {
+      message.info('请选择目标测试集');
       return;
     }
 
@@ -668,8 +752,8 @@ export default class InterfaceColMenu extends Component {
         let data = caseData.payload.data.data;
         data.col_id = this.state.addTargetCol;
         data = JSON.parse(JSON.stringify(data));
-        data.casename = `${data.casename}_copy`
-        delete data._id
+        data.casename = `${data.casename}_copy`;
+        delete data._id;
         const res = await axios.post('/api/col/add_case', data);
         if (!res.data.errcode) {
           message.success('添加成功');
@@ -706,12 +790,14 @@ export default class InterfaceColMenu extends Component {
     }
   };
   async doSearchAllReference() {
-    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+    const caseChecks = this.state.checks.filter(
+      (item) => item.indexOf('case') > -1
+    );
     if (caseChecks.length == 0) {
-      message.info("请先勾选需要查看映射的接口");
+      message.info('请先勾选需要查看映射的接口');
       return;
     } else if (caseChecks.length > 1) {
-      message.info("最多勾选一个接口");
+      message.info('最多勾选一个接口');
       return;
     }
     let data = {};
@@ -720,10 +806,10 @@ export default class InterfaceColMenu extends Component {
     const res = await axios.post('/api/col/referColListByCase', data);
     if (!res.data.errcode) {
       if (res.data.data.length === 0) {
-        message.info("没有该用例的映射");
+        message.info('没有该用例的映射');
       } else {
         const showColList = res.data.data;
-        showColList.forEach(item => {
+        showColList.forEach((item) => {
           item._id = item.col_id;
         });
         this.setState({
@@ -735,24 +821,26 @@ export default class InterfaceColMenu extends Component {
     }
   }
   async deleteAllRefer() {
-    const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+    const caseChecks = this.state.checks.filter(
+      (item) => item.indexOf('case') > -1
+    );
     let that = this;
     confirm({
       title: '确定解除该条接口的所有映射吗?',
       content: '',
       async onOk() {
         const refer_caseid = Number(caseChecks[0].split('_')[1]);
-        const res = await axios.post('/api/col/deleteAllReferCase', { refer_caseid });
+        const res = await axios.post('/api/col/deleteAllReferCase', {
+          refer_caseid
+        });
         if (!res.data.errcode) {
           message.success('成功解除映射' + res.data.data.n + '条');
           that.reloadColMenuList();
         } else {
           message.error(res.data.errmsg);
         }
-
       },
-      onCancel() {
-      }
+      onCancel() {}
     });
   }
   async deleteOneRefer(id) {
@@ -768,17 +856,17 @@ export default class InterfaceColMenu extends Component {
         } else {
           message.error(res.data.errmsg);
         }
-
       },
-      onCancel() {
-      }
+      onCancel() {}
     });
   }
   itemInterfaceColTitle(col) {
     return (
       <div
         className="menu-title"
-        onMouseEnter={() => { this.enterItem('col_' + col._id) }}
+        onMouseEnter={() => {
+          this.enterItem('col_' + col._id);
+        }}
         onMouseLeave={this.leaveItem}
         // onClick={(e) => {
         // }}
@@ -794,7 +882,8 @@ export default class InterfaceColMenu extends Component {
               // style={{ display: list.length > 1 ? '' : 'none' }}
               className="interface-delete-icon"
               style={{
-                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+                display:
+                  this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
               }}
               onClick={() => {
                 this.showDelColConfirm(col._id);
@@ -809,7 +898,7 @@ export default class InterfaceColMenu extends Component {
             <Icon
               type="edit"
               className="interface-delete-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.showColModal('edit', col);
                 this.setState({
@@ -824,9 +913,10 @@ export default class InterfaceColMenu extends Component {
               type="plus"
               className="interface-delete-icon"
               style={{
-                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+                display:
+                  this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
               }}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.showImportInterfaceModal(col._id);
                 this.setState({
@@ -841,9 +931,10 @@ export default class InterfaceColMenu extends Component {
               type="copy"
               className="interface-delete-icon"
               style={{
-                display: this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
+                display:
+                  this.state.delIcon == 'col_' + col._id ? 'block' : 'none'
               }}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.setState({
                   curColId: Number(col._id),
@@ -869,30 +960,34 @@ export default class InterfaceColMenu extends Component {
         onMouseLeave={this.leaveItem}
         title={interfaceCase.casename}
       >
-        <span className="casename">
-          {interfaceCase.casename}
-        </span>
+        <span className="casename">{interfaceCase.casename}</span>
         <div className="btns">
           <Tooltip title="删除用例">
             <Icon
               type="delete"
               className="interface-delete-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.showDelCaseConfirm(interfaceCase._id);
               }}
-              style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+              style={{
+                display:
+                  this.state.delIcon == interfaceCase._id ? 'block' : 'none'
+              }}
             />
           </Tooltip>
           <Tooltip title="克隆用例">
             <Icon
               type="copy"
               className="interface-delete-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.caseCopy(interfaceCase._id);
               }}
-              style={{ display: this.state.delIcon == interfaceCase._id ? 'block' : 'none' }}
+              style={{
+                display:
+                  this.state.delIcon == interfaceCase._id ? 'block' : 'none'
+              }}
             />
           </Tooltip>
         </div>
@@ -914,7 +1009,7 @@ export default class InterfaceColMenu extends Component {
               type="star"
               className="refer-star"
               theme="filled"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.deleteOneRefer(interfaceCaseRefer._id);
               }}
@@ -928,7 +1023,12 @@ export default class InterfaceColMenu extends Component {
   render() {
     // const { currColId, currCaseId, isShowCol } = this.props;
     // const matchParams = this.props.match.params;
-    const { colModalType, colModalVisible, importInterVisible, addToColVisible } = this.state;
+    const {
+      colModalType,
+      colModalVisible,
+      importInterVisible,
+      addToColVisible
+    } = this.state;
     const currProjectId = this.props.match.params.id;
     // const menu = (col) => {
     //   return (
@@ -956,46 +1056,52 @@ export default class InterfaceColMenu extends Component {
       }
       if (router) {
         if (router.params.action === 'case') {
-          console.log("aaaaaa")
+          console.log('aaaaaa');
           if (!currCase || !currCase._id) {
             // return rNull;
             return {
-              expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id]
-            }
+              expands: this.state.expands
+                ? this.state.expands
+                : ['col_' + currCase.col_id]
+            };
           }
-          console.log("bbbbbbb", this.state.expands, currCase.col_id)
+          console.log('bbbbbbb', this.state.expands, currCase.col_id);
           return {
-            expands: this.state.expands ? this.state.expands : ['col_' + currCase.col_id],
-            selects: this.state.selects ? this.state.selects : ['case_' + currCase._id + '']
+            expands: this.state.expands
+              ? this.state.expands
+              : ['col_' + currCase.col_id],
+            selects: this.state.selects
+              ? this.state.selects
+              : ['case_' + currCase._id + '']
           };
         } else {
           let col_id = router.params.actionId;
-          console.log("cccccc", this.state.expands, col_id)
+          console.log('cccccc', this.state.expands, col_id);
           return {
-            expands: this.state.expands ? this.state.expands : ['col_' + col_id],
-            selects: this.state.selects ? this.state.selects : ['col_' + col_id]
+            // expands: this.state.expands ? this.state.expands : ['col_' + col_id],
+            expands: this.state.expands ? this.state.expands : [],
+            // selects: this.state.selects ? this.state.selects : [],
+            selects: this.state.selects ? this.state.selects : []
           };
         }
       } else {
-        console.log("ddddd", this.state.expands, interfaceColList[0]._id)
-        return {
-          expands: this.state.expands ? this.state.expands : ['col_' + interfaceColList[0]._id],
-          selects: ['root']
-        };
+        console.log('ddddd', this.state.expands, interfaceColList[0]._id);
+        if (this.state.curColId === -1) {
+          console.log("hahahahah")
+          return {
+            selects: [],
+            expands: []
+          }
+        } else {
+          return {
+            expands: this.state.expands
+              ? this.state.expands
+              : ['col_' + interfaceColList[0]._id],
+            selects: []
+         };
+        }
       }
     };
-
-    // const itemInterfaceColCreate = interfaceCase => {
-    //   return (
-    //     <TreeNode
-    //       style={{ width: '100%' }}
-    //       key={'case_' + interfaceCase._id}
-    //       title={
-
-    //       }
-    //     />
-    //   );
-    // };
 
     let currentKes = defaultExpandedKeys();
     // console.log('currentKey', currentKes)
@@ -1007,7 +1113,7 @@ export default class InterfaceColMenu extends Component {
     //   list = list.filter(item => {
 
     //     item.caseList = item.caseList.filter(inter => {
-    //       if (inter.casename.indexOf(this.state.filterValue) === -1 
+    //       if (inter.casename.indexOf(this.state.filterValue) === -1
     //       && inter.path.indexOf(this.state.filterValue) === -1
     //       ) {
     //         return false;
@@ -1030,15 +1136,17 @@ export default class InterfaceColMenu extends Component {
     return (
       <div>
         <div className="interface-filter">
-          <Input placeholder="搜索测试集合" onChange={this.filterCol} value={this.state.filter} />
+          <Input
+            placeholder="搜索测试集合"
+            onChange={this.filterCol}
+            value={this.state.filter}
+          />
           <Tooltip placement="bottom" title="搜索测试集合">
             <Button
               type="primary"
-              onClick={
-                () => {
-                  this.doInterfaceSearch();
-                }
-              }
+              onClick={() => {
+                this.doInterfaceSearch();
+              }}
               className="btn-filter interface-search-bt"
             >
               搜索
@@ -1048,21 +1156,42 @@ export default class InterfaceColMenu extends Component {
             <Button
               type="primary"
               style={{ marginLeft: '16px' }}
-              onClick={
-                () => {
-                  // 选中目录才可以添加
-                  if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 1) {
-                    message.error('测试用例不可再添加集合');
-                  }
-                  if (this.state.currentSelectNode && this.state.currentSelectNode.props && this.state.currentSelectNode.props.child_type === 2) {
-                    message.error('映射不可再添加集合');
-                  } else if (this.state.selects.length === 0) {
-                    message.error('选中文件夹再添加集合');
-                  } else {
-                    this.showColModal('add', this.state.currentSelectNode);
-                  }
+              onClick={() => {
+                // 选中目录才可以添加
+                if (this.state.selects.length === 0) {
+                  const that = this;
+                  confirm({
+                    title: '添加集合',
+                    content:
+                      '当前未选中文件夹，新的集合将默认添加到一级目录',
+                    okText: '确认',
+                    cancelText: '取消',
+                    async onOk() {
+                      that.setState({
+                        curColId: -1
+                      },()=> {
+                           that.showColModal('add', that.state.currentSelectNode);
+                      })
+                    }
+                  });
+                } else if (
+                  this.state.currentSelectNode &&
+                  this.state.currentSelectNode.props &&
+                  this.state.currentSelectNode.props.child_type === 1
+                ) {
+                  message.error('测试用例不可再添加集合');
+                }else if (
+                  this.state.currentSelectNode &&
+                  this.state.currentSelectNode.props &&
+                  this.state.currentSelectNode.props.child_type === 2
+                ) {
+                  message.error('映射不可再添加集合');
+                } else if (this.state.selects.length === 0) {
+                  message.error('选中文件夹再添加集合');
+                } else {
+                  this.showColModal('add', this.state.currentSelectNode);
                 }
-              }
+              }}
               className="btn-filter"
             >
               添加集合
@@ -1074,11 +1203,13 @@ export default class InterfaceColMenu extends Component {
             <Icon
               type="plus-square"
               className="operation-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
-                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                const caseChecks = this.state.checks.filter(
+                  (item) => item.indexOf('case') > -1
+                );
                 if (caseChecks.length == 0) {
-                  message.info("请先勾选需要添加的接口");
+                  message.info('请先勾选需要添加的接口');
                   return;
                 }
                 this.setState({
@@ -1086,7 +1217,7 @@ export default class InterfaceColMenu extends Component {
                   secondColList: [],
                   addTargetCol: '',
                   addType: 0
-                })
+                });
                 // this.showDelCaseConfirm(interfaceCase._id);
               }}
             />
@@ -1095,11 +1226,13 @@ export default class InterfaceColMenu extends Component {
             <Icon
               type="interaction"
               className="operation-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
-                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                const caseChecks = this.state.checks.filter(
+                  (item) => item.indexOf('case') > -1
+                );
                 if (caseChecks.length == 0) {
-                  message.info("请先勾选需要添加的接口");
+                  message.info('请先勾选需要添加的接口');
                   return;
                 }
                 // else if(caseChecks.length > 1) {
@@ -1110,7 +1243,7 @@ export default class InterfaceColMenu extends Component {
                   secondColList: [],
                   addTargetCol: '',
                   addType: 1
-                })
+                });
                 // this.showDelCaseConfirm(interfaceCase._id);
               }}
             />
@@ -1119,14 +1252,16 @@ export default class InterfaceColMenu extends Component {
             <Icon
               type="disconnect"
               className="operation-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
-                const caseChecks = this.state.checks.filter(item => item.indexOf('case') > -1);
+                const caseChecks = this.state.checks.filter(
+                  (item) => item.indexOf('case') > -1
+                );
                 if (caseChecks.length == 0) {
-                  message.info("请先勾选需要解除映射的接口");
+                  message.info('请先勾选需要解除映射的接口');
                   return;
                 } else if (caseChecks.length > 1) {
-                  message.info("每次最多只能选择一个接口");
+                  message.info('每次最多只能选择一个接口');
                 }
                 this.deleteAllRefer();
               }}
@@ -1136,15 +1271,19 @@ export default class InterfaceColMenu extends Component {
             <Icon
               type="eye"
               className="operation-icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.doSearchAllReference();
-
               }}
             />
           </Tooltip>
         </div>
-        <div className="tree-wrapper" style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px' }}>
+        <div
+          className="tree-wrapper"
+          style={{
+            maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px'
+          }}
+        >
           <Tree
             checkable={true}
             className="col-list-tree"
@@ -1160,7 +1299,7 @@ export default class InterfaceColMenu extends Component {
             draggable={false}
             onExpand={this.onExpand}
             onDrop={this.onDrop}
-            expandAction={"doubleClick"}
+            expandAction={'doubleClick'}
           >
             {/* {list.map(col => (
               <TreeNode
@@ -1212,9 +1351,11 @@ export default class InterfaceColMenu extends Component {
           className="import-case-modal"
           width={800}
         >
-          <ImportInterface currProjectId={currProjectId} selectInterface={this.selectInterface} />
+          <ImportInterface
+            currProjectId={currProjectId}
+            selectInterface={this.selectInterface}
+          />
         </Modal>
-
 
         <Modal
           title="选择添加到的测试集"
@@ -1226,8 +1367,8 @@ export default class InterfaceColMenu extends Component {
         >
           <div>
             <div>
-              <p className={"select-title"}>选择一级目录</p>
-              <p className={"select-title"}>选择子目录</p>
+              <p className={'select-title'}>选择一级目录</p>
+              <p className={'select-title'}>选择子目录</p>
             </div>
             <Select
               // defaultValue={0}
@@ -1235,7 +1376,7 @@ export default class InterfaceColMenu extends Component {
               value={this.state.addFirstTargetCol}
               onChange={this.handleFirstColChange}
             >
-              {this.state.list.map(item => (
+              {this.state.list.map((item) => (
                 <Option key={item._id}>{item.name}</Option>
               ))}
             </Select>
@@ -1244,7 +1385,7 @@ export default class InterfaceColMenu extends Component {
               value={this.state.addTargetCol}
               onChange={this.handleSecondColChange}
             >
-              {this.state.secondColList.map(item => (
+              {this.state.secondColList.map((item) => (
                 <Option key={item._id}>{item.name}</Option>
               ))}
             </Select>
