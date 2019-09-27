@@ -243,6 +243,8 @@ export default class InterfaceColMenu extends Component {
       console.log('curnode', curNode);
       console.log('curkey', curkey);
       console.log('colId', colId);
+      console.log('type', type);
+      console.log('id', id);
 
       this.setState({
         currentSelectNode: curNode,
@@ -255,6 +257,13 @@ export default class InterfaceColMenu extends Component {
         });
         this.props.history.push(
           '/project/' + project_id + '/interface/col/' + id
+        );
+      } else if (type === 'case') {
+        this.props.setColData({
+          isRander: false
+        });
+        this.props.history.push(
+          '/project/' + project_id + '/interface/case/' + id + '?colId=' + colId
         );
       } else {
         this.props.setColData({
@@ -640,7 +649,8 @@ export default class InterfaceColMenu extends Component {
         return (
           <TreeNode
             checkable={false}
-            key={'refercase_' + item.refer_caseid}
+            selectable={true}
+            key={'refercase_' + item.refer_caseid + '_' + item._id}
             {...item}
             title={this.itemInterfaceReferTitle(item)}
             dataRef={item}
@@ -999,9 +1009,9 @@ export default class InterfaceColMenu extends Component {
       <div
         className="menu-title"
         title={interfaceCaseRefer.casename}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
+        // onClick={(e) => {
+        //   e.stopPropagation();
+        // }}
       >
         <span className="casename">
           <Tooltip title="用例映射，点击星号删除">
@@ -1262,6 +1272,7 @@ export default class InterfaceColMenu extends Component {
                   return;
                 } else if (caseChecks.length > 1) {
                   message.info('每次最多只能选择一个接口');
+                  return;
                 }
                 this.deleteAllRefer();
               }}
