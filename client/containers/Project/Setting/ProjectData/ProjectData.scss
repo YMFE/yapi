@@ -1,7 +1,7 @@
 .postman-dataImport{
     display: flex;
     .dataImportCon{
-        min-width: 304px;
+        width: 304px;
         background-color: #ececec;
         padding: 16px;
         border-radius: 4px;
@@ -27,6 +27,7 @@
         }
 
         .dataSync{
+          text-align: left;
           padding-top: 16px;
           font-weight: 500;
           width: 100%;
@@ -50,7 +51,7 @@
 
         .url-import-content {
           text-align: center;
-          .url-btn{ 
+          .import-content-block-field, .url-btn{ 
             margin-top: 16px;
           }
         }
@@ -99,5 +100,3 @@
     margin-top: 10px;
   }
 }
-
-

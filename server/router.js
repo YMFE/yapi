@@ -290,6 +290,26 @@ let routerConfig = {
       action: 'swaggerUrl',
       path: 'swagger_url',
       method: 'get'
+    },
+    {
+      action: 'saveImportDataCronJob',
+      path: 'save_import_data_cron_job',
+      method: 'post'
+    },
+    {
+      action: 'getImportDataCronJobList',
+      path: 'get_import_data_cron_job_list',
+      method: 'post'
+    },
+    {
+      action: 'deleteImportDataCronJob',
+      path: 'delete_import_data_cron_job',
+      method: 'post'
+    },
+    {
+      action: 'updateImportDataCronJobDisabled',
+      path: 'update_import_data_cron_job_disabled',
+      method: 'post'
     }
   ],
   interface: [

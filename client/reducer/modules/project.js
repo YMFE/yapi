@@ -21,7 +21,12 @@ const CHECK_PROJECT_NAME = 'yapi/project/CHECK_PROJECT_NAME';
 const COPY_PROJECT_MSG = 'yapi/project/COPY_PROJECT_MSG';
 const PROJECT_GET_ENV = 'yapi/project/PROJECT_GET_ENV';
 const CHANGE_MEMBER_EMAIL_NOTICE = 'yapi/project/CHANGE_MEMBER_EMAIL_NOTICE';
-const GET_SWAGGER_URL_DATA = 'yapi/project/GET_SWAGGER_URL_DATA'
+const GET_SWAGGER_URL_DATA = 'yapi/project/GET_SWAGGER_URL_DATA';
+const SAVE_IMPORT_DATA_CRON_JOB = 'yapi/project/SAVE_IMPORT_DATA_CRON_JOB';
+const GET_IMPORT_DATA_CRON_JOB_LIST = 'yapi/project/GET_IMPORT_DATA_CRON_JOB_LIST';
+const DELETE_IMPORT_DATA_CRON_JOB = 'yapi/project/DELETE_IMPORT_DATA_CRON_JOB';
+const UPDATE_IMPORT_DATA_CRON_JOB_DISABLED = 'yapi/project/UPDATE_IMPORT_DATA_CRON_JOB_DISABLED';
+
 // Reducer
 const initialState = {
   isUpdateModalShow: false,
@@ -41,7 +46,8 @@ const initialState = {
       }
     ]
   },
-  swaggerUrlData: ''
+  swaggerUrlData: '',
+  importDataCronJobList: []
 };
 
 export default (state = initialState, action) => {
@@ -106,6 +112,14 @@ export default (state = initialState, action) => {
         swaggerUrlData: action.payload.data.data
       }
     }
+
+    case GET_IMPORT_DATA_CRON_JOB_LIST: {
+      return {
+        ...state,
+        importDataCronJobList: action.payload.data.data
+      }
+    }
+
     default:
       return state;
   }
@@ -332,6 +346,36 @@ export async function checkProjectName(name, group_id) {
 export async function handleSwaggerUrlData(url) {
   return {
     type: GET_SWAGGER_URL_DATA,
-    payload: axios.get('/api/project/swagger_url?url='+url)
+    payload: axios.get('/api/project/swagger_url', {
+      params: { url }
+    })
+  };
+}
+
+export async function saveImportDataCronJob(data) {
+  return {
+    type: SAVE_IMPORT_DATA_CRON_JOB,
+    payload: axios.post('/api/project/save_import_data_cron_job', data)
+  };
+}
+
+export async function getImportDataCronJobList(data) {
+  return {
+    type: GET_IMPORT_DATA_CRON_JOB_LIST,
+    payload: axios.post('/api/project/get_import_data_cron_job_list', data)
+  };
+}
+
+export async function deleteImportDataCronJob(data) {
+  return {
+    type: DELETE_IMPORT_DATA_CRON_JOB,
+    payload: axios.post('/api/project/delete_import_data_cron_job', data)
+  };
+}
+
+export async function updateImportDataCronJobDisabled(data) {
+  return {
+    type: UPDATE_IMPORT_DATA_CRON_JOB_DISABLED,
+    payload: axios.post('/api/project/update_import_data_cron_job_disabled', data)
   };
 }

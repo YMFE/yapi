@@ -1,20 +1,24 @@
-const projectModel = require('../models/project.js');
 const yapi = require('../yapi.js');
 const _ = require('underscore');
 const baseController = require('./base.js');
-const interfaceModel = require('../models/interface.js');
-const interfaceColModel = require('../models/interfaceCol.js');
-const interfaceCaseModel = require('../models/interfaceCase.js');
-const interfaceCatModel = require('../models/interfaceCat.js');
-const groupModel = require('../models/group');
 const commons = require('../utils/commons.js');
-const userModel = require('../models/user.js');
-const logModel = require('../models/log.js');
-const followModel = require('../models/follow.js');
-const tokenModel = require('../models/token.js');
 const {getToken} = require('../utils/token')
 const sha = require('sha.js');
 const axios = require('axios').default;
+const moment = require('moment');
+const { 
+  projectModel,
+  interfaceModel,
+  interfaceColModel,
+  interfaceCaseModel,
+  interfaceCatModel,
+  groupModel,
+  userModel,
+  logModel,
+  followModel,
+  tokenModel,
+  importDataCronJobModel
+} = require('../models');
 
 class projectController extends baseController {
   constructor(ctx) {
@@ -25,6 +29,7 @@ class projectController extends baseController {
     this.followModel = yapi.getInst(followModel);
     this.tokenModel = yapi.getInst(tokenModel);
     this.interfaceModel = yapi.getInst(interfaceModel);
+    this.importDataCronJobModel = yapi.getInst(importDataCronJobModel);
 
     const id = 'number';
     const member_uid = ['number'];
@@ -1131,6 +1136,56 @@ class projectController extends baseController {
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, String(err));
     }
+  }
+
+  /**
+   * 保存导入数据的定时任务
+   */
+  async saveImportDataCronJob(ctx) {
+    const interval = Math.max(ctx.request.body.interval, 60)
+
+    const data = Object.assign({}, ctx.request.body, {
+      interval: interval,
+      uid: this.getUid(),
+      next_run_at: moment().unix() + interval
+    })
+
+    await this.importDataCronJobModel.save(data);
+
+    ctx.body = yapi.commons.resReturn(true);
+  }
+
+  /**
+   * 获取项目下的定时导入任务列表
+   */
+  async getImportDataCronJobList(ctx) {
+    const { project_id } = ctx.request.body
+
+    const list = await this.importDataCronJobModel.getJobsByProjectId(project_id);
+
+    ctx.body = yapi.commons.resReturn(list);
+  }
+
+  /**
+   * 删除定时导入任务
+   */
+  async deleteImportDataCronJob(ctx) {
+    const { id } = ctx.request.body
+
+    await this.importDataCronJobModel.delete(id);
+
+    ctx.body = yapi.commons.resReturn(true);
+  }
+
+  /**
+   * 更新定时导入任务的禁用状态
+   */
+  async updateImportDataCronJobDisabled(ctx) {
+    const { id, disabled } = ctx.request.body
+
+    await this.importDataCronJobModel.updateDisabled(id, disabled);
+
+    ctx.body = yapi.commons.resReturn(true);
   }
 }
 

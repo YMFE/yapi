@@ -1,4 +1,6 @@
 import React, { PureComponent as Component } from 'react';
+import _ from 'underscore';
+import mm from 'moment';
 import {
   Upload,
   Icon,
@@ -11,7 +13,9 @@ import {
   Modal,
   Radio,
   Input,
-  Checkbox
+  Checkbox,
+  Table,
+  Popconfirm
 } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -23,7 +27,7 @@ import URL from 'url';
 const Dragger = Upload.Dragger;
 import { saveImportData } from '../../../../reducer/modules/interface';
 import { fetchUpdateLogData } from '../../../../reducer/modules/news.js';
-import { handleSwaggerUrlData } from '../../../../reducer/modules/project';
+import { handleSwaggerUrlData, saveImportDataCronJob, getImportDataCronJobList, deleteImportDataCronJob, updateImportDataCronJobDisabled } from '../../../../reducer/modules/project';
 const Option = Select.Option;
 const confirm = Modal.confirm;
 const plugin = require('client/plugin.js');
@@ -55,13 +59,18 @@ function handleExportRouteParams(url, status, isWiki) {
       curCatid: -(-state.inter.curdata.catid),
       basePath: state.project.currProject.basepath,
       updateLogList: state.news.updateLogList,
-      swaggerUrlData: state.project.swaggerUrlData
+      swaggerUrlData: state.project.swaggerUrlData,
+      cronJobList: state.project.importDataCronJobList
     };
   },
   {
     saveImportData,
     fetchUpdateLogData,
-    handleSwaggerUrlData
+    handleSwaggerUrlData,
+    saveImportDataCronJob,
+    getImportDataCronJobList,
+    deleteImportDataCronJob,
+    updateImportDataCronJobDisabled
   }
 )
 class ProjectData extends Component {
@@ -77,7 +86,15 @@ class ProjectData extends Component {
       exportContent: 'all',
       isSwaggerUrl: false,
       swaggerUrl: '',
-      isWiki: false
+      isWiki: false,
+
+      // 定时任务相关
+      /** 是否保存为定时任务 */
+      isCronJob: false,
+      /** 定时任务间隔时间 */
+      cronJobInterval: 1,
+      /** 定时任务间隔时间的单位，秒到天依次为: s, m, h, d */
+      cronJobIntervalUnit: 'm'
     };
   }
   static propTypes = {
@@ -88,11 +105,17 @@ class ProjectData extends Component {
     fetchUpdateLogData: PropTypes.func,
     updateLogList: PropTypes.array,
     handleSwaggerUrlData: PropTypes.func,
-    swaggerUrlData: PropTypes.string
+    saveImportDataCronJob: PropTypes.func,
+    getImportDataCronJobList: PropTypes.func,
+    deleteImportDataCronJob: PropTypes.func,
+    updateImportDataCronJobDisabled: PropTypes.func,
+    swaggerUrlData: PropTypes.string,
+    cronJobList: PropTypes.array
   };
 
   componentWillMount() {
-    axios.get(`/api/interface/getCatMenu?project_id=${this.props.match.params.id}`).then(data => {
+    const project_id = Number(this.props.match.params.id);
+    axios.get(`/api/interface/getCatMenu?project_id=${project_id}`).then(data => {
       if (data.data.errcode === 0) {
         let menuList = data.data.data;
         this.setState({
@@ -101,8 +124,9 @@ class ProjectData extends Component {
         });
       }
     });
+    this.props.getImportDataCronJobList({ project_id })
     plugin.emitHook('import_data', importDataModule);
-    plugin.emitHook('export_data', exportDataModule, this.props.match.params.id);
+    plugin.emitHook('export_data', exportDataModule, project_id);
   }
 
   selectChange(value) {
@@ -132,7 +156,45 @@ class ProjectData extends Component {
       this.props.basePath,
       this.state.dataSync,
       message.error,
-      message.success,
+      async msg => {
+        message.success(msg)
+        if (this.state.isSwaggerUrl && this.state.isCronJob) {
+          await this.props.saveImportDataCronJob({
+            mode: this.state.dataSync,
+            source: {
+              type: 'swagger',
+              url: this.state.swaggerUrl
+            },
+            target: {
+              project_id: Number(this.props.match.params.id),
+              cat_id: Number(this.state.selectCatid)
+            },
+            interval: (() => {
+              const { cronJobInterval, cronJobIntervalUnit } = this.state;
+              const cronJobIntervalInSeconds = cronJobInterval * (
+                cronJobIntervalUnit === 'm' ? 60 :
+                cronJobIntervalUnit === 'h' ? 60 * 60 :
+                cronJobIntervalUnit === 'd' ? 60 * 60 * 24 :
+                1
+              );
+              return cronJobIntervalInSeconds;
+            })(),
+            interval_human: (() => {
+              const { cronJobInterval, cronJobIntervalUnit } = this.state;
+              return `每隔${cronJobInterval}${
+                cronJobIntervalUnit === 'm' ? '分钟' :
+                cronJobIntervalUnit === 'h' ? '小时' :
+                cronJobIntervalUnit === 'd' ? '天' :
+                '秒'
+              }`
+            })()
+          });
+          message.success('定时数据导入任务添加成功');
+          await this.props.getImportDataCronJobList({
+            project_id: Number(this.props.match.params.id)
+          });
+        }
+      },
       () => this.setState({ showLoading: false })
     );
   };
@@ -252,6 +314,11 @@ class ProjectData extends Component {
     if (!this.state.swaggerUrl) {
       return message.error('url 不能为空');
     }
+
+    if (this.state.isCronJob && (_.isNaN(this.state.cronJobInterval) || this.state.cronJobInterval <= 0)) {
+      return message.error('定时间隔有误');
+    }
+
     if (this.state.selectCatid) {
       this.setState({ showLoading: true });
       try {
@@ -403,13 +470,8 @@ class ProjectData extends Component {
               {this.state.curImportType === 'swagger' && (
                 <div className="dataSync">
                   <span className="label">
-                    开启url导入&nbsp;
-                    <Tooltip title="swagger url 导入">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>{' '}
-                    &nbsp;&nbsp;
+                    通过url导入
                   </span>
-
                   <Switch checked={this.state.isSwaggerUrl} onChange={this.handleUrlChange} />
                 </div>
               )}
@@ -417,8 +479,33 @@ class ProjectData extends Component {
                 <div className="import-content url-import-content">
                   <Input
                     placeholder="http://demo.swagger.io/v2/swagger.json"
-                    onChange={e => this.swaggerUrlInput(e.target.value)}
+                    value={this.state.swaggerUrl}
+                    onChange={e => this.swaggerUrlInput(e.target.value.trim())}
                   />
+                  <div className="dataSync withPaddingBottom">
+                    <span className="label">
+                      保存为定时任务
+                    </span>
+                    <Switch checked={this.state.isCronJob} onChange={isCronJob => this.setState({ isCronJob })} />
+                  </div>
+                  {this.state.isCronJob && (
+                    <div className='import-content-block-field'>
+                      <Input
+                        type="number"
+                        placeholder="请输入间隔时间"
+                        addonBefore="每隔"
+                        value={_.isNaN(this.state.cronJobInterval) ? '' : this.state.cronJobInterval}
+                        addonAfter={
+                          <Select style={{width: 70}} value={this.state.cronJobIntervalUnit} onChange={cronJobIntervalUnit => this.setState({ cronJobIntervalUnit })}>
+                            <Option value="m">分钟</Option>
+                            <Option value="h">小时</Option>
+                            <Option value="d">天</Option>
+                          </Select>
+                        }
+                        onChange={e => this.setState({ cronJobInterval: e.target.valueAsNumber })}
+                      />
+                    </div>
+                  )}
                   <Button
                     type="primary"
                     className="url-btn"
@@ -513,6 +600,107 @@ class ProjectData extends Component {
                   </Button>
                 )}
               </div>
+            </div>
+          </div>
+          <div className="postman-dataImport">
+            <div className="dataImportCon" style={{marginTop: 20, width: '100%'}}>
+              <div>
+                <h3>
+                  {'定时数据导入 '}
+                  <Tooltip title="从上面的「数据导入」模块的「通过url导入」可新增定时数据导入任务">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </h3>
+              </div>
+
+              <Table 
+                style={{background: 'white'}}
+                pagination={false}
+                dataSource={this.props.cronJobList}
+                rowKey="_id"
+                columns={[
+                  {
+                    title: '数据类型',
+                    dataIndex: 'source.type'
+                  },
+                  {
+                    title: '数据地址',
+                    dataIndex: 'source.url',
+                    width: 250,
+                    render: url => (
+                      <a href={url} target="_blank">
+                        <Icon type="link" />
+                        {' '}
+                        {url}
+                      </a>
+                    )
+                  },
+                  {
+                    title: '导入目录',
+                    dataIndex: 'target.cat_id',
+                    render: catId => {
+                      const cat = _.find(this.state.menuList, cat => cat._id === catId);
+                      return cat ? cat.name : '-';
+                    }
+                  },
+                  {
+                    title: '数据同步模式',
+                    dataIndex: 'mode',
+                    render: mode => {
+                      return (
+                        mode === 'good' ? '智能合并' :
+                        mode === 'merge' ? '完全覆盖' :
+                        '普通模式'
+                      );
+                    }
+                  },
+                  {
+                    title: '定时',
+                    dataIndex: 'interval_human'
+                  },
+                  {
+                    title: '下次执行时间',
+                    dataIndex: 'next_run_at',
+                    render: nextRunAt => mm.unix(nextRunAt).format('YYYY-MM-DD HH:mm:ss')
+                  },
+                  {
+                    title: '是否启用',
+                    dataIndex: 'disabled',
+                    render: (disabled, job) => (
+                      <Switch 
+                        defaultChecked={!disabled}
+                        onChange={async available => {
+                          await this.props.updateImportDataCronJobDisabled({
+                            id: job._id,
+                            disabled: !available
+                          });
+                          await this.props.getImportDataCronJobList({
+                            project_id: Number(this.props.match.params.id)
+                          });
+                        }}
+                      />
+                    )
+                  },
+                  {
+                    title: '操作',
+                    key: 'actions',
+                    render: (_, job) => (
+                      <Popconfirm
+                        title="删除不可恢复！确定删除？"
+                        onConfirm={async () => {
+                          await this.props.deleteImportDataCronJob({
+                            id: job._id
+                          });
+                          await this.props.getImportDataCronJobList({
+                            project_id: Number(this.props.match.params.id)
+                          });
+                        }}>
+                        <a>删除</a>
+                      </Popconfirm>
+                    )
+                  }
+                ]}
+              />
             </div>
           </div>
         </div>

@@ -11,7 +11,8 @@ require('./plugin.js');
 const websockify = require('koa-websocket');
 const websocket = require('./websocket.js');
 const storageCreator = require('./utils/storage')
-require('./utils/notice')
+require('./utils/notice');
+require('./cron');
 
 const Koa = require('koa');
 const koaStatic = require('koa-static');
