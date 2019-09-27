@@ -270,7 +270,7 @@ export default class InterfaceColMenu extends Component {
           isRander: false
         });
         this.props.history.push(
-          '/project/' + project_id + '/interface/case/' + id + '?colId=' + colId
+          '/project/' + project_id + '/interface/case/' + id + '?colId=' + colId + '&project_id=' + project_id
         );
       }
     }

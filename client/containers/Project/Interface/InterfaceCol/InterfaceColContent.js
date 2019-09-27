@@ -149,8 +149,9 @@ class InterfaceColContent extends Component {
       isShowCol: true,
       isRander: false
     });
+    let project_id = this.props.match.params.id;
 
-    let result = await this.props.fetchCaseList(newColId);
+    let result = await this.props.fetchCaseList(newColId, Number(project_id));
     if (result.payload.data.errcode === 0) {
       this.reports = handleReport(result.payload.data.colData.test_report);
       this.setState({
@@ -161,7 +162,7 @@ class InterfaceColContent extends Component {
       })
     }
 
-    await this.props.fetchCaseList(newColId);
+    await this.props.fetchCaseList(newColId, Number(project_id));
     await this.props.fetchCaseEnvList(newColId);
     this.changeCollapseClose();
     this.handleColdata(this.props.currCaseList);
@@ -235,13 +236,17 @@ class InterfaceColContent extends Component {
       draftRows.map(item => {
         item.id = item._id;
         item._test_status = item.test_status;
+        console.log('2222222', item)
         if(currColEnvObj[item.project_id]){
           item.case_env =currColEnvObj[item.project_id];
         }
         item.req_headers = that.handleReqHeader(item.project_id, item.req_headers, item.case_env);
         return item;
       });
+      
     });
+    console.log('rows', rows)
+    console.log('newRows', newRows)
     this.setState({ rows: newRows });
   };
 
@@ -533,7 +538,9 @@ class InterfaceColContent extends Component {
       isShowCol: true,
       isRander: false
     });
-    await this.props.fetchCaseList(currColId);
+    let project_id = this.props.match.params.id;
+    
+    await this.props.fetchCaseList(currColId, Number(project_id));
 
     this.handleColdata(this.props.currCaseList);
   };

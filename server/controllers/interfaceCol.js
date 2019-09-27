@@ -40,7 +40,7 @@ class interfaceColController extends baseController {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
-      let resultList = await this.referModel.referColList(project_id, case_id);
+      let resultList = await this.referModel.referColList(case_id);
       
       for (let i = 0; i < resultList.length; i++) {
         let colData = await this.colModel.get(resultList[i].col_id);
@@ -72,14 +72,14 @@ class interfaceColController extends baseController {
     try {
       let params = ctx.request.body;
       params = yapi.commons.handleParams(params, {
-        project_id: 'number',
+        // project_id: 'number',
         refer_caseid: 'number',
         col_id: 'number'
       });
 
-      if (!params.project_id) {
-        return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
-      }
+      // if (!params.project_id) {
+      //   return (ctx.body = yapi.commons.resReturn(null, 400, '项目id不能为空'));
+      // }
       if (!params.case_list) {
         return (ctx.body = yapi.commons.resReturn(null, 400, '映射的用例id不能为空'));
       }
@@ -93,8 +93,9 @@ class interfaceColController extends baseController {
       }
       let result;
       for (let i = 0; i< params.case_list.length; i ++) {
+          let caseData = await this.caseModel.get(Number(params.case_list[i]));
           result = await this.referModel.save({
-          project_id: params.project_id,
+          project_id: caseData.project_id,
           col_id:  params.col_id,
           refer_caseid: Number(params.case_list[i]),
           uid: this.getUid(),
@@ -197,7 +198,7 @@ class interfaceColController extends baseController {
         }
       }
 
-      let result = await this.referModel.delAllByCaseid(caseData.project_id,refer_caseid);
+      let result = await this.referModel.delAllByCaseid(refer_caseid);
      
       let username = this.getUsername();
       yapi.commons.saveLog({
@@ -239,7 +240,7 @@ class interfaceColController extends baseController {
       // 由于添加了子目录，该接口修改成返回子目录列表和接口用例列表、映射列表
       let colList = await this.colModel.list(project_id, parent_id),
       caseList =await this.caseModel.list(parent_id),
-      referList = await this.referModel.caseReferListByCol(project_id, parent_id),
+      referList = await this.referModel.caseReferListByCol(parent_id),
       newColList = [],
       newInterfaceCaseList = [],
       newReferList = [];
@@ -350,26 +351,46 @@ class interfaceColController extends baseController {
    * @category col
    * @foldnumber 10
    * @param {String} col_id 接口集id
+   * @param {Number} project_id 接口集id
    * @returns {Object}
    * @example
    */
   async getCaseList(ctx) {
     try {
       let id = ctx.query.col_id;
+      let project_id = ctx.query.project_id;
       if (!id || id == 0) {
         return (ctx.body = yapi.commons.resReturn(null, 407, 'col_id不能为空'));
       }
 
       let colData = await this.colModel.get(id);
-      console.log("hahhhahaha", colData)
       let project = await this.projectModel.getBaseInfo(colData.project_id);
       if (project.project_type === 'private') {
         if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
         }
       }
+      
+      
+      // 递归查询子级目录的case和映射
+      let colList = await this.colModel.list(project_id, id);
+      let result = await yapi.commons.getCaseList(id);
+      let allLevelResult = [...result.resultList];
+      let getAllColCase = async(colList)=> {
+          for (let i = 0; i < colList.length; i ++) {
+              let childCase = await yapi.commons.getCaseList(colList[i]._id);
+              allLevelResult = [...allLevelResult, ...childCase.resultList];
+              await getAllColCase(colList[i]);
+          }
+      }
+      await getAllColCase(colList);
 
-      ctx.body = await yapi.commons.getCaseList(id);
+      ctx.body = yapi.commons.resReturn(allLevelResult);
+      ctx.body.colData = result.colData;
+      // ctx.body = await yapi.commons.getCaseList(id, project_id);
+      
+      // ctx.body = yapi.commons.resReturn(result);
+      
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 402, e.message);
     }
@@ -401,14 +422,33 @@ class interfaceColController extends baseController {
       }
 
       // 通过col_id 找到 caseList
-      let projectList = await this.caseModel.list(id, 'project_id');
+      let caseProjectList = await this.caseModel.list(id, 'project_id');
+      let referProjectList = await this.referModel.caseReferListByCol(id);
+      let resultList = [...caseProjectList, ...referProjectList];
+      
+      // 递归查询子级的project_id
+      let colList = await this.colModel.list(colData.project_id, id);
+      let getAllColCase = async(colList)=> {
+          for (let i = 0; i < colList.length; i ++) {
+              let childCaseProjectList = await this.caseModel.list(colList[i]._id, 'project_id');
+              let childReferList = await this.referModel.caseReferListByCol(colList[i]._id);
+              resultList = [...resultList, ...childCaseProjectList, ...childReferList];
+              await getAllColCase(colList[i]);
+          }
+      }
+      await getAllColCase(colList);
+
+      
+      
+      
+      
       // 对projectList 进行去重处理
-      projectList = this.unique(projectList, 'project_id');
+      resultList = this.unique(resultList, 'project_id');
 
       // 遍历projectList 找到项目和env
       let projectEnvList = [];
-      for (let i = 0; i < projectList.length; i++) {
-        let result = await this.projectModel.getBaseInfo(projectList[i], 'name  env');
+      for (let i = 0; i < resultList.length; i++) {
+        let result = await this.projectModel.getBaseInfo(resultList[i], 'name  env');
         projectEnvList.push(result);
       }
       ctx.body = yapi.commons.resReturn(projectEnvList);
@@ -1061,7 +1101,7 @@ class interfaceColController extends baseController {
 
       let result = await this.caseModel.del(caseid);
       // 删除用例后要把对改用例的引用也全部删除
-      await this.referModel.delAllByCaseid(caseData.project_id, caseid);
+      await this.referModel.delAllByCaseid(caseid);
       
       let username = this.getUsername();
       this.colModel.get(caseData.col_id).then(col => {

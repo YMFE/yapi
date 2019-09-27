@@ -195,7 +195,7 @@ class openController extends baseController {
 
     let projectData = await this.projectModel.get(projectId);
 
-    let caseList = await yapi.commons.getCaseList(id);
+    let caseList = await yapi.commons.getCaseList(id, projectId);
     if (caseList.errcode !== 0) {
       ctx.body = caseList;
     }

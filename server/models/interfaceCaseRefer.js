@@ -34,31 +34,27 @@ class interfaceCaseRefer extends baseModel {
       .exec();
   }
 
-
-  referColList(project_id, case_id) {
+  referColList(case_id) {
     return this.model
       .find({
-        project_id,
+        // project_id,
         refer_caseid: case_id
       })
       .sort({ index: 1 })
       .exec();
   }
 
-
-  caseReferListByCol(project_id, col_id) {
+  caseReferListByCol(col_id) {
     return this.model
       .find({
-        project_id,
         col_id
       })
       .sort({ index: 1 })
       .exec();
   }
   // 删除该用例的所有映射
-  delAllByCaseid(project_id, refer_caseid) {
+  delAllByCaseid(refer_caseid) {
     return this.model.deleteMany({
-      project_id,
       refer_caseid
     });
   }

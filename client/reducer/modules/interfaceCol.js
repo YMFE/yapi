@@ -106,10 +106,10 @@ export function fetchCaseData(caseId) {
   };
 }
 
-export function fetchCaseList(colId) {
+export function fetchCaseList(colId, project_id) {
   return {
     type: FETCH_CASE_LIST,
-    payload: axios.get('/api/col/case_list/?col_id=' + colId)
+    payload: axios.get('/api/col/case_list/?col_id=' + colId + '&project_id=' + project_id)
   };
 }
 

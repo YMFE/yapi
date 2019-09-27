@@ -478,9 +478,26 @@ exports.getCaseList = async function getCaseList(id) {
   const colInst = yapi.getInst(interfaceColModel);
   const projectInst = yapi.getInst(projectModel);
   const interfaceInst = yapi.getInst(interfaceModel);
+  const caseReferInst = yapi.getInst(interfaceCaseReferModel);
+  
+  
 
-  let resultList = await caseInst.list(id, 'all');
+  let caseList = await caseInst.list(id, 'all');
+  let referList = await caseReferInst.caseReferListByCol(id);
   let colData = await colInst.get(id);
+  
+  let referCaseList = [];
+  
+  // 标记映射
+  for (let k = 0 ; k < referList.length; k++ ) {
+      let item = referList[k].toObject();
+      let caseData = await caseInst.get(item.refer_caseid);
+      // let interfaceData = await this.interfaceModel.getBaseinfo(caseData.interface_id);
+      referCaseList.push(caseData);
+  }
+  
+  let resultList = [...caseList, ...referCaseList]
+    
   for (let index = 0; index < resultList.length; index++) {
     let result = resultList[index].toObject();
     let data = await interfaceInst.get(result.interface_id);
@@ -490,6 +507,7 @@ exports.getCaseList = async function getCaseList(id) {
     }
     let projectData = await projectInst.getBaseInfo(data.project_id);
     result.path = projectData.basepath + data.path;
+    // result.test_status = fd;
     result.method = data.method;
     result.title = data.title;
     result.req_body_type = data.req_body_type;
@@ -503,9 +521,13 @@ exports.getCaseList = async function getCaseList(id) {
   resultList = resultList.sort((a, b) => {
     return a.index - b.index;
   });
-  let ctxBody = yapi.commons.resReturn(resultList);
-  ctxBody.colData = colData;
-  return ctxBody;
+  // let ctxBody = yapi.commons.resReturn(resultList);
+  // ctxBody.colData = colData;
+  // return ctxBody;
+  return {
+    colData,
+    resultList
+  };
 };
 
 function convertString(variable) {
