@@ -176,39 +176,47 @@ class interfaceColController extends baseController {
    * 解除所有映射用例
    * @interface /col/deleteAllReferCase
    * @method POST
-   * @category col
    * @foldnumber 10
-   * @param {Number} refer_caseid 用例id
+   * @param {Number} refer_caseid_list 用例idlist
    * @returns {Object}
    * @example
    */
 
   async deleteAllReferCase(ctx) {
     try {
-      let { refer_caseid } = ctx.request.body;
-      let caseData= await this.caseModel.get(refer_caseid);
-      if (!caseData) {
-        ctx.body = yapi.commons.resReturn(null, 400, '不存在的用例refer_caseid');
-      }
-      if (caseData.uid !== this.getUid()) {
-        let auth = await this.checkAuth(caseData.project_id, 'project', 'danger');
-        if (!auth) {
-          return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
-        }
-      }
+      let { refer_caseid_list } = ctx.request.body;
+      let count = 0;
+      let result = { };
+      for (let i = 0 ; i < refer_caseid_list.length; i++) {
+        let caseData= await this.caseModel.get(refer_caseid_list[i]);
+               console.log("caseData",caseData)
 
-      let result = await this.referModel.delAllByCaseid(refer_caseid);
-     
+        if (!caseData) {
+          ctx.body = yapi.commons.resReturn(null, 400, '不存在的用例refer_caseid:' + refer_caseid_list[i]);
+        }
+        if (caseData.uid !== this.getUid()) {
+          let auth = await this.checkAuth(caseData.project_id, 'project', 'danger');
+          if (!auth) {
+            return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
+          }
+        }
+       let result = await this.referModel.delAllByCaseid(refer_caseid_list[i]); 
+       console.log("nnnnnnnnnnnnnnnn",result)
+       if (result) {
+         count = count + result.n;
+       }
       let username = this.getUsername();
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了用例 <a href="/project/${
           caseData.project_id
-        }/interface/case/${refer_caseid}">${caseData.casename}</a> 的所有接口映射`,
+        }/interface/case/${refer_caseid_list[i]}">${caseData.casename}</a> 的所有接口映射`,
         type: 'project',
         uid: this.getUid(),
         username: username,
         typeid: caseData.project_id
         });
+      }
+      result.n = count;
       return (ctx.body = yapi.commons.resReturn(result));
     } catch (e) {
       yapi.commons.resReturn(null, 400, e.message);

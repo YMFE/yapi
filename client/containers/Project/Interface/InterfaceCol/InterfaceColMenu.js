@@ -231,7 +231,7 @@ export default class InterfaceColMenu extends Component {
           } else if (res[i].child_type === 1) {
             checkChildKeys.push('case_' + res[i]._id);
           } else {
-            checkChildKeys.push('refercase_' + res[i]._id);
+            checkChildKeys.push('refer_' + res[i]._id);
           }
           this.setState({
             checks: Array.from(
@@ -381,12 +381,6 @@ export default class InterfaceColMenu extends Component {
       message.error(add_case_list_res.data.errmsg);
       return;
     }
-    // this.setState({
-    //   curColId:
-    // });
-    // 刷新接口列表
-    // await this.props.fetchInterfaceColList(project_id);
-    // this.getList(true);
 
     this.props.setColData({ isRander: true });
     message.success('克隆测试集成功');
@@ -394,14 +388,12 @@ export default class InterfaceColMenu extends Component {
   };
 
   reloadColMenuList = () => {
-    // this.changeExpands();
     this.setState(
       {
         curColId: -1,
         list: [],
         selects: [],
         checks: []
-        // expands: []
       },
       async () => {
         await this.getList();
@@ -425,7 +417,6 @@ export default class InterfaceColMenu extends Component {
         updateNode(newList);
         this.setState({
           list: [...newList]
-          //  expands: null
         });
       }
     );
@@ -609,9 +600,6 @@ export default class InterfaceColMenu extends Component {
   };
 
   async doInterfaceSearch() {
-    // if(this.state.filter === '') {
-    //   message.error('搜索内容不能为空');
-    // }else{
     this.setState(
       {
         list: [],
@@ -713,7 +701,7 @@ export default class InterfaceColMenu extends Component {
           <TreeNode
             checkable={false}
             selectable={true}
-            key={'refercase_' + item.refer_caseid + '_' + item._id}
+            key={'refer_' + item.refer_caseid + '_' + item._id}
             {...item}
             title={this.itemInterfaceReferTitle(item)}
             dataRef={item}
@@ -897,15 +885,16 @@ export default class InterfaceColMenu extends Component {
   async deleteAllRefer() {
     const caseChecks = this.state.checks.filter(
       (item) => item.indexOf('case') > -1
-    );
+    ).map(item => {
+       return Number(item.split('_')[1])
+    })
     let that = this;
     confirm({
-      title: '确定解除该条接口的所有映射吗?',
+      title: '确定解除所有勾选接口的所有映射吗?',
       content: '',
       async onOk() {
-        const refer_caseid = Number(caseChecks[0].split('_')[1]);
         const res = await axios.post('/api/col/deleteAllReferCase', {
-          refer_caseid
+          refer_caseid_list: caseChecks
         });
         if (!res.data.errcode) {
           message.success('成功解除映射' + res.data.data.n + '条');
@@ -1307,10 +1296,11 @@ export default class InterfaceColMenu extends Component {
                 if (caseChecks.length == 0) {
                   message.info('请先勾选需要解除映射的接口');
                   return;
-                } else if (caseChecks.length > 1) {
-                  message.info('每次最多只能选择一个接口');
-                  return;
                 }
+                //  else if (caseChecks.length > 1) {
+                //   message.info('每次最多只能选择一个接口');
+                //   return;
+                // }
                 this.deleteAllRefer();
               }}
             />

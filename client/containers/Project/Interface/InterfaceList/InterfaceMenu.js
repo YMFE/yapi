@@ -132,7 +132,7 @@ class InterfaceMenu extends Component {
       console.log(location)
       console.log(action)
       if (location.search.indexOf('addApiFromList') > -1) {
-        this.reloadCurChildList();
+        this.reloadColMenuList();
       }
     })
   }
@@ -246,7 +246,7 @@ class InterfaceMenu extends Component {
       this.setState({
         visible: false
       });
-      this.reloadCurChildList();
+      this.reloadColMenuList();
       if (cb) {
         cb();
       }
@@ -265,7 +265,7 @@ class InterfaceMenu extends Component {
         add_cat_modal_visible: false
       });
       // this.props.getProject(data.project_id);
-      this.reloadCurChildList();
+      this.reloadColMenuList();
 
     });
   };
@@ -661,28 +661,54 @@ class InterfaceMenu extends Component {
       }
     });
   };
-
-  reloadCurChildList = () => {
-    // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
-    console.log('@@@@@', this.state.currentSelectNode)
-    console.log('322^^^^^^', this.state.curCatid)
-    if (this.state.curCatid !== -1) {
-      console.log("hhahahg")
-      console.log(this.state.currentSelectNode)
-      console.log(this.state.curCatid)
-      const curParentKey = 'cat_' + this.state.currentSelectNode.parent_id;
-      let arr = this.state.expands ? this.state.expands.slice(0) : [];
-      const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
-      this.onLoadData(this.state.currentSelectNode);
-      this.setState({
-        expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
-      })
-    } else {
-      this.changeExpands();
-      this.getList();
-      console.log("gogogogogo")
-    }
-  }
+  reloadColMenuList = () => {
+    this.setState(
+      {
+        curCatid: -1,
+        list: [],
+        selects: []
+      },
+      async () => {
+        await this.getList();
+        let expandIds = this.state.expands.map((item) => {
+          return Number(item.split('_')[1]);
+        });
+        console.log('expandIds', expandIds);
+        let newList = [...this.state.list];
+        let updateNode = (list) => {
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].child_type === 0) {
+              if (expandIds.indexOf(list[i]._id) > -1) {
+                this.onLoadData(list[i]);
+              }
+            }
+            if (list[i].children) {
+              updateNode(list[i].children);
+            }
+          }
+        };
+        updateNode(newList);
+        this.setState({
+          list: [...newList]
+        });
+      }
+    );
+  };
+  // reloadColMenuList = () => {
+  //   // 把当前需要更新且已经加载的目录从已加载目录中删除,解决目录已经打开不会重新onload
+  //   if (this.state.curCatid !== -1) {
+  //     const curParentKey = 'cat_' + this.state.currentSelectNode.parent_id;
+  //     let arr = this.state.expands ? this.state.expands.slice(0) : [];
+  //     const newLoadKeys = arr.splice(arr.indexOf(curParentKey), 1);
+  //     this.onLoadData(this.state.currentSelectNode);
+  //     this.setState({
+  //       expands: [...this.state.expands, this.state.currentSelectNode.key, curParentKey, newLoadKeys]
+  //     })
+  //   } else {
+  //     this.changeExpands();
+  //     this.getList();
+  //   }
+  // }
 
 
   render() {
