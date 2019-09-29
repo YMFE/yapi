@@ -179,7 +179,7 @@ class InterfaceColContent extends Component {
     await this.props.getToken(this.props.match.params.id);
 
     this.currColId = currColId || +actionId || firstColId;
-    // this.props.history.push('/project/' + params.id + '/interface/col/' + this.currColId);
+    this.props.history.push('/project/' + params.id + '/interface/col/' + this.currColId);
     if (this.currColId && this.currColId != 0) {
       await this.handleColIdChange(this.currColId)
     }

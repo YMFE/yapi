@@ -36,16 +36,6 @@ const defaultOptions = {
   failOnInvalidFormat: false
 };
 
-// formats.forEach(item => {
-//   item = item.name;
-//   jsf.format(item, () => {
-//     if (item === 'mobile') {
-//       return jsf.random.randexp('^[1][34578][0-9]{9}$');
-//     }
-//     return Mock.mock('@' + item);
-//   });
-// });
-
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
   
@@ -487,7 +477,7 @@ exports.getCaseList = async function getCaseList(id) {
   let colData = await colInst.get(id);
   
   let referCaseList = [];
-  
+  console.log("referList", referList)
   // 标记映射
   for (let k = 0 ; k < referList.length; k++ ) {
       let item = referList[k].toObject();
@@ -496,10 +486,12 @@ exports.getCaseList = async function getCaseList(id) {
       referCaseList.push(caseData);
   }
   
-  let resultList = [...caseList, ...referCaseList]
-    
+  let resultList = [...caseList, ...referCaseList];
+  console.log("referCaseList", referCaseList)
+  
   for (let index = 0; index < resultList.length; index++) {
     let result = resultList[index].toObject();
+
     let data = await interfaceInst.get(result.interface_id);
     if (!data) {
       await caseInst.del(result._id);
@@ -511,6 +503,7 @@ exports.getCaseList = async function getCaseList(id) {
     result.method = data.method;
     result.title = data.title;
     result.req_body_type = data.req_body_type;
+
     result.req_headers = handleParamsValue(data.req_headers, result.req_headers);
     result.res_body_type = data.res_body_type;
     result.req_body_form = handleParamsValue(data.req_body_form, result.req_body_form);
@@ -521,9 +514,12 @@ exports.getCaseList = async function getCaseList(id) {
   resultList = resultList.sort((a, b) => {
     return a.index - b.index;
   });
+    console.log("00000000000000000000000000")
+
   // let ctxBody = yapi.commons.resReturn(resultList);
   // ctxBody.colData = colData;
   // return ctxBody;
+  
   return {
     colData,
     resultList

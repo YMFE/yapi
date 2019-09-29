@@ -190,7 +190,6 @@ class interfaceColController extends baseController {
       if (!caseData) {
         ctx.body = yapi.commons.resReturn(null, 400, '不存在的用例refer_caseid');
       }
-      console.info("9999999")
       if (caseData.uid !== this.getUid()) {
         let auth = await this.checkAuth(caseData.project_id, 'project', 'danger');
         if (!auth) {
@@ -208,7 +207,7 @@ class interfaceColController extends baseController {
         type: 'project',
         uid: this.getUid(),
         username: username,
-        typeid: caseData.project_id,
+        typeid: caseData.project_id
         });
       return (ctx.body = yapi.commons.resReturn(result));
     } catch (e) {
@@ -260,7 +259,8 @@ class interfaceColController extends baseController {
         newInterfaceCaseList[j].child_type = 1;
       }
 
-      // 标记映射
+      // // 标记映射
+      console.log("66666referList",referList)
       for (let k = 0 ; k < referList.length; k++ ) {
         let item = referList[k].toObject();
         let caseData = await this.caseModel.get(item.refer_caseid);
@@ -374,17 +374,19 @@ class interfaceColController extends baseController {
       
       // 递归查询子级目录的case和映射
       let colList = await this.colModel.list(project_id, id);
+      console.info("777777777777777777777")
+
       let result = await yapi.commons.getCaseList(id);
       let allLevelResult = [...result.resultList];
       let getAllColCase = async(colList)=> {
           for (let i = 0; i < colList.length; i ++) {
+              console.info("8888888888888888888888888888")
               let childCase = await yapi.commons.getCaseList(colList[i]._id);
               allLevelResult = [...allLevelResult, ...childCase.resultList];
               await getAllColCase(colList[i]);
           }
       }
       await getAllColCase(colList);
-
       ctx.body = yapi.commons.resReturn(allLevelResult);
       ctx.body.colData = result.colData;
       // ctx.body = await yapi.commons.getCaseList(id, project_id);
