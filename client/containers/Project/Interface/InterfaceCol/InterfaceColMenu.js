@@ -402,11 +402,11 @@ export default class InterfaceColMenu extends Component {
         });
         console.log('expandIds', expandIds);
         let newList = [...this.state.list];
-        let updateNode = (list) => {
+        let updateNode = async (list) => {
           for (let i = 0; i < list.length; i++) {
             if (list[i].child_type === 0) {
               if (expandIds.indexOf(list[i]._id) > -1) {
-                this.onLoadData(list[i]);
+                await this.onLoadData(list[i]);
               }
             }
             if (list[i].children) {
@@ -699,7 +699,7 @@ export default class InterfaceColMenu extends Component {
       } else {
         return (
           <TreeNode
-            checkable={false}
+            checkable={true}
             selectable={true}
             key={'refer_' + item.refer_caseid + '_' + item._id}
             {...item}
@@ -883,11 +883,11 @@ export default class InterfaceColMenu extends Component {
     }
   }
   async deleteAllRefer() {
-    const caseChecks = this.state.checks.filter(
-      (item) => item.indexOf('case') > -1
-    ).map(item => {
-       return Number(item.split('_')[1])
-    })
+    const caseChecks = this.state.checks
+      .filter((item) => item.indexOf('case') > -1)
+      .map((item) => {
+        return Number(item.split('_')[1]);
+      });
     let that = this;
     confirm({
       title: '确定解除所有勾选接口的所有映射吗?',
@@ -902,6 +902,33 @@ export default class InterfaceColMenu extends Component {
         } else {
           message.error(res.data.errmsg);
         }
+      },
+      onCancel() {}
+    });
+  }
+  async deleteAllSingleRefer() {
+    let that = this;
+    const caseChecks = this.state.checks.filter(
+      (item) => item.indexOf('refer') > -1
+    );
+    if (caseChecks.length == 0) {
+      message.info('请先勾选需要删除的映射');
+      return;
+    }
+    confirm({
+      title: '确定删除勾选的'+ caseChecks.length + '条映射吗?',
+      content: '',
+      async onOk() {
+        caseChecks.forEach(async(item, index)=> {
+          const id = Number(item.split('_')[1]);
+          const res = await axios.post('/api/col/deleteReferCaseById', { id });
+          if (!res.data.errcode && index === caseChecks.length - 1) {
+            message.success('成功解除映射!');
+            that.reloadColMenuList();
+          } else if(res.data.errcode) {
+            message.error(res.data.errmsg);
+          }
+        })
       },
       onCancel() {}
     });
@@ -1138,7 +1165,9 @@ export default class InterfaceColMenu extends Component {
         } else {
           let col_id = router.params.actionId;
           return {
-            expands: this.state.expands ? this.state.expands : ['col_' + col_id],
+            expands: this.state.expands
+              ? this.state.expands
+              : ['col_' + col_id],
             selects: this.state.selects ? this.state.selects : []
           };
         }
@@ -1284,7 +1313,7 @@ export default class InterfaceColMenu extends Component {
               }}
             />
           </Tooltip>
-          <Tooltip title="解除所勾选接口所有映射用例">
+          <Tooltip title="解除所有勾选接口所有映射用例">
             <Icon
               type="disconnect"
               className="operation-icon"
@@ -1302,6 +1331,27 @@ export default class InterfaceColMenu extends Component {
                 //   return;
                 // }
                 this.deleteAllRefer();
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="删除所有勾选的标星的映射用例">
+            <Icon
+              type="star"
+              className="operation-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                const caseChecks = this.state.checks.filter(
+                  (item) => item.indexOf('refer') > -1
+                );
+                if (caseChecks.length == 0) {
+                  message.info('请先勾选需要删除的映射');
+                  return;
+                }
+                //  else if (caseChecks.length > 1) {
+                //   message.info('每次最多只能选择一个接口');
+                //   return;
+                // }
+                this.deleteAllSingleRefer();
               }}
             />
           </Tooltip>
