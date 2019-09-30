@@ -5,6 +5,7 @@ const interfaceModel = require('../models/interface.js');
 const interfaceCatModel = require('../models/interfaceCat.js');
 const followModel = require('../models/follow.js');
 const userModel = require('../models/user.js');
+
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const {
@@ -38,6 +39,7 @@ class openController extends baseController {
     this.interfaceCatModel = yapi.getInst(interfaceCatModel);
     this.followModel = yapi.getInst(followModel);
     this.userModel = yapi.getInst(userModel);
+
     this.handleValue = this.handleValue.bind(this);
     this.schemaMap = {
       runAutoTest: {
@@ -195,7 +197,23 @@ class openController extends baseController {
 
     let projectData = await this.projectModel.get(projectId);
 
-    let caseList = await yapi.commons.getCaseList(id, projectId);
+    // let caseList = await yapi.commons.getCaseList(id);
+    
+    // 获取所有子级文件夹用例 start
+    let colList = await this.interfaceColModel.list(projectId, id);
+    let result = await yapi.commons.getCaseList(id);
+    let caseList = [...result.resultList];
+    let getAllColCase = async(colList)=> {
+      for (let i = 0; i < colList.length; i ++) {
+        let childCase = await yapi.commons.getCaseList(colList[i]._id);
+        caseList = [...caseList, ...childCase.resultList];
+        await getAllColCase(colList[i]);
+      }
+    }
+    await getAllColCase(colList);
+    caseList = yapi.commons.resReturn(caseList);
+    // 获取所有子级文件夹用例 end
+
     if (caseList.errcode !== 0) {
       ctx.body = caseList;
     }
