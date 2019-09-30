@@ -760,14 +760,14 @@ export default class InterfaceColMenu extends Component {
         const oldSecondlist = this.state.secondColList;
         let newSecondlist = [];
         const colResult = result.filter((item) => item.child_type === 0);
+        let flag = false;
         if (colResult && colResult.length > 0) {
           newSecondlist = [...oldSecondlist, ...colResult];
-          if (colResult && colResult.length > 0) {
             colResult.forEach((item) => {
               this.handleFirstColChange(item._id, undefined, false);
             });
-          }
           if (setState === true) {
+            flag = true;
             this.setState({
               addFirstTargetCol: e,
               secondColList: [
@@ -775,8 +775,14 @@ export default class InterfaceColMenu extends Component {
                 ...newSecondlist
               ]
             });
+          } else {
+            this.setState({
+              // addFirstTargetCol: e,
+              secondColList: [...newSecondlist]
+            });
           }
-        } else if (setState === true) {
+        } else if (setState === true && !flag)  {
+          flag = true;
           this.setState({
             addFirstTargetCol: e,
             secondColList: [{ _id: e, name: '无子目录，默认添加到一级目录' }]
@@ -856,10 +862,10 @@ export default class InterfaceColMenu extends Component {
       (item) => item.indexOf('case') > -1
     );
     if (caseChecks.length == 0) {
-      message.info('请先勾选需要查看映射的接口');
+      message.info('请先勾选需要查看映射的用例');
       return;
     } else if (caseChecks.length > 1) {
-      message.info('最多勾选一个接口');
+      message.info('最多勾选一个用例');
       return;
     }
     let data = {};
@@ -920,7 +926,7 @@ export default class InterfaceColMenu extends Component {
       content: '',
       async onOk() {
         caseChecks.forEach(async(item, index)=> {
-          const id = Number(item.split('_')[1]);
+          const id = Number(item.split('_')[2]);
           const res = await axios.post('/api/col/deleteReferCaseById', { id });
           if (!res.data.errcode && index === caseChecks.length - 1) {
             message.success('成功解除映射!');
