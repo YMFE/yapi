@@ -259,11 +259,6 @@ export default class InterfaceColMenu extends Component {
           : curNode.props.col_id;
       const curkey = keys[0];
 
-      console.log('curnode', curNode);
-      console.log('curkey', curkey);
-      console.log('colId', colId);
-      console.log('type', type);
-      console.log('id', id);
 
       this.setState({
         currentSelectNode: curNode,

@@ -109,7 +109,6 @@ class InterfaceMenu extends Component {
   }
 
   async getList(getChild = false) {
-    console.log("opppppp", this.state.curCatid)
     let r = await this.props.fetchInterfaceListMenu(
       this.props.projectId,
       this.state.curCatid,
@@ -127,10 +126,7 @@ class InterfaceMenu extends Component {
   componentDidMount() {
     this.handleRequest();
     // 监听在接口列表添加接口后的路由变化，刷新子目录，通过监听路由来同步同级路由的状态
-    this.props.history.listen((location, action) => {
-      console.log('监听路由变化')
-      console.log(location)
-      console.log(action)
+    this.props.history.listen((location) => {
       if (location.search.indexOf('addApiFromList') > -1) {
         this.reloadColMenuList();
       }
@@ -138,7 +134,6 @@ class InterfaceMenu extends Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.list !== nextProps.list) {
-      // console.log('next', nextProps.list)
       this.setState({
         list: nextProps.list
       });
@@ -170,8 +165,6 @@ class InterfaceMenu extends Component {
 
   // e:{selected: bool, selectedNodes, node, event}
   onSelect = (selectedKeys, e) => {
-    console.log(e.selectedNodes);
-    console.log("sssssssssss");
     const { history, match } = this.props;
     let curkey = selectedKeys[0] ? selectedKeys[0] : 'root';
     const curNode = e.selectedNodes[0];
@@ -286,7 +279,6 @@ class InterfaceMenu extends Component {
       message.success('接口分类更新成功');
       this.props.getProject(data.project_id);
       let currentNode = this.state.currentSelectNode;
-      console.log("9999999", currentNode)
       currentNode.name = data.name;
       this.setState({
         change_cat_modal_visible: false
@@ -400,19 +392,21 @@ class InterfaceMenu extends Component {
       } else {
         await axios.post('/api/interface/up', { id, catid: dropCatId });
       }
-      const { projectId, router } = this.props;
-      this.props.fetchInterfaceListMenu(projectId);
-      this.props.fetchInterfaceList({ project_id: projectId });
-      if (router && isNaN(router.params.actionId)) {
+      // const { projectId, router } = this.props;
+      // this.props.fetchInterfaceListMenu(projectId);
+      // this.props.fetchInterfaceList({ project_id: projectId });
+      this.reloadColMenuList();
+      // if (router && isNaN(router.params.actionId)) {
         // 更新分类list下的数据
-        let catid = router.params.actionId.substr(4);
-        this.props.fetchInterfaceCatList({ catid });
-      }
+        // let catid = router.params.actionId.substr(4);
+        // this.props.fetchInterfaceCatList({ catid });
+      // }
     } else {
       // 分类之间拖动
       let changes = arrayChangeIndex(list, dragIndex - 1, dropIndex - 1);
       axios.post('/api/interface/up_cat_index', changes).then();
-      this.props.fetchInterfaceListMenu(this.props.projectId);
+      this.reloadColMenuList();
+      // this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   };
   // 数据过滤
@@ -536,8 +530,6 @@ class InterfaceMenu extends Component {
         className="container-title"
         onMouseEnter={() => {
           this.enterItem(item._id)
-          console.log("hahhahahahahhahahhah")
-          console.log(this.state.delIcon)
         }}
         // onMouseEnter={()=>{this.enterItem(item._id)}}
         onMouseLeave={this.leaveItem}
@@ -585,15 +577,10 @@ class InterfaceMenu extends Component {
   }
   // 动态加载子节点数据
   onLoadData = (treeNode) => {
-    console.log(treeNode._id);
-    console.log('tree', treeNode);
     const id = (!treeNode.props) ? treeNode._id : treeNode.props._id;
     const catid = (!treeNode.props) ? treeNode.parent_id : treeNode.props.parent_id;
     const child_type = (!treeNode.props) ? treeNode.child_type : treeNode.props.child_type;
     const getCurCatId = child_type === 0 ? id : catid;
-    console.log("11111111", id)
-    console.log("11111111", catid)
-    console.log("11111111", getCurCatId)
     return new Promise((resolve) => {
       let childrenList = [];
       // setState异步更新
@@ -601,7 +588,6 @@ class InterfaceMenu extends Component {
         curCatid: getCurCatId
       }, async () => {
         childrenList = await this.getList(true);
-        console.log('更新孩子----')
         if (treeNode.props) {
           treeNode.props.dataRef.children = [...childrenList];
         } else {
@@ -673,7 +659,6 @@ class InterfaceMenu extends Component {
         let expandIds = this.state.expands.map((item) => {
           return Number(item.split('_')[1]);
         });
-        console.log('expandIds', expandIds);
         let newList = [...this.state.list];
         let updateNode = (list) => {
           for (let i = 0; i < list.length; i++) {
@@ -806,7 +791,6 @@ class InterfaceMenu extends Component {
       </div>
     );
     const defaultExpandedKeys = () => {
-      console.log('jajajja', this.state.selects)
       const { router, inter, list } = this.props,
         rNull = { expands: [], selects: [] };
       if (list.length === 0) {

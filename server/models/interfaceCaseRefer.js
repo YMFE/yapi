@@ -58,6 +58,12 @@ class interfaceCaseRefer extends baseModel {
       refer_caseid
     });
   }
+  // 删除该项目的所有映射
+  delByProjectId(project_id) {
+    return this.model.deleteMany({
+      project_id
+    });
+  }
   // 解除单个映射
   del(id) {
     return this.model.deleteOne({

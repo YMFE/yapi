@@ -38,7 +38,6 @@ export default class ImportInterface extends Component {
   };
 
   async componentDidMount() {
-    // console.log(this.props.currProjectId)
     const r = await this.props.fetchInterfaceListMenu(this.props.currProjectId);
     this.setState({
       list: r.payload.data.data
@@ -62,7 +61,6 @@ export default class ImportInterface extends Component {
   onExpandCat = async(expanded, record, list) => {
     if (expanded && !record.ischild) {
     // const parentCatId = record.key.slice(9) ;
-    console.log('-----',record);
     const parentCatId = record._id || record.key.slice(9) ;
     let newList = list ? list : this.state.list;
     // 展开一级目录递归展开下一级目录
@@ -126,15 +124,12 @@ export default class ImportInterface extends Component {
       // this.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
       // },
       onSelect: (record, selected) => {
-        // console.log(record, selected, selectedRows);
         const oldSelecteds = self.state.selectedRowKeys;
         const categoryCount = self.state.categoryCount;
         const categoryKey = record.categoryKey;
         const categoryLength = record.categoryLength;
         let selectedRowKeys = [];
         if (record.isCategory) {
-          console.log("isCategory")
-          console.log("isCategory")
           // selectedRowKeys = record.children.map(item => item._id).concat(record.key);
           selectedRowKeys = record.children.map(item => {
             return  item.children ? 'category_' + item._id : item._id;
@@ -148,7 +143,6 @@ export default class ImportInterface extends Component {
             selectedRowKeys = oldSelecteds.filter(id => selectedRowKeys.indexOf(id) === -1);
             categoryCount[categoryKey] = 0;
           }
-          console.log('selectedRowKeys',selectedRowKeys)
 
         } else {
 
@@ -169,19 +163,16 @@ export default class ImportInterface extends Component {
             }
             selectedRowKeys = selectedRowKeys.filter(id => id !== categoryKey);
           }
-          console.log('111111',selectedRowKeys)
 
         }
 
         self.setState({ selectedRowKeys, categoryCount });
-        console.log("0000000",selectedRowKeys)
         self.props.selectInterface(
           selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1),
           self.state.project
         );
       },
       onSelectAll: selected => {
-        // console.log(selected, selectedRows, changeRows);
         let selectedRowKeys = [];
         let categoryCount = self.state.categoryCount;
         let selectChild = (data) => {

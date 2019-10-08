@@ -236,7 +236,6 @@ class InterfaceColContent extends Component {
       draftRows.map(item => {
         item.id = item._id;
         item._test_status = item.test_status;
-        console.log('2222222', item)
         if(currColEnvObj[item.project_id]){
           item.case_env =currColEnvObj[item.project_id];
         }
@@ -245,8 +244,7 @@ class InterfaceColContent extends Component {
       });
       
     });
-    console.log('rows', rows)
-    console.log('newRows', newRows)
+ 
     this.setState({ rows: newRows });
   };
 
