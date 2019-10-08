@@ -47,7 +47,8 @@ export default class AddColModal extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({ id: nextProps.interfaceColList[0]._id });
+    const actionId = this.props.match.params.actionId;    
+    this.setState({ id: actionId });
     this.setState({ caseName: nextProps.caseName });
   }
 
