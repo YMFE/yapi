@@ -609,6 +609,7 @@ class interfaceController extends baseController {
       for (let i = 0 ; i < interfaceList.length; i++ ) {
         newInterfaceList[i] = interfaceList[i].toObject();
         newInterfaceList[i].child_type = 1;
+        newInterfaceList[i].name = newInterfaceList[i].title;
       }
       let result = [...newCatList, ...newInterfaceList];
       ctx.body = yapi.commons.resReturn(result);

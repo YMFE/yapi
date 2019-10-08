@@ -224,20 +224,21 @@ class projectController extends baseController {
     };
 
     let result = await this.Model.save(data);
-    let colInst = yapi.getInst(interfaceColModel);
+    // let colInst = yapi.getInst(interfaceColModel);
     let catInst = yapi.getInst(interfaceCatModel);
     if (result._id) {
-      await colInst.save({
-        name: '公共测试集',
-        project_id: result._id,
-        desc: '公共测试集',
-        uid: this.getUid(),
-        add_time: yapi.commons.time(),
-        up_time: yapi.commons.time()
-      });
+      // await colInst.save({
+      //   name: '公共测试集',
+      //   project_id: result._id,
+      //   desc: '公共测试集',
+      //   uid: this.getUid(),
+      //   add_time: yapi.commons.time(),
+      //   up_time: yapi.commons.time()
+      // });
       await catInst.save({
         name: '公共分类',
         project_id: result._id,
+        parent_id: -1,
         desc: '公共分类',
         uid: this.getUid(),
         add_time: yapi.commons.time(),

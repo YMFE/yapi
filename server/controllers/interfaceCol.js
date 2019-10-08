@@ -1067,12 +1067,19 @@ class interfaceColController extends baseController {
         }
       }
       let result = await this.colModel.del(id);
+      let caseList =await this.caseModel.list(id);
+      // 先删除该文件下的用例的映射，再删除用例自己
+      for(let i=0; i<caseList.length;i++) {
+        const item = caseList[i].toObject();
+        await this.referModel.delAllByCaseid(item._id);
+      }
       await this.caseModel.delByCol(id);
+      await this.referModel.delByColId(id);
       let username = this.getUsername();
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了接口集 ${
           colData.name
-        } 及其下面的接口`,
+        } 及其下面的接口和映射`,
         type: 'project',
         uid: this.getUid(),
         username: username,
