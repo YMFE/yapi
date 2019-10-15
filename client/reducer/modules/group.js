@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
     case SET_CURR_GROUP: {
       return {
         ...state,
-        currGroup: action.payload
+        currGroup: action.payload.data.data
       };
     }
     case FETCH_GROUP_MEMBER: {
@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
       };
     }
     case FETCH_GROUP_MSG: {
+      console.log(action.payload)
       // const {role,group_name,group_desc,} = action.payload.data.data
       return {
         ...state,
@@ -154,6 +155,8 @@ export function fetchGroupList() {
 export function setCurrGroup(group) {
   return {
     type: SET_CURR_GROUP,
-    payload: group
+    payload: axios.get('/api/group/get', {
+      params: { id: group._id }
+    })
   };
 }

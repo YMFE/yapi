@@ -175,6 +175,19 @@ var hooks = {
   import_data: {
     type: 'multi',
     listener: []
+  },
+
+  /**
+   * addNoticePlugin(config)
+   * 
+   * config.weixin = {
+   *    title: 'wechat',
+   *    hander: (emails, title, content)=> {...}
+   * }
+   */
+  addNotice:{
+    type: 'multi',
+    listener: []
   }
 };
 

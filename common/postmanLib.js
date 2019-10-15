@@ -104,7 +104,7 @@ async function httpRequestByNode(options) {
       method: options.method,
       url: options.url,
       headers: options.headers,
-      timeout: 5000,
+      timeout: 10000,
       maxRedirects: 0,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false
@@ -180,7 +180,7 @@ function sandboxByNode(sandbox = {}, script) {
   script = new vm.Script(script);
   const context = new vm.createContext(sandbox);
   script.runInContext(context, {
-    timeout: 3000
+    timeout: 10000
   });
   return sandbox;
 }

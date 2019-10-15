@@ -35,12 +35,17 @@ const InterfaceRoute = props => {
     C = InterfaceColContent;
   } else if (props.match.params.action === 'case') {
     C = InterfaceCaseContent;
+  } else {
+    const params = props.match.params;
+    props.history.replace('/project/' + params.id + '/interface/api');
+    return null;
   }
   return <C {...props} />;
 };
 
 InterfaceRoute.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
 @connect(

@@ -15,6 +15,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     min-height: 300px;
+    min-width: 100%;
   }
   .pretty-editor-header {
     border: 1px solid #d9d9d9;
@@ -58,8 +59,17 @@
     }
 
     .header, .body{
-      padding-left: 10px;
       margin-bottom: 10px;
+    }
+
+    .header {
+      padding-left: 10px;
+      padding-right: 5px;
+    }
+
+    .body {
+      padding-left: 5px;
+      padding-right: 10px;
     }
 
     .response-test{
@@ -111,6 +121,8 @@
       max-width: 400px;
     }
     .container-title {
+      display: flex;
+      justify-content: space-between;
       padding: .08rem 0;
     }
     .resizer {
@@ -124,7 +136,7 @@
         background-color: #acaaaa;
         opacity: .8;
         position: absolute;
-        left: 16px;
+        left: 50%;
       }
     }
     // res body 无返回json时显示text信息

@@ -156,7 +156,7 @@ export function changeMemberRole(param) {
     payload: axios.post('/api/project/change_member_role', param)
   };
 }
-// 修改项目成员是否收到邮件通知
+// 修改项目成员是否收到消息通知
 export function changeMemberEmailNotice(param) {
   return {
     type: CHANGE_MEMBER_EMAIL_NOTICE,

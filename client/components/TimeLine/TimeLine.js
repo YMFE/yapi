@@ -158,7 +158,7 @@ class TimeTree extends Component {
         <Option title={item.title} value={item._id + ''} path={item.path} key={item._id}>
           {item.title}{' '}
           <Tag
-            style={{ color: methodColor.color, backgroundColor: methodColor.bac, border: 'unset' }}
+            style={{ color: methodColor ? methodColor.color : '#cfefdf', backgroundColor: methodColor ? methodColor.bac : '#00a854', border: 'unset' }}
           >
             {item.method}
           </Tag>

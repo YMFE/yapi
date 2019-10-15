@@ -178,7 +178,7 @@ class ProjectMember extends Component {
     });
   };
 
-  // 修改用户是否接收邮件通知
+  // 修改用户是否接收消息通知
   changeEmailNotice = async (notice, member_uid) => {
     const id = this.props.match.params.id;
     await this.props.changeMemberEmailNotice({ id, member_uid, notice });
@@ -246,7 +246,7 @@ class ProjectMember extends Component {
             <div className="m-user">
               <img src={'/api/user/avatar?uid=' + record.uid} className="m-user-img" />
               <p className="m-user-name">{text}</p>
-              <Tooltip placement="top" title="邮件通知">
+              <Tooltip placement="top" title="消息通知">
                 <span>
                   <Switch
                     size="small"

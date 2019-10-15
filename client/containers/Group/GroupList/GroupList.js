@@ -130,11 +130,6 @@ export default class GroupList extends Component {
       });
       await this.props.fetchGroupList();
       this.setState({ groupList: this.props.groupList });
-      const id = res.data.data._id;
-      const currGroup = _.find(this.props.groupList, group => {
-        return +group._id === +id;
-      });
-      this.props.setCurrGroup(currGroup);
       this.props.fetchGroupMsg(this.props.currGroup._id);
       this.props.fetchNewsData(this.props.currGroup._id, 'group', 1, 10);
     } else {

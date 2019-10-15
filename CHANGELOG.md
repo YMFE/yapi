@@ -1,3 +1,20 @@
+## v1.8.4
+* 修复 swagger 导入数据时，如果数据格式中缺少 in 的参数，会丢失请求参数
+* 修复当传入数据格式的 method 不规范时，容易导致获取对象为空，出现异常导致动态页面无法打开
+* 修复解决 json-schema-faker/json-schema-faker#453 问题
+
+## v1.8.3
+* 修复管理员无法看到所有分组的 bug
+
+## v1.8.2
+* 重构分组列表功能实现，大幅度优化首屏加载速度
+* 接口运行界面设置 header、query、form 的初始值为其示例值
+* 运行接口请求时支持自动预览HTML
+
+### v1.8.1
+* 优化插件【Swagger 自动同步】在添加地址时的服务端校验行为
+* 优化单个测试用例执行超时时间限制,从3秒改为10秒
+
 ### v1.8.0
 * filtering interface on the server instead of client
 

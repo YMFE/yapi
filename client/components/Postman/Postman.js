@@ -133,8 +133,16 @@ export default class Run extends Component {
       envModalVisible: false,
       test_res_header: null,
       test_res_body: null,
+      autoPreviewHTML: true,
       ...this.props.data
     };
+  }
+
+  get testResponseBodyIsHTML() {
+    const hd = this.state.test_res_header
+    return hd != null
+      && typeof hd === 'object'
+      && String(hd['Content-Type'] || hd['content-type']).indexOf('text/html') !== -1
   }
 
   checkInterfaceData(data) {
@@ -206,12 +214,33 @@ export default class Run extends Component {
       body = JSON.stringify(result.data);
     }
 
+    let example = {}
+    if(this.props.type === 'inter'){
+      example = ['req_headers', 'req_query', 'req_body_form'].reduce(
+        (res, key) => {
+          res[key] = (data[key] || []).map(item => {
+            if (
+              item.type !== 'file' // 不是文件类型
+                && (item.value == null || item.value === '') // 初始值为空
+                && item.example != null // 有示例值
+            ) {
+              item.value = item.example;
+            }
+            return item;
+          })
+          return res;
+        },
+        {}
+      )
+    }
+
     this.setState(
       {
         ...this.state,
         test_res_header: null,
         test_res_body: null,
         ...data,
+        ...example,
         req_body_other: body,
         resStatusCode: null,
         test_valid_msg: null,
@@ -927,14 +956,25 @@ export default class Run extends Component {
                 <div className="body">
                   <div className="container-title">
                     <h4>Body</h4>
+                    <Checkbox
+                      checked={this.state.autoPreviewHTML}
+                      onChange={e => this.setState({ autoPreviewHTML: e.target.checked })}>
+                      <span>自动预览HTML</span>
+                    </Checkbox>
                   </div>
-                  <AceEditor
-                    readOnly={true}
-                    className="pretty-editor-body"
-                    data={this.state.test_res_body}
-                    mode={handleContentType(this.state.test_res_header)}
-                    // mode="html"
-                  />
+                  {
+                    this.state.autoPreviewHTML && this.testResponseBodyIsHTML
+                      ? <iframe
+                          className="pretty-editor-body"
+                          srcDoc={this.state.test_res_body}
+                        />
+                      : <AceEditor
+                          readOnly={true}
+                          className="pretty-editor-body"
+                          data={this.state.test_res_body}
+                          mode={handleContentType(this.state.test_res_header)}
+                      />
+                  }
                 </div>
               </div>
             </Spin>
