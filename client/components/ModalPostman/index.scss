@@ -10,6 +10,14 @@
     max-height: 500px;
     min-height: 400px;
     overflow-y: scroll;
+
+    .notice {
+      background: antiquewhite;
+      b {
+        margin:0 0.2em;
+      }
+    }
+
     .ant-radio-group{
       width:100%;
     }
@@ -42,7 +50,7 @@
   }
   .modal-postman-preview {
     background-color: #f5f5f5;
-    
+
   }
   .modal-postman-collapse{
      .ant-collapse-item > .ant-collapse-header{
@@ -139,5 +147,5 @@
     }
   }
 
-  
+
 }
