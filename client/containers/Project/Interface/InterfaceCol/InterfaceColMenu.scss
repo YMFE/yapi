@@ -16,9 +16,9 @@
   .menu-title {
     display: flex;
     justify-content: space-between;
-    overflow: hidden;
+    // overflow: hidden;
     .casename {
-      overflow: hidden;
+      // overflow: hidden;
     }
     .case-delete-icon {
       margin-left: 5px;
@@ -31,6 +31,12 @@
       color:#FFD700;
       font-size: 20px;
       padding-right: 3px
+    }
+
+    .refer-star-gray {
+      color:#999999;
+      font-size: 20px;
+      padding-right: 3px;
     }
   }
   .menu-title:hover {

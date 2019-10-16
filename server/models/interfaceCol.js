@@ -80,6 +80,7 @@ class interfaceCol extends baseModel {
         parent_id,
 
       })
+      .sort({ index: 1 })
       .select('name uid project_id desc add_time up_time, index, parent_id')
       .exec();
     }
@@ -89,6 +90,7 @@ class interfaceCol extends baseModel {
         parent_id,
         name: new RegExp(query_text + "+", "g"),
       })
+      .sort({ index: 1 })
       .select('name uid project_id desc add_time up_time, index, parent_id')
       .exec();
   }

@@ -141,9 +141,13 @@ class InterfaceMenu extends Component {
   }
 
   async doInterfaceSearch() {
-    // if(this.state.filter === '') {
-    //   message.error('搜索内容不能为空');
-    // }else{
+    if(this.state.filter === '') {
+      this.setState({
+        curCatid: -1
+      }, async()=>{
+        this.reloadColMenuList();
+      })
+    } else {
       this.setState({
         list: [],
         expands: [],
@@ -160,7 +164,7 @@ class InterfaceMenu extends Component {
       this.setState({
         list: data
       });
-    // }
+    }
   }
 
   // e:{selected: bool, selectedNodes, node, event}
@@ -438,7 +442,6 @@ class InterfaceMenu extends Component {
     });
     return { menuList, arr };
   };
-
 
   itemInterfaceColTitle(item) {
     return (

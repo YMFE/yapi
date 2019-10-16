@@ -515,7 +515,6 @@ exports.getCaseList = async function getCaseList(id) {
   resultList = resultList.sort((a, b) => {
     return a.index - b.index;
   });
-    console.log("00000000000000000000000000")
 
   // let ctxBody = yapi.commons.resReturn(resultList);
   // ctxBody.colData = colData;

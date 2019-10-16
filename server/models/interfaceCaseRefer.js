@@ -44,11 +44,20 @@ class interfaceCaseRefer extends baseModel {
       .exec();
   }
 
-  caseReferListByCol(col_id) {
-    return this.model
-      .find({
+  caseReferListByCol(col_id,case_id) {
+    let query = {};
+    if(case_id) {
+      query = {
+        col_id,
+        refer_caseid: case_id
+      }
+    } else {
+     query = {
         col_id
-      })
+      }
+    }
+    return this.model
+      .find(query)
       .sort({ index: 1 })
       .exec();
   }

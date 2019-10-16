@@ -80,7 +80,7 @@
     width: calc(100% - 28px);
     position: relative;
     .container-title {
-      overflow: hidden;
+      // overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }

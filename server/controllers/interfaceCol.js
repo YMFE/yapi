@@ -93,30 +93,34 @@ class interfaceColController extends baseController {
       }
       let result;
       for (let i = 0; i< params.case_list.length; i ++) {
-          let caseData = await this.caseModel.get(Number(params.case_list[i]));
-          result = await this.referModel.save({
-          project_id: caseData.project_id,
-          col_id:  params.col_id,
-          refer_caseid: Number(params.case_list[i]),
-          uid: this.getUid(),
-          add_time: yapi.commons.time(),
-          up_time: yapi.commons.time()
-        });
-        let username = this.getUsername();
-        let colData = await this.colModel.get(params.col_id);
-        yapi.commons.saveLog({
-          content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了用例的映射 <a href="/project/${
-            params.project_id
-          }/interface/col/${result._id}">${colData.name}</a>`,
-          type: 'project',
-          uid: this.getUid(),
-          username: username,
-          typeid: params.project_id,
-          col_id: params.col_id,
-          refer_caseid: params.refer_caseid
-        });
+        const caseid = Number(params.case_list[i]);
+          let caseData = await this.caseModel.get(caseid);
+          // 查询接口是不是已经添加过映射在这个文件夹了
+          let referData = await this.referModel.caseReferListByCol(params.col_id,caseid);
+          if (referData.length === 0) {
+            result = await this.referModel.save({
+              project_id: caseData.project_id,
+              col_id:  params.col_id,
+              refer_caseid: Number(caseid),
+              uid: this.getUid(),
+              add_time: yapi.commons.time(),
+              up_time: yapi.commons.time()
+            });
+            let username = this.getUsername();
+            let colData = await this.colModel.get(params.col_id);
+            yapi.commons.saveLog({
+              content: `<a href="/user/profile/${this.getUid()}">${username}</a> 添加了用例的映射 <a href="/project/${
+                params.project_id
+              }/interface/col/${result._id}">${colData.name}</a>`,
+              type: 'project',
+              uid: this.getUid(),
+              username: username,
+              typeid: params.project_id,
+              col_id: params.col_id,
+              refer_caseid: params.refer_caseid
+            });    
+        }
       }
-    
       // this.projectModel.up(params.project_id,{up_time: new Date().getTime()}).then();
       ctx.body = yapi.commons.resReturn('ok');
     } catch (e) {
@@ -276,7 +280,6 @@ class interfaceColController extends baseController {
         newReferList[k].child_type = 2;
       }
 
-      
 
       let result = [...newColList, ...newInterfaceCaseList, ...newReferList];
 
@@ -350,7 +353,7 @@ class interfaceColController extends baseController {
   }
 
   /**
-   * 获取一个接口集下的所有的测试用例
+   * 获取一个接口集下的所有的测试用例+映射
    * @interface /col/case_list
    * @method GET
    * @category col
