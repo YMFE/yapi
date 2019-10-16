@@ -1,14 +1,14 @@
 ### <font color=RED size=24 face="黑体">  crazy-yapi</font>分支补充功能说明：
 
 #### TO DO
--
-- 调研：支持文件上传类接口测试（计划采用二进制方式支持文件上传）
-- 优化tree加载为异步
-- 增强：增加jmeter driver服务，支持性能压测
-- 精度bug修复 ：js 数字最大16位
-- 公共参数备注链接
-- 用例执行统计报表
-- 接口统计报表
+
+- [ ] 调研：支持文件上传类接口测试（计划采用二进制方式支持文件上传）
+- [ ] 优化tree加载为异步
+- [ ] 增强：增加jmeter driver服务，支持性能压测
+- [ ] 精度bug修复 ：js 数字最大16位
+- [ ] 公共参数备注链接
+- [ ] 用例执行统计报表
+- [ ] 接口统计报表
 
 ### 2019/8/16
 
@@ -174,6 +174,11 @@
 
 ### crazy-yapi 分支 作者
 * crazy  330126160@qq.com
+
+### crazy-yapi 分支 License
+
+Copyright © 2019, [小影](http://quvideo.com/).
+Released under the [Apache License 2.0](LICENSE).
 
 
 <font color=RED size=24 face="黑体"> ---------------------以下内容为官方主分支说明文档------------------------------</font>
