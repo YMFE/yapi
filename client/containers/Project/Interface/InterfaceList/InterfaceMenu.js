@@ -120,7 +120,6 @@ class InterfaceMenu extends Component {
 
   componentWillMount() {
     this.handleRequest();
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -131,9 +130,10 @@ class InterfaceMenu extends Component {
         list: nextProps.list
       });
     }
-    //this.appendSetExpandedKeys(this.props.curProject.cat);
+
+    const { actionId: nextActionId} = nextProps.router.params;
     if(this.state.expandedKeys.length===0){
-      this.initexpandedKeys(this.props.curProject.cat);
+      this.initexpandedKeys(nextProps.curProject.cat, nextActionId);
     }
   }
   appendSetExpandedKeys=list=>{
@@ -172,9 +172,7 @@ class InterfaceMenu extends Component {
 
   onSelect = (selectedKeys,e) => {
     const {history, match} = this.props;
-    //console.log({"onselect": this.state,selectedKeys,e});
     let key = e.node.props.eventKey;
-
     let basepath = '/project/' + match.params.id + '/interface/api';
     if (key === 'root') {
       history.push(basepath);
@@ -182,26 +180,26 @@ class InterfaceMenu extends Component {
       history.push(basepath + '/' + key);
     }
 
+    const { expandedKeys, selectedKey } = this.state;
 
-    let ex=JSON.parse(JSON.stringify(this.state.expandedKeys));
-    if (ex.indexOf(key) === -1) {
-      ex.push(key);
+    if (expandedKeys.includes(key) && selectedKey.includes(key)) {
       this.setState({
-        expandedKeys: ex,
+        expandedKeys: expandedKeys.filter(i => i !== key),
         selectedKey: [key]
-      });
+      })
     } else {
-      let nex=ex;
-      if(!e.selected){
-        nex=ex.filter(it=>{return it!==key})
-      }
       this.setState({
-        expandedKeys: nex,
+        expandedKeys: [...expandedKeys, key],
         selectedKey: [key]
       })
     }
 
+  };
 
+  onExpand = (expandedKeys) => {
+    this.setState({
+      expandedKeys
+    })
   };
 
 
@@ -545,16 +543,14 @@ class InterfaceMenu extends Component {
     })
   };
 
-  initexpandedKeys =list=>{
-
+  initexpandedKeys =(list, actionId)=>{
     try {
       let treePath=[];
       let catid=0;
-      let par=this.props.router.params;
       let selectedKey=[];
-      if(par.actionId) {
-        catid = Number(par.actionId.indexOf('cat_')===0?par.actionId.substr(4):this.props.inter.catid);
-        selectedKey.push(par.actionId);
+      if(actionId) {
+        catid = Number(actionId.indexOf('cat_') ===0 ? actionId.substr(4) : this.props.inter.catid);
+        selectedKey.push(actionId);
       }
       if (catid) {
         treePath = findMeInTree(list, catid).treePath;
@@ -821,7 +817,9 @@ class InterfaceMenu extends Component {
               selectedKeys={this.state.selectedKey}
               expandedKeys={this.state.expandedKeys}
               onSelect={this.onSelect}
+              onExpand={this.onExpand}
               draggable
+              blockNode
               onDrop={this.onDrop}
             >
               <TreeNode
