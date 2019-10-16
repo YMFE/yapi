@@ -123,7 +123,6 @@ class InterfaceMenu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log({"this.props":this.props})
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
       this.setState({

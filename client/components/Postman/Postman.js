@@ -113,7 +113,10 @@ const ParamsNameComponent = props => {
   );
 };
 ParamsNameComponent.propTypes = {
-  example: PropTypes.string,
+  example: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   desc: PropTypes.string,
   name: PropTypes.string
 };
