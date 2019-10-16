@@ -131,9 +131,10 @@ class InterfaceMenu extends Component {
       });
     }
 
-    const { actionId: nextActionId} = nextProps.router.params;
-    if(this.state.expandedKeys.length===0){
-      this.initexpandedKeys(nextProps.curProject.cat, nextActionId);
+    const router = nextProps.router || {};
+    const { actionId } = router.params || {};
+    if(this.state.expandedKeys.length===0) {
+      this.initexpandedKeys(nextProps.curProject.cat, actionId);
     }
   }
   appendSetExpandedKeys=list=>{
