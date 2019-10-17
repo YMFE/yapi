@@ -118,7 +118,10 @@ async function httpRequestByNode(options) {
       }),
       data: options.data
     }
-    console.log({"axios请求：":axioscontent})
+    {
+      let url = URL.parse(axioscontent.url);
+      console.log({"axios 请求：":{...axioscontent, queryParams: qs.parse(url.query)}});
+    }
     let response = await axios(axioscontent);
     return handleRes(response);
   } catch (err) {
@@ -318,7 +321,6 @@ async function crossRequest(defaultOptions, preScript, afterScript,case_pre_scri
   }
 
   let data;
-
 
   data = await httpRequestByNode(options);
   data.req = options;

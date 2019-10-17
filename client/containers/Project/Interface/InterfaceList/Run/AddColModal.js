@@ -97,10 +97,10 @@ export default class AddColModal extends Component {
         onCancel={this.props.onCancel}
       >
         <Row gutter={6} className="modal-input">
-          <Col span="5">
+          <Col span={5}>
             <div className="label">接口用例名：</div>
           </Col>
-          <Col span="15">
+          <Col span={15}>
             <Input
               placeholder="请输入接口用例名称"
               value={this.state.caseName}
@@ -114,10 +114,10 @@ export default class AddColModal extends Component {
         <Collapse>
           <Panel header="添加新集合">
             <Row gutter={6} className="modal-input">
-              <Col span="5">
+              <Col span={5}>
                 <div className="label">集合名：</div>
               </Col>
-              <Col span="15">
+              <Col span={15}>
                 <Input
                   placeholder="请输入集合名称"
                   value={this.state.addColName}
@@ -126,10 +126,10 @@ export default class AddColModal extends Component {
               </Col>
             </Row>
             <Row gutter={6} className="modal-input">
-              <Col span="5">
+              <Col span={5}>
                 <div className="label">简介：</div>
               </Col>
-              <Col span="15">
+              <Col span={15}>
                 <TextArea
                   rows={3}
                   placeholder="请输入集合描述"

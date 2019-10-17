@@ -1,7 +1,8 @@
 import React, { PureComponent as Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Icon, Input, AutoComplete } from 'antd';
+import { Icon, Input, AutoComplete, Tooltip } from 'antd';
+import _ from 'underscore';
 import './Search.scss';
 import { withRouter } from 'react-router';
 import axios from 'axios';
@@ -30,6 +31,7 @@ export default class Srch extends Component {
     this.state = {
       dataSource: []
     };
+    this.handleSearch = _.debounce(this.handleSearch, 500);
   }
 
   static propTypes = {
@@ -45,7 +47,7 @@ export default class Srch extends Component {
   };
 
   onSelect = async (value, option) => {
-    console.log("option.props.type:"+option.props.type);
+    // console.log("option.props.type:"+option.props.type);
     if (option.props.type === '分组') {
       this.props.changeMenuItem('/group');
       this.props.history.push('/group/' + option.props['id']);
@@ -78,10 +80,12 @@ export default class Srch extends Component {
                     <Option
                       key={`分组${item._id}`}
                       type="分组"
-                      value={`${item.groupName}`}
                       id={`${item._id}`}
+                      text={`分组: ${item.groupName}`}
                     >
-                      {`分组: ${item.groupName}`}
+                      <Tooltip placement="left" title={`分组: ${item.groupName}`}>
+                        {`分组: ${item.groupName}`}
+                      </Tooltip>
                     </Option>
                   );
                   break;
@@ -92,8 +96,11 @@ export default class Srch extends Component {
                       type="项目"
                       id={`${item._id}`}
                       groupId={`${item.groupId}`}
+                      text={`项目: ${item.name}`}
                     >
-                      {`项目: ${item.name}`}
+                      <Tooltip placement="left" title={`项目: ${item.name}`}>
+                        {`项目: ${item.name}`}
+                      </Tooltip>
                     </Option>
                   );
                   break;
@@ -104,8 +111,11 @@ export default class Srch extends Component {
                       type="接口"
                       id={`${item._id}`}
                       projectId={`${item.projectId}`}
+                      text={`接口: ${item.title}`}
                     >
-                      {`接口: ${item.title}`}
+                      <Tooltip placement="left" title={`接口: ${item.title}`}>
+                        {`接口: ${item.title}`}
+                      </Tooltip>
                     </Option>
                   );
                   break;
@@ -116,8 +126,11 @@ export default class Srch extends Component {
                       type="路径"
                       id={`${item._id}`}
                       projectId={`${item.projectId}`}
+                      text={`路径: ${item.path}`}
                     >
-                      {`路径: ${item.path}`}
+                      <Tooltip placement="left" title={`路径: ${item.path}`}>
+                        {`路径: ${item.path}`}
+                      </Tooltip>
                     </Option>
                   );
                   break;
@@ -158,8 +171,13 @@ export default class Srch extends Component {
           defaultActiveFirstOption={false}
           onSelect={this.onSelect}
           onSearch={this.handleSearch}
-          filterOption={(inputValue, option) =>
-            option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          optionLabelProp="text"
+          filterOption={(inputValue, option) => {
+            if (typeof option.props.children !== 'string' ) {
+              return option.props.children.props.title.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1;
+            }
+              return option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+            }
           }
         >
           <Input

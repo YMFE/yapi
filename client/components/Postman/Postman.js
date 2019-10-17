@@ -113,7 +113,10 @@ const ParamsNameComponent = props => {
   );
 };
 ParamsNameComponent.propTypes = {
-  example: PropTypes.string,
+  example: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   desc: PropTypes.string,
   name: PropTypes.string
 };
@@ -1179,7 +1182,7 @@ export default class Run extends Component {
               </h3>
               <p style={{ margin: '10px' }}>注：Test 脚本只有做自动化测试才执行</p>
               <Row>
-                <Col span="18">
+                <Col span={18}>
                   <AceEditor
                     onChange={this.onOpenTest}
                     className="case-script"
@@ -1189,7 +1192,7 @@ export default class Run extends Component {
                     }}
                   />
                 </Col>
-                <Col span="6">
+                <Col span={6}>
                   <div className="insert-code">
                     {InsertCodeMap.map(item => {
                       return (

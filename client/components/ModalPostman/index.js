@@ -50,6 +50,7 @@ class ModalPostman extends Component {
       methodsShowMore: false,
       methodsList: [],
       constantInput: '',
+      safeConstantInput: '',
       activeKey: '1',
       methodsParamsList: [
         {
@@ -63,11 +64,22 @@ class ModalPostman extends Component {
 
   componentWillMount() {
     let { inputValue } = this.props;
-    this.setState({
-      constantInput: inputValue
-    });
+    const decodeInputValue = decodeURIComponent(inputValue);
+    if (decodeInputValue === inputValue) {
+      this.setState({
+        constantInput: inputValue,
+        safeConstantInput: ''
+      });
+      inputValue && this.handleInitList(inputValue);
+    } else {
+      this.setState({
+        constantInput: '',
+        safeConstantInput: decodeInputValue
+      });
+      inputValue && this.handleInitList(decodeInputValue);
+    }
     // this.props.inputValue && this.handleConstantsInput(this.props.inputValue, 0);
-    inputValue && this.handleInitList(inputValue);
+    // inputValue && this.handleInitList(inputValue);
   }
 
   handleInitList(val) {
@@ -140,6 +152,14 @@ class ModalPostman extends Component {
     this.mockClick(0)(val);
   };
 
+  handleSafeConstantsInput = val => {
+    // val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
+    this.setState({
+      safeConstantInput: val
+    });
+    this.mockClick(0)( encodeURIComponent(val));
+  };
+
   handleParamsInput = (e, clickIndex, paramsIndex) => {
     let newParamsList = deepEqual(this.state.methodsParamsList);
     newParamsList[clickIndex].params[paramsIndex] = e;
@@ -209,7 +229,7 @@ class ModalPostman extends Component {
 
   render() {
     const { visible, envType } = this.props;
-    const { methodsParamsList, constantInput } = this.state;
+    const { methodsParamsList, constantInput, safeConstantInput } = this.state;
 
     const outputParams = () => {
       let str = '';
@@ -254,11 +274,32 @@ class ModalPostman extends Component {
                   accordion
                 >
                   <Panel header={<h3 className="mock-title">常量</h3>} key="1">
-                    <Input
-                      placeholder="基础参数值"
-                      value={constantInput}
-                      onChange={e => this.handleConstantsInput(e.target.value, index)}
-                    />
+                    <div className="notice">
+                      注意如果参数值中含有
+                      <b>{"{"}</b>
+                      <b>{"}"}</b>
+                      <b>|</b>
+                      <b>,</b>
+                      <b>:</b>
+                      等符号，请在安全常量内输入，
+                      其余请使用 YAPI 原版常量
+                    </div>
+                    <Row>
+                      <Col>原版常量:</Col>
+                      <Input
+                          placeholder="基础参数值"
+                          value={constantInput}
+                          onChange={e => this.handleConstantsInput(e.target.value, index)}
+                      />
+                    </Row>
+                    <Row>
+                      <Col>安全常量:</Col>
+                      <Input
+                          placeholder="基础参数值"
+                          value={safeConstantInput}
+                          onChange={e => this.handleSafeConstantsInput(e.target.value, index)}
+                      />
+                    </Row>
                   </Panel>
                   <Panel header={<h3 className="mock-title">mock数据</h3>} key="2">
                     <MockList click={this.mockClick(index)} clickValue={item.name} />

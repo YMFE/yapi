@@ -157,7 +157,7 @@ function handleOriginStr(str, handleValueFn) {
 
 function execute(str, curItem, index) {
   if (index === 0) {
-    return new PowerString(curItem);
+    return new PowerString(decodeURIComponent(curItem));
   }
   return str[curItem.method].apply(str, curItem.args);
 }
