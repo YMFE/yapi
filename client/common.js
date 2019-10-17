@@ -311,3 +311,25 @@ exports.arrayChangeIndex = (arr, start, end) => {
 
   return changes;
 };
+
+exports.findCategoriesById = (list, id, listKey = 'list') => {
+  const find = (category, id, pIds = []) => {
+    if (category[listKey] && category[listKey].some(v => v._id === id)) {
+      return [...pIds, category._id];
+    } else if (category.children && category.children.length) {
+      const newPIds = [...pIds, category._id];
+      for (let i = 0; i < category.children.length; i++) {
+        const ids = find(category.children[i], id, newPIds);
+        if (ids.length !== newPIds.length) {
+          return ids;
+        }
+      }
+      return pIds;
+    } else {
+      return pIds;
+    }
+  };
+  return list
+      .map(category => find(category, id))
+      .reduce((a, b) => [...a, ...b], []);
+};

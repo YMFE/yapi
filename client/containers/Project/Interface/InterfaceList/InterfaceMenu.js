@@ -1,6 +1,7 @@
 import React, {PureComponent as Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'underscore';
 import {
   deleteInterfaceCatData,
   deleteInterfaceData,
@@ -18,7 +19,7 @@ import AddInterfaceCatForm from './AddInterfaceCatForm';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
 import produce from 'immer';
-import {arrayChangeIndex,findMeInTree,isContained} from '../../../../common.js';
+import {arrayChangeIndex,findMeInTree,isContained, findCategoriesById } from '../../../../common.js';
 
 import './interfaceMenu.scss';
 
@@ -59,6 +60,7 @@ class InterfaceMenu extends Component {
     deleteInterfaceData: PropTypes.func,
     initInterface: PropTypes.func,
     history: PropTypes.object,
+    location: PropTypes.object,
     router: PropTypes.object,
     getProject: PropTypes.func,
     fetchInterfaceCatList: PropTypes.func,
@@ -69,7 +71,9 @@ class InterfaceMenu extends Component {
     moveInterVisible: false,
     moveId: 0,
     moveToProjectId: 0,
-    moveToCatId: 0
+    moveToCatId: 0,
+    expandedKeys: [],
+    selectedKey: []
   };
 
   constructor(props) {
@@ -123,17 +127,17 @@ class InterfaceMenu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // console.log('nextProps: ', nextProps);
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
       this.setState({
         list: nextProps.list
       });
     }
-
-    const router = nextProps.router || {};
-    const { actionId } = router.params || {};
-    if(this.state.expandedKeys.length===0) {
-      this.initexpandedKeys(nextProps.curProject.cat, actionId);
+    const { pathname } = this.props.location;
+    const { pathname: nextPathname } = nextProps.location;
+    if (pathname !== nextPathname || this.state.expandedKeys.length===0) {
+      this.initexpandedKeys(nextProps.curProject.cat, nextProps);
     }
   }
   appendSetExpandedKeys=list=>{
@@ -189,7 +193,7 @@ class InterfaceMenu extends Component {
       })
     } else {
       this.setState({
-        expandedKeys: [...expandedKeys, key],
+        expandedKeys: key.startsWith('cat_') ? [...expandedKeys, key] : expandedKeys,
         selectedKey: [key]
       })
     }
@@ -543,31 +547,54 @@ class InterfaceMenu extends Component {
     })
   };
 
-  initexpandedKeys =(list, actionId)=>{
+  initexpandedKeys =(list, props)=>{
     try {
-      let treePath=[];
-      let catid=0;
-      let selectedKey=[];
-      if(actionId) {
-        catid = Number(actionId.indexOf('cat_') ===0 ? actionId.substr(4) : this.props.inter.catid);
+      let treePath = [];
+      let catid = 0;
+      let selectedKey = [];
+      const router = props.router || {};
+      const { actionId = "" } = router.params || {};
+      if (actionId) {
+        // catid = Number(actionId.indexOf('cat_') ===0 ? actionId.substr(4) : props.inter.catid);
         selectedKey.push(actionId);
       }
+
+      if (actionId.startsWith('cat_')) {
+        catid = Number(actionId.substr(4));
+        // 目录
+      } else {
+        let ids = findCategoriesById(props.list, Number(actionId));
+        ids = ids.map(it => {
+          return 'cat_' + it
+        });
+        const { expandedKeys } = this.state;
+        const newExpandedKeys = _.uniq([...expandedKeys, ...ids]);
+        this.setState(
+            {
+              expandedKeys: newExpandedKeys,
+              selectedKey:selectedKey
+            }
+        )
+      }
+
       if (catid) {
-        treePath = findMeInTree(list, catid).treePath;
+        treePath = findMeInTree(list, catid).treePath.slice();
         treePath.push(catid);
         treePath = treePath.map(it => {
           return 'cat_' + it
         });
+        const { expandedKeys } = this.state;
+        const newExpandedKeys = _.uniq([...expandedKeys, ...treePath]);
         this.setState(
           {
-            expandedKeys: treePath,
+            expandedKeys: newExpandedKeys,
             selectedKey:selectedKey
           }
         )
       }
     }catch (e){
     }
-  }
+  };
 
 
   render() {
@@ -801,7 +828,6 @@ class InterfaceMenu extends Component {
 
     let menuList=this.state.list;
 
-
     //  //console.log("render this.state.moveInterVisible " + this.state.moveInterVisible);
     //console.log({menuList});
     return (
@@ -819,7 +845,6 @@ class InterfaceMenu extends Component {
               onSelect={this.onSelect}
               onExpand={this.onExpand}
               draggable
-              blockNode
               onDrop={this.onDrop}
             >
               <TreeNode

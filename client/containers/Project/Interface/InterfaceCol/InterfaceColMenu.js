@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import produce from 'immer';
 import PropTypes from 'prop-types';
+import _ from 'underscore';
 import {
   fetchCaseData,
   fetchCaseList,
@@ -15,7 +16,7 @@ import axios from 'axios';
 import MoveCase from './MoveCase';
 import ImportInterface from './ImportInterface';
 import {Button, Form, Icon, Input, message, Modal, Tooltip, Tree} from 'antd';
-import {arrayChangeIndex, findMeInTree} from '../../../../common.js';
+import {arrayChangeIndex, findMeInTree, findCategoriesById} from '../../../../common';
 import './InterfaceColMenu.scss';
 
 const TreeNode = Tree.TreeNode;
@@ -80,6 +81,7 @@ export default class InterfaceColMenu extends Component {
     setColData: PropTypes.func,
     currCaseId: PropTypes.number,
     history: PropTypes.object,
+    location: PropTypes.object,
     isRander: PropTypes.bool,
     // list: PropTypes.array,
     router: PropTypes.object,
@@ -97,6 +99,7 @@ export default class InterfaceColMenu extends Component {
     importInterVisible: false,
     importInterIds: [],
     importColId: 0,
+    selectedKey: [],
     expandedKeys: [],
     list: [],
     delIcon: null,
@@ -117,49 +120,64 @@ export default class InterfaceColMenu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log({"this.props":this.props})
+    // console.log({"this.props":this.props})
     if (this.props.interfaceColList !== nextProps.interfaceColList) {
       this.setState({
         list: nextProps.interfaceColList
       });
     }
-    if(this.state.expandedKeys.length===0){
-      this.initexpandedKeys(this.state.list);
+    const { pathname } = this.props.location;
+    const { pathname: nextPathname } = nextProps.location;
+    if (pathname !== nextPathname || this.state.expandedKeys.length===0) {
+      this.initexpandedKeys(nextProps.interfaceColList, nextProps);
     }
-   // console.log({"componentWillReceiveProps.props": this.props, "state": this.state})
   }
 
-  initexpandedKeys =list=>{
+  initexpandedKeys = (list, props) => {
     let treePath=[];
-    let colid=0;
-    let selectedKey=[];
+    let selectedKey = [];
     try {
 
-    switch (this.props.router.params.action) {
-      case 'case':
-        colid = this.props.currCase.col_id;
-        selectedKey.push('case_'+this.props.router.params.actionId);
+    const { action, actionId } = props.router.params;
+
+    const { expandedKeys } = this.state;
+
+    switch (action) {
+      case 'case': {
+        let ids = findCategoriesById(list, Number(actionId), 'caseList');
+        ids = ids.map(it => {
+          return 'col_' + it
+        });
+        selectedKey.push('case_' + actionId);
+        const newExpandedKeys = _.uniq([...expandedKeys, ...ids]);
+        this.setState({
+          expandedKeys: newExpandedKeys,
+          selectedKey:selectedKey
+        });
         break;
-      case 'col':
-        colid = Number(this.props.router.params.actionId);
-        selectedKey.push('col_'+this.props.router.params.actionId);
+      }
+      case 'col': {
+        let colid = Number(actionId);
+        selectedKey.push('col_' + actionId);
+        if (colid) {
+          treePath = findMeInTree(list, colid).treePath.slice();
+          treePath.push(colid);
+          treePath = treePath.map(it => {
+            return 'col_' + it
+          });
+          const newExpandedKeys = _.uniq([...expandedKeys,...treePath]);
+          this.setState(
+            {
+              expandedKeys: newExpandedKeys,
+              selectedKey:selectedKey
+            }
+          )
+        }
         break;
+      }
       default:
         break;
     }
-      if (colid) {
-        treePath = findMeInTree(list, colid).treePath;
-        treePath.push(colid);
-        treePath = treePath.map(it => {
-          return 'col_' + it
-        });
-        this.setState(
-          {
-            expandedKeys: treePath,
-            selectedKey:selectedKey
-          }
-        )
-      }
     }catch (e){
     }
   }
@@ -198,10 +216,27 @@ export default class InterfaceColMenu extends Component {
 
 
   onSelect = (keys, e) => {
-    if (keys.length) {
-      const type = keys[0].split('_')[0];
-      const id = keys[0].split('_')[1];
+    let key = e.node.props.eventKey;
+    if (key) {
+      const type = key.split('_')[0];
+      const id = key.split('_')[1];
       const project_id = this.props.match.params.id;
+      const { expandedKeys, selectedKey } = this.state;
+
+      if (expandedKeys.includes(key) && selectedKey.includes(key)) {
+        this.setState({
+          expandedKeys: expandedKeys.filter(i => i !== key),
+          selectedKey: keys
+        })
+      } else {
+        this.setState({
+          expandedKeys: type === 'col' ? [...expandedKeys, key] : expandedKeys,
+          selectedKey: keys
+        })
+      }
+
+      if (selectedKey.includes(key)) return;
+
       if (type === 'col') {
         this.props.setColData({
           isRander: false
@@ -214,28 +249,12 @@ export default class InterfaceColMenu extends Component {
         this.props.history.push('/project/' + project_id + '/interface/case/' + id);
       }
     }
+  };
 
-    let key = e.node.props.eventKey;
-    console.log({key})
-    let ex=JSON.parse(JSON.stringify(this.state.expandedKeys));
-    if (ex.indexOf(key) === -1) {
-      ex.push(key);
-      this.setState({
-        expandedKeys: ex,
-        selectedKey: [key]
-      });
-    } else {
-      let nex=ex;
-      if(!e.selected){
-        nex=ex.filter(it=>{return it!==key})
-      }
-      this.setState({
-        expandedKeys: nex,
-        selectedKey: [key]
-      })
-    }
-
-
+  onExpand = (expandedKeys) => {
+    this.setState({
+      expandedKeys
+    })
   };
 
   showDelColConfirm = colId => {
@@ -313,7 +332,7 @@ export default class InterfaceColMenu extends Component {
     let data = caseData.payload.data.data;
     data = JSON.parse(JSON.stringify(data));
     data.casename=`${data.casename}_copy`
-    delete data._id 
+    delete data._id
     const res = await axios.post('/api/col/add_case',data);
       if (!res.data.errcode) {
         message.success('克隆用例成功');
@@ -632,6 +651,7 @@ export default class InterfaceColMenu extends Component {
 
 
   render() {
+    // console.log('this.state.expandedKeys: ', this.state.expandedKeys);
     // const { currColId, currCaseId, isShowCol } = this.props;
     const {colModalType, colModalVisible, importInterVisible, currentCol} = this.state;
     const currProjectId = this.props.match.params.id;
@@ -789,6 +809,7 @@ export default class InterfaceColMenu extends Component {
             expandedKeys={this.state.expandedKeys}
             selectedKeys={this.state.selectedKey}
             onSelect={this.onSelect}
+            onExpand={this.onExpand}
             draggable
             onDrop={this.onDrop}
           >
