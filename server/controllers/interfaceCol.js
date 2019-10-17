@@ -267,6 +267,12 @@ class interfaceColController extends baseController {
         item.path = interfaceData.path;
         newInterfaceCaseList[j] = item;
         newInterfaceCaseList[j].child_type = 1;
+        newInterfaceCaseList[j].is_refered = 0;
+        // 判断接口是否被引用
+       let rererList = await this.referModel.referColList(item._id);
+       if(rererList.length  > 0) {
+          newInterfaceCaseList[j].is_refered = 1;
+       }
       }
 
       // // 标记映射

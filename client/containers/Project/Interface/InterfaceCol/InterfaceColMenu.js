@@ -1075,21 +1075,29 @@ export default class InterfaceColMenu extends Component {
         );
     }
 itemInterfaceCreateTitle(interfaceCase) {
+  function StarComponent(props) {
+    if (props.isShow===1) {
+      return (
+        <Tooltip  title="此用例已被映射测试集引用">
+          <Icon
+            type="star"
+            theme="filled"
+            className="refer-star"
+          />
+        </Tooltip>
+      )
+    }else {
+      return ''
+    }
+  } 
     return (
       <div
-            className="menu-title"
-            onMouseEnter={() => this.enterItem(interfaceCase._id)}
-            onMouseLeave={this.leaveItem}
-            title={interfaceCase.casename}
-          >
-        <Tooltip title="此用例已被映射测试集引用">
-          <Icon
-                type="star"
-                theme="filled"
-                className="refer-star"
-              />
-        </Tooltip>
-        <span className="casename">{interfaceCase.casename}</span>
+        className="menu-title"
+        onMouseEnter={() => this.enterItem(interfaceCase._id)}
+        onMouseLeave={this.leaveItem}
+        title={interfaceCase.casename}
+      >
+        <span className="casename"><StarComponent isShow={interfaceCase.is_refered} />{interfaceCase.casename}</span>
         <div className="btns">
           <Tooltip title="删除用例">
             <Icon
@@ -1131,7 +1139,7 @@ itemInterfaceCreateTitle(interfaceCase) {
               <Tooltip title="映射用例">
                 <Icon
                       type="star"
-                      // theme="filled"
+                      theme="filled"
                       className="refer-star-gray"
                     />
               </Tooltip>
