@@ -137,7 +137,7 @@ node server/app.js //启动服务器后，请访问 127.0.0.1:{config.json配置
 - `usernameKey`: ldap数据库存放用户名信息的字段（v1.3.21 新增 非必须）
 
 
-重启服务器后，可以在登录页看到如下画面，说明 ladp 配置成功
+重启服务器后，可以在登录页看到如下画面，说明 ldap 配置成功
 
 <img src="./ldap.png" />
 
