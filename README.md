@@ -10,6 +10,15 @@
 - [ ] 用例执行统计报表
 - [ ] 接口统计报表
 
+
+### 2019/10/17
+
+* 优化： 鼠标选中搜索结果，会展示完整的数据。
+* 修复： 菜单树诸多问题 [#27](https://github.com/xian-crazy/yapi/issues/27) [#10](https://github.com/xian-crazy/yapi/issues/10)
+* 优化： 接口列表箭头可点击 [#11](https://github.com/xian-crazy/yapi/issues/11)
+* 新增： 高级参数设置-常量 添加安全常量输入， 解决转换失败的问题 [#28](https://github.com/xian-crazy/yapi/issues/28)
+* 优化： 接口请求时控制台展示 [#5](https://github.com/xian-crazy/yapi/issues/5)
+
 ### 2019/8/16
 
 *  修复bug:  #12 项目设置中使用swagger同步接口，提示interface_cat validation failed:parent_id:Path'parent_id'is required
@@ -174,6 +183,7 @@
 
 ### crazy-yapi 分支 作者
 * crazy  330126160@qq.com
+* BetaGo  gouwantong@live.com
 
 ### crazy-yapi 分支 License
 
