@@ -312,3 +312,17 @@ exports.schemaValidator = function(schema, params) {
     };
   }
 };
+
+exports.findStorageKeysFromScript = (s= "") => {
+  const keys = [];
+  const re = /storage\.setItem\((.+?),(.+?)\)/g;
+  let m;
+  do {
+    m = re.exec(s);
+    if (m) {
+      let matchKey = m[1].replace(/['"]/ig, '');
+      keys.push(matchKey);
+    }
+  } while (m);
+  return keys;
+}
