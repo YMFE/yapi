@@ -113,6 +113,14 @@ const compareVersions = require('compare-versions');
           }
         });
       });
+
+      interfaceData.cats = interfaceData.cats.filter(catData=>{
+        let catName = catData.name;
+        return _.find(interfaceData.apis, apiData=>{
+          return apiData.catname === catName
+        })
+      })
+
       return interfaceData;
   }
 
@@ -123,7 +131,18 @@ const compareVersions = require('compare-versions');
     api.method = data.method.toUpperCase();
     api.title = data.summary || data.path;
     api.desc = data.description;
-    api.catname = data.tags && Array.isArray(data.tags) ? data.tags[0] : null;
+    api.catname = null;
+    if(data.tags && Array.isArray(data.tags)){
+      api.tag = data.tags;
+      for(let i=0; i< data.tags.length; i++){
+        if(/v[0-9\.]+/.test(data.tags[i])){
+          continue;
+        }
+        api.catname = data.tags[i];
+        break;
+      }
+
+    }
 
     api.path = handlePath(data.path);
     api.req_params = [];
