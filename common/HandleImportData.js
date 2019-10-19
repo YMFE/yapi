@@ -17,6 +17,11 @@ async function handle(
   token,
   port
 ) {
+
+  const taskNotice = _.throttle((index, len)=>{
+    messageSuccess(`正在导入，已执行任务 ${index+1} 个，共 ${len} 个`)
+  }, 3000)
+
   const handleAddCat = async cats => {
     let catsObj = {};
     if (cats && Array.isArray(cats)) {
@@ -52,12 +57,13 @@ async function handle(
     return catsObj;
   };
 
-  const handleAddInterface = async res => {
-    const cats = await handleAddCat(res.cats);
+  const handleAddInterface = async info => {
+    const cats = await handleAddCat(info.cats);
     if (cats === false) {
       return;
     }
-    res = res.apis;
+    
+    const res = info.apis;
     let len = res.length;
     let count = 0;
     let successNum = len;
@@ -67,6 +73,19 @@ async function handle(
       callback({ showLoading: false });
       return;
     }
+
+    if(info.basePath){
+      let projectApiPath = '/api/project/up';
+      if (isNode) {
+        projectApiPath = 'http://127.0.0.1:' + port + projectApiPath;
+      }
+
+      await axios.post(projectApiPath, {
+        id: projectId,
+        basepath: info.basePath
+      })
+    }
+
     for (let index = 0; index < res.length; index++) {
       let item = res[index];
       let data = Object.assign(item, {
@@ -126,7 +145,10 @@ async function handle(
       if (count === len) {
         callback({ showLoading: false });
         messageSuccess(`成功导入接口 ${successNum} 个, 已存在的接口 ${existNum} 个`);
+        return;
       }
+
+      taskNotice(index, res.length)
     }
   };
 

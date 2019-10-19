@@ -79,6 +79,8 @@ const compareVersions = require('compare-versions');
       res = await handleSwaggerData(res);
       SwaggerData = res;
 
+      interfaceData.basePath = res.basePath || '';
+
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
           interfaceData.cats.push({
