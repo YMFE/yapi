@@ -33,6 +33,7 @@ async function handle(
           }
 
           let data = {
+            parent_id: selectCatid,
             name: cat.name,
             project_id: projectId,
             desc: cat.desc,
