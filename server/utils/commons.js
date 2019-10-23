@@ -13,6 +13,12 @@ const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
 const Mock = require('mockjs');
+const axios = require('axios');
+const qs = require('qs');
+const CryptoJS = require('crypto-js');
+const jsrsasign = require('jsrsasign');
+const utils = require('../../common/power-string.js').utils;
+const getStorage = require('../../common/postmanLib').getStorage;
 
 
 
@@ -47,7 +53,7 @@ const defaultOptions = {
 
 exports.schemaToJson = function(schema, options = {}) {
   Object.assign(options, defaultOptions);
-  
+
   jsf.option(options);
   let result;
   try {
@@ -512,7 +518,7 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
       await inst.init(ctx);
       ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
       if (inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]) {
-        
+
         let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
 
         if (!validResult.valid) {
@@ -617,6 +623,11 @@ function convertString(variable) {
 exports.runCaseScript = async function runCaseScript(params, colId, interfaceId) {
   const colInst = yapi.getInst(interfaceColModel);
   let colData = await colInst.get(colId);
+  const currentStorage = await getStorage(params.taskId || Math.random() + '');
+  if (params.storageDict && typeof params.storageDict === 'object') {
+    const storageKeys = Object.keys(params.storageDict);
+    await Promise.all(storageKeys.map(key => currentStorage.setItem(key, params.storageDict[key])))
+  }
   const logs = [];
   const context = {
     assert: require('assert'),
@@ -625,8 +636,21 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
     header: params.response.header,
     records: params.records,
     params: params.params,
-    utils:params.utils,
-    storage:params.storage,
+    utils: Object.freeze({
+      _: _,
+      CryptoJS: CryptoJS,
+      jsrsasign: jsrsasign,
+      base64: utils.base64,
+      md5: utils.md5,
+      sha1: utils.sha1,
+      sha224: utils.sha224,
+      sha256: utils.sha256,
+      sha384: utils.sha384,
+      sha512: utils.sha512,
+      unbase64: utils.unbase64,
+      axios: axios
+    }),
+    storage: currentStorage,
     log: msg => {
       logs.push('log: ' + convertString(msg));
     }
@@ -641,7 +665,7 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
         throw ('Http status code 不是 200，请检查(该规则来源于于 [测试集->通用规则配置] )')
       }
     }
-  
+
     if(colData.checkResponseField.enable){
       if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
         throw (`返回json ${colData.checkResponseField.name} 值不是${colData.checkResponseField.value}，请检查(该规则来源于于 [测试集->通用规则配置] )`)
@@ -679,10 +703,14 @@ ${JSON.stringify(schema,null,2)}`)
       result = yapi.commons.sandbox(context, script);
     }
     result.logs = logs;
+    delete result.utils;
+    delete result.storage;
+    delete result.assert;
     return yapi.commons.resReturn(result);
   } catch (err) {
     //logs.push(convertString(err));
     result.logs = logs;
+    console.log('err result', result);
     logs.push(err.name + ': ' + err.message)
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }

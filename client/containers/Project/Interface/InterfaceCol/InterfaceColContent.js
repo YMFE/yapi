@@ -39,6 +39,7 @@ const Option = Select.Option;
 const createContext = require('common/createContext')
 
 import copy from 'copy-to-clipboard';
+import {findStorageKeysFromScript} from "../../../../../common/utils";
 
 const defaultModalStyle = {
   top: 10
@@ -441,13 +442,25 @@ class InterfaceColContent extends Component {
   handleScriptTest = async (interfaceData, response, validRes, requestParams) => {
     // 是否启动断言
     try {
+      const {
+        preScript = '', afterScript = '',case_pre_script = '',case_post_script = ''
+      } = interfaceData;
+      const allScriptStr = preScript + afterScript + case_pre_script + case_post_script;
+      const storageKeys = findStorageKeysFromScript(allScriptStr);
+      const storageDict = {};
+      storageKeys.forEach(key => {
+        storageDict[key] = localStorage.getItem(key);
+      });
+
       let test = await axios.post('/api/col/run_script', {
         response: response,
         records: this.records,
         script: interfaceData.test_script,
         params: requestParams,
         col_id: this.props.currColId,
-        interface_id: interfaceData.interface_id
+        interface_id: interfaceData.interface_id,
+        storageDict,
+        taskId: this.props.curUid
       });
       if (test.data.errcode !== 0) {
         test.data.data.logs.forEach(item => {

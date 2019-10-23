@@ -486,3 +486,4 @@ exports.handleContentType = handleContentType;
 exports.crossRequest = crossRequest;
 exports.handleCurrDomain = handleCurrDomain;
 exports.checkNameIsExistInArray = checkNameIsExistInArray;
+exports.getStorage = getStorage;
