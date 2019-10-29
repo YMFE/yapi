@@ -101,10 +101,14 @@ const compareVersions = require('compare-versions');
             data = handleSwagger(api);
             if (data.catname) {
               if (!_.find(interfaceData.cats, item => item.name === data.catname)) {
-                interfaceData.cats.push({
-                  name: data.catname,
-                  desc: data.catname
-                });
+                if(interfaceData.cats.length === 0){
+                  interfaceData.cats.push({
+                    name: data.catname,
+                    desc: data.catname
+                  });
+                }else{
+                  delete data.catname
+                }
               }
             }
           } catch (err) {
