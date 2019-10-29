@@ -743,6 +743,37 @@ class InterfaceColContent extends Component {
     this.handleColdata(this.props.currCaseList);
   };
 
+  getSummaryText = () => {
+    const { rows } = this.state;
+    let totalCount = rows.length || 0;
+    let passCount = 0; // 测试通过
+    let errorCount = 0; // 请求异常
+    let failCount = 0; // 测试失败
+    let loadingCount = 0; // 测试中
+    rows.forEach(rowData => {
+      let id = rowData._id;
+      let code = this.reports[id] ? this.reports[id].code : 0;
+      if (rowData.test_status === 'loading') {
+        loadingCount += 1;
+        return;
+      }
+      switch (code) {
+        case 0:
+          passCount += 1;
+          break;
+        case 400:
+          errorCount += 1;
+          break;
+        case 1:
+          failCount += 1;
+          break;
+        default:
+          passCount += 1;
+          break;
+    }});
+    return `用例共 (${totalCount}) 个,其中：["Pass: ${passCount} 个 ", "Loading: ${loadingCount} 个 ", "请求异常: ${errorCount} 个", "验证失败: ${failCount} 个"]`
+  };
+
 
   render() {
     const currProjectId = this.props.currProject._id;
@@ -1164,6 +1195,9 @@ class InterfaceColContent extends Component {
         <div className="component-label-wrapper">
           <Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />
         </div>
+        <h3 className="interface-title">
+          {this.getSummaryText()}
+        </h3>
 
         <Table.Provider
           components={components}
