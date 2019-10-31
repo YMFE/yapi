@@ -84,6 +84,7 @@ export default class ProjectInterfaceSync extends Component {
   };
 
   validSwaggerUrl = async (rule, value, callback) => {
+    if(!value)return;
     try{
       await this.props.handleSwaggerUrlData(value);
     } catch(e) {
@@ -99,7 +100,7 @@ export default class ProjectInterfaceSync extends Component {
     });
     //默认每份钟同步一次,取一个随机数
     this.setState({
-      random_corn: Math.round(Math.random()*60) + ' * * * * *'
+      random_corn: '*/2 * * * *'
     });
     this.getSyncData();
   }
@@ -124,6 +125,15 @@ export default class ProjectInterfaceSync extends Component {
       sync_data: sync_data
     });
   };
+
+  sync_cronCheck(rule, value, callback){
+    if(!value)return;
+    value = value.trim();
+    if(value.split(/ +/).length > 5){
+      callback('不支持秒级别的设置，建议使用 "*/10 * * * *" ,每隔10分钟更新')
+    }
+    callback()
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -202,12 +212,15 @@ export default class ProjectInterfaceSync extends Component {
               })(<Input />)}
             </FormItem>
 
-            <FormItem {...formItemLayout} label={<span>类cron风格表达式(默认每分钟更新一次)&nbsp;<a href="https://blog.csdn.net/shouldnotappearcalm/article/details/89469047">参考</a></span>}>
+            <FormItem {...formItemLayout} label={<span>类cron风格表达式(默认10分钟更新一次)&nbsp;<a href="https://blog.csdn.net/shouldnotappearcalm/article/details/89469047">参考</a></span>}>
               {getFieldDecorator('sync_cron', {
                 rules: [
                   {
                     required: true,
                     message: '输入node-schedule的类cron表达式!'
+                  },
+                  {
+                    validator: this.sync_cronCheck
                   }
                 ],
                 initialValue: this.state.sync_data.sync_cron ? this.state.sync_data.sync_cron : this.state.random_corn

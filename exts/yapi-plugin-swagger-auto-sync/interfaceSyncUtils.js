@@ -41,6 +41,7 @@ class syncUtils {
      * @param {*} uid 用户id
      */
     async addSyncJob(projectId, cronExpression, swaggerUrl, syncMode, uid) {
+        if(!swaggerUrl)return;
         let projectToken = await this.getProjectToken(projectId, uid);
         //立即执行一次
         this.syncInterface(projectId, swaggerUrl, syncMode, uid, projectToken);

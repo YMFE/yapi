@@ -19,7 +19,7 @@ module.exports = function() {
       },
       desc: `<p>Swagger数据导入（ 支持 v2.0+ ）</p>
       <p>
-        <a target="_blank" href="https://yapi.ymfe.org/documents/data.html#通过命令行导入接口数据">通过命令行导入接口数据</a>
+        <a target="_blank" href="https://hellosean1025.github.io/yapi/documents/data.html#通过命令行导入接口数据">通过命令行导入接口数据</a>
       </p>
       `
     };
