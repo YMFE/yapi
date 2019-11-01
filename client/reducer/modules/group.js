@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {htmlFilter} from '../../common';
 // Actions
 const FETCH_GROUP_LIST = 'yapi/group/FETCH_GROUP_LIST';
 const SET_CURR_GROUP = 'yapi/group/SET_CURR_GROUP';
@@ -114,7 +114,7 @@ export function changeMemberRole(param) {
 export function changeGroupMsg(param) {
   return {
     type: CHANGE_GROUP_MESSAGE,
-    payload: axios.post('/api/group/up', param)
+    payload: axios.post('/api/group/up', {...param, group_name: htmlFilter(param.group_name)})
   };
 }
 
