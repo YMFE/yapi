@@ -17,6 +17,7 @@ import {
   fetchGroupMsg
 } from '../../../reducer/modules/group.js';
 import _ from 'underscore';
+import {htmlFilter} from '../../../common';
 
 import './GroupList.scss';
 
@@ -120,7 +121,7 @@ export default class GroupList extends Component {
   @autobind
   async addGroup() {
     const { newGroupName: group_name, newGroupDesc: group_desc, owner_uids } = this.state;
-    const res = await axios.post('/api/group/add', { group_name, group_desc, owner_uids });
+    const res = await axios.post('/api/group/add', { group_name: htmlFilter(group_name), group_desc, owner_uids });
     if (!res.data.errcode) {
       this.setState({
         newGroupName: '',
