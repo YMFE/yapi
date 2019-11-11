@@ -82,7 +82,8 @@ async function handle(
 
       await axios.post(projectApiPath, {
         id: projectId,
-        basepath: info.basePath
+        basepath: info.basePath,
+        token
       })
     }
 
