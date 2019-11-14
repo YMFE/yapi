@@ -98,7 +98,8 @@ class InterfaceList extends Component {
       current: 1,
       filters: apistatus,
       checked:false,
-      currentCat:{}
+      currentCat:{},
+      isLoading: false
     };
     this.cancelSourceMap = new WeakMap();
   }
@@ -116,6 +117,9 @@ class InterfaceList extends Component {
   handleRequest = async props => {
     const { params } = props.match;
     this.cancelRequestBefore();
+    this.setState({
+      isLoading: true
+    });
     if (!params.actionId) {
       let projectId = params.id;
       this.setState({
@@ -150,6 +154,9 @@ class InterfaceList extends Component {
       });
       this.cancelSourceMap.set(this.props.fetchInterfaceCatList, cancelSource);
     }
+    this.setState({
+      isLoading: false
+    })
   };
 
   // 更新分类简介
@@ -486,7 +493,7 @@ class InterfaceList extends Component {
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>
         <Table
-          loading={this.state.loading}
+          loading={this.state.isLoading}
           className="table-interfacelist"
           pagination={pageConfig}
           columns={columns}

@@ -145,7 +145,6 @@ export async function fetchInterfaceList(params, axiosOption = {}) {
     };
   } catch (e) {
     if (axios.isCancel(e)) {
-      console.log('cancel fetchInterfaceList')
       return {
         type: ''
       };
@@ -164,7 +163,6 @@ export async function fetchInterfaceCatList(params, axiosOption = {}) {
     };
   } catch (e) {
     if (axios.isCancel(e)) {
-      console.log('cancel fetchInterfaceCatList')
       return {
         type: ''
       };

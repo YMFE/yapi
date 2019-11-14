@@ -102,6 +102,7 @@ class InterfaceColContent extends Component {
     this.reports = {};
     this.records = {};
     this.state = {
+      isLoading: false,
       rows: [],
       reports: {},
       visible: false,
@@ -133,6 +134,17 @@ class InterfaceColContent extends Component {
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
+    this.cancelSourceMap = new WeakMap();
+  }
+
+  /**
+   * 取消上一次的请求
+   */
+  cancelRequestBefore = () => {
+    let cancelSource = this.cancelSourceMap.get(this.props.fetchCaseList);
+    cancelSource && cancelSource.cancel();
+    cancelSource = this.cancelSourceMap.get(this.props.fetchCaseEnvList);
+    cancelSource && cancelSource.cancel();
   }
 
   async handleColIdChange(newColId){
@@ -142,8 +154,24 @@ class InterfaceColContent extends Component {
       isRander: false
     });
 
-    let result = await this.props.fetchCaseList(newColId);
-    if (result.payload.data.errcode === 0) {
+    this.setState({
+      isLoading: true
+    });
+
+    this.cancelRequestBefore();
+    const cancelSource = axios.CancelToken.source();
+    this.cancelSourceMap.set(this.props.fetchCaseList, cancelSource);
+    this.cancelSourceMap.set(this.props.fetchCaseEnvList, cancelSource);
+
+    let [result ] = await Promise.all([
+      this.props.fetchCaseList(newColId, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.fetchCaseEnvList(newColId, {
+        cancelToken: cancelSource.token
+      })
+    ]);
+    if (result.payload && result.payload.data.errcode === 0) {
       this.reports = result.payload.data.test_report;
     //  console.log({"reports":JSON.parse(JSON.stringify(this.reports))});
       this.setState({
@@ -153,9 +181,11 @@ class InterfaceColContent extends Component {
         }
       })
     }
-
-    await this.props.fetchCaseList(newColId);
-    await this.props.fetchCaseEnvList(newColId);
+    this.setState({
+      isLoading: false
+    });
+    this.cancelSourceMap.set(this.props.fetchCaseList, null);
+    this.cancelSourceMap.set(this.props.fetchCaseEnvList, null);
     this.changeCollapseClose();
     this.handleColdata(this.props.currCaseList);
   }
@@ -1195,30 +1225,31 @@ class InterfaceColContent extends Component {
         <div className="component-label-wrapper">
           <Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />
         </div>
-        <h3 className="interface-title">
-          {this.getSummaryText()}
-        </h3>
+        <Spin spinning={this.state.isLoading}>
+          <h3 className="interface-title">
+            {this.getSummaryText()}
+          </h3>
+          <Table.Provider
+            components={components}
+            columns={resolvedColumns}
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse'
+            }}
+          >
+            <Table.Header
+              className="interface-col-table-header"
+              headerRows={resolve.headerRows({ columns })}
+            />
 
-        <Table.Provider
-          components={components}
-          columns={resolvedColumns}
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse'
-          }}
-        >
-          <Table.Header
-            className="interface-col-table-header"
-            headerRows={resolve.headerRows({ columns })}
-          />
-
-          <Table.Body
-            className="interface-col-table-body"
-            rows={resolvedRows}
-            rowKey="id"
-            onRow={this.onRow}
-          />
-        </Table.Provider>
+            <Table.Body
+              className="interface-col-table-body"
+              rows={resolvedRows}
+              rowKey="id"
+              onRow={this.onRow}
+            />
+          </Table.Provider>
+        </Spin>
         <Modal
           title="测试报告"
           width="900px"
