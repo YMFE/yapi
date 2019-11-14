@@ -122,9 +122,9 @@ class Interface extends Component {
 
     const siderClientRect = this.siderDOMNode.getBoundingClientRect();
     this.resizeBarRef.style.position = 'fixed';
-    this.resizeBarRef.style.left = `${siderClientRect.left + siderClientRect.width}px`;
+    this.resizeBarRef.style.left = `${siderClientRect.left + siderWidth}px`;
     this.resizeBarRef.style.height = `${siderClientRect.height}px`;
-    const offsetX = e.screenX - (siderClientRect.left + siderClientRect.width);
+    const offsetX = e.screenX - (siderClientRect.left + siderWidth);
     let newWidth = siderWidth + offsetX;
     if (newWidth < 300) newWidth = 300;
     this.resizeBarRef.style.left = `${siderClientRect.left + newWidth}px`;
