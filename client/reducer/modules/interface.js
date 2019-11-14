@@ -136,18 +136,40 @@ export async function fetchInterfaceListMenu(projectId) {
   };
 }
 
-export async function fetchInterfaceList(params) {
-  let result = await axios.get('/api/interface/list', { params });
-  return {
-    type: FETCH_INTERFACE_LIST,
-    payload: result
-  };
+export async function fetchInterfaceList(params, axiosOption = {}) {
+  try {
+    let result = await axios.get('/api/interface/list', { params, ...axiosOption });
+    return {
+      type: FETCH_INTERFACE_LIST,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      console.log('cancel fetchInterfaceList')
+      return {
+        type: ''
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
-export async function fetchInterfaceCatList(params) {
-  let result = await axios.get('/api/interface/list_cat', { params });
-  return {
-    type: FETCH_INTERFACE_CAT_LIST,
-    payload: result
-  };
+export async function fetchInterfaceCatList(params, axiosOption = {}) {
+  try {
+    let result = await axios.get('/api/interface/list_cat', { params, ...axiosOption });
+    return {
+      type: FETCH_INTERFACE_CAT_LIST,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      console.log('cancel fetchInterfaceCatList')
+      return {
+        type: ''
+      };
+    } else {
+      throw e;
+    }
+  }
 }

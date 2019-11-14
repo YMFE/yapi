@@ -118,8 +118,8 @@ class Interface extends Component {
     if (!isResizing || !this.resizeBarRef) return;
     const clientRect = this.resizeBarRef.getBoundingClientRect();
     const offetX = e.screenX - (clientRect.left + clientRect.width / 2 );
-    const newWidth = siderWidth + offetX;
-    if (newWidth < 300) return;
+    let newWidth = siderWidth + offetX;
+    if (newWidth < 300) newWidth = 300;
     this.setState({
       siderWidth: newWidth
     })
