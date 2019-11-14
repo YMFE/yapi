@@ -1,9 +1,10 @@
 import React, { PureComponent as Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
-import _ from 'underscore';
+// import _ from 'underscore';
 const { Content, Sider } = Layout;
 
 import './interface.scss';
@@ -80,8 +81,10 @@ class Interface extends Component {
   }
 
   componentDidMount() {
+    this.siderDOMNode = ReactDOM.findDOMNode(this.siderRef);
     document.addEventListener('mouseup', this.handleMouseUp);
-    document.addEventListener('mousemove', _.debounce(this.handleMouseMove, 100));
+    // document.addEventListener('mousemove', _.debounce(this.handleMouseMove, 100));
+    document.addEventListener('mousemove', this.handleMouseMove);
   }
 
   componentWillUnmount() {
@@ -115,17 +118,25 @@ class Interface extends Component {
   }
   handleMouseMove = (e) => {
     const { isResizing, siderWidth } = this.state;
-    if (!isResizing || !this.resizeBarRef) return;
-    const clientRect = this.resizeBarRef.getBoundingClientRect();
-    const offetX = e.screenX - (clientRect.left + clientRect.width / 2 );
-    let newWidth = siderWidth + offetX;
+    if (!isResizing || !this.resizeBarRef || !this.siderDOMNode) return;
+
+    const siderClientRect = this.siderDOMNode.getBoundingClientRect();
+    this.resizeBarRef.style.position = 'fixed';
+    this.resizeBarRef.style.left = `${siderClientRect.left + siderClientRect.width}px`;
+    this.resizeBarRef.style.height = `${siderClientRect.height}px`;
+    const offsetX = e.screenX - (siderClientRect.left + siderClientRect.width);
+    let newWidth = siderWidth + offsetX;
     if (newWidth < 300) newWidth = 300;
+    this.resizeBarRef.style.left = `${siderClientRect.left + newWidth}px`;
     this.setState({
       siderWidth: newWidth
-    })
+    });
   }
   handleMouseUp = () => {
     const { isResizing } = this.state;
+    this.resizeBarRef.style.position = '';
+    this.resizeBarRef.style.left = '';
+    this.resizeBarRef.style.height = '';
     if (isResizing) {
       document.body.style.userSelect = '';
       this.setState({
@@ -142,7 +153,7 @@ class Interface extends Component {
 
     return (
       <Layout style={{ minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px' }}>
-        <Sider style={{ height: '100%' }} width={siderWidth}>
+        <Sider style={{ height: '100%' }} width={siderWidth} ref={ref => this.siderRef = ref}>
           <div className="left-menu">
             <Tabs type="card" className="tabs-large" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api" />
