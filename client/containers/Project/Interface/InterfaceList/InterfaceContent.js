@@ -9,6 +9,7 @@ import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
 import Run from './Run/Run.js';
 import {getToken} from "client/reducer/modules/project";
+import axios from "axios";
 const plugin = require('client/plugin.js');
 
 const TabPane = Tabs.TabPane;
@@ -43,6 +44,7 @@ class Content extends Component {
       visible: false,
       nextTab: ''
     };
+    this.cancelSourceSet = new Set();
   }
 
   componentWillMount() {
@@ -52,6 +54,7 @@ class Content extends Component {
   }
 
   componentWillUnmount() {
+    this.cancelRequestBefore();
     document.getElementsByTagName('title')[0].innerText = this.title;
   }
 
@@ -63,10 +66,32 @@ class Content extends Component {
     }
   }
 
+  /**
+   * 取消上一次的请求
+   */
+  cancelRequestBefore = () => {
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
+  }
+
   handleRequest(nextProps) {
     const params = nextProps.match.params;
-    this.props.fetchInterfaceData(params.actionId);
-    this.props.getToken(params.id)
+    this.cancelRequestBefore();
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    Promise.all([
+      this.props.fetchInterfaceData(params.actionId, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.getToken(params.id, {
+        cancelToken: cancelSource.token
+      })
+    ]).then(res => {
+      this.cancelSourceSet.delete(cancelSource);
+    });
+
     this.setState({
       curtab: 'view'
     });

@@ -102,6 +102,7 @@ class InterfaceColContent extends Component {
     this.reports = {};
     this.records = {};
     this.state = {
+      isLoading: false,
       rows: [],
       reports: {},
       visible: false,
@@ -133,6 +134,17 @@ class InterfaceColContent extends Component {
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
+    this.cancelSourceSet = new Set();
+  }
+
+  /**
+   * 取消上一次的请求
+   */
+  cancelRequestBefore = () => {
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
   }
 
   async handleColIdChange(newColId){
@@ -142,8 +154,26 @@ class InterfaceColContent extends Component {
       isRander: false
     });
 
-    let result = await this.props.fetchCaseList(newColId);
-    if (result.payload.data.errcode === 0) {
+    this.setState({
+      isLoading: true
+    });
+
+    this.cancelRequestBefore();
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    let resArr = await Promise.all([
+      this.props.fetchCaseList(newColId, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.fetchCaseEnvList(newColId, {
+        cancelToken: cancelSource.token
+      })
+    ]);
+    this.cancelSourceSet.delete(cancelSource);
+    if (resArr.some(res => axios.isCancel(res.payload))) return;
+
+    const [result] = resArr;
+    if (result.payload && result.payload.data.errcode === 0) {
       this.reports = result.payload.data.test_report;
     //  console.log({"reports":JSON.parse(JSON.stringify(this.reports))});
       this.setState({
@@ -153,16 +183,29 @@ class InterfaceColContent extends Component {
         }
       })
     }
-
-    await this.props.fetchCaseList(newColId);
-    await this.props.fetchCaseEnvList(newColId);
+    this.setState({
+      isLoading: false
+    });
     this.changeCollapseClose();
     this.handleColdata(this.props.currCaseList);
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
-    await this.props.getToken(this.props.match.params.id);
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    const resArr = await Promise.all([
+      this.props.fetchInterfaceColList(this.props.match.params.id, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.getToken(this.props.match.params.id, {
+        cancelToken: cancelSource.token
+      })
+    ]);
+    this.cancelSourceSet.delete(cancelSource);
+    if (resArr.some(res => axios.isCancel(res.payload))) return;
+
+    const [result] = resArr;
+
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
@@ -174,6 +217,8 @@ class InterfaceColContent extends Component {
   }
 
   componentWillUnmount() {
+    this.cancelRequestBefore();
+    console.log('col unmount');
     clearInterval(this._crossRequestInterval);
   }
 
@@ -1195,30 +1240,31 @@ class InterfaceColContent extends Component {
         <div className="component-label-wrapper">
           <Label onChange={val => this.handleChangeInterfaceCol(val, col_name)} desc={col_desc} />
         </div>
-        <h3 className="interface-title">
-          {this.getSummaryText()}
-        </h3>
+        <Spin spinning={this.state.isLoading}>
+          <h3 className="interface-title">
+            {this.getSummaryText()}
+          </h3>
+          <Table.Provider
+            components={components}
+            columns={resolvedColumns}
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse'
+            }}
+          >
+            <Table.Header
+              className="interface-col-table-header"
+              headerRows={resolve.headerRows({ columns })}
+            />
 
-        <Table.Provider
-          components={components}
-          columns={resolvedColumns}
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse'
-          }}
-        >
-          <Table.Header
-            className="interface-col-table-header"
-            headerRows={resolve.headerRows({ columns })}
-          />
-
-          <Table.Body
-            className="interface-col-table-body"
-            rows={resolvedRows}
-            rowKey="id"
-            onRow={this.onRow}
-          />
-        </Table.Provider>
+            <Table.Body
+              className="interface-col-table-body"
+              rows={resolvedRows}
+              rowKey="id"
+              onRow={this.onRow}
+            />
+          </Table.Provider>
+        </Spin>
         <Modal
           title="测试报告"
           width="900px"

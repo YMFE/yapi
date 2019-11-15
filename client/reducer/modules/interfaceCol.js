@@ -65,34 +65,83 @@ export default (state = initialState, action) => {
 };
 
 // Action Creators
-export function fetchInterfaceColList(projectId) {
-  return {
-    type: FETCH_INTERFACE_COL_LIST,
-    payload: axios.get('/api/col/list?project_id=' + projectId)
-  };
+export async function fetchInterfaceColList(projectId, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/list?project_id=' + projectId, axiosOption);
+    return {
+      type: FETCH_INTERFACE_COL_LIST,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
-export function fetchCaseData(caseId) {
-  return {
-    type: FETCH_CASE_DATA,
-    payload: axios.get('/api/col/case?caseid=' + caseId)
-  };
+export async function fetchCaseData(caseId, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/case?caseid=' + caseId, axiosOption);
+    return {
+      type: FETCH_CASE_DATA,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
-export function fetchCaseList(colId) {
-  return {
-    type: FETCH_CASE_LIST,
-    payload: axios.get('/api/col/case_list/?col_id=' + colId)
-  };
+export async function fetchCaseList(colId, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/case_list/?col_id=' + colId, axiosOption);
+    return {
+      type: FETCH_CASE_LIST,
+      payload: result
+    };
+  }catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
-export function fetchCaseEnvList(col_id) {
-  return {
-    type: FETCH_CASE_ENV_LIST,
-    payload: axios.get('/api/col/case_env_list', {
-      params: { col_id }
-    })
-  };
+export async function fetchCaseEnvList(col_id, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/case_env_list', {
+      params: { col_id },
+      ...axiosOption
+    });
+    return {
+      type: FETCH_CASE_ENV_LIST,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
 export function fetchVariableParamsList(colId) {

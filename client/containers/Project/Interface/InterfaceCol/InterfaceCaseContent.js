@@ -68,7 +68,18 @@ export default class InterfaceCaseContent extends Component {
 
   constructor(props) {
     super(props);
+    this.cancelSourceSet = new Set();
   }
+
+  /**
+   * 取消上一次的请求
+   */
+  cancelRequestBefore = () => {
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
+  };
 
   getColId(colList, currCaseId) {
     let currColId = 0;
@@ -83,18 +94,45 @@ export default class InterfaceCaseContent extends Component {
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    const result = await this.props.fetchInterfaceColList(this.props.match.params.id, {
+      cancelToken: cancelSource.token
+    });
+    this.cancelSourceSet.delete(cancelSource);
+    if (axios.isCancel(result.payload)) return;
+
     let { currCaseId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
     currCaseId = +actionId || +currCaseId || result.payload.data.data[0].caseList[0]._id;
     let currColId = this.getColId(result.payload.data.data, currCaseId);
     this.props.history.push('/project/' + params.id + '/interface/case/' + currCaseId);
-    await this.props.fetchCaseData(currCaseId);
+
+    cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    // 先 fetchCaseData 然后 this.props.currCase 才会有数据
+    let res = await this.props.fetchCaseData(currCaseId, {
+      cancelToken: cancelSource.token
+    });
+    this.cancelSourceSet.delete(cancelSource);
+    if (axios.isCancel(res.payload)) return;
+
+    cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    let resArr = await Promise.all([
+      // 获取当前case 下的环境变量
+      this.props.getEnv(this.props.currCase.project_id, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.getToken(this.props.currCase.project_id, {
+        cancelToken: cancelSource.token
+      })
+    ]);
+    this.cancelSourceSet.delete(cancelSource);
+    if (resArr.some(res => axios.isCancel(res.payload))) return;
+
     this.props.setColData({ currCaseId: +currCaseId, currColId, isShowCol: false });
-    // 获取当前case 下的环境变量
-    await this.props.getEnv(this.props.currCase.project_id);
-    await this.props.getToken(this.props.currCase.project_id);
     // await this.getCurrEnv()
 
     this.setState({ editCasename: this.props.currCase.casename });
@@ -106,12 +144,33 @@ export default class InterfaceCaseContent extends Component {
     const { interfaceColList } = nextProps;
     let currColId = this.getColId(interfaceColList, newCaseId);
     if (oldCaseId !== newCaseId) {
-      await this.props.fetchCaseData(newCaseId);
+
+      this.cancelRequestBefore();
+      let cancelSource = axios.CancelToken.source();
+      this.cancelSourceSet.add(cancelSource);
+      let res = await this.props.fetchCaseData(newCaseId, {
+        cancelToken: cancelSource.token
+      });
+      this.cancelSourceSet.delete(cancelSource);
+      if (axios.isCancel(res.payload)) return;
+
+      this.cancelRequestBefore();
+      cancelSource = axios.CancelToken.source();
+      this.cancelSourceSet.add(cancelSource);
+      res = await this.props.getEnv(this.props.currCase.project_id, {
+        cancelToken: cancelSource.token
+      });
+      this.cancelSourceSet.delete(cancelSource);
+      if (axios.isCancel(res.payload)) return;
+
       this.props.setColData({ currCaseId: +newCaseId, currColId, isShowCol: false });
-      await this.props.getEnv(this.props.currCase.project_id);
       // await this.getCurrEnv()
       this.setState({ editCasename: this.props.currCase.casename });
     }
+  }
+
+  componentWillUnmount() {
+    this.cancelRequestBefore();
   }
 
   savePostmanRef = postman => {

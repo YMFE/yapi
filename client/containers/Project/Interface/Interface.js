@@ -1,8 +1,10 @@
 import React, { PureComponent as Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Tabs, Layout } from 'antd';
 import { Route, Switch, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
+// import _ from 'underscore';
 const { Content, Sider } = Layout;
 
 import './interface.scss';
@@ -65,12 +67,31 @@ class Interface extends Component {
     // fetchInterfaceColList: PropTypes.func
   };
 
+  resizeBarRef = null;
+
   constructor(props) {
     super(props);
     // this.state = {
     //   curkey: this.props.match.params.action === 'api' ? 'api' : 'colOrCase'
     // }
+    this.state = {
+      isResizing: false,
+      siderWidth: 300
+    }
   }
+
+  componentDidMount() {
+    this.siderDOMNode = ReactDOM.findDOMNode(this.siderRef);
+    document.addEventListener('mouseup', this.handleMouseUp);
+    // document.addEventListener('mousemove', _.debounce(this.handleMouseMove, 100));
+    document.addEventListener('mousemove', this.handleMouseMove);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mouseup', this.handleMouseUp);
+    document.removeEventListener('mousemove', this.handleMouseMove);
+  }
+
 
   onChange = action => {
     let params = this.props.match.params;
@@ -85,14 +106,54 @@ class Interface extends Component {
     });
     // await this.props.fetchInterfaceColList(this.props.match.params.id)
   }
+
+  handleResizeMouseDown = () => {
+    const { isResizing } = this.state;
+    if (!isResizing) {
+      document.body.style.userSelect = 'none';
+      this.setState({
+        isResizing: true
+      })
+    }
+  }
+  handleMouseMove = (e) => {
+    const { isResizing, siderWidth } = this.state;
+    if (!isResizing || !this.resizeBarRef || !this.siderDOMNode) return;
+
+    const siderClientRect = this.siderDOMNode.getBoundingClientRect();
+    this.resizeBarRef.style.position = 'fixed';
+    this.resizeBarRef.style.left = `${siderClientRect.left + siderWidth}px`;
+    this.resizeBarRef.style.height = `${siderClientRect.height}px`;
+    const offsetX = e.screenX - (siderClientRect.left + siderWidth);
+    let newWidth = siderWidth + offsetX;
+    if (newWidth < 300) newWidth = 300;
+    this.resizeBarRef.style.left = `${siderClientRect.left + newWidth}px`;
+    this.setState({
+      siderWidth: newWidth
+    });
+  }
+  handleMouseUp = () => {
+    const { isResizing } = this.state;
+    this.resizeBarRef.style.position = '';
+    this.resizeBarRef.style.left = '';
+    this.resizeBarRef.style.height = '';
+    if (isResizing) {
+      document.body.style.userSelect = '';
+      this.setState({
+        isResizing: false
+      })
+    }
+  }
+
   render() {
     const { action } = this.props.match.params;
     // const activeKey = this.state.curkey;
     const activeKey = action === 'api' ? 'api' : 'colOrCase';
+    const { siderWidth } = this.state;
 
     return (
       <Layout style={{ minHeight: 'calc(100vh - 156px)', marginLeft: '24px', marginTop: '24px' }}>
-        <Sider style={{ height: '100%' }} width={300}>
+        <Sider style={{ height: '100%' }} width={siderWidth} ref={ref => this.siderRef = ref}>
           <div className="left-menu">
             <Tabs type="card" className="tabs-large" activeKey={activeKey} onChange={this.onChange}>
               <Tabs.TabPane tab="接口列表" key="api" />
@@ -111,6 +172,16 @@ class Interface extends Component {
             )}
           </div>
         </Sider>
+        <div
+          style={{
+            flex: '0 0 5px',
+            width: 5,
+            background: '#2395f1',
+            cursor: 'ew-resize'
+          }}
+          onMouseDown={this.handleResizeMouseDown}
+          ref={ref => this.resizeBarRef = ref}
+        ></div>
         <Layout>
           <Content
             style={{

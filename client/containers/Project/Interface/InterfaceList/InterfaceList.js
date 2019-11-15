@@ -18,9 +18,7 @@ import {findMeInTree} from '../../../../common.js';
 
 const Option = Select.Option;
 const limit = 20;
-const apistatusArr
-
-  = [
+const apistatusArr = [
   {
     text: '已发布',
     value: 'done'
@@ -100,12 +98,31 @@ class InterfaceList extends Component {
       current: 1,
       filters: apistatus,
       checked:false,
-      currentCat:{}
+      currentCat:{},
+      isLoading: false
     };
+    this.cancelSourceSet = new Set();
   }
+
+  /**
+   * 取消上一次的请求
+   */
+  cancelRequestBefore = () => {
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
+  };
 
   handleRequest = async props => {
     const { params } = props.match;
+    this.cancelRequestBefore();
+    const cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    let res;
+    this.setState({
+      isLoading: true
+    });
     if (!params.actionId) {
       let projectId = params.id;
       this.setState({
@@ -118,7 +135,9 @@ class InterfaceList extends Component {
         project_id: projectId,
         status: this.state.filters.status.join(',')
       };
-      await this.props.fetchInterfaceList(option);
+      res = await this.props.fetchInterfaceList(option, {
+        cancelToken: cancelSource.token
+      });
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4);
       this.setState({ catid: +catid });
@@ -128,8 +147,14 @@ class InterfaceList extends Component {
         catid,
         status: this.state.filters.status.join(',')
       };
-      await this.props.fetchInterfaceCatList(option);
+      res = await this.props.fetchInterfaceCatList(option, {
+        cancelToken: cancelSource.token
+      });
     }
+    if (axios.isCancel(res.payload)) return;
+    this.setState({
+      isLoading: false
+    })
   };
 
   // 更新分类简介
@@ -195,6 +220,10 @@ class InterfaceList extends Component {
         () => this.handleRequest(nextProps)
       );
     }
+  }
+
+  componentWillUnmount() {
+    this.cancelRequestBefore();
   }
 
   handleAddInterface = data => {
@@ -462,6 +491,7 @@ class InterfaceList extends Component {
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>
         <Table
+          loading={this.state.isLoading}
           className="table-interfacelist"
           pagination={pageConfig}
           columns={columns}
