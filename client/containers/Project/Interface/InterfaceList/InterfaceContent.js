@@ -88,7 +88,7 @@ class Content extends Component {
       this.props.getToken(params.id, {
         cancelToken: cancelSource.token
       })
-    ]).then(res => {
+    ]).then(() => {
       this.cancelSourceSet.delete(cancelSource);
     });
 
