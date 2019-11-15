@@ -173,12 +173,7 @@ class Interface extends Component {
           </div>
         </Sider>
         <div
-          style={{
-            flex: '0 0 5px',
-            width: 5,
-            background: '#2395f1',
-            cursor: 'ew-resize'
-          }}
+          className="left-pannel-resizer"
           onMouseDown={this.handleResizeMouseDown}
           ref={ref => this.resizeBarRef = ref}
         ></div>

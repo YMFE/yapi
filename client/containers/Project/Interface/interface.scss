@@ -1,5 +1,20 @@
 @import '../../../styles/mixin.scss';
 
+.left-pannel-resizer {
+  flex: 0 0 2px;
+  opacity: 0.2;
+  width: 2px;
+  background: #2395f1;
+  cursor: ew-resize;
+  transition: all ease;
+}
+
+.left-pannel-resizer:hover {
+  flex: 0 0 6px;
+  opacity: 0.8;
+  width: 6px;
+}
+
 .left-menu {
   min-height: 5rem;
   // background: #FFF;
@@ -277,7 +292,7 @@
 }
 
 .common-setting-modal{
-  
+
   .setting-item{
     margin: 10px;
     line-height: 35px;
