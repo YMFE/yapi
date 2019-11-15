@@ -65,18 +65,42 @@ export default (state = initialState, action) => {
 };
 
 // Action Creators
-export function fetchInterfaceColList(projectId) {
-  return {
-    type: FETCH_INTERFACE_COL_LIST,
-    payload: axios.get('/api/col/list?project_id=' + projectId)
-  };
+export async function fetchInterfaceColList(projectId, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/list?project_id=' + projectId, axiosOption);
+    return {
+      type: FETCH_INTERFACE_COL_LIST,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
-export function fetchCaseData(caseId) {
-  return {
-    type: FETCH_CASE_DATA,
-    payload: axios.get('/api/col/case?caseid=' + caseId)
-  };
+export async function fetchCaseData(caseId, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/col/case?caseid=' + caseId, axiosOption);
+    return {
+      type: FETCH_CASE_DATA,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
 export async function fetchCaseList(colId, axiosOption = {}) {
@@ -89,7 +113,8 @@ export async function fetchCaseList(colId, axiosOption = {}) {
   }catch (e) {
     if (axios.isCancel(e)) {
       return {
-        type: ''
+        type: '',
+        payload: e
       };
     } else {
       throw e;
@@ -110,7 +135,8 @@ export async function fetchCaseEnvList(col_id, axiosOption = {}) {
   } catch (e) {
     if (axios.isCancel(e)) {
       return {
-        type: ''
+        type: '',
+        payload: e
       };
     } else {
       throw e;

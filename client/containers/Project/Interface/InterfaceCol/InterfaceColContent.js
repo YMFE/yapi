@@ -134,17 +134,17 @@ class InterfaceColContent extends Component {
     };
     this.onRow = this.onRow.bind(this);
     this.onMoveRow = this.onMoveRow.bind(this);
-    this.cancelSourceMap = new WeakMap();
+    this.cancelSourceSet = new Set();
   }
 
   /**
    * 取消上一次的请求
    */
   cancelRequestBefore = () => {
-    let cancelSource = this.cancelSourceMap.get(this.props.fetchCaseList);
-    cancelSource && cancelSource.cancel();
-    cancelSource = this.cancelSourceMap.get(this.props.fetchCaseEnvList);
-    cancelSource && cancelSource.cancel();
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
   }
 
   async handleColIdChange(newColId){
@@ -159,11 +159,9 @@ class InterfaceColContent extends Component {
     });
 
     this.cancelRequestBefore();
-    const cancelSource = axios.CancelToken.source();
-    this.cancelSourceMap.set(this.props.fetchCaseList, cancelSource);
-    this.cancelSourceMap.set(this.props.fetchCaseEnvList, cancelSource);
-
-    let [result ] = await Promise.all([
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    let resArr = await Promise.all([
       this.props.fetchCaseList(newColId, {
         cancelToken: cancelSource.token
       }),
@@ -171,6 +169,10 @@ class InterfaceColContent extends Component {
         cancelToken: cancelSource.token
       })
     ]);
+    this.cancelSourceSet.delete(cancelSource);
+    if (resArr.some(res => axios.isCancel(res.payload))) return;
+
+    const [result] = resArr;
     if (result.payload && result.payload.data.errcode === 0) {
       this.reports = result.payload.data.test_report;
     //  console.log({"reports":JSON.parse(JSON.stringify(this.reports))});
@@ -184,15 +186,26 @@ class InterfaceColContent extends Component {
     this.setState({
       isLoading: false
     });
-    this.cancelSourceMap.set(this.props.fetchCaseList, null);
-    this.cancelSourceMap.set(this.props.fetchCaseEnvList, null);
     this.changeCollapseClose();
     this.handleColdata(this.props.currCaseList);
   }
 
   async componentWillMount() {
-    const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
-    await this.props.getToken(this.props.match.params.id);
+    let cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    const resArr = await Promise.all([
+      this.props.fetchInterfaceColList(this.props.match.params.id, {
+        cancelToken: cancelSource.token
+      }),
+      this.props.getToken(this.props.match.params.id, {
+        cancelToken: cancelSource.token
+      })
+    ]);
+    this.cancelSourceSet.delete(cancelSource);
+    if (resArr.some(res => axios.isCancel(res.payload))) return;
+
+    const [result] = resArr;
+
     let { currColId } = this.props;
     const params = this.props.match.params;
     const { actionId } = params;
@@ -204,6 +217,8 @@ class InterfaceColContent extends Component {
   }
 
   componentWillUnmount() {
+    this.cancelRequestBefore();
+    console.log('col unmount');
     clearInterval(this._crossRequestInterval);
   }
 

@@ -101,22 +101,25 @@ class InterfaceList extends Component {
       currentCat:{},
       isLoading: false
     };
-    this.cancelSourceMap = new WeakMap();
+    this.cancelSourceSet = new Set();
   }
 
   /**
    * 取消上一次的请求
    */
   cancelRequestBefore = () => {
-    let cancelSource = this.cancelSourceMap.get(this.props.fetchInterfaceList);
-    cancelSource && cancelSource.cancel();
-    cancelSource = this.cancelSourceMap.get(this.props.fetchInterfaceCatList);
-    cancelSource && cancelSource.cancel();
-  }
+    this.cancelSourceSet.forEach(v => {
+      v.cancel();
+    });
+    this.cancelSourceSet.clear();
+  };
 
   handleRequest = async props => {
     const { params } = props.match;
     this.cancelRequestBefore();
+    const cancelSource = axios.CancelToken.source();
+    this.cancelSourceSet.add(cancelSource);
+    let res;
     this.setState({
       isLoading: true
     });
@@ -132,12 +135,9 @@ class InterfaceList extends Component {
         project_id: projectId,
         status: this.state.filters.status.join(',')
       };
-      const cancelSource = axios.CancelToken.source();
-      this.cancelSourceMap.set(this.props.fetchInterfaceList, cancelSource);
-      await this.props.fetchInterfaceList(option, {
+      res = await this.props.fetchInterfaceList(option, {
         cancelToken: cancelSource.token
       });
-      this.cancelSourceMap.set(this.props.fetchInterfaceList, null);
     } else if (isNaN(params.actionId)) {
       let catid = params.actionId.substr(4);
       this.setState({ catid: +catid });
@@ -147,13 +147,11 @@ class InterfaceList extends Component {
         catid,
         status: this.state.filters.status.join(',')
       };
-      const cancelSource = axios.CancelToken.source();
-      this.cancelSourceMap.set(this.props.fetchInterfaceCatList, cancelSource);
-      await this.props.fetchInterfaceCatList(option, {
+      res = await this.props.fetchInterfaceCatList(option, {
         cancelToken: cancelSource.token
       });
-      this.cancelSourceMap.set(this.props.fetchInterfaceCatList, cancelSource);
     }
+    if (axios.isCancel(res.payload)) return;
     this.setState({
       isLoading: false
     })

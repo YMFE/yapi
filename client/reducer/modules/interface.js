@@ -120,12 +120,24 @@ export async function deleteInterfaceCatData(id) {
 }
 
 // Action Creators
-export async function fetchInterfaceData(interfaceId) {
-  let result = await axios.get('/api/interface/get?id=' + interfaceId);
-  return {
-    type: FETCH_INTERFACE_DATA,
-    payload: result
-  };
+export async function fetchInterfaceData(interfaceId, axiosOption = {}) {
+  try {
+    let result = await axios.get('/api/interface/get?id=' + interfaceId, axiosOption);
+    return {
+      type: FETCH_INTERFACE_DATA,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
+
 }
 
 export async function fetchInterfaceListMenu(projectId) {
@@ -146,7 +158,8 @@ export async function fetchInterfaceList(params, axiosOption = {}) {
   } catch (e) {
     if (axios.isCancel(e)) {
       return {
-        type: ''
+        type: '',
+        payload: e
       };
     } else {
       throw e;
@@ -164,7 +177,8 @@ export async function fetchInterfaceCatList(params, axiosOption = {}) {
   } catch (e) {
     if (axios.isCancel(e)) {
       return {
-        type: ''
+        type: '',
+        payload: e
       };
     } else {
       throw e;

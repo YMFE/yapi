@@ -218,7 +218,7 @@ export function addProject(data) {
 // 修改项目
 export function updateProject(data) {
   let { name, project_type, basepath, desc, _id, env, group_id, switch_notice, strice, is_json5, tag } = data;
-  
+
   // 过滤项目名称中有html标签存在的情况
   name = htmlFilter(name);
   const param = {
@@ -270,11 +270,23 @@ export function updateEnv(data) {
 }
 
 // 获取项目环境配置
-export function getEnv(project_id) {
-  return {
-    type: PROJECT_GET_ENV,
-    payload: axios.get('/api/project/get_env', { params: { project_id } })
-  };
+export async function getEnv(project_id, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/project/get_env', { params: { project_id }, ...axiosOption });
+    return {
+      type: PROJECT_GET_ENV,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
 // 修改项目头像
@@ -302,13 +314,26 @@ export async function getProject(id) {
   };
 }
 
-export async function getToken(project_id) {
-  return {
-    type: GET_TOKEN,
-    payload: axios.get('/api/project/token', {
-      params: { project_id }
-    })
-  };
+export async function getToken(project_id, axiosOption = {}) {
+  try {
+    const result = await axios.get('/api/project/token', {
+      params: { project_id },
+      ...axiosOption
+    });
+    return {
+      type: GET_TOKEN,
+      payload: result
+    };
+  } catch (e) {
+    if (axios.isCancel(e)) {
+      return {
+        type: '',
+        payload: e
+      };
+    } else {
+      throw e;
+    }
+  }
 }
 
 export async function updateToken(project_id) {
