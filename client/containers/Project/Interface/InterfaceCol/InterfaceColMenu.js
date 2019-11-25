@@ -849,6 +849,7 @@ export default class InterfaceColMenu extends Component {
           onCancel={this.handleImportCancel}
           className="import-case-modal"
           width={800}
+          destroyOnClose={true}
         >
           <ImportInterface currProjectId={currProjectId} selectInterface={this.selectInterface} />
         </Modal>
