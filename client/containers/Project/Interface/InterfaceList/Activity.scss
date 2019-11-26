@@ -1,0 +1,206 @@
+
+.project-interface-change-content{
+  min-height: 350px;
+  max-height: 1000px;
+  min-width: 784px;
+  overflow-y: scroll;
+
+  .item-content{
+    .title{
+      margin: 10px 0;
+    }
+    .content{
+
+    }
+  }
+}
+
+
+.interface-list-activity-box {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  margin: 0px auto 0 auto;
+  font-size: 0.14rem;
+  background: #FFF;
+  display: block;
+  min-height: 550px;
+  border-radius: 4px;
+  .news-timeline{
+    padding-left: 125px;
+    color: #6b6c6d;
+    .news-search{
+      height:35px;
+      line-height: 30px;
+      margin-top: 10px;
+    }
+    .news-content{
+      margin-top: 20px;
+    }
+
+    .ant-timeline-item{
+      min-height: 60px;
+      .ant-timeline-item-head-custom {
+        padding: 0;
+        width: 0;
+        left: -14px;
+      }
+      .ant-timeline-item-head{
+        // width: 40px;
+        // height: 40px;
+        // left: -13px;
+        top: 13px;
+        // // border-color:#e1e3e4;
+        // border:2px solid #e1e3e4;
+        // border-radius: 50%;
+        .anticon{
+          display: none;
+        }
+      }
+      .ant-timeline-item-tail{
+        // top: 30px;
+      }
+      .ant-avatar {
+        border: 2px solid #e1e3e4;
+        box-sizing: content-box;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+      }
+    }
+    .ant-avatar{
+      // border:2px solid gray;
+    }
+
+    .logusername{
+      color: #4eaef3;
+      padding: 0px 16px 0px 8px;
+      cursor: pointer;
+    }
+    .logtype{
+      padding-right: 16px;
+    }
+    .logtime{
+      padding-right: 16px;
+
+    }
+    .logcontent{
+      display: block;
+      padding-left: 8px;
+      line-height: 24px;
+    }
+    .logoTimeago{
+      position: absolute;
+      left: -80px;
+      top: 5px;
+      color: #c0c1c1;
+    }
+    .logbidden{
+      color: #c0c1c1;
+      cursor: default;
+      padding: 8px !important;
+    }
+    .loggetMore{
+      line-height: 30px;
+      color: #4eaef3;
+    }
+
+    .ant-timeline-item{
+      &:after{
+        content: "";
+        width: 0px;
+        height: 0px;
+        display: block;
+        clear: both;
+      }
+
+      .ant-timeline-item-content{
+        background-color: #fafafa;
+        float: left;
+        width: auto;
+        margin-left: 40px;
+        padding: 0px;
+        padding-bottom: 10px;
+        // min-width: 300px;
+        // max-width: 600px;
+        width: 625px;
+        border-radius: 8px;
+
+        .logMesHeade{
+          padding: 8px 8px 8px 8px;
+          line-height: 24px;
+          background-color: #eceef1;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+        }
+        .logoTimeago{
+          left: -120px;
+        }
+        .logcontent{
+          // text-indent: 2em;
+          line-height: 1.5em;
+          margin-top: 16px;
+          padding: 0px 16px;
+        }
+      }
+
+    }
+    .ant-timeline-item-pending{
+      padding: 0px;
+      .ant-timeline-item-content{
+        padding: 0px;
+        width: auto;
+        margin-top: 16px;
+        .loggetMore{
+          margin: 0px;
+          padding: 8px;
+        }
+      }
+    }
+  }
+  .logHead{
+    height: 80px;
+    width: 100%;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 24px 0px;
+    overflow: hidden;
+    .breadcrumb-container{
+      float: left;
+      min-width:100px;
+    }
+    .projectDes{
+      color: #7b7b7b;
+      font-size: 25px;
+      float: left;
+      line-height: 0.9em;
+    }
+    .Mockurl{
+      width: 600px !important;
+      float: right;
+      color: #7b7b7b;
+      >span{
+        float: left;
+        line-height: 30px;
+      }
+      p{
+        width: 65%;
+        display: inline-block;
+        position: relative;
+        padding: 4px 7px;
+        height: 28px;
+        cursor: text;
+        font-size: 13px;
+        color: rgba(0,0,0,.65);
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        -webkit-transition: all .3s;
+        transition: all .3s;
+        overflow-x:auto;
+      }
+      button{
+        float: right;
+      }
+    }
+  }
+}
