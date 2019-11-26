@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import Run from './Run/Run.js';
 import {getToken} from "client/reducer/modules/project";
 import axios from "axios";
+import Activity from "./Activity";
 const plugin = require('client/plugin.js');
 
 const TabPane = Tabs.TabPane;
@@ -152,6 +153,10 @@ class Content extends Component {
       run: {
         component: Run,
         name: '运行'
+      },
+      activity: {
+        component: Activity,
+        name: '动态'
       }
     };
 
