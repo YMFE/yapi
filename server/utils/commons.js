@@ -432,13 +432,21 @@ exports.translateDataToTree=(data,mynodeid)=> {
     result[i].parent_id=(typeof result[i].parent_id) == 'undefined'?-1: result[i].parent_id;
     let caseList = await caseInst.list(result[i]._id);
 
-    for(let j=0; j< caseList.length; j++){
-      let item = caseList[j].toObject();
-      let interfaceData = await interfaceInst.getBaseinfo(item.interface_id);
-      item.path = interfaceData.path;
-      caseList[j] = item;
+    // for(let j=0; j< caseList.length; j++){
+    //   let item = caseList[j].toObject();
+    //   let interfaceData = await interfaceInst.getBaseinfo(item.interface_id);
+    //   item.path = interfaceData.path;
+    //   caseList[j] = item;
+    //
+    // }
 
-    }
+    const interfaceDataList = await Promise.all(
+      caseList.map(item => interfaceInst.getBaseinfo(item.interface_id))
+    );
+    interfaceDataList.forEach((item, index) => {
+      caseList[index] = caseList[index].toObject();
+      caseList[index].path = item.path;
+    });
 
     caseList = caseList.sort((a, b) => {
       return a.index - b.index;
