@@ -1,6 +1,7 @@
 import React, {PureComponent as Component} from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Select, Table, Tooltip} from 'antd';
+import {Icon, message, Select, Table, Tooltip} from 'antd';
+import axios from 'axios';
 import variable from '../../../../constants/variable';
 import {connect} from 'react-redux';
 import {fetchInterfaceListMenu} from '../../../../reducer/modules/interface.js';
@@ -10,8 +11,8 @@ const Option = Select.Option;
 @connect(
   state => {
     return {
-      projectList: state.project.projectList,
-      list: state.inter.list
+      list: state.inter.list,
+      currGroup: state.group.currGroup
     };
   },
   {
@@ -26,7 +27,10 @@ export default class ImportInterface extends Component {
   state = {
     selectedRowKeys: [],
     categoryCount: {},
-    project: this.props.currProjectId
+    project: this.props.currProjectId,
+    groupList: [],
+    projectList: [],
+    selectedGroup: ''
   };
 
   static propTypes = {
@@ -34,12 +38,30 @@ export default class ImportInterface extends Component {
     selectInterface: PropTypes.func,
     projectList: PropTypes.array,
     currProjectId: PropTypes.string,
+    currGroup: PropTypes.object,
     fetchInterfaceListMenu: PropTypes.func
   };
 
   async componentDidMount() {
-    // console.log(this.props.currProjectId)
-    await this.props.fetchInterfaceListMenu(this.props.currProjectId);
+    const [groupRes, projectRes] = await Promise.all([
+      axios.get('/api/group/list'),
+      axios.get('/api/project/list', {
+        params: {
+          group_id: this.props.currGroup._id
+        }
+      }),
+      this.props.fetchInterfaceListMenu(this.props.currProjectId)
+    ]);
+    try{
+      let groupList = groupRes.data.data;
+      let projectList = projectRes.data.data.list;
+      this.setState({
+        groupList,
+        projectList
+      });
+    }catch(e){
+      console.error(e)
+    }
   }
 
   // 切换项目
@@ -50,6 +72,33 @@ export default class ImportInterface extends Component {
       categoryCount: {}
     });
     await this.props.fetchInterfaceListMenu(val);
+  };
+
+  handleGroupChange = async val => {
+    let projectList = [];
+    try {
+      const projectRes = await axios.get('/api/project/list', {
+        params: {
+          group_id: val
+        }
+      });
+      projectList = projectRes.data.data.list;
+    } catch (e) {
+      console.error(e)
+    }
+    if (projectList.length === 0) {
+      message.warning('所选分组下还没有创建项目，请选择含有项目的分组');
+      return;
+    }
+    const defaultSelectedProject = projectList[0] ? String(projectList[0]._id) : '';
+    await this.props.fetchInterfaceListMenu(defaultSelectedProject);
+    this.setState({
+      selectedGroup: val,
+      project: defaultSelectedProject,
+      projectList,
+      selectedRowKeys: [],
+      categoryCount: {}
+    });
   };
 
   datainit = list => {
@@ -88,8 +137,8 @@ export default class ImportInterface extends Component {
 
 
   render() {
-    const { list, projectList } = this.props;
-    console.log({list});
+    const { list } = this.props;
+    const { groupList, projectList } = this.state;
     // const { selectedRowKeys } = this.state;
 
 
@@ -120,8 +169,20 @@ export default class ImportInterface extends Component {
         const categoryKey = record.categoryKey;
         const categoryLength = record.categoryLength;
         let selectedRowKeys = [];
+
+        const getCategoryChildrenIds = (children = []) => {
+          let ids = children.map(v => v.key);
+          children.forEach(v => {
+            if (v.children && v.children.length) {
+              const childrenIds = getCategoryChildrenIds(v.children);
+              ids = [...ids, ...childrenIds]
+            }
+          })
+          return ids;
+        };
         if (record.isCategory) {
-          selectedRowKeys = record.children.map(item => item._id).concat(record.key);
+          // selectedRowKeys = record.children ? record.children.map(item => item._id).concat(record.key) : [];
+          selectedRowKeys = getCategoryChildrenIds([record]);
           if (selected) {
             selectedRowKeys = selectedRowKeys
               .filter(id => oldSelecteds.indexOf(id) === -1)
@@ -156,18 +217,15 @@ export default class ImportInterface extends Component {
           self.state.project
         );
       },
-      onSelectAll: selected => {
-        // console.log(selected, selectedRows, changeRows);
-        let selectedRowKeys = [];
+      onSelectAll: (selected, selectedRows) => {
+        let selectedRowKeys = selectedRows.map(v => v.key);
         let categoryCount = self.state.categoryCount;
         if (selected) {
-          data.forEach(item => {
+          selectedRows.forEach(item => {
             if (item.children) {
               categoryCount['category_' + item._id] = item.children.length;
-              selectedRowKeys = selectedRowKeys.concat(item.children.map(item => item._id));
             }
           });
-          selectedRowKeys = selectedRowKeys.concat(data.map(item => item.key));
         } else {
           categoryCount = {};
           selectedRowKeys = [];
@@ -263,8 +321,9 @@ export default class ImportInterface extends Component {
           }
         ],
         onFilter: (value, record) => {
+          if (!record.children) return false;
           let arr = record.children.filter(item => {
-            return item.status.indexOf(value) === 0;
+            return item.status && item.status.indexOf(value) === 0;
           });
           return arr.length > 0;
           // record.status.indexOf(value) === 0
@@ -274,6 +333,18 @@ export default class ImportInterface extends Component {
 
     return (
       <div>
+        <div className="select-project">
+          <span>选择分组： </span>
+          <Select value={this.state.selectedGroup || String(this.props.currGroup._id)} onChange={this.handleGroupChange} style={{ width: 200 }}>
+            {groupList.map(item => {
+              return (
+                <Option value={`${item._id}`} key={item._id}>
+                  {item.group_name}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
         <div className="select-project">
           <span>选择要导入的项目： </span>
           <Select value={this.state.project} style={{ width: 200 }} onChange={this.onChange}>
