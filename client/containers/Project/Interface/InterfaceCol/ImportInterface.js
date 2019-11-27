@@ -169,8 +169,20 @@ export default class ImportInterface extends Component {
         const categoryKey = record.categoryKey;
         const categoryLength = record.categoryLength;
         let selectedRowKeys = [];
+
+        const getCategoryChildrenIds = (children = []) => {
+          let ids = children.map(v => v.key);
+          children.forEach(v => {
+            if (v.children && v.children.length) {
+              const childrenIds = getCategoryChildrenIds(v.children);
+              ids = [...ids, ...childrenIds]
+            }
+          })
+          return ids;
+        };
         if (record.isCategory) {
-          selectedRowKeys = record.children.map(item => item._id).concat(record.key);
+          // selectedRowKeys = record.children ? record.children.map(item => item._id).concat(record.key) : [];
+          selectedRowKeys = getCategoryChildrenIds([record]);
           if (selected) {
             selectedRowKeys = selectedRowKeys
               .filter(id => oldSelecteds.indexOf(id) === -1)
@@ -205,18 +217,15 @@ export default class ImportInterface extends Component {
           self.state.project
         );
       },
-      onSelectAll: selected => {
-        // console.log(selected, selectedRows, changeRows);
-        let selectedRowKeys = [];
+      onSelectAll: (selected, selectedRows) => {
+        let selectedRowKeys = selectedRows.map(v => v.key);
         let categoryCount = self.state.categoryCount;
         if (selected) {
-          data.forEach(item => {
+          selectedRows.forEach(item => {
             if (item.children) {
               categoryCount['category_' + item._id] = item.children.length;
-              selectedRowKeys = selectedRowKeys.concat(item.children.map(item => item._id));
             }
           });
-          selectedRowKeys = selectedRowKeys.concat(data.map(item => item.key));
         } else {
           categoryCount = {};
           selectedRowKeys = [];
