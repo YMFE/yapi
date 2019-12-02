@@ -388,7 +388,7 @@ class View extends Component {
       methodColor = 'get';
     }
 
-    const { tag, up_time, title, uid, username } = this.props.curData;
+    const { tag, up_time, title, uid, username, owners } = this.props.curData;
 
     let res = (
       <div className="caseContainer">
@@ -436,6 +436,27 @@ class View extends Component {
                 </Col>
               </Row>
             )}
+          {safeArray(owners) &&
+            safeArray(owners).length > 0 && (
+            <Row>
+              <Col span={4} className="colKey">
+                负责人：
+              </Col>
+              <Col
+                span={18}
+                className="colValue"
+              >
+                {
+                  owners.map(v => (
+                    <Link key={v.id} className="user-name" to={'/user/profile/' + v.id}>
+                      <img src={'/api/user/avatar?uid=' + v.id} className="user-img" />
+                      {v.username}
+                    </Link>
+                  ))
+                }
+              </Col>
+            </Row>
+          )}
           <Row className="row">
             <Col span={4} className="colKey">
               接口路径：
