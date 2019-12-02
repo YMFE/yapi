@@ -130,7 +130,10 @@
     transform: translate(0, -50%);
   }
   .user-name {
+    position: relative;
+    line-height: .3rem;
     padding-left: .38rem;
+    margin-right: 1em;
   }
 }
 

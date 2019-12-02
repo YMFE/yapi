@@ -9,7 +9,14 @@ class interfaceModel extends baseModel {
   getSchema() {
     return {
       title: { type: String, required: true },
+      /**
+       * 接口创建者 id
+       */
       uid: { type: Number, required: true },
+      /**
+       * 接口负责人 id 数组
+       */
+      owners: [ Number ],
       path: { type: String, required: true },
       method: { type: String, required: true },
       project_id: { type: Number, required: true },

@@ -125,7 +125,8 @@ class interfaceController extends baseController {
       api_opened: 'boolean',
       req_body_is_json_schema: 'string',
       res_body_is_json_schema: 'string',
-      markdown: 'string'
+      markdown: 'string',
+      owners: ['number'],
     };
 
     this.schemaMap = {
@@ -329,7 +330,7 @@ class interfaceController extends baseController {
 
   async save(ctx) {
     let params = ctx.params;
-    
+
     if (!this.$tokenAuth) {
       let auth = await this.checkAuth(params.project_id, 'project', 'edit');
       if (!auth) {
@@ -417,6 +418,7 @@ class interfaceController extends baseController {
       }
       let userinfo = await this.userModel.findById(result.uid);
       let project = await this.projectModel.getBaseInfo(result.project_id);
+      let owners = await Promise.all(result.owners.map(uid => this.userModel.findById(uid)));
       if (project.project_type === 'private') {
         if ((await this.checkAuth(project._id, 'project', 'view')) !== true) {
           return (ctx.body = yapi.commons.resReturn(null, 406, '没有权限'));
@@ -426,6 +428,12 @@ class interfaceController extends baseController {
       result = result.toObject();
       if (userinfo) {
         result.username = userinfo.username;
+      }
+      if (owners.length) {
+        result.owners = owners.map(user => ({
+          username: user.username,
+          id: user._id,
+        }));
       }
       ctx.body = yapi.commons.resReturn(result);
     } catch (e) {
@@ -664,6 +672,7 @@ class interfaceController extends baseController {
 
   async up(ctx) {
     let params = ctx.params;
+    console.log('params: ', params);
 
     if (!_.isUndefined(params.method)) {
       params.method = params.method || 'GET';
@@ -695,7 +704,7 @@ class interfaceController extends baseController {
       },
       params
     );
-    
+
     if (params.path) {
       let http_path;
       http_path = url.parse(params.path, true);
@@ -745,6 +754,7 @@ class interfaceController extends baseController {
         data.req_params = [];
       }
     }
+    // console.log('=======', data);
     let result = await this.Model.up(id, data);
     let username = this.getUsername();
     let CurrentInterfaceData = await this.Model.get(id);
@@ -792,7 +802,7 @@ class interfaceController extends baseController {
       );
 
       let project = await this.projectModel.getBaseInfo(interfaceData.project_id);
-    
+
       let interfaceUrl = `${ctx.request.origin}/project/${
         interfaceData.project_id
       }/interface/api/${id}`;

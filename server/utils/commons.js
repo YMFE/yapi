@@ -377,7 +377,7 @@ exports.translateDataToTree=(data,mynodeid)=> {
   });
   let parents = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) == 'undefined' || value.parent_id == -1)));
   let children = JSON.parse(JSON.stringify(data.filter(value => (typeof value.parent_id) !== 'undefined' && value.parent_id != -1)));
-    let translator = (parents, children,mynode) => {
+  let translator = (parents, children,mynode) => {
     parents.forEach((parent) => {
       parent.parent_id=(typeof parent.parent_id) == 'undefined'?-1: parent.parent_id;
       parent.treePath=(typeof parent.treePath) == 'undefined'?[]: parent.treePath;

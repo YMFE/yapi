@@ -8,6 +8,7 @@ import { changeEditStatus } from '../../../../reducer/modules/interface.js';
 import json5 from 'json5';
 import {message, Affix, Tabs, Modal, TreeSelect} from 'antd';
 import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
+import MultiUserSelect from "../../../../components/MultiUserSelect/MulitUserSelect";
 import mockEditor from 'client/components/AceEditor/mockEditor';
 import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
@@ -949,6 +950,11 @@ class InterfaceEditForm extends Component {
                   <Option value="deprecated">已过时</Option>
                   <Option value="stoping">暂停开发</Option>
                 </Select>
+              )}
+            </FormItem>
+            <FormItem className="interface-edit-item" {...formItemLayout} label="负责人">
+              {getFieldDecorator('owners', { initialValue: this.state.owners })(
+                <MultiUserSelect />
               )}
             </FormItem>
             {custom_field.enable && (
