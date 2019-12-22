@@ -35,6 +35,8 @@ const {
   checkNameIsExistInArray
 } = require('common/postmanLib.js');
 
+const plugin = require('client/plugin.js');
+
 const createContext = require('common/createContext')
 
 const HTTP_METHOD = constants.HTTP_METHOD;
@@ -332,13 +334,29 @@ export default class Run extends Component {
     let options = handleParams(this.state, this.handleValue),
       result;
 
+
+    await plugin.emitHook('before_request', options, {
+      type: this.props.type,
+      caseId: options.caseId,
+      projectId: this.props.projectId,
+      interfaceId: this.props.interfaceId
+    });
+
     try {
       options.taskId = this.props.curUid;
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script, createContext(
+      result = await crossRequest(options, options.pre_script || this.state.pre_script, options.after_script || this.state.after_script, createContext(
         this.props.curUid,
         this.props.projectId,
         this.props.interfaceId
       ));
+
+      await plugin.emitHook('after_request', result, {
+        type: this.props.type,
+        caseId: options.caseId,
+        projectId: this.props.projectId,
+        interfaceId: this.props.interfaceId
+      });
+
       result = {
         header: result.res.header,
         body: result.res.body,
@@ -346,6 +364,7 @@ export default class Run extends Component {
         statusText: result.res.statusText,
         runTime: result.runTime
       };
+
     } catch (data) {
       result = {
         header: data.header,
