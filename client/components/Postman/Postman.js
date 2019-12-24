@@ -335,16 +335,21 @@ export default class Run extends Component {
     let options = handleParams(this.state, this.handleValue),
       result;
 
+    let interfaceData = {
+      ...this.state,
+      pre_script: this.state.pre_script,
+      after_script: this.state.after_script
+    }
 
     await plugin.emitHook('before_request', options, {
       type: this.props.type,
       caseId: options.caseId,
-      interface: this.props.data
+      interface: interfaceData
     });
 
     try {
       options.taskId = this.props.curUid;
-      result = await crossRequest(options, this.state.pre_script, this.state.after_script, createContext(
+      result = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, createContext(
         this.props.curUid,
         this.props.projectId,
         this.props.interfaceId
@@ -353,7 +358,7 @@ export default class Run extends Component {
       let after_reault = await plugin.emitHook('after_request', result, {
         type: this.props.type,
         caseId: options.caseId,
-        interface: this.props.data
+        interface: interfaceData
       });
 
       // 将接口返回的对应的组件渲染
@@ -592,8 +597,8 @@ export default class Run extends Component {
     } = this.state;
 
     // 展示注入的组件
-    let injectComponent = injectList.length ? injectList.map(({ key, name, injectData, component: Comp }) => {
-      return (<Comp key={key} name={name} {...injectData} />);
+    let injectComponent = injectList.length ? injectList.map(({ key, name, injectData, component: InjectComponent }) => {
+      return (<InjectComponent key={key} name={name} {...injectData} />);
     }) : null;
 
     // console.log(env);
