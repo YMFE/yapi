@@ -44,6 +44,11 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
 
+// 缓存已运行接口的返回值
+const last_records = {};
+// 传递给ModalPostman的变量数据 (可以借助本地存储实现刷新也能复用)
+const variables_sets = [];
+
 export const InsertCodeMap = [
   {
     code: 'assert.equal(status, 200)',
@@ -300,9 +305,8 @@ export default class Run extends Component {
 
   handleValue(val, global) {
     let globalValue = ArrayToObject(global);
-    return handleParamsValue(val, {
-      global: globalValue
-    });
+    let context = Object.assign({}, { global: globalValue }, last_records);
+    return handleParamsValue(val, context);
   }
 
   onOpenTest = d => {
@@ -332,7 +336,8 @@ export default class Run extends Component {
       loading: true
     });
 
-    let options = handleParams(this.state, this.handleValue),
+    let requestParams = {};
+    let options = handleParams(this.state, this.handleValue, requestParams),
       result;
 
     let interfaceData = {
@@ -354,6 +359,28 @@ export default class Run extends Component {
         this.props.projectId,
         this.props.interfaceId
       ));
+
+      last_records[options.caseId] = {
+        status: result.res.status,
+        params: requestParams,
+        header: result.res.header,
+        body: result.res.body
+      };
+
+      let idx = variables_sets.findIndex((v) => (v._id === options.caseId));
+      let variable_data = {
+        _id: options.caseId,
+        index: options.caseId, // 已运行出的结果可以不用排序
+        body: result.res.body,
+        params: requestParams,
+        casename: interfaceData.title
+      };
+
+      if (idx > -1) {
+        variables_sets[idx] = variable_data;
+      } else {
+        variables_sets.push(variable_data);
+      }
 
       let after_reault = await plugin.emitHook('after_request', result, {
         type: this.props.type,
@@ -610,6 +637,7 @@ export default class Run extends Component {
             handleCancel={this.handleModalCancel}
             handleOk={this.handleModalOk}
             inputValue={inputValue}
+            variableSets={variables_sets}
             envType={this.props.type}
             id={+this.state._id}
           />
