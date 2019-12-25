@@ -288,6 +288,7 @@ class InterfaceColContent extends Component {
       this.records[curitem._id] = {
         status: result.status,
         params: result.params,
+        header: result.res_header,
         body: result.res_body
       };
 
