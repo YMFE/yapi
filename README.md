@@ -86,6 +86,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
 * [idea 一键上传接口到yapi插件](https://github.com/diwand/YapiIdeaUploadPlugin)
 * [idea 接口上传调试插件 easy-yapi](https://easyyapi.com/)
+* [执行 postgres sql 的服务](https://github.com/shouldnotappearcalm/http-postgres-server)
 
 ### YApi 的一些客户
 * 去哪儿
