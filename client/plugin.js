@@ -72,6 +72,52 @@ hooks = {
     listener: []
   },
   /**
+   * 在运行页面或单个测试也里每次发送请求前调用
+   * 可以用插件针对某个接口的请求头或者数据进行修改或者记录
+  */
+  before_request: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * 在运行页面或单个测试也里每次发送完成后调用
+   * 返回值为响应原始值 + 
+   * {
+   *   type: 'inter' | 'case',
+   *   projectId: string,
+   *   interfaceId: string
+   * }
+  */
+  after_request: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * 在测试集里运行每次发送请求前调用
+  */
+  before_col_request: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
+   * 在测试集里运行每次发送请求后调用
+   * 返回值为响应原始值 + 
+   * {
+   *   type: 'col',
+   *   caseId: string,
+   *   projectId: string,
+   *   interfaceId: string
+   * }
+  */
+  after_col_request: {
+    type: 'listener',
+    mulit: true,
+    listener: []
+  },
+  /**
    * header下拉菜单 menu 钩子
    * @param HeaderMenu
    *

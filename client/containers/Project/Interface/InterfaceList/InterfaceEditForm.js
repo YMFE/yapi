@@ -542,7 +542,7 @@ class InterfaceEditForm extends Component {
 
   // 处理批量导入参数
   handleBulkOk = () => {
-    let curValue = this.props.form.getFieldValue(this.state.bulkName);
+    let curValue = this.props.form.getFieldValue(this.state.bulkName)||[];
     // { name: '', required: '1', desc: '', example: '' }
     let newValue = [];
 
@@ -553,6 +553,7 @@ class InterfaceEditForm extends Component {
       newValue.push(valueItem);
     });
 
+    this.props.form.setFieldsValue({[this.state.bulkName]: newValue});
     this.setState({
       visible: false,
       bulkValue: null,
@@ -574,9 +575,11 @@ class InterfaceEditForm extends Component {
     let value = this.props.form.getFieldValue(name);
 
     let bulkValue = ``;
-    value.forEach(item => {
-      return (bulkValue += item.name ? `${item.name}:${item.example || ''}\n` : '');
-    });
+    if(value) {
+      value.forEach(item => {
+        return (bulkValue += item.name ? `${item.name}:${item.example || ''}\n` : '');
+      });
+    }
 
     this.setState({
       visible: true,

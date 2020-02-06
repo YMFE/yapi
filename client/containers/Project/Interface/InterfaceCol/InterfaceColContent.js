@@ -25,6 +25,7 @@ import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js
 import produce from 'immer';
 import {InsertCodeMap} from 'client/components/Postman/Postman.js'
 
+const plugin = require('client/plugin.js');
 const {
   handleParams,
   crossRequest,
@@ -311,6 +312,13 @@ class InterfaceColContent extends Component {
       validRes: []
     };
 
+    await plugin.emitHook('before_col_request', Object.assign({}, options, {
+      type: 'col',
+      caseId: options.caseId,
+      projectId: interfaceData.project_id,
+      interfaceId: interfaceData.interface_id
+    }));
+
     try {
       let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, createContext(
         this.props.curUid,
@@ -327,6 +335,13 @@ class InterfaceColContent extends Component {
         status: data.res.status,
         statusText: data.res.statusText
       };
+
+      await plugin.emitHook('after_col_request', result, {
+        type: 'col',
+        caseId: options.caseId,
+        projectId: interfaceData.project_id,
+        interfaceId: interfaceData.interface_id
+      });
 
       if (options.data && typeof options.data === 'object') {
         requestParams = {
