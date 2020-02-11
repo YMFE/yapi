@@ -38,7 +38,20 @@ export default class Services extends Component {
             <pre>{`
   npm i sm2tsservice -D
   `}</pre>
-            <h5>配置</h5>
+            <h5>配置【3.2.0及以上版本】</h5>
+            <pre>{`
+  touch json2service.json
+  `}</pre>
+            <pre>{`
+  {
+    "url": "yapi-swagger.json",
+    "remoteUrl": "${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}/api/open/plugin/export-full?type=json&pid=${id}&status=all&token=${this.props.token}",
+    "type": "yapi",
+    "swaggerParser": {}
+  }
+  `}
+            </pre>
+            <h5>配置【3.2.0以下版本】</h5>
             <pre>{`
   touch json2service.json
   `}</pre>
@@ -52,7 +65,7 @@ export default class Services extends Component {
             </pre>
             <h5>生成services代码</h5>
             <pre>{`
-  sm2tsservice --clear
+  (./node_modules/.bin/)sm2tsservice --clear
   `}</pre>
           </div>
           <a href="https://github.com/gogoyqj/sm2tsservice">更多说明 sm2tsservice</a>
