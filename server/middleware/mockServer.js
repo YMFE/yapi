@@ -130,7 +130,7 @@ function mockValidator(interfaceData, ctx) {
   if (noRequiredArr.length > 0 || (validResult && !validResult.valid)) {
     let message = `错误信息：`;
     message += noRequiredArr.length > 0 ? `缺少必须字段 ${noRequiredArr.join(',')}  ` : '';
-    message += validResult && !validResult.valid ? `shema 验证请求参数 ${validResult.message}` : '';
+    message += validResult && !validResult.valid ? `schema 验证请求参数 ${validResult.message}` : '';
 
     return {
       valid: false,
