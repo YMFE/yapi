@@ -26,7 +26,7 @@ npm run dev #启动开发服务器
 
 可参考 项目vendors/exts 目录下的插件
 
-在 vendors/node_modules 下新建 yapi-plugin-demo 目录和 npm init,最后生成的目录接口如下
+在 vendors/node_modules 下新建 yapi-plugin-demo 目录和 npm init,最后生成的目录结构如下
 ```
 yapi-plugin-demo
   client.js  //客户端入口文件
