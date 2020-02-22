@@ -44,14 +44,9 @@ function CheckCrossInstall(props) {
                 </a>
               </div> */}
               <div>
-                <a target="blank" href="/api/interface/download_crx">
-                  {' '}
-                  [手动下载]{' '}
-                </a>
-                <span> zip 文件解压后将 crx 文件拖入到 chrome://extensions/(注意：一定要开启开发者模式) </span>
                 <a target="blank" href="https://juejin.im/post/5e3bbd986fb9a07ce152b53d">
                   {' '}
-                  [详细安装教程]{' '}
+                  [谷歌请求插件详细安装教程]{' '}
                 </a>
               </div>
             </div>
