@@ -1,3 +1,6 @@
+## v1.8.8
+* 更新了 cross-request [教程](https://juejin.im/post/5e3bbd986fb9a07ce152b53d)，发布了最新的 3.1 版本 
+
 ## v1.8.7
 * 因 chrome 官方下架了 yapi 扩展，整理了本地安装教程
 
