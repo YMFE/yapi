@@ -11,6 +11,21 @@ const jsrsasign = require('jsrsasign');
 const https = require('https');
 
 const isNode = typeof global == 'object' && global.global === global;
+
+if (!isNode) {
+  axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    config.headers = {
+      ...config.headers,
+      'Yapi-User': localStorage.getItem('YAPI_USER') || ''
+    }
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+}
+
 const ContentTypeMap = {
   'application/json': 'json',
   'application/xml': 'xml',

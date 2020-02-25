@@ -92,7 +92,19 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    this.props.checkLoginState();
+    this.props.checkLoginState().then(res => {
+      console.log("checkLoginState", res);
+      if (res.payload.data.errcode == 0) {
+        const userInfo = res.payload.data.data;
+        const userInfoStr = Object.keys(userInfo).map(k => {
+          return `${k}=${userInfo[k]}`;
+        }).join(';');
+        localStorage.setItem('YAPI_USER', encodeURI(userInfoStr));
+      }
+    })
+    .catch(err => {
+      console.log('error',err);
+    });
   }
 
   showConfirm = (msg, callback) => {
