@@ -114,8 +114,8 @@ exports.ldapQuery = (username, password) => {
       const searchStandard = ldapLogin.searchStandard;
       // 处理可以自定义filter
       let customFilter;
-      if (/^&/gi.test(searchStandard)) {
-        customFilter = util.format(searchStandard, username);
+      if (/^(&|\|)/gi.test(searchStandard)) {
+        customFilter = searchStandard.replace(/%s/g,username);
       } else {
         customFilter = `${searchStandard}=${username}`;
       }
