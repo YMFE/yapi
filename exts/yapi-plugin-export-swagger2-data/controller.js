@@ -187,7 +187,7 @@ class exportSwaggerController extends baseController {
                                         paramArray.push({
                                             name: p.name,
                                             in: 'query',
-                                            required: p.required === 1,
+                                            required: Number(p.required) === 1,
                                             description: p.desc,
                                             type: 'string' //always be type string
                                         });
@@ -200,7 +200,7 @@ class exportSwaggerController extends baseController {
                                                     paramArray.push({
                                                         name: p.name,
                                                         in: 'formData',
-                                                        required: p.required === 1,
+                                                        required: Number(p.required) === 1,
                                                         description: p.desc,
                                                         type: p.type === 'text' ? 'string' : 'file' //in this time .formData type have only text or file
                                                     });
