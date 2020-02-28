@@ -167,7 +167,7 @@ class exportSwaggerController extends baseController {
                                             name: p.name,
                                             in: 'header',
                                             description: `${p.name} (Only:${p.value})`,
-                                            required: p.required === 1,
+                                            required: Number(p.required) === 1,
                                             type: 'string', //always be type string
                                             default: p.value
                                         });
