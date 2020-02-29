@@ -11,7 +11,7 @@ function arrUnique(arr1, arr2) {
 const noticeObj = {
   mail: {
     title: '邮件',
-    hander: (emails, title, content)=>{
+    handler: (emails, title, content)=>{
       yapi.commons.sendMail({
         to: emails,
         contents: content,
@@ -19,7 +19,7 @@ const noticeObj = {
       });
     }
   }
-}
+};
 
 yapi.emitHook('addNotice', noticeObj)
 
@@ -35,11 +35,11 @@ yapi.commons.sendNotice = async function(projectId, data) {
   const starUsers = list.map(item => item.uid);
 
   const projectList = await projectInst.get(projectId);
-  const projectMenbers = projectList.members
+  const projectMembers = projectList.members
     .filter(item => item.email_notice)
     .map(item => item.uid);
 
-  const users = arrUnique(projectMenbers, starUsers);
+  const users = arrUnique(projectMembers, starUsers);
   const usersInfo = await userInst.findByUids(users);
   const emails = usersInfo.map(item => item.email).join(',');
 
@@ -47,7 +47,7 @@ yapi.commons.sendNotice = async function(projectId, data) {
     Object.keys(noticeObj).forEach(key=>{
       let noticeItem = noticeObj[key];
       try{
-        noticeItem.hander(emails, data.title, data.content)
+        noticeItem.handler(emails, data.title, data.content)
       }catch(err){
         yapi.commons.log('发送' + (noticeItem.title || key) + '失败' + err.message,  'error')
       }
