@@ -83,6 +83,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [使用DockerCompose构建部署Yapi](https://github.com/MyHerux/daily-code/blob/master/Program/%E5%B7%A5%E5%85%B7%E7%AF%87/Yapi/%E4%BD%BF%E7%94%A8DockerCompose%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2Yapi.md)
 
 ### YApi 一些工具
+* [Api Generator](https://github.com/Forgus/api-generator) 接口文档自动生成插件（零入侵）
 * [mysql服务http工具,可配合做自动化测试](https://github.com/hellosean1025/http-mysql-server)
 * [idea 一键上传接口到yapi插件](https://github.com/diwand/YapiIdeaUploadPlugin)
 * [idea 接口上传调试插件 easy-yapi](https://easyyapi.com/)
