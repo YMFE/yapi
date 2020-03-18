@@ -678,6 +678,16 @@ class InterfaceEditForm extends Component {
               />
             )}
           </Col>
+          <Col span="3" className="interface-edit-item-content-col">
+            {getFieldDecorator('req_headers[' + index + '].required', {
+              initialValue: data.required
+            })(
+              <Select>
+                <Option value="1">必需</Option>
+                <Option value="0">非必需</Option>
+              </Select>
+            )}
+          </Col>
           <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator('req_headers[' + index + '].value', {
               initialValue: data.value
@@ -688,7 +698,7 @@ class InterfaceEditForm extends Component {
               initialValue: data.example
             })(<TextArea autosize={true} placeholder="参数示例" />)}
           </Col>
-          <Col span="8" className="interface-edit-item-content-col">
+          <Col span="5" className="interface-edit-item-content-col">
             {getFieldDecorator('req_headers[' + index + '].desc', {
               initialValue: data.desc
             })(<TextArea autosize={true} placeholder="备注" />)}
