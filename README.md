@@ -180,11 +180,12 @@
 
 ### 分支升级说明
 1. 停止服务：forever stopall
-2. cd xxx/yapi/vendors/
-3. 添加 分支仓库（若已经添加，无需重复添加） git remote add yehaoapi https://github.com/xian-crazy/yapi.git
+2. cd /opt/yapi/vendors/
+3. 添加 分支仓库（**若已经添加，无需重复添加**） git remote add yehaoapi https://github.com/xian-crazy/yapi.git
 4. 拉取新代码 git pull yehaoapi master
-5. 打包 ykit pack -m
-6. 启动服务 forever start -o out.log -e err.log server/app.js
+5. npm install  --registry https://registry.npm.taobao.org
+6. 打包 ykit pack -m
+7. 启动服务 forever start -o out.log -e err.log server/app.js
 
 ### crazy-yapi 分支 作者
 * crazy  330126160@qq.com
