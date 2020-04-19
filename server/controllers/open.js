@@ -5,6 +5,7 @@ const interfaceModel = require('../models/interface.js');
 const interfaceCatModel = require('../models/interfaceCat.js');
 const followModel = require('../models/follow.js');
 const userModel = require('../models/user.js');
+const interfaceAutoReportModel = require("../models/interfaceAutoReport.js");
 const yapi = require('../yapi.js');
 const baseController = require('./base.js');
 const {
@@ -38,6 +39,7 @@ class openController extends baseController {
     this.interfaceCatModel = yapi.getInst(interfaceCatModel);
     this.followModel = yapi.getInst(followModel);
     this.userModel = yapi.getInst(userModel);
+    this.reportInst = yapi.getInst(interfaceAutoReportModel);
     this.handleValue = this.handleValue.bind(this);
     this.schemaMap = {
       runAutoTest: {
@@ -266,9 +268,9 @@ class openController extends baseController {
     if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
       let autoTestUrl = `${
         ctx.request.origin
-      }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
+      }/api/report/get_report?reportid=${id}`;
       yapi.commons.sendNotice(projectId, {
-        title: `YApi自动化测试报告`,
+        title: colData.name,
         content: `
         <html>
         <head>
@@ -290,9 +292,26 @@ class openController extends baseController {
       ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
     }
     if (ctx.params.mode === 'json') {
+      //保存测试报告
+      await this.reportInst.save({
+        col_id: id,
+        report: reportsResult,
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time() 
+      });
       return (ctx.body = reportsResult);
     } else {
-      return (ctx.body = renderToHtml(reportsResult));
+      let report_html = renderToHtml(reportsResult);
+      //保存测试报告
+      await this.reportInst.save({
+        col_id: id,
+        report: report_html,
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time() 
+      });
+      return (ctx.body = report_html);
     }
   }
 

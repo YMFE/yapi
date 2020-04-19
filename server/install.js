@@ -134,6 +134,11 @@ function setupSql() {
         project_id: 1
       });
 
+      let interfaceAutoReport = mongoose.connection.db.collection('interface_auto_report');
+      interfaceAutoReport.createIndex({
+        uid: 1
+      });
+
       result.then(
         function() {
           fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
