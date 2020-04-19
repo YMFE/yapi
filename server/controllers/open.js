@@ -265,10 +265,38 @@ class openController extends baseController {
       list: testList
     };
 
+    let reportId = '';
+    let mode = ctx.params.mode || 'html';
+    if(ctx.params.download === true) {
+      ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
+    }
+    if (ctx.params.mode === 'json') {
+      //保存测试报告
+      let result = await this.reportInst.save({
+        report: reportsResult,
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time() 
+      });
+      reportId = result._id;
+      ctx.body = reportsResult;
+    } else {
+      let report_html = renderToHtml(reportsResult);
+      //保存测试报告
+      let result = await this.reportInst.save({
+        report: report_html,
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time() 
+      });
+      reportId = result._id;
+      ctx.body = report_html;
+    }
+
     if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
       let autoTestUrl = `${
         ctx.request.origin
-      }/api/report/get_report?reportid=${id}`;
+      }/api/report/get_report?reportid=${reportId}`;
       yapi.commons.sendNotice(projectId, {
         title: colData.name,
         content: `
@@ -287,32 +315,9 @@ class openController extends baseController {
         </html>`
       });
     }
-    let mode = ctx.params.mode || 'html';
-    if(ctx.params.download === true) {
-      ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
-    }
-    if (ctx.params.mode === 'json') {
-      //保存测试报告
-      await this.reportInst.save({
-        col_id: id,
-        report: reportsResult,
-        uid: this.getUid(),
-        add_time: yapi.commons.time(),
-        up_time: yapi.commons.time() 
-      });
-      return (ctx.body = reportsResult);
-    } else {
-      let report_html = renderToHtml(reportsResult);
-      //保存测试报告
-      await this.reportInst.save({
-        col_id: id,
-        report: report_html,
-        uid: this.getUid(),
-        add_time: yapi.commons.time(),
-        up_time: yapi.commons.time() 
-      });
-      return (ctx.body = report_html);
-    }
+
+    return ctx;
+    
   }
 
   async handleTest(interfaceData) {
