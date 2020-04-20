@@ -1,7 +1,4 @@
 ## YApi  可视化接口管理平台
-示例站点：
-<p><a target="_blank" href="http://yapi.demo.qunar.com">yapi.demo.qunar.com</a></p>
-
 
 文档：
 <p><a target="_blank" href="https://hellosean1025.github.io/yapi">hellosean1025.github.io/yapi</a></p>
