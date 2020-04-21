@@ -273,7 +273,7 @@ class openController extends baseController {
     if (ctx.params.mode === 'json') {
       //保存测试报告
       let result = await this.reportInst.save({
-        report: reportsResult,
+        report: JSON.stringify(reportsResult),
         uid: this.getUid(),
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time() 
