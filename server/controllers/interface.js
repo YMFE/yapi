@@ -592,7 +592,7 @@ class interfaceController extends baseController {
         item.list = list;
         newResult[i] = item;
       }
-      ctx.body = yapi.commons.resReturn(newResult);
+      ctx.body = yapi.commons.resReturn(yapi.commons.translateDataToTree(newResult));
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
@@ -912,6 +912,7 @@ class interfaceController extends baseController {
         project_id: params.project_id,
         desc: params.desc,
         uid: this.getUid(),
+        parent_id: params.parent_id || -1,
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
       });
@@ -986,7 +987,7 @@ class interfaceController extends baseController {
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 删除了分类 "${
           catData.name
-        }" 及该分类下的接口`,
+        }" 及该分类及子分类及其接口`,
         type: 'project',
         uid: this.getUid(),
         username: username,
