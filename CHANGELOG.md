@@ -1,3 +1,6 @@
+## v1.9.1
+* 修复因 mongodb 一个废弃报错导致部署不成功问题
+
 ## v1.9.0
 * 修复测试集合部分情况下闪动问题
 * 修改ldap filter的匹配规则，使其可以匹配&和|操作符  Merge pull request #1631 from vvkkhjt/master
