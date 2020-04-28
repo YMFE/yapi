@@ -161,6 +161,7 @@ class interfaceController extends baseController {
           path: minLengthStringField,
           method: minLengthStringField,
           message: minLengthStringField,
+          switch_notice: 'boolean',
           dataSync: 'string'
         },
         addAndUpCommonField
@@ -326,7 +327,6 @@ class interfaceController extends baseController {
    * @param  {String} [desc] 接口描述
    * @returns {Object}
    */
-
   async save(ctx) {
     let params = ctx.params;
 
@@ -358,7 +358,7 @@ class interfaceController extends baseController {
         let validParams = Object.assign({}, params)
         let validResult = yapi.commons.validateParams(this.schemaMap['up'], validParams);
         if (validResult.valid) {
-          let data = {};
+          let data = Object.assign({}, ctx);
           data.params = validParams;
 
           if(params.res_body_is_json_schema && params.dataSync === 'good'){
@@ -624,7 +624,6 @@ class interfaceController extends baseController {
    * @returns {Object}
    * @example ./api/interface/up.json
    */
-
   async up(ctx) {
     let params = ctx.params;
 
@@ -1022,7 +1021,6 @@ class interfaceController extends baseController {
    * @returns {Object}
    * @example ./api/interface/getCatMenu
    */
-
   async getCatMenu(ctx) {
     let project_id = ctx.params.project_id;
 
@@ -1117,7 +1115,6 @@ class interfaceController extends baseController {
    * @returns {Object}
    * @example
    */
-
   async upIndex(ctx) {
     try {
       let params = ctx.request.body;
@@ -1151,7 +1148,6 @@ class interfaceController extends baseController {
    * @returns {Object}
    * @example
    */
-
   async upCatIndex(ctx) {
     try {
       let params = ctx.request.body;
@@ -1180,7 +1176,7 @@ class interfaceController extends baseController {
     let required = ctx.request.body.required;
 
     let res = yapi.commons.schemaToJson(schema, {
-      alwaysFakeOptionals: _.isUndefined(required) ? true : require
+      alwaysFakeOptionals: _.isUndefined(required) ? true : required
     });
     // console.log('res',res)
     return (ctx.body = res);
