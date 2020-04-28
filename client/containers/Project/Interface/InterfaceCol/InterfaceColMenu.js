@@ -14,6 +14,7 @@ import axios from 'axios';
 import ImportInterface from './ImportInterface';
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
+import _ from 'underscore'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -148,7 +149,7 @@ export default class InterfaceColMenu extends Component {
     this.setState({ expands: keys });
   };
 
-  onSelect = keys => {
+  onSelect = _.debounce(keys => {
     if (keys.length) {
       const type = keys[0].split('_')[0];
       const id = keys[0].split('_')[1];
@@ -168,7 +169,7 @@ export default class InterfaceColMenu extends Component {
     this.setState({
       expands: null
     });
-  };
+  }, 500);
 
   showDelColConfirm = colId => {
     let that = this;
