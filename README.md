@@ -73,6 +73,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi-gen-js-code: 根据 YApi 的接口定义生成 javascript 的请求函数](https://github.com/hellosean1025/yapi-gen-js-code)
 
 ### YApi docker部署（非官方）
+* [docker-compose一键部署YApi(alpine版，小巧安全)](https://github.com/huajiejin/yapi-docker-compose)
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
 * [docker-yapi](https://github.com/Ryan-Miao/docker-yapi)
 * [docker-compose一键部署yapi](https://github.com/jinfeijie/yapi)
