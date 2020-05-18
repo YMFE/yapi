@@ -1,3 +1,16 @@
+## v1.9.1
+* 修复因 mongodb 一个废弃报错导致部署不成功问题
+
+## v1.9.0
+* 修复测试集合部分情况下闪动问题
+* 修改ldap filter的匹配规则，使其可以匹配&和|操作符  Merge pull request #1631 from vvkkhjt/master
+* support switch_notice for /interface/save  Merge pull request #1646 from tangcent/feature/openapi_notice
+* 自动化测试时服务端测试node默认2分钟没有返回就直接断掉连接，可以手动设置一个超时时间 Merge pull request #1675 from liugddx/master
+* 修复导出的swagger.json 中 required 一直是 false 的 bug
+* 修复 schema2json传required参数时，导致faker失败
+* 修改ldap filter的匹配规则 
+* 更新 sm2tsservice 3.2.0及以后版本的使用配置
+
 ## v1.8.8
 * 更新了 cross-request [教程](https://juejin.im/post/5e3bbd986fb9a07ce152b53d)，发布了最新的 3.1 版本 
 

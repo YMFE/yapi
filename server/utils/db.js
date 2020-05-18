@@ -19,7 +19,7 @@ function connect(callback) {
   mongoose.set('useCreateIndex', true);
 
   let config = yapi.WEBCONFIG;
-  let options = {useNewUrlParser: true, useCreateIndex: true};
+  let options = {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true};
 
   if (config.db.user) {
     options.user = config.db.user;
