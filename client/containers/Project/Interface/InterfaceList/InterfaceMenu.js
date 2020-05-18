@@ -295,10 +295,20 @@ class InterfaceMenu extends Component {
     });
   };
 
-  onDrop = async e => {
-    const dropKey = e.node.props.eventKey;
-    const dragKey = e.dragNode.props.eventKey;
+  getcatItem = (c, ids, iscat) => {
+    let inids = [JSON.parse(JSON.stringify(ids))];
+    iscat ? '' : inids.pop();
+    let itrlist = (lis, idz) => {
+      let ret = lis[Number(idz.shift())];
+      if (idz.length > 0) {
+        ret = itrlist(ret.children, idz);
+      }
+      return ret;
+    };
+    return itrlist(c, inids);
+  };
 
+  onDrop = async e => {
     const dropCatIndex = e.node.props.pos.split('-')[1] - 1;
     const dragCatIndex = e.dragNode.props.pos.split('-')[1] - 1;
     if (dropCatIndex < 0 || dragCatIndex < 0) {
@@ -309,19 +319,23 @@ class InterfaceMenu extends Component {
     const id = e.dragNode.props.eventKey;
     const dragCatId = this.props.list[dragCatIndex]._id;
 
+    const dropId = e.node.props.eventKey;
+    const dropCatItem = this.getcatItem(list, dropCatIndex, dropId.indexOf('cat') !== -1);
+    const dragCatItem = this.getcatItem(list, dragCatIndex, id.indexOf('cat') !== -1);
+
     const dropPos = e.node.props.pos.split('-');
     const dropIndex = Number(dropPos[dropPos.length - 1]);
     const dragPos = e.dragNode.props.pos.split('-');
     const dragIndex = Number(dragPos[dragPos.length - 1]);
 
-    if (dragKey.indexOf('cat') === -1) {
+    if (id.indexOf('cat') === -1) {
       if (dropCatId === dragCatId) {
         // 同一个分类下的接口交换顺序
         let colList = list[dropCatIndex].list;
         let changes = arrayChangeIndex(colList, dragIndex, dropIndex);
         axios.post('/api/interface/up_index', changes).then();
       } else {
-        await axios.post('/api/interface/up', { id, catid: dropKey.substring(4) });
+        await axios.post('/api/interface/up', { id, catid: dropCatId });
       }
       const { projectId, router } = this.props;
       this.props.fetchInterfaceListMenu(projectId);
@@ -333,8 +347,20 @@ class InterfaceMenu extends Component {
       }
     } else {
       // 分类之间拖动
-      let changes = arrayChangeIndex(list, dragIndex - 1, dropIndex - 1);
-      axios.post('/api/interface/up_cat_index', changes).then();
+      if (dropId.indexOf('cat') === -1 || (dropId.indexOf('cat') !== -1 && dropCatItem.parent_id !== dragCatItem.parent_id)) {
+        let catid = dragCatItem._id;
+        let parent_id = -1;
+        //不同级别时，拖到上gap,则成为同级分类
+        if (e.node.props.dragOverGapTop) {
+          parent_id = dropCatItem.parent_id;
+        } else {// 不同级别时，拖到节点或下gap时，成为子目录
+          parent_id = dropCatItem._id;
+        }
+        axios.post('/api/interface/up_cat', {catid, parent_id}).then();
+      } else {
+        let changes = arrayChangeIndex(list, dragIndex - 1, dropIndex - 1);
+        axios.post('/api/interface/up_cat_index', changes).then();
+      }
       this.props.fetchInterfaceListMenu(this.props.projectId);
     }
   };
