@@ -946,11 +946,20 @@ class interfaceController extends baseController {
         return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
       }
 
-      let result = await this.catModel.up(params.catid, {
-        name: params.name,
-        desc: params.desc,
+      let update = {
         up_time: yapi.commons.time()
-      });
+      };
+
+      if (params.parent_id) {
+        update.parent_id = params.parent_id;
+      }
+
+      if (params.name) {
+        update.name = params.name;
+        update.desc= params.desc;
+      }
+
+      let result = await this.catModel.up(params.catid, update);
 
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${
