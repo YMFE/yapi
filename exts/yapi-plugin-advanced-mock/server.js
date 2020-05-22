@@ -3,7 +3,7 @@ const advModel = require('./advMockModel.js');
 const caseModel = require('./caseModel.js');
 const yapi = require('yapi.js');
 const mongoose = require('mongoose');
-const _ = require("lodash");
+const _ = require('underscore');
 const path = require('path');
 const lib = require(path.resolve(yapi.WEBROOT, 'common/lib.js'));
 const Mock = require('mockjs');
@@ -59,7 +59,7 @@ module.exports = function() {
     let matchList = [];
     listWithIp.forEach(item => {
       let params = item.params;
-      if (item.case_enable && _.isEqual(reqParams, params)) {
+      if (item.case_enable && lib.isDeepMatch(reqParams, params)) {
         matchList.push(item);
       }
     });
@@ -74,7 +74,7 @@ module.exports = function() {
         .select('_id params case_enable');
       list.forEach(item => {
         let params = item.params;
-        if (item.case_enable && _.isEqual(reqParams, params)) {
+        if (item.case_enable && lib.isDeepMatch(reqParams, params)) {
           matchList.push(item);
         }
       });
