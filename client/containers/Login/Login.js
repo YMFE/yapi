@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Form, Button, Input, Icon, message, Radio } from 'antd';
 import { loginActions, loginLdapActions } from '../../reducer/modules/user';
 import { withRouter } from 'react-router';
+import { trim } from '../../common.js';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
@@ -48,27 +49,21 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this.props.form;
-    form.validateFields((err, values) => {
-      if (!err) {
-        if (this.props.isLDAP && this.state.loginType === 'ldap') {
-          this.props.loginLdapActions(values).then(res => {
-            if (res.payload.data.errcode == 0) {
-              this.props.history.replace('/group');
-              message.success('登录成功! ');
-            }
-          });
-        } else {
-          this.props.loginActions(values).then(res => {
-            if (res.payload.data.errcode == 0) {
-              this.props.history.replace('/group');
-              message.success('登录成功! ');
-            }
-          });
-        }
-      }
+    this.props.form.validateFields((err, values) => {
+      if (err) return;
+
+      values.email = trim(values.email);
+      this.props.isLDAP && this.state.loginType === 'ldap' ?
+          this.props.loginLdapActions(values).then(this.loginCallBack) :
+          this.props.loginActions(values).then(this.loginCallBack);
     });
   };
+
+  loginCallBack = res => {
+    if (res.payload.data.errcode != 0) return;
+    this.props.history.replace('/group');
+    message.success('登录成功! ');
+  }
 
   componentDidMount() {
     //Qsso.attach('qsso-login','/api/user/login_by_token')
