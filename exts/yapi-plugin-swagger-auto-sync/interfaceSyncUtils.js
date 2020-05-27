@@ -98,7 +98,7 @@ class syncUtils {
             //记录日志
             // this.saveSyncLog(0, syncMode, "接口无更新", uid, projectId);
             oldSyncJob.last_sync_time = yapi.commons.time();
-            await this.syncModel.upById(projectId, oldSyncJob);
+            await this.syncModel.upById(oldSyncJob._id, oldSyncJob);
             return;
         }
 
