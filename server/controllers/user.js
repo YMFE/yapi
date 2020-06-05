@@ -31,6 +31,7 @@ class userController extends baseController {
     //登录
     let userInst = yapi.getInst(userModel); //创建user实体
     let email = ctx.request.body.email;
+    email = (email || '').trim();
     let password = ctx.request.body.password;
 
     if (!email) {
