@@ -86,7 +86,7 @@
     "vm2": "^3.8.4"
   },
   "devDependencies": {
-    "antd": "3.2.2",
+    "antd": "^3.2.2",
     "anujs": "^1.2.6",
     "assets-webpack-plugin": "^3.5.1",
     "ava": "^0.22.0",
