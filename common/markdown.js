@@ -66,9 +66,9 @@ function escapeStr(str, isToc) {
   return isToc ? escape(str) : str;
 }
 
-function createBaseMessage(basepath, inter) {
+function createBaseMessage(basepath, inter, depth) {
   // 基本信息
-  let baseMessage = `### 基本信息\n\n**Path：** ${basepath + inter.path}\n\n**Method：** ${
+  let baseMessage = `${getMarkdownDepth(depth + 2)} 基本信息\n\n**Path：** ${basepath + inter.path}\n\n**Method：** ${
     inter.method
   }\n\n**接口描述：**\n${_.isUndefined(inter.desc) ? '' : inter.desc}\n`;
   return baseMessage;
@@ -240,8 +240,8 @@ function createSchemaTable(body) {
   return template;
 }
 
-function createResponse(res_body, res_body_is_json_schema, res_body_type) {
-  let resTitle = `\n### 返回数据\n\n`;
+function createResponse(res_body, res_body_is_json_schema, res_body_type, depth) {
+  let resTitle = `\n${getMarkdownDepth(depth + 2)} 返回数据\n\n`;
   if (res_body) {
     if (res_body_is_json_schema && res_body_type === 'json') {
       let resBody = createSchemaTable(res_body);
@@ -254,16 +254,16 @@ function createResponse(res_body, res_body_is_json_schema, res_body_type) {
   return '';
 }
 
-function createInterMarkdown(basepath, listItem, isToc) {
+function createInterMarkdown(basepath, listItem, isToc, depth) {
   let mdTemplate = ``;
   const toc = `[TOC]\n\n`;
   // 接口名称
-  mdTemplate += `\n## ${escapeStr(`${listItem.title}\n<a id=${listItem.title}> </a>`, isToc)}\n`;
+  mdTemplate += `\n${getMarkdownDepth(depth + 1)} ${escapeStr(`${listItem.title}\n<a id=${listItem.title}> </a>`, isToc)}\n`;
   isToc && (mdTemplate += toc);
   // 基本信息
-  mdTemplate += createBaseMessage(basepath, listItem);
+  mdTemplate += createBaseMessage(basepath, listItem, depth);
   // Request
-  mdTemplate += `\n### 请求参数\n`;
+  mdTemplate += `\n${getMarkdownDepth(depth + 2)} 请求参数\n`;
   // Request-headers
   mdTemplate += createReqHeaders(listItem.req_headers);
   // Request-params
@@ -282,7 +282,8 @@ function createInterMarkdown(basepath, listItem, isToc) {
   mdTemplate += createResponse(
     listItem.res_body,
     listItem.res_body_is_json_schema,
-    listItem.res_body_type
+    listItem.res_body_type,
+    depth
   );
 
   return mdTemplate;
@@ -301,20 +302,37 @@ function createProjectMarkdown(curProject, wikiData) {
 }
 
 function createClassMarkdown(curProject, list, isToc) {
+  return createClassTreeMarkdown(curProject, list, isToc, 1);
+}
+
+function createClassTreeMarkdown(curProject, list, isToc, depth) {
+  const toc = `[TOC]\n`;
   let mdTemplate = ``;
-  const toc = `[TOC]\n\n`;
   list.map(item => {
     // 分类名称
-    mdTemplate += `\n# ${escapeStr(item.name, isToc)}\n`;
+    mdTemplate += `\n${getMarkdownDepth(depth)} ${escapeStr(item.name, isToc)}\n`;
     isToc && (mdTemplate += toc);
     for (let i = 0; i < item.list.length; i++) {
       //循环拼接 接口
       // 接口内容
-      mdTemplate += createInterMarkdown(curProject.basepath, item.list[i], isToc);
+      mdTemplate += createInterMarkdown(curProject.basepath, item.list[i], isToc, depth);
+    }
+    // 子分类循环
+    if (item.children) {
+      mdTemplate += createClassTreeMarkdown(curProject, item.children, isToc, depth + 1)
     }
   });
   return mdTemplate;
 }
+
+function getMarkdownDepth(depth) {
+  let str = "";
+  for (let i = 0; i < depth; i++) {
+    str += "#";
+  }
+  return str;
+}
+
 
 let r = {
   createInterMarkdown,

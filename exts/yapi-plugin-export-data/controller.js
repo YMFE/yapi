@@ -20,6 +20,27 @@ class exportController extends baseController {
     
   }
 
+  listToTree = (oldArr) => {
+    oldArr.forEach(element => {
+      let parent_id = element.parent_id;
+      if(parent_id !== 0){
+        oldArr.forEach(ele => {
+          //当内层循环的ID== 外层循环的parendId时，（说明有children），需要往该内层id里建个children并push对应的数组；
+          if(ele._id === parent_id){
+            if(!ele.children){
+              ele.children = [];
+            }
+            ele.children.push(element);
+          }
+        });
+      }
+    });
+    //此时的数组是在原基础上补充了children;
+    //这一步是过滤，按树展开，将多余的数组剔除；
+    oldArr = oldArr.filter(ele => ele.parent_id === 0);
+    return oldArr;
+  }
+
   async handleListClass(pid, status) {
     let result = await this.catModel.list(pid),
       newResult = [];
@@ -34,8 +55,8 @@ class exportController extends baseController {
         newResult.push(item);
       }
     }
-    
-    return newResult;
+
+    return this.listToTree(newResult);
   }
 
   handleExistId(data) {
@@ -87,7 +108,6 @@ class exportController extends baseController {
       }
       ctx.set('Content-Type', 'application/octet-stream');
       const list = await this.handleListClass(pid, status);
-
       switch (type) {
         case 'markdown': {
           tp = await createMarkdown.bind(this)(list, false);
@@ -102,7 +122,9 @@ class exportController extends baseController {
         }
         default: {
           //默认为html
-          tp = await createHtml.bind(this)(list);
+          let maxDepth = 1;
+          maxDepth = calculateMaxDepth(list, maxDepth);
+          tp = await createHtml.bind(this)(list, maxDepth);
           ctx.set('Content-Disposition', `attachment; filename=api.html`);
           return (ctx.body = tp);
         }
@@ -112,12 +134,30 @@ class exportController extends baseController {
       ctx.body = yapi.commons.resReturn(null, 502, '下载出错');
     }
 
-    async function createHtml(list) {
+    function calculateMaxDepth(list, depth) {
+      list.map(item => {
+        // 子分类循环
+        if (item.children) {
+          depth += 1;
+          calculateMaxDepth(item.children, depth)
+        }
+      });
+      return depth;
+    }
+
+    async function createHtml(list, maxDepth) {
       let md = await createMarkdown.bind(this)(list, true);
       let markdown = markdownIt({ html: true, breaks: true });
       markdown.use(markdownItAnchor); // Optional, but makes sense as you really want to link to something
+      let level = [];
+      for (let i = 0; i < maxDepth + 2; i++) {
+        level.push(i+1);
+      }
+      console.log(level);
       markdown.use(markdownItTableOfContents, {
-        markerPattern: /^\[toc\]/im
+        markerPattern: /^\[toc\]/im,
+        forceFullToc: true,
+        includeLevel: level
       });
 
       // require('fs').writeFileSync('./a.markdown', md);
