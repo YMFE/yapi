@@ -12,3 +12,7 @@
 - [ ] 搜索接口BUG修复
 - [x] 支持多级目录导出HTML文件
 - [ ] 修复多级目录导出HTML文件样式上的BUG
+
+## 预览
+![多级目录](./YAPI-TREE-CAT.png)
+![导出HTML](./YAPI-TREE.png)
