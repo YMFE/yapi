@@ -242,7 +242,8 @@ export default class HeaderCom extends Component {
     location: PropTypes.object,
     study: PropTypes.bool,
     studyTip: PropTypes.number,
-    imageUrl: PropTypes.any
+    imageUrl: PropTypes.any,
+    addone: PropTypes.ReactNodeLike,
   };
   linkTo = e => {
     if (e.key != '/doc') {
@@ -293,7 +294,7 @@ export default class HeaderCom extends Component {
   };
 
   render() {
-    const { login, user, msg, uid, role, studyTip, study, imageUrl } = this.props;
+    const { login, user, msg, uid, role, studyTip, study, imageUrl, addone } = this.props;
     return (
       <Header className="header-box m-header">
         <div className="content g-row">
@@ -309,6 +310,7 @@ export default class HeaderCom extends Component {
             className="user-toolbar"
             style={{ position: 'relative', zIndex: this.props.studyTip > 0 ? 3 : 1 }}
           >
+            {addone}
             {login ? (
               <ToolUser
                 {...{ studyTip, study, user, msg, uid, role, imageUrl }}

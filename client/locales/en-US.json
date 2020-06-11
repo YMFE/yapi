@@ -1,0 +1,16 @@
+{
+  "components.ErrMsg.你还没有关注项目呢": "你还没有关注项目呢",
+  "components.ErrMsg.先去": "先去",
+  "components.ErrMsg.“项目广场”": "“项目广场”",
+  "components.ErrMsg.逛逛吧,": "逛逛吧,\n              那里可以添加关注。",
+  "components.ErrMsg.该项目还没有接口呢": "该项目还没有接口呢",
+  "components.ErrMsg.在左侧 “接口列表”": "在左侧 “接口列表” 中添加接口",
+  "components.ErrMsg.该项目还没有成员呢": "该项目还没有成员呢",
+  "components.ErrMsg.该分组还没有成员呢": "该分组还没有成员呢",
+  "components.ErrMsg.该分组还没有项目呢": "该分组还没有项目呢",
+  "components.ErrMsg.请点击右上角添加项目": "请点击右上角添加项目按钮新建项目",
+  "components.ErrMsg.暂无数据": "暂无数据",
+  "components.ErrMsg.先去别处逛逛吧": "先去adsfafd",
+  "components.ErrMsg.没有改动": "没有改动",
+  "components.ErrMsg.该操作未改动 Api": "该操作未改动 Api 数据"
+}
