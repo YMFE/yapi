@@ -117,6 +117,14 @@ export default class App extends Component {
       });
   }
 
+  changeLng = (lng) => {
+    i18nHelper.switchLng(lng)
+      .then(() => {
+        // After loading CLDR locale data, start to render
+        this.setState({ lng });
+      });
+  }
+
   showConfirm = (msg, callback) => {
     // 自定义 window.confirm
     // http://reacttraining.cn/web/api/BrowserRouter/getUserConfirmation-func
@@ -132,7 +140,7 @@ export default class App extends Component {
     } else {
 
       const lngSel = <Select value={this.state.lng} onChange={e=>this.changeLng(e)}>
-        {i18nHelper.availableLng.map(k => <Select.Option value={k}>{k}</Select.Option>)}
+        {i18nHelper.availableLng.map(k => <Select.Option key={k} value={k}>{k}</Select.Option>)}
       </Select>
 
       r = (
