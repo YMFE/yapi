@@ -96,25 +96,6 @@ export default class App extends Component {
 
   componentDidMount() {
     this.props.checkLoginState();
-    this.loadLocales();
-  }
-
-  changeLng = (lng) => {
-    i18nHelper.switchLng(lng)
-      .then(() => {
-        // After loading CLDR locale data, start to render
-        this.setState({ lng });
-      });
-  }
-
-  loadLocales() {
-    // init method will load CLDR locale data according to currentLocale
-    // react-intl-universal is singleton, so you should init it only once in your app
-    i18nHelper.init()
-      .then(() => {
-        // After loading CLDR locale data, start to render
-        console.log('lng loaded !')
-      });
   }
 
   changeLng = (lng) => {
