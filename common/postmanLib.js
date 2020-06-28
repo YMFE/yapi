@@ -143,7 +143,7 @@ async function httpRequestByNode(options) {
     console.log({err});
     if (err.response === undefined) {
       if(err.message==="Network Error"){
-        err.message={"err":err.message,"des":"请参考教程开启chrome 跨域请求：http://crazy-yapi.camdy.cn/doc/documents/chromeCORS.html"}
+        err.message={"err":err.message,"des":"请参考教程开启chrome 跨域请求：https://blog.csdn.net/qq_32786873/article/details/70173151"}
       }
       return handleRes({
         headers: {},
