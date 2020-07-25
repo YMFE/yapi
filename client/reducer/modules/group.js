@@ -58,7 +58,6 @@ export default (state = initialState, action) => {
       };
     }
     case FETCH_GROUP_MSG: {
-      console.log(action.payload)
       // const {role,group_name,group_desc,} = action.payload.data.data
       return {
         ...state,

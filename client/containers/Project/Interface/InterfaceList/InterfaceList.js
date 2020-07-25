@@ -2,7 +2,7 @@ import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Table, Button, Modal, message, Tooltip, Select, Icon } from 'antd';
+import { Table, Button, Modal, Form, Input, message, Tooltip, Select, Icon } from 'antd';
 import AddInterfaceForm from './AddInterfaceForm';
 import {
   fetchInterfaceListMenu,
@@ -14,9 +14,95 @@ import { Link } from 'react-router-dom';
 import variable from '../../../../constants/variable';
 import './Edit.scss';
 import Label from '../../../../components/Label/Label.js';
+import './interfaceList.scss';
 
 const Option = Select.Option;
 const limit = 20;
+
+const EditableContext = React.createContext();
+
+const EditableRow = ({ form, index, ...props }) => (
+  <EditableContext.Provider value={form}>
+    <tr {...props} />
+  </EditableContext.Provider>
+);
+
+class EditableCell extends React.Component {
+  state = {
+    editing: false
+  };
+
+  toggleEdit = () => {
+    const editing = !this.state.editing;
+    this.setState({ editing }, () => {
+      if (editing) {
+        this.input.focus();
+      }
+    });
+  };
+
+  save = e => {
+    const { record, handleSave } = this.props;
+    this.form.validateFields((error, values) => {
+      if (error && error[e.currentTarget.id]) {
+        return;
+      }
+      this.toggleEdit();
+      handleSave({ ...record, ...values });
+    });
+  };
+
+  renderCell = form => {
+    this.form = form;
+    const { children, dataIndex, record, title } = this.props;
+    const { editing } = this.state;
+    return editing ? (
+      <Form.Item style={{ margin: 0 }}>
+        {form.getFieldDecorator(dataIndex, {
+            rules: [
+              {
+                required: true,
+                message: `${title} is required.`
+              }
+            ],
+            initialValue: record[dataIndex]
+          })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
+      </Form.Item>
+    ) : (
+      <div
+            className="editable-cell-value-wrap"
+            style={{ paddingRight: 24 }}
+            onClick={this.toggleEdit}
+        >
+        {children}
+      </div>
+    );
+  };
+
+  render() {
+    const {
+      editable,
+      dataIndex,
+      title,
+      record,
+      index,
+      handleSave,
+      children,
+      ...restProps
+    } = this.props;
+    return (
+      <td {...restProps}>
+        {editable ? (
+          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
+          ) : (
+              children
+          )}
+      </td>
+    );
+  }
+}
+
+const EditableFormRow = Form.create()(EditableRow);
 
 @connect(
   state => {
@@ -195,6 +281,20 @@ class InterfaceList extends Component {
   //   }
   // };
 
+
+  handleSave = row => {
+    const changes = {
+      index: row.index,
+      id: row._id
+    };
+    const me = this;
+    axios.post('/api/interface/up_index', [changes]).then(
+        () => {
+          me.handleRequest(me.props);
+        }
+    );
+  }
+
   render() {
     let tag = this.props.curProject.tag;
     let tagFilter = tag.map(item => {
@@ -313,6 +413,13 @@ class InterfaceList extends Component {
         onFilter: (value, record) => {
           return record.tag.indexOf(value) >= 0;
         }
+      },
+      {
+        title: '排序',
+        dataIndex: 'index',
+        key: 'index',
+        width: 8,
+        editable: true
       }
     ];
     let intername = '',
@@ -358,7 +465,28 @@ class InterfaceList extends Component {
     const isDisabled = this.props.catList.length === 0;
 
     // console.log(this.props.curProject.tag)
+    const components = {
+      body: {
+        row: EditableFormRow,
+        cell: EditableCell
+      }
+    };
 
+    const editAbleColumns = columns.map(col => {
+      if (!col.editable) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: record => ({
+          record,
+          editable: col.editable,
+          dataIndex: col.dataIndex,
+          title: col.title,
+          handleSave: this.handleSave
+        })
+      };
+    });
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
@@ -376,10 +504,15 @@ class InterfaceList extends Component {
         <div style={{ marginTop: '10px' }}>
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>
+        {
+          console.log(data)
+        }
         <Table
           className="table-interfacelist"
           pagination={pageConfig}
-          columns={columns}
+          components={components}
+          columns={editAbleColumns}
+          rowClassName={() => 'editable-row'}
           onChange={this.handleChange}
           dataSource={data}
         />
