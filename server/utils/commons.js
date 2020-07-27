@@ -531,6 +531,7 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
   const logs = [];
   const context = {
     assert: require('assert'),
+    chai: require('chai'),
     status: params.response.status,
     body: params.response.body,
     header: params.response.header,
