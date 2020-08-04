@@ -26,6 +26,22 @@ const compareVersions = require('compare-versions');
           ) {
             Object.assign(res, res.content['application/json']);
             delete res.content;
+          }          
+          if (
+            res.content &&
+            res.content['application/hal+json'] &&
+            typeof res.content['application/hal+json'] === 'object'
+          ) {
+            Object.assign(res, res.content['application/hal+json']);
+            delete res.content;
+          }          
+          if (
+            res.content &&
+            res.content['*/*'] &&
+            typeof res.content['*/*'] === 'object'
+          ) {
+            Object.assign(res, res.content['*/*']);
+            delete res.content;
           }
         });
         if (api.requestBody) {
