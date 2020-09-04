@@ -283,7 +283,7 @@ class ProjectMessage extends Component {
         })}
       </RadioGroup>
     );
-    const selectDisbaled = projectMsg.role === 'owner' || projectMsg.role === 'admin';
+    const selectDisabled = projectMsg.role !== 'owner' && projectMsg.role !== 'admin';
     return (
       <div>
         <div className="m-panel">
@@ -334,7 +334,7 @@ class ProjectMessage extends Component {
                   }
                 ]
               })(
-                <Select disabled={!selectDisbaled}>
+                <Select disabled={selectDisabled}>
                   {this.props.groupList.map((item, index) => (
                     <Option value={item._id.toString()} key={index}>
                       {item.group_name}
@@ -453,16 +453,16 @@ class ProjectMessage extends Component {
                 ],
                 initialValue: initFormValues.project_type
               })(
-                <RadioGroup>
+                <RadioGroup disabled={selectDisabled}>
                   <Radio value="private" className="radio">
                     <Icon type="lock" />私有<br />
                     <span className="radio-desc">只有组长和项目开发者可以索引并查看项目信息</span>
                   </Radio>
                   <br />
-                  {projectMsg.role === 'admin' && <Radio value="public" className="radio">
+                  <Radio value="public" className="radio">
                     <Icon type="unlock" />公开<br />
                     <span className="radio-desc">任何人都可以索引并查看项目信息</span>
-                  </Radio>}
+                  </Radio>
                   
                 </RadioGroup>
               )}
