@@ -43,7 +43,7 @@ class AdvMock extends Component {
     });
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getAdvMockData();
   }
 

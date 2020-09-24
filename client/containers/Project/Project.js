@@ -41,7 +41,7 @@ export default class Project extends Component {
     super(props);
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     await this.props.getProject(this.props.match.params.id);
     await this.props.fetchGroupMsg(this.props.curProject.group_id);
 
@@ -56,7 +56,7 @@ export default class Project extends Component {
     ]);
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     const currProjectId = this.props.match.params.id;
     const nextProjectId = nextProps.match.params.id;
     if (currProjectId !== nextProjectId) {

@@ -221,7 +221,7 @@ class ProjectMember extends Component {
     });
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const groupMemberList = await this.props.fetchGroupMemberList(this.props.projectMsg.group_id);
     const groupMsg = await this.props.fetchGroupMsg(this.props.projectMsg.group_id);
     const projectMemberList = await this.props.getProjectMemberList(this.props.match.params.id);

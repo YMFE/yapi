@@ -110,7 +110,7 @@ class TimeTree extends Component {
     });
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchNewsData(this.props.typeid, this.props.type, 1, 10);
     if (this.props.type === 'project') {
       this.getApiList();

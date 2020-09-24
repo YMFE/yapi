@@ -47,7 +47,7 @@ class NewsTimeline extends Component {
     });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchNewsData(21, 'project', this.props.curpage, 8);
   }
 

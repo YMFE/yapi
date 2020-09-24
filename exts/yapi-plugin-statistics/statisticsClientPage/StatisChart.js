@@ -20,7 +20,7 @@ class StatisChart extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getMockData();
   }
 

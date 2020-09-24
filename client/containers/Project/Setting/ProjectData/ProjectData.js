@@ -91,7 +91,7 @@ class ProjectData extends Component {
     swaggerUrlData: PropTypes.string
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     axios.get(`/api/interface/getCatMenu?project_id=${this.props.match.params.id}`).then(data => {
       if (data.data.errcode === 0) {
         let menuList = data.data.data;

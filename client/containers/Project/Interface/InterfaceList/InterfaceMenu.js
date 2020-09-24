@@ -108,11 +108,11 @@ class InterfaceMenu extends Component {
     });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.handleRequest();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
       this.setState({

@@ -29,7 +29,7 @@ class News extends Component {
     uid: PropTypes.string,
     getMockUrl: PropTypes.func
   };
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     //const that = this;
     // this.props.getMockUrl(2724).then(function(data){
     //   const { prd_host, basepath, protocol } = data.payload.data.data;
