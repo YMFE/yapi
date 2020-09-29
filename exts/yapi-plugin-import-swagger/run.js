@@ -240,6 +240,9 @@ const compareVersions = require('compare-versions');
             break;
           case 'formData':
             defaultParam.type = param.type === 'file' ? 'file' : 'text';
+			if (param.example) {
+              defaultParam.example = param.example;
+            }
             api.req_body_form.push(defaultParam);
             break;
           case 'header':
