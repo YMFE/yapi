@@ -1,5 +1,9 @@
 ## YApi  可视化接口管理平台
 
+体验地址：
+
+[https://yapi.baidu.com](https://yapi.baidu.com)
+
 文档：
 <p><a target="_blank" href="https://hellosean1025.github.io/yapi">hellosean1025.github.io/yapi</a></p>
 
