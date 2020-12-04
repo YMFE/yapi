@@ -24,6 +24,7 @@ function handleHeaders(values){
   let isfile = false,
   isHaveContentType = false;
   if (values.req_body_type === 'form') {
+    values.req_body_form = values.req_body_form || [];
     values.req_body_form.forEach(item => {
       if (item.type === 'file') {
         isfile = true;
