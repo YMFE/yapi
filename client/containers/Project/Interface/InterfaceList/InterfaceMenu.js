@@ -476,6 +476,7 @@ class InterfaceMenu extends Component {
                 onMouseLeave={this.leaveItem}
             >
               <Icon type="folder-open" style={{ marginRight: 5 }} />
+                {item.name}
               <div className="btns">
                 <Tooltip title="删除分类">
                   <Icon
