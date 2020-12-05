@@ -146,6 +146,7 @@ class TimeTree extends Component {
     let logType = {
       project: '项目',
       group: '分组',
+      pid: '父级分类',
       interface: '接口',
       interface_col: '接口集',
       user: '用户',
@@ -216,7 +217,6 @@ class TimeTree extends Component {
       pending = <Spin />;
     }
     let diffView = showDiffMsg(jsondiffpatch, formattersHtml, curDiffData);
-
     return (
       <section className="news-timeline">
         <Modal

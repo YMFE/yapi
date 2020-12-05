@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Select, Button } from 'antd';
-
+import { Form, Input, Select, Button, TreeSelect } from 'antd';
+const { TreeNode } = TreeSelect;
 import constants from '../../../../constants/variable.js'
 import { handleApiPath, nameLengthLimit } from '../../../../common.js'
 const HTTP_METHOD = constants.HTTP_METHOD;
@@ -40,6 +40,49 @@ class AddInterfaceForm extends Component {
       path: handleApiPath(val)
     })
   }
+  toTree = (list) => {
+    const treeData = [];
+    let tempList = list;
+    const roots = list.filter((item) => {
+      return !item.pid;
+    });
+    treeData.push(...roots);
+    const loop = (childList) => {
+      childList.forEach((item) => {
+        tempList.forEach((childItem, childIndex) => {
+          if(childItem.pid === item._id) {
+            if(!item.list) {
+              item.list = [];
+            }
+            item.list.push(childItem);
+            tempList.splice(childIndex,1);
+            if(item.list.length > 0) {
+              loop(item.list);
+            }
+          }
+        });
+      });
+    };
+    loop(treeData);
+    return treeData;
+  };
+  // 生成无级树
+  renderTree = (treeData) => {
+    return treeData.map((item) => {
+      const value = item._id ? item._id.toString() : null;
+      if(item.list) {
+        return(
+          <TreeNode value={ value } title={ item.name } key={item._id}>
+            {this.renderTree(item.list)}
+          </TreeNode>
+        )
+      } else {
+        return (
+          <TreeNode value={ value } title={ item.name } key={item._id}></TreeNode>
+        )
+      }
+    })
+  };
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const prefixSelector = getFieldDecorator('method', {
@@ -73,11 +116,11 @@ class AddInterfaceForm extends Component {
           {getFieldDecorator('catid', {
             initialValue: this.props.catid ? this.props.catid + '' : this.props.catdata[0]._id + ''
           })(
-            <Select>
-              {this.props.catdata.map(item => {
-                return <Option key={item._id} value={item._id + ""}>{item.name}</Option>
-              })}
-            </Select>
+            <TreeSelect>
+              {
+                this.renderTree(this.toTree(this.props.catdata))
+              }
+            </TreeSelect>
             )}
         </FormItem>
         <FormItem

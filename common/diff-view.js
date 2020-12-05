@@ -109,6 +109,13 @@ module.exports = function(jsondiffpatch, formattersHtml, curDiffData) {
       });
     }
 
+    if (current.pid != old.pid) {
+      diffView.push({
+        title: '父级分类 pid',
+        content: diffText(old.pid, current.pid)
+      });
+    }
+
     if (current.status != old.status) {
       diffView.push({
         title: '接口状态',

@@ -16,6 +16,7 @@ class interfaceCat extends baseModel {
       project_id: { type: Number, required: true },
       desc: String,
       add_time: Number,
+      pid: Number,
       up_time: Number,
       index: { type: Number, default: 0 }
     };

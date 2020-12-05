@@ -283,12 +283,12 @@ exports.verifyPath = path => {
 exports.sandbox = (sandbox, script) => {
   try {
     const vm = require('vm');
-    sandbox = sandbox || {};	
-    script = new vm.Script(script);	
-    const context = new vm.createContext(sandbox);	
-    script.runInContext(context, {	
-      timeout: 3000	
-    });	      
+    sandbox = sandbox || {};
+    script = new vm.Script(script);
+    const context = new vm.createContext(sandbox);
+    script.runInContext(context, {
+      timeout: 3000
+    });
     return sandbox
   } catch (err) {
     throw err
@@ -397,6 +397,8 @@ exports.saveLog = logData => {
       type: logData.type,
       uid: logData.uid,
       username: logData.username,
+      catId: logData.catId,
+      pid: logData.pid,
       typeid: logData.typeid,
       data: logData.data
     };

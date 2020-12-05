@@ -2,7 +2,8 @@ import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Table, Button, Modal, message, Tooltip, Select, Icon } from 'antd';
+import { Table, Button, Modal, message, Tooltip, Select, Icon, TreeSelect } from 'antd';
+const { TreeNode } = TreeSelect;
 import AddInterfaceForm from './AddInterfaceForm';
 import {
   fetchInterfaceListMenu,
@@ -194,7 +195,21 @@ class InterfaceList extends Component {
   //     );
   //   }
   // };
-
+// 生成无级树
+  renderTree = (treeData) => {
+    return treeData.map((item) => {
+      const value = item._id ? item._id.toString() : null;
+      if(item.list) {
+        return(
+          <TreeNode value={ value } title={ item.name } key={item._id}>
+            {this.renderTree(item.list)}
+          </TreeNode>
+        )
+      } else {
+        return (null)
+      }
+    })
+  };
   render() {
     let tag = this.props.curProject.tag;
     let tagFilter = tag.map(item => {
@@ -250,19 +265,16 @@ class InterfaceList extends Component {
         width: 28,
         render: (item, record) => {
           return (
-            <Select
+            <TreeSelect
+              treeDefaultExpandAll
               value={item + ''}
               className="select path"
               onChange={catid => this.changeInterfaceCat(record._id, catid)}
             >
-              {this.props.catList.map(cat => {
-                return (
-                  <Option key={cat.id + ''} value={cat._id + ''}>
-                    <span>{cat.name}</span>
-                  </Option>
-                );
-              })}
-            </Select>
+              {
+                this.renderTree(this.props.catList)
+              }
+            </TreeSelect>
           );
         }
       },

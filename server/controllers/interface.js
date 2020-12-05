@@ -61,6 +61,31 @@ function handleHeaders(values){
   }
 }
 
+function toTree(list) {
+  const treeData = [];
+  let tempList = list;
+  const roots = list.filter((item) => {
+    return !item.pid;
+  });
+  treeData.push(...roots);
+  const loop = (childList) => {
+    childList.forEach((item) => {
+      tempList.forEach((childItem, childIndex) => {
+        if(childItem.pid === item._id) {
+          if(item.list) {
+            item.list.push(childItem);
+            tempList.splice(childIndex,1);
+            if(item.list.length > 0) {
+              loop(item.list);
+            }
+          }
+        }
+      });
+    });
+  };
+  loop(treeData);
+  return treeData;
+}
 
 class interfaceController extends baseController {
   constructor(ctx) {
@@ -592,7 +617,9 @@ class interfaceController extends baseController {
         item.list = list;
         newResult[i] = item;
       }
-      ctx.body = yapi.commons.resReturn(newResult);
+      const data = yapi.commons.resReturn(newResult);
+      data.data = toTree(data.data);
+      ctx.body = data;
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 402, err.message);
     }
@@ -890,7 +917,8 @@ class interfaceController extends baseController {
       params = yapi.commons.handleParams(params, {
         name: 'string',
         project_id: 'number',
-        desc: 'string'
+        desc: 'string',
+        pid: 'number'
       });
 
       if (!params.project_id) {
@@ -911,6 +939,7 @@ class interfaceController extends baseController {
         name: params.name,
         project_id: params.project_id,
         desc: params.desc,
+        pid: params.pid,
         uid: this.getUid(),
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
@@ -948,8 +977,23 @@ class interfaceController extends baseController {
       let result = await this.catModel.up(params.catid, {
         name: params.name,
         desc: params.desc,
+        pid: params.pid,
         up_time: yapi.commons.time()
       });
+      // 日志
+      let newCate = await this.catModel.get(params.catid);
+
+      let logData = {
+        catId: params.id,
+        pid: params.id,
+        current: newCate.toObject(),
+        old: cate.toObject()
+      };
+
+      let diffView2 = showDiffMsg(jsondiffpatch, formattersHtml, logData);
+      if (diffView2.length <= 0) {
+        return; // 没有变化时，不写日志
+      }
 
       yapi.commons.saveLog({
         content: `<a href="/user/profile/${this.getUid()}">${username}</a> 更新了分类 <a href="/project/${
@@ -958,7 +1002,8 @@ class interfaceController extends baseController {
         type: 'project',
         uid: this.getUid(),
         username: username,
-        typeid: cate.project_id
+        typeid: cate.project_id,
+        data: logData
       });
 
       ctx.body = yapi.commons.resReturn(result);
