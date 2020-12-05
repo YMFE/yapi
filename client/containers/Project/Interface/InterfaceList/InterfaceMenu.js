@@ -471,51 +471,51 @@ class InterfaceMenu extends Component {
         <TreeNode
           title={
             <div
-                className="container-title"
-                onMouseEnter={() => this.enterItem(item._id)}
-                onMouseLeave={this.leaveItem}
+              className="container-title"
+              onMouseEnter={() => this.enterItem(item._id)}
+              onMouseLeave={this.leaveItem}
             >
               <Icon type="folder-open" style={{ marginRight: 5 }} />
               {item.name}
               <div className="btns">
                 <Tooltip title="删除分类">
                   <Icon
-                      type="delete"
-                      className="interface-delete-icon"
-                      onClick={e => {
-                        e.stopPropagation();
-                        this.showDelCatConfirm(item);
-                      }}
-                      style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                    type="delete"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.showDelCatConfirm(item);
+                    }}
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
                   />
                 </Tooltip>
                 <Tooltip title="修改分类">
                   <Icon
-                      type="edit"
-                      className="interface-delete-icon"
-                      style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
-                      onClick={e => {
-                        e.stopPropagation();
-                        item.pid = item.pid ? item.pid.toString() : null;
-                        this.changeModal('change_cat_modal_visible', true);
-                        this.setState({
-                          curCatdata: item
-                        });
-                      }}
+                    type="edit"
+                    className="interface-delete-icon"
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      item.pid = item.pid ? item.pid.toString() : null;
+                      this.changeModal('change_cat_modal_visible', true);
+                      this.setState({
+                        curCatdata: item
+                      });
+                    }}
                   />
                 </Tooltip>
                 <Tooltip title="添加接口">
                   <Icon
-                      type="file-add"
-                      className="interface-delete-icon"
-                      style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
-                      onClick={e => {
-                        e.stopPropagation();
-                        this.changeModal('visible', true);
-                        this.setState({
-                          curCatid: item._id
-                        });
-                      }}
+                    type="file-add"
+                    className="interface-delete-icon"
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.changeModal('visible', true);
+                      this.setState({
+                        curCatid: item._id
+                      });
+                    }}
                   />
                 </Tooltip>
                 <Tooltip title="添加子分类">
@@ -538,22 +538,22 @@ class InterfaceMenu extends Component {
                 </Tooltip>
                 <Tooltip title="下移">
                   <Icon
-                      type="down"
-                      className="interface-delete-icon"
-                      style={{ display: (this.state.delIcon == item._id && index !== treeData.length - 1) ? 'block' : 'none' }}
-                      onClick={() => {
-                        this.upAndDown(treeData, item, index, 'down')
-                      }}
+                    type="down"
+                    className="interface-delete-icon"
+                    style={{ display: (this.state.delIcon == item._id && index !== treeData.length - 1) ? 'block' : 'none' }}
+                    onClick={() => {
+                      this.upAndDown(treeData, item, index, 'down')
+                    }}
                   />
                 </Tooltip>
                 <Tooltip title="上移">
                   <Icon
-                      type="up"
-                      className="interface-delete-icon"
-                      style={{ display: (this.state.delIcon == item._id && index!== 0) ? 'block' : 'none' }}
-                      onClick={() => {
-                        this.upAndDown(treeData, item, index, 'up')
-                      }}
+                    type="up"
+                    className="interface-delete-icon"
+                    style={{ display: (this.state.delIcon == item._id && index!== 0) ? 'block' : 'none' }}
+                    onClick={() => {
+                      this.upAndDown(treeData, item, index, 'up')
+                    }}
                   />
                 </Tooltip>
               </div>
@@ -592,6 +592,30 @@ class InterfaceMenu extends Component {
                   )
                 })
               }
+              <div className="btns">
+                <Tooltip title="删除接口">
+                  <Icon
+                    type="delete"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.showConfirm(item);
+                    }}
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+                <Tooltip title="复制接口">
+                  <Icon
+                    type="copy"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.copyInterface(item._id);
+                    }}
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+              </div>
             </div>
           } key={'' + item._id}>
           </TreeNode>
@@ -720,21 +744,21 @@ class InterfaceMenu extends Component {
         {searchBox}
         {menuList.length > 0 ? (
           <div
-              className="tree-wrappper"
-              style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px' }}
+            className="tree-wrappper"
+            style={{ maxHeight: parseInt(document.body.clientHeight) - headHeight + 'px' }}
           >
             <Tree
-                className="interface-list"
-                defaultExpandedKeys={currentKes.expands}
-                defaultSelectedKeys={currentKes.selects}
-                expandedKeys={currentKes.expands}
-                selectedKeys={currentKes.selects}
-                onSelect={this.onSelect}
-                onExpand={this.onExpand}
-                onDrop={this.onDrop}
-                autoExpandParent
-                showLine
-                draggable
+              className="interface-list"
+              defaultExpandedKeys={currentKes.expands}
+              defaultSelectedKeys={currentKes.selects}
+              expandedKeys={currentKes.expands}
+              selectedKeys={currentKes.selects}
+              onSelect={this.onSelect}
+              onExpand={this.onExpand}
+              onDrop={this.onDrop}
+              autoExpandParent
+              showLine
+              draggable
             >
               <TreeNode
                 className="item-all-interface"
