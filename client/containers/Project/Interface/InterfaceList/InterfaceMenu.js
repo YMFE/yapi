@@ -228,7 +228,7 @@ class InterfaceMenu extends Component {
   };
 
   showDelCatConfirm = item => {
-    let catid = item.catid;
+    let catid = item._id;
     let that = this;
     if(item.list && item.list.length > 0 ) {
       return message.error('该分类下有内容，不允许删除');
