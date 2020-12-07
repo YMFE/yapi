@@ -228,7 +228,7 @@ class InterfaceMenu extends Component {
   };
 
   showDelCatConfirm = item => {
-    let catid = item._id;
+    let catid = item.catid;
     let that = this;
     if(item.list && item.list.length > 0 ) {
       return message.error('该分类下有内容，不允许删除');
@@ -629,6 +629,30 @@ class InterfaceMenu extends Component {
               onMouseLeave={this.leaveItem}
             >
               { str }
+              <div className="btns">
+                <Tooltip title="删除接口">
+                  <Icon
+                    type="delete"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.showConfirm(item);
+                    }}
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+                <Tooltip title="复制接口">
+                  <Icon
+                    type="copy"
+                    className="interface-delete-icon"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.copyInterface(item._id);
+                    }}
+                    style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                  />
+                </Tooltip>
+              </div>
             </div>
           } key={'' + item._id}/>
         )
