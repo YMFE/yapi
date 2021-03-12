@@ -55,11 +55,12 @@
       }
     }
     .user-header{
+      margin-bottom: 10px;
     }
     .user-search-wrapper {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       .ant-input-search {
         width: 250px;
       }
