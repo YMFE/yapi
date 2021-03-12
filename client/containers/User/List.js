@@ -1,15 +1,23 @@
 import React, { PureComponent as Component } from 'react';
 import { formatTime } from '../../common.js';
 import { Link } from 'react-router-dom';
-import { setBreadcrumb } from '../../reducer/modules/user';
+import {regActions, setBreadcrumb} from '../../reducer/modules/user';
 //import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Popconfirm, message, Input } from 'antd';
+import {Table, Popconfirm, message, Input, Button, Modal, Icon, Form,Tag} from 'antd';
 import axios from 'axios';
 
 const Search = Input.Search;
 const limit = 20;
+
+const FormItem = Form.Item;
+const formItemStyle = {
+	marginBottom: '.16rem'
+};
+const changeHeight = {
+	height: '.42rem'
+};
 @connect(
   state => {
     return {
@@ -17,9 +25,11 @@ const limit = 20;
     };
   },
   {
-    setBreadcrumb
+    setBreadcrumb,
+	  regActions
   }
 )
+
 class List extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +38,8 @@ class List extends Component {
       total: null,
       current: 1,
       backups: [],
-      isSearch: false
+      isSearch: false,
+	    visible:false
     };
   }
   static propTypes = {
@@ -127,7 +138,26 @@ class List extends Component {
     }
   };
 
+	handleSubmit = e => {
+		e.preventDefault();
+		const form = this.props.form;
+		form.validateFieldsAndScroll((err, values) => {
+			if (!err) {
+				this.props.regActions({...values,password:'12345678'}).then(res => {
+					if (res.payload.data.errcode == 0) {
+						this.setState({
+							visible:false
+						},()=>{
+							this.getUserList()
+							message.success('新增成功! ');
+						})
+					}
+				});
+			}
+		});
+	};
   render() {
+	  const { getFieldDecorator } = this.props.form;
     const role = this.props.curUserRole;
     let data = [];
     if (role === 'admin') {
@@ -208,14 +238,15 @@ class List extends Component {
 
     return (
       <section className="user-table">
-        <div className="user-search-wrapper">
-          <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
-          <Search
-            onChange={e => this.handleSearch(e.target.value)}
-            onSearch={this.handleSearch}
-            placeholder="请输入用户名"
-          />
-        </div>
+	      <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
+	      <div className="user-search-wrapper">
+		      <Search
+			      onChange={e => this.handleSearch(e.target.value)}
+			      onSearch={this.handleSearch}
+			      placeholder="请输入用户名"
+		      />
+		      <Button onClick={() => this.setState({ visible: true })} type={'primary'}>新增用户</Button>
+	      </div>
         <Table
           bordered={true}
           rowKey={record => record._id}
@@ -223,9 +254,56 @@ class List extends Component {
           pagination={this.state.isSearch ? defaultPageConfig : pageConfig}
           dataSource={data}
         />
+	      {this.state.visible && (
+		      <Modal
+			      title="新增用户"
+			      visible={this.state.visible}
+			      onCancel={() => this.setState({ visible: false })}
+			      onOk={this.handleSubmit}
+			      // footer={null}
+			      className="addusermodal"
+
+		      >
+			      <Form  onSubmit={this.handleSubmit}>
+				      {/* 用户名 */}
+				      <FormItem style={formItemStyle}>
+					      {getFieldDecorator('userName', {
+						      rules: [{ required: true, message: '请输入用户名!' }]
+					      })(
+						      <Input
+							      style={changeHeight}
+							      prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+							      placeholder="请输入用户名"
+						      />
+					      )}
+				      </FormItem>
+
+				      {/* Emaiil */}
+				      <FormItem style={formItemStyle}>
+					      {getFieldDecorator('email', {
+						      rules: [
+							      {
+								      required: true,
+								      message: '请输入email!',
+								      pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
+							      }
+						      ]
+					      })(
+						      <Input
+							      style={changeHeight}
+							      prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
+							      placeholder="请输入Email"
+						      />
+					      )}
+				      </FormItem>
+			      </Form>
+			      <Tag color="blue" style={{width:'100%'}}>默认密码为12345678</Tag>
+		      </Modal>
+	      )}
       </section>
     );
   }
 }
 
-export default List;
+const ListForm = Form.create()(List);
+export default ListForm;

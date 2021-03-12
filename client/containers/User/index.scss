@@ -54,12 +54,13 @@
         // font-size: 13px;
       }
     }
+    .user-header{
+    }
     .user-search-wrapper {
-      position: relative;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
       .ant-input-search {
-        position: absolute;
-        right: 0;
-        top: 0;
         width: 250px;
       }
     }
