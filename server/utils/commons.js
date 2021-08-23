@@ -13,6 +13,7 @@ const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
 const Mock = require('mockjs');
+const sandboxFn = require('./sandbox')
 
 
 
@@ -22,10 +23,10 @@ const jsf = require('json-schema-faker');
 const { schemaValidator } = require('../../common/utils');
 const http = require('http');
 
-jsf.extend ('mock', function () {
+jsf.extend('mock', function () {
   return {
     mock: function (xx) {
-      return Mock.mock (xx);
+      return Mock.mock(xx);
     }
   };
 });
@@ -45,9 +46,9 @@ const defaultOptions = {
 //   });
 // });
 
-exports.schemaToJson = function(schema, options = {}) {
+exports.schemaToJson = function (schema, options = {}) {
   Object.assign(options, defaultOptions);
-  
+
   jsf.option(options);
   let result;
   try {
@@ -183,7 +184,7 @@ exports.sendMail = (options, cb) => {
 
   cb =
     cb ||
-    function(err) {
+    function (err) {
       if (err) {
         yapi.commons.log('send mail ' + options.to + ' error,' + err.message, 'error');
       } else {
@@ -253,7 +254,7 @@ exports.handleVarPath = (pathname, params) => {
       }
     }
   }
-  pathname.replace(/\{(.+?)\}/g, function(str, match) {
+  pathname.replace(/\{(.+?)\}/g, function (str, match) {
     insertParams(match);
   });
 };
@@ -281,15 +282,18 @@ exports.verifyPath = path => {
  * a = {a: 2}
  */
 exports.sandbox = (sandbox, script) => {
-  const vm = require('vm');
-  sandbox = sandbox || {};
-  script = new vm.Script(script);
-  const context = new vm.createContext(sandbox);
-  script.runInContext(context, {
-    timeout: 3000
-  });
-
-  return sandbox;
+  try {
+    const vm = require('vm');
+    sandbox = sandbox || {};	
+    script = new vm.Script(script);	
+    const context = new vm.createContext(sandbox);	
+    script.runInContext(context, {	
+      timeout: 3000	
+    });	      
+    return sandbox
+  } catch (err) {
+    throw err
+  }
 };
 
 function trim(str) {
@@ -421,7 +425,7 @@ exports.createAction = (router, baseurl, routerController, action, path, method,
       await inst.init(ctx);
       ctx.params = Object.assign({}, ctx.request.query, ctx.request.body, ctx.params);
       if (inst.schemaMap && typeof inst.schemaMap === 'object' && inst.schemaMap[action]) {
-        
+
         let validResult = yapi.commons.validateParams(inst.schemaMap[action], ctx.params);
 
         if (!validResult.valid) {
@@ -453,7 +457,7 @@ function handleParamsValue(params, val) {
   let value = {};
   try {
     params = params.toObject();
-  } catch (e) {}
+  } catch (e) { }
   if (params.length === 0 || val.length === 0) {
     return params;
   }
@@ -512,7 +516,7 @@ function convertString(variable) {
     return variable.name + ': ' + variable.message;
   }
   try {
-    if(variable && typeof variable === 'string'){
+    if (variable && typeof variable === 'string') {
       return variable;
     }
     return JSON.stringify(variable, null, '   ');
@@ -541,39 +545,39 @@ exports.runCaseScript = async function runCaseScript(params, colId, interfaceId)
   let result = {};
   try {
 
-    if(colData.checkHttpCodeIs200){
+    if (colData.checkHttpCodeIs200) {
       let status = +params.response.status;
-      if(status !== 200){
+      if (status !== 200) {
         throw ('Http status code 不是 200，请检查(该规则来源于于 [测试集->通用规则配置] )')
       }
     }
-  
-    if(colData.checkResponseField.enable){
-      if(params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value){
+
+    if (colData.checkResponseField.enable) {
+      if (params.response.body[colData.checkResponseField.name] != colData.checkResponseField.value) {
         throw (`返回json ${colData.checkResponseField.name} 值不是${colData.checkResponseField.value}，请检查(该规则来源于于 [测试集->通用规则配置] )`)
       }
     }
 
-    if(colData.checkResponseSchema){
+    if (colData.checkResponseSchema) {
       const interfaceInst = yapi.getInst(interfaceModel);
       let interfaceData = await interfaceInst.get(interfaceId);
-      if(interfaceData.res_body_is_json_schema && interfaceData.res_body){
+      if (interfaceData.res_body_is_json_schema && interfaceData.res_body) {
         let schema = JSON.parse(interfaceData.res_body);
         let result = schemaValidator(schema, context.body)
-        if(!result.valid){
+        if (!result.valid) {
           throw (`返回Json 不符合 response 定义的数据结构,原因: ${result.message}
 数据结构如下：
-${JSON.stringify(schema,null,2)}`)
+${JSON.stringify(schema, null, 2)}`)
         }
       }
     }
 
-    if(colData.checkScript.enable){
+    if (colData.checkScript.enable) {
       let globalScript = colData.checkScript.content;
       // script 是断言
       if (globalScript) {
         logs.push('执行脚本：' + globalScript)
-        result = yapi.commons.sandbox(context, globalScript);
+        result = await sandboxFn(context, globalScript);
       }
     }
 
@@ -582,7 +586,7 @@ ${JSON.stringify(schema,null,2)}`)
     // script 是断言
     if (script) {
       logs.push('执行脚本:' + script)
-      result = yapi.commons.sandbox(context, script);
+      result = await sandboxFn(context, script);
     }
     result.logs = logs;
     return yapi.commons.resReturn(result);
@@ -610,7 +614,7 @@ exports.getUserdata = async function getUserdata(uid, role) {
 };
 
 // 处理mockJs脚本
-exports.handleMockScript = function(script, context) {
+exports.handleMockScript = async function (script, context) {
   let sandbox = {
     header: context.ctx.header,
     query: context.ctx.query,
@@ -625,11 +629,11 @@ exports.handleMockScript = function(script, context) {
   sandbox.cookie = {};
 
   context.ctx.header.cookie &&
-    context.ctx.header.cookie.split(';').forEach(function(Cookie) {
+    context.ctx.header.cookie.split(';').forEach(function (Cookie) {
       var parts = Cookie.split('=');
       sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
     });
-  sandbox = yapi.commons.sandbox(sandbox, script);
+  sandbox = await sandboxFn(sandbox, script);
   sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
 
   context.mockJson = sandbox.mockJson;
@@ -640,8 +644,8 @@ exports.handleMockScript = function(script, context) {
 
 
 
-exports.createWebAPIRequest = function(ops) {
-  return new Promise(function(resolve, reject) {
+exports.createWebAPIRequest = function (ops) {
+  return new Promise(function (resolve, reject) {
     let req = '';
     let http_client = http.request(
       {
@@ -650,25 +654,25 @@ exports.createWebAPIRequest = function(ops) {
         port: ops.port,
         path: ops.path
       },
-      function(res) {
-        res.on('error', function(err) {
+      function (res) {
+        res.on('error', function (err) {
           reject(err);
         });
         res.setEncoding('utf8');
         if (res.statusCode != 200) {
-          reject({message: 'statusCode != 200'});
+          reject({ message: 'statusCode != 200' });
         } else {
-          res.on('data', function(chunk) {
+          res.on('data', function (chunk) {
             req += chunk;
           });
-          res.on('end', function() {
+          res.on('end', function () {
             resolve(req);
           });
         }
       }
     );
     http_client.on('error', (e) => {
-      reject({message: `request error: ${e.message}`});
+      reject({ message: `request error: ${e.message}` });
     });
     http_client.end();
   });

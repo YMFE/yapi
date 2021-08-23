@@ -175,7 +175,7 @@ class InterfaceColContent extends Component {
     const params = this.props.match.params;
     const { actionId } = params;
     this.currColId = currColId = +actionId || result.payload.data.data[0]._id;
-    this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
+    // this.props.history.push('/project/' + params.id + '/interface/col/' + currColId);
     if (currColId && currColId != 0) {
       await this.handleColIdChange(currColId)
     }
