@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-Please report security issues at xxxxxxxxxxxx@yyyyyyyyyyy.com
+Please report security issues at js@liyi.im
