@@ -178,7 +178,7 @@ function handleObject(text) {
     let value = text[item];
     tpl += _.isUndefined(text[item])
       ? ''
-            : `${name}: ${value.toString()}`;
+            : `${name}: ${value.toString()}`;     
   });
 
   return tpl;
@@ -195,6 +195,12 @@ function tableCol(col, columns, level) {
     switch (dataIndex) {
       case 'sub':
         text = handleObject(value);
+        text = text.replace("mock: @string", "");
+        text = text.replace(`mock: @integer`, ``);
+        text = text.replace(`mock: @cword`, ``);
+        text = text.replace(`mock: @float`, ``);
+        text = text.replace(`mock: @date`, `"yyyy-MM-dd"`);
+        text = text.replace(`mock: @datetime`, `"yyyy-MM-dd hh:mm:ss"`);
         break;
       case 'type':
         text =
