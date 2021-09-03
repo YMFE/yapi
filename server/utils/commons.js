@@ -13,6 +13,7 @@ const json5 = require('json5');
 const _ = require('underscore');
 const Ajv = require('ajv');
 const Mock = require('mockjs');
+const sandboxFn = require('./sandbox')
 
 
 
@@ -576,7 +577,7 @@ ${JSON.stringify(schema, null, 2)}`)
       // script 是断言
       if (globalScript) {
         logs.push('执行脚本：' + globalScript)
-        result = yapi.commons.sandbox(context, globalScript);
+        result = await sandboxFn(context, globalScript);
       }
     }
 
@@ -585,14 +586,13 @@ ${JSON.stringify(schema, null, 2)}`)
     // script 是断言
     if (script) {
       logs.push('执行脚本:' + script)
-      result = yapi.commons.sandbox(context, script);
+      result = await sandboxFn(context, script);
     }
     result.logs = logs;
     return yapi.commons.resReturn(result);
   } catch (err) {
     logs.push(convertString(err));
     result.logs = logs;
-    logs.push(err.name + ': ' + err.message)
     return yapi.commons.resReturn(result, 400, err.name + ': ' + err.message);
   }
 };
@@ -613,7 +613,7 @@ exports.getUserdata = async function getUserdata(uid, role) {
 };
 
 // 处理mockJs脚本
-exports.handleMockScript = function (script, context) {
+exports.handleMockScript = async function (script, context) {
   let sandbox = {
     header: context.ctx.header,
     query: context.ctx.query,
@@ -632,7 +632,7 @@ exports.handleMockScript = function (script, context) {
       var parts = Cookie.split('=');
       sandbox.cookie[parts[0].trim()] = (parts[1] || '').trim();
     });
-  sandbox = yapi.commons.sandbox(sandbox, script);
+  sandbox = await sandboxFn(sandbox, script);
   sandbox.delay = isNaN(sandbox.delay) ? 0 : +sandbox.delay;
 
   context.mockJson = sandbox.mockJson;
