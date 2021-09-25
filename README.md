@@ -37,7 +37,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
     npm install -g yapi-cli --registry https://registry.npm.taobao.org
     yapi server 
-    
+
 #### 服务管理
 利用pm2方便服务管理维护。
 
@@ -55,12 +55,13 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
-    
+
 ### 教程
 * [使用 YApi 管理 API 文档，测试， mock](https://juejin.im/post/5acc879f6fb9a028c42e8822)
 * [自动更新 Swagger 接口数据到 YApi 平台](https://juejin.im/post/5af500e251882567096140dd)
 * [自动化测试](https://juejin.im/post/5a388892f265da430e4f4681)
 * [GTest(基于YApi)接口研发效能提升10倍 实战](https://mp.weixin.qq.com/s/z66f7bRX8aAOppAtBIB7Uw)
+* [监听接口创建、修改等hook事件](https://www.cnblogs.com/lucky9322/p/15334059.html)
 
 ### YApi 插件
 * [yapi sso 登录插件](https://github.com/YMFE/yapi-plugin-qsso)
