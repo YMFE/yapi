@@ -1,3 +1,21 @@
+## [1.10.2](https://github.com/YMFE/yapi/compare/v1.10.1...v1.10.2) (2021-10-13)
+
+### Bug Fixes
+
+* [2361] 修复所有分类被删除时,同步问题. 解决方案: 增加 "默认分类" ([01207e2](https://github.com/YMFE/yapi/commit/01207e29cdceba2ea783d6e06b983cc34b283d51))
+* issues 2357 ([5bab76c](https://github.com/YMFE/yapi/commit/5bab76c14429e7fb46f16d7b0d06851cf98b82e1))
+
+### Features
+
+* add nonexistent tags from `/interface/(add/up/save)` ([#1918](https://github.com/YMFE/yapi/issues/1918)) ([4d24c39](https://github.com/YMFE/yapi/commit/4d24c397483d2703e85c6977236270f52edf2d70))
+
+## 1.10.1
+
+### Bug Fixes
+
+* 修复沙盒漏洞
+
+
 ## v1.9.2
 * fix: 修复高级 mock 无效的bug
 * opti: 对登录 email 空格的过滤

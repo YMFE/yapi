@@ -7,6 +7,7 @@ module.exports = async function sandboxFn(context, script) {
         asyncTimeout: 60000
     })
 
+    script += "; return this;";
     // 执行动态代码
     const result = await safeVm.run(script, context)
 
