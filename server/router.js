@@ -329,6 +329,16 @@ let routerConfig = {
       method: 'post'
     },
     {
+      action: 'upCatid',
+      path: 'up_catid',
+      method: 'post'
+    },
+    {
+      action: 'upPidOrCid',
+      path: 'up_pid_or_cid',
+      method: 'post'
+    }, 
+    {
       action: 'interUpload',
       path: 'interUpload',
       method: 'post'
@@ -361,6 +371,11 @@ let routerConfig = {
     {
       action: 'delCat',
       path: 'del_cat',
+      method: 'post'
+    },
+    {
+      action: 'upCatPid',
+      path: 'up_cat_pid',
       method: 'post'
     },
     {

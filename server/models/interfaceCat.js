@@ -14,6 +14,7 @@ class interfaceCat extends baseModel {
       name: { type: String, required: true },
       uid: { type: Number, required: true },
       project_id: { type: Number, required: true },
+      parent_id: { type: Number, required: false,default: 0 },
       desc: String,
       add_time: Number,
       up_time: Number,
@@ -68,6 +69,16 @@ class interfaceCat extends baseModel {
         _id: id
       },
       data
+    );
+  }
+  upPid(id, parent_id) {
+    return this.model.update(
+      {
+        _id: id
+      },
+      {
+        parent_id: parent_id
+      }
     );
   }
 

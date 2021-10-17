@@ -10,18 +10,29 @@ class AddInterfaceForm extends Component {
     form: PropTypes.object,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
-    catdata: PropTypes.object
+    catdata: PropTypes.object,
+    isSubCat: PropTypes.bool
   };
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        if(this.props.isSubCat){
+          values.parent_id = this.props.catdata._id
+        }
         this.props.onSubmit(values);
       }
     });
   };
 
   render() {
+    let {name,desc} =this.props.catdata||{}
+   
+    //如果是添加子分类就把name清空
+    let fName =name || null
+    if(this.props.isSubCat){
+      name =null
+    }
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -36,7 +47,20 @@ class AddInterfaceForm extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label="分类名">
+        {this.props.isSubCat && <FormItem {...formItemLayout} label="所属分类">
+          {getFieldDecorator('fname', {
+            rules: [
+              {
+                required: true,
+                message: '请输入父分类名称!'
+              }
+            ],
+            initialValue:fName||null
+          })(<Input placeholder="分类名称"  disabled/>)}
+        </FormItem>
+        }
+
+        <FormItem {...formItemLayout} label={!this.props.isSubCat?'分类名':'子分类名'}>
           {getFieldDecorator('name', {
             rules: [
               {
@@ -44,12 +68,12 @@ class AddInterfaceForm extends Component {
                 message: '请输入分类名称!'
               }
             ],
-            initialValue: this.props.catdata ? this.props.catdata.name || null : null
+            initialValue: name ? name: null
           })(<Input placeholder="分类名称" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="备注">
           {getFieldDecorator('desc', {
-            initialValue: this.props.catdata ? this.props.catdata.desc || null : null
+            initialValue: desc || null 
           })(<Input placeholder="备注" />)}
         </FormItem>
 

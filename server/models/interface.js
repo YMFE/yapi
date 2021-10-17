@@ -300,6 +300,15 @@ class interfaceModel extends baseModel {
       { runValidators: true }
     );
   }
+  upCatid(id,catid) {
+    return this.model.update(
+      {
+        _id: id
+      },
+      { catid: catid },
+      { runValidators: true }
+    );
+  }
 
   upEditUid(id, uid) {
     return this.model.update(

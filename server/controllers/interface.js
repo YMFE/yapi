@@ -955,6 +955,7 @@ class interfaceController extends baseController {
         project_id: params.project_id,
         desc: params.desc,
         uid: this.getUid(),
+        parent_id: params.parent_id || 0,  //默认0
         add_time: yapi.commons.time(),
         up_time: yapi.commons.time()
       });
@@ -1053,6 +1054,94 @@ class interfaceController extends baseController {
       yapi.commons.resReturn(null, 400, e.message);
     }
   }
+
+   /**
+   * 拖拽的时候根据type更新目标所属id及index
+   * @param {Object} ctx 
+   * @returns 
+   */
+    async upPidOrCid(ctx) {
+      try {
+        let { id, catid, dragId, sort } = ctx.request.body || {};
+        if (!dragId) {
+          return (ctx.body = yapi.commons.resReturn(null, 400, '拖拽的id不能为空'));
+        }
+        let info = {};
+  
+        if (catid) {
+          //drop 目标是分类
+          let { parent_id, index } = await this.catModel.get(catid);
+          info.parent_id = parent_id
+          info.index = index
+        } else {
+          //drop目标是接口
+          let { catid: parent_id, index } = await this.Model.get(id);
+          info.parent_id = parent_id  //catid 转换parent_id
+          info.index = index
+        }
+        info.index += sort
+        let result = null;
+        //拖拽的是接口，修改catid
+        if (dragId.indexOf('cat_') === -1) {
+          result = await this.Model.up(dragId, {index:info.index,catid:info.parent_id})
+        } else {
+          //拖拽的是分类，修改pid
+          result = await this.catModel.up(dragId.split('_')[1], info);
+        }
+        ctx.body = yapi.commons.resReturn(result);
+      } catch (e) {
+        ctx.body = yapi.commons.resReturn(null, 400, e.message);
+      }
+    }
+  
+    /**
+   * 更新分类父级id
+   * @interface /interface/up_cat_pid
+   * @method POST
+   * @category col
+   * @foldnumber 10
+   * @returns {Object}
+   */
+    async upCatPid(ctx) {
+      try {
+        let params = ctx.request.body;
+  
+        // let username = this.getUsername();
+        let cate = await this.catModel.get(params.catid);
+  
+        let auth = await this.checkAuth(cate.project_id, 'project', 'edit');
+        if (!auth) {
+          return (ctx.body = yapi.commons.resReturn(null, 400, '没有权限'));
+        }
+        let result = await this.catModel.upPid(params.catid, params.parent_id);
+  
+        ctx.body = yapi.commons.resReturn(result);
+      } catch (e) {
+        ctx.body = yapi.commons.resReturn(null, 400, e.message);
+      }
+    }
+  
+    /**
+    * 更新interface的catid
+    * @interface /interface/up_catid
+    * @method POST
+    * @param {Object}  {id, catid}
+    * @returns {Object}
+    * @example
+    */
+    async upCatid(ctx) {
+      try {
+        let params = ctx.request.body;
+        if (!params.id) {
+          return (ctx.body = yapi.commons.resReturn(null, 400, '接口id不能为空'));
+        }
+        let result = await this.Model.upCatid(params.id, params.catid)
+        return (ctx.body = yapi.commons.resReturn(result));
+      } catch (e) {
+        ctx.body = yapi.commons.resReturn(null, 400, e.message);
+      }
+    }
+  
 
   /**
    * 获取分类列表
