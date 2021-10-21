@@ -63,8 +63,17 @@
     pm2 restart yapi //重启服务
 
 
+#### 常见问题
 
-    
+ - 1. 依赖报错
+ 一般依赖报错是由于 yapi的很多依赖库版本有点旧 ，需要手动锁定版本
 
-
-
+ - 2. node-sass node-gyp  安装不上 
+   可能是node-gyp没安装
+   ```shell
+    npm install -g node-gyp
+    npm rebuild node-gyp
+   ```
+ 
+ - 3. 没有ykit指令    
+   npm install -g ykit
