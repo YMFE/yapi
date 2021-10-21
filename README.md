@@ -25,7 +25,8 @@
   
   ```shell
    mkdir yapi && cd yapi    #或者手动创建目录
-   git clone https://github.com/zybieku/yapi.git -b feat/multi-menu vendors --depth=1 # 或者下载包解压到vendors,在切换分支
+   # 或者下载包解压到vendors,在切换分支
+   git clone https://github.com/zybieku/yapi.git -b feat/multi-menu vendors --depth=1 
   ```
  
   **2.修改配置**
