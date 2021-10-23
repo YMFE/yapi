@@ -6,7 +6,17 @@
 账号：`admin@123.com`
 密码：`123456`
 
+<br/>
+
+> 参考图片  
+
+  ![img](./yapi_menu.png)
+  
+<br/>
+
 ---
+
+<br/>
 
 ### 分支介绍 
   * fork 官方 **api v1.10.2**
@@ -21,16 +31,21 @@
   - 需要事先安装 nodejs，mongodb  
   - 这里采用不同安装，部署的方式，大体上步骤和官方一样 
 
+
 ---
 
+<br/>
+
  **方式一**：`zip包解压安装`  
-    - 1 下载zip包  
+    - 1 下载zip包，解压 [多级目录包](https://download.csdn.net/download/zybieku/34093967)   
     - 2 切换到 yapi 目录，修改config配置  
-    - 3 切换到 vendors 目录，运行 npm run install-server （初始数据库，有库数据略过）
+    - 3 切换到 vendors 目录，运行 npm run install-server （初始数据库，有库数据略过）  
     - 4 node server/app.js 启动（pm2亦可）  
 
 
 ---
+<br/>
+
  #### 
   **方式二**  `git下载依赖`
 
