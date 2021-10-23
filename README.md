@@ -2,8 +2,8 @@
 
 体验地址：
 
-[https://yapi.feiyanyun.com/](https://yapi.feiyanyun.com/)
-账号：`admin@123.yapi`
+[https://yapi.feiyanyun.com/](https://yapi.feiyanyun.com/)  
+账号：`admin@123.com`
 密码：`123456`
 
 ---
@@ -21,6 +21,7 @@
   - 需要事先安装 nodejs，mongodb  
   - 这里采用不同安装，部署的方式，大体上步骤和官方一样 
 
+---
 
  **方式一**：`zip包解压安装`  
     - 1 下载zip包  
@@ -36,9 +37,7 @@
   **1.创建工程目录**
   
   ```shell
-   #或者手动创建目录
-   mkdir yapi && cd yapi    
-   # 或者下载包解压到vendors,在切换分支
+   mkdir yapi && cd yapi   #或者手动创建目录   
    git clone https://github.com/zybieku/yapi.git vendors --depth=1 
   ```
  
@@ -58,7 +57,8 @@
  **5.启动（也可以使用pm2）** 
 
   ```shell
-    node server/app.js #启动服务器后，#请访问 127.0.0.1:{config.json配置的端口}
+    #启动服务器后，#请访问 127.0.0.1:{config.json配置的端口}
+    node server/app.js 
      # linux 后台模式 注意 nohup 与 & exit
     nohup  node server/app.js exit    
   ```
